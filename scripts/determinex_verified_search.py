@@ -116,6 +116,35 @@ class SearchResult:
 _DEFAULT_TEMPS = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
 
+def _sampler_is_degenerate(generate, probes: int = 3) -> bool:
+    """Does this generator actually honour `temperature`?
+
+    Called only when a run has already produced identical candidates across several
+    temperatures, to separate the two causes of that symptom:
+
+      * the PROVIDER ignores temperature -- OpenRouter's free tier returns byte-identical
+        text at t=0.0/0.5/1.0 (measured 2026-07-31), so best-of-K silently becomes K=1;
+      * the MODEL is confident on a tightly-constrained prompt -- a SEARCH/REPLACE edit
+        format converges hard, and 6 draws collapsing to 1 distinct answer is normal.
+
+    The probe must be HIGH-ENTROPY or it measures nothing. Measured on a working 32B at
+    t=0.1/0.55/1.0: "Name one colour" returned 1 distinct answer (the model is confident, the
+    sampler is fine) while "Write one original sentence about the sea" returned 3. A
+    low-entropy probe would therefore have condemned a healthy provider.
+
+    Failure to probe returns False: never accuse a provider on the strength of a call that
+    did not happen.
+    """
+    seen: set[str] = set()
+    for i in range(probes):
+        try:
+            seen.add(_digest(generate("Write one original sentence about the sea.",
+                                      0.1 + 0.45 * i)))
+        except Exception:
+            return False
+    return len(seen) <= 1
+
+
 def _digest(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8", "replace")).hexdigest()[:16]
 
@@ -255,7 +284,15 @@ class VerifiedSearch:
             # behaviour (see the generation-error note above, and the bare-Ollama-tag note in
             # tests/test_generation_failure_is_not_a_verdict.py). Same lesson each time: "the
             # model is looping" is a diagnosis, and diagnoses must be earned.
-            if (len(seen) <= 1 and total >= 4 and len({round(t, 3) for t in temps_used}) >= 2):
+            # CONFIRM BEFORE ACCUSING (2026-08-01): identical output across temperatures has
+            # TWO causes -- a provider that ignores `temperature`, or a model that is simply
+            # confident on a tightly-constrained prompt (a SEARCH/REPLACE edit format
+            # converges hard; observed 6 draws -> 1 distinct on a working sampler). Blaming
+            # the provider for the second is the same mistake as blaming the model for the
+            # first. So probe the sampler directly with a throwaway prompt whose answer is
+            # free to vary: if THAT varies, sampling works and this is about the task.
+            if (len(seen) <= 1 and total >= 4 and len({round(t, 3) for t in temps_used}) >= 2
+                    and _sampler_is_degenerate(generate)):
                 return self._escalate(
                     best, history, total, r + 1,
                     f"SAMPLER IGNORED TEMPERATURE: {total} draws across "

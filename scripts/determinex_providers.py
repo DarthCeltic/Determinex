@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -152,6 +153,82 @@ def _is_local_litellm_model(model: str) -> bool:
         )
 
 
+_OLLAMA_CTX: dict[str, int] = {}
+
+
+def _ollama_model_ctx(model: str, host: str = "http://localhost:11434") -> int:
+    """The model's REAL trained context length, from /api/show. 0 if unknown."""
+    tag = model.split("/", 1)[-1]
+    if tag in _OLLAMA_CTX:
+        return _OLLAMA_CTX[tag]
+    import json as _json
+    import urllib.request
+    n = 0
+    try:
+        req = urllib.request.Request(
+            f"{host}/api/show", data=_json.dumps({"name": tag}).encode("utf-8"),
+            headers={"Content-Type": "application/json"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            info = (_json.loads(r.read()).get("model_info") or {})
+        n = max((int(v) for k, v in info.items()
+                 if k.endswith("context_length") and isinstance(v, int)), default=0)
+    except Exception:
+        n = 0
+    _OLLAMA_CTX[tag] = n
+    return n
+
+
+def _ollama_ctx_kwargs(model: str, prompt: str) -> dict:
+    """num_ctx big enough for this prompt, for Ollama-served models. {} for everyone else.
+
+    Ollama defaults num_ctx to 2048 and, unlike vLLM, does NOT reject an over-long prompt --
+    it silently drops the overflow, keeps the tail, and returns HTTP 200. Measured: a
+    20,747-token prompt with a marker on line 1 came back prompt_eval_count=2050 and the
+    model answered from the padding, because the actual instruction had been discarded.
+    Every local repair prompt is ~3,800 tokens, so the model was being graded on a prompt
+    whose task statement had been cut off, and the oracle recorded that as the model
+    failing. Same class as the fenced-candidate bug: a harness defect wearing a model
+    verdict, except silent -- there is no error to notice.
+
+    The ROTATING CAP in determinex_pb_reimpl already solved this, but only inside that one
+    module's private raw-HTTP lane, so every caller on the shared LiteLLM path kept the
+    broken default. Deriving it here is what makes the fix reach them.
+    """
+    if not (model or "").split("/", 1)[0].startswith("ollama"):
+        return {}
+    mctx = _ollama_model_ctx(model)
+    if mctx <= 0:
+        return {}
+    cap = int(os.environ.get("DETERMINEX_OLLAMA_CTX_CAP", "16384"))
+    # chars//3 over-estimates tokens for code, which is the safe direction here.
+    need = (len(prompt) // 3) + 1024
+    return {"num_ctx": max(2048, min(mctx, cap, max(need, 8192)))}
+
+
+def _assert_prompt_not_truncated(model: str, prompt: str, resp) -> None:
+    """Refuse to return an answer the model formed from a clipped prompt.
+
+    One-sided and deliberately slack: it fires only when the server reports evaluating
+    fewer tokens than the prompt could possibly have compressed to. Even the most
+    compressible text does not reach 8 chars/token, so a prompt below that bound was
+    demonstrably cut. Silence here is indistinguishable from success, which is precisely
+    how this went unnoticed -- an explicit failure is worth more than a plausible answer.
+    """
+    try:
+        used = int(getattr(getattr(resp, "usage", None), "prompt_tokens", 0) or 0)
+    except Exception:
+        return
+    floor = len(prompt) // 8
+    if used and floor and used < floor:
+        raise RuntimeError(
+            f"PROMPT TRUNCATED by the server: {model} evaluated {used} prompt tokens for a "
+            f"{len(prompt)}-char prompt (>= ~{floor} tokens). The task statement was cut off, "
+            f"so any answer is about a prompt nobody wrote. Raise the context window "
+            f"(DETERMINEX_OLLAMA_CTX_CAP, or OLLAMA_CONTEXT_LENGTH on the server) or shorten "
+            f"the prompt. This is NOT a model-capability result."
+        )
+
+
 def _litellm_generator(model: str) -> GenerateFn:
     def _gen(prompt: str, temperature: float) -> str:
         policy = _network_policy()
@@ -161,13 +238,15 @@ def _litellm_generator(model: str) -> GenerateFn:
             )
 
         import litellm
+        extra = _ollama_ctx_kwargs(model, prompt)
         resp = litellm.completion(
             # 8192: a full corrected compile.sh (the amplifier's task) runs 200-400 lines
             # >> 1024 tokens -> 1024 TRUNCATED every candidate to a malformed script that
             # fast-failed the eval (~0s). Code generation needs the headroom.
             model=model, temperature=float(temperature),
-            messages=[{"role": "user", "content": prompt}], max_tokens=8192)
+            messages=[{"role": "user", "content": prompt}], max_tokens=8192, **extra)
         _ledger_append(model, resp)
+        _assert_prompt_not_truncated(model, prompt, resp)
         return resp.choices[0].message.content or ""
     return _gen
 
@@ -369,6 +448,103 @@ _VLLM_MODEL_EXPLICIT = bool(os.environ.get("DETERMINEX_VLLM_MODEL"))
 _VLLM_DISCOVERED: list[str] = []  # one-element cache; [] = not yet probed
 
 
+_VLLM_MAXLEN: list[int] = []  # one-element cache; [] = not yet probed
+
+
+def _vllm_max_tokens(default: int = 8192, prompt: str = "") -> int:
+    """Clamp max_tokens to what the server will actually accept.
+
+    vLLM rejects outright: "max_tokens=8192 cannot be greater than
+    max_model_len=max_total_tokens=4096". The provider hard-coded 8192, so EVERY request
+    failed against any server started with a smaller context -- and lowering max_model_len
+    is exactly what you do to raise concurrency (94,784 KV tokens / 4,096 = 23x vs
+    /32,768 = 2.88x). So tuning the server for throughput broke generation entirely, and
+    the failure surfaced as an opaque LiteLLM error rather than a config mismatch.
+
+    /v1/models reports max_model_len, so ask instead of assuming. A reserve is kept for the
+    prompt, which shares the same budget.
+    """
+    if not _VLLM_MAXLEN:
+        import json as _json
+        import urllib.request
+        headers = {"Authorization": f"Bearer {_VLLM_API_KEY}"} if _VLLM_API_KEY else {}
+        n = 0
+        try:
+            req = urllib.request.Request(f"{_VLLM_BASE_URL}/models", headers=headers)
+            with urllib.request.urlopen(req, timeout=10) as r:
+                n = int((_json.loads(r.read())["data"][0] or {}).get("max_model_len") or 0)
+        except Exception:
+            n = 0
+        _VLLM_MAXLEN.append(n)
+    limit = _VLLM_MAXLEN[0]
+    if limit <= 0:
+        return default
+    # The reserve must cover the ACTUAL prompt, and a character heuristic cannot deliver
+    # that: a fixed 1024 produced "You passed 1025 input tokens and requested 3072 output
+    # tokens ... maximum context length is 4096", and replacing it with len//3+64 produced
+    # "passed 3841 ... requested 256 ... is 4096" -- off by one AGAIN, on a real repair, so
+    # all six samples died and the run read as the model failing. Any divisor is a guess
+    # about someone else's tokenizer. Ask the server for the true count; only estimate when
+    # it does not offer /tokenize.
+    n_prompt = _vllm_prompt_tokens(prompt) if prompt else 0
+    if n_prompt <= 0:
+        n_prompt = (len(prompt) // 3) + 64 if prompt else 1024
+        n_prompt += 128  # unverified estimate -> keep the old safety margin
+    return max(64, min(default, limit - n_prompt - 1))
+
+
+_VLLM_TOKENIZE_OK: list[bool] = []  # one-element cache; [] = not yet probed
+
+
+def _vllm_prompt_tokens(prompt: str) -> int:
+    """Exact prompt length, from the server's own tokenizer. 0 if it cannot say.
+
+    vLLM serves /tokenize at the ROOT, not under /v1, so the OpenAI-style base URL has to
+    have its suffix stripped. One failed probe disables it for the process -- a server
+    without the endpoint must not pay a round trip per sample.
+    """
+    if _VLLM_TOKENIZE_OK and not _VLLM_TOKENIZE_OK[0]:
+        return 0
+    import json as _json
+    import urllib.request
+    root = _VLLM_BASE_URL.rstrip("/")
+    if root.endswith("/v1"):
+        root = root[: -len("/v1")]
+    headers = {"Content-Type": "application/json"}
+    if _VLLM_API_KEY:
+        headers["Authorization"] = f"Bearer {_VLLM_API_KEY}"
+    served = _VLLM_DISCOVERED[0] if (_VLLM_DISCOVERED and _VLLM_DISCOVERED[0]) else _VLLM_DEFAULT_MODEL
+    body = _json.dumps({"model": served.split("/", 1)[-1] if served.startswith("hosted_vllm/")
+                        else served, "prompt": prompt}).encode("utf-8")
+    try:
+        req = urllib.request.Request(f"{root}/tokenize", data=body, headers=headers)
+        with urllib.request.urlopen(req, timeout=20) as r:
+            n = int(_json.loads(r.read()).get("count") or 0)
+    except Exception:
+        n = 0
+    if not _VLLM_TOKENIZE_OK:
+        _VLLM_TOKENIZE_OK.append(n > 0)
+    return n
+
+
+_CTX_PASSED = re.compile(r"passed\s+(\d+)\s+input tokens", re.I)
+_CTX_LIMIT = re.compile(r"maximum context length is\s+(\d+)", re.I)
+
+
+def _vllm_retry_budget(err: str) -> int:
+    """Output budget the server itself says is left, parsed from its rejection. 0 if none.
+
+    Belt and braces behind /tokenize: a server that does not expose the endpoint, or a
+    chat template that adds tokens the raw /tokenize call does not see, still lands here.
+    The server names both numbers in the error, so the second attempt does not have to
+    guess -- it uses the server's own arithmetic.
+    """
+    m_p, m_l = _CTX_PASSED.search(err), _CTX_LIMIT.search(err)
+    if not (m_p and m_l):
+        return 0
+    return max(0, int(m_l.group(1)) - int(m_p.group(1)) - 1)
+
+
 def _vllm_discover_model() -> str:
     """Ask the server which model it actually serves.
 
@@ -410,14 +586,35 @@ def _vllm_factory(model: str) -> GenerateFn:
         kwargs = {}
         if _VLLM_API_KEY:
             kwargs["api_key"] = _VLLM_API_KEY
-        resp = litellm.completion(
-            model=model,
-            temperature=float(temperature),
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=8192,
-            api_base=_VLLM_BASE_URL,
-            **kwargs,
-        )
+        # LiteLLM's default request timeout kills long generations from a big model over a
+        # remote tunnel: a 32B rewriting a whole module took >60s and every sample past the
+        # first died as "Timeout", which reads as the model failing rather than the client
+        # giving up. Generous by default, overridable.
+        kwargs["timeout"] = float(os.environ.get("DETERMINEX_VLLM_TIMEOUT", "600"))
+
+        def _call(budget: int):
+            return litellm.completion(
+                model=model,
+                temperature=float(temperature),
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=budget,
+                api_base=_VLLM_BASE_URL,
+                **kwargs,
+            )
+
+        try:
+            resp = _call(_vllm_max_tokens(prompt=prompt))
+        except Exception as exc:
+            # The server rejects prompt+output over its context and names both numbers.
+            # Failing here is indistinguishable from the model being unable to answer, and
+            # that is exactly how it presented: six identical samples, all "GENERATION
+            # ERROR", on a repair the model was never actually asked to attempt. The chat
+            # template adds tokens /tokenize does not see, so an exact prompt count is
+            # still not a guarantee -- take the server's own arithmetic and retry once.
+            budget = _vllm_retry_budget(str(exc))
+            if budget < 16:
+                raise
+            resp = _call(budget)
         _ledger_append(model, resp)
         return resp.choices[0].message.content or ""
     return _gen

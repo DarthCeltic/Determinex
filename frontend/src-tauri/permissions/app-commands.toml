@@ -16,10 +16,12 @@ identifier = "allow-app-commands"
 description = "Every command registered in generate_handler!."
 permissions = [
     "allow-add-custom-registry-model",
+    "allow-agent-chat-apply-proposal",
     "allow-agent-chat-cloak-status",
     "allow-agent-chat-create-session",
     "allow-agent-chat-get-plan",
     "allow-agent-chat-get-transcript",
+    "allow-agent-chat-list-proposals",
     "allow-agent-chat-list-sessions",
     "allow-agent-chat-resync-plan",
     "allow-agent-chat-send",
@@ -120,6 +122,7 @@ permissions = [
     "allow-install-toolchain",
     "allow-kill-session",
     "allow-launch-benchmark-run",
+    "allow-list-ai-providers",
     "allow-list-ci-runs",
     "allow-list-coding-agents",
     "allow-list-env-vars",
@@ -199,6 +202,12 @@ description = "Enables the add_custom_registry_model command."
 allow = ["add_custom_registry_model"]
 
 [[permission]]
+identifier = "allow-agent-chat-apply-proposal"
+description = "Enables the agent_chat_apply_proposal command."
+[permission.commands]
+allow = ["agent_chat_apply_proposal"]
+
+[[permission]]
 identifier = "allow-agent-chat-cloak-status"
 description = "Enables the agent_chat_cloak_status command."
 [permission.commands]
@@ -221,6 +230,12 @@ identifier = "allow-agent-chat-get-transcript"
 description = "Enables the agent_chat_get_transcript command."
 [permission.commands]
 allow = ["agent_chat_get_transcript"]
+
+[[permission]]
+identifier = "allow-agent-chat-list-proposals"
+description = "Enables the agent_chat_list_proposals command."
+[permission.commands]
+allow = ["agent_chat_list_proposals"]
 
 [[permission]]
 identifier = "allow-agent-chat-list-sessions"
@@ -821,6 +836,12 @@ identifier = "allow-launch-benchmark-run"
 description = "Enables the launch_benchmark_run command."
 [permission.commands]
 allow = ["launch_benchmark_run"]
+
+[[permission]]
+identifier = "allow-list-ai-providers"
+description = "Enables the list_ai_providers command."
+[permission.commands]
+allow = ["list_ai_providers"]
 
 [[permission]]
 identifier = "allow-list-ci-runs"

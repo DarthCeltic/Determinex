@@ -295,6 +295,19 @@ def main() -> int:
     print(f"[1/5] Reading the mirror's own tree from {args.remote}/{args.branch} ...")
     allowlist = mirror_allowlist(args.remote, args.branch)
     for extra in args.allow_new_path:
+        # An explicit --allow-new-path for a NEVER path is a CONTRADICTION: the operator
+        # asserts "publish this", the policy asserts "never publish this", and only one of
+        # them can be right. Resolving it silently in favour of the policy is what happened
+        # to `uv.lock` -- refused on line 3, reported as "published" on the last line, and
+        # absent from a fresh clone of the public repo hours later. Either the request is
+        # wrong or NEVER is stale; both need a human, and neither is served by a skip line
+        # buried among thirty others.
+        if extra.split("/", 1)[0] in NEVER:
+            raise SystemExit(
+                f"--allow-new-path {extra!r} contradicts the NEVER list, which refuses "
+                f"{extra.split('/', 1)[0]!r}. Nothing published. Either drop the flag, or "
+                f"remove the entry from NEVER in this file and say why in the commit."
+            )
         if extra not in allowlist:
             allowlist.append(extra)
             print(f"      + {extra} (NEW top-level path, explicitly allowed)")
@@ -355,7 +368,29 @@ def main() -> int:
 
         print(f"[5/5] Pushing to {args.remote}/{args.branch} ...")
         run(["git", "push", "origin", f"HEAD:{args.branch}"], cwd=staging)
-        print("      published.")
+
+        # "published" used to mean "git push exited 0", which is a claim about a command
+        # rather than about the mirror. Read the remote tree back and compare it to what we
+        # set out to publish. Without this the operator's only evidence is a word we print.
+        print("      verifying the remote tree matches what was published ...")
+        run(["git", "fetch", "--quiet", "origin", args.branch], cwd=staging)
+        remote = set(
+            run(["git", "ls-tree", "-r", "--name-only", f"origin/{args.branch}"],
+                cwd=staging).splitlines()
+        )
+        missing = sorted(set(files) - remote)
+        if missing:
+            raise SystemExit(
+                f"PUSH SUCCEEDED BUT {len(missing)} FILE(S) ARE NOT IN THE REMOTE TREE: "
+                f"{missing[:10]}. The mirror does not contain what this run reported "
+                f"publishing -- do not treat it as up to date."
+            )
+        extra_remote = sorted(remote - set(files))
+        if extra_remote:
+            print(f"      note: {len(extra_remote)} file(s) in the mirror were not in this "
+                  f"run's file list: {extra_remote[:5]}")
+        print(f"      published and verified: {len(files)} files present in "
+              f"{args.remote}/{args.branch}.")
         return 0
     finally:
         if not args.keep:

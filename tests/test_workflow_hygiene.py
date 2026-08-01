@@ -86,6 +86,12 @@ def test_no_comment_line_sits_inside_a_powershell_backtick_continuation():
         for i in range(len(lines) - 1):
             if not lines[i].rstrip().endswith("`"):
                 continue
+            # A COMMENT ending in a backtick continues nothing -- there is no command to
+            # truncate. Without this the guard flags prose that quotes a `token` at the end
+            # of a line, which is how it went red on a YAML comment explaining an earlier
+            # CI fix. A guard that fires on prose trains people to edit prose around it.
+            if lines[i].strip().startswith("#"):
+                continue
             nxt = lines[i + 1].strip()
             if nxt.startswith("#"):
                 offenders.append(f"{path.name}:{i + 2} -> {nxt[:60]}")

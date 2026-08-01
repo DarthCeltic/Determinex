@@ -16,6 +16,13 @@ env:
   # No corpus HMAC key in CI — ephemeral key is acceptable for tests.
   # Safety WAL and escalation state are temp-dir scoped by test fixtures.
   PYTHONPATH: scripts
+  # ubuntu-latest ships a PEP 668 "externally-managed-environment" Python, so every
+  # `uv pip install --system` in this file failed with exit 2 -- all five of them, in five
+  # different jobs. The lint job failed first and the rest depend on it, so the whole
+  # workflow reported one failure that looked like a lint problem and was not: the linter
+  # never ran. Set once at workflow level rather than patching five call sites, any of
+  # which a later edit would miss.
+  UV_BREAK_SYSTEM_PACKAGES: "1"
 
 jobs:
   lint:

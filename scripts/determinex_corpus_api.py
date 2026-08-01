@@ -973,8 +973,93 @@ def stale_report(days: int = 30, corpus: dict[str, Any] | None = None) -> list[d
     return out
 
 
+@dataclass
+class BriefHit:
+    key: str
+    why: str          # what matched -- so a reader can judge the hit instead of trusting it
+    detect: str
+    symptom: str
+    fix: str
+    score: int
+
+
+def brief(paths: list[str], corpus: dict[str, Any] | None = None,
+          limit: int = 6) -> list[BriefHit]:
+    """What the corpus already knows about the code someone is about to touch.
+
+    THE GAP THIS CLOSES. Every other mode here is PULL -- search, ask, topic, related --
+    and each one requires already suspecting that the corpus has something to say. That is
+    exactly the knowledge a cold-start reader does not have, so the corpus goes unconsulted
+    and a solved problem gets re-solved. Measured 2026-08-01: the Ollama num_ctx truncation
+    had already been diagnosed and fixed once, months earlier, inside
+    determinex_pb_reimpl._ollama_generate's "ROTATING CAP" -- as a CODE COMMENT in one
+    module. It was never a corpus entry (grep: `num_ctx` 0 hits, `prompt_eval` 0 hits), so
+    no query could have surfaced it, and the identical bug was rediscovered from scratch on
+    the shared provider path that every other caller uses.
+
+    So the failure was not that nobody asked. It was that asking could not have worked. A
+    push surface plus `code_paths` on the entries is what makes the second half true.
+
+    Matching is deliberately two-tier: `code_paths` globs are an explicit author claim and
+    rank first; a keyword overlap fallback means the 40+ entries written before this mode
+    existed still surface, without anyone backfilling metadata. Precision over recall --
+    a brief that cries wolf gets ignored, which is the same outcome as not having one.
+    """
+    import fnmatch
+
+    kn = corpus if corpus is not None else load_corpus()
+    norm = [str(p).replace("\\", "/") for p in paths]
+    stems = {Path(p).stem.lower() for p in norm}
+    # Split snake_case/kebab stems into words: determinex_providers -> {determinex, providers}
+    words: set[str] = set()
+    for s in stems:
+        words.update(w for w in re.split(r"[_\-.]+", s) if len(w) > 3)
+
+    hits: list[BriefHit] = []
+    for key, val in class_patterns(kn).items():
+        if not isinstance(val, dict):
+            continue
+        globs = val.get("code_paths") or []
+        matched_glob = next(
+            (g for g in globs if any(fnmatch.fnmatch(p, g) for p in norm)), None
+        )
+        text = " ".join(str(val.get(f, "")) for f in ("detect", "symptom", "fix", "rule")).lower()
+        overlap = sorted(w for w in words if w in text)
+
+        if matched_glob:
+            score, why = 100 + len(overlap), f"declared for {matched_glob}"
+        elif len(overlap) >= 2:
+            # One shared word is noise ("build", "test" appear everywhere); two is a signal.
+            score, why = len(overlap), "mentions " + ", ".join(overlap[:4])
+        else:
+            continue
+        hits.append(BriefHit(
+            key=key, why=why, score=score,
+            detect=str(val.get("detect", val.get("rule", "")))[:400],
+            symptom=str(val.get("symptom", ""))[:400],
+            fix=str(val.get("fix", ""))[:400],
+        ))
+
+    hits.sort(key=lambda h: (-h.score, h.key))
+    return hits[:limit]
+
+
+def format_brief(hits: list[BriefHit], paths: list[str]) -> str:
+    if not hits:
+        return ""
+    out = [f"[corpus] {len(hits)} known failure class(es) touch {', '.join(paths[:3])}:"]
+    for h in hits:
+        out.append(f"  - {h.key}  ({h.why})")
+        if h.symptom:
+            out.append(f"      symptom: {h.symptom[:160]}")
+        if h.fix:
+            out.append(f"      fix:     {h.fix[:160]}")
+    out.append("  full text: python scripts/determinex_corpus_api.py related <key>")
+    return "\n".join(out)
+
+
 def main(argv: list[str]) -> int:
-    usage = ("usage: determinex_corpus_api.py <search QUERY | topics | topic TOPIC | stats | "
+    usage = ("usage: determinex_corpus_api.py <brief PATH... | search QUERY | topics | topic TOPIC | stats | "
               "maturity [TOPIC] | related KEY | superseded | ask QUERY | timeline [TOPIC] | "
               "provenance TASK_ID_OR_SLUG_OR_REPO | tool SLUG | stale [DAYS] | "
               "swebench-stats | swebench-repo OWNER/REPO | "
@@ -983,6 +1068,15 @@ def main(argv: list[str]) -> int:
         print(usage)
         return 1
     cmd = argv[1]
+    if cmd == "brief" and len(argv) > 2:
+        paths = argv[2:]
+        hits = brief(paths)
+        # Exit 0 whether or not anything matched: this is advisory, and a gate that can
+        # block an edit because the corpus is quiet would be turned off within a day.
+        text = format_brief(hits, paths)
+        if text:
+            print(text)
+        return 0
     if cmd == "stats":
         s = stats()
         print(json.dumps(s.__dict__, indent=2))

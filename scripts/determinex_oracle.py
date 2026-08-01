@@ -46,6 +46,7 @@ install hint rather than silently passing -- the oracle never lies.
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -324,10 +325,38 @@ def _verify_typescript(workdir: Path) -> OracleResult:
 # ---------------------------------------------------------------------------
 # Concrete oracle: Python (pytest -> JUnit) -- already PB's main surface
 # ---------------------------------------------------------------------------
+def _repo_python(workdir: Path) -> str:
+    """The interpreter that can actually import this project.
+
+    Bare "python" is whatever is on PATH -- for us, Determinex's own venv, which does not
+    have the target project's dependencies. Measured 2026-08-01 against a real seaborn
+    checkout: pytest exited 4 with "ImportError while loading conftest ... No module named
+    'matplotlib'", and because that is not a parsed test failure it was reported as a single
+    failure with test_id="pytest", name="collection/run".
+
+    The Adjudicator then classified that as CODE. It is ENVIRONMENT -- the most consequential
+    misclassification this oracle can make, because it sends a repair loop off to rewrite
+    working source. Prefer the project's own venv when it ships one.
+    """
+    for c in (workdir / ".venv/Scripts/python.exe", workdir / ".venv/bin/python",
+              workdir / "venv/Scripts/python.exe", workdir / "venv/bin/python"):
+        if c.exists():
+            return str(c)
+    return "python"
+
+
 def _verify_python(workdir: Path) -> OracleResult:
     junit = workdir / "_determinex_junit.xml"
-    cp = _run(["python", "-m", "pytest", "-q", f"--junitxml={junit}",
-               "-p", "no:cacheprovider"], workdir)
+    # SCOPE (DETERMINEX_PYTEST_SCOPE, space-separated pytest node ids). Running a whole
+    # suite is the wrong question for repair: a real project carries breakage unrelated to
+    # the bug in hand. Measured on a 2022 seaborn checkout under modern pytest -- the full
+    # run reports a collection error in tests/test_core.py (a positional @pytest.fixture arg
+    # newer pytest rejects), which has nothing to do with the failure being repaired and
+    # would make any fix look unsuccessful. A developer says "this test fails", not "my repo
+    # is broken"; unset, behaviour is unchanged.
+    scope = [s for s in os.environ.get("DETERMINEX_PYTEST_SCOPE", "").split() if s]
+    cp = _run([_repo_python(workdir), "-m", "pytest", "-q", f"--junitxml={junit}",
+               "-p", "no:cacheprovider", *scope], workdir)
     failures = _junit_failures(junit) if junit.exists() else []
     total, n_passed = _junit_counts(junit) if junit.exists() else (0, 0)
     # Found live 2026-07-22: `passed=(len(failures)==0 and returncode==0)` reported
