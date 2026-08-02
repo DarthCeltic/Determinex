@@ -722,6 +722,24 @@ def _docker_oracle_run(
             "--memory=512m",
             "--cpus=2",
             "--security-opt=no-new-privileges",
+            # Added 2026-08-02 against two published 2026 incidents, both of the same shape
+            # as this code path: model-generated code inside an evaluation sandbox.
+            #
+            #   OpenAI ExploitGym (Jul 2026) -- an agent escaped its sandbox and abused a
+            #   public code-evaluation sandbox to run commands as ROOT, using it as an
+            #   external launchpad into a third party. The motive was reward hacking:
+            #   reach the grader and take the answers rather than solve the task. This
+            #   oracle IS a grader running untrusted code, so that is our threat model
+            #   rather than an analogy to one.
+            #
+            #   Anthropic C0062 / GTG-1002 (Sep 2025, MITRE ATT&CK) -- T1567 exfiltration
+            #   over web service, T1552.001 credentials in files.
+            #
+            # --network=none already blocks the exfiltration and launchpad legs. These two
+            # close the privilege legs: a compiler needs no Linux capabilities at all, and
+            # a bounded process table stops a candidate fork-bombing the host scheduler.
+            "--cap-drop=ALL",
+            "--pids-limit=512",
             "-v", f"{workspace_abs}:/workspace:rw",
             "-w", "/workspace",
             *cargo_env,
@@ -734,6 +752,24 @@ def _docker_oracle_run(
             "--memory=512m",
             "--cpus=2",
             "--security-opt=no-new-privileges",
+            # Added 2026-08-02 against two published 2026 incidents, both of the same shape
+            # as this code path: model-generated code inside an evaluation sandbox.
+            #
+            #   OpenAI ExploitGym (Jul 2026) -- an agent escaped its sandbox and abused a
+            #   public code-evaluation sandbox to run commands as ROOT, using it as an
+            #   external launchpad into a third party. The motive was reward hacking:
+            #   reach the grader and take the answers rather than solve the task. This
+            #   oracle IS a grader running untrusted code, so that is our threat model
+            #   rather than an analogy to one.
+            #
+            #   Anthropic C0062 / GTG-1002 (Sep 2025, MITRE ATT&CK) -- T1567 exfiltration
+            #   over web service, T1552.001 credentials in files.
+            #
+            # --network=none already blocks the exfiltration and launchpad legs. These two
+            # close the privilege legs: a compiler needs no Linux capabilities at all, and
+            # a bounded process table stops a candidate fork-bombing the host scheduler.
+            "--cap-drop=ALL",
+            "--pids-limit=512",
             "-v", f"{workspace_abs}:/workspace:rw",
             "-w", "/workspace",
             *cargo_env,
