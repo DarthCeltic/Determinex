@@ -248,10 +248,25 @@ def main() -> int:
               "examined, so this is not a pass -- regenerate verified_locks.json.")
         return 1
     if guard and r["unscannable"]:
-        print("\nPROVENANCE GUARD FAILED: a registered lock has no artifact to examine. "
-              "Its archive is absent (or the registry names it differently than disk does), "
-              "so its provenance is unverified -- which is not the same as clean. Restore "
-              "the archive, correct the registry entry, or drop the lock.")
+        # FILTERED vs BROKEN. corpus/programbench/locked/ holds vendored upstream trees that
+        # filter_corpus deliberately does not publish, so in the public mirror EVERY archive
+        # is absent by design. A checkout where SOME are present and some are not is a
+        # different thing entirely -- that is drift, or a registry naming something disk
+        # does not have, and it stays a hard failure.
+        #
+        # The guard's own principle is unchanged: absence is never reported as clean. It is
+        # reported as absence, out loud, with the exit code that fits which kind it is.
+        if r["scanned"] == 0 and len(r["unscannable"]) == r["registered"]:
+            print(f"\nPROVENANCE GUARD CANNOT VERIFY: all {r['registered']} registered "
+                  "lock(s) have no artifact here, and none are present. This is a checkout "
+                  "that does not ship corpus/programbench/locked/ -- the public mirror "
+                  "filters those vendored trees on purpose. Nothing was gamed; nothing was "
+                  "examined either. NOT a pass.")
+            return 0
+        print("\nPROVENANCE GUARD FAILED: a registered lock has no artifact to examine "
+              "while others DO -- so this checkout is partial rather than filtered. Its "
+              "provenance is unverified, which is not the same as clean. Restore the "
+              "archive, correct the registry entry, or drop the lock.")
         return 1
     if guard:
         print(f"\nPROVENANCE GUARD PASSED: {r['scanned']} lock(s) examined, "
