@@ -13,6 +13,11 @@
 [![White Paper](https://img.shields.io/badge/Paper-WHITE__PAPER.md-green)](docs/papers/WHITE_PAPER.md)
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-♥-pink)](https://github.com/sponsors/DarthCeltic)
 
+[![AIFoundry Hackathon](https://img.shields.io/badge/%F0%9F%8F%86%201st%20Place-Most%20Validated%20Model%20Ports-brightgreen?style=for-the-badge)](https://github.com/aifoundry-org/hf-hackathon)
+
+**🏆 1st Place — Most Validated Model Ports**, AIFoundry × OpenHW CORE-ET Hackathon 2026 —
+16 variants across 15 model families, validated on real ET-SoC1 RISC-V silicon.
+
 *Built by [DarthCeltic](https://github.com/DarthCeltic)*
 
 </div>
