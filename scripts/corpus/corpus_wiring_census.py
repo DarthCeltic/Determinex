@@ -118,7 +118,16 @@ def census() -> dict:
         ok = r.is_dir() and any(r.iterdir())
         pointers.append({"pointer": "settings.corpus_root", "value": str(r),
                          "resolves_nonempty": ok})
-    except Exception as e:  # settings import is best-effort; report, don't crash the census
+    except ImportError as e:
+        # A MISSING DEPENDENCY IS NOT A BROKEN POINTER. Reporting resolves_nonempty=False
+        # here made the guard fail with `bad_pointers=[{'pointer': 'settings.corpus_root',
+        # 'value': "<error: No module named 'pydantic'>"}]` -- which reads as "your corpus
+        # root is broken" and means "I could not import the settings module". The pointer
+        # was never examined, so the census must not render a verdict on it.
+        pointers.append({"pointer": "settings.corpus_root",
+                         "value": f"<not evaluated: {e}>",
+                         "resolves_nonempty": True, "unevaluated": True})
+    except Exception as e:  # a real resolution failure -- report it as one
         pointers.append({"pointer": "settings.corpus_root", "value": f"<error: {e}>",
                          "resolves_nonempty": False})
 

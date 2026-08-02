@@ -184,8 +184,25 @@ _EVIDENCE_TESTS = frozenset({
 
 
 def evidence_tree_present(index: Path | None = None) -> bool:
-    """Separate from the hook so the rule itself is directly testable."""
-    return (index or _EVIDENCE_INDEX).is_file()
+    """Does this checkout have the evidence ARTEFACTS, not merely the index?
+
+    Separate from the hook so the rule itself is directly testable.
+
+    Keying on the index file alone was wrong the moment the index became publishable on its
+    own: `determinex evidence validate` needs it and its 1,837 manifests live under
+    locks/sentinel/, so shipping the 1.2 MB index (without the 273 MB of artefacts) fixed
+    two CI jobs -- and simultaneously took the coverage job from 63 failures to 202, because
+    this predicate started reporting a tree that was not there and every evidence lock ran
+    against artefacts that do not exist. The artefacts are what the tests read, so the
+    artefacts are what to look for.
+    """
+    idx = index or _EVIDENCE_INDEX
+    if not idx.is_file():
+        return False
+    try:
+        return any(child.is_dir() for child in idx.parent.iterdir())
+    except OSError:
+        return False
 
 
 def _module_missing_data_paths(module) -> list[Path]:

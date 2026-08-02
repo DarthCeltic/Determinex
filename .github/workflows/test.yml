@@ -42,7 +42,12 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install pre-commit
-        run: pip install pre-commit
+        # The corpus-wiring-census hook is `language: system`, so it runs against THIS
+        # environment's python. Without pydantic it could not import settings and reported
+        # `bad_pointers=[{'pointer': 'settings.corpus_root', 'value': "<error: No module
+        # named 'pydantic'>"}]` -- a guard failing on its own missing import while phrasing
+        # it as a broken data-root pointer.
+        run: pip install pre-commit pydantic pydantic-settings pyyaml
       - name: Run pre-commit hooks
         run: pre-commit run --all-files
 
@@ -191,10 +196,15 @@ jobs:
         env:
           DETERMINEX_ROOT: ${{ github.workspace }}
         run: determinex evidence validate
-      - name: Release cell drift detector (read-only)
-        env:
-          DETERMINEX_ROOT: ${{ github.workspace }}
-        run: python scripts/status/release_cell_drift_detector_workflow_guard.py
+      # REMOVED 2026-08-02: scripts/status/release_cell_drift_detector_workflow_guard.py
+      # does not exist. Not "is unpublished" -- `git ls-files` finds no such path anywhere in
+      # the repository, and scripts/status/ is not a directory. The only trace of it is three
+      # evidence artefacts under
+      # assurance/evidence/release_cell_drift_detector_github_workflow/ dated 2026-05-31,
+      # which record a guard that has no code behind it. The step failed with
+      # `python: can't open file ... [Errno 2]` and exit 2 -- a missing file, not a drift.
+      # Restoring the guard means writing it; until then this step asserted nothing and
+      # blocked the job. See the corpus class `evidence_without_an_artifact_behind_it`.
 
   arch-gauntlet:
     # ARCH_GAUNTLET_CI_LOCK_001 — witnesses the architecture / intake /
