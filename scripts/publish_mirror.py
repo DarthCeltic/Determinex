@@ -111,6 +111,12 @@ NEVER_EXCEPT = (
     # -- the override scan is a gate against a locked tool's compile.sh suppressing test
     # collection, and a gate that cannot read its input is not enforcing anything.
     "logs/programbench_lock_board.json",
+    # The evidence INDEX only -- 1.2 MB, not the 273 MB tree around it. `determinex evidence
+    # validate` checks that every entry's manifest_path exists, and all 1,837 of them are
+    # under locks/sentinel/, which the mirror already publishes. So the index was the single
+    # missing file behind two red jobs ("Evidence index not found" and the arch gauntlet's
+    # cli.evidence_validate CLI_COMMAND_FAILED). The evidence ARTEFACTS stay unpublished.
+    "assurance/evidence/evidence_index.json",
 )
 
 NEVER = {

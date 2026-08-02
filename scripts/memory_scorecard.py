@@ -18,7 +18,13 @@ SECRET_PATTERNS = (
     re.compile(r"\bsk-[A-Za-z0-9_-]{20,}"),
     re.compile(r"(?i)\b(api[_-]?key|secret|token)\s*=\s*['\"][^'\"]{8,}['\"]"),
 )
-MOJIBAKE_PATTERNS = ("â", "Ã", "�", "Â·", "â†", "â€”")
+# Escapes, not literals. These ARE mojibake sequences -- that is the whole point -- so
+# writing them literally made this detector trip the repository's own mojibake/CRLF
+# guard: "scripts/memory_scorecard.py: U+FFFD replacement char (decode corruption)",
+# failing pre-commit and CI on the one file whose job is to catch exactly this. The
+# escaped form produces byte-identical strings at runtime and leaves no non-ASCII
+# bytes in the source for the guard to find.
+MOJIBAKE_PATTERNS = ("\u00e2", "\u00c3", "\ufffd", "\u00c2\u00b7", "\u00e2\u2020", "\u00e2\u20ac\u201d")
 
 
 @dataclass
