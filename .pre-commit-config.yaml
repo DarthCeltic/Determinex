@@ -6,10 +6,21 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-json
+        # tsconfig.json is JSONC -- the TypeScript compiler documents comments as
+        # legal there, and check-json is a strict RFC 8259 parser. It reports
+        # 'Expecting property name enclosed in double-quotes' on a file that is
+        # valid for its own format. Excluded by exact name, not by extension.
+        exclude: ^frontend/tsconfig\.json$
       - id: check-merge-conflict
       - id: check-added-large-files
         args: ["--maxkb=500"]
       - id: detect-private-key
+        # Two files contain PEM headers because their job is to FIND them: a secret
+        # scanner and the test proving it rejects secret-shaped code. Flagging a
+        # detector for containing what it detects is the same false positive that
+        # made the mojibake guard fail on its own pattern table. Named exactly, so
+        # a third file with a real key is still caught.
+        exclude: ^(scripts/corpus/code_ingest/secret_scanner\.py|tests/corpus/test_secret_code_rejected\.py)$
       - id: no-commit-to-branch
         args: ["--branch", "main"]
 
