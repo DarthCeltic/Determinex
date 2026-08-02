@@ -9,6 +9,7 @@ tally + a grand total. Runs where the source + toolchains are (the box).
 
     python3 scripts/pb_slop_retriage.py [--log /root/slop_tail.log]
 """
+
 from __future__ import annotations
 
 import glob
@@ -40,8 +41,11 @@ def main() -> int:
         out.flush()
         print(s, flush=True)
 
-    dirs = sorted(d for d in glob.glob(BASE + "/*")
-                  if os.path.isdir(d) and os.path.exists(d + "/eval_report.json"))
+    dirs = sorted(
+        d
+        for d in glob.glob(BASE + "/*")
+        if os.path.isdir(d) and os.path.exists(d + "/eval_report.json")
+    )
     log("=== SLOP RE-TRIAGE (whole tail) -- scanning %d tools ===" % len(dirs))
     tot: Counter = Counter()
     for d in dirs:
@@ -56,12 +60,17 @@ def main() -> int:
         name = os.path.basename(d)
         cc = Counter(x.get("status") for x in tr)
         pa, nr, total = cc.get("passed", 0), cc.get("not_run", 0), sum(cc.values())
-        bs = " BUILD-SUSPECT" if (total and nr > 0.25 * total) else ""   # high not_run -> build likely broke
+        bs = (
+            " BUILD-SUSPECT" if (total and nr > 0.25 * total) else ""
+        )  # high not_run -> build likely broke
         if bs:
             tot["tools_build_suspect"] += 1
         rec = sum(1 for x in fails if "args=" in _txt(x) or "Command '[" in _txt(x))
         if rec == 0:
-            log("%-38s p%-5d nr%-5d f%-5d DEFER(no-recoverable-invocation)%s" % (name[:38], pa, nr, len(fails), bs))
+            log(
+                "%-38s p%-5d nr%-5d f%-5d DEFER(no-recoverable-invocation)%s"
+                % (name[:38], pa, nr, len(fails), bs)
+            )
             tot["tools_defer_norec"] += 1
             continue
         try:
@@ -71,12 +80,18 @@ def main() -> int:
             tot["tools_error"] += 1
             continue
         if not js:
-            log("%-38s p%-5d nr%-5d f%-5d DEFER(no-functional-ref/unparsed)%s" % (name[:38], pa, nr, len(fails), bs))
+            log(
+                "%-38s p%-5d nr%-5d f%-5d DEFER(no-functional-ref/unparsed)%s"
+                % (name[:38], pa, nr, len(fails), bs)
+            )
             tot["tools_defer_build"] += 1
             continue
         c = Counter(j.verdict.value for j in js)
         slop, corr = c.get("SLOP", 0), c.get("CORRECT", 0)
-        log("%-38s p%-5d nr%-5d f%-5d SLOP=%-3d CORRECT=%-3d%s" % (name[:38], pa, nr, len(fails), slop, corr, bs))
+        log(
+            "%-38s p%-5d nr%-5d f%-5d SLOP=%-3d CORRECT=%-3d%s"
+            % (name[:38], pa, nr, len(fails), slop, corr, bs)
+        )
         tot["tools_checked"] += 1
         tot["slop"] += slop
         tot["correct"] += corr

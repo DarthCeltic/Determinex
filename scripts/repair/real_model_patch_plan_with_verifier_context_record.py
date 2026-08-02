@@ -1,9 +1,9 @@
 """Records for REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_STATUS_TOKENS = (
     "REAL_PATCH_PLAN_CONTEXT_QUARANTINED",

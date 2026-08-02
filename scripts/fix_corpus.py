@@ -4,51 +4,60 @@ Two-phase fix:
 1. Sanitize all JSONL files: replace unicode arrows/dashes with ASCII
 2. Delete bad multi_turn_fill_v1 and regenerate with correct comment syntax
 """
-import json, os, hashlib
+
+import hashlib
+import json
+import os
 from pathlib import Path
 
-OUT = str(Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models"))) / "corpus" / "real_scale")
+OUT = str(
+    Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models")))
+    / "corpus"
+    / "real_scale"
+)
 
 # ─────────────────────────────────────────────────
 # Phase 1: sanitize unicode across ALL corpus files
 # ─────────────────────────────────────────────────
 REPLACEMENTS = [
-    ('\u2192', '->'),   # → arrow
-    ('\u2190', '<-'),   # ← left arrow
-    ('\u2014', '--'),   # — em dash
-    ('\u2013', '-'),    # – en dash
-    ('\u2019', "'"),    # ' right single quote
-    ('\u2018', "'"),    # ' left single quote
-    ('\u201c', '"'),    # " left double quote
-    ('\u201d', '"'),    # " right double quote
-    ('\u2026', '...'),  # … ellipsis
-    ('\u00e2\u0080\u0094', '--'),  # UTF-8 encoded em dash bytes read as latin-1
+    ("\u2192", "->"),  # → arrow
+    ("\u2190", "<-"),  # ← left arrow
+    ("\u2014", "--"),  # — em dash
+    ("\u2013", "-"),  # – en dash
+    ("\u2019", "'"),  # ' right single quote
+    ("\u2018", "'"),  # ' left single quote
+    ("\u201c", '"'),  # " left double quote
+    ("\u201d", '"'),  # " right double quote
+    ("\u2026", "..."),  # … ellipsis
+    ("\u00e2\u0080\u0094", "--"),  # UTF-8 encoded em dash bytes read as latin-1
 ]
+
 
 def sanitize_text(text):
     for bad, good in REPLACEMENTS:
         text = text.replace(bad, good)
     return text
 
+
 total_files = 0
 total_changed = 0
 
 for fn in sorted(os.listdir(OUT)):
-    if not fn.endswith('.jsonl'):
+    if not fn.endswith(".jsonl"):
         continue
     path = os.path.join(OUT, fn)
-    
+
     lines_in = []
     try:
-        with open(path, 'rb') as f:
+        with open(path, "rb") as f:
             raw = f.read()
         # Decode as UTF-8 with replacement for bad bytes
-        text = raw.decode('utf-8', errors='replace')
+        text = raw.decode("utf-8", errors="replace")
         lines_in = text.splitlines()
     except Exception as e:
         print(f"  ERROR reading {fn}: {e}")
         continue
-    
+
     changed = False
     lines_out = []
     for line in lines_in:
@@ -59,13 +68,13 @@ for fn in sorted(os.listdir(OUT)):
         if clean != line:
             changed = True
         lines_out.append(clean)
-    
+
     if changed:
-        with open(path, 'w', encoding='utf-8') as f:
+        with open(path, "w", encoding="utf-8") as f:
             for line in lines_out:
-                f.write(line + '\n')
+                f.write(line + "\n")
         total_changed += 1
-    
+
     total_files += 1
 
 print(f"Phase 1 complete: {total_files} files scanned, {total_changed} files rewritten")
@@ -77,57 +86,92 @@ print(f"Phase 1 complete: {total_files} files scanned, {total_changed} files rew
 bad_file = os.path.join(OUT, "multi_turn_fill_v1.jsonl")
 if os.path.exists(bad_file):
     os.remove(bad_file)
-    print(f"Deleted: multi_turn_fill_v1.jsonl")
+    print("Deleted: multi_turn_fill_v1.jsonl")
 
-def h(a, b): return hashlib.md5((a + b).encode()).hexdigest()
+
+def h(a, b):
+    return hashlib.md5((a + b).encode()).hexdigest()
+
 
 def load_seen(type_val):
     seen = set()
     for fn in os.listdir(OUT):
-        if not fn.endswith('.jsonl'): continue
+        if not fn.endswith(".jsonl"):
+            continue
         try:
-            with open(os.path.join(OUT, fn), encoding='utf-8') as f:
+            with open(os.path.join(OUT, fn), encoding="utf-8") as f:
                 for line in f:
                     obj = json.loads(line)
-                    if obj.get('meta', {}).get('type') == type_val:
-                        seen.add(h(obj['instruction'], obj['output']))
+                    if obj.get("meta", {}).get("type") == type_val:
+                        seen.add(h(obj["instruction"], obj["output"]))
         except Exception:
             pass
     return seen
+
 
 def emit(filename, type_val, sys_prompt, items, target=5000):
     seen = load_seen(type_val)
     print(f"  {type_val}: {len(seen)} existing after delete")
     out = []
     for instr, output, lang, topic in items:
-        if len(seen) >= target: break
+        if len(seen) >= target:
+            break
         k = h(instr, output)
-        if k in seen: continue
+        if k in seen:
+            continue
         seen.add(k)
-        out.append({"system": sys_prompt, "instruction": instr, "output": output,
-            "meta": {"lang": lang, "type": type_val, "topic": topic, "source": filename}})
+        out.append(
+            {
+                "system": sys_prompt,
+                "instruction": instr,
+                "output": output,
+                "meta": {"lang": lang, "type": type_val, "topic": topic, "source": filename},
+            }
+        )
     if out:
-        with open(os.path.join(OUT, f"{filename}.jsonl"), 'w', encoding='utf-8') as f:
+        with open(os.path.join(OUT, f"{filename}.jsonl"), "w", encoding="utf-8") as f:
             for ex in out:
-                f.write(json.dumps(ex, ensure_ascii=False) + '\n')
+                f.write(json.dumps(ex, ensure_ascii=False) + "\n")
     print(f"  {type_val}: +{len(out)} -> {len(seen)}")
+
 
 MT_SYS = "Senior engineer in multi-turn pair programming. Reference specific code and variable names from prior turns."
 
+
 # Comment character per language
 def cmt(lang):
-    return '//' if lang in ('typescript', 'go', 'java', 'kotlin', 'rust', 'swift', 'dart') else '#'
+    return "//" if lang in ("typescript", "go", "java", "kotlin", "rust", "swift", "dart") else "#"
+
 
 def mt_fill_v2():
     items = []
 
     LANGS = ["python", "typescript", "go", "java", "kotlin", "rust"]
-    DOMAINS = ["e-commerce", "fintech", "healthcare", "SaaS", "logistics",
-               "analytics", "social", "gaming", "education", "IoT"]
+    DOMAINS = [
+        "e-commerce",
+        "fintech",
+        "healthcare",
+        "SaaS",
+        "logistics",
+        "analytics",
+        "social",
+        "gaming",
+        "education",
+        "IoT",
+    ]
     FEATURES = [
-        "CRUD API", "authentication", "caching layer", "rate limiter",
-        "search endpoint", "notification system", "file upload", "payment processing",
-        "data export", "webhook handler", "audit logging", "feature flags",
+        "CRUD API",
+        "authentication",
+        "caching layer",
+        "rate limiter",
+        "search endpoint",
+        "notification system",
+        "file upload",
+        "payment processing",
+        "data export",
+        "webhook handler",
+        "audit logging",
+        "feature flags",
     ]
 
     # Language-specific frameworks
@@ -196,15 +240,21 @@ def mt_fill_v2():
                             f"```"
                         )
 
-                        t1r_safe = t1r.replace('{', '{{').replace('}', '}}')
+                        t1r_safe = t1r.replace("{", "{{").replace("}", "}}")
                         instr2 = (
                             f"[Session: {feature} in {lang}/{fw} for {domain}]\n\n"
                             f"[Turn 1] User: {t1i}\n"
                             f"[Turn 1] Assistant: {t1r_safe}\n\n"
                             f"[Turn 2] User: {t2i}"
                         )
-                        items.append((instr2, t2r, lang,
-                                      f"mt_fill2_{feature.replace(' ','_')}_{lang}_{domain.replace(' ','_')}_t1t{t1t_idx}_t2t{t2t_idx}"))
+                        items.append(
+                            (
+                                instr2,
+                                t2r,
+                                lang,
+                                f"mt_fill2_{feature.replace(' ', '_')}_{lang}_{domain.replace(' ', '_')}_t1t{t1t_idx}_t2t{t2t_idx}",
+                            )
+                        )
 
                         for ext_idx, ext in enumerate(EXTENSIONS):
                             t3t = TURN3_TEMPLATES[ext_idx % len(TURN3_TEMPLATES)]
@@ -221,7 +271,7 @@ def mt_fill_v2():
                                 f"```"
                             )
 
-                            t2r_safe = t2r.replace('{', '{{').replace('}', '}}')
+                            t2r_safe = t2r.replace("{", "{{").replace("}", "}}")
                             instr3 = (
                                 f"[Session: {feature} in {lang}/{fw} for {domain}]\n\n"
                                 f"[Turn 1] User: {t1i}\n"
@@ -230,16 +280,28 @@ def mt_fill_v2():
                                 f"[Turn 2] Assistant: {t2r_safe}\n\n"
                                 f"[Turn 3] User: {t3i}"
                             )
-                            items.append((instr3, t3r, lang,
-                                          f"mt_fill2_{feature.replace(' ','_')}_{lang}_{domain.replace(' ','_')}_t1t{t1t_idx}_t2t{t2t_idx}_ext{ext_idx}"))
+                            items.append(
+                                (
+                                    instr3,
+                                    t3r,
+                                    lang,
+                                    f"mt_fill2_{feature.replace(' ', '_')}_{lang}_{domain.replace(' ', '_')}_t1t{t1t_idx}_t2t{t2t_idx}_ext{ext_idx}",
+                                )
+                            )
     return items
+
 
 emit("multi_turn_fill_v2", "multi_turn", MT_SYS, mt_fill_v2())
 
 # Final check
 import subprocess
-r = subprocess.run(["python", "scripts/type_audit_raw.py"], cwd=r"C:\Dev\Determinex",
-                   capture_output=True, text=True)
-for line in r.stdout.split('\n'):
-    if 'multi_turn' in line or 'Types at' in line or 'TOTAL' in line:
+
+r = subprocess.run(
+    ["python", "scripts/type_audit_raw.py"],
+    cwd=r"C:\Dev\Determinex",
+    capture_output=True,
+    text=True,
+)
+for line in r.stdout.split("\n"):
+    if "multi_turn" in line or "Types at" in line or "TOTAL" in line:
         print(line)

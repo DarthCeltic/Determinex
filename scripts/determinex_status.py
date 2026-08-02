@@ -12,6 +12,7 @@ Usage:
     python scripts/determinex_status.py --json           # raw JSON lines (no formatting)
     python scripts/determinex_status.py --summary        # session summary (counts per event type)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -19,25 +20,23 @@ import json
 import os
 import sys
 import time
-from datetime import datetime, timezone
+from collections.abc import Iterator
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Iterator
-
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-_DEFAULT_AUDIT_DIR = Path(
-    os.environ.get("DETERMINEX_AUDIT_DIR", "T:/determinex_audit/events")
-)
+_DEFAULT_AUDIT_DIR = Path(os.environ.get("DETERMINEX_AUDIT_DIR", "T:/determinex_audit/events"))
 _FALLBACK_AUDIT_DIR = REPO_ROOT / "logs" / "events"
 
 
 # ---------------------------------------------------------------------------
 # Log file discovery
 # ---------------------------------------------------------------------------
+
 
 def _audit_dir() -> Path:
     for d in (_DEFAULT_AUDIT_DIR, _FALLBACK_AUDIT_DIR):
@@ -48,7 +47,7 @@ def _audit_dir() -> Path:
 
 def _log_path(date_str: str | None = None) -> Path:
     if date_str is None:
-        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        date_str = datetime.now(UTC).strftime("%Y-%m-%d")
     return _audit_dir() / f"{date_str}.jsonl"
 
 
@@ -60,6 +59,7 @@ def _all_log_paths() -> list[Path]:
 # ---------------------------------------------------------------------------
 # Event parsing
 # ---------------------------------------------------------------------------
+
 
 def _parse_line(line: str) -> dict | None:
     line = line.strip()
@@ -92,68 +92,85 @@ def _iter_all_logs() -> Iterator[dict]:
 
 _EMOJI: dict[str, str] = {
     # lifecycle
-    "task.accepted":           "▶",
-    "task.denied":             "✗",
+    "task.accepted": "▶",
+    "task.denied": "✗",
     # baseline
-    "baseline.started":        "·",
-    "baseline.completed":      "✓",
-    "baseline.failed":         "✗",
+    "baseline.started": "·",
+    "baseline.completed": "✓",
+    "baseline.failed": "✗",
     # mutation
-    "mutation.created":        "~",
-    "mutation.skipped":        "·",
+    "mutation.created": "~",
+    "mutation.skipped": "·",
     # repair
-    "repair.started":          "⚙",
-    "repair.completed":        "✓",
-    "repair.failed":           "✗",
+    "repair.started": "⚙",
+    "repair.completed": "✓",
+    "repair.failed": "✗",
     # verifier
-    "verifier.started":        "·",
-    "verifier.completed":      "✓",
-    "verifier.timeout":        "⏱",
+    "verifier.started": "·",
+    "verifier.completed": "✓",
+    "verifier.timeout": "⏱",
     # corpus
-    "corpus.row_written":      "💾",
-    "corpus.row_rejected":     "✗",
-    "corpus.signed":           "🔐",
+    "corpus.row_written": "💾",
+    "corpus.row_rejected": "✗",
+    "corpus.signed": "🔐",
     "corpus.signature_failed": "✗",
     # cloak
-    "cloak.applied":           "🔒",
-    "cloak.failed":            "✗",
-    "cloak.audit_logged":      "📋",
+    "cloak.applied": "🔒",
+    "cloak.failed": "✗",
+    "cloak.audit_logged": "📋",
     # gates
-    "gate.license_rejected":   "⚠",
-    "gate.safety_blocked":     "🛑",
-    "gate.mutation_skipped":   "·",
+    "gate.license_rejected": "⚠",
+    "gate.safety_blocked": "🛑",
+    "gate.mutation_skipped": "·",
     # schema
-    "schema.validated":        "✓",
-    "schema.migrated":         "↑",
-    "schema.rejected":         "✗",
+    "schema.validated": "✓",
+    "schema.migrated": "↑",
+    "schema.rejected": "✗",
     # swebench
-    "swebench.patch_generated":"✓",
-    "swebench.patch_failed":   "✗",
-    "swebench.cloak_applied":  "🔒",
-    "swebench.cloak_failed":   "✗",
-    "swebench.worktree_created":"·",
-    "swebench.worktree_cleaned":"·",
+    "swebench.patch_generated": "✓",
+    "swebench.patch_failed": "✗",
+    "swebench.cloak_applied": "🔒",
+    "swebench.cloak_failed": "✗",
+    "swebench.worktree_created": "·",
+    "swebench.worktree_cleaned": "·",
     # programbench
-    "pb.task_started":         "▶",
-    "pb.task_completed":       "✓",
-    "pb.task_failed":          "✗",
-    "pb.gate_accepted":        "🔓",
-    "pb.gate_rejected":        "✗",
+    "pb.task_started": "▶",
+    "pb.task_completed": "✓",
+    "pb.task_failed": "✗",
+    "pb.gate_accepted": "🔓",
+    "pb.gate_rejected": "✗",
 }
 
 _SUCCESS_EVENTS = {
-    "task.accepted", "baseline.completed", "repair.completed",
-    "verifier.completed", "corpus.row_written", "corpus.signed",
-    "cloak.applied", "schema.validated", "schema.migrated",
-    "swebench.patch_generated", "swebench.cloak_applied",
-    "pb.task_completed", "pb.gate_accepted",
+    "task.accepted",
+    "baseline.completed",
+    "repair.completed",
+    "verifier.completed",
+    "corpus.row_written",
+    "corpus.signed",
+    "cloak.applied",
+    "schema.validated",
+    "schema.migrated",
+    "swebench.patch_generated",
+    "swebench.cloak_applied",
+    "pb.task_completed",
+    "pb.gate_accepted",
 }
 _FAILURE_EVENTS = {
-    "task.denied", "baseline.failed", "repair.failed",
-    "verifier.timeout", "corpus.row_rejected", "corpus.signature_failed",
-    "cloak.failed", "gate.license_rejected", "gate.safety_blocked",
-    "schema.rejected", "swebench.patch_failed", "swebench.cloak_failed",
-    "pb.task_failed", "pb.gate_rejected",
+    "task.denied",
+    "baseline.failed",
+    "repair.failed",
+    "verifier.timeout",
+    "corpus.row_rejected",
+    "corpus.signature_failed",
+    "cloak.failed",
+    "gate.license_rejected",
+    "gate.safety_blocked",
+    "schema.rejected",
+    "swebench.patch_failed",
+    "swebench.cloak_failed",
+    "pb.task_failed",
+    "pb.gate_rejected",
 }
 
 
@@ -186,7 +203,7 @@ def _fmt_event(evt: dict, wide: bool = False) -> str:
         parts.append(f"reason={reason[:60]}")
     if duration and duration > 0:
         if duration >= 1000:
-            parts.append(f"{duration/1000:.1f}s")
+            parts.append(f"{duration / 1000:.1f}s")
         else:
             parts.append(f"{duration:.0f}ms")
 
@@ -196,6 +213,7 @@ def _fmt_event(evt: dict, wide: bool = False) -> str:
 # ---------------------------------------------------------------------------
 # Session grouping
 # ---------------------------------------------------------------------------
+
 
 def _find_last_run_events(events: list[dict]) -> list[dict]:
     """Return events from the most recent session boundary.
@@ -229,6 +247,7 @@ def _find_last_run_events(events: list[dict]) -> list[dict]:
 # Summary
 # ---------------------------------------------------------------------------
 
+
 def _render_summary(events: list[dict]) -> str:
     counts: dict[str, int] = {}
     for e in events:
@@ -257,6 +276,7 @@ def _render_summary(events: list[dict]) -> str:
 # ---------------------------------------------------------------------------
 # Tail mode
 # ---------------------------------------------------------------------------
+
 
 def _tail_follow(path: Path, seed_lines: int = 50, raw: bool = False) -> None:
     """Live tail the JSONL file. Ctrl+C to exit."""
@@ -315,22 +335,24 @@ def _tail_follow(path: Path, seed_lines: int = 50, raw: bool = False) -> None:
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--last-run", action="store_true",
-                    help="show only events from the most recent session")
-    ap.add_argument("--tail", action="store_true",
-                    help="live follow mode (Ctrl+C to stop)")
-    ap.add_argument("--date", default=None,
-                    help="specific date log to read (YYYY-MM-DD)")
-    ap.add_argument("-n", "--lines", type=int, default=50,
-                    help="number of lines to show (default: 50; in --tail: seed count)")
-    ap.add_argument("--json", action="store_true",
-                    help="output raw JSON lines")
-    ap.add_argument("--summary", action="store_true",
-                    help="show per-event-type counts")
-    ap.add_argument("--all", action="store_true",
-                    help="read all log files across all dates")
+    ap.add_argument(
+        "--last-run", action="store_true", help="show only events from the most recent session"
+    )
+    ap.add_argument("--tail", action="store_true", help="live follow mode (Ctrl+C to stop)")
+    ap.add_argument("--date", default=None, help="specific date log to read (YYYY-MM-DD)")
+    ap.add_argument(
+        "-n",
+        "--lines",
+        type=int,
+        default=50,
+        help="number of lines to show (default: 50; in --tail: seed count)",
+    )
+    ap.add_argument("--json", action="store_true", help="output raw JSON lines")
+    ap.add_argument("--summary", action="store_true", help="show per-event-type counts")
+    ap.add_argument("--all", action="store_true", help="read all log files across all dates")
     args = ap.parse_args()
 
     if args.tail:
@@ -356,21 +378,20 @@ def main() -> int:
         d = _audit_dir()
         print(f"No events found. Audit dir: {d}")
         if not d.exists():
-            print(f"  (directory does not exist — run any pipeline task to start logging)")
+            print("  (directory does not exist — run any pipeline task to start logging)")
         return 0
 
     if args.last_run:
         events = _find_last_run_events(events)
 
     if not args.summary:
-        display = events[-args.lines:] if not args.last_run else events
+        display = events[-args.lines :] if not args.last_run else events
         for evt in display:
             if args.json:
                 print(json.dumps(evt))
             else:
                 print(_fmt_event(evt, wide=True))
-        print(f"\n  {len(display)} event(s) shown  "
-              f"({len(events)} total in log)")
+        print(f"\n  {len(display)} event(s) shown  ({len(events)} total in log)")
 
     if args.summary:
         print(_render_summary(events))

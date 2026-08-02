@@ -1,9 +1,9 @@
 """Records for OLLAMA_MODEL_PULL_OPERATOR_GUIDE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 OLLAMA_MODEL_PULL_OPERATOR_GUIDE_STATUS_TOKENS = (
     "OPERATOR_GUIDE_WRITTEN",

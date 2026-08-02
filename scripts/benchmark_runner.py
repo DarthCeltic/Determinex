@@ -31,17 +31,16 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import os
 import subprocess
 import sys
 import textwrap
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 try:
     from dotenv import load_dotenv
+
     load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=False)
 except ImportError:
     pass
@@ -51,9 +50,9 @@ if hasattr(sys.stdout, "reconfigure"):
 if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-_ROOT    = Path(__file__).resolve().parent.parent
+_ROOT = Path(__file__).resolve().parent.parent
 _SCRIPTS = Path(__file__).resolve().parent
-_LOGS    = _ROOT / "logs" / "benchmarks"
+_LOGS = _ROOT / "logs" / "benchmarks"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -68,18 +67,19 @@ log = logging.getLogger("bench_runner")
 # Benchmark registry
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class BenchmarkDef:
-    id: str                     # canonical slug used with --bench
-    name: str                   # human-readable name
-    category: str               # "coding" | "agent" | "reasoning" | "multimodal"
-    status: str                 # READY | PENDING | ADAPTER | EXTERNAL
-    instances: int              # dataset size (0 = unknown)
+    id: str  # canonical slug used with --bench
+    name: str  # human-readable name
+    category: str  # "coding" | "agent" | "reasoning" | "multimodal"
+    status: str  # READY | PENDING | ADAPTER | EXTERNAL
+    instances: int  # dataset size (0 = unknown)
     description: str
-    dataset_id: str = ""        # HuggingFace dataset ID (for READY/PENDING)
-    split: str = "test"         # HF split name
-    swebench_split: str = ""    # maps to determinex_swebench_run.py --split (lite/verified/full)
-    adapter_script: str = ""    # future: path to non-SWE-bench adapter
+    dataset_id: str = ""  # HuggingFace dataset ID (for READY/PENDING)
+    split: str = "test"  # HF split name
+    swebench_split: str = ""  # maps to determinex_swebench_run.py --split (lite/verified/full)
+    adapter_script: str = ""  # future: path to non-SWE-bench adapter
     leaderboard_url: str = ""
     notes: str = ""
 
@@ -135,8 +135,8 @@ BENCHMARKS: list[BenchmarkDef] = [
         status="PENDING",
         instances=0,
         description="Extended, harder SWE-bench variant with more complex multi-file issues.",
-        dataset_id="princeton-nlp/SWE-bench_Pro",   # verify before first run
-        swebench_split="lite",                        # override if Pro has own split
+        dataset_id="princeton-nlp/SWE-bench_Pro",  # verify before first run
+        swebench_split="lite",  # override if Pro has own split
         leaderboard_url="https://www.swebench.com",
         notes="Dataset ID unverified — run `python -c \"from datasets import load_dataset; load_dataset('princeton-nlp/SWE-bench_Pro')\"` to confirm before enabling.",
     ),
@@ -147,12 +147,11 @@ BENCHMARKS: list[BenchmarkDef] = [
         status="PENDING",
         instances=0,
         description="Multi-language SWE-bench: Python + JavaScript + TypeScript + Java + Go.",
-        dataset_id="princeton-nlp/SWE-bench_Multilingual",   # verify before first run
+        dataset_id="princeton-nlp/SWE-bench_Multilingual",  # verify before first run
         swebench_split="lite",
         leaderboard_url="https://www.swebench.com",
         notes="Determinex validators need JS/TS/Java/Go variants. Adapter extension required before running.",
     ),
-
     # -----------------------------------------------------------------------
     # Agent / coding — non-SWE-bench (need adapter scripts)
     # -----------------------------------------------------------------------
@@ -211,12 +210,11 @@ BENCHMARKS: list[BenchmarkDef] = [
         status="ADAPTER",
         instances=0,
         description="Qwen-curated coding benchmark emphasizing algorithm implementation.",
-        dataset_id="Qwen/QwenClawBench",   # unverified
+        dataset_id="Qwen/QwenClawBench",  # unverified
         adapter_script="scripts/adapters/qwenclawbench_adapter.py",
         leaderboard_url="https://github.com/QwenLM",
         notes="Likely HuggingFace-hosted. Verify dataset ID and task format before adapting.",
     ),
-
     # -----------------------------------------------------------------------
     # Web / browser agent
     # -----------------------------------------------------------------------
@@ -232,7 +230,6 @@ BENCHMARKS: list[BenchmarkDef] = [
         leaderboard_url="https://github.com/QwenLM",
         notes="Requires browser automation (Playwright/Puppeteer) and live Elo submission. No local harness today.",
     ),
-
     # -----------------------------------------------------------------------
     # Reasoning / multimodal (non-coding)
     # -----------------------------------------------------------------------
@@ -279,9 +276,9 @@ BENCH_BY_ID: dict[str, BenchmarkDef] = {b.id: b for b in BENCHMARKS}
 # Groups for --bench all-swebench etc.
 GROUPS: dict[str, list[str]] = {
     "all-swebench": ["swebench-lite", "swebench-verified", "swebench-full"],
-    "all-ready":    [b.id for b in BENCHMARKS if b.status == "READY"],
-    "all-coding":   [b.id for b in BENCHMARKS if b.category == "coding"],
-    "all":          [b.id for b in BENCHMARKS],
+    "all-ready": [b.id for b in BENCHMARKS if b.status == "READY"],
+    "all-coding": [b.id for b in BENCHMARKS if b.category == "coding"],
+    "all": [b.id for b in BENCHMARKS],
 }
 
 
@@ -290,26 +287,26 @@ GROUPS: dict[str, list[str]] = {
 # ---------------------------------------------------------------------------
 
 STATUS_ICON = {
-    "READY":    "✅",
-    "PENDING":  "⚠️ ",
-    "ADAPTER":  "🔧",
+    "READY": "✅",
+    "PENDING": "⚠️ ",
+    "ADAPTER": "🔧",
     "EXTERNAL": "🌐",
 }
 
 CATEGORY_ICON = {
-    "coding":    "🐍",
-    "agent":     "🤖",
+    "coding": "🐍",
+    "agent": "🤖",
     "reasoning": "🧠",
-    "multimodal":"👁️ ",
+    "multimodal": "👁️ ",
 }
 
 
 def print_list() -> None:
     """Print all benchmarks in a formatted table."""
     cols = {
-        "READY":    [],
-        "PENDING":  [],
-        "ADAPTER":  [],
+        "READY": [],
+        "PENDING": [],
+        "ADAPTER": [],
         "EXTERNAL": [],
     }
     for b in BENCHMARKS:
@@ -322,7 +319,7 @@ def print_list() -> None:
         print("─" * 72)
         for b in items:
             size = f"{b.instances:,}inst" if b.instances else "?inst"
-            cat  = CATEGORY_ICON.get(b.category, "  ")
+            cat = CATEGORY_ICON.get(b.category, "  ")
             print(f"  {cat}  {b.id:<28} {size:<10}  {b.name}")
             if b.notes:
                 for line in textwrap.wrap(b.notes, width=64):
@@ -344,6 +341,7 @@ def print_list() -> None:
 # ---------------------------------------------------------------------------
 # Runner helpers
 # ---------------------------------------------------------------------------
+
 
 def _build_configs(args: argparse.Namespace) -> list[str]:
     """Expand --config a,b,d into list of config slugs."""
@@ -367,12 +365,14 @@ def run_swebench(bench: BenchmarkDef, args: argparse.Namespace) -> int:
     results: list[int] = []
 
     for config in configs:
-        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
         cmd = [
             sys.executable,
             str(_SCRIPTS / "determinex_swebench_run.py"),
-            "--config", config,
-            "--split", bench.swebench_split,
+            "--config",
+            config,
+            "--split",
+            bench.swebench_split,
         ]
         if args.cloak:
             cmd.append("--cloak")
@@ -400,7 +400,9 @@ def run_benchmark(bench: BenchmarkDef, args: argparse.Namespace) -> int:
     if not bench.runnable:
         log.error(
             "Benchmark '%s' is not yet runnable (status=%s). %s",
-            bench.id, bench.status, bench.notes,
+            bench.id,
+            bench.status,
+            bench.notes,
         )
         return 1
 
@@ -426,6 +428,7 @@ def run_benchmark(bench: BenchmarkDef, args: argparse.Namespace) -> int:
 # Status report
 # ---------------------------------------------------------------------------
 
+
 def run_status(bench: BenchmarkDef, args: argparse.Namespace) -> None:
     """Show the latest run results for a benchmark."""
     swebench_logs = _ROOT / "logs" / "swebench"
@@ -444,7 +447,7 @@ def run_status(bench: BenchmarkDef, args: argparse.Namespace) -> None:
         return
 
     latest = runs[0]
-    pred_path  = latest / "predictions.jsonl"
+    pred_path = latest / "predictions.jsonl"
     result_path = latest / "results.json"
 
     pred_count = 0
@@ -452,7 +455,7 @@ def run_status(bench: BenchmarkDef, args: argparse.Namespace) -> None:
         with pred_path.open(encoding="utf-8") as f:
             pred_count = sum(1 for line in f if line.strip())
 
-    print(f"\n{'─'*60}")
+    print(f"\n{'─' * 60}")
     print(f"  Latest run: {latest.name}")
     print(f"  Predictions: {pred_count}")
     if result_path.exists():
@@ -461,12 +464,13 @@ def run_status(bench: BenchmarkDef, args: argparse.Namespace) -> None:
             print(f"  Results: {json.dumps(data, indent=2)}")
         except Exception:
             pass
-    print(f"{'─'*60}\n")
+    print(f"{'─' * 60}\n")
 
 
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
@@ -475,29 +479,40 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     p.add_argument(
-        "--list", action="store_true",
+        "--list",
+        action="store_true",
         help="List all benchmarks and their status, then exit.",
     )
     p.add_argument(
-        "--bench", metavar="BENCH_ID",
+        "--bench",
+        metavar="BENCH_ID",
         help="Benchmark(s) to run. Single ID, comma-separated, or a group name (all-swebench, all-ready, all).",
     )
     p.add_argument(
-        "--status", metavar="BENCH_ID",
+        "--status",
+        metavar="BENCH_ID",
         help="Show latest run status for a benchmark.",
     )
     p.add_argument(
-        "--config", metavar="a,b,d",
+        "--config",
+        metavar="a,b,d",
         help="Determinex config(s) to evaluate: b=DeepSeek both, d=Claude+DeepSeek. Default: d.",
     )
     p.add_argument("--cloak", action="store_true", help="Enable Project Cloak (AST obfuscation).")
-    p.add_argument("--parallel", type=int, default=4, metavar="N", help="Parallel workers. Default: 4.")
+    p.add_argument(
+        "--parallel", type=int, default=4, metavar="N", help="Parallel workers. Default: 4."
+    )
     p.add_argument("--instances", type=int, metavar="N", help="Limit to first N instances.")
     p.add_argument("--all", action="store_true", help="Run all instances in the split.")
-    p.add_argument("--repos-dir", metavar="PATH", default="T:/determinex-swebench",
-                   help="Pre-cloned repos directory. Default: T:/determinex-swebench.")
-    p.add_argument("--instance-ids", nargs="+", metavar="ID",
-                   help="Run specific instance IDs only.")
+    p.add_argument(
+        "--repos-dir",
+        metavar="PATH",
+        default="T:/determinex-swebench",
+        help="Pre-cloned repos directory. Default: T:/determinex-swebench.",
+    )
+    p.add_argument(
+        "--instance-ids", nargs="+", metavar="ID", help="Run specific instance IDs only."
+    )
     return p
 
 

@@ -25,7 +25,9 @@ Run:
   python scripts/analysis/extract_pb_training_corpus.py --tool kyoh86__richgo.313114f
   python scripts/analysis/extract_pb_training_corpus.py --min-fixture-size 1 --max-fixture-bytes 4000
 """
+
 from __future__ import annotations
+
 import argparse
 import ast
 import json
@@ -81,10 +83,12 @@ def find_test_functions(test_file: Path) -> list[dict]:
             # Find end line: ast doesn't give end_lineno on older Python but 3.8+ does
             end = getattr(node, "end_lineno", None) or start + 30
             lines = src.splitlines()[start:end]
-            out.append({
-                "name": node.name,
-                "source": "\n".join(lines)[:3000],
-            })
+            out.append(
+                {
+                    "name": node.name,
+                    "source": "\n".join(lines)[:3000],
+                }
+            )
     return out
 
 
@@ -219,8 +223,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tool", help="single tool slug (e.g. kyoh86__richgo.313114f)")
     ap.add_argument("--max-fixture-bytes", type=int, default=2000)
-    ap.add_argument("--all", action="store_true",
-                    help="process all 194 tools (default if no --tool)")
+    ap.add_argument(
+        "--all", action="store_true", help="process all 194 tools (default if no --tool)"
+    )
     args = ap.parse_args()
 
     if not EXTRACTED.is_dir():

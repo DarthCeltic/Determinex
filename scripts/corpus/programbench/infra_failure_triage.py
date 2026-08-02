@@ -5,10 +5,11 @@ import argparse
 import json
 import re
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -17,7 +18,10 @@ if str(_SCRIPTS) not in sys.path:
 from corpus.corpus_manager import verify_signature
 from corpus.legacy_recovery.artifact_source_registry import ArtifactSourceRegistry
 from corpus.legacy_recovery.artifact_trust_policy import evaluate_artifact_policy
-from corpus.programbench.infra_failure_triage_record import make_infra_failure_triage_record, write_infra_failure_triage_record
+from corpus.programbench.infra_failure_triage_record import (
+    make_infra_failure_triage_record,
+    write_infra_failure_triage_record,
+)
 from corpus.programbench.real_bounded_rerun_record import verify_real_rerun_record
 
 
@@ -57,7 +61,9 @@ class InfraFailureTriageConfig:
 class ProgramBenchInfraFailureTriage:
     def __init__(self, config: InfraFailureTriageConfig | None = None) -> None:
         self.config = config or InfraFailureTriageConfig()
-        self.source_registry = ArtifactSourceRegistry(self._resolve(self.config.artifact_sources_path))
+        self.source_registry = ArtifactSourceRegistry(
+            self._resolve(self.config.artifact_sources_path)
+        )
 
     def triage(self, source_record_path: Path) -> dict[str, Any]:
         path = self._resolve(source_record_path)
@@ -77,7 +83,9 @@ class ProgramBenchInfraFailureTriage:
         failure_statuses.append(local_status)
 
         provenance = self._classify_provenance(missing_image)
-        failure_statuses.extend(status for status in provenance["statuses"] if status not in failure_statuses)
+        failure_statuses.extend(
+            status for status in provenance["statuses"] if status not in failure_statuses
+        )
         source_status = str(provenance["source_status"])
         provenance_status = str(provenance["provenance_status"])
 
@@ -116,10 +124,14 @@ class ProgramBenchInfraFailureTriage:
                 "read_only_local_image_inspection": self.config.image_lister is not None,
             },
         )
-        output_path = write_infra_failure_triage_record(triage_record, self._resolve(self.config.output_dir))
+        output_path = write_infra_failure_triage_record(
+            triage_record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(output_path), "record": triage_record}
 
-    def _write_unrecognized(self, source_record_path: Path, source_record: dict[str, Any], reasons: list[str]) -> dict[str, Any]:
+    def _write_unrecognized(
+        self, source_record_path: Path, source_record: dict[str, Any], reasons: list[str]
+    ) -> dict[str, Any]:
         triage_record = make_infra_failure_triage_record(
             status=InfraFailureTriageStatus.INFRA_FAILURE_UNRECOGNIZED.value,
             source_record=_rel(self.config.root, source_record_path),
@@ -132,7 +144,9 @@ class ProgramBenchInfraFailureTriage:
             recovery_recommendation="Classify the infra failure before any new rerun attempt.",
             evidence={"reasons": reasons},
         )
-        output_path = write_infra_failure_triage_record(triage_record, self._resolve(self.config.output_dir))
+        output_path = write_infra_failure_triage_record(
+            triage_record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(output_path), "record": triage_record}
 
     def _local_image_status(self, image: str) -> str:
@@ -344,10 +358,16 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Triage a ProgramBench real bounded rerun infra failure.")
+    parser = argparse.ArgumentParser(
+        description="Triage a ProgramBench real bounded rerun infra failure."
+    )
     parser.add_argument("source_record", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_infra_failure_triage"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_infra_failure_triage"),
+    )
     args = parser.parse_args()
     result = ProgramBenchInfraFailureTriage(
         InfraFailureTriageConfig(root=args.root, output_dir=args.output_dir)

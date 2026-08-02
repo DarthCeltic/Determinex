@@ -8,6 +8,7 @@ plugins or PYTHONPATH gymnastics.
 Also exposes a couple of light fixtures shared by the cloak and swebench
 smoke tests.
 """
+
 from __future__ import annotations
 
 import os
@@ -157,30 +158,34 @@ def sample_python_module(tmp_repo: Path) -> Path:
 # Centralised rather than marked file by file: 123 files is 123 chances to miss one, and
 # every new lock test would inherit the same trap. The guards stay FULLY live in the
 # development checkout, which is the only place the evidence exists to be guarded.
-_EVIDENCE_INDEX = Path(__file__).resolve().parent.parent / "assurance" / "evidence" / "evidence_index.json"
+_EVIDENCE_INDEX = (
+    Path(__file__).resolve().parent.parent / "assurance" / "evidence" / "evidence_index.json"
+)
 
-_EVIDENCE_TESTS = frozenset({
-    "test_evidence_artifact_present",
-    "test_evidence_index_entry_present",
-    # The `*_final_state_lock` family evaluates a record assembled FROM the evidence tree,
-    # and fails with "evidence artifact file missing on disk: assurance/evidence/...".
-    # Named individually rather than exempting their modules: those five modules hold 61
-    # tests of which only these 20 read evidence, and skipping all 61 to cover 20 is the
-    # over-skip this file already has one scar from.
-    "test_aggregate_invariants",
-    "test_all_six_dimensions_closed",
-    "test_all_two_dimensions_closed",
-    "test_live_evaluation_all_dimensions_closed",
-    "test_live_evaluation_all_eight_dimensions_closed",
-    "test_live_evaluation_passes",
-    "test_live_evaluation_safe_for_cross_lane_boundary",
-    "test_missing_rung_blocks",
-    "test_next_recommended_is_repo_clinic_fixture_repair",
-    "test_next_recommended_rung_is_python_cli_splash",
-    "test_synthetic_full_skeleton_passes",
-    "test_synthetic_repo_passes_when_complete",
-    "test_synthetic_skeleton_passes",
-})
+_EVIDENCE_TESTS = frozenset(
+    {
+        "test_evidence_artifact_present",
+        "test_evidence_index_entry_present",
+        # The `*_final_state_lock` family evaluates a record assembled FROM the evidence tree,
+        # and fails with "evidence artifact file missing on disk: assurance/evidence/...".
+        # Named individually rather than exempting their modules: those five modules hold 61
+        # tests of which only these 20 read evidence, and skipping all 61 to cover 20 is the
+        # over-skip this file already has one scar from.
+        "test_aggregate_invariants",
+        "test_all_six_dimensions_closed",
+        "test_all_two_dimensions_closed",
+        "test_live_evaluation_all_dimensions_closed",
+        "test_live_evaluation_all_eight_dimensions_closed",
+        "test_live_evaluation_passes",
+        "test_live_evaluation_safe_for_cross_lane_boundary",
+        "test_missing_rung_blocks",
+        "test_next_recommended_is_repo_clinic_fixture_repair",
+        "test_next_recommended_rung_is_python_cli_splash",
+        "test_synthetic_full_skeleton_passes",
+        "test_synthetic_repo_passes_when_complete",
+        "test_synthetic_skeleton_passes",
+    }
+)
 
 
 def evidence_tree_present(index: Path | None = None) -> bool:
@@ -277,8 +282,10 @@ def pytest_collection_modifyitems(config, items):  # noqa: ARG001
         # evidence, so the rest of the module is still held to every assertion.
         if item.name not in _EVIDENCE_TESTS and "evidence" not in item.name:
             continue
-        item.add_marker(pytest.mark.skip(
-            reason=f"this checkout does not ship assurance/ (publish_mirror.NEVER), which "
-                   f"this test asserts on (missing: {missing[0].name}); the evidence lock "
-                   f"was NOT verified in this run"
-        ))
+        item.add_marker(
+            pytest.mark.skip(
+                reason=f"this checkout does not ship assurance/ (publish_mirror.NEVER), which "
+                f"this test asserts on (missing: {missing[0].name}); the evidence lock "
+                f"was NOT verified in this run"
+            )
+        )

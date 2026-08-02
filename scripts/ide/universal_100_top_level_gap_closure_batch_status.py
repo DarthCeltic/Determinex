@@ -35,6 +35,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -52,7 +53,6 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _has_release_proof_reference,
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 
@@ -317,7 +317,9 @@ def _shell(
         release_deploy_workflow_created=False,
         claim_boundary=(),
         forbidden_claims=(),
-        strongest_truthful_new_claim="(awaiting evidence)" if "AWAITING" in decision else "(blocked)",
+        strongest_truthful_new_claim="(awaiting evidence)"
+        if "AWAITING" in decision
+        else "(blocked)",
         evidence_ref="",
         captions=REQUIRED_PANEL_CAPTIONS,
         fixture_caveats_present=(),
@@ -487,19 +489,29 @@ def load(
     return Universal100TopLevelGapClosureBatchStatus(
         decision=cfg.token("PASSED"),
         target_surface="Universal 100 Top-Level Gap Closure Batch",
-        target_workflow=str(blob.get("target_workflow") or "universal 100 top-level gap closure batch"),
+        target_workflow=str(
+            blob.get("target_workflow") or "universal 100 top-level gap closure batch"
+        ),
         batch_label=cfg.batch_label,
         batch_lock_id=cfg.batch_lock_id,
         cells_promoted=int(blob.get("cells_promoted", len(promoted))),
         cells_blocked=int(blob.get("cells_blocked", len(blocked))),
         release_supported=release_supported,
         user_ready_with_caveats=user_ready_with_caveats,
-        claim_state_counts={str(k): int(v) for k, v in (blob.get("claim_state_counts") or {}).items()},
-        support_state_counts={str(k): int(v) for k, v in (blob.get("support_state_counts") or {}).items()},
-        missing_rung_counts={str(k): int(v) for k, v in (blob.get("missing_rung_counts") or {}).items()},
+        claim_state_counts={
+            str(k): int(v) for k, v in (blob.get("claim_state_counts") or {}).items()
+        },
+        support_state_counts={
+            str(k): int(v) for k, v in (blob.get("support_state_counts") or {}).items()
+        },
+        missing_rung_counts={
+            str(k): int(v) for k, v in (blob.get("missing_rung_counts") or {}).items()
+        },
         blockers_attempted=tuple(str(b) for b in (blob.get("blockers_attempted") or [])),
         blockers_closed=tuple(str(b) for b in (blob.get("blockers_closed") or [])),
-        blockers_partially_closed=tuple(str(b) for b in (blob.get("blockers_partially_closed") or [])),
+        blockers_partially_closed=tuple(
+            str(b) for b in (blob.get("blockers_partially_closed") or [])
+        ),
         blockers_remaining=tuple(str(b) for b in (blob.get("blockers_remaining") or [])),
         promoted_cells=promoted,
         blocked_cells=blocked,

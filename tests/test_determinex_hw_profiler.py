@@ -10,6 +10,7 @@ own census reports "c" as its most common language (thousands of vendored
 ProgramBench reference C archives outweigh the Python/TS source), which
 triggers this exact function on every real oracle-verification call.
 """
+
 from __future__ import annotations
 
 import sys

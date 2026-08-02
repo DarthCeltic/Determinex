@@ -29,24 +29,21 @@ The regex set is centralized here. Both run_ledger.py and any future consumer
 (monitor, advisor, frontend) call `classify_eval_json()` from this module so
 the family taxonomy is single-source.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # Re-use the ledger writer + central taxonomy
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from run_ledger import (  # type: ignore[import-not-found]
-    LedgerEvent, append_event, _existing_eval_artifacts,
-)
 # Family taxonomy lives in determinex_pb_taxonomy. Re-exported here for
 # backwards-compatibility with callers that imported these symbols from
 # scripts/failure_classifier.py before the dedup. Marked F401 because the
@@ -57,13 +54,23 @@ from determinex_pb_taxonomy import (  # type: ignore[import-not-found]  # noqa: 
     classify_one,
     classify_test_results,
 )
+from run_ledger import (  # type: ignore[import-not-found]
+    LedgerEvent,
+    _existing_eval_artifacts,
+    append_event,
+)
+
 __all__ = [
-    "FAMILY_PATTERNS", "classify_one", "classify_test_results",
-    "classify_eval_json", "scan_once", "watch",
+    "FAMILY_PATTERNS",
+    "classify_one",
+    "classify_test_results",
+    "classify_eval_json",
+    "scan_once",
+    "watch",
 ]
 
 
-def classify_eval_json(path: Path, run_id: str) -> Optional[LedgerEvent]:
+def classify_eval_json(path: Path, run_id: str) -> LedgerEvent | None:
     """Parse one eval JSON and return a ledger event. None if the file is broken."""
     try:
         d = json.loads(path.read_text(encoding="utf-8"))
@@ -80,7 +87,7 @@ def classify_eval_json(path: Path, run_id: str) -> Optional[LedgerEvent]:
 
     task_id = path.stem.replace(".eval", "")
     mtime = path.stat().st_mtime
-    ts = datetime.fromtimestamp(mtime, tz=timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    ts = datetime.fromtimestamp(mtime, tz=UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
 
     return LedgerEvent(
         run_id=run_id,
@@ -99,11 +106,17 @@ def classify_eval_json(path: Path, run_id: str) -> Optional[LedgerEvent]:
 # Scan / watch loop
 # ---------------------------------------------------------------------------
 
+
 def scan_once(eval_root: Path, run_id: str) -> dict:
     """Find every *.eval.json under eval_root not already in the ledger; classify + emit."""
     if not eval_root.exists():
-        return {"scanned": 0, "added": 0, "skipped": 0, "errors": 0,
-                "reason": f"missing dir: {eval_root}"}
+        return {
+            "scanned": 0,
+            "added": 0,
+            "skipped": 0,
+            "errors": 0,
+            "reason": f"missing dir: {eval_root}",
+        }
 
     seen = _existing_eval_artifacts(run_id)
     added = skipped = errors = 0
@@ -118,27 +131,38 @@ def scan_once(eval_root: Path, run_id: str) -> dict:
             continue
         append_event(ev)
         added += 1
-    return {"scanned": added + skipped + errors, "added": added,
-            "skipped": skipped, "errors": errors}
+    return {
+        "scanned": added + skipped + errors,
+        "added": added,
+        "skipped": skipped,
+        "errors": errors,
+    }
 
 
 def watch(eval_root: Path, run_id: str, interval: float, quiet_secs: float) -> dict:
     """Poll-and-classify loop. Exits when no new files have arrived for quiet_secs."""
-    print(f"[classifier] watching {eval_root} every {interval}s; quiet exit after {quiet_secs}s",
-          flush=True)
+    print(
+        f"[classifier] watching {eval_root} every {interval}s; quiet exit after {quiet_secs}s",
+        flush=True,
+    )
     total = {"added": 0, "errors": 0}
     last_change = time.time()
     while True:
         r = scan_once(eval_root, run_id)
         if r["added"] > 0:
-            print(f"[classifier] {datetime.now().strftime('%H:%M:%S')} — +{r['added']} new "
-                  f"(total added this session: {total['added'] + r['added']})", flush=True)
+            print(
+                f"[classifier] {datetime.now().strftime('%H:%M:%S')} — +{r['added']} new "
+                f"(total added this session: {total['added'] + r['added']})",
+                flush=True,
+            )
             last_change = time.time()
         total["added"] += r["added"]
         total["errors"] += r["errors"]
         if time.time() - last_change > quiet_secs:
-            print(f"[classifier] quiet for {quiet_secs}s — exiting. session added={total['added']}",
-                  flush=True)
+            print(
+                f"[classifier] quiet for {quiet_secs}s — exiting. session added={total['added']}",
+                flush=True,
+            )
             return total
         time.sleep(interval)
 
@@ -147,17 +171,23 @@ def watch(eval_root: Path, run_id: str, interval: float, quiet_secs: float) -> d
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def _cli():
     ap = argparse.ArgumentParser(description="Determinex continuous failure-family classifier")
-    ap.add_argument("--eval-root", type=Path,
-                    default=Path("T:/determinex-programbench/mass_run_v2_base"))
+    ap.add_argument(
+        "--eval-root", type=Path, default=Path("T:/determinex-programbench/mass_run_v2_base")
+    )
     ap.add_argument("--run-id", default="mass_run_v2_base")
     g = ap.add_mutually_exclusive_group(required=False)
     g.add_argument("--once", action="store_true", help="scan once and exit (default)")
     g.add_argument("--watch", action="store_true", help="poll continuously")
     ap.add_argument("--interval", type=float, default=20.0, help="watch poll interval (s)")
-    ap.add_argument("--quiet-secs", type=float, default=600.0,
-                    help="exit after this many seconds with no new files (watch only)")
+    ap.add_argument(
+        "--quiet-secs",
+        type=float,
+        default=600.0,
+        help="exit after this many seconds with no new files (watch only)",
+    )
     args = ap.parse_args()
 
     if args.watch:

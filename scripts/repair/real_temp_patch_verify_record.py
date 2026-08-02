@@ -1,9 +1,9 @@
 """Records for REAL_TEMP_PATCH_VERIFY_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REAL_TEMP_PATCH_VERIFY_STATUS_TOKENS = (
     "REAL_TEMP_PATCH_VERIFIER_PASSED",

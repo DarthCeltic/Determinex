@@ -19,6 +19,7 @@ kwarg itself) in _extract_kwarg_flag_map, marking it with the _KWARG_PASSTHROUGH
 sentinel, and having _find_run_call's keyword loop splice the kwarg's resolved list
 value into pos_strs directly when it sees that marker.
 """
+
 from __future__ import annotations
 
 import sys
@@ -29,7 +30,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_extract_kwarg_flag_map_recognizes_passthrough_extend():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def _run(input_file, output_file=None, extra_args=None):
     args = ["executable"]
     args.append(str(input_file))
@@ -38,7 +39,7 @@ def _run(input_file, output_file=None, extra_args=None):
     if extra_args:
         args.extend(extra_args)
     return args
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._extract_kwarg_flag_map(func)
     assert result == {"extra_args": iox._KWARG_PASSTHROUGH}
@@ -47,13 +48,13 @@ def _run(input_file, output_file=None, extra_args=None):
 def test_extract_kwarg_flag_map_still_recognizes_fixed_flag_shape():
     """Regression guard: fix 26 must not disturb the existing duckdb-style
     [flag, kwname] 2-element list detection."""
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def _run(sql=None):
     cmd = ["executable"]
     if sql:
         cmd.extend(["-c", sql])
     return cmd
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._extract_kwarg_flag_map(func)
     assert result == {"sql": "-c"}
@@ -61,7 +62,8 @@ def _run(sql=None):
 
 def test_extract_file_resolves_ditaa_shaped_extra_args_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import tempfile
 import pytest
@@ -83,15 +85,17 @@ def run_ditaa(temp_dir):
             args.extend(extra_args)
         return subprocess.run(args, capture_output=True)
     return _run
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_svg_output(run_ditaa, temp_dir):
     input_file = temp_dir / "diagram.txt"
     input_file.write_text("+---+")
     output_file = temp_dir / "out.svg"
     result = run_ditaa(input_file, output_file, extra_args=["--svg"])
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

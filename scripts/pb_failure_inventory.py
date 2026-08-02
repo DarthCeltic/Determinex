@@ -5,6 +5,7 @@ The output is designed to be handed to another coding model or used directly
 for hand-test iteration: exact failing node, source snippet, failure text, and
 a simple cluster label.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -15,7 +16,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -24,8 +24,16 @@ OUT_DIR = ROOT / "logs/programbench_failure_inventory"
 PYTEST_TIMEOUT_S = 180
 EXTRACTED_TESTS_ROOT = Path("T:/determinex-programbench/_extracted_tests")
 _EXE_VAR_NAMES = (
-    "EXECUTABLE", "EXE", "BINARY", "EXEC", "EXEPATH",
-    "EXECUTABLE_PATH", "BIN", "CLI", "CLI_PATH", "PROGRAM",
+    "EXECUTABLE",
+    "EXE",
+    "BINARY",
+    "EXEC",
+    "EXEPATH",
+    "EXECUTABLE_PATH",
+    "BIN",
+    "CLI",
+    "CLI_PATH",
+    "PROGRAM",
 )
 
 
@@ -191,13 +199,15 @@ def extract_failure_blocks(output: str) -> list[dict[str, str]]:
         node = match.group(1)
         seen.add(node)
         message = match.group(2)
-        context = "\n".join(lines[max(0, idx - 8): min(len(lines), idx + 8)])
-        failures.append({
-            "node": node,
-            "message": message,
-            "context": context,
-            "cluster": classify_failure(node, f"{message}\n{context}"),
-        })
+        context = "\n".join(lines[max(0, idx - 8) : min(len(lines), idx + 8)])
+        failures.append(
+            {
+                "node": node,
+                "message": message,
+                "context": context,
+                "cluster": classify_failure(node, f"{message}\n{context}"),
+            }
+        )
     for idx, line in enumerate(lines):
         match = re.match(r"FAILED\s+(\S+)\s*$", line)
         if not match:
@@ -205,13 +215,15 @@ def extract_failure_blocks(output: str) -> list[dict[str, str]]:
         node = match.group(1)
         if node in seen:
             continue
-        context = "\n".join(lines[max(0, idx - 8): min(len(lines), idx + 8)])
-        failures.append({
-            "node": node,
-            "message": "",
-            "context": context,
-            "cluster": classify_failure(node, context),
-        })
+        context = "\n".join(lines[max(0, idx - 8) : min(len(lines), idx + 8)])
+        failures.append(
+            {
+                "node": node,
+                "message": "",
+                "context": context,
+                "cluster": classify_failure(node, context),
+            }
+        )
     return failures
 
 
@@ -250,8 +262,15 @@ def inventory_tool(slug: str, candidate: Path, branch_limit: int) -> dict[str, A
         try:
             proc = subprocess.run(
                 [
-                    sys.executable, "-m", "pytest", str(tests_dir),
-                    "-q", "--tb=short", "--no-header", "-p", "no:cacheprovider",
+                    sys.executable,
+                    "-m",
+                    "pytest",
+                    str(tests_dir),
+                    "-q",
+                    "--tb=short",
+                    "--no-header",
+                    "-p",
+                    "no:cacheprovider",
                 ],
                 capture_output=True,
                 encoding="utf-8",
@@ -266,13 +285,15 @@ def inventory_tool(slug: str, candidate: Path, branch_limit: int) -> dict[str, A
             for failure in branch_failures:
                 failure["branch"] = branch.name
                 failure["source"] = locate_test_source(tests_dir, failure["node"])
-            out["branches"].append({
-                "branch": branch.name,
-                "returncode": proc.returncode,
-                "counts": counts,
-                "patched_files": [str(path) for path, _ in originals],
-                "failure_count": len(branch_failures),
-            })
+            out["branches"].append(
+                {
+                    "branch": branch.name,
+                    "returncode": proc.returncode,
+                    "counts": counts,
+                    "patched_files": [str(path) for path, _ in originals],
+                    "failure_count": len(branch_failures),
+                }
+            )
             out["failures"].extend(branch_failures)
         finally:
             restore(originals)
@@ -303,24 +324,26 @@ def write_markdown(report: dict[str, Any], path: Path) -> None:
         lines.append(f"- `{cluster}`: {count}")
     lines.extend(["", "## Failures", ""])
     for idx, failure in enumerate(report["failures"], 1):
-        lines.extend([
-            f"### {idx}. `{failure['node']}`",
-            "",
-            f"- branch: `{failure['branch']}`",
-            f"- cluster: `{failure['cluster']}`",
-            f"- message: `{failure['message']}`",
-            "",
-            "Test source:",
-            "```python",
-            failure.get("source", ""),
-            "```",
-            "",
-            "Failure context:",
-            "```text",
-            failure.get("context", ""),
-            "```",
-            "",
-        ])
+        lines.extend(
+            [
+                f"### {idx}. `{failure['node']}`",
+                "",
+                f"- branch: `{failure['branch']}`",
+                f"- cluster: `{failure['cluster']}`",
+                f"- message: `{failure['message']}`",
+                "",
+                "Test source:",
+                "```python",
+                failure.get("source", ""),
+                "```",
+                "",
+                "Failure context:",
+                "```text",
+                failure.get("context", ""),
+                "```",
+                "",
+            ]
+        )
     path.write_text("\n".join(lines), encoding="utf-8")
 
 

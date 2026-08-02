@@ -22,7 +22,6 @@ from __future__ import annotations
 import logging
 import os
 import re
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -111,10 +110,21 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
             fh.write("def test_smoke():\n    assert 1 + 1 == 2\n")
         try:
             result = subprocess.run(
-                [sys.executable, "-m", "pytest", "--collect-only", "-q",
-                 "--override-ini", "addopts="] if addopts is None else
-                [sys.executable, "-m", "pytest", "--collect-only", "-q"],
-                cwd=tmp, capture_output=True, text=True, timeout=20,
+                [
+                    sys.executable,
+                    "-m",
+                    "pytest",
+                    "--collect-only",
+                    "-q",
+                    "--override-ini",
+                    "addopts=",
+                ]
+                if addopts is None
+                else [sys.executable, "-m", "pytest", "--collect-only", "-q"],
+                cwd=tmp,
+                capture_output=True,
+                text=True,
+                timeout=20,
             )
             if result.returncode != 0:
                 err = (result.stderr or result.stdout).strip().splitlines()

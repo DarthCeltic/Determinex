@@ -34,6 +34,7 @@ an argument, previously counted as "resolved", now either correctly resolved wit
 real value or correctly left skipped) -- not reverts of fixes 19/20, which stay in
 place and are independently tested elsewhere.
 """
+
 from __future__ import annotations
 
 import sys
@@ -42,8 +43,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import determinex_io_extractor as iox  # noqa: E402
 
-
 # ---------- fix A: inline scratch/output paths ----------
+
 
 def test_file_arg_resolves_inline_tmp_path_scratch_output():
     node = iox.ast.parse('str(tmp_path / "angle_dist.xvg")').body[0].value
@@ -68,7 +69,8 @@ def test_file_arg_does_not_treat_resources_path_as_scratch():
 
 def test_extract_file_resolves_multi_arg_call_with_scratch_output(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 
 def run_gmx():
@@ -79,12 +81,14 @@ def run_gmx():
         cmd.extend(args)
         return subprocess.run(cmd, capture_output=True)
     return _run
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_angle(run_gmx, tmp_path):
     result = run_gmx("angle", "-od", str(tmp_path / "angle_dist.xvg"))
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -96,7 +100,7 @@ def test_control_flow_argv_regression_still_stays_unresolved(tmp_path):
     """The original fix-19-introduced regression this session already caught and fixed
     stays fixed: a control-flow-built argv must never resolve via the scratch-path
     branch or anywhere else -- confirms fix A didn't reopen that hole."""
-    src = '''
+    src = """
 import subprocess
 
 def run_command(args):
@@ -108,7 +112,7 @@ def test_conditional(flag_value):
         args.extend(["-o", "test.png"])
     result = run_command(args)
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -117,15 +121,16 @@ def test_conditional(flag_value):
 
 # ---------- fix B: fixtures returning a real (non-executable) file path ----------
 
+
 def test_track_fixture_real_file_paths_finds_path_expression():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import pytest
 from pathlib import Path
 
 @pytest.fixture
 def monkey_wav():
     return Path(__file__).parent.parent.parent / "src" / "monkey.wav"
-''')
+""")
     exprs = iox._track_fixture_real_file_paths(tree)
     assert "monkey_wav" in exprs
     assert isinstance(exprs["monkey_wav"], iox.ast.BinOp)
@@ -135,14 +140,14 @@ def test_track_fixture_real_file_paths_excludes_executable_shaped_fixtures():
     """A fixture whose path ends in 'executable' belongs to the executable-fixture
     mechanism (_fixture_return_const/_track_fixtures), not this one -- must not be
     double-counted here."""
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import pytest
 from pathlib import Path
 
 @pytest.fixture
 def sox_binary():
     return Path(__file__).parent.parent.parent / "executable"
-''')
+""")
     assert iox._track_fixture_real_file_paths(tree) == {}
 
 
@@ -152,7 +157,8 @@ def test_extract_file_resolves_fixture_bound_real_file_end_to_end(tmp_path):
     (resources / "monkey.wav").write_bytes(b"RIFF....WAVEfmt ")
     tests_dir = tmp_path / "eval" / "tests"
     tests_dir.mkdir(parents=True)
-    (tests_dir / "conftest.py").write_text('''
+    (tests_dir / "conftest.py").write_text(
+        """
 import pytest
 import subprocess
 from pathlib import Path
@@ -171,12 +177,14 @@ def run_sox(sox_binary):
         cmd = [str(sox_binary)] + list(args)
         return subprocess.run(cmd, capture_output=True)
     return _run
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_rate_option_invalid(run_sox, monkey_wav):
     result = run_sox("-r", "invalid", str(monkey_wav), "/tmp/out.wav")
     assert result.returncode != 0
-'''
+"""
     f = tests_dir / "test_cli_options.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

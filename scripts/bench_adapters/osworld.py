@@ -22,6 +22,7 @@ OSWorld task schema (subset):
     "snapshot": "snapshot_id"
   }
 """
+
 from __future__ import annotations
 
 import sys
@@ -40,7 +41,7 @@ from agents.base_agent import EnvType, VisualTaskSpec
 class OSWorldTask:
     task_id: str
     instruction: str
-    snapshot: str                       # VM snapshot name to restore before task
+    snapshot: str  # VM snapshot name to restore before task
     config: list[dict[str, Any]] = field(default_factory=list)
     evaluator: dict[str, Any] = field(default_factory=dict)
     screenshot_path: Path | None = None
@@ -119,18 +120,32 @@ class OSWorldAdapter:
     @staticmethod
     def load_tasks(json_path: Path) -> list[OSWorldTask]:
         import json
+
         data = json.loads(json_path.read_text())
         tasks = []
-        for item in (data if isinstance(data, list) else [data]):
+        for item in data if isinstance(data, list) else [data]:
             ss = item.get("screenshot")
-            tasks.append(OSWorldTask(
-                task_id=str(item.get("id", "")),
-                instruction=item.get("instruction", ""),
-                snapshot=item.get("snapshot", ""),
-                config=item.get("config", []),
-                evaluator=item.get("evaluator", {}),
-                screenshot_path=Path(ss) if ss else None,
-                metadata={k: v for k, v in item.items()
-                           if k not in ("id", "instruction", "snapshot", "config", "evaluator", "screenshot")},
-            ))
+            tasks.append(
+                OSWorldTask(
+                    task_id=str(item.get("id", "")),
+                    instruction=item.get("instruction", ""),
+                    snapshot=item.get("snapshot", ""),
+                    config=item.get("config", []),
+                    evaluator=item.get("evaluator", {}),
+                    screenshot_path=Path(ss) if ss else None,
+                    metadata={
+                        k: v
+                        for k, v in item.items()
+                        if k
+                        not in (
+                            "id",
+                            "instruction",
+                            "snapshot",
+                            "config",
+                            "evaluator",
+                            "screenshot",
+                        )
+                    },
+                )
+            )
         return tasks

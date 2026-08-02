@@ -4,18 +4,30 @@ determinex_cloak/restoration.py — Component 6: RestorationEngine.
 Reverses obfuscation on AI-generated patches and file content.
 Unrecognized x_NNNN tokens (AI-invented names) pass through unchanged.
 """
+
 from __future__ import annotations
 
 import re
-from typing import Optional
 
 from .symbol_map import SymbolMap
 
-_X_TOKEN_RE = re.compile(r'\bx_\d{4}\b')
+_X_TOKEN_RE = re.compile(r"\bx_\d{4}\b")
 
 # Unified diff header prefixes — never touch these lines
-_DIFF_HEADERS = ("---", "+++", "@@", "diff ", "index ", "new file", "old mode",
-                 "new mode", "deleted file", "similarity", "rename", "copy")
+_DIFF_HEADERS = (
+    "---",
+    "+++",
+    "@@",
+    "diff ",
+    "index ",
+    "new file",
+    "old mode",
+    "new mode",
+    "deleted file",
+    "similarity",
+    "rename",
+    "copy",
+)
 
 
 def restore_file_content(obfuscated: str, symbol_map: SymbolMap) -> str:
@@ -36,7 +48,7 @@ def restore_file_content(obfuscated: str, symbol_map: SymbolMap) -> str:
 def restore_patch(
     raw_patch: str,
     symbol_map: SymbolMap,
-) -> tuple[Optional[str], Optional[str]]:
+) -> tuple[str | None, str | None]:
     """
     Restore obfuscated identifiers in a unified diff patch.
 

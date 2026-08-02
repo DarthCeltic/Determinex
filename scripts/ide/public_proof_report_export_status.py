@@ -33,6 +33,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -48,7 +49,6 @@ if str(_SCRIPTS) not in sys.path:
 from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 _EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "public_proof_report_export"
@@ -277,7 +277,10 @@ def load(
 
     contract = blob.get("proof_report_export_contract") or {}
     contract_fields_raw = contract.get("fields") or []
-    if not isinstance(contract_fields_raw, list) or len(contract_fields_raw) != EXPECTED_FIELDS_COUNT:
+    if (
+        not isinstance(contract_fields_raw, list)
+        or len(contract_fields_raw) != EXPECTED_FIELDS_COUNT
+    ):
         return _block(
             _token("BLOCKED_FIELD_COUNT_MISMATCH"),
             f"contract.fields length="

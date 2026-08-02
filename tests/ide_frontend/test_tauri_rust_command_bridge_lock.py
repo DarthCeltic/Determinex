@@ -10,9 +10,9 @@ Tauri-side seam. Tests validate:
   * the integration recipe doc exists
   * lock + evidence + index entries present
 """
+
 from __future__ import annotations
 
-import importlib
 import json
 import re
 import subprocess
@@ -53,13 +53,15 @@ REQUIRED_COMMANDS = (
 )
 
 
-REQUIRED_STATUS_TOKENS = frozenset({
-    "TAURI_RUST_COMMAND_BRIDGE_READY",
-    "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_NO_TAURI_APP",
-    "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
-    "TAURI_COMMAND_SOURCE_MUTATION_BLOCKED",
-    "TAURI_COMMAND_TEMP_ONLY",
-})
+REQUIRED_STATUS_TOKENS = frozenset(
+    {
+        "TAURI_RUST_COMMAND_BRIDGE_READY",
+        "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_NO_TAURI_APP",
+        "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
+        "TAURI_COMMAND_SOURCE_MUTATION_BLOCKED",
+        "TAURI_COMMAND_TEMP_ONLY",
+    }
+)
 
 
 def test_rust_bridge_file_exists():
@@ -96,10 +98,15 @@ def test_python_driver_exists_and_dispatches():
     assert PY_DRIVER.is_file()
 
     # Smoke: spawn the driver with a known command + workspace.
-    args_json = json.dumps({"workspace": str(_REPO_ROOT / "tests" / "fixtures" / "intake" / "python_broken")})
+    args_json = json.dumps(
+        {"workspace": str(_REPO_ROOT / "tests" / "fixtures" / "intake" / "python_broken")}
+    )
     proc = subprocess.run(
         [sys.executable, str(PY_DRIVER), "open_workspace", args_json],
-        capture_output=True, text=True, timeout=30, cwd=str(_REPO_ROOT),
+        capture_output=True,
+        text=True,
+        timeout=30,
+        cwd=str(_REPO_ROOT),
     )
     assert proc.returncode == 0, f"driver exit {proc.returncode}: stderr={proc.stderr!r}"
     response = json.loads(proc.stdout.strip().splitlines()[-1])
@@ -112,7 +119,10 @@ def test_python_driver_exists_and_dispatches():
 def test_python_driver_returns_unknown_for_bad_command():
     proc = subprocess.run(
         [sys.executable, str(PY_DRIVER), "snake_oil_command", "{}"],
-        capture_output=True, text=True, timeout=30, cwd=str(_REPO_ROOT),
+        capture_output=True,
+        text=True,
+        timeout=30,
+        cwd=str(_REPO_ROOT),
     )
     assert proc.returncode == 0
     response = json.loads(proc.stdout.strip().splitlines()[-1])
@@ -137,7 +147,7 @@ def test_rust_file_does_not_call_network():
 def test_rust_file_does_not_use_shell_true():
     src = RUST_BRIDGE.read_text(encoding="utf-8")
     # Rust subprocess doesn't have shell=True but might use `sh -c`.
-    forbidden = ("sh -c", "cmd.exe /c", ".arg(\"-c\")")
+    forbidden = ("sh -c", "cmd.exe /c", '.arg("-c")')
     for needle in forbidden:
         assert needle not in src, f"shell-string invocation: {needle}"
 

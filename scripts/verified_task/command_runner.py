@@ -96,9 +96,7 @@ class CommandRunner:
             timeout_seconds=timeout_seconds,
         )
 
-    def run_argv(
-        self, argv: list[str], *, cwd: Path, timeout_seconds: int
-    ) -> CommandResult:
+    def run_argv(self, argv: list[str], *, cwd: Path, timeout_seconds: int) -> CommandResult:
         """Stricter API for callers that already have an argv list. No shell
         wrapping; the program is invoked directly via the hardened runner."""
         return self._run_inner(

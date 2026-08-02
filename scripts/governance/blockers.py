@@ -9,6 +9,7 @@ gate is blocking a whole tool/task. ADJUDICATOR_VERDICT_HINT maps each blocker t
 the amplifier verdict it most resembles, so the two taxonomies stay aligned
 instead of drifting into two unrelated vocabularies.
 """
+
 from __future__ import annotations
 
 BLOCKER_ORDER = [
@@ -48,15 +49,15 @@ LANGUAGE_UNIVERSE_BLOCKERS = [
 # Keep the project blocker taxonomy aligned with the Adjudicator's verdicts.
 # (See scripts/determinex_adjudicator.py Verdict.)
 ADJUDICATOR_VERDICT_HINT = {
-    "TOOLCHAIN_MISSING_OR_UNVERIFIED": "MATCH",   # install / reproduce env
+    "TOOLCHAIN_MISSING_OR_UNVERIFIED": "MATCH",  # install / reproduce env
     "HARDWARE_OR_TOOLCHAIN_REQUIRED": "MATCH",
     "LOCAL_VERIFIER_REQUIRED": "MATCH",
     "MULTI_SERVICE_LOCAL_VERIFIER_REQUIRED": "MATCH",
     "PROVIDER_OR_NETWORK_GATE_REQUIRED": "MATCH",
-    "CONCRETE_FIXTURE_REQUIRED": "UNBLOCK",        # provide the missing fixture
+    "CONCRETE_FIXTURE_REQUIRED": "UNBLOCK",  # provide the missing fixture
     "REGISTRY_INGESTION_REQUIRED": "UNBLOCK",
     "PARSER_OR_DETECTOR_REQUIRED": "NEEDS_WORK",
-    "SECURITY_REVIEW_REQUIRED": "IMPOSSIBLE",       # external human gate
+    "SECURITY_REVIEW_REQUIRED": "IMPOSSIBLE",  # external human gate
     "LICENSE_OR_COMMERCIAL_REVIEW_REQUIRED": "IMPOSSIBLE",
     "AUTHORITY_GATE_REQUIRED": "IMPOSSIBLE",
 }

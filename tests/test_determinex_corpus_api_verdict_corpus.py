@@ -9,6 +9,7 @@ one) -- these two functions instead stream the file line-by-line so it's at
 least discoverable and literal-text-searchable, without ever loading the
 9GB into memory.
 """
+
 from __future__ import annotations
 
 import json
@@ -27,13 +28,25 @@ def _write_fixture(tmp_path: Path) -> Path:
     p = tmp_path / "fake_verdict.jsonl"
     rows = [
         {"conversations": [{"from": "system", "value": "x"}]},
-        {"slug": "stathissideris__ditaa.f2286c4", "verdict": "lock",
-         "root_cause": "SyntaxError", "fix_summary": "Remove comma"},
-        {"slug": "ast-grep__ast-grep", "verdict": "bounce",
-         "root_cause": "mixed real-fail", "fix_summary": "apply pattern"},
+        {
+            "slug": "stathissideris__ditaa.f2286c4",
+            "verdict": "lock",
+            "root_cause": "SyntaxError",
+            "fix_summary": "Remove comma",
+        },
+        {
+            "slug": "ast-grep__ast-grep",
+            "verdict": "bounce",
+            "root_cause": "mixed real-fail",
+            "fix_summary": "apply pattern",
+        },
         {"conversations": [{"from": "human", "value": "y"}]},
-        {"slug": "oppiliappan__eva.41ae245", "verdict": "lock",
-         "root_cause": "tarball cap", "fix_summary": "rebuild"},
+        {
+            "slug": "oppiliappan__eva.41ae245",
+            "verdict": "lock",
+            "root_cause": "tarball cap",
+            "fix_summary": "rebuild",
+        },
     ]
     text = "\n".join(json.dumps(r) for r in rows)
     text += "\nnot valid json at all\n"  # malformed line must not crash parsing
@@ -79,8 +92,7 @@ def test_verdict_corpus_grep_skips_conversation_records(tmp_path, monkeypatch):
     returned -- grep only surfaces verdict-shaped rows."""
     p = tmp_path / "conv_only.jsonl"
     p.write_text(
-        json.dumps({"conversations": [{"from": "human", "value": "mentions ditaa here"}]})
-        + "\n",
+        json.dumps({"conversations": [{"from": "human", "value": "mentions ditaa here"}]}) + "\n",
         encoding="utf-8",
     )
     monkeypatch.setattr(api, "VERDICT_CORPUS_PATH", p)
@@ -90,8 +102,10 @@ def test_verdict_corpus_grep_skips_conversation_records(tmp_path, monkeypatch):
 
 def test_verdict_corpus_grep_respects_limit(tmp_path, monkeypatch):
     p = tmp_path / "many_locks.jsonl"
-    rows = [{"slug": f"tool{i}", "verdict": "lock", "root_cause": "x", "fix_summary": "y"}
-            for i in range(10)]
+    rows = [
+        {"slug": f"tool{i}", "verdict": "lock", "root_cause": "x", "fix_summary": "y"}
+        for i in range(10)
+    ]
     p.write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
     monkeypatch.setattr(api, "VERDICT_CORPUS_PATH", p)
     hits = api.verdict_corpus_grep("lock", limit=3)

@@ -12,6 +12,7 @@ evaluate() refuses:
     without approval, or risk hidden, or external advisory status
     not caveated -> BLOCKED_AUTHORITY_CONFUSION
 """
+
 from __future__ import annotations
 
 from .maintenance_bay_workflow_record import (
@@ -91,10 +92,7 @@ def evaluate(
     if update_applied_label_enabled and not compatibility_verifier_present:
         return _block(
             "MAINTENANCE_BAY_WORKFLOW_BLOCKED_MISSING_COMPATIBILITY_VERIFIER",
-            note=(
-                "update_applied_label_enabled=True without "
-                "compatibility_verifier_present"
-            ),
+            note=("update_applied_label_enabled=True without compatibility_verifier_present"),
             common=common,
         )
 
@@ -103,8 +101,7 @@ def evaluate(
         return _block(
             "MAINTENANCE_BAY_WORKFLOW_BLOCKED_FALSE_UPDATED_LABEL",
             note=(
-                "'updated' / 'maintained' label cannot be shown without "
-                "post_apply_verifier_passed"
+                "'updated' / 'maintained' label cannot be shown without post_apply_verifier_passed"
             ),
             common=common,
         )

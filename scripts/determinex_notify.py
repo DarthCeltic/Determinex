@@ -9,7 +9,9 @@ Usage:
     determinex_notify.py --level=critical "Pool stalled — 0 progress in 30 min"
     determinex_notify.py --tool=cheat --score=14.98 "Tool result"
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -29,11 +31,11 @@ def detect_platform(url: str) -> str:
 
 
 def discord_payload(msg: str, level: str = "info", tool: str = None, score: float = None) -> dict:
-    colors = {"info": 0x3498db, "ok": 0x2ecc71, "warn": 0xf39c12, "critical": 0xe74c3c}
+    colors = {"info": 0x3498DB, "ok": 0x2ECC71, "warn": 0xF39C12, "critical": 0xE74C3C}
     embed = {
         "title": f"Determinex {level.upper()}",
         "description": msg,
-        "color": colors.get(level, 0x95a5a6),
+        "color": colors.get(level, 0x95A5A6),
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "fields": [],
     }
@@ -45,20 +47,26 @@ def discord_payload(msg: str, level: str = "info", tool: str = None, score: floa
 
 
 def slack_payload(msg: str, level: str = "info", tool: str = None, score: float = None) -> dict:
-    icons = {"info": ":information_source:", "ok": ":white_check_mark:",
-             "warn": ":warning:", "critical": ":rotating_light:"}
+    icons = {
+        "info": ":information_source:",
+        "ok": ":white_check_mark:",
+        "warn": ":warning:",
+        "critical": ":rotating_light:",
+    }
     text = f"{icons.get(level, '')} *Determinex* — {msg}"
-    if tool: text += f"  `{tool}`"
-    if score is not None: text += f"  `{score:.2f}%`"
+    if tool:
+        text += f"  `{tool}`"
+    if score is not None:
+        text += f"  `{score:.2f}%`"
     return {"text": text}
 
 
 def post(url: str, payload: dict) -> bool:
     try:
         data = json.dumps(payload).encode("utf-8")
-        req = urllib.request.Request(url, data=data,
-                                      headers={"Content-Type": "application/json"},
-                                      method="POST")
+        req = urllib.request.Request(
+            url, data=data, headers={"Content-Type": "application/json"}, method="POST"
+        )
         with urllib.request.urlopen(req, timeout=10) as resp:
             return resp.status < 300
     except Exception as e:

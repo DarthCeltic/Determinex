@@ -5,11 +5,11 @@ check passes; Working is disabled until build/test/smoke evidence
 exists; unsupported features are visible; external setup is
 caveated; training is never opened.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDEA_LAB_WORKFLOW_STATUS_TOKENS = (
     "IDEA_LAB_WORKFLOW_WRITTEN",

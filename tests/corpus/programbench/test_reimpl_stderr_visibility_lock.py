@@ -16,6 +16,7 @@ The model was being scored against content it could never see, in any round,
 via any prompt path. Fixed by surfacing expected (and, in failures, actual)
 stderr in all three.
 """
+
 from __future__ import annotations
 
 import sys
@@ -59,8 +60,9 @@ def test_incremental_prompt_passes_observations_to_corpus_recipes(monkeypatch):
     # LOAD-BEARING: without observations=, recipes_for() sees an empty blob and domain
     # recipes (tui/json/table) never auto-fire for decompose stations.
     monkeypatch.setattr(reimpl, "_LANG", "c")
-    tui_obs = OBS.Observation(OBS.Probe("tui-snapshot", [], None, {}, {}),
-                              "\x1b[42m  \x1b[49m", "", 0)
+    tui_obs = OBS.Observation(
+        OBS.Probe("tui-snapshot", [], None, {}, {}), "\x1b[42m  \x1b[49m", "", 0
+    )
     prompt = reimpl.build_incremental_prompt("", tui_obs, [tui_obs], "helptext", "sometool")
     assert "ncurses" in prompt.lower() or "TUI" in prompt
 
@@ -78,7 +80,9 @@ def test_make_verify_failure_text_includes_expected_and_actual_stderr():
 
 def test_make_verify_passes_when_stderr_matches_exactly():
     obs = [OBS.Observation(_err_probe(), "", "Error opening terminal: unknown.\n", 1)]
-    verify = OBS.make_verify(obs, runner=lambda code, probe: ("", "Error opening terminal: unknown.\n", 1))
+    verify = OBS.make_verify(
+        obs, runner=lambda code, probe: ("", "Error opening terminal: unknown.\n", 1)
+    )
     res = verify("int main(){return 1;}")
     assert res.passed
 

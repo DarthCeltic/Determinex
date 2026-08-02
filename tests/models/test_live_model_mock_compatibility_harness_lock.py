@@ -1,12 +1,11 @@
 """Tests for LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -25,7 +24,9 @@ OversizedProvider = harness_mod.OversizedProvider
 EmptyProvider = harness_mod.EmptyProvider
 LIVE_MODEL_RESPONSE_STATUS_TOKENS = harness_mod.LIVE_MODEL_RESPONSE_STATUS_TOKENS
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "LIVE_MODEL_MOCK_COMPATIBILITY_HARNESS_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "live_model_mock_compatibility_harness"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -67,7 +68,9 @@ def test_deterministic_provider_with_valid_schema_passes():
 
 def test_unavailable_provider_blocks():
     r = LiveModelCompatHarness().invoke(
-        UnavailableProvider(), task_class="BUILD_DIAGNOSIS", schema_id="diagnose_v1",
+        UnavailableProvider(),
+        task_class="BUILD_DIAGNOSIS",
+        schema_id="diagnose_v1",
     )
     assert r.status == "MODEL_COMPAT_HARNESS_BLOCKED_PROVIDER_UNAVAILABLE"
     assert r.trusted is False
@@ -75,7 +78,9 @@ def test_unavailable_provider_blocks():
 
 def test_timeout_provider_blocks():
     r = LiveModelCompatHarness().invoke(
-        TimeoutProvider(), task_class="BUILD_DIAGNOSIS", schema_id="diagnose_v1",
+        TimeoutProvider(),
+        task_class="BUILD_DIAGNOSIS",
+        schema_id="diagnose_v1",
     )
     assert r.status == "MODEL_COMPAT_HARNESS_BLOCKED_TIMEOUT"
 
@@ -83,7 +88,8 @@ def test_timeout_provider_blocks():
 def test_malformed_provider_blocks_bad_response():
     r = LiveModelCompatHarness().invoke(
         MalformedProvider(bad_value="not a dict"),
-        task_class="BUILD_DIAGNOSIS", schema_id="diagnose_v1",
+        task_class="BUILD_DIAGNOSIS",
+        schema_id="diagnose_v1",
     )
     assert r.status == "MODEL_COMPAT_HARNESS_BLOCKED_BAD_RESPONSE"
 
@@ -91,21 +97,26 @@ def test_malformed_provider_blocks_bad_response():
 def test_malformed_provider_with_unencodable_value_blocks():
     r = LiveModelCompatHarness().invoke(
         MalformedProvider(bad_value={"k": object()}),
-        task_class="BUILD_DIAGNOSIS", schema_id="diagnose_v1",
+        task_class="BUILD_DIAGNOSIS",
+        schema_id="diagnose_v1",
     )
     assert r.status == "MODEL_COMPAT_HARNESS_BLOCKED_BAD_RESPONSE"
 
 
 def test_oversized_provider_blocks():
     r = LiveModelCompatHarness().invoke(
-        OversizedProvider(), task_class="BUILD_DIAGNOSIS", schema_id="diagnose_v1",
+        OversizedProvider(),
+        task_class="BUILD_DIAGNOSIS",
+        schema_id="diagnose_v1",
     )
     assert r.status == "MODEL_COMPAT_HARNESS_BLOCKED_OVERSIZED"
 
 
 def test_empty_provider_blocks():
     r = LiveModelCompatHarness().invoke(
-        EmptyProvider(), task_class="BUILD_DIAGNOSIS", schema_id="diagnose_v1",
+        EmptyProvider(),
+        task_class="BUILD_DIAGNOSIS",
+        schema_id="diagnose_v1",
     )
     assert r.status == "MODEL_COMPAT_HARNESS_BLOCKED_EMPTY"
 
@@ -113,7 +124,9 @@ def test_empty_provider_blocks():
 def test_schema_validation_missing_keys_blocks():
     p = DeterministicProvider(canned={"some_other_field": "irrelevant"})
     r = LiveModelCompatHarness().invoke(
-        p, task_class="PATCH_PLANNING", schema_id="patch_plan_v1",
+        p,
+        task_class="PATCH_PLANNING",
+        schema_id="patch_plan_v1",
     )
     assert r.status == "MODEL_COMPAT_HARNESS_BLOCKED_SCHEMA_INVALID"
 
@@ -121,7 +134,9 @@ def test_schema_validation_missing_keys_blocks():
 def test_patch_plan_schema_passes_with_required_keys():
     p = DeterministicProvider(canned={"kind": "MOCK", "steps": ["x", "y"]})
     r = LiveModelCompatHarness().invoke(
-        p, task_class="PATCH_PLANNING", schema_id="patch_plan_v1",
+        p,
+        task_class="PATCH_PLANNING",
+        schema_id="patch_plan_v1",
     )
     assert r.status == "MODEL_COMPAT_HARNESS_PASSED"
 
@@ -129,7 +144,9 @@ def test_patch_plan_schema_passes_with_required_keys():
 def test_verifier_schema_passes_with_required_key():
     p = DeterministicProvider(canned={"status": "MOCK_PASS"})
     r = LiveModelCompatHarness().invoke(
-        p, task_class="VERIFIER_SUMMARY", schema_id="verifier_v1",
+        p,
+        task_class="VERIFIER_SUMMARY",
+        schema_id="verifier_v1",
     )
     assert r.status == "MODEL_COMPAT_HARNESS_PASSED"
 
@@ -157,7 +174,8 @@ def test_response_trusted_false_on_every_status():
 def test_response_json_round_trip():
     r = LiveModelCompatHarness().invoke(
         DeterministicProvider(canned={"summary": "ok"}),
-        task_class="BUILD_DIAGNOSIS", schema_id="diagnose_v1",
+        task_class="BUILD_DIAGNOSIS",
+        schema_id="diagnose_v1",
     )
     parsed = json.loads(r.to_json())
     assert parsed["status"] == "MODEL_COMPAT_HARNESS_PASSED"

@@ -27,6 +27,7 @@ itself, sufficient for **backed** — those modules are DATA ENGINE ONLY
 (see ``scripts/validators/__init__.py`` lines 1-9). The matrix tracks
 the inference-side verifier, not the corpus-side filter.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -63,7 +64,9 @@ class CoverageEntry:
 COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
     # ── backed ────────────────────────────────────────────────────────────
     CoverageEntry(
-        language="Python", build_system_id="pip", test_framework_id="pytest",
+        language="Python",
+        build_system_id="pip",
+        test_framework_id="pytest",
         oracle_path=(
             "PythonAdapter.run_shadow_build (py_compile) + "
             "ShadowCompiler.run_tests (pytest) + "
@@ -73,7 +76,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
         notes="End-to-end: syntax compile + pytest execution + signed repair corpus.",
     ),
     CoverageEntry(
-        language="Rust", build_system_id="cargo", test_framework_id="cargo test",
+        language="Rust",
+        build_system_id="cargo",
+        test_framework_id="cargo test",
         oracle_path=(
             "RustAdapter.run_shadow_build (cargo check) + "
             "ShadowCompiler.run_tests (cargo test) + "
@@ -83,7 +88,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
         notes="End-to-end: cargo check + cargo test + signed repair corpus.",
     ),
     CoverageEntry(
-        language="Go", build_system_id="go", test_framework_id="go test",
+        language="Go",
+        build_system_id="go",
+        test_framework_id="go test",
         oracle_path=(
             "GoAdapter.run_shadow_build (go build ./...) + "
             "ShadowCompiler.run_tests (go test ./...) + "
@@ -93,7 +100,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
         notes="End-to-end: go build + go test + signed repair corpus.",
     ),
     CoverageEntry(
-        language="Java", build_system_id="maven", test_framework_id="maven test",
+        language="Java",
+        build_system_id="maven",
+        test_framework_id="maven test",
         oracle_path=(
             "JavaMavenAdapter.run_shadow_build (mvn compile -q) + "
             "ShadowCompiler.run_tests (mvn test -q) + "
@@ -103,7 +112,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
         notes="End-to-end: mvn compile + mvn test + JavaRepairPipeline.",
     ),
     CoverageEntry(
-        language="Java", build_system_id="gradle", test_framework_id="gradle test",
+        language="Java",
+        build_system_id="gradle",
+        test_framework_id="gradle test",
         oracle_path=(
             "JavaGradleAdapter.run_shadow_build (gradle compileJava -q) + "
             "ShadowCompiler.run_tests (gradle test -q) + "
@@ -114,7 +125,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
     ),
     # ── partial ───────────────────────────────────────────────────────────
     CoverageEntry(
-        language="Kotlin", build_system_id="gradle", test_framework_id="junit",
+        language="Kotlin",
+        build_system_id="gradle",
+        test_framework_id="junit",
         oracle_path=(
             "JavaGradleAdapter detects build.gradle.kts but compiles Java "
             "(gradle compileJava), not Kotlin (gradle compileKotlin); JUnit "
@@ -124,7 +137,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
         notes="Detection routes through JavaGradleAdapter; Kotlin-specific compile target NOT wired.",
     ),
     CoverageEntry(
-        language="TypeScript", build_system_id="npm", test_framework_id="jest",
+        language="TypeScript",
+        build_system_id="npm",
+        test_framework_id="jest",
         oracle_path=(
             "NodeAdapter.run_shadow_build (npm run build --if-present) + "
             "ShadowCompiler.run_tests (npx jest --bail --silent) + "
@@ -134,7 +149,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
         notes="Build oracle relies on package.json having a 'build' script — not a true tsc gate. Test execution wired.",
     ),
     CoverageEntry(
-        language="TypeScript", build_system_id="npm", test_framework_id="vitest",
+        language="TypeScript",
+        build_system_id="npm",
+        test_framework_id="vitest",
         oracle_path=(
             "NodeAdapter.run_shadow_build (npm run build --if-present) + "
             "ShadowCompiler.run_tests (npx vitest run)"
@@ -144,7 +161,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
     ),
     # ── missing ───────────────────────────────────────────────────────────
     CoverageEntry(
-        language="C/C++", build_system_id="cmake", test_framework_id="ctest",
+        language="C/C++",
+        build_system_id="cmake",
+        test_framework_id="ctest",
         oracle_path=(
             "No CMake adapter in registry; scripts/validators/cpp_validator.py "
             "exists but is DATA ENGINE ONLY; NATIVE_C_CPP_REPAIR_LOCK_001 "
@@ -154,7 +173,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
         notes="Falls through to UnknownAdapter today.",
     ),
     CoverageEntry(
-        language="C/C++", build_system_id="make", test_framework_id="make test",
+        language="C/C++",
+        build_system_id="make",
+        test_framework_id="make test",
         oracle_path=(
             "No Make adapter in registry; ShadowCompiler.run_tests has 'make test' "
             "entry but no adapter is migrated"
@@ -163,7 +184,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
         notes="Adapter not migrated from legacy if-ladder; falls through to UnknownAdapter.",
     ),
     CoverageEntry(
-        language="Elixir", build_system_id="mix", test_framework_id="exunit",
+        language="Elixir",
+        build_system_id="mix",
+        test_framework_id="exunit",
         oracle_path=(
             "No Mix adapter in registry; ShadowCompiler.run_tests has 'mix test' "
             "entry but no adapter is migrated"
@@ -172,40 +195,51 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
         notes="Adapter not migrated from legacy if-ladder.",
     ),
     CoverageEntry(
-        language=".NET", build_system_id="dotnet", test_framework_id="xunit",
+        language=".NET",
+        build_system_id="dotnet",
+        test_framework_id="xunit",
         oracle_path="No .NET adapter; no oracle path wired",
         status=CoverageStatus.MISSING,
         notes="No detection, no oracle wiring, no repair pipeline.",
     ),
     CoverageEntry(
-        language="PHP", build_system_id="composer", test_framework_id="phpunit",
+        language="PHP",
+        build_system_id="composer",
+        test_framework_id="phpunit",
         oracle_path="No PHP adapter; ShadowCompiler.run_tests has no 'phpunit' entry",
         status=CoverageStatus.MISSING,
         notes="No detection, no oracle wiring.",
     ),
     CoverageEntry(
-        language="Ruby", build_system_id="bundler", test_framework_id="rspec",
+        language="Ruby",
+        build_system_id="bundler",
+        test_framework_id="rspec",
         oracle_path=(
-            "No Ruby adapter; ShadowCompiler.run_tests has 'rspec' entry but no "
-            "adapter is migrated"
+            "No Ruby adapter; ShadowCompiler.run_tests has 'rspec' entry but no adapter is migrated"
         ),
         status=CoverageStatus.MISSING,
         notes="Falls through to UnknownAdapter today.",
     ),
     CoverageEntry(
-        language="Scala", build_system_id="sbt", test_framework_id="scalatest",
+        language="Scala",
+        build_system_id="sbt",
+        test_framework_id="scalatest",
         oracle_path="No Scala adapter; no oracle path wired",
         status=CoverageStatus.MISSING,
         notes="No detection, no oracle wiring, no repair pipeline.",
     ),
     CoverageEntry(
-        language="Swift", build_system_id="swiftpm", test_framework_id="XCTest",
+        language="Swift",
+        build_system_id="swiftpm",
+        test_framework_id="XCTest",
         oracle_path="No Swift adapter; no oracle path wired",
         status=CoverageStatus.MISSING,
         notes="No detection, no oracle wiring, no repair pipeline.",
     ),
     CoverageEntry(
-        language="TypeScript", build_system_id="npm", test_framework_id="mocha",
+        language="TypeScript",
+        build_system_id="npm",
+        test_framework_id="mocha",
         oracle_path=(
             "NodeAdapter.discover_tests returns 'mocha --bail' when "
             "package.json devDeps has mocha, but ShadowCompiler.run_tests "
@@ -216,7 +250,9 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
     ),
     # ── unknown ───────────────────────────────────────────────────────────
     CoverageEntry(
-        language="(any)", build_system_id="unknown", test_framework_id="unknown",
+        language="(any)",
+        build_system_id="unknown",
+        test_framework_id="unknown",
         oracle_path="UnknownAdapter — explicit registry fallback when no manifest detected",
         status=CoverageStatus.UNKNOWN,
         notes="Registry assigns UnknownAdapter when no manifest detected; no verifier path applies.",
@@ -228,9 +264,8 @@ COVERAGE_MATRIX: tuple[CoverageEntry, ...] = (
 # Lookup / classification helpers
 # ---------------------------------------------------------------------------
 
-def lookup(
-    language: str, build_system_id: str, test_framework_id: str
-) -> CoverageEntry:
+
+def lookup(language: str, build_system_id: str, test_framework_id: str) -> CoverageEntry:
     """Return the coverage entry for ``(build_system_id, test_framework_id)``.
 
     Matching is on (build_system_id, test_framework_id) because those are the
@@ -239,8 +274,7 @@ def lookup(
     — never **backed** or **partial**.
     """
     for e in COVERAGE_MATRIX:
-        if (e.build_system_id == build_system_id
-                and e.test_framework_id == test_framework_id):
+        if e.build_system_id == build_system_id and e.test_framework_id == test_framework_id:
             return e
     return CoverageEntry(
         language=language or "(unknown)",
@@ -252,9 +286,7 @@ def lookup(
     )
 
 
-def classify_for_build_test(
-    build_system_id: str, test_framework_id: str
-) -> CoverageStatus:
+def classify_for_build_test(build_system_id: str, test_framework_id: str) -> CoverageStatus:
     """Shortcut: return only the coverage status for the (build, test) pair
     an adapter exposes."""
     return lookup("", build_system_id, test_framework_id).status
@@ -336,18 +368,24 @@ def to_markdown() -> str:
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument(
-        "--emit-md", type=str, default=None,
+        "--emit-md",
+        type=str,
+        default=None,
         help="Write the human-readable matrix to this Markdown file",
     )
     ap.add_argument(
-        "--summary", action="store_true",
+        "--summary",
+        action="store_true",
         help="Print status counts as JSON to stdout",
     )
     ap.add_argument(
-        "--lookup", nargs=3, metavar=("LANG", "BUILD", "TEST"),
+        "--lookup",
+        nargs=3,
+        metavar=("LANG", "BUILD", "TEST"),
         help="Print the coverage entry for (lang, build, test) as JSON",
     )
     args = ap.parse_args(argv)
@@ -364,18 +402,24 @@ def main(argv: list[str] | None = None) -> int:
     if args.lookup:
         lang, build, test = args.lookup
         e = lookup(lang, build, test)
-        print(json.dumps({
-            "language": e.language,
-            "build_system_id": e.build_system_id,
-            "test_framework_id": e.test_framework_id,
-            "status": e.status.value,
-            "oracle_path": e.oracle_path,
-            "notes": e.notes,
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "language": e.language,
+                    "build_system_id": e.build_system_id,
+                    "test_framework_id": e.test_framework_id,
+                    "status": e.status.value,
+                    "oracle_path": e.oracle_path,
+                    "notes": e.notes,
+                },
+                indent=2,
+            )
+        )
 
     return 0
 
 
 if __name__ == "__main__":
     import sys as _sys
+
     _sys.exit(main())

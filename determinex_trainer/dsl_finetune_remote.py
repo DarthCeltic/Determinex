@@ -46,94 +46,125 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 # --kaggle : 2×T4 (32 GB), fp16, batch=2, seq=512. Observer (3B) safe.
 # (default): RunPod RTX 4090/A40, fp16, batch=2, seq=512. All models.
 _args = sys.argv[1:]
-LOCAL_MODE  = "--local"  in _args
+LOCAL_MODE = "--local" in _args
 KAGGLE_MODE = "--kaggle" in _args
 _args = [a for a in _args if not a.startswith("--")]
 
 if LOCAL_MODE:
     BATCH_SIZE = 1
-    GRAD_ACCUM = 8   # effective batch = 8, same as RunPod
-    MAX_SEQ    = 256 # halved to save VRAM — DSL examples are short anyway
+    GRAD_ACCUM = 8  # effective batch = 8, same as RunPod
+    MAX_SEQ = 256  # halved to save VRAM — DSL examples are short anyway
     _LOCAL_TMP = Path("C:/tmp")
     _LOCAL_TMP.mkdir(exist_ok=True)
     _LOCAL_DATA = Path(os.environ.get("DETERMINEX_ROOT", Path(__file__).parent.parent)) / "data"
-    _LOCAL_OUT  = Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models"))) / "versions"
+    _LOCAL_OUT = (
+        Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models")))
+        / "versions"
+    )
     print("LOCAL MODE: batch=1, seq=256, fp16 — 6 GB GPU (Tier 0)")
     print("WARNING: Only Engineer (1.5B) is safe locally. Observer/Sentinel need RunPod.")
 elif KAGGLE_MODE:
     BATCH_SIZE = 2
     GRAD_ACCUM = 4
-    MAX_SEQ    = 512
+    MAX_SEQ = 512
     print("KAGGLE MODE: batch=2, seq=512, fp16 — 2×T4 (32 GB)")
 else:
     BATCH_SIZE = 2
     GRAD_ACCUM = 4
-    MAX_SEQ    = 512
+    MAX_SEQ = 512
 
 # ── Model configs ──────────────────────────────────────────────────────────────
 _HF_CACHE = Path("/workspace/hf_models")  # pre-fetched by tonight_launch.py
 
+
 def _local_paths(name, tmp_name):
     """Return local Windows paths for --local mode."""
     return {
-        "adapter":    _LOCAL_TMP / f"dsl_{tmp_name}_adapter",
-        "merged":     _LOCAL_TMP / f"dsl_{tmp_name}_merged",
-        "gguf_dir":   _LOCAL_OUT / name / "dsl",
+        "adapter": _LOCAL_TMP / f"dsl_{tmp_name}_adapter",
+        "merged": _LOCAL_TMP / f"dsl_{tmp_name}_merged",
+        "gguf_dir": _LOCAL_OUT / name / "dsl",
         "train_file": _LOCAL_TMP / f"dsl_{tmp_name}_train.jsonl",
     }
 
+
 MODELS = {
     "observer": {
-        "hf_id":      str(_HF_CACHE / "qwen3b") if (_HF_CACHE / "qwen3b").exists() else "Qwen/Qwen2.5-Coder-3B-Instruct",
-        "gated":      False,
-        "out_name":   "determinex-3-medium-v1.1",
-        "adapter":    _local_paths("observer", "obs")["adapter"]    if LOCAL_MODE else Path("/tmp/dsl_obs_adapter"),
-        "merged":     _local_paths("observer", "obs")["merged"]     if LOCAL_MODE else Path("/tmp/dsl_obs_merged"),
-        "gguf_dir":   _local_paths("observer", "obs")["gguf_dir"]   if LOCAL_MODE else Path("/workspace/outputs/determinex-3-medium-v1.1"),
-        "train_file": _local_paths("observer", "obs")["train_file"] if LOCAL_MODE else Path("/tmp/dsl_obs_train.jsonl"),
-        "disk_note":  "LOCAL: C:/tmp (~6 GB)" if LOCAL_MODE else "Adapter + merged on /tmp (~6 GB needed)",
+        "hf_id": str(_HF_CACHE / "qwen3b")
+        if (_HF_CACHE / "qwen3b").exists()
+        else "Qwen/Qwen2.5-Coder-3B-Instruct",
+        "gated": False,
+        "out_name": "determinex-3-medium-v1.1",
+        "adapter": _local_paths("observer", "obs")["adapter"]
+        if LOCAL_MODE
+        else Path("/tmp/dsl_obs_adapter"),
+        "merged": _local_paths("observer", "obs")["merged"]
+        if LOCAL_MODE
+        else Path("/tmp/dsl_obs_merged"),
+        "gguf_dir": _local_paths("observer", "obs")["gguf_dir"]
+        if LOCAL_MODE
+        else Path("/workspace/outputs/determinex-3-medium-v1.1"),
+        "train_file": _local_paths("observer", "obs")["train_file"]
+        if LOCAL_MODE
+        else Path("/tmp/dsl_obs_train.jsonl"),
+        "disk_note": "LOCAL: C:/tmp (~6 GB)"
+        if LOCAL_MODE
+        else "Adapter + merged on /tmp (~6 GB needed)",
     },
     "engineer": {
-        "hf_id":      str(_HF_CACHE / "qwen1.5b") if (_HF_CACHE / "qwen1.5b").exists() else "Qwen/Qwen2.5-Coder-1.5B-Instruct",
-        "gated":      False,
-        "out_name":   "determinex-1-tiny-v1.1",
-        "adapter":    _local_paths("engineer", "eng")["adapter"]    if LOCAL_MODE else Path("/tmp/dsl_eng_adapter"),
-        "merged":     _local_paths("engineer", "eng")["merged"]     if LOCAL_MODE else Path("/tmp/dsl_eng_merged"),
-        "gguf_dir":   _local_paths("engineer", "eng")["gguf_dir"]   if LOCAL_MODE else Path("/workspace/outputs/determinex-1-tiny-v1.1"),
-        "train_file": _local_paths("engineer", "eng")["train_file"] if LOCAL_MODE else Path("/tmp/dsl_eng_train.jsonl"),
-        "disk_note":  "LOCAL: C:/tmp (~3 GB)" if LOCAL_MODE else "Adapter + merged on /tmp (~3 GB, fits easily)",
+        "hf_id": str(_HF_CACHE / "qwen1.5b")
+        if (_HF_CACHE / "qwen1.5b").exists()
+        else "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+        "gated": False,
+        "out_name": "determinex-1-tiny-v1.1",
+        "adapter": _local_paths("engineer", "eng")["adapter"]
+        if LOCAL_MODE
+        else Path("/tmp/dsl_eng_adapter"),
+        "merged": _local_paths("engineer", "eng")["merged"]
+        if LOCAL_MODE
+        else Path("/tmp/dsl_eng_merged"),
+        "gguf_dir": _local_paths("engineer", "eng")["gguf_dir"]
+        if LOCAL_MODE
+        else Path("/workspace/outputs/determinex-1-tiny-v1.1"),
+        "train_file": _local_paths("engineer", "eng")["train_file"]
+        if LOCAL_MODE
+        else Path("/tmp/dsl_eng_train.jsonl"),
+        "disk_note": "LOCAL: C:/tmp (~3 GB)"
+        if LOCAL_MODE
+        else "Adapter + merged on /tmp (~3 GB, fits easily)",
     },
     "sentinel": {
-        "hf_id":      str(_HF_CACHE / "mistral7b") if (_HF_CACHE / "mistral7b").exists() else "mistralai/Mistral-7B-Instruct-v0.3",
-        "gated":      False,
-        "out_name":   "determinex-7-large-v1.1",
-        "adapter":    Path("/workspace/tmp_dsl_sen_adapter"),
-        "merged":     Path("/workspace/tmp_dsl_sen_merged"),
-        "gguf_dir":   Path("/workspace/outputs/determinex-7-large-v1.1"),
+        "hf_id": str(_HF_CACHE / "mistral7b")
+        if (_HF_CACHE / "mistral7b").exists()
+        else "mistralai/Mistral-7B-Instruct-v0.3",
+        "gated": False,
+        "out_name": "determinex-7-large-v1.1",
+        "adapter": Path("/workspace/tmp_dsl_sen_adapter"),
+        "merged": Path("/workspace/tmp_dsl_sen_merged"),
+        "gguf_dir": Path("/workspace/outputs/determinex-7-large-v1.1"),
         "train_file": Path("/workspace/tmp_dsl_sen_train.jsonl"),
-        "disk_note":  "Adapter + merged on /workspace — 7B too large for /tmp",
+        "disk_note": "Adapter + merged on /workspace — 7B too large for /tmp",
     },
 }
 
 DATA_DIR = _LOCAL_DATA if LOCAL_MODE else Path("/workspace/data")
-DSL_CORPUS    = Path("/workspace/data/dsl_corpus.jsonl")
+DSL_CORPUS = Path("/workspace/data/dsl_corpus.jsonl")
 LLAMA_CPP_DIR = Path("/workspace/llama.cpp")
 
 # ── LoRA hyper-params (DSL fine-tune — rank 8, lower than gap retrain rank 16) ─
-LORA_R = 16     # rank 8: enough for DSL format learning, low forgetting risk
-LORA_ALPHA  = 16    # alpha = 2 * rank (standard)
-LORA_DROP   = 0.05
-EPOCHS      = 1
-MAX_SEQ     = 512   # DSL packets are short — 512 is ample, saves VRAM
-BATCH_SIZE  = 2     # can double batch vs gap retrain due to shorter sequences
-GRAD_ACCUM  = 4
-LR          = 2e-4
+LORA_R = 16  # rank 8: enough for DSL format learning, low forgetting risk
+LORA_ALPHA = 16  # alpha = 2 * rank (standard)
+LORA_DROP = 0.05
+EPOCHS = 1
+MAX_SEQ = 512  # DSL packets are short — 512 is ample, saves VRAM
+BATCH_SIZE = 2  # can double batch vs gap retrain due to shorter sequences
+GRAD_ACCUM = 4
+LR = 2e-4
 
 
 def stage(n, label):
-    print(f"\n{'='*60}", flush=True)
+    print(f"\n{'=' * 60}", flush=True)
     print(f"STAGE[{n}/6] {label}", flush=True)
-    print(f"{'='*60}", flush=True)
+    print(f"{'=' * 60}", flush=True)
 
 
 def run(cmd, **kwargs):
@@ -151,7 +182,7 @@ def check_dsl_corpus():
     if not sources:
         print(f"\n[ERROR] No training data found in {DATA_DIR}")
         sys.exit(1)
-    
+
     count = 0
     for src in sources:
         count += sum(1 for _ in open(src) if _.strip())
@@ -182,6 +213,7 @@ def build_training_file(cfg: dict) -> int:
 
     # Shuffle to interleave DSL data with existing curriculum
     import random
+
     random.seed(42)
     random.shuffle(all_examples)
 
@@ -189,7 +221,7 @@ def build_training_file(cfg: dict) -> int:
     # Cut to exactly 100,000 to drop training time to ~14 total hours
     if len(all_examples) > 100000:
         all_examples = all_examples[:100000]
-        print(f"  [NOTE] Sliced corpus to 100,000 examples to fit $20 budget.")
+        print("  [NOTE] Sliced corpus to 100,000 examples to fit $20 budget.")
     # ─────────────────────────────────────────────────────────────────────────
 
     with open(train_file, "w") as f:
@@ -205,17 +237,19 @@ def train(cfg: dict, model_name: str):
     import torch
     from datasets import Dataset
     from transformers import (
-        TrainingArguments,
         DataCollatorForLanguageModeling,
         Trainer,
+        TrainingArguments,
     )
 
     USE_UNSLOTH = False
     try:
         from unsloth import FastLanguageModel
+
         USE_UNSLOTH = True
     except (ImportError, RuntimeError):
         from transformers import AutoModelForCausalLM, AutoTokenizer
+
         print("  [WARN] Unsloth not available — falling back to standard transformers")
 
     print(f"  Base model : {cfg['hf_id']}", flush=True)
@@ -233,8 +267,15 @@ def train(cfg: dict, model_name: str):
         model = FastLanguageModel.get_peft_model(
             model,
             r=LORA_R,
-            target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
-                            "gate_proj", "up_proj", "down_proj"],
+            target_modules=[
+                "q_proj",
+                "k_proj",
+                "v_proj",
+                "o_proj",
+                "gate_proj",
+                "up_proj",
+                "down_proj",
+            ],
             lora_alpha=LORA_ALPHA,
             lora_dropout=LORA_DROP,
             bias="none",
@@ -243,14 +284,18 @@ def train(cfg: dict, model_name: str):
         )
     else:
         from peft import LoraConfig, get_peft_model
+
         tokenizer = AutoTokenizer.from_pretrained(cfg["hf_id"])
         model = AutoModelForCausalLM.from_pretrained(
             cfg["hf_id"], torch_dtype=torch.float16, device_map="auto"
         )
         lora_cfg = LoraConfig(
-            r=LORA_R, lora_alpha=LORA_ALPHA, lora_dropout=LORA_DROP,
+            r=LORA_R,
+            lora_alpha=LORA_ALPHA,
+            lora_dropout=LORA_DROP,
             target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
-            bias="none", task_type="CAUSAL_LM",
+            bias="none",
+            task_type="CAUSAL_LM",
         )
         model = get_peft_model(model, lora_cfg)
 
@@ -270,14 +315,12 @@ def train(cfg: dict, model_name: str):
             if not instruction and not output:
                 return {"text": ""}
             msgs = [
-                {"role": "system",    "content": system},
-                {"role": "user",      "content": instruction},
+                {"role": "system", "content": system},
+                {"role": "user", "content": instruction},
                 {"role": "assistant", "content": output},
             ]
         try:
-            text = tokenizer.apply_chat_template(
-                msgs, tokenize=False, add_generation_prompt=False
-            )
+            text = tokenizer.apply_chat_template(msgs, tokenize=False, add_generation_prompt=False)
         except Exception:
             text = "\n".join(f"{m['role'].upper()}: {m['content']}" for m in msgs)
         return {"text": text}
@@ -286,10 +329,9 @@ def train(cfg: dict, model_name: str):
         return t.encode("utf-8", "ignore").decode("utf-8")
 
     formatted = [format_example(ex) for ex in raw]
-    dataset = Dataset.from_list([
-        {**x, "text": scrub(x.get("text", ""))}
-        for x in formatted if len(x.get("text", "")) > 10
-    ])
+    dataset = Dataset.from_list(
+        [{**x, "text": scrub(x.get("text", ""))} for x in formatted if len(x.get("text", "")) > 10]
+    )
     print(f"  Training examples: {len(dataset)}", flush=True)
 
     # Pre-tokenize with num_proc=1 — bypasses SFTTrainer's internal dataset.map()
@@ -348,10 +390,8 @@ def train(cfg: dict, model_name: str):
 def merge_and_gguf(cfg: dict, model, tokenizer):
     """Merge LoRA adapter into base, save merged model, convert to GGUF."""
     try:
-        from unsloth import FastLanguageModel
         merged = model.merge_and_unload()
     except Exception:
-        from peft import AutoPeftModelForCausalLM
         merged = model.merge_and_unload()
 
     cfg["merged"].mkdir(parents=True, exist_ok=True)
@@ -363,10 +403,17 @@ def merge_and_gguf(cfg: dict, model, tokenizer):
     cfg["gguf_dir"].mkdir(parents=True, exist_ok=True)
     gguf_path = cfg["gguf_dir"] / f"{cfg['out_name']}.gguf"
     convert_script = LLAMA_CPP_DIR / "convert_hf_to_gguf.py"
-    run([
-        "python3", str(convert_script), str(cfg["merged"]),
-        "--outfile", str(gguf_path), "--outtype", "q8_0",
-    ])
+    run(
+        [
+            "python3",
+            str(convert_script),
+            str(cfg["merged"]),
+            "--outfile",
+            str(gguf_path),
+            "--outtype",
+            "q8_0",
+        ]
+    )
 
     # Verify GGUF header
     magic = open(gguf_path, "rb").read(4)
@@ -378,18 +425,19 @@ def merge_and_gguf(cfg: dict, model, tokenizer):
 
     # Cleanup merged model to free disk
     shutil.rmtree(cfg["merged"], ignore_errors=True)
-    print(f"  Merged model deleted (disk freed)", flush=True)
+    print("  Merged model deleted (disk freed)", flush=True)
 
     return gguf_path
 
 
 def print_next_steps(cfg: dict, gguf_path: Path, model_name: str, port: int = 10247):
     """Print exact commands for download, micro_eval, and proceed/rollback decision."""
-    local_path = f"${DETERMINEX_MODELS_DIR:-~/determinex-models}/versions/{model_name.replace('determinex-', '').split('-v')[0]}/{cfg['out_name'].split('-v')[1].split('-')[0]}-dsl/{cfg['out_name']}.gguf"
-    print(f"""
-{'='*60}
-  GGUF READY — {cfg['out_name']}
-{'='*60}
+    local_path = f"${{DETERMINEX_MODELS_DIR:-~/determinex-models}}/versions/{model_name.replace('determinex-', '').split('-v')[0]}/{cfg['out_name'].split('-v')[1].split('-')[0]}-dsl/{cfg['out_name']}.gguf"
+    print(
+        f"""
+{"=" * 60}
+  GGUF READY — {cfg["out_name"]}
+{"=" * 60}
 
 Next steps (run on LOCAL machine):
 
@@ -399,10 +447,10 @@ Next steps (run on LOCAL machine):
      "{local_path}"
 
 2. Register with Ollama for micro_eval:
-   ollama create {cfg['out_name']} -f Modelfiles/Modelfile.{model_name.split('-')[1]}
+   ollama create {cfg["out_name"]} -f Modelfiles/Modelfile.{model_name.split("-")[1]}
 
 3. Run micro_eval (compare against current baseline):
-   python scripts/micro_eval.py --model {cfg['out_name']}
+   python scripts/micro_eval.py --model {cfg["out_name"]}
    # Baseline: compare against the PREVIOUS version's score
 
 4. Apply rollback rules (plan Gap 5):
@@ -414,13 +462,15 @@ Next steps (run on LOCAL machine):
 5. If ACCEPTED — proceed to next model on pod.
    If REJECTED — do NOT proceed; note which model rejected DSL fine-tune.
 
-{'='*60}
-""", flush=True)
+{"=" * 60}
+""",
+        flush=True,
+    )
 
 
 def main():
     if len(sys.argv) < 2 or sys.argv[1] not in MODELS:
-        print(f"Usage: python dsl_finetune.py {{observer|engineer|sentinel}}")
+        print("Usage: python dsl_finetune.py {observer|engineer|sentinel}")
         print(f"  observer  → {MODELS['observer']['hf_id']} → {MODELS['observer']['out_name']}")
         print(f"  engineer  → {MODELS['engineer']['hf_id']} → {MODELS['engineer']['out_name']}")
         print(f"  sentinel  → {MODELS['sentinel']['hf_id']} → {MODELS['sentinel']['out_name']}")
@@ -432,27 +482,36 @@ def main():
     # --- PARALLEL EXECUTION NO-OP CHECK ---
     gguf_path = cfg["gguf_dir"] / f"{cfg['out_name']}.gguf"
     if model_name == "engineer" and gguf_path.exists() and gguf_path.stat().st_size > 1e9:
-        print(f"\n{'='*60}", flush=True)
+        print(f"\n{'=' * 60}", flush=True)
         print(f"  [PARALLEL SKIP] {model_name.upper()} already trained!", flush=True)
-        print(f"  Found valid GGUF at {gguf_path} ({(gguf_path.stat().st_size / 1e9):.2f} GB).", flush=True)
-        print(f"  Skipping duplicate run to save money and time.", flush=True)
-        print(f"{'='*60}\n", flush=True)
+        print(
+            f"  Found valid GGUF at {gguf_path} ({(gguf_path.stat().st_size / 1e9):.2f} GB).",
+            flush=True,
+        )
+        print("  Skipping duplicate run to save money and time.", flush=True)
+        print(f"{'=' * 60}\n", flush=True)
         sys.exit(0)
     # --------------------------------------
 
-    print(f"\n{'='*60}", flush=True)
+    print(f"\n{'=' * 60}", flush=True)
     print(f"  DSL FINE-TUNE: {model_name.upper()} → {cfg['out_name']}", flush=True)
     print(f"  Started: {time.strftime('%Y-%m-%d %H:%M:%S')}", flush=True)
     print(f"  LoRA rank: {LORA_R}  |  Epochs: {EPOCHS}  |  Max seq: {MAX_SEQ}", flush=True)
     print(f"  {cfg['disk_note']}", flush=True)
-    print(f"{'='*60}", flush=True)
+    print(f"{'=' * 60}", flush=True)
 
     # STAGE 1 — env check
     stage(1, "env-check")
     run(["nvidia-smi", "--query-gpu=name,memory.total,memory.free", "--format=csv,noheader"])
     if subprocess.run(["df", "-h", "/", "/workspace", "/tmp"], check=False).returncode != 0:
         subprocess.run(["df", "-h", "/"], check=False)
-    run(["python3", "-c", "import torch; print('CUDA:', torch.cuda.is_available(), '|', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'N/A')"])
+    run(
+        [
+            "python3",
+            "-c",
+            "import torch; print('CUDA:', torch.cuda.is_available(), '|', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'N/A')",
+        ]
+    )
     subprocess.run(["python3", "-c", "import unsloth; print('Unsloth OK')"], check=False)
 
     # Verify DSL corpus is present
@@ -467,7 +526,7 @@ def main():
     # STAGE 2 — load model (implicit in train(), just print disk state)
     stage(2, "load-model")
     print(f"  Model: {cfg['hf_id']}")
-    print(f"  Will download to ~/.cache/huggingface/ (overlay filesystem)")
+    print("  Will download to ~/.cache/huggingface/ (overlay filesystem)")
     r = subprocess.run(["df", "-h", str(Path.home() / ".cache")], check=False)
     if r.returncode != 0:
         subprocess.run(["df", "-h", "/"], check=False)

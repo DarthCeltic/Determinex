@@ -4,9 +4,10 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -22,7 +23,6 @@ from corpus.legacy_recovery.replay_outcome_writer import (
     classify_replay_outcome,
 )
 from corpus.legacy_recovery.replay_workspace_builder import ReplayWorkspace, ReplayWorkspaceBuilder
-
 
 VerifierRunner = Callable[[ReplayWorkspace], dict[str, Any]]
 
@@ -88,21 +88,23 @@ class ProgramBenchReplayVerifier:
             record = self.outcome_writer.write(candidate, outcome)
             counts[outcome.status] += 1
             manifest = _write_candidate_manifest(workspace, outcome, record)
-            results.append({
-                "tool": candidate.get("tool"),
-                "legacy_row_hash": candidate.get("legacy_row_hash"),
-                "duplicate_cluster_id": candidate.get("duplicate_cluster_id"),
-                "predicted_failure_class": _failure_class(candidate),
-                "fresh_failure_class": outcome.failure_class,
-                "status": outcome.status,
-                "record_status": record.get("record_status"),
-                "training_eligible": record.get("training_eligible") is True,
-                "trace_hash": record.get("trace_hash"),
-                "signed": bool(record.get("_sig")),
-                "manifest_path": str(manifest),
-                "verifier_artifact": outcome.verifier_artifact,
-                "verifier_run_id": outcome.verifier_run_id,
-            })
+            results.append(
+                {
+                    "tool": candidate.get("tool"),
+                    "legacy_row_hash": candidate.get("legacy_row_hash"),
+                    "duplicate_cluster_id": candidate.get("duplicate_cluster_id"),
+                    "predicted_failure_class": _failure_class(candidate),
+                    "fresh_failure_class": outcome.failure_class,
+                    "status": outcome.status,
+                    "record_status": record.get("record_status"),
+                    "training_eligible": record.get("training_eligible") is True,
+                    "trace_hash": record.get("trace_hash"),
+                    "signed": bool(record.get("_sig")),
+                    "manifest_path": str(manifest),
+                    "verifier_artifact": outcome.verifier_artifact,
+                    "verifier_run_id": outcome.verifier_run_id,
+                }
+            )
 
         report = {
             "schema_version": "determinex-programbench-replay-result-v1",
@@ -118,7 +120,9 @@ class ProgramBenchReplayVerifier:
             "results": results,
             "policy": "Every replay candidate resolves to exactly one signed training/eval/reject/infra row.",
         }
-        self.config.result_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        self.config.result_path.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         return report
 
 
@@ -132,10 +136,15 @@ def _default_runner(workspace: ReplayWorkspace) -> dict[str, Any]:
     }
 
 
-def _write_candidate_manifest(workspace: ReplayWorkspace, outcome: ReplayOutcome, record: dict[str, Any]) -> Path:
+def _write_candidate_manifest(
+    workspace: ReplayWorkspace, outcome: ReplayOutcome, record: dict[str, Any]
+) -> Path:
     manifest_path = workspace.manifest_path
     if not manifest_path:
-        manifest_path = Path("assurance/evidence/programbench_replay_manifests") / "unknown_replay_manifest.json"
+        manifest_path = (
+            Path("assurance/evidence/programbench_replay_manifests")
+            / "unknown_replay_manifest.json"
+        )
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     manifest = {
         "schema_version": "determinex-programbench-replay-candidate-manifest-v1",
@@ -150,7 +159,9 @@ def _write_candidate_manifest(workspace: ReplayWorkspace, outcome: ReplayOutcome
         "trace_hash": record.get("trace_hash"),
         "record_status": record.get("record_status"),
     }
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return manifest_path
 
 
@@ -160,13 +171,29 @@ def _failure_class(candidate: dict[str, Any]) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Replay selected legacy ProgramBench candidates through a fresh verifier.")
+    parser = argparse.ArgumentParser(
+        description="Replay selected legacy ProgramBench candidates through a fresh verifier."
+    )
     parser.add_argument("batch_artifact", type=Path)
     parser.add_argument("--workspace-root", action="append", type=Path, default=[])
-    parser.add_argument("--corpus-root", type=Path, default=Path("assurance/evidence/replay_corpus"))
-    parser.add_argument("--output-jsonl", type=Path, default=Path("assurance/evidence/programbench_replay_batch_001_rows.jsonl"))
-    parser.add_argument("--result", type=Path, default=Path("assurance/evidence/programbench_replay_batch_001_result.json"))
-    parser.add_argument("--manifest-dir", type=Path, default=Path("assurance/evidence/programbench_replay_manifests"))
+    parser.add_argument(
+        "--corpus-root", type=Path, default=Path("assurance/evidence/replay_corpus")
+    )
+    parser.add_argument(
+        "--output-jsonl",
+        type=Path,
+        default=Path("assurance/evidence/programbench_replay_batch_001_rows.jsonl"),
+    )
+    parser.add_argument(
+        "--result",
+        type=Path,
+        default=Path("assurance/evidence/programbench_replay_batch_001_result.json"),
+    )
+    parser.add_argument(
+        "--manifest-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_replay_manifests"),
+    )
     args = parser.parse_args()
 
     config = ReplayBatchConfig(

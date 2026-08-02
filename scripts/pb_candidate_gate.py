@@ -26,6 +26,7 @@ Usage:
 The candidate-run-root is the *parent* dir holding `<slug>/submission.tar.gz`
 (matches the layout produced by `pb_pack_candidate.py`).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -38,7 +39,6 @@ import time
 from collections import Counter
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -54,12 +54,16 @@ def _parse_eval(eval_path: Path) -> dict[str, Any]:
     try:
         data = json.loads(eval_path.read_text(encoding="utf-8", errors="replace"))
     except Exception as e:
-        return {"error": f"failed to parse eval JSON: {type(e).__name__}: {e}",
-                "eval_path": str(eval_path)}
+        return {
+            "error": f"failed to parse eval JSON: {type(e).__name__}: {e}",
+            "eval_path": str(eval_path),
+        }
     if data.get("error_code"):
-        return {"error": f"eval reported error_code={data['error_code']}",
-                "eval_path": str(eval_path),
-                "details": str(data.get("error_details", ""))[:300]}
+        return {
+            "error": f"eval reported error_code={data['error_code']}",
+            "eval_path": str(eval_path),
+            "details": str(data.get("error_details", ""))[:300],
+        }
 
     test_results = data.get("test_results") or []
     counts: Counter[str] = Counter(str(t.get("status", "?")) for t in test_results)
@@ -70,7 +74,9 @@ def _parse_eval(eval_path: Path) -> dict[str, Any]:
     errored = counts.get("error", 0)
     runnable = passed + failed + errored
 
-    per_test = {str(t.get("name", "")): str(t.get("status", "")) for t in test_results if t.get("name")}
+    per_test = {
+        str(t.get("name", "")): str(t.get("status", "")) for t in test_results if t.get("name")
+    }
 
     # Capture failure messages for the signal corpus.
     fail_messages: dict[str, str] = {}
@@ -127,8 +133,9 @@ def _write_failure_signal(
     # Set of tests that were already failing on the candidate (the residual after this iteration).
     fail_msgs = candidate.get("fail_messages") or {}
     per_test = candidate.get("per_test") or {}
-    residual = sorted(name for name, status in per_test.items()
-                      if status in ("failure", "failed", "error"))
+    residual = sorted(
+        name for name, status in per_test.items() if status in ("failure", "failed", "error")
+    )
 
     if not residual:
         return None
@@ -184,7 +191,9 @@ def _write_failure_signal(
     return corpus_path if written else None
 
 
-def _diff_per_test(baseline_per: dict[str, str], candidate_per: dict[str, str]) -> dict[str, list[str]]:
+def _diff_per_test(
+    baseline_per: dict[str, str], candidate_per: dict[str, str]
+) -> dict[str, list[str]]:
     """Compute newly_passing and newly_failing relative to baseline."""
     newly_passing: list[str] = []
     newly_failing: list[str] = []
@@ -214,7 +223,10 @@ _RE_FEATURE_GAP = (
     re.compile(r"\bFound argument .* which wasn't expected\b", re.IGNORECASE),
     re.compile(r"\bunexpected argument\b", re.IGNORECASE),
     re.compile(r"\bcommand not found\b", re.IGNORECASE),
-    re.compile(r"^[^:]+:\s+(?:invalid|unrecognized|unknown) (?:argument|option|flag)", re.IGNORECASE | re.MULTILINE),
+    re.compile(
+        r"^[^:]+:\s+(?:invalid|unrecognized|unknown) (?:argument|option|flag)",
+        re.IGNORECASE | re.MULTILINE,
+    ),
 )
 _RE_PANIC = (
     re.compile(r"\bpanic:\s", re.IGNORECASE),
@@ -412,26 +424,32 @@ def run_gate(
 
     # Step 1 - run eval (unless caller explicitly skipped, e.g. dry-run smoke)
     if not skip_eval:
-        _write_json(status_path, {
-            "slug": slug,
-            "status": "running",
-            "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "run_root": str(run_root),
-            "baseline_eval": str(baseline_eval),
-            "min_baseline_passed": min_baseline_passed,
-            "log_path": str(log_path),
-            "gate_result_path": str(out_path),
-        })
+        _write_json(
+            status_path,
+            {
+                "slug": slug,
+                "status": "running",
+                "started_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "run_root": str(run_root),
+                "baseline_eval": str(baseline_eval),
+                "min_baseline_passed": min_baseline_passed,
+                "log_path": str(log_path),
+                "gate_result_path": str(out_path),
+            },
+        )
         rc_runner = _run_official_eval(slug, run_root, py, log_path)
-        _write_json(status_path, {
-            "slug": slug,
-            "status": "eval-finished",
-            "finished_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "runner_exit_code": rc_runner,
-            "run_root": str(run_root),
-            "log_path": str(log_path),
-            "gate_result_path": str(out_path),
-        })
+        _write_json(
+            status_path,
+            {
+                "slug": slug,
+                "status": "eval-finished",
+                "finished_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "runner_exit_code": rc_runner,
+                "run_root": str(run_root),
+                "log_path": str(log_path),
+                "gate_result_path": str(out_path),
+            },
+        )
         if rc_runner not in (0,):
             # The runner is somewhat tolerant - it may emit a non-zero exit but still
             # produce an eval JSON. We continue and let JSON presence decide.
@@ -630,34 +648,58 @@ def run_gate(
     }
     _write_json(out_path, result)
     if status_path.exists():
-        _write_json(status_path, {
-            "slug": slug,
-            "status": "gate-finished",
-            "finished_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "decision": decision,
-            "reason": reason,
-            "exit_code": exit_code,
-            "gate_result_path": str(out_path),
-            "log_path": str(log_path),
-        })
+        _write_json(
+            status_path,
+            {
+                "slug": slug,
+                "status": "gate-finished",
+                "finished_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "decision": decision,
+                "reason": reason,
+                "exit_code": exit_code,
+                "gate_result_path": str(out_path),
+                "log_path": str(log_path),
+            },
+        )
     return result
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", help="ProgramBench instance id, e.g. owner__repo.hash")
-    ap.add_argument("run_root", type=Path,
-                    help="parent dir holding <slug>/submission.tar.gz (output of pb_pack_candidate.py)")
-    ap.add_argument("--baseline-eval", type=Path, required=True,
-                    help="path to the baseline eval JSON to compare against")
-    ap.add_argument("--min-baseline-passed", type=int, required=True,
-                    help="minimum acceptable baseline passed count (sanity check)")
-    ap.add_argument("--python", type=Path, default=None,
-                    help="Python interpreter for the eval runner (default: current sys.executable)")
-    ap.add_argument("--skip-eval", action="store_true",
-                    help="skip running the official eval (use existing candidate eval JSON for smoke/dry-run)")
-    ap.add_argument("--allow-stable-certification", action="store_true",
-                    help="Rule-B promotion mode: accept a stable second eval with passed >= baseline")
+    ap.add_argument(
+        "run_root",
+        type=Path,
+        help="parent dir holding <slug>/submission.tar.gz (output of pb_pack_candidate.py)",
+    )
+    ap.add_argument(
+        "--baseline-eval",
+        type=Path,
+        required=True,
+        help="path to the baseline eval JSON to compare against",
+    )
+    ap.add_argument(
+        "--min-baseline-passed",
+        type=int,
+        required=True,
+        help="minimum acceptable baseline passed count (sanity check)",
+    )
+    ap.add_argument(
+        "--python",
+        type=Path,
+        default=None,
+        help="Python interpreter for the eval runner (default: current sys.executable)",
+    )
+    ap.add_argument(
+        "--skip-eval",
+        action="store_true",
+        help="skip running the official eval (use existing candidate eval JSON for smoke/dry-run)",
+    )
+    ap.add_argument(
+        "--allow-stable-certification",
+        action="store_true",
+        help="Rule-B promotion mode: accept a stable second eval with passed >= baseline",
+    )
     args = ap.parse_args()
 
     run_root = args.run_root if args.run_root.is_absolute() else ROOT / args.run_root
@@ -672,16 +714,23 @@ def main() -> int:
         allow_stable_certification=args.allow_stable_certification,
     )
 
-    print(json.dumps({
-        "decision": result["decision"],
-        "decision_rule": result.get("decision_rule"),
-        "reason": result["reason"],
-        "exit_code": result["exit_code"],
-        "baseline_passed": result.get("baseline", {}).get("passed"),
-        "candidate_passed": result.get("candidate", {}).get("passed"),
-        "runnable_delta": result.get("delta", {}).get("runnable") if "delta" in result else None,
-        "gate_result_path": str(run_root / "gate_result.json"),
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "decision": result["decision"],
+                "decision_rule": result.get("decision_rule"),
+                "reason": result["reason"],
+                "exit_code": result["exit_code"],
+                "baseline_passed": result.get("baseline", {}).get("passed"),
+                "candidate_passed": result.get("candidate", {}).get("passed"),
+                "runnable_delta": result.get("delta", {}).get("runnable")
+                if "delta" in result
+                else None,
+                "gate_result_path": str(run_root / "gate_result.json"),
+            },
+            indent=2,
+        )
+    )
 
     return int(result.get("exit_code", 2))
 

@@ -10,6 +10,7 @@ This module DOES NOT call any runtime gate, DOES NOT touch the
 workspace, DOES NOT call the network, DOES NOT spawn a subprocess.
 It reads JSON.
 """
+
 from __future__ import annotations
 
 import json
@@ -25,7 +26,6 @@ from .claude_authority_leak_remediation_final_state_record import (
     CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_STATUS_TOKENS,
     ClaudeAuthorityLeakRemediationFinalStateRecord,
 )
-
 
 # Per-dimension lock manifest paths (relative to repo root).
 _RUNG_LOCKS: dict[str, tuple[str, str]] = {
@@ -140,16 +140,10 @@ def evaluate(repo_root: Path | str) -> ClaudeAuthorityLeakRemediationFinalStateR
     source_mutation_authorized = False
     training_eligible = False
 
-    safe = bool(
-        all_closed
-        and source_mutation_authorized is False
-        and training_eligible is False
-    )
+    safe = bool(all_closed and source_mutation_authorized is False and training_eligible is False)
 
     if not all_closed:
-        decision = (
-            "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
-        )
+        decision = "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
         notes.extend(missing)
     else:
         decision = "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_PASSED"
@@ -163,9 +157,7 @@ def evaluate(repo_root: Path | str) -> ClaudeAuthorityLeakRemediationFinalStateR
         decision=decision,
         diff_body_binding_closed=closures["diff_body_binding"],
         fixture_refusal_closed=closures["fixture_refusal"],
-        post_apply_verifier_default_pass_closed=closures[
-            "post_apply_verifier_default_pass"
-        ],
+        post_apply_verifier_default_pass_closed=closures["post_apply_verifier_default_pass"],
         model_admission_bypass_closed=closures["model_admission_bypass"],
         tauri_command_alignment_closed=closures["tauri_command_alignment"],
         diagnose_prompt_opacity_closed=closures["diagnose_prompt_opacity"],

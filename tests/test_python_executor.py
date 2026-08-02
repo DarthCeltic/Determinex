@@ -5,6 +5,7 @@ official programbench eval harness (which would need Docker + a live task
 image). The probe phase uses a synthetic task.yaml + tests.json fixture so
 the test doesn't depend on the T:/Dev/ProgramBench tasks dir.
 """
+
 from __future__ import annotations
 
 import json
@@ -17,9 +18,8 @@ _REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_REPO))
 sys.path.insert(0, str(_REPO / "scripts"))
 
-from executors import PythonExecutor, ExecutorError                 # noqa: E402
-from executors.base import ProbeResult, BuildResult, ScaffoldResult  # noqa: E402
-
+from executors import ExecutorError, PythonExecutor  # noqa: E402
+from executors.base import BuildResult, ProbeResult, ScaffoldResult  # noqa: E402
 
 _FAKE_INSTANCE = "psampaz__go-mod-outdated.bb79367"
 
@@ -108,8 +108,9 @@ def test_build_produces_real_file_not_symlink(synthetic_tasks_dir, tmp_path):
     assert b.ok is True, f"build failed: {b.stderr}"
     assert b.executable_path is not None
     assert b.executable_path.is_file()
-    assert not b.executable_path.is_symlink(), \
+    assert not b.executable_path.is_symlink(), (
         "executable must be a real file, not a symlink (PB /opt move breaks links)"
+    )
 
 
 def test_pack_emits_deterministic_tarball(synthetic_tasks_dir, tmp_path):
@@ -130,14 +131,23 @@ def test_classify_routes_through_central_taxonomy(tmp_path):
     ex = PythonExecutor()
     # Fake eval JSON with one failure that maps to rc_2_unknown_option
     eval_json = tmp_path / "fake.eval.json"
-    eval_json.write_text(json.dumps({
-        "test_results": [
-            {"status": "passed",  "name": "t1"},
-            {"status": "failure", "name": "t2",
-             "extra": {"message": "tool: unknown option: --bogus"}},
-        ],
-    }), encoding="utf-8")
+    eval_json.write_text(
+        json.dumps(
+            {
+                "test_results": [
+                    {"status": "passed", "name": "t1"},
+                    {
+                        "status": "failure",
+                        "name": "t2",
+                        "extra": {"message": "tool: unknown option: --bogus"},
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
     from executors.base import EvalResult
+
     er = EvalResult(instance_id="x", score=50.0, passed=1, total=2, eval_json_path=eval_json)
     cr = ex.classify(er)
     assert cr.families.get("rc_2_unknown_option") == 1

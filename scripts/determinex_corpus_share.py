@@ -23,6 +23,7 @@ exists to keep local. So sharing is:
     python scripts/determinex_corpus_share.py --consent     # record consent, once
     python scripts/determinex_corpus_share.py --push        # upload (needs both)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -32,7 +33,7 @@ import os
 import platform
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -43,16 +44,19 @@ DEFAULT_REPO = "darthceltic85/determinex-corpus"
 # What must never leave, whatever else changes. Ordered most-specific first so a broad
 # pattern cannot swallow a narrow one before it is seen.
 _REDACTIONS: list[tuple[str, re.Pattern]] = [
-    ("<key>",   re.compile(r"\b(?:sk-ant-api[0-9]{2}-|sk-proj-|sk-)[A-Za-z0-9_\-]{16,}")),
-    ("<key>",   re.compile(r"\bAIzaSy[A-Za-z0-9_\-]{30,}")),
-    ("<key>",   re.compile(r"\bghp_[A-Za-z0-9]{30,}|\bhf_[A-Za-z0-9]{30,}")),
-    ("<key>",   re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
-    ("<pem>",   re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----")),
+    ("<key>", re.compile(r"\b(?:sk-ant-api[0-9]{2}-|sk-proj-|sk-)[A-Za-z0-9_\-]{16,}")),
+    ("<key>", re.compile(r"\bAIzaSy[A-Za-z0-9_\-]{30,}")),
+    ("<key>", re.compile(r"\bghp_[A-Za-z0-9]{30,}|\bhf_[A-Za-z0-9]{30,}")),
+    ("<key>", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
+    (
+        "<pem>",
+        re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----"),
+    ),
     ("<email>", re.compile(r"\b[\w.+-]+@[\w-]+\.[\w.]{2,}\b")),
-    ("<host>",  re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")),
-    ("<path>",  re.compile(r"[A-Za-z]:\\Users\\[^\\\"'\s]+")),
-    ("<path>",  re.compile(r"/home/[^/\"'\s]+")),
-    ("<path>",  re.compile(r"/Users/[^/\"'\s]+")),
+    ("<host>", re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")),
+    ("<path>", re.compile(r"[A-Za-z]:\\Users\\[^\\\"'\s]+")),
+    ("<path>", re.compile(r"/home/[^/\"'\s]+")),
+    ("<path>", re.compile(r"/Users/[^/\"'\s]+")),
     ("<drive>", re.compile(r"\b[T-Z]:[/\\][^\"'\s]*")),
 ]
 
@@ -78,13 +82,19 @@ def consent_record() -> dict | None:
 
 def record_consent() -> int:
     CONSENT.parent.mkdir(parents=True, exist_ok=True)
-    CONSENT.write_text(json.dumps({
-        "consented_at": datetime.now(timezone.utc).isoformat(),
-        "host": platform.node(),
-        "scope": "oracle-verified symptom->fix classes, redacted; no source, no paths, "
-                 "no credentials, no repository names",
-        "revoke": "delete this file; sharing stops immediately",
-    }, indent=2), encoding="utf-8")
+    CONSENT.write_text(
+        json.dumps(
+            {
+                "consented_at": datetime.now(UTC).isoformat(),
+                "host": platform.node(),
+                "scope": "oracle-verified symptom->fix classes, redacted; no source, no paths, "
+                "no credentials, no repository names",
+                "revoke": "delete this file; sharing stops immediately",
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     print(f"consent recorded -> {CONSENT}")
     print("  revoke at any time by deleting that file.")
     return 0
@@ -103,14 +113,17 @@ def build_payload() -> dict:
     for name, body in classes.items():
         if not isinstance(body, dict):
             continue
-        keep = {k: redact(str(v)) for k, v in body.items()
-                if k in ("detect", "symptom", "fix", "rule", "measured", "scope", "trap")}
+        keep = {
+            k: redact(str(v))
+            for k, v in body.items()
+            if k in ("detect", "symptom", "fix", "rule", "measured", "scope", "trap")
+        }
         if keep:
             out[name] = keep
     blob = json.dumps(out, sort_keys=True)
     return {
         "schema": "determinex-corpus-share-v1",
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "n_classes": len(out),
         "sha256": hashlib.sha256(blob.encode("utf-8")).hexdigest(),
         "classes": out,
@@ -118,11 +131,14 @@ def build_payload() -> dict:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--consent", action="store_true", help="record consent (one time)")
     ap.add_argument("--revoke", action="store_true", help="delete the consent record")
-    ap.add_argument("--dry-run", action="store_true", help="print the exact payload, upload nothing")
+    ap.add_argument(
+        "--dry-run", action="store_true", help="print the exact payload, upload nothing"
+    )
     ap.add_argument("--push", action="store_true", help="upload to HuggingFace")
     ap.add_argument("--repo", default=os.environ.get("DETERMINEX_CORPUS_REPO", DEFAULT_REPO))
     args = ap.parse_args()
@@ -139,29 +155,36 @@ def main() -> int:
 
     left = _residue(body)
     if left:
-        print(f"REFUSING: redaction left {left} in the payload. Nothing uploaded.",
-              file=sys.stderr)
+        print(f"REFUSING: redaction left {left} in the payload. Nothing uploaded.", file=sys.stderr)
         return 1
 
     if args.dry_run or not args.push:
-        print(body if args.dry_run else
-              f"{payload['n_classes']} classes, sha256 {payload['sha256'][:16]}...  "
-              f"(--dry-run to see the bytes, --push to upload)")
+        print(
+            body
+            if args.dry_run
+            else f"{payload['n_classes']} classes, sha256 {payload['sha256'][:16]}...  "
+            f"(--dry-run to see the bytes, --push to upload)"
+        )
         return 0
 
     # --- upload requires BOTH the flag and the recorded consent -------------------------
     if os.environ.get("DETERMINEX_CORPUS_SHARE") != "1":
-        print("REFUSING: DETERMINEX_CORPUS_SHARE=1 is not set. Sharing is off by default.",
-              file=sys.stderr)
+        print(
+            "REFUSING: DETERMINEX_CORPUS_SHARE=1 is not set. Sharing is off by default.",
+            file=sys.stderr,
+        )
         return 1
     rec = consent_record()
     if not rec:
-        print("REFUSING: no consent record. Run --consent first.\n"
-              "  A flag alone is not consent: a flag can be set by a script nobody read.",
-              file=sys.stderr)
+        print(
+            "REFUSING: no consent record. Run --consent first.\n"
+            "  A flag alone is not consent: a flag can be set by a script nobody read.",
+            file=sys.stderr,
+        )
         return 1
 
     from huggingface_hub import HfApi
+
     token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_TOKEN")
     if not token:
         print("REFUSING: no HF_TOKEN in the environment.", file=sys.stderr)
@@ -172,10 +195,16 @@ def main() -> int:
     tmp = ROOT / ".determinex" / "corpus_share_payload.json"
     tmp.parent.mkdir(parents=True, exist_ok=True)
     tmp.write_text(body, encoding="utf-8")
-    api.upload_file(path_or_fileobj=str(tmp), path_in_repo="classes.json",
-                    repo_id=args.repo, repo_type="dataset")
-    print(f"uploaded {payload['n_classes']} classes to {args.repo} "
-          f"(sha256 {payload['sha256'][:16]}...)")
+    api.upload_file(
+        path_or_fileobj=str(tmp),
+        path_in_repo="classes.json",
+        repo_id=args.repo,
+        repo_type="dataset",
+    )
+    print(
+        f"uploaded {payload['n_classes']} classes to {args.repo} "
+        f"(sha256 {payload['sha256'][:16]}...)"
+    )
     return 0
 
 

@@ -11,6 +11,7 @@ The seeder now refreshes:
 
 `--dry-run` reports the command and scope without invoking the seeder.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -18,7 +19,6 @@ import datetime
 import subprocess
 import sys
 from pathlib import Path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 SEED_SCRIPT = ROOT / "scripts" / "seed_knowledge_base.py"
@@ -66,7 +66,9 @@ def main() -> int:
         action="store_true",
         help="report commands and refresh scope without invoking the seeder",
     )
-    ap.add_argument("--python", default=sys.executable, help="Python interpreter for the seed subprocess")
+    ap.add_argument(
+        "--python", default=sys.executable, help="Python interpreter for the seed subprocess"
+    )
     ap.add_argument(
         "--require-accepted-run",
         action="store_true",
@@ -76,7 +78,7 @@ def main() -> int:
 
     print(
         "# pb_refresh_rag_after_accept "
-        f"({datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds')})"
+        f"({datetime.datetime.now(datetime.UTC).isoformat(timespec='seconds')})"
     )
     print(f"  seed script:               {SEED_SCRIPT}")
     print(f"  accepted_runs.jsonl:       {ACCEPTED_JSONL}")

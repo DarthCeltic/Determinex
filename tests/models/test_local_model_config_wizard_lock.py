@@ -1,12 +1,11 @@
 """Tests for LOCAL_MODEL_CONFIG_WIZARD_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):

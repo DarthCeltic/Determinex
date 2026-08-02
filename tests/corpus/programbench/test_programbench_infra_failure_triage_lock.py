@@ -12,9 +12,13 @@ from corpus.programbench.infra_failure_triage import (  # noqa: E402
     InfraFailureTriageStatus,
     ProgramBenchInfraFailureTriage,
 )
-from corpus.programbench.infra_failure_triage_record import verify_infra_failure_triage_record  # noqa: E402
-from corpus.programbench.real_bounded_rerun_record import make_real_rerun_record, write_real_rerun_record  # noqa: E402
-
+from corpus.programbench.infra_failure_triage_record import (
+    verify_infra_failure_triage_record,  # noqa: E402
+)
+from corpus.programbench.real_bounded_rerun_record import (  # noqa: E402
+    make_real_rerun_record,
+    write_real_rerun_record,
+)
 
 MISSING_IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 
@@ -117,8 +121,13 @@ def test_real_bounded_rerun_infra_failure_loads_successfully(tmp_path):
 def test_missing_cleanroom_docker_image_is_classified(tmp_path):
     result = _triage(tmp_path).triage(_real_failure(tmp_path))
 
-    assert result["record"]["failure_type"] == InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value
-    assert InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value in result["record"]["failure_statuses"]
+    assert (
+        result["record"]["failure_type"] == InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value
+    )
+    assert (
+        InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value
+        in result["record"]["failure_statuses"]
+    )
 
 
 def test_missing_image_reference_is_extracted_exactly(tmp_path):
@@ -146,7 +155,9 @@ def test_local_image_inspection_is_read_only_injected_lister(tmp_path):
     result = _triage(tmp_path, image_lister=list_images).triage(_real_failure(tmp_path))
 
     assert calls["count"] == 1
-    assert result["record"]["local_image_status"] == InfraFailureTriageStatus.IMAGE_PRESENT_LOCAL.value
+    assert (
+        result["record"]["local_image_status"] == InfraFailureTriageStatus.IMAGE_PRESENT_LOCAL.value
+    )
 
 
 def test_existing_exact_pinned_provenance_is_detected(tmp_path):
@@ -154,15 +165,27 @@ def test_existing_exact_pinned_provenance_is_detected(tmp_path):
 
     result = _triage(tmp_path).triage(_real_failure(tmp_path))
 
-    assert result["record"]["source_status"] == InfraFailureTriageStatus.IMAGE_SOURCE_EXACT_REFERENCE_FOUND.value
-    assert result["record"]["provenance_status"] == InfraFailureTriageStatus.IMAGE_SOURCE_EXACT_REFERENCE_FOUND.value
+    assert (
+        result["record"]["source_status"]
+        == InfraFailureTriageStatus.IMAGE_SOURCE_EXACT_REFERENCE_FOUND.value
+    )
+    assert (
+        result["record"]["provenance_status"]
+        == InfraFailureTriageStatus.IMAGE_SOURCE_EXACT_REFERENCE_FOUND.value
+    )
 
 
 def test_no_provenance_requires_operator_or_blocks_no_provenance(tmp_path):
     result = _triage(tmp_path).triage(_real_failure(tmp_path))
 
-    assert result["record"]["source_status"] == InfraFailureTriageStatus.IMAGE_RECOVERY_REQUIRES_OPERATOR.value
-    assert result["record"]["provenance_status"] == InfraFailureTriageStatus.IMAGE_HYDRATION_BLOCKED_NO_PROVENANCE.value
+    assert (
+        result["record"]["source_status"]
+        == InfraFailureTriageStatus.IMAGE_RECOVERY_REQUIRES_OPERATOR.value
+    )
+    assert (
+        result["record"]["provenance_status"]
+        == InfraFailureTriageStatus.IMAGE_HYDRATION_BLOCKED_NO_PROVENANCE.value
+    )
 
 
 def test_ambiguous_source_produces_ambiguous_status(tmp_path):
@@ -171,7 +194,9 @@ def test_ambiguous_source_produces_ambiguous_status(tmp_path):
 
     result = _triage(tmp_path).triage(_real_failure(tmp_path))
 
-    assert result["record"]["source_status"] == InfraFailureTriageStatus.IMAGE_SOURCE_AMBIGUOUS.value
+    assert (
+        result["record"]["source_status"] == InfraFailureTriageStatus.IMAGE_SOURCE_AMBIGUOUS.value
+    )
 
 
 def test_floating_latest_source_is_blocked(tmp_path):
@@ -189,7 +214,10 @@ def test_floating_latest_source_is_blocked(tmp_path):
     result = _triage(tmp_path).triage(_real_failure(tmp_path))
 
     assert result["record"]["source_status"] == InfraFailureTriageStatus.IMAGE_SOURCE_BLOCKED.value
-    assert result["record"]["provenance_status"] == InfraFailureTriageStatus.IMAGE_HYDRATION_BLOCKED_NO_DIGEST.value
+    assert (
+        result["record"]["provenance_status"]
+        == InfraFailureTriageStatus.IMAGE_HYDRATION_BLOCKED_NO_DIGEST.value
+    )
 
 
 def test_public_untrusted_source_cannot_hydrate_directly(tmp_path):
@@ -206,7 +234,10 @@ def test_public_untrusted_source_cannot_hydrate_directly(tmp_path):
     result = _triage(tmp_path).triage(_real_failure(tmp_path))
 
     assert result["record"]["source_status"] == InfraFailureTriageStatus.IMAGE_SOURCE_BLOCKED.value
-    assert result["record"]["provenance_status"] == InfraFailureTriageStatus.IMAGE_HYDRATION_BLOCKED_POLICY.value
+    assert (
+        result["record"]["provenance_status"]
+        == InfraFailureTriageStatus.IMAGE_HYDRATION_BLOCKED_POLICY.value
+    )
 
 
 def test_quarantine_only_artifact_cannot_execute(tmp_path):
@@ -214,7 +245,10 @@ def test_quarantine_only_artifact_cannot_execute(tmp_path):
 
     result = _triage(tmp_path).triage(_real_failure(tmp_path))
 
-    assert result["record"]["provenance_status"] == InfraFailureTriageStatus.IMAGE_HYDRATION_READY_QUARANTINE_ONLY.value
+    assert (
+        result["record"]["provenance_status"]
+        == InfraFailureTriageStatus.IMAGE_HYDRATION_READY_QUARANTINE_ONLY.value
+    )
     assert "execution from quarantine" in result["record"]["blocked_actions"]
 
 

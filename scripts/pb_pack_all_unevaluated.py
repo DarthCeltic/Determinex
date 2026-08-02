@@ -14,13 +14,13 @@ Usage:
     python scripts/pb_pack_all_unevaluated.py --dry-run
     python scripts/pb_pack_all_unevaluated.py --freshen   # also repack stale tarballs
 """
+
 from __future__ import annotations
 
 import argparse
 import io
 import json
 import os
-import subprocess
 import sys
 import tarfile
 from pathlib import Path
@@ -29,12 +29,24 @@ ROOT = Path(__file__).resolve().parents[1]
 OVERRIDES = ROOT / "corpus" / "programbench" / "per_tool_overrides"
 INDEX = ROOT / "corpus" / "programbench" / "eval_index.json"
 
-_CRLF_EXTS = {".sh", ".py", ".bash", ".conf", ".cfg", ".ini",
-              ".toml", ".yaml", ".yml", ".txt", ".json", ".md"}
+_CRLF_EXTS = {
+    ".sh",
+    ".py",
+    ".bash",
+    ".conf",
+    ".cfg",
+    ".ini",
+    ".toml",
+    ".yaml",
+    ".yml",
+    ".txt",
+    ".json",
+    ".md",
+}
 
 
 def _load_index() -> dict[str, dict]:
-    with io.open(INDEX, encoding="utf-8") as f:
+    with open(INDEX, encoding="utf-8") as f:
         data = json.load(f)
     return {e["slug"]: e for e in data if not e.get("is_alias") and not e.get("alias_of")}
 
@@ -79,14 +91,20 @@ def _pack(override_dir: Path, tarball: Path) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--status", default=None,
-                    help="Only pack tools with this eval_index status (e.g. board_cache_only)")
-    ap.add_argument("--slug", default=None,
-                    help="Only pack tools whose slug contains this string")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="Show what would be packed without writing")
-    ap.add_argument("--freshen", action="store_true",
-                    help="Also repack tarballs where any compile.sh is newer than the tarball")
+    ap.add_argument(
+        "--status",
+        default=None,
+        help="Only pack tools with this eval_index status (e.g. board_cache_only)",
+    )
+    ap.add_argument("--slug", default=None, help="Only pack tools whose slug contains this string")
+    ap.add_argument(
+        "--dry-run", action="store_true", help="Show what would be packed without writing"
+    )
+    ap.add_argument(
+        "--freshen",
+        action="store_true",
+        help="Also repack tarballs where any compile.sh is newer than the tarball",
+    )
     args = ap.parse_args()
 
     index = _load_index()
@@ -116,8 +134,7 @@ def main() -> int:
         # Status filter — match against eval_index
         if args.status:
             # Find matching entry by slug pattern
-            matching = [e for slug, e in index.items()
-                        if slug in slug_dir or slug_dir in slug]
+            matching = [e for slug, e in index.items() if slug in slug_dir or slug_dir in slug]
             if not matching:
                 skipped_status.append(slug_dir)
                 continue
@@ -156,7 +173,7 @@ def main() -> int:
             errors.append((slug_dir, str(exc)))
 
     print()
-    print(f"Summary:")
+    print("Summary:")
     print(f"  Packed:         {len(packed)}")
     print(f"  Skipped (exists): {len(skipped_exists)}")
     print(f"  Skipped (status): {len(skipped_status)}")

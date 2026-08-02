@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import socket
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -22,7 +21,6 @@ from corpus.programbench.safe_registry_manifest_record import (
     write_safe_registry_manifest_record,
 )
 
-
 ACCEPT_MANIFESTS = ", ".join(
     [
         "application/vnd.docker.distribution.manifest.v2+json",
@@ -38,15 +36,19 @@ REGISTRY_URL = "https://registry-1.docker.io"
 
 
 class RegistryTransport(Protocol):
-    def get_json(self, url: str, headers: dict[str, str], timeout: float) -> tuple[int, dict[str, str], dict[str, Any]]:
-        ...
+    def get_json(
+        self, url: str, headers: dict[str, str], timeout: float
+    ) -> tuple[int, dict[str, str], dict[str, Any]]: ...
 
-    def get_bytes(self, url: str, headers: dict[str, str], timeout: float) -> tuple[int, dict[str, str], bytes]:
-        ...
+    def get_bytes(
+        self, url: str, headers: dict[str, str], timeout: float
+    ) -> tuple[int, dict[str, str], bytes]: ...
 
 
 class UrllibRegistryTransport:
-    def get_json(self, url: str, headers: dict[str, str], timeout: float) -> tuple[int, dict[str, str], dict[str, Any]]:
+    def get_json(
+        self, url: str, headers: dict[str, str], timeout: float
+    ) -> tuple[int, dict[str, str], dict[str, Any]]:
         status, response_headers, body = self.get_bytes(url, headers, timeout)
         try:
             payload = json.loads(body.decode("utf-8"))
@@ -54,7 +56,9 @@ class UrllibRegistryTransport:
             payload = {}
         return status, response_headers, payload
 
-    def get_bytes(self, url: str, headers: dict[str, str], timeout: float) -> tuple[int, dict[str, str], bytes]:
+    def get_bytes(
+        self, url: str, headers: dict[str, str], timeout: float
+    ) -> tuple[int, dict[str, str], bytes]:
         request = Request(url, headers=headers, method="GET")
         try:
             with urlopen(request, timeout=timeout) as response:  # noqa: S310 - exact registry metadata only.
@@ -80,14 +84,20 @@ class SafeRegistryManifestClient:
         try:
             token = _request_bearer_token(transport, repository, self.timeout_seconds)
             if token["status"] != "TOKEN_READY":
-                return _provider_status(token["status"], parsed, token.get("http_status", 0), token.get("error", ""))
-            manifest = _request_manifest(transport, repository, tag, token["token"], self.timeout_seconds)
+                return _provider_status(
+                    token["status"], parsed, token.get("http_status", 0), token.get("error", "")
+                )
+            manifest = _request_manifest(
+                transport, repository, tag, token["token"], self.timeout_seconds
+            )
             return _manifest_result(parsed, manifest)
-        except (TimeoutError, socket.timeout):
+        except TimeoutError:
             return _provider_status("REGISTRY_MANIFEST_LOOKUP_PROVIDER_ERROR", parsed, 0, "timeout")
         except (OSError, URLError) as exc:
             reason = getattr(exc, "reason", exc)
-            return _provider_status("REGISTRY_MANIFEST_LOOKUP_BLOCKED_NETWORK_DISABLED", parsed, 0, str(reason))
+            return _provider_status(
+                "REGISTRY_MANIFEST_LOOKUP_BLOCKED_NETWORK_DISABLED", parsed, 0, str(reason)
+            )
 
 
 def parse_image_reference(image_reference: str) -> dict[str, str]:
@@ -95,41 +105,89 @@ def parse_image_reference(image_reference: str) -> dict[str, str]:
     if "@" in image:
         image = image.split("@", 1)[0]
     if ":" not in image.rsplit("/", 1)[-1]:
-        return {"image_reference": image_reference, "repository": image, "tag": "", "status": "missing_tag"}
+        return {
+            "image_reference": image_reference,
+            "repository": image,
+            "tag": "",
+            "status": "missing_tag",
+        }
     repository, tag = image.rsplit(":", 1)
-    return {"image_reference": image_reference, "repository": repository, "tag": tag, "status": "parsed"}
+    return {
+        "image_reference": image_reference,
+        "repository": repository,
+        "tag": tag,
+        "status": "parsed",
+    }
 
 
 def is_broad_search_request(image_reference: str) -> bool:
     stripped = image_reference.strip()
-    return any(token in stripped for token in ("*", "?", " ")) or stripped in {"", "programbench", "programbench/"} or stripped.endswith("/")
+    return (
+        any(token in stripped for token in ("*", "?", " "))
+        or stripped in {"", "programbench", "programbench/"}
+        or stripped.endswith("/")
+    )
 
 
 def _preflight_block(parsed: dict[str, str], provider: str) -> dict[str, Any] | None:
     if provider not in ADMITTED_PROVIDERS:
-        return _base_result("REGISTRY_MANIFEST_LOOKUP_BLOCKED_UNADMITTED_PROVIDER", parsed, provider=provider, error="provider_not_admitted")
+        return _base_result(
+            "REGISTRY_MANIFEST_LOOKUP_BLOCKED_UNADMITTED_PROVIDER",
+            parsed,
+            provider=provider,
+            error="provider_not_admitted",
+        )
     if is_broad_search_request(parsed["image_reference"]):
-        return _base_result("REGISTRY_MANIFEST_LOOKUP_BLOCKED_BROAD_SEARCH", parsed, error="broad_search_or_catalog_request_blocked")
+        return _base_result(
+            "REGISTRY_MANIFEST_LOOKUP_BLOCKED_BROAD_SEARCH",
+            parsed,
+            error="broad_search_or_catalog_request_blocked",
+        )
     if not parsed["tag"]:
-        return _base_result("REGISTRY_MANIFEST_LOOKUP_BLOCKED_BROAD_SEARCH", parsed, error="exact_tag_required")
+        return _base_result(
+            "REGISTRY_MANIFEST_LOOKUP_BLOCKED_BROAD_SEARCH", parsed, error="exact_tag_required"
+        )
     if parsed["tag"].lower() == "latest":
-        return _base_result("REGISTRY_MANIFEST_LOOKUP_BLOCKED_LATEST_TAG", parsed, error="latest_tag_blocked")
+        return _base_result(
+            "REGISTRY_MANIFEST_LOOKUP_BLOCKED_LATEST_TAG", parsed, error="latest_tag_blocked"
+        )
     if not parsed["repository"].startswith("programbench/"):
-        return _base_result("REGISTRY_MANIFEST_LOOKUP_BLOCKED_BROAD_SEARCH", parsed, error="exact_programbench_repository_required")
+        return _base_result(
+            "REGISTRY_MANIFEST_LOOKUP_BLOCKED_BROAD_SEARCH",
+            parsed,
+            error="exact_programbench_repository_required",
+        )
     return None
 
 
-def _request_bearer_token(transport: RegistryTransport, repository: str, timeout: float) -> dict[str, Any]:
+def _request_bearer_token(
+    transport: RegistryTransport, repository: str, timeout: float
+) -> dict[str, Any]:
     query = urlencode({"service": "registry.docker.io", "scope": f"repository:{repository}:pull"})
-    status, headers, body = transport.get_json(f"{TOKEN_URL}?{query}", {"Accept": "application/json"}, timeout)
+    status, headers, body = transport.get_json(
+        f"{TOKEN_URL}?{query}", {"Accept": "application/json"}, timeout
+    )
     if status == 429:
         return {"status": "REGISTRY_MANIFEST_LOOKUP_RATE_LIMITED", "http_status": status}
     if status >= 400:
-        return {"status": "REGISTRY_MANIFEST_LOOKUP_PROVIDER_ERROR", "http_status": status, "error": _safe_error(body)}
+        return {
+            "status": "REGISTRY_MANIFEST_LOOKUP_PROVIDER_ERROR",
+            "http_status": status,
+            "error": _safe_error(body),
+        }
     token = str(body.get("token") or body.get("access_token") or "")
     if not token:
-        return {"status": "REGISTRY_MANIFEST_LOOKUP_PROVIDER_ERROR", "http_status": status, "error": "token_missing"}
-    return {"status": "TOKEN_READY", "token": token, "http_status": status, "headers_hash": _hash_json(headers)}
+        return {
+            "status": "REGISTRY_MANIFEST_LOOKUP_PROVIDER_ERROR",
+            "http_status": status,
+            "error": "token_missing",
+        }
+    return {
+        "status": "TOKEN_READY",
+        "token": token,
+        "http_status": status,
+        "headers_hash": _hash_json(headers),
+    }
 
 
 def _request_manifest(
@@ -148,17 +206,34 @@ def _request_manifest(
 def _manifest_result(parsed: dict[str, str], manifest: dict[str, Any]) -> dict[str, Any]:
     status = int(manifest.get("http_status") or 0)
     if status == 404:
-        return _base_result("REGISTRY_MANIFEST_METADATA_NOT_FOUND", parsed, http_status=status, error="manifest_not_found")
+        return _base_result(
+            "REGISTRY_MANIFEST_METADATA_NOT_FOUND",
+            parsed,
+            http_status=status,
+            error="manifest_not_found",
+        )
     if status == 429:
-        return _base_result("REGISTRY_MANIFEST_LOOKUP_RATE_LIMITED", parsed, http_status=status, error="rate_limited")
+        return _base_result(
+            "REGISTRY_MANIFEST_LOOKUP_RATE_LIMITED",
+            parsed,
+            http_status=status,
+            error="rate_limited",
+        )
     if status >= 400 or status <= 0:
-        return _base_result("REGISTRY_MANIFEST_LOOKUP_PROVIDER_ERROR", parsed, http_status=status, error="provider_http_error")
+        return _base_result(
+            "REGISTRY_MANIFEST_LOOKUP_PROVIDER_ERROR",
+            parsed,
+            http_status=status,
+            error="provider_http_error",
+        )
 
     headers = {str(k).lower(): str(v) for k, v in dict(manifest.get("headers") or {}).items()}
     body = bytes(manifest.get("body") or b"")
     digest = headers.get("docker-content-digest", "")
     body_hash = "sha256:" + hashlib.sha256(body).hexdigest()
-    digest_source = "Docker-Content-Digest" if digest.startswith("sha256:") else "manifest_body_hash"
+    digest_source = (
+        "Docker-Content-Digest" if digest.startswith("sha256:") else "manifest_body_hash"
+    )
     if not digest.startswith("sha256:"):
         digest = body_hash
     try:
@@ -170,7 +245,9 @@ def _manifest_result(parsed: dict[str, str], manifest: dict[str, Any]) -> dict[s
         **_base_result("REGISTRY_MANIFEST_METADATA_FOUND", parsed, http_status=status),
         "digest": digest,
         "digest_source": digest_source,
-        "media_type": str(body_json.get("mediaType") or headers.get("content-type", "")).split(";")[0],
+        "media_type": str(body_json.get("mediaType") or headers.get("content-type", "")).split(";")[
+            0
+        ],
         "schema_version": body_json.get("schemaVersion"),
         "platforms": platforms,
         "manifest_body_hash": body_hash,
@@ -179,7 +256,9 @@ def _manifest_result(parsed: dict[str, str], manifest: dict[str, Any]) -> dict[s
                 "repository": parsed["repository"],
                 "tag": parsed["tag"],
                 "digest": digest,
-                "media_type": str(body_json.get("mediaType") or headers.get("content-type", "")).split(";")[0],
+                "media_type": str(
+                    body_json.get("mediaType") or headers.get("content-type", "")
+                ).split(";")[0],
                 "schema_version": body_json.get("schemaVersion"),
                 "platforms": platforms,
             }
@@ -191,7 +270,9 @@ def _manifest_result(parsed: dict[str, str], manifest: dict[str, Any]) -> dict[s
     }
 
 
-def _provider_status(status: str, parsed: dict[str, str], http_status: int, error: str) -> dict[str, Any]:
+def _provider_status(
+    status: str, parsed: dict[str, str], http_status: int, error: str
+) -> dict[str, Any]:
     return _base_result(status, parsed, http_status=http_status, error=error)
 
 
@@ -315,7 +396,9 @@ def write_client_lock_record(root: Path = Path(".")) -> Path:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Exact metadata-only registry manifest lookup for ProgramBench images.")
+    parser = argparse.ArgumentParser(
+        description="Exact metadata-only registry manifest lookup for ProgramBench images."
+    )
     parser.add_argument("image_reference", nargs="?")
     parser.add_argument("--write-lock-record", action="store_true")
     parser.add_argument("--json", action="store_true")

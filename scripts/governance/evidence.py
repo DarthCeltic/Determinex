@@ -7,6 +7,7 @@ and scripts/proof/proof_record.py. proof-record writing is a thin passthrough to
 the existing platform-record schema (corpus.programbench.programbench_platform_record),
 imported lazily so this module has no hard dependency.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -43,18 +44,23 @@ def current_evidence_spine_count(
     return max([base] + [n for lock, n in successors.items() if lock in indexed])
 
 
-def make_proof_record(*, record_type: str, schema_version: str, status: str,
-                      payload: dict[str, Any]) -> dict[str, Any]:
+def make_proof_record(
+    *, record_type: str, schema_version: str, status: str, payload: dict[str, Any]
+) -> dict[str, Any]:
     from corpus.programbench.programbench_platform_record import make_platform_record
-    return make_platform_record(record_type=record_type, schema_version=schema_version,
-                                status=status, payload=payload)
+
+    return make_platform_record(
+        record_type=record_type, schema_version=schema_version, status=status, payload=payload
+    )
 
 
 def write_proof_record(record: dict[str, Any], output_dir: Path) -> Path:
     from corpus.programbench.programbench_platform_record import write_platform_record
+
     return write_platform_record(record, output_dir, name_key="record_id")
 
 
 def verify_proof_record(record: dict[str, Any]) -> bool:
     from corpus.programbench.programbench_platform_record import verify_platform_record
+
     return verify_platform_record(record)

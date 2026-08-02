@@ -37,13 +37,17 @@ def _report(tmp_path: Path, tool: str = "bat", selected_root: Path | None = None
     selected_root = selected_root or _root(tmp_path, tool)
     path = tmp_path / "disambiguation.json"
     path.write_text(
-        json.dumps({
-            "results": [{
-                "tool": tool,
-                "status": "CANONICAL_ROOT_SELECTED",
-                "selected_root": str(selected_root),
-            }]
-        }),
+        json.dumps(
+            {
+                "results": [
+                    {
+                        "tool": tool,
+                        "status": "CANONICAL_ROOT_SELECTED",
+                        "selected_root": str(selected_root),
+                    }
+                ]
+            }
+        ),
         encoding="utf-8",
     )
     return path
@@ -161,12 +165,14 @@ def test_local_no_image_verifier_ready_requires_explicit_metadata(tmp_path):
     (root / "fixtures").mkdir()
     (root / "fixtures" / "input.txt").write_text("demo", encoding="utf-8")
     (root / "local_verifier.json").write_text(
-        json.dumps({
-            "local_verifier_allowed": True,
-            "local_verifier_command": "python replay.py",
-            "required_fixtures": ["fixtures/input.txt"],
-            "deterministic": True,
-        }),
+        json.dumps(
+            {
+                "local_verifier_allowed": True,
+                "local_verifier_command": "python replay.py",
+                "required_fixtures": ["fixtures/input.txt"],
+                "deterministic": True,
+            }
+        ),
         encoding="utf-8",
     )
     report = _report(tmp_path, selected_root=root)
@@ -181,11 +187,13 @@ def test_local_no_image_verifier_ready_requires_explicit_metadata(tmp_path):
 def test_local_no_image_verifier_blocked_when_fixtures_missing(tmp_path):
     root = _root(tmp_path)
     (root / "local_verifier.json").write_text(
-        json.dumps({
-            "local_verifier_allowed": True,
-            "local_verifier_command": "python replay.py",
-            "required_fixtures": ["fixtures/missing.txt"],
-        }),
+        json.dumps(
+            {
+                "local_verifier_allowed": True,
+                "local_verifier_command": "python replay.py",
+                "required_fixtures": ["fixtures/missing.txt"],
+            }
+        ),
         encoding="utf-8",
     )
     report = _report(tmp_path, selected_root=root)

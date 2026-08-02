@@ -12,6 +12,7 @@ Output files:
 Requires: pip-licenses (pip install pip-licenses)
 Falls back to pip list --format=json if pip-licenses unavailable.
 """
+
 from __future__ import annotations
 
 import datetime
@@ -34,10 +35,18 @@ _NAMESPACE_PREFIX = "https://determinex.local/sbom/python"
 def _get_packages_via_pip_licenses() -> list[dict]:
     try:
         result = subprocess.run(
-            [sys.executable, "-m", "pip_licenses",
-             "--format=json", "--with-urls", "--with-license-file",
-             "--no-license-path"],
-            capture_output=True, text=True, timeout=60,
+            [
+                sys.executable,
+                "-m",
+                "pip_licenses",
+                "--format=json",
+                "--with-urls",
+                "--with-license-file",
+                "--no-license-path",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=60,
         )
         if result.returncode == 0:
             return json.loads(result.stdout)
@@ -50,21 +59,23 @@ def _get_packages_via_pip() -> list[dict]:
     try:
         result = subprocess.run(
             [sys.executable, "-m", "pip", "list", "--format=json"],
-            capture_output=True, text=True, timeout=30,
+            capture_output=True,
+            text=True,
+            timeout=30,
         )
         if result.returncode == 0:
             raw = json.loads(result.stdout)
-            return [{"Name": p["name"], "Version": p["version"], "License": "NOASSERTION"} for p in raw]
+            return [
+                {"Name": p["name"], "Version": p["version"], "License": "NOASSERTION"} for p in raw
+            ]
     except Exception:
         pass
     return []
 
 
 def generate_spdx(packages: list[dict]) -> dict:
-    now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-    doc_id = hashlib.blake2b(
-        (str(now) + "determinex-python").encode(), digest_size=8
-    ).hexdigest()
+    now = datetime.datetime.now(datetime.UTC).isoformat()
+    doc_id = hashlib.blake2b((str(now) + "determinex-python").encode(), digest_size=8).hexdigest()
 
     packages_list = []
     relationships = []
@@ -73,24 +84,32 @@ def generate_spdx(packages: list[dict]) -> dict:
         name = pkg.get("Name", "unknown")
         version = pkg.get("Version", "")
         license_str = pkg.get("License", "NOASSERTION")
-        spdx_id = f"SPDXRef-{name.replace('-','_').replace('.','_')}-{version.replace('.','_')}"
+        spdx_id = f"SPDXRef-{name.replace('-', '_').replace('.', '_')}-{version.replace('.', '_')}"
         homepage = pkg.get("URL", "")
 
-        packages_list.append({
-            "SPDXID": spdx_id,
-            "name": name,
-            "versionInfo": version,
-            "downloadLocation": homepage or "NOASSERTION",
-            "filesAnalyzed": False,
-            "licenseConcluded": license_str if license_str not in ("UNKNOWN", "") else "NOASSERTION",
-            "licenseDeclared": license_str if license_str not in ("UNKNOWN", "") else "NOASSERTION",
-            "copyrightText": "NOASSERTION",
-        })
-        relationships.append({
-            "spdxElementId": "SPDXRef-DOCUMENT",
-            "relationshipType": "DESCRIBES",
-            "relatedSpdxElement": spdx_id,
-        })
+        packages_list.append(
+            {
+                "SPDXID": spdx_id,
+                "name": name,
+                "versionInfo": version,
+                "downloadLocation": homepage or "NOASSERTION",
+                "filesAnalyzed": False,
+                "licenseConcluded": license_str
+                if license_str not in ("UNKNOWN", "")
+                else "NOASSERTION",
+                "licenseDeclared": license_str
+                if license_str not in ("UNKNOWN", "")
+                else "NOASSERTION",
+                "copyrightText": "NOASSERTION",
+            }
+        )
+        relationships.append(
+            {
+                "spdxElementId": "SPDXRef-DOCUMENT",
+                "relationshipType": "DESCRIBES",
+                "relatedSpdxElement": spdx_id,
+            }
+        )
 
     return {
         "spdxVersion": "SPDX-2.3",
@@ -98,7 +117,10 @@ def generate_spdx(packages: list[dict]) -> dict:
         "SPDXID": "SPDXRef-DOCUMENT",
         "name": f"determinex-python-{_DETERMINEX_VERSION}",
         "documentNamespace": f"{_NAMESPACE_PREFIX}/{doc_id}",
-        "documentDescribes": [f"SPDXRef-{p.get('Name','').replace('-','_').replace('.','_')}-{p.get('Version','').replace('.','_')}" for p in packages[:5]],
+        "documentDescribes": [
+            f"SPDXRef-{p.get('Name', '').replace('-', '_').replace('.', '_')}-{p.get('Version', '').replace('.', '_')}"
+            for p in packages[:5]
+        ],
         "packages": packages_list,
         "relationships": relationships,
         "creationInfo": {
@@ -110,7 +132,7 @@ def generate_spdx(packages: list[dict]) -> dict:
 
 
 def generate_cyclonedx(packages: list[dict]) -> dict:
-    now = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    now = datetime.datetime.now(datetime.UTC).isoformat()
     serial = hashlib.blake2b(
         (str(now) + "determinex-python-cdx").encode(), digest_size=8
     ).hexdigest()

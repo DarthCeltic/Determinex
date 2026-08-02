@@ -4,12 +4,11 @@ The config record is the persistent description of a local model the
 user has configured. Writing the config never opens live calls;
 ``dry_run_default`` is True and ``enabled`` is False by default.
 """
+
 from __future__ import annotations
 
-import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 LOCAL_MODEL_CONFIG_STATUS_TOKENS = (
     "LOCAL_MODEL_CONFIG_WRITTEN",

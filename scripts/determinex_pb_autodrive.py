@@ -28,6 +28,7 @@ Usage:
   python scripts/determinex_pb_autodrive.py --slugs sqlite__sqlite.839433d,...
   python scripts/determinex_pb_autodrive.py --dry-run --slugs <slug>   # wiring check, no live eval
 """
+
 from __future__ import annotations
 
 import argparse
@@ -36,6 +37,7 @@ import datetime
 import json
 import os
 import re
+import shlex
 import shutil
 import sys
 import time
@@ -58,31 +60,39 @@ for _p in ("/root/.local/bin", str(Path.home() / ".local" / "bin")):
 # Ordered easiest-recipe-first (corpus build_knowledge: srgn=go-toolchain, sqlite=build-essential,
 # ctags/cppcheck=cc-deps) so the cheap wins land before the mega-whales (gdal/duckdb/php).
 BUILD_FAIL_WHALES = [
-    "alexpovel__srgn.89f943b",          # go_x_toolchain (GOTOOLCHAIN=go1.24.1)
-    "sqlite__sqlite.839433d",           # builds clean w/ build-essential; tarball-drift
-    "universal-ctags__ctags.243595e",   # cc_build_deps
-    "danmar__cppcheck.0a5b103",         # cc deps; behavioral tail
-    "rust-ethereum__ethabi.b1710ad",    # rust workspace / source-gap
+    "alexpovel__srgn.89f943b",  # go_x_toolchain (GOTOOLCHAIN=go1.24.1)
+    "sqlite__sqlite.839433d",  # builds clean w/ build-essential; tarball-drift
+    "universal-ctags__ctags.243595e",  # cc_build_deps
+    "danmar__cppcheck.0a5b103",  # cc deps; behavioral tail
+    "rust-ethereum__ethabi.b1710ad",  # rust workspace / source-gap
     "halitechallenge__halite.822cfb6",  # libtclap-dev + restrict build
-    "samtools__samtools.aa823b5",       # htslib sibling dep
+    "samtools__samtools.aa823b5",  # htslib sibling dep
     "robertdavidgraham__masscan.b99d433",
     "arq5x__bedtools2.dd57059",
-    "ffmpeg__ffmpeg.360a402",           # mega: codec -dev libs
-    "osgeo__proj.75d455c",              # mega: cmake generated headers
-    "php__php-src.c891263",             # mega
-    "osgeo__gdal.0847f12",              # mega
-    "duckdb__duckdb.bdb65ec",           # mega: build timeout
+    "ffmpeg__ffmpeg.360a402",  # mega: codec -dev libs
+    "osgeo__proj.75d455c",  # mega: cmake generated headers
+    "php__php-src.c891263",  # mega
+    "osgeo__gdal.0847f12",  # mega
+    "duckdb__duckdb.bdb65ec",  # mega: build timeout
 ]
 
 
 EVAL_INDEX = ROOT / "corpus" / "programbench" / "eval_index.json"
 VERIFIED = ROOT / "corpus" / "programbench" / "verified_locks.json"
 # Terminal verdicts: don't re-drive these every pass (locked, or stuck pending human work).
-_TERMINAL = {"LOCKED", "needs-manual-build", "behavioral", "no-override-dir",
-             "clean-but-pin-rejected", "reimpl-lock-candidate",
-             "needs-local-oracle-tail", "needs-local-oracle",
-             "oracle-red-needs-tail", "needs-spec-extraction",
-             "needs-native-reimpl"}
+_TERMINAL = {
+    "LOCKED",
+    "needs-manual-build",
+    "behavioral",
+    "no-override-dir",
+    "clean-but-pin-rejected",
+    "reimpl-lock-candidate",
+    "needs-local-oracle-tail",
+    "needs-local-oracle",
+    "oracle-red-needs-tail",
+    "needs-spec-extraction",
+    "needs-native-reimpl",
+}
 
 
 def _short(slug: str) -> str:
@@ -94,6 +104,7 @@ def _canonical_slug(slug: str) -> str:
     """Resolve short aliases to the unique full override slug when possible."""
     try:
         import determinex_pb_autofix as AF
+
         return AF._resolve_full_slug(slug) or slug
     except Exception:
         return slug
@@ -108,6 +119,7 @@ def _is_terminal_verdict(verdict: object) -> bool:
 def _corpus_consult(slug: str) -> dict:
     try:
         import determinex_pb_ask_corpus as AC
+
         ans = AC.ask_corpus(slug)
         return {
             "engine": ans.get("recommended_engine", ""),
@@ -125,6 +137,7 @@ def _build_full_queue() -> list[str]:
     NOT a confirmed/certified ceiling, and NOT a provenance-dead reimpl. Ordered near-lock
     first (by eval_index official_score_pct desc) so the most-convertible land soonest."""
     import determinex_pb_autofix as AF
+
     # locked (by short name)
     locked = set()
     try:
@@ -133,8 +146,10 @@ def _build_full_queue() -> list[str]:
         pass
     # reimpls that can never lock (provenance) + confirmed ceilings (capped <100)
     kb = AF.load_knowledge() or {}
-    reimpl = {re.split(r"[(]", t)[0].strip().lower()
-              for t in kb.get("provenance_dead_reimpls", {}).get("tools", [])}
+    reimpl = {
+        re.split(r"[(]", t)[0].strip().lower()
+        for t in kb.get("provenance_dead_reimpls", {}).get("tools", [])
+    }
     # eval_index: status (to drop ceilings) + score (to order)
     score: dict[str, float] = {}
     ceiling: set[str] = set()
@@ -155,8 +170,10 @@ def _build_full_queue() -> list[str]:
     # Honor the proven_ceilings registry (the autodrive's triage certifies here) so a freshly
     # certified ceiling is DROPPED next pass -- no waiting for an eval_index reconcile.
     try:
-        pc = json.loads((ROOT / "corpus" / "programbench" / "proven_ceilings.json").read_text(encoding="utf-8"))
-        for t in (pc.get("ceilings", {}) if isinstance(pc, dict) else {}):
+        pc = json.loads(
+            (ROOT / "corpus" / "programbench" / "proven_ceilings.json").read_text(encoding="utf-8")
+        )
+        for t in pc.get("ceilings", {}) if isinstance(pc, dict) else {}:
             ceiling.add(_short(t))
     except Exception:
         pass
@@ -219,17 +236,21 @@ def verdict_of(c: dict) -> str:
 def _autofix(slug: str, apply: bool) -> dict:
     """Run the deterministic build-class autofix on the override dir. Returns its result."""
     import determinex_pb_autofix as AF
+
     full = AF._resolve_full_slug(slug) or slug
     report = AF._find_eval_report(full, None)
     res = AF.autofix(full, report, apply=apply)
-    return {"changed": getattr(res, "changed", False),
-            "applied": getattr(res, "applied", []),
-            "skipped": getattr(res, "skipped", []),
-            "eval_report": str(report) if report else None}
+    return {
+        "changed": getattr(res, "changed", False),
+        "applied": getattr(res, "applied", []),
+        "skipped": getattr(res, "skipped", []),
+        "eval_report": str(report) if report else None,
+    }
 
 
 def _repack(slug: str) -> Path:
     import determinex_pb_autofix as AF
+
     return AF.pack_submission(slug)
 
 
@@ -241,25 +262,52 @@ def _harvest_build_err(slug: str) -> str:
     ('no build.err harvested'). If no *.err file was left behind, re-run compile.sh in the image to
     capture the build error directly (lua-class: compile.sh that doesn't redirect to a .err file)."""
     import subprocess
+
     img = f"programbench-compiled/{slug}:determinex-cached"
-    find_inner = (f"docker run --rm --entrypoint sh {img} -lc "
-                  f"'for f in $(find /workspace -maxdepth 3 -name \"*.err\" 2>/dev/null); do "
-                  f"echo \"[$f]\"; tail -40 \"$f\"; done'")
-    rerun_inner = (f"docker run --rm --entrypoint sh {img} -lc "
-                   f"'cd /workspace 2>/dev/null && [ -f compile.sh ] && sh ./compile.sh 2>&1 | tail -80'")
+    find_inner = (
+        f"docker run --rm --entrypoint sh {img} -lc "
+        f'\'for f in $(find /workspace -maxdepth 3 -name "*.err" 2>/dev/null); do '
+        f'echo "[$f]"; tail -40 "$f"; done\''
+    )
+    rerun_inner = (
+        f"docker run --rm --entrypoint sh {img} -lc "
+        f"'cd /workspace 2>/dev/null && [ -f compile.sh ] && sh ./compile.sh 2>&1 | tail -80'"
+    )
     on_box = Path("/root/ProgramBench").is_dir()
 
     def _run(inner: str, timeout: int) -> str:
         try:
             if on_box:
-                r = subprocess.run(inner + " 2>/dev/null", shell=True,
-                                   capture_output=True, text=True, timeout=timeout)
+                # shell=False + argv list. The shell was here only to append ` 2>/dev/null`,
+                # which subprocess expresses directly. `inner` is always
+                # `docker run ... sh -lc '<script>'`; shlex.split keeps the quoted script as a
+                # single token, so the container's shell still sees its own &&/|/2>&1 -- but
+                # the host shell no longer gets to interpret the string at all.
+                r = subprocess.run(
+                    shlex.split(inner),
+                    shell=False,
+                    capture_output=True,
+                    text=True,
+                    timeout=timeout,
+                    stderr=subprocess.DEVNULL,
+                )
             else:
                 from pb_eval_unified import HETZNER_IP, HETZNER_SSH_KEY
+
                 r = subprocess.run(
-                    ["ssh", "-i", str(HETZNER_SSH_KEY), "-o", "StrictHostKeyChecking=no",
-                     f"root@{HETZNER_IP}", inner + " 2>/dev/null"],
-                    capture_output=True, text=True, timeout=timeout)
+                    [
+                        "ssh",
+                        "-i",
+                        str(HETZNER_SSH_KEY),
+                        "-o",
+                        "StrictHostKeyChecking=no",
+                        f"root@{HETZNER_IP}",
+                        inner + " 2>/dev/null",
+                    ],
+                    capture_output=True,
+                    text=True,
+                    timeout=timeout,
+                )
             return r.stdout or ""
         except Exception:
             return ""
@@ -274,13 +322,19 @@ def _build_err_fix(slug: str) -> dict:
     """The NEVER-BLIND build fix: harvest build.err, diagnose missing deps, inject the apt
     install into compile.sh. Returns {pkgs, sigs, applied}."""
     import determinex_pb_autofix as AF
+
     full = AF._resolve_full_slug(slug) or slug
     err = _harvest_build_err(full)
     if not err.strip():
         return {"pkgs": [], "sigs": [], "applied": False, "note": "no build.err harvested"}
     pkgs, sigs = AF.diagnose_build_err(err)
     if not pkgs:
-        return {"pkgs": [], "sigs": sigs, "applied": False, "note": "no dep signature (per-tool build engineering)"}
+        return {
+            "pkgs": [],
+            "sigs": sigs,
+            "applied": False,
+            "note": "no dep signature (per-tool build engineering)",
+        }
     cs = OVERRIDES / full / "compile.sh"
     new, ch = AF.inject_apt_deps(cs.read_text(encoding="utf-8", errors="replace"), pkgs)
     if ch:
@@ -294,6 +348,7 @@ def _source_gap_fetch(slug: str) -> dict:
     upstream @pinned commit. (Most 'source-gap' whales are actually tarball DRIFT — local
     complete, remote stale — already fixed by the repack; this fires only on a real gap.)"""
     import determinex_pb_autofix as AF
+
     full = AF._resolve_full_slug(slug) or slug
     tool_dir = OVERRIDES / full
     missing = AF._detect_missing_source(tool_dir)
@@ -308,8 +363,9 @@ def _triage(slug: str, reference_check: bool = False) -> dict:
     eval_report) into winnable / proven-ceiling / slop, so the drive can ROUTE instead of grinding
     blindly. Best-effort (empty verdict on error -> treated as winnable, never auto-certified).
     reference_check=True builds a clean reference + proves slop the SOUND way (heavy; give-up only)."""
-    import determinex_pb_autofix as AF
     import determinex_autofix as AX
+    import determinex_pb_autofix as AF
+
     full = AF._resolve_full_slug(slug) or slug
     report = OVERRIDES / full / "eval_report.json"
     if not report.exists():
@@ -326,15 +382,21 @@ def _certify_ceiling(slug: str, tri: dict) -> dict:
     proof doc to locked/<tool>/CEILING_CERT.md + registers in proven_ceilings.json (which the
     queue-order drops). Honest + REVERSIBLE -- delete the registry entry if later shown winnable."""
     import determinex_pb_autofix as AF
+
     full = AF._resolve_full_slug(slug) or slug
     try:
         dest = LOCKED / full
         dest.mkdir(parents=True, exist_ok=True)
-        cert = [f"# CEILING CERT: {full}", "",
-                f"Auto-certified {time.strftime('%Y-%m-%d %H:%M')} by autodrive triage "
-                f"(Impossibility Adjudicator: every remaining failure proven IMPOSSIBLE).",
-                f"genuine(proven-impossible)={tri.get('genuine')}  reopenable={tri.get('reopen')}  "
-                f"slop={tri.get('slop')}", "", "## Proofs (per the Adjudicator)"]
+        cert = [
+            f"# CEILING CERT: {full}",
+            "",
+            f"Auto-certified {time.strftime('%Y-%m-%d %H:%M')} by autodrive triage "
+            f"(Impossibility Adjudicator: every remaining failure proven IMPOSSIBLE).",
+            f"genuine(proven-impossible)={tri.get('genuine')}  reopenable={tri.get('reopen')}  "
+            f"slop={tri.get('slop')}",
+            "",
+            "## Proofs (per the Adjudicator)",
+        ]
         for p in tri.get("proofs", []):
             cert.append(f"- {str(p)[:400]}")
         (dest / "CEILING_CERT.md").write_text("\n".join(cert) + "\n", encoding="utf-8")
@@ -347,9 +409,13 @@ def _certify_ceiling(slug: str, tri: dict) -> dict:
             pc = {}
         pc.setdefault("schema", "proven-ceilings-v1")
         pc.setdefault("ceilings", {})
-        pc["ceilings"][full] = {"genuine": tri.get("genuine"), "reopen": tri.get("reopen"),
-                                "certified": time.strftime("%Y-%m-%d"), "source": "autodrive-triage",
-                                "proofs": [str(p)[:300] for p in tri.get("proofs", [])][:5]}
+        pc["ceilings"][full] = {
+            "genuine": tri.get("genuine"),
+            "reopen": tri.get("reopen"),
+            "certified": time.strftime("%Y-%m-%d"),
+            "source": "autodrive-triage",
+            "proofs": [str(p)[:300] for p in tri.get("proofs", [])][:5],
+        }
         pc_path.write_text(json.dumps(pc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     except Exception as e:
         return {"certified": False, "note": f"registry-err: {e}"}
@@ -360,6 +426,7 @@ def _archive_and_pin(slug: str, tarball: Path, data: dict) -> dict:
     """On a clean 100%: archive tarball+report into locked/<slug>/ then sha-pin via the
     registry (which re-checks clean + provenance-guard + archive-present)."""
     import determinex_pb_lock_registry as REG
+
     dest = LOCKED / slug
     dest.mkdir(parents=True, exist_ok=True)
     shutil.copy2(tarball, dest / "submission.tar.gz")
@@ -387,6 +454,7 @@ def _report_passed(path: Path) -> int:
         return -1
     try:
         from collections import Counter
+
         old = json.loads(path.read_text(encoding="utf-8"))
         return Counter(x.get("status") for x in (old.get("test_results") or [])).get("passed", 0)
     except Exception:
@@ -412,13 +480,27 @@ def _hetzner_up() -> bool:
     """Is the Hetzner eval box reachable? The watch loop gates on this so a Hetzner
     outage makes autodrive IDLE (local-only mode) instead of error-spamming the queue."""
     import subprocess
+
     try:
         from pb_eval_unified import HETZNER_IP, HETZNER_SSH_KEY
+
         r = subprocess.run(
-            ["ssh", "-i", str(HETZNER_SSH_KEY), "-o", "StrictHostKeyChecking=no",
-             "-o", "ConnectTimeout=10", "-o", "BatchMode=yes",
-             f"root@{HETZNER_IP}", "true"],
-            capture_output=True, timeout=20)
+            [
+                "ssh",
+                "-i",
+                str(HETZNER_SSH_KEY),
+                "-o",
+                "StrictHostKeyChecking=no",
+                "-o",
+                "ConnectTimeout=10",
+                "-o",
+                "BatchMode=yes",
+                f"root@{HETZNER_IP}",
+                "true",
+            ],
+            capture_output=True,
+            timeout=20,
+        )
         return r.returncode == 0
     except Exception:
         return False
@@ -430,7 +512,9 @@ def _fresh_eval(slug: str, tarball: Path) -> tuple[dict, dict, str]:
     remote Hetzner path off-box. Env DETERMINEX_EVAL_LOCAL=1/0 forces the choice."""
     import os
     from pathlib import Path as _P
+
     from pb_eval_unified import run_hetzner_eval, run_local_eval
+
     force = os.environ.get("DETERMINEX_EVAL_LOCAL")
     use_local = (force == "1") or (force != "0" and _P("/root/ProgramBench").is_dir())
     data = (run_local_eval(slug, tarball) if use_local else run_hetzner_eval(slug, tarball)) or {}
@@ -467,7 +551,9 @@ def _behavioral_fix(slug: str, verdict: str = "behavioral") -> dict:
     Returns {changed, notes}. The autodrive re-evals the result through the SAME cache-purge +
     provenance-guard path, so a behavioral fix that regresses or games is rejected at the pin."""
     import subprocess as _sp
+
     import determinex_pb_autofix as AF
+
     full = AF._resolve_full_slug(slug) or slug
     d = OVERRIDES / full
     report = d / "eval_report.json"
@@ -480,9 +566,20 @@ def _behavioral_fix(slug: str, verdict: str = "behavioral") -> dict:
     #     false-positives and would loop the autodrive re-evaling an unchanged submission.
     before = _sub_fingerprint(d)
     try:
-        r = _sp.run([sys.executable, str(scripts / "determinex_autofix.py"), "report",
-                     str(report), "--apply", "--submission", str(d)],
-                    capture_output=True, text=True, timeout=900)
+        r = _sp.run(
+            [
+                sys.executable,
+                str(scripts / "determinex_autofix.py"),
+                "report",
+                str(report),
+                "--apply",
+                "--submission",
+                str(d),
+            ],
+            capture_output=True,
+            text=True,
+            timeout=900,
+        )
         o = (r.stdout or "") + (r.stderr or "")
         notes.append("adjudicate:" + o[-160:].replace("\n", " "))
     except Exception as e:
@@ -508,20 +605,41 @@ def _behavioral_fix(slug: str, verdict: str = "behavioral") -> dict:
             # ran; caught live on nsh). Official eval stays on by omission.
             models = os.environ.get("DETERMINEX_REIMPL_MODELS", "local/qwen2.5-coder:7b-instruct")
             lang = os.environ.get("DETERMINEX_REIMPL_LANG", "python")
-            r = _sp.run([sys.executable, str(scripts / "determinex_reimpl_drive.py"), full,
-                         "--iters", "1", "--models", models, "--lang", lang],
-                        capture_output=True, text=True, timeout=900)
+            r = _sp.run(
+                [
+                    sys.executable,
+                    str(scripts / "determinex_reimpl_drive.py"),
+                    full,
+                    "--iters",
+                    "1",
+                    "--models",
+                    models,
+                    "--lang",
+                    lang,
+                ],
+                capture_output=True,
+                text=True,
+                timeout=900,
+            )
             o = (r.stdout or "") + (r.stderr or "")
             m = re.search(r"OFFICIAL:\s*(\d+)\s*/\s*(\d+)\s+solved=(\w+)", o)
             if m:
-                solved = m.group(3).strip().lower() == "true" or "verified skill locked" in o.lower()
-                reimpl_official = {"passed": int(m.group(1)), "total": int(m.group(2)), "solved": solved}
+                solved = (
+                    m.group(3).strip().lower() == "true" or "verified skill locked" in o.lower()
+                )
+                reimpl_official = {
+                    "passed": int(m.group(1)),
+                    "total": int(m.group(2)),
+                    "solved": solved,
+                }
             notes.append("reimpl:" + o[-160:].replace("\n", " "))
         except Exception as e:
             notes.append(f"reimpl-err:{e}")
     elif not changed and verdict != "near-lock":
-        notes.append("reimpl-skipped: autodrive does not launch LLM reimpl by default; "
-                     "ask_corpus -> local oracle -> explicit determinex_reimpl_drive lane required")
+        notes.append(
+            "reimpl-skipped: autodrive does not launch LLM reimpl by default; "
+            "ask_corpus -> local oracle -> explicit determinex_reimpl_drive lane required"
+        )
     return {"changed": changed, "notes": notes, "reimpl_official": reimpl_official}
 
 
@@ -533,6 +651,7 @@ def _amplify_build_fix(slug: str) -> dict:
     Writes the winning compile.sh into the override dir; the drive's next re-eval + provenance pin
     validate it. Returns {changed, ...}."""
     import determinex_pb_autofix as AF
+
     full = AF._resolve_full_slug(slug) or slug
     d = OVERRIDES / full
     cs_path = d / "compile.sh"
@@ -550,9 +669,17 @@ def _amplify_build_fix(slug: str) -> dict:
     failures = []
     try:
         tr = json.loads(report.read_text(encoding="utf-8")).get("test_results") or []
-        failures = [AMP._Failure(x.get("test_id", "") or x.get("name", ""), x.get("name", ""),
-                                 (x.get("extra", {}) or {}).get("text", "") if isinstance(x.get("extra"), dict) else "")
-                    for x in tr if x.get("status") not in ("passed", "not_run", "skipped")][:25]
+        failures = [
+            AMP._Failure(
+                x.get("test_id", "") or x.get("name", ""),
+                x.get("name", ""),
+                (x.get("extra", {}) or {}).get("text", "")
+                if isinstance(x.get("extra"), dict)
+                else "",
+            )
+            for x in tr
+            if x.get("status") not in ("passed", "not_run", "skipped")
+        ][:25]
     except Exception:
         pass
     compile_sh = cs_path.read_text(encoding="utf-8", errors="replace")
@@ -575,10 +702,19 @@ def _amplify_build_fix(slug: str) -> dict:
             learned = AMP.learn_class(full, ftext, compile_sh, best.text)
         except Exception as e:
             learned = {"learned": False, "why": f"flywheel-err: {e}"}
-        return {"changed": True, "solved": True, "samples": getattr(r, "total_samples", None),
-                "proof": (getattr(r, "proof", "") or "")[:120], "learned": learned}
-    return {"changed": False, "solved": False, "samples": getattr(r, "total_samples", None),
-            "next": (getattr(r, "next_moves", None) or [])[:3]}
+        return {
+            "changed": True,
+            "solved": True,
+            "samples": getattr(r, "total_samples", None),
+            "proof": (getattr(r, "proof", "") or "")[:120],
+            "learned": learned,
+        }
+    return {
+        "changed": False,
+        "solved": False,
+        "samples": getattr(r, "total_samples", None),
+        "next": (getattr(r, "next_moves", None) or [])[:3],
+    }
 
 
 def _free_disk() -> None:
@@ -587,14 +723,29 @@ def _free_disk() -> None:
     Keeps :task + cleanroom images. Called on a disk-guard eval error (nothing is mid-build at that
     point), so the box-resident drive self-heals instead of eval-erroring the rest of the queue."""
     import subprocess as _sp
+
     try:
-        imgs = _sp.run("docker images --format '{{.Repository}}:{{.Tag}}' | grep ':determinex-cached'",
-                       shell=True, capture_output=True, text=True, timeout=60).stdout.split()
+        # The shell was here for one pipe into grep. Python filters a list without granting
+        # /bin/sh a say in what runs.
+        _all = _sp.run(
+            ["docker", "images", "--format", "{{.Repository}}:{{.Tag}}"],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        ).stdout.split()
+        imgs = [i for i in _all if ":determinex-cached" in i]
         for img in imgs:
             _sp.run(["docker", "rmi", "-f", img], capture_output=True, timeout=30)
-        for args in (["image", "prune", "-f"], ["builder", "prune", "-f"], ["container", "prune", "-f"]):
+        for args in (
+            ["image", "prune", "-f"],
+            ["builder", "prune", "-f"],
+            ["container", "prune", "-f"],
+        ):
             _sp.run(["docker", *args], capture_output=True, timeout=120)
-        print(f"  [self-heal] pruned {len(imgs)} :determinex-cached + caches to recover eval disk", flush=True)
+        print(
+            f"  [self-heal] pruned {len(imgs)} :determinex-cached + caches to recover eval disk",
+            flush=True,
+        )
     except Exception:
         pass
 
@@ -605,17 +756,23 @@ def drive_one(slug: str, max_attempts: int, dry_run: bool) -> dict:
     report pick the fix. Order: fresh eval -> if clean, pin -> else autofix on the FRESH
     report -> repack -> re-eval. Gate on the real outcome, never on fix-text presence."""
     import determinex_pb_autofix as AF
-    slug = AF._resolve_full_slug(slug) or slug   # eval_index short slug ('ov') -> real override dir
-    log: dict = {"slug": slug, "attempts": [], "verdict": "?",
-                 "ts": datetime.datetime.now().isoformat(timespec="seconds")}
+
+    slug = AF._resolve_full_slug(slug) or slug  # eval_index short slug ('ov') -> real override dir
+    log: dict = {
+        "slug": slug,
+        "attempts": [],
+        "verdict": "?",
+        "ts": datetime.datetime.now().isoformat(timespec="seconds"),
+    }
     if not (OVERRIDES / slug).is_dir():
         log["verdict"] = "no-override-dir"
         return log
 
     if dry_run:
         fx = _autofix(slug, apply=False)
-        log["attempts"].append({"attempt": 0, "autofix": fx,
-                                "note": "dry-run: wiring OK, no live eval"})
+        log["attempts"].append(
+            {"attempt": 0, "autofix": fx, "note": "dry-run: wiring OK, no live eval"}
+        )
         log["verdict"] = "dry-run-ok"
         return log
 
@@ -626,12 +783,12 @@ def drive_one(slug: str, max_attempts: int, dry_run: bool) -> dict:
     consult0 = _corpus_consult(slug)
     try:
         import determinex_pb_corpus_router as CR
+
         route0 = CR.route_from_corpus({**consult0, "slug": slug})
         route0d = route0.to_dict()
     except Exception as e:
         route0 = None
-        route0d = {"verdict": "corpus-route-error", "error": str(e),
-                   "official_eval_allowed": False}
+        route0d = {"verdict": "corpus-route-error", "error": str(e), "official_eval_allowed": False}
     if not route0d.get("official_eval_allowed"):
         log["attempts"].append({"attempt": 0, "corpus": consult0, "corpus_route": route0d})
         verdict = str(route0d.get("verdict") or "needs-local-oracle")
@@ -678,7 +835,9 @@ def drive_one(slug: str, max_attempts: int, dry_run: bool) -> dict:
         # (atlas's override report read 1477 failures while the live eval was 2 -> the
         # stale-report bug that blocks behavioral near-lock closure.)
         try:
-            _persist_best(OVERRIDES / slug / "eval_report.json", data, c)  # keep the BEST, never clobber
+            _persist_best(
+                OVERRIDES / slug / "eval_report.json", data, c
+            )  # keep the BEST, never clobber
         except Exception:
             pass
 
@@ -686,19 +845,25 @@ def drive_one(slug: str, max_attempts: int, dry_run: bool) -> dict:
             pin = _archive_and_pin(slug, tarball, data)
             a["pin"] = pin
             log["attempts"].append(a)
-            log["verdict"] = "LOCKED" if pin.get("ok") else f"clean-but-pin-rejected:{pin.get('why')}"
+            log["verdict"] = (
+                "LOCKED" if pin.get("ok") else f"clean-but-pin-rejected:{pin.get('why')}"
+            )
             return log
 
         consult = _corpus_consult(slug)
         a["corpus"] = consult
         engine = consult.get("engine", "")
         if v == "near-lock" and engine in {"reimpl-skill-oracle", "spec-local-oracle"}:
-            a["note"] = "near-lock reimpl tail must be patched under determinex_local_oracle before another official eval"
+            a["note"] = (
+                "near-lock reimpl tail must be patched under determinex_local_oracle before another official eval"
+            )
             log["attempts"].append(a)
             log["verdict"] = "needs-local-oracle-tail"
             return log
         if engine == "native-reimpl-loop":
-            a["note"] = "current override is upstream-source/provenance-invalid; route to explicit native reimpl lane"
+            a["note"] = (
+                "current override is upstream-source/provenance-invalid; route to explicit native reimpl lane"
+            )
             log["attempts"].append(a)
             log["verdict"] = "needs-native-reimpl"
             return log
@@ -708,8 +873,13 @@ def drive_one(slug: str, max_attempts: int, dry_run: bool) -> dict:
         # grind the impossible. Everything else is winnable -> fall through to the close chain.
         tri = _triage(slug)
         a["triage"] = {k: tri.get(k) for k in ("n", "reopen", "genuine", "slop") if k in tri}
-        if (c.get("failed", 0) > 0 and tri.get("reopen", 1) == 0 and tri.get("genuine", 0) > 0
-                and tri.get("slop", 0) == 0 and tri.get("proofs")):
+        if (
+            c.get("failed", 0) > 0
+            and tri.get("reopen", 1) == 0
+            and tri.get("genuine", 0) > 0
+            and tri.get("slop", 0) == 0
+            and tri.get("proofs")
+        ):
             cert = _certify_ceiling(slug, tri)
             a["certify"] = cert
             log["attempts"].append(a)
@@ -748,8 +918,14 @@ def drive_one(slug: str, max_attempts: int, dry_run: bool) -> dict:
                 a["amplify"] = amp
         log["attempts"].append(a)
 
-        if v == "build-fail" and not fx["changed"] and not be["applied"] \
-                and not sg["restored"] and not amp["changed"] and c["passed"] <= last_passed:
+        if (
+            v == "build-fail"
+            and not fx["changed"]
+            and not be["applied"]
+            and not sg["restored"]
+            and not amp["changed"]
+            and c["passed"] <= last_passed
+        ):
             # build broken, autofix + source-gap + amplified compile.sh fix all found nothing,
             # no progress => mega-whale needing per-tool build engineering. Never spin.
             log["verdict"] = "needs-manual-build"
@@ -781,7 +957,9 @@ def drive_one(slug: str, max_attempts: int, dry_run: bool) -> dict:
                 # ONLY when EVERY remaining failure is proven-impossible OR proven-slop (a correct
                 # binary fails it too) and NOTHING stays winnable. Reversible; never a false ceiling.
                 tri2 = _triage(slug, reference_check=True)
-                a["triage_ref"] = {k: tri2.get(k) for k in ("n", "reopen", "genuine", "slop") if k in tri2}
+                a["triage_ref"] = {
+                    k: tri2.get(k) for k in ("n", "reopen", "genuine", "slop") if k in tri2
+                }
                 winnable_left = tri2.get("n", 0) - tri2.get("genuine", 0) - tri2.get("slop", 0)
                 if (tri2.get("slop", 0) + tri2.get("genuine", 0)) > 0 and winnable_left <= 0:
                     cert = _certify_ceiling(slug, tri2)
@@ -806,22 +984,34 @@ def main() -> int:
         sys.stderr.reconfigure(line_buffering=True)  # type: ignore[attr-defined]
     except Exception:
         pass
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--queue", choices=["build_fail_whales"], help="named queue")
     ap.add_argument("--slugs", help="comma-separated full slugs (overrides --queue)")
-    ap.add_argument("--all", action="store_true",
-                    help="drive the FULL non-locked queue (every drivable tool toward 200)")
-    ap.add_argument("--watch", action="store_true",
-                    help="persistent: loop passes forever, re-reading the queue each time "
-                         "(new locks drop out); skips terminally-verdicted tools")
-    ap.add_argument("--interval", type=int, default=1800,
-                    help="--watch sleep between passes (s); default 1800")
-    ap.add_argument("--retry-terminal", action="store_true",
-                    help="--watch: also re-drive needs-manual/behavioral tools each pass")
+    ap.add_argument(
+        "--all",
+        action="store_true",
+        help="drive the FULL non-locked queue (every drivable tool toward 200)",
+    )
+    ap.add_argument(
+        "--watch",
+        action="store_true",
+        help="persistent: loop passes forever, re-reading the queue each time "
+        "(new locks drop out); skips terminally-verdicted tools",
+    )
+    ap.add_argument(
+        "--interval", type=int, default=1800, help="--watch sleep between passes (s); default 1800"
+    )
+    ap.add_argument(
+        "--retry-terminal",
+        action="store_true",
+        help="--watch: also re-drive needs-manual/behavioral tools each pass",
+    )
     ap.add_argument("--max-attempts", type=int, default=2)
-    ap.add_argument("--dry-run", action="store_true",
-                    help="wiring check: autofix only, no live eval, no pin")
+    ap.add_argument(
+        "--dry-run", action="store_true", help="wiring check: autofix only, no live eval, no pin"
+    )
     args = ap.parse_args()
 
     def _resolve_queue() -> list[str]:
@@ -854,8 +1044,11 @@ def main() -> int:
                     if r.get("slug"):
                         skip.add(_canonical_slug(str(r.get("slug"))))
         todo = [s for s in queue if s not in skip]
-        print(f"\n[autodrive] ===== PASS {pass_no} | queue={len(queue)} "
-              f"todo={len(todo)} skip(terminal)={len(skip)} =====", flush=True)
+        print(
+            f"\n[autodrive] ===== PASS {pass_no} | queue={len(queue)} "
+            f"todo={len(todo)} skip(terminal)={len(skip)} =====",
+            flush=True,
+        )
         locked_now = []
         for i, slug in enumerate(todo, 1):
             print(f"\n[autodrive] [{i}/{len(todo)}] === {slug} ===", flush=True)
@@ -863,7 +1056,7 @@ def main() -> int:
                 r = drive_one(slug, args.max_attempts, args.dry_run)
             except Exception as e:
                 r = {"slug": slug, "verdict": f"driver-error: {e}", "attempts": []}
-            state = _load_log()           # reload (other writers) before merge-save
+            state = _load_log()  # reload (other writers) before merge-save
             state["runs"][slug] = r
             _save_log(state)
             attempts = r.get("attempts") or []
@@ -872,8 +1065,10 @@ def main() -> int:
             print(f"[autodrive] {slug}: {r['verdict']}  {counts}", flush=True)
             if r["verdict"] == "LOCKED":
                 locked_now.append(slug)
-        print(f"\n[autodrive] PASS {pass_no} done. newly LOCKED: {len(locked_now)} {locked_now}",
-              flush=True)
+        print(
+            f"\n[autodrive] PASS {pass_no} done. newly LOCKED: {len(locked_now)} {locked_now}",
+            flush=True,
+        )
         return locked_now
 
     if not args.watch:
@@ -892,13 +1087,19 @@ def main() -> int:
     on_box = Path("/root/ProgramBench").is_dir()
     while True:
         if not on_box and not _hetzner_up():
-            print(f"[autodrive][watch] Hetzner UNREACHABLE — local-only mode; "
-                  f"idling, re-probe in 300s. ({datetime.datetime.now():%H:%M:%S})", flush=True)
+            print(
+                f"[autodrive][watch] Hetzner UNREACHABLE — local-only mode; "
+                f"idling, re-probe in 300s. ({datetime.datetime.now():%H:%M:%S})",
+                flush=True,
+            )
             time.sleep(300)
             continue
         total_locked += len(_one_pass(pass_no))
-        print(f"[autodrive][watch] cumulative new locks: {total_locked}. "
-              f"sleeping {args.interval}s before pass {pass_no + 1}...", flush=True)
+        print(
+            f"[autodrive][watch] cumulative new locks: {total_locked}. "
+            f"sleeping {args.interval}s before pass {pass_no + 1}...",
+            flush=True,
+        )
         pass_no += 1
         time.sleep(args.interval)
 

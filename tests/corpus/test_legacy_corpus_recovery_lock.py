@@ -25,8 +25,11 @@ from corpus.legacy_recovery.programbench_priority_model import build_priority_mo
 def _legacy_row() -> dict:
     return {
         "conversations": [
-            {"from": "human", "value": "Implement tool kyoh86__richgo.313114f for /workspace/executable argv[0] output."},
-            {"from": "gpt", "value": "```bash\nexec -a \"$0\" richgo \"$@\"\n```"},
+            {
+                "from": "human",
+                "value": "Implement tool kyoh86__richgo.313114f for /workspace/executable argv[0] output.",
+            },
+            {"from": "gpt", "value": '```bash\nexec -a "$0" richgo "$@"\n```'},
         ],
         "metadata": {
             "slug": "kyoh86__richgo.313114f",
@@ -98,7 +101,9 @@ def test_priority_model_can_rank_from_weak_legacy_evidence(tmp_path):
 
 
 def test_promoter_refuses_without_fresh_verifier(tmp_path):
-    item = classify_raw_line(json.dumps(_legacy_row()), path=tmp_path / "legacy.jsonl", line_number=1)
+    item = classify_raw_line(
+        json.dumps(_legacy_row()), path=tmp_path / "legacy.jsonl", line_number=1
+    )
     verifier = FreshVerifierResult(
         verifier_command="",
         verifier_result="pass",
@@ -107,11 +112,15 @@ def test_promoter_refuses_without_fresh_verifier(tmp_path):
         license_provenance="MIT",
     )
     with pytest.raises(ValueError):
-        promote_replayed_trace(item.to_dict(), verifier, output_jsonl=tmp_path / "out.jsonl", language="go")
+        promote_replayed_trace(
+            item.to_dict(), verifier, output_jsonl=tmp_path / "out.jsonl", language="go"
+        )
 
 
 def test_promoter_writes_new_signed_recovered_row_not_mutating_legacy(tmp_path):
-    item = classify_raw_line(json.dumps(_legacy_row()), path=tmp_path / "legacy.jsonl", line_number=1)
+    item = classify_raw_line(
+        json.dumps(_legacy_row()), path=tmp_path / "legacy.jsonl", line_number=1
+    )
     verifier = FreshVerifierResult(
         verifier_command="programbench eval",
         verifier_result="pass",

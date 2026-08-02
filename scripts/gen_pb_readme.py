@@ -12,11 +12,9 @@ Output: corpus/programbench/README.md
 """
 
 import json
-import os
 import re
-import sys
+from datetime import UTC, datetime
 from pathlib import Path
-from datetime import datetime, timezone
 
 REPO = Path(__file__).parent.parent
 INDEX = REPO / "corpus/programbench/eval_index.json"
@@ -32,230 +30,1005 @@ OUT = REPO / "corpus/programbench/README.md"
 # ─────────────────────────────────────────────────────────────────
 TOOL_META = {
     # ── T1 Strict Locks ──────────────────────────────────────────
-    "jq":                    {"desc": "JSON processor — filters, transforms, queries JSON streams", "lang": "c", "cluster": ["yq", "xq", "dsq", "gron"]},
-    "yq":                    {"desc": "YAML/JSON/TOML processor; jq-syntax queries for YAML", "lang": "go", "cluster": ["jq", "xq"]},
-    "xq":                    {"desc": "XML/HTML query tool with jq-like syntax", "lang": "go", "cluster": ["jq", "yq"]},
-    "gron":                  {"desc": "Flattens JSON to greppable lines; makes JSON greppable", "lang": "go", "cluster": ["jq"]},
-    "dsq":                   {"desc": "SQL queries over CSV/JSON/Parquet files; multi-format join", "lang": "go", "cluster": ["jq", "trdsql"]},
-    "trdsql":                {"desc": "SQL queries over CSV/TSV/JSON/LTSV; supports MySQL/PG syntax", "lang": "go", "cluster": ["dsq"]},
-    "angle-grinder":         {"desc": "Log parsing & aggregation DSL; filter/group-by/sum on log lines", "lang": "rs", "cluster": ["rhit", "fblog"]},
-    "ripgrep":               {"desc": "Regex search across files; respects .gitignore; faster than grep", "lang": "rs", "cluster": ["shellharden", "diffr"]},
-    "shellharden":           {"desc": "Shell script linter/formatter; hardens quoting and variable handling", "lang": "rs", "cluster": ["ripgrep"]},
-    "zoxide":                {"desc": "Smarter cd; learns frecency-ranked directory jumps", "lang": "rs", "cluster": ["nomino", "rnr"]},
-    "pastel":                {"desc": "Color manipulation CLI — convert, mix, lighten/darken colors", "lang": "rs", "cluster": []},
-    "grex":                  {"desc": "Generates minimal regex patterns from user-provided examples", "lang": "rs", "cluster": []},
-    "hyperfine":             {"desc": "Benchmarking tool — runs commands N times, stats on timing", "lang": "rs", "cluster": []},
-    "ripsecrets":            {"desc": "Scans files/git history for hardcoded secrets and API keys", "lang": "rs", "cluster": []},
-    "cmatrix":               {"desc": "Matrix-style falling-character terminal animation", "lang": "c", "cluster": ["genact"]},
-    "genact":                {"desc": "Fake activity simulator — makes terminal look busy", "lang": "rs", "cluster": ["cmatrix"]},
-    "go-mod-outdated":       {"desc": "Lists outdated Go module dependencies", "lang": "go", "cluster": []},
-    "gron":                  {"desc": "Flattens JSON to greppable discrete assignments", "lang": "go", "cluster": ["jq"]},
-    "ascii-image-converter": {"desc": "Converts images to ASCII art in terminal", "lang": "go", "cluster": []},
-    "boyter__scc.515f91c":   {"desc": "Code counter — lines of code/comments/blanks per language (scc)", "lang": "go", "cluster": []},
-    "stathissideris__ditaa": {"desc": "Converts ASCII art diagrams to PNG/SVG images", "lang": "java", "cluster": []},
-    "bore":                  {"desc": "TCP tunnel — exposes local ports through a remote server", "lang": "rs", "cluster": ["miniserve", "muffet"]},
-    "miniserve":             {"desc": "Minimal HTTP file server — serve a directory over HTTP", "lang": "rs", "cluster": ["bore", "muffet"]},
-    "muffet":                {"desc": "Fast website link checker; crawls for broken links", "lang": "go", "cluster": ["miniserve"]},
-    "clog-cli":              {"desc": "Changelog generator from conventional commit history", "lang": "rs", "cluster": ["git-trim"]},
-    "code-minimap":          {"desc": "Terminal minimap of source code scrollbar", "lang": "rs", "cluster": []},
-    "curlie":                {"desc": "HTTP client combining curl flags with httpie-style output", "lang": "go", "cluster": ["muffet"]},
-    "deadnix":               {"desc": "Nix file analyzer; finds unused variables in Nix expressions", "lang": "rs", "cluster": []},
-    "diffr":                 {"desc": "Diff viewer with character-level highlighting", "lang": "rs", "cluster": []},
-    "dupl":                  {"desc": "Source code duplicate detector across files", "lang": "go", "cluster": []},
-    "entr":                  {"desc": "File watcher — re-runs commands when files change", "lang": "c", "cluster": []},
-    "eva":                   {"desc": "Calculator REPL with variable support and arbitrary precision", "lang": "rs", "cluster": []},
-    "fasttext":              {"desc": "Facebook's text classification and word vector library", "lang": "c++", "cluster": []},
-    "fblog":                 {"desc": "JSON log viewer with color highlighting and field filtering", "lang": "rs", "cluster": ["angle-grinder", "rhit"]},
-    "flamelens":             {"desc": "Interactive flamegraph viewer in terminal", "lang": "rs", "cluster": []},
-    "git-trim":              {"desc": "Trims merged/stale git branches automatically", "lang": "rs", "cluster": ["clog-cli"]},
-    "hck":                   {"desc": "Field-splitting like cut but with regex delimiters", "lang": "rs", "cluster": []},
-    "hex":                   {"desc": "Hex dump viewer with color and multiple display modes", "lang": "rs", "cluster": []},
-    "i3-style":              {"desc": "Applies color themes to i3/Sway window manager configs", "lang": "rs", "cluster": []},
-    "ivanceras__svgbob":     {"desc": "ASCII diagram-to-SVG converter", "lang": "rs", "cluster": ["stathissideris__ditaa"]},
-    "loop":                  {"desc": "Runs commands in a loop with delay/count/until options", "lang": "rs", "cluster": ["entr"]},
-    "ngrrram":               {"desc": "Typing speed trainer for command-line users", "lang": "rs", "cluster": ["thokr"]},
-    "nomino":                {"desc": "Bulk file renamer with regex patterns", "lang": "rs", "cluster": ["rnr"]},
-    "pier":                  {"desc": "Command alias manager — save and run frequently-used commands", "lang": "rs", "cluster": []},
-    "rhit":                  {"desc": "Apache/Nginx log analyzer with fast path stats", "lang": "rs", "cluster": ["angle-grinder", "fblog"]},
-    "rnr":                   {"desc": "Recursive bulk file/directory renamer with regex support", "lang": "rs", "cluster": ["nomino"]},
-    "rust-embedded__svd2rust.1760b5e": {"desc": "Converts CMSIS-SVD files to Rust peripheral access crate", "lang": "rs", "cluster": []},
-    "seqtk":                 {"desc": "Fast FASTQ/FASTA sequence processing toolkit", "lang": "c", "cluster": []},
-    "tailspin":              {"desc": "Log file highlighter — colorizes log levels, IPs, paths, dates", "lang": "rs", "cluster": ["fblog"]},
-    "tex-fmt":               {"desc": "LaTeX formatter — consistent indentation for TeX/LaTeX files", "lang": "rs", "cluster": []},
-    "thokr":                 {"desc": "Terminal typing test with WPM/accuracy stats", "lang": "rs", "cluster": ["ngrrram"]},
-    "tparse":                {"desc": "Formats and colorizes go test output with pass/fail/coverage stats", "lang": "go", "cluster": []},
-    "trasta298__keifu.3331426": {"desc": "TUI bookmark/note manager with sqlite backend", "lang": "rs", "cluster": []},
-    "xsv":                   {"desc": "Fast CSV toolkit — slice, select, join, search, stats on CSV", "lang": "rs", "cluster": ["dsq", "trdsql"]},
-    "yj":                    {"desc": "Converts between YAML/TOML/JSON/HCL formats", "lang": "go", "cluster": ["yq", "xq"]},
-    "chmln__handlr":         {"desc": "XDG MIME handler replacement for xdg-open", "lang": "rs", "cluster": []},
-    "dsq":                   {"desc": "SQL queries over CSV/JSON/Parquet; multi-format join", "lang": "go", "cluster": ["jq", "trdsql"]},
-    "flamelens":             {"desc": "Interactive flamegraph viewer in terminal", "lang": "rs", "cluster": []},
-
+    "jq": {
+        "desc": "JSON processor — filters, transforms, queries JSON streams",
+        "lang": "c",
+        "cluster": ["yq", "xq", "dsq", "gron"],
+    },
+    "yq": {
+        "desc": "YAML/JSON/TOML processor; jq-syntax queries for YAML",
+        "lang": "go",
+        "cluster": ["jq", "xq"],
+    },
+    "xq": {
+        "desc": "XML/HTML query tool with jq-like syntax",
+        "lang": "go",
+        "cluster": ["jq", "yq"],
+    },
+    "gron": {
+        "desc": "Flattens JSON to greppable lines; makes JSON greppable",
+        "lang": "go",
+        "cluster": ["jq"],
+    },
+    "dsq": {
+        "desc": "SQL queries over CSV/JSON/Parquet files; multi-format join",
+        "lang": "go",
+        "cluster": ["jq", "trdsql"],
+    },
+    "trdsql": {
+        "desc": "SQL queries over CSV/TSV/JSON/LTSV; supports MySQL/PG syntax",
+        "lang": "go",
+        "cluster": ["dsq"],
+    },
+    "angle-grinder": {
+        "desc": "Log parsing & aggregation DSL; filter/group-by/sum on log lines",
+        "lang": "rs",
+        "cluster": ["rhit", "fblog"],
+    },
+    "ripgrep": {
+        "desc": "Regex search across files; respects .gitignore; faster than grep",
+        "lang": "rs",
+        "cluster": ["shellharden", "diffr"],
+    },
+    "shellharden": {
+        "desc": "Shell script linter/formatter; hardens quoting and variable handling",
+        "lang": "rs",
+        "cluster": ["ripgrep"],
+    },
+    "zoxide": {
+        "desc": "Smarter cd; learns frecency-ranked directory jumps",
+        "lang": "rs",
+        "cluster": ["nomino", "rnr"],
+    },
+    "pastel": {
+        "desc": "Color manipulation CLI — convert, mix, lighten/darken colors",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "grex": {
+        "desc": "Generates minimal regex patterns from user-provided examples",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "hyperfine": {
+        "desc": "Benchmarking tool — runs commands N times, stats on timing",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "ripsecrets": {
+        "desc": "Scans files/git history for hardcoded secrets and API keys",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "cmatrix": {
+        "desc": "Matrix-style falling-character terminal animation",
+        "lang": "c",
+        "cluster": ["genact"],
+    },
+    "genact": {
+        "desc": "Fake activity simulator — makes terminal look busy",
+        "lang": "rs",
+        "cluster": ["cmatrix"],
+    },
+    "go-mod-outdated": {
+        "desc": "Lists outdated Go module dependencies",
+        "lang": "go",
+        "cluster": [],
+    },
+    "gron": {
+        "desc": "Flattens JSON to greppable discrete assignments",
+        "lang": "go",
+        "cluster": ["jq"],
+    },
+    "ascii-image-converter": {
+        "desc": "Converts images to ASCII art in terminal",
+        "lang": "go",
+        "cluster": [],
+    },
+    "boyter__scc.515f91c": {
+        "desc": "Code counter — lines of code/comments/blanks per language (scc)",
+        "lang": "go",
+        "cluster": [],
+    },
+    "stathissideris__ditaa": {
+        "desc": "Converts ASCII art diagrams to PNG/SVG images",
+        "lang": "java",
+        "cluster": [],
+    },
+    "bore": {
+        "desc": "TCP tunnel — exposes local ports through a remote server",
+        "lang": "rs",
+        "cluster": ["miniserve", "muffet"],
+    },
+    "miniserve": {
+        "desc": "Minimal HTTP file server — serve a directory over HTTP",
+        "lang": "rs",
+        "cluster": ["bore", "muffet"],
+    },
+    "muffet": {
+        "desc": "Fast website link checker; crawls for broken links",
+        "lang": "go",
+        "cluster": ["miniserve"],
+    },
+    "clog-cli": {
+        "desc": "Changelog generator from conventional commit history",
+        "lang": "rs",
+        "cluster": ["git-trim"],
+    },
+    "code-minimap": {
+        "desc": "Terminal minimap of source code scrollbar",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "curlie": {
+        "desc": "HTTP client combining curl flags with httpie-style output",
+        "lang": "go",
+        "cluster": ["muffet"],
+    },
+    "deadnix": {
+        "desc": "Nix file analyzer; finds unused variables in Nix expressions",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "diffr": {"desc": "Diff viewer with character-level highlighting", "lang": "rs", "cluster": []},
+    "dupl": {"desc": "Source code duplicate detector across files", "lang": "go", "cluster": []},
+    "entr": {
+        "desc": "File watcher — re-runs commands when files change",
+        "lang": "c",
+        "cluster": [],
+    },
+    "eva": {
+        "desc": "Calculator REPL with variable support and arbitrary precision",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "fasttext": {
+        "desc": "Facebook's text classification and word vector library",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "fblog": {
+        "desc": "JSON log viewer with color highlighting and field filtering",
+        "lang": "rs",
+        "cluster": ["angle-grinder", "rhit"],
+    },
+    "flamelens": {"desc": "Interactive flamegraph viewer in terminal", "lang": "rs", "cluster": []},
+    "git-trim": {
+        "desc": "Trims merged/stale git branches automatically",
+        "lang": "rs",
+        "cluster": ["clog-cli"],
+    },
+    "hck": {
+        "desc": "Field-splitting like cut but with regex delimiters",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "hex": {
+        "desc": "Hex dump viewer with color and multiple display modes",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "i3-style": {
+        "desc": "Applies color themes to i3/Sway window manager configs",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "ivanceras__svgbob": {
+        "desc": "ASCII diagram-to-SVG converter",
+        "lang": "rs",
+        "cluster": ["stathissideris__ditaa"],
+    },
+    "loop": {
+        "desc": "Runs commands in a loop with delay/count/until options",
+        "lang": "rs",
+        "cluster": ["entr"],
+    },
+    "ngrrram": {
+        "desc": "Typing speed trainer for command-line users",
+        "lang": "rs",
+        "cluster": ["thokr"],
+    },
+    "nomino": {"desc": "Bulk file renamer with regex patterns", "lang": "rs", "cluster": ["rnr"]},
+    "pier": {
+        "desc": "Command alias manager — save and run frequently-used commands",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "rhit": {
+        "desc": "Apache/Nginx log analyzer with fast path stats",
+        "lang": "rs",
+        "cluster": ["angle-grinder", "fblog"],
+    },
+    "rnr": {
+        "desc": "Recursive bulk file/directory renamer with regex support",
+        "lang": "rs",
+        "cluster": ["nomino"],
+    },
+    "rust-embedded__svd2rust.1760b5e": {
+        "desc": "Converts CMSIS-SVD files to Rust peripheral access crate",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "seqtk": {"desc": "Fast FASTQ/FASTA sequence processing toolkit", "lang": "c", "cluster": []},
+    "tailspin": {
+        "desc": "Log file highlighter — colorizes log levels, IPs, paths, dates",
+        "lang": "rs",
+        "cluster": ["fblog"],
+    },
+    "tex-fmt": {
+        "desc": "LaTeX formatter — consistent indentation for TeX/LaTeX files",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "thokr": {
+        "desc": "Terminal typing test with WPM/accuracy stats",
+        "lang": "rs",
+        "cluster": ["ngrrram"],
+    },
+    "tparse": {
+        "desc": "Formats and colorizes go test output with pass/fail/coverage stats",
+        "lang": "go",
+        "cluster": [],
+    },
+    "trasta298__keifu.3331426": {
+        "desc": "TUI bookmark/note manager with sqlite backend",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "xsv": {
+        "desc": "Fast CSV toolkit — slice, select, join, search, stats on CSV",
+        "lang": "rs",
+        "cluster": ["dsq", "trdsql"],
+    },
+    "yj": {
+        "desc": "Converts between YAML/TOML/JSON/HCL formats",
+        "lang": "go",
+        "cluster": ["yq", "xq"],
+    },
+    "chmln__handlr": {
+        "desc": "XDG MIME handler replacement for xdg-open",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "dsq": {
+        "desc": "SQL queries over CSV/JSON/Parquet; multi-format join",
+        "lang": "go",
+        "cluster": ["jq", "trdsql"],
+    },
+    "flamelens": {"desc": "Interactive flamegraph viewer in terminal", "lang": "rs", "cluster": []},
     # ── T2 Ceiling Certified ────────────────────────────────────
-    "htmlq":                 {"desc": "CSS selector queries on HTML — like jq but for HTML", "lang": "rs", "cluster": ["jq", "xq"]},
-    "ripgrep":               {"desc": "Regex search; respects .gitignore; fastest grep replacement", "lang": "rs", "cluster": ["shellharden"]},
-    "quickjs":               {"desc": "Lightweight embeddable JavaScript engine (Bellard)", "lang": "c", "cluster": []},
-    "csview":                {"desc": "Pretty-print CSV files in terminal table format", "lang": "rs", "cluster": ["xsv"]},
-    "chroma":                {"desc": "Syntax highlighter library + CLI for 200+ languages", "lang": "go", "cluster": []},
-    "pingu":                 {"desc": "Ping replacement with pingu ASCII art animation", "lang": "rs", "cluster": []},
-    "zip-password-finder":   {"desc": "Brute-force ZIP password cracker (wordlist/charset)", "lang": "rs", "cluster": []},
-    "sd":                    {"desc": "Find-and-replace CLI; simpler sed replacement", "lang": "rs", "cluster": ["nomino", "rnr"]},
-    "tuc":                   {"desc": "Field cutter like cut with delimiter regex and ranges", "lang": "rs", "cluster": ["hck"]},
-    "cheat__cheat":          {"desc": "Cheatsheet manager — store/retrieve personal cheat sheets", "lang": "go", "cluster": []},
-    "blake3-team__blake3":   {"desc": "BLAKE3 cryptographic hash function CLI (b3sum)", "lang": "rs", "cluster": []},
-
+    "htmlq": {
+        "desc": "CSS selector queries on HTML — like jq but for HTML",
+        "lang": "rs",
+        "cluster": ["jq", "xq"],
+    },
+    "ripgrep": {
+        "desc": "Regex search; respects .gitignore; fastest grep replacement",
+        "lang": "rs",
+        "cluster": ["shellharden"],
+    },
+    "quickjs": {
+        "desc": "Lightweight embeddable JavaScript engine (Bellard)",
+        "lang": "c",
+        "cluster": [],
+    },
+    "csview": {
+        "desc": "Pretty-print CSV files in terminal table format",
+        "lang": "rs",
+        "cluster": ["xsv"],
+    },
+    "chroma": {
+        "desc": "Syntax highlighter library + CLI for 200+ languages",
+        "lang": "go",
+        "cluster": [],
+    },
+    "pingu": {
+        "desc": "Ping replacement with pingu ASCII art animation",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "zip-password-finder": {
+        "desc": "Brute-force ZIP password cracker (wordlist/charset)",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "sd": {
+        "desc": "Find-and-replace CLI; simpler sed replacement",
+        "lang": "rs",
+        "cluster": ["nomino", "rnr"],
+    },
+    "tuc": {
+        "desc": "Field cutter like cut with delimiter regex and ranges",
+        "lang": "rs",
+        "cluster": ["hck"],
+    },
+    "cheat__cheat": {
+        "desc": "Cheatsheet manager — store/retrieve personal cheat sheets",
+        "lang": "go",
+        "cluster": [],
+    },
+    "blake3-team__blake3": {
+        "desc": "BLAKE3 cryptographic hash function CLI (b3sum)",
+        "lang": "rs",
+        "cluster": [],
+    },
     # ── T3 Open — near_miss ──────────────────────────────────────
-    "elfcat":                {"desc": "ELF binary viewer — parse and display ELF headers/sections", "lang": "rs", "cluster": []},
-    "junegunn__fzf.b56d614": {"desc": "General-purpose fuzzy finder for terminal (most widely used TUI)", "lang": "go", "cluster": ["peco", "skim"]},
-    "argc":                  {"desc": "Bash argument parser generator — creates CLI from comments", "lang": "rs", "cluster": []},
-    "filosottile__age":      {"desc": "Simple, modern file encryption (age format)", "lang": "go", "cluster": []},
-    "cslarsen__jp2a":        {"desc": "Converts JPEG images to ASCII art", "lang": "c", "cluster": ["ascii-image-converter"]},
-    "cmatsuoka__figlet":     {"desc": "Large ASCII art text banners from fonts", "lang": "c", "cluster": []},
-    "incu6us__goimports-reviser": {"desc": "Go import sorter/grouper that enforces import sections", "lang": "go", "cluster": []},
-    "isona__dirble":         {"desc": "Fast web directory brute-forcer / content discovery", "lang": "rs", "cluster": []},
-    "kisielk__errcheck":     {"desc": "Go static analyzer that checks for unhandled errors", "lang": "go", "cluster": []},
-    "crowdagger__crowbook":  {"desc": "Markdown-to-book converter (EPUB/HTML/PDF)", "lang": "rs", "cluster": []},
-    "direnv__direnv":        {"desc": "Shell extension to load/unload env vars per directory", "lang": "go", "cluster": []},
-    "oha":                   {"desc": "HTTP load tester with real-time TUI stats dashboard", "lang": "rs", "cluster": ["muffet"]},
-    "madler__pigz":          {"desc": "Parallel gzip compressor — multi-threaded gzip replacement", "lang": "c", "cluster": []},
-
+    "elfcat": {
+        "desc": "ELF binary viewer — parse and display ELF headers/sections",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "junegunn__fzf.b56d614": {
+        "desc": "General-purpose fuzzy finder for terminal (most widely used TUI)",
+        "lang": "go",
+        "cluster": ["peco", "skim"],
+    },
+    "argc": {
+        "desc": "Bash argument parser generator — creates CLI from comments",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "filosottile__age": {
+        "desc": "Simple, modern file encryption (age format)",
+        "lang": "go",
+        "cluster": [],
+    },
+    "cslarsen__jp2a": {
+        "desc": "Converts JPEG images to ASCII art",
+        "lang": "c",
+        "cluster": ["ascii-image-converter"],
+    },
+    "cmatsuoka__figlet": {
+        "desc": "Large ASCII art text banners from fonts",
+        "lang": "c",
+        "cluster": [],
+    },
+    "incu6us__goimports-reviser": {
+        "desc": "Go import sorter/grouper that enforces import sections",
+        "lang": "go",
+        "cluster": [],
+    },
+    "isona__dirble": {
+        "desc": "Fast web directory brute-forcer / content discovery",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "kisielk__errcheck": {
+        "desc": "Go static analyzer that checks for unhandled errors",
+        "lang": "go",
+        "cluster": [],
+    },
+    "crowdagger__crowbook": {
+        "desc": "Markdown-to-book converter (EPUB/HTML/PDF)",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "direnv__direnv": {
+        "desc": "Shell extension to load/unload env vars per directory",
+        "lang": "go",
+        "cluster": [],
+    },
+    "oha": {
+        "desc": "HTTP load tester with real-time TUI stats dashboard",
+        "lang": "rs",
+        "cluster": ["muffet"],
+    },
+    "madler__pigz": {
+        "desc": "Parallel gzip compressor — multi-threaded gzip replacement",
+        "lang": "c",
+        "cluster": [],
+    },
     # ── T3 Open — rebaseline_needed ──────────────────────────────
-    "go-critic__go-critic":  {"desc": "Go linter with many opinionated checks beyond golint", "lang": "go", "cluster": []},
-    "pls-rs__pls":           {"desc": "ls replacement with git-awareness and detailed file info", "lang": "rs", "cluster": []},
-    "mgechev__revive":       {"desc": "Fast, extensible Go linter with configurable rules", "lang": "go", "cluster": []},
-    "nsh":                   {"desc": "Experimental shell with Lisp-inspired syntax", "lang": "rs", "cluster": []},
-    "tarka__xcp":            {"desc": "Extended cp with progress bar and parallel copies", "lang": "rs", "cluster": []},
-    "skeema__skeema":        {"desc": "MySQL schema management via declarative files + git", "lang": "go", "cluster": []},
-    "rust-lang__mdbook":     {"desc": "Markdown documentation book renderer (used by Rust Book)", "lang": "rs", "cluster": []},
-    "ducaale__xh":           {"desc": "HTTPie-compatible HTTP client; curl replacement with friendly syntax", "lang": "rs", "cluster": ["curlie"]},
-    "ninja-build__ninja":    {"desc": "Small build system focused on speed (used by Chromium/LLVM)", "lang": "c++", "cluster": []},
-    "sharkdp__bat":          {"desc": "Cat replacement with syntax highlighting and git diff integration", "lang": "rs", "cluster": ["diffr"]},
-    "bootandy__dust":        {"desc": "du replacement — disk usage tree with visual bars", "lang": "rs", "cluster": ["dua-cli"]},
-    "xampprocky__tokei":     {"desc": "Code statistics — count lines by language across a project", "lang": "rs", "cluster": ["boyter__scc.515f91c"]},
-    "nachoparker__dutree":   {"desc": "du output tree viewer with color and percentage bars", "lang": "rs", "cluster": ["bootandy__dust"]},
-    "ov":                    {"desc": "Feature-rich pager — replacement for less/more with TUI", "lang": "go", "cluster": []},
-    "elkowar__pipr":         {"desc": "TUI pipeline builder — compose shell pipes interactively", "lang": "rs", "cluster": []},
-    "blacknon__hwatch":      {"desc": "watch replacement with diff highlighting and history", "lang": "rs", "cluster": []},
-    "antonmedv__walk":       {"desc": "Terminal file browser — fast minimal TUI file navigator", "lang": "go", "cluster": []},
-    "xorg62__tty-clock":     {"desc": "Digital/analog clock in terminal", "lang": "c", "cluster": []},
-    "drew-alleman__datasurgeon": {"desc": "CLI data transformation tool for records/fields", "lang": "rs", "cluster": []},
-    "kyoheiu__felix":        {"desc": "TUI file manager with vim-like keybindings", "lang": "rs", "cluster": []},
-    "ecumene__rust-sloth":   {"desc": "Fake slow terminal output simulator (typewriter effect)", "lang": "rs", "cluster": ["genact"]},
-    "oppiliappan__statix":   {"desc": "Nix linter with fix suggestions", "lang": "rs", "cluster": ["deadnix"]},
-    "yassinebridi__serpl":   {"desc": "Interactive search-and-replace with regex, TUI preview", "lang": "rs", "cluster": ["sd"]},
-    "canop__broot":          {"desc": "Interactive directory tree navigator with fuzzy search", "lang": "rs", "cluster": ["antonmedv__walk"]},
-    "rust-ethereum__ethabi": {"desc": "Ethereum ABI encoder/decoder CLI", "lang": "rs", "cluster": []},
-    "segmentio__chamber":    {"desc": "AWS SSM Parameter Store CLI for secret management", "lang": "go", "cluster": []},
-    "mkj__dropbear":         {"desc": "Lightweight SSH server and client (embedded-focused)", "lang": "c", "cluster": []},
-    "nukesor__pueue":        {"desc": "Task queue manager for long-running shell commands", "lang": "rs", "cluster": []},
-    "osgeo__gdal":           {"desc": "Geospatial data format library and translator (ogr2ogr, gdal_*)", "lang": "c++", "cluster": []},
-    "gabotechs__dep-tree":   {"desc": "Dependency tree visualizer for code files (TUI)", "lang": "rs", "cluster": []},
-    "astaxie__bat":          {"desc": "Go rewrite of cat with syntax highlighting (github.com/astaxie)", "lang": "go", "cluster": ["sharkdp__bat"]},
-    "unhappychoice__gittype": {"desc": "Typing practice using real git diffs as training text", "lang": "rs", "cluster": ["ngrrram", "thokr"]},
-    "jarun__nnn":            {"desc": "Fast, feature-rich TUI file manager", "lang": "c", "cluster": ["kyoheiu__felix"]},
-    "jesseduffield__lazygit": {"desc": "TUI git client — stage/commit/branch/diff visually", "lang": "go", "cluster": []},
-    "google__brotli":        {"desc": "Brotli compression algorithm CLI encoder/decoder", "lang": "c", "cluster": ["madler__pigz"]},
-    "eudoxia0__hashcards":   {"desc": "CLI flashcard system using hash-based spaced repetition", "lang": "rs", "cluster": []},
-    "guumaster__hostctl":    {"desc": "Hosts file manager — enable/disable groups of host entries", "lang": "go", "cluster": []},
-    "rochacbruno__marmite":  {"desc": "Static site generator from Markdown files", "lang": "rs", "cluster": []},
-    "dandavison__delta":     {"desc": "Diff pager with syntax highlighting (git-delta)", "lang": "rs", "cluster": ["diffr"]},
-    "lfos__calcurse":        {"desc": "TUI calendar and todo manager", "lang": "c", "cluster": []},
-    "naggie__dstask":        {"desc": "Git-based task manager with priorities and dependencies", "lang": "go", "cluster": []},
-    "peco__peco":            {"desc": "Interactive line filter — predecessor to fzf", "lang": "go", "cluster": ["junegunn__fzf.b56d614"]},
-    "o2sh__onefetch":        {"desc": "Git repo summary in terminal with language stats and ASCII art", "lang": "rs", "cluster": []},
-    "tstack__lnav":          {"desc": "Advanced log file navigator with SQL queries over logs", "lang": "c++", "cluster": ["angle-grinder", "fblog"]},
-    "hush-shell__hush":      {"desc": "Experimental statically-typed shell language", "lang": "rs", "cluster": []},
-    "lua__lua":              {"desc": "Lua 5.4 interpreter and REPL", "lang": "c", "cluster": []},
-    "dundee__gdu":           {"desc": "Fast disk usage analyzer with TUI", "lang": "go", "cluster": ["bootandy__dust", "nachoparker__dutree"]},
-    "ip7z__7zip":            {"desc": "7-Zip archiver CLI (7za/7zz) — compress, extract archives", "lang": "c++", "cluster": []},
-    "zk-org__zk":            {"desc": "Zettelkasten note-taking CLI with search and linking", "lang": "go", "cluster": []},
-    "arq5x__bedtools2":      {"desc": "Genome arithmetic CLI — intersect, merge, sort BED/VCF/BAM", "lang": "c++", "cluster": []},
-    "jonas__tig":            {"desc": "TUI git browser — explore history, diffs, branches interactively", "lang": "c", "cluster": ["jesseduffield__lazygit"]},
-    "tinycc__tinycc":        {"desc": "Tiny C Compiler — fast compilation of C to native code", "lang": "c", "cluster": []},
-    "ammarabouzor__tui-journal": {"desc": "TUI journaling app with SQLite and markdown", "lang": "rs", "cluster": ["trasta298__keifu.3331426"]},
-    "yoav-lavi__melody":     {"desc": "Language for writing reusable shell commands (snippets + args)", "lang": "rs", "cluster": ["pier"]},
-    "stacked-git__stgit":    {"desc": "Stacked git — quilt-like patch management on top of git", "lang": "rs", "cluster": []},
-    "samtools__samtools":    {"desc": "Suite for manipulating SAM/BAM genomics alignment files", "lang": "c", "cluster": ["arq5x__bedtools2"]},
-    "run":                   {"desc": "Makefile-like task runner from run.toml files", "lang": "rs", "cluster": []},
-    "ogham__dog":            {"desc": "dig replacement — DNS lookup with colors and JSON output", "lang": "rs", "cluster": []},
-    "chirlu__sox":           {"desc": "Sound eXchange — audio format converter and effects processor", "lang": "c", "cluster": []},
-    "gromacs__gromacs":      {"desc": "Molecular dynamics simulation package (gmx CLI)", "lang": "c++", "cluster": []},
-    "tree-sitter__tree-sitter": {"desc": "Incremental parsing library CLI — parse files with grammars", "lang": "c", "cluster": []},
-    "alexpovel__srgn":       {"desc": "Scoped regex replacer — transform only inside code regions", "lang": "rs", "cluster": ["sd"]},
-    "epistates__treemd":     {"desc": "Markdown tree visualizer — renders directory trees from markdown", "lang": "go", "cluster": []},
-    "facebook__zstd":        {"desc": "Zstandard compression algorithm CLI encoder/decoder", "lang": "c", "cluster": ["google__brotli", "madler__pigz"]},
-    "typst__typst":          {"desc": "Modern document typesetting language + compiler (LaTeX alternative)", "lang": "rs", "cluster": ["tex-fmt"]},
-    "paradigmxyz__solar":    {"desc": "Solidity language server and compiler tools", "lang": "rs", "cluster": []},
-    "antonmedv__fx":         {"desc": "Terminal JSON viewer/processor with interactive TUI", "lang": "go", "cluster": ["jq"]},
-    "danmar__cppcheck":      {"desc": "Static analysis tool for C/C++ code", "lang": "c++", "cluster": []},
-    "lz4__lz4":              {"desc": "LZ4 compression algorithm CLI — fastest lossless compression", "lang": "c", "cluster": ["google__brotli", "facebook__zstd"]},
-    "robertdavidgraham__masscan": {"desc": "Mass IP port scanner — internet-scale port scanning", "lang": "c", "cluster": []},
-    "universal-ctags__ctags": {"desc": "Universal ctags — source code tag generator for editors", "lang": "c", "cluster": []},
-    "hairyhenderson__gomplate": {"desc": "Template renderer using Go templates; substitutes env vars/data", "lang": "go", "cluster": []},
+    "go-critic__go-critic": {
+        "desc": "Go linter with many opinionated checks beyond golint",
+        "lang": "go",
+        "cluster": [],
+    },
+    "pls-rs__pls": {
+        "desc": "ls replacement with git-awareness and detailed file info",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "mgechev__revive": {
+        "desc": "Fast, extensible Go linter with configurable rules",
+        "lang": "go",
+        "cluster": [],
+    },
+    "nsh": {"desc": "Experimental shell with Lisp-inspired syntax", "lang": "rs", "cluster": []},
+    "tarka__xcp": {
+        "desc": "Extended cp with progress bar and parallel copies",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "skeema__skeema": {
+        "desc": "MySQL schema management via declarative files + git",
+        "lang": "go",
+        "cluster": [],
+    },
+    "rust-lang__mdbook": {
+        "desc": "Markdown documentation book renderer (used by Rust Book)",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "ducaale__xh": {
+        "desc": "HTTPie-compatible HTTP client; curl replacement with friendly syntax",
+        "lang": "rs",
+        "cluster": ["curlie"],
+    },
+    "ninja-build__ninja": {
+        "desc": "Small build system focused on speed (used by Chromium/LLVM)",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "sharkdp__bat": {
+        "desc": "Cat replacement with syntax highlighting and git diff integration",
+        "lang": "rs",
+        "cluster": ["diffr"],
+    },
+    "bootandy__dust": {
+        "desc": "du replacement — disk usage tree with visual bars",
+        "lang": "rs",
+        "cluster": ["dua-cli"],
+    },
+    "xampprocky__tokei": {
+        "desc": "Code statistics — count lines by language across a project",
+        "lang": "rs",
+        "cluster": ["boyter__scc.515f91c"],
+    },
+    "nachoparker__dutree": {
+        "desc": "du output tree viewer with color and percentage bars",
+        "lang": "rs",
+        "cluster": ["bootandy__dust"],
+    },
+    "ov": {
+        "desc": "Feature-rich pager — replacement for less/more with TUI",
+        "lang": "go",
+        "cluster": [],
+    },
+    "elkowar__pipr": {
+        "desc": "TUI pipeline builder — compose shell pipes interactively",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "blacknon__hwatch": {
+        "desc": "watch replacement with diff highlighting and history",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "antonmedv__walk": {
+        "desc": "Terminal file browser — fast minimal TUI file navigator",
+        "lang": "go",
+        "cluster": [],
+    },
+    "xorg62__tty-clock": {"desc": "Digital/analog clock in terminal", "lang": "c", "cluster": []},
+    "drew-alleman__datasurgeon": {
+        "desc": "CLI data transformation tool for records/fields",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "kyoheiu__felix": {
+        "desc": "TUI file manager with vim-like keybindings",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "ecumene__rust-sloth": {
+        "desc": "Fake slow terminal output simulator (typewriter effect)",
+        "lang": "rs",
+        "cluster": ["genact"],
+    },
+    "oppiliappan__statix": {
+        "desc": "Nix linter with fix suggestions",
+        "lang": "rs",
+        "cluster": ["deadnix"],
+    },
+    "yassinebridi__serpl": {
+        "desc": "Interactive search-and-replace with regex, TUI preview",
+        "lang": "rs",
+        "cluster": ["sd"],
+    },
+    "canop__broot": {
+        "desc": "Interactive directory tree navigator with fuzzy search",
+        "lang": "rs",
+        "cluster": ["antonmedv__walk"],
+    },
+    "rust-ethereum__ethabi": {
+        "desc": "Ethereum ABI encoder/decoder CLI",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "segmentio__chamber": {
+        "desc": "AWS SSM Parameter Store CLI for secret management",
+        "lang": "go",
+        "cluster": [],
+    },
+    "mkj__dropbear": {
+        "desc": "Lightweight SSH server and client (embedded-focused)",
+        "lang": "c",
+        "cluster": [],
+    },
+    "nukesor__pueue": {
+        "desc": "Task queue manager for long-running shell commands",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "osgeo__gdal": {
+        "desc": "Geospatial data format library and translator (ogr2ogr, gdal_*)",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "gabotechs__dep-tree": {
+        "desc": "Dependency tree visualizer for code files (TUI)",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "astaxie__bat": {
+        "desc": "Go rewrite of cat with syntax highlighting (github.com/astaxie)",
+        "lang": "go",
+        "cluster": ["sharkdp__bat"],
+    },
+    "unhappychoice__gittype": {
+        "desc": "Typing practice using real git diffs as training text",
+        "lang": "rs",
+        "cluster": ["ngrrram", "thokr"],
+    },
+    "jarun__nnn": {
+        "desc": "Fast, feature-rich TUI file manager",
+        "lang": "c",
+        "cluster": ["kyoheiu__felix"],
+    },
+    "jesseduffield__lazygit": {
+        "desc": "TUI git client — stage/commit/branch/diff visually",
+        "lang": "go",
+        "cluster": [],
+    },
+    "google__brotli": {
+        "desc": "Brotli compression algorithm CLI encoder/decoder",
+        "lang": "c",
+        "cluster": ["madler__pigz"],
+    },
+    "eudoxia0__hashcards": {
+        "desc": "CLI flashcard system using hash-based spaced repetition",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "guumaster__hostctl": {
+        "desc": "Hosts file manager — enable/disable groups of host entries",
+        "lang": "go",
+        "cluster": [],
+    },
+    "rochacbruno__marmite": {
+        "desc": "Static site generator from Markdown files",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "dandavison__delta": {
+        "desc": "Diff pager with syntax highlighting (git-delta)",
+        "lang": "rs",
+        "cluster": ["diffr"],
+    },
+    "lfos__calcurse": {"desc": "TUI calendar and todo manager", "lang": "c", "cluster": []},
+    "naggie__dstask": {
+        "desc": "Git-based task manager with priorities and dependencies",
+        "lang": "go",
+        "cluster": [],
+    },
+    "peco__peco": {
+        "desc": "Interactive line filter — predecessor to fzf",
+        "lang": "go",
+        "cluster": ["junegunn__fzf.b56d614"],
+    },
+    "o2sh__onefetch": {
+        "desc": "Git repo summary in terminal with language stats and ASCII art",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "tstack__lnav": {
+        "desc": "Advanced log file navigator with SQL queries over logs",
+        "lang": "c++",
+        "cluster": ["angle-grinder", "fblog"],
+    },
+    "hush-shell__hush": {
+        "desc": "Experimental statically-typed shell language",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "lua__lua": {"desc": "Lua 5.4 interpreter and REPL", "lang": "c", "cluster": []},
+    "dundee__gdu": {
+        "desc": "Fast disk usage analyzer with TUI",
+        "lang": "go",
+        "cluster": ["bootandy__dust", "nachoparker__dutree"],
+    },
+    "ip7z__7zip": {
+        "desc": "7-Zip archiver CLI (7za/7zz) — compress, extract archives",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "zk-org__zk": {
+        "desc": "Zettelkasten note-taking CLI with search and linking",
+        "lang": "go",
+        "cluster": [],
+    },
+    "arq5x__bedtools2": {
+        "desc": "Genome arithmetic CLI — intersect, merge, sort BED/VCF/BAM",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "jonas__tig": {
+        "desc": "TUI git browser — explore history, diffs, branches interactively",
+        "lang": "c",
+        "cluster": ["jesseduffield__lazygit"],
+    },
+    "tinycc__tinycc": {
+        "desc": "Tiny C Compiler — fast compilation of C to native code",
+        "lang": "c",
+        "cluster": [],
+    },
+    "ammarabouzor__tui-journal": {
+        "desc": "TUI journaling app with SQLite and markdown",
+        "lang": "rs",
+        "cluster": ["trasta298__keifu.3331426"],
+    },
+    "yoav-lavi__melody": {
+        "desc": "Language for writing reusable shell commands (snippets + args)",
+        "lang": "rs",
+        "cluster": ["pier"],
+    },
+    "stacked-git__stgit": {
+        "desc": "Stacked git — quilt-like patch management on top of git",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "samtools__samtools": {
+        "desc": "Suite for manipulating SAM/BAM genomics alignment files",
+        "lang": "c",
+        "cluster": ["arq5x__bedtools2"],
+    },
+    "run": {"desc": "Makefile-like task runner from run.toml files", "lang": "rs", "cluster": []},
+    "ogham__dog": {
+        "desc": "dig replacement — DNS lookup with colors and JSON output",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "chirlu__sox": {
+        "desc": "Sound eXchange — audio format converter and effects processor",
+        "lang": "c",
+        "cluster": [],
+    },
+    "gromacs__gromacs": {
+        "desc": "Molecular dynamics simulation package (gmx CLI)",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "tree-sitter__tree-sitter": {
+        "desc": "Incremental parsing library CLI — parse files with grammars",
+        "lang": "c",
+        "cluster": [],
+    },
+    "alexpovel__srgn": {
+        "desc": "Scoped regex replacer — transform only inside code regions",
+        "lang": "rs",
+        "cluster": ["sd"],
+    },
+    "epistates__treemd": {
+        "desc": "Markdown tree visualizer — renders directory trees from markdown",
+        "lang": "go",
+        "cluster": [],
+    },
+    "facebook__zstd": {
+        "desc": "Zstandard compression algorithm CLI encoder/decoder",
+        "lang": "c",
+        "cluster": ["google__brotli", "madler__pigz"],
+    },
+    "typst__typst": {
+        "desc": "Modern document typesetting language + compiler (LaTeX alternative)",
+        "lang": "rs",
+        "cluster": ["tex-fmt"],
+    },
+    "paradigmxyz__solar": {
+        "desc": "Solidity language server and compiler tools",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "antonmedv__fx": {
+        "desc": "Terminal JSON viewer/processor with interactive TUI",
+        "lang": "go",
+        "cluster": ["jq"],
+    },
+    "danmar__cppcheck": {
+        "desc": "Static analysis tool for C/C++ code",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "lz4__lz4": {
+        "desc": "LZ4 compression algorithm CLI — fastest lossless compression",
+        "lang": "c",
+        "cluster": ["google__brotli", "facebook__zstd"],
+    },
+    "robertdavidgraham__masscan": {
+        "desc": "Mass IP port scanner — internet-scale port scanning",
+        "lang": "c",
+        "cluster": [],
+    },
+    "universal-ctags__ctags": {
+        "desc": "Universal ctags — source code tag generator for editors",
+        "lang": "c",
+        "cluster": [],
+    },
+    "hairyhenderson__gomplate": {
+        "desc": "Template renderer using Go templates; substitutes env vars/data",
+        "lang": "go",
+        "cluster": [],
+    },
     "stranger6667__jsonschema": {"desc": "JSON Schema validator CLI", "lang": "rs", "cluster": []},
-    "luajit__luajit":        {"desc": "LuaJIT — JIT-compiled Lua interpreter", "lang": "c", "cluster": ["lua__lua"]},
-    "ffmpeg__ffmpeg":        {"desc": "FFmpeg — video/audio converter, encoder, decoder, streamer", "lang": "c", "cluster": ["chirlu__sox"]},
-    "parcel-bundler__lightningcss": {"desc": "CSS parser, transformer, minifier written in Rust", "lang": "rs", "cluster": []},
-    "jhspetersson__fselect":  {"desc": "SQL-like file search queries (SELECT name FROM /path WHERE size > 1M)", "lang": "rs", "cluster": ["jq"]},
-    "jgm__pandoc":           {"desc": "Universal document converter (Markdown/HTML/DOCX/PDF/etc)", "lang": "haskell", "cluster": []},
-    "duckdb__duckdb":        {"desc": "In-process analytical SQL database (DuckDB CLI)", "lang": "c++", "cluster": ["dsq", "trdsql"]},
-    "osgeo__proj":           {"desc": "PROJ cartographic projections and coordinate transformations", "lang": "c++", "cluster": []},
-    "sqlite__sqlite":        {"desc": "SQLite database engine CLI (sqlite3)", "lang": "c", "cluster": ["duckdb__duckdb"]},
-    "php__php-src":          {"desc": "PHP interpreter CLI", "lang": "c", "cluster": []},
-    "johnkerl__miller":      {"desc": "Record-by-record processor for CSV/JSON/TSV — awk for structured data", "lang": "c", "cluster": ["jq", "dsq"]},
-    "ast-grep__ast-grep":    {"desc": "AST-based code search and rewrite tool", "lang": "rs", "cluster": []},
-    "byron__dua-cli":        {"desc": "Disk Usage Analyzer TUI — fast du with interactive browser", "lang": "rs", "cluster": ["bootandy__dust", "dundee__gdu"]},
-    "tomarrell__wrapcheck":  {"desc": "Go linter that checks errors are wrapped on return", "lang": "go", "cluster": ["kisielk__errcheck"]},
-    "hpjansson__chafa.dd4d4c1": {"desc": "Terminal graphics — renders images/video as colored unicode/braille", "lang": "c", "cluster": ["ascii-image-converter", "cslarsen__jp2a"]},
-    "htop-dev__htop":        {"desc": "Interactive process viewer TUI — top replacement", "lang": "c", "cluster": []},
-    "nikoladucak__caps-log":  {"desc": "TUI journaling tool with calendar view and markdown", "lang": "rs", "cluster": ["ammarabouzor__tui-journal"]},
-    "zevv__duc":             {"desc": "Disk Usage Commander — indexing and TUI/CGI disk browser", "lang": "c", "cluster": ["dundee__gdu"]},
-
+    "luajit__luajit": {
+        "desc": "LuaJIT — JIT-compiled Lua interpreter",
+        "lang": "c",
+        "cluster": ["lua__lua"],
+    },
+    "ffmpeg__ffmpeg": {
+        "desc": "FFmpeg — video/audio converter, encoder, decoder, streamer",
+        "lang": "c",
+        "cluster": ["chirlu__sox"],
+    },
+    "parcel-bundler__lightningcss": {
+        "desc": "CSS parser, transformer, minifier written in Rust",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "jhspetersson__fselect": {
+        "desc": "SQL-like file search queries (SELECT name FROM /path WHERE size > 1M)",
+        "lang": "rs",
+        "cluster": ["jq"],
+    },
+    "jgm__pandoc": {
+        "desc": "Universal document converter (Markdown/HTML/DOCX/PDF/etc)",
+        "lang": "haskell",
+        "cluster": [],
+    },
+    "duckdb__duckdb": {
+        "desc": "In-process analytical SQL database (DuckDB CLI)",
+        "lang": "c++",
+        "cluster": ["dsq", "trdsql"],
+    },
+    "osgeo__proj": {
+        "desc": "PROJ cartographic projections and coordinate transformations",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "sqlite__sqlite": {
+        "desc": "SQLite database engine CLI (sqlite3)",
+        "lang": "c",
+        "cluster": ["duckdb__duckdb"],
+    },
+    "php__php-src": {"desc": "PHP interpreter CLI", "lang": "c", "cluster": []},
+    "johnkerl__miller": {
+        "desc": "Record-by-record processor for CSV/JSON/TSV — awk for structured data",
+        "lang": "c",
+        "cluster": ["jq", "dsq"],
+    },
+    "ast-grep__ast-grep": {
+        "desc": "AST-based code search and rewrite tool",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "byron__dua-cli": {
+        "desc": "Disk Usage Analyzer TUI — fast du with interactive browser",
+        "lang": "rs",
+        "cluster": ["bootandy__dust", "dundee__gdu"],
+    },
+    "tomarrell__wrapcheck": {
+        "desc": "Go linter that checks errors are wrapped on return",
+        "lang": "go",
+        "cluster": ["kisielk__errcheck"],
+    },
+    "hpjansson__chafa.dd4d4c1": {
+        "desc": "Terminal graphics — renders images/video as colored unicode/braille",
+        "lang": "c",
+        "cluster": ["ascii-image-converter", "cslarsen__jp2a"],
+    },
+    "htop-dev__htop": {
+        "desc": "Interactive process viewer TUI — top replacement",
+        "lang": "c",
+        "cluster": [],
+    },
+    "nikoladucak__caps-log": {
+        "desc": "TUI journaling tool with calendar view and markdown",
+        "lang": "rs",
+        "cluster": ["ammarabouzor__tui-journal"],
+    },
+    "zevv__duc": {
+        "desc": "Disk Usage Commander — indexing and TUI/CGI disk browser",
+        "lang": "c",
+        "cluster": ["dundee__gdu"],
+    },
     # ── T3 Open — impossible_ceiling ─────────────────────────────
-    "igrep":                 {"desc": "Searches regex in files; opens matches in vim/nvim (TUI)", "lang": "rs", "cluster": ["ripgrep"]},
-    "parqeye":               {"desc": "Parquet file viewer — display schema and rows from .parquet files", "lang": "go", "cluster": ["dsq"]},
-    "rumdl":                 {"desc": "Markdown linter — checks Markdown style rules", "lang": "rs", "cluster": ["tex-fmt"]},
-    "doxygen__doxygen":      {"desc": "Documentation generator from annotated C/C++/Python/Java source", "lang": "c++", "cluster": []},
-    "orf__gping":            {"desc": "Ping replacement with real-time TUI graph of latency", "lang": "rs", "cluster": []},
-    "kyoh86__richgo":        {"desc": "go test output colorizer with rich formatting", "lang": "go", "cluster": ["tparse"]},
-    "dalance__amber":        {"desc": "Code search-and-replace with preview and regex", "lang": "rs", "cluster": ["sd"]},
-    "johanneskaufmann__html-to-markdown": {"desc": "HTML-to-Markdown converter", "lang": "go", "cluster": []},
-    "sharkdp__fd":           {"desc": "find replacement — simpler syntax, faster, respects .gitignore", "lang": "rs", "cluster": ["ripgrep"]},
-    "sharkdp__hexyl":        {"desc": "Hex viewer with colorized output and multiple displays", "lang": "rs", "cluster": ["hex"]},
-    "sayanarijit__xplr":     {"desc": "Hackable TUI file explorer with Lua scripting", "lang": "rs", "cluster": ["antonmedv__walk", "kyoheiu__felix"]},
-    "nikolassv__bartib":     {"desc": "TUI time tracker with start/stop/list commands", "lang": "rs", "cluster": []},
-    "json-tui":              {"desc": "Interactive TUI JSON viewer with tree navigation", "lang": "rs", "cluster": ["jq", "antonmedv__fx"]},
-    "eureka":                {"desc": "TUI note-taking app for capturing ideas quickly", "lang": "rs", "cluster": []},
-    "xz":                    {"desc": "XZ/LZMA compression algorithm CLI", "lang": "c", "cluster": ["facebook__zstd", "google__brotli"]},
-    "rustowl":               {"desc": "Rust code ownership/lifetime visualizer in terminal", "lang": "rs", "cluster": []},
-    "axodotdev__oranda":     {"desc": "Static site generator for project announcements/releases", "lang": "rs", "cluster": []},
-
+    "igrep": {
+        "desc": "Searches regex in files; opens matches in vim/nvim (TUI)",
+        "lang": "rs",
+        "cluster": ["ripgrep"],
+    },
+    "parqeye": {
+        "desc": "Parquet file viewer — display schema and rows from .parquet files",
+        "lang": "go",
+        "cluster": ["dsq"],
+    },
+    "rumdl": {
+        "desc": "Markdown linter — checks Markdown style rules",
+        "lang": "rs",
+        "cluster": ["tex-fmt"],
+    },
+    "doxygen__doxygen": {
+        "desc": "Documentation generator from annotated C/C++/Python/Java source",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "orf__gping": {
+        "desc": "Ping replacement with real-time TUI graph of latency",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "kyoh86__richgo": {
+        "desc": "go test output colorizer with rich formatting",
+        "lang": "go",
+        "cluster": ["tparse"],
+    },
+    "dalance__amber": {
+        "desc": "Code search-and-replace with preview and regex",
+        "lang": "rs",
+        "cluster": ["sd"],
+    },
+    "johanneskaufmann__html-to-markdown": {
+        "desc": "HTML-to-Markdown converter",
+        "lang": "go",
+        "cluster": [],
+    },
+    "sharkdp__fd": {
+        "desc": "find replacement — simpler syntax, faster, respects .gitignore",
+        "lang": "rs",
+        "cluster": ["ripgrep"],
+    },
+    "sharkdp__hexyl": {
+        "desc": "Hex viewer with colorized output and multiple displays",
+        "lang": "rs",
+        "cluster": ["hex"],
+    },
+    "sayanarijit__xplr": {
+        "desc": "Hackable TUI file explorer with Lua scripting",
+        "lang": "rs",
+        "cluster": ["antonmedv__walk", "kyoheiu__felix"],
+    },
+    "nikolassv__bartib": {
+        "desc": "TUI time tracker with start/stop/list commands",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "json-tui": {
+        "desc": "Interactive TUI JSON viewer with tree navigation",
+        "lang": "rs",
+        "cluster": ["jq", "antonmedv__fx"],
+    },
+    "eureka": {
+        "desc": "TUI note-taking app for capturing ideas quickly",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "xz": {
+        "desc": "XZ/LZMA compression algorithm CLI",
+        "lang": "c",
+        "cluster": ["facebook__zstd", "google__brotli"],
+    },
+    "rustowl": {
+        "desc": "Rust code ownership/lifetime visualizer in terminal",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "axodotdev__oranda": {
+        "desc": "Static site generator for project announcements/releases",
+        "lang": "rs",
+        "cluster": [],
+    },
     # ── T3 Open — behavioral_deep ────────────────────────────────
-    "monolith":              {"desc": "Save web pages as self-contained HTML archives", "lang": "rs", "cluster": []},
-    "ggreer__the_silver_searcher": {"desc": "Ag — code search tool faster than ack", "lang": "c", "cluster": ["ripgrep"]},
-    "ksxgithub__parallel-disk-usage": {"desc": "pdu — parallel du with TUI progress and tree output", "lang": "rs", "cluster": ["bootandy__dust"]},
-    "shashwatah__jot":       {"desc": "Note-taking CLI with color, tags, and fuzzy search", "lang": "go", "cluster": []},
-    "halitechallenge__halite": {"desc": "Halite strategy game bot framework and CLI", "lang": "c++", "cluster": []},
-    "hooklift__gowsdl":      {"desc": "WSDL-to-Go code generator for SOAP web services", "lang": "go", "cluster": []},
-    "eliukblau__pixterm":    {"desc": "Renders images as colored ASCII art in terminal", "lang": "go", "cluster": ["ascii-image-converter", "hpjansson__chafa.dd4d4c1"]},
-    "quinn-rs__quinn":       {"desc": "QUIC network protocol implementation CLI and library", "lang": "rs", "cluster": []},
+    "monolith": {
+        "desc": "Save web pages as self-contained HTML archives",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "ggreer__the_silver_searcher": {
+        "desc": "Ag — code search tool faster than ack",
+        "lang": "c",
+        "cluster": ["ripgrep"],
+    },
+    "ksxgithub__parallel-disk-usage": {
+        "desc": "pdu — parallel du with TUI progress and tree output",
+        "lang": "rs",
+        "cluster": ["bootandy__dust"],
+    },
+    "shashwatah__jot": {
+        "desc": "Note-taking CLI with color, tags, and fuzzy search",
+        "lang": "go",
+        "cluster": [],
+    },
+    "halitechallenge__halite": {
+        "desc": "Halite strategy game bot framework and CLI",
+        "lang": "c++",
+        "cluster": [],
+    },
+    "hooklift__gowsdl": {
+        "desc": "WSDL-to-Go code generator for SOAP web services",
+        "lang": "go",
+        "cluster": [],
+    },
+    "eliukblau__pixterm": {
+        "desc": "Renders images as colored ASCII art in terminal",
+        "lang": "go",
+        "cluster": ["ascii-image-converter", "hpjansson__chafa.dd4d4c1"],
+    },
+    "quinn-rs__quinn": {
+        "desc": "QUIC network protocol implementation CLI and library",
+        "lang": "rs",
+        "cluster": [],
+    },
     "lymphatus__caesium-clt": {"desc": "Lossy image compressor CLI", "lang": "c++", "cluster": []},
-    "cweill__gotests":       {"desc": "Generates Go test boilerplate from function signatures", "lang": "go", "cluster": []},
-    "codesnap-rs__codesnap": {"desc": "Takes code snapshots with syntax highlighting (like carbon.sh)", "lang": "rs", "cluster": []},
-    "git-bahn__git-graph":   {"desc": "Visualizes git branch graph in terminal", "lang": "rs", "cluster": ["jesseduffield__lazygit"]},
-    "ariga__atlas":          {"desc": "Database schema management and migration tool (Ent/SQL)", "lang": "go", "cluster": []},
-    "rhysd__kiro-editor":    {"desc": "Terminal text editor in the vein of kilo", "lang": "go", "cluster": []},
-    "rs__jplot.2a54bcc":     {"desc": "Real-time terminal plot of stdin data streams", "lang": "go", "cluster": []},
-
+    "cweill__gotests": {
+        "desc": "Generates Go test boilerplate from function signatures",
+        "lang": "go",
+        "cluster": [],
+    },
+    "codesnap-rs__codesnap": {
+        "desc": "Takes code snapshots with syntax highlighting (like carbon.sh)",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "git-bahn__git-graph": {
+        "desc": "Visualizes git branch graph in terminal",
+        "lang": "rs",
+        "cluster": ["jesseduffield__lazygit"],
+    },
+    "ariga__atlas": {
+        "desc": "Database schema management and migration tool (Ent/SQL)",
+        "lang": "go",
+        "cluster": [],
+    },
+    "rhysd__kiro-editor": {
+        "desc": "Terminal text editor in the vein of kilo",
+        "lang": "go",
+        "cluster": [],
+    },
+    "rs__jplot.2a54bcc": {
+        "desc": "Real-time terminal plot of stdin data streams",
+        "lang": "go",
+        "cluster": [],
+    },
     # ── T3 Open — tui_wall ───────────────────────────────────────
-    "pls-rs__pls":           {"desc": "ls replacement with git-awareness and detailed file info", "lang": "rs", "cluster": []},
-    "gabotechs__dep-tree":   {"desc": "Dependency tree visualizer (TUI) for source files", "lang": "rs", "cluster": []},
-    "canop__broot":          {"desc": "Interactive directory tree navigator with fuzzy search", "lang": "rs", "cluster": ["antonmedv__walk"]},
-    "byron__dua-cli":        {"desc": "Disk Usage Analyzer TUI — fast du with interactive browser", "lang": "rs", "cluster": ["bootandy__dust"]},
-    "hpjansson__chafa.dd4d4c1": {"desc": "Terminal graphics with tmux support (chafa)", "lang": "c", "cluster": []},
-    "sayanarijit__xplr":     {"desc": "Hackable TUI file explorer", "lang": "rs", "cluster": []},
+    "pls-rs__pls": {
+        "desc": "ls replacement with git-awareness and detailed file info",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "gabotechs__dep-tree": {
+        "desc": "Dependency tree visualizer (TUI) for source files",
+        "lang": "rs",
+        "cluster": [],
+    },
+    "canop__broot": {
+        "desc": "Interactive directory tree navigator with fuzzy search",
+        "lang": "rs",
+        "cluster": ["antonmedv__walk"],
+    },
+    "byron__dua-cli": {
+        "desc": "Disk Usage Analyzer TUI — fast du with interactive browser",
+        "lang": "rs",
+        "cluster": ["bootandy__dust"],
+    },
+    "hpjansson__chafa.dd4d4c1": {
+        "desc": "Terminal graphics with tmux support (chafa)",
+        "lang": "c",
+        "cluster": [],
+    },
+    "sayanarijit__xplr": {"desc": "Hackable TUI file explorer", "lang": "rs", "cluster": []},
     "jesseduffield__lazygit": {"desc": "TUI git client", "lang": "go", "cluster": []},
 }
+
 
 # Lang override map from residual_table (author/repo → lang)
 def load_residual_langs() -> dict[str, str]:
@@ -266,8 +1039,8 @@ def load_residual_langs() -> dict[str, str]:
             m = re.match(r"\|\s*\d+\s*\|\s*`([^/]+)/([^|`]+)`\s*\|\s*([a-z+]+)\s*\|", line)
             if m:
                 owner = m.group(1).strip().lower()
-                repo  = m.group(2).strip().lower()
-                lang  = m.group(3).strip()
+                repo = m.group(2).strip().lower()
+                lang = m.group(3).strip()
                 lang_map[f"{owner}/{repo}"] = lang
     except FileNotFoundError:
         pass
@@ -277,9 +1050,9 @@ def load_residual_langs() -> dict[str, str]:
 def slug_to_github_key(slug: str) -> str:
     """Convert eval_index slug like 'junegunn__fzf.b56d614' → 'junegunn/fzf'."""
     # Remove commithash suffix
-    base = re.sub(r'\.[0-9a-f]{7,8}$', '', slug)
+    base = re.sub(r"\.[0-9a-f]{7,8}$", "", slug)
     # Double underscore → slash
-    parts = base.split('__', 1)
+    parts = base.split("__", 1)
     if len(parts) == 2:
         return f"{parts[0].lower()}/{parts[1].lower()}"
     return slug.lower()
@@ -314,9 +1087,9 @@ def is_alias(e: dict) -> bool:
 
 
 def effective_failed(e: dict) -> int:
-    f  = e.get("official_failed", 0) or 0
-    p  = e.get("official_passed", 0) or 0
-    t  = e.get("official_total",  0) or 0
+    f = e.get("official_failed", 0) or 0
+    p = e.get("official_passed", 0) or 0
+    t = e.get("official_total", 0) or 0
     nr = e.get("official_not_run", 0) or 0
     sk = e.get("official_skipped", 0) or 0
     return max(f, max(0, t - p - nr - sk))
@@ -333,6 +1106,7 @@ def canonical_tier(e: dict) -> str:
 
 # ── File discovery helpers ─────────────────────────────────────────────────
 
+
 def find_locked_dir(slug: str) -> Path | None:
     """Return the locked/ subdirectory for this slug, or None."""
     # Try exact match
@@ -340,7 +1114,7 @@ def find_locked_dir(slug: str) -> Path | None:
     if exact.is_dir():
         return exact
     # Try prefix match (slug without commithash)
-    base = re.sub(r'\.[0-9a-f]{7,8}$', '', slug)
+    base = re.sub(r"\.[0-9a-f]{7,8}$", "", slug)
     for d in LOCKED.iterdir():
         if d.is_dir() and (d.name == base or d.name.startswith(base)):
             return d
@@ -361,8 +1135,8 @@ def find_override_dir(slug: str) -> Path | None:
     for d in OVERRIDES.iterdir():
         if not d.is_dir() or d.name == ".vscode":
             continue
-        base = re.sub(r'\.[0-9a-f]{7,8}$', '', d.name)
-        slug_base = re.sub(r'\.[0-9a-f]{7,8}$', '', slug)
+        base = re.sub(r"\.[0-9a-f]{7,8}$", "", d.name)
+        slug_base = re.sub(r"\.[0-9a-f]{7,8}$", "", slug)
         if d.name == slug or base == slug_base or d.name.startswith(slug_base + "."):
             return d
     return None
@@ -373,7 +1147,7 @@ def override_commit(slug: str) -> str:
     d = find_override_dir(slug)
     if not d:
         return ""
-    m = re.search(r'\.([0-9a-f]{7,8})$', d.name)
+    m = re.search(r"\.([0-9a-f]{7,8})$", d.name)
     return m.group(1) if m else ""
 
 
@@ -409,6 +1183,7 @@ def submission_path(slug: str) -> str:
 
 # ── Row builders ──────────────────────────────────────────────────────────
 
+
 def phantom_guard(e: dict) -> str:
     """Return ⚠ PHANTOM if score looks 100% but Section 5 is unresolved.
 
@@ -419,7 +1194,7 @@ def phantom_guard(e: dict) -> str:
     This prevents a clean-looking number from masquerading as a lock.
     """
     p = e.get("official_passed", 0) or 0
-    t = e.get("official_total",  0) or 0
+    t = e.get("official_total", 0) or 0
     full = e.get("official_full_suite_resolved", False)
     status = e.get("status", "") or ""
     tier = canonical_tier(e)
@@ -452,33 +1227,38 @@ def score_str(e: dict) -> str:
     t = e.get("official_total", "?")
     if p == "?" or t == "?":
         return "?/?"
-    pct = f"{100*p/t:.1f}" if t else "?"
+    pct = f"{100 * p / t:.1f}" if t else "?"
     guard = phantom_guard(e)
     return f"{p}/{t} ({pct}%){guard}"
 
 
 def detail_str(e: dict) -> str:
-    f  = effective_failed(e)
+    f = effective_failed(e)
     nr = e.get("official_not_run", 0) or 0
     sk = e.get("official_skipped", 0) or 0
     parts = []
-    if f:  parts.append(f"f={f}")
-    if nr: parts.append(f"nr={nr}")
-    if sk: parts.append(f"sk={sk}")
+    if f:
+        parts.append(f"f={f}")
+    if nr:
+        parts.append(f"nr={nr}")
+    if sk:
+        parts.append(f"sk={sk}")
     return " ".join(parts) or "—"
 
 
 def next_action_str(e: dict) -> str:
     t = canonical_tier(e)
-    f  = effective_failed(e)
+    f = effective_failed(e)
     nr = e.get("official_not_run", 0) or 0
     sk = e.get("official_skipped", 0) or 0
     sub = e.get("sub_bucket", "") or ""
     total = e.get("official_total", 0) or 0
     full = e.get("official_full_suite_resolved", False)
 
-    if t == "strict_lock": return "✓ T1 locked"
-    if t == "ceiling_certified": return "✓ T2 cert'd"
+    if t == "strict_lock":
+        return "✓ T1 locked"
+    if t == "ceiling_certified":
+        return "✓ T2 cert'd"
     if sub == "impossible_ceiling" or e.get("ceiling_confirmed"):
         return "⛔ impossible ceiling"
     if f == 0 and nr == 0 and sk > 0:
@@ -486,20 +1266,27 @@ def next_action_str(e: dict) -> str:
     if f == 0 and nr == 0 and sk == 0 and not full:
         return "Verify → archive → T1"
     if nr == 0 and f > 0:
-        pct = 100*f/total if total else 0
-        if f <= 3:   return f"Fix {f} fail → T1"
-        if f <= 10:  return f"Fix {f} fail ({pct:.1f}%) → T1"
-        if f <= 30:  return f"Fix {f} fail ({pct:.1f}%) → near-lock"
+        pct = 100 * f / total if total else 0
+        if f <= 3:
+            return f"Fix {f} fail → T1"
+        if f <= 10:
+            return f"Fix {f} fail ({pct:.1f}%) → T1"
+        if f <= 30:
+            return f"Fix {f} fail ({pct:.1f}%) → near-lock"
         return f"Fix {f} fail ({pct:.1f}%) — large effort"
     if nr > 0:
-        if sub == "tui_wall":   return f"Add tmux ({nr} nr)"
+        if sub == "tui_wall":
+            return f"Add tmux ({nr} nr)"
         return f"Remove cap + eval ({nr} nr)"
-    if sub == "tui_wall": return "Add tmux support"
-    if sub == "behavioral_deep": return "Behavioral deep-dive"
+    if sub == "tui_wall":
+        return "Add tmux support"
+    if sub == "behavioral_deep":
+        return "Behavioral deep-dive"
     return f"Investigate (f={f} nr={nr} sk={sk})"
 
 
 # ── Section builders ──────────────────────────────────────────────────────
+
 
 def section_t1(tools: list[dict], residual_langs: dict) -> list[str]:
     lines = [
@@ -555,19 +1342,27 @@ def section_t2(tools: list[dict], residual_langs: dict) -> list[str]:
 
 def section_t3(tools: list[dict], residual_langs: dict) -> list[str]:
     from collections import defaultdict
+
     groups: dict[str, list[dict]] = defaultdict(list)
     for e in tools:
         sub = e.get("sub_bucket", "unknown") or "unknown"
         groups[sub].append(e)
 
-    bucket_order = ["near_miss", "tui_wall", "behavioral_deep", "impossible_ceiling", "rebaseline_needed", "unknown"]
+    bucket_order = [
+        "near_miss",
+        "tui_wall",
+        "behavioral_deep",
+        "impossible_ceiling",
+        "rebaseline_needed",
+        "unknown",
+    ]
     bucket_labels = {
-        "near_miss":           "### T3 near_miss — close to T1/T2, specific fix needed",
-        "tui_wall":            "### T3 tui_wall — blocked on TUI/tmux test execution",
-        "behavioral_deep":     "### T3 behavioral_deep — complex behavioral failures, large gap",
-        "impossible_ceiling":  "### T3 impossible_ceiling — proven structural ceiling < 100%",
-        "rebaseline_needed":   "### T3 rebaseline_needed — stale/low score; needs cap removal + fresh eval",
-        "unknown":             "### T3 unclassified",
+        "near_miss": "### T3 near_miss — close to T1/T2, specific fix needed",
+        "tui_wall": "### T3 tui_wall — blocked on TUI/tmux test execution",
+        "behavioral_deep": "### T3 behavioral_deep — complex behavioral failures, large gap",
+        "impossible_ceiling": "### T3 impossible_ceiling — proven structural ceiling < 100%",
+        "rebaseline_needed": "### T3 rebaseline_needed — stale/low score; needs cap removal + fresh eval",
+        "unknown": "### T3 unclassified",
     }
 
     lines = ["## T3 Open (135 tools — needs work)", ""]
@@ -578,11 +1373,17 @@ def section_t3(tools: list[dict], residual_langs: dict) -> list[str]:
             continue
         lines.append(bucket_labels.get(bucket, f"### T3 {bucket}"))
         lines.append("")
-        lines.append("| Slug | Description | Lang | Score | f/nr/sk | Override | Eval report | Next action | Ceiling/notes |")
-        lines.append("|------|-------------|------|-------|---------|----------|-------------|-------------|---------------|")
+        lines.append(
+            "| Slug | Description | Lang | Score | f/nr/sk | Override | Eval report | Next action | Ceiling/notes |"
+        )
+        lines.append(
+            "|------|-------------|------|-------|---------|----------|-------------|-------------|---------------|"
+        )
+
         # Sort by ascending failure count
         def sort_key(x: dict) -> tuple:
             return (effective_failed(x), x.get("official_not_run", 0) or 0)
+
         for e in sorted(tools_in, key=sort_key):
             slug = e["slug"]
             lang = get_lang(slug, residual_langs)
@@ -593,7 +1394,9 @@ def section_t3(tools: list[dict], residual_langs: dict) -> list[str]:
             override_str = f"`{od.name}`" if od else "—"
             eval_rpt = eval_report_display(e)
             action = next_action_str(e)
-            ceiling = (e.get("ceiling_note") or e.get("ceiling_reason") or e.get("hetzner_eval_note") or "")[:80]
+            ceiling = (
+                e.get("ceiling_note") or e.get("ceiling_reason") or e.get("hetzner_eval_note") or ""
+            )[:80]
             if ceiling:
                 ceiling = ceiling.replace("|", "/").replace("\n", " ")
             lines.append(
@@ -644,12 +1447,19 @@ def section_roadmap() -> list[str]:
 
 # ── Main document assembler ────────────────────────────────────────────────
 
+
 def build_readme(data: list[dict], residual_langs: dict) -> str:
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     canonical = [e for e in data if not is_alias(e)]
-    t1 = sorted([e for e in canonical if canonical_tier(e) == "strict_lock"], key=lambda e: e.get("slug",""))
-    t2 = sorted([e for e in canonical if canonical_tier(e) == "ceiling_certified"], key=lambda e: e.get("slug",""))
+    t1 = sorted(
+        [e for e in canonical if canonical_tier(e) == "strict_lock"],
+        key=lambda e: e.get("slug", ""),
+    )
+    t2 = sorted(
+        [e for e in canonical if canonical_tier(e) == "ceiling_certified"],
+        key=lambda e: e.get("slug", ""),
+    )
     t3 = [e for e in canonical if canonical_tier(e) == "open"]
 
     total_tests_t1 = sum(e.get("official_total", 0) or 0 for e in t1)
@@ -669,14 +1479,14 @@ def build_readme(data: list[dict], residual_langs: dict) -> str:
         "# ProgramBench Master Catalog",
         "",
         f"> **Generated:** {now[:10]}  ",
-        f"> **Source of truth:** `corpus/programbench/eval_index.json`  ",
+        "> **Source of truth:** `corpus/programbench/eval_index.json`  ",
         "> **Do not edit by hand** — run `python3 scripts/gen_pb_readme.py` to regenerate.",
         "",
         "## Quick Stats",
         "",
-        f"| Metric | Value |",
-        f"|--------|-------|",
-        f"| **T1 strict locks** | **{len(t1)} / 200** ({100*len(t1)/200:.1f}%) |",
+        "| Metric | Value |",
+        "|--------|-------|",
+        f"| **T1 strict locks** | **{len(t1)} / 200** ({100 * len(t1) / 200:.1f}%) |",
         f"| **T2 ceiling certified** | **{len(t2)}** |",
         f"| T3 open (needs work) | {len(t3)} |",
         f"| Total tests covered (T1 only) | {total_tests_t1:,} |",
@@ -734,7 +1544,7 @@ def build_readme(data: list[dict], residual_langs: dict) -> str:
     lines += section_t3(t3, residual_langs)
 
     # ── Alias appendix ──────────────────────────────────────────
-    aliases = sorted([e for e in data if is_alias(e)], key=lambda e: e.get("slug",""))
+    aliases = sorted([e for e in data if is_alias(e)], key=lambda e: e.get("slug", ""))
     lines += [
         "## Alias Rows (not counted in totals)",
         "",
@@ -745,7 +1555,9 @@ def build_readme(data: list[dict], residual_langs: dict) -> str:
     ]
     for e in aliases:
         alias_of = e.get("alias_of") or e.get("canonical_slug") or "?"
-        lines.append(f"| `{e['slug']}` | `{alias_of}` | {e.get('official_total','?')} | {score_str(e)} |")
+        lines.append(
+            f"| `{e['slug']}` | `{alias_of}` | {e.get('official_total', '?')} | {score_str(e)} |"
+        )
     lines += ["", "---", f"*Generated by `scripts/gen_pb_readme.py` · {now[:10]}*", ""]
 
     return "\n".join(lines)

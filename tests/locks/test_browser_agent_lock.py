@@ -5,6 +5,7 @@ Locks the browser-agent contract: URL/form/download policy, DOM/browser
 oracles, prompt-injection screening for page content, replay capture, and
 signed browser_trace corpus records.
 """
+
 from __future__ import annotations
 
 import sys
@@ -72,7 +73,9 @@ class TestBrowserUrlPolicy:
 
 class TestBrowserActionPolicy:
     def test_blocks_payment_form_submit(self):
-        ok, reason = check_form_submit("<input name='credit_card'><input name='cvv'>", "https://example.com")
+        ok, reason = check_form_submit(
+            "<input name='credit_card'><input name='cvv'>", "https://example.com"
+        )
         assert ok is False
         assert "credit" in reason.lower()
 

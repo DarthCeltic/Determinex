@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -47,10 +48,15 @@ def test_status_tokens_exact():
 
 def test_modes_exact():
     assert ls.canonical_modes() == (
-        "explain_this_repo", "explain_this_file", "explain_this_error",
-        "explain_this_test_failure", "teach_me_the_concept",
-        "compare_possible_fixes", "walk_me_through_the_patch",
-        "show_beginner_vs_professional_version", "generate_learning_checklist",
+        "explain_this_repo",
+        "explain_this_file",
+        "explain_this_error",
+        "explain_this_test_failure",
+        "teach_me_the_concept",
+        "compare_possible_fixes",
+        "walk_me_through_the_patch",
+        "show_beginner_vs_professional_version",
+        "generate_learning_checklist",
     )
 
 
@@ -73,18 +79,22 @@ def test_simple_explanation_passes():
 def test_compare_possible_fixes_without_routing_passes():
     """Comparing fixes does not equal suggesting one — no routing
     required if suggests_fix is False."""
-    rec = ls.evaluate(_output(
-        mode="compare_possible_fixes",
-        text="option A uses asyncio; option B uses threads",
-    ))
+    rec = ls.evaluate(
+        _output(
+            mode="compare_possible_fixes",
+            text="option A uses asyncio; option B uses threads",
+        )
+    )
     assert rec.is_written
 
 
 def test_walk_through_the_patch_passes():
-    rec = ls.evaluate(_output(
-        mode="walk_me_through_the_patch",
-        text="step 1: read the diff; step 2: identify the changed function",
-    ))
+    rec = ls.evaluate(
+        _output(
+            mode="walk_me_through_the_patch",
+            text="step 1: read the diff; step 2: identify the changed function",
+        )
+    )
     assert rec.is_written
 
 
@@ -130,25 +140,34 @@ def test_suggests_fix_routes_to_wrong_workflow_blocks():
 
 
 def test_suggests_fix_routes_to_repo_clinic_passes():
-    rec = ls.evaluate(_output(
-        suggests_fix=True, routes_to="repo_clinic",
-        text="Here's how you might fix it; press Open in Repo Clinic to proceed.",
-    ))
+    rec = ls.evaluate(
+        _output(
+            suggests_fix=True,
+            routes_to="repo_clinic",
+            text="Here's how you might fix it; press Open in Repo Clinic to proceed.",
+        )
+    )
     assert rec.is_written
 
 
 def test_suggests_new_project_routes_to_idea_lab_passes():
-    rec = ls.evaluate(_output(
-        suggests_new_project=True, routes_to="idea_lab",
-        text="This would be a new app; press Open in Idea Lab.",
-    ))
+    rec = ls.evaluate(
+        _output(
+            suggests_new_project=True,
+            routes_to="idea_lab",
+            text="This would be a new app; press Open in Idea Lab.",
+        )
+    )
     assert rec.is_written
 
 
 def test_suggests_new_project_routes_to_repo_clinic_blocks():
-    rec = ls.evaluate(_output(
-        suggests_new_project=True, routes_to="repo_clinic",
-    ))
+    rec = ls.evaluate(
+        _output(
+            suggests_new_project=True,
+            routes_to="repo_clinic",
+        )
+    )
     assert rec.decision == "LEARNING_STUDIO_BLOCKED_MUTATION_CONFUSION"
 
 
@@ -161,10 +180,13 @@ def test_unknown_mode_blocks():
 # Invariants
 # ---------------------------------------------------------------------------
 def test_passed_record_never_authorizes_mutation_or_training():
-    rec = ls.evaluate(_output(
-        suggests_fix=True, routes_to="repo_clinic",
-        text="Use repo clinic to apply this.",
-    ))
+    rec = ls.evaluate(
+        _output(
+            suggests_fix=True,
+            routes_to="repo_clinic",
+            text="Use repo clinic to apply this.",
+        )
+    )
     assert rec.is_written
     assert rec.source_mutation_authorized is False
     assert rec.training_eligible is False

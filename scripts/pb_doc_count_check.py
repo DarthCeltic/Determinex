@@ -18,7 +18,9 @@ Usage:
   python scripts/pb_doc_count_check.py --fix    # auto-fix mismatches in-place
   python scripts/pb_doc_count_check.py --verbose
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import pathlib
@@ -44,8 +46,8 @@ def get_true_count() -> tuple[int, list[str]]:
         e.get("slug", e.get("tool", "?"))
         for e in entries
         if e.get("official_full_suite_resolved") is True
-        and not e.get("alias_of")          # skip alias rows
-        and not e.get("canonical_slug")    # legacy alias field
+        and not e.get("alias_of")  # skip alias rows
+        and not e.get("canonical_slug")  # legacy alias field
     ]
     return len(slugs), sorted(slugs)
 
@@ -151,8 +153,8 @@ _LOCKS_BEFORE = re.compile(r"\b(\d+)\s+locks\b", re.IGNORECASE)
 # Lines containing these phrases describe aspirational goals or campaign targets,
 # not current count claims. Skip them in the overclaim scanner.
 _OVERCLAIM_GOAL_MARKERS = [
-    "= 200 rows",    # campaign goal definition: '"200 locks" = 200 rows at proven ceiling'
-    "200/200",       # "200/200 Lock Plan" style titles and goal framing
+    "= 200 rows",  # campaign goal definition: '"200 locks" = 200 rows at proven ceiling'
+    "200/200",  # "200/200 Lock Plan" style titles and goal framing
     "goal is",
     "target is",
     "plan to reach",
@@ -165,7 +167,7 @@ _OVERCLAIM_GOAL_MARKERS = [
 def check_locks_overclaim(
     files: list[pathlib.Path],
     true_count: int,
-) -> list["Mismatch"]:
+) -> list[Mismatch]:
     """Scan docs for 'N locks' where N > strict_count.
     Prevents T1+T2 sum overclaims such as '60 locks (53 strict + 7 ceiling-certified)'.
     Publish format must always be two separate numbers, never a combined sum."""
@@ -213,12 +215,16 @@ def check_locks_overclaim(
                 prefix_words = re.findall(r"\b\w+\b", line[: m.start()])[-3:]
                 if any(w.lower() in {"strict", "confirmed", "official"} for w in prefix_words):
                     continue
-                mismatches.append(Mismatch(
-                    path=path, line_no=i, line=line.rstrip(),
-                    pattern_desc="locks-adjacent overclaim (N > strict count)",
-                    found_val=str(n),
-                    expected_val=f"<= {true_count}",
-                ))
+                mismatches.append(
+                    Mismatch(
+                        path=path,
+                        line_no=i,
+                        line=line.rstrip(),
+                        pattern_desc="locks-adjacent overclaim (N > strict count)",
+                        found_val=str(n),
+                        expected_val=f"<= {true_count}",
+                    )
+                )
     return mismatches
 
 
@@ -251,6 +257,7 @@ SKIP_PATHS = {
     # Audit docs record the state at audit time — counts are historical findings
     REPO_ROOT / "docs" / "audits",
 }
+
 
 def is_skipped(path: pathlib.Path) -> bool:
     for s in SKIP_PATHS:
@@ -293,7 +300,7 @@ HISTORICAL_MARKERS = [
     # Bold "Count: N/200" milestone tracking pattern used in campaign history bullets
     "**Count:",
     "Count: **",  # "Count: **15/200**" style in README campaign section
-    "Count: 1",   # "Count: 13/200", "Count: 14/200", "Count: 15/200" etc.
+    "Count: 1",  # "Count: 13/200", "Count: 14/200", "Count: 15/200" etc.
     # Audit documents' own findings (historical at time of audit)
     "Honest count:",
     # Delta notation "+N strict locks" describes increment, not total count
@@ -369,6 +376,7 @@ COUNT_PATTERNS = [
     re.compile(r"=\s*([\d.]+)\s*%\s*(?:fully\s*)?resolved", re.IGNORECASE),
 ]
 
+
 # For percentage patterns, derive expected pct from true count
 def expected_pct(true_count: int) -> float:
     return round(true_count / 200 * 100, 1)
@@ -412,11 +420,11 @@ def check_file(
             if re.match(r"^## \[2026-0[0-5]", line):
                 in_changelog_history = True
             elif re.match(r"^## \[2026-06-10\]", line):
-                in_changelog_history = True   # superseded by 06-13 batch
+                in_changelog_history = True  # superseded by 06-13 batch
             elif re.match(r"^## \[2026-06-11\]", line):
-                in_changelog_history = True   # superseded by 06-13 batch
+                in_changelog_history = True  # superseded by 06-13 batch
             elif re.match(r"^## \[2026-06-12\]", line):
-                in_changelog_history = True   # superseded by 06-13 batch
+                in_changelog_history = True  # superseded by 06-13 batch
             elif re.match(r"^## \[2026-06-13\]", line):
                 in_changelog_history = False  # most recent batch — live
             elif re.match(r"^## \[Unreleased\]", line, re.IGNORECASE):
@@ -434,21 +442,29 @@ def check_file(
                 if "resolved" in pat.pattern and "%" in m.group(0):
                     found_pct = float(val)
                     if found_pct != true_pct:
-                        mismatches.append(Mismatch(
-                            path=path, line_no=i, line=line.rstrip(),
-                            pattern_desc="percentage resolved",
-                            found_val=f"{found_pct}%",
-                            expected_val=f"{true_pct}%",
-                        ))
+                        mismatches.append(
+                            Mismatch(
+                                path=path,
+                                line_no=i,
+                                line=line.rstrip(),
+                                pattern_desc="percentage resolved",
+                                found_val=f"{found_pct}%",
+                                expected_val=f"{true_pct}%",
+                            )
+                        )
                 else:
                     found_n = int(val)
                     if found_n != true_count:
-                        mismatches.append(Mismatch(
-                            path=path, line_no=i, line=line.rstrip(),
-                            pattern_desc=pat.pattern,
-                            found_val=str(found_n),
-                            expected_val=str(true_count),
-                        ))
+                        mismatches.append(
+                            Mismatch(
+                                path=path,
+                                line_no=i,
+                                line=line.rstrip(),
+                                pattern_desc=pat.pattern,
+                                found_val=str(found_n),
+                                expected_val=str(true_count),
+                            )
+                        )
 
     return mismatches
 
@@ -456,6 +472,7 @@ def check_file(
 # ---------------------------------------------------------------------------
 # Auto-fix
 # ---------------------------------------------------------------------------
+
 
 def fix_file(path: pathlib.Path, true_count: int, true_pct: float) -> int:
     """Replace stale counts in-place. Returns number of substitutions made."""
@@ -514,6 +531,7 @@ def fix_file(path: pathlib.Path, true_count: int, true_pct: float) -> int:
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="ProgramBench doc count consistency check")
     parser.add_argument("--fix", action="store_true", help="Auto-fix mismatches in-place")
@@ -567,7 +585,9 @@ def main() -> int:
         elif ms:
             for m in ms:
                 rel = m.path.relative_to(REPO_ROOT)
-                print(f"  MISMATCH {rel}:{m.line_no}  found={m.found_val} expected={m.expected_val}")
+                print(
+                    f"  MISMATCH {rel}:{m.line_no}  found={m.found_val} expected={m.expected_val}"
+                )
                 if args.verbose:
                     print(f"    {m.line}")
             all_mismatches.extend(ms)

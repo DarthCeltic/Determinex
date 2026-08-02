@@ -2,13 +2,13 @@
 VM manager — lifecycle management for desktop agent VMs.
 Hard rule: no host desktop control. VM or no run.
 """
+
 from __future__ import annotations
 
 import logging
 import os
 import subprocess
 from dataclasses import dataclass
-from typing import Any
 
 log = logging.getLogger(__name__)
 
@@ -18,8 +18,8 @@ _REQUIRE_VM = os.environ.get("DETERMINEX_REQUIRE_VM", "1") == "1"
 @dataclass
 class VMInfo:
     vm_id: str
-    provider: str       # "virtualbox" | "qemu" | "hyper-v" | "vmware"
-    state: str          # "stopped" | "running" | "paused" | "snapshot"
+    provider: str  # "virtualbox" | "qemu" | "hyper-v" | "vmware"
+    state: str  # "stopped" | "running" | "paused" | "snapshot"
     ip: str = ""
     ssh_port: int = 22
     rdp_port: int = 3389
@@ -61,14 +61,16 @@ class VMManager:
         if self.provider == "virtualbox":
             subprocess.run(
                 ["VBoxManage", "snapshot", vm_id, "restore", snapshot],
-                check=True, capture_output=True,
+                check=True,
+                capture_output=True,
             )
 
     def take_snapshot(self, vm_id: str, name: str) -> None:
         if self.provider == "virtualbox":
             subprocess.run(
                 ["VBoxManage", "snapshot", vm_id, "take", name, "--live"],
-                check=True, capture_output=True,
+                check=True,
+                capture_output=True,
             )
 
     def is_running(self, vm_id: str) -> bool:
@@ -82,8 +84,13 @@ class VMManager:
                     f"[vm_manager] Desktop agent requires a running VM (vm_id={vm_id}). "
                     "Start the VM first or set DETERMINEX_REQUIRE_VM=0 to disable enforcement (not recommended)."
                 )
-            log.warning("[vm_manager] VM %s not running — DETERMINEX_REQUIRE_VM=0, proceeding without isolation", vm_id)
-        return self._active_vms.get(vm_id, VMInfo(vm_id=vm_id, provider=self.provider, state="unknown"))
+            log.warning(
+                "[vm_manager] VM %s not running — DETERMINEX_REQUIRE_VM=0, proceeding without isolation",
+                vm_id,
+            )
+        return self._active_vms.get(
+            vm_id, VMInfo(vm_id=vm_id, provider=self.provider, state="unknown")
+        )
 
     # ------------------------------------------------------------------
     # VirtualBox backend
@@ -93,13 +100,17 @@ class VMManager:
         try:
             result = subprocess.run(
                 ["VBoxManage", "startvm", vm_id, "--type", "headless"],
-                capture_output=True, text=True, check=True,
+                capture_output=True,
+                text=True,
+                check=True,
             )
             info = VMInfo(vm_id=vm_id, provider="virtualbox", state="running")
             self._active_vms[vm_id] = info
             return info
         except FileNotFoundError:
-            raise RuntimeError("VBoxManage not found. Install VirtualBox or set DETERMINEX_REQUIRE_VM=0.")
+            raise RuntimeError(
+                "VBoxManage not found. Install VirtualBox or set DETERMINEX_REQUIRE_VM=0."
+            )
         except subprocess.CalledProcessError as exc:
             raise RuntimeError(f"VBoxManage startvm failed: {exc.stderr}") from exc
 
@@ -107,7 +118,8 @@ class VMManager:
         try:
             subprocess.run(
                 ["VBoxManage", "controlvm", vm_id, "savestate"],
-                capture_output=True, text=True,
+                capture_output=True,
+                text=True,
             )
         except Exception as exc:
             log.warning("[vm_manager] VBox stop failed (non-fatal): %s", exc)

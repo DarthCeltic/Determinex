@@ -13,6 +13,7 @@ Usage:
     python scripts/pb_compile_template.py --lang go --tool trdsql --wrapper exec-a
     python scripts/pb_compile_template.py --lang cpp --tool fasttext --timeout 4 -o compile.sh
 """
+
 from __future__ import annotations
 
 import argparse
@@ -22,59 +23,56 @@ BUILD = {
     "rust": (
         'export PATH="/usr/local/cargo/bin:$HOME/.cargo/bin:$PATH"\n'
         'export CARGO_HOME="${{CARGO_HOME:-$HOME/.cargo}}"\n'
-        'if command -v cargo >/dev/null 2>&1; then\n'
-        '    cargo build --release --offline 2>build.err || cargo build --release 2>>build.err || true\n'
-        '    [ -f target/release/{tool} ] && cp target/release/{tool} /usr/local/bin/{tool}\n'
-        'fi'
+        "if command -v cargo >/dev/null 2>&1; then\n"
+        "    cargo build --release --offline 2>build.err || cargo build --release 2>>build.err || true\n"
+        "    [ -f target/release/{tool} ] && cp target/release/{tool} /usr/local/bin/{tool}\n"
+        "fi"
     ),
     "go": (
-        'if command -v go >/dev/null 2>&1; then\n'
+        "if command -v go >/dev/null 2>&1; then\n"
         '    GOFLAGS=-mod=mod GOTOOLCHAIN=auto go build -trimpath -ldflags="-s -w" -o {tool} . 2>build.err || true\n'
-        '    [ -f ./{tool} ] && cp ./{tool} /usr/local/bin/{tool}\n'
-        'fi'
+        "    [ -f ./{tool} ] && cp ./{tool} /usr/local/bin/{tool}\n"
+        "fi"
     ),
     "c": (
-        'if [ -f CMakeLists.txt ]; then\n'
-        '    cmake -S . -B build && cmake --build build\n'
-        '    cp build/{tool} /usr/local/bin/{tool} 2>/dev/null || cp build/src/{tool} /usr/local/bin/{tool} 2>/dev/null || true\n'
-        'else\n'
-        '    [ -f autogen.sh ] && ./autogen.sh; [ -f configure ] && ./configure; make\n'
-        '    cp {tool} /usr/local/bin/{tool} 2>/dev/null || cp src/{tool} /usr/local/bin/{tool} 2>/dev/null || true\n'
-        'fi'
+        "if [ -f CMakeLists.txt ]; then\n"
+        "    cmake -S . -B build && cmake --build build\n"
+        "    cp build/{tool} /usr/local/bin/{tool} 2>/dev/null || cp build/src/{tool} /usr/local/bin/{tool} 2>/dev/null || true\n"
+        "else\n"
+        "    [ -f autogen.sh ] && ./autogen.sh; [ -f configure ] && ./configure; make\n"
+        "    cp {tool} /usr/local/bin/{tool} 2>/dev/null || cp src/{tool} /usr/local/bin/{tool} 2>/dev/null || true\n"
+        "fi"
     ),
     "cpp": (
-        'if command -v make >/dev/null 2>&1 && [ -f Makefile ]; then\n'
-        '    make opt >>build.err 2>&1 || make >>build.err 2>&1 || true\n'
-        'fi\n'
-        'if [ ! -f ./{tool} ] && [ -f CMakeLists.txt ]; then\n'
-        '    mkdir -p build && (cd build && cmake .. && cmake --build .) 2>>build.err || true\n'
+        "if command -v make >/dev/null 2>&1 && [ -f Makefile ]; then\n"
+        "    make opt >>build.err 2>&1 || make >>build.err 2>&1 || true\n"
+        "fi\n"
+        "if [ ! -f ./{tool} ] && [ -f CMakeLists.txt ]; then\n"
+        "    mkdir -p build && (cd build && cmake .. && cmake --build .) 2>>build.err || true\n"
         '    find build -type f -perm -111 -name "{tool}" -exec cp {{}} ./{tool} \\; 2>/dev/null || true\n'
-        'fi\n'
-        'if [ ! -f ./{tool} ] && command -v g++ >/dev/null 2>&1; then\n'
-        '    g++ -O2 -pthread -std=c++17 -Isrc -o {tool} src/*.cc 2>>build.err || true\n'
-        'fi\n'
-        '[ -f ./{tool} ] && cp ./{tool} /usr/local/bin/{tool} || true'
+        "fi\n"
+        "if [ ! -f ./{tool} ] && command -v g++ >/dev/null 2>&1; then\n"
+        "    g++ -O2 -pthread -std=c++17 -Isrc -o {tool} src/*.cc 2>>build.err || true\n"
+        "fi\n"
+        "[ -f ./{tool} ] && cp ./{tool} /usr/local/bin/{tool} || true"
     ),
 }
 
 WRAPPERS = {
     "plain": (
-        'cat > executable <<\'EXEC_EOF\'\n'
-        '#!/bin/sh\n'
-        'exec /usr/local/bin/{tool} "$@"\n'
-        'EXEC_EOF'
+        "cat > executable <<'EXEC_EOF'\n#!/bin/sh\nexec /usr/local/bin/{tool} \"$@\"\nEXEC_EOF"
     ),
     "exec-a": (
-        '# exec -a preserves argv[0] for name-based dispatch / multicall tools.\n'
-        '# Shebang MUST be bash; dash /bin/sh lacks `exec -a`.\n'
-        'cat > executable <<\'EXEC_EOF\'\n'
-        '#!/usr/bin/env bash\n'
+        "# exec -a preserves argv[0] for name-based dispatch / multicall tools.\n"
+        "# Shebang MUST be bash; dash /bin/sh lacks `exec -a`.\n"
+        "cat > executable <<'EXEC_EOF'\n"
+        "#!/usr/bin/env bash\n"
         'exec -a "$0" /usr/local/bin/{tool} "$@"\n'
-        'EXEC_EOF'
+        "EXEC_EOF"
     ),
     "copy-binary": (
-        '# Tests inspect the binary itself or need streaming I/O — copy the real binary.\n'
-        'cp /usr/local/bin/{tool} ./executable'
+        "# Tests inspect the binary itself or need streaming I/O — copy the real binary.\n"
+        "cp /usr/local/bin/{tool} ./executable"
     ),
 }
 

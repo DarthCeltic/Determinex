@@ -35,6 +35,7 @@ Usage:
       --confirm-100 --execute
   # Performs the actual file writes.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -45,7 +46,6 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 LOCKED_ROOT = ROOT / "corpus" / "programbench" / "locked"
@@ -302,18 +302,22 @@ def _run_refresh() -> list[dict[str, Any]]:
             stderr=subprocess.PIPE,
             check=False,
         )
-        steps.append({
-            "script": script,
-            "returncode": proc.returncode,
-            "stdout_tail": "\n".join(proc.stdout.splitlines()[-8:]),
-            "stderr_tail": "\n".join(proc.stderr.splitlines()[-8:]),
-        })
+        steps.append(
+            {
+                "script": script,
+                "returncode": proc.returncode,
+                "stdout_tail": "\n".join(proc.stdout.splitlines()[-8:]),
+                "stderr_tail": "\n".join(proc.stderr.splitlines()[-8:]),
+            }
+        )
     return steps
 
 
-def _write_lock_report(plan: dict[str, Any], actions: list[str], refresh: list[dict[str, Any]]) -> Path:
+def _write_lock_report(
+    plan: dict[str, Any], actions: list[str], refresh: list[dict[str, Any]]
+) -> Path:
     REPORT_ROOT.mkdir(parents=True, exist_ok=True)
-    now = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0)
+    now = datetime.datetime.now(datetime.UTC).replace(microsecond=0)
     safe_short = "".join(c if c.isalnum() or c in ("-", "_") else "_" for c in plan["short"])
     report_path = REPORT_ROOT / f"{now.strftime('%Y%m%dT%H%M%SZ')}_{safe_short}.md"
     counts = _counts_from_board()
@@ -372,7 +376,9 @@ def _print_trumpet(plan: dict[str, Any], report_path: Path | None, counts: dict[
     print("TRUMPET: TA-DA. PROGRAMBENCH LOCK ARCHIVED.")
     print(f"LOCK: {plan['short']}  {s['passed']}/{s['runnable']}  slug={plan['slug']}")
     if counts:
-        print(f"BOARD: {counts.get('locked_100')} locked, {counts.get('remaining_to_200')} remaining to 200")
+        print(
+            f"BOARD: {counts.get('locked_100')} locked, {counts.get('remaining_to_200')} remaining to 200"
+        )
     if report_path:
         print(f"REPORT: {report_path}")
     print("============================================================")
@@ -382,13 +388,23 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", help="ProgramBench instance id, e.g. owner__repo.hash")
     ap.add_argument("eval_json", type=Path, help="path to the 100/100 eval JSON to archive")
-    ap.add_argument("run_root", type=Path, help="parent dir holding <slug>/{source,submission.tar.gz}")
-    ap.add_argument("--confirm-100", action="store_true", required=False,
-                    help="REQUIRED: explicit acknowledgement that this eval JSON is a 100/100 lock")
-    ap.add_argument("--execute", action="store_true",
-                    help="actually perform the writes (default is dry-run)")
-    ap.add_argument("--force", action="store_true",
-                    help="overwrite existing eval_report.json (audit history first!)")
+    ap.add_argument(
+        "run_root", type=Path, help="parent dir holding <slug>/{source,submission.tar.gz}"
+    )
+    ap.add_argument(
+        "--confirm-100",
+        action="store_true",
+        required=False,
+        help="REQUIRED: explicit acknowledgement that this eval JSON is a 100/100 lock",
+    )
+    ap.add_argument(
+        "--execute", action="store_true", help="actually perform the writes (default is dry-run)"
+    )
+    ap.add_argument(
+        "--force",
+        action="store_true",
+        help="overwrite existing eval_report.json (audit history first!)",
+    )
     args = ap.parse_args()
 
     if not args.confirm_100:
@@ -399,15 +415,20 @@ def main() -> int:
         return 2
 
     plan = _plan(args.slug, args.eval_json, args.run_root, force=args.force)
-    print(json.dumps({
-        "slug": plan["slug"],
-        "short": plan["short"],
-        "summary": plan["summary"],
-        "locked_dir": plan["locked_dir"],
-        "will_overwrite_eval": plan["will_overwrite_eval"],
-        "target_paths": plan["target_paths"],
-        "source_paths": plan["source_paths"],
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "slug": plan["slug"],
+                "short": plan["short"],
+                "summary": plan["summary"],
+                "locked_dir": plan["locked_dir"],
+                "will_overwrite_eval": plan["will_overwrite_eval"],
+                "target_paths": plan["target_paths"],
+                "source_paths": plan["source_paths"],
+            },
+            indent=2,
+        )
+    )
 
     _check_lock_safety(plan)
     print()

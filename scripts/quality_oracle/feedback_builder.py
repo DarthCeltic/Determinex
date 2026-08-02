@@ -6,18 +6,19 @@ tasks (quality oracle) without code changes.
 """
 
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .rag_verifier import ClaimVerification
     from .feature_checks import FeatureResult
+    from .rag_verifier import ClaimVerification
 
 
 def build_feedback_block(
-    verifications: list["ClaimVerification"],
-    feature_results: list["FeatureResult"],
+    verifications: list[ClaimVerification],
+    feature_results: list[FeatureResult],
     score: float,
-    prev_score: Optional[float] = None,
+    prev_score: float | None = None,
     attempt: int = 1,
     max_hallucinations: int = 5,
     max_feature_fails: int = 5,
@@ -44,7 +45,7 @@ def build_feedback_block(
         prev_pct = int(prev_score * 100)
         delta = pct - prev_pct
         arrow = "▲" if delta > 0 else ("▼" if delta < 0 else "→")
-        parts.append(f"Quality score: {pct}% ({arrow}{abs(delta)} pts from attempt {attempt-1})")
+        parts.append(f"Quality score: {pct}% ({arrow}{abs(delta)} pts from attempt {attempt - 1})")
     else:
         parts.append(f"Quality score: {pct}% (attempt {attempt})")
 
@@ -54,14 +55,16 @@ def build_feedback_block(
     ungrounded = [v for v in verifications if not v.supported and not v.uncertain]
     if ungrounded:
         parts.append(f"## HALLUCINATION FAILURES ({len(ungrounded)} ungrounded claims)")
-        parts.append("These claims are NOT supported by the knowledge base. "
-                     "Either remove them or ground them in the provided context:\n")
+        parts.append(
+            "These claims are NOT supported by the knowledge base. "
+            "Either remove them or ground them in the provided context:\n"
+        )
         for i, v in enumerate(ungrounded[:max_hallucinations]):
-            parts.append(f"  [{i+1}] Claim: \"{v.claim_text}\"")
+            parts.append(f'  [{i + 1}] Claim: "{v.claim_text}"')
             parts.append(f"       KB similarity: {v.similarity:.2f} (threshold: 0.72)")
             if v.evidence:
-                parts.append(f"       Closest KB match: \"{v.evidence[:150]}\"")
-                parts.append(f"       → If this is what you meant, rephrase to match the source")
+                parts.append(f'       Closest KB match: "{v.evidence[:150]}"')
+                parts.append("       → If this is what you meant, rephrase to match the source")
             parts.append("")
 
     # ── Uncertain claims (warn but don't block) ───────────────────────────────
@@ -69,7 +72,7 @@ def build_feedback_block(
     if uncertain:
         parts.append(f"## WEAK EVIDENCE ({len(uncertain)} claims with low KB support)")
         for v in uncertain[:3]:
-            parts.append(f"  - \"{v.claim_text[:80]}\" (similarity: {v.similarity:.2f})")
+            parts.append(f'  - "{v.claim_text[:80]}" (similarity: {v.similarity:.2f})')
         parts.append("")
 
     # ── Feature check failures ────────────────────────────────────────────────
@@ -120,6 +123,3 @@ def build_regression_feedback(
         f"Do NOT touch anything that was passing in the {best_pct}% run.\n\n"
     )
     return header + best_feedback
-
-
-from typing import Optional

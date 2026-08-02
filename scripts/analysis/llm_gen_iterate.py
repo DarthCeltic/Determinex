@@ -18,15 +18,14 @@ Usage:
   python scripts/analysis/llm_gen_iterate.py --tool wfxr__csview.8ac4de0
   python scripts/analysis/llm_gen_iterate.py --tier mid --max-attempts 2
 """
+
 from __future__ import annotations
+
 import argparse
 import glob
-import io
 import json
-import shutil
 import subprocess
 import sys
-import tarfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -99,6 +98,7 @@ def capture_state(tool_key: str, slug: str) -> dict:
 
 def subprocess_md5(p: Path) -> str:
     import hashlib
+
     return hashlib.md5(p.read_bytes()).hexdigest()
 
 
@@ -106,8 +106,10 @@ def run_llm_gen(tool_key: str, model: str = "claude-opus-4-7") -> bool:
     cmd = [
         sys.executable,
         str(ROOT / "scripts" / "analysis" / "llm_gen_override.py"),
-        "--tool", tool_key,
-        "--model", model,
+        "--tool",
+        tool_key,
+        "--model",
+        model,
     ]
     print(f"  [llm-gen] {' '.join(cmd)}")
     r = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True, timeout=180)
@@ -121,7 +123,8 @@ def apply_override(tool_key: str) -> bool:
     cmd = [
         sys.executable,
         str(ROOT / "scripts" / "analysis" / "apply_overrides_to_scaffolds.py"),
-        "--only-slug", tool_key.rsplit(".", 1)[0],
+        "--only-slug",
+        tool_key.rsplit(".", 1)[0],
     ]
     r = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True, timeout=60)
     if r.returncode != 0:
@@ -130,14 +133,22 @@ def apply_override(tool_key: str) -> bool:
     return True
 
 
-def run_local_eval(scaffold_root: Path, filter_str: str, timeout_sec: int = 900) -> tuple[int, int, float] | None:
+def run_local_eval(
+    scaffold_root: Path, filter_str: str, timeout_sec: int = 900
+) -> tuple[int, int, float] | None:
     """Run programbench eval on local pilot/factory dir."""
     cmd = [
-        PB_EXE, "eval", str(scaffold_root),
-        "--filter", filter_str,
-        "--workers", "1",
-        "--branch-workers", "1",
-        "--docker-cpus", "4",
+        PB_EXE,
+        "eval",
+        str(scaffold_root),
+        "--filter",
+        filter_str,
+        "--workers",
+        "1",
+        "--branch-workers",
+        "1",
+        "--docker-cpus",
+        "4",
         "--force",
     ]
     print(f"  [local-eval] {' '.join(cmd)}")
@@ -174,11 +185,13 @@ def iterate_tool(tool_key: str, max_attempts: int = 2, model: str = "claude-opus
     history = [("BEFORE", state["pre_score"])]
 
     print(f"\n=== {tool_key} ===")
-    print(f"  BEFORE: {state['pre_score']:.2f}% ({state.get('pre_passed', 0)}/{state.get('pre_total', 0)})")
+    print(
+        f"  BEFORE: {state['pre_score']:.2f}% ({state.get('pre_passed', 0)}/{state.get('pre_total', 0)})"
+    )
 
     scaffold = find_scaffold(tool_key)
     if not scaffold:
-        print(f"  no scaffold found, skip")
+        print("  no scaffold found, skip")
         return state
 
     best_pct = state["pre_score"]
@@ -196,7 +209,7 @@ def iterate_tool(tool_key: str, max_attempts: int = 2, model: str = "claude-opus
         # Re-read eval result
         new_ej = find_eval_json(slug)
         if not new_ej:
-            print(f"  no eval.json after eval attempt")
+            print("  no eval.json after eval attempt")
             continue
         p, t, pct = parse_score(new_ej)
         print(f"  AFTER attempt {attempt}: {pct:.2f}% ({p}/{t})")
@@ -209,7 +222,7 @@ def iterate_tool(tool_key: str, max_attempts: int = 2, model: str = "claude-opus
             print(f"  regression vs {state['pre_score']:.2f}%; reverting")
             revert_override(state)
             if not apply_override(tool_key):
-                print(f"  warning: revert-apply failed")
+                print("  warning: revert-apply failed")
             # Continue loop, try with maybe different prompt next attempt
 
     state["history"] = history
@@ -239,7 +252,12 @@ def main():
         except Exception:
             print("ERROR: per_tool_failures.json missing")
             sys.exit(1)
-        tier_ranges = {"near-lock": (95, 100), "upper": (70, 95), "mid": (30, 70), "floor": (0.01, 30)}
+        tier_ranges = {
+            "near-lock": (95, 100),
+            "upper": (70, 95),
+            "mid": (30, 70),
+            "floor": (0.01, 30),
+        }
         lo, hi = tier_ranges[args.tier]
         candidates = [tk for tk, d in fails.items() if lo <= d.get("pct", 0) < hi]
         candidates.sort(key=lambda tk: -fails[tk].get("pct", 0))
@@ -260,7 +278,9 @@ def main():
     for r in results:
         d = r.get("delta", 0)
         sign = "+" if d >= 0 else ""
-        print(f"  {r['tool_key']:<50}  {r['pre_score']:.2f} -> {r.get('final_pct', 0):.2f}  ({sign}{d:.2f}pp)")
+        print(
+            f"  {r['tool_key']:<50}  {r['pre_score']:.2f} -> {r.get('final_pct', 0):.2f}  ({sign}{d:.2f}pp)"
+        )
 
 
 if __name__ == "__main__":

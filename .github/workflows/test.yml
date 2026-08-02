@@ -49,7 +49,24 @@ jobs:
         # it as a broken data-root pointer.
         run: pip install pre-commit pydantic pydantic-settings pyyaml
       - name: Run pre-commit hooks
-        run: pre-commit run --all-files
+        # SKIP=no-commit-to-branch: that hook's entire job is to reject a COMMIT made while
+        # HEAD is on main. CI is checked out on main and is not committing anything, so the
+        # hook fires on the branch name alone and can never pass here -- it is not reporting
+        # a defect, it is reporting the checkout. Skipping it in CI does not weaken it where
+        # it matters: it still runs on every local `git commit`, which is the only place a
+        # commit-to-main can actually happen. Scoped to this one id so a real hook failure
+        # still turns the job red.
+        env:
+          # This checkout IS the public mirror, which deliberately does not ship the vendored
+          # trees under corpus/programbench/locked/. The two PB guards fail closed when they
+          # cannot examine an archive -- correctly, because "nothing scannable" is
+          # indistinguishable from "every archive vanished" and a guard must not guess that
+          # absence is benign. So the filtered checkout DECLARES itself here, where the fact
+          # is actually true, rather than in .pre-commit-config.yaml which the dev repo also
+          # reads. The guards still fail if even one archive IS present (partial = drift), so
+          # this cannot launder real drift.
+          DETERMINEX_FILTERED_CHECKOUT: "1"
+        run: SKIP=no-commit-to-branch pre-commit run --all-files
 
   doc-guard:
     name: Doc guard (mojibake + PB count)

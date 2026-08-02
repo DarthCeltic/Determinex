@@ -36,6 +36,7 @@ Resolved via the ordinary vars_map bare-Name lookup already in place -- no new
 _file_arg wiring needed since the values (bare Name, no str() wrap in sox's own tests)
 already flow through _resolve()'s existing Name-in-vmap branch.
 """
+
 from __future__ import annotations
 
 import sys
@@ -46,7 +47,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_discover_temp_file_factory_fixtures_finds_mkstemp_based_fixture():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import tempfile
 import os
 import pytest
@@ -60,28 +61,28 @@ def temp_audio_file():
         files.append(path)
         return path
     yield _temp_file
-''')
+""")
     assert iox._discover_temp_file_factory_fixtures(tree) == {"temp_audio_file"}
 
 
 def test_discover_temp_file_factory_fixtures_ignores_non_mkstemp_fixtures():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import pytest
 
 @pytest.fixture
 def some_other_fixture():
     return 42
-''')
+""")
     assert iox._discover_temp_file_factory_fixtures(tree) == set()
 
 
 def test_track_temp_file_factory_vars_assigns_distinct_basenames_per_call():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def test_x(run_sox, temp_audio_file):
     input_file = temp_audio_file(".wav")
     output_file = temp_audio_file(".wav")
     run_sox(input_file, output_file, "reverb")
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._track_temp_file_factory_vars(func, {"temp_audio_file"})
     assert result == {"input_file": "scratch_0.wav", "output_file": "scratch_1.wav"}
@@ -89,17 +90,18 @@ def test_x(run_sox, temp_audio_file):
 
 
 def test_track_temp_file_factory_vars_ignores_unknown_factory():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def test_x():
     golden_file = some_other_call(".wav")
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     assert iox._track_temp_file_factory_vars(func, {"temp_audio_file"}) == {}
 
 
 def test_extract_file_resolves_two_distinct_calls_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import tempfile
 import os
@@ -125,14 +127,16 @@ def temp_audio_file():
         files.append(path)
         return path
     yield _temp_file
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_reverb(run_sox, temp_audio_file):
     input_file = temp_audio_file(".wav")
     output_file = temp_audio_file(".wav")
     result = run_sox(input_file, output_file, "reverb")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

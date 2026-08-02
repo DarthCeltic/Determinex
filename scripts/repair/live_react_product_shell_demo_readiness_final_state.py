@@ -24,6 +24,7 @@ pointing at deliberately-removed work, not a real gap.
 
 Read-only on disk. Never re-runs runtime gates.
 """
+
 from __future__ import annotations
 
 import json
@@ -33,7 +34,6 @@ from .live_react_product_shell_demo_readiness_final_state_record import (
     LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_STATUS_TOKENS,
     LiveReactProductShellDemoReadinessFinalStateRecord,
 )
-
 
 _RUNG_LOCKS: dict[str, str] = {
     "browser_snapshot": "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001",
@@ -121,11 +121,15 @@ def evaluate(repo_root: Path | str) -> LiveReactProductShellDemoReadinessFinalSt
     unsupported_claims_blocked = claims_clean
 
     if not all_closed:
-        decision = "LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
+        decision = (
+            "LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
+        )
         notes = tuple(missing)
         next_rung = "complete_missing_rung"
     elif not claims_clean:
-        decision = "LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
+        decision = (
+            "LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
+        )
         notes = (f"unsupported claim keys set to True: {claim_violations!r}",)
         next_rung = "scrub_unsupported_claims"
     else:

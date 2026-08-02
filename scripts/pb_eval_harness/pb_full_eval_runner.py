@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-from typing import Optional
-import sys, os
+import os
+import sys
+
 # Force UTF-8 output on Windows so box-drawing chars print cleanly
-if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
-    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 r"""
 pb_full_eval_runner.py — Determinex ProgramBench Full Eval Harness
 ================================================================
@@ -31,33 +31,30 @@ Args:
 import argparse
 import datetime
 import json
-import os
 import pathlib
+import shutil
 import subprocess
 import sys
-import tarfile
-import tempfile
 import threading
 import time
-import shutil
 
 # ------------------------------- PATHS ------------------------------- #
-DETERMINEX_ROOT   = pathlib.Path(__file__).parent.parent.parent.resolve()
-INDEX_PATH     = DETERMINEX_ROOT / "corpus" / "programbench" / "eval_index.json"
-LOCKED_DIR     = DETERMINEX_ROOT / "corpus" / "programbench" / "locked"
+DETERMINEX_ROOT = pathlib.Path(__file__).parent.parent.parent.resolve()
+INDEX_PATH = DETERMINEX_ROOT / "corpus" / "programbench" / "eval_index.json"
+LOCKED_DIR = DETERMINEX_ROOT / "corpus" / "programbench" / "locked"
 PB_HARNESS_DIR = pathlib.Path(r"T:\Dev\ProgramBench")
-STAGING_ROOT   = pathlib.Path(r"T:\determinex-programbench")
-TODAY          = datetime.date.today().strftime("%Y%m%d")
-OUTPUT_ROOT    = STAGING_ROOT / f"full_evals_{TODAY}"
-LOG_FILE       = OUTPUT_ROOT / "run_log.jsonl"
-RESOURCE_LOG   = OUTPUT_ROOT / "resource_log.jsonl"
+STAGING_ROOT = pathlib.Path(r"T:\determinex-programbench")
+TODAY = datetime.date.today().strftime("%Y%m%d")
+OUTPUT_ROOT = STAGING_ROOT / f"full_evals_{TODAY}"
+LOG_FILE = OUTPUT_ROOT / "run_log.jsonl"
+RESOURCE_LOG = OUTPUT_ROOT / "resource_log.jsonl"
 
 # ------------------------------- TUNING ------------------------------- #
 # Resource limits — we allow high utilization since user has spare CPU.
 # Will pause if CPU > PAUSE_CPU_PCT for > PAUSE_HOLD_SECS
-PAUSE_CPU_PCT   = 88   # pause if CPU stays above this
-PAUSE_HOLD_SECS = 30   # how many seconds it must stay above before pausing
-RESUME_CPU_PCT  = 70   # resume when CPU drops below this
+PAUSE_CPU_PCT = 88  # pause if CPU stays above this
+PAUSE_HOLD_SECS = 30  # how many seconds it must stay above before pausing
+RESUME_CPU_PCT = 70  # resume when CPU drops below this
 RESOURCE_INTERVAL = 5  # seconds between resource samples
 
 # How long to wait (seconds) for a single eval before declaring timeout
@@ -68,41 +65,100 @@ EVAL_TIMEOUT_SECS = 1800  # 30 minutes max per tool
 # tools that build cleanly with standard compile.sh patterns.
 # Tools outside this set need extra work and go to the bottom of the queue.
 CORE_LANGUAGES = {
-    "rust",       # cargo build --release
-    "go",         # go build
-    "python",     # py implementation, no native required
-    "c",          # gcc/clang
-    "cpp",        # g++/clang++
-    "javascript", # node
-    "typescript", # tsc + node
+    "rust",  # cargo build --release
+    "go",  # go build
+    "python",  # py implementation, no native required
+    "c",  # gcc/clang
+    "cpp",  # g++/clang++
+    "javascript",  # node
+    "typescript",  # tsc + node
 }
 
 # Known language for each slug (derived from locked/ source files and PB tasks)
 # Format: slug_prefix -> language
 SLUG_LANGUAGE_MAP = {
     # Rust
-    "angle-grinder": "rust", "ascii-image-converter": "rust", "bore": "rust",
-    "chroma": "rust", "clog-cli": "rust", "code-minimap": "rust",
-    "curlie": "rust", "deadnix": "rust", "diffr": "rust", "elfcat": "rust",
-    "entr": "c", "eva": "rust", "fblog": "rust", "flamelens": "rust",
-    "fzf": "go", "genact": "rust", "git-trim": "go", "gping": "rust",
-    "grex": "rust", "gron": "go", "hck": "rust", "hex": "rust",
-    "htmlq": "rust", "hyperfine": "rust", "igrep": "rust",
-    "i3-style": "python", "jplot": "go", "json-tui": "rust", "jq": "c",
-    "keifu": "rust", "loop": "rust", "miniserve": "rust", "muffet": "go",
-    "monolith": "rust", "ngrrram": "rust", "nomino": "rust", "nsh": "rust",
-    "oha": "rust", "ov": "rust", "parqeye": "python", "pastel": "rust",
-    "pier": "rust", "pingu": "rust", "quickjs": "c", "rhit": "rust",
-    "richgo": "go", "ripgrep": "rust", "ripsecrets": "rust", "rnr": "rust",
-    "rumdl": "rust", "run": "rust", "rustowl": "rust", "sd": "rust",
-    "seqtk": "c", "shellharden": "rust", "tailspin": "rust", "tex-fmt": "rust",
-    "thokr": "rust", "tparse": "go", "trdsql": "go", "tuc": "rust",
-    "xsv": "rust", "xz": "c", "yj": "go", "yq": "go", "zip-password-finder": "rust",
-    "zoxide": "rust", "argc": "rust", "dsq": "go", "dupl": "go",
-    "fasttext": "cpp", "go-mod-outdated": "go", "cmatrix": "c",
-    "csview": "rust", "xq": "rust", "stathissideris__ditaa": "java",
-    "boyter__scc.515f91c": "go", "pier": "rust", "loop": "rust",
-    "flamelens": "rust", "fblog": "rust",
+    "angle-grinder": "rust",
+    "ascii-image-converter": "rust",
+    "bore": "rust",
+    "chroma": "rust",
+    "clog-cli": "rust",
+    "code-minimap": "rust",
+    "curlie": "rust",
+    "deadnix": "rust",
+    "diffr": "rust",
+    "elfcat": "rust",
+    "entr": "c",
+    "eva": "rust",
+    "fblog": "rust",
+    "flamelens": "rust",
+    "fzf": "go",
+    "genact": "rust",
+    "git-trim": "go",
+    "gping": "rust",
+    "grex": "rust",
+    "gron": "go",
+    "hck": "rust",
+    "hex": "rust",
+    "htmlq": "rust",
+    "hyperfine": "rust",
+    "igrep": "rust",
+    "i3-style": "python",
+    "jplot": "go",
+    "json-tui": "rust",
+    "jq": "c",
+    "keifu": "rust",
+    "loop": "rust",
+    "miniserve": "rust",
+    "muffet": "go",
+    "monolith": "rust",
+    "ngrrram": "rust",
+    "nomino": "rust",
+    "nsh": "rust",
+    "oha": "rust",
+    "ov": "rust",
+    "parqeye": "python",
+    "pastel": "rust",
+    "pier": "rust",
+    "pingu": "rust",
+    "quickjs": "c",
+    "rhit": "rust",
+    "richgo": "go",
+    "ripgrep": "rust",
+    "ripsecrets": "rust",
+    "rnr": "rust",
+    "rumdl": "rust",
+    "run": "rust",
+    "rustowl": "rust",
+    "sd": "rust",
+    "seqtk": "c",
+    "shellharden": "rust",
+    "tailspin": "rust",
+    "tex-fmt": "rust",
+    "thokr": "rust",
+    "tparse": "go",
+    "trdsql": "go",
+    "tuc": "rust",
+    "xsv": "rust",
+    "xz": "c",
+    "yj": "go",
+    "yq": "go",
+    "zip-password-finder": "rust",
+    "zoxide": "rust",
+    "argc": "rust",
+    "dsq": "go",
+    "dupl": "go",
+    "fasttext": "cpp",
+    "go-mod-outdated": "go",
+    "cmatrix": "c",
+    "csview": "rust",
+    "xq": "rust",
+    "stathissideris__ditaa": "java",
+    "boyter__scc.515f91c": "go",
+    "pier": "rust",
+    "loop": "rust",
+    "flamelens": "rust",
+    "fblog": "rust",
 }
 
 NON_CORE_LANGS = {"java", "haskell", "nix", "lua", "ruby", "perl", "scala", "kotlin"}
@@ -144,6 +200,7 @@ def is_core_language(lang: str) -> bool:
 
 
 # ------------------------------- RESOURCE MONITOR ----------------------- #
+
 
 class ResourceMonitor:
     """Samples CPU/memory/Docker stats in a background thread."""
@@ -209,6 +266,7 @@ class ResourceMonitor:
         # CPU & memory via psutil (fast, cross-platform)
         try:
             import psutil
+
             sample["cpu_pct"] = psutil.cpu_percent(interval=1)
             mem = psutil.virtual_memory()
             sample["mem_pct"] = mem.percent
@@ -224,7 +282,7 @@ class ResourceMonitor:
                     capture_output=True,
                     encoding="utf-8",
                     errors="replace",
-                    timeout=5
+                    timeout=5,
                 )
                 for line in r.stdout.splitlines():
                     if "LoadPercentage=" in line:
@@ -240,7 +298,7 @@ class ResourceMonitor:
                 capture_output=True,
                 encoding="utf-8",
                 errors="replace",
-                timeout=5
+                timeout=5,
             )
             sample["docker_containers"] = len([l for l in r.stdout.splitlines() if l.strip()])
         except Exception:
@@ -250,6 +308,7 @@ class ResourceMonitor:
 
 
 # ------------------------------- QUEUE BUILDER --------------------------- #
+
 
 def build_eval_queue(phase: str = "pending") -> list[dict]:
     """
@@ -287,11 +346,17 @@ def build_eval_queue(phase: str = "pending") -> list[dict]:
         key=lambda x: (-int(x["is_core_lang"]), -x.get("official_score_pct", 0)),
     )
     board_nonzero = sorted(
-        [enrich(d) for d in data if d["status"] == "board_cache_only" and d.get("official_score_pct", 0) > 0],
+        [
+            enrich(d)
+            for d in data
+            if d["status"] == "board_cache_only" and d.get("official_score_pct", 0) > 0
+        ],
         key=lambda x: (-int(x["is_core_lang"]), -x.get("official_score_pct", 0)),
     )
     board_zero = [
-        enrich(d) for d in data if d["status"] == "board_cache_only" and d.get("official_score_pct", 0) == 0
+        enrich(d)
+        for d in data
+        if d["status"] == "board_cache_only" and d.get("official_score_pct", 0) == 0
     ]
 
     if phase == "pending":
@@ -303,6 +368,7 @@ def build_eval_queue(phase: str = "pending") -> list[dict]:
 
 
 # ------------------------------- SUBMISSION HELPER ----------------------- #
+
 
 def find_submission_dir(tool: dict):
     """
@@ -319,9 +385,24 @@ def find_submission_dir(tool: dict):
     # For each, check for submission_uncapped.tar.gz first, then submission.tar.gz
     sub_tar = None
     search_dirs = [
-        DETERMINEX_ROOT / "corpus" / "programbench" / "pending_unlock" / "priority_1_under100" / slug,
-        DETERMINEX_ROOT / "corpus" / "programbench" / "pending_unlock" / "priority_2_under300" / slug,
-        DETERMINEX_ROOT / "corpus" / "programbench" / "pending_unlock" / "priority_3_over300" / slug,
+        DETERMINEX_ROOT
+        / "corpus"
+        / "programbench"
+        / "pending_unlock"
+        / "priority_1_under100"
+        / slug,
+        DETERMINEX_ROOT
+        / "corpus"
+        / "programbench"
+        / "pending_unlock"
+        / "priority_2_under300"
+        / slug,
+        DETERMINEX_ROOT
+        / "corpus"
+        / "programbench"
+        / "pending_unlock"
+        / "priority_3_over300"
+        / slug,
         DETERMINEX_ROOT / "corpus" / "programbench" / "pending_unlock" / slug,
         DETERMINEX_ROOT / "corpus" / "programbench" / "locked" / "tier_1_perfect" / slug,
         DETERMINEX_ROOT / "corpus" / "programbench" / "locked" / "tier_2_upstream_skips" / slug,
@@ -401,7 +482,10 @@ def clean_subprocess_env() -> dict:
 
 # ------------------------------- EVAL RUNNER --------------------------- #
 
-def run_eval(tool: dict, submission_dir: pathlib.Path, instance_id: str, dry_run: bool = False) -> dict:
+
+def run_eval(
+    tool: dict, submission_dir: pathlib.Path, instance_id: str, dry_run: bool = False
+) -> dict:
     """
     Run `programbench eval` for one tool. Returns a result dict.
     """
@@ -410,20 +494,30 @@ def run_eval(tool: dict, submission_dir: pathlib.Path, instance_id: str, dry_run
     result_dir.mkdir(parents=True, exist_ok=True)
 
     cmd = [
-        "uv", "run", "programbench", "eval",
+        "uv",
+        "run",
+        "programbench",
+        "eval",
         str(submission_dir),
-        "--filter", instance_id,
+        "--filter",
+        instance_id,
         "--force",
     ]
 
-    print(f"\n" + "="*60)
+    print("\n" + "=" * 60)
     print(f"EVAL: {slug}")
     print(f"  Submission: {submission_dir}")
     print(f"  Result dir: {result_dir}")
     print(f"  Command:    {' '.join(cmd)}")
-    print(f"  Lang:       {tool.get('detected_lang','?')} (core={tool.get('is_core_lang',False)})")
-    print(f"  Old score:  {tool.get('official_score_pct',0):.1f}% ({tool.get('official_passed',0)}/{tool.get('official_total',0)})")
-    print(f"  not_run:    {tool.get('official_not_run',0)} (these were capped at 400, now running full suite)")
+    print(
+        f"  Lang:       {tool.get('detected_lang', '?')} (core={tool.get('is_core_lang', False)})"
+    )
+    print(
+        f"  Old score:  {tool.get('official_score_pct', 0):.1f}% ({tool.get('official_passed', 0)}/{tool.get('official_total', 0)})"
+    )
+    print(
+        f"  not_run:    {tool.get('official_not_run', 0)} (these were capped at 400, now running full suite)"
+    )
 
     if dry_run:
         return {
@@ -538,13 +632,13 @@ def parse_eval_json(eval_json_path: pathlib.Path) -> dict:
     try:
         data = json.loads(eval_json_path.read_text(encoding="utf-8"))
         test_results = data.get("test_results", [])
-        
+
         passed = sum(1 for t in test_results if t.get("status") == "passed")
         failed = sum(1 for t in test_results if t.get("status") in ("failure", "error"))
         skipped = sum(1 for t in test_results if t.get("status") == "skipped")
         not_run = sum(1 for t in test_results if t.get("status") == "not_run")
         total = len(test_results)
-        
+
         score_pct = 0.0
         new_status = "needs_work"
         if total > 0:
@@ -558,7 +652,7 @@ def parse_eval_json(eval_json_path: pathlib.Path) -> dict:
                 new_status = "near_lock"
             elif score_pct >= 70.0:
                 new_status = "strong_candidate"
-                
+
         return {
             "new_passed": passed,
             "new_failed": failed,
@@ -567,7 +661,7 @@ def parse_eval_json(eval_json_path: pathlib.Path) -> dict:
             "new_total": total,
             "new_score_pct": score_pct,
             "new_status": new_status,
-            "eval_json_path": str(eval_json_path)
+            "eval_json_path": str(eval_json_path),
         }
     except Exception as e:
         print(f"  [ERROR] parsing JSON eval result {eval_json_path}: {e}")
@@ -606,9 +700,7 @@ def parse_pb_output(stdout: list[str], stderr: list[str]) -> dict:
                     result["new_total"] = parts.get("total", 0)
                     total = result["new_total"]
                     if total > 0:
-                        result["new_score_pct"] = round(
-                            100.0 * result["new_passed"] / total, 4
-                        )
+                        result["new_score_pct"] = round(100.0 * result["new_passed"] / total, 4)
                     # Determine new status
                     if result["new_not_run"] == 0 and result["new_failed"] == 0:
                         if result["new_skipped"] == 0:
@@ -641,7 +733,12 @@ def collect_eval_artifacts(slug: str, result_dir: pathlib.Path, eval_result: dic
     # Look for the most recently modified gate_result.json, eval_report.json, results.json or *.eval.json
     # in the current run's output root
     candidates = []
-    for pattern in ["**/gate_result.json", "**/eval_report.json", "**/results.json", "**/*.eval.json"]:
+    for pattern in [
+        "**/gate_result.json",
+        "**/eval_report.json",
+        "**/results.json",
+        "**/*.eval.json",
+    ]:
         candidates.extend(OUTPUT_ROOT.glob(pattern))
 
     if not candidates:
@@ -662,6 +759,7 @@ def collect_eval_artifacts(slug: str, result_dir: pathlib.Path, eval_result: dic
 
 
 # ------------------------------- INDEX UPDATER -------------------------- #
+
 
 def update_index(result: dict):
     """Update eval_index.json with the new result for this tool."""
@@ -714,14 +812,19 @@ def update_index(result: dict):
 
 # ------------------------------- MAIN ---------------------------------- #
 
+
 def main():
     parser = argparse.ArgumentParser(description="Determinex PB Full Eval Harness")
     parser.add_argument("--dry-run", action="store_true", help="Print queue, don't run")
     parser.add_argument("--resume", action="store_true", help="Skip already-completed tools")
     parser.add_argument("--filter", metavar="SLUG", help="Only run matching tool")
     parser.add_argument("--max", type=int, default=9999, help="Max tools to run")
-    parser.add_argument("--phase", choices=["pending", "board", "all"], default="pending",
-                        help="Which tools to run (default: pending)")
+    parser.add_argument(
+        "--phase",
+        choices=["pending", "board", "all"],
+        default="pending",
+        help="Which tools to run (default: pending)",
+    )
     parser.add_argument("--start-from", metavar="SLUG", help="Start from this slug in queue")
     args = parser.parse_args()
 
@@ -731,7 +834,7 @@ def main():
     # Build queue
     SEP = "=" * 60
     print(f"\n{SEP}")
-    print(f"Determinex ProgramBench Full Eval Harness")
+    print("Determinex ProgramBench Full Eval Harness")
     print(f"Date:        {TODAY}")
     print(f"Phase:       {args.phase}")
     print(f"Output:      {OUTPUT_ROOT}")
@@ -765,7 +868,7 @@ def main():
     # Apply resume filter and max
     if args.resume:
         queue = [t for t in queue if t["slug"] not in completed_slugs]
-    queue = queue[:args.max]
+    queue = queue[: args.max]
 
     # Summarize the queue with language core analysis
     core = [t for t in queue if t.get("is_core_lang", False)]
@@ -783,10 +886,10 @@ def main():
     for i, t in enumerate(queue):
         core_flag = "Y" if t.get("is_core_lang") else "N"
         print(
-            f"  {i+1:3}. [{core_flag}] {t['slug']:<40} "
-            f"{t.get('official_score_pct',0):5.1f}%  "
-            f"not_run={t.get('official_not_run',0)}  "
-            f"lang={t.get('detected_lang','?')}"
+            f"  {i + 1:3}. [{core_flag}] {t['slug']:<40} "
+            f"{t.get('official_score_pct', 0):5.1f}%  "
+            f"not_run={t.get('official_not_run', 0)}  "
+            f"lang={t.get('detected_lang', '?')}"
         )
 
     if args.dry_run:
@@ -798,11 +901,7 @@ def main():
     # 1. Docker
     try:
         r = subprocess.run(
-            ["docker", "info"],
-            capture_output=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=15
+            ["docker", "info"], capture_output=True, encoding="utf-8", errors="replace", timeout=15
         )
         if r.returncode != 0:
             print("ERROR: Docker is not running. Start Docker Desktop and retry.")
@@ -835,6 +934,7 @@ def main():
     # 3. psutil (optional but recommended)
     try:
         import psutil
+
         print("  [OK] psutil available (accurate resource monitoring)")
     except ImportError:
         print("  [!] psutil not installed - using fallback CPU monitoring")
@@ -860,11 +960,13 @@ def main():
         # Check resource headroom before each tool
         if monitor.should_pause():
             res = monitor.current
-            print(f"\n[PAUSE] CPU={res.get('cpu_pct',0):.1f}% has been high. Waiting for headroom...")
+            print(
+                f"\n[PAUSE] CPU={res.get('cpu_pct', 0):.1f}% has been high. Waiting for headroom..."
+            )
             monitor.wait_for_headroom()
             print("[RESUME] CPU back to normal. Continuing.")
 
-        print(f"\n[{i+1}/{len(queue)}] Starting: {slug}")
+        print(f"\n[{i + 1}/{len(queue)}] Starting: {slug}")
 
         # Find or extract submission
         sub_info = find_submission_dir(tool)
@@ -890,7 +992,9 @@ def main():
                 print(f"  [PROMOTED] {slug} -> {result['new_status']} ({new_pct:.1f}%)")
             elif delta < -5:
                 total_regressed += 1
-                print(f"  [⚠ REGRESSED] {slug}: {old_pct:.1f}% -> {new_pct:.1f}% (delta {delta:+.1f}%)")
+                print(
+                    f"  [⚠ REGRESSED] {slug}: {old_pct:.1f}% -> {new_pct:.1f}% (delta {delta:+.1f}%)"
+                )
             else:
                 print(f"  [→] {slug}: {old_pct:.1f}% -> {new_pct:.1f}% (delta {delta:+.1f}%)")
 
@@ -904,21 +1008,23 @@ def main():
         except Exception:
             pass
 
-        summary_rows.append({
-            "slug": slug,
-            "lang": tool.get("detected_lang", "?"),
-            "core": tool.get("is_core_lang", False),
-            "old_pct": tool.get("official_score_pct", 0),
-            "new_pct": result.get("new_score_pct", 0),
-            "new_status": result.get("new_status", result.get("status", "?")),
-            "elapsed": result.get("elapsed_secs", 0),
-        })
+        summary_rows.append(
+            {
+                "slug": slug,
+                "lang": tool.get("detected_lang", "?"),
+                "core": tool.get("is_core_lang", False),
+                "old_pct": tool.get("official_score_pct", 0),
+                "new_pct": result.get("new_score_pct", 0),
+                "new_status": result.get("new_status", result.get("status", "?")),
+                "elapsed": result.get("elapsed_secs", 0),
+            }
+        )
 
         res = monitor.current
         print(
-            f"  [RES] CPU={res.get('cpu_pct',0):.1f}%  "
-            f"MEM={res.get('mem_pct',0):.1f}%  "
-            f"Docker={res.get('docker_containers',0)} containers"
+            f"  [RES] CPU={res.get('cpu_pct', 0):.1f}%  "
+            f"MEM={res.get('mem_pct', 0):.1f}%  "
+            f"Docker={res.get('docker_containers', 0)} containers"
         )
 
     # Stop monitor

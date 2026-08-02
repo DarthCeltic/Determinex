@@ -7,9 +7,16 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
-from corpus.programbench.bounded_rerun_gate import BoundedRerunGate, BoundedRerunStatus  # noqa: E402
+from corpus.programbench.bounded_rerun_gate import (  # noqa: E402
+    BoundedRerunGate,
+    BoundedRerunStatus,
+)
 from corpus.programbench.bounded_rerun_record import verify_bounded_rerun_record  # noqa: E402
-from corpus.programbench.root_cause_packet import make_root_cause_packet, sign_packet, write_packet  # noqa: E402
+from corpus.programbench.root_cause_packet import (  # noqa: E402
+    make_root_cause_packet,
+    sign_packet,
+    write_packet,
+)
 
 
 def _artifact(tmp_path: Path, name: str, score: str) -> Path:
@@ -19,10 +26,20 @@ def _artifact(tmp_path: Path, name: str, score: str) -> Path:
     return path
 
 
-def _packet_path(tmp_path: Path, *, tool: str = "doxygen", candidate_id: str = "doxygen_v7", stale: bool = False, quarantine: bool = False) -> Path:
+def _packet_path(
+    tmp_path: Path,
+    *,
+    tool: str = "doxygen",
+    candidate_id: str = "doxygen_v7",
+    stale: bool = False,
+    quarantine: bool = False,
+) -> Path:
     baseline = _artifact(tmp_path, f"{candidate_id}_baseline", "249/250")
     candidate = _artifact(tmp_path, f"{candidate_id}_candidate", "248/250")
-    evidence_inputs: list = [baseline.relative_to(tmp_path).as_posix(), candidate.relative_to(tmp_path).as_posix()]
+    evidence_inputs: list = [
+        baseline.relative_to(tmp_path).as_posix(),
+        candidate.relative_to(tmp_path).as_posix(),
+    ]
     if quarantine:
         manifest = tmp_path / "manifest.replay_manifest.json"
         manifest.write_text(json.dumps({"quarantine_only": True}), encoding="utf-8")

@@ -10,6 +10,7 @@ All tests use pytest's tmp_path fixture — no real filesystem state is modified
 Symlink creation is skipped gracefully when the OS requires elevated privileges
 (Windows without Developer Mode enabled).
 """
+
 from __future__ import annotations
 
 import os
@@ -22,12 +23,12 @@ _SCRIPTS = Path(__file__).resolve().parents[2] / "scripts"
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from hive.workspace import resolve_workspace_path, assert_inside_workspace
-
+from hive.workspace import assert_inside_workspace, resolve_workspace_path
 
 # ---------------------------------------------------------------------------
 # Basic containment tests (no symlinks required)
 # ---------------------------------------------------------------------------
+
 
 def test_file_inside_workspace_is_allowed(tmp_path):
     workspace = tmp_path / "workspace"
@@ -101,6 +102,7 @@ def test_assert_inside_workspace_raises_for_escaped(tmp_path):
 # Symlink escape tests (skipped if symlink creation unavailable)
 # ---------------------------------------------------------------------------
 
+
 def _try_symlink(link: Path, target: Path, monkeypatch) -> bool:
     """Return True if symlink was created, or fallback to mock."""
     try:
@@ -117,15 +119,17 @@ def _try_symlink(link: Path, target: Path, monkeypatch) -> bool:
             link.write_text("mock", encoding="utf-8")
 
         orig_resolve = Path.resolve
+
         def mock_resolve(self, strict=False):
             self_abs = str(self.absolute())
             link_abs = str(link.absolute())
             if self_abs == link_abs:
                 return target.resolve(strict=strict)
             elif self_abs.startswith(link_abs + os.sep):
-                remainder = self_abs[len(link_abs)+1:]
+                remainder = self_abs[len(link_abs) + 1 :]
                 return target.resolve(strict=strict) / remainder
             return orig_resolve(self, strict=strict)
+
         monkeypatch.setattr(Path, "resolve", mock_resolve)
         return True
 

@@ -13,8 +13,16 @@ each tool's score to /tmp/grind/_grind.log as `[parallel] <slug>: P/T = X% [verd
 
 Usage (on the box):  python3 pb_parallel.py <queue_file> --slots 3 --cpus 2
 """
+
 from __future__ import annotations
-import argparse, json, glob, subprocess, sys, time, os
+
+import argparse
+import glob
+import json
+import os
+import subprocess
+import sys
+import time
 from pathlib import Path
 
 PB = "/root/ProgramBench/.venv/bin/programbench"
@@ -60,8 +68,11 @@ def main() -> int:
         if len(parts) >= 3:
             jobs.append((parts[0], parts[1], parts[2]))
     # de-dup preserving order
-    seen = set(); jobs = [j for j in jobs if not (j[0] in seen or seen.add(j[0]))]
-    log(f"[parallel] start: {len(jobs)} tools, {args.slots} slots x {args.cpus} cpus  {time.strftime('%H:%M:%S')}")
+    seen = set()
+    jobs = [j for j in jobs if not (j[0] in seen or seen.add(j[0]))]
+    log(
+        f"[parallel] start: {len(jobs)} tools, {args.slots} slots x {args.cpus} cpus  {time.strftime('%H:%M:%S')}"
+    )
     running = {}  # proc -> (slug, fdir, start)
     qi = 0
     launched = set(j[0] for j in jobs)
@@ -78,7 +89,8 @@ def main() -> int:
                     continue
                 p = ln.split(":")
                 if len(p) >= 3 and p[0] not in launched:
-                    jobs.append((p[0], p[1], p[2])); launched.add(p[0])
+                    jobs.append((p[0], p[1], p[2]))
+                    launched.add(p[0])
         except Exception:
             pass
 
@@ -86,18 +98,25 @@ def main() -> int:
         _reread()
         # fill slots
         while len(running) < args.slots and qi < len(jobs):
-            slug, fdir, author = jobs[qi]; qi += 1
+            slug, fdir, author = jobs[qi]
+            qi += 1
             env = dict(os.environ, PYTHONUTF8="1", PROGRAMBENCH_DOCKER_CPUS=str(args.cpus))
             lf = open(f"/tmp/grind/{slug}.par.log", "w")
-            p = subprocess.Popen([PB, "eval", f"{ROOT}/{fdir}", "--filter", author, "--force"],
-                                 stdout=lf, stderr=subprocess.STDOUT, env=env)
+            p = subprocess.Popen(
+                [PB, "eval", f"{ROOT}/{fdir}", "--filter", author, "--force"],
+                stdout=lf,
+                stderr=subprocess.STDOUT,
+                env=env,
+            )
             running[p] = (slug, fdir, time.time())
-            log(f"[parallel] launched {slug} (slot {len(running)}/{args.slots})  {time.strftime('%H:%M:%S')}")
+            log(
+                f"[parallel] launched {slug} (slot {len(running)}/{args.slots})  {time.strftime('%H:%M:%S')}"
+            )
         # reap finished
         done = [p for p in running if p.poll() is not None]
         for p in done:
             slug, fdir, st = running.pop(p)
-            log(score(slug, fdir) + f"  ({int(time.time()-st)}s)")
+            log(score(slug, fdir) + f"  ({int(time.time() - st)}s)")
         if not done:
             time.sleep(20)
     # safe: prune only now that ALL slots are idle

@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[3]
 PACKET = ROOT / "assurance" / "evidence" / "programbench_200_lock_campaign"
 BOARD = ROOT / "logs" / "programbench_lock_board.json"
@@ -47,11 +46,7 @@ def _rename_agnostic(value):
 
 def _remaining_board_rows():
     board = _read_json(BOARD)
-    return [
-        row
-        for row in board
-        if not row.get("locked_archive")
-    ]
+    return [row for row in board if not row.get("locked_archive")]
 
 
 def _classification_rows():

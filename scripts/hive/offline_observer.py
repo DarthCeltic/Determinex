@@ -35,6 +35,7 @@ Limitations (documented, not hidden):
   useful for structural/style catches, not semantic ones.
   At Tier 1+, Monitor is a different model family — the comparison is meaningful.
 """
+
 from __future__ import annotations
 
 import json
@@ -45,28 +46,27 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Optional
 
 log = logging.getLogger("hive.offline_observer")
 
 # ── Idle detection thresholds ────────────────────────────────────────────────
-_IDLE_VRAM_GB = 2.0      # below this = "GPU is idle, safe to run Monitor"
-_IDLE_CPU_PCT = 60.0     # below this = "CPU is not saturated"
+_IDLE_VRAM_GB = 2.0  # below this = "GPU is idle, safe to run Monitor"
+_IDLE_CPU_PCT = 60.0  # below this = "CPU is not saturated"
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-_ROOT         = (
+_ROOT = (
     Path(os.environ["DETERMINEX_ROOT"]).resolve()
     if os.environ.get("DETERMINEX_ROOT")
     else Path(__file__).resolve().parent.parent.parent
 )
 _SESSIONS_DIR = _ROOT / "sessions"
-_LOCKFILE     = _ROOT / ".determinex_offline_observer.lock"
+_LOCKFILE = _ROOT / ".determinex_offline_observer.lock"
 
 
 # ── GPU idle detection ────────────────────────────────────────────────────────
 
 # #45 TOCTOU: require this many seconds of physical user idle before loading weights
-MIN_PHYSICAL_IDLE_SECONDS = 300   # 5 minutes AFK
+MIN_PHYSICAL_IDLE_SECONDS = 300  # 5 minutes AFK
 
 
 def _get_physical_idle_seconds() -> float:
@@ -103,14 +103,15 @@ def _get_physical_idle_seconds() -> float:
     # Cannot detect -- assume idle so the daemon is not permanently blocked
     return float("inf")
 
-def _vram_used_gb() -> Optional[float]:
+
+def _vram_used_gb() -> float | None:
     """Return total VRAM currently in use across all GPUs, or None if unavailable."""
     try:
         r = subprocess.run(
-            ["nvidia-smi",
-             "--query-gpu=memory.used",
-             "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=5,
+            ["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits"],
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         if r.returncode != 0:
             return None
@@ -127,13 +128,13 @@ def _vram_used_gb() -> Optional[float]:
 def _cpu_percent() -> float:
     try:
         import psutil
+
         return psutil.cpu_percent(interval=1.0)
     except (ImportError, Exception):
         return 0.0
 
 
-def is_gpu_idle(idle_vram_gb: float = _IDLE_VRAM_GB,
-                idle_cpu_pct: float = _IDLE_CPU_PCT) -> bool:
+def is_gpu_idle(idle_vram_gb: float = _IDLE_VRAM_GB, idle_cpu_pct: float = _IDLE_CPU_PCT) -> bool:
     """
     Return True if the GPU (and CPU) appear idle enough to run Monitor inference.
 
@@ -145,7 +146,8 @@ def is_gpu_idle(idle_vram_gb: float = _IDLE_VRAM_GB,
     if physical_idle < MIN_PHYSICAL_IDLE_SECONDS:
         log.debug(
             "Physical idle gate: user active %.0fs ago (need %.0fs) -- deferring",
-            physical_idle, MIN_PHYSICAL_IDLE_SECONDS,
+            physical_idle,
+            MIN_PHYSICAL_IDLE_SECONDS,
         )
         return False
 
@@ -161,7 +163,9 @@ def is_gpu_idle(idle_vram_gb: float = _IDLE_VRAM_GB,
 
     log.debug(
         "GPU idle: VRAM=%.2fGB (or unavailable), CPU=%.0f%%, physical_idle=%.0fs",
-        vram if vram is not None else 0.0, cpu, physical_idle,
+        vram if vram is not None else 0.0,
+        cpu,
+        physical_idle,
     )
     return True
 
@@ -175,11 +179,12 @@ def is_gpu_idle(idle_vram_gb: float = _IDLE_VRAM_GB,
 # the OS kills the app. Fix: run each batch in an isolated subprocess that
 # fully exits afterward, letting the OS reclaim all memory unconditionally.
 
+
 def _ephemeral_monitor_worker(
     step_data: dict,
     session_lang: str,
     model_assignments: dict,
-    result_queue: "multiprocessing.Queue",
+    result_queue: multiprocessing.Queue,
 ) -> None:
     """Worker entrypoint. Runs _run_monitor_offline and puts result in queue."""
     try:
@@ -232,11 +237,12 @@ def _run_monitor_ephemeral(
 class ObserverLock:
     """Simple PID-based lockfile. Prevents two observer processes running simultaneously."""
 
-    def __enter__(self) -> "ObserverLock":
+    def __enter__(self) -> ObserverLock:
         if _LOCKFILE.exists():
             try:
                 pid = int(_LOCKFILE.read_text().strip())
                 import os
+
                 try:
                     os.kill(pid, 0)
                     # G27: PermissionError means the PID exists but is owned by another
@@ -254,6 +260,7 @@ class ObserverLock:
                 _LOCKFILE.unlink(missing_ok=True)
 
         import os
+
         _LOCKFILE.write_text(str(os.getpid()))
         return self
 
@@ -262,6 +269,7 @@ class ObserverLock:
 
 
 # ── Monitor call ──────────────────────────────────────────────────────────────
+
 
 def _run_monitor_offline(
     step_data: dict,
@@ -275,7 +283,8 @@ def _run_monitor_offline(
     """
     try:
         import litellm
-        from hive.api_client import api_call, RateLimitExhausted
+
+        from hive.api_client import api_call
 
         monitor_model = model_assignments.get("monitor")
         if not monitor_model:
@@ -293,24 +302,31 @@ def _run_monitor_offline(
         compiler_passed = step_data.get("compiler_result", "") == "pass"
 
         messages = [
-            {"role": "system", "content": (
-                f"You are a code review monitor for {session_lang.capitalize()} projects. "
-                "Score the builder's output 0.0-1.0 on correctness, safety, and adherence "
-                "to the step instruction. Reply with ONLY a JSON object: "
-                '{"score": 0.0-1.0, "verdict": "one sentence", "issues": ["..."]}.'
-            )},
-            {"role": "user", "content": (
-                f"Step instruction: {step_data.get('instruction', '')}\n\n"
-                f"Builder output:\n```\n{builder_code[:3000]}\n```\n\n"
-                f"Compiler result: {'PASS' if compiler_passed else 'FAIL'}\n\n"
-                f"[Offline evaluation — original session ran in fast mode]"
-            )},
+            {
+                "role": "system",
+                "content": (
+                    f"You are a code review monitor for {session_lang.capitalize()} projects. "
+                    "Score the builder's output 0.0-1.0 on correctness, safety, and adherence "
+                    "to the step instruction. Reply with ONLY a JSON object: "
+                    '{"score": 0.0-1.0, "verdict": "one sentence", "issues": ["..."]}.'
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"Step instruction: {step_data.get('instruction', '')}\n\n"
+                    f"Builder output:\n```\n{builder_code[:3000]}\n```\n\n"
+                    f"Compiler result: {'PASS' if compiler_passed else 'FAIL'}\n\n"
+                    f"[Offline evaluation — original session ran in fast mode]"
+                ),
+            },
         ]
 
         resp = api_call(litellm.completion, model=monitor_model, messages=messages)
         text = resp.choices[0].message.content or ""
 
         import re
+
         m = re.search(r"\{[^}]+\}", text)
         if m:
             obj = json.loads(m.group())
@@ -324,8 +340,10 @@ def _run_monitor_offline(
 
 # ── DPO pair writer ───────────────────────────────────────────────────────────
 
-def _write_dpo_pair(session_id: str, step_id: int, step_data: dict,
-                    monitor_score: float, monitor_verdict: str) -> None:
+
+def _write_dpo_pair(
+    session_id: str, step_id: int, step_data: dict, monitor_score: float, monitor_verdict: str
+) -> None:
     """
     Write a DPO training pair to the session's training vault.
 
@@ -342,20 +360,21 @@ def _write_dpo_pair(session_id: str, step_id: int, step_data: dict,
     vault_dir.mkdir(parents=True, exist_ok=True)
 
     pair = {
-        "session_id":     session_id,
-        "step_id":        step_id,
-        "instruction":    step_data.get("instruction", ""),
+        "session_id": session_id,
+        "step_id": step_id,
+        "instruction": step_data.get("instruction", ""),
         "builder_output": step_data.get("builder_output_path", ""),
         "compiler_result": step_data.get("compiler_result", ""),
-        "monitor_score":  monitor_score,
+        "monitor_score": monitor_score,
         "monitor_verdict": monitor_verdict,
         "evaluation_mode": "offline",
-        "timestamp":      time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
 
     out = vault_dir / f"step_{step_id:04d}_offline_dpo.json"
     # G26: atomic write — temp→rename so a reader never sees a partial file
     import os as _os_g26
+
     tmp = out.with_name(f"step_{step_id:04d}_offline_dpo.{_os_g26.getpid()}.tmp")
     tmp.write_text(json.dumps(pair, indent=2), encoding="utf-8")
     tmp.replace(out)
@@ -364,8 +383,9 @@ def _write_dpo_pair(session_id: str, step_id: int, step_data: dict,
 
 # ── Core observation pass ─────────────────────────────────────────────────────
 
+
 def run_observation_pass(
-    model_assignments: Optional[dict] = None,
+    model_assignments: dict | None = None,
     idle_vram_gb: float = _IDLE_VRAM_GB,
     idle_cpu_pct: float = _IDLE_CPU_PCT,
     max_steps_per_pass: int = 20,
@@ -376,8 +396,13 @@ def run_observation_pass(
 
     Called either once (CLI --run-once) or on each daemon poll interval.
     """
-    from hive.manifest import find_offline_pending, load_manifest, wal_complete_offline, save_manifest
     from hive.api_client import load_role_assignments
+    from hive.manifest import (
+        find_offline_pending,
+        load_manifest,
+        save_manifest,
+        wal_complete_offline,
+    )
 
     if model_assignments is None:
         model_assignments = load_role_assignments()
@@ -409,6 +434,7 @@ def run_observation_pass(
 
         # Rebuild step_data dict for Monitor
         from dataclasses import asdict
+
         step_data = asdict(step)
 
         log.info("  Evaluating session=%s step=%d offline...", session_id[:8], step_id)
@@ -430,13 +456,20 @@ def run_observation_pass(
         # Rename WAL marker
         wal_complete_offline(session_id, step_id, result)
 
-        log.info("  Step %d: offline Monitor score=%.2f verdict=%s → %s",
-                 step_id, score, verdict[:60], result)
+        log.info(
+            "  Step %d: offline Monitor score=%.2f verdict=%s → %s",
+            step_id,
+            score,
+            verdict[:60],
+            result,
+        )
         processed += 1
 
         # Re-check idle state between steps — a live session may have started
         if not is_gpu_idle(idle_vram_gb, idle_cpu_pct):
-            log.info("GPU/CPU became active — pausing offline observation after %d steps", processed)
+            log.info(
+                "GPU/CPU became active — pausing offline observation after %d steps", processed
+            )
             break
 
     return processed
@@ -444,17 +477,18 @@ def run_observation_pass(
 
 # ── Daemon mode ───────────────────────────────────────────────────────────────
 
-def run_daemon(interval_s: int = 300,
-               idle_vram_gb: float = _IDLE_VRAM_GB,
-               idle_cpu_pct: float = _IDLE_CPU_PCT) -> None:
+
+def run_daemon(
+    interval_s: int = 300, idle_vram_gb: float = _IDLE_VRAM_GB, idle_cpu_pct: float = _IDLE_CPU_PCT
+) -> None:
     """Poll for offline_pending steps on a fixed interval."""
     import signal
 
-    print(f"[offline_observer] Determinex offline Monitor daemon")
+    print("[offline_observer] Determinex offline Monitor daemon")
     print(f"[offline_observer] Poll interval: {interval_s}s")
     print(f"[offline_observer] Idle threshold: VRAM < {idle_vram_gb}GB, CPU < {idle_cpu_pct}%")
     print(f"[offline_observer] Sessions dir: {_SESSIONS_DIR}")
-    print(f"[offline_observer] Ctrl+C to stop\n")
+    print("[offline_observer] Ctrl+C to stop\n")
 
     def _sig(sig, frame):
         print("\n[offline_observer] Stopped.")
@@ -485,16 +519,31 @@ if __name__ == "__main__":
     )
 
     p = argparse.ArgumentParser(description="Determinex offline Monitor observer")
-    p.add_argument("--daemon",       action="store_true", help="Run as continuous daemon")
-    p.add_argument("--interval",     type=int,   default=300,        help="Daemon poll interval in seconds (default 300)")
-    p.add_argument("--idle-vram",    type=float, default=_IDLE_VRAM_GB, help=f"VRAM idle threshold GB (default {_IDLE_VRAM_GB})")
-    p.add_argument("--idle-cpu",     type=float, default=_IDLE_CPU_PCT, help=f"CPU idle threshold %% (default {_IDLE_CPU_PCT})")
-    p.add_argument("--force",        action="store_true", help="Skip idle check — run regardless of GPU state")
+    p.add_argument("--daemon", action="store_true", help="Run as continuous daemon")
+    p.add_argument(
+        "--interval", type=int, default=300, help="Daemon poll interval in seconds (default 300)"
+    )
+    p.add_argument(
+        "--idle-vram",
+        type=float,
+        default=_IDLE_VRAM_GB,
+        help=f"VRAM idle threshold GB (default {_IDLE_VRAM_GB})",
+    )
+    p.add_argument(
+        "--idle-cpu",
+        type=float,
+        default=_IDLE_CPU_PCT,
+        help=f"CPU idle threshold %% (default {_IDLE_CPU_PCT})",
+    )
+    p.add_argument(
+        "--force", action="store_true", help="Skip idle check — run regardless of GPU state"
+    )
     p.add_argument("--list-pending", action="store_true", help="List pending steps and exit")
     args = p.parse_args()
 
     if args.list_pending:
         from hive.manifest import find_offline_pending
+
         pending = find_offline_pending(_SESSIONS_DIR)
         if not pending:
             print("No steps pending offline observation.")

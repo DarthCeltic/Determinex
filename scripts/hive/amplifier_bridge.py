@@ -22,20 +22,21 @@ Opt-in: the executor calls this only when DETERMINEX_AMPLIFY=1; otherwise behavi
 unchanged. Candidates overwrite the same target file, so sequential sampling needs
 no extra workspace isolation -- the winning code is left applied on return.
 """
+
 from __future__ import annotations
 
 import os
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable
 
 # the amplifier lives in scripts/; make it importable from scripts/hive/
 _SCRIPTS = str(Path(__file__).resolve().parent.parent)
 if _SCRIPTS not in sys.path:
     sys.path.insert(0, _SCRIPTS)
-from determinex_verified_search import VerifiedSearch  # noqa: E402
 from determinex_adjudicator import Failure  # noqa: E402
+from determinex_verified_search import VerifiedSearch  # noqa: E402
 
 GenerateAtTemp = Callable[[float], str]
 ApplyValidate = Callable[[str], "tuple[bool, str]"]
@@ -48,25 +49,30 @@ _AMP_TEMPS = [0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
 class AmplifiedBuildResult:
     passed: bool
     code: str
-    output: str          # last compiler output (proof on pass, diagnosis on miss)
+    output: str  # last compiler output (proof on pass, diagnosis on miss)
     samples: int
     next_moves: list[str]
 
 
 class _OracleResult:
     """Duck-typed to satisfy VerifiedSearch (.passed, .failures)."""
+
     __slots__ = ("passed", "failures", "output")
 
     def __init__(self, passed: bool, output: str):
         self.passed = passed
         self.output = output
-        self.failures = [] if passed else [
-            Failure(test_id="compile", name="compile", text=output[:1500])]
+        self.failures = (
+            [] if passed else [Failure(test_id="compile", name="compile", text=output[:1500])]
+        )
 
 
-def amplified_build(generate_at_temp: GenerateAtTemp,
-                    apply_and_validate: ApplyValidate,
-                    k: int | None = None, rounds: int = 2) -> AmplifiedBuildResult:
+def amplified_build(
+    generate_at_temp: GenerateAtTemp,
+    apply_and_validate: ApplyValidate,
+    k: int | None = None,
+    rounds: int = 2,
+) -> AmplifiedBuildResult:
     """Run verified search over the real Builder + real Compiler Oracle."""
     k = k or env_k()
     last_output = ""
@@ -86,11 +92,9 @@ def amplified_build(generate_at_temp: GenerateAtTemp,
     if res.solved and res.best is not None:
         # re-apply the winner so the workspace ends in the passing state
         apply_and_validate(res.best.text)
-        return AmplifiedBuildResult(True, res.best.text, last_output,
-                                    res.total_samples, [])
+        return AmplifiedBuildResult(True, res.best.text, last_output, res.total_samples, [])
     best_code = res.best.text if res.best else ""
-    return AmplifiedBuildResult(False, best_code, last_output,
-                                res.total_samples, res.next_moves)
+    return AmplifiedBuildResult(False, best_code, last_output, res.total_samples, res.next_moves)
 
 
 def amplify_enabled() -> bool:

@@ -7,6 +7,7 @@ Verifies that the unified ``determinex`` entry point:
   - config subcommands surface settings correctly
   - evidence validate reads the evidence index without mutations
 """
+
 from __future__ import annotations
 
 import sys
@@ -31,8 +32,10 @@ def _reset_argv():
 # Import safety
 # ---------------------------------------------------------------------------
 
+
 def test_import_no_side_effects():
     import determinex_cli as cli
+
     assert callable(cli.main)
     assert cli.__version__ == "1.0.0"
 
@@ -41,8 +44,10 @@ def test_import_no_side_effects():
 # --version
 # ---------------------------------------------------------------------------
 
+
 def test_version_flag(capsys):
     import determinex_cli as cli
+
     sys.argv = ["determinex", "--version"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -54,8 +59,10 @@ def test_version_flag(capsys):
 # --help / no args
 # ---------------------------------------------------------------------------
 
+
 def test_help_flag(capsys):
     import determinex_cli as cli
+
     sys.argv = ["determinex"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -67,6 +74,7 @@ def test_help_flag(capsys):
 
 def test_explicit_help_flag(capsys):
     import determinex_cli as cli
+
     sys.argv = ["determinex", "--help"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -78,8 +86,10 @@ def test_explicit_help_flag(capsys):
 # Unknown command
 # ---------------------------------------------------------------------------
 
+
 def test_unknown_command(capsys):
     import determinex_cli as cli
+
     sys.argv = ["determinex", "nonexistent-command"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -91,8 +101,10 @@ def test_unknown_command(capsys):
 # config show
 # ---------------------------------------------------------------------------
 
+
 def test_config_show(capsys):
     import determinex_cli as cli
+
     sys.argv = ["determinex", "config", "show"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -104,8 +116,10 @@ def test_config_show(capsys):
 def test_config_show_masks_api_keys(monkeypatch, capsys):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-real-secret-key")
     import determinex_cli as cli
+
     # Reset settings singleton so new env is picked up
     from determinex_settings import reset_settings
+
     reset_settings()
     sys.argv = ["determinex", "config", "show"]
     rc = cli.main()
@@ -119,11 +133,13 @@ def test_config_show_masks_api_keys(monkeypatch, capsys):
 # config doctor
 # ---------------------------------------------------------------------------
 
+
 def test_config_doctor_clean(capsys, monkeypatch):
     monkeypatch.delenv("DETERMINEX_ONLINE_DISCOVERY", raising=False)
     monkeypatch.delenv("DETERMINEX_ALLOW_CLOUD_FALLBACK", raising=False)
     monkeypatch.delenv("DETERMINEX_ALLOW_UNSANDBOXED", raising=False)
     import determinex_cli as cli
+
     sys.argv = ["determinex", "config", "doctor"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -134,6 +150,7 @@ def test_config_doctor_clean(capsys, monkeypatch):
 def test_config_doctor_flags_open_violation(monkeypatch, capsys):
     monkeypatch.setenv("DETERMINEX_ONLINE_DISCOVERY", "1")
     import determinex_cli as cli
+
     sys.argv = ["determinex", "config", "doctor"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -145,8 +162,10 @@ def test_config_doctor_flags_open_violation(monkeypatch, capsys):
 # evidence validate
 # ---------------------------------------------------------------------------
 
+
 def test_evidence_validate_passes(capsys):
     import determinex_cli as cli
+
     sys.argv = ["determinex", "evidence", "validate"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -157,8 +176,8 @@ def test_evidence_validate_passes(capsys):
 
 def test_evidence_validate_is_read_only(capsys, tmp_path, monkeypatch):
     """validate must not write or modify any file."""
+
     import determinex_cli as cli
-    import os
 
     # Count files before
     evidence_dir = _ROOT / "assurance" / "evidence"
@@ -175,8 +194,10 @@ def test_evidence_validate_is_read_only(capsys, tmp_path, monkeypatch):
 # config unknown subcommand
 # ---------------------------------------------------------------------------
 
+
 def test_config_unknown_subcommand(capsys):
     import determinex_cli as cli
+
     sys.argv = ["determinex", "config", "badcmd"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -186,6 +207,7 @@ def test_config_unknown_subcommand(capsys):
 
 def test_evidence_unknown_subcommand(capsys):
     import determinex_cli as cli
+
     sys.argv = ["determinex", "evidence", "badcmd"]
     rc = cli.main()
     out = capsys.readouterr().out
@@ -203,6 +225,7 @@ def test_evidence_unknown_subcommand(capsys):
 # left the guard untouched, so the CLI advertised `build` in its own --help and then answered
 # "Unknown command: 'build'". The guard now derives its list from the click group; these tests
 # pin the agreement rather than the current contents, so the next command added is covered too.
+
 
 def test_every_advertised_command_is_dispatchable():
     """Anything named in the help must not be rejected as unknown."""
@@ -235,8 +258,7 @@ def test_the_dispatch_list_is_derived_from_the_click_group():
     import determinex_cli as cli
 
     expected = {
-        name for name in cli._cli.commands
-        if name not in cli._GROUPS_WITH_OWN_SUBCOMMAND_CHECK
+        name for name in cli._cli.commands if name not in cli._GROUPS_WITH_OWN_SUBCOMMAND_CHECK
     }
     assert set(cli._TOP_LEVEL_COMMANDS) == expected
 

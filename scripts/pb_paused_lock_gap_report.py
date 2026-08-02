@@ -5,6 +5,7 @@ This is read-only infrastructure: it consumes official eval JSON artifacts and
 writes a Markdown report that separates "more patching" from the rebuilds
 needed to reach 100%.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -14,7 +15,6 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -33,7 +33,8 @@ DEFAULT_TARGETS = [
     Target(
         slug="nachoparker__dutree.44e877d",
         label="dutree",
-        eval_path=ROOT / ".determinex_staging/pb_dutree_iter9/nachoparker__dutree.44e877d/nachoparker__dutree.44e877d.eval.json",
+        eval_path=ROOT
+        / ".determinex_staging/pb_dutree_iter9/nachoparker__dutree.44e877d/nachoparker__dutree.44e877d.eval.json",
         diagnosis=(
             "The failures are dominated by byte-exact directory tree output: "
             "directory totals, aggregation thresholds, depth pruning, hidden/exclude "
@@ -56,7 +57,8 @@ DEFAULT_TARGETS = [
     Target(
         slug="wfxr__csview.8ac4de0",
         label="csview",
-        eval_path=ROOT / ".determinex_staging/pb_csview_iter6/wfxr__csview.8ac4de0/wfxr__csview.8ac4de0.eval.json",
+        eval_path=ROOT
+        / ".determinex_staging/pb_csview_iter6/wfxr__csview.8ac4de0/wfxr__csview.8ac4de0.eval.json",
         diagnosis=(
             "The remaining failures are table byte-exactness and sniffing edge cases: "
             "style `grid`, `ascii2`, and `none`, header-only tables, wide emoji, "
@@ -78,7 +80,8 @@ DEFAULT_TARGETS = [
     Target(
         slug="pemistahl__grex.fa3e8ed",
         label="grex",
-        eval_path=ROOT / ".determinex_staging/pb_grex_iter12/pemistahl__grex.fa3e8ed/pemistahl__grex.fa3e8ed.eval.json",
+        eval_path=ROOT
+        / ".determinex_staging/pb_grex_iter12/pemistahl__grex.fa3e8ed/pemistahl__grex.fa3e8ed.eval.json",
         diagnosis=(
             "The large behavior swap is done. Remaining failures require a real regex "
             "expression tree: verbose nested repetition formatting, prefix/suffix "
@@ -102,7 +105,8 @@ DEFAULT_TARGETS = [
     Target(
         slug="junegunn__fzf.b56d614",
         label="fzf",
-        eval_path=ROOT / ".determinex_staging/pb_fzf_iter3/junegunn__fzf.b56d614/junegunn__fzf.b56d614.eval.json",
+        eval_path=ROOT
+        / ".determinex_staging/pb_fzf_iter3/junegunn__fzf.b56d614/junegunn__fzf.b56d614.eval.json",
         diagnosis=(
             "The accepted line is 742/1212. A later shell-integration patch "
             "would have raised passes, but it caused a pytest internal error and "
@@ -126,7 +130,8 @@ DEFAULT_TARGETS = [
     Target(
         slug="sstadick__hck.b66c751",
         label="hck",
-        eval_path=ROOT / ".determinex_staging/pb_hck_iter10d/sstadick__hck.b66c751/sstadick__hck.b66c751.eval.json",
+        eval_path=ROOT
+        / ".determinex_staging/pb_hck_iter10d/sstadick__hck.b66c751/sstadick__hck.b66c751.eval.json",
         diagnosis=(
             "hck is now a near-lock tool at 775/856. The remaining failures are "
             "not broad recovery; they are cut-like semantics: delimiter literal "
@@ -229,7 +234,9 @@ def render_report(summaries: list[dict[str, Any]]) -> str:
     lines: list[str] = []
     lines.append("# ProgramBench Paused Tool 100% Lock Gap Report")
     lines.append("")
-    lines.append("Generated from official eval JSON artifacts. This report is guidance for post-lane work; it does not change scores.")
+    lines.append(
+        "Generated from official eval JSON artifacts. This report is guidance for post-lane work; it does not change scores."
+    )
     lines.append("")
     lines.append("## Snapshot")
     lines.append("")
@@ -237,7 +244,9 @@ def render_report(summaries: list[dict[str, Any]]) -> str:
     lines.append("|---|---:|---:|---:|---:|")
     for s in summaries:
         t: Target = s["target"]
-        lines.append(f"| `{t.label}` | {s['passed']} | {s['runnable']} | {s['score']:.2f}% | {s['failed']} |")
+        lines.append(
+            f"| `{t.label}` | {s['passed']} | {s['runnable']} | {s['score']:.2f}% | {s['failed']} |"
+        )
     lines.append("")
     lines.append("## Diagnosis")
     lines.append("")
@@ -266,12 +275,24 @@ def render_report(summaries: list[dict[str, Any]]) -> str:
         lines.append("")
     lines.append("## Shared Infrastructure Needed")
     lines.append("")
-    lines.append("- Add per-tool fixture replay commands before official Docker gates, using extracted tests under `T:/determinex-programbench/_extracted_tests/<slug>/...`.")
-    lines.append("- Keep official gate JSON as source of truth; local replay is only for fast byte-diff debugging.")
-    lines.append("- For each paused tool, replace one-off string emitters with a structured intermediate model, then render from that model.")
-    lines.append("- Before a new fzf shell-integration attempt, compare baseline and candidate `not_run`, `error`, `total`, and `runnable` counts locally; the prior rejected patch proved pass deltas can be misleading.")
-    lines.append("- For near-lock hck, keep patches narrow and byte-oriented; it is closer to 100 than the larger paused trio.")
-    lines.append("- Continue 4-lane Docker gating for remaining tools while these three get deeper hand-specialist rebuilds.")
+    lines.append(
+        "- Add per-tool fixture replay commands before official Docker gates, using extracted tests under `T:/determinex-programbench/_extracted_tests/<slug>/...`."
+    )
+    lines.append(
+        "- Keep official gate JSON as source of truth; local replay is only for fast byte-diff debugging."
+    )
+    lines.append(
+        "- For each paused tool, replace one-off string emitters with a structured intermediate model, then render from that model."
+    )
+    lines.append(
+        "- Before a new fzf shell-integration attempt, compare baseline and candidate `not_run`, `error`, `total`, and `runnable` counts locally; the prior rejected patch proved pass deltas can be misleading."
+    )
+    lines.append(
+        "- For near-lock hck, keep patches narrow and byte-oriented; it is closer to 100 than the larger paused trio."
+    )
+    lines.append(
+        "- Continue 4-lane Docker gating for remaining tools while these three get deeper hand-specialist rebuilds."
+    )
     lines.append("")
     return "\n".join(lines)
 
@@ -287,7 +308,9 @@ def main() -> int:
     print(out)
     for s in summaries:
         t = s["target"]
-        print(f"{t.label}: {s['passed']}/{s['runnable']} = {s['score']:.2f}% ({s['failed']} failures)")
+        print(
+            f"{t.label}: {s['passed']}/{s['runnable']} = {s['score']:.2f}% ({s['failed']} failures)"
+        )
     return 0
 
 

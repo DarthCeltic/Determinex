@@ -11,14 +11,13 @@ vitest (so the Python test suite alone is the proof). Inspects:
   * forbidden hype language is absent
   * API library exports the IDE_REPAIR_STATUS_TOKENS closed set
 """
+
 from __future__ import annotations
 
 import json
 import re
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -34,23 +33,35 @@ EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
 REQUIRED_SECTIONS = (
-    "Workspace", "Verifier", "Model Route", "Diagnosis",
-    "Patch Plan", "Temp Verification", "Human Approval",
-    "Evidence", "Risk Warnings",
+    "Workspace",
+    "Verifier",
+    "Model Route",
+    "Diagnosis",
+    "Patch Plan",
+    "Temp Verification",
+    "Human Approval",
+    "Evidence",
+    "Risk Warnings",
 )
 
 
-REPAIR_PANEL_STATUS_TOKENS = frozenset({
-    "REPAIR_PANEL_SHELL_READY",
-    "REPAIR_PANEL_BLOCKED_FRONTEND_MISSING",
-    "REPAIR_PANEL_SOURCE_MUTATION_BLOCKED_VISIBLE",
-    "REPAIR_PANEL_RISK_WARNINGS_VISIBLE",
-})
+REPAIR_PANEL_STATUS_TOKENS = frozenset(
+    {
+        "REPAIR_PANEL_SHELL_READY",
+        "REPAIR_PANEL_BLOCKED_FRONTEND_MISSING",
+        "REPAIR_PANEL_SOURCE_MUTATION_BLOCKED_VISIBLE",
+        "REPAIR_PANEL_RISK_WARNINGS_VISIBLE",
+    }
+)
 
 
 FORBIDDEN_HYPE = (
-    "always correct", "guaranteed to work", "risk-free",
-    "trust the AI", "blindly approve", "no need to read",
+    "always correct",
+    "guaranteed to work",
+    "risk-free",
+    "trust the AI",
+    "blindly approve",
+    "no need to read",
 )
 
 
@@ -125,10 +136,16 @@ def test_api_lib_declares_all_commands():
     assert m, "IDE_REPAIR_COMMANDS const missing"
     declared = set(re.findall(r'"([^"]+)"', m.group(1)))
     expected = {
-        "open_workspace", "get_workspace_status", "get_model_route_status",
-        "diagnose_dry_run", "diagnose_live_opt_in", "generate_patch_plan",
-        "verify_temp_patch", "get_human_approval_packet",
-        "source_apply_dry_run", "get_repair_flow_state",
+        "open_workspace",
+        "get_workspace_status",
+        "get_model_route_status",
+        "diagnose_dry_run",
+        "diagnose_live_opt_in",
+        "generate_patch_plan",
+        "verify_temp_patch",
+        "get_human_approval_packet",
+        "source_apply_dry_run",
+        "get_repair_flow_state",
         "generate_llm_program_advisory",
     }
     assert declared == expected

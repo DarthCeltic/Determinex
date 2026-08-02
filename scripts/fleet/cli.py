@@ -11,6 +11,7 @@ Re-verification of untrusted contributions runs through intake.hardened_runner
 (env-scrubbed, NETWORK DENIED, workspace-bounded) by default. For maximum assurance
 against hostile contributions, run this whole command inside a disposable VM/Docker.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -22,8 +23,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from . import crypto  # noqa: E402
+from .ingest_verify import IngestResult, ingest_shard  # noqa: E402
 from .protocol import Shard  # noqa: E402
-from .ingest_verify import ingest_shard, IngestResult  # noqa: E402
 
 # language -> the command the oracle uses, run here under the hardened runner.
 _SANDBOX_CMD = {
@@ -37,12 +38,14 @@ _SANDBOX_CMD = {
 
 def _hardened_verify(lang: str, workdir: Path) -> bool:
     from intake.hardened_runner import run as hrun
+
     cmd = _SANDBOX_CMD.get(lang.lower())
     if not cmd:
         # no sandboxed recipe -> fail closed (do NOT silently pass)
         return False
-    res = hrun(cmd, workspace=workdir, cwd=workdir, timeout=120,
-               allow_network=False, allow_docker=False)
+    res = hrun(
+        cmd, workspace=workdir, cwd=workdir, timeout=120, allow_network=False, allow_docker=False
+    )
     return getattr(res, "ok", False) or getattr(res, "returncode", 1) == 0
 
 
@@ -60,10 +63,9 @@ def cmd_keygen(a: argparse.Namespace) -> int:
         except OSError:
             pass
         print(f"node key_id: {kid}")
-        print(f"PUBLIC  -> {d/'node_public.txt'} (publish this; ships in the client)")
+        print(f"PUBLIC  -> {d / 'node_public.txt'} (publish this; ships in the client)")
         print(f"PRIVATE -> {priv_path} (KEEP ON NODE ONLY; gitignored; never commit)")
-        print("\nSet on the node:  export DETERMINEX_FLEET_NODE_PRIVKEY=\"$(cat "
-              f"{priv_path})\"")
+        print(f'\nSet on the node:  export DETERMINEX_FLEET_NODE_PRIVKEY="$(cat {priv_path})"')
     else:
         print(f"# node key_id: {kid}")
         print(f"PUBLIC={pub}")
@@ -90,8 +92,9 @@ def cmd_ingest(a: argparse.Namespace) -> int:
         env = json.loads(Path(shard_path).read_text(encoding="utf-8"))
         shard = Shard.from_dict(crypto.open_json(priv, env))
         print(f"\n[{shard_path}] {shard.summary()} handle={shard.contributor_handle}")
-        res = ingest_shard(shard, corpus, sandbox=sandbox,
-                           allow_unsandboxed=allow_unsandboxed, apply=a.apply)
+        res = ingest_shard(
+            shard, corpus, sandbox=sandbox, allow_unsandboxed=allow_unsandboxed, apply=a.apply
+        )
         print(f"  {res.summary()}")
         for iid, reason in res.dropped.items():
             print(f"  drop {iid[:12]}: {reason}")
@@ -99,8 +102,10 @@ def cmd_ingest(a: argparse.Namespace) -> int:
         total.dropped.update(res.dropped)
         total.duplicates += res.duplicates
 
-    print(f"\nTOTAL: {total.summary()}  -> {corpus} "
-          f"({'WRITTEN' if a.apply else 'dry-run, not written'})")
+    print(
+        f"\nTOTAL: {total.summary()}  -> {corpus} "
+        f"({'WRITTEN' if a.apply else 'dry-run, not written'})"
+    )
     return 0
 
 
@@ -116,8 +121,11 @@ def main(argv: list[str] | None = None) -> int:
     ig.add_argument("shards", nargs="+")
     ig.add_argument("--corpus", default="corpus/programbench/training_corpus/fleet_corpus.jsonl")
     ig.add_argument("--apply", action="store_true", help="write admitted pairs (default dry-run)")
-    ig.add_argument("--unsafe-no-sandbox", action="store_true",
-                    help="DANGEROUS: skip isolation (only for trusted local fixtures)")
+    ig.add_argument(
+        "--unsafe-no-sandbox",
+        action="store_true",
+        help="DANGEROUS: skip isolation (only for trusted local fixtures)",
+    )
     ig.set_defaults(fn=cmd_ingest)
 
     a = ap.parse_args(argv)

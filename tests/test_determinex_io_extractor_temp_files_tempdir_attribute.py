@@ -23,6 +23,7 @@ Two distinct shapes: `tf.tempdir` used BARE, directly as an argv arg (resolves t
 / "conf"` -- Path()-wrapped then further divided (resolves via the same suffix-chain
 logic fix 42 built for `.path() / "x"`).
 """
+
 from __future__ import annotations
 
 import sys
@@ -33,7 +34,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def _calcurse_conftest() -> str:
-    return '''
+    return """
 import subprocess
 import tempfile
 import shutil
@@ -57,7 +58,7 @@ class TempFiles:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content)
         return path
-'''
+"""
 
 
 def test_resolve_bare_tempdir_attribute():
@@ -91,11 +92,11 @@ def test_resolve_declines_unrelated_attribute():
 
 
 def test_track_temp_files_path_vars_resolves_path_wrapped_tempdir():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def test_x(tf):
     conf_dir = Path(tf.tempdir) / "conf"
     data_dir = Path(tf.tempdir) / "data"
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._track_temp_files_path_vars(func, {"tf"})
     assert result == {"conf_dir": "conf", "data_dir": "data"}
@@ -104,14 +105,14 @@ def test_x(tf):
 def test_extract_file_resolves_bare_tempdir_arg_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
     conf.write_text(_calcurse_conftest(), encoding="utf-8")
-    src = '''
+    src = """
 from conftest import run, TempFiles
 
 def test_bare_tempdir():
     with TempFiles() as tf:
         result = run("-D", tf.tempdir, "-Q", "--read-only")
         assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -122,7 +123,7 @@ def test_bare_tempdir():
 def test_extract_file_resolves_path_wrapped_tempdir_division_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
     conf.write_text(_calcurse_conftest(), encoding="utf-8")
-    src = '''
+    src = """
 from conftest import run, TempFiles
 from pathlib import Path
 
@@ -134,7 +135,7 @@ def test_config_firstday_monday():
         data_dir.mkdir()
         result = run("-C", str(conf_dir), "-D", str(data_dir), "-Q", "--read-only")
         assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

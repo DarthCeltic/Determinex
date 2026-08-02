@@ -6,6 +6,7 @@ c/rust/go/...) candidates. Real C/Rust/Go source essentially never parses as
 Python, so every native candidate was failing its own contract check and
 burning resample budget on a check that could never pass.
 """
+
 from __future__ import annotations
 
 import sys
@@ -56,12 +57,13 @@ def test_native_contract_accepts_rust_code():
 
 
 def test_native_contract_accepts_fenced_code_block():
-    code = '```c\nint main() { return 0; }\n```'
+    code = "```c\nint main() { return 0; }\n```"
     ok, _ = native_code_contract(code)
     assert ok is True
 
 
 def test_reimpl_picks_native_contract_for_non_python_lang():
     import determinex_pb_reimpl as reimpl
+
     assert reimpl.native_code_contract is not None
     assert reimpl.py_contract is not None

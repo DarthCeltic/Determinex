@@ -1,9 +1,9 @@
 """Records for IDE_DIAGNOSE_FLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDE_DIAGNOSE_FLOW_STATUS_TOKENS = (
     "IDE_DIAGNOSE_DRY_RUN_READY",

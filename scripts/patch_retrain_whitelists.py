@@ -14,7 +14,6 @@ FIX: Each model now has an explicit whitelist of ONLY the files it should see.
 LOCK: Never use glob("*.jsonl") for model training. Always explicit whitelists.
 """
 
-import re
 from pathlib import Path
 
 # =============================================================================
@@ -39,31 +38,31 @@ from pathlib import Path
 
 WHITELISTS = {
     "/workspace/fix_retrain_engineer.py": [
-        "determinex_v1_distilled_claude.jsonl",    # general multi-language distillation
-        "determinex_v1_distilled_gemini.jsonl",    # general multi-language distillation
-        "determinex_v1_targeted_gaps.jsonl",       # multi-lang gap fixes for codegen
-        "gap_v3_arc_mutex.jsonl",               # shared: Rust arc/mutex concurrency
-        "gap_v3_go_panic.jsonl",                # Engineer-only: Go panic/recover
+        "determinex_v1_distilled_claude.jsonl",  # general multi-language distillation
+        "determinex_v1_distilled_gemini.jsonl",  # general multi-language distillation
+        "determinex_v1_targeted_gaps.jsonl",  # multi-lang gap fixes for codegen
+        "gap_v3_arc_mutex.jsonl",  # shared: Rust arc/mutex concurrency
+        "gap_v3_go_panic.jsonl",  # Engineer-only: Go panic/recover
         # EXCLUDED: determinex_v1_distilled_observer.jsonl -- 330 Rust-only samples, skews language balance
         # EXCLUDED: gap_v4_observer_specific.jsonl -- critique/review format, wrong signal for codegen
         # EXCLUDED: gap_v4_sentinel_specific.jsonl -- planning format, wrong signal for codegen
     ],
     "/workspace/fix_retrain_observer.py": [
-        "determinex_v1_distilled_claude.jsonl",    # general multi-language distillation
-        "determinex_v1_distilled_gemini.jsonl",    # general multi-language distillation
+        "determinex_v1_distilled_claude.jsonl",  # general multi-language distillation
+        "determinex_v1_distilled_gemini.jsonl",  # general multi-language distillation
         "determinex_v1_distilled_observer.jsonl",  # Observer-specific: 330 Rust curriculum samples
-        "gap_v3_arc_mutex.jsonl",               # shared: Rust arc/mutex concurrency
-        "gap_v4_observer_specific.jsonl",       # Observer-only: refcell, first_even, go_panic fmt
+        "gap_v3_arc_mutex.jsonl",  # shared: Rust arc/mutex concurrency
+        "gap_v4_observer_specific.jsonl",  # Observer-only: refcell, first_even, go_panic fmt
         # EXCLUDED: determinex_v1_targeted_gaps.jsonl -- codegen format, wrong signal for critique model
         # EXCLUDED: gap_v3_go_panic.jsonl -- codegen format, not critique examples
         # EXCLUDED: gap_v4_sentinel_specific.jsonl -- planning format, wrong for Observer
     ],
     "/workspace/fix_retrain_sentinel.py": [
-        "determinex_v1_distilled_claude.jsonl",    # general multi-language distillation
-        "determinex_v1_distilled_gemini.jsonl",    # general multi-language distillation
-        "determinex_v1_targeted_gaps.jsonl",       # multi-lang gap fixes, planning-compatible
-        "gap_v3_arc_mutex.jsonl",               # shared: Rust arc/mutex concurrency
-        "gap_v4_sentinel_specific.jsonl",       # Sentinel-only: refcell rename, planning patterns
+        "determinex_v1_distilled_claude.jsonl",  # general multi-language distillation
+        "determinex_v1_distilled_gemini.jsonl",  # general multi-language distillation
+        "determinex_v1_targeted_gaps.jsonl",  # multi-lang gap fixes, planning-compatible
+        "gap_v3_arc_mutex.jsonl",  # shared: Rust arc/mutex concurrency
+        "gap_v4_sentinel_specific.jsonl",  # Sentinel-only: refcell rename, planning patterns
         # EXCLUDED: determinex_v1_distilled_observer.jsonl -- Rust-only, skews Sentinel language balance
         # EXCLUDED: gap_v3_go_panic.jsonl -- codegen format, wrong signal for planner
         # EXCLUDED: gap_v4_observer_specific.jsonl -- critique format, wrong for Sentinel
@@ -72,6 +71,7 @@ WHITELISTS = {
 
 # The exact glob line in all three scripts that caused the contamination
 BAD_GLOB = 'for f in sorted(DATA_DIR.glob("*.jsonl")):'
+
 
 def patch_script(script_path: str, whitelist: list):
     p = Path(script_path)
@@ -120,7 +120,9 @@ if __name__ == "__main__":
         else:
             print(f"[INFO] {local} not found locally -- will patch on pod via SCP")
 
-    print("\nDone. Next: SCP patched scripts to pod, then retrain in order: Engineer -> Observer -> Sentinel")
+    print(
+        "\nDone. Next: SCP patched scripts to pod, then retrain in order: Engineer -> Observer -> Sentinel"
+    )
     print("SAFE RETRAIN ORDER:")
     print("  1. Engineer (1.5B Qwen, ~45 min) -- clear only Qwen cache before start")
     print("  2. Observer (3B Llama, ~60 min)  -- clear Qwen cache, keep Llama")

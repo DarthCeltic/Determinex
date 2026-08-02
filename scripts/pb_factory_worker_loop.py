@@ -45,6 +45,7 @@ CLI:
         [--python <interpreter>]       default: current sys.executable
         [--dry-run]                    default behavior (writes no source files)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -52,12 +53,10 @@ import datetime
 import json
 import os
 import re
-import shlex
 import subprocess
 import sys
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 FACTORY_DIR = ROOT / "logs" / "programbench_factory"
@@ -68,9 +67,9 @@ LOCKED_DIR_REL = "corpus/programbench/locked/"
 ALLOWED_PREFIX_TEMPLATE = "corpus/programbench/per_tool_overrides/{slug}/"
 
 SCRIPTS = {
-    "pack":   ROOT / "scripts" / "pb_pack_candidate.py",
-    "gate":   ROOT / "scripts" / "pb_candidate_gate.py",
-    "apply":  ROOT / "scripts" / "pb_apply_gate_decision.py",
+    "pack": ROOT / "scripts" / "pb_pack_candidate.py",
+    "gate": ROOT / "scripts" / "pb_candidate_gate.py",
+    "apply": ROOT / "scripts" / "pb_apply_gate_decision.py",
 }
 
 
@@ -78,11 +77,11 @@ SCRIPTS = {
 
 
 def _utc_now() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    return datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds")
 
 
 def _utc_tag() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
 def _short_name(slug: str) -> str:
@@ -129,8 +128,10 @@ def _git_status_outside(allowed_prefix: str) -> list[str]:
         proc = subprocess.run(
             ["git", "status", "--porcelain"],
             cwd=str(ROOT),
-            capture_output=True, text=True,
-            encoding="utf-8", errors="replace",
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=20,
         )
     except Exception:
@@ -179,24 +180,55 @@ def _override_inventory(slug: str) -> list[dict[str, Any]]:
 _SRC_EXCLUDE_NAMES = {"executable"}
 _SRC_EXCLUDE_DIRS = {"__pycache__", "target", ".git", ".pytest_cache", ".mypy_cache"}
 _SRC_EXCLUDE_EXTS = {
-    ".pyc", ".pyo", ".so", ".dll", ".dylib", ".exe", ".o", ".a", ".lib",
-    ".tar", ".gz", ".tgz", ".bz2", ".zip", ".whl",
-    ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".ico", ".pdf",
+    ".pyc",
+    ".pyo",
+    ".so",
+    ".dll",
+    ".dylib",
+    ".exe",
+    ".o",
+    ".a",
+    ".lib",
+    ".tar",
+    ".gz",
+    ".tgz",
+    ".bz2",
+    ".zip",
+    ".whl",
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".bmp",
+    ".ico",
+    ".pdf",
 }
 _SRC_LANG_BY_EXT = {
-    ".py": "python", ".pyi": "python",
+    ".py": "python",
+    ".pyi": "python",
     ".go": "go",
     ".rs": "rust",
-    ".sh": "bash", ".bash": "bash",
-    ".ts": "typescript", ".tsx": "typescript",
-    ".js": "javascript", ".jsx": "javascript", ".mjs": "javascript",
+    ".sh": "bash",
+    ".bash": "bash",
+    ".ts": "typescript",
+    ".tsx": "typescript",
+    ".js": "javascript",
+    ".jsx": "javascript",
+    ".mjs": "javascript",
     ".rb": "ruby",
     ".java": "java",
-    ".kt": "kotlin", ".kts": "kotlin",
-    ".c": "c", ".h": "c",
-    ".cpp": "cpp", ".cc": "cpp", ".cxx": "cpp", ".hpp": "cpp", ".hh": "cpp",
+    ".kt": "kotlin",
+    ".kts": "kotlin",
+    ".c": "c",
+    ".h": "c",
+    ".cpp": "cpp",
+    ".cc": "cpp",
+    ".cxx": "cpp",
+    ".hpp": "cpp",
+    ".hh": "cpp",
     ".toml": "toml",
-    ".yaml": "yaml", ".yml": "yaml",
+    ".yaml": "yaml",
+    ".yml": "yaml",
     ".json": "json",
     ".md": "markdown",
     ".txt": "",
@@ -272,6 +304,7 @@ def _collect_source_context(slug: str, budget_chars: int) -> tuple[str, dict[str
         if n == "compile.sh":
             return (1, n)
         return (2, n)
+
     candidates.sort(key=_priority)
 
     if not candidates:
@@ -294,11 +327,18 @@ def _collect_source_context(slug: str, budget_chars: int) -> tuple[str, dict[str
         except OSError:
             continue
         if remaining <= 200:
-            lines.append(f"### `{allowed}{p.name}` ({size} B) - [SKIPPED: source-context budget exhausted]")
+            lines.append(
+                f"### `{allowed}{p.name}` ({size} B) - [SKIPPED: source-context budget exhausted]"
+            )
             lines.append("")
-            metrics["source_files_included"].append({
-                "name": p.name, "size": size, "chars_included": 0, "skipped": True,
-            })
+            metrics["source_files_included"].append(
+                {
+                    "name": p.name,
+                    "size": size,
+                    "chars_included": 0,
+                    "skipped": True,
+                }
+            )
             continue
         try:
             content = p.read_text(encoding="utf-8", errors="replace")
@@ -321,19 +361,27 @@ def _collect_source_context(slug: str, budget_chars: int) -> tuple[str, dict[str
         lines.append("```")
         lines.append("")
         remaining -= len(chunk)
-        metrics["source_files_included"].append({
-            "name": p.name, "size": size, "chars_included": len(chunk),
-            "truncated": truncated,
-        })
+        metrics["source_files_included"].append(
+            {
+                "name": p.name,
+                "size": size,
+                "chars_included": len(chunk),
+                "truncated": truncated,
+            }
+        )
 
     metrics["source_context_chars_used"] = budget_chars - max(0, remaining)
     return "\n".join(lines), metrics
 
 
-def build_prompt(slug: str, packet_text: str, cluster_md: str,
-                 override_files: list[dict[str, Any]],
-                 lessons_paths: list[Path],
-                 source_context_md: str = "") -> str:
+def build_prompt(
+    slug: str,
+    packet_text: str,
+    cluster_md: str,
+    override_files: list[dict[str, Any]],
+    lessons_paths: list[Path],
+    source_context_md: str = "",
+) -> str:
     short = _short_name(slug)
     allowed = ALLOWED_PREFIX_TEMPLATE.format(slug=slug)
 
@@ -343,18 +391,23 @@ def build_prompt(slug: str, packet_text: str, cluster_md: str,
     detected_lang = None
     detected_main = None
     for f in override_files:
-        nm = f.get('name', '')
-        if nm.endswith('.rs'):   detected_lang, detected_main = 'rust', 'src/main.rs'
-        elif nm.endswith('.go'): detected_lang, detected_main = 'go', 'main.go'
-        elif nm.endswith('.cpp') or nm.endswith('.cc') or nm.endswith('.cxx'):
-            detected_lang, detected_main = 'cpp', 'main.cpp'
-        elif nm.endswith('.c'):  detected_lang, detected_main = 'c', 'main.c'
-        elif nm.endswith('.hs'): detected_lang, detected_main = 'haskell', 'app/Main.hs'
-        if detected_lang: break
+        nm = f.get("name", "")
+        if nm.endswith(".rs"):
+            detected_lang, detected_main = "rust", "src/main.rs"
+        elif nm.endswith(".go"):
+            detected_lang, detected_main = "go", "main.go"
+        elif nm.endswith(".cpp") or nm.endswith(".cc") or nm.endswith(".cxx"):
+            detected_lang, detected_main = "cpp", "main.cpp"
+        elif nm.endswith(".c"):
+            detected_lang, detected_main = "c", "main.c"
+        elif nm.endswith(".hs"):
+            detected_lang, detected_main = "haskell", "app/Main.hs"
+        if detected_lang:
+            break
     if not detected_lang:
         # Fall back: assume the slug's audit language. Python is only OK for
         # genuine Python upstreams (a small minority of ProgramBench tools).
-        detected_lang, detected_main = 'native', 'main.<lang>'
+        detected_lang, detected_main = "native", "main.<lang>"
 
     lines: list[str] = []
     lines.append(f"# ProgramBench worker task: {slug}")
@@ -363,23 +416,39 @@ def build_prompt(slug: str, packet_text: str, cluster_md: str,
     lines.append("")
     lines.append("Return ONLY a unified diff. No markdown. No prose.")
     lines.append("")
-    lines.append(f"The diff must use `git diff`-style format (--- a/path, +++ b/path, @@ hunks).")
+    lines.append("The diff must use `git diff`-style format (--- a/path, +++ b/path, @@ hunks).")
     lines.append(f"Touch ONLY files under: {allowed}")
-    lines.append("Any path outside that prefix will cause the diff to be rejected without applying.")
-    lines.append("Every context line and every removed line in the diff must be copied byte-for-byte")
-    lines.append("from the source block below. Do not invent variables, imports, comments, or nearby")
-    lines.append("lines. If you are unsure of surrounding context, use a smaller hunk with only exact")
-    lines.append("source lines you can see. A plausible but non-exact context line is worse than no patch.")
+    lines.append(
+        "Any path outside that prefix will cause the diff to be rejected without applying."
+    )
+    lines.append(
+        "Every context line and every removed line in the diff must be copied byte-for-byte"
+    )
+    lines.append(
+        "from the source block below. Do not invent variables, imports, comments, or nearby"
+    )
+    lines.append(
+        "lines. If you are unsure of surrounding context, use a smaller hunk with only exact"
+    )
+    lines.append(
+        "source lines you can see. A plausible but non-exact context line is worse than no patch."
+    )
     lines.append("")
-    lines.append(f"## NATIVE LANGUAGE REQUIREMENT (HARD RULE)")
+    lines.append("## NATIVE LANGUAGE REQUIREMENT (HARD RULE)")
     lines.append("")
     lines.append(f"This tool's upstream is **{detected_lang}**. The override already contains real")
     lines.append(f"upstream source. Your patch MUST be in **{detected_lang}** source files")
-    lines.append(f"(typically `{detected_main}` or another `.{('rs' if detected_lang=='rust' else 'go' if detected_lang=='go' else 'cpp' if detected_lang=='cpp' else 'c' if detected_lang=='c' else 'hs' if detected_lang=='haskell' else '<lang>')}` file under `{allowed}`).")
+    lines.append(
+        f"(typically `{detected_main}` or another `.{('rs' if detected_lang == 'rust' else 'go' if detected_lang == 'go' else 'cpp' if detected_lang == 'cpp' else 'c' if detected_lang == 'c' else 'hs' if detected_lang == 'haskell' else '<lang>')}` file under `{allowed}`)."
+    )
     lines.append("")
-    lines.append(f"DO NOT write Python (`main.py` etc.) for this tool. DO NOT reimplement upstream")
-    lines.append(f"behavior in Python. Patching `compile.sh` is acceptable for build flags / install")
-    lines.append(f"steps / wrapper-binary handling, but BEHAVIORAL fixes must be in {detected_lang}.")
+    lines.append("DO NOT write Python (`main.py` etc.) for this tool. DO NOT reimplement upstream")
+    lines.append(
+        "behavior in Python. Patching `compile.sh` is acceptable for build flags / install"
+    )
+    lines.append(
+        f"steps / wrapper-binary handling, but BEHAVIORAL fixes must be in {detected_lang}."
+    )
     lines.append("")
     lines.append("Gate rule: A patch is only kept if official eval improves passed count")
     lines.append("AND runnable total is stable. Local mini-eval is not score truth.")
@@ -469,9 +538,11 @@ def extract_unified_diff(model_output: str) -> str:
     #   diff --git ..., index ..., --- ..., +++ ..., @@ ..., + ..., - ..., space-prefixed context, \ no newline.
     trimmed: list[str] = []
     for line in lines[start:]:
-        if (line.startswith(("diff --git ", "index ", "--- ", "+++ ", "@@ ", "+", "-", " "))
-                or line.startswith("\\ ")
-                or line == ""):
+        if (
+            line.startswith(("diff --git ", "index ", "--- ", "+++ ", "@@ ", "+", "-", " "))
+            or line.startswith("\\ ")
+            or line == ""
+        ):
             trimmed.append(line)
         else:
             # Likely the model added prose after the diff; stop.
@@ -514,7 +585,7 @@ def validate_diff_paths(diff_text: str, allowed_prefix: str) -> tuple[bool, list
         a_ok = a_norm == "/dev/null" or a_norm.startswith(allowed)
         b_ok = b_norm == "/dev/null" or b_norm.startswith(allowed)
         # At least one side must point at the allowed prefix (so a pure /dev/null /dev/null pair would be rejected).
-        target_ok = (a_norm.startswith(allowed) or b_norm.startswith(allowed))
+        target_ok = a_norm.startswith(allowed) or b_norm.startswith(allowed)
         if not (a_ok and b_ok and target_ok):
             bad.append(f"--- {a}  +++ {b}")
     return (len(bad) == 0), bad
@@ -599,8 +670,12 @@ def _parse_unified_diff(diff_text: str) -> list[dict[str, Any]]:
                     cur = lines[i]
                     if cur.startswith("@@") or cur.startswith("--- "):
                         break
-                    if (cur.startswith(" ") or cur.startswith("-") or
-                            cur.startswith("+") or cur.startswith("\\")):
+                    if (
+                        cur.startswith(" ")
+                        or cur.startswith("-")
+                        or cur.startswith("+")
+                        or cur.startswith("\\")
+                    ):
                         body.append(cur)
                         i += 1
                         continue
@@ -611,8 +686,7 @@ def _parse_unified_diff(diff_text: str) -> list[dict[str, Any]]:
                         j = i + 1
                         while j < len(lines) and lines[j] == "":
                             j += 1
-                        if (j < len(lines)
-                                and (lines[j].startswith((" ", "-", "+", "\\")))):
+                        if j < len(lines) and (lines[j].startswith((" ", "-", "+", "\\"))):
                             body.append(" ")  # blank context line
                             i += 1
                             continue
@@ -660,7 +734,7 @@ def _find_consecutive(target: list[str], needle: list[str], start: int = 0) -> i
     if n > len(target):
         return -1
     for i in range(start, len(target) - n + 1):
-        if target[i:i + n] == needle:
+        if target[i : i + n] == needle:
             return i
     return -1
 
@@ -672,7 +746,7 @@ def _count_unique(target: list[str], needle: list[str]) -> int:
     count = 0
     i = 0
     while i <= len(target) - n:
-        if target[i:i + n] == needle:
+        if target[i : i + n] == needle:
             count += 1
             i += 1  # allow overlapping for safety
         else:
@@ -680,7 +754,9 @@ def _count_unique(target: list[str], needle: list[str]) -> int:
     return count
 
 
-def _split_body_into_runs(body: list[str], target_lines: list[str]) -> list[tuple[list[str], int]] | None:
+def _split_body_into_runs(
+    body: list[str], target_lines: list[str]
+) -> list[tuple[list[str], int]] | None:
     """Walk `body` and split into runs that match consecutively against `target_lines`.
 
     Each run is `(sub_body, source_start_line_0_based)`. Adds (`+`) lines are
@@ -835,11 +911,14 @@ def repair_unified_diff(diff_text: str, root: Path = ROOT) -> tuple[str, dict[st
                 repaired_hunks.append((hdr, b))
                 added = sum(1 for line in body if _line_kind(line) == "add")
                 removed = sum(1 for line in body if _line_kind(line) == "del")
-                cumulative_offset += (added - removed)
-                file_info["hunks"].append({
-                    "method": method, "anchor": anchor + 1,
-                    "source_lines": len(source_seq),
-                })
+                cumulative_offset += added - removed
+                file_info["hunks"].append(
+                    {
+                        "method": method,
+                        "anchor": anchor + 1,
+                        "source_lines": len(source_seq),
+                    }
+                )
                 total_out += 1
                 continue
 
@@ -862,7 +941,7 @@ def repair_unified_diff(diff_text: str, root: Path = ROOT) -> tuple[str, dict[st
                 repaired_hunks.append((hdr, b))
                 added = sum(1 for line in sub_body if _line_kind(line) == "add")
                 removed = sum(1 for line in sub_body if _line_kind(line) == "del")
-                cumulative_offset += (added - removed)
+                cumulative_offset += added - removed
                 total_out += 1
             file_info["hunks"].append({"method": sub_method, "n_sub": len(runs)})
 
@@ -902,8 +981,11 @@ def git_apply(diff_text: str, check_only: bool, reverse: bool) -> tuple[int, str
     # Normalize the diff to LF before piping in case the model emitted CRLF.
     payload = diff_text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
     proc = subprocess.run(
-        cmd, cwd=str(ROOT), input=payload,
-        capture_output=True, text=False,
+        cmd,
+        cwd=str(ROOT),
+        input=payload,
+        capture_output=True,
+        text=False,
         timeout=60,
     )
     stdout = (proc.stdout or b"").decode("utf-8", errors="replace")
@@ -914,36 +996,50 @@ def git_apply(diff_text: str, check_only: bool, reverse: bool) -> tuple[int, str
 # ---------------------------------------------------------------- subprocess plumbing
 
 
-def _run(cmd: list[str], stdin_text: str | None = None,
-         timeout: int = 1800) -> dict[str, Any]:
+def _run(cmd: list[str], stdin_text: str | None = None, timeout: int = 1800) -> dict[str, Any]:
     started = _utc_now()
     env = os.environ.copy()
     env.setdefault("PYTHONIOENCODING", "utf-8")
     env.setdefault("PYTHONUTF8", "1")
     try:
         proc = subprocess.run(
-            cmd, cwd=str(ROOT),
+            cmd,
+            cwd=str(ROOT),
             input=stdin_text,
-            capture_output=True, text=True,
-            encoding="utf-8", errors="replace",
-            env=env, timeout=timeout,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=env,
+            timeout=timeout,
         )
         return {
-            "cmd": cmd, "started": started, "finished": _utc_now(),
+            "cmd": cmd,
+            "started": started,
+            "finished": _utc_now(),
             "returncode": proc.returncode,
             "stdout_tail": (proc.stdout or "")[-3000:],
             "stderr_tail": (proc.stderr or "")[-3000:],
         }
     except subprocess.TimeoutExpired:
-        return {"cmd": cmd, "started": started, "finished": _utc_now(),
-                "returncode": -1, "error": f"timeout after {timeout}s"}
+        return {
+            "cmd": cmd,
+            "started": started,
+            "finished": _utc_now(),
+            "returncode": -1,
+            "error": f"timeout after {timeout}s",
+        }
     except Exception as e:
-        return {"cmd": cmd, "started": started, "finished": _utc_now(),
-                "returncode": -1, "error": f"{type(e).__name__}: {e}"}
+        return {
+            "cmd": cmd,
+            "started": started,
+            "finished": _utc_now(),
+            "returncode": -1,
+            "error": f"{type(e).__name__}: {e}",
+        }
 
 
-def _shell(cmd_str: str, stdin_text: str | None = None,
-           timeout: int = 1800) -> dict[str, Any]:
+def _shell(cmd_str: str, stdin_text: str | None = None, timeout: int = 1800) -> dict[str, Any]:
     """Run a string command via the shell (for --model-cmd / --gate-command overrides)."""
     started = _utc_now()
     env = os.environ.copy()
@@ -951,38 +1047,64 @@ def _shell(cmd_str: str, stdin_text: str | None = None,
     env.setdefault("PYTHONUTF8", "1")
     try:
         proc = subprocess.run(
-            cmd_str, cwd=str(ROOT),
+            cmd_str,
+            cwd=str(ROOT),
             input=stdin_text,
-            capture_output=True, text=True,
-            encoding="utf-8", errors="replace",
-            env=env, timeout=timeout, shell=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=env,
+            timeout=timeout,
+            shell=True,
         )
         return {
-            "cmd": cmd_str, "started": started, "finished": _utc_now(),
+            "cmd": cmd_str,
+            "started": started,
+            "finished": _utc_now(),
             "returncode": proc.returncode,
             "stdout_tail": (proc.stdout or "")[-3000:],
             "stderr_tail": (proc.stderr or "")[-3000:],
             "stdout_full": (proc.stdout or ""),  # caller may need full text (model output)
         }
     except subprocess.TimeoutExpired:
-        return {"cmd": cmd_str, "started": started, "finished": _utc_now(),
-                "returncode": -1, "error": f"timeout after {timeout}s"}
+        return {
+            "cmd": cmd_str,
+            "started": started,
+            "finished": _utc_now(),
+            "returncode": -1,
+            "error": f"timeout after {timeout}s",
+        }
     except Exception as e:
-        return {"cmd": cmd_str, "started": started, "finished": _utc_now(),
-                "returncode": -1, "error": f"{type(e).__name__}: {e}"}
+        return {
+            "cmd": cmd_str,
+            "started": started,
+            "finished": _utc_now(),
+            "returncode": -1,
+            "error": f"{type(e).__name__}: {e}",
+        }
 
 
 # ---------------------------------------------------------------- worker attempt
 
 
-def derive_default_commands(slug: str, run_root: Path, py: str,
-                            baseline_eval: str, min_passed: int) -> dict[str, list[str]]:
+def derive_default_commands(
+    slug: str, run_root: Path, py: str, baseline_eval: str, min_passed: int
+) -> dict[str, list[str]]:
     return {
         "pack": [py, str(SCRIPTS["pack"]), slug, "--run-root", str(run_root)],
-        "gate": [py, str(SCRIPTS["gate"]), slug, str(run_root),
-                 "--baseline-eval", baseline_eval,
-                 "--min-baseline-passed", str(min_passed),
-                 "--python", py],
+        "gate": [
+            py,
+            str(SCRIPTS["gate"]),
+            slug,
+            str(run_root),
+            "--baseline-eval",
+            baseline_eval,
+            "--min-baseline-passed",
+            str(min_passed),
+            "--python",
+            py,
+        ],
     }
 
 
@@ -1036,32 +1158,54 @@ def attempt_once(
         factory_slug_dir.mkdir(parents=True, exist_ok=True)
         raw_output_path.write_text(raw_output, encoding="utf-8")
         record["model_output_path"] = str(raw_output_path)
-        record["steps"].append({"step": "model_cmd",
-                                "source": "offline_file",
-                                "path": str(model_output_file),
-                                "chars": len(raw_output),
-                                "returncode": 0})
+        record["steps"].append(
+            {
+                "step": "model_cmd",
+                "source": "offline_file",
+                "path": str(model_output_file),
+                "chars": len(raw_output),
+                "returncode": 0,
+            }
+        )
     elif dry_run:
         # No model call in dry-run without an offline file; render the plan as before.
-        record["steps"].append({"step": "model_cmd", "planned": model_cmd or "(none provided)",
-                                "executed": False})
-        record["steps"].append({"step": "extract_diff",  "planned": True, "executed": False})
+        record["steps"].append(
+            {"step": "model_cmd", "planned": model_cmd or "(none provided)", "executed": False}
+        )
+        record["steps"].append({"step": "extract_diff", "planned": True, "executed": False})
         record["steps"].append({"step": "validate_diff", "planned": True, "executed": False})
         record["steps"].append({"step": "git_apply_check", "planned": True, "executed": False})
         record["steps"].append({"step": "git_apply", "planned": True, "executed": False})
         defaults = derive_default_commands(slug, run_root, py, baseline_eval, min_passed)
-        record["steps"].append({"step": "pack", "planned_cmd": pack_cmd_override or " ".join(defaults["pack"]),
-                                "executed": False})
-        record["steps"].append({"step": "gate", "planned_cmd": gate_cmd_override or " ".join(defaults["gate"]),
-                                "executed": False})
-        apply_plan = [py, str(SCRIPTS["apply"]), slug,
-                      str(run_root / "gate_result.json"),
-                      "--run-root", str(run_root)]
-        if refresh_board: apply_plan.append("--refresh-board")
-        if refresh_rag:   apply_plan.append("--refresh-rag")
-        record["steps"].append({"step": "apply_gate_decision",
-                                "planned_cmd": " ".join(apply_plan),
-                                "executed": False})
+        record["steps"].append(
+            {
+                "step": "pack",
+                "planned_cmd": pack_cmd_override or " ".join(defaults["pack"]),
+                "executed": False,
+            }
+        )
+        record["steps"].append(
+            {
+                "step": "gate",
+                "planned_cmd": gate_cmd_override or " ".join(defaults["gate"]),
+                "executed": False,
+            }
+        )
+        apply_plan = [
+            py,
+            str(SCRIPTS["apply"]),
+            slug,
+            str(run_root / "gate_result.json"),
+            "--run-root",
+            str(run_root),
+        ]
+        if refresh_board:
+            apply_plan.append("--refresh-board")
+        if refresh_rag:
+            apply_plan.append("--refresh-rag")
+        record["steps"].append(
+            {"step": "apply_gate_decision", "planned_cmd": " ".join(apply_plan), "executed": False}
+        )
         record["disposition"] = "dry-run (no model call, no diff applied, no eval)"
         record["finished"] = _utc_now()
         return record
@@ -1083,8 +1227,9 @@ def attempt_once(
 
     # ---- 2. Extract diff (offline-replay falls through to here too) ----
     diff_text = extract_unified_diff(raw_output)
-    record["steps"].append({"step": "extract_diff", "diff_chars": len(diff_text),
-                            "ok": bool(diff_text)})
+    record["steps"].append(
+        {"step": "extract_diff", "diff_chars": len(diff_text), "ok": bool(diff_text)}
+    )
     extracted_diff_path = factory_slug_dir / f"worker_attempt_{n}_extracted.diff"
     if diff_text:
         extracted_diff_path.write_text(diff_text, encoding="utf-8")
@@ -1103,11 +1248,13 @@ def attempt_once(
         return record
 
     substantive_ok, substantive_reason = diff_has_substantive_change(diff_text)
-    record["steps"].append({
-        "step": "validate_substantive_change",
-        "ok": substantive_ok,
-        "reason": substantive_reason,
-    })
+    record["steps"].append(
+        {
+            "step": "validate_substantive_change",
+            "ok": substantive_ok,
+            "reason": substantive_reason,
+        }
+    )
     if not substantive_ok:
         record["error"] = substantive_reason
         record["finished"] = _utc_now()
@@ -1115,8 +1262,7 @@ def attempt_once(
 
     # ---- 4. git apply --check (with repair fallback) ----
     rc, _so, se = git_apply(diff_text, check_only=True, reverse=False)
-    record["steps"].append({"step": "git_apply_check", "rc": rc,
-                            "stderr_tail": se[-1500:]})
+    record["steps"].append({"step": "git_apply_check", "rc": rc, "stderr_tail": se[-1500:]})
     diff_for_apply = diff_text
     diff_repaired = False
     repair_path = factory_slug_dir / f"worker_attempt_{n}_repair.json"
@@ -1124,14 +1270,19 @@ def attempt_once(
     if rc != 0:
         # Repair pass
         repaired_text, repair_meta = repair_unified_diff(diff_text, ROOT)
-        record["steps"].append({"step": "repair_diff",
-                                "repaired": repair_meta.get("repaired"),
-                                "reason": repair_meta.get("reason"),
-                                "hunks_in": repair_meta.get("hunks_in"),
-                                "hunks_out": repair_meta.get("hunks_out")})
+        record["steps"].append(
+            {
+                "step": "repair_diff",
+                "repaired": repair_meta.get("repaired"),
+                "reason": repair_meta.get("reason"),
+                "hunks_in": repair_meta.get("hunks_in"),
+                "hunks_out": repair_meta.get("hunks_out"),
+            }
+        )
         try:
-            repair_path.write_text(json.dumps(repair_meta, indent=2, ensure_ascii=False),
-                                   encoding="utf-8")
+            repair_path.write_text(
+                json.dumps(repair_meta, indent=2, ensure_ascii=False), encoding="utf-8"
+            )
             record["repair_meta_path"] = str(repair_path)
         except Exception:
             pass
@@ -1143,8 +1294,9 @@ def attempt_once(
             record["steps"].append({"step": "validate_paths_repaired", "ok": rp_ok, "bad": rp_bad})
             if rp_ok:
                 rc2, _so2, se2 = git_apply(repaired_text, check_only=True, reverse=False)
-                record["steps"].append({"step": "git_apply_check_repaired", "rc": rc2,
-                                        "stderr_tail": se2[-1500:]})
+                record["steps"].append(
+                    {"step": "git_apply_check_repaired", "rc": rc2, "stderr_tail": se2[-1500:]}
+                )
                 if rc2 == 0:
                     diff_for_apply = repaired_text
                     diff_repaired = True
@@ -1157,16 +1309,14 @@ def attempt_once(
     # In dry-run with offline-replay, stop here - we don't mutate working tree.
     if dry_run:
         record["disposition"] = (
-            f"offline-replay-complete: diff_repaired={diff_repaired}, "
-            f"git_apply_check would pass"
+            f"offline-replay-complete: diff_repaired={diff_repaired}, git_apply_check would pass"
         )
         record["finished"] = _utc_now()
         return record
 
     # ---- 5. git apply (the real one) ----
     rc, _so, se = git_apply(diff_for_apply, check_only=False, reverse=False)
-    record["steps"].append({"step": "git_apply", "rc": rc,
-                            "stderr_tail": se[-1500:]})
+    record["steps"].append({"step": "git_apply", "rc": rc, "stderr_tail": se[-1500:]})
     if rc != 0:
         record["error"] = "git apply failed after --check passed"
         record["finished"] = _utc_now()
@@ -1181,8 +1331,9 @@ def attempt_once(
         pack_result = _shell(pack_cmd_override, timeout=300)
     else:
         pack_result = _run(defaults["pack"], timeout=300)
-    record["steps"].append({"step": "pack", **{k: v for k, v in pack_result.items()
-                                                if k != "stdout_full"}})
+    record["steps"].append(
+        {"step": "pack", **{k: v for k, v in pack_result.items() if k != "stdout_full"}}
+    )
     if pack_result["returncode"] != 0:
         # Revert the applied diff so the repo is clean again
         _revert(diff_for_apply, record)
@@ -1195,8 +1346,9 @@ def attempt_once(
         gate_result = _shell(gate_cmd_override, timeout=7200)
     else:
         gate_result = _run(defaults["gate"], timeout=7200)
-    record["steps"].append({"step": "gate", **{k: v for k, v in gate_result.items()
-                                                if k != "stdout_full"}})
+    record["steps"].append(
+        {"step": "gate", **{k: v for k, v in gate_result.items() if k != "stdout_full"}}
+    )
 
     gate_json_path = run_root / "gate_result.json"
     gate_record: dict[str, Any] = {}
@@ -1211,10 +1363,18 @@ def attempt_once(
 
     if gate_record.get("decision") == "accept":
         # 8a. Apply-decision chain
-        apply_cmd = [py, str(SCRIPTS["apply"]), slug, str(gate_json_path),
-                     "--run-root", str(run_root)]
-        if refresh_board: apply_cmd.append("--refresh-board")
-        if refresh_rag:   apply_cmd.append("--refresh-rag")
+        apply_cmd = [
+            py,
+            str(SCRIPTS["apply"]),
+            slug,
+            str(gate_json_path),
+            "--run-root",
+            str(run_root),
+        ]
+        if refresh_board:
+            apply_cmd.append("--refresh-board")
+        if refresh_rag:
+            apply_cmd.append("--refresh-rag")
         apply_cmd += ["--python", py]
         apply_result = _run(apply_cmd, timeout=600)
         record["steps"].append({"step": "apply_gate_decision", **apply_result})
@@ -1224,8 +1384,16 @@ def attempt_once(
 
     # 8b. Reject path - revert the diff, run reject-side apply-decision for the lesson
     _revert(diff_for_apply, record)
-    apply_cmd = [py, str(SCRIPTS["apply"]), slug, str(gate_json_path),
-                 "--run-root", str(run_root), "--python", py]
+    apply_cmd = [
+        py,
+        str(SCRIPTS["apply"]),
+        slug,
+        str(gate_json_path),
+        "--run-root",
+        str(run_root),
+        "--python",
+        py,
+    ]
     apply_result = _run(apply_cmd, timeout=120)
     record["steps"].append({"step": "apply_gate_decision_reject", **apply_result})
     record["disposition"] = "rejected"
@@ -1235,8 +1403,7 @@ def attempt_once(
 
 def _revert(diff_text: str, record: dict[str, Any]) -> None:
     rc, _, se = git_apply(diff_text, check_only=False, reverse=True)
-    record["steps"].append({"step": "git_apply_reverse", "rc": rc,
-                            "stderr_tail": se[-1500:]})
+    record["steps"].append({"step": "git_apply_reverse", "rc": rc, "stderr_tail": se[-1500:]})
     if rc != 0:
         record["revert_failed"] = True
 
@@ -1263,7 +1430,9 @@ def write_result_artifacts(slug: str, payload: dict[str, Any]) -> tuple[Path, Pa
         lines.append(f"Exit code: {payload['exit_code']}")
     lines.append("")
     if payload.get("dirty_outside"):
-        lines.append("## Dirty paths outside the allowed override prefix (--allow-dirty must be set to override)")
+        lines.append(
+            "## Dirty paths outside the allowed override prefix (--allow-dirty must be set to override)"
+        )
         lines.append("")
         for p in payload["dirty_outside"]:
             lines.append(f"- {p}")
@@ -1271,7 +1440,9 @@ def write_result_artifacts(slug: str, payload: dict[str, Any]) -> tuple[Path, Pa
     lines.append("## Per-attempt summary")
     lines.append("")
     for a in payload.get("attempts") or []:
-        lines.append(f"### Attempt {a.get('attempt')}: {a.get('disposition') or a.get('error') or 'unknown'}")
+        lines.append(
+            f"### Attempt {a.get('attempt')}: {a.get('disposition') or a.get('error') or 'unknown'}"
+        )
         lines.append("")
         lines.append(f"- Prompt: `{a.get('prompt_path')}`")
         if a.get("model_output_path"):
@@ -1297,29 +1468,67 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", help="ProgramBench instance id, e.g. owner__repo.hash")
     ap.add_argument("--max-attempts", type=int, default=3)
-    ap.add_argument("--model-cmd", default=None,
-                    help="shell command; reads prompt on stdin, writes unified diff to stdout. Required for --execute.")
-    ap.add_argument("--gate-command", default=None, help="optional explicit gate command (overrides default derivation)")
-    ap.add_argument("--pack-command", default=None, help="optional explicit pack command (overrides default derivation)")
-    ap.add_argument("--execute", action="store_true",
-                    help="actually call model, apply diffs, and run eval. Default is dry-run.")
-    ap.add_argument("--allow-dirty", action="store_true",
-                    help="permit --execute even if git has changes outside the override path")
-    ap.add_argument("--refresh-board", action="store_true",
-                    help="pass --refresh-board to pb_apply_gate_decision.py on accept")
-    ap.add_argument("--refresh-rag", action="store_true",
-                    help="pass --refresh-rag to pb_apply_gate_decision.py on accept")
-    ap.add_argument("--python", default=sys.executable,
-                    help="Python interpreter for pack/gate/apply subprocesses")
-    ap.add_argument("--dry-run", action="store_true", default=False,
-                    help="explicit dry-run (default behavior when --execute is absent)")
-    ap.add_argument("--source-context-chars", type=int, default=60000,
-                    help="Total character budget for embedded override source in the prompt (default 60000). "
-                         "Files included in priority: main.<ext>, compile.sh, then alphabetical.")
-    ap.add_argument("--model-output-file", type=Path, default=None,
-                    help="Path to a file whose contents will be used as the model output, bypassing --model-cmd. "
-                         "Lets you replay saved raw model outputs offline (no API call). Works in both --dry-run "
-                         "and --execute. In --dry-run, extraction + repair analysis still run but nothing is applied.")
+    ap.add_argument(
+        "--model-cmd",
+        default=None,
+        help="shell command; reads prompt on stdin, writes unified diff to stdout. Required for --execute.",
+    )
+    ap.add_argument(
+        "--gate-command",
+        default=None,
+        help="optional explicit gate command (overrides default derivation)",
+    )
+    ap.add_argument(
+        "--pack-command",
+        default=None,
+        help="optional explicit pack command (overrides default derivation)",
+    )
+    ap.add_argument(
+        "--execute",
+        action="store_true",
+        help="actually call model, apply diffs, and run eval. Default is dry-run.",
+    )
+    ap.add_argument(
+        "--allow-dirty",
+        action="store_true",
+        help="permit --execute even if git has changes outside the override path",
+    )
+    ap.add_argument(
+        "--refresh-board",
+        action="store_true",
+        help="pass --refresh-board to pb_apply_gate_decision.py on accept",
+    )
+    ap.add_argument(
+        "--refresh-rag",
+        action="store_true",
+        help="pass --refresh-rag to pb_apply_gate_decision.py on accept",
+    )
+    ap.add_argument(
+        "--python",
+        default=sys.executable,
+        help="Python interpreter for pack/gate/apply subprocesses",
+    )
+    ap.add_argument(
+        "--dry-run",
+        action="store_true",
+        default=False,
+        help="explicit dry-run (default behavior when --execute is absent)",
+    )
+    ap.add_argument(
+        "--source-context-chars",
+        type=int,
+        default=60000,
+        help="Total character budget for embedded override source in the prompt (default 60000). "
+        "Files included in priority: main.<ext>, compile.sh, then alphabetical.",
+    )
+    ap.add_argument(
+        "--model-output-file",
+        type=Path,
+        default=None,
+        help="Path to a file whose contents will be used as the model output, bypassing --model-cmd. "
+        "Lets you replay saved raw model outputs offline (no API call). Works in both --dry-run "
+        "and --execute. In --dry-run, extraction + repair analysis still run but nothing is applied.",
+    )
     args = ap.parse_args()
 
     if "__" not in args.slug:
@@ -1382,7 +1591,10 @@ def main() -> int:
         try:
             pre_proc = subprocess.run(
                 [args.python, str(preflight_path), args.slug, "--json-only"],
-                capture_output=True, text=True, timeout=60, check=False,
+                capture_output=True,
+                text=True,
+                timeout=60,
+                check=False,
             )
             pre_json = json.loads(pre_proc.stdout) if pre_proc.stdout else None
         except (subprocess.TimeoutExpired, OSError, json.JSONDecodeError, ValueError):
@@ -1415,17 +1627,27 @@ def main() -> int:
         return 3
 
     # ----- build run_root once per loop invocation -----
-    run_root = ROOT / ".determinex_staging" / f"pb_{_short_name(args.slug)}_worker_loop_{_utc_tag()}"
+    run_root = (
+        ROOT / ".determinex_staging" / f"pb_{_short_name(args.slug)}_worker_loop_{_utc_tag()}"
+    )
     payload["run_root"] = str(run_root)
 
     # ----- build prompt once (model gets the same task each attempt; future v2 may
     # inject prior-attempt feedback into the prompt) -----
     override_files = _override_inventory(args.slug)
     lessons = _prior_lessons(args.slug, limit=3)
-    source_context_md, source_metrics = _collect_source_context(args.slug, args.source_context_chars)
+    source_context_md, source_metrics = _collect_source_context(
+        args.slug, args.source_context_chars
+    )
     payload.update(source_metrics)
-    prompt_text = build_prompt(args.slug, packet_text, cluster_md, override_files, lessons,
-                               source_context_md=source_context_md)
+    prompt_text = build_prompt(
+        args.slug,
+        packet_text,
+        cluster_md,
+        override_files,
+        lessons,
+        source_context_md=source_context_md,
+    )
     payload["prompt_chars"] = len(prompt_text)
 
     # ----- attempt loop -----
@@ -1433,7 +1655,8 @@ def main() -> int:
     exit_code = 1
     for n in range(1, args.max_attempts + 1):
         rec = attempt_once(
-            slug=args.slug, n=n,
+            slug=args.slug,
+            n=n,
             model_cmd=args.model_cmd,
             pack_cmd_override=args.pack_command,
             gate_cmd_override=args.gate_command,
@@ -1513,15 +1736,20 @@ def main() -> int:
         payload["next_safe_action"] = "Review worker_loop_result.json for the specific error."
 
     write_result_artifacts(args.slug, payload)
-    print(json.dumps({
-        "slug": args.slug,
-        "dry_run": dry_run,
-        "final_disposition": final_disposition,
-        "exit_code": exit_code,
-        "attempts": len(payload["attempts"]),
-        "result_json": str(FACTORY_DIR / args.slug / "worker_loop_result.json"),
-        "report_md": str(FACTORY_DIR / args.slug / "worker_loop_report.md"),
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "slug": args.slug,
+                "dry_run": dry_run,
+                "final_disposition": final_disposition,
+                "exit_code": exit_code,
+                "attempts": len(payload["attempts"]),
+                "result_json": str(FACTORY_DIR / args.slug / "worker_loop_result.json"),
+                "report_md": str(FACTORY_DIR / args.slug / "worker_loop_report.md"),
+            },
+            indent=2,
+        )
+    )
     return exit_code
 
 

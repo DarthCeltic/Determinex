@@ -27,20 +27,22 @@ Usage (testing):
 
 Implements LanguageRepairBackend.
 """
+
 from __future__ import annotations
 
 import hashlib
 import logging
-from intake.hardened_runner import run as _hardened_run
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
-from corpus.code_ingest.rust_project_indexer import RustProject, index_rust_project
-from corpus.code_ingest.rust_task_extractor import RustRepairTask, RustTaskExtractor
+from agents.prompt_injection_detector import InjectionRisk
+from agents.prompt_injection_detector import scan as injection_scan
 from corpus.code_ingest.license_detector import detect
+from corpus.code_ingest.rust_task_extractor import RustRepairTask, RustTaskExtractor
 from corpus.code_ingest.secret_scanner import is_clean as secrets_clean
-from agents.prompt_injection_detector import scan as injection_scan, InjectionRisk
+from intake.hardened_runner import run as _hardened_run
 
 log = logging.getLogger(__name__)
 
@@ -126,7 +128,9 @@ class RustRepairPipeline:
         result.license_spdx = license_result.spdx_id or "unknown"
         result.license_bucket = license_result.bucket
         if not license_result.ingest_allowed:
-            result.rejected_reason = f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            result.rejected_reason = (
+                f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            )
             log.info("[rust_pipeline] rejected %s — %s", repo_path, result.rejected_reason)
             return result
 
@@ -174,9 +178,7 @@ class RustRepairPipeline:
             scan_result = injection_scan(content, source=str(build_rs))
             if scan_result.risk in (InjectionRisk.HIGH, InjectionRisk.CRITICAL):
                 finding = scan_result.findings[0] if scan_result.findings else None
-                reason = (
-                    f"injection_risk:{scan_result.risk.value}:{finding.pattern_name if finding else 'unknown'}"
-                )
+                reason = f"injection_risk:{scan_result.risk.value}:{finding.pattern_name if finding else 'unknown'}"
                 return BuildScriptSafetyResult(safe=False, reason=reason, script_path=str(build_rs))
         return BuildScriptSafetyResult(safe=True, reason="", script_path="")
 
@@ -203,12 +205,15 @@ class RustRepairPipeline:
         """Write a RustRepairTask to corpus as a signed record."""
         try:
             from agents.base_agent import CorpusType
+
             payload = task.to_corpus_payload()
             input_hash = hashlib.blake2b(
-                (task.mutated_line + task.failure_output).encode(), digest_size=16,
+                (task.mutated_line + task.failure_output).encode(),
+                digest_size=16,
             ).hexdigest()
             output_hash = hashlib.blake2b(
-                task.original_line.encode(), digest_size=16,
+                task.original_line.encode(),
+                digest_size=16,
             ).hexdigest()
             record = self._cm._normalize_record(
                 corpus_type=CorpusType.CODE_VERDICT,

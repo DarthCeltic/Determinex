@@ -8,6 +8,7 @@ mutation-induced failures).
 
 JAVA_REPAIR_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,10 +16,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / "scripts"))
 
-from corpus.code_ingest.java_task_extractor import JavaTaskExtractor
 from corpus.code_ingest.java_repair_pipeline import JavaRepairPipeline
+from corpus.code_ingest.java_task_extractor import JavaTaskExtractor
 from corpus.corpus_manager import CorpusManager
-
 
 _JAVA_SOURCE = """\
 public class Counter {
@@ -65,7 +65,6 @@ def _make_executor(baseline_passes: bool):
 
 
 class TestMutationRequiresBaselineGreen:
-
     def test_extractor_returns_empty_when_baseline_fails(self, tmp_path):
         """If baseline fails, extract_tasks must return []."""
         # Write a Java file with a null check so mutation candidates exist

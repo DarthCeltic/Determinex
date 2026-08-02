@@ -1,12 +1,11 @@
 """Tests for IDE_BACKEND_COMMAND_SURFACE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -35,7 +34,8 @@ STATUS_TOKENS = frozenset(IDE_BACKEND_COMMAND_STATUS_TOKENS)
 def _cfg(tmp_path: Path):
     w = LocalModelConfigWizard(WizardConfig(config_root=tmp_path))
     return w.write_config(
-        provider="ollama", model_id="determinex-engineer-v11-dsl",
+        provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
         capabilities=("code_generation",),
         task_classes_allowed=("BUILD_DIAGNOSIS", "PATCH_GENERATION"),
         enabled=True,
@@ -89,15 +89,15 @@ def test_diagnose_dry_run_is_temp_only():
 
 def test_diagnose_live_requires_opt_in(tmp_path):
     s = IDEBackendCommandSurface()
-    r = s.call("diagnose_live_opt_in", task_class="BUILD_DIAGNOSIS",
-               opt_in=False, config=_cfg(tmp_path))
+    r = s.call(
+        "diagnose_live_opt_in", task_class="BUILD_DIAGNOSIS", opt_in=False, config=_cfg(tmp_path)
+    )
     assert r.status == "IDE_COMMAND_BLOCKED_NOT_OPTED_IN"
 
 
 def test_diagnose_live_requires_model_config():
     s = IDEBackendCommandSurface()
-    r = s.call("diagnose_live_opt_in", task_class="BUILD_DIAGNOSIS",
-               opt_in=True, config=None)
+    r = s.call("diagnose_live_opt_in", task_class="BUILD_DIAGNOSIS", opt_in=True, config=None)
     assert r.status == "IDE_COMMAND_BLOCKED_NO_MODEL"
 
 
@@ -123,11 +123,13 @@ def test_get_repair_state_returns_conservative_defaults():
 
 def test_approval_packet_command_does_not_authorize():
     s = IDEBackendCommandSurface()
-    r = s.call("get_human_approval_packet",
-               workspace=FIXTURES / "python_broken",
-               unified_diff="--- a\n+++ b\n",
-               files_changed=("src/x.py",),
-               verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY")
+    r = s.call(
+        "get_human_approval_packet",
+        workspace=FIXTURES / "python_broken",
+        unified_diff="--- a\n+++ b\n",
+        files_changed=("src/x.py",),
+        verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
+    )
     assert r.status == "IDE_COMMAND_SOURCE_MUTATION_BLOCKED"
     assert r.source_mutation_authorized is False
 

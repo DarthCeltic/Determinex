@@ -6,6 +6,7 @@ PythonProject describing the project's structure, test layout, and metadata.
 
 No external dependencies — stdlib re + string parsing only.
 """
+
 from __future__ import annotations
 
 import re
@@ -17,21 +18,22 @@ from pathlib import Path
 class PythonProject:
     root: Path
     package_name: str
-    build_backend: str                      # "setuptools" | "poetry" | "hatch" | "flit" | "pdm" | "unknown"
+    build_backend: str  # "setuptools" | "poetry" | "hatch" | "flit" | "pdm" | "unknown"
     has_pyproject_toml: bool
     has_setup_py: bool
     has_setup_cfg: bool
-    test_runner: str                        # "pytest" | "unittest" | "tox" | "nox" | "unknown"
-    src_layout: bool                        # True if src/<pkg>/ layout detected
+    test_runner: str  # "pytest" | "unittest" | "tox" | "nox" | "unknown"
+    src_layout: bool  # True if src/<pkg>/ layout detected
     test_dirs: list[str] = field(default_factory=list)
     python_files: list[str] = field(default_factory=list)
     license_expression: str = ""
-    setup_files: list[str] = field(default_factory=list)   # files that run on install
+    setup_files: list[str] = field(default_factory=list)  # files that run on install
 
 
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
+
 
 def _toml_str(content: str, key: str) -> str:
     """Return value of 'key = "value"' in TOML. Empty if not found."""
@@ -95,6 +97,7 @@ def _detect_license(root: Path) -> str:
 # Public API
 # ---------------------------------------------------------------------------
 
+
 def index_python_project(path: Path) -> PythonProject | None:
     """
     Detect and describe a Python project at *path*.
@@ -122,10 +125,7 @@ def index_python_project(path: Path) -> PythonProject | None:
         except OSError:
             pass
 
-    package_name = (
-        _toml_str(content, "name")
-        or path.name
-    )
+    package_name = _toml_str(content, "name") or path.name
     build_backend = _detect_build_backend(content)
     test_runner = _detect_test_runner(path, content)
     test_dirs = _collect_test_dirs(path)

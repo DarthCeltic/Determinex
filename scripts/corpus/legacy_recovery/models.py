@@ -7,7 +7,6 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Literal
 
-
 LegacyBucket = Literal[
     "unrecoverable",
     "recoverable_metadata",
@@ -17,10 +16,23 @@ LegacyBucket = Literal[
 
 
 FAILURE_PATTERNS: dict[str, tuple[str, ...]] = {
-    "date_time_nondeterminism": ("timestamp", "timezone", "source_date_epoch", "creation_timestamp", "date/time"),
+    "date_time_nondeterminism": (
+        "timestamp",
+        "timezone",
+        "source_date_epoch",
+        "creation_timestamp",
+        "date/time",
+    ),
     "path_env_dependency": ("/workspace", "path", "cwd", "env", "home", "tmp"),
     "stdout_stderr_mismatch": ("stdout", "stderr", "output", "expected", "actual"),
-    "exit_code_mismatch": ("returncode", "exit code", "assert 0", "assert 1", "assert 2", "assert 127"),
+    "exit_code_mismatch": (
+        "returncode",
+        "exit code",
+        "assert 0",
+        "assert 1",
+        "assert 2",
+        "assert 127",
+    ),
     "argv0_alias_regression": ("argv[0]", "argv0", "/workspace/executable", "usage:"),
     "missing_asset": ("no such file", "missing", "asset", "fixture", "not found"),
     "locale_encoding_issue": ("utf-8", "unicode", "encoding", "locale", "decode"),
@@ -58,7 +70,9 @@ def stable_hash_text(text: str) -> str:
 
 
 def stable_hash_obj(obj: Any) -> str:
-    return stable_hash_text(json.dumps(obj, sort_keys=True, ensure_ascii=True, separators=(",", ":")))
+    return stable_hash_text(
+        json.dumps(obj, sort_keys=True, ensure_ascii=True, separators=(",", ":"))
+    )
 
 
 def compact_text(record: dict[str, Any], limit: int = 12000) -> str:
@@ -66,7 +80,9 @@ def compact_text(record: dict[str, Any], limit: int = 12000) -> str:
     for key in ("meta", "metadata", "payload", "failure_output", "stderr", "stdout", "test_id"):
         value = record.get(key)
         if value:
-            parts.append(json.dumps(value, ensure_ascii=True) if not isinstance(value, str) else value)
+            parts.append(
+                json.dumps(value, ensure_ascii=True) if not isinstance(value, str) else value
+            )
     for msg in record.get("messages") or []:
         if isinstance(msg, dict):
             parts.append(str(msg.get("content") or ""))
@@ -87,7 +103,9 @@ def compact_failure_evidence(record: dict[str, Any], limit: int = 12000) -> str:
     for key in ("failure_output", "stderr", "stdout", "test_id"):
         value = record.get(key)
         if value:
-            parts.append(json.dumps(value, ensure_ascii=True) if not isinstance(value, str) else value)
+            parts.append(
+                json.dumps(value, ensure_ascii=True) if not isinstance(value, str) else value
+            )
     for container_key in ("meta", "metadata"):
         meta = record.get(container_key)
         if isinstance(meta, dict):
@@ -119,7 +137,9 @@ def extract_tool(record: dict[str, Any], text: str) -> str:
         value = str(record.get(key) or "")
         if "__" in value:
             return value
-    match = re.search(r"(?:# Tool:|tool\s*[=:])\s*([A-Za-z0-9_.-]+__[A-Za-z0-9_.-]+\.[A-Za-z0-9]+)", text)
+    match = re.search(
+        r"(?:# Tool:|tool\s*[=:])\s*([A-Za-z0-9_.-]+__[A-Za-z0-9_.-]+\.[A-Za-z0-9]+)", text
+    )
     return match.group(1) if match else ""
 
 

@@ -3,15 +3,13 @@
 Metadata-only admission. No model runs. No subprocess. No network.
 Even the ADMITTED decision sets execution_authorized=False.
 """
+
 from __future__ import annotations
 
-import hashlib
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -161,12 +159,14 @@ def test_no_model_provider_with_no_capabilities_admitted():
     """The NO_MODEL provider bypasses capability + task-class checks
     because it represents 'we explicitly chose not to use a model.'"""
     p = LocalModelAdmissionPolicy()
-    d = p.evaluate(_valid_candidate(
-        model_id="",
-        provider=ModelProvider.NO_MODEL.value,
-        capability_tags=(),
-        supported_task_classes=(),
-    ))
+    d = p.evaluate(
+        _valid_candidate(
+            model_id="",
+            provider=ModelProvider.NO_MODEL.value,
+            capability_tags=(),
+            supported_task_classes=(),
+        )
+    )
     assert d.decision == "LOCAL_MODEL_METADATA_ADMITTED"
 
 

@@ -23,6 +23,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -38,7 +39,6 @@ if str(_SCRIPTS) not in sys.path:
 from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 _EVIDENCE_FILE = (
@@ -79,12 +79,10 @@ REQUIRED_PANEL_CAPTIONS = (
     "This panel displays evidence; it does not grant authority.",
     "Sample reports are evidence-shape examples; they are not promises "
     "of runtime support, release readiness, or universal coverage.",
-    "Each sample carries its own authority_state; all authority flags "
-    "remain false.",
+    "Each sample carries its own authority_state; all authority flags remain false.",
     "Release-supported remains 0 cells / 0 families.",
     "Universal support is not claimed.",
-    "Unknown/novel sample remains NOT_CLAIMED, blocked by "
-    "CONCRETE_FIXTURE_REQUIRED.",
+    "Unknown/novel sample remains NOT_CLAIMED, blocked by CONCRETE_FIXTURE_REQUIRED.",
     "Refused/contained sample remains refused; no execution authorized.",
 )
 

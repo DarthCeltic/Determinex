@@ -18,10 +18,10 @@ over SSH (df/free/docker image prune); this script is the corpus+ledger brain.
 Usage:
   python scripts/determinex_pb_drive_tick.py <jsons_dir> [--corpus PATH] [--ledger PATH]
 """
+
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import sys
 from datetime import date
@@ -33,7 +33,7 @@ import determinex_eval_report as ER  # noqa: E402
 CORPUS = Path("corpus/programbench/training_corpus/model_reimpl_corpus.jsonl")
 LEDGER = Path("corpus/programbench/drive_ledger.json")
 INDEX = Path("corpus/programbench/eval_index.json")
-BUILD_FAIL_RATIO = 0.05   # passed/total below this on a >300-test suite => build/invocation failure
+BUILD_FAIL_RATIO = 0.05  # passed/total below this on a >300-test suite => build/invocation failure
 
 
 def _seen_keys(corpus: Path) -> set[str]:
@@ -43,7 +43,7 @@ def _seen_keys(corpus: Path) -> set[str]:
         for line in corpus.open(encoding="utf-8", errors="replace"):
             try:
                 r = json.loads(line)
-                keys.add(f"{r.get('tool')}|{r.get('test')}|{r.get('attempt','')}")
+                keys.add(f"{r.get('tool')}|{r.get('test')}|{r.get('attempt', '')}")
             except Exception:
                 pass
     return keys
@@ -83,20 +83,34 @@ def tick(jsons_dir: Path, corpus: Path, ledger_path: Path) -> dict:
                 if key in seen:
                     continue
                 seen.add(key)
-                cf.write(json.dumps({
-                    "tool": slug, "test": fr.short, "argv": fr.argv,
-                    "expect_rc": fr.expect_rc, "expect_in": fr.expect_in[:3],
-                    "actual_rc": fr.returncode_actual, "trace": fr.text[:1200],
-                    "attempt": attempt}, ensure_ascii=False) + "\n")
+                cf.write(
+                    json.dumps(
+                        {
+                            "tool": slug,
+                            "test": fr.short,
+                            "argv": fr.argv,
+                            "expect_rc": fr.expect_rc,
+                            "expect_in": fr.expect_in[:3],
+                            "actual_rc": fr.returncode_actual,
+                            "trace": fr.text[:1200],
+                            "attempt": attempt,
+                        },
+                        ensure_ascii=False,
+                    )
+                    + "\n"
+                )
                 added += 1
             # ledger: keep best score; flag build-fail / lock / ceiling-near
             prev = ledger.get(slug, {})
             best_p = max(rep.passed, prev.get("best_passed", 0))
-            build_fail = (rep.total >= 300 and rep.passed / max(rep.total, 1) < BUILD_FAIL_RATIO)
+            build_fail = rep.total >= 300 and rep.passed / max(rep.total, 1) < BUILD_FAIL_RATIO
             ledger[slug] = {
-                "best_passed": best_p, "total": rep.total,
-                "last_passed": rep.passed, "is_lock": rep.is_lock,
-                "not_run": rep.not_run, "build_fail": build_fail,
+                "best_passed": best_p,
+                "total": rep.total,
+                "last_passed": rep.passed,
+                "is_lock": rep.is_lock,
+                "not_run": rep.not_run,
+                "build_fail": build_fail,
                 "last_eval": date.today().isoformat(),
             }
             tag = " LOCK" if rep.is_lock else (" BUILD-FAIL?" if build_fail else "")
@@ -115,9 +129,11 @@ def tick(jsons_dir: Path, corpus: Path, ledger_path: Path) -> dict:
     if build_fails:
         print(f"build-fail flags (giant-build credit-refresh targets): {build_fails}")
     if bench:
-        print(f"\nBENCHMARK-WIDE: {bench['passed']:,} / {bench['total']:,} "
-              f"= {100*bench['passed']/bench['total']:.2f}%  "
-              f"(ledger overlays {bench['overlaid']} tools onto index baseline)")
+        print(
+            f"\nBENCHMARK-WIDE: {bench['passed']:,} / {bench['total']:,} "
+            f"= {100 * bench['passed'] / bench['total']:.2f}%  "
+            f"(ledger overlays {bench['overlaid']} tools onto index baseline)"
+        )
     return {"added": added, "ledger": str(ledger_path), "bench": bench}
 
 

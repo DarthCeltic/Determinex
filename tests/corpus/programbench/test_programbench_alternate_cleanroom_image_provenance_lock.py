@@ -40,7 +40,6 @@ from corpus.programbench.rebuild_provenance_quarantine_decision_record import ( 
     write_rebuild_provenance_quarantine_decision_record,
 )
 
-
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
 ALT_IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom_go124"
@@ -70,8 +69,15 @@ def _recipe_recovery(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST
         image_reference=image,
         image_digest=digest,
         remediation_plan="plans/plan.json",
-        recipe_components={"original_recipe_file_recovered": False, "base_image_digest_present": False},
-        go_update={"current_version_detected": "1.21.0", "target_version": "1.24.13", "recipe_compatible": True},
+        recipe_components={
+            "original_recipe_file_recovered": False,
+            "base_image_digest_present": False,
+        },
+        go_update={
+            "current_version_detected": "1.21.0",
+            "target_version": "1.24.13",
+            "recipe_compatible": True,
+        },
         fidelity_assessment={"fidelity_class": "material_fidelity_change"},
         cache_ready=False,
         executable=False,
@@ -79,22 +85,41 @@ def _recipe_recovery(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST
     return write_cleanroom_build_recipe_recovery_record(record, tmp_path / "recipe_recovery")
 
 
-def _gap(tmp_path: Path, plan_path: Path, recipe_path: Path, *, image: str = IMAGE, digest: str = DIGEST) -> Path:
+def _gap(
+    tmp_path: Path, plan_path: Path, recipe_path: Path, *, image: str = IMAGE, digest: str = DIGEST
+) -> Path:
     record = make_cleanroom_build_recipe_provenance_gap_record(
         status="BUILD_RECIPE_PROVENANCE_GAP_WRITTEN",
         image_reference=image,
         image_digest=digest,
         remediation_plan=plan_path.relative_to(tmp_path).as_posix(),
         recipe_recovery=recipe_path.relative_to(tmp_path).as_posix(),
-        gap_statuses=["ORIGINAL_RECIPE_MISSING", "BASE_IMAGE_DIGEST_MISSING", "REBUILD_NOT_AUTHORIZED"],
-        authorization={"rebuild_authorized": False, "cache_ready": False, "executable": False, "training_eligible": False},
+        gap_statuses=[
+            "ORIGINAL_RECIPE_MISSING",
+            "BASE_IMAGE_DIGEST_MISSING",
+            "REBUILD_NOT_AUTHORIZED",
+        ],
+        authorization={
+            "rebuild_authorized": False,
+            "cache_ready": False,
+            "executable": False,
+            "training_eligible": False,
+        },
         cache_ready=False,
         executable=False,
     )
     return write_cleanroom_build_recipe_provenance_gap_record(record, tmp_path / "gaps")
 
 
-def _recovery(tmp_path: Path, plan_path: Path, recipe_path: Path, gap_path: Path, *, image: str = IMAGE, digest: str = DIGEST) -> Path:
+def _recovery(
+    tmp_path: Path,
+    plan_path: Path,
+    recipe_path: Path,
+    gap_path: Path,
+    *,
+    image: str = IMAGE,
+    digest: str = DIGEST,
+) -> Path:
     record = make_cleanroom_recipe_provenance_recovery_record(
         status="RECIPE_PROVENANCE_RECOVERED_PARTIAL",
         decision="REBUILD_PROVENANCE_PARTIAL_QUARANTINE_ONLY",
@@ -111,25 +136,36 @@ def _recovery(tmp_path: Path, plan_path: Path, recipe_path: Path, gap_path: Path
         },
         go_remediation={"current_version": "1.21.0", "target_version": "1.24.13"},
         fidelity_assessment={"fidelity_risk": "material"},
-        authorization={"rebuild_authorized": False, "cache_ready": False, "executable": False, "training_eligible": False},
+        authorization={
+            "rebuild_authorized": False,
+            "cache_ready": False,
+            "executable": False,
+            "training_eligible": False,
+        },
         cache_ready=False,
         executable=False,
     )
     return write_cleanroom_recipe_provenance_recovery_record(record, tmp_path / "recipe_provenance")
 
 
-def _decision(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, plan_ref: str | None = None) -> Path:
+def _decision(
+    tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, plan_ref: str | None = None
+) -> Path:
     plan_path = _plan(tmp_path, image=image, digest=digest)
     recipe_path = _recipe_recovery(tmp_path, image=image, digest=digest)
     gap_path = _gap(tmp_path, plan_path, recipe_path, image=image, digest=digest)
-    recovery_path = _recovery(tmp_path, plan_path, recipe_path, gap_path, image=image, digest=digest)
+    recovery_path = _recovery(
+        tmp_path, plan_path, recipe_path, gap_path, image=image, digest=digest
+    )
     record = make_rebuild_provenance_quarantine_decision_record(
         status="REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY",
         decision="REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY",
         image_reference=image,
         image_digest=digest,
         recipe_provenance_recovery=recovery_path.relative_to(tmp_path).as_posix(),
-        remediation_plan=plan_ref if plan_ref is not None else plan_path.relative_to(tmp_path).as_posix(),
+        remediation_plan=plan_ref
+        if plan_ref is not None
+        else plan_path.relative_to(tmp_path).as_posix(),
         recipe_recovery=recipe_path.relative_to(tmp_path).as_posix(),
         provenance_gap=gap_path.relative_to(tmp_path).as_posix(),
         findings={
@@ -146,7 +182,9 @@ def _decision(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, plan_
     return write_rebuild_provenance_quarantine_decision_record(record, tmp_path / "decisions")
 
 
-def _request(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, plan_ref: str | None = None) -> Path:
+def _request(
+    tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, plan_ref: str | None = None
+) -> Path:
     decision_path = _decision(tmp_path, image=image, digest=digest, plan_ref=plan_ref)
     record = make_operator_provenance_request_packet_record(
         status="OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN",
@@ -174,7 +212,12 @@ def _candidate(root: Path, body: dict) -> Path:
     return path
 
 
-def _runner(tmp_path: Path, search_root: Path | None = None, target_image: str = IMAGE, target_digest: str = DIGEST):
+def _runner(
+    tmp_path: Path,
+    search_root: Path | None = None,
+    target_image: str = IMAGE,
+    target_digest: str = DIGEST,
+):
     return ProgramBenchAlternateCleanroomImageProvenance(
         AlternateCleanroomImageProvenanceConfig(
             root=tmp_path,
@@ -205,36 +248,62 @@ def _exact_candidate() -> dict:
 
 def test_missing_request_blocks(tmp_path):
     result = _runner(tmp_path).discover(tmp_path / "missing.json")
-    assert result["record"]["status"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_BLOCKED_NO_REQUEST.value
+    assert (
+        result["record"]["status"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_BLOCKED_NO_REQUEST.value
+    )
 
 
 def test_original_image_mismatch_blocks(tmp_path):
-    result = _runner(tmp_path, target_image="programbench/other:task_cleanroom").discover(_request(tmp_path))
-    assert result["record"]["status"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_BLOCKED_IMAGE_MISMATCH.value
+    result = _runner(tmp_path, target_image="programbench/other:task_cleanroom").discover(
+        _request(tmp_path)
+    )
+    assert (
+        result["record"]["status"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_BLOCKED_IMAGE_MISMATCH.value
+    )
 
 
 def test_original_digest_mismatch_blocks(tmp_path):
     result = _runner(tmp_path, target_digest="sha256:bad").discover(_request(tmp_path))
-    assert result["record"]["status"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_BLOCKED_DIGEST_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_BLOCKED_DIGEST_MISMATCH.value
+    )
 
 
 def test_invalid_upstream_chain_blocks(tmp_path):
     result = _runner(tmp_path).discover(_request(tmp_path, plan_ref="missing-plan.json"))
-    assert result["record"]["status"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_BLOCKED_CHAIN_INVALID.value
+    assert (
+        result["record"]["status"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_BLOCKED_CHAIN_INVALID.value
+    )
 
 
 def test_no_alternate_candidate_found(tmp_path):
     result = _runner(tmp_path, search_root=tmp_path / "empty").discover(_request(tmp_path))
-    assert result["record"]["status"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.value
-    assert result["record"]["decision"] == AlternateCleanroomImageProvenanceStatus.NO_ALTERNATE_IMAGE_CANDIDATE_FOUND.value
+    assert (
+        result["record"]["status"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.value
+    )
+    assert (
+        result["record"]["decision"]
+        == AlternateCleanroomImageProvenanceStatus.NO_ALTERNATE_IMAGE_CANDIDATE_FOUND.value
+    )
 
 
 def test_exact_alternate_candidate_is_admissible_candidate_only(tmp_path):
     search_root = tmp_path / "candidates"
     _candidate(search_root, _exact_candidate())
     result = _runner(tmp_path, search_root=search_root).discover(_request(tmp_path))
-    assert result["record"]["status"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT.value
-    assert result["record"]["decision"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_ADMISSIBLE.value
+    assert (
+        result["record"]["status"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT.value
+    )
+    assert (
+        result["record"]["decision"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_ADMISSIBLE.value
+    )
     assert result["record"]["authorization"]["alternate_candidate_found"] is True
 
 
@@ -244,8 +313,14 @@ def test_partial_alternate_candidate_is_quarantine_only(tmp_path):
     body["provenance"].pop("base_image_digest")
     _candidate(search_root, body)
     result = _runner(tmp_path, search_root=search_root).discover(_request(tmp_path))
-    assert result["record"]["status"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_PARTIAL.value
-    assert result["record"]["decision"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_QUARANTINE_ONLY.value
+    assert (
+        result["record"]["status"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_PARTIAL.value
+    )
+    assert (
+        result["record"]["decision"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_QUARANTINE_ONLY.value
+    )
 
 
 def test_latest_or_name_only_candidate_is_blocked(tmp_path):
@@ -255,7 +330,10 @@ def test_latest_or_name_only_candidate_is_blocked(tmp_path):
     body["tag"] = "latest"
     _candidate(search_root, body)
     result = _runner(tmp_path, search_root=search_root).discover(_request(tmp_path))
-    assert result["record"]["decision"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_BLOCKED.value
+    assert (
+        result["record"]["decision"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_BLOCKED.value
+    )
     assert result["record"]["provenance_findings"]["latest_or_name_only_rejected"] is True
 
 
@@ -265,7 +343,10 @@ def test_inferred_officialness_candidate_is_blocked(tmp_path):
     body["inferred_officialness"] = True
     _candidate(search_root, body)
     result = _runner(tmp_path, search_root=search_root).discover(_request(tmp_path))
-    assert result["record"]["decision"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_BLOCKED.value
+    assert (
+        result["record"]["decision"]
+        == AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_BLOCKED.value
+    )
     assert result["record"]["provenance_findings"]["inferred_officialness_rejected"] is True
 
 
@@ -276,7 +357,10 @@ def test_existing_original_image_is_not_alternate(tmp_path):
     body["alternate_image_digest"] = DIGEST
     _candidate(search_root, body)
     result = _runner(tmp_path, search_root=search_root).discover(_request(tmp_path))
-    assert result["record"]["decision"] == AlternateCleanroomImageProvenanceStatus.NO_ALTERNATE_IMAGE_CANDIDATE_FOUND.value
+    assert (
+        result["record"]["decision"]
+        == AlternateCleanroomImageProvenanceStatus.NO_ALTERNATE_IMAGE_CANDIDATE_FOUND.value
+    )
 
 
 def test_fidelity_change_is_marked(tmp_path):

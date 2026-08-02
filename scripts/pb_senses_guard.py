@@ -98,8 +98,10 @@ def main() -> None:
         # a request for a verdict and "I found nothing to read" is not one.
         print(f"NO WAL FILES to scan in {wal_dir} — nothing examined, so no verdict.")
         if guard_mode:
-            print("SENSES GUARD FAILED: examined 0 WAL files. Point --path at a real "
-                  "session directory, or do not gate on a guard with no input.")
+            print(
+                "SENSES GUARD FAILED: examined 0 WAL files. Point --path at a real "
+                "session directory, or do not gate on a guard with no input."
+            )
             sys.exit(1)
     else:
         print(f"OK: no static-RE tool references found in {n_files} WAL file(s) under {wal_dir}.")

@@ -6,22 +6,23 @@ leave signed, provenance-rich traces. The report is intentionally structural;
 full HMAC verification can be enabled by callers that have the same key used to
 write the records.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[1]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from corpus.corpus_manager import hmac_key_scope, verify_signature
-
 
 DEFAULT_ROOTS = [
     Path("T:/determinex_corpus"),
@@ -174,7 +175,14 @@ def generate_report(
                 report.missing_failure_type_count += 1
             if not _field(record, "source_benchmark", "benchmark", "source_kind"):
                 report.missing_provenance_count += 1
-            if not _field(record, "validator", "verifier", "verifier_command", "validation_commands", "final_command"):
+            if not _field(
+                record,
+                "validator",
+                "verifier",
+                "verifier_command",
+                "validation_commands",
+                "final_command",
+            ):
                 report.missing_verifier_count += 1
             if _field(record, "safety_gate", "supply_chain_gate") == "reject":
                 report.unsafe_rejected_count += 1
@@ -207,8 +215,11 @@ def _iter_jsonl_files(roots: Iterable[Path]) -> Iterable[Path]:
         elif root.is_dir():
             # A SUBDIR carrying training_eligible=false (e.g. programbench_legacy_offload/) is
             # legacy by declaration -- its untagged rows would bury the active corpus's coverage.
-            excluded_dirs = [m.parent for m in root.rglob("TRAINING_EXCLUSION.json")
-                             if _training_excluded(m.parent)]
+            excluded_dirs = [
+                m.parent
+                for m in root.rglob("TRAINING_EXCLUSION.json")
+                if _training_excluded(m.parent)
+            ]
             for f in sorted(root.rglob("*.jsonl")):
                 if any(d in f.parents for d in excluded_dirs):
                     continue
@@ -221,7 +232,9 @@ def _record_parse_error(report: CoverageReport, message: str, max_parse_errors: 
         report.parse_errors.append(message)
 
 
-def _read_jsonl(path: Path, report: CoverageReport, *, max_parse_errors: int) -> Iterable[tuple[int, dict[str, Any]]]:
+def _read_jsonl(
+    path: Path, report: CoverageReport, *, max_parse_errors: int
+) -> Iterable[tuple[int, dict[str, Any]]]:
     try:
         fh = path.open("r", encoding="utf-8", errors="replace")
     except OSError as exc:
@@ -242,17 +255,37 @@ def _read_jsonl(path: Path, report: CoverageReport, *, max_parse_errors: int) ->
                 _record_parse_error(report, f"{path}:{i}:not_object", max_parse_errors)
 
 
-def _count_record(report: CoverageReport, counters: dict[str, Counter], record: dict[str, Any]) -> None:
+def _count_record(
+    report: CoverageReport, counters: dict[str, Counter], record: dict[str, Any]
+) -> None:
     _inc(counters["language"], _field(record, "language", "lang"))
     _inc(counters["framework"], _field(record, "framework"))
     _inc(counters["build_system"], _field(record, "build_system"))
-    _inc(counters["failure_type"], _field(record, "failure_type", "failure_class", "test_result", "compile_result"))
-    _inc(counters["validator"], _normalise_validator(_field(record, "validator", "verifier", "verifier_command", "final_command", "validation_commands")))
+    _inc(
+        counters["failure_type"],
+        _field(record, "failure_type", "failure_class", "test_result", "compile_result"),
+    )
+    _inc(
+        counters["validator"],
+        _normalise_validator(
+            _field(
+                record,
+                "validator",
+                "verifier",
+                "verifier_command",
+                "final_command",
+                "validation_commands",
+            )
+        ),
+    )
     _inc(counters["source_kind"], _field(record, "source_kind", "source_benchmark"))
     _inc(counters["license_bucket"], _field(record, "license_bucket", "license_gate"))
     _inc(counters["benchmark"], _field(record, "source_benchmark", "benchmark"))
     _inc(counters["repair_outcome"], _field(record, "repair_outcome", "verdict", "final_verdict"))
-    _inc(counters["safety_outcome"], _field(record, "safety_gate", "supply_chain_gate", "safety_verdict"))
+    _inc(
+        counters["safety_outcome"],
+        _field(record, "safety_gate", "supply_chain_gate", "safety_verdict"),
+    )
     _inc(counters["model_router"], _field(record, "model_router", "router_used", "model"))
     _inc(counters["corpus_type"], _field(record, "corpus_type"))
     _inc(counters["signature_key_scope"], _field(record, "signature_key_scope"))
@@ -290,14 +323,16 @@ def _trace_hash(record: dict[str, Any], path: Path, line_no: int) -> str:
         value = _field(record, key)
         if value:
             return str(value)
-    return "|".join([
-        str(_field(record, "task_id")),
-        str(_field(record, "input_hash")),
-        str(_field(record, "output_hash")),
-        str(_field(record, "mutation_type", "failure_type", "failure_class")),
-        str(path),
-        str(line_no),
-    ])
+    return "|".join(
+        [
+            str(_field(record, "task_id")),
+            str(_field(record, "input_hash")),
+            str(_field(record, "output_hash")),
+            str(_field(record, "mutation_type", "failure_type", "failure_class")),
+            str(path),
+            str(line_no),
+        ]
+    )
 
 
 def main() -> int:

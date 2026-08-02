@@ -10,6 +10,7 @@ Usage:
     python scripts/classify_eval_failures.py <path-to-eval.json>
     python scripts/classify_eval_failures.py --all     # all 8 chain tools
 """
+
 from __future__ import annotations
 
 import argparse
@@ -24,20 +25,20 @@ from pathlib import Path
 # Order matters: first match wins.
 PATTERNS = [
     # A — true ceiling: byte-exact comparison to a golden file or large literal
-    ("A_golden_file",  re.compile(r"\.golden|read_text\(\).*==|== .*read_text\(\)", re.IGNORECASE)),
-    ("A_byte_exact",   re.compile(r"assert.*\.stdout\s*==\s*[\"']", re.IGNORECASE)),
-
+    ("A_golden_file", re.compile(r"\.golden|read_text\(\).*==|== .*read_text\(\)", re.IGNORECASE)),
+    ("A_byte_exact", re.compile(r"assert.*\.stdout\s*==\s*[\"']", re.IGNORECASE)),
     # D — infrastructure / not a tool bug
-    ("D_timeout",      re.compile(r"TimeoutExpired|timeout(_method)?|Timeout|timed out", re.IGNORECASE)),
-    ("D_subprocess",   re.compile(r"CalledProcessError|subprocess\.|FileNotFoundError.*executable", re.IGNORECASE)),
-
+    ("D_timeout", re.compile(r"TimeoutExpired|timeout(_method)?|Timeout|timed out", re.IGNORECASE)),
+    (
+        "D_subprocess",
+        re.compile(r"CalledProcessError|subprocess\.|FileNotFoundError.*executable", re.IGNORECASE),
+    ),
     # B — structural format check (FIXABLE in scaffold)
-    ("B_substring",    re.compile(r'assert.*\bin\b.*(?:stdout|stderr|output)', re.IGNORECASE)),
-    ("B_line_count",   re.compile(r"assert len\(.*lines.*\)\s*==", re.IGNORECASE)),
-    ("B_column",       re.compile(r"cols\[\d+\]|fields\[\d+\]|parts\[\d+\]", re.IGNORECASE)),
-    ("B_returncode",   re.compile(r"assert\s+result\.returncode\s*==\s*(\d+)", re.IGNORECASE)),
-    ("B_regex_match",  re.compile(r"re\.(search|match|findall|fullmatch)", re.IGNORECASE)),
-
+    ("B_substring", re.compile(r"assert.*\bin\b.*(?:stdout|stderr|output)", re.IGNORECASE)),
+    ("B_line_count", re.compile(r"assert len\(.*lines.*\)\s*==", re.IGNORECASE)),
+    ("B_column", re.compile(r"cols\[\d+\]|fields\[\d+\]|parts\[\d+\]", re.IGNORECASE)),
+    ("B_returncode", re.compile(r"assert\s+result\.returncode\s*==\s*(\d+)", re.IGNORECASE)),
+    ("B_regex_match", re.compile(r"re\.(search|match|findall|fullmatch)", re.IGNORECASE)),
     # C — specific flag / specific behavior
     ("C_specific_flag", re.compile(r"--[\w-]+", re.IGNORECASE)),
 ]
@@ -111,7 +112,9 @@ def analyze(eval_json_path: Path) -> dict:
         },
         "current_score_pct": base_pct,
         "achievable_if_BCD_fixed_pct": achievable_pct,
-        "ceiling_pct": round(100.0 * (npass + tier_counts.get("A", 0)) / total, 2) if total else 0.0,
+        "ceiling_pct": round(100.0 * (npass + tier_counts.get("A", 0)) / total, 2)
+        if total
+        else 0.0,
         "tier_counts": dict(tier_counts),
         "label_counts": dict(label_counts.most_common()),
     }
@@ -120,15 +123,17 @@ def analyze(eval_json_path: Path) -> dict:
 def print_report(report: dict) -> None:
     print(f"=== {report['tool']} ===")
     t = report["totals"]
-    print(f"  tests={t['tests']}  passed={t['passed']}  failed={t['failed']}  skipped={t['skipped']}")
+    print(
+        f"  tests={t['tests']}  passed={t['passed']}  failed={t['failed']}  skipped={t['skipped']}"
+    )
     print(f"  current score: {report['current_score_pct']}%")
     print(f"  ACHIEVABLE if BCD fixed: {report['achievable_if_BCD_fixed_pct']}%")
     print(f"  REAL ceiling (A only): {report['ceiling_pct']}%")
-    print(f"  by tier:")
+    print("  by tier:")
     for tier, n in sorted(report["tier_counts"].items()):
         label = TIER_LABELS.get(tier, "?")
         print(f"    {tier}: {n:>4}  {label}")
-    print(f"  top labels:")
+    print("  top labels:")
     for label, n in list(report["label_counts"].items())[:8]:
         print(f"    {label}: {n}")
     print()
@@ -137,7 +142,9 @@ def print_report(report: dict) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("paths", nargs="*", help="eval.json paths")
-    ap.add_argument("--all", action="store_true", help="scan all factory dirs under T:/determinex-programbench")
+    ap.add_argument(
+        "--all", action="store_true", help="scan all factory dirs under T:/determinex-programbench"
+    )
     args = ap.parse_args()
 
     paths: list[Path] = []
@@ -168,9 +175,11 @@ def main() -> int:
         print("=== ROLL-UP TABLE ===")
         print(f"  {'tool':<48} {'cur':>8} {'achievable':>12} {'realmax':>10}")
         for rep in sorted(summary, key=lambda r: -r["achievable_if_BCD_fixed_pct"]):
-            print(f"  {rep['tool']:<48} {rep['current_score_pct']:>7.2f}% "
-                  f"{rep['achievable_if_BCD_fixed_pct']:>11.2f}% "
-                  f"{rep['ceiling_pct']:>9.2f}%")
+            print(
+                f"  {rep['tool']:<48} {rep['current_score_pct']:>7.2f}% "
+                f"{rep['achievable_if_BCD_fixed_pct']:>11.2f}% "
+                f"{rep['ceiling_pct']:>9.2f}%"
+            )
     return 0
 
 

@@ -6,12 +6,12 @@ candidate -> trained -> evaluated -> safety_checked -> deployed -> retired
 
 Deployment is allowed only when eval, safety, and license locks exist.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-
 
 _STATUS_ORDER = ["candidate", "trained", "evaluated", "safety_checked", "deployed", "retired"]
 
@@ -49,8 +49,14 @@ class UnitRegistry:
 
     def save(self) -> None:
         self.registry_path.parent.mkdir(parents=True, exist_ok=True)
-        payload = {"units": [unit.to_dict() for unit in sorted(self.units.values(), key=lambda u: u.unit_id)]}
-        self.registry_path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
+        payload = {
+            "units": [
+                unit.to_dict() for unit in sorted(self.units.values(), key=lambda u: u.unit_id)
+            ]
+        }
+        self.registry_path.write_text(
+            json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8"
+        )
 
     def register(self, unit: UnitSpec) -> None:
         if unit.unit_id in self.units:
@@ -91,7 +97,8 @@ class UnitRegistry:
 
     def route(self, task_type: str) -> list[UnitSpec]:
         return [
-            unit for unit in self.units.values()
+            unit
+            for unit in self.units.values()
             if unit.status == "deployed"
             and task_type in unit.allowed_tasks
             and task_type not in unit.blocked_tasks

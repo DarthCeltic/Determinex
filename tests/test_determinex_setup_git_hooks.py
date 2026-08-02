@@ -7,6 +7,7 @@ embeddings cache in sync) only ever existed as untracked files in
 tracked source of truth; install_git_hooks() copies it into .git/hooks/
 with the executable bit set.
 """
+
 from __future__ import annotations
 
 import sys

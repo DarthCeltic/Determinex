@@ -1,9 +1,9 @@
 """Records for CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_TOKENS = (
     "CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_WRITTEN",

@@ -1,4 +1,5 @@
 """Tests for TAURI_LIB_RS_COMMAND_WIRING_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -47,12 +48,14 @@ UNIFIED_PRODUCT_COMMANDS = (
     "get_proof_operator_center_milestone_dashboard_status",
 )
 
-STATUS_TOKENS = frozenset({
-    "TAURI_LIB_RS_COMMAND_WIRING_READY",
-    "TAURI_LIB_RS_COMMAND_WIRING_BLOCKED_NO_ENTRYPOINT",
-    "TAURI_LIB_RS_COMMAND_WIRING_BLOCKED_COMMAND_MISMATCH",
-    "TAURI_LIB_RS_SOURCE_MUTATION_BLOCKED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "TAURI_LIB_RS_COMMAND_WIRING_READY",
+        "TAURI_LIB_RS_COMMAND_WIRING_BLOCKED_NO_ENTRYPOINT",
+        "TAURI_LIB_RS_COMMAND_WIRING_BLOCKED_COMMAND_MISMATCH",
+        "TAURI_LIB_RS_SOURCE_MUTATION_BLOCKED",
+    }
+)
 
 
 def test_lib_rs_exists():
@@ -69,7 +72,8 @@ def test_lib_rs_registers_every_bridge_command():
     # Find the generate_handler! block.
     m = re.search(
         r"\.invoke_handler\s*\(\s*tauri::generate_handler!\s*\[(.+?)\]\s*\)",
-        src, re.DOTALL,
+        src,
+        re.DOTALL,
     )
     assert m, "could not locate tauri::generate_handler! block"
     block = m.group(1)

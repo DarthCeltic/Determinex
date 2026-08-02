@@ -23,6 +23,7 @@ The complete pre-materialised corpus is also published as a dataset for anyone w
 download rather than 200 clones; see corpus/THIRD_PARTY_NOTICES.md for what it contains and under
 which licenses.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -76,12 +77,14 @@ def load_tasks() -> list[Task]:
         commit = str(row.get("commit") or "").strip()
         if not repository or not commit:
             continue
-        tasks.append(Task(
-            task_id=str(row.get("id") or row.get("task_id") or repository),
-            repository=repository,
-            commit=commit,
-            language=str(row.get("language") or ""),
-        ))
+        tasks.append(
+            Task(
+                task_id=str(row.get("id") or row.get("task_id") or repository),
+                repository=repository,
+                commit=commit,
+                language=str(row.get("language") or ""),
+            )
+        )
     return tasks
 
 
@@ -89,16 +92,21 @@ def resolve(tasks: list[Task], name: str) -> Task | None:
     """Match a task by id, owner/repo, owner__repo, or bare repo name."""
     needle = name.strip().lower().replace("/", "__")
     for task in tasks:
-        if needle in {task.task_id.lower(), task.slug.lower(), task.short_name.lower(),
-                      task.repository.lower().replace("/", "__")}:
+        if needle in {
+            task.task_id.lower(),
+            task.slug.lower(),
+            task.short_name.lower(),
+            task.repository.lower().replace("/", "__"),
+        }:
             return task
     return None
 
 
 def _run(cmd: list[str], cwd: Path | None = None, timeout: int = 1800) -> tuple[bool, str]:
     try:
-        proc = subprocess.run(cmd, cwd=str(cwd) if cwd else None,
-                              capture_output=True, timeout=timeout)
+        proc = subprocess.run(
+            cmd, cwd=str(cwd) if cwd else None, capture_output=True, timeout=timeout
+        )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return False, f"{type(exc).__name__}: {exc}"
     out = (proc.stdout + proc.stderr).decode("utf-8", errors="replace")
@@ -122,8 +130,9 @@ def find_overrides(task: Task) -> Path | None:
     return None
 
 
-def fetch(task: Task, dest_root: Path, *, force: bool = False,
-          overlay: bool = True) -> tuple[bool, str]:
+def fetch(
+    task: Task, dest_root: Path, *, force: bool = False, overlay: bool = True
+) -> tuple[bool, str]:
     dest = dest_root / task.slug
     if dest.exists() and not force:
         return True, f"already present at {dest} (use --force to refetch)"
@@ -165,8 +174,11 @@ def fetch(task: Task, dest_root: Path, *, force: bool = False,
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="determinex corpus", description=__doc__,
-                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        prog="determinex corpus",
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_list = sub.add_parser("list", help="list the pinned tools")
@@ -177,8 +189,11 @@ def main(argv: list[str] | None = None) -> int:
     p_fetch.add_argument("--all", action="store_true", help="fetch every pinned tool")
     p_fetch.add_argument("--into", type=Path, default=DEFAULT_DEST)
     p_fetch.add_argument("--force", action="store_true", help="refetch even if present")
-    p_fetch.add_argument("--no-overlay", action="store_true",
-                         help="skip copying our compile.sh / eval_report.json in")
+    p_fetch.add_argument(
+        "--no-overlay",
+        action="store_true",
+        help="skip copying our compile.sh / eval_report.json in",
+    )
 
     args = parser.parse_args(argv)
     tasks = load_tasks()
@@ -198,8 +213,10 @@ def main(argv: list[str] | None = None) -> int:
             return 2
         task = resolve(tasks, args.tool)
         if task is None:
-            print(f"no pinned tool matching {args.tool!r}. Try: determinex corpus list",
-                  file=sys.stderr)
+            print(
+                f"no pinned tool matching {args.tool!r}. Try: determinex corpus list",
+                file=sys.stderr,
+            )
             return 2
         targets = [task]
 

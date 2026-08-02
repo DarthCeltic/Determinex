@@ -1,4 +1,5 @@
 """Tests for IDE_WORKSPACE_OPEN_FLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib

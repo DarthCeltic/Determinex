@@ -8,12 +8,12 @@ front-end can deep-link audit trails without re-running anything.
 This module defines records only. State assembly lives in
 ``repair_state_model.py``.
 """
+
 from __future__ import annotations
 
 import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDE_REPAIR_STATE_TOKENS = (
     "INTAKE_READY",
@@ -78,6 +78,7 @@ class SourceApprovalStatus(str, enum.Enum):
 @dataclass(frozen=True)
 class EvidencePointers:
     """Lock + evidence file paths the IDE can deep-link."""
+
     locks: tuple[str, ...] = field(default_factory=tuple)
     evidence_files: tuple[str, ...] = field(default_factory=tuple)
 
@@ -91,18 +92,19 @@ class EvidencePointers:
 @dataclass(frozen=True)
 class IDERepairState:
     """Flat JSON-serializable state record consumed by the IDE."""
+
     workspace: str
     trace_id: str
-    intake: str                 # IntakeStatus value
+    intake: str  # IntakeStatus value
     adapter_name: str
     build_system_id: str
-    verifier: str               # VerifierStatus value
-    model_route: str            # ModelRouteStatus value
+    verifier: str  # VerifierStatus value
+    model_route: str  # ModelRouteStatus value
     selected_model_id: str
-    patch_plan: str             # PatchPlanStatus value
-    patch_temp: str             # PatchTempStatus value
-    patch_verifier: str         # PatchVerifierStatus value
-    source_approval: str        # SourceApprovalStatus value
+    patch_plan: str  # PatchPlanStatus value
+    patch_temp: str  # PatchTempStatus value
+    patch_verifier: str  # PatchVerifierStatus value
+    source_approval: str  # SourceApprovalStatus value
     source_mutation_authorized: bool
     corpus_eligibility: str = "CORPUS_ELIGIBILITY_FALSE"
     training_eligible: bool = False

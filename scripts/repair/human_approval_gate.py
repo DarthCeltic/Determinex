@@ -24,9 +24,10 @@ which check failed.
 The gate is a pure function. It performs no I/O. It does not write to
 the original repo.
 """
+
 from __future__ import annotations
 
-from typing import Mapping
+from collections.abc import Mapping
 
 from .human_approval_record import (
     HUMAN_APPROVAL_STATUS_TOKENS,
@@ -48,13 +49,15 @@ class HumanApprovalGate:
         # 0. Trivial requirement — empty packet → REQUIRED.
         if not packet.operator or not packet.operator.strip():
             return self._blocked(
-                packet, trace,
+                packet,
+                trace,
                 "SOURCE_MUTATION_BLOCKED_OPERATOR_EMPTY",
                 "approval_packet.operator is empty",
             )
         if not packet.approval_token or not packet.approval_token.strip():
             return self._blocked(
-                packet, trace,
+                packet,
+                trace,
                 "SOURCE_MUTATION_BLOCKED_MISSING_APPROVAL",
                 "approval_packet.approval_token is empty",
             )
@@ -62,7 +65,8 @@ class HumanApprovalGate:
         # 1. trace_id must match.
         if packet.trace_id != trace.trace_id:
             return self._blocked(
-                packet, trace,
+                packet,
+                trace,
                 "SOURCE_MUTATION_BLOCKED_TRACE_ID_MISMATCH",
                 f"packet.trace_id={packet.trace_id!r} != trace.trace_id={trace.trace_id!r}",
             )
@@ -70,7 +74,8 @@ class HumanApprovalGate:
         # 2. workspace identity must match.
         if packet.workspace_identity != trace.workspace:
             return self._blocked(
-                packet, trace,
+                packet,
+                trace,
                 "SOURCE_MUTATION_BLOCKED_REPO_MISMATCH",
                 "packet.workspace_identity != trace.workspace",
             )
@@ -81,13 +86,15 @@ class HumanApprovalGate:
         observed_hash = diff_hash(observed_diff) if observed_diff else ""
         if not observed_hash:
             return self._blocked(
-                packet, trace,
+                packet,
+                trace,
                 "SOURCE_MUTATION_BLOCKED_DIFF_MISMATCH",
                 "trace.safe_patch_result has no unified_diff to compare against",
             )
         if packet.diff_sha256 != observed_hash:
             return self._blocked(
-                packet, trace,
+                packet,
+                trace,
                 "SOURCE_MUTATION_BLOCKED_DIFF_MISMATCH",
                 f"packet.diff_sha256={packet.diff_sha256[:12]}... != observed={observed_hash[:12]}...",
             )
@@ -96,7 +103,8 @@ class HumanApprovalGate:
         observed_verifier = str(spr.get("verifier_status") or "")
         if observed_verifier != "PATCH_VERIFIER_PASSED_TEMP_ONLY":
             return self._blocked(
-                packet, trace,
+                packet,
+                trace,
                 "SOURCE_MUTATION_BLOCKED_VERIFIER_NOT_PASSED",
                 f"trace.safe_patch_result.verifier_status={observed_verifier!r}",
             )
@@ -105,7 +113,8 @@ class HumanApprovalGate:
         #    — anything else is a stale or wrong trace.
         if trace.final_status != "TRACE_VERIFIER_PASSED_TEMP_ONLY":
             return self._blocked(
-                packet, trace,
+                packet,
+                trace,
                 "SOURCE_MUTATION_BLOCKED_STALE_TRACE",
                 f"trace.final_status={trace.final_status!r}",
             )
@@ -113,7 +122,8 @@ class HumanApprovalGate:
         # 6. Trace's source-preservation must have been confirmed at trace time.
         if trace.source_unchanged_confirmed is not True:
             return self._blocked(
-                packet, trace,
+                packet,
+                trace,
                 "SOURCE_MUTATION_BLOCKED_STALE_TRACE",
                 "trace.source_unchanged_confirmed != True",
             )
@@ -129,8 +139,10 @@ class HumanApprovalGate:
             operator=packet.operator,
             fixture=packet.fixture,
             source_mutation_authorized=True,
-            notes=("fixture acceptance — IDE/CLI consumer is still responsible "
-                   "for the actual write under its own audited path",),
+            notes=(
+                "fixture acceptance — IDE/CLI consumer is still responsible "
+                "for the actual write under its own audited path",
+            ),
         )
 
     @staticmethod

@@ -10,11 +10,12 @@ Fixture-only. Never spawns a model process, never opens a socket,
 never modifies workspace source. Every stage's response carries
 ``source_mutation_authorized=False`` and ``training_eligible=False``.
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -29,20 +30,23 @@ from .frontend_end_to_end_repair_flow_smoke_record import (  # noqa: E402
     FrontendStage,
 )
 
-
 # Tuple of (panel-name, tauri-command, default-args).
 # Order mirrors how the visible TSX panels would call the bridge.
 _VISIBLE_PANEL_SEQUENCE: tuple[tuple[str, str, dict], ...] = (
-    ("WorkspaceStatusPanel",       "open_workspace",              {}),
-    ("WorkspaceStatusPanel",       "get_workspace_status",        {}),
-    ("ModelRoutePanel",            "get_model_route_status",      {"task_class": "BUILD_DIAGNOSIS"}),
-    ("DiagnoseAndPatchPlanPanel",  "diagnose_dry_run",            {"task_class": "BUILD_DIAGNOSIS"}),
-    ("DiagnoseAndPatchPlanPanel",  "diagnose_live_opt_in",        {"task_class": "BUILD_DIAGNOSIS", "opt_in": True}),
-    ("DiagnoseAndPatchPlanPanel",  "generate_patch_plan",         {"opt_in": True}),
-    ("TempVerifyPanel",            "verify_temp_patch",           {}),
-    ("HumanApprovalPanel",         "get_human_approval_packet",   {}),
-    ("SourceApplyDryRunPanel",     "source_apply_dry_run",        {}),
-    ("EvidenceViewerPanel",        "get_repair_flow_state",       {}),
+    ("WorkspaceStatusPanel", "open_workspace", {}),
+    ("WorkspaceStatusPanel", "get_workspace_status", {}),
+    ("ModelRoutePanel", "get_model_route_status", {"task_class": "BUILD_DIAGNOSIS"}),
+    ("DiagnoseAndPatchPlanPanel", "diagnose_dry_run", {"task_class": "BUILD_DIAGNOSIS"}),
+    (
+        "DiagnoseAndPatchPlanPanel",
+        "diagnose_live_opt_in",
+        {"task_class": "BUILD_DIAGNOSIS", "opt_in": True},
+    ),
+    ("DiagnoseAndPatchPlanPanel", "generate_patch_plan", {"opt_in": True}),
+    ("TempVerifyPanel", "verify_temp_patch", {}),
+    ("HumanApprovalPanel", "get_human_approval_packet", {}),
+    ("SourceApplyDryRunPanel", "source_apply_dry_run", {}),
+    ("EvidenceViewerPanel", "get_repair_flow_state", {}),
 )
 
 
@@ -70,13 +74,15 @@ def run_smoke(
         sma = bool(resp.get("source_mutation_authorized") or False)
         te = bool(resp.get("training_eligible") or False)
         status = str(resp.get("status") or "")
-        stages.append(FrontendStage(
-            panel=panel,
-            tauri_command=cmd,
-            status=status,
-            source_mutation_authorized=sma,
-            training_eligible=te,
-        ))
+        stages.append(
+            FrontendStage(
+                panel=panel,
+                tauri_command=cmd,
+                status=status,
+                source_mutation_authorized=sma,
+                training_eligible=te,
+            )
+        )
         if status and status not in statuses_seen:
             statuses_seen.append(status)
 

@@ -1,4 +1,5 @@
 """Tests for REAL_PATCH_PLAN_QUARANTINE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -24,14 +25,16 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "REAL_PATCH_PLAN_QUARANTINE_LOCK
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "real_patch_plan_quarantine"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "REAL_PATCH_PLAN_QUARANTINED",
-    "REAL_PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
-    "REAL_PATCH_PLAN_BLOCKED_PATH_ESCAPE",
-    "REAL_PATCH_PLAN_BLOCKED_UNSUPPORTED_OPERATION",
-    "REAL_PATCH_PLAN_BLOCKED_NO_MODEL",
-    "REAL_PATCH_PLAN_BLOCKED_NOT_OPTED_IN",
-})
+EXPECTED = frozenset(
+    {
+        "REAL_PATCH_PLAN_QUARANTINED",
+        "REAL_PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
+        "REAL_PATCH_PLAN_BLOCKED_PATH_ESCAPE",
+        "REAL_PATCH_PLAN_BLOCKED_UNSUPPORTED_OPERATION",
+        "REAL_PATCH_PLAN_BLOCKED_NO_MODEL",
+        "REAL_PATCH_PLAN_BLOCKED_NOT_OPTED_IN",
+    }
+)
 
 
 def _admitted():
@@ -40,7 +43,8 @@ def _admitted():
         provider="ollama",
         model_id="determinex-engineer-v11-dsl",
         task_classes_admitted=("PATCH_GENERATION",),
-        dry_run_default=True, opt_in=True,
+        dry_run_default=True,
+        opt_in=True,
     )
 
 
@@ -60,7 +64,9 @@ def test_status_tokens_exact():
 def test_admission_required(tmp_path):
     r = quarantine(
         [{"operation": "replace_file", "path": "src/x.py", "new_content": "x"}],
-        admission=None, workspace=tmp_path, opt_in=True,
+        admission=None,
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_BLOCKED_NO_MODEL"
     assert r.source_mutation_authorized is False
@@ -69,7 +75,9 @@ def test_admission_required(tmp_path):
 def test_blocked_admission_refused(tmp_path):
     r = quarantine(
         [{"operation": "replace_file", "path": "src/x.py", "new_content": "x"}],
-        admission=_blocked_admission(), workspace=tmp_path, opt_in=True,
+        admission=_blocked_admission(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_BLOCKED_NO_MODEL"
 
@@ -77,7 +85,9 @@ def test_blocked_admission_refused(tmp_path):
 def test_not_opted_in_blocked(tmp_path):
     r = quarantine(
         [{"operation": "replace_file", "path": "src/x.py", "new_content": "x"}],
-        admission=_admitted(), workspace=tmp_path, opt_in=False,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=False,
     )
     assert r.decision == "REAL_PATCH_PLAN_BLOCKED_NOT_OPTED_IN"
 
@@ -85,7 +95,9 @@ def test_not_opted_in_blocked(tmp_path):
 def test_valid_entry_quarantined(tmp_path):
     r = quarantine(
         [{"operation": "replace_file", "path": "src/lib.py", "new_content": "x=2"}],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_QUARANTINED"
     assert r.is_quarantined
@@ -99,7 +111,9 @@ def test_valid_entry_quarantined(tmp_path):
 def test_absolute_path_rejected_as_escape(tmp_path):
     r = quarantine(
         [{"operation": "replace_file", "path": "/etc/passwd", "new_content": "x"}],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_BLOCKED_PATH_ESCAPE"
 
@@ -107,7 +121,9 @@ def test_absolute_path_rejected_as_escape(tmp_path):
 def test_drive_path_rejected_as_escape(tmp_path):
     r = quarantine(
         [{"operation": "replace_file", "path": "C:\\Windows\\x", "new_content": "x"}],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_BLOCKED_PATH_ESCAPE"
 
@@ -115,7 +131,9 @@ def test_drive_path_rejected_as_escape(tmp_path):
 def test_dotdot_path_rejected_as_escape(tmp_path):
     r = quarantine(
         [{"operation": "replace_file", "path": "../../etc/passwd", "new_content": "x"}],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_BLOCKED_PATH_ESCAPE"
 
@@ -123,7 +141,9 @@ def test_dotdot_path_rejected_as_escape(tmp_path):
 def test_unsupported_operation_rejected(tmp_path):
     r = quarantine(
         [{"operation": "rm_rf", "path": "src/lib.py", "new_content": ""}],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_BLOCKED_UNSUPPORTED_OPERATION"
 
@@ -131,16 +151,19 @@ def test_unsupported_operation_rejected(tmp_path):
 def test_missing_operation_is_schema_invalid(tmp_path):
     r = quarantine(
         [{"path": "src/lib.py", "new_content": "x"}],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_BLOCKED_SCHEMA_INVALID"
 
 
 def test_nul_byte_in_content_rejected(tmp_path):
     r = quarantine(
-        [{"operation": "replace_file", "path": "src/lib.py",
-          "new_content": "ok\x00bytes"}],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        [{"operation": "replace_file", "path": "src/lib.py", "new_content": "ok\x00bytes"}],
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_BLOCKED_SCHEMA_INVALID"
 
@@ -151,7 +174,9 @@ def test_mixed_accept_and_reject_quarantines_overall(tmp_path):
             {"operation": "replace_file", "path": "src/lib.py", "new_content": "ok"},
             {"operation": "rm_rf", "path": "src/x.py", "new_content": ""},
         ],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     # Has accepted entries → overall QUARANTINED
     assert r.decision == "REAL_PATCH_PLAN_QUARANTINED"
@@ -165,7 +190,9 @@ def test_no_filesystem_write(tmp_path):
     target.write_text("original\n", encoding="utf-8")
     quarantine(
         [{"operation": "replace_file", "path": "src/lib.py", "new_content": "EDITED"}],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     assert target.read_text(encoding="utf-8") == "original\n"
 
@@ -173,7 +200,9 @@ def test_no_filesystem_write(tmp_path):
 def test_record_serializes_safely(tmp_path):
     r = quarantine(
         [{"operation": "replace_file", "path": "a/b.py", "new_content": "x"}],
-        admission=_admitted(), workspace=tmp_path, opt_in=True,
+        admission=_admitted(),
+        workspace=tmp_path,
+        opt_in=True,
     )
     d = r.to_dict()
     json.dumps(d)
@@ -185,8 +214,14 @@ def test_record_serializes_safely(tmp_path):
 
 def test_module_does_not_open_network(tmp_path):
     src = Path(mod.__file__).read_text(encoding="utf-8")
-    for forbidden in ("requests", "httpx", "urllib.request",
-                      "socket.connect", "subprocess.Popen", "subprocess.run"):
+    for forbidden in (
+        "requests",
+        "httpx",
+        "urllib.request",
+        "socket.connect",
+        "subprocess.Popen",
+        "subprocess.run",
+    ):
         assert forbidden not in src
 
 

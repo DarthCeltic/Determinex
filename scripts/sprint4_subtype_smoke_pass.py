@@ -22,11 +22,10 @@ This smoke gate adds family/subtype-specific behavioral checks:
 Reads:  logs/mass_run_v2/sprint4_bulk_generation.json
 Writes: logs/mass_run_v2/sprint4_subtype_smoke_pass.json
 """
+
 from __future__ import annotations
 
 import json
-import os
-import re
 import subprocess
 import sys
 import tempfile
@@ -35,14 +34,21 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
-from programbench_classify_subtype import classify  # type: ignore[import-not-found]
 
 
-def _run(main_py: Path, args: list[str], stdin_data: str | None = None,
-         timeout: int = 10, cwd: Path | None = None) -> subprocess.CompletedProcess:
+def _run(
+    main_py: Path,
+    args: list[str],
+    stdin_data: str | None = None,
+    timeout: int = 10,
+    cwd: Path | None = None,
+) -> subprocess.CompletedProcess:
     return subprocess.run(
         [sys.executable, str(main_py), *args],
-        input=stdin_data, capture_output=True, text=True, timeout=timeout,
+        input=stdin_data,
+        capture_output=True,
+        text=True,
+        timeout=timeout,
         cwd=str(cwd) if cwd else None,
     )
 
@@ -50,6 +56,7 @@ def _run(main_py: Path, args: list[str], stdin_data: str | None = None,
 # ──────────────────────────────────────────────────────────────────────────
 # Subtype-specific behavioral probes
 # ──────────────────────────────────────────────────────────────────────────
+
 
 def smoke_ls_listing(main_py: Path) -> tuple[bool, str]:
     with tempfile.TemporaryDirectory() as td:
@@ -77,7 +84,9 @@ def smoke_du_tree(main_py: Path) -> tuple[bool, str]:
         if r.returncode != 0:
             return False, f"rc={r.returncode}"
         # Expect a tab-separated <size>\t<path>-shaped output
-        if "\t" in r.stdout and ("big.txt" in r.stdout or td.replace("\\", "/") in r.stdout.replace("\\", "/")):
+        if "\t" in r.stdout and (
+            "big.txt" in r.stdout or td.replace("\\", "/") in r.stdout.replace("\\", "/")
+        ):
             return True, "OK"
         return False, f"no <size>\\t<path> output: {r.stdout[:120]!r}"
 
@@ -205,18 +214,18 @@ def smoke_default(main_py: Path) -> tuple[bool, str]:
 
 # Routing table: (family, subtype) → probe function
 _PROBES: dict[str, callable] = {
-    "shell_coreutils.ls_listing":            smoke_ls_listing,
-    "shell_coreutils.du_tree":               smoke_du_tree,
-    "shell_coreutils.table_filter":          smoke_table_filter,
-    "shell_coreutils":                       smoke_shell_coreutils_root,
-    "search_grep":                           smoke_search_grep_root,
-    "search_grep.code_rewriter":             smoke_code_rewriter,
-    "text_diff":                             smoke_text_diff,
-    "file_renamers":                         smoke_file_renamers,
-    "formatters":                            smoke_formatters,
-    "git_wrappers.log_graph":                smoke_git_log_or_changelog,
-    "git_wrappers.changelog_generator":      smoke_git_log_or_changelog,
-    "git_wrappers":                          smoke_git_log_or_changelog,
+    "shell_coreutils.ls_listing": smoke_ls_listing,
+    "shell_coreutils.du_tree": smoke_du_tree,
+    "shell_coreutils.table_filter": smoke_table_filter,
+    "shell_coreutils": smoke_shell_coreutils_root,
+    "search_grep": smoke_search_grep_root,
+    "search_grep.code_rewriter": smoke_code_rewriter,
+    "text_diff": smoke_text_diff,
+    "file_renamers": smoke_file_renamers,
+    "formatters": smoke_formatters,
+    "git_wrappers.log_graph": smoke_git_log_or_changelog,
+    "git_wrappers.changelog_generator": smoke_git_log_or_changelog,
+    "git_wrappers": smoke_git_log_or_changelog,
 }
 
 
@@ -247,24 +256,37 @@ def main() -> int:
         key = subtype if subtype in _PROBES else family
         probe = _PROBES.get(key)
         if probe is None:
-            results.append({"instance": instance, "family": family, "subtype": subtype,
-                            "status": "NO_PROBE", "reason": f"no probe for '{key}'"})
+            results.append(
+                {
+                    "instance": instance,
+                    "family": family,
+                    "subtype": subtype,
+                    "status": "NO_PROBE",
+                    "reason": f"no probe for '{key}'",
+                }
+            )
             counts["NO_PROBE"] += 1
             continue
         try:
             ok, reason = probe(main_py)
         except Exception as ex:
             ok, reason = False, f"probe crashed: {type(ex).__name__}: {ex}"
-        results.append({
-            "instance": instance, "family": family, "subtype": subtype,
-            "probe": key, "status": "OK" if ok else "FAIL", "reason": reason,
-        })
+        results.append(
+            {
+                "instance": instance,
+                "family": family,
+                "subtype": subtype,
+                "probe": key,
+                "status": "OK" if ok else "FAIL",
+                "reason": reason,
+            }
+        )
         counts["OK" if ok else "FAIL"] += 1
 
     elapsed = time.time() - t0
-    print(f"=== summary ===")
+    print("=== summary ===")
     print(f"  total probed:       {len(results)}")
-    print(f"  wall time:          {elapsed:.1f}s ({elapsed/max(len(results),1):.3f}s/tool)")
+    print(f"  wall time:          {elapsed:.1f}s ({elapsed / max(len(results), 1):.3f}s/tool)")
     print(f"  ✓ OK                {counts['OK']}")
     print(f"  ✗ FAIL              {counts['FAIL']}")
     print(f"  ◦ NO_PROBE          {counts['NO_PROBE']}")
@@ -275,23 +297,29 @@ def main() -> int:
         print(f"  --- FAIL ({counts['FAIL']}) ---")
         for r in results:
             if r["status"] == "FAIL":
-                print(f"    {r['instance']:<55} {r.get('probe','?'):<30}  {r.get('reason','')}")
+                print(f"    {r['instance']:<55} {r.get('probe', '?'):<30}  {r.get('reason', '')}")
     if counts["NO_PROBE"]:
         no_probe_counts: dict[str, int] = {}
         for r in results:
             if r["status"] == "NO_PROBE":
                 k = r.get("family", "?")
                 no_probe_counts[k] = no_probe_counts.get(k, 0) + 1
-        print(f"\n  --- NO_PROBE (need probe per family) ---")
+        print("\n  --- NO_PROBE (need probe per family) ---")
         for k, n in sorted(no_probe_counts.items(), key=lambda x: -x[1]):
             print(f"    {n:>3}  family={k}")
 
     out_log = ROOT / "logs" / "mass_run_v2" / "sprint4_subtype_smoke_pass.json"
-    out_log.write_text(json.dumps({
-        "records": results,
-        "counts": counts,
-        "wall_s": round(elapsed, 1),
-    }, indent=2), encoding="utf-8")
+    out_log.write_text(
+        json.dumps(
+            {
+                "records": results,
+                "counts": counts,
+                "wall_s": round(elapsed, 1),
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     print(f"\n  log: {out_log}")
     return 0 if counts["FAIL"] == 0 else 1
 

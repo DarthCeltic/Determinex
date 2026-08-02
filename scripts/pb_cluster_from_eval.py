@@ -24,6 +24,7 @@ Usage:
     python scripts/pb_cluster_from_eval.py <slug> <eval_json_path> \
         --out-dir logs/programbench_failure_inventory
 """
+
 from __future__ import annotations
 
 import argparse
@@ -32,7 +33,6 @@ import re
 from collections import Counter
 from pathlib import Path
 from typing import Any
-
 
 # ----------------------------- categorization -------------------------------
 
@@ -44,7 +44,8 @@ def _extract_completed_process(msg: str) -> dict[str, Any]:
         r"CompletedProcess\(\s*args=(\[[^\]]*\])\s*,\s*returncode=(\-?\d+)"
         r"(?:\s*,\s*stdout=(b?(?:[\"'][^\"']*[\"']|None)))?"
         r"(?:\s*,\s*stderr=(b?(?:[\"'][^\"']*[\"']|None)))?\s*\)",
-        msg, re.DOTALL,
+        msg,
+        re.DOTALL,
     )
     if cp:
         out["args"] = cp.group(1)[:300]
@@ -81,8 +82,18 @@ def _classify(test_name: str, msg: str, cp: dict[str, Any]) -> str:
         return "version"
 
     # --- argparse / help ---
-    if any(k in n for k in ("test_help", "help_flag", "help_text", "help_output",
-                            "help_long", "help_short", "help_command")):
+    if any(
+        k in n
+        for k in (
+            "test_help",
+            "help_flag",
+            "help_text",
+            "help_output",
+            "help_long",
+            "help_short",
+            "help_command",
+        )
+    ):
         return "argparse/help"
     if "usage:" in m and (" == " in m or "assert " in m):
         return "argparse/help"
@@ -300,17 +311,19 @@ def cluster_eval(slug: str, eval_json_path: Path) -> dict[str, Any]:
         expected, actual = _expected_actual(msg, cp)
         signature = _signature(name, msg, cp)
         category = _classify(name, msg, cp)
-        enriched.append({
-            "name": name,
-            "branch": branch,
-            "status": "failure",
-            "category": category,
-            "signature": signature,
-            "expected": expected,
-            "actual": actual,
-            "message_head": msg[:300],
-            "returncode": cp.get("returncode"),
-        })
+        enriched.append(
+            {
+                "name": name,
+                "branch": branch,
+                "status": "failure",
+                "category": category,
+                "signature": signature,
+                "expected": expected,
+                "actual": actual,
+                "message_head": msg[:300],
+                "returncode": cp.get("returncode"),
+            }
+        )
 
     # Cluster by (category, signature) tuple - preserves signature granularity inside category.
     cluster_map: dict[tuple[str, str], list[dict[str, Any]]] = {}
@@ -320,26 +333,30 @@ def cluster_eval(slug: str, eval_json_path: Path) -> dict[str, Any]:
 
     clusters: list[dict[str, Any]] = []
     for (category, signature), items in cluster_map.items():
-        clusters.append({
-            "category": category,
-            "signature": signature,
-            "count": len(items),
-            "branches": sorted({i["branch"] for i in items if i["branch"]}),
-            "sample_tests": [
-                {"name": i["name"], "branch": i["branch"], "message_head": i["message_head"][:240],
-                 "expected": i["expected"], "actual": i["actual"]}
-                for i in items[:6]
-            ],
-            "all_test_names": [i["name"] for i in items],
-        })
+        clusters.append(
+            {
+                "category": category,
+                "signature": signature,
+                "count": len(items),
+                "branches": sorted({i["branch"] for i in items if i["branch"]}),
+                "sample_tests": [
+                    {
+                        "name": i["name"],
+                        "branch": i["branch"],
+                        "message_head": i["message_head"][:240],
+                        "expected": i["expected"],
+                        "actual": i["actual"],
+                    }
+                    for i in items[:6]
+                ],
+                "all_test_names": [i["name"] for i in items],
+            }
+        )
     clusters.sort(key=lambda c: (-c["count"], c["category"]))
 
     # Category totals
     cat_totals: Counter[str] = Counter(f["category"] for f in enriched)
-    by_category = [
-        {"category": cat, "count": n}
-        for cat, n in cat_totals.most_common()
-    ]
+    by_category = [{"category": cat, "count": n} for cat, n in cat_totals.most_common()]
 
     branches = sorted({f["branch"] for f in enriched if f["branch"]})
 
@@ -386,9 +403,11 @@ def write_outputs(report: dict[str, Any], out_dir: Path) -> tuple[Path, Path]:
 
     c = report["counts"]
     md.append("")
-    md.append(f"**Counts:** passed={c['passed']}  failed={c['failed']}  skipped={c['skipped']}  "
-              f"not_run={c['not_run']}  errored={c['errored']}  runnable={c['runnable']}  total={c['total']}")
-    md.append(f"**Executable hash (16):** `{report.get('executable_hash','')[:16]}`")
+    md.append(
+        f"**Counts:** passed={c['passed']}  failed={c['failed']}  skipped={c['skipped']}  "
+        f"not_run={c['not_run']}  errored={c['errored']}  runnable={c['runnable']}  total={c['total']}"
+    )
+    md.append(f"**Executable hash (16):** `{report.get('executable_hash', '')[:16]}`")
     if report.get("test_branches"):
         md.append(f"**Test branches:** {len(report['test_branches'])}")
     md.append("")
@@ -454,7 +473,9 @@ def main() -> int:
     if report.get("error"):
         return 1
     c = report["counts"]
-    print(f"  passed={c['passed']}  failed={c['failed']}  runnable={c['runnable']}  clusters={len(report['clusters'])}")
+    print(
+        f"  passed={c['passed']}  failed={c['failed']}  runnable={c['runnable']}  clusters={len(report['clusters'])}"
+    )
     for row in report["by_category"][:8]:
         print(f"  - {row['category']:<20s} {row['count']}")
     return 0

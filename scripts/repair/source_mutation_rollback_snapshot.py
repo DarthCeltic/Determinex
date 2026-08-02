@@ -9,6 +9,7 @@ Source mutation is NOT applied by this lock. It produces the
 snapshot the next rung will roll back to on post-apply verifier
 failure.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -91,6 +92,7 @@ def take_snapshot(
 
     # CLAUDE-AUTH-009 remediation: refuse workspaces containing symlinks.
     from . import symlink_policy as _symlink_policy
+
     symlinks = _symlink_policy.find_symlinks(ws)
     if symlinks:
         return _blocked(
@@ -139,9 +141,7 @@ def take_snapshot(
             diff_hash=approval.diff_hash,
             approval_ref=approval.decision,
             verifier_ref=temp_verify.verifier_status,
-            note=(
-                f"workspace hash {pre_hash} != expected {expected_pre_apply_source_hash}"
-            ),
+            note=(f"workspace hash {pre_hash} != expected {expected_pre_apply_source_hash}"),
         )
 
     if snap_path.exists():

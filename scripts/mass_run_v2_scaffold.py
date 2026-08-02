@@ -22,7 +22,9 @@ After scaffolding, run base eval:
 Iteration cycle (between runs): edit PYTHON_TEMPLATE in this file, re-run this
 script (will overwrite scaffolds), re-eval. Two iterations planned.
 """
+
 from __future__ import annotations
+
 import json
 import os
 import sys
@@ -32,10 +34,12 @@ DETERMINEX_ROOT = Path(__file__).resolve().parents[1]
 AUDIT_PATH = DETERMINEX_ROOT / "corpus" / "programbench" / "_strategy" / "_residual_audit.json"
 # OUTPUT_ROOT defaults to the base dir but can be overridden so iter 1 / iter 2
 # land in their own dirs (so the previous phase's submissions stay pristine).
-OUTPUT_ROOT = Path(os.environ.get(
-    "DETERMINEX_PB_SCAFFOLD_OUT",
-    "T:/determinex-programbench/mass_run_v2_base",
-))
+OUTPUT_ROOT = Path(
+    os.environ.get(
+        "DETERMINEX_PB_SCAFFOLD_OUT",
+        "T:/determinex-programbench/mass_run_v2_base",
+    )
+)
 
 
 PYTHON_TEMPLATE = '''#!/usr/bin/env python3
@@ -297,7 +301,8 @@ def main():
     tasks_file = OUTPUT_ROOT / "_TASKS.txt"
     tasks_file.write_text(
         "\n".join(t["instance_id"] for t in inscope) + "\n",
-        encoding="utf-8", newline="\n",
+        encoding="utf-8",
+        newline="\n",
     )
     print(f"[scaffold] tasks file: {tasks_file}")
 

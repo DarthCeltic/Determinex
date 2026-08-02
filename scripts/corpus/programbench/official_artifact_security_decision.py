@@ -24,11 +24,19 @@ from corpus.programbench.upstream_artifact_authority_recheck_record import (
 
 class OfficialArtifactSecurityDecisionStatus(str, Enum):
     OFFICIAL_ARTIFACT_SECURITY_DECISION_WRITTEN = "OFFICIAL_ARTIFACT_SECURITY_DECISION_WRITTEN"
-    OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED = "OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED"
-    OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_POLICY_EXCEPTION = "OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_POLICY_EXCEPTION"
-    OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_STRONGER_SANDBOX = "OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_STRONGER_SANDBOX"
+    OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED = (
+        "OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED"
+    )
+    OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_POLICY_EXCEPTION = (
+        "OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_POLICY_EXCEPTION"
+    )
+    OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_STRONGER_SANDBOX = (
+        "OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_STRONGER_SANDBOX"
+    )
     OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED = "OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED"
-    OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK = "OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK"
+    OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK = (
+        "OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK"
+    )
     CACHE_READY_FALSE = "CACHE_READY_FALSE"
     EXECUTABLE_FALSE = "EXECUTABLE_FALSE"
     TRAINING_INELIGIBLE = "TRAINING_INELIGIBLE"
@@ -53,7 +61,9 @@ class ProgramBenchOfficialArtifactSecurityDecision:
                 decision=OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK.value,
                 recheck_path=path,
                 recheck=recheck,
-                statuses=[OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK.value],
+                statuses=[
+                    OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK.value
+                ],
                 reasons=["upstream_artifact_authority_recheck_missing_or_invalid"],
             )
             return self._write(record)
@@ -119,12 +129,20 @@ class ProgramBenchOfficialArtifactSecurityDecision:
             upstream_authority_recheck=_rel(self.config.root, recheck_path),
             security_findings={
                 "decision_statuses": list(dict.fromkeys(statuses)),
-                "upstream_benchmark_artifact_authority": recheck.get("upstream_benchmark_artifact_authority"),
+                "upstream_benchmark_artifact_authority": recheck.get(
+                    "upstream_benchmark_artifact_authority"
+                ),
                 "rebuild_provenance_authority": recheck.get("rebuild_provenance_authority"),
                 "remediation_authority": recheck.get("remediation_authority"),
                 "execution_security_policy": recheck.get("execution_security_policy"),
-                "scan_status": (recheck.get("verification") or {}).get("scan_status") if isinstance(recheck.get("verification"), dict) else "",
-                "hydration_policy_result": (recheck.get("verification") or {}).get("hydration_policy_result") if isinstance(recheck.get("verification"), dict) else "",
+                "scan_status": (recheck.get("verification") or {}).get("scan_status")
+                if isinstance(recheck.get("verification"), dict)
+                else "",
+                "hydration_policy_result": (recheck.get("verification") or {}).get(
+                    "hydration_policy_result"
+                )
+                if isinstance(recheck.get("verification"), dict)
+                else "",
                 "official_artifact_metadata_only": decision
                 in {
                     OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED.value,
@@ -133,7 +151,8 @@ class ProgramBenchOfficialArtifactSecurityDecision:
                 },
             },
             authorization={
-                "metadata_only_admitted": decision != OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK.value,
+                "metadata_only_admitted": decision
+                != OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK.value,
                 "security_policy_exception_granted": False,
                 "stronger_sandbox_approved": False,
                 "docker_pull_authorized": False,
@@ -150,7 +169,9 @@ class ProgramBenchOfficialArtifactSecurityDecision:
         )
 
     def _write(self, record: dict[str, Any]) -> dict[str, Any]:
-        path = write_official_artifact_security_decision_record(record, self._resolve(self.config.output_dir))
+        path = write_official_artifact_security_decision_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _resolve(self, path: Path) -> Path:
@@ -173,10 +194,16 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Decide official ProgramBench artifact security admission after authority recheck.")
+    parser = argparse.ArgumentParser(
+        description="Decide official ProgramBench artifact security admission after authority recheck."
+    )
     parser.add_argument("upstream_authority_recheck", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_official_artifact_security_decisions"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_official_artifact_security_decisions"),
+    )
     args = parser.parse_args()
     result = ProgramBenchOfficialArtifactSecurityDecision(
         OfficialArtifactSecurityDecisionConfig(root=args.root, output_dir=args.output_dir)

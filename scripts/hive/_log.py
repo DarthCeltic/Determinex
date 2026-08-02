@@ -27,17 +27,20 @@ Stdlib logging compatibility:
     stdlib `logging.getLogger("hive")` still works — structlog wraps the stdlib
     handler so existing callsites that haven't been updated keep emitting events.
 """
+
 from __future__ import annotations
 
 import logging
 import os
 import sys
 import threading
+from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Any, Generator
+from typing import Any
 
 try:
     import structlog
+
     _STRUCTLOG_AVAILABLE = True
 except ImportError:
     _STRUCTLOG_AVAILABLE = False
@@ -95,6 +98,7 @@ def bound_context(**kwargs: Any) -> Generator[None, None, None]:
 
 # ── Structlog configuration ───────────────────────────────────────────────────
 
+
 def _configure_structlog() -> None:
     """Configure structlog once at import time."""
     if not _STRUCTLOG_AVAILABLE:
@@ -135,9 +139,7 @@ def _configure_structlog() -> None:
     )
 
 
-def _inject_context(
-    logger: Any, method: str, event_dict: dict[str, Any]
-) -> dict[str, Any]:
+def _inject_context(logger: Any, method: str, event_dict: dict[str, Any]) -> dict[str, Any]:
     """Structlog processor: merge thread-local session context into every event."""
     ctx = _get_ctx()
     for k, v in ctx.items():
@@ -149,6 +151,7 @@ _configure_structlog()
 
 
 # ── Public API ────────────────────────────────────────────────────────────────
+
 
 def get_logger(name: str = "hive") -> Any:
     """Return a structured logger bound to `name`.

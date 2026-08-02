@@ -1,4 +1,5 @@
 """Tests for IDE_TEMP_VERIFY_FLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -70,9 +69,12 @@ def _seed(tmp_path):
 
 def _admission():
     inv = LocalModelInventory.of(sorted(CURRENT_MODEL_IDS))
-    gate = LiveModelAdmissionGate(config=LiveModelAdmissionConfig(
-        mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=True,
-    ))
+    gate = LiveModelAdmissionGate(
+        config=LiveModelAdmissionConfig(
+            mode=LiveAdmissionMode.OPT_IN_LIVE,
+            opt_in_live=True,
+        )
+    )
     candidate = LocalModelCandidate(
         model_id="determinex-engineer-v11-dsl",
         provider=ModelProvider.OLLAMA.value,
@@ -80,7 +82,9 @@ def _admission():
         supported_task_classes=(TaskClass.PATCH_GENERATION.value,),
     )
     return gate.evaluate(
-        candidate, TaskClass.PATCH_GENERATION, inv,
+        candidate,
+        TaskClass.PATCH_GENERATION,
+        inv,
         ModelRouter(inventory=inv).route(TaskClass.PATCH_GENERATION, mode=RouterMode.LIVE),
     )
 
@@ -88,7 +92,8 @@ def _admission():
 def _quarantine(ws, content):
     return LivePatchPlanQuarantine().quarantine(
         [{"operation": "replace_file", "path": "src/lib.py", "new_content": content}],
-        admission=_admission(), workspace=ws,
+        admission=_admission(),
+        workspace=ws,
     )
 
 
@@ -127,7 +132,8 @@ def test_no_plan_blocks(tmp_path):
     ws = _seed(tmp_path)
     plan = LivePatchPlanQuarantine().quarantine(
         [{"operation": "delete_file", "path": "x", "new_content": ""}],
-        admission=_admission(), workspace=ws,
+        admission=_admission(),
+        workspace=ws,
     )
     rec = IDETempVerifyFlow().run(plan, temp_root=tmp_path / "tmp")
     assert rec.decision == "IDE_TEMP_VERIFY_BLOCKED_NO_PLAN"

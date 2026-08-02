@@ -35,15 +35,16 @@ if hasattr(sys.stdout, "reconfigure"):
 logging.basicConfig(level=logging.INFO, format="[EVAL] %(message)s")
 log = logging.getLogger("eval")
 
-_SCRIPTS_DIR   = Path(__file__).resolve().parent
-_DETERMINEX_ROOT  = _SCRIPTS_DIR.parent
-_RESULTS_DIR   = _DETERMINEX_ROOT / "logs" / "eval_results"
+_SCRIPTS_DIR = Path(__file__).resolve().parent
+_DETERMINEX_ROOT = _SCRIPTS_DIR.parent
+_RESULTS_DIR = _DETERMINEX_ROOT / "logs" / "eval_results"
 _BASELINE_FILE = _RESULTS_DIR / "baseline.json"
 
 OLLAMA_URL = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 
 
 # ── Fence stripping ───────────────────────────────────────────────────────────
+
 
 def _strip_fences(code: str) -> str:
     """Strip markdown code fences and LLM chat template tokens."""
@@ -66,10 +67,11 @@ def _strip_fences(code: str) -> str:
 
 # ── Rust helpers ──────────────────────────────────────────────────────────────
 
+
 def _extract_rust_main(harness: str) -> str:
     """Return the fn main() block from a Rust harness string."""
-    m = re.search(r'fn\s+main\s*\(\s*\)\s*\{', harness)
-    return harness[m.start():] if m else ""
+    m = re.search(r"fn\s+main\s*\(\s*\)\s*\{", harness)
+    return harness[m.start() :] if m else ""
 
 
 def _extract_rust_fn(code: str, fn_name: str) -> str:
@@ -77,7 +79,7 @@ def _extract_rust_fn(code: str, fn_name: str) -> str:
     Extract a complete Rust function by name using brace-depth counting.
     Returns the full `fn foo(...) { ... }` block, or "" if not found.
     """
-    sig = re.compile(rf'\bfn\s+{re.escape(fn_name)}\s*\(')
+    sig = re.compile(rf"\bfn\s+{re.escape(fn_name)}\s*\(")
     m = sig.search(code)
     if not m:
         return ""
@@ -93,7 +95,7 @@ def _extract_rust_fn(code: str, fn_name: str) -> str:
         elif code[i] == "}":
             depth -= 1
             if depth == 0:
-                return code[start:i + 1].strip()
+                return code[start : i + 1].strip()
         i += 1
     return code[start:].strip()
 
@@ -124,7 +126,7 @@ def compile_and_test_rust(student_code: str, harness: str, fn_name: str) -> tupl
     fn_code = _extract_rust_fn(cleaned, fn_name)
 
     if fn_code:
-        preamble   = _extract_rust_preamble(harness)
+        preamble = _extract_rust_preamble(harness)
         main_block = _extract_rust_main(harness)
         if main_block:
             parts = [p for p in [preamble, fn_code, main_block] if p]
@@ -143,8 +145,12 @@ def _rustc_run(full_code: str) -> tuple[bool, str, str]:
         src = f.name
     bin_path = src.replace(".rs", ".exe" if sys.platform == "win32" else ".bin")
     try:
-        r = subprocess.run(["rustc", "--edition", "2021", "-o", bin_path, src],
-                           capture_output=True, text=True, timeout=30)
+        r = subprocess.run(
+            ["rustc", "--edition", "2021", "-o", bin_path, src],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
         if r.returncode != 0:
             return False, r.stderr[:600], ""
         r2 = subprocess.run([bin_path], capture_output=True, text=True, timeout=10)
@@ -156,11 +162,14 @@ def _rustc_run(full_code: str) -> tuple[bool, str, str]:
         return False, "rustc not found in PATH", ""
     finally:
         for p in (src, bin_path):
-            try: os.unlink(p)
-            except OSError: pass
+            try:
+                os.unlink(p)
+            except OSError:
+                pass
 
 
 # ── Python helpers ────────────────────────────────────────────────────────────
+
 
 def compile_and_test_python(student_code: str, harness: str, fn_name: str) -> tuple[bool, str, str]:
     """
@@ -176,8 +185,7 @@ def compile_and_test_python(student_code: str, harness: str, fn_name: str) -> tu
         f.write(full_code)
         src = f.name
     try:
-        r = subprocess.run([sys.executable, src],
-                           capture_output=True, text=True, timeout=15)
+        r = subprocess.run([sys.executable, src], capture_output=True, text=True, timeout=15)
         stdout = r.stdout.strip()
         if r.returncode == 0 and stdout:
             return True, "", stdout
@@ -185,11 +193,14 @@ def compile_and_test_python(student_code: str, harness: str, fn_name: str) -> tu
     except subprocess.TimeoutExpired:
         return False, "TIMEOUT", ""
     finally:
-        try: os.unlink(src)
-        except OSError: pass
+        try:
+            os.unlink(src)
+        except OSError:
+            pass
 
 
 # ── Go helpers ────────────────────────────────────────────────────────────────
+
 
 def _extract_go_fn(code: str, fn_name: str) -> str:
     """
@@ -197,11 +208,11 @@ def _extract_go_fn(code: str, fn_name: str) -> str:
     declarations the student may have included.
     """
     # Remove package and import blocks — harness already provides them
-    cleaned = re.sub(r'package\s+\w+\s*\n?', '', code)
-    cleaned = re.sub(r'import\s*\(.*?\)', '', cleaned, flags=re.DOTALL)
-    cleaned = re.sub(r'import\s+"[^"]*"', '', cleaned)
+    cleaned = re.sub(r"package\s+\w+\s*\n?", "", code)
+    cleaned = re.sub(r"import\s*\(.*?\)", "", cleaned, flags=re.DOTALL)
+    cleaned = re.sub(r'import\s+"[^"]*"', "", cleaned)
 
-    sig = re.compile(rf'\bfunc\s+{re.escape(fn_name)}\s*\(')
+    sig = re.compile(rf"\bfunc\s+{re.escape(fn_name)}\s*\(")
     m = sig.search(cleaned)
     if not m:
         return ""
@@ -217,7 +228,7 @@ def _extract_go_fn(code: str, fn_name: str) -> str:
         elif cleaned[i] == "}":
             depth -= 1
             if depth == 0:
-                return cleaned[start:i + 1].strip()
+                return cleaned[start : i + 1].strip()
         i += 1
     return cleaned[start:].strip()
 
@@ -232,16 +243,16 @@ def _normalize_go_fn(fn_code: str) -> str:
       1. `} <stmt>` — closing brace of inner block followed by next statement
       2. `) return`  — end of call expression followed by return statement
     """
-    if fn_code.count('\n') >= 3:
+    if fn_code.count("\n") >= 3:
         return fn_code  # Already multi-line — leave it alone
 
     # Case 1: } followed by identifier/keyword (not else or }) → add ;
-    fn_code = re.sub(r'\}\s+(?!else\b|\})(?=[a-zA-Z_])', '}; ', fn_code)
+    fn_code = re.sub(r"\}\s+(?!else\b|\})(?=[a-zA-Z_])", "}; ", fn_code)
 
     # Case 2: ) or identifier/nil followed by return/go/defer/panic → add ;
-    _STMT_KW = r'(?:return|go|defer|panic|if|for|select|switch|var|const)\b'
-    fn_code = re.sub(rf'\)\s+(?={_STMT_KW})', '); ', fn_code)
-    fn_code = re.sub(rf'(?<=\bnil)\s+(?={_STMT_KW})', '; ', fn_code)
+    _STMT_KW = r"(?:return|go|defer|panic|if|for|select|switch|var|const)\b"
+    fn_code = re.sub(rf"\)\s+(?={_STMT_KW})", "); ", fn_code)
+    fn_code = re.sub(rf"(?<=\bnil)\s+(?={_STMT_KW})", "; ", fn_code)
 
     return fn_code
 
@@ -260,9 +271,9 @@ def compile_and_test_go(student_code: str, harness: str, fn_name: str) -> tuple[
         fn_code = _normalize_go_fn(fn_code)  # Fix single-line semicolon issues
         main_idx = harness.find("func main(")
         if main_idx >= 0:
-            preamble   = harness[:main_idx].rstrip()
+            preamble = harness[:main_idx].rstrip()
             main_block = harness[main_idx:]
-            full_code  = preamble + "\n\n" + fn_code + "\n\n" + main_block
+            full_code = preamble + "\n\n" + fn_code + "\n\n" + main_block
         else:
             full_code = harness.replace("// <<STUDENT_CODE>>", cleaned)
     else:
@@ -272,8 +283,7 @@ def compile_and_test_go(student_code: str, harness: str, fn_name: str) -> tuple[
         f.write(full_code)
         src = f.name
     try:
-        r = subprocess.run(["go", "run", src],
-                           capture_output=True, text=True, timeout=30)
+        r = subprocess.run(["go", "run", src], capture_output=True, text=True, timeout=30)
         stdout = r.stdout.strip()
         if r.returncode == 0 and stdout:
             return True, "", stdout
@@ -283,11 +293,15 @@ def compile_and_test_go(student_code: str, harness: str, fn_name: str) -> tuple[
     except FileNotFoundError:
         return False, "go not found in PATH", ""
     finally:
-        try: os.unlink(src)
-        except OSError: pass
+        try:
+            os.unlink(src)
+        except OSError:
+            pass
 
 
-def compile_and_test_typescript(student_code: str, harness: str, _fn_name: str) -> tuple[bool, str, str]:
+def compile_and_test_typescript(
+    student_code: str, harness: str, _fn_name: str
+) -> tuple[bool, str, str]:
     """
     Compile and run TypeScript student code via tsc --outDir + node.
     Injects student code at // <<STUDENT_CODE>> placeholder.
@@ -303,10 +317,18 @@ def compile_and_test_typescript(student_code: str, harness: str, _fn_name: str) 
 
     try:
         # tsc --outDir: works on all platforms, avoids deprecated --outFile
-        cmd = ["tsc", "--module", "commonjs", "--target", "ES2020",
-               "--strict", "--outDir", tmpdir, src]
-        rc = subprocess.run(cmd, capture_output=True, text=True,
-                            shell=_is_win, timeout=30)
+        cmd = [
+            "tsc",
+            "--module",
+            "commonjs",
+            "--target",
+            "ES2020",
+            "--strict",
+            "--outDir",
+            tmpdir,
+            src,
+        ]
+        rc = subprocess.run(cmd, capture_output=True, text=True, shell=_is_win, timeout=30)
         if rc.returncode != 0:
             return False, (rc.stderr or rc.stdout)[:500], ""
         js_file = os.path.join(tmpdir, "eval.js")
@@ -321,15 +343,17 @@ def compile_and_test_typescript(student_code: str, harness: str, _fn_name: str) 
         return False, "TIMEOUT", ""
     finally:
         import shutil
+
         shutil.rmtree(tmpdir, ignore_errors=True)
 
 
 # ── Dispatch ──────────────────────────────────────────────────────────────────
 
+
 def run_probe(student_code: str, probe: dict) -> tuple[bool, str, str]:
     lang = probe["lang"]
-    fn   = probe["fn_name"]
-    h    = probe["test_harness"]
+    fn = probe["fn_name"]
+    h = probe["test_harness"]
     if lang == "rust":
         return compile_and_test_rust(student_code, h, fn)
     if lang == "python":
@@ -344,7 +368,6 @@ def run_probe(student_code: str, probe: dict) -> tuple[bool, str, str]:
 # ── Concept definitions ───────────────────────────────────────────────────────
 
 CONCEPTS = {
-
     # ── 1. count_chars (Rust) ─────────────────────────────────────────────────
     "count_chars": {
         "lang": "rust",
@@ -357,7 +380,8 @@ CONCEPTS = {
             {
                 "id": "CC_P1_basic",
                 "label": "Basic: count a specific char",
-                "lang": "rust", "fn_name": "count_chars",
+                "lang": "rust",
+                "fn_name": "count_chars",
                 "prompt": (
                     "Write a Rust function called count_chars that takes a string slice &str "
                     "and a target char, and returns the count of times that char appears in "
@@ -380,7 +404,8 @@ fn main() {
             {
                 "id": "CC_P2_empty",
                 "label": "Edge case: empty string returns 0",
-                "lang": "rust", "fn_name": "count_chars",
+                "lang": "rust",
+                "fn_name": "count_chars",
                 "prompt": (
                     "Write a Rust function count_chars(s: &str, target: char) -> usize that "
                     "counts how many times target appears in s. It must return 0 for an empty string."
@@ -401,7 +426,8 @@ fn main() {
             {
                 "id": "CC_P3_unicode",
                 "label": "Unicode: multi-byte chars",
-                "lang": "rust", "fn_name": "count_chars",
+                "lang": "rust",
+                "fn_name": "count_chars",
                 "prompt": (
                     "Write a Rust function count_chars(s: &str, target: char) -> usize. "
                     "It must correctly handle Unicode characters, not just ASCII bytes."
@@ -421,7 +447,8 @@ fn main() {
             {
                 "id": "CC_P4_idiomatic",
                 "label": "Idiomatic: iterator style",
-                "lang": "rust", "fn_name": "count_chars",
+                "lang": "rust",
+                "fn_name": "count_chars",
                 "prompt": (
                     "Write a Rust function count_chars(s: &str, target: char) -> usize "
                     "using idiomatic Rust iterator style (no explicit for loop)."
@@ -441,7 +468,8 @@ fn main() {
             {
                 "id": "CC_P5_rename",
                 "label": "Concept transfer: renamed function",
-                "lang": "rust", "fn_name": "char_frequency",
+                "lang": "rust",
+                "fn_name": "char_frequency",
                 "prompt": (
                     "Write a Rust function named char_frequency that accepts a text: &str "
                     "and a ch: char and returns how many times ch appears in text, as usize."
@@ -461,7 +489,6 @@ fn main() {
             },
         ],
     },
-
     # ── 2. first_even (Rust) ──────────────────────────────────────────────────
     "first_even": {
         "lang": "rust",
@@ -474,7 +501,8 @@ fn main() {
             {
                 "id": "FE_P1_basic",
                 "label": "Basic: mixed slice",
-                "lang": "rust", "fn_name": "first_even",
+                "lang": "rust",
+                "fn_name": "first_even",
                 "prompt": (
                     "Write a Rust function first_even that takes a slice of i32 values (&[i32]) "
                     "and returns the first even number wrapped in Some, or None if no even number exists."
@@ -495,7 +523,8 @@ fn main() {
             {
                 "id": "FE_P2_empty",
                 "label": "Edge case: empty slice returns None",
-                "lang": "rust", "fn_name": "first_even",
+                "lang": "rust",
+                "fn_name": "first_even",
                 "prompt": (
                     "Write a Rust function first_even(nums: &[i32]) -> Option<i32> that returns "
                     "the first even number in the slice, or None if the slice is empty or has no even numbers."
@@ -516,7 +545,8 @@ fn main() {
             {
                 "id": "FE_P3_all_odd",
                 "label": "All odd: returns None",
-                "lang": "rust", "fn_name": "first_even",
+                "lang": "rust",
+                "fn_name": "first_even",
                 "prompt": (
                     "Write a Rust function first_even(nums: &[i32]) -> Option<i32>. "
                     "If every number in the slice is odd, return None."
@@ -537,7 +567,8 @@ fn main() {
             {
                 "id": "FE_P4_first_is_even",
                 "label": "First element is even",
-                "lang": "rust", "fn_name": "first_even",
+                "lang": "rust",
+                "fn_name": "first_even",
                 "prompt": (
                     "Write a Rust function first_even(nums: &[i32]) -> Option<i32> that returns "
                     "the first even number. It must return the FIRST one, not any other."
@@ -558,7 +589,8 @@ fn main() {
             {
                 "id": "FE_P5_negative",
                 "label": "Negative even numbers",
-                "lang": "rust", "fn_name": "first_even",
+                "lang": "rust",
+                "fn_name": "first_even",
                 "prompt": (
                     "Write a Rust function first_even(nums: &[i32]) -> Option<i32>. "
                     "It must correctly identify negative even numbers (e.g., -2 is even)."
@@ -578,7 +610,6 @@ fn main() {
             },
         ],
     },
-
     # ── 3. safe_divide (Python) ───────────────────────────────────────────────
     "safe_divide": {
         "lang": "python",
@@ -591,7 +622,8 @@ fn main() {
             {
                 "id": "SD_P1_basic",
                 "label": "Basic: normal division",
-                "lang": "python", "fn_name": "safe_divide",
+                "lang": "python",
+                "fn_name": "safe_divide",
                 "prompt": (
                     "Write a Python function safe_divide(a: float, b: float) -> Optional[float] "
                     "that returns a divided by b if b is not zero, or None if b is zero. "
@@ -610,7 +642,8 @@ print("SD_P1 PASS")
             {
                 "id": "SD_P2_zero_divisor",
                 "label": "Zero divisor returns None",
-                "lang": "python", "fn_name": "safe_divide",
+                "lang": "python",
+                "fn_name": "safe_divide",
                 "prompt": (
                     "Write a Python function safe_divide(a: float, b: float) -> Optional[float]. "
                     "If b is zero, return None instead of raising an exception."
@@ -628,7 +661,8 @@ print("SD_P2 PASS")
             {
                 "id": "SD_P3_zero_dividend",
                 "label": "Zero dividend returns 0.0, not None",
-                "lang": "python", "fn_name": "safe_divide",
+                "lang": "python",
+                "fn_name": "safe_divide",
                 "prompt": (
                     "Write a Python function safe_divide(a: float, b: float) -> Optional[float]. "
                     "Return None only when b is zero. If a is zero but b is nonzero, return 0.0."
@@ -646,7 +680,8 @@ print("SD_P3 PASS")
             {
                 "id": "SD_P4_negative",
                 "label": "Negative numbers",
-                "lang": "python", "fn_name": "safe_divide",
+                "lang": "python",
+                "fn_name": "safe_divide",
                 "prompt": (
                     "Write a Python function safe_divide(a: float, b: float) -> Optional[float] "
                     "that handles negative inputs correctly."
@@ -664,7 +699,8 @@ print("SD_P4 PASS")
             {
                 "id": "SD_P5_rename",
                 "label": "Concept transfer: renamed function",
-                "lang": "python", "fn_name": "find_quotient",
+                "lang": "python",
+                "fn_name": "find_quotient",
                 "prompt": (
                     "Write a Python function find_quotient(numerator: float, denominator: float) -> Optional[float] "
                     "that returns the result of dividing numerator by denominator, "
@@ -682,7 +718,6 @@ print("SD_P5 PASS")
             },
         ],
     },
-
     # ── 4. wrap_error (Go) ────────────────────────────────────────────────────
     "wrap_error": {
         "lang": "go",
@@ -696,7 +731,8 @@ print("SD_P5 PASS")
             {
                 "id": "WE_P1_basic",
                 "label": "Basic: errors.Is chain works after wrap",
-                "lang": "go", "fn_name": "wrap_error",
+                "lang": "go",
+                "fn_name": "wrap_error",
                 "prompt": (
                     "Write a Go function wrap_error(msg string, err error) error that returns "
                     "a new error wrapping err with the message msg, using fmt.Errorf with %%w."
@@ -723,7 +759,8 @@ func main() {
             {
                 "id": "WE_P2_message",
                 "label": "Wrapped message contains both parts",
-                "lang": "go", "fn_name": "wrap_error",
+                "lang": "go",
+                "fn_name": "wrap_error",
                 "prompt": (
                     "Write a Go function wrap_error(msg string, err error) error. "
                     "The returned error's message must contain both msg and the original error message."
@@ -755,7 +792,8 @@ func main() {
             {
                 "id": "WE_P3_double_wrap",
                 "label": "Double-wrapped: errors.Is reaches base",
-                "lang": "go", "fn_name": "wrap_error",
+                "lang": "go",
+                "fn_name": "wrap_error",
                 "prompt": (
                     "Write a Go function wrap_error(msg string, err error) error using fmt.Errorf %%w. "
                     "The wrap must be transitive — errors.Is should find the original error through multiple wrapping layers."
@@ -786,7 +824,8 @@ func main() {
             {
                 "id": "WE_P4_unwrap",
                 "label": "errors.Unwrap returns the original",
-                "lang": "go", "fn_name": "wrap_error",
+                "lang": "go",
+                "fn_name": "wrap_error",
                 "prompt": (
                     "Write a Go function wrap_error(msg string, err error) error. "
                     "The returned error must implement Unwrap() so that errors.Unwrap returns the original err."
@@ -814,7 +853,8 @@ func main() {
             {
                 "id": "WE_P5_rename",
                 "label": "Concept transfer: renamed function",
-                "lang": "go", "fn_name": "wrap_err",
+                "lang": "go",
+                "fn_name": "wrap_err",
                 "prompt": (
                     "Write a Go function named wrap_err(context string, cause error) error "
                     "that wraps cause with context using fmt.Errorf %%w. "
@@ -854,7 +894,8 @@ func main() {
             {
                 "id": "AM_P1_basic",
                 "label": "Basic: Arc<Mutex<i32>> shared counter across threads",
-                "lang": "rust", "fn_name": "count_concurrent",
+                "lang": "rust",
+                "fn_name": "count_concurrent",
                 "prompt": (
                     "Write a Rust function count_concurrent(data: Vec<i32>) -> i32 that uses "
                     "Arc<Mutex<i32>> and std::thread::spawn to sum all values in data across "
@@ -876,7 +917,8 @@ fn main() {
             {
                 "id": "AM_P2_correct_sum",
                 "label": "Correct sum with race-free accumulation",
-                "lang": "rust", "fn_name": "count_concurrent",
+                "lang": "rust",
+                "fn_name": "count_concurrent",
                 "prompt": (
                     "Write a Rust function count_concurrent(data: Vec<i32>) -> i32. "
                     "Use Arc<Mutex<i32>> so multiple threads safely add their values. "
@@ -899,7 +941,8 @@ fn main() {
             {
                 "id": "AM_P3_large",
                 "label": "Large dataset, no data races",
-                "lang": "rust", "fn_name": "count_concurrent",
+                "lang": "rust",
+                "fn_name": "count_concurrent",
                 "prompt": (
                     "Write a Rust function count_concurrent(data: Vec<i32>) -> i32 using "
                     "Arc<Mutex<i32>> for thread-safe accumulation. The function must handle "
@@ -922,7 +965,8 @@ fn main() {
             {
                 "id": "AM_P4_empty",
                 "label": "Edge case: empty vec returns 0",
-                "lang": "rust", "fn_name": "count_concurrent",
+                "lang": "rust",
+                "fn_name": "count_concurrent",
                 "prompt": (
                     "Write a Rust function count_concurrent(data: Vec<i32>) -> i32 using "
                     "Arc<Mutex<i32>> and threads. Must return 0 for an empty input."
@@ -942,7 +986,8 @@ fn main() {
             {
                 "id": "AM_P5_rename",
                 "label": "Concept transfer: renamed to parallel_sum",
-                "lang": "rust", "fn_name": "parallel_sum",
+                "lang": "rust",
+                "fn_name": "parallel_sum",
                 "prompt": (
                     "Write a Rust function named parallel_sum(values: Vec<i32>) -> i32 that "
                     "uses Arc<Mutex<i32>> and std::thread::spawn to sum all values concurrently. "
@@ -962,7 +1007,6 @@ fn main() {
             },
         ],
     },
-
     # ── 6. refcell_borrow (Rust) ──────────────────────────────────────────────
     "refcell_borrow": {
         "lang": "rust",
@@ -976,7 +1020,8 @@ fn main() {
             {
                 "id": "RB_P1_basic",
                 "label": "Basic: borrow_mut to push items",
-                "lang": "rust", "fn_name": "append_all",
+                "lang": "rust",
+                "fn_name": "append_all",
                 "prompt": (
                     "Write a Rust function append_all(cell: &RefCell<Vec<i32>>, items: &[i32]) "
                     "that borrows the RefCell mutably and appends all items to the Vec inside. "
@@ -997,7 +1042,8 @@ fn main() {
             {
                 "id": "RB_P2_empty",
                 "label": "Appending to empty RefCell vec",
-                "lang": "rust", "fn_name": "append_all",
+                "lang": "rust",
+                "fn_name": "append_all",
                 "prompt": (
                     "Write a Rust function append_all(cell: &RefCell<Vec<i32>>, items: &[i32]). "
                     "Use cell.borrow_mut() to mutably access the inner Vec and extend it with items. "
@@ -1020,7 +1066,8 @@ fn main() {
             {
                 "id": "RB_P3_multiple_borrows",
                 "label": "Multiple sequential borrow_mut calls",
-                "lang": "rust", "fn_name": "append_all",
+                "lang": "rust",
+                "fn_name": "append_all",
                 "prompt": (
                     "Write a Rust function append_all(cell: &RefCell<Vec<i32>>, items: &[i32]) "
                     "that uses RefCell::borrow_mut to push all items. The function must release "
@@ -1043,7 +1090,8 @@ fn main() {
             {
                 "id": "RB_P4_read_after",
                 "label": "borrow() readable after borrow_mut completes",
-                "lang": "rust", "fn_name": "append_all",
+                "lang": "rust",
+                "fn_name": "append_all",
                 "prompt": (
                     "Write a Rust function append_all(cell: &RefCell<Vec<i32>>, items: &[i32]). "
                     "After calling it, the RefCell must be readable via borrow(). "
@@ -1067,7 +1115,8 @@ fn main() {
             {
                 "id": "RB_P5_rename",
                 "label": "Concept transfer: renamed to push_into_cell",
-                "lang": "rust", "fn_name": "push_into_cell",
+                "lang": "rust",
+                "fn_name": "push_into_cell",
                 "prompt": (
                     "Write a Rust function named push_into_cell(storage: &RefCell<Vec<i32>>, new_items: &[i32]) "
                     "that appends new_items into the RefCell's Vec using borrow_mut. "
@@ -1087,7 +1136,6 @@ fn main() {
             },
         ],
     },
-
     # ── 7. go_panic_recover (Go) ──────────────────────────────────────────────
     "go_panic_recover": {
         "lang": "go",
@@ -1101,7 +1149,8 @@ fn main() {
             {
                 "id": "GP_P1_basic",
                 "label": "Basic: recover panic and return error",
-                "lang": "go", "fn_name": "safe_call",
+                "lang": "go",
+                "fn_name": "safe_call",
                 "prompt": (
                     "Write a Go function safe_call(fn func()) (err error) that calls fn() "
                     "and recovers from any panic, returning it as an error. "
@@ -1133,7 +1182,8 @@ func main() {
             {
                 "id": "GP_P2_string_panic",
                 "label": "String panic message preserved in error",
-                "lang": "go", "fn_name": "safe_call",
+                "lang": "go",
+                "fn_name": "safe_call",
                 "prompt": (
                     "Write a Go function safe_call(fn func()) (err error). "
                     "When fn panics with a string, the returned error message must contain that string. "
@@ -1163,7 +1213,8 @@ func main() {
             {
                 "id": "GP_P3_no_panic",
                 "label": "No panic returns nil",
-                "lang": "go", "fn_name": "safe_call",
+                "lang": "go",
+                "fn_name": "safe_call",
                 "prompt": (
                     "Write a Go function safe_call(fn func()) (err error) that uses defer/recover. "
                     "If fn executes without panicking, the function must return nil."
@@ -1190,7 +1241,8 @@ func main() {
             {
                 "id": "GP_P4_error_panic",
                 "label": "Panic with error value",
-                "lang": "go", "fn_name": "safe_call",
+                "lang": "go",
+                "fn_name": "safe_call",
                 "prompt": (
                     "Write a Go function safe_call(fn func()) (err error). "
                     "Handle the case where fn panics with an error value (not just a string). "
@@ -1218,7 +1270,8 @@ func main() {
             {
                 "id": "GP_P5_rename",
                 "label": "Concept transfer: renamed to catch_panic",
-                "lang": "go", "fn_name": "catch_panic",
+                "lang": "go",
+                "fn_name": "catch_panic",
                 "prompt": (
                     "Write a Go function named catch_panic(f func()) (err error) that uses "
                     "defer and recover() to catch any panic from f and return it as an error. "
@@ -1253,7 +1306,6 @@ func main() {
             },
         ],
     },
-
     # ── 8. go_fmt_errorf (Go) ─────────────────────────────────────────────────
     "go_fmt_errorf": {
         "lang": "go",
@@ -1268,11 +1320,12 @@ func main() {
             {
                 "id": "GF_P1_basic",
                 "label": "Basic: fmt.Errorf with %w wraps correctly",
-                "lang": "go", "fn_name": "wrap_error",
+                "lang": "go",
+                "fn_name": "wrap_error",
                 "prompt": (
                     "Write a Go function named wrap_error with signature: "
                     "wrap_error(msg string, err error) error\n"
-                    "It must return fmt.Errorf(\"%s: %w\", msg, err). "
+                    'It must return fmt.Errorf("%s: %w", msg, err). '
                     "Output only the function definition, nothing else."
                 ),
                 "test_harness": """package main
@@ -1297,10 +1350,11 @@ func main() {
             {
                 "id": "GF_P2_message",
                 "label": "Wrapped error message contains msg and original",
-                "lang": "go", "fn_name": "wrap_error",
+                "lang": "go",
+                "fn_name": "wrap_error",
                 "prompt": (
                     "Write a Go function named wrap_error(msg string, err error) error. "
-                    "Use fmt.Errorf(\"%s: %w\", msg, err). The returned error.Error() string "
+                    'Use fmt.Errorf("%s: %w", msg, err). The returned error.Error() string '
                     "must contain both msg and the original error text. Output only the function."
                 ),
                 "test_harness": """package main
@@ -1327,7 +1381,8 @@ func main() {
             {
                 "id": "GF_P3_chain",
                 "label": "Double-wrapped: errors.Is reaches root",
-                "lang": "go", "fn_name": "wrap_error",
+                "lang": "go",
+                "fn_name": "wrap_error",
                 "prompt": (
                     "Write a Go function named wrap_error(msg string, err error) error "
                     "using fmt.Errorf with %%w. When called twice, errors.Is must reach "
@@ -1356,10 +1411,11 @@ func main() {
             {
                 "id": "GF_P4_nil_safe",
                 "label": "Nil error input returns nil",
-                "lang": "go", "fn_name": "wrap_error",
+                "lang": "go",
+                "fn_name": "wrap_error",
                 "prompt": (
                     "Write a Go function named wrap_error(msg string, err error) error. "
-                    "If err is nil, return nil. Otherwise return fmt.Errorf(\"%s: %w\", msg, err). "
+                    'If err is nil, return nil. Otherwise return fmt.Errorf("%s: %w", msg, err). '
                     "Output only the function definition."
                 ),
                 "test_harness": """package main
@@ -1387,10 +1443,11 @@ func main() {
             {
                 "id": "GF_P5_rename",
                 "label": "Concept transfer: renamed to annotate_error",
-                "lang": "go", "fn_name": "annotate_error",
+                "lang": "go",
+                "fn_name": "annotate_error",
                 "prompt": (
                     "Write a Go function named annotate_error(context string, cause error) error "
-                    "that returns fmt.Errorf(\"%s: %w\", context, cause). "
+                    'that returns fmt.Errorf("%s: %w", context, cause). '
                     "Output only the function definition, nothing else."
                 ),
                 "test_harness": """package main
@@ -1414,7 +1471,6 @@ func main() {
             },
         ],
     },
-
     # ── 9. first_even_zero (Rust) — targeted zero edge case ──────────────────
     "first_even_zero": {
         "lang": "rust",
@@ -1428,7 +1484,8 @@ func main() {
             {
                 "id": "FEZ_P1_zero",
                 "label": "Zero is even — must return Some(0)",
-                "lang": "rust", "fn_name": "first_even",
+                "lang": "rust",
+                "fn_name": "first_even",
                 "prompt": (
                     "Write a Rust function first_even(nums: &[i32]) -> Option<i32> that returns "
                     "the first even number. Remember: 0 is even (0 % 2 == 0), so Some(0) must be "
@@ -1451,7 +1508,8 @@ fn main() {
             {
                 "id": "FEZ_P2_negative_even",
                 "label": "Negative even numbers are even",
-                "lang": "rust", "fn_name": "first_even",
+                "lang": "rust",
+                "fn_name": "first_even",
                 "prompt": (
                     "Write a Rust function first_even(nums: &[i32]) -> Option<i32>. "
                     "Negative even numbers (-2, -4, -100) must be returned as Some. "
@@ -1473,7 +1531,8 @@ fn main() {
             {
                 "id": "FEZ_P3_mixed",
                 "label": "Mixed positive, negative, and zero",
-                "lang": "rust", "fn_name": "first_even",
+                "lang": "rust",
+                "fn_name": "first_even",
                 "prompt": (
                     "Write a Rust function first_even(nums: &[i32]) -> Option<i32>. "
                     "Must correctly identify even numbers among positives, negatives, and zero. "
@@ -1495,7 +1554,8 @@ fn main() {
             {
                 "id": "FEZ_P4_idiomatic",
                 "label": "Idiomatic iterator style with zero/negative awareness",
-                "lang": "rust", "fn_name": "first_even",
+                "lang": "rust",
+                "fn_name": "first_even",
                 "prompt": (
                     "Write a Rust function first_even(nums: &[i32]) -> Option<i32> using "
                     "iterator style (.iter().find()). The even check n % 2 == 0 handles "
@@ -1517,7 +1577,8 @@ fn main() {
             {
                 "id": "FEZ_P5_rename",
                 "label": "Concept transfer: renamed, must still handle zero",
-                "lang": "rust", "fn_name": "find_first_even",
+                "lang": "rust",
+                "fn_name": "find_first_even",
                 "prompt": (
                     "Write a Rust function named find_first_even(data: &[i32]) -> Option<i32> "
                     "that returns the first even number. Zero (0) and negative evens (-2, -4) "
@@ -1538,7 +1599,6 @@ fn main() {
             },
         ],
     },
-
     # ── 10. go_goroutine (Go) ─────────────────────────────────────────────────
     "go_goroutine": {
         "lang": "go",
@@ -1551,7 +1611,8 @@ fn main() {
             {
                 "id": "GG_P1_basic",
                 "label": "Basic: sum with goroutine and channel",
-                "lang": "go", "fn_name": "sum_concurrent",
+                "lang": "go",
+                "fn_name": "sum_concurrent",
                 "prompt": (
                     "Write a Go function sum_concurrent(nums []int) int that sums a slice "
                     "using a goroutine and a channel to send the result back."
@@ -1579,7 +1640,8 @@ func main() {
             {
                 "id": "GG_P2_empty",
                 "label": "Empty slice returns 0",
-                "lang": "go", "fn_name": "sum_concurrent",
+                "lang": "go",
+                "fn_name": "sum_concurrent",
                 "prompt": (
                     "Write a Go function sum_concurrent(nums []int) int that returns 0 for an empty slice, "
                     "otherwise sums using a goroutine and channel."
@@ -1606,7 +1668,8 @@ func main() {
             {
                 "id": "GG_P3_negative",
                 "label": "Handles negative numbers",
-                "lang": "go", "fn_name": "sum_concurrent",
+                "lang": "go",
+                "fn_name": "sum_concurrent",
                 "prompt": (
                     "Write a Go function sum_concurrent(nums []int) int that sums the slice "
                     "including negative values, using a goroutine and channel."
@@ -1634,7 +1697,8 @@ func main() {
             {
                 "id": "GG_P4_single",
                 "label": "Single element",
-                "lang": "go", "fn_name": "sum_concurrent",
+                "lang": "go",
+                "fn_name": "sum_concurrent",
                 "prompt": (
                     "Write a Go function sum_concurrent(nums []int) int using goroutine+channel."
                 ),
@@ -1660,7 +1724,8 @@ func main() {
             {
                 "id": "GG_P5_large",
                 "label": "Large slice (100 elements)",
-                "lang": "go", "fn_name": "sum_concurrent",
+                "lang": "go",
+                "fn_name": "sum_concurrent",
                 "prompt": (
                     "Write a Go function sum_concurrent(nums []int) int using goroutine+channel."
                 ),
@@ -1688,7 +1753,6 @@ func main() {
             },
         ],
     },
-
     # ── 11. go_waitgroup (Go) ─────────────────────────────────────────────────
     "go_waitgroup": {
         "lang": "go",
@@ -1701,7 +1765,8 @@ func main() {
             {
                 "id": "GW_P1_double",
                 "label": "Double each element in parallel",
-                "lang": "go", "fn_name": "parallel_map",
+                "lang": "go",
+                "fn_name": "parallel_map",
                 "prompt": (
                     "Write a Go function parallel_map(nums []int, f func(int) int) []int that applies "
                     "f to each element concurrently using goroutines and sync.WaitGroup, returning results "
@@ -1731,7 +1796,8 @@ func main() {
             {
                 "id": "GW_P2_identity",
                 "label": "Identity function preserves order",
-                "lang": "go", "fn_name": "parallel_map",
+                "lang": "go",
+                "fn_name": "parallel_map",
                 "prompt": (
                     "Write a Go function parallel_map(nums []int, f func(int) int) []int using WaitGroup."
                 ),
@@ -1759,7 +1825,8 @@ func main() {
             {
                 "id": "GW_P3_empty",
                 "label": "Empty slice returns empty",
-                "lang": "go", "fn_name": "parallel_map",
+                "lang": "go",
+                "fn_name": "parallel_map",
                 "prompt": (
                     "Write a Go function parallel_map(nums []int, f func(int) int) []int using WaitGroup."
                 ),
@@ -1784,7 +1851,8 @@ func main() {
             {
                 "id": "GW_P4_negate",
                 "label": "Negate all elements",
-                "lang": "go", "fn_name": "parallel_map",
+                "lang": "go",
+                "fn_name": "parallel_map",
                 "prompt": (
                     "Write a Go function parallel_map(nums []int, f func(int) int) []int using WaitGroup."
                 ),
@@ -1812,7 +1880,8 @@ func main() {
             {
                 "id": "GW_P5_single",
                 "label": "Single element",
-                "lang": "go", "fn_name": "parallel_map",
+                "lang": "go",
+                "fn_name": "parallel_map",
                 "prompt": (
                     "Write a Go function parallel_map(nums []int, f func(int) int) []int using WaitGroup."
                 ),
@@ -1836,7 +1905,6 @@ func main() {
             },
         ],
     },
-
     # ── 12. py_dataclass (Python) ─────────────────────────────────────────────
     "py_dataclass": {
         "lang": "python",
@@ -1849,7 +1917,8 @@ func main() {
             {
                 "id": "PDC_P1_basic",
                 "label": "Point dataclass exists and is instantiable",
-                "lang": "python", "fn_name": "Point",
+                "lang": "python",
+                "fn_name": "Point",
                 "prompt": (
                     "Write a Python dataclass Point with fields x: float and y: float, "
                     "and a method distance_to(other: Point) -> float using Euclidean distance."
@@ -1869,7 +1938,8 @@ print("PDC_P1 PASS")
             {
                 "id": "PDC_P2_same",
                 "label": "Distance to self is zero",
-                "lang": "python", "fn_name": "Point",
+                "lang": "python",
+                "fn_name": "Point",
                 "prompt": (
                     "Write a Python dataclass Point(x: float, y: float) with distance_to(other: Point) -> float."
                 ),
@@ -1886,7 +1956,8 @@ print("PDC_P2 PASS")
             {
                 "id": "PDC_P3_negative",
                 "label": "Negative coordinates",
-                "lang": "python", "fn_name": "Point",
+                "lang": "python",
+                "fn_name": "Point",
                 "prompt": (
                     "Write a Python dataclass Point(x: float, y: float) with distance_to(other: Point) -> float."
                 ),
@@ -1905,7 +1976,8 @@ print("PDC_P3 PASS")
             {
                 "id": "PDC_P4_symmetry",
                 "label": "Distance is symmetric",
-                "lang": "python", "fn_name": "Point",
+                "lang": "python",
+                "fn_name": "Point",
                 "prompt": (
                     "Write a Python dataclass Point(x: float, y: float) with distance_to(other: Point) -> float."
                 ),
@@ -1923,7 +1995,8 @@ print("PDC_P4 PASS")
             {
                 "id": "PDC_P5_unit",
                 "label": "Unit distance along x-axis",
-                "lang": "python", "fn_name": "Point",
+                "lang": "python",
+                "fn_name": "Point",
                 "prompt": (
                     "Write a Python dataclass Point(x: float, y: float) with distance_to(other: Point) -> float."
                 ),
@@ -1940,7 +2013,6 @@ print("PDC_P5 PASS")
             },
         ],
     },
-
     # ── 13. py_retry (Python) ─────────────────────────────────────────────────
     "py_retry": {
         "lang": "python",
@@ -1953,7 +2025,8 @@ print("PDC_P5 PASS")
             {
                 "id": "PRT_P1_succeeds_first",
                 "label": "Succeeds on first try",
-                "lang": "python", "fn_name": "retry",
+                "lang": "python",
+                "fn_name": "retry",
                 "prompt": (
                     "Write a Python function retry(fn, times: int, delay: float) that calls fn() "
                     "and returns its result. If fn() raises, sleep delay seconds and retry up to "
@@ -1977,7 +2050,8 @@ print("PRT_P1 PASS")
             {
                 "id": "PRT_P2_retries",
                 "label": "Retries then succeeds",
-                "lang": "python", "fn_name": "retry",
+                "lang": "python",
+                "fn_name": "retry",
                 "prompt": (
                     "Write a Python function retry(fn, times: int, delay: float) that retries fn() "
                     "on exception up to times attempts total."
@@ -2002,7 +2076,8 @@ print("PRT_P2 PASS")
             {
                 "id": "PRT_P3_all_fail",
                 "label": "All attempts fail — raises last exception",
-                "lang": "python", "fn_name": "retry",
+                "lang": "python",
+                "fn_name": "retry",
                 "prompt": (
                     "Write a Python function retry(fn, times: int, delay: float) that raises "
                     "the last exception after all attempts fail."
@@ -2025,10 +2100,9 @@ print("PRT_P3 PASS")
             {
                 "id": "PRT_P4_once",
                 "label": "times=1 means one attempt only",
-                "lang": "python", "fn_name": "retry",
-                "prompt": (
-                    "Write a Python function retry(fn, times: int, delay: float)."
-                ),
+                "lang": "python",
+                "fn_name": "retry",
+                "prompt": ("Write a Python function retry(fn, times: int, delay: float)."),
                 "test_harness": """import time
 
 # <<STUDENT_CODE>>
@@ -2049,7 +2123,8 @@ print("PRT_P4 PASS")
             {
                 "id": "PRT_P5_return_type",
                 "label": "Preserves non-None return value",
-                "lang": "python", "fn_name": "retry",
+                "lang": "python",
+                "fn_name": "retry",
                 "prompt": (
                     "Write a Python function retry(fn, times: int, delay: float) that returns fn()'s result."
                 ),
@@ -2064,7 +2139,6 @@ print("PRT_P5 PASS")
             },
         ],
     },
-
     # ── 14. ts_generic (TypeScript) ───────────────────────────────────────────
     "ts_generic": {
         "lang": "typescript",
@@ -2077,7 +2151,8 @@ print("PRT_P5 PASS")
             {
                 "id": "TSG_P1_identity",
                 "label": "Identity function compiles and returns value",
-                "lang": "typescript", "fn_name": "identity",
+                "lang": "typescript",
+                "fn_name": "identity",
                 "prompt": (
                     "Write a TypeScript generic function identity<T>(value: T): T that returns its argument unchanged."
                 ),
@@ -2093,7 +2168,8 @@ console.log("TSG_P1 PASS");
             {
                 "id": "TSG_P2_group_by",
                 "label": "groupBy works on an array of objects",
-                "lang": "typescript", "fn_name": "groupBy",
+                "lang": "typescript",
+                "fn_name": "groupBy",
                 "prompt": (
                     "Write a TypeScript generic function groupBy<T, K extends string>(arr: T[], keyFn: (item: T) => K): Record<K, T[]> "
                     "that groups array elements by the key returned by keyFn."
@@ -2110,7 +2186,8 @@ console.log("TSG_P2 PASS");
             {
                 "id": "TSG_P3_pick",
                 "label": "pick returns object with only selected keys",
-                "lang": "typescript", "fn_name": "pick",
+                "lang": "typescript",
+                "fn_name": "pick",
                 "prompt": (
                     "Write a TypeScript generic function pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> "
                     "that returns a new object containing only the specified keys."
@@ -2128,7 +2205,8 @@ console.log("TSG_P3 PASS");
             {
                 "id": "TSG_P4_unique",
                 "label": "unique removes duplicates",
-                "lang": "typescript", "fn_name": "unique",
+                "lang": "typescript",
+                "fn_name": "unique",
                 "prompt": (
                     "Write a TypeScript generic function unique<T>(arr: T[]): T[] that returns a new array "
                     "with duplicate values removed, preserving order of first occurrence."
@@ -2144,7 +2222,8 @@ console.log("TSG_P4 PASS");
             {
                 "id": "TSG_P5_partition",
                 "label": "partition splits array into two groups",
-                "lang": "typescript", "fn_name": "partition",
+                "lang": "typescript",
+                "fn_name": "partition",
                 "prompt": (
                     "Write a TypeScript generic function partition<T>(arr: T[], pred: (x: T) => boolean): [T[], T[]] "
                     "that returns [matching, nonMatching]."
@@ -2186,21 +2265,29 @@ _TRAINING_SOURCES = [
 
 # Which languages have real eval probes and how many concepts
 _EVAL_LANG_CONCEPTS: dict[str, list[str]] = {
-    "Rust":       ["count_chars", "first_even", "arc_mutex", "refcell_borrow", "first_even_zero"],
-    "Python":     ["safe_divide"],
-    "Go":         ["wrap_error", "go_fmt_errorf", "go_panic_recover"],
+    "Rust": ["count_chars", "first_even", "arc_mutex", "refcell_borrow", "first_even_zero"],
+    "Python": ["safe_divide"],
+    "Go": ["wrap_error", "go_fmt_errorf", "go_panic_recover"],
 }
 
 # Training categories that map to an eval concept (has a probe)
 _CAT_HAS_PROBE: set[str] = {
-    "rust_concurrency", "rust_concurrency_adv",
-    "rust_interior_mut", "rust_interior_mut_adv",
-    "go_concurrency", "go_concurrency_adv",
-    "go_panic_recover", "go_panic_recover_adv",
+    "rust_concurrency",
+    "rust_concurrency_adv",
+    "rust_interior_mut",
+    "rust_interior_mut_adv",
+    "go_concurrency",
+    "go_concurrency_adv",
+    "go_panic_recover",
+    "go_panic_recover_adv",
     "go_fmt_errorf",
-    "python_threading", "python_threading_adv",
-    "first_even_zero", "fe_p5_fix",
-    "targeted_wrap_error", "targeted_go_panic", "targeted_first_even",
+    "python_threading",
+    "python_threading_adv",
+    "first_even_zero",
+    "fe_p5_fix",
+    "targeted_wrap_error",
+    "targeted_go_panic",
+    "targeted_first_even",
 }
 
 
@@ -2211,7 +2298,7 @@ def run_coverage_analysis() -> dict:
     language/category from targeted gaps).
     """
     lang_counts: dict[str, int] = {}
-    cat_counts:  dict[str, int] = {}
+    cat_counts: dict[str, int] = {}
 
     for src in _TRAINING_SOURCES:
         if not src.exists():
@@ -2235,9 +2322,9 @@ def run_coverage_analysis() -> dict:
                 except Exception:
                     m = {}
             lang = m.get("language") or m.get("lang") or "UNTAGGED"
-            cat  = m.get("category") or m.get("cat") or m.get("source") or "UNTAGGED"
+            cat = m.get("category") or m.get("cat") or m.get("source") or "UNTAGGED"
             lang_counts[lang] = lang_counts.get(lang, 0) + 1
-            cat_counts[cat]   = cat_counts.get(cat, 0) + 1
+            cat_counts[cat] = cat_counts.get(cat, 0) + 1
 
     # Build language status
     lang_info = {}
@@ -2272,12 +2359,12 @@ def print_coverage_report(coverage: dict) -> None:
     # Language table
     print()
     print(f"  {'Language':<16}  {'Samples':>7}  {'Concepts':>8}  Status")
-    print(f"  {'-'*16}  {'-'*7}  {'-'*8}  {'-'*22}")
+    print(f"  {'-' * 16}  {'-' * 7}  {'-' * 8}  {'-' * 22}")
     icons = {
-        "COVERED":   "✓  covered",
-        "PARTIAL":   "~  partial",
+        "COVERED": "✓  covered",
+        "PARTIAL": "~  partial",
         "NO_PROBES": "✗  BLIND SPOT — no eval probes",
-        "UNTAGGED":  "?  untagged (distillation bulk)",
+        "UNTAGGED": "?  untagged (distillation bulk)",
     }
     for lang, info in coverage["languages"].items():
         icon = icons.get(info["status"], "?")
@@ -2286,14 +2373,14 @@ def print_coverage_report(coverage: dict) -> None:
     # Category table
     print()
     print(f"  {'Category':<30}  {'Samples':>7}  Probe?")
-    print(f"  {'-'*30}  {'-'*7}  {'-'*22}")
+    print(f"  {'-' * 30}  {'-' * 7}  {'-' * 22}")
     for cat, info in coverage["categories"].items():
         probe = "✓" if info["has_probe"] else "✗  NO PROBE"
         print(f"  {cat:<30}  {info['samples']:>7}  {probe}")
 
     # Blind spot summary
     blind_langs = [l for l, i in coverage["languages"].items() if i["status"] == "NO_PROBES"]
-    blind_cats  = [c for c, i in coverage["categories"].items() if not i["has_probe"]]
+    blind_cats = [c for c, i in coverage["categories"].items() if not i["has_probe"]]
 
     print()
     if blind_langs or blind_cats:
@@ -2316,9 +2403,11 @@ def print_coverage_report(coverage: dict) -> None:
 
 _model_arch_cache: dict[str, str] = {}
 
+
 def _get_model_arch(model: str) -> str:
     """Probe Ollama /api/show to get model architecture family. Cached."""
     import urllib.request
+
     if model in _model_arch_cache:
         return _model_arch_cache[model]
     try:
@@ -2369,13 +2458,20 @@ def _prewarm_model(model: str, timeout: int = 360) -> bool:
     stored on slow media (HDD), making the result misleading.
     """
     import urllib.request
-    payload = json.dumps({
-        "model": model, "prompt": "hi", "stream": False,
-        "options": {"temperature": 0.0, "num_predict": 1},
-    }).encode()
+
+    payload = json.dumps(
+        {
+            "model": model,
+            "prompt": "hi",
+            "stream": False,
+            "options": {"temperature": 0.0, "num_predict": 1},
+        }
+    ).encode()
     req = urllib.request.Request(
-        OLLAMA_URL + "/api/generate", data=payload,
-        headers={"Content-Type": "application/json"}, method="POST",
+        OLLAMA_URL + "/api/generate",
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     try:
         with urllib.request.urlopen(req, timeout=timeout):
@@ -2394,15 +2490,19 @@ def ask_student(model: str, system: str, user: str) -> str | None:
     Timeout is 300s to accommodate large models (7B+) on slow storage.
     Models are pre-warmed before the first probe — see run_eval().
     """
-    import urllib.request, urllib.error
+    import urllib.error
+    import urllib.request
+
     arch = _get_model_arch(model)
     prompt = _build_prompt(arch, system, user)
-    payload = json.dumps({
-        "model":  model,
-        "prompt": prompt,
-        "stream":  False,
-        "options": {"temperature": 0.0, "num_predict": 512},
-    }).encode("utf-8")
+    payload = json.dumps(
+        {
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {"temperature": 0.0, "num_predict": 512},
+        }
+    ).encode("utf-8")
     req = urllib.request.Request(
         OLLAMA_URL + "/api/generate",
         data=payload,
@@ -2419,12 +2519,13 @@ def ask_student(model: str, system: str, user: str) -> str | None:
 
 # ── Concept evaluator ─────────────────────────────────────────────────────────
 
+
 def run_concept(model: str, concept_key: str, verbose: bool = False) -> dict:
     """Run all 5 probes for one concept. Returns a result dict."""
     concept = CONCEPTS[concept_key]
-    probes  = concept["probes"]
-    system  = concept["system"]
-    lang    = concept["lang"]
+    probes = concept["probes"]
+    system = concept["system"]
+    lang = concept["lang"]
 
     print(f"\n  ┌─ [{concept_key.upper()}]  {concept['description']}  ({lang})")
 
@@ -2438,16 +2539,23 @@ def run_concept(model: str, concept_key: str, verbose: bool = False) -> dict:
         elapsed = time.time() - t0
 
         if raw is None:
-            print(f"SKIP (ollama unreachable)")
-            results.append({**probe, "passed": False, "reason": "ollama_unreachable",
-                            "elapsed": elapsed, "raw_output": ""})
+            print("SKIP (ollama unreachable)")
+            results.append(
+                {
+                    **probe,
+                    "passed": False,
+                    "reason": "ollama_unreachable",
+                    "elapsed": elapsed,
+                    "raw_output": "",
+                }
+            )
             continue
 
         if verbose:
-            print(f"\n  │    ── raw output ──")
+            print("\n  │    ── raw output ──")
             for line in raw.split("\n")[:12]:
                 print(f"  │    {line}")
-            print(f"  │    ────────────────")
+            print("  │    ────────────────")
 
         passed, err, stdout = run_probe(raw, probe)
 
@@ -2460,31 +2568,44 @@ def run_concept(model: str, concept_key: str, verbose: bool = False) -> dict:
             if verbose or len(err) < 150:
                 print(f"  │    Reason: {reason}")
 
-        results.append({
-            "probe_id":      probe["id"],
-            "label":         probe["label"],
-            "passed":        passed,
-            "elapsed":       round(elapsed, 2),
-            "compile_error": err[:300] if not passed else "",
-            "runtime_out":   stdout,
-        })
+        results.append(
+            {
+                "probe_id": probe["id"],
+                "label": probe["label"],
+                "passed": passed,
+                "elapsed": round(elapsed, 2),
+                "compile_error": err[:300] if not passed else "",
+                "runtime_out": stdout,
+            }
+        )
 
     score_pct = round(100 * passed_count / len(probes))
-    grade = "S" if score_pct == 100 else "A" if score_pct >= 80 else "B" if score_pct >= 60 else "C" if score_pct >= 40 else "F"
+    grade = (
+        "S"
+        if score_pct == 100
+        else "A"
+        if score_pct >= 80
+        else "B"
+        if score_pct >= 60
+        else "C"
+        if score_pct >= 40
+        else "F"
+    )
     print(f"  └─ SCORE: {passed_count}/{len(probes)} ({score_pct}%)  GRADE: {grade}")
 
     return {
-        "concept":    concept_key,
-        "lang":       lang,
-        "passed":     passed_count,
-        "total":      len(probes),
-        "score_pct":  score_pct,
-        "grade":      grade,
-        "probes":     results,
+        "concept": concept_key,
+        "lang": lang,
+        "passed": passed_count,
+        "total": len(probes),
+        "score_pct": score_pct,
+        "grade": grade,
+        "probes": results,
     }
 
 
 # ── Full evaluation run ───────────────────────────────────────────────────────
+
 
 def run_evaluation(model: str, concepts: list[str], verbose: bool = False) -> dict:
     """Run all requested concepts and aggregate results."""
@@ -2515,31 +2636,42 @@ def run_evaluation(model: str, concepts: list[str], verbose: bool = False) -> di
         total_probes += r["total"]
 
     overall_pct = round(100 * total_passed / total_probes) if total_probes else 0
-    overall_grade = "S" if overall_pct == 100 else "A" if overall_pct >= 80 else "B" if overall_pct >= 60 else "C" if overall_pct >= 40 else "F"
+    overall_grade = (
+        "S"
+        if overall_pct == 100
+        else "A"
+        if overall_pct >= 80
+        else "B"
+        if overall_pct >= 60
+        else "C"
+        if overall_pct >= 40
+        else "F"
+    )
 
     print(f"\n{'─' * 62}")
     print(f"  OVERALL: {total_passed}/{total_probes} ({overall_pct}%)  GRADE: {overall_grade}")
     print(f"{'═' * 62}\n")
 
     return {
-        "model":         model,
-        "timestamp":     datetime.now().isoformat(),
-        "concepts":      concept_results,
-        "total_passed":  total_passed,
-        "total_probes":  total_probes,
-        "overall_pct":   overall_pct,
+        "model": model,
+        "timestamp": datetime.now().isoformat(),
+        "concepts": concept_results,
+        "total_passed": total_passed,
+        "total_probes": total_probes,
+        "overall_pct": overall_pct,
         "overall_grade": overall_grade,
     }
 
 
 # ── Comparison ────────────────────────────────────────────────────────────────
 
+
 def print_comparison(result: dict, baseline: dict):
     delta = result["overall_pct"] - baseline["overall_pct"]
-    sign  = "+" if delta >= 0 else ""
+    sign = "+" if delta >= 0 else ""
     print(f"\n  COMPARISON vs BASELINE  ({baseline['timestamp'][:16]})")
     print(f"  {'Concept':<16}  {'Baseline':>8}  {'Current':>8}  {'Delta':>6}")
-    print(f"  {'─'*16}  {'─'*8}  {'─'*8}  {'─'*6}")
+    print(f"  {'─' * 16}  {'─' * 8}  {'─' * 8}  {'─' * 6}")
 
     for key in result["concepts"]:
         b = baseline.get("concepts", {}).get(key, {})
@@ -2555,16 +2687,21 @@ def print_comparison(result: dict, baseline: dict):
 
     sign = "+" if delta >= 0 else ""
     arrow = "↑ IMPROVED" if delta > 0 else "↓ REGRESSED" if delta < 0 else "= NO CHANGE"
-    print(f"  {'─'*16}  {'─'*8}  {'─'*8}  {'─'*6}")
-    print(f"  {'OVERALL':<16}  {baseline['overall_pct']:>7}%  {result['overall_pct']:>7}%  {sign}{delta:>4}% {arrow}")
+    print(f"  {'─' * 16}  {'─' * 8}  {'─' * 8}  {'─' * 6}")
+    print(
+        f"  {'OVERALL':<16}  {baseline['overall_pct']:>7}%  {result['overall_pct']:>7}%  {sign}{delta:>4}% {arrow}"
+    )
     print()
 
     # Per-probe diff for changed concepts
     for key, cr in result["concepts"].items():
         bc = baseline.get("concepts", {}).get(key, {})
         bp = {p["probe_id"]: p for p in bc.get("probes", [])}
-        changed = [(p, bp.get(p["probe_id"], {})) for p in cr["probes"]
-                   if p["passed"] != bp.get(p["probe_id"], {}).get("passed")]
+        changed = [
+            (p, bp.get(p["probe_id"], {}))
+            for p in cr["probes"]
+            if p["passed"] != bp.get(p["probe_id"], {}).get("passed")
+        ]
         if changed:
             print(f"  Changes in [{key}]:")
             for p, b in changed:
@@ -2576,21 +2713,30 @@ def print_comparison(result: dict, baseline: dict):
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Determinex Multi-Concept Evaluator")
-    parser.add_argument("--model",         default="llama3.2:3b",
-                        help="Ollama model tag to test (default: llama3.2:3b)")
-    parser.add_argument("--concept",       default="all",
-                        choices=["all"] + CONCEPT_KEYS,
-                        help="Which concept to test (default: all)")
-    parser.add_argument("--verbose",       action="store_true",
-                        help="Show raw student output for each probe")
-    parser.add_argument("--save-baseline", action="store_true",
-                        help="Save result as pre-training baseline")
-    parser.add_argument("--compare",       action="store_true",
-                        help="Compare against saved baseline")
-    parser.add_argument("--coverage",      action="store_true",
-                        help="Show training corpus vs eval probe coverage audit (no eval run needed)")
+    parser.add_argument(
+        "--model", default="llama3.2:3b", help="Ollama model tag to test (default: llama3.2:3b)"
+    )
+    parser.add_argument(
+        "--concept",
+        default="all",
+        choices=["all"] + CONCEPT_KEYS,
+        help="Which concept to test (default: all)",
+    )
+    parser.add_argument(
+        "--verbose", action="store_true", help="Show raw student output for each probe"
+    )
+    parser.add_argument(
+        "--save-baseline", action="store_true", help="Save result as pre-training baseline"
+    )
+    parser.add_argument("--compare", action="store_true", help="Compare against saved baseline")
+    parser.add_argument(
+        "--coverage",
+        action="store_true",
+        help="Show training corpus vs eval probe coverage audit (no eval run needed)",
+    )
     args = parser.parse_args()
 
     _RESULTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -2604,12 +2750,12 @@ def main():
             return
 
     concepts = CONCEPT_KEYS if args.concept == "all" else [args.concept]
-    result   = run_evaluation(args.model, concepts, verbose=args.verbose)
+    result = run_evaluation(args.model, concepts, verbose=args.verbose)
 
     # Save timestamped result
-    ts   = datetime.now().strftime("%Y%m%d_%H%M%S")
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     slug = args.model.replace(":", "_").replace("/", "_")
-    out  = _RESULTS_DIR / f"eval_{slug}_{ts}.json"
+    out = _RESULTS_DIR / f"eval_{slug}_{ts}.json"
     out.write_text(json.dumps(result, indent=2), encoding="utf-8")
     log.info("Result saved: %s", out.name)
 

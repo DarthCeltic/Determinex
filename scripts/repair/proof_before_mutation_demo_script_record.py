@@ -6,11 +6,11 @@ mutation on every wrong condition and apply it ONLY when every
 gate passes. The marketing phrase is 'Proof Before Mutation' —
 the lock requires that phrase to appear in the demo copy.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 PROOF_BEFORE_MUTATION_DEMO_STATUS_TOKENS = (
     "PROOF_BEFORE_MUTATION_DEMO_SCRIPT_WRITTEN",

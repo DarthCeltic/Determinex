@@ -1,14 +1,20 @@
-import json, os
+import json
+import os
 from collections import defaultdict
 from pathlib import Path
 
-DIR = str(Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models"))) / "corpus" / "real_scale")
+DIR = str(
+    Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models")))
+    / "corpus"
+    / "real_scale"
+)
 type_counts = defaultdict(int)
 total = 0
 
 for f in sorted(os.listdir(DIR)):
-    if not f.endswith(".jsonl"): continue
-    for line in open(os.path.join(DIR, f), "r", encoding="utf-8", errors="replace"):
+    if not f.endswith(".jsonl"):
+        continue
+    for line in open(os.path.join(DIR, f), encoding="utf-8", errors="replace"):
         line = line.strip()
         if not line:
             continue

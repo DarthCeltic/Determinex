@@ -122,7 +122,7 @@ def test_bundle_targets_is_not_restricted_to_one_platform():
     windows_only = {"msi", "nsis"}
     assert not set(targets).issubset(windows_only), (
         f"bundle.targets is {targets}, which is Windows-only; release.yml also builds macOS and "
-        f"Linux from this config and those jobs would fail. Use \"all\", or pass --bundles per job."
+        f'Linux from this config and those jobs would fail. Use "all", or pass --bundles per job.'
     )
 
 

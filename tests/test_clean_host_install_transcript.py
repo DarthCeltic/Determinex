@@ -110,7 +110,7 @@ def test_windows_clean_host_smoke_script_installs_launches_and_validates_transcr
     assert "workspace_command_smoke_performed = $WorkspaceSmokePassed" in text
     assert "uninstall_performed = $UninstallPassed" in text
     assert "[switch]$AllowDeveloperHostSmoke" in text
-    assert '$IsGitHubWindowsRunner = $true' not in text
+    assert "$IsGitHubWindowsRunner = $true" not in text
     assert '$env:GITHUB_ACTIONS -eq "true"' in text
     assert "-AllowDeveloperHostSmoke" in text
     assert "Developer-host smoke transcript written" in text
@@ -132,8 +132,7 @@ def test_windows_clean_host_smoke_script_installs_launches_and_validates_transcr
         "the clean-host claim must accept an ephemeral runner OR host evidence"
     )
     assert "clean_host_fresh_install = $IsCleanHost" in text, (
-        "clean_host_fresh_install must come from the cleanliness decision, not from "
-        "GITHUB_ACTIONS"
+        "clean_host_fresh_install must come from the cleanliness decision, not from GITHUB_ACTIONS"
     )
     assert "host_reused_from_developer_machine = -not $IsCleanHost" in text
     # No prior install of the product, and no developer toolchain that would satisfy a
@@ -141,7 +140,9 @@ def test_windows_clean_host_smoke_script_installs_launches_and_validates_transcr
     # test actually needs to establish.
     assert "$HasPriorInstall" in text
     assert "$HasDevToolchain" in text
-    assert "CurrentVersion\\Uninstall" in text, "prior-install check must read the uninstall registry"
+    assert "CurrentVersion\\Uninstall" in text, (
+        "prior-install check must read the uninstall registry"
+    )
     for tool in ("cargo", "rustc", "node", "npm"):
         assert f'"{tool}"' in text, f"dev-toolchain probe must look for {tool}"
     # The transcript has to say which evidence carried it, or a reader cannot tell an
@@ -193,6 +194,4 @@ def test_the_smoke_records_the_launch_exit_code_not_just_that_it_exited():
     assert "launch_exit_code_hex = $launchExitCodeHex" in text
     # WaitForExit returns as soon as the process dies AND leaves ExitCode readable; the old
     # sleep-then-Refresh shape discarded it.
-    assert "$process.WaitForExit(" in text, (
-        "launch must use WaitForExit so the exit code survives"
-    )
+    assert "$process.WaitForExit(" in text, "launch must use WaitForExit so the exit code survives"

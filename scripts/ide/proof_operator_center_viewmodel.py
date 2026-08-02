@@ -17,6 +17,7 @@ build() refuses any view-model where:
   * programbench_provenance_read_only is False
     -> BLOCKED_AUTHORITY_CONFUSION
 """
+
 from __future__ import annotations
 
 from .proof_operator_center_viewmodel_record import (
@@ -136,7 +137,8 @@ def build(view_model: ProofOperatorCenterViewModel | None) -> ProofOperatorCente
 
 
 def _block(
-    decision: str, *,
+    decision: str,
+    *,
     view_model: ProofOperatorCenterViewModel,
     note: str,
 ) -> ProofOperatorCenterViewModelRecord:

@@ -42,13 +42,15 @@ this system" interface.
     if result.solved:
         apply(result.best.text)        # carries a passing-oracle proof
 """
+
 from __future__ import annotations
 
 import hashlib
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable, Protocol
+from typing import Protocol
 
 _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
@@ -77,7 +79,7 @@ class Candidate:
     n_failures: int
     temperature: float
     digest: str = ""
-    score: float = 0.0   # closeness gradient (e.g. fraction of expected output reproduced)
+    score: float = 0.0  # closeness gradient (e.g. fraction of expected output reproduced)
 
 
 @dataclass
@@ -86,9 +88,9 @@ class SearchResult:
     best: Candidate | None
     rounds_used: int
     total_samples: int
-    proof: str                       # why we believe it is correct (oracle pass)
+    proof: str  # why we believe it is correct (oracle pass)
     escalated: bool = False
-    next_moves: list[str] = field(default_factory=list)   # if not solved, the Adjudicator's advice
+    next_moves: list[str] = field(default_factory=list)  # if not solved, the Adjudicator's advice
     history: list[Candidate] = field(default_factory=list)
     #: Samples where the GENERATOR raised instead of returning a candidate. Counted separately
     #: because "the model answered and was wrong" and "the model never answered" are different
@@ -138,8 +140,9 @@ def _sampler_is_degenerate(generate, probes: int = 3) -> bool:
     seen: set[str] = set()
     for i in range(probes):
         try:
-            seen.add(_digest(generate("Write one original sentence about the sea.",
-                                      0.1 + 0.45 * i)))
+            seen.add(
+                _digest(generate("Write one original sentence about the sea.", 0.1 + 0.45 * i))
+            )
         except Exception:
             return False
     return len(seen) <= 1
@@ -154,9 +157,15 @@ class VerifiedSearch:
     verified search with feedback rounds, diversity, loop-breaking, and an
     Adjudicator escalation that refuses to surrender without a reason."""
 
-    def __init__(self, verify: VerifyFn, k: int = 8, rounds: int = 3,
-                 temps: list[float] | None = None, adjudicate: bool = True,
-                 early_escalate: bool = False):
+    def __init__(
+        self,
+        verify: VerifyFn,
+        k: int = 8,
+        rounds: int = 3,
+        temps: list[float] | None = None,
+        adjudicate: bool = True,
+        early_escalate: bool = False,
+    ):
         self.verify = verify
         self.k = k
         self.rounds = rounds
@@ -177,7 +186,7 @@ class VerifiedSearch:
     def solve(self, generate: GenerateFn, prompt: str) -> SearchResult:
         history: list[Candidate] = []
         seen: set[str] = set()
-        temps_used: set[float] = set()   # to tell a degenerate sampler from a looping model
+        temps_used: set[float] = set()  # to tell a degenerate sampler from a looping model
         feedback = ""
         best: Candidate | None = None
         total = 0
@@ -233,16 +242,21 @@ class VerifiedSearch:
                     if not first_gen_error:
                         first_gen_error = gen_err
                     if heartbeat:
-                        print(f"    [vs] r{r+1} s{i+1}/{self.k} t={temp:.1f} "
-                              f"gen {gen_s:.0f}s -> GENERATION ERROR: {gen_err[:160]}",
-                              flush=True)
+                        print(
+                            f"    [vs] r{r + 1} s{i + 1}/{self.k} t={temp:.1f} "
+                            f"gen {gen_s:.0f}s -> GENERATION ERROR: {gen_err[:160]}",
+                            flush=True,
+                        )
                     continue
                 assert text is not None  # gen_err empty => generate() returned
                 dg = _digest(text)
                 if dg in seen:
                     if heartbeat:
-                        print(f"    [vs] r{r+1} s{i+1}/{self.k} t={temp:.1f} "
-                              f"gen {gen_s:.0f}s -> duplicate, skipped", flush=True)
+                        print(
+                            f"    [vs] r{r + 1} s{i + 1}/{self.k} t={temp:.1f} "
+                            f"gen {gen_s:.0f}s -> duplicate, skipped",
+                            flush=True,
+                        )
                     continue  # loop/duplicate -> skip, preserves diversity
                 seen.add(dg)
                 distinct_this_round += 1
@@ -250,27 +264,38 @@ class VerifiedSearch:
                 res = self.verify(text)
                 passed = bool(getattr(res, "passed", False))
                 nfail = len(getattr(res, "failures", []) or [])
-                cand = Candidate(text=text, passed=passed, n_failures=nfail,
-                                 temperature=temp, digest=dg,
-                                 score=float(getattr(res, "score", 0.0)))
+                cand = Candidate(
+                    text=text,
+                    passed=passed,
+                    n_failures=nfail,
+                    temperature=temp,
+                    digest=dg,
+                    score=float(getattr(res, "score", 0.0)),
+                )
                 history.append(cand)
                 if heartbeat:
-                    print(f"    [vs] r{r+1} s{i+1}/{self.k} t={temp:.1f} "
-                          f"gen {gen_s:.0f}s verify {_time.time()-v0:.0f}s -> "
-                          f"{'PASS' if passed else f'{nfail} fail'} "
-                          f"(score {cand.score:.2f})", flush=True)
+                    print(
+                        f"    [vs] r{r + 1} s{i + 1}/{self.k} t={temp:.1f} "
+                        f"gen {gen_s:.0f}s verify {_time.time() - v0:.0f}s -> "
+                        f"{'PASS' if passed else f'{nfail} fail'} "
+                        f"(score {cand.score:.2f})",
+                        flush=True,
+                    )
                 if best is None or _better(cand, best):
                     best = cand
                 if passed:
                     # SOLVED: only claim it because a sound oracle passed.
                     return SearchResult(
-                        solved=True, best=cand, rounds_used=r + 1,
+                        solved=True,
+                        best=cand,
+                        rounds_used=r + 1,
                         total_samples=total,
-                        proof=f"oracle PASSED candidate {dg} (round {r+1}, "
-                              f"temp {temp}); 0 failures.",
+                        proof=f"oracle PASSED candidate {dg} (round {r + 1}, "
+                        f"temp {temp}); 0 failures.",
                         history=history,
                         generation_errors=gen_errors,
-                        generation_error_sample=first_gen_error)
+                        generation_error_sample=first_gen_error,
+                    )
             # --- round did not solve: build feedback from the best partial ---
             # DEGENERATE SAMPLER (2026-07-31): a provider that ignores `temperature` returns
             # byte-identical text at every temperature, so K draws dedup to ONE candidate and
@@ -291,16 +316,25 @@ class VerifiedSearch:
             # the provider for the second is the same mistake as blaming the model for the
             # first. So probe the sampler directly with a throwaway prompt whose answer is
             # free to vary: if THAT varies, sampling works and this is about the task.
-            if (len(seen) <= 1 and total >= 4 and len({round(t, 3) for t in temps_used}) >= 2
-                    and _sampler_is_degenerate(generate)):
+            if (
+                len(seen) <= 1
+                and total >= 4
+                and len({round(t, 3) for t in temps_used}) >= 2
+                and _sampler_is_degenerate(generate)
+            ):
                 return self._escalate(
-                    best, history, total, r + 1,
+                    best,
+                    history,
+                    total,
+                    r + 1,
                     f"SAMPLER IGNORED TEMPERATURE: {total} draws across "
                     f"{len({round(t, 3) for t in temps_used})} distinct temperatures produced "
                     f"{len(seen)} distinct candidate(s). Verified search is degenerate at K=1 on "
                     f"this provider -- best-of-K cannot work until sampling varies. This is a "
                     f"provider/config fault, NOT a model capability verdict.",
-                    gen_errors=gen_errors, first_gen_error=first_gen_error)
+                    gen_errors=gen_errors,
+                    first_gen_error=first_gen_error,
+                )
             if distinct_this_round == 0:
                 # Distinguish "the model repeats itself" from "the model was never reached".
                 # Both produced zero distinct candidates, and the old code called both looping --
@@ -308,38 +342,65 @@ class VerifiedSearch:
                 # behaviour, which sends the reader looking in the wrong place entirely.
                 if gen_errors and not history:
                     return self._escalate(
-                        best, history, total, r + 1,
+                        best,
+                        history,
+                        total,
+                        r + 1,
                         f"the generator raised on every sample and produced no candidate "
                         f"({gen_errors}/{total}); first error: {first_gen_error[:300]}",
-                        gen_errors=gen_errors, first_gen_error=first_gen_error)
-                return self._escalate(best, history, total, r + 1,
-                                      "no distinct candidates (model is looping)",
-                                      gen_errors=gen_errors,
-                                      first_gen_error=first_gen_error)
+                        gen_errors=gen_errors,
+                        first_gen_error=first_gen_error,
+                    )
+                return self._escalate(
+                    best,
+                    history,
+                    total,
+                    r + 1,
+                    "no distinct candidates (model is looping)",
+                    gen_errors=gen_errors,
+                    first_gen_error=first_gen_error,
+                )
             if self.early_escalate and best is not None and best.score <= 0.0:
                 # zero-signal round: no candidate scored above 0.00 -> this tier can't
                 # see the target at all; more rounds of the same model are waste.
                 if heartbeat:
-                    print(f"    [vs] r{r+1}: zero-signal round (best score 0.00) -> "
-                          f"early escalate to next tier", flush=True)
-                return self._escalate(best, history, total, r + 1,
-                                      "zero-signal round at this tier (early escalate)",
-                                      gen_errors=gen_errors,
-                                      first_gen_error=first_gen_error)
+                    print(
+                        f"    [vs] r{r + 1}: zero-signal round (best score 0.00) -> "
+                        f"early escalate to next tier",
+                        flush=True,
+                    )
+                return self._escalate(
+                    best,
+                    history,
+                    total,
+                    r + 1,
+                    "zero-signal round at this tier (early escalate)",
+                    gen_errors=gen_errors,
+                    first_gen_error=first_gen_error,
+                )
             feedback = self._feedback_from(best)
             # progress check: if best is still all-fail with no improvement, the
             # next round needs a different strategy -> let the loop widen temps,
             # but if we are on the last round, escalate with the Adjudicator's moves.
-        return self._escalate(best, history, total, self.rounds, "rounds exhausted",
-                              gen_errors=gen_errors, first_gen_error=first_gen_error)
+        return self._escalate(
+            best,
+            history,
+            total,
+            self.rounds,
+            "rounds exhausted",
+            gen_errors=gen_errors,
+            first_gen_error=first_gen_error,
+        )
 
     def _feedback_from(self, best: Candidate | None) -> str:
         if best is None:
             return "Previous attempts produced no usable candidate. Try a different approach."
         res = self.verify(best.text)
         fails = getattr(res, "failures", []) or []
-        lines = ["The previous best attempt FAILED these checks. Fix EACH — your output must "
-                 "match EXPECTED exactly (bytes + exit code):"]
+        lines = [
+            "The previous best attempt FAILED these checks. Fix EACH — your output must "
+            "match EXPECTED exactly (bytes + exit code):"
+        ]
         # Budget: carry enough of each failure (incl. the EXPECTED output) to be actionable.
         # 160 chars was sized for compiler errors; reimplementation diffs need the full
         # expected output (hundreds of bytes). Cap per-failure and total to stay sane.
@@ -354,9 +415,16 @@ class VerifiedSearch:
             shown += len(block)
         return "\n".join(lines)
 
-    def _escalate(self, best: Candidate | None, history: list[Candidate],
-                  total: int, rounds: int, reason: str,
-                  gen_errors: int = 0, first_gen_error: str = "") -> SearchResult:
+    def _escalate(
+        self,
+        best: Candidate | None,
+        history: list[Candidate],
+        total: int,
+        rounds: int,
+        reason: str,
+        gen_errors: int = 0,
+        first_gen_error: str = "",
+    ) -> SearchResult:
         # Run the Adjudicator over the best candidate's failures: we are only
         # allowed to "give up" if the failures are genuinely IMPOSSIBLE; otherwise
         # we report the untried moves so the orchestration can re-decompose/route.
@@ -367,10 +435,15 @@ class VerifiedSearch:
             fails = getattr(res, "failures", []) or []
             verdicts = []
             for f in fails:
-                ff = f if isinstance(f, Failure) else Failure(
-                    test_id=getattr(f, "test_id", "?"),
-                    name=getattr(f, "name", "?"),
-                    text=getattr(f, "text", "") or "")
+                ff = (
+                    f
+                    if isinstance(f, Failure)
+                    else Failure(
+                        test_id=getattr(f, "test_id", "?"),
+                        name=getattr(f, "name", "?"),
+                        text=getattr(f, "text", "") or "",
+                    )
+                )
                 a = classify_failure(ff)
                 verdicts.append(a.verdict)
                 if a.verdict != Verdict.IMPOSSIBLE:
@@ -382,28 +455,47 @@ class VerifiedSearch:
         # to tune a prompt when the actual fix is a provider setting. Neither is it a "ceiling".
         if total > 0 and gen_errors >= total:
             return SearchResult(
-                solved=False, best=None, rounds_used=rounds, total_samples=total,
-                proof=(f"NOT ATTEMPTED: the generator raised on all {total} sample(s), so no "
-                       f"candidate was ever produced and this result says nothing about the "
-                       f"model. First error: {first_gen_error[:400]}"),
+                solved=False,
+                best=None,
+                rounds_used=rounds,
+                total_samples=total,
+                proof=(
+                    f"NOT ATTEMPTED: the generator raised on all {total} sample(s), so no "
+                    f"candidate was ever produced and this result says nothing about the "
+                    f"model. First error: {first_gen_error[:400]}"
+                ),
                 escalated=True,
                 next_moves=["fix:generator"],
                 history=history,
                 generation_errors=gen_errors,
-                generation_error_sample=first_gen_error)
-        partial = (f" NOTE: {gen_errors}/{total} sample(s) failed to generate at all "
-                   f"({first_gen_error[:200]}), so the effective sample count was lower than "
-                   f"requested." if gen_errors else "")
+                generation_error_sample=first_gen_error,
+            )
+        partial = (
+            f" NOTE: {gen_errors}/{total} sample(s) failed to generate at all "
+            f"({first_gen_error[:200]}), so the effective sample count was lower than "
+            f"requested."
+            if gen_errors
+            else ""
+        )
         return SearchResult(
-            solved=False, best=best, rounds_used=rounds, total_samples=total,
+            solved=False,
+            best=best,
+            rounds_used=rounds,
+            total_samples=total,
             proof=f"not solved ({reason}); "
-                  + ("all failures IMPOSSIBLE -> genuine ceiling, human review."
-                     if all_impossible else
-                     f"REOPENABLE via {sorted(set(next_moves))} -- re-decompose, "
-                     f"route to a stronger model, or raise K.")
-                  + partial,
-            escalated=True, next_moves=sorted(set(next_moves)), history=history,
-            generation_errors=gen_errors, generation_error_sample=first_gen_error)
+            + (
+                "all failures IMPOSSIBLE -> genuine ceiling, human review."
+                if all_impossible
+                else f"REOPENABLE via {sorted(set(next_moves))} -- re-decompose, "
+                f"route to a stronger model, or raise K."
+            )
+            + partial,
+            escalated=True,
+            next_moves=sorted(set(next_moves)),
+            history=history,
+            generation_errors=gen_errors,
+            generation_error_sample=first_gen_error,
+        )
 
 
 def _better(a: Candidate, b: Candidate) -> bool:
@@ -414,7 +506,7 @@ def _better(a: Candidate, b: Candidate) -> bool:
     # the search can stall on a do-nothing candidate that only matches empty/error cases.
     if abs(a.score - b.score) > 1e-9:
         return a.score > b.score
-    return a.n_failures < b.n_failures   # tiebreak: fewer failing checks
+    return a.n_failures < b.n_failures  # tiebreak: fewer failing checks
 
 
 def expected_solve_probability(p: float, k: int) -> float:
@@ -424,16 +516,21 @@ def expected_solve_probability(p: float, k: int) -> float:
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Verified Search -- correctness math")
     ap.add_argument("--p", type=float, default=0.1, help="model per-attempt success")
     ap.add_argument("--k", type=int, default=30, help="candidates per step")
     args = ap.parse_args()
-    print(f"A model with per-attempt p={args.p} sampled K={args.k} against a sound "
-          f"oracle:\n  P(solve) = 1-(1-{args.p})^{args.k} = "
-          f"{expected_solve_probability(args.p, args.k):.4f}")
-    print("\nThis is why ANY model with p>0 is converted toward correct by verified "
-          "search.\nDecompose until p is workable; sample against the oracle; keep "
-          "what passes.")
+    print(
+        f"A model with per-attempt p={args.p} sampled K={args.k} against a sound "
+        f"oracle:\n  P(solve) = 1-(1-{args.p})^{args.k} = "
+        f"{expected_solve_probability(args.p, args.k):.4f}"
+    )
+    print(
+        "\nThis is why ANY model with p>0 is converted toward correct by verified "
+        "search.\nDecompose until p is workable; sample against the oracle; keep "
+        "what passes."
+    )
     return 0
 
 

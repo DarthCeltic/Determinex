@@ -6,6 +6,7 @@ The response is captured as advisory; the verifier remains the source
 of truth. No patch is generated. No source mutation. No corpus row.
 No training eligibility.
 """
+
 from __future__ import annotations
 
 import sys
@@ -68,12 +69,15 @@ class LiveDiagnoseTraceRunner:
                 model_id=provider.model_id,
                 decision="LIVE_DIAGNOSE_BLOCKED_MODEL_NOT_ADMITTED",
                 note=f"admission decision={admission.decision} "
-                     f"live_call_authorized={admission.live_call_authorized}",
+                f"live_call_authorized={admission.live_call_authorized}",
             )
 
         # 3. Invoke harness against the provider (fixture only).
         response: LiveModelResponse = self._harness.invoke(
-            provider, task_class=task_class, schema_id=schema_id, payload=payload,
+            provider,
+            task_class=task_class,
+            schema_id=schema_id,
+            payload=payload,
         )
 
         if response.is_blocked:

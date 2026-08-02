@@ -2,20 +2,17 @@
 SWE-bench Multimodal adapter — converts 517 JS/visual instances to VisualTaskSpec.
 Handles screenshot evidence, DOM snapshots, and visual oracle verification.
 """
+
 from __future__ import annotations
 
-import json
 import logging
-from pathlib import Path
 from typing import Any
 
 from agents.base_agent import (
     AgentObservation,
-    CorpusRecord,
-    CorpusType,
     EnvType,
-    OracleVerdict,
     OracleType,
+    OracleVerdict,
     VisualTaskSpec,
 )
 
@@ -54,6 +51,7 @@ def load_observation_from_screenshot(
     step: int = 0,
 ) -> AgentObservation:
     from vision.screenshot_loader import screenshot_hash
+
     return AgentObservation(
         env_type=EnvType.BROWSER,
         step=step,

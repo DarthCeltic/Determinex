@@ -11,7 +11,9 @@ from corpus.programbench.approved_scanner_setup import (  # noqa: E402
     ApprovedScannerSetupStatus,
     ProgramBenchApprovedScannerSetup,
 )
-from corpus.programbench.approved_scanner_setup_record import verify_approved_scanner_setup_record  # noqa: E402
+from corpus.programbench.approved_scanner_setup_record import (
+    verify_approved_scanner_setup_record,  # noqa: E402
+)
 from corpus.programbench.cleanroom_image_scanner_admission import CommandResult  # noqa: E402
 
 
@@ -33,7 +35,9 @@ def _runner_fail(_command: list[str], _timeout: int) -> CommandResult:
     return CommandResult(1, "", "failed")
 
 
-def _setup(tmp_path: Path, *, which=None, runner=None, allow_wrappers: bool = False) -> ProgramBenchApprovedScannerSetup:
+def _setup(
+    tmp_path: Path, *, which=None, runner=None, allow_wrappers: bool = False
+) -> ProgramBenchApprovedScannerSetup:
     return ProgramBenchApprovedScannerSetup(
         ApprovedScannerSetupConfig(
             root=tmp_path,
@@ -53,54 +57,88 @@ def test_existing_trivy_path_is_preferred_and_accepted(tmp_path):
     result = _setup(
         tmp_path,
         runner=_runner_ok,
-        which=lambda name: str(trivy) if name == "trivy" else str(grype) if name == "grype" else None,
+        which=lambda name: (
+            str(trivy) if name == "trivy" else str(grype) if name == "grype" else None
+        ),
     ).setup()
 
-    assert result["record"]["status"] == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_PASSED.value
+    assert (
+        result["record"]["status"]
+        == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_PASSED.value
+    )
     assert result["record"]["scanner_name"] == "trivy"
 
 
 def test_existing_grype_path_is_accepted_when_trivy_absent(tmp_path):
     grype = _exe(tmp_path, "grype.exe")
 
-    result = _setup(tmp_path, runner=_runner_ok, which=lambda name: str(grype) if name == "grype" else None).setup()
+    result = _setup(
+        tmp_path, runner=_runner_ok, which=lambda name: str(grype) if name == "grype" else None
+    ).setup()
 
-    assert result["record"]["status"] == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_PASSED.value
+    assert (
+        result["record"]["status"]
+        == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_PASSED.value
+    )
     assert result["record"]["scanner_name"] == "grype"
 
 
 def test_unknown_scanner_is_rejected(tmp_path):
     result = _setup(tmp_path, runner=_runner_ok).setup("unknown", _exe(tmp_path, "unknown.exe"))
 
-    assert result["record"]["status"] == ApprovedScannerSetupStatus.APPROVED_SCANNER_OPERATOR_PATH_REJECTED.value
+    assert (
+        result["record"]["status"]
+        == ApprovedScannerSetupStatus.APPROVED_SCANNER_OPERATOR_PATH_REJECTED.value
+    )
     assert "unknown_scanner_name" in result["record"]["reasons"]
 
 
 def test_missing_scanner_produces_setup_required(tmp_path):
     result = _setup(tmp_path).setup()
 
-    assert result["record"]["status"] == ApprovedScannerSetupStatus.APPROVED_SCANNER_SETUP_REQUIRED.value
-    assert ApprovedScannerSetupStatus.APPROVED_SCANNER_SETUP_REQUIRED.value in result["record"]["setup_statuses"]
+    assert (
+        result["record"]["status"]
+        == ApprovedScannerSetupStatus.APPROVED_SCANNER_SETUP_REQUIRED.value
+    )
+    assert (
+        ApprovedScannerSetupStatus.APPROVED_SCANNER_SETUP_REQUIRED.value
+        in result["record"]["setup_statuses"]
+    )
 
 
 def test_operator_provided_valid_scanner_path_is_accepted(tmp_path):
     result = _setup(tmp_path, runner=_runner_ok).setup(scanner_path=_exe(tmp_path, "trivy.exe"))
 
-    assert result["record"]["status"] == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_PASSED.value
-    assert ApprovedScannerSetupStatus.APPROVED_SCANNER_OPERATOR_PATH_ACCEPTED.value in result["record"]["setup_statuses"]
+    assert (
+        result["record"]["status"]
+        == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_PASSED.value
+    )
+    assert (
+        ApprovedScannerSetupStatus.APPROVED_SCANNER_OPERATOR_PATH_ACCEPTED.value
+        in result["record"]["setup_statuses"]
+    )
 
 
 def test_operator_provided_invalid_path_is_rejected(tmp_path):
     result = _setup(tmp_path, runner=_runner_ok).setup(scanner_path=tmp_path / "trivy.exe")
 
-    assert result["record"]["status"] == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_FAILED.value
-    assert ApprovedScannerSetupStatus.APPROVED_SCANNER_OPERATOR_PATH_REJECTED.value in result["record"]["setup_statuses"]
+    assert (
+        result["record"]["status"]
+        == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_FAILED.value
+    )
+    assert (
+        ApprovedScannerSetupStatus.APPROVED_SCANNER_OPERATOR_PATH_REJECTED.value
+        in result["record"]["setup_statuses"]
+    )
 
 
 def test_version_read_failure_rejects_scanner(tmp_path):
     result = _setup(tmp_path, runner=_runner_fail).setup("trivy", _exe(tmp_path, "trivy.exe"))
 
-    assert result["record"]["status"] == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_FAILED.value
+    assert (
+        result["record"]["status"]
+        == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_FAILED.value
+    )
     assert result["record"]["admission_status"] == "CLEANROOM_SCANNER_VERSION_FAILED"
 
 
@@ -112,7 +150,10 @@ def test_capability_failure_rejects_scanner(tmp_path):
 
     result = _setup(tmp_path, runner=runner).setup("docker_scout", _exe(tmp_path, "docker.exe"))
 
-    assert result["record"]["status"] == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_FAILED.value
+    assert (
+        result["record"]["status"]
+        == ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_FAILED.value
+    )
     assert result["record"]["admission_status"] == "CLEANROOM_SCANNER_BLOCKED_REQUIRES_EXECUTION"
 
 
@@ -133,7 +174,9 @@ def test_scanner_admission_can_be_rerun_after_valid_setup(tmp_path):
 def test_setup_does_not_scan_doxygen_artifact(tmp_path):
     result = _setup(tmp_path, runner=_runner_ok).setup("trivy", _exe(tmp_path, "trivy.exe"))
 
-    assert "sha256_cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72.tar" not in str(result["record"])
+    assert "sha256_cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72.tar" not in str(
+        result["record"]
+    )
 
 
 def test_setup_does_not_mark_cache_ready(tmp_path):
@@ -175,4 +218,6 @@ def test_no_programbench_rerun_occurs(tmp_path):
 
     _setup(tmp_path, runner=runner).setup("grype", _exe(tmp_path, "grype.exe"))
 
-    assert all(not any(part.lower() in {"programbench", "eval"} for part in command) for command in seen)
+    assert all(
+        not any(part.lower() in {"programbench", "eval"} for part in command) for command in seen
+    )

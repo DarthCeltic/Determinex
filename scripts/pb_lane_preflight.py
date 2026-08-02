@@ -10,16 +10,16 @@ Build a launch queue that excludes no-op reruns:
 This is intentionally mechanical. It does not decide what to implement; it
 prevents wasting Docker lanes on byte-identical submissions.
 """
+
 from __future__ import annotations
 
 import argparse
 import csv
 import hashlib
 import json
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 OVERRIDES = ROOT / "corpus" / "programbench" / "per_tool_overrides"
@@ -174,7 +174,11 @@ def main() -> int:
     ap.add_argument("--min-runnable", type=int, default=200)
     ap.add_argument("--limit", type=int, default=40)
     ap.add_argument("--status", default="LAUNCHABLE")
-    ap.add_argument("--write", action="store_true", help="write JSON/CSV reports under logs/programbench_factory")
+    ap.add_argument(
+        "--write",
+        action="store_true",
+        help="write JSON/CSV reports under logs/programbench_factory",
+    )
     args = ap.parse_args()
 
     board = load_json(BOARD)
@@ -209,7 +213,9 @@ def main() -> int:
         csv_path = FACTORY / "lane_preflight.csv"
         json_path.write_text(json.dumps([asdict(r) for r in rows], indent=2), encoding="utf-8")
         with csv_path.open("w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=list(asdict(rows[0]).keys()) if rows else ["status"])
+            writer = csv.DictWriter(
+                f, fieldnames=list(asdict(rows[0]).keys()) if rows else ["status"]
+            )
             writer.writeheader()
             for r in rows:
                 writer.writerow(asdict(r))

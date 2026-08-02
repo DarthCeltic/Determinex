@@ -21,6 +21,7 @@ Decisions:
 The acceptance record carries source_mutation_authorized=False even
 on accept: the source-apply rung is the only place that flips that.
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -37,13 +38,11 @@ from repair.real_temp_patch_verify_record import (  # noqa: E402
     RealTempPatchVerifyRecord,
 )
 
+from . import local_signing as _local_signing
 from .real_human_approval_admission_record import (
     REAL_HUMAN_APPROVAL_ADMISSION_STATUS_TOKENS,
     RealHumanApprovalAdmissionRecord,
 )
-
-from . import local_signing as _local_signing
-
 
 _REAL_SIGNATURE_KIND = "real_local_signed"
 _HMAC_SIGNATURE_KIND = _local_signing.SIGNATURE_KIND_HMAC
@@ -83,25 +82,31 @@ def admit(
     secret_path=None,
     now: _dt.datetime | None = None,
 ) -> RealHumanApprovalAdmissionRecord:
-    now = now or _dt.datetime.now(_dt.timezone.utc)
+    now = now or _dt.datetime.now(_dt.UTC)
     accepted_at = now.isoformat()
 
     # 1. Temp verify must be PASSED.
     if temp_verify is None or not temp_verify.is_passed:
         return _block(
             "REAL_HUMAN_APPROVAL_BLOCKED_VERIFIER_NOT_PASSED",
-            trace_id=trace_id, workspace_identity=workspace_identity,
+            trace_id=trace_id,
+            workspace_identity=workspace_identity,
             diff_hash=expected_diff_hash,
             verifier_status=expected_verifier_status,
             operator_identity=submitted_operator_identity,
             operator_signature=submitted_signature,
             signature_kind=submitted_signature_kind,
-            accepted_at=accepted_at, stale_after=expected_stale_after,
+            accepted_at=accepted_at,
+            stale_after=expected_stale_after,
             note="temp_verify missing or did not pass",
         )
 
     # 2. Trace id must match.
-    if not trace_id or trace_id != getattr(temp_verify, "workspace", trace_id) and trace_id != trace_id:
+    if (
+        not trace_id
+        or trace_id != getattr(temp_verify, "workspace", trace_id)
+        and trace_id != trace_id
+    ):
         # The above is intentionally tautological; we rely on the caller
         # to pass the canonical trace_id used to build the packet. If
         # there's a per-trace stronger binding it should go in the
@@ -115,25 +120,29 @@ def admit(
         except (ValueError, TypeError):
             return _block(
                 "REAL_HUMAN_APPROVAL_BLOCKED_STALE",
-                trace_id=trace_id, workspace_identity=workspace_identity,
+                trace_id=trace_id,
+                workspace_identity=workspace_identity,
                 diff_hash=expected_diff_hash,
                 verifier_status=expected_verifier_status,
                 operator_identity=submitted_operator_identity,
                 operator_signature=submitted_signature,
                 signature_kind=submitted_signature_kind,
-                accepted_at=accepted_at, stale_after=expected_stale_after,
+                accepted_at=accepted_at,
+                stale_after=expected_stale_after,
                 note="stale_after unparseable",
             )
         if now >= stale:
             return _block(
                 "REAL_HUMAN_APPROVAL_BLOCKED_STALE",
-                trace_id=trace_id, workspace_identity=workspace_identity,
+                trace_id=trace_id,
+                workspace_identity=workspace_identity,
                 diff_hash=expected_diff_hash,
                 verifier_status=expected_verifier_status,
                 operator_identity=submitted_operator_identity,
                 operator_signature=submitted_signature,
                 signature_kind=submitted_signature_kind,
-                accepted_at=accepted_at, stale_after=expected_stale_after,
+                accepted_at=accepted_at,
+                stale_after=expected_stale_after,
                 note="packet stale",
             )
 
@@ -141,13 +150,15 @@ def admit(
     if observed_verifier_status != _VERIFIER_PASS:
         return _block(
             "REAL_HUMAN_APPROVAL_BLOCKED_VERIFIER_NOT_PASSED",
-            trace_id=trace_id, workspace_identity=workspace_identity,
+            trace_id=trace_id,
+            workspace_identity=workspace_identity,
             diff_hash=expected_diff_hash,
             verifier_status=observed_verifier_status,
             operator_identity=submitted_operator_identity,
             operator_signature=submitted_signature,
             signature_kind=submitted_signature_kind,
-            accepted_at=accepted_at, stale_after=expected_stale_after,
+            accepted_at=accepted_at,
+            stale_after=expected_stale_after,
             note=f"verifier status {observed_verifier_status!r}",
         )
 
@@ -156,13 +167,15 @@ def admit(
     if obs_hash != expected_diff_hash:
         return _block(
             "REAL_HUMAN_APPROVAL_BLOCKED_DIFF_MISMATCH",
-            trace_id=trace_id, workspace_identity=workspace_identity,
+            trace_id=trace_id,
+            workspace_identity=workspace_identity,
             diff_hash=expected_diff_hash,
             verifier_status=observed_verifier_status,
             operator_identity=submitted_operator_identity,
             operator_signature=submitted_signature,
             signature_kind=submitted_signature_kind,
-            accepted_at=accepted_at, stale_after=expected_stale_after,
+            accepted_at=accepted_at,
+            stale_after=expected_stale_after,
             note="observed diff hash does not match packet diff hash",
         )
 
@@ -208,13 +221,15 @@ def admit(
     if not submitted_operator_identity or not submitted_operator_identity.strip():
         return _block(
             "REAL_HUMAN_APPROVAL_BLOCKED_OPERATOR_EMPTY",
-            trace_id=trace_id, workspace_identity=workspace_identity,
+            trace_id=trace_id,
+            workspace_identity=workspace_identity,
             diff_hash=expected_diff_hash,
             verifier_status=observed_verifier_status,
             operator_identity=submitted_operator_identity,
             operator_signature=submitted_signature,
             signature_kind=submitted_signature_kind,
-            accepted_at=accepted_at, stale_after=expected_stale_after,
+            accepted_at=accepted_at,
+            stale_after=expected_stale_after,
             note="operator_identity empty",
         )
 
@@ -223,13 +238,15 @@ def admit(
     if submitted_signature_kind != _HMAC_SIGNATURE_KIND:
         return _block(
             "REAL_HUMAN_APPROVAL_BLOCKED_FIXTURE",
-            trace_id=trace_id, workspace_identity=workspace_identity,
+            trace_id=trace_id,
+            workspace_identity=workspace_identity,
             diff_hash=expected_diff_hash,
             verifier_status=observed_verifier_status,
             operator_identity=submitted_operator_identity,
             operator_signature=submitted_signature,
             signature_kind=submitted_signature_kind,
-            accepted_at=accepted_at, stale_after=expected_stale_after,
+            accepted_at=accepted_at,
+            stale_after=expected_stale_after,
             note=(
                 f"signature_kind {submitted_signature_kind!r} is not "
                 f"{_HMAC_SIGNATURE_KIND!r}; legacy hex-only signatures "
@@ -240,13 +257,15 @@ def admit(
     if not _is_hex64(submitted_signature):
         return _block(
             "REAL_HUMAN_APPROVAL_BLOCKED_SIGNATURE_INVALID",
-            trace_id=trace_id, workspace_identity=workspace_identity,
+            trace_id=trace_id,
+            workspace_identity=workspace_identity,
             diff_hash=expected_diff_hash,
             verifier_status=observed_verifier_status,
             operator_identity=submitted_operator_identity,
             operator_signature=submitted_signature,
             signature_kind=submitted_signature_kind,
-            accepted_at=accepted_at, stale_after=expected_stale_after,
+            accepted_at=accepted_at,
+            stale_after=expected_stale_after,
             note="signature is not a 64-char hex digest",
         )
 
@@ -262,20 +281,23 @@ def admit(
         stale_after=expected_stale_after,
     )
     if not _local_signing.verify(
-        payload, submitted_signature, secret_path=secret_path,
+        payload,
+        submitted_signature,
+        secret_path=secret_path,
     ):
         return _block(
             "REAL_HUMAN_APPROVAL_BLOCKED_SIGNATURE_INVALID",
-            trace_id=trace_id, workspace_identity=workspace_identity,
+            trace_id=trace_id,
+            workspace_identity=workspace_identity,
             diff_hash=expected_diff_hash,
             verifier_status=observed_verifier_status,
             operator_identity=submitted_operator_identity,
             operator_signature=submitted_signature,
             signature_kind=submitted_signature_kind,
-            accepted_at=accepted_at, stale_after=expected_stale_after,
+            accepted_at=accepted_at,
+            stale_after=expected_stale_after,
             note=(
-                "HMAC verification failed over canonical payload "
-                "(CLAUDE-AUTH-008 binding mismatch)"
+                "HMAC verification failed over canonical payload (CLAUDE-AUTH-008 binding mismatch)"
             ),
         )
 

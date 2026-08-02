@@ -13,6 +13,7 @@ Usage:
   python scripts/pb_parity_claim_guard.py           # scan all docs
   python scripts/pb_parity_claim_guard.py --verbose  # show matched lines
 """
+
 from __future__ import annotations
 
 import argparse
@@ -46,11 +47,22 @@ SKIP_PATHS = {
 
 # Banned framings — these dismiss the legitimacy of upstream-disabled tests
 BANNED_PATTERNS = [
-    (re.compile(r"\brings?\b", re.IGNORECASE), "banned: 'ringers' — dismisses valid upstream-disabled tests"),
-    (re.compile(r"\bred\s+herring", re.IGNORECASE), "banned: 'red herring' — dismisses valid upstream-disabled tests"),
-    (re.compile(r"\bunfair\s+test", re.IGNORECASE), "banned: 'unfair tests' — dismisses valid upstream-disabled tests"),
-    (re.compile(r"\b(\d+)\s*/\s*200\s*=\s*[\d.]+\s*%\s+(?:strict\s+)?locks?\b", re.IGNORECASE),
-     "banned: single blended count must be multi-line format (strict / parity / ceiling)"),
+    (
+        re.compile(r"\brings?\b", re.IGNORECASE),
+        "banned: 'ringers' — dismisses valid upstream-disabled tests",
+    ),
+    (
+        re.compile(r"\bred\s+herring", re.IGNORECASE),
+        "banned: 'red herring' — dismisses valid upstream-disabled tests",
+    ),
+    (
+        re.compile(r"\bunfair\s+test", re.IGNORECASE),
+        "banned: 'unfair tests' — dismisses valid upstream-disabled tests",
+    ),
+    (
+        re.compile(r"\b(\d+)\s*/\s*200\s*=\s*[\d.]+\s*%\s+(?:strict\s+)?locks?\b", re.IGNORECASE),
+        "banned: single blended count must be multi-line format (strict / parity / ceiling)",
+    ),
 ]
 
 # Single-blended-count pattern: "N locks" or "N full-suite" where N >= 63 (strict+parity combined)
@@ -60,7 +72,14 @@ BLENDED_LOCK_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
-HISTORICAL_MARKERS = ["historical", "pre-audit", "old metric", "subset metric", "2026-05-", "2026-04-"]
+HISTORICAL_MARKERS = [
+    "historical",
+    "pre-audit",
+    "old metric",
+    "subset metric",
+    "2026-05-",
+    "2026-04-",
+]
 
 
 def is_historical(line: str) -> bool:

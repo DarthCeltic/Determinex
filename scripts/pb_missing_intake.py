@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Classify and optionally intake ProgramBench tools not in the native eval pool."""
+
 from __future__ import annotations
 
 import argparse
@@ -11,7 +12,6 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from determinex_atomic_io import write_json_atomic, write_text_atomic  # noqa: E402
-
 
 ROOT = Path(__file__).resolve().parents[1]
 BOARD = ROOT / "logs" / "programbench_lock_board.json"
@@ -48,7 +48,9 @@ def override_slug_for(base_slug: str) -> str | None:
     return matches[0].name if matches else None
 
 
-def classify(board_row: dict[str, Any], queue_bases: set[str], audit_by_base: dict[str, dict[str, Any]]) -> dict[str, Any]:
+def classify(
+    board_row: dict[str, Any], queue_bases: set[str], audit_by_base: dict[str, dict[str, Any]]
+) -> dict[str, Any]:
     base = board_row["base_slug"]
     slug = board_row.get("slug") or override_slug_for(base) or base
     audit = audit_by_base.get(base, {})
@@ -117,8 +119,19 @@ def pack_existing(rows: list[dict[str, Any]], limit: int) -> None:
     for r in rows:
         if r["bucket"] != "pack-existing" or not r["override_slug"]:
             continue
-        run_root = ROOT / ".determinex_staging" / f"pb_{r['base_slug'].replace('__','_')}_native_v1"
-        run([PY, ROOT / "scripts" / "pb_pack_candidate.py", r["override_slug"], "--run-root", run_root], check=False)
+        run_root = (
+            ROOT / ".determinex_staging" / f"pb_{r['base_slug'].replace('__', '_')}_native_v1"
+        )
+        run(
+            [
+                PY,
+                ROOT / "scripts" / "pb_pack_candidate.py",
+                r["override_slug"],
+                "--run-root",
+                run_root,
+            ],
+            check=False,
+        )
         count += 1
         if count >= limit:
             break
@@ -134,8 +147,13 @@ def convert_native(rows: list[dict[str, Any]], limit: int) -> None:
         if not r["override_slug"]:
             cmd.append("--create-missing")
         run(cmd, check=False)
-        run_root = ROOT / ".determinex_staging" / f"pb_{r['base_slug'].replace('__','_')}_native_v1"
-        run([PY, ROOT / "scripts" / "pb_pack_candidate.py", slug, "--run-root", run_root], check=False)
+        run_root = (
+            ROOT / ".determinex_staging" / f"pb_{r['base_slug'].replace('__', '_')}_native_v1"
+        )
+        run(
+            [PY, ROOT / "scripts" / "pb_pack_candidate.py", slug, "--run-root", run_root],
+            check=False,
+        )
         count += 1
         if count >= limit:
             break

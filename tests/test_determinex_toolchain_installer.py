@@ -14,6 +14,7 @@ take effect in the current process even when the underlying install
 genuinely worked (confirmed live this session: FreeBASIC installed fine via
 winget but `where fbc` in the SAME shell still failed until PATH refreshed).
 """
+
 from __future__ import annotations
 
 import subprocess
@@ -56,10 +57,12 @@ def test_winget_install_re_checks_availability_not_just_exit_code(monkeypatch):
             return False  # still false even "after" install, in this process
 
     monkeypatch.setattr(installer_mod, "get_oracle", lambda lang: _FakeOracle())
-    monkeypatch.setattr(installer_mod, "platform",
-                        type("P", (), {"system": staticmethod(lambda: "Windows")}))
-    with patch.object(installer_mod.subprocess, "run",
-                      return_value=_cp(0, stdout="Successfully installed\n")):
+    monkeypatch.setattr(
+        installer_mod, "platform", type("P", (), {"system": staticmethod(lambda: "Windows")})
+    )
+    with patch.object(
+        installer_mod.subprocess, "run", return_value=_cp(0, stdout="Successfully installed\n")
+    ):
         result = installer_mod.install_toolchain("basic")
 
     assert result.attempted is True
@@ -79,10 +82,12 @@ def test_winget_install_succeeds_when_oracle_confirms_available_after(monkeypatc
 
     fake = _FakeOracle()
     monkeypatch.setattr(installer_mod, "get_oracle", lambda lang: fake)
-    monkeypatch.setattr(installer_mod, "platform",
-                        type("P", (), {"system": staticmethod(lambda: "Windows")}))
-    with patch.object(installer_mod.subprocess, "run",
-                      return_value=_cp(0, stdout="Successfully installed\n")):
+    monkeypatch.setattr(
+        installer_mod, "platform", type("P", (), {"system": staticmethod(lambda: "Windows")})
+    )
+    with patch.object(
+        installer_mod.subprocess, "run", return_value=_cp(0, stdout="Successfully installed\n")
+    ):
         result = installer_mod.install_toolchain("basic")
 
     assert result.succeeded is True
@@ -98,16 +103,21 @@ def test_choco_install_needing_admin_reports_it_explicitly_not_a_silent_fail(mon
     needed at all) -- cleared here so this test still exercises choco as
     the fallback path in isolation, in case _PORTABLE_ZIP's mapping for a
     language is ever removed and it needs to fall back to choco again."""
+
     class _FakeOracle:
         def available(self):
             return False
 
     monkeypatch.setattr(installer_mod, "get_oracle", lambda lang: _FakeOracle())
-    monkeypatch.setattr(installer_mod, "platform",
-                        type("P", (), {"system": staticmethod(lambda: "Windows")}))
-    monkeypatch.setattr(installer_mod, "_PORTABLE_ZIP",
-                        {k: v for k, v in installer_mod._PORTABLE_ZIP.items() if k != "cobol"})
-    denied = ("Access to the path 'C:\\ProgramData\\chocolatey\\lib-bad' is denied.\n")
+    monkeypatch.setattr(
+        installer_mod, "platform", type("P", (), {"system": staticmethod(lambda: "Windows")})
+    )
+    monkeypatch.setattr(
+        installer_mod,
+        "_PORTABLE_ZIP",
+        {k: v for k, v in installer_mod._PORTABLE_ZIP.items() if k != "cobol"},
+    )
+    denied = "Access to the path 'C:\\ProgramData\\chocolatey\\lib-bad' is denied.\n"
     with patch.object(installer_mod.subprocess, "run", return_value=_cp(1, stderr=denied)):
         result = installer_mod.install_toolchain("cobol")
 
@@ -124,8 +134,9 @@ def test_no_installer_mapping_reports_the_manual_install_hint(monkeypatch):
             return False
 
     monkeypatch.setattr(installer_mod, "get_oracle", lambda lang: _FakeOracle())
-    monkeypatch.setattr(installer_mod, "platform",
-                        type("P", (), {"system": staticmethod(lambda: "Windows")}))
+    monkeypatch.setattr(
+        installer_mod, "platform", type("P", (), {"system": staticmethod(lambda: "Windows")})
+    )
 
     result = installer_mod.install_toolchain("swift-but-misspelled-so-no-mapping")
 
@@ -141,8 +152,9 @@ def test_non_windows_platform_reports_manual_install_hint(monkeypatch):
             return False
 
     monkeypatch.setattr(installer_mod, "get_oracle", lambda lang: _FakeOracle())
-    monkeypatch.setattr(installer_mod, "platform",
-                        type("P", (), {"system": staticmethod(lambda: "Linux")}))
+    monkeypatch.setattr(
+        installer_mod, "platform", type("P", (), {"system": staticmethod(lambda: "Linux")})
+    )
 
     result = installer_mod.install_toolchain("c")
 
@@ -172,29 +184,40 @@ def test_portable_zip_installs_and_persists_env_vars_not_just_path(monkeypatch, 
 
     fake = _FakeOracle()
     monkeypatch.setattr(installer_mod, "get_oracle", lambda lang: fake)
-    monkeypatch.setattr(installer_mod, "platform",
-                        type("P", (), {"system": staticmethod(lambda: "Windows")}))
-    monkeypatch.setitem(installer_mod._PORTABLE_ZIP, "cobol", {
-        "url": "https://example.invalid/gnucobol.7z",
-        "install_dir": str(install_dir),
-        "probe_relpath": "bin/cobc.exe",
-        "env_subdirs": {
-            "COB_CONFIG_DIR": "config",
-            "COB_COPY_DIR": "copy",
-            "COB_LIBRARY_PATH": "extras",
-            "LOCALEDIR": "locale",
+    monkeypatch.setattr(
+        installer_mod, "platform", type("P", (), {"system": staticmethod(lambda: "Windows")})
+    )
+    monkeypatch.setitem(
+        installer_mod._PORTABLE_ZIP,
+        "cobol",
+        {
+            "url": "https://example.invalid/gnucobol.7z",
+            "install_dir": str(install_dir),
+            "probe_relpath": "bin/cobc.exe",
+            "env_subdirs": {
+                "COB_CONFIG_DIR": "config",
+                "COB_COPY_DIR": "copy",
+                "COB_LIBRARY_PATH": "extras",
+                "LOCALEDIR": "locale",
+            },
         },
-    })
+    )
     _real_exists = Path.exists
-    monkeypatch.setattr(installer_mod.Path, "exists",
-                        lambda self: True if "7z.exe" in str(self) else _real_exists(self))
-    monkeypatch.setattr(installer_mod.urllib.request, "urlretrieve",
-                        lambda url, path: None)
-    monkeypatch.setattr(installer_mod.subprocess, "run",
-                        lambda *a, **k: _cp(0, stdout="Everything is Ok\n"))
+    monkeypatch.setattr(
+        installer_mod.Path,
+        "exists",
+        lambda self: True if "7z.exe" in str(self) else _real_exists(self),
+    )
+    monkeypatch.setattr(installer_mod.urllib.request, "urlretrieve", lambda url, path: None)
+    monkeypatch.setattr(
+        installer_mod.subprocess, "run", lambda *a, **k: _cp(0, stdout="Everything is Ok\n")
+    )
     persisted = {}
-    monkeypatch.setattr(installer_mod, "_persist_user_env_var",
-                        lambda name, value: persisted.__setitem__(name, value))
+    monkeypatch.setattr(
+        installer_mod,
+        "_persist_user_env_var",
+        lambda name, value: persisted.__setitem__(name, value),
+    )
     appended_paths = []
     monkeypatch.setattr(installer_mod, "_append_user_path", appended_paths.append)
 
@@ -211,8 +234,9 @@ def test_portable_zip_installs_and_persists_env_vars_not_just_path(monkeypatch, 
 
 def test_append_user_path_is_a_noop_when_dir_already_present(monkeypatch):
     calls = []
-    monkeypatch.setattr(installer_mod, "_persist_user_env_var",
-                        lambda name, value: calls.append((name, value)))
+    monkeypatch.setattr(
+        installer_mod, "_persist_user_env_var", lambda name, value: calls.append((name, value))
+    )
 
     class _FakeKey:
         def __enter__(self):
@@ -221,11 +245,15 @@ def test_append_user_path_is_a_noop_when_dir_already_present(monkeypatch):
         def __exit__(self, *a):
             return False
 
-    fake_winreg = type("W", (), {
-        "HKEY_CURRENT_USER": None,
-        "OpenKey": staticmethod(lambda *a, **k: _FakeKey()),
-        "QueryValueEx": staticmethod(lambda key, name: (r"C:\already\here;C:\Other", 1)),
-    })
+    fake_winreg = type(
+        "W",
+        (),
+        {
+            "HKEY_CURRENT_USER": None,
+            "OpenKey": staticmethod(lambda *a, **k: _FakeKey()),
+            "QueryValueEx": staticmethod(lambda key, name: (r"C:\already\here;C:\Other", 1)),
+        },
+    )
     monkeypatch.setitem(sys.modules, "winreg", fake_winreg)
 
     installer_mod._append_user_path(r"C:\Already\Here")
@@ -239,8 +267,9 @@ def test_tauri_installs_both_rust_and_node_ids(monkeypatch):
             return False
 
     monkeypatch.setattr(installer_mod, "get_oracle", lambda lang: _FakeOracle())
-    monkeypatch.setattr(installer_mod, "platform",
-                        type("P", (), {"system": staticmethod(lambda: "Windows")}))
+    monkeypatch.setattr(
+        installer_mod, "platform", type("P", (), {"system": staticmethod(lambda: "Windows")})
+    )
     captured = []
 
     def _fake_run(cmd, capture_output=True, text=True, timeout=600):

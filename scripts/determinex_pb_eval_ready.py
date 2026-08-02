@@ -25,11 +25,11 @@ Usage:
   python scripts/determinex_pb_eval_ready.py <tarball> --build [--image rust:latest]
   python scripts/determinex_pb_eval_ready.py --scan <pilot_root> [--repack]
 """
+
 from __future__ import annotations
 
 import argparse
 import subprocess
-import sys
 import tarfile
 import tempfile
 from pathlib import Path
@@ -40,9 +40,17 @@ NOT_READY = "NOT_READY"
 
 def inspect(tar_path: Path) -> dict:
     """Static, instant structure check. No Docker."""
-    out = {"tarball": str(tar_path), "verdict": NOT_READY, "reasons": [],
-           "flat": False, "compile_at_root": False, "emits_executable": False,
-           "crlf": False, "dot_slash": False, "top_entries": []}
+    out = {
+        "tarball": str(tar_path),
+        "verdict": NOT_READY,
+        "reasons": [],
+        "flat": False,
+        "compile_at_root": False,
+        "emits_executable": False,
+        "crlf": False,
+        "dot_slash": False,
+        "top_entries": [],
+    }
     try:
         with tarfile.open(tar_path, "r:gz") as t:
             names = t.getnames()
@@ -64,18 +72,21 @@ def inspect(tar_path: Path) -> dict:
             # FLAT = compile.sh sits at the archive root (./compile.sh or compile.sh)
             out["compile_at_root"] = compile_member is not None
             # nested = a single top-level dir that contains everything (no root compile.sh)
-            nested = (compile_member is None and len(top) == 1
-                      and any(n.lstrip("./").startswith(next(iter(top)) + "/compile.sh")
-                              for n in names))
+            nested = (
+                compile_member is None
+                and len(top) == 1
+                and any(n.lstrip("./").startswith(next(iter(top)) + "/compile.sh") for n in names)
+            )
             out["flat"] = out["compile_at_root"] and not nested
             if compile_member:
                 f = t.extractfile(compile_member)
                 body = f.read().decode("utf-8", "replace") if f else ""
-                out["emits_executable"] = ("executable" in body)
+                out["emits_executable"] = "executable" in body
             if nested:
                 out["reasons"].append(
                     f"NESTED: compile.sh is under top dir '{next(iter(top))}/' not at root "
-                    "-- harness won't find it -> all tests not_run. Repack flat.")
+                    "-- harness won't find it -> all tests not_run. Repack flat."
+                )
             elif not out["compile_at_root"]:
                 out["reasons"].append("no compile.sh at archive root")
             if out["compile_at_root"] and not out["emits_executable"]:
@@ -83,7 +94,8 @@ def inspect(tar_path: Path) -> dict:
             if out["flat"] and not out["dot_slash"]:
                 out["reasons"].append(
                     "MISSING ./ PREFIX: entries like 'compile.sh' instead of './compile.sh' "
-                    "-- PB harness runs `chmod +x ./compile.sh` which fails. Repack with --repack.")
+                    "-- PB harness runs `chmod +x ./compile.sh` which fails. Repack with --repack."
+                )
             # CRLF in compile.sh => `set -e\r` is an illegal option => build dies =>
             # all tests not_run. (autocrlf=true on Windows is the usual cause.)
             if compile_member and f:
@@ -91,7 +103,8 @@ def inspect(tar_path: Path) -> dict:
                     out["crlf"] = True
                     out["reasons"].append(
                         "CRLF line endings in compile.sh -- breaks `set -e` (set: Illegal "
-                        "option) -> build fails -> all tests not_run. Normalize to LF.")
+                        "option) -> build fails -> all tests not_run. Normalize to LF."
+                    )
     except Exception as e:
         out["reasons"].append(f"cannot read tarball: {e}")
         return out
@@ -116,9 +129,14 @@ def _normalize_lf(root: Path):
 # these without the plugin installed makes pytest abort -> 0 collected -> all
 # not_run (the silent-fail class). The upfront fix: ensure compile.sh installs it.
 _PLUGIN_FOR_OPT = {
-    "--timeout": "pytest-timeout", "--cov": "pytest-cov", "--forked": "pytest-forked",
-    "--numprocesses": "pytest-xdist", "-n": "pytest-xdist", "--randomly": "pytest-randomly",
-    "--asyncio-mode": "pytest-asyncio", "--benchmark": "pytest-benchmark",
+    "--timeout": "pytest-timeout",
+    "--cov": "pytest-cov",
+    "--forked": "pytest-forked",
+    "--numprocesses": "pytest-xdist",
+    "-n": "pytest-xdist",
+    "--randomly": "pytest-randomly",
+    "--asyncio-mode": "pytest-asyncio",
+    "--benchmark": "pytest-benchmark",
     "--reruns": "pytest-rerunfailures",
 }
 
@@ -133,17 +151,25 @@ def _ensure_plugins(base: Path) -> list[str]:
     body = csh.read_text(encoding="utf-8", errors="replace")
     need = set()
     for opt, pkg in _PLUGIN_FOR_OPT.items():
-        if opt in body and f"install -q {pkg}" not in body and f"install {pkg}" not in body \
-                and f"pip3 install -q {pkg}" not in body:
+        if (
+            opt in body
+            and f"install -q {pkg}" not in body
+            and f"install {pkg}" not in body
+            and f"pip3 install -q {pkg}" not in body
+        ):
             need.add(pkg)
     if not need:
         return []
-    inject = "".join(f"pip3 install -q {pkg} 2>/dev/null || pip install -q {pkg} "
-                     f"2>/dev/null || true\n" for pkg in sorted(need))
+    inject = "".join(
+        f"pip3 install -q {pkg} 2>/dev/null || pip install -q {pkg} 2>/dev/null || true\n"
+        for pkg in sorted(need)
+    )
     # insert right after the shebang so the plugin exists before any pytest runs
     lines = body.splitlines(keepends=True)
     at = 1 if lines and lines[0].startswith("#!") else 0
-    lines.insert(at, "# determinex upfront: ensure pytest plugins its pytest.ini requires\n" + inject)
+    lines.insert(
+        at, "# determinex upfront: ensure pytest plugins its pytest.ini requires\n" + inject
+    )
     csh.write_text("".join(lines), encoding="utf-8", newline="\n")
     return sorted(need)
 
@@ -187,15 +213,25 @@ def build_dryrun(tar_path: Path, image: str) -> dict:
             subs = [d for d in ws.iterdir() if (d / "compile.sh").exists()]
             if subs:
                 ws = subs[0]
-        cmd = ["docker", "run", "--rm", "-v", f"{ws}:/workspace", "-w", "/workspace",
-               image, "sh", "-c",
-               "sh compile.sh >build_dryrun.log 2>&1; echo RC=$?; "
-               "ls -la executable 2>&1; tail -30 build_dryrun.log"]
+        cmd = [
+            "docker",
+            "run",
+            "--rm",
+            "-v",
+            f"{ws}:/workspace",
+            "-w",
+            "/workspace",
+            image,
+            "sh",
+            "-c",
+            "sh compile.sh >build_dryrun.log 2>&1; echo RC=$?; "
+            "ls -la executable 2>&1; tail -30 build_dryrun.log",
+        ]
         try:
             p = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
             out = p.stdout + p.stderr
             res["log_tail"] = out[-1500:]
-            res["built"] = ("executable" in out and "RC=0" in out)
+            res["built"] = "executable" in out and "RC=0" in out
         except Exception as e:
             res["log_tail"] = f"docker run failed: {e}"
     return res
@@ -203,20 +239,26 @@ def build_dryrun(tar_path: Path, image: str) -> dict:
 
 def stale_image_hint(tar_path: Path) -> str:
     slug = tar_path.parent.name if tar_path.name == "submission.tar.gz" else tar_path.stem
-    return (f"docker rmi -f programbench-compiled/{slug}:determinex-cached  "
-            "# MUST run before re-eval after any tarball change (failure mode #1)")
+    return (
+        f"docker rmi -f programbench-compiled/{slug}:determinex-cached  "
+        "# MUST run before re-eval after any tarball change (failure mode #1)"
+    )
 
 
 def _report(r: dict):
     mark = "OK " if r["verdict"] == READY else "XX "
-    print(f"  [{mark}] {Path(r['tarball']).name}  flat={r['flat']} dot_slash={r['dot_slash']} "
-          f"exec={r['emits_executable']} top={r['top_entries'][:3]}")
+    print(
+        f"  [{mark}] {Path(r['tarball']).name}  flat={r['flat']} dot_slash={r['dot_slash']} "
+        f"exec={r['emits_executable']} top={r['top_entries'][:3]}"
+    )
     for reason in r["reasons"]:
         print(f"         - {reason}")
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Determinex PB eval-readiness gate (native-tool prelook)")
+    ap = argparse.ArgumentParser(
+        description="Determinex PB eval-readiness gate (native-tool prelook)"
+    )
     ap.add_argument("tarball", nargs="?", type=Path)
     ap.add_argument("--scan", type=Path, help="pilot root: check every */submission.tar.gz")
     ap.add_argument("--repack", action="store_true", help="auto-flatten nested tarballs")
@@ -235,7 +277,11 @@ def main(argv=None):
     not_ready = 0
     for tb in targets:
         r = inspect(tb)
-        if r["verdict"] != READY and a.repack and (not r["flat"] or r["crlf"] or not r["dot_slash"]):
+        if (
+            r["verdict"] != READY
+            and a.repack
+            and (not r["flat"] or r["crlf"] or not r["dot_slash"])
+        ):
             if repack_flat(tb):
                 print(f"  repacked flat: {tb.name}")
                 r = inspect(tb)
@@ -244,14 +290,18 @@ def main(argv=None):
             not_ready += 1
         if a.build and r["verdict"] == READY:
             b = build_dryrun(tb, a.image)
-            print(f"         build dry-run: {'BUILT' if b['built'] else 'BUILD-FAILED'} ({a.image})")
+            print(
+                f"         build dry-run: {'BUILT' if b['built'] else 'BUILD-FAILED'} ({a.image})"
+            )
             if not b["built"]:
                 for line in b["log_tail"].splitlines()[-8:]:
                     print(f"           {line}")
         if r["verdict"] != READY or (a.build):
             print(f"         guard: {stale_image_hint(tb)}")
-    print(f"\n{len(targets)-not_ready}/{len(targets)} eval-ready"
-          + (f"  ({not_ready} NOT ready)" if not_ready else ""))
+    print(
+        f"\n{len(targets) - not_ready}/{len(targets)} eval-ready"
+        + (f"  ({not_ready} NOT ready)" if not_ready else "")
+    )
     return 1 if not_ready else 0
 
 

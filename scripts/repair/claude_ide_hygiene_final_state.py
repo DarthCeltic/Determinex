@@ -15,6 +15,7 @@ disk and asserts:
 
 The evaluator never calls runtime gates. Read-only on disk.
 """
+
 from __future__ import annotations
 
 import json
@@ -24,7 +25,6 @@ from .claude_ide_hygiene_final_state_record import (
     CLAUDE_IDE_HYGIENE_FINAL_STATE_STATUS_TOKENS,
     ClaudeIdeHygieneFinalStateRecord,
 )
-
 
 # Dimension -> (lock_id, finding_or_purpose)
 _RUNG_LOCKS: dict[str, tuple[str, str]] = {
@@ -65,8 +65,8 @@ _RUNG_LOCKS: dict[str, tuple[str, str]] = {
 
 # Findings that are explicitly NOT in scope for this campaign.
 _DEFERRED_FINDINGS = (
-    "CLAUDE-AUTH-010",   # evidence index in-place mutability
-    "CLAUDE-AUTH-017",   # cross-lane global_operator_action_queue
+    "CLAUDE-AUTH-010",  # evidence index in-place mutability
+    "CLAUDE-AUTH-017",  # cross-lane global_operator_action_queue
 )
 
 
@@ -155,8 +155,7 @@ def evaluate(repo_root: Path | str) -> ClaudeIdeHygieneFinalStateRecord:
         mobile_console_status=mobile_console_status,
         deferred_findings=_DEFERRED_FINDINGS,
         next_recommended_rung=(
-            "release_readiness_install_demo_scrub" if all_closed else
-            "complete_missing_rung"
+            "release_readiness_install_demo_scrub" if all_closed else "complete_missing_rung"
         ),
         rungs_inspected=rungs_inspected,
         notes=tuple(notes),

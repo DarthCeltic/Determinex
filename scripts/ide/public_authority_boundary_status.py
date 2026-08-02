@@ -21,13 +21,13 @@ Hard rules enforced by load():
   * any authority_boundary preservation flag has wrong polarity ->
     BLOCKED_AUTHORITY_CONFUSION
 """
+
 from __future__ import annotations
 
 import json
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -272,18 +272,18 @@ def load(
     if flagship_ab.get("universal_support_claimed") is not False:
         return _block(
             _token("BLOCKED_AUTHORITY_CONFUSION"),
-            f"flagship.authority_boundary.universal_support_claimed must be False",
+            "flagship.authority_boundary.universal_support_claimed must be False",
         )
     # Export-side claim assertions.
     if export_ab.get("proof_report_export_is_release_readiness") is not False:
         return _block(
             _token("BLOCKED_AUTHORITY_CONFUSION"),
-            f"export.authority_boundary.proof_report_export_is_release_readiness must be False",
+            "export.authority_boundary.proof_report_export_is_release_readiness must be False",
         )
     if export_ab.get("report_schema_is_runtime_execution_proof") is not False:
         return _block(
             _token("BLOCKED_AUTHORITY_CONFUSION"),
-            f"export.authority_boundary.report_schema_is_runtime_execution_proof must be False",
+            "export.authority_boundary.report_schema_is_runtime_execution_proof must be False",
         )
 
     return PublicAuthorityBoundaryStatus(
@@ -303,7 +303,9 @@ def load(
         benchmark_execution_authorized=False,
         programbench_execution_authorized=False,
         release_deploy_workflow_created=False,
-        release_support_unchanged_at_zero=bool(flagship_ab.get("release_support_unchanged_at_zero", True)),
+        release_support_unchanged_at_zero=bool(
+            flagship_ab.get("release_support_unchanged_at_zero", True)
+        ),
         broad_claims_remain_false=bool(flagship_ab.get("broad_claims_remain_false", True)),
         proof_execution_authority_remains_false=bool(
             flagship_ab.get("proof_execution_authority_remains_false", True)

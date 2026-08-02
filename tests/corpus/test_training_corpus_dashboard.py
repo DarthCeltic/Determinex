@@ -48,13 +48,16 @@ def _eligible(task_id: str, language: str, failure_class: str = "none") -> dict:
 def test_training_dashboard_counts_only_training_eligible_rows(tmp_path):
     root = tmp_path / "corpus"
     _write_row(root, _eligible("py-1", "python"))
-    _write_row(root, {
-        "task_id": "eval-1",
-        "record_status": "active_eval_evidence",
-        "training_eligible": False,
-        "language": "rust",
-        "failure_type": "programbench_failure",
-    })
+    _write_row(
+        root,
+        {
+            "task_id": "eval-1",
+            "record_status": "active_eval_evidence",
+            "training_eligible": False,
+            "language": "rust",
+            "failure_type": "programbench_failure",
+        },
+    )
 
     report = generate_dashboard([root])
 

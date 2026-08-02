@@ -10,11 +10,11 @@ the aggregate invariants:
   * demo_ready: True iff the demo script is locked and passes
   * Forge/mobile remain planned/research_track
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 CLAUDE_IDE_HYGIENE_FINAL_STATE_STATUS_TOKENS = (
     "CLAUDE_IDE_HYGIENE_FINAL_STATE_PASSED",

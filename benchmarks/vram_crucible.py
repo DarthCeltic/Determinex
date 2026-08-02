@@ -16,15 +16,17 @@ Prerequisites:
     - pynvml:         `pip install pynvml requests`
 """
 
-import threading
-import time
 import json
 import sys
-import requests
+import threading
+import time
 from datetime import datetime
+
+import requests
 
 try:
     import pynvml
+
     NVML_AVAILABLE = True
 except ImportError:
     NVML_AVAILABLE = False
@@ -34,10 +36,10 @@ except ImportError:
 
 # --- Configuration ------------------------------------------------------------
 
-OLLAMA_URL        = "http://localhost:11434/api/generate"
-VRAM_CEILING_MiB  = 5500          # Hard pass limit (5.5 GB)
-VRAM_POLL_SECS    = 0.5           # Sampling interval
-GPU_INDEX         = 0             # 6 GB GPU is device 0
+OLLAMA_URL = "http://localhost:11434/api/generate"
+VRAM_CEILING_MiB = 5500  # Hard pass limit (5.5 GB)
+VRAM_POLL_SECS = 0.5  # Sampling interval
+GPU_INDEX = 0  # 6 GB GPU is device 0
 
 # Heavy payload — realistic long-context professional request
 CRUCIBLE_PROMPT = """
@@ -72,15 +74,16 @@ Output strictly as JSON matching this schema:
 
 # --- VRAM Monitor -------------------------------------------------------------
 
+
 class VramMonitor:
     def __init__(self, gpu_index: int, ceiling_mib: int, poll_interval: float):
-        self.gpu_index    = gpu_index
-        self.ceiling_mib  = ceiling_mib
+        self.gpu_index = gpu_index
+        self.ceiling_mib = ceiling_mib
         self.poll_interval = poll_interval
         self.samples: list[dict] = []
         self.breach_count = 0
-        self._stop        = threading.Event()
-        self._thread      = threading.Thread(target=self._run, daemon=True)
+        self._stop = threading.Event()
+        self._thread = threading.Thread(target=self._run, daemon=True)
 
         if NVML_AVAILABLE:
             pynvml.nvmlInit()
@@ -89,12 +92,12 @@ class VramMonitor:
     def _get_vram_mib(self) -> float:
         if NVML_AVAILABLE:
             info = pynvml.nvmlDeviceGetMemoryInfo(self.handle)
-            return info.used / (1024 ** 2)
+            return info.used / (1024**2)
         else:
             try:
                 out = subprocess.check_output(
                     ["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits"],
-                    encoding="utf-8"
+                    encoding="utf-8",
                 )
                 lines = [l.strip() for l in out.strip().splitlines() if l.strip()]
                 return float(lines[self.gpu_index])
@@ -104,20 +107,25 @@ class VramMonitor:
     def _run(self):
         while not self._stop.is_set():
             used = self._get_vram_mib()
-            ts   = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+            ts = datetime.now().strftime("%H:%M:%S.%f")[:-3]
             entry = {"ts": ts, "vram_mib": used}
             self.samples.append(entry)
 
             if used > self.ceiling_mib:
                 self.breach_count += 1
-                print(f"  [\033[91mBREACH\033[0m] {ts} — {used:.1f} MiB > {self.ceiling_mib} MiB ceiling", flush=True)
+                print(
+                    f"  [\033[91mBREACH\033[0m] {ts} — {used:.1f} MiB > {self.ceiling_mib} MiB ceiling",
+                    flush=True,
+                )
             else:
                 bar_len = 30
-                filled  = int((used / self.ceiling_mib) * bar_len)
-                bar     = "#" * filled + "." * (bar_len - filled)
-                pct     = (used / self.ceiling_mib) * 100
-                color   = "\033[92m" if pct < 75 else "\033[93m" if pct < 90 else "\033[91m"
-                print(f"  [{ts}] VRAM: {color}{used:6.1f} MiB\033[0m [{bar}] {pct:4.1f}%", flush=True)
+                filled = int((used / self.ceiling_mib) * bar_len)
+                bar = "#" * filled + "." * (bar_len - filled)
+                pct = (used / self.ceiling_mib) * 100
+                color = "\033[92m" if pct < 75 else "\033[93m" if pct < 90 else "\033[91m"
+                print(
+                    f"  [{ts}] VRAM: {color}{used:6.1f} MiB\033[0m [{bar}] {pct:4.1f}%", flush=True
+                )
 
             self._stop.wait(self.poll_interval)
 
@@ -136,26 +144,28 @@ class VramMonitor:
             return {"max_mib": 0, "avg_mib": 0, "min_mib": 0, "breach_count": 0, "passed": True}
         values = [s["vram_mib"] for s in self.samples]
         return {
-            "max_mib":      max(values),
-            "avg_mib":      sum(values) / len(values),
-            "min_mib":      min(values),
-            "samples":      len(values),
+            "max_mib": max(values),
+            "avg_mib": sum(values) / len(values),
+            "min_mib": min(values),
+            "samples": len(values),
             "breach_count": self.breach_count,
-            "ceiling_mib":  self.ceiling_mib,
-            "passed":       self.breach_count == 0,
+            "ceiling_mib": self.ceiling_mib,
+            "passed": self.breach_count == 0,
         }
 
+
 # --- Sequential Stage Tester --------------------------------------------------
+
 
 def call_ollama_stage(model: str, prompt: str, stage_name: str) -> tuple[bool, float, str]:
     """
     Fire a single Ollama inference request.
     Returns (success, elapsed_seconds, raw_response).
     """
-    print(f"\n\033[1m{'-'*60}\033[0m")
+    print(f"\n\033[1m{'-' * 60}\033[0m")
     print(f"  \033[96m[{stage_name.upper()}]\033[0m Model: {model}")
     print(f"  Prompt length: {len(prompt)} chars")
-    print(f"{'-'*60}\033[0m")
+    print(f"{'-' * 60}\033[0m")
 
     start = time.time()
     try:
@@ -180,19 +190,21 @@ def call_ollama_stage(model: str, prompt: str, stage_name: str) -> tuple[bool, f
 
         data = resp.json()
         if not data.get("done", False):
-            print(f"  \033[91m[FAIL]\033[0m Response not marked done")
+            print("  \033[91m[FAIL]\033[0m Response not marked done")
             return False, elapsed, ""
 
         raw = data.get("response", "")
-        print(f"  \033[92m[OK]\033[0m Completed in {elapsed:.2f}s — response length: {len(raw)} chars")
+        print(
+            f"  \033[92m[OK]\033[0m Completed in {elapsed:.2f}s — response length: {len(raw)} chars"
+        )
 
         # Validate JSON schema
         try:
             parsed = json.loads(raw)
-            print(f"  \033[92m[SCHEMA OK]\033[0m JSON parsed successfully")
+            print("  \033[92m[SCHEMA OK]\033[0m JSON parsed successfully")
             if stage_name == "sentinel":
                 required = {"title", "steps", "audit_targets"}
-                missing  = required - set(parsed.keys())
+                missing = required - set(parsed.keys())
                 if missing:
                     print(f"  \033[93m[SCHEMA WARN]\033[0m Missing keys: {missing}")
         except json.JSONDecodeError as e:
@@ -207,16 +219,18 @@ def call_ollama_stage(model: str, prompt: str, stage_name: str) -> tuple[bool, f
     except requests.exceptions.ConnectionError:
         elapsed = time.time() - start
         print(f"  \033[91m[CONN ERROR]\033[0m Cannot reach Ollama at {OLLAMA_URL}")
-        print(f"  Ensure 'ollama serve' is running.")
+        print("  Ensure 'ollama serve' is running.")
         return False, elapsed, ""
+
 
 # --- Main Crucible ------------------------------------------------------------
 
+
 def main():
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("  DETERMINEX VRAM CRUCIBLE — SEQUENTIAL MoA HANDOFF TEST")
     print("  6 GB GPU · 6GB VRAM · Ceiling: 5500 MiB")
-    print("="*60)
+    print("=" * 60)
 
     # Check Ollama health
     try:
@@ -229,12 +243,24 @@ def main():
     monitor = VramMonitor(GPU_INDEX, VRAM_CEILING_MiB, VRAM_POLL_SECS)
     monitor.start()
 
-    print(f"\n  \033[93mVRAM monitor live. Ceiling: {VRAM_CEILING_MiB} MiB. Sampling every {VRAM_POLL_SECS}s.\033[0m\n")
+    print(
+        f"\n  \033[93mVRAM monitor live. Ceiling: {VRAM_CEILING_MiB} MiB. Sampling every {VRAM_POLL_SECS}s.\033[0m\n"
+    )
 
     stages = [
-        ("sentinel", "determinex-sentinel-v3",  CRUCIBLE_PROMPT),
-        ("engineer", "determinex-engineer-v10-dsl",  "You are the Determinex Engineer. Execute this plan:\n" + CRUCIBLE_PROMPT[:500] + '\n\nOutput JSON: {"language":"rust","code":"...","files_affected":["src/queue.rs"]}'),
-        ("observer", "determinex-observer-v5-dsl",  'Audit this code for correctness. Output JSON: {"verdict":"CLEAN","issues":[],"confidence":0.95}'),
+        ("sentinel", "determinex-sentinel-v3", CRUCIBLE_PROMPT),
+        (
+            "engineer",
+            "determinex-engineer-v10-dsl",
+            "You are the Determinex Engineer. Execute this plan:\n"
+            + CRUCIBLE_PROMPT[:500]
+            + '\n\nOutput JSON: {"language":"rust","code":"...","files_affected":["src/queue.rs"]}',
+        ),
+        (
+            "observer",
+            "determinex-observer-v5-dsl",
+            'Audit this code for correctness. Output JSON: {"verdict":"CLEAN","issues":[],"confidence":0.95}',
+        ),
     ]
 
     results = []
@@ -242,18 +268,22 @@ def main():
 
     for stage_name, model, prompt in stages:
         success, elapsed, response = call_ollama_stage(model, prompt, stage_name)
-        results.append({
-            "stage":   stage_name,
-            "model":   model,
-            "success": success,
-            "elapsed": elapsed,
-        })
+        results.append(
+            {
+                "stage": stage_name,
+                "model": model,
+                "success": success,
+                "elapsed": elapsed,
+            }
+        )
         if not success:
-            print(f"\n  \033[91m[CRUCIBLE ABORT]\033[0m Stage {stage_name} failed. Halting pipeline.\033[0m")
+            print(
+                f"\n  \033[91m[CRUCIBLE ABORT]\033[0m Stage {stage_name} failed. Halting pipeline.\033[0m"
+            )
             break
         # Explicit pause between stages — gives Ollama time to fully evict the previous model.
         # This matches the orchestrator's VRAM_FLUSH_SECS = 8 constant.
-        print(f"  Waiting 8s for Ollama VRAM flush between stages (matching native orchestrator)...")
+        print("  Waiting 8s for Ollama VRAM flush between stages (matching native orchestrator)...")
         time.sleep(8)
 
     total_elapsed = time.time() - total_start
@@ -262,9 +292,9 @@ def main():
     vram_report = monitor.report()
 
     # -- Final Report ---------------------------------------------------------
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("  CRUCIBLE FINAL REPORT")
-    print("="*60)
+    print("=" * 60)
 
     print("\n  STAGE TIMING:")
     for r in results:
@@ -283,22 +313,26 @@ def main():
     print(f"    Breaches        : {vram_report['breach_count']}")
 
     all_stages_passed = all(r["success"] for r in results)
-    vram_passed       = vram_report["passed"]
-    overall_pass      = all_stages_passed and vram_passed
+    vram_passed = vram_report["passed"]
+    overall_pass = all_stages_passed and vram_passed
 
-    print("\n" + "-"*60)
+    print("\n" + "-" * 60)
     if overall_pass:
         print("  \033[92m\033[1m✓ CRUCIBLE PASSED\033[0m")
         print("  Sequential handoff complete. VRAM constraint honored.")
-        print(f"  Peak {vram_report['max_mib']:.1f} MiB / {VRAM_CEILING_MiB} MiB — {VRAM_CEILING_MiB - vram_report['max_mib']:.1f} MiB headroom maintained.")
+        print(
+            f"  Peak {vram_report['max_mib']:.1f} MiB / {VRAM_CEILING_MiB} MiB — {VRAM_CEILING_MiB - vram_report['max_mib']:.1f} MiB headroom maintained."
+        )
     else:
         print("  \033[91m\033[1m✗ CRUCIBLE FAILED\033[0m")
         if not all_stages_passed:
             failed = [r["stage"] for r in results if not r["success"]]
             print(f"  Pipeline failure at: {', '.join(failed)}")
         if not vram_passed:
-            print(f"  VRAM ceiling breached {vram_report['breach_count']} time(s). Peak: {vram_report['max_mib']:.1f} MiB")
-    print("-"*60 + "\n")
+            print(
+                f"  VRAM ceiling breached {vram_report['breach_count']} time(s). Peak: {vram_report['max_mib']:.1f} MiB"
+            )
+    print("-" * 60 + "\n")
 
     sys.exit(0 if overall_pass else 1)
 

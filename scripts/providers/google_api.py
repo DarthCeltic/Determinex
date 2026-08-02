@@ -15,7 +15,7 @@ from pathlib import Path
 log = logging.getLogger("oracle.provider.google_api")
 
 _DEFAULT_MODEL = "gemini-2.5-pro-preview-03-25"
-_MAX_TOKENS    = 2048
+_MAX_TOKENS = 2048
 
 
 def _load_api_key() -> str | None:

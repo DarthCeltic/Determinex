@@ -12,7 +12,9 @@ For each tool, walks every branch tarball and grabs:
 Output: logs/mass_run_v2/fixture_bank.json  — {tool: {path: contents}}
 Capped at ~2KB per file, 100 files per tool.
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -27,7 +29,7 @@ HF_SNAPSHOT = HF_CACHE / "datasets--programbench--ProgramBench-Tests" / "snapsho
 
 FIXTURE_SUFFIXES = (".golden", ".expected", ".gold", ".fixture", ".snap")
 FIXTURE_DIRS = ("/resources/", "/fixtures/", "/data/", "/expected/", "/golden/")
-MAX_FILE_SIZE = 8192   # capture full golden files (up to 8KB)
+MAX_FILE_SIZE = 8192  # capture full golden files (up to 8KB)
 MAX_FILES_PER_TOOL = 120
 
 
@@ -35,9 +37,9 @@ def is_fixture_path(name: str) -> bool:
     nl = name.lower()
     if any(nl.endswith(s) for s in FIXTURE_SUFFIXES):
         return True
-    if any(d in nl for d in FIXTURE_DIRS) and nl.endswith((".txt", ".json", ".yaml", ".yml",
-                                                            ".toml", ".csv", ".md", ".log",
-                                                            ".out", ".err", ".dat")):
+    if any(d in nl for d in FIXTURE_DIRS) and nl.endswith(
+        (".txt", ".json", ".yaml", ".yml", ".toml", ".csv", ".md", ".log", ".out", ".err", ".dat")
+    ):
         return True
     return False
 

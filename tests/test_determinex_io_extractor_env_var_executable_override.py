@@ -13,6 +13,7 @@ Fixed by unwrapping the DEFAULT argument (second positional arg, or a `default=`
 keyword) of an os.environ.get()/os.getenv() call and applying the SAME
 Path-expression and plain-string basename checks to that expression instead.
 """
+
 from __future__ import annotations
 
 import sys
@@ -23,7 +24,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_extract_wrapper_base_argv_resolves_env_get_with_path_expr_default():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 import os
 from pathlib import Path
@@ -32,12 +33,15 @@ EXECUTABLE = os.environ.get("GDAL_EXECUTABLE", str(Path(__file__).parent.parent.
 
 def run(*args, timeout=5.0):
     return subprocess.run([EXECUTABLE, *args], capture_output=True, timeout=timeout)
-''')
-    func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef)
-                and n.name == "run")
+""")
+    func = next(
+        n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef) and n.name == "run"
+    )
     module_path_exprs = {
-        stmt.targets[0].id: stmt.value for stmt in tree.body
-        if isinstance(stmt, iox.ast.Assign) and len(stmt.targets) == 1
+        stmt.targets[0].id: stmt.value
+        for stmt in tree.body
+        if isinstance(stmt, iox.ast.Assign)
+        and len(stmt.targets) == 1
         and isinstance(stmt.targets[0], iox.ast.Name)
     }
     base, suffix = iox._extract_wrapper_base_argv(func, {}, module_path_exprs, set())
@@ -47,7 +51,7 @@ def run(*args, timeout=5.0):
 def test_extract_wrapper_base_argv_resolves_env_get_with_plain_string_default():
     """The default can also be a bare string constant (samtools/fix-32 style),
     not just a Path expression."""
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 import os
 
@@ -55,11 +59,13 @@ EXECUTABLE = os.environ.get("MY_EXECUTABLE", "/workspace/executable")
 
 def run(*args, timeout=5.0):
     return subprocess.run([EXECUTABLE, *args], capture_output=True, timeout=timeout)
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     module_path_exprs = {
-        stmt.targets[0].id: stmt.value for stmt in tree.body
-        if isinstance(stmt, iox.ast.Assign) and len(stmt.targets) == 1
+        stmt.targets[0].id: stmt.value
+        for stmt in tree.body
+        if isinstance(stmt, iox.ast.Assign)
+        and len(stmt.targets) == 1
         and isinstance(stmt.targets[0], iox.ast.Name)
     }
     base, suffix = iox._extract_wrapper_base_argv(func, {}, module_path_exprs, set())
@@ -69,7 +75,7 @@ def run(*args, timeout=5.0):
 def test_extract_wrapper_base_argv_declines_env_get_with_unrelated_default():
     """Conservative guard: an os.environ.get() default whose basename isn't
     'executable' must never be treated as the placeholder."""
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 import os
 
@@ -77,11 +83,13 @@ DATA_FILE = os.environ.get("DATA_PATH", "/workspace/data.txt")
 
 def run(*args, timeout=5.0):
     return subprocess.run([DATA_FILE, *args], capture_output=True, timeout=timeout)
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     module_path_exprs = {
-        stmt.targets[0].id: stmt.value for stmt in tree.body
-        if isinstance(stmt, iox.ast.Assign) and len(stmt.targets) == 1
+        stmt.targets[0].id: stmt.value
+        for stmt in tree.body
+        if isinstance(stmt, iox.ast.Assign)
+        and len(stmt.targets) == 1
         and isinstance(stmt.targets[0], iox.ast.Name)
     }
     base, suffix = iox._extract_wrapper_base_argv(func, {}, module_path_exprs, set())
@@ -90,7 +98,8 @@ def run(*args, timeout=5.0):
 
 def test_extract_file_resolves_gdal_shaped_env_override_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import os
 from pathlib import Path
@@ -103,14 +112,16 @@ def run(*args, stdin=None, env=None, cwd=None, timeout=5.0):
         input=stdin.encode() if isinstance(stdin, str) else stdin,
         capture_output=True, timeout=timeout,
     )
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 from conftest import run
 
 def test_version():
     result = run("--version")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

@@ -8,6 +8,7 @@ rollback workspace hashes.
 If the post-apply verifier passed, returns SOURCE_ROLLBACK_NOT_REQUIRED
 without touching the workspace.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -20,6 +21,7 @@ _SCRIPTS = _HERE.parent.parent
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
+from . import symlink_policy as _symlink_policy  # noqa: E402
 from .post_apply_verifier_record import (  # noqa: E402
     PostApplyVerifierRecord,
 )
@@ -33,7 +35,6 @@ from .source_mutation_rollback_execution_record import (
 from .source_mutation_rollback_snapshot_record import (  # noqa: E402
     SourceMutationRollbackSnapshotRecord,
 )
-from . import symlink_policy as _symlink_policy  # noqa: E402
 
 
 def _sha256_tree(root: Path) -> str:
@@ -71,11 +72,15 @@ def execute_rollback(
         return SourceMutationRollbackExecutionRecord(
             decision="SOURCE_ROLLBACK_BLOCKED_SYMLINKS_UNSUPPORTED",
             workspace_identity=str(ws),
-            snapshot_path=getattr(rollback_snapshot, "snapshot_path", "") if rollback_snapshot else "",
+            snapshot_path=getattr(rollback_snapshot, "snapshot_path", "")
+            if rollback_snapshot
+            else "",
             snapshot_verified_tree_hash="",
             pre_rollback_source_hash=pre_rollback_hash,
             post_rollback_source_hash=pre_rollback_hash,
-            rollback_snapshot_ref=getattr(rollback_snapshot, "decision", "") if rollback_snapshot else "",
+            rollback_snapshot_ref=getattr(rollback_snapshot, "decision", "")
+            if rollback_snapshot
+            else "",
             apply_ref=getattr(apply_record, "decision", "") if apply_record else "",
             verifier_ref=getattr(post_apply, "decision", "") if post_apply else "",
             training_eligible=False,
@@ -89,11 +94,15 @@ def execute_rollback(
         return SourceMutationRollbackExecutionRecord(
             decision="SOURCE_ROLLBACK_NOT_REQUIRED",
             workspace_identity=str(ws),
-            snapshot_path=getattr(rollback_snapshot, "snapshot_path", "") if rollback_snapshot else "",
+            snapshot_path=getattr(rollback_snapshot, "snapshot_path", "")
+            if rollback_snapshot
+            else "",
             snapshot_verified_tree_hash="",
             pre_rollback_source_hash=pre_rollback_hash,
             post_rollback_source_hash=pre_rollback_hash,
-            rollback_snapshot_ref=getattr(rollback_snapshot, "decision", "") if rollback_snapshot else "",
+            rollback_snapshot_ref=getattr(rollback_snapshot, "decision", "")
+            if rollback_snapshot
+            else "",
             apply_ref=getattr(apply_record, "decision", "") if apply_record else "",
             verifier_ref=getattr(post_apply, "decision", "") if post_apply else "",
             training_eligible=False,
@@ -108,7 +117,9 @@ def execute_rollback(
             snapshot_verified_tree_hash="",
             pre_rollback_source_hash=pre_rollback_hash,
             post_rollback_source_hash=pre_rollback_hash,
-            rollback_snapshot_ref=getattr(rollback_snapshot, "decision", "") if rollback_snapshot else "",
+            rollback_snapshot_ref=getattr(rollback_snapshot, "decision", "")
+            if rollback_snapshot
+            else "",
             apply_ref=getattr(apply_record, "decision", "") if apply_record else "",
             verifier_ref=post_apply.decision,
             training_eligible=False,
@@ -155,10 +166,8 @@ def execute_rollback(
     # We don't delete the workspace dir itself (keep symlinks/perm bits),
     # we re-copy file contents and remove anything not present in the
     # snapshot.
-    snap_files = {p.relative_to(snap_path).as_posix()
-                  for p in snap_path.rglob("*") if p.is_file()}
-    ws_files = {p.relative_to(ws).as_posix()
-                for p in ws.rglob("*") if p.is_file()}
+    snap_files = {p.relative_to(snap_path).as_posix() for p in snap_path.rglob("*") if p.is_file()}
+    ws_files = {p.relative_to(ws).as_posix() for p in ws.rglob("*") if p.is_file()}
 
     # Remove files in ws that are not in snap.
     for extra_rel in sorted(ws_files - snap_files):

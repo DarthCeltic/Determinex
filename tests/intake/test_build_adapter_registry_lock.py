@@ -10,6 +10,7 @@ Proves the BuildAdapter protocol + BuildAdapterRegistry:
   * Source tree, corpus, and signed evidence remain unmutated
   * No T:/ drive letter required; safety defaults stay fail-closed
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -30,21 +31,23 @@ EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 
 
-STATUS_TOKENS = frozenset({
-    "BUILD_ADAPTER_REGISTRY_READY",
-    "BUILD_ADAPTER_DETECTED",
-    "BUILD_ADAPTER_UNKNOWN",
-    "BUILD_ADAPTER_MULTI_MATCH",
-    "TEST_DISCOVERY_READY",
-    "SHADOW_BUILD_READY",
-    "FAILURE_PARSE_READY",
-    "CODEBASE_EXPLORER_COMPAT_PRESERVED",
-    "SOURCE_TREE_UNMUTATED",
-    "CORPUS_UNMUTATED",
-    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
-    "PATH_PORTABLE",
-    "SAFETY_DEFAULTS_RESPECTED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "BUILD_ADAPTER_REGISTRY_READY",
+        "BUILD_ADAPTER_DETECTED",
+        "BUILD_ADAPTER_UNKNOWN",
+        "BUILD_ADAPTER_MULTI_MATCH",
+        "TEST_DISCOVERY_READY",
+        "SHADOW_BUILD_READY",
+        "FAILURE_PARSE_READY",
+        "CODEBASE_EXPLORER_COMPAT_PRESERVED",
+        "SOURCE_TREE_UNMUTATED",
+        "CORPUS_UNMUTATED",
+        "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+        "PATH_PORTABLE",
+        "SAFETY_DEFAULTS_RESPECTED",
+    }
+)
 
 
 def _sha256(p: Path) -> str | None:
@@ -68,10 +71,18 @@ def _hash_signed_evidence() -> dict[str, str]:
 
 
 def _hash_source_tree(root: Path) -> dict[str, str]:
-    cruft_dirs = frozenset({
-        "target", "__pycache__", ".pytest_cache", "node_modules",
-        "build", "dist", ".git", "_audit",
-    })
+    cruft_dirs = frozenset(
+        {
+            "target",
+            "__pycache__",
+            ".pytest_cache",
+            "node_modules",
+            "build",
+            "dist",
+            ".git",
+            "_audit",
+        }
+    )
     cruft_files = frozenset({"Cargo.lock", "go.sum", ".coverage"})
     out: dict[str, str] = {}
     for p in sorted(root.rglob("*")):
@@ -96,6 +107,7 @@ def _has_tool(name: str) -> bool:
 # Status token closure + module-level sanity
 # ---------------------------------------------------------------------------
 
+
 def test_status_tokens_match_expected_set():
     expected = {
         "BUILD_ADAPTER_REGISTRY_READY",
@@ -117,6 +129,7 @@ def test_status_tokens_match_expected_set():
 
 def test_registry_imports_and_lists_all_builtin_adapters():
     from intake.build_adapter_registry import default_registry
+
     reg = default_registry()
     names = reg.list_adapters()
     ids = reg.list_build_system_ids()
@@ -135,8 +148,10 @@ def test_registry_imports_and_lists_all_builtin_adapters():
 # Per-adapter detect() against the rung-1 fixtures
 # ---------------------------------------------------------------------------
 
+
 def test_python_adapter_detects_python_broken_fixture():
     from intake.build_adapters import PythonAdapter
+
     r = PythonAdapter.detect(FIXTURES / "python_broken")
     assert r.matched
     assert r.confidence > 0.5
@@ -145,6 +160,7 @@ def test_python_adapter_detects_python_broken_fixture():
 
 def test_rust_adapter_detects_rust_broken_fixture():
     from intake.build_adapters import RustAdapter
+
     r = RustAdapter.detect(FIXTURES / "rust_broken")
     assert r.matched
     assert r.confidence == 1.0
@@ -153,6 +169,7 @@ def test_rust_adapter_detects_rust_broken_fixture():
 
 def test_go_adapter_detects_go_broken_fixture():
     from intake.build_adapters import GoAdapter
+
     r = GoAdapter.detect(FIXTURES / "go_broken")
     assert r.matched
     assert r.confidence == 1.0
@@ -161,7 +178,8 @@ def test_go_adapter_detects_go_broken_fixture():
 
 def test_cross_adapter_no_false_positives():
     """No adapter should match a fixture belonging to a different language."""
-    from intake.build_adapters import RustAdapter, GoAdapter, PythonAdapter
+    from intake.build_adapters import GoAdapter, PythonAdapter, RustAdapter
+
     assert not RustAdapter.detect(FIXTURES / "python_broken").matched
     assert not GoAdapter.detect(FIXTURES / "python_broken").matched
     assert not PythonAdapter.detect(FIXTURES / "rust_broken").matched
@@ -174,9 +192,11 @@ def test_cross_adapter_no_false_positives():
 # Registry selection: single-match, unknown, multi-match
 # ---------------------------------------------------------------------------
 
+
 def test_select_python_fixture_is_single_match_python():
     from intake.build_adapter_registry import default_registry
     from intake.build_adapters import PythonAdapter
+
     sel = default_registry().select(FIXTURES / "python_broken")
     assert sel.primary is PythonAdapter
     assert sel.multi_match is False
@@ -186,6 +206,7 @@ def test_select_python_fixture_is_single_match_python():
 def test_select_rust_fixture_is_single_match_rust():
     from intake.build_adapter_registry import default_registry
     from intake.build_adapters import RustAdapter
+
     sel = default_registry().select(FIXTURES / "rust_broken")
     assert sel.primary is RustAdapter
     assert sel.multi_match is False
@@ -194,6 +215,7 @@ def test_select_rust_fixture_is_single_match_rust():
 def test_select_go_fixture_is_single_match_go():
     from intake.build_adapter_registry import default_registry
     from intake.build_adapters import GoAdapter
+
     sel = default_registry().select(FIXTURES / "go_broken")
     assert sel.primary is GoAdapter
     assert sel.multi_match is False
@@ -205,6 +227,7 @@ def test_select_empty_workspace_returns_unknown_explicitly(tmp_path: Path):
     (tmp_path / "README.md").write_text("just a readme, no manifest", encoding="utf-8")
     from intake.build_adapter_registry import default_registry
     from intake.build_adapters import UnknownAdapter
+
     sel = default_registry().select(tmp_path)
     assert sel.primary is UnknownAdapter
     assert sel.multi_match is False
@@ -216,17 +239,18 @@ def test_select_multi_match_polyglot_workspace_picks_higher_priority(tmp_path: P
     in the same dir. Registry must pick the highest-priority adapter
     deterministically (Rust > Go > Python by built-in priority) and mark
     multi_match=True."""
-    (tmp_path / "Cargo.toml").write_text("[package]\nname=\"p\"\nversion=\"0.0.0\"\nedition=\"2021\"\n", encoding="utf-8")
+    (tmp_path / "Cargo.toml").write_text(
+        '[package]\nname="p"\nversion="0.0.0"\nedition="2021"\n', encoding="utf-8"
+    )
     (tmp_path / "go.mod").write_text("module example.com/p\ngo 1.21\n", encoding="utf-8")
-    (tmp_path / "pyproject.toml").write_text("[project]\nname=\"p\"\nversion=\"0\"\n", encoding="utf-8")
+    (tmp_path / "pyproject.toml").write_text('[project]\nname="p"\nversion="0"\n', encoding="utf-8")
 
     from intake.build_adapter_registry import default_registry
     from intake.build_adapters import RustAdapter
+
     sel = default_registry().select(tmp_path)
     assert sel.multi_match is True, "polyglot fixture must trigger multi_match"
-    assert sel.primary is RustAdapter, (
-        f"Highest-priority adapter must win; got {sel.primary.name}"
-    )
+    assert sel.primary is RustAdapter, f"Highest-priority adapter must win; got {sel.primary.name}"
     # All three adapters must appear in the matched list
     ids = {a.build_system_id for a, _ in sel.matched}
     assert {"cargo", "go", "pip"} <= ids
@@ -235,9 +259,12 @@ def test_select_multi_match_polyglot_workspace_picks_higher_priority(tmp_path: P
 def test_selection_is_deterministic_across_invocations(tmp_path: Path):
     """Two select() calls on the same workspace must produce the same
     primary and the same matched ordering (deterministic tie-break)."""
-    (tmp_path / "Cargo.toml").write_text("[package]\nname=\"p\"\nversion=\"0\"\nedition=\"2021\"\n", encoding="utf-8")
+    (tmp_path / "Cargo.toml").write_text(
+        '[package]\nname="p"\nversion="0"\nedition="2021"\n', encoding="utf-8"
+    )
     (tmp_path / "go.mod").write_text("module example.com/p\ngo 1.21\n", encoding="utf-8")
     from intake.build_adapter_registry import default_registry
+
     a = default_registry().select(tmp_path)
     b = default_registry().select(tmp_path)
     assert a.primary is b.primary
@@ -248,36 +275,42 @@ def test_selection_is_deterministic_across_invocations(tmp_path: Path):
 # discover_tests / parse_failure
 # ---------------------------------------------------------------------------
 
+
 def test_python_adapter_discover_tests_includes_pytest():
     from intake.build_adapters import PythonAdapter
+
     out = PythonAdapter.discover_tests(FIXTURES / "python_broken")
     assert any("pytest" in s for s in out), out
 
 
 def test_rust_adapter_discover_tests_includes_cargo_test():
     from intake.build_adapters import RustAdapter
+
     out = RustAdapter.discover_tests(FIXTURES / "rust_broken")
     assert any("cargo test" in s for s in out), out
 
 
 def test_go_adapter_discover_tests_includes_go_test():
     from intake.build_adapters import GoAdapter
+
     out = GoAdapter.discover_tests(FIXTURES / "go_broken")
     assert any("go test" in s for s in out), out
 
 
 def test_unknown_adapter_discover_tests_is_empty(tmp_path: Path):
     from intake.build_adapters import UnknownAdapter
+
     assert UnknownAdapter.discover_tests(tmp_path) == []
 
 
 def test_rust_parse_failure_extracts_error_line():
     from intake.build_adapters import RustAdapter
+
     sample = (
         "error[E0308]: mismatched types\n"
         "  --> src/lib.rs:6:5\n"
         "   |\n"
-        "6  |     \"not an integer\"\n"
+        '6  |     "not an integer"\n'
         "   |     ^^^^^^^^^^^^^^^^ expected `i32`, found `&str`\n"
     )
     findings = RustAdapter.parse_failure(sample)
@@ -291,9 +324,10 @@ def test_rust_parse_failure_extracts_error_line():
 
 def test_go_parse_failure_extracts_error_line():
     from intake.build_adapters import GoAdapter
+
     sample = (
         "# example.com/p/calc\n"
-        "calc/calc.go:9:9: cannot use \"oops\" (untyped string constant) as int value\n"
+        'calc/calc.go:9:9: cannot use "oops" (untyped string constant) as int value\n'
     )
     findings = GoAdapter.parse_failure(sample)
     assert len(findings) >= 1
@@ -304,6 +338,7 @@ def test_go_parse_failure_extracts_error_line():
 
 def test_python_parse_failure_extracts_pytest_failed():
     from intake.build_adapters import PythonAdapter
+
     sample = (
         "============================= test session starts =============================\n"
         "tests/test_calc.py F                                                       [100%]\n"
@@ -318,8 +353,10 @@ def test_python_parse_failure_extracts_pytest_failed():
 # run_shadow_build — gracefully skips when toolchain absent
 # ---------------------------------------------------------------------------
 
+
 def test_python_run_shadow_build_against_python_fixture(tmp_path: Path):
     from intake.build_adapters import PythonAdapter
+
     workspace = tmp_path / "py"
     shutil.copytree(FIXTURES / "python_broken", workspace)
     r = PythonAdapter.run_shadow_build(workspace, timeout=30)
@@ -333,6 +370,7 @@ def test_rust_run_shadow_build_against_rust_fixture(tmp_path: Path):
     if not _has_tool("cargo"):
         pytest.skip("cargo not on PATH")
     from intake.build_adapters import RustAdapter
+
     workspace = tmp_path / "rs"
     shutil.copytree(FIXTURES / "rust_broken", workspace)
     r = RustAdapter.run_shadow_build(workspace, timeout=90)
@@ -345,6 +383,7 @@ def test_go_run_shadow_build_against_go_fixture(tmp_path: Path):
     if not _has_tool("go"):
         pytest.skip("go not on PATH")
     from intake.build_adapters import GoAdapter
+
     workspace = tmp_path / "go"
     shutil.copytree(FIXTURES / "go_broken", workspace)
     r = GoAdapter.run_shadow_build(workspace, timeout=60)
@@ -356,6 +395,7 @@ def test_run_shadow_build_reports_missing_tool_explicitly(tmp_path: Path):
     """When the underlying toolchain isn't on PATH, run_shadow_build must
     return tool_missing=True rather than raising."""
     from intake.build_adapters import _run
+
     r = _run(["__definitely_not_a_real_binary_xyz__"], tmp_path, timeout=5)
     assert r.tool_missing is True
     assert r.ran is False
@@ -366,8 +406,10 @@ def test_run_shadow_build_reports_missing_tool_explicitly(tmp_path: Path):
 # exactly the legacy strings for the three rung-1 fixtures.
 # ---------------------------------------------------------------------------
 
+
 def test_codebase_explorer_detect_build_system_compat_python():
     from codebase_explorer import detect_build_system
+
     bs, tf = detect_build_system(FIXTURES / "python_broken")
     assert bs == "pip"
     assert tf == "pytest"
@@ -375,6 +417,7 @@ def test_codebase_explorer_detect_build_system_compat_python():
 
 def test_codebase_explorer_detect_build_system_compat_rust():
     from codebase_explorer import detect_build_system
+
     bs, tf = detect_build_system(FIXTURES / "rust_broken")
     assert bs == "cargo"
     assert tf == "cargo test"
@@ -382,6 +425,7 @@ def test_codebase_explorer_detect_build_system_compat_rust():
 
 def test_codebase_explorer_detect_build_system_compat_go():
     from codebase_explorer import detect_build_system
+
     bs, tf = detect_build_system(FIXTURES / "go_broken")
     assert bs == "go"
     assert tf == "go test"
@@ -390,6 +434,7 @@ def test_codebase_explorer_detect_build_system_compat_go():
 def test_codebase_explorer_detect_build_system_compat_unknown(tmp_path: Path):
     (tmp_path / "README.md").write_text("nothing", encoding="utf-8")
     from codebase_explorer import detect_build_system
+
     bs, tf = detect_build_system(tmp_path)
     assert bs == "unknown"
     assert tf == "unknown"
@@ -404,6 +449,7 @@ def test_codebase_explorer_explore_still_works_on_python_fixture(tmp_path: Path)
         workspace = tmp_path / "py"
         shutil.copytree(FIXTURES / "python_broken", workspace)
         from codebase_explorer import CodebaseExplorer
+
         rep = CodebaseExplorer(workspace).explore()
         assert rep.build_system == "pip"
         assert rep.test_framework == "pytest"
@@ -418,11 +464,13 @@ def test_codebase_explorer_explore_still_works_on_python_fixture(tmp_path: Path)
 # Cross-cutting safety
 # ---------------------------------------------------------------------------
 
+
 def test_registry_select_does_not_mutate_source_tree(tmp_path: Path):
     workspace = tmp_path / "rs"
     shutil.copytree(FIXTURES / "rust_broken", workspace)
     before = _hash_source_tree(workspace)
     from intake.build_adapter_registry import default_registry
+
     default_registry().select(workspace)
     after = _hash_source_tree(workspace)
     diffs = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
@@ -434,6 +482,7 @@ def test_registry_select_does_not_mutate_signed_evidence(tmp_path: Path):
     or any locks/sentinel/*.json."""
     before = _hash_signed_evidence()
     from intake.build_adapter_registry import default_registry
+
     reg = default_registry()
     for fixture in ("python_broken", "rust_broken", "go_broken"):
         reg.select(FIXTURES / fixture)
@@ -448,8 +497,10 @@ def test_corpus_write_guard_active_during_registry_use():
     code path attempts a corpus write. (The registry itself never writes,
     but this proves the guard is in effect during the test session.)"""
     from corpus.corpus_manager import (  # type: ignore[attr-defined]
-        _assert_writes_allowed, CorpusWriteBlockedError,
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
     )
+
     os.environ["DETERMINEX_NO_CORPUS_WRITE"] = "1"
     try:
         with pytest.raises(CorpusWriteBlockedError):
@@ -466,12 +517,14 @@ def test_no_drive_letter_required(monkeypatch):
             monkeypatch.delenv(k, raising=False)
     from intake.build_adapter_registry import default_registry
     from intake.build_adapters import PythonAdapter
+
     sel = default_registry().select(FIXTURES / "python_broken")
     assert sel.primary is PythonAdapter
 
 
 def test_safety_defaults_remain_fail_closed():
     from determinex_settings import DeterminexSettings, reset_settings
+
     reset_settings()
     s = DeterminexSettings()
     assert s.assert_safety_defaults() == []
@@ -481,10 +534,7 @@ def test_safety_defaults_remain_fail_closed():
 # Lock manifest alignment
 # ---------------------------------------------------------------------------
 
-_LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "BUILD_ADAPTER_REGISTRY_LOCK_001.json"
-)
+_LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "BUILD_ADAPTER_REGISTRY_LOCK_001.json"
 
 
 def test_lock_manifest_exists():
@@ -493,6 +543,7 @@ def test_lock_manifest_exists():
 
 def test_lock_manifest_status_tokens_match_module():
     import json
+
     data = json.loads(_LOCK_PATH.read_text(encoding="utf-8"))
     declared = set(data.get("status_tokens", []))
     assert declared == set(STATUS_TOKENS), (
@@ -504,5 +555,6 @@ def test_lock_manifest_status_tokens_match_module():
 
 def test_lock_manifest_pins_adapter_count():
     import json
+
     data = json.loads(_LOCK_PATH.read_text(encoding="utf-8"))
     assert data.get("adapters_count") == 7  # Rust+Go+Python+Node+Maven+Gradle+Unknown

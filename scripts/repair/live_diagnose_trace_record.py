@@ -6,12 +6,11 @@ patch, it never authorizes source mutation, it never opens corpus
 write or training eligibility. The verifier remains the source of
 truth; the model's role here is to *suggest*, not to *fix*.
 """
+
 from __future__ import annotations
 
-import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 LIVE_DIAGNOSE_STATUS_TOKENS = (
     "LIVE_DIAGNOSE_TRACE_WRITTEN",
@@ -23,10 +22,12 @@ LIVE_DIAGNOSE_STATUS_TOKENS = (
 )
 
 
-_ALLOWED_TASK_CLASSES: frozenset[str] = frozenset({
-    "BUILD_DIAGNOSIS",
-    "TEST_FAILURE_LOCALIZATION",
-})
+_ALLOWED_TASK_CLASSES: frozenset[str] = frozenset(
+    {
+        "BUILD_DIAGNOSIS",
+        "TEST_FAILURE_LOCALIZATION",
+    }
+)
 
 
 def allowed_task_classes() -> frozenset[str]:

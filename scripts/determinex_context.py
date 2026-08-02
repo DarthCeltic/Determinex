@@ -16,6 +16,7 @@ symbols to pull in).
     bundle = provision(repo=Path("."), task_text=failure_text, budget_chars=8000)
     prompt = bundle.render()     # ready to prepend to the model prompt
 """
+
 from __future__ import annotations
 
 import re
@@ -25,11 +26,31 @@ from pathlib import Path
 
 _IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_]{2,}")
 _SKIP_DIRS = {".git", "node_modules", "target", "vendor", "__pycache__", "dist", "build"}
-_CODE_EXT = {".py", ".rs", ".go", ".c", ".h", ".cc", ".cpp", ".hpp", ".ts", ".tsx",
-             ".js", ".jsx", ".kt", ".java", ".swift", ".cs", ".rb", ".php"}
+_CODE_EXT = {
+    ".py",
+    ".rs",
+    ".go",
+    ".c",
+    ".h",
+    ".cc",
+    ".cpp",
+    ".hpp",
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx",
+    ".kt",
+    ".java",
+    ".swift",
+    ".cs",
+    ".rb",
+    ".php",
+}
 _DEF_PAT = re.compile(
     r"^\s*(?:pub\s+)?(?:async\s+)?(?:fn|func|def|class|struct|impl|interface|"
-    r"type|enum|trait|function|public|private|static)\b.*", re.M)
+    r"type|enum|trait|function|public|private|static)\b.*",
+    re.M,
+)
 
 
 @dataclass
@@ -60,8 +81,22 @@ class ContextBundle:
 def _keywords(task_text: str) -> list[str]:
     toks = [t for t in _IDENT.findall(task_text)]
     # keep identifiers that look like symbols (snake/camel/Pascal), drop common words
-    common = {"the", "and", "for", "test", "assert", "self", "result", "stdout",
-              "stderr", "returncode", "error", "value", "expected", "actual"}
+    common = {
+        "the",
+        "and",
+        "for",
+        "test",
+        "assert",
+        "self",
+        "result",
+        "stdout",
+        "stderr",
+        "returncode",
+        "error",
+        "value",
+        "expected",
+        "actual",
+    }
     seen, out = set(), []
     for t in toks:
         low = t.lower()
@@ -78,17 +113,18 @@ def _relevant_definitions(text: str, keywords: list[str]) -> list[str]:
     lines = text.splitlines()
     kwset = {k.lower() for k in keywords}
     for m in _DEF_PAT.finditer(text):
-        start = text[:m.start()].count("\n")
+        start = text[: m.start()].count("\n")
         sig = lines[start] if start < len(lines) else m.group(0)
         if any(k in sig.lower() for k in kwset):
             # grab the def + a short body window
-            body = "\n".join(lines[start:start + 25])
+            body = "\n".join(lines[start : start + 25])
             blocks.append(body)
     return blocks
 
 
-def provision(repo: Path, task_text: str, budget_chars: int = 8000,
-              max_files: int = 200) -> ContextBundle:
+def provision(
+    repo: Path, task_text: str, budget_chars: int = 8000, max_files: int = 200
+) -> ContextBundle:
     keywords = _keywords(task_text)
     kwset = {k.lower() for k in keywords}
     scored: list[Snippet] = []
@@ -116,12 +152,12 @@ def provision(repo: Path, task_text: str, budget_chars: int = 8000,
         rel = str(p.relative_to(repo)) if repo in p.parents or p.parent == repo else str(p)
         scored.append(Snippet(path=rel, score=score, text=snippet_text[:2000]))
     scored.sort(key=lambda s: s.score, reverse=True)
-    return ContextBundle(task_keywords=keywords, snippets=scored[:12],
-                         budget_chars=budget_chars)
+    return ContextBundle(task_keywords=keywords, snippets=scored[:12], budget_chars=budget_chars)
 
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex Context Provisioner")
     ap.add_argument("repo", type=Path)
     ap.add_argument("--task", required=True, help="task / failure text")

@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -15,11 +16,14 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 nav = importlib.import_module("ide.unified_product_navigation_model")
 nav_rec = importlib.import_module("ide.unified_product_navigation_model_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT
+    / "locks"
+    / "sentinel"
+    / ("DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001.json")
 )
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "determinex_unified_product_navigation_model"
+EVIDENCE_DIR = (
+    _REPO_ROOT / "assurance" / "evidence" / ("determinex_unified_product_navigation_model")
 )
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -38,8 +42,11 @@ def test_status_tokens_exact():
 
 def test_five_required_surfaces():
     assert nav.UNIFIED_PRODUCT_SURFACES == (
-        "idea_lab", "repo_clinic", "maintenance_bay",
-        "learning_studio", "proof_operator_center",
+        "idea_lab",
+        "repo_clinic",
+        "maintenance_bay",
+        "learning_studio",
+        "proof_operator_center",
     )
 
 
@@ -191,7 +198,8 @@ def test_synthetic_open_by_default_phrase_blocks(monkeypatch):
     for i, s in enumerate(bad):
         if s.key == "idea_lab":
             bad[i] = dataclasses.replace(
-                s, source_mutation_boundary="open by default for fixtures",
+                s,
+                source_mutation_boundary="open by default for fixtures",
             )
     monkeypatch.setattr(nav, "_CANONICAL_SURFACES", tuple(bad))
     rec = nav.build_record()
@@ -203,7 +211,8 @@ def test_synthetic_training_enabled_blocks(monkeypatch):
     for i, s in enumerate(bad):
         if s.key == "idea_lab":
             bad[i] = dataclasses.replace(
-                s, training_eligibility_boundary="training enabled in beginner mode",
+                s,
+                training_eligibility_boundary="training enabled in beginner mode",
             )
     monkeypatch.setattr(nav, "_CANONICAL_SURFACES", tuple(bad))
     rec = nav.build_record()
@@ -215,7 +224,8 @@ def test_synthetic_learning_studio_could_mutate_blocks(monkeypatch):
     for i, s in enumerate(bad):
         if s.key == "learning_studio":
             bad[i] = dataclasses.replace(
-                s, source_mutation_boundary="may apply teaching examples directly",
+                s,
+                source_mutation_boundary="may apply teaching examples directly",
             )
     monkeypatch.setattr(nav, "_CANONICAL_SURFACES", tuple(bad))
     rec = nav.build_record()
@@ -227,7 +237,8 @@ def test_synthetic_proof_center_writable_blocks(monkeypatch):
     for i, s in enumerate(bad):
         if s.key == "proof_operator_center":
             bad[i] = dataclasses.replace(
-                s, source_mutation_boundary="may write training rows from queue",
+                s,
+                source_mutation_boundary="may write training rows from queue",
             )
     monkeypatch.setattr(nav, "_CANONICAL_SURFACES", tuple(bad))
     rec = nav.build_record()

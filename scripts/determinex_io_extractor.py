@@ -17,18 +17,29 @@ so the oracle never reports false confidence.
 PB-compliant: read-only over the shipped tests. It never edits a test, a golden,
 collection, or the eval.
 """
+
 from __future__ import annotations
 
 import argparse
 import ast
 import json
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
-RUN_NAMES = {"run", "run_exe", "run_hx", "run_cmd", "_run", "run_executable",
-             "run_minimap", "run_nomino", "run_tool", "invoke", "execute"}
-STDIN_KW = {"stdin", "input", "input_bytes", "input_text", "input_data", "input_str",
-            "stdin_data"}
+RUN_NAMES = {
+    "run",
+    "run_exe",
+    "run_hx",
+    "run_cmd",
+    "_run",
+    "run_executable",
+    "run_minimap",
+    "run_nomino",
+    "run_tool",
+    "invoke",
+    "execute",
+}
+STDIN_KW = {"stdin", "input", "input_bytes", "input_text", "input_data", "input_str", "stdin_data"}
 ARGS_KW = {"args", "argv", "arguments"}
 RESULT_ATTRS = {"returncode", "code", "rc"}
 
@@ -68,8 +79,9 @@ def _shells_out(func: ast.FunctionDef, extra_names: set | None = None) -> bool:
         f = node.func
         if isinstance(f, ast.Attribute) and isinstance(f.value, ast.Name):
             base = f.value.id
-            if (base in _SHELL_MODULE_NAMES and f.attr in _SHELL_CALL_ATTRS) or \
-               (base in _OS_MODULE_NAMES and f.attr in _OS_SHELL_ATTRS):
+            if (base in _SHELL_MODULE_NAMES and f.attr in _SHELL_CALL_ATTRS) or (
+                base in _OS_MODULE_NAMES and f.attr in _OS_SHELL_ATTRS
+            ):
                 return True
         elif isinstance(f, ast.Name) and f.id in known:
             return True
@@ -103,9 +115,7 @@ def _discover_wrapper_names(tree: ast.Module, path: Path) -> set[str]:
             htree = ast.parse(hp.read_text(encoding="utf-8", errors="replace"))
         except SyntaxError:
             continue
-        candidates.extend(
-            node for node in ast.walk(htree) if isinstance(node, ast.FunctionDef)
-        )
+        candidates.extend(node for node in ast.walk(htree) if isinstance(node, ast.FunctionDef))
 
     names: set[str] = set()
     changed = True
@@ -137,20 +147,23 @@ def _shells_out_own_body(func: ast.FunctionDef, extra_names: set | None = None) 
     wrong, not just skipped, since the aggregate recovery count doesn't change (the
     test still counts as 'resolved', just with an incomplete argv)."""
     known = RUN_NAMES | (extra_names or set())
+
     def walk_own_scope(n):
         for child in ast.iter_child_nodes(n):
             if isinstance(child, ast.FunctionDef) and child is not func:
                 continue  # nested def has its own scope -- don't descend into it
             yield child
             yield from walk_own_scope(child)
+
     for node in walk_own_scope(func):
         if not isinstance(node, ast.Call):
             continue
         f = node.func
         if isinstance(f, ast.Attribute) and isinstance(f.value, ast.Name):
             base = f.value.id
-            if (base in _SHELL_MODULE_NAMES and f.attr in _SHELL_CALL_ATTRS) or \
-               (base in _OS_MODULE_NAMES and f.attr in _OS_SHELL_ATTRS):
+            if (base in _SHELL_MODULE_NAMES and f.attr in _SHELL_CALL_ATTRS) or (
+                base in _OS_MODULE_NAMES and f.attr in _OS_SHELL_ATTRS
+            ):
                 return True
         elif isinstance(f, ast.Name) and f.id in known:
             return True
@@ -249,8 +262,12 @@ def _is_executable_path_expr(node) -> bool:
     argv[0] whose basename is 'executable'). Doesn't need the full absolute path resolved
     (which may depend on a conftest.py-level constant like WORKSPACE_ROOT) -- only the
     trailing literal component matters for this convention."""
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "str" \
-            and len(node.args) == 1:
+    if (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "str"
+        and len(node.args) == 1
+    ):
         node = node.args[0]
     while isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
         if _const(node.right) == "executable":
@@ -263,8 +280,12 @@ def _is_executable_path_expr(node) -> bool:
     # separators are baked directly into one string), so the while-loop above never
     # even runs. Checked via the SAME basename-splitting reasoning fix 32 already
     # applies to bare string constants, just also unwrapping an outer Path(...) call.
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "Path" \
-            and len(node.args) == 1:
+    if (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "Path"
+        and len(node.args) == 1
+    ):
         node = node.args[0]
     c = _const(node)
     if isinstance(c, str) and c.replace("\\", "/").rstrip("/").rsplit("/", 1)[-1] == "executable":
@@ -295,15 +316,18 @@ def _discover_custom_scratch_dir_fixtures(tree: ast.Module) -> set[str]:
         is_fx = False
         for d in node.decorator_list:
             tgt = d.func if isinstance(d, ast.Call) else d
-            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") \
-                    or (isinstance(tgt, ast.Name) and tgt.id == "fixture"):
+            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") or (
+                isinstance(tgt, ast.Name) and tgt.id == "fixture"
+            ):
                 is_fx = True
         if not is_fx:
             continue
         uses_tempfile = any(
-            isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+            isinstance(n, ast.Call)
+            and isinstance(n.func, ast.Attribute)
             and n.func.attr == "TemporaryDirectory"
-            and isinstance(n.func.value, ast.Name) and n.func.value.id == "tempfile"
+            and isinstance(n.func.value, ast.Name)
+            and n.func.value.id == "tempfile"
             for n in ast.walk(node)
         )
         if uses_tempfile:
@@ -323,11 +347,15 @@ def _track_local_scratch_vars(func: ast.FunctionDef, scratch_bases: set) -> dict
     merged into vars_map."""
     out: dict[str, str] = {}
     for node in ast.walk(func):
-        if isinstance(node, ast.Assign) and len(node.targets) == 1 \
-                and isinstance(node.targets[0], ast.Name) \
-                and isinstance(node.value, ast.BinOp) and isinstance(node.value.op, ast.Div) \
-                and isinstance(node.value.left, ast.Name) \
-                and node.value.left.id in scratch_bases:
+        if (
+            isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+            and isinstance(node.value, ast.BinOp)
+            and isinstance(node.value.op, ast.Div)
+            and isinstance(node.value.left, ast.Name)
+            and node.value.left.id in scratch_bases
+        ):
             rhs = _const(node.value.right)
             if isinstance(rhs, str):
                 out[node.targets[0].id] = rhs
@@ -363,15 +391,18 @@ def _discover_temp_file_factory_fixtures(tree: ast.Module) -> set[str]:
         is_fx = False
         for d in node.decorator_list:
             tgt = d.func if isinstance(d, ast.Call) else d
-            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") \
-                    or (isinstance(tgt, ast.Name) and tgt.id == "fixture"):
+            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") or (
+                isinstance(tgt, ast.Name) and tgt.id == "fixture"
+            ):
                 is_fx = True
         if not is_fx:
             continue
         uses_mkstemp = any(
-            isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+            isinstance(n, ast.Call)
+            and isinstance(n.func, ast.Attribute)
             and n.func.attr == "mkstemp"
-            and isinstance(n.func.value, ast.Name) and n.func.value.id == "tempfile"
+            and isinstance(n.func.value, ast.Name)
+            and n.func.value.id == "tempfile"
             for n in ast.walk(node)
         )
         if uses_mkstemp:
@@ -392,10 +423,14 @@ def _track_temp_file_factory_vars(func: ast.FunctionDef, factory_names: set) -> 
     out: dict[str, str] = {}
     counter = 0
     for node in ast.walk(func):
-        if isinstance(node, ast.Assign) and len(node.targets) == 1 \
-                and isinstance(node.targets[0], ast.Name) \
-                and isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name) \
-                and node.value.func.id in factory_names:
+        if (
+            isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+            and isinstance(node.value, ast.Call)
+            and isinstance(node.value.func, ast.Name)
+            and node.value.func.id in factory_names
+        ):
             suffix = ""
             if node.value.args:
                 s = _const(node.value.args[0])
@@ -445,15 +480,18 @@ def _discover_temp_files_object_fixtures(tree: ast.Module) -> set[str]:
         is_fx = False
         for d in node.decorator_list:
             tgt = d.func if isinstance(d, ast.Call) else d
-            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") \
-                    or (isinstance(tgt, ast.Name) and tgt.id == "fixture"):
+            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") or (
+                isinstance(tgt, ast.Name) and tgt.id == "fixture"
+            ):
                 is_fx = True
         if not is_fx:
             continue
         uses_mkdtemp = any(
-            isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+            isinstance(n, ast.Call)
+            and isinstance(n.func, ast.Attribute)
             and n.func.attr == "mkdtemp"
-            and isinstance(n.func.value, ast.Name) and n.func.value.id == "tempfile"
+            and isinstance(n.func.value, ast.Name)
+            and n.func.value.id == "tempfile"
             for n in ast.walk(node)
         )
         has_create_method = any(
@@ -466,8 +504,9 @@ def _discover_temp_files_object_fixtures(tree: ast.Module) -> set[str]:
     return names
 
 
-def _track_temp_files_object_creates(func: ast.FunctionDef, obj_names: set,
-                                      vars_map: dict) -> dict[str, tuple[str, str]]:
+def _track_temp_files_object_creates(
+    func: ast.FunctionDef, obj_names: set, vars_map: dict
+) -> dict[str, tuple[str, str]]:
     """Map a real basename -> its staged content, for `<obj>.create(name, content)`
     calls (a bare statement expression, return value not captured) where `<obj>` is
     one of the test's own temp-files-object fixture parameters. `name` and `content`
@@ -480,8 +519,12 @@ def _track_temp_files_object_creates(func: ast.FunctionDef, obj_names: set,
         if not (isinstance(node, ast.Expr) and isinstance(node.value, ast.Call)):
             continue
         call = node.value
-        if not (isinstance(call.func, ast.Attribute) and call.func.attr == "create"
-                and isinstance(call.func.value, ast.Name) and call.func.value.id in obj_names):
+        if not (
+            isinstance(call.func, ast.Attribute)
+            and call.func.attr == "create"
+            and isinstance(call.func.value, ast.Name)
+            and call.func.value.id in obj_names
+        ):
             continue
         if len(call.args) < 1:
             continue
@@ -492,7 +535,10 @@ def _track_temp_files_object_creates(func: ast.FunctionDef, obj_names: set,
         if len(call.args) >= 2:
             c = _resolve(call.args[1], vars_map)
             content = c if isinstance(c, (str, bytes)) else ""
-        out[name] = (name, content if isinstance(content, str) else content.decode("utf-8", "replace"))
+        out[name] = (
+            name,
+            content if isinstance(content, str) else content.decode("utf-8", "replace"),
+        )
     return out
 
 
@@ -546,9 +592,12 @@ def _track_with_block_scratch_objects(func: ast.FunctionDef, class_names: set) -
             continue
         for item in node.items:
             call = item.context_expr
-            if isinstance(call, ast.Call) and isinstance(call.func, ast.Name) \
-                    and call.func.id in class_names \
-                    and isinstance(item.optional_vars, ast.Name):
+            if (
+                isinstance(call, ast.Call)
+                and isinstance(call.func, ast.Name)
+                and call.func.id in class_names
+                and isinstance(item.optional_vars, ast.Name)
+            ):
                 out.add(item.optional_vars.id)
     return out
 
@@ -556,13 +605,19 @@ def _track_with_block_scratch_objects(func: ast.FunctionDef, class_names: set) -
 def _is_path_wrap_call(node) -> bool:
     """True for `Path(<expr>)` / `pathlib.Path(<expr>)` -- exactly one positional
     arg, either bare-imported or attribute-qualified Path."""
-    return isinstance(node, ast.Call) and len(node.args) == 1 and (
-        (isinstance(node.func, ast.Name) and node.func.id == "Path")
-        or (isinstance(node.func, ast.Attribute) and node.func.attr == "Path")
+    return (
+        isinstance(node, ast.Call)
+        and len(node.args) == 1
+        and (
+            (isinstance(node.func, ast.Name) and node.func.id == "Path")
+            or (isinstance(node.func, ast.Attribute) and node.func.attr == "Path")
+        )
     )
 
 
-def _resolve_temp_files_path_chain(node, obj_names: set, vars_map: dict | None = None) -> str | None:
+def _resolve_temp_files_path_chain(
+    node, obj_names: set, vars_map: dict | None = None
+) -> str | None:
     """Resolve a temp-files-object `.path()` reference, INCLUDING a further `/
     "literal"` division chained onto a no-arg call -- caps-log's whole test suite
     (635 occurrences): `log_dir = tf.path() / "logs"` (further dividing the
@@ -582,8 +637,12 @@ def _resolve_temp_files_path_chain(node, obj_names: set, vars_map: dict | None =
     real Path join would read once staged relative to the fresh per-call rundir.
     Unwraps an outer str(...) first if present. Never guesses past an
     unresolvable literal or a base that isn't one of the above shapes."""
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "str" \
-            and len(node.args) == 1:
+    if (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "str"
+        and len(node.args) == 1
+    ):
         node = node.args[0]
     suffix_parts: list[str] = []
     while isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
@@ -595,12 +654,20 @@ def _resolve_temp_files_path_chain(node, obj_names: set, vars_map: dict | None =
     unwrapped = node
     if isinstance(node, ast.Call) and _is_path_wrap_call(node):
         unwrapped = node.args[0]
-    if isinstance(unwrapped, ast.Attribute) and unwrapped.attr == "tempdir" \
-            and isinstance(unwrapped.value, ast.Name) and unwrapped.value.id in obj_names:
+    if (
+        isinstance(unwrapped, ast.Attribute)
+        and unwrapped.attr == "tempdir"
+        and isinstance(unwrapped.value, ast.Name)
+        and unwrapped.value.id in obj_names
+    ):
         base = "."
-    elif isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) \
-            and node.func.attr == "path" and isinstance(node.func.value, ast.Name) \
-            and node.func.value.id in obj_names:
+    elif (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr == "path"
+        and isinstance(node.func.value, ast.Name)
+        and node.func.value.id in obj_names
+    ):
         if not node.args:
             base = "."
         else:
@@ -633,8 +700,13 @@ def _track_temp_files_path_vars(func: ast.FunctionDef, obj_names: set) -> dict[s
     earlier one."""
     out: dict[str, str] = {}
     assigns = sorted(
-        (n for n in ast.walk(func) if isinstance(n, ast.Assign) and len(n.targets) == 1
-         and isinstance(n.targets[0], ast.Name)),
+        (
+            n
+            for n in ast.walk(func)
+            if isinstance(n, ast.Assign)
+            and len(n.targets) == 1
+            and isinstance(n.targets[0], ast.Name)
+        ),
         key=lambda n: (n.lineno, n.col_offset),
     )
     for node in assigns:
@@ -673,18 +745,23 @@ def _track_scratch_path_fixtures(tree: ast.Module) -> dict[str, str]:
         is_fx = False
         for d in node.decorator_list:
             tgt = d.func if isinstance(d, ast.Call) else d
-            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") \
-                    or (isinstance(tgt, ast.Name) and tgt.id == "fixture"):
+            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") or (
+                isinstance(tgt, ast.Name) and tgt.id == "fixture"
+            ):
                 is_fx = True
         if not is_fx:
             continue
         local_basenames: dict[str, str] = {}
         for stmt in ast.walk(node):
-            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1 \
-                    and isinstance(stmt.targets[0], ast.Name) \
-                    and isinstance(stmt.value, ast.BinOp) and isinstance(stmt.value.op, ast.Div) \
-                    and isinstance(stmt.value.left, ast.Name) \
-                    and stmt.value.left.id in scratch_bases:
+            if (
+                isinstance(stmt, ast.Assign)
+                and len(stmt.targets) == 1
+                and isinstance(stmt.targets[0], ast.Name)
+                and isinstance(stmt.value, ast.BinOp)
+                and isinstance(stmt.value.op, ast.Div)
+                and isinstance(stmt.value.left, ast.Name)
+                and stmt.value.left.id in scratch_bases
+            ):
                 rhs = _const(stmt.value.right)
                 if isinstance(rhs, str):
                     local_basenames[stmt.targets[0].id] = rhs
@@ -694,15 +771,22 @@ def _track_scratch_path_fixtures(tree: ast.Module) -> dict[str, str]:
             val = None
             if isinstance(stmt, ast.Return) and stmt.value is not None:
                 val = stmt.value
-            elif isinstance(stmt, ast.Expr) and isinstance(stmt.value, ast.Yield) \
-                    and stmt.value.value is not None:
+            elif (
+                isinstance(stmt, ast.Expr)
+                and isinstance(stmt.value, ast.Yield)
+                and stmt.value.value is not None
+            ):
                 val = stmt.value.value
             if val is None:
                 continue
             target_name = None
-            if isinstance(val, ast.Call) and isinstance(val.func, ast.Name) \
-                    and val.func.id == "str" and len(val.args) == 1 \
-                    and isinstance(val.args[0], ast.Name):
+            if (
+                isinstance(val, ast.Call)
+                and isinstance(val.func, ast.Name)
+                and val.func.id == "str"
+                and len(val.args) == 1
+                and isinstance(val.args[0], ast.Name)
+            ):
                 target_name = val.args[0].id
             elif isinstance(val, ast.Name):
                 target_name = val.id
@@ -741,8 +825,9 @@ def _discover_content_to_file_fixtures(tree: ast.Module) -> dict[str, str]:
         is_fx = False
         for d in node.decorator_list:
             tgt = d.func if isinstance(d, ast.Call) else d
-            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") \
-                    or (isinstance(tgt, ast.Name) and tgt.id == "fixture"):
+            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") or (
+                isinstance(tgt, ast.Name) and tgt.id == "fixture"
+            ):
                 is_fx = True
         if not is_fx:
             continue
@@ -763,35 +848,48 @@ def _discover_content_to_file_fixtures(tree: ast.Module) -> dict[str, str]:
         if len(body) < 3:
             continue
         assign, write_call, ret = body[0], body[1], body[-1]
-        if not (isinstance(assign, ast.Assign) and len(assign.targets) == 1
-                and isinstance(assign.targets[0], ast.Name)
-                and isinstance(assign.value, ast.BinOp) and isinstance(assign.value.op, ast.Div)
-                and isinstance(assign.value.left, ast.Name)
-                and assign.value.left.id in scratch_bases
-                and isinstance(assign.value.right, ast.Name)
-                and assign.value.right.id == name_param):
+        if not (
+            isinstance(assign, ast.Assign)
+            and len(assign.targets) == 1
+            and isinstance(assign.targets[0], ast.Name)
+            and isinstance(assign.value, ast.BinOp)
+            and isinstance(assign.value.op, ast.Div)
+            and isinstance(assign.value.left, ast.Name)
+            and assign.value.left.id in scratch_bases
+            and isinstance(assign.value.right, ast.Name)
+            and assign.value.right.id == name_param
+        ):
             continue
         path_var = assign.targets[0].id
-        if not (isinstance(write_call, ast.Expr) and isinstance(write_call.value, ast.Call)
-                and isinstance(write_call.value.func, ast.Attribute)
-                and write_call.value.func.attr in ("write_text", "write_bytes")
-                and isinstance(write_call.value.func.value, ast.Name)
-                and write_call.value.func.value.id == path_var
-                and len(write_call.value.args) == 1
-                and isinstance(write_call.value.args[0], ast.Name)
-                and write_call.value.args[0].id == content_param):
+        if not (
+            isinstance(write_call, ast.Expr)
+            and isinstance(write_call.value, ast.Call)
+            and isinstance(write_call.value.func, ast.Attribute)
+            and write_call.value.func.attr in ("write_text", "write_bytes")
+            and isinstance(write_call.value.func.value, ast.Name)
+            and write_call.value.func.value.id == path_var
+            and len(write_call.value.args) == 1
+            and isinstance(write_call.value.args[0], ast.Name)
+            and write_call.value.args[0].id == content_param
+        ):
             continue
-        if not (isinstance(ret, ast.Return) and isinstance(ret.value, ast.Name)
-                and ret.value.id == path_var):
+        if not (
+            isinstance(ret, ast.Return)
+            and isinstance(ret.value, ast.Name)
+            and ret.value.id == path_var
+        ):
             continue
         out[node.name] = default_name
     return out
 
 
-def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
-                                outer_path_exprs: dict | None = None,
-                                exec_param_names: set | None = None,
-                                scratch_bases: set | None = None) -> tuple[list | None, list | None]:
+def _extract_wrapper_base_argv(
+    target: ast.FunctionDef,
+    extra_vars: dict,
+    outer_path_exprs: dict | None = None,
+    exec_param_names: set | None = None,
+    scratch_bases: set | None = None,
+) -> tuple[list | None, list | None]:
     """Find the FIRST `cmd_var = [...]` list assignment in target's body (the same list
     _extract_kwarg_flag_map found being .extend()-ed per-keyword) and resolve each
     element via extra_vars, or the 'executable' placeholder convention for a path
@@ -818,8 +916,11 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
     one-assignment-removed case was function-local, this is one scope further out."""
     local_path_exprs: dict[str, ast.AST] = dict(outer_path_exprs or {})
     for stmt in ast.walk(target):
-        if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1 \
-                and isinstance(stmt.targets[0], ast.Name):
+        if (
+            isinstance(stmt, ast.Assign)
+            and len(stmt.targets) == 1
+            and isinstance(stmt.targets[0], ast.Name)
+        ):
             local_path_exprs[stmt.targets[0].id] = stmt.value
 
     exec_params = exec_param_names or set()
@@ -828,8 +929,12 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
         if _is_executable_path_expr(node):
             return True
         inner = node
-        if isinstance(inner, ast.Call) and isinstance(inner.func, ast.Name) \
-                and inner.func.id == "str" and len(inner.args) == 1:
+        if (
+            isinstance(inner, ast.Call)
+            and isinstance(inner.func, ast.Name)
+            and inner.func.id == "str"
+            and len(inner.args) == 1
+        ):
             inner = inner.args[0]
         if isinstance(inner, ast.Name) and inner.id in local_path_exprs:
             candidate = local_path_exprs[inner.id]
@@ -845,22 +950,34 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
             if isinstance(candidate, ast.Call):
                 fn = candidate.func
                 is_env_get = (
-                    # os.environ.get(key, default) -- fn.value is os.environ, itself
-                    # an Attribute(Name('os'), 'environ'), not a bare Name('os').
-                    isinstance(fn, ast.Attribute) and fn.attr == "get"
-                    and isinstance(fn.value, ast.Attribute) and fn.value.attr == "environ"
-                    and isinstance(fn.value.value, ast.Name) and fn.value.value.id == "os"
-                ) or (
-                    # os.getenv(key, default)
-                    isinstance(fn, ast.Attribute) and fn.attr == "getenv"
-                    and isinstance(fn.value, ast.Name) and fn.value.id == "os"
-                ) or (
-                    # bare getenv(key, default), e.g. `from os import getenv`
-                    isinstance(fn, ast.Name) and fn.id == "getenv"
+                    (
+                        # os.environ.get(key, default) -- fn.value is os.environ, itself
+                        # an Attribute(Name('os'), 'environ'), not a bare Name('os').
+                        isinstance(fn, ast.Attribute)
+                        and fn.attr == "get"
+                        and isinstance(fn.value, ast.Attribute)
+                        and fn.value.attr == "environ"
+                        and isinstance(fn.value.value, ast.Name)
+                        and fn.value.value.id == "os"
+                    )
+                    or (
+                        # os.getenv(key, default)
+                        isinstance(fn, ast.Attribute)
+                        and fn.attr == "getenv"
+                        and isinstance(fn.value, ast.Name)
+                        and fn.value.id == "os"
+                    )
+                    or (
+                        # bare getenv(key, default), e.g. `from os import getenv`
+                        isinstance(fn, ast.Name) and fn.id == "getenv"
+                    )
                 )
                 if is_env_get:
-                    default = candidate.args[1] if len(candidate.args) >= 2 else next(
-                        (k.value for k in candidate.keywords if k.arg == "default"), None)
+                    default = (
+                        candidate.args[1]
+                        if len(candidate.args) >= 2
+                        else next((k.value for k in candidate.keywords if k.arg == "default"), None)
+                    )
                     if default is not None:
                         candidate = default
             if _is_executable_path_expr(candidate):
@@ -872,7 +989,10 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
             # invisible even though the real value's basename already matches the
             # oracle's own _drop_binary_placeholder convention exactly.
             c = _const(candidate)
-            if isinstance(c, str) and c.replace("\\", "/").rstrip("/").rsplit("/", 1)[-1] == "executable":
+            if (
+                isinstance(c, str)
+                and c.replace("\\", "/").rstrip("/").rsplit("/", 1)[-1] == "executable"
+            ):
                 return True
         # A bare Name matching a known EXECUTABLE FIXTURE parameter (e.g. lua's
         # `run_lua_cmd(lua_exec)`, where `lua_exec` is a fixture that itself resolves to
@@ -899,8 +1019,12 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
     sbases = scratch_bases or set()
 
     def scratch_rhs(expr) -> str | None:
-        if isinstance(expr, ast.BinOp) and isinstance(expr.op, ast.Div) \
-                and isinstance(expr.left, ast.Name) and expr.left.id in sbases:
+        if (
+            isinstance(expr, ast.BinOp)
+            and isinstance(expr.op, ast.Div)
+            and isinstance(expr.left, ast.Name)
+            and expr.left.id in sbases
+        ):
             rhs = _const(expr.right)
             if isinstance(rhs, str):
                 return rhs
@@ -920,8 +1044,12 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
         if is_exec_ref(elt):
             return "executable"
         inner = elt
-        if isinstance(inner, ast.Call) and isinstance(inner.func, ast.Name) \
-                and inner.func.id == "str" and len(inner.args) == 1:
+        if (
+            isinstance(inner, ast.Call)
+            and isinstance(inner.func, ast.Name)
+            and inner.func.id == "str"
+            and len(inner.args) == 1
+        ):
             inner = inner.args[0]
         if isinstance(inner, ast.Name) and inner.id in local_path_exprs:
             hit = scratch_rhs(local_path_exprs[inner.id])
@@ -935,8 +1063,12 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
 
     def is_own_param_ref(node) -> bool:
         inner = node
-        if isinstance(inner, ast.Call) and isinstance(inner.func, ast.Name) \
-                and inner.func.id == "str" and len(inner.args) == 1:
+        if (
+            isinstance(inner, ast.Call)
+            and isinstance(inner.func, ast.Name)
+            and inner.func.id == "str"
+            and len(inner.args) == 1
+        ):
             inner = inner.args[0]
         return isinstance(inner, ast.Name) and inner.id in own_param_names
 
@@ -964,8 +1096,12 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
             if not (isinstance(stmt, ast.Expr) and isinstance(stmt.value, ast.Call)):
                 continue
             call = stmt.value
-            if not (isinstance(call.func, ast.Attribute) and isinstance(call.func.value, ast.Name)
-                    and call.func.value.id == cmd_var and call.func.attr in ("append", "extend")):
+            if not (
+                isinstance(call.func, ast.Attribute)
+                and isinstance(call.func.value, ast.Name)
+                and call.func.value.id == cmd_var
+                and call.func.attr in ("append", "extend")
+            ):
                 continue
             if len(call.args) != 1:
                 continue
@@ -984,16 +1120,23 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
         return suffix if saw_param else None
 
     for stmt in ast.walk(target):
-        if not (isinstance(stmt, ast.Assign) and len(stmt.targets) == 1
-                and isinstance(stmt.targets[0], ast.Name)):
+        if not (
+            isinstance(stmt, ast.Assign)
+            and len(stmt.targets) == 1
+            and isinstance(stmt.targets[0], ast.Name)
+        ):
             continue
         val = stmt.value
         if isinstance(val, ast.List):
             out = resolve_list_literal(val)
             if out:
                 return out, extract_suffix(stmt.targets[0].id)
-        elif isinstance(val, ast.BinOp) and isinstance(val.op, ast.Add) \
-                and isinstance(val.left, ast.List) and _is_args_passthrough(val.right):
+        elif (
+            isinstance(val, ast.BinOp)
+            and isinstance(val.op, ast.Add)
+            and isinstance(val.left, ast.List)
+            and _is_args_passthrough(val.right)
+        ):
             out = resolve_list_literal(val.left)
             if out:
                 return out, extract_suffix(stmt.targets[0].id)
@@ -1038,15 +1181,23 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
         if not isinstance(call_node, ast.Call):
             continue
         for arg in call_node.args:
-            if isinstance(arg, ast.BinOp) and isinstance(arg.op, ast.Add) \
-                    and isinstance(arg.left, ast.List) and _is_args_passthrough(arg.right):
+            if (
+                isinstance(arg, ast.BinOp)
+                and isinstance(arg.op, ast.Add)
+                and isinstance(arg.left, ast.List)
+                and _is_args_passthrough(arg.right)
+            ):
                 out = resolve_list_literal(arg.left)
                 if out:
                     return out, None
-            if isinstance(arg, ast.List) and arg.elts and vararg_name is not None \
-                    and isinstance(arg.elts[-1], ast.Starred) \
-                    and isinstance(arg.elts[-1].value, ast.Name) \
-                    and arg.elts[-1].value.id == vararg_name:
+            if (
+                isinstance(arg, ast.List)
+                and arg.elts
+                and vararg_name is not None
+                and isinstance(arg.elts[-1], ast.Starred)
+                and isinstance(arg.elts[-1].value, ast.Name)
+                and arg.elts[-1].value.id == vararg_name
+            ):
                 out = resolve_list_literal(ast.List(elts=arg.elts[:-1], ctx=ast.Load()))
                 if out is not None:
                     return out, None
@@ -1068,19 +1219,18 @@ def _extract_wrapper_base_argv(target: ast.FunctionDef, extra_vars: dict,
     # (the call site's own positional args get appended after this_base in the same
     # order); any other arrangement is left unresolved rather than guessed."""
     for stmt in ast.walk(target):
-        if not (isinstance(stmt, ast.Call) and stmt.args
-                and isinstance(stmt.args[0], ast.List)):
+        if not (isinstance(stmt, ast.Call) and stmt.args and isinstance(stmt.args[0], ast.List)):
             continue
         elts = stmt.args[0].elts
         tail_start = next(
-            (i for i, e in enumerate(elts)
-             if isinstance(e, ast.Name) and e.id in own_param_names),
+            (i for i, e in enumerate(elts) if isinstance(e, ast.Name) and e.id in own_param_names),
             None,
         )
         if tail_start is None:
             continue
-        if any(not (isinstance(e, ast.Name) and e.id in own_param_names)
-               for e in elts[tail_start:]):
+        if any(
+            not (isinstance(e, ast.Name) and e.id in own_param_names) for e in elts[tail_start:]
+        ):
             continue  # a fixed/other element follows an own-param ref -- don't guess
         out = resolve_list_literal(ast.List(elts=elts[:tail_start], ctx=ast.Load()))
         if out is not None:
@@ -1098,9 +1248,13 @@ def _is_args_passthrough(node) -> bool:
     never the bound name, so no attempt is made to match it against the vararg name."""
     if isinstance(node, ast.Name):
         return True
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
-            and node.func.id == "list" and len(node.args) == 1 \
-            and isinstance(node.args[0], ast.Name):
+    if (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "list"
+        and len(node.args) == 1
+        and isinstance(node.args[0], ast.Name)
+    ):
         return True
     return False
 
@@ -1167,7 +1321,8 @@ def _discover_wrapper_kwarg_flags(tree: ast.Module, path: Path) -> dict[str, dic
         module_path_exprs = {
             stmt.targets[0].id: stmt.value
             for stmt in t.body
-            if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1
+            if isinstance(stmt, ast.Assign)
+            and len(stmt.targets) == 1
             and isinstance(stmt.targets[0], ast.Name)
         }
         for node in ast.walk(t):
@@ -1188,12 +1343,12 @@ def _discover_wrapper_kwarg_flags(tree: ast.Module, path: Path) -> dict[str, dic
             flags = _extract_kwarg_flag_map(target)
             outer_vars = _track_vars(node)
             outer_params_resolved = {
-                a.arg: scratch_fixtures[a.arg]
-                for a in node.args.args if a.arg in scratch_fixtures
+                a.arg: scratch_fixtures[a.arg] for a in node.args.args if a.arg in scratch_fixtures
             }
             extra_vars = {**outer_vars, **outer_params_resolved, **_track_vars(target)}
             base, suffix = _extract_wrapper_base_argv(
-                target, extra_vars, module_path_exprs, exec_param_names, scratch_bases)
+                target, extra_vars, module_path_exprs, exec_param_names, scratch_bases
+            )
             if not (flags or base):
                 # DELEGATE WITH SEPARATE PARAMS (2026-07-17): cheat's run_binary closure
                 # is `return run_cheat(binary_path, args)` -- binary_path and args passed
@@ -1206,13 +1361,20 @@ def _discover_wrapper_kwarg_flags(tree: ast.Module, path: Path) -> dict[str, dic
                 # run_binary(["--version"]) really does end up running the exact same
                 # base+flags run_cheat itself would build.
                 body = target.body
-                if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) \
-                        and isinstance(body[0].value.value, str):
+                if (
+                    body
+                    and isinstance(body[0], ast.Expr)
+                    and isinstance(body[0].value, ast.Constant)
+                    and isinstance(body[0].value.value, str)
+                ):
                     body = body[1:]
-                if len(body) == 1 and isinstance(body[0], ast.Return) \
-                        and isinstance(body[0].value, ast.Call) \
-                        and isinstance(body[0].value.func, ast.Name) \
-                        and body[0].value.func.id in result:
+                if (
+                    len(body) == 1
+                    and isinstance(body[0], ast.Return)
+                    and isinstance(body[0].value, ast.Call)
+                    and isinstance(body[0].value.func, ast.Name)
+                    and body[0].value.func.id in result
+                ):
                     inherited = result[body[0].value.func.id]
                     flags, base, suffix = inherited["flags"], inherited["base"], inherited["suffix"]
             if flags or base:
@@ -1221,7 +1383,9 @@ def _discover_wrapper_kwarg_flags(tree: ast.Module, path: Path) -> dict[str, dic
     return result
 
 
-def _discover_fixture_wrapper_aliases(tree: ast.Module, path: Path, known_names: set) -> dict[str, str]:
+def _discover_fixture_wrapper_aliases(
+    tree: ast.Module, path: Path, known_names: set
+) -> dict[str, str]:
     """A @pytest.fixture whose body is just `return <name>` -- no Call at all -- exposes an
     ALIAS for an already-known runner under the fixture's own name, e.g. (found in xh's
     conftest.py):
@@ -1254,8 +1418,12 @@ def _discover_fixture_wrapper_aliases(tree: ast.Module, path: Path, known_names:
 
     def _scan_module(t: ast.Module):
         for node in ast.walk(t):
-            if isinstance(node, ast.Assign) and isinstance(node.value, ast.Name) \
-                    and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+            if (
+                isinstance(node, ast.Assign)
+                and isinstance(node.value, ast.Name)
+                and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name)
+            ):
                 alias_of[node.targets[0].id] = node.value.id
 
     trees = [tree]
@@ -1278,15 +1446,20 @@ def _discover_fixture_wrapper_aliases(tree: ast.Module, path: Path, known_names:
             is_fx = False
             for d in node.decorator_list:
                 tgt = d.func if isinstance(d, ast.Call) else d
-                if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") \
-                        or (isinstance(tgt, ast.Name) and tgt.id == "fixture"):
+                if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") or (
+                    isinstance(tgt, ast.Name) and tgt.id == "fixture"
+                ):
                     is_fx = True
             if not is_fx:
                 continue
             body = node.body
-            if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) \
-                    and isinstance(body[0].value.value, str):
-                body = body[1:]   # skip a leading docstring
+            if (
+                body
+                and isinstance(body[0], ast.Expr)
+                and isinstance(body[0].value, ast.Constant)
+                and isinstance(body[0].value.value, str)
+            ):
+                body = body[1:]  # skip a leading docstring
             if len(body) != 1 or not isinstance(body[0], ast.Return):
                 continue
             ret = body[0].value
@@ -1302,7 +1475,7 @@ def _discover_fixture_wrapper_aliases(tree: ast.Module, path: Path, known_names:
 class Example:
     test: str
     argv: list = field(default_factory=list)
-    stdin: str | None = None          # decoded text; None = no stdin
+    stdin: str | None = None  # decoded text; None = no stdin
     env: dict = field(default_factory=dict)
     expect_rc: int | None = None
     # NONZERO RC (2026-07-17): `assert result.returncode != 0` -- a real, common "must fail"
@@ -1324,7 +1497,7 @@ class Example:
     expect_rc_in: list = field(default_factory=list)
     expect_stdout: str | None = None  # exact match (from golden or literal)
     expect_stderr: str | None = None  # exact match (reference-enriched: the real stderr)
-    expect_in: list = field(default_factory=list)   # substrings asserted present (AND: all required)
+    expect_in: list = field(default_factory=list)  # substrings asserted present (AND: all required)
     # OR-GROUPS (2026-07-16): `assert A in out or B in out` means "at least one of these",
     # a claim expect_in's AND semantics can't represent -- naively adding both to expect_in
     # would wrongly demand BOTH. Each entry here is one OR-group: a list of alternatives
@@ -1339,10 +1512,10 @@ class Example:
     # before building: 77/520 (14.8%) of a real tool's (codesnap) skipped tests have this
     # exact top-level `assert X not in Y` shape.
     expect_not_in: list = field(default_factory=list)
-    files: dict = field(default_factory=dict)       # filename -> content for file-arg tests
-    ci: bool = False                  # contains check is case-insensitive
-                                      # (test compared against .lower()/.casefold())
-    source: str = ""                  # test file:line
+    files: dict = field(default_factory=dict)  # filename -> content for file-arg tests
+    ci: bool = False  # contains check is case-insensitive
+    # (test compared against .lower()/.casefold())
+    source: str = ""  # test file:line
 
 
 @dataclass
@@ -1350,10 +1523,11 @@ class Coverage:
     examples: list
     n_tests: int
     n_examples: int
-    skipped: list                     # test names we couldn't pin down
+    skipped: list  # test names we couldn't pin down
 
 
 # --- small constant / path evaluators -------------------------------------
+
 
 def _const(node):
     if isinstance(node, ast.Constant):
@@ -1372,7 +1546,7 @@ def _const(node):
         if isinstance(fn, ast.Name) and fn.id == "str" and node.args:
             v = _const(node.args[0])
             return _UNK if v is _UNK else str(v)
-    if isinstance(node, ast.JoinedStr):     # f-strings -> only if all literal
+    if isinstance(node, ast.JoinedStr):  # f-strings -> only if all literal
         parts = []
         for v in node.values:
             if isinstance(v, ast.Constant):
@@ -1389,7 +1563,11 @@ def _const(node):
         # str/bytes and the other a literal non-bool int, matching Python's own
         # repetition semantics exactly -- never guesses past that.
         left, right = _const(node.left), _const(node.right)
-        if isinstance(left, (str, bytes)) and isinstance(right, int) and not isinstance(right, bool):
+        if (
+            isinstance(left, (str, bytes))
+            and isinstance(right, int)
+            and not isinstance(right, bool)
+        ):
             return left * right
         if isinstance(right, (str, bytes)) and isinstance(left, int) and not isinstance(left, bool):
             return right * left
@@ -1461,8 +1639,12 @@ class _PathResolver:
 
     def eval_path(self, node) -> Path | None:
         # Path(__file__) ...
-        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
-                and node.func.id == "Path" and node.args:
+        if (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == "Path"
+            and node.args
+        ):
             a = node.args[0]
             if isinstance(a, ast.Name) and a.id == "__file__":
                 return self.test_file
@@ -1515,8 +1697,12 @@ class _PathResolver:
         to see it. Reading real disk content (not guessing) keeps the same 'never
         confidently wrong' guarantee _file_arg already provides for the write_text case."""
         target = node
-        if isinstance(target, ast.Call) and isinstance(target.func, ast.Name) \
-                and target.func.id == "str" and len(target.args) == 1:
+        if (
+            isinstance(target, ast.Call)
+            and isinstance(target.func, ast.Name)
+            and target.func.id == "str"
+            and len(target.args) == 1
+        ):
             target = target.args[0]
         p = self.eval_path(target)
         if p is None or not p.is_file():
@@ -1532,12 +1718,29 @@ class _PathResolver:
 
 # pipe/consumer commands whose arg-lists must NOT be mistaken for the reimpl's
 # argv (e.g. subprocess to `head -n 5` in a broken-pipe test).
-_CONSUMER_CMDS = {"head", "tail", "grep", "cat", "sort", "wc", "sed", "awk",
-                  "tr", "less", "more", "tee", "xxd", "od", "cut", "uniq"}
+_CONSUMER_CMDS = {
+    "head",
+    "tail",
+    "grep",
+    "cat",
+    "sort",
+    "wc",
+    "sed",
+    "awk",
+    "tr",
+    "less",
+    "more",
+    "tee",
+    "xxd",
+    "od",
+    "cut",
+    "uniq",
+}
 
 
-def _track_files(func: ast.FunctionDef, vmap: dict | None = None,
-                  content_fixtures: dict | None = None) -> dict:
+def _track_files(
+    func: ast.FunctionDef, vmap: dict | None = None, content_fixtures: dict | None = None
+) -> dict:
     """Map file-arg variables to (basename, content), following the common pattern
     `p = tmp_path / "in.tex"; p.write_text(content)` then `run(..., str(p))`.
     Resolves a content VARIABLE via vmap (content="..."; p.write_text(content)).
@@ -1554,8 +1757,11 @@ def _track_files(func: ast.FunctionDef, vmap: dict | None = None,
     names: dict[str, str] = {}
     files: dict[str, tuple] = {}
     for node in ast.walk(func):
-        if isinstance(node, ast.Assign) and len(node.targets) == 1 \
-                and isinstance(node.targets[0], ast.Name):
+        if (
+            isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+        ):
             v = node.targets[0].id
             val = node.value
             if isinstance(val, ast.BinOp) and isinstance(val.op, ast.Div):
@@ -1574,24 +1780,38 @@ def _track_files(func: ast.FunctionDef, vmap: dict | None = None,
                         names[v] = c if base == "." else f"{base}/{c}"
                     else:
                         names[v] = c.rsplit("/", 1)[-1]
-            elif isinstance(val, ast.Call) and isinstance(val.func, ast.Attribute) \
-                    and val.func.attr in ("create", "write_file", "make_file", "add_file", "make", "add") \
-                    and len(val.args) >= 2:
+            elif (
+                isinstance(val, ast.Call)
+                and isinstance(val.func, ast.Attribute)
+                and val.func.attr
+                in ("create", "write_file", "make_file", "add_file", "make", "add")
+                and len(val.args) >= 2
+            ):
                 # `tf = temp_files.create("test.tex", content)` fixture helper -> file+content
                 nm = _const(val.args[0])
                 ct = _resolve(val.args[1], vmap)
-                content = ct.decode("utf-8", "replace") if isinstance(ct, bytes) \
+                content = (
+                    ct.decode("utf-8", "replace")
+                    if isinstance(ct, bytes)
                     else (ct if isinstance(ct, str) else None)
+                )
                 if isinstance(nm, str) and content is not None:
                     files[v] = (nm.rsplit("/", 1)[-1], content)
-            elif isinstance(val, ast.Call) and isinstance(val.func, ast.Name) \
-                    and val.func.id in content_fixtures and val.args:
+            elif (
+                isinstance(val, ast.Call)
+                and isinstance(val.func, ast.Name)
+                and val.func.id in content_fixtures
+                and val.args
+            ):
                 # `script = temp_js_file(js_source)` / `temp_js_file(js_source, "x.js")` --
                 # content-first fixture-factory call; name is whatever the call passes
                 # (positional 2nd arg or name= keyword) or the fixture's own default.
                 ct = _resolve(val.args[0], vmap)
-                content = ct.decode("utf-8", "replace") if isinstance(ct, bytes) \
+                content = (
+                    ct.decode("utf-8", "replace")
+                    if isinstance(ct, bytes)
                     else (ct if isinstance(ct, str) else None)
+                )
                 nm = None
                 if len(val.args) >= 2:
                     nm = _const(val.args[1])
@@ -1603,13 +1823,20 @@ def _track_files(func: ast.FunctionDef, vmap: dict | None = None,
                     nm = content_fixtures[val.func.id]
                 if content is not None:
                     files[v] = (nm.rsplit("/", 1)[-1], content)
-        elif isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) \
-                and node.func.attr in ("write_bytes", "write_text") \
-                and isinstance(node.func.value, ast.Name) and node.args:
+        elif (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr in ("write_bytes", "write_text")
+            and isinstance(node.func.value, ast.Name)
+            and node.args
+        ):
             v = node.func.value.id
             c = _resolve(node.args[0], vmap)
-            content = c.decode("utf-8", "replace") if isinstance(c, bytes) \
+            content = (
+                c.decode("utf-8", "replace")
+                if isinstance(c, bytes)
                 else (c if isinstance(c, str) else None)
+            )
             if content is not None and v in names:
                 files[v] = (names[v], content)
     return files
@@ -1657,8 +1884,13 @@ def _file_arg(a, files_map: dict, resolver=None, temp_files_names: set | None = 
             content = hit[1] if hit is not None else ""
             return resolved, resolved, content
     target = None
-    if isinstance(a, ast.Call) and isinstance(a.func, ast.Name) and a.func.id == "str" \
-            and len(a.args) == 1 and isinstance(a.args[0], ast.Name):
+    if (
+        isinstance(a, ast.Call)
+        and isinstance(a.func, ast.Name)
+        and a.func.id == "str"
+        and len(a.args) == 1
+        and isinstance(a.args[0], ast.Name)
+    ):
         target = a.args[0].id
     elif isinstance(a, ast.Name):
         target = a.id
@@ -1685,12 +1917,19 @@ def _file_arg(a, files_map: dict, resolver=None, temp_files_names: set | None = 
     # real, fixed content path like RESOURCES, which resolver.resolve_file_arg already
     # covers above -- checked first since RESOURCES paths need their real content staged).
     scratch_check = a
-    if isinstance(scratch_check, ast.Call) and isinstance(scratch_check.func, ast.Name) \
-            and scratch_check.func.id == "str" and len(scratch_check.args) == 1:
+    if (
+        isinstance(scratch_check, ast.Call)
+        and isinstance(scratch_check.func, ast.Name)
+        and scratch_check.func.id == "str"
+        and len(scratch_check.args) == 1
+    ):
         scratch_check = scratch_check.args[0]
-    if isinstance(scratch_check, ast.BinOp) and isinstance(scratch_check.op, ast.Div) \
-            and isinstance(scratch_check.left, ast.Name) \
-            and scratch_check.left.id in ("tmp_path", "tmpdir"):
+    if (
+        isinstance(scratch_check, ast.BinOp)
+        and isinstance(scratch_check.op, ast.Div)
+        and isinstance(scratch_check.left, ast.Name)
+        and scratch_check.left.id in ("tmp_path", "tmpdir")
+    ):
         rhs = _const(scratch_check.right)
         if isinstance(rhs, str):
             return rhs, rhs, ""
@@ -1702,8 +1941,11 @@ def _file_arg(a, files_map: dict, resolver=None, temp_files_names: set | None = 
     if isinstance(a, ast.JoinedStr):
         file_names: list[str] = []
         for v in a.values:
-            if isinstance(v, ast.FormattedValue) and isinstance(v.value, ast.Name) \
-                    and v.value.id in files_map:
+            if (
+                isinstance(v, ast.FormattedValue)
+                and isinstance(v.value, ast.Name)
+                and v.value.id in files_map
+            ):
                 file_names.append(v.value.id)
         if len(file_names) != 1:
             return None
@@ -1713,8 +1955,11 @@ def _file_arg(a, files_map: dict, resolver=None, temp_files_names: set | None = 
         for v in a.values:
             if isinstance(v, ast.Constant):
                 text_parts.append(str(v.value))
-            elif isinstance(v, ast.FormattedValue) and isinstance(v.value, ast.Name) \
-                    and v.value.id == var_name:
+            elif (
+                isinstance(v, ast.FormattedValue)
+                and isinstance(v.value, ast.Name)
+                and v.value.id == var_name
+            ):
                 text_parts.append(basename)
             else:
                 return None  # some other, unresolvable interpolation -- never guess
@@ -1732,8 +1977,11 @@ def _track_vars(func: ast.FunctionDef | ast.Module) -> dict:
     root, so this is reused rather than writing a second constant-tracking pass."""
     vmap: dict = {}
     for node in ast.walk(func):
-        if isinstance(node, ast.Assign) and len(node.targets) == 1 \
-                and isinstance(node.targets[0], ast.Name):
+        if (
+            isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+        ):
             c = _const(node.value)
             if isinstance(c, (str, bytes, int, float, list)) and not isinstance(c, bool):
                 vmap[node.targets[0].id] = c
@@ -1755,9 +2003,12 @@ def _track_local_fstring_vars(func: ast.FunctionDef, vars_map: dict) -> dict:
     existing one, and never guesses past what _resolve_fstring_with_vars itself resolves."""
     out: dict = {}
     for node in ast.walk(func):
-        if isinstance(node, ast.Assign) and len(node.targets) == 1 \
-                and isinstance(node.targets[0], ast.Name) \
-                and isinstance(node.value, ast.JoinedStr):
+        if (
+            isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+            and isinstance(node.value, ast.JoinedStr)
+        ):
             name = node.targets[0].id
             if name in vars_map or name in out:
                 continue
@@ -1773,8 +2024,11 @@ def _fixture_return_const(node: ast.FunctionDef, module_path_exprs: dict | None 
     module_path_exprs = module_path_exprs or {}
     local_path_exprs: dict[str, ast.AST] = {}
     for stmt in ast.walk(node):
-        if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1 \
-                and isinstance(stmt.targets[0], ast.Name):
+        if (
+            isinstance(stmt, ast.Assign)
+            and len(stmt.targets) == 1
+            and isinstance(stmt.targets[0], ast.Name)
+        ):
             local_path_exprs[stmt.targets[0].id] = stmt.value
 
     def is_exec_ref(val) -> bool:
@@ -1794,8 +2048,12 @@ def _fixture_return_const(node: ast.FunctionDef, module_path_exprs: dict | None 
         if _is_executable_path_expr(val):
             return True
         inner = val
-        if isinstance(inner, ast.Call) and isinstance(inner.func, ast.Name) \
-                and inner.func.id == "str" and len(inner.args) == 1:
+        if (
+            isinstance(inner, ast.Call)
+            and isinstance(inner.func, ast.Name)
+            and inner.func.id == "str"
+            and len(inner.args) == 1
+        ):
             inner = inner.args[0]
         if isinstance(inner, ast.Name):
             if inner.id in local_path_exprs:
@@ -1808,7 +2066,9 @@ def _fixture_return_const(node: ast.FunctionDef, module_path_exprs: dict | None 
         val = None
         if isinstance(n, ast.Return) and n.value is not None:
             val = n.value
-        elif isinstance(n, ast.Expr) and isinstance(n.value, ast.Yield) and n.value.value is not None:
+        elif (
+            isinstance(n, ast.Expr) and isinstance(n.value, ast.Yield) and n.value.value is not None
+        ):
             val = n.value.value
         if val is not None:
             c = _const(val)
@@ -1859,7 +2119,8 @@ def _track_fixtures(tree: ast.Module) -> dict:
     module_path_exprs = {
         stmt.targets[0].id: stmt.value
         for stmt in tree.body
-        if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1
+        if isinstance(stmt, ast.Assign)
+        and len(stmt.targets) == 1
         and isinstance(stmt.targets[0], ast.Name)
     }
     for node in ast.walk(tree):
@@ -1868,8 +2129,9 @@ def _track_fixtures(tree: ast.Module) -> dict:
         is_fx = False
         for d in node.decorator_list:
             tgt = d.func if isinstance(d, ast.Call) else d
-            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") \
-                    or (isinstance(tgt, ast.Name) and tgt.id == "fixture"):
+            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") or (
+                isinstance(tgt, ast.Name) and tgt.id == "fixture"
+            ):
                 is_fx = True
         if not is_fx:
             continue
@@ -1903,8 +2165,9 @@ def _track_fixture_real_file_paths(tree: ast.Module) -> dict[str, ast.AST]:
         is_fx = False
         for d in node.decorator_list:
             tgt = d.func if isinstance(d, ast.Call) else d
-            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") \
-                    or (isinstance(tgt, ast.Name) and tgt.id == "fixture"):
+            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") or (
+                isinstance(tgt, ast.Name) and tgt.id == "fixture"
+            ):
                 is_fx = True
         if not is_fx:
             continue
@@ -1912,8 +2175,11 @@ def _track_fixture_real_file_paths(tree: ast.Module) -> dict[str, ast.AST]:
             val = None
             if isinstance(n, ast.Return) and n.value is not None:
                 val = n.value
-            elif isinstance(n, ast.Expr) and isinstance(n.value, ast.Yield) \
-                    and n.value.value is not None:
+            elif (
+                isinstance(n, ast.Expr)
+                and isinstance(n.value, ast.Yield)
+                and n.value.value is not None
+            ):
                 val = n.value.value
             if val is None:
                 continue
@@ -1921,8 +2187,11 @@ def _track_fixture_real_file_paths(tree: ast.Module) -> dict[str, ast.AST]:
             # bare Name/constant (those are _fixture_return_const's job) and never
             # something _is_executable_path_expr already claims (that fixture belongs in
             # the exec_param_names set instead, not here).
-            if isinstance(val, ast.BinOp) and isinstance(val.op, ast.Div) \
-                    and not _is_executable_path_expr(val):
+            if (
+                isinstance(val, ast.BinOp)
+                and isinstance(val.op, ast.Div)
+                and not _is_executable_path_expr(val)
+            ):
                 out[node.name] = val
             break
     return out
@@ -1952,20 +2221,30 @@ def _track_module_level_path_exprs(tree: ast.Module) -> dict[str, ast.AST]:
     was False for a Call wrapping a BinOp)."""
     out: dict[str, ast.AST] = {}
     for node in tree.body:
-        if not (isinstance(node, ast.Assign) and len(node.targets) == 1
-                and isinstance(node.targets[0], ast.Name)):
+        if not (
+            isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+        ):
             continue
         val = node.value
-        if isinstance(val, ast.Call) and isinstance(val.func, ast.Name) and val.func.id == "str" \
-                and len(val.args) == 1:
+        if (
+            isinstance(val, ast.Call)
+            and isinstance(val.func, ast.Name)
+            and val.func.id == "str"
+            and len(val.args) == 1
+        ):
             val = val.args[0]
-        if isinstance(val, ast.BinOp) and isinstance(val.op, ast.Div) \
-                and not _is_executable_path_expr(val):
+        if (
+            isinstance(val, ast.BinOp)
+            and isinstance(val.op, ast.Div)
+            and not _is_executable_path_expr(val)
+        ):
             out[node.targets[0].id] = val
     return out
 
 
-def _track_resource_path_vars(func: ast.FunctionDef, resolver: "_PathResolver") -> dict[str, tuple]:
+def _track_resource_path_vars(func: ast.FunctionDef, resolver: _PathResolver) -> dict[str, tuple]:
     """Map a TEST-LOCAL variable assigned from a REAL, on-disk resolver-resolvable path
     expression (`input_file = RESOURCES / "simple_box.txt"`) -> (basename, content), for
     the case where the golden-file reference is one assignment removed from the call
@@ -1984,8 +2263,11 @@ def _track_resource_path_vars(func: ast.FunctionDef, resolver: "_PathResolver") 
     already calls for the inline case) -- never guesses a path that doesn't exist."""
     out: dict[str, tuple] = {}
     for node in ast.walk(func):
-        if not (isinstance(node, ast.Assign) and len(node.targets) == 1
-                and isinstance(node.targets[0], ast.Name)):
+        if not (
+            isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+        ):
             continue
         hit = resolver.resolve_file_arg(node.value)
         if hit is not None:
@@ -2011,9 +2293,15 @@ def _resolve(node, vmap: dict):
     c = _const(node)
     if c is _UNK and isinstance(node, ast.Name) and node.id in vmap:
         return vmap[node.id]
-    if c is _UNK and isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
-            and node.func.id == "str" and len(node.args) == 1 \
-            and isinstance(node.args[0], ast.Name) and node.args[0].id in vmap:
+    if (
+        c is _UNK
+        and isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "str"
+        and len(node.args) == 1
+        and isinstance(node.args[0], ast.Name)
+        and node.args[0].id in vmap
+    ):
         return str(vmap[node.args[0].id])
     if c is _UNK and isinstance(node, ast.JoinedStr):
         f = _resolve_fstring_with_vars(node, vmap)
@@ -2033,7 +2321,9 @@ def _resolve_list(list_node, files_map: dict, vmap: dict, used_files: dict, reso
         fa = _file_arg(e, files_map, resolver)
         if fa is not None:
             arg_text, basename, content = fa
-            out.append(arg_text); used_files[basename] = content; continue
+            out.append(arg_text)
+            used_files[basename] = content
+            continue
         c = _resolve(e, vmap)
         if isinstance(c, (str, int, float)) and not isinstance(c, bool):
             out.append(str(c))
@@ -2042,8 +2332,9 @@ def _resolve_list(list_node, files_map: dict, vmap: dict, used_files: dict, reso
     return out
 
 
-def _resolve_list_concat(node, files_map: dict, vmap: dict, used_files: dict,
-                          resolver=None) -> list | None:
+def _resolve_list_concat(
+    node, files_map: dict, vmap: dict, used_files: dict, resolver=None
+) -> list | None:
     """Resolve a `[prefix...] + <continuation>` expression used INLINE as a call argument
     (not behind an assignment -- that's fix 15's _extract_wrapper_base_argv job). Found
     via lua's `run_lua_cmd` fixture: `return run_lua([lua_exec] + args, stdin=stdin,
@@ -2074,8 +2365,12 @@ def _resolve_list_concat(node, files_map: dict, vmap: dict, used_files: dict,
     if left is None:
         return None
     right_node = node.right
-    if isinstance(right_node, ast.Call) and isinstance(right_node.func, ast.Name) \
-            and right_node.func.id == "list" and len(right_node.args) == 1:
+    if (
+        isinstance(right_node, ast.Call)
+        and isinstance(right_node.func, ast.Name)
+        and right_node.func.id == "list"
+        and len(right_node.args) == 1
+    ):
         right_node = right_node.args[0]
     right_val = _resolve(right_node, vmap) if isinstance(right_node, ast.Name) else None
     right = _argv_strs(right_val) if isinstance(right_val, list) else None
@@ -2084,10 +2379,15 @@ def _resolve_list_concat(node, files_map: dict, vmap: dict, used_files: dict,
     return left + right
 
 
-def _find_run_call(func: ast.FunctionDef, files_map: dict | None = None,
-                   vars_map: dict | None = None, extra_run_names: set | None = None,
-                   kwarg_flags: dict | None = None, resolver=None,
-                   temp_files_names: set | None = None):
+def _find_run_call(
+    func: ast.FunctionDef,
+    files_map: dict | None = None,
+    vars_map: dict | None = None,
+    extra_run_names: set | None = None,
+    kwarg_flags: dict | None = None,
+    resolver=None,
+    temp_files_names: set | None = None,
+):
     """Return (argv, stdin, env, files) for the run-helper call. Prefer calls whose
     func name is a known runner (RUN_NAMES, or per-file auto-discovered via
     _discover_wrapper_names); never treat a pipe-consumer command's arg list
@@ -2103,13 +2403,16 @@ def _find_run_call(func: ast.FunctionDef, files_map: dict | None = None,
     for node in ast.walk(func):
         if isinstance(node, ast.Call):
             fn = node.func
-            nm = fn.id if isinstance(fn, ast.Name) else (
-                fn.attr if isinstance(fn, ast.Attribute) else "")
+            nm = (
+                fn.id
+                if isinstance(fn, ast.Name)
+                else (fn.attr if isinstance(fn, ast.Attribute) else "")
+            )
             (named if nm in run_names else other).append((nm, node))
     for name, node in named + other:
         looks_run = name in run_names or any(
-            isinstance(k, ast.keyword) and k.arg in (STDIN_KW | ARGS_KW)
-            for k in node.keywords)
+            isinstance(k, ast.keyword) and k.arg in (STDIN_KW | ARGS_KW) for k in node.keywords
+        )
         if not looks_run:
             continue
         argv = None
@@ -2148,7 +2451,7 @@ def _find_run_call(func: ast.FunctionDef, files_map: dict | None = None,
         # wrong is worse than skipped.
         unresolvable_list_seen = False
         for a in node.args:
-            if isinstance(a, ast.List):        # argv given as a list literal
+            if isinstance(a, ast.List):  # argv given as a list literal
                 lst = _resolve_list(a, files_map, vars_map, used_files, resolver)
                 if lst is not None:
                     # any positional args BEFORE this list literal (e.g. cheat's
@@ -2174,7 +2477,7 @@ def _find_run_call(func: ast.FunctionDef, files_map: dict | None = None,
                 unresolvable_list_seen = True
                 continue
             fa = _file_arg(a, files_map, resolver, temp_files_names)
-            if fa is not None:                 # file-arg: pass arg text + stage content
+            if fa is not None:  # file-arg: pass arg text + stage content
                 arg_text, basename, content = fa
                 # "." (temp_files.path() with no name -- the scratch root ITSELF,
                 # not a real file) must never be staged: the fresh per-call rundir
@@ -2182,7 +2485,8 @@ def _find_run_call(func: ast.FunctionDef, files_map: dict | None = None,
                 # named "." would try to write to a directory, not create anything.
                 if basename != ".":
                     used_files[basename] = content
-                pos_strs.append(arg_text); continue
+                pos_strs.append(arg_text)
+                continue
             c = _resolve(a, vars_map)
             if isinstance(c, list):
                 strs = _argv_strs(c)
@@ -2213,7 +2517,9 @@ def _find_run_call(func: ast.FunctionDef, files_map: dict | None = None,
             # positional-parameter slot (ditaa's `output_file`/'--svg' following
             # `input_file` in run_ditaa_svg) -- see _extract_wrapper_base_argv's
             # extract_suffix for the full reasoning.
-            argv = (this_base + pos_strs + this_suffix) if is_learned_wrapper else pos_strs   # run(*args) style
+            argv = (
+                (this_base + pos_strs + this_suffix) if is_learned_wrapper else pos_strs
+            )  # run(*args) style
         if argv is None and not pos_strs and this_base:
             pos_strs = list(this_base)
         for k in node.keywords:
@@ -2226,7 +2532,8 @@ def _find_run_call(func: ast.FunctionDef, files_map: dict | None = None,
                 # the exact same bug class as the this_kwarg_flags passthrough below.
                 v = _resolve(k.value, vars_map)
                 if isinstance(v, list) and all(
-                        isinstance(x, (str, int, float)) and not isinstance(x, bool) for x in v):
+                    isinstance(x, (str, int, float)) and not isinstance(x, bool) for x in v
+                ):
                     extra = [str(x) for x in v]
                     pos_strs.extend(extra)
                     if argv is not None:
@@ -2336,10 +2643,13 @@ def _resolve_in_snippet(compare: ast.Compare, vars_map: dict, loop_vars: dict) -
     return [], ci
 
 
-def _find_expectations(func: ast.FunctionDef, resolver: _PathResolver,
-                       assertion_helpers: dict | None = None,
-                       wrapper_shapes: dict | None = None,
-                       extra_vars: dict | None = None):
+def _find_expectations(
+    func: ast.FunctionDef,
+    resolver: _PathResolver,
+    assertion_helpers: dict | None = None,
+    wrapper_shapes: dict | None = None,
+    extra_vars: dict | None = None,
+):
     rc = None
     rc_nonzero = False
     rc_in: list = []
@@ -2378,10 +2688,15 @@ def _find_expectations(func: ast.FunctionDef, resolver: _PathResolver,
         # 2, [...])) -- the helper does its own internal asserting and returns nothing
         # meaningful, so the call is an ast.Expr, not wrapped in an outer `assert` keyword.
         # Confirmed against real jq test source before trusting this shape.
-        if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call) \
-                and isinstance(node.value.func, ast.Name) and node.value.func.id in assertion_helpers:
+        if (
+            isinstance(node, ast.Expr)
+            and isinstance(node.value, ast.Call)
+            and isinstance(node.value.func, ast.Name)
+            and node.value.func.id in assertion_helpers
+        ):
             helper_rc, helper_contains = _resolve_assertion_helper_call(
-                node.value, assertion_helpers[node.value.func.id])
+                node.value, assertion_helpers[node.value.func.id]
+            )
             if helper_rc is not None:
                 rc = helper_rc
             contains.extend(helper_contains)
@@ -2461,8 +2776,11 @@ def _find_expectations(func: ast.FunctionDef, resolver: _PathResolver,
                 # remaining skips share exactly this rc check). Scoped to literally `!= 0`
                 # on either side -- the test never claims WHICH nonzero code, so anything
                 # else (`!= 1`, `!= "some string"`) is left unresolved rather than guessed.
-                other = right if _is_rc_expr(left, result_roles) else (
-                    left if _is_rc_expr(right, result_roles) else None)
+                other = (
+                    right
+                    if _is_rc_expr(left, result_roles)
+                    else (left if _is_rc_expr(right, result_roles) else None)
+                )
                 if other is not None and _const(other) == 0:
                     rc_nonzero = True
         elif isinstance(t, ast.BoolOp):
@@ -2481,8 +2799,11 @@ def _find_expectations(func: ast.FunctionDef, resolver: _PathResolver,
             branch_ci = False
             all_resolved = True
             for value in t.values:
-                if not (isinstance(value, ast.Compare) and len(value.ops) == 1
-                        and isinstance(value.ops[0], ast.In)):
+                if not (
+                    isinstance(value, ast.Compare)
+                    and len(value.ops) == 1
+                    and isinstance(value.ops[0], ast.In)
+                ):
                     all_resolved = False
                     break
                 items, snip_ci = _resolve_in_snippet(value, vars_map, loop_vars)
@@ -2498,12 +2819,17 @@ def _find_expectations(func: ast.FunctionDef, resolver: _PathResolver,
                     contains.extend(branch_items)
                 elif isinstance(t.op, ast.Or):
                     in_any.append(branch_items)
-        elif isinstance(t, ast.Call) and isinstance(t.func, ast.Name) and t.func.id in assertion_helpers:
+        elif (
+            isinstance(t, ast.Call)
+            and isinstance(t.func, ast.Name)
+            and t.func.id in assertion_helpers
+        ):
             # a custom assertion helper: assert_err(proc, 2, ["Unknown option", ...]) --
             # resolve rc/contains from the CALL SITE's arguments using the helper's own
             # parameter-role mapping (see _analyze_assertion_helper).
             helper_rc, helper_contains = _resolve_assertion_helper_call(
-                t, assertion_helpers[t.func.id])
+                t, assertion_helpers[t.func.id]
+            )
             if helper_rc is not None:
                 rc = helper_rc
             contains.extend(helper_contains)
@@ -2543,32 +2869,48 @@ def _analyze_assertion_helper(helper: ast.FunctionDef) -> dict:
     decodes to a local `err` before looping; a direct-attribute-only check missed it
     entirely, a real bug caught by validating against real data before trusting this)."""
     params = [a.arg for a in helper.args.args]
-    stream_vars: dict[str, str] = {}   # local var name -> "stderr"/"stdout"/"out"
+    stream_vars: dict[str, str] = {}  # local var name -> "stderr"/"stdout"/"out"
     for node in ast.walk(helper):
-        if isinstance(node, ast.Assign) and len(node.targets) == 1 \
-                and isinstance(node.targets[0], ast.Name):
+        if (
+            isinstance(node, ast.Assign)
+            and len(node.targets) == 1
+            and isinstance(node.targets[0], ast.Name)
+        ):
             stream = _stream_attr(node.value)
             if stream:
                 stream_vars[node.targets[0].id] = stream
     result: dict = {}
     for node in ast.walk(helper):
-        if isinstance(node, ast.Assert) and isinstance(node.test, ast.Compare) \
-                and len(node.test.ops) == 1 and isinstance(node.test.ops[0], ast.Eq):
+        if (
+            isinstance(node, ast.Assert)
+            and isinstance(node.test, ast.Compare)
+            and len(node.test.ops) == 1
+            and isinstance(node.test.ops[0], ast.Eq)
+        ):
             left, right = node.test.left, node.test.comparators[0]
             if _is_result_rc(left) and isinstance(right, ast.Name) and right.id in params:
                 result["rc_param"] = right.id
             elif _is_result_rc(right) and isinstance(left, ast.Name) and left.id in params:
                 result["rc_param"] = left.id
-        if isinstance(node, ast.For) and isinstance(node.target, ast.Name) \
-                and isinstance(node.iter, ast.Name) and node.iter.id in params:
+        if (
+            isinstance(node, ast.For)
+            and isinstance(node.target, ast.Name)
+            and isinstance(node.iter, ast.Name)
+            and node.iter.id in params
+        ):
             for sub in ast.walk(node):
-                if isinstance(sub, ast.Assert) and isinstance(sub.test, ast.Compare) \
-                        and len(sub.test.ops) == 1 and isinstance(sub.test.ops[0], ast.In):
+                if (
+                    isinstance(sub, ast.Assert)
+                    and isinstance(sub.test, ast.Compare)
+                    and len(sub.test.ops) == 1
+                    and isinstance(sub.test.ops[0], ast.In)
+                ):
                     l, r = sub.test.left, sub.test.comparators[0]
                     if not (isinstance(l, ast.Name) and l.id == node.target.id):
                         continue
-                    is_stream = _stream_attr(r) is not None or \
-                        (isinstance(r, ast.Name) and r.id in stream_vars)
+                    is_stream = _stream_attr(r) is not None or (
+                        isinstance(r, ast.Name) and r.id in stream_vars
+                    )
                     if is_stream:
                         result["contains_param"] = node.iter.id
     if result:
@@ -2686,9 +3028,7 @@ def _discover_wrapper_return_shapes(tree: ast.Module, path: Path) -> dict:
             htree = ast.parse(hp.read_text(encoding="utf-8", errors="replace"))
         except SyntaxError:
             continue
-        candidates.extend(
-            node for node in ast.walk(htree) if isinstance(node, ast.FunctionDef)
-        )
+        candidates.extend(node for node in ast.walk(htree) if isinstance(node, ast.FunctionDef))
 
     for node in candidates:
         if _shells_out(node):
@@ -2707,14 +3047,21 @@ def _discover_wrapper_return_shapes(tree: ast.Module, path: Path) -> dict:
             if target is None:
                 target = node
             body = target.body
-            if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) \
-                    and isinstance(body[0].value.value, str):
+            if (
+                body
+                and isinstance(body[0], ast.Expr)
+                and isinstance(body[0].value, ast.Constant)
+                and isinstance(body[0].value.value, str)
+            ):
                 body = body[1:]
             if len(body) != 1 or not isinstance(body[0], ast.Return):
                 continue
             ret = body[0].value
-            if isinstance(ret, ast.Call) and isinstance(ret.func, ast.Name) \
-                    and ret.func.id in shapes:
+            if (
+                isinstance(ret, ast.Call)
+                and isinstance(ret.func, ast.Name)
+                and ret.func.id in shapes
+            ):
                 shapes[node.name] = shapes[ret.func.id]
                 changed = True
     return shapes
@@ -2739,8 +3086,11 @@ def _track_result_roles(func: ast.FunctionDef, wrapper_shapes: dict) -> dict:
             stream = _stream_attr(node.value)
             if stream:
                 roles[target.id] = "stdout" if stream in ("stdout", "out") else stream
-        elif isinstance(target, ast.Tuple) and isinstance(node.value, ast.Call) \
-                and isinstance(node.value.func, ast.Name):
+        elif (
+            isinstance(target, ast.Tuple)
+            and isinstance(node.value, ast.Call)
+            and isinstance(node.value.func, ast.Name)
+        ):
             shape = wrapper_shapes.get(node.value.func.id)
             if not shape:
                 continue
@@ -2774,7 +3124,9 @@ def _is_rc_expr(node: ast.AST, result_roles: dict) -> bool:
 
 
 def _is_out_expr(node: ast.AST, result_roles: dict) -> bool:
-    return _is_result_out(node) or (isinstance(node, ast.Name) and result_roles.get(node.id) == "stdout")
+    return _is_result_out(node) or (
+        isinstance(node, ast.Name) and result_roles.get(node.id) == "stdout"
+    )
 
 
 _STRIP_METHODS = {"strip", "rstrip", "lstrip"}
@@ -2792,7 +3144,11 @@ def _is_out_expr_maybe_stripped(node: ast.AST, result_roles: dict) -> tuple:
     then wrongly fail an expectation the real test never imposed). The caller routes a
     was_stripped=True match into `contains` instead of `exact` specifically to avoid this."""
     n = node
-    if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr in _STRIP_METHODS:
+    if (
+        isinstance(n, ast.Call)
+        and isinstance(n.func, ast.Attribute)
+        and n.func.attr in _STRIP_METHODS
+    ):
         n = n.func.value
         return _is_out_expr(n, result_roles), True
     return _is_out_expr(n, result_roles), False
@@ -2800,8 +3156,11 @@ def _is_out_expr_maybe_stripped(node: ast.AST, result_roles: dict) -> tuple:
 
 def _is_lower_call(node):
     """True if node is X.lower() / X.casefold() — marks a case-insensitive check."""
-    return (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-            and node.func.attr in ("lower", "casefold"))
+    return (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr in ("lower", "casefold")
+    )
 
 
 def _is_result_rc(node):
@@ -2810,8 +3169,11 @@ def _is_result_rc(node):
 
 def _is_result_out(node):
     # result.stdout / result.out / result.stdout.decode()
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) \
-            and node.func.attr == "decode":
+    if (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and node.func.attr == "decode"
+    ):
         node = node.func.value
     return isinstance(node, ast.Attribute) and node.attr in ("stdout", "out")
 
@@ -2874,8 +3236,9 @@ def _parametrize_cases(node: ast.FunctionDef) -> list[dict] | None:
     return cases
 
 
-def _track_run_fixtures(tree: ast.Module, extra_run_names: set,
-                         kwarg_flags: dict | None = None, resolver=None) -> dict:
+def _track_run_fixtures(
+    tree: ast.Module, extra_run_names: set, kwarg_flags: dict | None = None, resolver=None
+) -> dict:
     """Map @pytest.fixture functions that themselves INVOKE the executable (return a
     CompletedProcess-like result) -> (argv, stdin, env, files). A common idiom hoists an
     expensive/shared invocation (e.g. `--help`) into a session-scoped fixture so many
@@ -2904,8 +3267,9 @@ def _track_run_fixtures(tree: ast.Module, extra_run_names: set,
         is_fx = False
         for d in node.decorator_list:
             tgt = d.func if isinstance(d, ast.Call) else d
-            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") \
-                    or (isinstance(tgt, ast.Name) and tgt.id == "fixture"):
+            if (isinstance(tgt, ast.Attribute) and tgt.attr == "fixture") or (
+                isinstance(tgt, ast.Name) and tgt.id == "fixture"
+            ):
                 is_fx = True
         if is_fx:
             fixture_nodes.append(node)
@@ -2915,7 +3279,8 @@ def _track_run_fixtures(tree: ast.Module, extra_run_names: set,
         vars_map = _track_vars(node)
         files_map = _track_files(node, vars_map)
         argv, stdin, env, files = _find_run_call(
-            node, files_map, vars_map, extra_run_names, kwarg_flags, resolver)
+            node, files_map, vars_map, extra_run_names, kwarg_flags, resolver
+        )
         if argv is not None:
             fx[node.name] = (argv, stdin, env, files)
 
@@ -2944,14 +3309,22 @@ def _track_run_fixtures(tree: ast.Module, extra_run_names: set,
                 continue
             params = {a.arg for a in node.args.args}
             body = node.body
-            if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) \
-                    and isinstance(body[0].value.value, str):
+            if (
+                body
+                and isinstance(body[0], ast.Expr)
+                and isinstance(body[0].value, ast.Constant)
+                and isinstance(body[0].value.value, str)
+            ):
                 body = body[1:]
             if len(body) != 1 or not isinstance(body[0], ast.Return):
                 continue
             ret = body[0].value
-            if isinstance(ret, ast.Attribute) and isinstance(ret.value, ast.Name) \
-                    and ret.value.id in params and ret.value.id in fx:
+            if (
+                isinstance(ret, ast.Attribute)
+                and isinstance(ret.value, ast.Name)
+                and ret.value.id in params
+                and ret.value.id in fx
+            ):
                 fx[node.name] = fx[ret.value.id]
                 changed = True
     return fx
@@ -3088,8 +3461,8 @@ def extract_file(path: Path) -> Coverage:
     for node in ast.walk(tree):
         if not (isinstance(node, ast.FunctionDef) and node.name.startswith("test_")):
             continue
-        base_vars = {**module_vars, **fixtures, **_track_vars(node)}   # local vars shadow fixtures
-        cases = _parametrize_cases(node) or [{}]        # [{}] == the non-parametrized case
+        base_vars = {**module_vars, **fixtures, **_track_vars(node)}  # local vars shadow fixtures
+        cases = _parametrize_cases(node) or [{}]  # [{}] == the non-parametrized case
         n_tests += len(cases)
         # a test parameter naming exactly ONE run-invoking fixture stands in for a direct
         # run-call in the test's own body (see _track_run_fixtures) -- two or more such
@@ -3104,7 +3477,8 @@ def extract_file(path: Path) -> Coverage:
         # not a tool-wide fixture parameter name, so it's computed per-test and
         # merged with the fixture-based names just for this test's own resolution.
         test_temp_files_names = temp_files_object_names | _track_with_block_scratch_objects(
-            node, scratch_class_names)
+            node, scratch_class_names
+        )
         for case in cases:
             vars_map = {**base_vars, **case}
             # a local var assigned an f-string that references a parametrize value
@@ -3131,22 +3505,33 @@ def extract_file(path: Path) -> Coverage:
             # too); resolved per-test since name/content can reference parametrize
             # values via vars_map, unlike the eagerly-resolved fixture-level dicts above.
             temp_files_created = _track_temp_files_object_creates(
-                node, test_temp_files_names, vars_map)
+                node, test_temp_files_names, vars_map
+            )
             # `input_file = RESOURCES / "simple_box.txt"` -- a TEST-LOCAL var assigned
             # from a real, on-disk resolver-resolvable path expression, referenced BARE
             # later (ditaa's whole run_ditaa suite, 499 call sites) -- a third variant of
             # the fix 22/28 gap, this one local to the test body rather than a fixture
             # return value or a module-level constant.
-            files_map = {**fixture_file_contents, **_track_files(node, vars_map, content_fixtures),
-                        **temp_files_created, **_track_resource_path_vars(node, resolver)}
+            files_map = {
+                **fixture_file_contents,
+                **_track_files(node, vars_map, content_fixtures),
+                **temp_files_created,
+                **_track_resource_path_vars(node, resolver),
+            }
             # a tracked file var's basename is also usable as a plain string (e.g. an
             # f-string reference in an ASSERTION, `assert f"@{test_file}" in stdout` --
             # the ARGV side already stages the file correctly via _file_arg; this just
             # lets the same variable resolve for expectation-side snippet checks too).
             vars_map = {**vars_map, **{v: bn for v, (bn, _content) in files_map.items()}}
             argv, stdin, env, files = _find_run_call(
-                node, files_map, vars_map, extra_run_names, kwarg_flags, resolver,
-                test_temp_files_names)
+                node,
+                files_map,
+                vars_map,
+                extra_run_names,
+                kwarg_flags,
+                resolver,
+                test_temp_files_names,
+            )
             if argv is None and fallback is not None:
                 argv, stdin, env, files = fallback
             elif argv is not None and temp_files_created:
@@ -3157,8 +3542,10 @@ def extract_file(path: Path) -> Coverage:
                 # would miss them entirely. Merge them in unconditionally whenever
                 # this test called .create() at all -- they need to exist in the
                 # rundir regardless of whether any single one is named in argv.
-                files = {**(files or {}),
-                        **{bn: content for bn, content in temp_files_created.values()}}
+                files = {
+                    **(files or {}),
+                    **{bn: content for bn, content in temp_files_created.values()},
+                }
             if argv is None:
                 skipped.append(node.name + case_suffix)
                 continue
@@ -3166,24 +3553,44 @@ def extract_file(path: Path) -> Coverage:
             # parametrize substitution referenced directly in an assertion (`assert flag
             # in out`) resolves to that case's concrete value, not just the argv.
             rc, exact, contains, ci, in_any, not_in, rc_nonzero, rc_in = _find_expectations(
-                node, resolver, assertion_helpers, wrapper_shapes, extra_vars=vars_map)
-            if rc is None and exact is None and not contains and not in_any and not not_in \
-                    and not rc_nonzero and not rc_in:
+                node, resolver, assertion_helpers, wrapper_shapes, extra_vars=vars_map
+            )
+            if (
+                rc is None
+                and exact is None
+                and not contains
+                and not in_any
+                and not not_in
+                and not rc_nonzero
+                and not rc_in
+            ):
                 skipped.append(node.name + case_suffix)
                 continue
-            examples.append(Example(
-                test=node.name + case_suffix, argv=argv, stdin=stdin, env=env,
-                expect_rc=rc, expect_rc_nonzero=rc_nonzero, expect_rc_in=rc_in,
-                expect_stdout=exact,
-                expect_in=contains, expect_in_any=in_any,
-                expect_not_in=not_in, ci=ci,
-                files=files, source=f"{path.name}:{node.lineno}"))
+            examples.append(
+                Example(
+                    test=node.name + case_suffix,
+                    argv=argv,
+                    stdin=stdin,
+                    env=env,
+                    expect_rc=rc,
+                    expect_rc_nonzero=rc_nonzero,
+                    expect_rc_in=rc_in,
+                    expect_stdout=exact,
+                    expect_in=contains,
+                    expect_in_any=in_any,
+                    expect_not_in=not_in,
+                    ci=ci,
+                    files=files,
+                    source=f"{path.name}:{node.lineno}",
+                )
+            )
     return Coverage(examples, n_tests, len(examples), skipped)
 
 
 @dataclass
 class InputProbe:
     """A recoverable test INPUT (no expectation) -- the reference fills the expectation."""
+
     test: str
     argv: list = field(default_factory=list)
     stdin: str | None = None
@@ -3205,7 +3612,9 @@ def extract_inputs_file(path: Path) -> list:
     conf = path.parent / "conftest.py"
     if conf.exists():
         try:
-            fixtures.update(_track_fixtures(ast.parse(conf.read_text(encoding="utf-8", errors="replace"))))
+            fixtures.update(
+                _track_fixtures(ast.parse(conf.read_text(encoding="utf-8", errors="replace")))
+            )
         except SyntaxError:
             pass
     extra_run_names = _discover_wrapper_names(tree, path)
@@ -3218,8 +3627,16 @@ def extract_inputs_file(path: Path) -> list:
         argv, stdin, env, files = _find_run_call(node, files_map, vars_map, extra_run_names)
         if argv is None:
             continue
-        out.append(InputProbe(test=node.name, argv=argv, stdin=stdin, env=env or {},
-                              files=files or {}, source=f"{path.name}:{node.lineno}"))
+        out.append(
+            InputProbe(
+                test=node.name,
+                argv=argv,
+                stdin=stdin,
+                env=env or {},
+                files=files or {},
+                source=f"{path.name}:{node.lineno}",
+            )
+        )
     return out
 
 
@@ -3256,22 +3673,27 @@ def main(argv=None):
     ap.add_argument("--show", type=int, default=12)
     a = ap.parse_args(argv)
     cov = extract_dir(Path(a.test_dir))
-    print(f"tests seen: {cov.n_tests}   examples extracted: {cov.n_examples}   "
-          f"skipped: {len(cov.skipped)}   "
-          f"({100*cov.n_examples/max(cov.n_tests,1):.0f}% coverage)")
+    print(
+        f"tests seen: {cov.n_tests}   examples extracted: {cov.n_examples}   "
+        f"skipped: {len(cov.skipped)}   "
+        f"({100 * cov.n_examples / max(cov.n_tests, 1):.0f}% coverage)"
+    )
     exact = sum(1 for e in cov.examples if e.expect_stdout is not None)
-    print(f"  with exact-stdout golden: {exact}   with rc: "
-          f"{sum(1 for e in cov.examples if e.expect_rc is not None)}   "
-          f"with contains: {sum(1 for e in cov.examples if e.expect_in)}")
-    for e in cov.examples[:a.show]:
+    print(
+        f"  with exact-stdout golden: {exact}   with rc: "
+        f"{sum(1 for e in cov.examples if e.expect_rc is not None)}   "
+        f"with contains: {sum(1 for e in cov.examples if e.expect_in)}"
+    )
+    for e in cov.examples[: a.show]:
         exp = f"rc={e.expect_rc}" if e.expect_rc is not None else ""
         ex = " EXACT" if e.expect_stdout is not None else ""
         ind = f" in={e.expect_in[:1]}" if e.expect_in else ""
         sd = f" stdin={e.stdin!r}" if e.stdin else ""
         print(f"  {e.test:46} argv={e.argv}{sd} {exp}{ex}{ind}")
     if a.out:
-        Path(a.out).write_text(json.dumps([asdict(e) for e in cov.examples], indent=2),
-                               encoding="utf-8")
+        Path(a.out).write_text(
+            json.dumps([asdict(e) for e in cov.examples], indent=2), encoding="utf-8"
+        )
         print(f"wrote {cov.n_examples} examples -> {a.out}")
     return 0
 

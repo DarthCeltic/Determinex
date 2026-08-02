@@ -25,6 +25,7 @@ Usage:
   python scripts/determinex_pb_official_score.py <iid> <eval.json> [<iid> <eval.json> ...]
   python scripts/determinex_pb_official_score.py --glob '/root/citadel-programbench/*/*/*.eval.json'
 """
+
 from __future__ import annotations
 
 import argparse
@@ -44,14 +45,16 @@ def _ensure_pb_importable() -> None:
 class OfficialScore:
     iid: str
     n_resolved: int
-    total: int          # len after for_branches + without_ignored (not_run counted)
+    total: int  # len after for_branches + without_ignored (not_run counted)
     is_true_100: bool
     pct: float
     raw_resolved: int
     raw_total: int
 
 
-def score_eval(iid: str, eval_json_path: str, instances: dict | None = None) -> OfficialScore | None:
+def score_eval(
+    iid: str, eval_json_path: str, instances: dict | None = None
+) -> OfficialScore | None:
     """Official score for one eval.json. `instances` maps instance_id -> task instance dict."""
     _ensure_pb_importable()
     from programbench.eval.eval import EvaluationResult
@@ -67,9 +70,7 @@ def score_eval(iid: str, eval_json_path: str, instances: dict | None = None) -> 
     if inst is None:
         return None
     try:
-        res = EvaluationResult.model_validate_json(
-            open(eval_json_path, encoding="utf-8").read()
-        )
+        res = EvaluationResult.model_validate_json(open(eval_json_path, encoding="utf-8").read())
     except Exception:
         return None
     raw_resolved, raw_total = res.n_resolved, len(res)

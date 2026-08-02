@@ -30,6 +30,7 @@ Hard rules enforced by load():
     verification.blocked_path_demo AND evidence.claim_scanner_result
     -> BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -48,7 +49,6 @@ from .repo_clinic_verified_demo_status_record import (
     RepoClinicVerifiedDemoStatus,
 )
 
-
 # Required boundary statements every reconciled demo evidence must
 # include in claim_boundary. Missing any of these = BLOCKED_BROAD_CLAIM.
 REQUIRED_BOUNDARY_STATEMENTS = (
@@ -63,7 +63,8 @@ REQUIRED_BOUNDARY_STATEMENTS = (
 
 _DEFAULT_EVIDENCE_DIR = (
     Path(__file__).resolve().parents[2]
-    / "assurance" / "evidence"
+    / "assurance"
+    / "evidence"
     / "repo_clinic_fixture_repair_splash_demo"
 )
 
@@ -212,8 +213,7 @@ def load(evidence_dir: Path | str | None = None) -> RepoClinicVerifiedDemoStatus
     boundary_list = blob.get("claim_boundary") or []
     boundary_joined = " ; ".join(str(b) for b in boundary_list).lower()
     missing_required = [
-        req for req in REQUIRED_BOUNDARY_STATEMENTS
-        if req.lower() not in boundary_joined
+        req for req in REQUIRED_BOUNDARY_STATEMENTS if req.lower() not in boundary_joined
     ]
     if missing_required:
         return _block(
@@ -229,10 +229,7 @@ def load(evidence_dir: Path | str | None = None) -> RepoClinicVerifiedDemoStatus
     # 'not production-ready' which the per-phrase regex would not
     # catch). claim_boundary is already validated against
     # REQUIRED_BOUNDARY_STATEMENTS above; we do not also scan it.
-    safe = {
-        k: v for k, v in blob.items()
-        if k not in ("verification", "claim_boundary")
-    }
+    safe = {k: v for k, v in blob.items() if k not in ("verification", "claim_boundary")}
     if "evidence" in safe:
         ev_copy = {k: v for k, v in safe["evidence"].items() if k != "claim_scanner_result"}
         safe["evidence"] = ev_copy
@@ -246,8 +243,7 @@ def load(evidence_dir: Path | str | None = None) -> RepoClinicVerifiedDemoStatus
             continue
         affirmative_pattern = re.compile(
             r"(?<!not )(?<!refuses )(?<!refused )(?<!refusing )"
-            r"(?<!refuse )(?<!blocks )(?<!blocked )"
-            + re.escape(phrase)
+            r"(?<!refuse )(?<!blocks )(?<!blocked )" + re.escape(phrase)
         )
         if affirmative_pattern.search(safe_haystack):
             return _block(
@@ -280,7 +276,8 @@ def load(evidence_dir: Path | str | None = None) -> RepoClinicVerifiedDemoStatus
     affected_files = tuple(quarantined.get("affected_files") or [])
     patch_body_hash = str(
         quarantined.get("patch_body_hash")
-        or (blob.get("evidence") or {}).get("patch_body_hash") or ""
+        or (blob.get("evidence") or {}).get("patch_body_hash")
+        or ""
     )
 
     return RepoClinicVerifiedDemoStatus(

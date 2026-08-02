@@ -19,15 +19,15 @@ Phase 2: --extract-golden → derives the minimal golden test set from accumulat
 """
 
 from __future__ import annotations
+
 import argparse
 import json
 import os
 import re
 import sys
 import time
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Optional
 
 # Load .env from project root so API keys work when run as background subprocess
 _env_file = Path(__file__).parents[3] / ".env"
@@ -42,10 +42,10 @@ if _env_file.exists():
 sys.path.insert(0, str(Path(__file__).parents[2]))
 
 try:
-    from windows_literacy_tasks import TASKS, TASK_BY_ID
+    from windows_literacy_tasks import TASK_BY_ID, TASKS
 except ImportError:
     sys.path.insert(0, str(Path(__file__).parent))
-    from windows_literacy_tasks import TASKS, TASK_BY_ID
+    from windows_literacy_tasks import TASK_BY_ID, TASKS
 
 LOGS_DIR = Path(__file__).parents[3] / "logs" / "windows_bench"
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -71,6 +71,7 @@ Respond with working PowerShell code only. No markdown fences unless asked.\
 
 def _gen_deepseek(prompt: str, system: str) -> str:
     import openai
+
     client = openai.OpenAI(
         api_key=os.environ["DEEPSEEK_API_KEY"],
         base_url="https://api.deepseek.com",
@@ -78,13 +79,15 @@ def _gen_deepseek(prompt: str, system: str) -> str:
     resp = client.chat.completions.create(
         model="deepseek-chat",
         messages=[{"role": "system", "content": system}, {"role": "user", "content": prompt}],
-        max_tokens=1024, temperature=0.2,
+        max_tokens=1024,
+        temperature=0.2,
     )
     return resp.choices[0].message.content or ""
 
 
 def _gen_claude(prompt: str, system: str) -> str:
     import anthropic
+
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     msg = client.messages.create(
         model="claude-sonnet-4-6",
@@ -97,17 +100,20 @@ def _gen_claude(prompt: str, system: str) -> str:
 
 def _gen_gpt(prompt: str, system: str) -> str:
     import openai
+
     client = openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     resp = client.chat.completions.create(
         model="gpt-4o",
         messages=[{"role": "system", "content": system}, {"role": "user", "content": prompt}],
-        max_tokens=1024, temperature=0.2,
+        max_tokens=1024,
+        temperature=0.2,
     )
     return resp.choices[0].message.content or ""
 
 
 def _gen_local(prompt: str, system: str, model_tag: str) -> str:
     import requests
+
     payload = {
         "model": model_tag,
         "messages": [{"role": "system", "content": system}, {"role": "user", "content": prompt}],
@@ -155,7 +161,7 @@ class TaskResult:
     response: str
     latency_s: float
     checks: list[CheckResult] = field(default_factory=list)
-    score: float = 0.0       # 0.0–1.0
+    score: float = 0.0  # 0.0–1.0
     weighted_score: float = 0.0
     linux_ism_count: int = 0  # times a MUST NOT pattern matched (key metric)
     error: str = ""
@@ -191,10 +197,15 @@ def score_response(task: dict, response: str) -> TaskResult:
     for pattern, required, description in task["rubric"]:
         matched = bool(re.search(pattern, response, re.IGNORECASE))
         passed = matched if required else not matched
-        checks.append(CheckResult(
-            pattern=pattern, required=required, description=description,
-            matched=matched, passed=passed,
-        ))
+        checks.append(
+            CheckResult(
+                pattern=pattern,
+                required=required,
+                description=description,
+                matched=matched,
+                passed=passed,
+            )
+        )
 
     passed_checks = sum(1 for c in checks if c.passed)
     score = passed_checks / len(checks) if checks else 0.0
@@ -248,19 +259,24 @@ def extract_golden(logs_dir: Path) -> dict:
         linux_rate = sum(1 for r in results if r["linux_ism_count"] > 0) / len(results)
         task = TASK_BY_ID.get(tid, {})
         if fail_rate >= 0.5 or linux_rate >= 0.3:
-            golden.append({
-                "task_id": tid,
-                "category": task.get("category", ""),
-                "weight": task.get("weight", 1),
-                "fail_rate": round(fail_rate, 2),
-                "linux_ism_rate": round(linux_rate, 2),
-                "models_tested": len(results),
-                "prompt": task.get("prompt", ""),
-            })
+            golden.append(
+                {
+                    "task_id": tid,
+                    "category": task.get("category", ""),
+                    "weight": task.get("weight", 1),
+                    "fail_rate": round(fail_rate, 2),
+                    "linux_ism_rate": round(linux_rate, 2),
+                    "models_tested": len(results),
+                    "prompt": task.get("prompt", ""),
+                }
+            )
 
     golden.sort(key=lambda x: (-x["weight"], -x["fail_rate"]))
-    out = {"generated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-           "golden_count": len(golden), "tasks": golden}
+    out = {
+        "generated": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "golden_count": len(golden),
+        "tasks": golden,
+    }
     golden_path = logs_dir / "golden_test_set.json"
     golden_path.write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(f"Golden test set: {len(golden)} tasks -> {golden_path}")
@@ -270,7 +286,7 @@ def extract_golden(logs_dir: Path) -> dict:
 # ── Main ───────────────────────────────────────────────────────────────────
 
 
-def run_bench(model: str, local_model: str, category: Optional[str], verbose: bool) -> None:
+def run_bench(model: str, local_model: str, category: str | None, verbose: bool) -> None:
     tasks = TASKS if not category else [t for t in TASKS if t["category"] == category]
     if not tasks:
         print(f"No tasks for category: {category}")
@@ -280,7 +296,7 @@ def run_bench(model: str, local_model: str, category: Optional[str], verbose: bo
     model_label = model if model != "local" else f"local_{local_model.split(':')[0]}"
     out_path = LOGS_DIR / f"{ts}_{model_label}.json"
 
-    print(f"\nDeterminex Windows Literacy Benchmark")
+    print("\nDeterminex Windows Literacy Benchmark")
     print(f"Model: {model_label}  Tasks: {len(tasks)}")
     print("=" * 60)
 
@@ -295,8 +311,16 @@ def run_bench(model: str, local_model: str, category: Optional[str], verbose: bo
             response, latency = generate(task["prompt"], model, local_model)
         except Exception as e:
             print(f"  ERROR: {e}")
-            results.append({"task_id": task["id"], "error": str(e), "score": 0.0,
-                            "weighted_score": 0.0, "linux_ism_count": 0, "checks": []})
+            results.append(
+                {
+                    "task_id": task["id"],
+                    "error": str(e),
+                    "score": 0.0,
+                    "weighted_score": 0.0,
+                    "linux_ism_count": 0,
+                    "checks": [],
+                }
+            )
             continue
 
         tr = score_response(task, response)
@@ -347,14 +371,20 @@ def run_bench(model: str, local_model: str, category: Optional[str], verbose: bo
 
 def main() -> None:
     ap = argparse.ArgumentParser(description="Determinex Windows Literacy Benchmark")
-    ap.add_argument("--model", choices=["deepseek", "claude", "gpt", "local", "all"],
-                    default="deepseek")
+    ap.add_argument(
+        "--model", choices=["deepseek", "claude", "gpt", "local", "all"], default="deepseek"
+    )
     ap.add_argument("--local-model", default="qwen2.5-coder:14b-instruct-q4_K_M")
-    ap.add_argument("--category", choices=["path", "envvar", "process", "registry",
-                                           "tools", "syntax", "filesystem"])
+    ap.add_argument(
+        "--category",
+        choices=["path", "envvar", "process", "registry", "tools", "syntax", "filesystem"],
+    )
     ap.add_argument("--verbose", action="store_true")
-    ap.add_argument("--extract-golden", action="store_true",
-                    help="Phase 2: derive golden test set from accumulated results")
+    ap.add_argument(
+        "--extract-golden",
+        action="store_true",
+        help="Phase 2: derive golden test set from accumulated results",
+    )
     args = ap.parse_args()
 
     if args.extract_golden:

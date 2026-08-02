@@ -9,9 +9,10 @@ Columns:
   instance, family, subtype, base_pct, factory_pct, delta_pp, gap_to_100,
   bucket (LOCKED|RECOVERABLE|FAR|NOT_EVALED), test_count
 """
+
 from __future__ import annotations
+
 import json
-import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -20,7 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PB_ROOT = Path("T:/determinex-programbench")
 BASE_DIR = PB_ROOT / "mass_run_v2_base"
 OUT_TSV = ROOT / "logs" / "mass_run_v2" / "state_audit.tsv"
-OUT_MD  = ROOT / "logs" / "mass_run_v2" / "state_audit.md"
+OUT_MD = ROOT / "logs" / "mass_run_v2" / "state_audit.md"
 
 
 def score_from(eval_json: Path) -> tuple[float | None, int]:
@@ -43,8 +44,10 @@ def classify(instance: str) -> tuple[str, str]:
     if not hasattr(classify, "_cache"):
         if cache_path.is_file():
             data = json.loads(cache_path.read_text(encoding="utf-8"))
-            classify._cache = {r["instance"]: (r.get("family", "?"), r.get("subtype", ""))  # type: ignore[attr-defined]
-                               for r in data.get("ranked", [])}
+            classify._cache = {
+                r["instance"]: (r.get("family", "?"), r.get("subtype", ""))  # type: ignore[attr-defined]
+                for r in data.get("ranked", [])
+            }
         else:
             classify._cache = {}  # type: ignore[attr-defined]
     return classify._cache.get(instance, ("?", ""))  # type: ignore[attr-defined]
@@ -56,14 +59,20 @@ def bucket_for(base: float | None, factory: float | None) -> str:
         return "NOT_EVALED"
     if factory is None:
         # Have base but no scaffold yet
-        if (base or 0) >= 90:    return "NEAR_LOCKED"
-        if (base or 0) >= 50:    return "RECOVERABLE"
-        if (base or 0) >= 20:    return "MID"
+        if (base or 0) >= 90:
+            return "NEAR_LOCKED"
+        if (base or 0) >= 50:
+            return "RECOVERABLE"
+        if (base or 0) >= 20:
+            return "MID"
         return "FAR_NO_SCAFFOLD"
     # Have scaffold
-    if factory >= 95:    return "NEAR_LOCKED"
-    if factory >= 50:    return "RECOVERABLE"
-    if factory >= 20:    return "MID"
+    if factory >= 95:
+        return "NEAR_LOCKED"
+    if factory >= 50:
+        return "RECOVERABLE"
+    if factory >= 20:
+        return "MID"
     return "FAR"
 
 
@@ -76,30 +85,40 @@ def main() -> int:
     for inst in instances:
         base_ej = BASE_DIR / inst / f"{inst}.eval.json"
         fac_dir = PB_ROOT / f"determinex_pb_factory_{inst}_v1"
-        fac_ej  = fac_dir / inst / f"{inst}.eval.json"
+        fac_ej = fac_dir / inst / f"{inst}.eval.json"
         base, n_base = score_from(base_ej)
-        fac,  n_fac  = score_from(fac_ej)
+        fac, n_fac = score_from(fac_ej)
         family, subtype = classify(inst)
-        delta = round((fac or 0.0) - (base or 0.0), 2) if (fac is not None and base is not None) else None
+        delta = (
+            round((fac or 0.0) - (base or 0.0), 2)
+            if (fac is not None and base is not None)
+            else None
+        )
         gap = round(100.0 - (fac or base or 0.0), 2)
-        rows.append({
-            "instance": inst,
-            "family": family,
-            "subtype": subtype,
-            "base": base if base is not None else "-",
-            "factory": fac if fac is not None else "-",
-            "delta": delta if delta is not None else "-",
-            "gap": gap,
-            "bucket": bucket_for(base, fac),
-            "n_tests": n_fac or n_base,
-        })
+        rows.append(
+            {
+                "instance": inst,
+                "family": family,
+                "subtype": subtype,
+                "base": base if base is not None else "-",
+                "factory": fac if fac is not None else "-",
+                "delta": delta if delta is not None else "-",
+                "gap": gap,
+                "bucket": bucket_for(base, fac),
+                "n_tests": n_fac or n_base,
+            }
+        )
 
     # TSV
     OUT_TSV.parent.mkdir(parents=True, exist_ok=True)
     with OUT_TSV.open("w", encoding="utf-8", newline="\n") as f:
-        f.write("instance\tfamily\tsubtype\tbase_pct\tfactory_pct\tdelta_pp\tgap_to_100\tbucket\ttest_count\n")
+        f.write(
+            "instance\tfamily\tsubtype\tbase_pct\tfactory_pct\tdelta_pp\tgap_to_100\tbucket\ttest_count\n"
+        )
         for r in rows:
-            f.write(f"{r['instance']}\t{r['family']}\t{r['subtype']}\t{r['base']}\t{r['factory']}\t{r['delta']}\t{r['gap']}\t{r['bucket']}\t{r['n_tests']}\n")
+            f.write(
+                f"{r['instance']}\t{r['family']}\t{r['subtype']}\t{r['base']}\t{r['factory']}\t{r['delta']}\t{r['gap']}\t{r['bucket']}\t{r['n_tests']}\n"
+            )
 
     # Markdown grouped by family
     by_family: dict[str, list[dict]] = defaultdict(list)
@@ -117,10 +136,10 @@ def main() -> int:
     bucket_meanings = {
         "NEAR_LOCKED": "factory >= 95% OR base >= 90% — push to 100",
         "RECOVERABLE": "factory >= 50% OR base >= 50% — close enough that targeted work hits 100",
-        "MID":         "20-50% — needs family-v2 generator improvements + per-tool tuning",
-        "FAR":         "factory ran but <20% — wrong-family or specialized scaffold needed",
+        "MID": "20-50% — needs family-v2 generator improvements + per-tool tuning",
+        "FAR": "factory ran but <20% — wrong-family or specialized scaffold needed",
         "FAR_NO_SCAFFOLD": "no factory eval yet, base <20% — sprint-5 candidate",
-        "NOT_EVALED":  "no base, no factory — investigate",
+        "NOT_EVALED": "no base, no factory — investigate",
     }
     for b in ["NEAR_LOCKED", "RECOVERABLE", "MID", "FAR", "FAR_NO_SCAFFOLD", "NOT_EVALED"]:
         lines.append(f"| {b} | {bucket_counts.get(b, 0)} | {bucket_meanings.get(b, '')} |")
@@ -136,12 +155,14 @@ def main() -> int:
         bs = [x["base"] for x in items if isinstance(x["base"], (int, float))]
         fs = [x["factory"] for x in items if isinstance(x["factory"], (int, float))]
         ds = [x["delta"] for x in items if isinstance(x["delta"], (int, float))]
-        avg_b = round(sum(bs)/len(bs), 1) if bs else 0.0
-        avg_f = round(sum(fs)/len(fs), 1) if fs else 0.0
-        avg_d = round(sum(ds)/len(ds), 2) if ds else 0.0
+        avg_b = round(sum(bs) / len(bs), 1) if bs else 0.0
+        avg_f = round(sum(fs) / len(fs), 1) if fs else 0.0
+        avg_d = round(sum(ds) / len(ds), 2) if ds else 0.0
         best = max(fs) if fs else max(bs) if bs else 0.0
         worst = min(fs) if fs else min(bs) if bs else 0.0
-        lines.append(f"| {fam} | {len(items)} | {avg_b} | {avg_f} | {avg_d:+.2f} | {best} | {worst} |")
+        lines.append(
+            f"| {fam} | {len(items)} | {avg_b} | {avg_f} | {avg_d:+.2f} | {best} | {worst} |"
+        )
     lines.append("")
 
     # Full per-tool table, sorted by factory score descending then base descending
@@ -149,16 +170,19 @@ def main() -> int:
         fac = r["factory"] if isinstance(r["factory"], (int, float)) else -1
         base = r["base"] if isinstance(r["base"], (int, float)) else -1
         return (-fac, -base)
+
     rows_sorted = sorted(rows, key=sort_key)
     lines.append("## Full tool list (sorted by current best score)")
     lines.append("")
     lines.append("| Instance | Family | Base % | Factory % | Δ | Gap to 100 | Bucket |")
     lines.append("|---|---|---:|---:|---:|---:|---|")
     for r in rows_sorted:
-        lines.append(f"| `{r['instance']}` | {r['family']} | {r['base']} | {r['factory']} | {r['delta']} | {r['gap']} | {r['bucket']} |")
+        lines.append(
+            f"| `{r['instance']}` | {r['family']} | {r['base']} | {r['factory']} | {r['delta']} | {r['gap']} | {r['bucket']} |"
+        )
     OUT_MD.write_text("\n".join(lines), encoding="utf-8")
 
-    print(f"AUDIT written:")
+    print("AUDIT written:")
     print(f"  TSV: {OUT_TSV}")
     print(f"  MD:  {OUT_MD}")
     print()

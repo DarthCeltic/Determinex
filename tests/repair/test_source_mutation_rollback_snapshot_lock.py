@@ -1,7 +1,7 @@
 """Tests for SOURCE_MUTATION_ROLLBACK_SNAPSHOT_LOCK_001."""
+
 from __future__ import annotations
 
-import hashlib
 import importlib
 import json
 import sys
@@ -27,24 +27,29 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "SOURCE_MUTATION_ROLLBACK_SNAPSH
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "source_mutation_rollback_snapshot"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "ROLLBACK_SNAPSHOT_WRITTEN",
-    "ROLLBACK_SNAPSHOT_BLOCKED_NO_APPROVAL",
-    "ROLLBACK_SNAPSHOT_BLOCKED_SOURCE_HASH_MISMATCH",
-    "ROLLBACK_SNAPSHOT_BLOCKED_NO_VERIFY",
-    "ROLLBACK_SNAPSHOT_BLOCKED_INVALID_LOCATION",
-    "ROLLBACK_SNAPSHOT_BLOCKED_SYMLINKS_UNSUPPORTED",
-})
+EXPECTED = frozenset(
+    {
+        "ROLLBACK_SNAPSHOT_WRITTEN",
+        "ROLLBACK_SNAPSHOT_BLOCKED_NO_APPROVAL",
+        "ROLLBACK_SNAPSHOT_BLOCKED_SOURCE_HASH_MISMATCH",
+        "ROLLBACK_SNAPSHOT_BLOCKED_NO_VERIFY",
+        "ROLLBACK_SNAPSHOT_BLOCKED_INVALID_LOCATION",
+        "ROLLBACK_SNAPSHOT_BLOCKED_SYMLINKS_UNSUPPORTED",
+    }
+)
 
 
 def _approval_accepted():
     return RealHumanApprovalAdmissionRecord(
         decision="REAL_HUMAN_APPROVAL_ACCEPTED",
-        trace_id="trace-1", workspace_identity="/ws",
+        trace_id="trace-1",
+        workspace_identity="/ws",
         diff_hash="d" * 64,
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
-        operator_identity="ryan", operator_signature="a" * 64,
-        signature_kind="real_local_signed", is_fixture=False,
+        operator_identity="ryan",
+        operator_signature="a" * 64,
+        signature_kind="real_local_signed",
+        is_fixture=False,
         accepted_at="2026-05-28T00:00:00+00:00",
         stale_after="2026-05-29T00:00:00+00:00",
     )
@@ -53,18 +58,24 @@ def _approval_accepted():
 def _approval_blocked():
     return RealHumanApprovalAdmissionRecord(
         decision="REAL_HUMAN_APPROVAL_BLOCKED_FIXTURE",
-        trace_id="trace-1", workspace_identity="/ws",
-        diff_hash="d" * 64, verifier_status="x",
-        operator_identity="ryan", operator_signature="",
-        signature_kind="fixture", is_fixture=True,
-        accepted_at="0", stale_after="0",
+        trace_id="trace-1",
+        workspace_identity="/ws",
+        diff_hash="d" * 64,
+        verifier_status="x",
+        operator_identity="ryan",
+        operator_signature="",
+        signature_kind="fixture",
+        is_fixture=True,
+        accepted_at="0",
+        stale_after="0",
     )
 
 
 def _verify_passed():
     return RealTempPatchVerifyRecord(
         decision="REAL_TEMP_PATCH_VERIFIER_PASSED",
-        workspace="/ws", temp_workspace="/tmp/x",
+        workspace="/ws",
+        temp_workspace="/tmp/x",
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
         unified_diff="--- a\n+++ b\n",
         applied_paths=("src/lib.py",),
@@ -89,8 +100,11 @@ def test_status_tokens_exact():
 def test_no_approval_blocked(tmp_path):
     ws = _ws(tmp_path)
     r = take_snapshot(
-        workspace=ws, snapshot_root=tmp_path / "snaps", snapshot_id="t1",
-        approval=None, temp_verify=_verify_passed(),
+        workspace=ws,
+        snapshot_root=tmp_path / "snaps",
+        snapshot_id="t1",
+        approval=None,
+        temp_verify=_verify_passed(),
     )
     assert r.decision == "ROLLBACK_SNAPSHOT_BLOCKED_NO_APPROVAL"
 
@@ -98,8 +112,11 @@ def test_no_approval_blocked(tmp_path):
 def test_blocked_approval_refused(tmp_path):
     ws = _ws(tmp_path)
     r = take_snapshot(
-        workspace=ws, snapshot_root=tmp_path / "snaps", snapshot_id="t1",
-        approval=_approval_blocked(), temp_verify=_verify_passed(),
+        workspace=ws,
+        snapshot_root=tmp_path / "snaps",
+        snapshot_id="t1",
+        approval=_approval_blocked(),
+        temp_verify=_verify_passed(),
     )
     assert r.decision == "ROLLBACK_SNAPSHOT_BLOCKED_NO_APPROVAL"
 
@@ -107,8 +124,11 @@ def test_blocked_approval_refused(tmp_path):
 def test_no_verify_blocked(tmp_path):
     ws = _ws(tmp_path)
     r = take_snapshot(
-        workspace=ws, snapshot_root=tmp_path / "snaps", snapshot_id="t1",
-        approval=_approval_accepted(), temp_verify=None,
+        workspace=ws,
+        snapshot_root=tmp_path / "snaps",
+        snapshot_id="t1",
+        approval=_approval_accepted(),
+        temp_verify=None,
     )
     assert r.decision == "ROLLBACK_SNAPSHOT_BLOCKED_NO_VERIFY"
 
@@ -116,8 +136,11 @@ def test_no_verify_blocked(tmp_path):
 def test_source_hash_mismatch_blocked(tmp_path):
     ws = _ws(tmp_path)
     r = take_snapshot(
-        workspace=ws, snapshot_root=tmp_path / "snaps", snapshot_id="t1",
-        approval=_approval_accepted(), temp_verify=_verify_passed(),
+        workspace=ws,
+        snapshot_root=tmp_path / "snaps",
+        snapshot_id="t1",
+        approval=_approval_accepted(),
+        temp_verify=_verify_passed(),
         expected_pre_apply_source_hash="z" * 64,
     )
     assert r.decision == "ROLLBACK_SNAPSHOT_BLOCKED_SOURCE_HASH_MISMATCH"
@@ -129,8 +152,11 @@ def test_existing_snapshot_path_refused(tmp_path):
     snaps.mkdir()
     (snaps / "rollback_t1").mkdir()
     r = take_snapshot(
-        workspace=ws, snapshot_root=snaps, snapshot_id="t1",
-        approval=_approval_accepted(), temp_verify=_verify_passed(),
+        workspace=ws,
+        snapshot_root=snaps,
+        snapshot_id="t1",
+        approval=_approval_accepted(),
+        temp_verify=_verify_passed(),
     )
     assert r.decision == "ROLLBACK_SNAPSHOT_BLOCKED_INVALID_LOCATION"
 
@@ -138,8 +164,11 @@ def test_existing_snapshot_path_refused(tmp_path):
 def test_happy_path_writes_snapshot(tmp_path):
     ws = _ws(tmp_path)
     r = take_snapshot(
-        workspace=ws, snapshot_root=tmp_path / "snaps", snapshot_id="happy",
-        approval=_approval_accepted(), temp_verify=_verify_passed(),
+        workspace=ws,
+        snapshot_root=tmp_path / "snaps",
+        snapshot_id="happy",
+        approval=_approval_accepted(),
+        temp_verify=_verify_passed(),
     )
     assert r.decision == "ROLLBACK_SNAPSHOT_WRITTEN"
     assert r.snapshot_path
@@ -158,8 +187,11 @@ def test_happy_path_writes_snapshot(tmp_path):
 def test_record_serializes_safely(tmp_path):
     ws = _ws(tmp_path)
     r = take_snapshot(
-        workspace=ws, snapshot_root=tmp_path / "snaps", snapshot_id="ser",
-        approval=_approval_accepted(), temp_verify=_verify_passed(),
+        workspace=ws,
+        snapshot_root=tmp_path / "snaps",
+        snapshot_id="ser",
+        approval=_approval_accepted(),
+        temp_verify=_verify_passed(),
     )
     d = r.to_dict()
     json.dumps(d)
@@ -169,8 +201,14 @@ def test_record_serializes_safely(tmp_path):
 
 def test_module_does_not_open_network():
     src = Path(mod.__file__).read_text(encoding="utf-8")
-    for forbidden in ("requests", "httpx", "urllib.request",
-                      "socket.connect", "subprocess.Popen", "subprocess.run"):
+    for forbidden in (
+        "requests",
+        "httpx",
+        "urllib.request",
+        "socket.connect",
+        "subprocess.Popen",
+        "subprocess.run",
+    ):
         assert forbidden not in src
 
 

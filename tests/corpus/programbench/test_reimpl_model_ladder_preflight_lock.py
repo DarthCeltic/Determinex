@@ -14,6 +14,7 @@ preflight_ladder() mirrors the equivalent check already in scripts/hive/executor
 is actually reachable (Ollama has the model / the relevant cloud API key is set)
 BEFORE main() spends a single second on observe/decompose.
 """
+
 from __future__ import annotations
 
 import sys
@@ -31,30 +32,39 @@ def _fake_urlopen_with_models(*names):
     class _Resp:
         def read(self_inner):
             import json
+
             return json.dumps({"models": [{"name": n} for n in names]}).encode()
+
     def _urlopen(req, timeout=5):
         return _Resp()
+
     return _urlopen
 
 
 def test_missing_ollama_model_is_flagged():
     with patch("urllib.request.urlopen", _fake_urlopen_with_models("qwen2.5-coder:7b-instruct")):
-        problems = reimpl.preflight_ladder([
-            "ollama/qwen2.5-coder:7b-instruct",
-            "ollama/qwen2.5-coder:14b-instruct",  # not in the fake tag list
-        ])
+        problems = reimpl.preflight_ladder(
+            [
+                "ollama/qwen2.5-coder:7b-instruct",
+                "ollama/qwen2.5-coder:14b-instruct",  # not in the fake tag list
+            ]
+        )
     assert len(problems) == 1
     assert "14b-instruct" in problems[0]
     assert "ollama pull" in problems[0]
 
 
 def test_all_present_ollama_models_pass_clean():
-    with patch("urllib.request.urlopen",
-               _fake_urlopen_with_models("qwen2.5-coder:7b-instruct", "deepseek-coder-v2:16b")):
-        problems = reimpl.preflight_ladder([
-            "ollama/qwen2.5-coder:7b-instruct",
-            "ollama/deepseek-coder-v2:16b",
-        ])
+    with patch(
+        "urllib.request.urlopen",
+        _fake_urlopen_with_models("qwen2.5-coder:7b-instruct", "deepseek-coder-v2:16b"),
+    ):
+        problems = reimpl.preflight_ladder(
+            [
+                "ollama/qwen2.5-coder:7b-instruct",
+                "ollama/deepseek-coder-v2:16b",
+            ]
+        )
     assert problems == []
 
 
@@ -75,6 +85,7 @@ def test_present_deepseek_key_passes_clean(monkeypatch):
 def test_ollama_unreachable_is_flagged_not_silently_ignored():
     def _boom(req, timeout=5):
         raise OSError("connection refused")
+
     with patch("urllib.request.urlopen", _boom):
         problems = reimpl.preflight_ladder(["ollama/qwen2.5-coder:7b-instruct"])
     assert len(problems) == 1

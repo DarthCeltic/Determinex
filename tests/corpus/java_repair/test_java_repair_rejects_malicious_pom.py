@@ -7,6 +7,7 @@ are rejected by the pipeline before any mutation or corpus write occurs.
 
 JAVA_REPAIR_LOCK_001 / SUPPLY_CHAIN_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -14,9 +15,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / "scripts"))
 
-from corpus.corpus_manager import CorpusManager
 from corpus.code_ingest.java_repair_pipeline import JavaRepairPipeline
-
+from corpus.corpus_manager import CorpusManager
 
 _JAVA_SOURCE = """\
 public class Safe {
@@ -104,7 +104,6 @@ def _make_repo(tmp_path: Path, pom_content: str) -> Path:
 
 
 class TestJavaRepairRejectsMaliciousPom:
-
     def test_curl_bash_pom_rejected(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         pipeline = JavaRepairPipeline(corpus_manager=cm)
@@ -151,9 +150,7 @@ class TestJavaRepairRejectsMaliciousPom:
         assert result.accepted, f"Safe pom must pass; got: {result.rejected_reason}"
 
     def test_pom_safety_result_has_reason_field(self, tmp_path):
-        pipeline = JavaRepairPipeline(
-            corpus_manager=CorpusManager(root=tmp_path / "corpus")
-        )
+        pipeline = JavaRepairPipeline(corpus_manager=CorpusManager(root=tmp_path / "corpus"))
         repo = _make_repo(tmp_path, _MALICIOUS_POMS[0][1])
         pom_safety = pipeline._check_pom_safety(repo)
         assert not pom_safety.safe
@@ -161,9 +158,7 @@ class TestJavaRepairRejectsMaliciousPom:
         assert "injection_risk" in pom_safety.reason
 
     def test_safe_pom_safety_result_is_safe(self, tmp_path):
-        pipeline = JavaRepairPipeline(
-            corpus_manager=CorpusManager(root=tmp_path / "corpus")
-        )
+        pipeline = JavaRepairPipeline(corpus_manager=CorpusManager(root=tmp_path / "corpus"))
         repo = _make_repo(tmp_path, _SAFE_POM)
         pom_safety = pipeline._check_pom_safety(repo)
         assert pom_safety.safe

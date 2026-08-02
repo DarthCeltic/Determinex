@@ -9,6 +9,7 @@ Verifies:
   - version_history() returns the ordered list
   - Singleton get_registry() returns same instance
 """
+
 from __future__ import annotations
 
 import sys
@@ -27,10 +28,10 @@ from corpus.schema_registry import (
     get_registry,
 )
 
-
 # ---------------------------------------------------------------------------
 # validate_version
 # ---------------------------------------------------------------------------
+
 
 def test_current_version_is_accepted():
     SchemaRegistry().validate_version(CURRENT_VERSION)  # must not raise
@@ -65,6 +66,7 @@ def test_arbitrary_string_is_rejected():
 # is_current
 # ---------------------------------------------------------------------------
 
+
 def test_is_current_true_for_current_version():
     assert SchemaRegistry().is_current(CURRENT_VERSION)
 
@@ -81,6 +83,7 @@ def test_is_current_false_for_empty():
 # migrate
 # ---------------------------------------------------------------------------
 
+
 def test_migrate_current_version_returns_equivalent_dict():
     registry = SchemaRegistry()
     record = {"schema_version": CURRENT_VERSION, "task_id": "t1", "_sig": "abc"}
@@ -96,7 +99,7 @@ def test_migrate_does_not_mutate_original():
     original_copy = dict(original)
     migrated = registry.migrate(original)
     assert original == original_copy  # original unchanged
-    assert migrated is not original   # new dict returned
+    assert migrated is not original  # new dict returned
 
 
 def test_migrate_unknown_version_raises():
@@ -115,6 +118,7 @@ def test_migrate_missing_version_raises():
 # require_migration
 # ---------------------------------------------------------------------------
 
+
 def test_require_migration_false_for_current_version():
     assert not SchemaRegistry().require_migration({"schema_version": CURRENT_VERSION})
 
@@ -131,6 +135,7 @@ def test_require_migration_false_for_unknown_version():
 # ---------------------------------------------------------------------------
 # version_history
 # ---------------------------------------------------------------------------
+
 
 def test_version_history_is_a_list():
     history = SchemaRegistry.version_history()
@@ -151,6 +156,7 @@ def test_version_history_is_ordered_oldest_first():
 # ---------------------------------------------------------------------------
 # Singleton
 # ---------------------------------------------------------------------------
+
 
 def test_get_registry_returns_same_instance():
     r1 = get_registry()

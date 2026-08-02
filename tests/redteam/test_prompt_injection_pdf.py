@@ -10,6 +10,7 @@ These tests validate that extracted PDF text is scanned before use in prompts.
 
 SUPPLY_CHAIN_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -19,8 +20,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
-from agents.prompt_injection_detector import scan, InjectionRisk, is_safe, wrap_as_data
-
+from agents.prompt_injection_detector import InjectionRisk, is_safe, scan, wrap_as_data
 
 PDF_INJECTION_CASES = [
     (
@@ -68,14 +68,16 @@ BENIGN_PDF_CONTENT = [
 
 
 class TestPDFInjectionDetection:
-
     @pytest.mark.parametrize("name,content,expected_risk", PDF_INJECTION_CASES)
     def test_pdf_injection_detected(self, name, content, expected_risk):
         result = scan(content, source=f"pdf:{name}")
-        assert not result.is_clean, (
-            f"[{name}] PDF injection must be detected"
-        )
-        risk_order = [InjectionRisk.CLEAN, InjectionRisk.SUSPICIOUS, InjectionRisk.HIGH, InjectionRisk.CRITICAL]
+        assert not result.is_clean, f"[{name}] PDF injection must be detected"
+        risk_order = [
+            InjectionRisk.CLEAN,
+            InjectionRisk.SUSPICIOUS,
+            InjectionRisk.HIGH,
+            InjectionRisk.CRITICAL,
+        ]
         actual_idx = risk_order.index(result.risk)
         expected_idx = risk_order.index(expected_risk)
         assert actual_idx >= expected_idx - 1, (

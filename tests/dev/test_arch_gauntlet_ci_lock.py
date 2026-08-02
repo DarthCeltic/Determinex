@@ -7,6 +7,7 @@ do NOT spawn an actual CI run — they verify the workflow structure so
 drift between the workflow and the gauntlet's invariants is caught
 locally (and by the python-tests CI job itself).
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -27,21 +28,23 @@ LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-STATUS_TOKENS = frozenset({
-    "ARCH_GAUNTLET_CI_WIRED",
-    "WORKFLOW_PRESENT",
-    "JOB_RUNS_ON_UBUNTU",
-    "PYTHON_VERSION_PINNED",
-    "GAUNTLET_INVOKED_STRICT",
-    "EVIDENCE_VALIDATED_IN_CI",
-    "FOCUSED_TESTS_INVOKED",
-    "NO_DOCKER_PULLS",
-    "NO_T_DRIVE_DEPENDENCY",
-    "CORPUS_WRITE_GUARD_ACTIVE_IN_CI",
-    "GAUNTLET_ARTIFACT_UPLOADED",
-    "PROGRAMBENCH_UNTOUCHED",
-    "SAFETY_DEFAULTS_RESPECTED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "ARCH_GAUNTLET_CI_WIRED",
+        "WORKFLOW_PRESENT",
+        "JOB_RUNS_ON_UBUNTU",
+        "PYTHON_VERSION_PINNED",
+        "GAUNTLET_INVOKED_STRICT",
+        "EVIDENCE_VALIDATED_IN_CI",
+        "FOCUSED_TESTS_INVOKED",
+        "NO_DOCKER_PULLS",
+        "NO_T_DRIVE_DEPENDENCY",
+        "CORPUS_WRITE_GUARD_ACTIVE_IN_CI",
+        "GAUNTLET_ARTIFACT_UPLOADED",
+        "PROGRAMBENCH_UNTOUCHED",
+        "SAFETY_DEFAULTS_RESPECTED",
+    }
+)
 
 
 # Focused test files the CI job must invoke. Pinned here so a future
@@ -75,6 +78,7 @@ def _sha256(p: Path) -> str | None:
 # Status / closed set
 # ---------------------------------------------------------------------------
 
+
 def test_status_tokens_match_expected_set():
     expected = {
         "ARCH_GAUNTLET_CI_WIRED",
@@ -97,6 +101,7 @@ def test_status_tokens_match_expected_set():
 # ---------------------------------------------------------------------------
 # Workflow file presence + shape
 # ---------------------------------------------------------------------------
+
 
 def test_workflow_file_exists():
     assert WORKFLOW_PATH.is_file(), f"missing: {WORKFLOW_PATH}"
@@ -132,7 +137,7 @@ def test_arch_gauntlet_pins_python_3_11():
     # Pin appears as `python-version: "3.11"` somewhere after the job key
     after_job = text.split("arch-gauntlet:", 1)[1]
     assert 'python-version: "3.11"' in after_job, (
-        "arch-gauntlet job must pin python-version: \"3.11\""
+        'arch-gauntlet job must pin python-version: "3.11"'
     )
 
 
@@ -179,7 +184,7 @@ def test_arch_gauntlet_sets_corpus_write_guard():
     text = _workflow_text()
     after_job = text.split("arch-gauntlet:", 1)[1]
     assert 'DETERMINEX_NO_CORPUS_WRITE: "1"' in after_job, (
-        "arch-gauntlet job must set DETERMINEX_NO_CORPUS_WRITE=\"1\" in env"
+        'arch-gauntlet job must set DETERMINEX_NO_CORPUS_WRITE="1" in env'
     )
 
 
@@ -202,16 +207,21 @@ def test_arch_gauntlet_uploads_artifact():
 # No prohibited operations
 # ---------------------------------------------------------------------------
 
+
 def test_arch_gauntlet_does_not_pull_docker_images():
     """The job MUST NOT contain `docker pull` or `docker run` or other
     container-runtime invocations — by directive."""
     text = _workflow_text()
     after_job = text.split("arch-gauntlet:", 1)[1]
-    for forbidden in ("docker pull", "docker run", "docker compose ",
-                      "docker-compose ", "podman pull", "podman run"):
-        assert forbidden not in after_job, (
-            f"arch-gauntlet job must not include `{forbidden}`"
-        )
+    for forbidden in (
+        "docker pull",
+        "docker run",
+        "docker compose ",
+        "docker-compose ",
+        "podman pull",
+        "podman run",
+    ):
+        assert forbidden not in after_job, f"arch-gauntlet job must not include `{forbidden}`"
 
 
 def test_arch_gauntlet_does_not_reference_t_drive():
@@ -230,8 +240,11 @@ def test_arch_gauntlet_does_not_run_programbench():
     text = _workflow_text()
     after_job = text.split("arch-gauntlet:", 1)[1]
     for forbidden in (
-        "programbench eval", "pb_factory_", "pb_hetzner_",
-        "scripts/determinex_programbench", "scripts/pb_",
+        "programbench eval",
+        "pb_factory_",
+        "pb_hetzner_",
+        "scripts/determinex_programbench",
+        "scripts/pb_",
         "tests/corpus/programbench/",
     ):
         assert forbidden not in after_job, (
@@ -243,7 +256,11 @@ def test_arch_gauntlet_does_not_install_unpinned_packages():
     """Pip installs must come from requirements.txt or `pip install -e
     .[dev]` — not unpinned `pip install <package>` lines that drift."""
     text = _workflow_text()
-    after_job = text.split("arch-gauntlet:", 1)[1].split("\n\n", 1)[0] if "\n\n" in text.split("arch-gauntlet:", 1)[1] else text.split("arch-gauntlet:", 1)[1]
+    after_job = (
+        text.split("arch-gauntlet:", 1)[1].split("\n\n", 1)[0]
+        if "\n\n" in text.split("arch-gauntlet:", 1)[1]
+        else text.split("arch-gauntlet:", 1)[1]
+    )
     # Permitted forms: `pip install -r requirements.txt`, `pip install -e .[dev]`,
     # `pip install -e .`, `pip install --upgrade pip`.
     # Forbidden: bare `pip install <name>` with no version spec.
@@ -252,9 +269,8 @@ def test_arch_gauntlet_does_not_install_unpinned_packages():
         if not stripped.startswith("pip install"):
             continue
         # Strip the prefix and inspect arguments
-        args = stripped[len("pip install"):].strip()
-        if (args.startswith("-r ") or args.startswith("-e ")
-                or args.startswith("--upgrade")):
+        args = stripped[len("pip install") :].strip()
+        if args.startswith("-r ") or args.startswith("-e ") or args.startswith("--upgrade"):
             continue
         # If we got here it's a bare `pip install <something>`. Flag it.
         pytest.fail(f"Unpinned pip install in arch-gauntlet job: {stripped}")
@@ -263,6 +279,7 @@ def test_arch_gauntlet_does_not_install_unpinned_packages():
 # ---------------------------------------------------------------------------
 # Mirror tests: ensure the focused tests the job invokes actually exist
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.parametrize("test_path", REQUIRED_FOCUSED_TESTS)
 def test_required_focused_test_file_exists(test_path: str):
@@ -274,10 +291,7 @@ def test_required_focused_test_file_exists(test_path: str):
 # Lock manifest alignment
 # ---------------------------------------------------------------------------
 
-_LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "ARCH_GAUNTLET_CI_LOCK_001.json"
-)
+_LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "ARCH_GAUNTLET_CI_LOCK_001.json"
 
 
 def test_lock_manifest_exists():
@@ -317,11 +331,15 @@ def test_lock_manifest_pins_runs_on():
 # Cross-cutting safety (local — no CI environment needed)
 # ---------------------------------------------------------------------------
 
+
 def test_corpus_write_guard_active():
     import os
+
     from corpus.corpus_manager import (  # type: ignore[attr-defined]
-        _assert_writes_allowed, CorpusWriteBlockedError,
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
     )
+
     os.environ["DETERMINEX_NO_CORPUS_WRITE"] = "1"
     try:
         with pytest.raises(CorpusWriteBlockedError):
@@ -332,6 +350,7 @@ def test_corpus_write_guard_active():
 
 def test_safety_defaults_remain_fail_closed():
     from determinex_settings import DeterminexSettings, reset_settings
+
     reset_settings()
     s = DeterminexSettings()
     assert s.assert_safety_defaults() == []

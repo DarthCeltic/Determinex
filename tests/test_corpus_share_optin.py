@@ -15,6 +15,7 @@ Three properties, each of which has been a real incident somewhere:
    nobody re-scans has unknown coverage, and unknown coverage on an upload path is the
    entire risk.
 """
+
 from __future__ import annotations
 
 import sys
@@ -25,7 +26,6 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import determinex_corpus_share as CS  # noqa: E402
-
 
 PLANTED = {
     "anthropic": "sk-ant-api03-" + "A" * 30,
@@ -49,8 +49,9 @@ PLANTED = {
     # The alternative -- adding this file to the scanner's exclude list -- is the failure the
     # corpus records as `scanner_exclusion_outlives_its_premise`: the exclusion survives long
     # after the reason for it does.
-    "private_key": ("-----BEGIN " + "RSA PRIVATE KEY" + "-----\nabc\n"
-                    "-----END " + "RSA PRIVATE KEY" + "-----"),
+    "private_key": (
+        "-----BEGIN " + "RSA PRIVATE KEY" + "-----\nabc\n-----END " + "RSA PRIVATE KEY" + "-----"
+    ),
 }
 
 
@@ -69,8 +70,10 @@ def test_no_residue_after_redacting_everything_at_once():
 def test_ordinary_technical_prose_is_not_mangled():
     """Negative control. Over-redaction destroys the classes' usefulness, and a useless
     payload is indistinguishable from no payload."""
-    prose = ("Ollama defaults num_ctx to 2048 and silently truncates; use /api/show to read "
-             "the real context length, then cap it. Verified by A/B with a model unload.")
+    prose = (
+        "Ollama defaults num_ctx to 2048 and silently truncates; use /api/show to read "
+        "the real context length, then cap it. Verified by A/B with a model unload."
+    )
     assert CS.redact(prose) == prose
 
 

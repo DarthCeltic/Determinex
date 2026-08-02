@@ -9,6 +9,7 @@ and cli_subscription_status()'s deliberate "not available" answer for the
 claude-code/codex/gemini-cli subscription CLIs, which don't expose a safely
 queryable remaining-usage API via the credentials already on this machine.
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -40,12 +41,33 @@ def test_summarize_ledger_missing_file_reports_not_exists(tmp_path, monkeypatch)
 
 def test_summarize_ledger_aggregates_by_provider(tmp_path, monkeypatch):
     path = tmp_path / "providers.jsonl"
-    now = _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")
-    _write_ledger(path, [
-        {"ts": now, "model": "openai/gpt-4o", "tokens_in": 100, "tokens_out": 50, "est_usd": 0.01},
-        {"ts": now, "model": "openai/gpt-4o", "tokens_in": 200, "tokens_out": 100, "est_usd": 0.02},
-        {"ts": now, "model": "ollama/llama3", "tokens_in": 10, "tokens_out": 5, "est_usd": 0.0001},
-    ])
+    now = _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds")
+    _write_ledger(
+        path,
+        [
+            {
+                "ts": now,
+                "model": "openai/gpt-4o",
+                "tokens_in": 100,
+                "tokens_out": 50,
+                "est_usd": 0.01,
+            },
+            {
+                "ts": now,
+                "model": "openai/gpt-4o",
+                "tokens_in": 200,
+                "tokens_out": 100,
+                "est_usd": 0.02,
+            },
+            {
+                "ts": now,
+                "model": "ollama/llama3",
+                "tokens_in": 10,
+                "tokens_out": 5,
+                "est_usd": 0.0001,
+            },
+        ],
+    )
     monkeypatch.setattr(ledger, "LEDGER_PATH", path)
 
     result = ledger.summarize_ledger(window_hours=None)
@@ -59,12 +81,27 @@ def test_summarize_ledger_aggregates_by_provider(tmp_path, monkeypatch):
 
 def test_summarize_ledger_window_excludes_old_rows(tmp_path, monkeypatch):
     path = tmp_path / "providers.jsonl"
-    old_ts = (_dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=48)).isoformat(timespec="seconds")
-    recent_ts = _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")
-    _write_ledger(path, [
-        {"ts": old_ts, "model": "openai/gpt-4o", "tokens_in": 1000, "tokens_out": 1000, "est_usd": 1.0},
-        {"ts": recent_ts, "model": "openai/gpt-4o", "tokens_in": 10, "tokens_out": 10, "est_usd": 0.001},
-    ])
+    old_ts = (_dt.datetime.now(_dt.UTC) - _dt.timedelta(hours=48)).isoformat(timespec="seconds")
+    recent_ts = _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds")
+    _write_ledger(
+        path,
+        [
+            {
+                "ts": old_ts,
+                "model": "openai/gpt-4o",
+                "tokens_in": 1000,
+                "tokens_out": 1000,
+                "est_usd": 1.0,
+            },
+            {
+                "ts": recent_ts,
+                "model": "openai/gpt-4o",
+                "tokens_in": 10,
+                "tokens_out": 10,
+                "est_usd": 0.001,
+            },
+        ],
+    )
     monkeypatch.setattr(ledger, "LEDGER_PATH", path)
 
     result = ledger.summarize_ledger(window_hours=24.0)
@@ -74,11 +111,33 @@ def test_summarize_ledger_window_excludes_old_rows(tmp_path, monkeypatch):
 
 def test_summarize_ledger_skips_malformed_lines(tmp_path, monkeypatch):
     path = tmp_path / "providers.jsonl"
-    now = _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")
+    now = _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds")
     with open(path, "w", encoding="utf-8") as f:
-        f.write(json.dumps({"ts": now, "model": "openai/gpt-4o", "tokens_in": 1, "tokens_out": 1, "est_usd": 0.0}) + "\n")
+        f.write(
+            json.dumps(
+                {
+                    "ts": now,
+                    "model": "openai/gpt-4o",
+                    "tokens_in": 1,
+                    "tokens_out": 1,
+                    "est_usd": 0.0,
+                }
+            )
+            + "\n"
+        )
         f.write("not valid json{{{\n")
-        f.write(json.dumps({"ts": now, "model": "openai/gpt-4o", "tokens_in": 2, "tokens_out": 2, "est_usd": 0.0}) + "\n")
+        f.write(
+            json.dumps(
+                {
+                    "ts": now,
+                    "model": "openai/gpt-4o",
+                    "tokens_in": 2,
+                    "tokens_out": 2,
+                    "est_usd": 0.0,
+                }
+            )
+            + "\n"
+        )
     monkeypatch.setattr(ledger, "LEDGER_PATH", path)
 
     result = ledger.summarize_ledger(window_hours=None)

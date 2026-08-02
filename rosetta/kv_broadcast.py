@@ -29,14 +29,14 @@ Anything that calls into KVBroadcastEngine receives NotImplementedError with a
 plain explanation. There is no fallback path — silently downgrading to text
 would lie about which layer ran.
 """
+
 from __future__ import annotations
 
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Any, Callable, Optional, Iterator
+from typing import Any
 
 from rosetta.model_registry import ModelSpec
-
 
 _BACKEND_REQUIRED = (
     "Requires llama.cpp fork, C extension, or custom backend that exposes "
@@ -47,6 +47,7 @@ _BACKEND_REQUIRED = (
 # ---------------------------------------------------------------------------
 # Snapshots and callbacks (data classes only — no behavior)
 # ---------------------------------------------------------------------------
+
 
 @dataclass(frozen=True)
 class KVSnapshot:
@@ -62,6 +63,7 @@ class KVSnapshot:
     num_kv_heads : grouped-query attention head count
     source_spec  : ModelSpec the snapshot was captured from
     """
+
     layer: int
     position_lo: int
     position_hi: int
@@ -81,7 +83,8 @@ class TokenCallback:
     based on the token stream — this is what makes Layer 3 fundamentally
     different from Layer 2 (Layer 2 fires once, Layer 3 fires per-token).
     """
-    on_token: Callable[[int, str], Optional[str]]
+
+    on_token: Callable[[int, str], str | None]
     # Return values from on_token:
     #   None       — continue normally
     #   "stop"     — terminate generation
@@ -91,6 +94,7 @@ class TokenCallback:
 # ---------------------------------------------------------------------------
 # Engine (every method explicitly raises NotImplementedError)
 # ---------------------------------------------------------------------------
+
 
 class KVBroadcastEngine:
     """Layer 3 KV-cache broadcast engine. DESIGN STUB ONLY.
@@ -135,7 +139,7 @@ class KVBroadcastEngine:
         builder: Any,
         monitor: Any,
         prompt: str,
-        on_token: Optional[Callable[[int, str], Optional[str]]] = None,
+        on_token: Callable[[int, str], str | None] | None = None,
     ) -> Iterator[str]:
         """Stream tokens from builder while monitor receives each one live.
 
@@ -158,6 +162,7 @@ class KVBroadcastEngine:
 # Diagnostics
 # ---------------------------------------------------------------------------
 
+
 def status() -> dict:
     """Report the engine status for the healthcheck. Always 'NOT IMPLEMENTED BY DESIGN'.
 
@@ -178,17 +183,19 @@ def status() -> dict:
 # CLI — confirms the stub is wired but not active
 # ---------------------------------------------------------------------------
 
+
 def _cli():
     import json
+
     print(json.dumps(status(), indent=2))
     # Demonstrate that calling actually raises (not just that we report a stub).
     print()
     print("Confirming each method raises NotImplementedError:")
     engine = KVBroadcastEngine()
     for method_name, callargs in [
-        ("capture",              dict(model=None, layer=0, position_lo=0, position_hi=1)),
-        ("inject",               dict(model=None, snapshot=None)),
-        ("remap_for_target",     dict(snapshot=None, target_spec=None)),
+        ("capture", dict(model=None, layer=0, position_lo=0, position_hi=1)),
+        ("inject", dict(model=None, snapshot=None)),
+        ("remap_for_target", dict(snapshot=None, target_spec=None)),
     ]:
         try:
             getattr(engine, method_name)(**callargs)

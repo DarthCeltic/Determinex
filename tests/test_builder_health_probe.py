@@ -42,7 +42,10 @@ def test_builder_health_probe_preserves_exact_blocker(monkeypatch):
     assert result["status"] == "blocked"
     assert result["release_ready"] is False
     assert result["builder_model_selected"] == "ollama/determinex-engineer-v11-dsl"
-    assert result["exact_blocker"] == "builder health preflight failed; ollama/determinex-engineer-v11-dsl: Timeout"
+    assert (
+        result["exact_blocker"]
+        == "builder health preflight failed; ollama/determinex-engineer-v11-dsl: Timeout"
+    )
     assert "does not prove the first E2E workflow" in result["claim_boundary"]
 
 

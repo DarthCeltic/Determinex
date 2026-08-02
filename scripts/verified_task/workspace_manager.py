@@ -12,7 +12,6 @@ from pathlib import Path
 from .paths import default_verified_root, ensure_on_staging_root
 from .task_spec import TaskSpec
 
-
 SKIP_DIR_NAMES = {
     ".git",
     ".hg",

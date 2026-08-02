@@ -1,4 +1,5 @@
 """Tests for FRONTEND_REAL_FLOW_E2E_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -15,15 +16,17 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_REAL_FLOW_E2E_LOCK_001
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_real_flow_e2e"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "FRONTEND_REAL_FLOW_E2E_PASSED",
-    "FRONTEND_REAL_FLOW_SOURCE_UNCHANGED",
-    "FRONTEND_REAL_FLOW_APPROVAL_REQUIRED",
-    "FRONTEND_REAL_FLOW_TRAINING_ELIGIBLE_FALSE",
-    "FRONTEND_REAL_FLOW_NETWORK_PROVIDER_BLOCKED",
-    "FRONTEND_REAL_FLOW_DOCKER_NOT_USED",
-    "FRONTEND_REAL_FLOW_FE_BE_STATES_AGREE",
-})
+EXPECTED = frozenset(
+    {
+        "FRONTEND_REAL_FLOW_E2E_PASSED",
+        "FRONTEND_REAL_FLOW_SOURCE_UNCHANGED",
+        "FRONTEND_REAL_FLOW_APPROVAL_REQUIRED",
+        "FRONTEND_REAL_FLOW_TRAINING_ELIGIBLE_FALSE",
+        "FRONTEND_REAL_FLOW_NETWORK_PROVIDER_BLOCKED",
+        "FRONTEND_REAL_FLOW_DOCKER_NOT_USED",
+        "FRONTEND_REAL_FLOW_FE_BE_STATES_AGREE",
+    }
+)
 
 EXPECTED_STAGE_NAMES = (
     "open workspace",
@@ -92,11 +95,17 @@ def test_statuses_seen_only_in_safe_set():
 
 def test_module_does_not_spawn_subprocess_or_open_network():
     import scripts.ide.frontend_real_flow_e2e as mod
+
     src = Path(mod.__file__).read_text(encoding="utf-8")
     for forbidden in (
-        "requests", "httpx", "urllib.request",
-        "socket.connect", "subprocess.Popen", "subprocess.run",
-        "docker.from_env", "docker.client",
+        "requests",
+        "httpx",
+        "urllib.request",
+        "socket.connect",
+        "subprocess.Popen",
+        "subprocess.run",
+        "docker.from_env",
+        "docker.client",
     ):
         assert forbidden not in src, forbidden
 

@@ -1,4 +1,5 @@
 """Tests for OLLAMA_MODEL_PULL_OPERATOR_GUIDE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -24,20 +25,26 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "OLLAMA_MODEL_PULL_OPERATOR_GUID
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "ollama_model_pull_operator_guide"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "OPERATOR_GUIDE_WRITTEN",
-    "OPERATOR_GUIDE_NOT_NEEDED_MODEL_AVAILABLE",
-    "OPERATOR_GUIDE_BLOCKED_NETWORK_PROVIDER",
-    "OPERATOR_GUIDE_BLOCKED_PROVIDER_UNAVAILABLE",
-    "OPERATOR_GUIDE_BLOCKED_STALE_ID",
-    "OPERATOR_GUIDE_BLOCKED_UNPINNED",
-})
+EXPECTED = frozenset(
+    {
+        "OPERATOR_GUIDE_WRITTEN",
+        "OPERATOR_GUIDE_NOT_NEEDED_MODEL_AVAILABLE",
+        "OPERATOR_GUIDE_BLOCKED_NETWORK_PROVIDER",
+        "OPERATOR_GUIDE_BLOCKED_PROVIDER_UNAVAILABLE",
+        "OPERATOR_GUIDE_BLOCKED_STALE_ID",
+        "OPERATOR_GUIDE_BLOCKED_UNPINNED",
+    }
+)
 
 
-def _sel(decision, selected_id="determinex-engineer-v11-dsl",
-         candidates=("determinex-engineer-v11-dsl",),
-         host_state="MODEL_AVAILABLE", provider="ollama",
-         operator_action=""):
+def _sel(
+    decision,
+    selected_id="determinex-engineer-v11-dsl",
+    candidates=("determinex-engineer-v11-dsl",),
+    host_state="MODEL_AVAILABLE",
+    provider="ollama",
+    operator_action="",
+):
     return CanonicalLocalModelIdSelectionRecord(
         decision=decision,
         selected_model_id=selected_id if decision == "CANONICAL_LOCAL_MODEL_SELECTED" else "",
@@ -67,42 +74,53 @@ def test_selection_selected_means_no_guide_needed():
 
 
 def test_network_provider_selection_blocks_guide():
-    r = guide(selection=_sel(
-        "CANONICAL_LOCAL_MODEL_BLOCKED_NETWORK_PROVIDER",
-        host_state="NETWORK_PROVIDER", provider="anthropic",
-    ))
+    r = guide(
+        selection=_sel(
+            "CANONICAL_LOCAL_MODEL_BLOCKED_NETWORK_PROVIDER",
+            host_state="NETWORK_PROVIDER",
+            provider="anthropic",
+        )
+    )
     assert r.decision == "OPERATOR_GUIDE_BLOCKED_NETWORK_PROVIDER"
 
 
 def test_stale_selection_blocks_guide():
-    r = guide(selection=_sel(
-        "CANONICAL_LOCAL_MODEL_BLOCKED_STALE_ID",
-        host_state="PREFERRED_STALE",
-    ))
+    r = guide(
+        selection=_sel(
+            "CANONICAL_LOCAL_MODEL_BLOCKED_STALE_ID",
+            host_state="PREFERRED_STALE",
+        )
+    )
     assert r.decision == "OPERATOR_GUIDE_BLOCKED_STALE_ID"
 
 
 def test_unpinned_selection_blocks_guide():
-    r = guide(selection=_sel(
-        "CANONICAL_LOCAL_MODEL_BLOCKED_UNPINNED",
-        host_state="PREFERRED_UNPINNED",
-    ))
+    r = guide(
+        selection=_sel(
+            "CANONICAL_LOCAL_MODEL_BLOCKED_UNPINNED",
+            host_state="PREFERRED_UNPINNED",
+        )
+    )
     assert r.decision == "OPERATOR_GUIDE_BLOCKED_UNPINNED"
 
 
 def test_provider_unavailable_blocks_guide():
-    r = guide(selection=_sel(
-        "CANONICAL_LOCAL_MODEL_BLOCKED_PROVIDER_UNAVAILABLE",
-        host_state="PROVIDER_NOT_RUNNING",
-    ))
+    r = guide(
+        selection=_sel(
+            "CANONICAL_LOCAL_MODEL_BLOCKED_PROVIDER_UNAVAILABLE",
+            host_state="PROVIDER_NOT_RUNNING",
+        )
+    )
     assert r.decision == "OPERATOR_GUIDE_BLOCKED_PROVIDER_UNAVAILABLE"
 
 
 def test_not_pulled_writes_guide_with_exact_command():
-    r = guide(selection=_sel(
-        "CANONICAL_LOCAL_MODEL_BLOCKED_NOT_PULLED",
-        host_state="MODEL_NOT_PULLED",
-    ))
+    r = guide(
+        selection=_sel(
+            "CANONICAL_LOCAL_MODEL_BLOCKED_NOT_PULLED",
+            host_state="MODEL_NOT_PULLED",
+        )
+    )
     assert r.decision == "OPERATOR_GUIDE_WRITTEN"
     assert r.expected_command == "ollama pull determinex-engineer-v11-dsl"
     assert r.safety_warning  # non-empty
@@ -115,10 +133,12 @@ def test_not_pulled_writes_guide_with_exact_command():
 def test_guide_refuses_malformed_candidate_id():
     sel = CanonicalLocalModelIdSelectionRecord(
         decision="CANONICAL_LOCAL_MODEL_BLOCKED_NOT_PULLED",
-        selected_model_id="", provider="ollama",
+        selected_model_id="",
+        provider="ollama",
         candidate_model_ids=("name with space",),
         daemon_models_available=(),
-        host_state="MODEL_NOT_PULLED", operator_action="x",
+        host_state="MODEL_NOT_PULLED",
+        operator_action="x",
     )
     r = guide(selection=sel)
     assert r.decision == "OPERATOR_GUIDE_BLOCKED_UNPINNED"
@@ -127,9 +147,13 @@ def test_guide_refuses_malformed_candidate_id():
 def test_module_does_not_pull_or_call_a_model():
     src = Path(mod.__file__).read_text(encoding="utf-8")
     for forbidden in (
-        "subprocess.Popen", "subprocess.run",
-        "urllib.request.urlopen", "requests.get", "httpx",
-        "ollama.pull", "ollama.run",
+        "subprocess.Popen",
+        "subprocess.run",
+        "urllib.request.urlopen",
+        "requests.get",
+        "httpx",
+        "ollama.pull",
+        "ollama.run",
     ):
         assert forbidden not in src
     # Sanity: the file never imports any execution primitive.
@@ -138,8 +162,9 @@ def test_module_does_not_pull_or_call_a_model():
 
 
 def test_record_serializes_safely():
-    r = guide(selection=_sel("CANONICAL_LOCAL_MODEL_BLOCKED_NOT_PULLED",
-                              host_state="MODEL_NOT_PULLED"))
+    r = guide(
+        selection=_sel("CANONICAL_LOCAL_MODEL_BLOCKED_NOT_PULLED", host_state="MODEL_NOT_PULLED")
+    )
     d = r.to_dict()
     json.dumps(d)
     assert d["auto_pull_performed"] is False

@@ -9,6 +9,7 @@ pipeline. This module captures at commit granularity instead, classifying
 quality from the verification evidence the commit message itself already
 states (this project's own established convention).
 """
+
 from __future__ import annotations
 
 import json
@@ -59,7 +60,8 @@ def _make_repo(tmp_path: Path) -> Path:
     subprocess.run(["git", "add", "a.txt"], cwd=tmp_path, check=True)
     subprocess.run(
         ["git", "commit", "-q", "-m", "feat: add a.txt\n\nAll 3 tests pass, 0 violations."],
-        cwd=tmp_path, check=True,
+        cwd=tmp_path,
+        check=True,
     )
     return tmp_path
 
@@ -114,6 +116,7 @@ def test_stats_counts_by_quality(tmp_path, monkeypatch):
 # dropped just because the diff itself is unreadable.
 # ---------------------------------------------------------------------------
 
+
 def test_safe_diff_returns_diff_and_false_on_success(tmp_path, monkeypatch):
     monkeypatch.setattr(cap, "ROOT", tmp_path)
 
@@ -129,8 +132,10 @@ def test_safe_diff_returns_diff_and_false_on_success(tmp_path, monkeypatch):
 def test_safe_diff_falls_back_on_calledprocesserror(monkeypatch, capsys):
     def fake_run(cmd):
         raise subprocess.CalledProcessError(
-            128, cmd, output="", stderr="E: unsupported filetype .../page.doc\n"
-            "fatal: unable to read files to diff"
+            128,
+            cmd,
+            output="",
+            stderr="E: unsupported filetype .../page.doc\nfatal: unable to read files to diff",
         )
 
     monkeypatch.setattr(cap, "_run", fake_run)

@@ -1,22 +1,22 @@
 """swe_run/dataset.py — Dataset constants + loading for all SWE-bench splits."""
+
 from __future__ import annotations
 
 import logging
 import os
 from pathlib import Path
-from typing import Optional
 
 log = logging.getLogger("swe_run")
 
 # Dataset IDs per split
 SPLIT_DATASETS = {
-    "lite":         "princeton-nlp/SWE-bench_Lite",
-    "verified":     "princeton-nlp/SWE-bench_Verified",
-    "full":         "princeton-nlp/SWE-bench",
-    "swelancer":    "princeton-nlp/SWE-lancer",
+    "lite": "princeton-nlp/SWE-bench_Lite",
+    "verified": "princeton-nlp/SWE-bench_Verified",
+    "full": "princeton-nlp/SWE-bench",
+    "swelancer": "princeton-nlp/SWE-lancer",
     # Multi-language benchmarks (real GitHub issue resolution)
-    "multilingual": "SWE-bench/SWE-bench_Multilingual",   # 300 tasks, 9 langs
-    "multiswe":     "ByteDance-Seed/Multi-SWE-bench",      # 1632 tasks, 7 langs
+    "multilingual": "SWE-bench/SWE-bench_Multilingual",  # 300 tasks, 9 langs
+    "multiswe": "ByteDance-Seed/Multi-SWE-bench",  # 1632 tasks, 7 langs
 }
 
 # Multi-SWE-bench per-language config names
@@ -26,33 +26,56 @@ _MULTISWE_CONFIGS = ["java", "typescript", "javascript", "go", "rust", "c", "cpp
 # Maps repo-name prefix (lowercase) → canonical language tag.
 _MULTILINGUAL_REPO_LANG: dict[str, str] = {
     # Java
-    "apache__druid": "java", "google__gson": "java", "javaparser__javaparser": "java",
-    "projectlombok__lombok": "java", "reactivex__rxjava": "java",
+    "apache__druid": "java",
+    "google__gson": "java",
+    "javaparser__javaparser": "java",
+    "projectlombok__lombok": "java",
+    "reactivex__rxjava": "java",
     # Rust
-    "astral-sh__ruff": "rust", "burntsushi__ripgrep": "rust", "sharkdp__bat": "rust",
-    "tokio-rs__axum": "rust", "nushell__nushell": "rust", "uutils__coreutils": "rust",
+    "astral-sh__ruff": "rust",
+    "burntsushi__ripgrep": "rust",
+    "sharkdp__bat": "rust",
+    "tokio-rs__axum": "rust",
+    "nushell__nushell": "rust",
+    "uutils__coreutils": "rust",
     # Go
-    "gin-gonic__gin": "go", "gohugoio__hugo": "go", "hashicorp__terraform": "go",
-    "prometheus__prometheus": "go", "caddyserver__caddy": "go",
+    "gin-gonic__gin": "go",
+    "gohugoio__hugo": "go",
+    "hashicorp__terraform": "go",
+    "prometheus__prometheus": "go",
+    "caddyserver__caddy": "go",
     # TypeScript
-    "babel__babel": "typescript", "facebook__docusaurus": "typescript",
-    "vuejs__core": "typescript", "preactjs__preact": "typescript",
+    "babel__babel": "typescript",
+    "facebook__docusaurus": "typescript",
+    "vuejs__core": "typescript",
+    "preactjs__preact": "typescript",
     # JavaScript
-    "axios__axios": "javascript", "immutable-js__immutable-js": "javascript",
+    "axios__axios": "javascript",
+    "immutable-js__immutable-js": "javascript",
     "mrdoob__three.js": "javascript",
     # Ruby
-    "faker-ruby__faker": "ruby", "jekyll__jekyll": "ruby", "fastlane__fastlane": "ruby",
-    "jordansissel__fpm": "ruby", "rubocop__rubocop": "ruby", "fluent__fluentd": "ruby",
+    "faker-ruby__faker": "ruby",
+    "jekyll__jekyll": "ruby",
+    "fastlane__fastlane": "ruby",
+    "jordansissel__fpm": "ruby",
+    "rubocop__rubocop": "ruby",
+    "fluent__fluentd": "ruby",
     # PHP
-    "laravel__framework": "php", "phpoffice__phpspreadsheet": "php",
-    "php-cs-fixer__php-cs-fixer": "php", "briannesbitt__carbon": "php",
+    "laravel__framework": "php",
+    "phpoffice__phpspreadsheet": "php",
+    "php-cs-fixer__php-cs-fixer": "php",
+    "briannesbitt__carbon": "php",
     # C
-    "jqlang__jq": "c", "redis__redis": "c", "valkey-io__valkey": "c",
+    "jqlang__jq": "c",
+    "redis__redis": "c",
+    "valkey-io__valkey": "c",
     # C++
-    "fmtlib__fmt": "cpp", "nlohmann__json": "cpp",
+    "fmtlib__fmt": "cpp",
+    "nlohmann__json": "cpp",
     # Go (extras)
     "micropython__micropython": "c",
 }
+
 
 # Local repo cache roots, searched in order.
 # Primary: DETERMINEX_REPO_CACHE — colon-separated (Unix) or semicolon-separated (Windows) list.
@@ -67,11 +90,16 @@ def _build_cache_roots() -> list[Path]:
             if p:
                 roots.append(Path(p))
     # Legacy defaults — included only if they exist on this machine.
-    for legacy in [r"T:\determinex-swebench-full", r"T:\determinex-swebench-ml", r"T:\determinex-swebench"]:
+    for legacy in [
+        r"T:\determinex-swebench-full",
+        r"T:\determinex-swebench-ml",
+        r"T:\determinex-swebench",
+    ]:
         p = Path(legacy)
         if p.exists() and p not in roots:
             roots.append(p)
     return roots
+
 
 _T_CACHE_ROOTS = _build_cache_roots()
 
@@ -92,12 +120,13 @@ def _normalize_instance(inst: dict, dataset_id: str) -> dict:
 
 
 def _load_multiswe_bench(
-    max_instances: Optional[int],
-    instance_ids: Optional[list[str]],
-    lang_filter: Optional[str],
+    max_instances: int | None,
+    instance_ids: list[str] | None,
+    lang_filter: str | None,
 ) -> list[dict]:
     """Load Multi-SWE-bench. Tries per-language configs first; falls back to 'default'."""
     from datasets import load_dataset  # type: ignore[import-untyped]
+
     dataset_id = SPLIT_DATASETS["multiswe"]
     all_instances: list[dict] = []
     id_set = set(instance_ids) if instance_ids else None
@@ -146,12 +175,13 @@ def _load_multiswe_bench(
 
 def load_dataset_split(
     split: str,
-    max_instances: Optional[int] = None,
-    instance_ids: Optional[list[str]] = None,
-    lang_filter: Optional[str] = None,
+    max_instances: int | None = None,
+    instance_ids: list[str] | None = None,
+    lang_filter: str | None = None,
 ) -> list[dict]:
     """Load SWE-bench instances. Supports all split variants including multilingual."""
     from datasets import load_dataset  # type: ignore[import-untyped]
+
     dataset_id = SPLIT_DATASETS[split]
     log.info("Loading dataset: %s", dataset_id)
 
@@ -166,16 +196,20 @@ def load_dataset_split(
 
         # SWE-bench Multilingual has no 'language' field — apply repo-name mapping
         if split == "multilingual" and lang_filter:
+
             def _ml_lang(inst: dict) -> str:
                 repo_key = inst.get("repo", "").replace("/", "__").lower()
                 return _MULTILINGUAL_REPO_LANG.get(repo_key, "")
+
             pre = len(instances)
             instances = [i for i in instances if _ml_lang(i) == lang_filter.lower()]
-            log.info("Multilingual lang filter '%s': %d → %d instances",
-                     lang_filter, pre, len(instances))
+            log.info(
+                "Multilingual lang filter '%s': %d → %d instances", lang_filter, pre, len(instances)
+            )
         elif lang_filter and split in ("multiswe",):
-            instances = [i for i in instances
-                         if (i.get("language") or "").lower() == lang_filter.lower()]
+            instances = [
+                i for i in instances if (i.get("language") or "").lower() == lang_filter.lower()
+            ]
 
     log.info("Loaded %d instances", len(instances))
     if instance_ids:

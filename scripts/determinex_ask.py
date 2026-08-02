@@ -41,7 +41,6 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable
 
 _SCRIPTS_DIR = Path(__file__).resolve().parent
 _ROOT = _SCRIPTS_DIR.parent
@@ -62,9 +61,9 @@ if (_parsed.hostname or "") not in {"localhost", "127.0.0.1", "::1"}:
     raise ValueError(f"DETERMINEX_OLLAMA_URL host '{_parsed.hostname}' not allowed (SSRF guard)")
 
 ARCHITECT_MODEL = os.getenv("DETERMINEX_ARCHITECT_MODEL", "determinex-sentinel-v5-dsl")
-ASK_TIMEOUT_S   = int(os.getenv("DETERMINEX_ASK_TIMEOUT", "120"))
-ASK_NUM_CTX     = int(os.getenv("DETERMINEX_ASK_NUM_CTX", "4096"))
-ASK_MAX_TOKENS  = int(os.getenv("DETERMINEX_ASK_MAX_TOKENS", "512"))
+ASK_TIMEOUT_S = int(os.getenv("DETERMINEX_ASK_TIMEOUT", "120"))
+ASK_NUM_CTX = int(os.getenv("DETERMINEX_ASK_NUM_CTX", "4096"))
+ASK_MAX_TOKENS = int(os.getenv("DETERMINEX_ASK_MAX_TOKENS", "512"))
 
 
 @dataclass
@@ -96,19 +95,21 @@ class AskContext:
 
 def _ollama_chat(model: str, system: str, user: str) -> str:
     """POST to /api/chat. Returns the assistant message content, or "" on failure."""
-    body = json.dumps({
-        "model": model,
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user",   "content": user},
-        ],
-        "stream": False,
-        "options": {
-            "num_ctx":     ASK_NUM_CTX,
-            "num_predict": ASK_MAX_TOKENS,
-            "temperature": 0.2,
-        },
-    }).encode("utf-8")
+    body = json.dumps(
+        {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            "stream": False,
+            "options": {
+                "num_ctx": ASK_NUM_CTX,
+                "num_predict": ASK_MAX_TOKENS,
+                "temperature": 0.2,
+            },
+        }
+    ).encode("utf-8")
     req = urllib.request.Request(
         f"{_OLLAMA_URL.rstrip('/')}/api/chat",
         data=body,
@@ -129,21 +130,28 @@ def _ollama_chat(model: str, system: str, user: str) -> str:
 
 # ── Workspace + state collectors ─────────────────────────────────────────────
 
+
 def _git_summary(workspace: Path, max_lines: int = 30) -> str:
     if not (workspace / ".git").exists():
         return "(not a git repo)"
     try:
         status = subprocess.run(
             ["git", "-C", str(workspace), "status", "--short", "-uno"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         ).stdout
         branch = subprocess.run(
             ["git", "-C", str(workspace), "rev-parse", "--abbrev-ref", "HEAD"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         ).stdout.strip()
         log_lines = subprocess.run(
             ["git", "-C", str(workspace), "log", "--oneline", "-10"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         ).stdout
         out = f"branch: {branch}\n\nstatus:\n{status or '(clean)'}\n\nrecent log:\n{log_lines}"
         return "\n".join(out.splitlines()[:max_lines])
@@ -171,8 +179,8 @@ def _recent_sessions(workspace: Path, n: int = 3) -> str:
             n_steps = len(list(steps_dir.glob("*.complete"))) if steps_dir.is_dir() else 0
             failed = len(list(steps_dir.glob("*.failed"))) if steps_dir.is_dir() else 0
             lines.append(
-                f"{s.name[:8]}  lang={m.get('language','?'):<8} "
-                f"steps_done={n_steps}  failed={failed}  budget=${m.get('budget_usd_used',0):.3f}"
+                f"{s.name[:8]}  lang={m.get('language', '?'):<8} "
+                f"steps_done={n_steps}  failed={failed}  budget=${m.get('budget_usd_used', 0):.3f}"
             )
         except (OSError, json.JSONDecodeError):
             lines.append(f"{s.name[:8]}  (manifest unreadable)")
@@ -185,8 +193,19 @@ def _scan_workspace_files(workspace: Path, query: str, max_files: int = 8) -> st
     if not keywords:
         return "(no scannable keywords in question)"
     extensions = {".py", ".rs", ".go", ".ts", ".tsx", ".md", ".yaml", ".yml", ".toml"}
-    skip = {"__pycache__", "node_modules", ".git", "target", "venv", ".venv",
-            "build", "dist", "logs", "sessions", ".determinex"}
+    skip = {
+        "__pycache__",
+        "node_modules",
+        ".git",
+        "target",
+        "venv",
+        ".venv",
+        "build",
+        "dist",
+        "logs",
+        "sessions",
+        ".determinex",
+    }
     scored: list[tuple[int, Path]] = []
     count = 0
     for p in workspace.rglob("*"):
@@ -228,6 +247,7 @@ def _read_blob(spec: str) -> str:
 
 # ── Subcommands ──────────────────────────────────────────────────────────────
 
+
 def cmd_ask(args: argparse.Namespace) -> int:
     ctx = AskContext(question=args.question, workspace=Path(args.workspace).resolve())
 
@@ -237,11 +257,14 @@ def cmd_ask(args: argparse.Namespace) -> int:
         ctx.extra_blobs["recent sessions"] = _recent_sessions(ctx.workspace)
         ctx.extra_blobs["git state"] = _git_summary(ctx.workspace)
     if args.scan:
-        ctx.extra_blobs["likely relevant files"] = _scan_workspace_files(ctx.workspace, args.question)
+        ctx.extra_blobs["likely relevant files"] = _scan_workspace_files(
+            ctx.workspace, args.question
+        )
     if args.image:
         # Vision integration is Sprint 2 — call out to determinex_vision if available
         try:
             from determinex_vision import describe_image  # type: ignore
+
             description = describe_image(Path(args.image))
             ctx.extra_blobs[f"image:{Path(args.image).name}"] = description
         except ImportError:
@@ -272,17 +295,24 @@ def cmd_ask(args: argparse.Namespace) -> int:
     elapsed = time.monotonic() - t0
 
     if not answer:
-        print(f"ERROR: {args.model} returned no response (Ollama unreachable or model not registered).",
-              file=sys.stderr)
+        print(
+            f"ERROR: {args.model} returned no response (Ollama unreachable or model not registered).",
+            file=sys.stderr,
+        )
         return 1
 
     if args.json_out:
-        print(json.dumps({
-            "model": args.model,
-            "answer": answer,
-            "elapsed_s": round(elapsed, 2),
-            "context_blobs": list(ctx.extra_blobs.keys()),
-        }, ensure_ascii=False))
+        print(
+            json.dumps(
+                {
+                    "model": args.model,
+                    "answer": answer,
+                    "elapsed_s": round(elapsed, 2),
+                    "context_blobs": list(ctx.extra_blobs.keys()),
+                },
+                ensure_ascii=False,
+            )
+        )
     else:
         print(answer)
         print(f"\n  [{args.model} · {elapsed:.1f}s]", file=sys.stderr)
@@ -292,14 +322,14 @@ def cmd_ask(args: argparse.Namespace) -> int:
 def cmd_where(args: argparse.Namespace) -> int:
     workspace = Path(args.workspace).resolve()
     state = {
-        "workspace":       str(workspace),
-        "git":             _git_summary(workspace),
+        "workspace": str(workspace),
+        "git": _git_summary(workspace),
         "recent_sessions": _recent_sessions(workspace),
     }
     if args.json_out:
         print(json.dumps(state, ensure_ascii=False, indent=2))
         return 0
-    print(f"=== Determinex: where-are-we ===")
+    print("=== Determinex: where-are-we ===")
     print(f"workspace: {state['workspace']}\n")
     print("=== git ===")
     print(state["git"])
@@ -308,7 +338,7 @@ def cmd_where(args: argparse.Namespace) -> int:
     if args.explain:
         ctx = AskContext(
             question="Summarise the project's current state in 4-6 sentences. "
-                     "What's in progress, what just changed, what looks stuck?",
+            "What's in progress, what just changed, what looks stuck?",
             workspace=workspace,
             extra_blobs={"git state": state["git"], "recent sessions": state["recent_sessions"]},
         )
@@ -333,8 +363,8 @@ def cmd_why(args: argparse.Namespace) -> int:
         ),
         workspace=workspace,
         extra_blobs={
-            "stderr/log":      stderr_text,
-            "git state":       _git_summary(workspace),
+            "stderr/log": stderr_text,
+            "git state": _git_summary(workspace),
             "recent sessions": _recent_sessions(workspace),
         },
     )
@@ -349,8 +379,11 @@ def cmd_why(args: argparse.Namespace) -> int:
         print("ERROR: model unavailable.", file=sys.stderr)
         return 1
     if args.json_out:
-        print(json.dumps({"diagnosis": diagnosis, "stderr_bytes": len(stderr_text)},
-                         ensure_ascii=False))
+        print(
+            json.dumps(
+                {"diagnosis": diagnosis, "stderr_bytes": len(stderr_text)}, ensure_ascii=False
+            )
+        )
     else:
         print(diagnosis)
     return 0
@@ -358,8 +391,10 @@ def cmd_why(args: argparse.Namespace) -> int:
 
 # ── Public hook: diagnose_before_retry (consumable by SWE-bench agent) ───────
 
-def diagnose_before_retry(stderr_text: str, workspace: Path | None = None,
-                          model: str = ARCHITECT_MODEL) -> str:
+
+def diagnose_before_retry(
+    stderr_text: str, workspace: Path | None = None, model: str = ARCHITECT_MODEL
+) -> str:
     """
     Pure function the SWE-bench retry loop can call before its next attempt.
     Returns a short root-cause hypothesis string suitable for injection into
@@ -369,8 +404,10 @@ def diagnose_before_retry(stderr_text: str, workspace: Path | None = None,
         return ""
     workspace = workspace or Path.cwd()
     ctx = AskContext(
-        question=("Failure occurred. Give a one-paragraph root-cause hypothesis "
-                  "constrained to the stderr below. End with: NEXT_TRY: <specific change>."),
+        question=(
+            "Failure occurred. Give a one-paragraph root-cause hypothesis "
+            "constrained to the stderr below. End with: NEXT_TRY: <specific change>."
+        ),
         workspace=workspace,
         extra_blobs={"stderr": stderr_text, "git state": _git_summary(workspace)},
     )
@@ -382,42 +419,53 @@ def diagnose_before_retry(stderr_text: str, workspace: Path | None = None,
 
 # ── CLI plumbing ─────────────────────────────────────────────────────────────
 
+
 def _add_common(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--workspace", default=str(Path.cwd()),
-                        help="Workspace root (default: cwd)")
-    parser.add_argument("--model", default=ARCHITECT_MODEL,
-                        help=f"Ollama model tag (default: {ARCHITECT_MODEL})")
-    parser.add_argument("--json", dest="json_out", action="store_true",
-                        help="Emit JSON instead of text")
+    parser.add_argument(
+        "--workspace", default=str(Path.cwd()), help="Workspace root (default: cwd)"
+    )
+    parser.add_argument(
+        "--model", default=ARCHITECT_MODEL, help=f"Ollama model tag (default: {ARCHITECT_MODEL})"
+    )
+    parser.add_argument(
+        "--json", dest="json_out", action="store_true", help="Emit JSON instead of text"
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="determinex-ask",
-                                     description="Sprint 1 — diagnostic-first entry to Determinex")
+    parser = argparse.ArgumentParser(
+        prog="determinex-ask", description="Sprint 1 — diagnostic-first entry to Determinex"
+    )
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_ask = sub.add_parser("ask", help="Freeform question against the workspace")
     p_ask.add_argument("question", help="The question to ask")
     p_ask.add_argument("--stderr", help="Path to a stderr/log file, '-' for stdin, or literal text")
     p_ask.add_argument("--image", help="Path to an image to describe (requires Sprint 2 vision)")
-    p_ask.add_argument("--session-state", action="store_true",
-                       help="Attach recent session WAL + git status")
-    p_ask.add_argument("--scan", action="store_true",
-                       help="Grep workspace for keyword-matched files")
-    p_ask.add_argument("--extra", action="append", default=[],
-                       help="Attach extra blob: NAME=PATH or just PATH. Repeatable.")
+    p_ask.add_argument(
+        "--session-state", action="store_true", help="Attach recent session WAL + git status"
+    )
+    p_ask.add_argument(
+        "--scan", action="store_true", help="Grep workspace for keyword-matched files"
+    )
+    p_ask.add_argument(
+        "--extra",
+        action="append",
+        default=[],
+        help="Attach extra blob: NAME=PATH or just PATH. Repeatable.",
+    )
     _add_common(p_ask)
     p_ask.set_defaults(func=cmd_ask)
 
     p_where = sub.add_parser("where", help="Survey project state: git + recent sessions")
-    p_where.add_argument("--explain", action="store_true",
-                         help="Have Sentinel narrate the state (extra model call)")
+    p_where.add_argument(
+        "--explain", action="store_true", help="Have Sentinel narrate the state (extra model call)"
+    )
     _add_common(p_where)
     p_where.set_defaults(func=cmd_where)
 
     p_why = sub.add_parser("why", help="Diagnose a stderr/log blob")
-    p_why.add_argument("--stderr", required=True,
-                       help="Path to stderr/log, or '-' for stdin")
+    p_why.add_argument("--stderr", required=True, help="Path to stderr/log, or '-' for stdin")
     _add_common(p_why)
     p_why.set_defaults(func=cmd_why)
 

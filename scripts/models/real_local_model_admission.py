@@ -16,9 +16,10 @@ The admission record itself never calls the model. It is a pure
 decision surface; inference still has to ride the verifier/temp/
 approval gates.
 """
+
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 from .live_model_admission import _LOCAL_PROVIDERS, _NETWORK_PROVIDER_TOKENS
 from .local_model_admission_policy import ModelProvider
@@ -55,7 +56,9 @@ def admit(
     if provider in _NETWORK_PROVIDER_TOKENS:
         return _blocked(
             "REAL_LOCAL_MODEL_BLOCKED_NETWORK_PROVIDER",
-            provider, model_id, task_classes_t,
+            provider,
+            model_id,
+            task_classes_t,
             f"provider {provider!r} is a network provider",
             detection,
         )
@@ -65,14 +68,18 @@ def admit(
     if provider == ModelProvider.NO_MODEL.value:
         return _blocked(
             "REAL_LOCAL_MODEL_BLOCKED_NO_PROVIDER",
-            provider, model_id, task_classes_t,
+            provider,
+            model_id,
+            task_classes_t,
             "no_model cannot satisfy real local admission",
             detection,
         )
     if provider not in _LOCAL_PROVIDERS:
         return _blocked(
             "REAL_LOCAL_MODEL_BLOCKED_NO_PROVIDER",
-            provider, model_id, task_classes_t,
+            provider,
+            model_id,
+            task_classes_t,
             f"provider {provider!r} is not a recognized local provider",
             detection,
         )
@@ -81,7 +88,9 @@ def admit(
     if model_id in STALE_MODEL_IDS:
         return _blocked(
             "REAL_LOCAL_MODEL_BLOCKED_STALE",
-            provider, model_id, task_classes_t,
+            provider,
+            model_id,
+            task_classes_t,
             f"model_id {model_id!r} is stale",
             detection,
         )
@@ -90,7 +99,9 @@ def admit(
     if model_id not in CURRENT_MODEL_IDS:
         return _blocked(
             "REAL_LOCAL_MODEL_BLOCKED_UNPINNED",
-            provider, model_id, task_classes_t,
+            provider,
+            model_id,
+            task_classes_t,
             f"model_id {model_id!r} not pinned in CURRENT_MODEL_IDS",
             detection,
         )
@@ -100,7 +111,9 @@ def admit(
     if not task_classes_t or any(t not in supported for t in task_classes_t):
         return _blocked(
             "REAL_LOCAL_MODEL_BLOCKED_UNSUPPORTED_TASK_CLASS",
-            provider, model_id, task_classes_t,
+            provider,
+            model_id,
+            task_classes_t,
             "one or more task classes are unsupported",
             detection,
         )
@@ -112,7 +125,9 @@ def admit(
         if detection is None or not detection.is_detected:
             return _blocked(
                 "REAL_LOCAL_MODEL_BLOCKED_NO_PROVIDER",
-                provider, model_id, task_classes_t,
+                provider,
+                model_id,
+                task_classes_t,
                 "ollama provider not detected; pass a DETECTED record to admit",
                 detection,
             )
@@ -121,7 +136,9 @@ def admit(
     if not opt_in:
         return _blocked(
             "REAL_LOCAL_MODEL_BLOCKED_NOT_OPTED_IN",
-            provider, model_id, task_classes_t,
+            provider,
+            model_id,
+            task_classes_t,
             "explicit opt_in=True is required for real admission",
             detection,
         )

@@ -5,6 +5,7 @@ Generation/smoke can be broad. Eval must be narrow. This ranker separates
 "generated successfully" from "semantically worth evaluating" so weak family
 coincidences do not burn Docker time.
 """
+
 from __future__ import annotations
 
 import json
@@ -14,13 +15,24 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 HIGH_CONFIDENCE_FAMILIES = {
-    "search_grep", "file_renamers", "shell_coreutils", "text_diff",
-    "formatters", "git_wrappers", "rust_cli",
+    "search_grep",
+    "file_renamers",
+    "shell_coreutils",
+    "text_diff",
+    "formatters",
+    "git_wrappers",
+    "rust_cli",
 }
 
 MEDIUM_CONFIDENCE_FAMILIES = {
-    "json_yaml_toml", "csv_table", "regex_tools", "archive_compression",
-    "network_http", "tui_terminal", "config_env", "database",
+    "json_yaml_toml",
+    "csv_table",
+    "regex_tools",
+    "archive_compression",
+    "network_http",
+    "tui_terminal",
+    "config_env",
+    "database",
 }
 
 # Sprint-4 audit fleshed out the deferred families. Remaining defers are
@@ -62,7 +74,7 @@ def _domain_defer_reason(instance: str) -> str | None:
 
 def _family_test_count(rec: dict) -> int:
     family = rec.get("family", "")
-    for fam, count in ((rec.get("signals") or {}).get("by_test") or []):
+    for fam, count in (rec.get("signals") or {}).get("by_test") or []:
         if fam == family:
             return int(count)
     return 0
@@ -147,22 +159,26 @@ def main() -> int:
         elif base is not None and base > 50:
             notes += "; high base; v1 may not move"
         lines.append(
-            f"| {i} | `{r['instance']}` | {r.get('family','?')} | "
+            f"| {i} | `{r['instance']}` | {r.get('family', '?')} | "
             f"{base_str} | {_tier_label(tier)} | {notes} |"
         )
-        json_rows.append({
-            "rank": i,
-            "instance": r["instance"],
-            "family": r.get("family"),
-            "base_score": r.get("base_score"),
-            "confidence": _tier_label(tier),
-            "eval_worthiness": tier,
-            "evidence_reason": reason,
-            "factory_dir": f"T:/determinex-programbench/determinex_pb_factory_{r['instance']}_v1",
-        })
+        json_rows.append(
+            {
+                "rank": i,
+                "instance": r["instance"],
+                "family": r.get("family"),
+                "base_score": r.get("base_score"),
+                "confidence": _tier_label(tier),
+                "eval_worthiness": tier,
+                "evidence_reason": reason,
+                "factory_dir": f"T:/determinex-programbench/determinex_pb_factory_{r['instance']}_v1",
+            }
+        )
 
     out_md.write_text("\n".join(lines), encoding="utf-8")
-    out_json.write_text(json.dumps({"ranked": json_rows, "total": len(json_rows)}, indent=2), encoding="utf-8")
+    out_json.write_text(
+        json.dumps({"ranked": json_rows, "total": len(json_rows)}, indent=2), encoding="utf-8"
+    )
 
     print(f"Sprint 4 eval queue ranked: {len(ranked)} entries")
     print(f"  markdown: {out_md}")
@@ -174,7 +190,9 @@ def main() -> int:
         tier, _reason = eval_worthiness(r)
         base = r.get("base_score")
         base_str = f"{base:>6.2f}" if base is not None else "     -"
-        print(f"  {i:>3}. [{short[tier]}] {r['instance']:<55} {r.get('family','?'):<20} base={base_str}%")
+        print(
+            f"  {i:>3}. [{short[tier]}] {r['instance']:<55} {r.get('family', '?'):<20} base={base_str}%"
+        )
     return 0
 
 

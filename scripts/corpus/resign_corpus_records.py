@@ -7,6 +7,7 @@ Record payloads are preserved except for:
   - _sig recomputed with the current durable key
   - signature_key_scope set to "durable"
 """
+
 from __future__ import annotations
 
 import argparse
@@ -32,7 +33,9 @@ def _iter_jsonl(root: Path):
 def resign_path(path: Path, *, dry_run: bool = False) -> dict:
     records = []
     parse_errors = []
-    for line_no, line in enumerate(path.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+    for line_no, line in enumerate(
+        path.read_text(encoding="utf-8", errors="replace").splitlines(), 1
+    ):
         if not line.strip():
             continue
         try:
@@ -77,13 +80,20 @@ def main() -> int:
     args = ap.parse_args()
 
     if hmac_key_scope() != "durable":
-        print(json.dumps({
-            "error": "durable_hmac_key_required",
-            "current_signature_key_scope": hmac_key_scope(),
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "error": "durable_hmac_key_required",
+                    "current_signature_key_scope": hmac_key_scope(),
+                },
+                indent=2,
+            )
+        )
         return 2
 
-    results = [resign_path(path, dry_run=args.dry_run) for root in args.roots for path in _iter_jsonl(root)]
+    results = [
+        resign_path(path, dry_run=args.dry_run) for root in args.roots for path in _iter_jsonl(root)
+    ]
     summary = {
         "current_signature_key_scope": hmac_key_scope(),
         "files": len(results),

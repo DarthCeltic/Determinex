@@ -1,9 +1,9 @@
 """Records for REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REAL_HUMAN_APPROVAL_ADMISSION_STATUS_TOKENS = (
     "REAL_HUMAN_APPROVAL_ACCEPTED",

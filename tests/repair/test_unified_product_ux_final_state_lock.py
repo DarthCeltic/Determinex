@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_UNIFIED_PRODUCT_UX_FINAL_STATE_LOCK_001 (rung 9 finale)."""
+
 from __future__ import annotations
 
 import importlib
@@ -14,7 +15,9 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 
 final = importlib.import_module("repair.unified_product_ux_final_state")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_UNIFIED_PRODUCT_UX_FINAL_STATE_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_UNIFIED_PRODUCT_UX_FINAL_STATE_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_unified_product_ux_final_state"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -82,8 +85,9 @@ def test_synthetic_skeleton_passes(tmp_path):
 
 def test_missing_navigation_rung_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    (fake / "locks" / "sentinel"
-     / "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001.json").unlink()
+    (
+        fake / "locks" / "sentinel" / "DETERMINEX_UNIFIED_PRODUCT_NAVIGATION_MODEL_LOCK_001.json"
+    ).unlink()
     rec = final.evaluate(fake)
     assert rec.is_blocked
     assert rec.navigation_model_closed is False
@@ -91,8 +95,7 @@ def test_missing_navigation_rung_blocks(tmp_path):
 
 def test_lock_with_opened_source_mutation_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REPO_CLINIC_WORKFLOW_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "DETERMINEX_REPO_CLINIC_WORKFLOW_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["source_mutation_authorized"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -103,8 +106,7 @@ def test_lock_with_opened_source_mutation_blocks(tmp_path):
 
 def test_lock_with_opened_training_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["training_eligible"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -118,8 +120,7 @@ def test_lock_with_unsupported_claim_blocks(tmp_path):
     key (all_apps_claim, all_languages_claim, etc.), the finale
     blocks."""
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_IDEA_LAB_WORKFLOW_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "DETERMINEX_IDEA_LAB_WORKFLOW_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["all_apps_claim"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")

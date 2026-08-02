@@ -2,11 +2,11 @@
 Filesystem guard for desktop agents — prevents VM-side file operations from
 targeting sensitive host-accessible paths, and enforces VM filesystem isolation.
 """
+
 from __future__ import annotations
 
 import logging
 import re
-from pathlib import PurePosixPath, PureWindowsPath
 
 log = logging.getLogger(__name__)
 
@@ -26,11 +26,27 @@ _BLOCKED_PATH_PATTERNS: list[re.Pattern] = [
 ]
 
 # Extensions that are never allowed to be written
-_BLOCKED_EXTENSIONS: frozenset[str] = frozenset({
-    ".exe", ".dll", ".sys", ".drv", ".com", ".bat", ".cmd",
-    ".msi", ".ps1", ".vbs", ".hta", ".scr", ".pif",
-    ".sh", ".bash", ".zsh", ".fish",
-})
+_BLOCKED_EXTENSIONS: frozenset[str] = frozenset(
+    {
+        ".exe",
+        ".dll",
+        ".sys",
+        ".drv",
+        ".com",
+        ".bat",
+        ".cmd",
+        ".msi",
+        ".ps1",
+        ".vbs",
+        ".hta",
+        ".scr",
+        ".pif",
+        ".sh",
+        ".bash",
+        ".zsh",
+        ".fish",
+    }
+)
 
 
 def check_path(path: str, operation: str = "write") -> tuple[bool, str]:
@@ -40,8 +56,12 @@ def check_path(path: str, operation: str = "write") -> tuple[bool, str]:
     """
     for pattern in _BLOCKED_PATH_PATTERNS:
         if pattern.search(path):
-            log.warning("[filesystem_guard] BLOCKED %s on path: %s (pattern: %s)",
-                        operation, path, pattern.pattern)
+            log.warning(
+                "[filesystem_guard] BLOCKED %s on path: %s (pattern: %s)",
+                operation,
+                path,
+                pattern.pattern,
+            )
             return False, f"path matches blocked pattern: {pattern.pattern}"
 
     if operation == "write":

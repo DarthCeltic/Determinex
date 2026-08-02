@@ -5,6 +5,7 @@ This lock gives Determinex a deterministic database oracle for BIRD/BIRD-Critic
 style tasks: schema -> SQL -> execute -> compare -> repair trace -> signed
 corpus row.
 """
+
 from __future__ import annotations
 
 import sys
@@ -65,7 +66,10 @@ class TestSqlSafetyGate:
 
     def test_with_allowed(self):
         oracle = _oracle()
-        assert oracle.is_safe_query("WITH active AS (SELECT * FROM users) SELECT name FROM active") is True
+        assert (
+            oracle.is_safe_query("WITH active AS (SELECT * FROM users) SELECT name FROM active")
+            is True
+        )
 
     def test_drop_blocked(self):
         oracle = _oracle()

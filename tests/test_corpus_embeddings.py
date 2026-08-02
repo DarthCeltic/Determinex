@@ -3,6 +3,7 @@
 Uses the same synthetic fixture style as test_determinex_corpus_api.py (fast, no live corpus,
 no Ollama dependency for the pure-function tests below).
 """
+
 from __future__ import annotations
 
 import sys
@@ -42,14 +43,16 @@ def test_entries_has_globally_unique_keys():
     non-convergent (see the corpus finding referenced above)."""
     entries = ce._entries(_fixture())
     keys = [e["key"] for e in entries]
-    assert len(keys) == len(set(keys)), f"duplicate keys found: {[k for k in keys if keys.count(k) > 1]}"
+    assert len(keys) == len(set(keys)), (
+        f"duplicate keys found: {[k for k in keys if keys.count(k) > 1]}"
+    )
 
 
 def test_entries_merges_topic_and_toplevel_preferring_fuller_text():
     entries = ce._entries(_fixture())
     row = next(e for e in entries if e["key"] == "dup_key_entry")
     assert "fuller top-level blob" in row["text"]
-    assert row["topic"] == "BUILD_TOOLCHAIN"   # real topic label, not the generic "entry" one
+    assert row["topic"] == "BUILD_TOOLCHAIN"  # real topic label, not the generic "entry" one
 
 
 def test_entries_keeps_topic_only_key_when_no_toplevel_counterpart():

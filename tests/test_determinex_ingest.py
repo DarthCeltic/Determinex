@@ -11,6 +11,7 @@ called `p.is_file()` on every path BEFORE the node_modules/.git/etc
 exclusion check ran, and `_detect_build` didn't exclude those directories at
 all. See determinex_ingest.py's `_walk_files` docstring for the full story.
 """
+
 from __future__ import annotations
 
 import subprocess
@@ -128,9 +129,20 @@ def test_walk_files_excludes_caches_and_venvs(tmp_path):
     crashing on them."""
     (tmp_path / "src.py").write_text("x = 1\n", encoding="utf-8")
     for excluded_dir in (
-        ".venv", "venv", "__pycache__", ".pytest_cache", ".mypy_cache",
-        ".ruff_cache", ".tox", ".uv-cache", ".cache", "dist", "build",
-        ".next", ".idea", ".vscode",
+        ".venv",
+        "venv",
+        "__pycache__",
+        ".pytest_cache",
+        ".mypy_cache",
+        ".ruff_cache",
+        ".tox",
+        ".uv-cache",
+        ".cache",
+        "dist",
+        "build",
+        ".next",
+        ".idea",
+        ".vscode",
     ):
         d = tmp_path / excluded_dir
         d.mkdir()
@@ -199,8 +211,9 @@ def test_detect_harness_skips_broken_file_and_excluded_dirs(tmp_path):
 # that merely happens to share the same layout without a tauri.conf.json.
 # ---------------------------------------------------------------------------
 
+
 def _write_cargo_toml(p: Path, name: str = "x") -> None:
-    p.write_text(f"[package]\nname = \"{name}\"\nversion = \"0.1.0\"\n", encoding="utf-8")
+    p.write_text(f'[package]\nname = "{name}"\nversion = "0.1.0"\n', encoding="utf-8")
 
 
 def test_discover_subprojects_merges_real_tauri_pair_into_one(tmp_path):

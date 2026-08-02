@@ -25,6 +25,7 @@ CLI
 ---
     python scripts/determinex_providers.py            # show what's available here
 """
+
 from __future__ import annotations
 
 import json
@@ -39,7 +40,9 @@ from urllib.parse import urlparse
 
 class NetworkPolicyViolation(Exception):
     """Raised when an external network request is blocked by the active DETERMINEX_NETWORK_POLICY."""
+
     pass
+
 
 GenerateFn = Callable[[str, float], str]
 VALID_NETWORK_POLICIES = {"offline", "cloaked", "online"}
@@ -102,17 +105,17 @@ _load_env_once()
 @dataclass
 class Provider:
     name: str
-    tier: int                       # 1 tiny/local ... 4 frontier
-    env_key: str                    # required API key env var ("" = local/none)
-    default_model: str              # litellm-style model string
+    tier: int  # 1 tiny/local ... 4 frontier
+    env_key: str  # required API key env var ("" = local/none)
+    default_model: str  # litellm-style model string
     aliases: tuple[str, ...] = ()
-    factory: Callable[[str], GenerateFn] | None = None   # custom (addons); else litellm
+    factory: Callable[[str], GenerateFn] | None = None  # custom (addons); else litellm
     models: list[str] = field(default_factory=list)
 
     def available(self) -> bool:
         if self.factory is not None and not self.env_key:
             return True
-        if not self.env_key:                       # local
+        if not self.env_key:  # local
             return _ollama_up() if "ollama" in self.default_model else True
         return bool(os.environ.get(self.env_key))
 
@@ -144,12 +147,20 @@ def _is_local_litellm_model(model: str) -> bool:
     """
     try:
         from budget_guard import is_local_model
+
         return is_local_model(model)
     except Exception:  # noqa: BLE001 — never let accounting/policy break on an import
         normalized = (model or "").strip().lower()
         return normalized.startswith(
-            ("ollama/", "ollama_chat/", "hosted_vllm/", "text-completion-openai/",
-             "determinex/", "local/", "determinex-")
+            (
+                "ollama/",
+                "ollama_chat/",
+                "hosted_vllm/",
+                "text-completion-openai/",
+                "determinex/",
+                "local/",
+                "determinex-",
+            )
         )
 
 
@@ -163,15 +174,24 @@ def _ollama_model_ctx(model: str, host: str = "http://localhost:11434") -> int:
         return _OLLAMA_CTX[tag]
     import json as _json
     import urllib.request
+
     n = 0
     try:
         req = urllib.request.Request(
-            f"{host}/api/show", data=_json.dumps({"name": tag}).encode("utf-8"),
-            headers={"Content-Type": "application/json"})
+            f"{host}/api/show",
+            data=_json.dumps({"name": tag}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
         with urllib.request.urlopen(req, timeout=15) as r:
-            info = (_json.loads(r.read()).get("model_info") or {})
-        n = max((int(v) for k, v in info.items()
-                 if k.endswith("context_length") and isinstance(v, int)), default=0)
+            info = _json.loads(r.read()).get("model_info") or {}
+        n = max(
+            (
+                int(v)
+                for k, v in info.items()
+                if k.endswith("context_length") and isinstance(v, int)
+            ),
+            default=0,
+        )
     except Exception:
         n = 0
     _OLLAMA_CTX[tag] = n
@@ -238,16 +258,22 @@ def _litellm_generator(model: str) -> GenerateFn:
             )
 
         import litellm
+
         extra = _ollama_ctx_kwargs(model, prompt)
         resp = litellm.completion(
             # 8192: a full corrected compile.sh (the amplifier's task) runs 200-400 lines
             # >> 1024 tokens -> 1024 TRUNCATED every candidate to a malformed script that
             # fast-failed the eval (~0s). Code generation needs the headroom.
-            model=model, temperature=float(temperature),
-            messages=[{"role": "user", "content": prompt}], max_tokens=8192, **extra)
+            model=model,
+            temperature=float(temperature),
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=8192,
+            **extra,
+        )
         _ledger_append(model, resp)
         _assert_prompt_not_truncated(model, prompt, resp)
         return resp.choices[0].message.content or ""
+
     return _gen
 
 
@@ -271,6 +297,7 @@ def _ledger_rate(model: str) -> tuple[float, float]:
     """(in, out) $/1M for the ledger. Local models are free and never reach here."""
     try:
         from budget_guard import price_per_1m
+
         rate = price_per_1m(model)
         if rate is not None:
             return rate
@@ -286,6 +313,7 @@ def _ledger_append(model: str, resp) -> None:
     try:
         import datetime as _dt
         import json as _json
+
         usage = getattr(resp, "usage", None)
         tin = int(getattr(usage, "prompt_tokens", 0) or 0)
         tout = int(getattr(usage, "completion_tokens", 0) or 0)
@@ -295,17 +323,25 @@ def _ledger_append(model: str, resp) -> None:
         ledger_dir = Path(__file__).resolve().parent.parent / "logs" / "api_ledger"
         ledger_dir.mkdir(parents=True, exist_ok=True)
         with open(ledger_dir / "providers.jsonl", "a", encoding="utf-8") as f:
-            f.write(_json.dumps({
-                "ts": _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds"),
-                "model": model, "tokens_in": tin, "tokens_out": tout,
-                "est_usd": round(tin / 1e6 * pin + tout / 1e6 * pout, 6),
-            }) + "\n")
+            f.write(
+                _json.dumps(
+                    {
+                        "ts": _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds"),
+                        "model": model,
+                        "tokens_in": tin,
+                        "tokens_out": tout,
+                        "est_usd": round(tin / 1e6 * pin + tout / 1e6 * pout, 6),
+                    }
+                )
+                + "\n"
+            )
     except Exception:
         pass
 
 
 def _ollama_up(host: str = "http://localhost:11434") -> bool:
     import urllib.request
+
     try:
         urllib.request.urlopen(host + "/api/tags", timeout=2)
         return True
@@ -319,38 +355,68 @@ def _ollama_up(host: str = "http://localhost:11434") -> bool:
 _PROVIDERS: dict[str, Provider] = {}
 
 
-def register_provider(name: str, *, tier: int = 3, env_key: str = "",
-                      default_model: str = "", aliases: tuple[str, ...] = (),
-                      factory: Callable[[str], GenerateFn] | None = None,
-                      models: list[str] | None = None) -> None:
+def register_provider(
+    name: str,
+    *,
+    tier: int = 3,
+    env_key: str = "",
+    default_model: str = "",
+    aliases: tuple[str, ...] = (),
+    factory: Callable[[str], GenerateFn] | None = None,
+    models: list[str] | None = None,
+) -> None:
     """Register an AI provider/addon. With no factory it routes through LiteLLM
     (model string decides the backend). With a factory it can be anything that
     yields generate(prompt, temperature) -> str -- a local agent, a remote API,
     an ensemble, a future model."""
-    p = Provider(name=name, tier=tier, env_key=env_key,
-                 default_model=default_model or name, aliases=aliases,
-                 factory=factory, models=models or [])
+    p = Provider(
+        name=name,
+        tier=tier,
+        env_key=env_key,
+        default_model=default_model or name,
+        aliases=aliases,
+        factory=factory,
+        models=models or [],
+    )
     for key in (name, *aliases):
         _PROVIDERS[key.lower()] = p
 
 
 # Built-ins. Codex == OpenAI; "claude" == Anthropic; etc. All via LiteLLM.
-register_provider("claude", tier=4, env_key="ANTHROPIC_API_KEY",
-                  default_model="anthropic/claude-sonnet-4-6",
-                  aliases=("anthropic", "claude-code"))
-register_provider("codex", tier=4, env_key="OPENAI_API_KEY",
-                  default_model="openai/gpt-5.5-pro",
-                  aliases=("openai", "gpt"))
-register_provider("gemini", tier=4, env_key="GEMINI_API_KEY",
-                  default_model="gemini/gemini-3-flash-preview",
-                  aliases=("google",))
-register_provider("deepseek", tier=3, env_key="DEEPSEEK_API_KEY",
-                  default_model="deepseek/deepseek-chat")
-register_provider("groq", tier=3, env_key="GROQ_API_KEY",
-                  default_model="groq/llama-3.3-70b-versatile")
-register_provider("huggingface", tier=3, env_key="HUGGINGFACE_API_KEY",
-                  default_model="huggingface/Qwen/Qwen2.5-Coder-32B-Instruct",
-                  aliases=("hf",))
+register_provider(
+    "claude",
+    tier=4,
+    env_key="ANTHROPIC_API_KEY",
+    default_model="anthropic/claude-sonnet-4-6",
+    aliases=("anthropic", "claude-code"),
+)
+register_provider(
+    "codex",
+    tier=4,
+    env_key="OPENAI_API_KEY",
+    default_model="openai/gpt-5.5-pro",
+    aliases=("openai", "gpt"),
+)
+register_provider(
+    "gemini",
+    tier=4,
+    env_key="GEMINI_API_KEY",
+    default_model="gemini/gemini-3-flash-preview",
+    aliases=("google",),
+)
+register_provider(
+    "deepseek", tier=3, env_key="DEEPSEEK_API_KEY", default_model="deepseek/deepseek-chat"
+)
+register_provider(
+    "groq", tier=3, env_key="GROQ_API_KEY", default_model="groq/llama-3.3-70b-versatile"
+)
+register_provider(
+    "huggingface",
+    tier=3,
+    env_key="HUGGINGFACE_API_KEY",
+    default_model="huggingface/Qwen/Qwen2.5-Coder-32B-Instruct",
+    aliases=("hf",),
+)
 # ── Added 2026-07-31 ────────────────────────────────────────────────────────────────────────────
 # Ryan: "kimi, hf, vars ai, etc etc etc should all be configured in this". hf was already here
 # (aliased below); these were not, and their absence was not a capability gap -- every one of them
@@ -361,47 +427,80 @@ register_provider("huggingface", tier=3, env_key="HUGGINGFACE_API_KEY",
 # No key is written by this. `env_key` names the variable the operator sets; a provider whose key is
 # absent stays unavailable and says which variable to set, rather than failing at call time with a
 # provider error that does not name the fix.
-register_provider("moonshot", tier=3, env_key="MOONSHOT_API_KEY",
-                  default_model="moonshot/kimi-k2-0711-preview",
-                  aliases=("kimi", "moonshot-ai"))
+register_provider(
+    "moonshot",
+    tier=3,
+    env_key="MOONSHOT_API_KEY",
+    default_model="moonshot/kimi-k2-0711-preview",
+    aliases=("kimi", "moonshot-ai"),
+)
 # Vertex is Google's OTHER surface, and the distinction is load-bearing rather than pedantic: the
 # `gemini` row above uses an AI Studio key (GEMINI_API_KEY), while Vertex authenticates with GCP
 # service-account credentials and a project/location. Google ended Code Assist for individual
 # accounts on 2026-07-31 -- measured on this machine, gemini-cli refused with IneligibleTierError --
 # so having both surfaces registered separately is what lets a Google model be reached at all when
 # one of the two paths is closed to an account.
-register_provider("vertex_ai", tier=4, env_key="GOOGLE_APPLICATION_CREDENTIALS",
-                  default_model="vertex_ai/gemini-2.5-pro",
-                  aliases=("vertex", "vertexai", "gcp"))
-register_provider("xai", tier=3, env_key="XAI_API_KEY",
-                  default_model="xai/grok-4",
-                  aliases=("grok",))
-register_provider("mistral", tier=3, env_key="MISTRAL_API_KEY",
-                  default_model="mistral/codestral-latest",
-                  aliases=("codestral",))
-register_provider("together_ai", tier=3, env_key="TOGETHERAI_API_KEY",
-                  default_model="together_ai/Qwen/Qwen2.5-Coder-32B-Instruct",
-                  aliases=("together",))
-register_provider("cerebras", tier=3, env_key="CEREBRAS_API_KEY",
-                  default_model="cerebras/qwen-3-coder-480b")
+register_provider(
+    "vertex_ai",
+    tier=4,
+    env_key="GOOGLE_APPLICATION_CREDENTIALS",
+    default_model="vertex_ai/gemini-2.5-pro",
+    aliases=("vertex", "vertexai", "gcp"),
+)
+register_provider(
+    "xai", tier=3, env_key="XAI_API_KEY", default_model="xai/grok-4", aliases=("grok",)
+)
+register_provider(
+    "mistral",
+    tier=3,
+    env_key="MISTRAL_API_KEY",
+    default_model="mistral/codestral-latest",
+    aliases=("codestral",),
+)
+register_provider(
+    "together_ai",
+    tier=3,
+    env_key="TOGETHERAI_API_KEY",
+    default_model="together_ai/Qwen/Qwen2.5-Coder-32B-Instruct",
+    aliases=("together",),
+)
+register_provider(
+    "cerebras", tier=3, env_key="CEREBRAS_API_KEY", default_model="cerebras/qwen-3-coder-480b"
+)
 # OpenRouter had no row despite OPENROUTER_API_KEY being the key the SWE-bench ablation's DeepSeek
 # builder runs on (see CLAUDE.md's config table). A bare `openrouter/...` model string always worked
 # because the prefix passes through untouched, but with no registered row the NAME resolved to
 # nothing -- so the one provider that fronts hundreds of models could not be picked by name, only by
 # knowing a full model path.
-register_provider("openrouter", tier=3, env_key="OPENROUTER_API_KEY",
-                  default_model="openrouter/deepseek/deepseek-chat",
-                  aliases=("or",))
-register_provider("fireworks_ai", tier=3, env_key="FIREWORKS_AI_API_KEY",
-                  default_model="fireworks_ai/accounts/fireworks/models/qwen3-coder-480b-a35b-instruct",
-                  aliases=("fireworks",))
+register_provider(
+    "openrouter",
+    tier=3,
+    env_key="OPENROUTER_API_KEY",
+    default_model="openrouter/deepseek/deepseek-chat",
+    aliases=("or",),
+)
+register_provider(
+    "fireworks_ai",
+    tier=3,
+    env_key="FIREWORKS_AI_API_KEY",
+    default_model="fireworks_ai/accounts/fireworks/models/qwen3-coder-480b-a35b-instruct",
+    aliases=("fireworks",),
+)
 
-register_provider("local", tier=1, env_key="",
-                  default_model="ollama/determinex-coder-base-tiny:latest",
-                  aliases=("ollama", "tiny"))
-register_provider("bonsai", tier=1, env_key="",
-                  default_model="ollama/bonsai-27b",
-                  aliases=("bonsai-27b", "prism-ml/bonsai"))
+register_provider(
+    "local",
+    tier=1,
+    env_key="",
+    default_model="ollama/determinex-coder-base-tiny:latest",
+    aliases=("ollama", "tiny"),
+)
+register_provider(
+    "bonsai",
+    tier=1,
+    env_key="",
+    default_model="ollama/bonsai-27b",
+    aliases=("bonsai-27b", "prism-ml/bonsai"),
+)
 
 # ── vLLM provider (1C — audit 2026-07-19) ────────────────────────────────────
 # vLLM serves an OpenAI-compatible API. For the PB churn loop the verified-search
@@ -433,9 +532,7 @@ _VLLM_BASE_URL = (
     or os.environ.get("AMD_BASE_URL")
     or "http://localhost:8000"
 ).rstrip("/")
-_VLLM_API_KEY = (
-    os.environ.get("DETERMINEX_VLLM_API_KEY") or os.environ.get("AMD_API_KEY") or ""
-)
+_VLLM_API_KEY = os.environ.get("DETERMINEX_VLLM_API_KEY") or os.environ.get("AMD_API_KEY") or ""
 _VLLM_DEFAULT_MODEL = os.environ.get(
     "DETERMINEX_VLLM_MODEL", "hosted_vllm/Qwen/Qwen2.5-Coder-32B-Instruct"
 )
@@ -467,6 +564,7 @@ def _vllm_max_tokens(default: int = 8192, prompt: str = "") -> int:
     if not _VLLM_MAXLEN:
         import json as _json
         import urllib.request
+
         headers = {"Authorization": f"Bearer {_VLLM_API_KEY}"} if _VLLM_API_KEY else {}
         n = 0
         try:
@@ -507,15 +605,22 @@ def _vllm_prompt_tokens(prompt: str) -> int:
         return 0
     import json as _json
     import urllib.request
+
     root = _VLLM_BASE_URL.rstrip("/")
     if root.endswith("/v1"):
         root = root[: -len("/v1")]
     headers = {"Content-Type": "application/json"}
     if _VLLM_API_KEY:
         headers["Authorization"] = f"Bearer {_VLLM_API_KEY}"
-    served = _VLLM_DISCOVERED[0] if (_VLLM_DISCOVERED and _VLLM_DISCOVERED[0]) else _VLLM_DEFAULT_MODEL
-    body = _json.dumps({"model": served.split("/", 1)[-1] if served.startswith("hosted_vllm/")
-                        else served, "prompt": prompt}).encode("utf-8")
+    served = (
+        _VLLM_DISCOVERED[0] if (_VLLM_DISCOVERED and _VLLM_DISCOVERED[0]) else _VLLM_DEFAULT_MODEL
+    )
+    body = _json.dumps(
+        {
+            "model": served.split("/", 1)[-1] if served.startswith("hosted_vllm/") else served,
+            "prompt": prompt,
+        }
+    ).encode("utf-8")
     try:
         req = urllib.request.Request(f"{root}/tokenize", data=body, headers=headers)
         with urllib.request.urlopen(req, timeout=20) as r:
@@ -562,6 +667,7 @@ def _vllm_discover_model() -> str:
         return _VLLM_DISCOVERED[0]
     import json as _json
     import urllib.request
+
     headers = {"Authorization": f"Bearer {_VLLM_API_KEY}"} if _VLLM_API_KEY else {}
     name = ""
     try:
@@ -583,6 +689,7 @@ def _vllm_factory(model: str) -> GenerateFn:
 
     def _gen(prompt: str, temperature: float) -> str:
         import litellm
+
         kwargs = {}
         if _VLLM_API_KEY:
             kwargs["api_key"] = _VLLM_API_KEY
@@ -617,6 +724,7 @@ def _vllm_factory(model: str) -> GenerateFn:
             resp = _call(budget)
         _ledger_append(model, resp)
         return resp.choices[0].message.content or ""
+
     return _gen
 
 
@@ -629,6 +737,7 @@ def _vllm_available() -> bool:
     only /health would report a perfectly working remote endpoint as unavailable.
     """
     import urllib.request
+
     headers = {"Authorization": f"Bearer {_VLLM_API_KEY}"} if _VLLM_API_KEY else {}
     for path in ("/models", "/health"):
         try:
@@ -648,7 +757,6 @@ register_provider(
     aliases=("vllm-local",),
     factory=_vllm_factory,
 )
-
 
 
 # ---------------------------------------------------------------------------
@@ -717,6 +825,7 @@ def _custom_model_entries() -> list[dict]:
 
 def _openai_compatible_factory(model_id: str, base_url: str, api_key_env: str) -> GenerateFn:
     """Generate against any OpenAI-compatible endpoint."""
+
     def _gen(prompt: str, temperature: float) -> str:
         policy = _network_policy()
         # A user-supplied endpoint may well be a local server, which offline mode
@@ -728,6 +837,7 @@ def _openai_compatible_factory(model_id: str, base_url: str, api_key_env: str) -
                 f"DETERMINEX_NETWORK_POLICY is set to 'offline'."
             )
         import litellm
+
         kwargs = {
             "model": f"openai/{model_id}",
             "temperature": float(temperature),
@@ -742,6 +852,7 @@ def _openai_compatible_factory(model_id: str, base_url: str, api_key_env: str) -
         resp = litellm.completion(**kwargs)
         _ledger_append(f"openai/{model_id}", resp)
         return resp.choices[0].message.content or ""
+
     return _gen
 
 
@@ -768,7 +879,9 @@ def register_custom_providers() -> list[str]:
                 tier=int(entry.get("tier") or 3),
                 env_key="",  # availability is the endpoint's, not a key's
                 default_model=model_id,
-                factory=lambda m, _u=base_url, _k=api_key_env: _openai_compatible_factory(m, _u, _k),
+                factory=lambda m, _u=base_url, _k=api_key_env: _openai_compatible_factory(
+                    m, _u, _k
+                ),
             )
         else:
             register_provider(name, tier=3, env_key=api_key_env, default_model=model_id)
@@ -841,11 +954,16 @@ def get_rotating_generator(names: list[str] | None = None, persist: bool = True)
     across providers on a 429 -- so a rate limit on one AI transparently falls over
     to the next. Defaults to all available providers. Returns the universal contract."""
     from determinex_ratelimit import AdaptiveLimiter, RotatingGenerator
+
     names = names or [n for n, ok in available().items() if ok]
     if not names:
         raise RuntimeError("no providers available for a rotating generator")
     providers = [(n, get_generator(n)) for n in names]
-    pp = (Path(__file__).resolve().parent.parent / ".determinex_ratelimits.json") if persist else None
+    pp = (
+        (Path(__file__).resolve().parent.parent / ".determinex_ratelimits.json")
+        if persist
+        else None
+    )
     return RotatingGenerator(providers, limiter=AdaptiveLimiter(persist_path=pp)).generate
 
 
@@ -854,6 +972,7 @@ def to_router_entries(only_available: bool = True):
     escalate across providers (e.g. local tiny -> Claude -> a frontier fallback)."""
     sys.path.insert(0, os.path.dirname(__file__))
     from determinex_router import ModelEntry
+
     entries, seen = [], set()
     for p in _PROVIDERS.values():
         if p.name in seen:
@@ -861,9 +980,15 @@ def to_router_entries(only_available: bool = True):
         seen.add(p.name)
         if only_available and not p.available():
             continue
-        entries.append(ModelEntry(name=p.name, tier=p.tier, cost=float(p.tier),
-                                  generate=get_generator(p.name),
-                                  capability_hint=p.default_model))
+        entries.append(
+            ModelEntry(
+                name=p.name,
+                tier=p.tier,
+                cost=float(p.tier),
+                generate=get_generator(p.name),
+                capability_hint=p.default_model,
+            )
+        )
     return entries
 
 
@@ -879,29 +1004,34 @@ def registry_json() -> list[dict]:
     out: list[dict] = []
     for name, ok in available().items():
         p = _PROVIDERS[name]
-        out.append({
-            "name": name,
-            "tier": p.tier,
-            "available": ok,
-            "env_key": p.env_key,
-            "default_model": p.default_model,
-            "aliases": list(p.aliases),
-            "needs": "" if ok else (p.env_key or "a reachable local endpoint"),
-        })
+        out.append(
+            {
+                "name": name,
+                "tier": p.tier,
+                "available": ok,
+                "env_key": p.env_key,
+                "default_model": p.default_model,
+                "aliases": list(p.aliases),
+                "needs": "" if ok else (p.env_key or "a reachable local endpoint"),
+            }
+        )
     return out
 
 
 def main() -> int:
     if "--json" in sys.argv:
         import json as _json
+
         print(_json.dumps(registry_json()))
         return 0
     print("=== Determinex providers (universal generate contract) ===")
     for name, ok in available().items():
         p = _PROVIDERS[name]
         mark = "READY" if ok else "----"
-        print(f"  {mark}  {name:10} tier {p.tier}  {p.default_model}"
-              + ("" if ok else f"   (needs {p.env_key or 'ollama'})"))
+        print(
+            f"  {mark}  {name:10} tier {p.tier}  {p.default_model}"
+            + ("" if ok else f"   (needs {p.env_key or 'ollama'})")
+        )
     rdy = [n for n, ok in available().items() if ok]
     print(f"\n  {len(rdy)} provider(s) ready here: {rdy}")
     print("  Any of them plugs into build-from-idea / repair / router unchanged.")

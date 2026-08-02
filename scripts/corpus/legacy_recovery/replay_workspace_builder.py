@@ -31,7 +31,9 @@ class ReplayWorkspaceBuilder:
         if not tool:
             return ReplayWorkspace(candidate, Path(), manifest_path, False, "missing_tool")
         if not _candidate_hash_valid(candidate):
-            return ReplayWorkspace(candidate, Path(), manifest_path, False, "missing_candidate_hash")
+            return ReplayWorkspace(
+                candidate, Path(), manifest_path, False, "missing_candidate_hash"
+            )
 
         workspace = self._find_workspace(tool)
         if workspace is None:
@@ -53,7 +55,11 @@ class ReplayWorkspaceBuilder:
 
 
 def _candidate_hash_valid(candidate: dict[str, Any]) -> bool:
-    return bool(candidate.get("legacy_row_hash") or candidate.get("candidate_hash") or candidate.get("duplicate_cluster_id"))
+    return bool(
+        candidate.get("legacy_row_hash")
+        or candidate.get("candidate_hash")
+        or candidate.get("duplicate_cluster_id")
+    )
 
 
 def _safe_name(value: str) -> str:

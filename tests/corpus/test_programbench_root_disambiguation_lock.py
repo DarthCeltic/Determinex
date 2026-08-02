@@ -5,8 +5,6 @@ import os
 import sys
 from pathlib import Path
 
-import pytest
-
 _ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
@@ -47,7 +45,9 @@ def _make_tool(root: Path, slug: str, *, manifest: dict | None = None) -> Path:
     return path
 
 
-def _disambiguator(tmp_path: Path, roots: list[Path], overrides: Path | None = None) -> ProgramBenchRootDisambiguator:
+def _disambiguator(
+    tmp_path: Path, roots: list[Path], overrides: Path | None = None
+) -> ProgramBenchRootDisambiguator:
     return ProgramBenchRootDisambiguator(
         RootDisambiguationConfig(
             roots=roots,
@@ -64,7 +64,9 @@ def test_per_tool_overrides_wins(tmp_path):
     selected = _make_tool(overrides_root, "sharkdp__fd.40d8eb3")
     _make_tool(in_progress, "sharkdp__fd.40d8eb3")
 
-    result = _disambiguator(tmp_path, [overrides_root, in_progress]).disambiguate_candidate(_candidate())
+    result = _disambiguator(tmp_path, [overrides_root, in_progress]).disambiguate_candidate(
+        _candidate()
+    )
 
     assert result.status == DisambiguationStatus.CANONICAL_ROOT_SELECTED.value
     assert Path(result.selected_root) == selected
@@ -89,7 +91,9 @@ def test_in_progress_beats_historical_root(tmp_path):
     selected = _make_tool(in_progress, "sharkdp__fd.40d8eb3")
     _make_tool(historical, "sharkdp__fd.40d8eb3")
 
-    result = _disambiguator(tmp_path, [historical, in_progress]).disambiguate_candidate(_candidate())
+    result = _disambiguator(tmp_path, [historical, in_progress]).disambiguate_candidate(
+        _candidate()
+    )
 
     assert result.status == DisambiguationStatus.ACTIVE_RUN_ROOT_SELECTED.value
     assert Path(result.selected_root) == selected
@@ -99,7 +103,9 @@ def test_t_drive_root_selected_only_if_manifest_matches(tmp_path):
     t_drive_like = tmp_path / "T" / "determinex-programbench"
     selected = _make_tool(t_drive_like, "sharkdp__fd.40d8eb3", manifest={"shard_id": "shard-a"})
 
-    result = _disambiguator(tmp_path, [t_drive_like]).disambiguate_candidate(_candidate(shard_id="shard-a"))
+    result = _disambiguator(tmp_path, [t_drive_like]).disambiguate_candidate(
+        _candidate(shard_id="shard-a")
+    )
 
     assert result.status == DisambiguationStatus.T_DRIVE_RUN_ROOT_SELECTED.value
     assert Path(result.selected_root) == selected
@@ -122,15 +128,20 @@ def test_manual_override_wins_when_evidence_backed(tmp_path):
     root = tmp_path / "roots"
     selected = _make_tool(root, "sharkdp__fd.40d8eb3")
     overrides = tmp_path / "overrides.json"
-    overrides.write_text(json.dumps({
-        "fd": {
-            "canonical_root": str(selected),
-            "reason": "strict locked source root",
-            "approved_by": "ryan",
-            "created_at": "2026-05-27",
-            "evidence": ["lock_manifest", "gated_run"],
-        }
-    }), encoding="utf-8")
+    overrides.write_text(
+        json.dumps(
+            {
+                "fd": {
+                    "canonical_root": str(selected),
+                    "reason": "strict locked source root",
+                    "approved_by": "ryan",
+                    "created_at": "2026-05-27",
+                    "evidence": ["lock_manifest", "gated_run"],
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
 
     result = _disambiguator(tmp_path, [root], overrides).disambiguate_candidate(_candidate("fd"))
 
@@ -144,13 +155,18 @@ def test_override_outside_allowed_roots_rejected(tmp_path):
     outside = tmp_path / "outside"
     selected = _make_tool(outside, "sharkdp__fd.40d8eb3")
     overrides = tmp_path / "overrides.json"
-    overrides.write_text(json.dumps({
-        "fd": {
-            "canonical_root": str(selected),
-            "reason": "outside root",
-            "evidence": ["manual"],
-        }
-    }), encoding="utf-8")
+    overrides.write_text(
+        json.dumps(
+            {
+                "fd": {
+                    "canonical_root": str(selected),
+                    "reason": "outside root",
+                    "evidence": ["manual"],
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
 
     result = _disambiguator(tmp_path, [allowed], overrides).disambiguate_candidate(_candidate("fd"))
 
@@ -173,15 +189,17 @@ def test_symlink_escape_rejected_when_supported(tmp_path, monkeypatch):
         else:
             link.write_text("mock", encoding="utf-8")
         orig_resolve = Path.resolve
+
         def mock_resolve(self, strict=False):
             self_abs = str(self.absolute())
             link_abs = str(link.absolute())
             if self_abs == link_abs:
                 return target.resolve(strict=strict)
             elif self_abs.startswith(link_abs + os.sep):
-                remainder = self_abs[len(link_abs)+1:]
+                remainder = self_abs[len(link_abs) + 1 :]
                 return target.resolve(strict=strict) / remainder
             return orig_resolve(self, strict=strict)
+
         monkeypatch.setattr(Path, "resolve", mock_resolve)
 
     result = _disambiguator(tmp_path, [allowed]).disambiguate_candidate(_candidate())

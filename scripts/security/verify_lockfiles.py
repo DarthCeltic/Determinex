@@ -9,6 +9,7 @@ Checks:
 
 Reports violations as a structured list. Fails (exit 1) if any CRITICAL violations found.
 """
+
 from __future__ import annotations
 
 import logging
@@ -44,7 +45,7 @@ class LockfileViolation:
     file: str
     line_num: int
     line: str
-    severity: str        # "CRITICAL" | "HIGH" | "MEDIUM"
+    severity: str  # "CRITICAL" | "HIGH" | "MEDIUM"
     reason: str
 
 
@@ -84,8 +85,11 @@ class LockfileReport:
             "critical_count": self.critical_count,
             "violations": [
                 {
-                    "file": v.file, "line": v.line_num,
-                    "content": v.line[:80], "severity": v.severity, "reason": v.reason
+                    "file": v.file,
+                    "line": v.line_num,
+                    "content": v.line[:80],
+                    "severity": v.severity,
+                    "reason": v.reason,
                 }
                 for v in self.violations
             ],
@@ -119,20 +123,28 @@ def check_file(path: Path) -> list[LockfileViolation]:
 
         # VCS deps without commit hash
         if _VCS_UNPINNED.search(stripped):
-            violations.append(LockfileViolation(
-                file=str(path), line_num=i, line=stripped,
-                severity="HIGH",
-                reason="VCS dependency without pinned commit hash",
-            ))
+            violations.append(
+                LockfileViolation(
+                    file=str(path),
+                    line_num=i,
+                    line=stripped,
+                    severity="HIGH",
+                    reason="VCS dependency without pinned commit hash",
+                )
+            )
             continue
 
         # Unpinned specifiers
         if _UNPINNED_SPECIFIER.search(stripped) and not _PINNED.match(stripped):
-            violations.append(LockfileViolation(
-                file=str(path), line_num=i, line=stripped,
-                severity="MEDIUM",
-                reason="Dependency not pinned to exact version (use ==)",
-            ))
+            violations.append(
+                LockfileViolation(
+                    file=str(path),
+                    line_num=i,
+                    line=stripped,
+                    severity="MEDIUM",
+                    reason="Dependency not pinned to exact version (use ==)",
+                )
+            )
             continue
 
         # A bare requirement with NO version constraint at all. Added 2026-07-30: the checks above
@@ -140,11 +152,15 @@ def check_file(path: Path) -> list[LockfileViolation]:
         # than `requests>=2.0` -- produced no violation of any kind and the file read as cleaner
         # than one using ranges.
         if _BARE_UNVERSIONED.match(stripped):
-            violations.append(LockfileViolation(
-                file=str(path), line_num=i, line=stripped,
-                severity="MEDIUM",
-                reason="Dependency has no version constraint at all (use ==)",
-            ))
+            violations.append(
+                LockfileViolation(
+                    file=str(path),
+                    line_num=i,
+                    line=stripped,
+                    severity="MEDIUM",
+                    reason="Dependency has no version constraint at all (use ==)",
+                )
+            )
 
     return violations
 
@@ -238,11 +254,15 @@ def check_lock_floor_conflicts(root: Path) -> list[LockfileViolation]:
     except ImportError:
         # No comparison is possible. Say so rather than returning [] -- silence here would read as
         # "no conflicts", which is the failure mode this module was just fixed for elsewhere.
-        return [LockfileViolation(
-            file="(version comparison)", line_num=0, line="",
-            severity="HIGH",
-            reason="packaging is not installed, so lock-vs-floor conflicts could not be checked",
-        )]
+        return [
+            LockfileViolation(
+                file="(version comparison)",
+                line_num=0,
+                line="",
+                severity="HIGH",
+                reason="packaging is not installed, so lock-vs-floor conflicts could not be checked",
+            )
+        ]
 
     for lock_name, pinned in lock_pins(root).items():
         for package, version in sorted(pinned.items()):
@@ -255,14 +275,18 @@ def check_lock_floor_conflicts(root: Path) -> list[LockfileViolation]:
             except InvalidVersion:
                 continue
             because = f" — {floor[1]}" if floor[1] else ""
-            violations.append(LockfileViolation(
-                file=lock_name, line_num=0, line=f"{package}=={version}",
-                severity="HIGH",
-                reason=(
-                    f"pins {package} {version}, below the {floor[0]} floor declared in "
-                    f"requirements.txt{because}"
-                ),
-            ))
+            violations.append(
+                LockfileViolation(
+                    file=lock_name,
+                    line_num=0,
+                    line=f"{package}=={version}",
+                    severity="HIGH",
+                    reason=(
+                        f"pins {package} {version}, below the {floor[0]} floor declared in "
+                        f"requirements.txt{because}"
+                    ),
+                )
+            )
     return violations
 
 
@@ -299,16 +323,20 @@ def check_lock_covers_declared(root: Path) -> list[LockfileViolation]:
     missing = sorted(declared - pinned)
     if not missing:
         return []
-    return [LockfileViolation(
-        file="requirements-lock.txt", line_num=0, line="",
-        severity="HIGH",
-        reason=(
-            f"does not pin {len(missing)} dependency/dependencies declared in requirements.txt, so "
-            f"installing from it yields an incomplete environment: {missing[:10]}"
-            + (" ..." if len(missing) > 10 else "")
-            + ". Regenerate with: uv pip compile requirements.txt --output-file requirements-lock.txt"
-        ),
-    )]
+    return [
+        LockfileViolation(
+            file="requirements-lock.txt",
+            line_num=0,
+            line="",
+            severity="HIGH",
+            reason=(
+                f"does not pin {len(missing)} dependency/dependencies declared in requirements.txt, so "
+                f"installing from it yields an incomplete environment: {missing[:10]}"
+                + (" ..." if len(missing) > 10 else "")
+                + ". Regenerate with: uv pip compile requirements.txt --output-file requirements-lock.txt"
+            ),
+        )
+    ]
 
 
 def run(repo_root: Path | None = None) -> LockfileReport:
@@ -336,10 +364,15 @@ def run(repo_root: Path | None = None) -> LockfileReport:
     if other:
         counts += f", {other} advisory"
     if report.passed:
-        log.info("[verify_lockfiles] PASS: %d files checked (%s)", len(report.files_checked), counts)
+        log.info(
+            "[verify_lockfiles] PASS: %d files checked (%s)", len(report.files_checked), counts
+        )
     else:
-        log.warning("[verify_lockfiles] FAIL: %d files checked (%s) — critical or high blocks",
-                    len(report.files_checked), counts)
+        log.warning(
+            "[verify_lockfiles] FAIL: %d files checked (%s) — critical or high blocks",
+            len(report.files_checked),
+            counts,
+        )
 
     return report
 

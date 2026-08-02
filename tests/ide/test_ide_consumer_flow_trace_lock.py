@@ -1,4 +1,5 @@
 """Tests for IDE_CONSUMER_FLOW_TRACE_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -56,7 +55,8 @@ def _seed(tmp_path: Path) -> Path:
 def _cfg(tmp_path: Path):
     w = LocalModelConfigWizard(WizardConfig(config_root=tmp_path / "cfg"))
     return w.write_config(
-        provider="ollama", model_id="determinex-engineer-v11-dsl",
+        provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
         capabilities=("code_generation",),
         task_classes_allowed=("BUILD_DIAGNOSIS", "PATCH_GENERATION"),
         enabled=True,

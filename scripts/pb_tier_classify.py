@@ -34,7 +34,9 @@ Usage:
     python scripts/pb_tier_classify.py --guard   # CI: exit 1 if any row drifts
                                                   # from archive/provenance truth
 """
+
 from __future__ import annotations
+
 import argparse
 import collections
 import json
@@ -52,12 +54,22 @@ VERIFIED = REPO_ROOT / "corpus" / "programbench" / "verified_locks.json"
 _LOCKED_TIER_SUBDIRS = {"tier_1_perfect", "tier_2_upstream_skips"}
 _LOCKED_SKIP_SUBDIRS = {"_superseded"}
 
-TUI_KEYWORDS = {"tmux", "tui_wall", "libtmux", "tui test", "tui_cap",
-                "factory_accepted_tui_cap", "tui-ceiling", "tmux_session",
-                "test_tui", "test_tmux"}
+TUI_KEYWORDS = {
+    "tmux",
+    "tui_wall",
+    "libtmux",
+    "tui test",
+    "tui_cap",
+    "factory_accepted_tui_cap",
+    "tui-ceiling",
+    "tmux_session",
+    "test_tui",
+    "test_tmux",
+}
 
 
 # ── Canonical join + ground-truth sources for the reconcile law ────────────
+
 
 def short_name(slug: str) -> str:
     """Canonical join key: 'multiprocessio__dsq.c3ae0ba' -> 'dsq', 'jq_native' -> 'jq'.
@@ -115,23 +127,27 @@ def scan_archive_best() -> dict[str, tuple[tuple[int, int, int, int, int], pathl
         sn = short_name(dir_name)
         cur = best.get(sn)
         p = counts[0]
-        perfect = (counts[0] == counts[1] and counts[2] == 0
-                   and counts[3] == 0 and counts[4] == 0)
+        perfect = counts[0] == counts[1] and counts[2] == 0 and counts[3] == 0 and counts[4] == 0
         if cur is None:
             best[sn] = (counts, report)
             return
         cur_counts = cur[0]
-        cur_perfect = (cur_counts[0] == cur_counts[1] and cur_counts[2] == 0
-                       and cur_counts[3] == 0 and cur_counts[4] == 0)
+        cur_perfect = (
+            cur_counts[0] == cur_counts[1]
+            and cur_counts[2] == 0
+            and cur_counts[3] == 0
+            and cur_counts[4] == 0
+        )
         # Tiebreaker when both are equally-perfect with equal passes: prefer the
         # canonical owner__repo.hash dir name (matches the verified_locks key form)
         # over a bare short alias, so backfills point at the provenance-pinned copy.
         canonical = bool(re.search(r"__.+\.[0-9a-f]{7,8}$", report.parent.name))
         cur_canonical = bool(re.search(r"__.+\.[0-9a-f]{7,8}$", best[sn][1].parent.name))
-        if (perfect and not cur_perfect) or \
-           (perfect == cur_perfect and p > cur_counts[0]) or \
-           (perfect == cur_perfect and p == cur_counts[0]
-                and canonical and not cur_canonical):
+        if (
+            (perfect and not cur_perfect)
+            or (perfect == cur_perfect and p > cur_counts[0])
+            or (perfect == cur_perfect and p == cur_counts[0] and canonical and not cur_canonical)
+        ):
             best[sn] = (counts, report)
 
     if not LOCKED.exists():
@@ -150,8 +166,9 @@ def scan_archive_best() -> dict[str, tuple[tuple[int, int, int, int, int], pathl
     return best
 
 
-def reconcile_from_archive(entries: list[dict], verified_short: set[str],
-                           archive_best: dict[str, tuple]) -> list[tuple[str, str]]:
+def reconcile_from_archive(
+    entries: list[dict], verified_short: set[str], archive_best: dict[str, tuple]
+) -> list[tuple[str, str]]:
     """Apply the archive-authoritative provenance law in-place.
 
     Returns a list of (slug, human_description) for every change made.
@@ -186,11 +203,14 @@ def reconcile_from_archive(entries: list[dict], verified_short: set[str],
         # question should move a row out of it.
         if verified and arch and status != "needs_reverify":
             (p, t, f, nr, sk), report_path = arch
-            archive_perfect = (t > 0 and p == t and f == 0 and nr == 0 and sk == 0)
+            archive_perfect = t > 0 and p == t and f == 0 and nr == 0 and sk == 0
             if archive_perfect and status != "strict_lock":
-                changes.append((e["slug"],
-                                f"PROMOTE {status or '∅'} -> strict_lock "
-                                f"(verified archive {p}/{t})"))
+                changes.append(
+                    (
+                        e["slug"],
+                        f"PROMOTE {status or '∅'} -> strict_lock (verified archive {p}/{t})",
+                    )
+                )
                 e["official_passed"] = p
                 e["official_total"] = t
                 e["official_failed"] = 0
@@ -202,26 +222,31 @@ def reconcile_from_archive(entries: list[dict], verified_short: set[str],
                 e["reconciled_from_archive"] = sn
                 e["reconcile_note"] = (
                     "archive-authoritative promote: verified_locks + perfect "
-                    "locked archive (pb_tier_classify reconcile law)")
+                    "locked archive (pb_tier_classify reconcile law)"
+                )
                 status = "strict_lock"
 
         # DEMOTE: claims strict_lock but is NOT provenance-verified.
         if status == "strict_lock" and not verified:
-            changes.append((e["slug"],
-                            "DEMOTE strict_lock -> unverified_lock "
-                            "(absent from verified_locks.json)"))
+            changes.append(
+                (
+                    e["slug"],
+                    "DEMOTE strict_lock -> unverified_lock (absent from verified_locks.json)",
+                )
+            )
             e["status"] = "unverified_lock"
             e["unverified_lock"] = True
             e["reconcile_note"] = (
                 "demoted: not in verified_locks.json — provenance unproven "
-                "(CANON AUDIT / pb_tier_classify reconcile law)")
+                "(CANON AUDIT / pb_tier_classify reconcile law)"
+            )
 
         # BACKFILL: a verified perfect lock must always link to its archive so the
         # README/eval trace is never orphaned (e.g. a freshly promoted brotli).
         if e.get("status") == "strict_lock" and verified and arch:
             (p, t, f, nr, sk), report_path = arch
             rp = e.get("eval_report_path") or ""
-            archive_perfect = (t > 0 and p == t and f == 0 and nr == 0 and sk == 0)
+            archive_perfect = t > 0 and p == t and f == 0 and nr == 0 and sk == 0
             if archive_perfect and (not rp or not pathlib.Path(rp).exists()):
                 e["eval_report_path"] = str(report_path)
                 changes.append((e["slug"], "BACKFILL eval_report_path -> archive"))
@@ -251,8 +276,14 @@ def _has_cert(entry: dict) -> bool:
 def _tui_signal(entry: dict) -> bool:
     corpus = " ".join(
         str(entry.get(k) or "")
-        for k in ("notes", "failure_class", "factory_note", "ceiling_note",
-                  "hetzner_eval_note", "next_action")
+        for k in (
+            "notes",
+            "failure_class",
+            "factory_note",
+            "ceiling_note",
+            "hetzner_eval_note",
+            "next_action",
+        )
     ).lower()
     return any(kw in corpus for kw in TUI_KEYWORDS)
 
@@ -266,10 +297,10 @@ def classify(entry: dict) -> tuple[str, str | None]:
         return "strict_lock", None
 
     fail = int(entry.get("official_failed", 0) or 0)
-    nr   = int(entry.get("official_not_run", 0) or 0)
-    sk   = int(entry.get("official_skipped", 0) or 0)
+    nr = int(entry.get("official_not_run", 0) or 0)
+    sk = int(entry.get("official_skipped", 0) or 0)
     passed = int(entry.get("official_passed", 0) or 0)
-    total  = int(entry.get("official_total", 0) or 0)
+    total = int(entry.get("official_total", 0) or 0)
 
     # T2 check
     if fail == 0 and nr == 0 and sk > 0 and _has_cert(entry):
@@ -316,13 +347,14 @@ def classify(entry: dict) -> tuple[str, str | None]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Print changes without writing")
-    parser.add_argument("--report", action="store_true",
-                        help="Print tier distribution summary")
-    parser.add_argument("--guard", action="store_true",
-                        help="CI mode: detect (never write) any row that drifts "
-                             "from archive/provenance truth; exit 1 if drift found")
+    parser.add_argument("--dry-run", action="store_true", help="Print changes without writing")
+    parser.add_argument("--report", action="store_true", help="Print tier distribution summary")
+    parser.add_argument(
+        "--guard",
+        action="store_true",
+        help="CI mode: detect (never write) any row that drifts "
+        "from archive/provenance truth; exit 1 if drift found",
+    )
     args = parser.parse_args()
 
     raw = INDEX.read_text(encoding="utf-8")
@@ -336,24 +368,31 @@ def main() -> None:
 
     if args.guard:
         if reconcile_changes:
-            print("DRIFT DETECTED — eval_index.json disagrees with the locked "
-                  "archives / verified_locks.json:")
+            print(
+                "DRIFT DETECTED — eval_index.json disagrees with the locked "
+                "archives / verified_locks.json:"
+            )
             for slug, desc in reconcile_changes:
                 print(f"  {slug}: {desc}")
-            print(f"\n{len(reconcile_changes)} drifting row(s). "
-                  "Run `python scripts/pb_tier_classify.py` to reconcile.")
+            print(
+                f"\n{len(reconcile_changes)} drifting row(s). "
+                "Run `python scripts/pb_tier_classify.py` to reconcile."
+            )
             sys.exit(1)
-        print("Guard OK: every lock row matches its locked archive + "
-              "verified_locks.json (0 drift).")
+        print(
+            "Guard OK: every lock row matches its locked archive + verified_locks.json (0 drift)."
+        )
         sys.exit(0)
 
     if reconcile_changes and (args.dry_run or args.report):
-        print(f"\nReconcile law — {len(reconcile_changes)} row(s) corrected from "
-              "archive/provenance:")
+        print(
+            f"\nReconcile law — {len(reconcile_changes)} row(s) corrected from archive/provenance:"
+        )
         for slug, desc in reconcile_changes:
             print(f"  {slug}: {desc}")
 
     from collections import Counter
+
     tier_counts: Counter[str] = Counter()
     bucket_counts: Counter[str] = Counter()
     changed = 0
@@ -371,7 +410,9 @@ def main() -> None:
             changed += 1
             if args.dry_run:
                 slug = entry.get("slug", "?")
-                print(f"  {slug}: tier {old_tier!r} -> {tier!r}, bucket {old_bucket!r} -> {bucket!r}")
+                print(
+                    f"  {slug}: tier {old_tier!r} -> {tier!r}, bucket {old_bucket!r} -> {bucket!r}"
+                )
 
         entry["tier"] = tier
         if bucket is not None:
@@ -383,8 +424,7 @@ def main() -> None:
         bucket_counts[bucket or tier] += 1
 
     if args.report or args.dry_run:
-        canonical = [e for e in entries
-                     if not e.get("alias_of") and not e.get("canonical_slug")]
+        canonical = [e for e in entries if not e.get("alias_of") and not e.get("canonical_slug")]
         print(f"\nTier distribution ({len(canonical)} canonical rows):")
         print(f"  T1 strict_lock:       {tier_counts['strict_lock']}")
         print(f"  T2 ceiling_certified: {tier_counts['ceiling_certified']}")

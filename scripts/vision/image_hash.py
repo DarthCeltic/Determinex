@@ -1,14 +1,15 @@
 """Perceptual and cryptographic hashing for visual comparison."""
+
 from __future__ import annotations
 
 import hashlib
 import logging
-import struct
 
 log = logging.getLogger(__name__)
 
 try:
     from PIL import Image
+
     _PIL_AVAILABLE = True
 except ImportError:
     _PIL_AVAILABLE = False
@@ -28,7 +29,7 @@ def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def average_hash(img: "Image.Image", size: int = 8) -> str:
+def average_hash(img: Image.Image, size: int = 8) -> str:
     """Simple average hash (aHash) — fast perceptual similarity."""
     if not _PIL_AVAILABLE:
         return ""
@@ -39,7 +40,7 @@ def average_hash(img: "Image.Image", size: int = 8) -> str:
     return format(int(bits, 2), "016x")
 
 
-def difference_hash(img: "Image.Image", size: int = 8) -> str:
+def difference_hash(img: Image.Image, size: int = 8) -> str:
     """dHash — horizontal gradient hash, more robust than aHash."""
     if not _PIL_AVAILABLE:
         return ""
@@ -48,7 +49,9 @@ def difference_hash(img: "Image.Image", size: int = 8) -> str:
     bits = ""
     for row in range(size):
         for col in range(size):
-            bits += "1" if pixels[row * (size + 1) + col] > pixels[row * (size + 1) + col + 1] else "0"
+            bits += (
+                "1" if pixels[row * (size + 1) + col] > pixels[row * (size + 1) + col + 1] else "0"
+            )
     return format(int(bits, 2), "016x")
 
 

@@ -26,52 +26,90 @@ to the model solve-loop (generate -> re-eval -> keep-if-better -> iterate), whos
 verified outputs are themselves captured as training pairs. Nothing is "unfixable";
 it is either a known transform or a solve-loop target.
 """
+
 from __future__ import annotations
 
 import json
 import re
 import time
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-BEHAVIORAL_CORPUS = REPO / "corpus" / "programbench" / "training_corpus" / "pb_behavioral_corpus.jsonl"
+BEHAVIORAL_CORPUS = (
+    REPO / "corpus" / "programbench" / "training_corpus" / "pb_behavioral_corpus.jsonl"
+)
 
 
 class DiffKind(str, Enum):
-    TTY_RENDER = "tty-render"        # a *_tty test got non-TTY output -> needs a PTY
-    OUTPUT_MODE = "output-mode"      # json<->text<->table: wrong renderer selected
-    ANSI_COLOR = "ansi-color"        # color codes present/absent/differ
-    WHITESPACE = "whitespace"        # trailing/padding/tab/newline only
-    DATETIME = "datetime"            # a date/time/duration in the output
+    TTY_RENDER = "tty-render"  # a *_tty test got non-TTY output -> needs a PTY
+    OUTPUT_MODE = "output-mode"  # json<->text<->table: wrong renderer selected
+    ANSI_COLOR = "ansi-color"  # color codes present/absent/differ
+    WHITESPACE = "whitespace"  # trailing/padding/tab/newline only
+    DATETIME = "datetime"  # a date/time/duration in the output
     VERSION_BUILD = "version-build"  # version string / build hash / build date
-    PATH_TMP = "path-tmp"            # absolute/temp paths (/tmp/pytest-*, cwd)
-    EXIT_CODE = "exit-code"          # return code mismatch
-    ORDERING = "ordering"            # same lines, different order
-    NUMERIC = "numeric"              # a count/size/number differs
-    SEMANTIC = "semantic"            # genuinely different content -> solve-loop
+    PATH_TMP = "path-tmp"  # absolute/temp paths (/tmp/pytest-*, cwd)
+    EXIT_CODE = "exit-code"  # return code mismatch
+    ORDERING = "ordering"  # same lines, different order
+    NUMERIC = "numeric"  # a count/size/number differs
+    SEMANTIC = "semantic"  # genuinely different content -> solve-loop
 
 
 # remediation TYPE per kind: 'normalizer' (conftest post-proc, codegen here),
 # 'route' (env/arg/TERM or PYTEST_CURRENT_TEST), 'clock-route' (pattern 6),
 # 'solve-loop' (model-generated fix, verified by re-eval).
 _TECHNIQUE = {
-    DiffKind.TTY_RENDER:    ("pty-allocate", "A *_tty test got non-TTY output (e.g. JSON/plain instead of the rendered TTY view). Run the binary under an allocated PTY (openpty / `script -qec` / the tool's tty-detect path) so it enters interactive/render mode; pair with any screen-dump flag."),
-    DiffKind.WHITESPACE:    ("normalizer", "Conftest stdout post-processor: normalize trailing/edge whitespace, tabs->spaces, CRLF->LF before compare."),
-    DiffKind.PATH_TMP:      ("normalizer", "Conftest post-processor: rewrite volatile abs/temp paths (/tmp/pytest-*, cwd, $HOME) to the golden's stable placeholder."),
-    DiffKind.VERSION_BUILD: ("route", "Pin/route the version/build string: replace the live version/hash/build-date with the golden's via conftest, or PYTEST_CURRENT_TEST routing (svd2rust/genact pattern)."),
-    DiffKind.ANSI_COLOR:    ("route", "Select the color mode the golden used: set TERM/COLORTERM/CLICOLOR(_FORCE)/NO_COLOR, or strip/add ANSI in a conftest post-processor to match."),
-    DiffKind.OUTPUT_MODE:   ("route", "Select the renderer the golden used: pass the mode flag (--json/--no-json/--plain) or env the binary keys on; route per-test if branches disagree."),
-    DiffKind.DATETIME:      ("clock-route", "Date/time in output -> clock-route (pattern 6): per-test DETERMINEX_FAKE_NOW for hardcoded dates, real clock for dynamic/uniqueness."),
-    DiffKind.EXIT_CODE:     ("route", "Exit-code mismatch: justify via environment (the binary's real code under the reference env) before any wrapper remap; otherwise behavioral -> solve-loop."),
-    DiffKind.ORDERING:      ("solve-loop", "Same content, different order -> deterministic-ordering fix in the binary/source or a stable sort in a post-processor; propose + re-eval."),
-    DiffKind.NUMERIC:       ("solve-loop", "A count/size differs -> root-cause in logic; model proposes a fix, gated by re-eval."),
-    DiffKind.SEMANTIC:      ("solve-loop", "Genuinely different content -> model proposes a source/conftest fix, verified by the Oracle, iterate; capture the winning pair."),
+    DiffKind.TTY_RENDER: (
+        "pty-allocate",
+        "A *_tty test got non-TTY output (e.g. JSON/plain instead of the rendered TTY view). Run the binary under an allocated PTY (openpty / `script -qec` / the tool's tty-detect path) so it enters interactive/render mode; pair with any screen-dump flag.",
+    ),
+    DiffKind.WHITESPACE: (
+        "normalizer",
+        "Conftest stdout post-processor: normalize trailing/edge whitespace, tabs->spaces, CRLF->LF before compare.",
+    ),
+    DiffKind.PATH_TMP: (
+        "normalizer",
+        "Conftest post-processor: rewrite volatile abs/temp paths (/tmp/pytest-*, cwd, $HOME) to the golden's stable placeholder.",
+    ),
+    DiffKind.VERSION_BUILD: (
+        "route",
+        "Pin/route the version/build string: replace the live version/hash/build-date with the golden's via conftest, or PYTEST_CURRENT_TEST routing (svd2rust/genact pattern).",
+    ),
+    DiffKind.ANSI_COLOR: (
+        "route",
+        "Select the color mode the golden used: set TERM/COLORTERM/CLICOLOR(_FORCE)/NO_COLOR, or strip/add ANSI in a conftest post-processor to match.",
+    ),
+    DiffKind.OUTPUT_MODE: (
+        "route",
+        "Select the renderer the golden used: pass the mode flag (--json/--no-json/--plain) or env the binary keys on; route per-test if branches disagree.",
+    ),
+    DiffKind.DATETIME: (
+        "clock-route",
+        "Date/time in output -> clock-route (pattern 6): per-test DETERMINEX_FAKE_NOW for hardcoded dates, real clock for dynamic/uniqueness.",
+    ),
+    DiffKind.EXIT_CODE: (
+        "route",
+        "Exit-code mismatch: justify via environment (the binary's real code under the reference env) before any wrapper remap; otherwise behavioral -> solve-loop.",
+    ),
+    DiffKind.ORDERING: (
+        "solve-loop",
+        "Same content, different order -> deterministic-ordering fix in the binary/source or a stable sort in a post-processor; propose + re-eval.",
+    ),
+    DiffKind.NUMERIC: (
+        "solve-loop",
+        "A count/size differs -> root-cause in logic; model proposes a fix, gated by re-eval.",
+    ),
+    DiffKind.SEMANTIC: (
+        "solve-loop",
+        "Genuinely different content -> model proposes a source/conftest fix, verified by the Oracle, iterate; capture the winning pair.",
+    ),
 }
 
 _ANSI = re.compile(r"\x1b\[")
-_DATE = re.compile(r"\b20\d\d-\d\d-\d\d\b|\b\d{1,2}:\d{2}(:\d{2})?\b|\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b")
+_DATE = re.compile(
+    r"\b20\d\d-\d\d-\d\d\b|\b\d{1,2}:\d{2}(:\d{2})?\b|\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b"
+)
 _VERSION = re.compile(r"\bv?\d+\.\d+\.\d+\b|\b[0-9a-f]{7,40}\b|build|commit|GMT|UTC \d{4}")
 _PATH = re.compile(r"/tmp/|/pytest-|/private/var|[A-Za-z]:\\\\|/home/|/root/|/workspace/")
 _JSON = re.compile(r'^\s*[\[{]\s*"|"\w+":\s')
@@ -95,8 +133,9 @@ def _is_tty_test_name(name: str) -> bool:
     return bool(_TTY_POS.search(name))
 
 
-def classify_diff(expected: str | None, actual: str | None,
-                  exit_mismatch: bool = False, test_name: str = "") -> DiffKind:
+def classify_diff(
+    expected: str | None, actual: str | None, exit_mismatch: bool = False, test_name: str = ""
+) -> DiffKind:
     """Name the KIND of behavioral difference between expected and actual output."""
     if exit_mismatch:
         return DiffKind.EXIT_CODE
@@ -108,7 +147,8 @@ def classify_diff(expected: str | None, actual: str | None,
     # fire for an affirmative TTY token, with explicit negatives excluded. (`render`
     # dropped entirely -- test_display_rendering is non-TTY.)
     if _is_tty_test_name(test_name) and (
-            bool(_JSON.search(a)) or (e and a and _strip_ansi(e) != _strip_ansi(a))):
+        bool(_JSON.search(a)) or (e and a and _strip_ansi(e) != _strip_ansi(a))
+    ):
         return DiffKind.TTY_RENDER
     # output-mode: one side is JSON, the other is not
     if bool(_JSON.search(e)) != bool(_JSON.search(a)):
@@ -153,12 +193,14 @@ _NORMALIZERS = {
     DiffKind.WHITESPACE: (
         "def _norm(s):\n"
         "    import re\n"
-        "    return re.sub(r'[ \\t]+$', '', s, flags=re.M).replace('\\r\\n','\\n')"),
+        "    return re.sub(r'[ \\t]+$', '', s, flags=re.M).replace('\\r\\n','\\n')"
+    ),
     DiffKind.PATH_TMP: (
         "def _norm(s):\n"
         "    import re\n"
         "    s = re.sub(r'/tmp/pytest-[^/\\s]+', '/tmp/pytest', s)\n"
-        "    return re.sub(r'/tmp/[A-Za-z0-9_]+/', '/tmp/X/', s)"),
+        "    return re.sub(r'/tmp/[A-Za-z0-9_]+/', '/tmp/X/', s)"
+    ),
 }
 
 
@@ -175,13 +217,13 @@ def propose_normalizer(kind: DiffKind) -> str | None:
 class BehavioralPair:
     tool: str
     test_id: str
-    invocation: str          # how the binary was called (argv), if known
-    expected: str            # golden (truncated)
-    actual: str              # observed (truncated)
+    invocation: str  # how the binary was called (argv), if known
+    expected: str  # golden (truncated)
+    actual: str  # observed (truncated)
     diff_kind: str
-    technique: str           # normalizer | route | clock-route | solve-loop
-    transform: str           # the applied fix (snippet / env / flag), if any
-    verdict: str             # 'resolved' | 'improved' | 'no-change' | 'regressed'
+    technique: str  # normalizer | route | clock-route | solve-loop
+    transform: str  # the applied fix (snippet / env / flag), if any
+    verdict: str  # 'resolved' | 'improved' | 'no-change' | 'regressed'
     score_before: float | None = None
     score_after: float | None = None
     ts: float = 0.0
@@ -199,12 +241,14 @@ def capture_training_pair(p: BehavioralPair) -> None:
     rec = asdict(p)
     try:
         import sys as _s
+
         _s.path.insert(0, str(Path(__file__).resolve().parent))
         from determinex_pb_integrity import legitimacy_class, quarantine
+
         v = legitimacy_class(p.technique, p.transform)
         rec["legitimacy"] = v.legitimacy
         if not v.train:
-            quarantine(rec, v.reason)         # RED -> quarantine, never train
+            quarantine(rec, v.reason)  # RED -> quarantine, never train
             return
     except Exception:
         rec["legitimacy"] = "UNVERIFIED"
@@ -218,7 +262,8 @@ def capture_training_pair(p: BehavioralPair) -> None:
 # sub-buckets with their technique -- the behavioral analog of the structural sweep.
 # ---------------------------------------------------------------------------
 def classify_eval_report(path: Path) -> dict:
-    from collections import Counter, defaultdict
+    from collections import defaultdict
+
     data = json.loads(path.read_text(encoding="utf-8"))
     results = data.get("test_results", data if isinstance(data, list) else [])
     buckets: dict[str, list] = defaultdict(list)
@@ -229,33 +274,38 @@ def classify_eval_report(path: Path) -> dict:
         txt = (ex.get("text", "") if isinstance(ex, dict) else "") or t.get("message", "")
         exp, act = _extract_expected_actual(txt)
         name = t.get("name", "")
-        exit_mismatch = bool(re.search(r"returncode\s*==|assert\s+\d+\s*==\s*\d+", txt)) and not (exp or act)
+        exit_mismatch = bool(re.search(r"returncode\s*==|assert\s+\d+\s*==\s*\d+", txt)) and not (
+            exp or act
+        )
         kind = classify_diff(exp, act, exit_mismatch, test_name=name)
         buckets[kind.value].append(name)
     summary = {k: len(v) for k, v in buckets.items()}
-    return {"path": str(path), "counts": summary,
-            "techniques": {k: _TECHNIQUE[DiffKind(k)][0] for k in summary},
-            "examples": {k: v[:3] for k, v in buckets.items()}}
+    return {
+        "path": str(path),
+        "counts": summary,
+        "techniques": {k: _TECHNIQUE[DiffKind(k)][0] for k in summary},
+        "examples": {k: v[:3] for k, v in buckets.items()},
+    }
 
 
 def _extract_expected_actual(text: str) -> tuple[str | None, str | None]:
     # Prefer pytest's EVALUATED assertion lines ("E   assert <a> == <b>" /
     # "E   AssertionError: assert <a> in <b>") over the raw source `assert` line,
     # because the evaluated line carries the real observed values.
-    elines = "\n".join(L[2:] if L.startswith("E ") else ""
-                       for L in text.splitlines())
+    elines = "\n".join(L[2:] if L.startswith("E ") else "" for L in text.splitlines())
     for body in (elines, text):
         m = re.search(r"assert\s+(.+?)\s+==\s+(.+?)(?:\n|$)", body, re.DOTALL)
         if m:
-            return m.group(2).strip(), m.group(1).strip()      # expected, actual
+            return m.group(2).strip(), m.group(1).strip()  # expected, actual
         m = re.search(r"assert\s+(.+?)\s+in\s+(.+?)(?:\n|$)", body, re.DOTALL)
         if m:
-            return m.group(1).strip(), m.group(2).strip()      # expected=needle, actual=haystack
+            return m.group(1).strip(), m.group(2).strip()  # expected=needle, actual=haystack
     return None, None
 
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex behavioral remediation classifier")
     sub = ap.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("classify", help="bucket behavioral failures in an eval_report by diff-kind")
@@ -275,4 +325,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

@@ -18,6 +18,7 @@ spec. No new observation logic. Stateful/fixture-file tests (argv references a f
 probe doesn't stage) are marked ref_unobserved -- the enricher never guesses, only records
 what the reference actually produced (sound: no slop).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -37,7 +38,9 @@ def resolve_image(slug: str, pull: bool = True) -> str | None:
     """The tool's :task reference image. Canonical name (PB convention:
     programbench/<owner>_1776_<repo>.<hash>:task). Pull on demand if not local."""
     img = f"programbench/{slug.replace('__', '_1776_')}:task"
-    if subprocess.run(["docker", "images", "-q", img], capture_output=True, text=True).stdout.strip():
+    if subprocess.run(
+        ["docker", "images", "-q", img], capture_output=True, text=True
+    ).stdout.strip():
         return img
     if pull:
         print(f"[enrich] pulling reference image {img} ...")
@@ -50,8 +53,12 @@ def resolve_image(slug: str, pull: bool = True) -> str | None:
 
 def _clean_argv(argv: list) -> list:
     argv = list(argv or [])
-    if argv and (argv[0].endswith("executable") or argv[0].endswith(".py")
-                 or "/" in argv[0] or argv[0] in ("executable", "./executable")):
+    if argv and (
+        argv[0].endswith("executable")
+        or argv[0].endswith(".py")
+        or "/" in argv[0]
+        or argv[0] in ("executable", "./executable")
+    ):
         return argv[1:]
     return argv
 
@@ -72,24 +79,35 @@ def enrich(slug: str, timeout: int = 20) -> dict:
     probes: list = []
     for i, ex in enumerate(spec["examples"]):
         argv = _clean_argv(ex.get("argv"))
-        key = (tuple(argv), ex.get("stdin"), tuple(sorted((ex.get("env") or {}).items())),
-               tuple(sorted((ex.get("files") or {}).items())))
+        key = (
+            tuple(argv),
+            ex.get("stdin"),
+            tuple(sorted((ex.get("env") or {}).items())),
+            tuple(sorted((ex.get("files") or {}).items())),
+        )
         if key in seen:
             ex["_probe"] = seen[key]
             continue
         name = f"ex{i}"
         seen[key] = name
         ex["_probe"] = name
-        probes.append(OBS.Probe(name=name, argv=list(argv), stdin=ex.get("stdin"),
-                                env=ex.get("env") or {}, files=ex.get("files") or {}))
+        probes.append(
+            OBS.Probe(
+                name=name,
+                argv=list(argv),
+                stdin=ex.get("stdin"),
+                env=ex.get("env") or {},
+                files=ex.get("files") or {},
+            )
+        )
 
     print(f"[enrich] {len(probes)} distinct invocations -> running reference in image...")
     obs = OBS.observe_in_image(img, "/workspace/executable", probes, timeout=timeout)
     by = {o.probe.name: o for o in obs}
 
     n_ref = 0
-    n_match = 0          # reference agrees with io_extractor's literal (sanity)
-    n_filled = 0         # io_extractor had no expected; reference filled it
+    n_match = 0  # reference agrees with io_extractor's literal (sanity)
+    n_filled = 0  # io_extractor had no expected; reference filled it
     for ex in spec["examples"]:
         o = by.get(ex.pop("_probe", None))
         if not o:
@@ -108,8 +126,10 @@ def enrich(slug: str, timeout: int = 20) -> dict:
     spec["n_reference_enriched"] = n_ref
     spec["reference_image"] = img
     specp.write_text(json.dumps(spec, indent=1, ensure_ascii=False), encoding="utf-8")
-    print(f"[enrich] DONE  {n_ref}/{len(spec['examples'])} examples now carry EXACT reference I/O "
-          f"(filled {n_filled} previously-empty; {n_match} literal-asserts confirmed) -> {specp}")
+    print(
+        f"[enrich] DONE  {n_ref}/{len(spec['examples'])} examples now carry EXACT reference I/O "
+        f"(filled {n_filled} previously-empty; {n_match} literal-asserts confirmed) -> {specp}"
+    )
     return {"slug": slug, "enriched": n_ref, "filled": n_filled, "confirmed": n_match}
 
 

@@ -15,16 +15,17 @@ Output:
   logs/full_sweep/run_<ts>/results.json
   logs/full_sweep/run_<ts>/<slug>/{prompt.txt, raw_response.txt, main.py, mini_eval.txt}
 """
+
 from __future__ import annotations
+
 import json
-import os
 import re
 import subprocess
 import sys
 import time
 import urllib.request
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -40,7 +41,7 @@ EMBED_MODEL = "nomic-embed-text:latest"
 OLLAMA_URL = "http://localhost:11434"
 PG_DSN = "postgresql://determinex:determinex@localhost:5432/determinex"
 
-USE_RAG = True   # cross-tool RAG retrieval — proved to help Observer-3B (dutree sim=0.984)
+USE_RAG = True  # cross-tool RAG retrieval — proved to help Observer-3B (dutree sim=0.984)
 RAG_K = 3
 
 MIN_FREE_RAM_GB = 1.5
@@ -52,12 +53,13 @@ MINI_EVAL_TIMEOUT_S = 120
 # Iteration: try up to MAX_ATTEMPTS per tool, feeding first-attempt errors into retry.
 # Skip iteration if attempt 1 already wins OR scored too low to recover.
 MAX_ATTEMPTS = 2
-RETRY_MIN_SCORE_PCT = 5.0     # if attempt 1 < 5%, iteration unlikely to help — skip
-RETRY_ONLY_IF_NEAR = True     # only iterate when attempt 1 within 25pp of baseline
+RETRY_MIN_SCORE_PCT = 5.0  # if attempt 1 < 5%, iteration unlikely to help — skip
+RETRY_ONLY_IF_NEAR = True  # only iterate when attempt 1 within 25pp of baseline
 
 
 def hw_check() -> tuple[bool, str]:
     import psutil
+
     m = psutil.virtual_memory()
     free_gb = m.available / 1e9
     if free_gb < MIN_FREE_RAM_GB:
@@ -65,7 +67,9 @@ def hw_check() -> tuple[bool, str]:
     try:
         r = subprocess.run(
             ["nvidia-smi", "--query-gpu=temperature.gpu", "--format=csv,noheader"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         temp = int(r.stdout.strip().split()[0])
         if temp > MAX_GPU_TEMP_C:
@@ -115,8 +119,11 @@ def find_extracted_branches(slug: str) -> list[Path]:
 def rag_embed(text: str) -> list[float] | None:
     try:
         payload = json.dumps({"model": "nomic-embed-text:latest", "prompt": text[:3000]}).encode()
-        req = urllib.request.Request(f"{OLLAMA_URL}/api/embeddings",
-                                       data=payload, headers={"Content-Type": "application/json"})
+        req = urllib.request.Request(
+            f"{OLLAMA_URL}/api/embeddings",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+        )
         with urllib.request.urlopen(req, timeout=30) as r:
             return json.loads(r.read())["embedding"]
     except Exception as e:
@@ -137,38 +144,47 @@ def rag_retrieve(slug: str, query_text: str, k: int = 3) -> list[dict]:
         return []
     try:
         import psycopg
+
         conn = psycopg.connect(PG_DSN, autocommit=True)
         cur = conn.cursor()
         # Same-tool first
-        cur.execute("""
+        cur.execute(
+            """
             SELECT meta, text, 1 - (embedding <=> %s::vector) AS sim
             FROM rag_chunks
             WHERE corpus='programbench' AND source_path = %s
             ORDER BY embedding <=> %s::vector
             LIMIT %s
-        """, (qemb, slug, qemb, k))
+        """,
+            (qemb, slug, qemb, k),
+        )
         rows = list(cur.fetchall())
         # If fewer than k, fill from cross-tool
         if len(rows) < k:
-            cur.execute("""
+            cur.execute(
+                """
                 SELECT meta, text, 1 - (embedding <=> %s::vector) AS sim
                 FROM rag_chunks
                 WHERE corpus='programbench' AND source_path != %s
                 ORDER BY embedding <=> %s::vector
                 LIMIT %s
-            """, (qemb, slug, qemb, k - len(rows)))
+            """,
+                (qemb, slug, qemb, k - len(rows)),
+            )
             rows.extend(cur.fetchall())
         conn.close()
         out = []
         for meta, text, sim in rows:
             m = meta if isinstance(meta, dict) else json.loads(meta)
-            out.append({
-                "sim": float(sim),
-                "tool_slug": m.get("tool_slug", ""),
-                "test_name": m.get("test_name", ""),
-                "example_type": m.get("example_type", ""),
-                "assistant_content": m.get("assistant_content", "")[:1500],
-            })
+            out.append(
+                {
+                    "sim": float(sim),
+                    "tool_slug": m.get("tool_slug", ""),
+                    "test_name": m.get("test_name", ""),
+                    "example_type": m.get("example_type", ""),
+                    "assistant_content": m.get("assistant_content", "")[:1500],
+                }
+            )
         return out
     except Exception as e:
         sys.stderr.write(f"[rag retrieve fail: {e}]\n")
@@ -199,7 +215,13 @@ def inject_rag_into_prompt(base_prompt: str, retrieved: list[dict]) -> str:
         idx = after.find("===")  # find end of that line
         if idx >= 0:
             line_end = after.find("\n", idx)
-            return before + "=== END EXAMPLE" + after[:line_end+1] + "\n".join(rag_block) + after[line_end+1:]
+            return (
+                before
+                + "=== END EXAMPLE"
+                + after[: line_end + 1]
+                + "\n".join(rag_block)
+                + after[line_end + 1 :]
+            )
     return base_prompt + "\n" + "\n".join(rag_block)
 
 
@@ -218,19 +240,21 @@ def call_model(prompt: str) -> tuple[str, float]:
     Using the HTTP API directly returns pure model output with no decoration.
     """
     t0 = time.time()
-    payload = json.dumps({
-        "model": MODEL,
-        "prompt": prompt,
-        "stream": False,
-        "options": {
-            "num_ctx": 8192,
-            "num_predict": 4096,
-            "temperature": 0.2,
-            "top_p": 0.9,
-            "repeat_penalty": 1.18,
-            "repeat_last_n": 256,
-        },
-    }).encode("utf-8")
+    payload = json.dumps(
+        {
+            "model": MODEL,
+            "prompt": prompt,
+            "stream": False,
+            "options": {
+                "num_ctx": 8192,
+                "num_predict": 4096,
+                "temperature": 0.2,
+                "top_p": 0.9,
+                "repeat_penalty": 1.18,
+                "repeat_last_n": 256,
+            },
+        }
+    ).encode("utf-8")
     req = urllib.request.Request(
         f"{OLLAMA_URL}/api/generate",
         data=payload,
@@ -291,7 +315,7 @@ def extract_python(s: str) -> str | None:
         idx = s.find("import")
         body = s[idx:].strip()
         if "sys.exit(main())" in body:
-            body = body[:body.rindex("sys.exit(main())") + len("sys.exit(main())")]
+            body = body[: body.rindex("sys.exit(main())") + len("sys.exit(main())")]
         return body
     return None
 
@@ -305,8 +329,18 @@ def syntactic_validity(code: str) -> tuple[bool, str]:
         return False, f"SyntaxError: {e.msg} (line {e.lineno})"
 
 
-_EXE_VAR_NAMES = ("EXECUTABLE", "EXE", "BINARY", "EXEC", "EXEPATH",
-                  "EXECUTABLE_PATH", "BIN", "CLI", "CLI_PATH", "PROGRAM")
+_EXE_VAR_NAMES = (
+    "EXECUTABLE",
+    "EXE",
+    "BINARY",
+    "EXEC",
+    "EXEPATH",
+    "EXECUTABLE_PATH",
+    "BIN",
+    "CLI",
+    "CLI_PATH",
+    "PROGRAM",
+)
 
 
 def _patch_runner(path: Path, candidate: Path) -> str | None:
@@ -417,8 +451,9 @@ def mini_eval(candidate: Path, branches: list[Path]) -> tuple[int, int, list[str
         had_exe = exe_shim.exists()
         if not had_exe:
             try:
-                exe_shim.write_text(candidate.read_text(encoding="utf-8"),
-                                    encoding="utf-8", newline="\n")
+                exe_shim.write_text(
+                    candidate.read_text(encoding="utf-8"), encoding="utf-8", newline="\n"
+                )
             except Exception:
                 pass
         if not originals:
@@ -428,9 +463,20 @@ def mini_eval(candidate: Path, branches: list[Path]) -> tuple[int, int, list[str
             errors.append(f"{branch.name}: no patchable runner; trying raw")
         try:
             r = subprocess.run(
-                [sys.executable, "-m", "pytest", str(tests_dir),
-                 "-q", "--tb=no", "--no-header", "-p", "no:cacheprovider"],
-                capture_output=True, encoding="utf-8", errors="replace",
+                [
+                    sys.executable,
+                    "-m",
+                    "pytest",
+                    str(tests_dir),
+                    "-q",
+                    "--tb=no",
+                    "--no-header",
+                    "-p",
+                    "no:cacheprovider",
+                ],
+                capture_output=True,
+                encoding="utf-8",
+                errors="replace",
                 timeout=MINI_EVAL_TIMEOUT_S,
             )
             out = (r.stdout or "") + (r.stderr or "")
@@ -456,10 +502,13 @@ def mini_eval(candidate: Path, branches: list[Path]) -> tuple[int, int, list[str
     return passed_total, total, errors
 
 
-def build_retry_prompt(tool_name: str, prev_code: str, errors: list[str],
-                        prev_score: float, baseline: float) -> str:
+def build_retry_prompt(
+    tool_name: str, prev_code: str, errors: list[str], prev_score: float, baseline: float
+) -> str:
     """Build a fix-it prompt: prev attempt + error messages + ask for correction."""
-    err_block = "\n".join(f"  - {e}" for e in errors[:5]) if errors else "  (no error detail captured)"
+    err_block = (
+        "\n".join(f"  - {e}" for e in errors[:5]) if errors else "  (no error detail captured)"
+    )
     return (
         f"Your previous Python `main.py` for the CLI tool `{tool_name}` scored "
         f"{prev_score:.1f}% on the test suite (baseline to beat: {baseline:.1f}%). "
@@ -473,8 +522,9 @@ def build_retry_prompt(tool_name: str, prev_code: str, errors: list[str],
     )
 
 
-def _generate_and_eval(slug: str, candidate_dir: Path, branches: list[Path],
-                        prompt: str, attempt: int, log) -> tuple[dict, str | None, list[str]]:
+def _generate_and_eval(
+    slug: str, candidate_dir: Path, branches: list[Path], prompt: str, attempt: int, log
+) -> tuple[dict, str | None, list[str]]:
     """One attempt: gen code, write candidate, mini-eval. Returns (result_dict, code_text, errors)."""
     suffix = f"_attempt{attempt}" if attempt > 1 else ""
     (candidate_dir / f"prompt{suffix}.txt").write_text(prompt, encoding="utf-8")
@@ -506,9 +556,16 @@ def _generate_and_eval(slug: str, candidate_dir: Path, branches: list[Path],
     log.write(f"  [att{attempt}] mini-eval: {passed}/{total} = {pct:.1f}%\n")
     if errors:
         log.write(f"  [att{attempt}] first err: {errors[0][:120]}\n")
-    return ({
-        "passed": passed, "total": total, "pct": pct, "errors": errors[:3],
-    }, code, errors)
+    return (
+        {
+            "passed": passed,
+            "total": total,
+            "pct": pct,
+            "errors": errors[:3],
+        },
+        code,
+        errors,
+    )
 
 
 def process_one(slug: str, baseline: float, log) -> dict:
@@ -516,7 +573,7 @@ def process_one(slug: str, baseline: float, log) -> dict:
     log.flush()
     branches = find_extracted_branches(slug)
     if not branches:
-        log.write(f"  SKIP — no extracted_tests\n")
+        log.write("  SKIP — no extracted_tests\n")
         return {"slug": slug, "baseline": baseline, "skipped": "no extracted_tests"}
     tool_name = slug.split("__", 1)[-1].split(".", 1)[0]
     tests_dir = branches[0] / "eval/tests"
@@ -529,7 +586,9 @@ def process_one(slug: str, baseline: float, log) -> dict:
     if USE_RAG:
         retrieved = rag_retrieve(slug, prompt, k=RAG_K)
         if retrieved:
-            log.write(f"  [rag] {len(retrieved)} refs (sims: {[round(r['sim'],2) for r in retrieved]})\n")
+            log.write(
+                f"  [rag] {len(retrieved)} refs (sims: {[round(r['sim'], 2) for r in retrieved]})\n"
+            )
             prompt = inject_rag_into_prompt(prompt, retrieved)
 
     # Prime with the EXISTING override (if any) so the model starts at the
@@ -577,15 +636,21 @@ def process_one(slug: str, baseline: float, log) -> dict:
     if "skipped" in res1:
         return {"slug": slug, "baseline": baseline, **res1}
 
-    best = {"passed": res1["passed"], "total": res1["total"], "pct": res1["pct"],
-            "errors": res1["errors"], "attempt": 1, "code": code1}
+    best = {
+        "passed": res1["passed"],
+        "total": res1["total"],
+        "pct": res1["pct"],
+        "errors": res1["errors"],
+        "attempt": 1,
+        "code": code1,
+    }
     delta1 = res1["pct"] - baseline
 
     # Decide whether to iterate
     do_retry = (
         MAX_ATTEMPTS >= 2
-        and delta1 <= 0                                 # not already a win
-        and res1["pct"] >= RETRY_MIN_SCORE_PCT          # not a total wash
+        and delta1 <= 0  # not already a win
+        and res1["pct"] >= RETRY_MIN_SCORE_PCT  # not a total wash
         and (not RETRY_ONLY_IF_NEAR or delta1 >= -25.0)  # within 25pp of baseline
     )
     if do_retry:
@@ -594,17 +659,25 @@ def process_one(slug: str, baseline: float, log) -> dict:
         log.write(f"  [att2] iterating — retry prompt {len(retry_prompt)} chars\n")
         res2, code2, errs2 = _generate_and_eval(slug, candidate_dir, branches, retry_prompt, 2, log)
         if "skipped" not in res2 and res2["pct"] > best["pct"]:
-            best = {"passed": res2["passed"], "total": res2["total"], "pct": res2["pct"],
-                    "errors": res2["errors"], "attempt": 2, "code": code2}
+            best = {
+                "passed": res2["passed"],
+                "total": res2["total"],
+                "pct": res2["pct"],
+                "errors": res2["errors"],
+                "attempt": 2,
+                "code": code2,
+            }
             log.write(f"  [att2] LIFT: {res1['pct']:.1f}% → {res2['pct']:.1f}%\n")
         else:
-            log.write(f"  [att2] no improvement\n")
+            log.write("  [att2] no improvement\n")
     else:
         log.write(f"  no retry (Δ1={delta1:+.2f}pp, pct={res1['pct']:.1f}%)\n")
 
     # Save best
     final_delta = best["pct"] - baseline
-    log.write(f"  FINAL: {best['passed']}/{best['total']} = {best['pct']:.1f}% (att{best['attempt']})  Δ={final_delta:+.2f}pp\n")
+    log.write(
+        f"  FINAL: {best['passed']}/{best['total']} = {best['pct']:.1f}% (att{best['attempt']})  Δ={final_delta:+.2f}pp\n"
+    )
     # Overwrite main.py with best variant
     (candidate_dir / "main.py").write_text(best["code"], encoding="utf-8", newline="\n")
     (candidate_dir / "mini_eval.txt").write_text(
@@ -614,9 +687,12 @@ def process_one(slug: str, baseline: float, log) -> dict:
         encoding="utf-8",
     )
     return {
-        "slug": slug, "baseline": baseline,
-        "candidate_passed": best["passed"], "candidate_total": best["total"],
-        "candidate_score": best["pct"], "delta": final_delta,
+        "slug": slug,
+        "baseline": baseline,
+        "candidate_passed": best["passed"],
+        "candidate_total": best["total"],
+        "candidate_score": best["pct"],
+        "delta": final_delta,
         "best_attempt": best["attempt"],
         "errors": best["errors"][:2],
     }
@@ -650,7 +726,8 @@ def main():
             r = process_one(slug, baseline, log)
             results.append(r)
             (OUT / "results.json").write_text(
-                json.dumps(results, indent=2, default=str), encoding="utf-8")
+                json.dumps(results, indent=2, default=str), encoding="utf-8"
+            )
         except KeyboardInterrupt:
             log.write("\nInterrupted by user.\n")
             break
@@ -658,7 +735,8 @@ def main():
             log.write(f"  [EXCEPTION] {type(e).__name__}: {e}\n")
             results.append({"slug": slug, "baseline": baseline, "error": str(e)})
             (OUT / "results.json").write_text(
-                json.dumps(results, indent=2, default=str), encoding="utf-8")
+                json.dumps(results, indent=2, default=str), encoding="utf-8"
+            )
         log.write(f"  cooldown {COOLDOWN_S}s\n")
         time.sleep(COOLDOWN_S)
 
@@ -667,11 +745,15 @@ def main():
     losses = sorted([r for r in results if r.get("delta", 0) < 0], key=lambda x: x["delta"])
     skipped = [r for r in results if "skipped" in r or "error" in r]
 
-    log.write(f"\n\n========== SUMMARY ==========\n")
-    log.write(f"Total: {len(results)}  |  Wins: {len(wins)}  |  Losses: {len(losses)}  |  Skipped: {len(skipped)}\n\n")
-    log.write(f"TOP WINS:\n")
+    log.write("\n\n========== SUMMARY ==========\n")
+    log.write(
+        f"Total: {len(results)}  |  Wins: {len(wins)}  |  Losses: {len(losses)}  |  Skipped: {len(skipped)}\n\n"
+    )
+    log.write("TOP WINS:\n")
     for r in wins[:20]:
-        log.write(f"  {r['slug']:55} {r['baseline']:6.2f} → {r['candidate_score']:6.2f}  ({r['delta']:+.2f}pp)\n")
+        log.write(
+            f"  {r['slug']:55} {r['baseline']:6.2f} → {r['candidate_score']:6.2f}  ({r['delta']:+.2f}pp)\n"
+        )
     log.write(f"\nResults json: {OUT}/results.json\n")
 
 

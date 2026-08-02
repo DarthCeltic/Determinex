@@ -21,7 +21,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import json
 import os
 import sys
 import tempfile
@@ -88,12 +87,14 @@ def _build_mock_repo(tmp: Path) -> Path:
         ["git", "commit", "-m", "initial (buggy)"],
     ]:
         import subprocess
+
         subprocess.run(cmd, cwd=repo, capture_output=True, timeout=15)
 
     return repo
 
 
 # ── Mock Ollama server ────────────────────────────────────────────────────────
+
 
 def _start_mock_ollama(port: int = 19999) -> threading.Thread:
     """
@@ -103,8 +104,8 @@ def _start_mock_ollama(port: int = 19999) -> threading.Thread:
     Observer calls  → returns a JSON list of keywords / a JSON plan
     Builder calls   → returns the fixed file content
     """
-    from http.server import BaseHTTPRequestHandler, HTTPServer
     import json as _json
+    from http.server import BaseHTTPRequestHandler, HTTPServer
 
     class MockOllamaHandler(BaseHTTPRequestHandler):
         def log_message(self, *args):
@@ -147,6 +148,7 @@ def _start_mock_ollama(port: int = 19999) -> threading.Thread:
 
 # ── Assertions ────────────────────────────────────────────────────────────────
 
+
 class SmokeResult:
     def __init__(self):
         self.checks: list[tuple[str, bool, str]] = []
@@ -162,6 +164,7 @@ class SmokeResult:
 
 
 # ── Main smoke test ───────────────────────────────────────────────────────────
+
 
 def run_smoke_test(tier: str = "auto", quick: bool = False) -> bool:
     print("=" * 60)
@@ -192,7 +195,9 @@ def run_smoke_test(tier: str = "auto", quick: bool = False) -> bool:
 
     # Need to reimport after env vars set (SSRF guard runs at import time)
     import importlib
+
     import determinex_swebench_agent as _mod
+
     importlib.reload(_mod)
     DeterminexSWEAgent = _mod.DeterminexSWEAgent
     shadow_compile = _mod.shadow_compile
@@ -214,12 +219,14 @@ def run_smoke_test(tier: str = "auto", quick: bool = False) -> bool:
             f"{len(trace)} chars captured" if trace else "tests pass (no baseline failure)",
         )
 
-        print(f"\n[4/6] Hardware tier detection...")
+        print("\n[4/6] Hardware tier detection...")
         detected_tier = _detect_compute_tier()
         effective_tier = tier if tier != "auto" else detected_tier
         result.check("Tier detected", detected_tier in ("parallel", "sequential"), detected_tier)
 
-        print(f"\n[5/6] Running agent (tier={effective_tier}, regression={'on' if not quick else 'off'})...")
+        print(
+            f"\n[5/6] Running agent (tier={effective_tier}, regression={'on' if not quick else 'off'})..."
+        )
         agent = DeterminexSWEAgent()
         patch = agent.solve(
             {"problem_statement": ISSUE_TEXT, "instance_id": "smoke-001", "repo": "smoke/test"},
@@ -236,12 +243,15 @@ def run_smoke_test(tier: str = "auto", quick: bool = False) -> bool:
         os.environ["DETERMINEX_FLYWHEEL_PATH"] = str(flywheel_path)
         try:
             from determinex_flywheel import capture_successful_epoch, flywheel_status
+
             importlib.reload(sys.modules["determinex_flywheel"])
-            from determinex_flywheel import capture_successful_epoch, flywheel_status
             # The smoke test asserts the capture PATH works, so it states a verified kind
             # explicitly. capture_successful_epoch now refuses anything else, by design.
             count = capture_successful_epoch(
-                ISSUE_TEXT, patch or "---", "smoke-001", "smoke/test",
+                ISSUE_TEXT,
+                patch or "---",
+                "smoke-001",
+                "smoke/test",
                 verification="compiled+tested",
             )
             result.check("Flywheel captured entry", count >= 1, f"{count} total entries")
@@ -268,10 +278,15 @@ def run_smoke_test(tier: str = "auto", quick: bool = False) -> bool:
 
 def main():
     parser = argparse.ArgumentParser(description="Determinex SWE-bench Flow AI smoke test")
-    parser.add_argument("--tier", choices=["auto", "parallel", "sequential"], default="auto",
-                        help="Compute tier override (default: auto-detect)")
-    parser.add_argument("--quick", action="store_true",
-                        help="Skip ripple regression sweep for faster run")
+    parser.add_argument(
+        "--tier",
+        choices=["auto", "parallel", "sequential"],
+        default="auto",
+        help="Compute tier override (default: auto-detect)",
+    )
+    parser.add_argument(
+        "--quick", action="store_true", help="Skip ripple regression sweep for faster run"
+    )
     args = parser.parse_args()
     sys.exit(0 if run_smoke_test(tier=args.tier, quick=args.quick) else 1)
 

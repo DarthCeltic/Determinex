@@ -16,12 +16,13 @@ Usage:
 # Date: 2026-06-07
 # Do not edit manually — re-run pb_candidate_mine.py to regenerate
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -29,12 +30,46 @@ CANDIDATES_DIR = ROOT / "corpus" / "candidates"
 INDEX_FILE = ROOT / "corpus" / "programbench" / "eval_index.json"
 
 CLI_KEYWORDS = {
-    "cli", "command-line", "command line", "terminal", "shell", "tui",
-    "ncurses", "console", "binary", "executable", "tool", "utility",
-    "grep", "find", "search", "replace", "convert", "parse", "format",
-    "lint", "check", "watch", "run", "build", "compile", "generate",
-    "encode", "decode", "compress", "diff", "sort", "filter", "transform",
-    "monitor", "log", "pipe", "stdin", "stdout", "unix", "posix",
+    "cli",
+    "command-line",
+    "command line",
+    "terminal",
+    "shell",
+    "tui",
+    "ncurses",
+    "console",
+    "binary",
+    "executable",
+    "tool",
+    "utility",
+    "grep",
+    "find",
+    "search",
+    "replace",
+    "convert",
+    "parse",
+    "format",
+    "lint",
+    "check",
+    "watch",
+    "run",
+    "build",
+    "compile",
+    "generate",
+    "encode",
+    "decode",
+    "compress",
+    "diff",
+    "sort",
+    "filter",
+    "transform",
+    "monitor",
+    "log",
+    "pipe",
+    "stdin",
+    "stdout",
+    "unix",
+    "posix",
 }
 
 
@@ -91,14 +126,14 @@ GITHUB_MD_PATTERN = re.compile(
 # HTML anchor tags in markdown (TBSK uses these): <a href="https://github.com/owner/repo"><b>name</b></a> - desc
 GITHUB_HTML_ANCHOR = re.compile(
     r'<a\s+href=["\']https://github\.com/([^/"\'\s]+)/([^/"\'\s#?]+)[^"\']*["\']>'
-    r'(?:<[^>]+>)?([^<]+)(?:</[^>]+>)?</a>\s*[-–—]\s*([^\n<]{0,200})',
+    r"(?:<[^>]+>)?([^<]+)(?:</[^>]+>)?</a>\s*[-–—]\s*([^\n<]{0,200})",
     re.IGNORECASE,
 )
 
 # Also bare HTML anchors without description
 GITHUB_HTML_ANCHOR_BARE = re.compile(
     r'<a\s+href=["\']https://github\.com/([^/"\'\s]+)/([^/"\'\s#?]+)[^"\']*["\']>'
-    r'(?:<[^>]+>)?([^<]+)',
+    r"(?:<[^>]+>)?([^<]+)",
     re.IGNORECASE,
 )
 
@@ -118,8 +153,15 @@ def mine_markdown(path: Path) -> list[dict]:
         if key in seen:
             seen[key]["_freq"] += 1
         else:
-            seen[key] = {"name": name, "github_url": url, "owner": owner,
-                         "repo": repo, "description": desc, "_freq": 1, "_source": path.name}
+            seen[key] = {
+                "name": name,
+                "github_url": url,
+                "owner": owner,
+                "repo": repo,
+                "description": desc,
+                "_freq": 1,
+                "_source": path.name,
+            }
 
     # Standard markdown links
     for m in GITHUB_MD_PATTERN.finditer(text):
@@ -131,11 +173,18 @@ def mine_markdown(path: Path) -> list[dict]:
         if key not in seen:
             # Try to find description on same line
             pos = m.end()
-            line_rest = text[pos:pos+200].split("\n")[0]
+            line_rest = text[pos : pos + 200].split("\n")[0]
             desc_m = re.match(r"\s*[-–—]\s*(.+)", line_rest)
             desc = desc_m.group(1).strip() if desc_m else ""
-            seen[key] = {"name": name, "github_url": url, "owner": owner,
-                         "repo": repo, "description": desc, "_freq": 1, "_source": path.name}
+            seen[key] = {
+                "name": name,
+                "github_url": url,
+                "owner": owner,
+                "repo": repo,
+                "description": desc,
+                "_freq": 1,
+                "_source": path.name,
+            }
 
     # Bare HTML anchors (fallback, lower priority)
     for m in GITHUB_HTML_ANCHOR_BARE.finditer(text):
@@ -145,8 +194,15 @@ def mine_markdown(path: Path) -> list[dict]:
         url = f"https://github.com/{owner}/{repo}"
         key = url.lower()
         if key not in seen:
-            seen[key] = {"name": name, "github_url": url, "owner": owner,
-                         "repo": repo, "description": "", "_freq": 1, "_source": path.name}
+            seen[key] = {
+                "name": name,
+                "github_url": url,
+                "owner": owner,
+                "repo": repo,
+                "description": "",
+                "_freq": 1,
+                "_source": path.name,
+            }
 
     return list(seen.values())
 
@@ -164,6 +220,7 @@ GITHUB_HTML_PATTERN = re.compile(
 def mine_html(path: Path) -> list[dict]:
     try:
         from bs4 import BeautifulSoup
+
         soup = BeautifulSoup(path.read_bytes(), "html.parser")
         seen: dict[str, dict] = {}
         for a in soup.find_all("a", href=True):
@@ -224,6 +281,7 @@ def mine_source(path: Path) -> list[dict]:
 # MAIN PIPELINE
 # ──────────────────────────────────────────────────────────────────
 
+
 def mine_and_save(source_path: Path, output_path: Path, dry_run: bool = False) -> list[dict]:
     index = load_eval_index()
     pb_slugs = build_pb_lookup(index)
@@ -237,26 +295,28 @@ def mine_and_save(source_path: Path, output_path: Path, dry_run: bool = False) -
         if not is_cli_tool(desc):
             continue
         status = classify_pb_status(r["name"], r["owner"], r["repo"], pb_slugs)
-        candidates.append({
-            "name": r["name"],
-            "github_url": r["github_url"],
-            "owner": r["owner"],
-            "repo": r["repo"],
-            "description": r["description"],
-            "pb200_status": status,
-            "frequency": r["_freq"],
-            "source": r["_source"],
-            "language": None,
-            "stars": None,
-            "candidate_score": None,
-        })
+        candidates.append(
+            {
+                "name": r["name"],
+                "github_url": r["github_url"],
+                "owner": r["owner"],
+                "repo": r["repo"],
+                "description": r["description"],
+                "pb200_status": status,
+                "frequency": r["_freq"],
+                "source": r["_source"],
+                "language": None,
+                "stars": None,
+                "candidate_score": None,
+            }
+        )
 
     already = sum(1 for c in candidates if c["pb200_status"] == "IN_PB200")
     new_cands = [c for c in candidates if c["pb200_status"] == "NOT_IN_PB200"]
     possible = sum(1 for c in candidates if c["pb200_status"] == "POSSIBLE_MATCH")
 
     result = {
-        "extracted_at": datetime.now(timezone.utc).isoformat(),
+        "extracted_at": datetime.now(UTC).isoformat(),
         "source": source_path.name,
         "total_extracted": len(candidates),
         "already_in_pb200": already,
@@ -302,7 +362,7 @@ def merge_sources(source_files: list[Path], output_path: Path, dry_run: bool = F
     new_only = [c for c in candidates if c["pb200_status"] == "NOT_IN_PB200"]
 
     result = {
-        "extracted_at": datetime.now(timezone.utc).isoformat(),
+        "extracted_at": datetime.now(UTC).isoformat(),
         "source": "merged",
         "source_files": [str(sf) for sf in source_files],
         "total_unique": len(candidates),
@@ -321,8 +381,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Mine CLI tool candidates from external sources")
     parser.add_argument("--source", type=Path, help="Source file to mine (default: tbsk_raw.md)")
     parser.add_argument("--output", type=Path, help="Output JSON path")
-    parser.add_argument("--merge", action="store_true", help="Merge all candidate files into master")
-    parser.add_argument("--dry-run", action="store_true", help="Print what would be done, no writes")
+    parser.add_argument(
+        "--merge", action="store_true", help="Merge all candidate files into master"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Print what would be done, no writes"
+    )
     args = parser.parse_args()
 
     if args.merge:

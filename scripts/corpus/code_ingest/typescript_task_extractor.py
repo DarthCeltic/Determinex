@@ -5,6 +5,7 @@ Initial mutation class: optional-chain removal. The extractor proves baseline,
 mutates `obj?.prop` to `obj.prop`, confirms tests/typecheck fail, and restores
 the original file.
 """
+
 from __future__ import annotations
 
 import difflib
@@ -56,14 +57,18 @@ class TypeScriptRepairTask:
 
 
 class TypeScriptTaskExtractor:
-    def __init__(self, project_root: Path, baseline_command: list[str] | None = None, timeout: int = 90):
+    def __init__(
+        self, project_root: Path, baseline_command: list[str] | None = None, timeout: int = 90
+    ):
         self._root = project_root
         self._timeout = timeout
         self._baseline_command = baseline_command or ["npm", "test", "--", "--runInBand"]
 
     def _run(self, cmd: list[str], cwd: Path | None = None) -> tuple[int, str, str]:
         try:
-            r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd or self._root, timeout=self._timeout)
+            r = subprocess.run(
+                cmd, capture_output=True, text=True, cwd=cwd or self._root, timeout=self._timeout
+            )
             return r.returncode, r.stdout, r.stderr
         except subprocess.TimeoutExpired:
             return -1, "", "TIMEOUT"
@@ -97,13 +102,15 @@ class TypeScriptTaskExtractor:
         sites = []
         for m in _OPTIONAL_CHAIN_RE.finditer(text):
             line_no = text[: m.start()].count("\n") + 1
-            sites.append({
-                "file": source_file,
-                "line_number": line_no,
-                "original": m.group(0),
-                "mutated": f"{m.group('expr')}.{m.group('prop')}",
-                "relative_path": _safe_relative(source_file, self._root),
-            })
+            sites.append(
+                {
+                    "file": source_file,
+                    "line_number": line_no,
+                    "original": m.group(0),
+                    "mutated": f"{m.group('expr')}.{m.group('prop')}",
+                    "relative_path": _safe_relative(source_file, self._root),
+                }
+            )
         return sites
 
     def _apply_mutation(self, source_file: Path, site: dict) -> tuple[str, str]:
@@ -176,10 +183,12 @@ def _make_task_id(rel_path: str, line_number: int) -> str:
 
 
 def _unified_diff(path: str, original: str, mutated: str) -> str:
-    return "".join(difflib.unified_diff(
-        mutated.splitlines(keepends=True),
-        original.splitlines(keepends=True),
-        fromfile=f"a/{path}",
-        tofile=f"b/{path}",
-        lineterm="",
-    ))
+    return "".join(
+        difflib.unified_diff(
+            mutated.splitlines(keepends=True),
+            original.splitlines(keepends=True),
+            fromfile=f"a/{path}",
+            tofile=f"b/{path}",
+            lineterm="",
+        )
+    )

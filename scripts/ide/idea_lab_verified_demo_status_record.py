@@ -10,11 +10,11 @@ and MUST NOT broaden that into all-app / all-language /
 production-ready / training-enabled / source-mutation-authorized
 / no-followup / release-ready claims.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_STATUS_TOKENS = (
     "REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_PASSED",
@@ -42,6 +42,7 @@ FORBIDDEN_BROAD_CLAIM_PHRASES = (
 @dataclass(frozen=True)
 class IdeaLabVerifiedDemoStatus:
     """The render-safe view-model the React panel consumes."""
+
     decision: str
     demo_title: str
     target_surface: str
@@ -76,9 +77,7 @@ class IdeaLabVerifiedDemoStatus:
 
     @property
     def is_blocked(self) -> bool:
-        return self.decision.startswith(
-            "REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_"
-        )
+        return self.decision.startswith("REACT_IDEA_LAB_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_")
 
 
 __all__ = [

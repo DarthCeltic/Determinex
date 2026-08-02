@@ -9,13 +9,14 @@ Reads all locked/ dirs, classifies each, and:
 
 Does NOT move strict/upstream locks yet (per spec: validate first).
 """
+
 from __future__ import annotations
 
 import collections
 import json
 import shutil
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -114,15 +115,24 @@ def classify_eval(path: Path) -> dict:
     else:
         status = "partial"
 
-    return dict(status=status, passed=passed, total=total,
-                not_run=not_run, skipped=skipped, failed=failed, pct=pct)
+    return dict(
+        status=status,
+        passed=passed,
+        total=total,
+        not_run=not_run,
+        skipped=skipped,
+        failed=failed,
+        pct=pct,
+    )
 
 
 def detect_cap_type(tarball: Path) -> tuple[str, str | None]:
     """Returns (cap_type, cap_line) from the tarball's compile.sh."""
-    import tarfile, re
-    cap_pattern = re.compile(r'(del\s+items\s*\[\s*\d+\s*:\s*\])')
-    collect_ignore = re.compile(r'collect_ignore_glob')
+    import re
+    import tarfile
+
+    cap_pattern = re.compile(r"(del\s+items\s*\[\s*\d+\s*:\s*\])")
+    collect_ignore = re.compile(r"collect_ignore_glob")
 
     has_cap = False
     has_ignore = False
@@ -171,19 +181,21 @@ def create_unlock_ticket(slug: str, tool_dir: Path, counts: dict, dest_dir: Path
         "cap_type": cap_type,
         "cap_line": cap_line or "del items[400:]",
         "estimated_uncapped_total": counts["total"],
-        "priority": (1 if counts["not_run"] < PRI1_THRESHOLD
-                     else 2 if counts["not_run"] < PRI2_THRESHOLD
-                     else 3),
+        "priority": (
+            1
+            if counts["not_run"] < PRI1_THRESHOLD
+            else 2
+            if counts["not_run"] < PRI2_THRESHOLD
+            else 3
+        ),
         "assigned_to": "unassigned",
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "last_attempt": None,
         "attempts": 0,
         "status": "pending",
     }
 
-    (dest_dir / "unlock_ticket.json").write_text(
-        json.dumps(ticket, indent=2), encoding="utf-8"
-    )
+    (dest_dir / "unlock_ticket.json").write_text(json.dumps(ticket, indent=2), encoding="utf-8")
 
 
 def create_ceiling_analysis(slug: str, info: dict, tool_dir: Path, dest_dir: Path) -> None:
@@ -199,7 +211,7 @@ def create_ceiling_analysis(slug: str, info: dict, tool_dir: Path, dest_dir: Pat
         "true_ceiling_pct": info.get("true_ceiling_pct"),
         "ceiling_passed": info.get("ceiling_passed"),
         "ceiling_total": info.get("ceiling_total"),
-        "confirmed_at": datetime.now(timezone.utc).isoformat(),
+        "confirmed_at": datetime.now(UTC).isoformat(),
         "confirmed_by": "manual analysis",
         "do_not_retry": True,
     }
@@ -226,13 +238,9 @@ def main():
             continue
 
         # Check if ceiling-confirmed
-        is_ceiling = any(
-            slug == k or slug.endswith(k) or k in slug
-            for k in CEILING_TOOLS
-        )
+        is_ceiling = any(slug == k or slug.endswith(k) or k in slug for k in CEILING_TOOLS)
         ceiling_key = next(
-            (k for k in CEILING_TOOLS if slug == k or slug.endswith(k) or k in slug),
-            None
+            (k for k in CEILING_TOOLS if slug == k or slug.endswith(k) or k in slug), None
         )
 
         status = counts["status"]
@@ -244,7 +252,9 @@ def main():
             continue
 
         if status == "upstream_skips":
-            print(f"  ⚡ UPSTREAM SKIP:  {slug} ({counts['passed']}/{counts['total']}, sk={counts['skipped']})")
+            print(
+                f"  ⚡ UPSTREAM SKIP:  {slug} ({counts['passed']}/{counts['total']}, sk={counts['skipped']})"
+            )
             continue
 
         if is_ceiling and ceiling_key:
@@ -258,7 +268,7 @@ def main():
         if status == "pending_unlock":
             nr = counts["not_run"]
             pri = 1 if nr < PRI1_THRESHOLD else 2 if nr < PRI2_THRESHOLD else 3
-            pri_dir_name = f"priority_{pri}_under{PRI1_THRESHOLD if pri==1 else PRI2_THRESHOLD if pri==2 else 'max'}"
+            pri_dir_name = f"priority_{pri}_under{PRI1_THRESHOLD if pri == 1 else PRI2_THRESHOLD if pri == 2 else 'max'}"
             # Fix dir name
             if pri == 3:
                 pri_dir_name = "priority_3_over300"
@@ -289,7 +299,7 @@ def main():
         for t in tools[:5]:
             print(f"    - {t}")
         if len(tools) > 5:
-            print(f"    ... ({len(tools)-5} more)")
+            print(f"    ... ({len(tools) - 5} more)")
 
     # Also write ceiling_confirmed for tools NOT in locked/ (board-only)
     print("\nCreating ceiling_confirmed entries for non-locked ceiling tools...")
@@ -322,7 +332,7 @@ def main():
             "ceiling_total": info.get("ceiling_total"),
             "best_passed": board_entry.get("best_passed", info.get("ceiling_passed")),
             "best_total": board_entry.get("best_total", info.get("ceiling_total")),
-            "confirmed_at": datetime.now(timezone.utc).isoformat(),
+            "confirmed_at": datetime.now(UTC).isoformat(),
             "do_not_retry": True,
         }
         (dest / "ceiling_analysis.json").write_text(

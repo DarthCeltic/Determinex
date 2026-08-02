@@ -1,4 +1,5 @@
 """Tests for REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -24,65 +25,79 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "REAL_LOCAL_MODEL_HEALTHCHECK_LO
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "real_local_model_healthcheck"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "REAL_LOCAL_MODEL_HEALTHCHECK_PASSED",
-    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_MODEL_NOT_PULLED",
-    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_TIMEOUT",
-    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_PROVIDER_UNAVAILABLE",
-    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_NOT_SELECTED",
-    "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_PROVIDER_ERROR",
-    "REAL_LOCAL_MODEL_HEALTHCHECK_OUTPUT_UNTRUSTED",
-})
+EXPECTED = frozenset(
+    {
+        "REAL_LOCAL_MODEL_HEALTHCHECK_PASSED",
+        "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_MODEL_NOT_PULLED",
+        "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_TIMEOUT",
+        "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_PROVIDER_UNAVAILABLE",
+        "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_NOT_SELECTED",
+        "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_PROVIDER_ERROR",
+        "REAL_LOCAL_MODEL_HEALTHCHECK_OUTPUT_UNTRUSTED",
+    }
+)
 
 
 def _selected(model_id="determinex-engineer-v11-dsl"):
     return CanonicalLocalModelIdSelectionRecord(
         decision="CANONICAL_LOCAL_MODEL_SELECTED",
-        selected_model_id=model_id, provider="ollama",
+        selected_model_id=model_id,
+        provider="ollama",
         candidate_model_ids=(model_id,),
         daemon_models_available=(model_id,),
-        host_state="MODEL_AVAILABLE", operator_action="",
+        host_state="MODEL_AVAILABLE",
+        operator_action="",
     )
 
 
 def _blocked_selection():
     return CanonicalLocalModelIdSelectionRecord(
         decision="CANONICAL_LOCAL_MODEL_BLOCKED_NOT_PULLED",
-        selected_model_id="", provider="ollama",
+        selected_model_id="",
+        provider="ollama",
         candidate_model_ids=("determinex-engineer-v11-dsl",),
         daemon_models_available=(),
-        host_state="MODEL_NOT_PULLED", operator_action="ollama pull ...",
+        host_state="MODEL_NOT_PULLED",
+        operator_action="ollama pull ...",
     )
 
 
 def _ok(endpoint, model_id, prompt, system, timeout):
     from models.real_local_model_healthcheck import _GenResult
-    return _GenResult(ok=True, timed_out=False, not_pulled=False,
-                      not_reachable=False, text="OK")
+
+    return _GenResult(ok=True, timed_out=False, not_pulled=False, not_reachable=False, text="OK")
 
 
 def _timeout(endpoint, model_id, prompt, system, timeout):
     from models.real_local_model_healthcheck import _GenResult
-    return _GenResult(ok=False, timed_out=True, not_pulled=False,
-                      not_reachable=False, error="timed out")
+
+    return _GenResult(
+        ok=False, timed_out=True, not_pulled=False, not_reachable=False, error="timed out"
+    )
 
 
 def _not_pulled(endpoint, model_id, prompt, system, timeout):
     from models.real_local_model_healthcheck import _GenResult
-    return _GenResult(ok=False, timed_out=False, not_pulled=True,
-                      not_reachable=False, error="model not found")
+
+    return _GenResult(
+        ok=False, timed_out=False, not_pulled=True, not_reachable=False, error="model not found"
+    )
 
 
 def _not_reachable(endpoint, model_id, prompt, system, timeout):
     from models.real_local_model_healthcheck import _GenResult
-    return _GenResult(ok=False, timed_out=False, not_pulled=False,
-                      not_reachable=True, error="connection refused")
+
+    return _GenResult(
+        ok=False, timed_out=False, not_pulled=False, not_reachable=True, error="connection refused"
+    )
 
 
 def _err(endpoint, model_id, prompt, system, timeout):
     from models.real_local_model_healthcheck import _GenResult
-    return _GenResult(ok=False, timed_out=False, not_pulled=False,
-                      not_reachable=False, error="malformed json")
+
+    return _GenResult(
+        ok=False, timed_out=False, not_pulled=False, not_reachable=False, error="malformed json"
+    )
 
 
 def test_status_tokens_exact():
@@ -100,9 +115,12 @@ def test_blocked_selection_blocks():
 
 
 def test_non_local_endpoint_blocks_without_transport_override():
-    r = run(selection=_selected(),
-            endpoint="http://example.com:11434",
-            transport=None, timeout_seconds=0.1)
+    r = run(
+        selection=_selected(),
+        endpoint="http://example.com:11434",
+        transport=None,
+        timeout_seconds=0.1,
+    )
     assert r.decision == "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_PROVIDER_UNAVAILABLE"
 
 
@@ -150,8 +168,7 @@ def test_prompt_does_not_contain_repo_source():
 
 def test_module_does_not_import_requests_or_httpx():
     src = Path(mod.__file__).read_text(encoding="utf-8")
-    for forbidden in ("import requests", "from requests",
-                      "import httpx", "from httpx"):
+    for forbidden in ("import requests", "from requests", "import httpx", "from httpx"):
         assert forbidden not in src
 
 

@@ -6,6 +6,7 @@ Usage:
     python scripts/pb_board_guard.py --guard       # exit code 1 if any violations
     python scripts/pb_board_guard.py --verbose     # print all entries checked
 """
+
 import json
 import sys
 from pathlib import Path
@@ -17,8 +18,15 @@ INVARIANTS = [
     # (name, condition_fn, message_fn)
     (
         "strict_lock_passed_eq_total",
-        lambda e: not (e.get("status") == "strict_lock" and e.get("official_passed") != e.get("official_total")),
-        lambda e: f"strict_lock but passed({e.get('official_passed')}) != total({e.get('official_total')})",
+        lambda e: (
+            not (
+                e.get("status") == "strict_lock"
+                and e.get("official_passed") != e.get("official_total")
+            )
+        ),
+        lambda e: (
+            f"strict_lock but passed({e.get('official_passed')}) != total({e.get('official_total')})"
+        ),
     ),
     (
         "strict_lock_not_run_zero",
@@ -37,8 +45,15 @@ INVARIANTS = [
     ),
     (
         "strict_lock_ofr_true",
-        lambda e: not (e.get("status") == "strict_lock" and e.get("official_full_suite_resolved") is not True),
-        lambda e: f"strict_lock but official_full_suite_resolved={e.get('official_full_suite_resolved')}",
+        lambda e: (
+            not (
+                e.get("status") == "strict_lock"
+                and e.get("official_full_suite_resolved") is not True
+            )
+        ),
+        lambda e: (
+            f"strict_lock but official_full_suite_resolved={e.get('official_full_suite_resolved')}"
+        ),
     ),
     (
         "strict_lock_no_override",
@@ -47,30 +62,48 @@ INVARIANTS = [
     ),
     (
         "ofr_true_implies_strict_lock",
-        lambda e: not (e.get("official_full_suite_resolved") is True and e.get("status") not in ("strict_lock",) and not e.get("canonical_slug")),
-        lambda e: f"official_full_suite_resolved=True but status={e.get('status')} (not a canonical_slug alias)",
+        lambda e: (
+            not (
+                e.get("official_full_suite_resolved") is True
+                and e.get("status") not in ("strict_lock",)
+                and not e.get("canonical_slug")
+            )
+        ),
+        lambda e: (
+            f"official_full_suite_resolved=True but status={e.get('status')} (not a canonical_slug alias)"
+        ),
     ),
     (
         "score_pct_consistent",
-        lambda e: not (
-            e.get("status") == "strict_lock"
-            and e.get("official_passed") is not None
-            and e.get("official_total") is not None
-            and e.get("official_total") > 0
-            and e.get("official_score_pct") is not None
-            and abs(e["official_score_pct"] - 100.0) > 0.01
+        lambda e: (
+            not (
+                e.get("status") == "strict_lock"
+                and e.get("official_passed") is not None
+                and e.get("official_total") is not None
+                and e.get("official_total") > 0
+                and e.get("official_score_pct") is not None
+                and abs(e["official_score_pct"] - 100.0) > 0.01
+            )
         ),
-        lambda e: f"strict_lock but official_score_pct={e.get('official_score_pct')} (expected 100.0)",
+        lambda e: (
+            f"strict_lock but official_score_pct={e.get('official_score_pct')} (expected 100.0)"
+        ),
     ),
     (
         "upstream_skips_has_skips",
-        lambda e: not (e.get("status") == "upstream_skips" and (e.get("official_skipped") or 0) == 0 and (e.get("official_not_run") or 0) == 0),
-        lambda e: f"upstream_skips status but skipped=0 and not_run=0",
+        lambda e: (
+            not (
+                e.get("status") == "upstream_skips"
+                and (e.get("official_skipped") or 0) == 0
+                and (e.get("official_not_run") or 0) == 0
+            )
+        ),
+        lambda e: "upstream_skips status but skipped=0 and not_run=0",
     ),
     (
         "ceiling_confirmed_has_reason",
         lambda e: not (e.get("status") == "ceiling_confirmed" and not e.get("ceiling_reason")),
-        lambda e: f"ceiling_confirmed but no ceiling_reason",
+        lambda e: "ceiling_confirmed but no ceiling_reason",
     ),
 ]
 

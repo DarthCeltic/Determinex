@@ -36,7 +36,9 @@ class HydrationConfig:
     candidate_roots: list[Path]
     programbench_roots: list[Path]
     image_roots: list[Path]
-    output_path: Path = Path("assurance/evidence/programbench_replay_batch_001_hydration_report.json")
+    output_path: Path = Path(
+        "assurance/evidence/programbench_replay_batch_001_hydration_report.json"
+    )
     resolution_report: Path | None = None
     disambiguation_report: Path | None = None
     require_image: bool = True
@@ -66,7 +68,9 @@ class ProgramBenchReplayHydrator:
         self.config = config
         self.task_locator = ProgramBenchTaskLocator(config.task_roots)
         self.candidate_locator = ProgramBenchTaskLocator(config.candidate_roots)
-        self.image_locator = ProgramBenchImageLocator(config.image_roots, require_image=config.require_image)
+        self.image_locator = ProgramBenchImageLocator(
+            config.image_roots, require_image=config.require_image
+        )
         self.resolutions = _load_resolutions(config.resolution_report)
         self.disambiguations = _load_selected_disambiguations(config.disambiguation_report)
 
@@ -88,7 +92,9 @@ class ProgramBenchReplayHydrator:
             "policy": "Hydration only locates runnable context. It does not run verifier or promote rows.",
         }
         self.config.output_path.parent.mkdir(parents=True, exist_ok=True)
-        self.config.output_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        self.config.output_path.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         return report
 
     def hydrate_candidate(self, candidate: dict[str, Any]) -> HydrationResult:
@@ -103,18 +109,26 @@ class ProgramBenchReplayHydrator:
             base.task_root = str(disambiguated.get("selected_root") or "")
             base.candidate_root = str(disambiguated.get("selected_root") or "")
             if not base.task_root or not Path(base.task_root).exists():
-                return _with_status(base, HydrationStatus.MISSING_TASK_ROOT, "disambiguated_task_root_missing")
+                return _with_status(
+                    base, HydrationStatus.MISSING_TASK_ROOT, "disambiguated_task_root_missing"
+                )
             task_path = Path(base.task_root)
             return self._finish_hydration(candidate, base, task_path, task_path)
 
         resolved = self.resolutions.get(base.tool)
         if resolved and resolved.get("resolution_status") == "TASK_AND_SOURCE_RESOLVED":
             base.task_root = str(resolved.get("task_root") or "")
-            base.candidate_root = str(resolved.get("candidate_root") or resolved.get("task_root") or "")
+            base.candidate_root = str(
+                resolved.get("candidate_root") or resolved.get("task_root") or ""
+            )
             if not base.task_root or not Path(base.task_root).exists():
-                return _with_status(base, HydrationStatus.MISSING_TASK_ROOT, "resolved_task_root_missing")
+                return _with_status(
+                    base, HydrationStatus.MISSING_TASK_ROOT, "resolved_task_root_missing"
+                )
             if not base.candidate_root or not Path(base.candidate_root).exists():
-                return _with_status(base, HydrationStatus.MISSING_CANDIDATE_ROOT, "resolved_candidate_root_missing")
+                return _with_status(
+                    base, HydrationStatus.MISSING_CANDIDATE_ROOT, "resolved_candidate_root_missing"
+                )
             task_path = Path(base.task_root)
             candidate_path = Path(base.candidate_root)
             return self._finish_hydration(candidate, base, task_path, candidate_path)
@@ -128,9 +142,13 @@ class ProgramBenchReplayHydrator:
 
         candidate_root = self.candidate_locator.locate(base.tool)
         if candidate_root.ambiguous:
-            return _with_status(base, HydrationStatus.AMBIGUOUS_TOOL_MATCH, "ambiguous_candidate_root")
+            return _with_status(
+                base, HydrationStatus.AMBIGUOUS_TOOL_MATCH, "ambiguous_candidate_root"
+            )
         if candidate_root.path is None:
-            return _with_status(base, HydrationStatus.MISSING_CANDIDATE_ROOT, "candidate_root_not_found")
+            return _with_status(
+                base, HydrationStatus.MISSING_CANDIDATE_ROOT, "candidate_root_not_found"
+            )
         base.candidate_root = str(candidate_root.path)
 
         return self._finish_hydration(candidate, base, task.path, candidate_root.path)
@@ -144,7 +162,9 @@ class ProgramBenchReplayHydrator:
     ) -> HydrationResult:
         harness = _locate_eval_harness(self.config.programbench_roots)
         if not harness:
-            return _with_status(base, HydrationStatus.MISSING_EVAL_HARNESS, "programbench_eval_harness_not_found")
+            return _with_status(
+                base, HydrationStatus.MISSING_EVAL_HARNESS, "programbench_eval_harness_not_found"
+            )
         base.eval_command = f"uv run programbench eval {base.candidate_root} --filter {base.tool.split('__', 1)[0]} --force"
 
         image = self.image_locator.locate(candidate, task_path)
@@ -155,12 +175,21 @@ class ProgramBenchReplayHydrator:
         baseline = _locate_baseline(candidate, task_path, candidate_path)
         base.baseline_artifact = str(baseline) if baseline else ""
         if self.config.require_baseline and baseline is None:
-            return _with_status(base, HydrationStatus.MISSING_BASELINE, "baseline_artifact_not_found")
+            return _with_status(
+                base, HydrationStatus.MISSING_BASELINE, "baseline_artifact_not_found"
+            )
 
-        base.expected_result_path = str(Path("assurance/evidence") / f"{_safe_name(base.tool)}_replay_eval.json")
+        base.expected_result_path = str(
+            Path("assurance/evidence") / f"{_safe_name(base.tool)}_replay_eval.json"
+        )
         base.workspace_checksum = _workspace_checksum(candidate_path)
-        if candidate.get("workspace_checksum") and candidate.get("workspace_checksum") != base.workspace_checksum:
-            return _with_status(base, HydrationStatus.CHECKSUM_MISMATCH, "workspace_checksum_mismatch")
+        if (
+            candidate.get("workspace_checksum")
+            and candidate.get("workspace_checksum") != base.workspace_checksum
+        ):
+            return _with_status(
+                base, HydrationStatus.CHECKSUM_MISMATCH, "workspace_checksum_mismatch"
+            )
 
         base.status = HydrationStatus.HYDRATED_READY.value
         base.reason = "ready"
@@ -180,7 +209,10 @@ def default_config(output_path: Path) -> HydrationConfig:
             Path("T:/determinex-programbench"),
         ],
         programbench_roots=[Path("T:/Dev/ProgramBench"), Path(".")],
-        image_roots=[Path("T:/programbench-images"), Path("assurance/evidence/programbench_images")],
+        image_roots=[
+            Path("T:/programbench-images"),
+            Path("assurance/evidence/programbench_images"),
+        ],
         output_path=output_path,
     )
 
@@ -212,7 +244,9 @@ def _locate_eval_harness(roots: list[Path]) -> Path | None:
     return None
 
 
-def _locate_baseline(candidate: dict[str, Any], task_root: Path, candidate_root: Path) -> Path | None:
+def _locate_baseline(
+    candidate: dict[str, Any], task_root: Path, candidate_root: Path
+) -> Path | None:
     for key in ("baseline_artifact", "baseline_eval", "baseline_path"):
         value = candidate.get(key)
         if value and Path(str(value)).exists():
@@ -282,9 +316,15 @@ def _load_selected_disambiguations(path: Path | None) -> dict[str, dict[str, Any
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Preflight hydration for selected ProgramBench replay candidates.")
+    parser = argparse.ArgumentParser(
+        description="Preflight hydration for selected ProgramBench replay candidates."
+    )
     parser.add_argument("batch_artifact", type=Path)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/programbench_replay_batch_001_hydration_report.json"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("assurance/evidence/programbench_replay_batch_001_hydration_report.json"),
+    )
     parser.add_argument("--task-root", action="append", type=Path, default=None)
     parser.add_argument("--candidate-root", action="append", type=Path, default=None)
     parser.add_argument("--programbench-root", action="append", type=Path, default=None)

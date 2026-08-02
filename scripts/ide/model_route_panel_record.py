@@ -1,9 +1,9 @@
 """Records for IDE_MODEL_ROUTE_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDE_MODEL_ROUTE_PANEL_STATUS_TOKENS = (
     "MODEL_ROUTE_PANEL_READY",

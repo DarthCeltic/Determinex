@@ -18,17 +18,27 @@ from corpus.programbench.cleanroom_build_recipe_provenance_gap_record import (
     make_cleanroom_build_recipe_provenance_gap_record,
     write_cleanroom_build_recipe_provenance_gap_record,
 )
-from corpus.programbench.cleanroom_build_recipe_recovery_record import verify_cleanroom_build_recipe_recovery_record
-from corpus.programbench.cleanroom_image_remediation_plan_record import verify_cleanroom_image_remediation_plan_record
+from corpus.programbench.cleanroom_build_recipe_recovery_record import (
+    verify_cleanroom_build_recipe_recovery_record,
+)
+from corpus.programbench.cleanroom_image_remediation_plan_record import (
+    verify_cleanroom_image_remediation_plan_record,
+)
 
 
 class BuildRecipeProvenanceGapStatus(str, Enum):
     BUILD_RECIPE_PROVENANCE_GAP_READY = "BUILD_RECIPE_PROVENANCE_GAP_READY"
     BUILD_RECIPE_PROVENANCE_GAP_WRITTEN = "BUILD_RECIPE_PROVENANCE_GAP_WRITTEN"
     BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_PLAN = "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_PLAN"
-    BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_RECOVERY = "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_RECOVERY"
-    BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_IMAGE_MISMATCH = "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_IMAGE_MISMATCH"
-    BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_DIGEST_MISMATCH = "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_DIGEST_MISMATCH"
+    BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_RECOVERY = (
+        "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_RECOVERY"
+    )
+    BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_IMAGE_MISMATCH = (
+        "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_IMAGE_MISMATCH"
+    )
+    BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_DIGEST_MISMATCH = (
+        "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_DIGEST_MISMATCH"
+    )
     ORIGINAL_RECIPE_MISSING = "ORIGINAL_RECIPE_MISSING"
     BASE_IMAGE_DIGEST_MISSING = "BASE_IMAGE_DIGEST_MISSING"
     RECONSTRUCTED_FROM_IMAGE_HISTORY_ONLY = "RECONSTRUCTED_FROM_IMAGE_HISTORY_ONLY"
@@ -46,7 +56,9 @@ class BuildRecipeProvenanceGapStatus(str, Enum):
 @dataclass(slots=True)
 class BuildRecipeProvenanceGapConfig:
     root: Path = Path(".")
-    output_dir: Path = Path("assurance/evidence/programbench_cleanroom_build_recipe_provenance_gaps")
+    output_dir: Path = Path(
+        "assurance/evidence/programbench_cleanroom_build_recipe_provenance_gaps"
+    )
     target_image: str = ""
     target_digest: str = ""
 
@@ -69,7 +81,9 @@ class ProgramBenchCleanroomBuildRecipeProvenanceGap:
                 recovery,
                 ["remediation_plan_missing_or_invalid"],
             )
-        if not recovery_path.is_file() or not verify_cleanroom_build_recipe_recovery_record(recovery):
+        if not recovery_path.is_file() or not verify_cleanroom_build_recipe_recovery_record(
+            recovery
+        ):
             return self._write_blocked(
                 BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_RECOVERY.value,
                 plan_path,
@@ -81,7 +95,9 @@ class ProgramBenchCleanroomBuildRecipeProvenanceGap:
 
         image = str(plan.get("image_reference") or "")
         digest = str(plan.get("image_digest") or "")
-        if image != str(recovery.get("image_reference") or "") or (self.config.target_image and image != self.config.target_image):
+        if image != str(recovery.get("image_reference") or "") or (
+            self.config.target_image and image != self.config.target_image
+        ):
             return self._write_blocked(
                 BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_IMAGE_MISMATCH.value,
                 plan_path,
@@ -90,7 +106,9 @@ class ProgramBenchCleanroomBuildRecipeProvenanceGap:
                 recovery,
                 ["image_reference_mismatch"],
             )
-        if digest != str(recovery.get("image_digest") or "") or (self.config.target_digest and digest != self.config.target_digest):
+        if digest != str(recovery.get("image_digest") or "") or (
+            self.config.target_digest and digest != self.config.target_digest
+        ):
             return self._write_blocked(
                 BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_DIGEST_MISMATCH.value,
                 plan_path,
@@ -100,9 +118,17 @@ class ProgramBenchCleanroomBuildRecipeProvenanceGap:
                 ["image_digest_mismatch"],
             )
 
-        components = recovery.get("recipe_components") if isinstance(recovery.get("recipe_components"), dict) else {}
+        components = (
+            recovery.get("recipe_components")
+            if isinstance(recovery.get("recipe_components"), dict)
+            else {}
+        )
         go_update = recovery.get("go_update") if isinstance(recovery.get("go_update"), dict) else {}
-        fidelity = recovery.get("fidelity_assessment") if isinstance(recovery.get("fidelity_assessment"), dict) else {}
+        fidelity = (
+            recovery.get("fidelity_assessment")
+            if isinstance(recovery.get("fidelity_assessment"), dict)
+            else {}
+        )
         redaction = _redaction_invariant(recovery)
         gap_statuses = [
             BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_READY.value,
@@ -117,13 +143,32 @@ class ProgramBenchCleanroomBuildRecipeProvenanceGap:
         missing = []
         if not bool(components.get("original_recipe_file_recovered")):
             gap_statuses.append(BuildRecipeProvenanceGapStatus.ORIGINAL_RECIPE_MISSING.value)
-            missing.append(_missing_component("original_cleanroom_build_recipe", "original Dockerfile/Containerfile or signed build script used to produce the cleanroom image"))
+            missing.append(
+                _missing_component(
+                    "original_cleanroom_build_recipe",
+                    "original Dockerfile/Containerfile or signed build script used to produce the cleanroom image",
+                )
+            )
         if not bool(components.get("base_image_digest_present")):
             gap_statuses.append(BuildRecipeProvenanceGapStatus.BASE_IMAGE_DIGEST_MISSING.value)
-            missing.append(_missing_component("pinned_base_image_digest", "base image reference pinned by digest plus source registry/provenance"))
-        if bool(components.get("reconstructed_from_image_history")) and not bool(components.get("original_recipe_file_recovered")):
-            gap_statuses.append(BuildRecipeProvenanceGapStatus.RECONSTRUCTED_FROM_IMAGE_HISTORY_ONLY.value)
-            missing.append(_missing_component("non_history_recipe_source", "independent recipe source, not only OCI config history"))
+            missing.append(
+                _missing_component(
+                    "pinned_base_image_digest",
+                    "base image reference pinned by digest plus source registry/provenance",
+                )
+            )
+        if bool(components.get("reconstructed_from_image_history")) and not bool(
+            components.get("original_recipe_file_recovered")
+        ):
+            gap_statuses.append(
+                BuildRecipeProvenanceGapStatus.RECONSTRUCTED_FROM_IMAGE_HISTORY_ONLY.value
+            )
+            missing.append(
+                _missing_component(
+                    "non_history_recipe_source",
+                    "independent recipe source, not only OCI config history",
+                )
+            )
         if str(fidelity.get("fidelity_class") or "") == "material_fidelity_change":
             gap_statuses.append(BuildRecipeProvenanceGapStatus.MATERIAL_FIDELITY_RISK.value)
         gap_statuses.append(
@@ -141,7 +186,9 @@ class ProgramBenchCleanroomBuildRecipeProvenanceGap:
             missing_provenance_components=missing,
             closure_requirements=_closure_requirements(missing, go_update),
             observed_recipe_state={
-                "original_recipe_file_recovered": bool(components.get("original_recipe_file_recovered")),
+                "original_recipe_file_recovered": bool(
+                    components.get("original_recipe_file_recovered")
+                ),
                 "base_image_digest_present": bool(components.get("base_image_digest_present")),
                 "reconstructed_recipe_source": "OCI config history only"
                 if components.get("reconstructed_from_image_history")
@@ -161,7 +208,9 @@ class ProgramBenchCleanroomBuildRecipeProvenanceGap:
             cache_ready=False,
             executable=False,
         )
-        path = write_cleanroom_build_recipe_provenance_gap_record(record, self._resolve(self.config.output_dir))
+        path = write_cleanroom_build_recipe_provenance_gap_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _write_blocked(
@@ -175,8 +224,16 @@ class ProgramBenchCleanroomBuildRecipeProvenanceGap:
     ) -> dict[str, Any]:
         record = make_cleanroom_build_recipe_provenance_gap_record(
             status=status,
-            image_reference=str(plan.get("image_reference") or recovery.get("image_reference") or self.config.target_image),
-            image_digest=str(plan.get("image_digest") or recovery.get("image_digest") or self.config.target_digest),
+            image_reference=str(
+                plan.get("image_reference")
+                or recovery.get("image_reference")
+                or self.config.target_image
+            ),
+            image_digest=str(
+                plan.get("image_digest")
+                or recovery.get("image_digest")
+                or self.config.target_digest
+            ),
             remediation_plan=_rel(self.config.root, plan_path),
             recipe_recovery=_rel(self.config.root, recovery_path),
             gap_statuses=[
@@ -193,7 +250,9 @@ class ProgramBenchCleanroomBuildRecipeProvenanceGap:
             cache_ready=False,
             executable=False,
         )
-        path = write_cleanroom_build_recipe_provenance_gap_record(record, self._resolve(self.config.output_dir))
+        path = write_cleanroom_build_recipe_provenance_gap_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _resolve(self, path: Path) -> Path:
@@ -213,7 +272,9 @@ def _missing_component(component: str, requirement: str) -> dict[str, Any]:
     }
 
 
-def _closure_requirements(missing: list[dict[str, Any]], go_update: dict[str, Any]) -> list[dict[str, Any]]:
+def _closure_requirements(
+    missing: list[dict[str, Any]], go_update: dict[str, Any]
+) -> list[dict[str, Any]]:
     requirements = [
         {
             "requirement": item["component"],
@@ -273,11 +334,17 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Write a ProgramBench cleanroom build recipe provenance-gap packet.")
+    parser = argparse.ArgumentParser(
+        description="Write a ProgramBench cleanroom build recipe provenance-gap packet."
+    )
     parser.add_argument("remediation_plan", type=Path)
     parser.add_argument("recipe_recovery", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_build_recipe_provenance_gaps"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_build_recipe_provenance_gaps"),
+    )
     parser.add_argument("--target-image", default="")
     parser.add_argument("--target-digest", default="")
     args = parser.parse_args()

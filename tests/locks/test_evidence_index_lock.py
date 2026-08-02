@@ -44,17 +44,19 @@ def test_evidence_manifest_paths_exist():
 def test_evidence_index_validation_catches_missing_fields():
     broken = {
         "schema_version": "determinex-evidence-index-v1",
-        "entries": [{
-            "evidence_id": "BROKEN_LOCK",
-            "kind": "sentinel_lock",
-            "manifest_path": "",
-            "test_count": 0,
-            "full_suite_count": 0,
-            "reproduction_command": "",
-            "commit": "",
-            "proves": "",
-            "does_not_prove": "",
-        }],
+        "entries": [
+            {
+                "evidence_id": "BROKEN_LOCK",
+                "kind": "sentinel_lock",
+                "manifest_path": "",
+                "test_count": 0,
+                "full_suite_count": 0,
+                "reproduction_command": "",
+                "commit": "",
+                "proves": "",
+                "does_not_prove": "",
+            }
+        ],
     }
 
     errors = validate_index(broken, root=_ROOT)

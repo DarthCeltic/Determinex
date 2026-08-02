@@ -23,11 +23,10 @@ Usage:
 
 import argparse
 import json
-import os
+import logging
 import sys
 import time
-import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 # ── Windows UTF-8 terminal fix ──────────────────────────────────────────────
@@ -44,13 +43,13 @@ logging.basicConfig(
 log = logging.getLogger("oracle")
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-_SCRIPTS_DIR    = Path(__file__).resolve().parent
-_DETERMINEX_ROOT   = _SCRIPTS_DIR.parent
-_ENV_FILE       = _DETERMINEX_ROOT / ".env"
-_CURRICULUM     = _SCRIPTS_DIR / "curriculum.jsonl"
-_CACHE_FILE     = _SCRIPTS_DIR / ".oracle_cache.json"
+_SCRIPTS_DIR = Path(__file__).resolve().parent
+_DETERMINEX_ROOT = _SCRIPTS_DIR.parent
+_ENV_FILE = _DETERMINEX_ROOT / ".env"
+_CURRICULUM = _SCRIPTS_DIR / "curriculum.jsonl"
+_CACHE_FILE = _SCRIPTS_DIR / ".oracle_cache.json"
 _SESSION_CONFIG = _SCRIPTS_DIR / "session_config.json"
-_LOG_DIR        = _DETERMINEX_ROOT / "logs"
+_LOG_DIR = _DETERMINEX_ROOT / "logs"
 _OPPORTUNITY_LOG = _LOG_DIR / "oracle_opportunity.log"
 
 CACHE_TTL_HOURS = 24
@@ -59,30 +58,85 @@ CACHE_TTL_HOURS = 24
 # Source: LMSYS Chatbot Arena coding category + broader benchmarks.
 # Update this list periodically as the field evolves.
 FALLBACK_RANKINGS = [
-    {"model_name": "claude-sonnet-4-5",           "provider": "api_anthropic",  "elo_score": 1342, "coding_rank": 1,  "reasoning_rank": 1},
-    {"model_name": "gemini-2.5-pro",               "provider": "api_google",     "elo_score": 1330, "coding_rank": 2,  "reasoning_rank": 2},
-    {"model_name": "gpt-4o",                       "provider": "api_openai",     "elo_score": 1310, "coding_rank": 3,  "reasoning_rank": 3},
-    {"model_name": "deepseek-v3",                  "provider": "api_deepseek",   "elo_score": 1295, "coding_rank": 4,  "reasoning_rank": 4},
-    {"model_name": "deepseek-coder-v2:latest",     "provider": "local_ollama",   "elo_score": 1240, "coding_rank": 5,  "reasoning_rank": 6},
-    {"model_name": "llama3.2:3b",                  "provider": "local_ollama",   "elo_score": 1110, "coding_rank": 9,  "reasoning_rank": 9},
-    {"model_name": "phi3:mini",                    "provider": "local_ollama",   "elo_score": 1080, "coding_rank": 11, "reasoning_rank": 11},
-    {"model_name": "mistral:latest",               "provider": "local_ollama",   "elo_score": 1095, "coding_rank": 10, "reasoning_rank": 10},
-    {"model_name": "qwen2.5-coder:7b",             "provider": "local_ollama",   "elo_score": 1165, "coding_rank": 7,  "reasoning_rank": 8},
+    {
+        "model_name": "claude-sonnet-4-5",
+        "provider": "api_anthropic",
+        "elo_score": 1342,
+        "coding_rank": 1,
+        "reasoning_rank": 1,
+    },
+    {
+        "model_name": "gemini-2.5-pro",
+        "provider": "api_google",
+        "elo_score": 1330,
+        "coding_rank": 2,
+        "reasoning_rank": 2,
+    },
+    {
+        "model_name": "gpt-4o",
+        "provider": "api_openai",
+        "elo_score": 1310,
+        "coding_rank": 3,
+        "reasoning_rank": 3,
+    },
+    {
+        "model_name": "deepseek-v3",
+        "provider": "api_deepseek",
+        "elo_score": 1295,
+        "coding_rank": 4,
+        "reasoning_rank": 4,
+    },
+    {
+        "model_name": "deepseek-coder-v2:latest",
+        "provider": "local_ollama",
+        "elo_score": 1240,
+        "coding_rank": 5,
+        "reasoning_rank": 6,
+    },
+    {
+        "model_name": "llama3.2:3b",
+        "provider": "local_ollama",
+        "elo_score": 1110,
+        "coding_rank": 9,
+        "reasoning_rank": 9,
+    },
+    {
+        "model_name": "phi3:mini",
+        "provider": "local_ollama",
+        "elo_score": 1080,
+        "coding_rank": 11,
+        "reasoning_rank": 11,
+    },
+    {
+        "model_name": "mistral:latest",
+        "provider": "local_ollama",
+        "elo_score": 1095,
+        "coding_rank": 10,
+        "reasoning_rank": 10,
+    },
+    {
+        "model_name": "qwen2.5-coder:7b",
+        "provider": "local_ollama",
+        "elo_score": 1165,
+        "coding_rank": 7,
+        "reasoning_rank": 8,
+    },
 ]
 
 # Model name aliases: leaderboard names → Ollama tag or API model ID
 MODEL_ALIASES = {
-    "claude-sonnet-4-5":       "claude-sonnet-4-5",
-    "claude-3-5-sonnet":       "claude-3-5-sonnet-20241022",
-    "gemini-2.5-pro":          "gemini-2.5-pro-preview-03-25",
-    "gemini-1.5-pro":          "gemini-1.5-pro",
-    "gpt-4o":                   "gpt-4o",
-    "deepseek-v3":              "deepseek-chat",
+    "claude-sonnet-4-5": "claude-sonnet-4-5",
+    "claude-3-5-sonnet": "claude-3-5-sonnet-20241022",
+    "gemini-2.5-pro": "gemini-2.5-pro-preview-03-25",
+    "gemini-1.5-pro": "gemini-1.5-pro",
+    "gpt-4o": "gpt-4o",
+    "deepseek-v3": "deepseek-chat",
     "deepseek-coder-v2:latest": "determinex-leviathan:v1",
 }
 
 
 # ── .env loader ──────────────────────────────────────────────────────────────
+
 
 def load_env() -> dict:
     """Parse .env into a dict. Returns {} if file not found."""
@@ -112,6 +166,7 @@ def env_int(env: dict, key: str, default: int) -> int:
 
 # ── Cache management ─────────────────────────────────────────────────────────
 
+
 def load_cache() -> dict | None:
     """Return cached rankings if fresh, else None."""
     if not _CACHE_FILE.exists():
@@ -132,7 +187,7 @@ def save_cache(rankings: list[dict], source_url: str):
     """Write rankings to cache with 24h TTL."""
     expires = time.time() + CACHE_TTL_HOURS * 3600
     data = {
-        "fetch_timestamp": datetime.now(timezone.utc).isoformat(),
+        "fetch_timestamp": datetime.now(UTC).isoformat(),
         "source_url": source_url,
         "rankings": rankings,
         "cache_expires_at": expires,
@@ -146,14 +201,15 @@ def save_cache(rankings: list[dict], source_url: str):
 
 # ── Leaderboard fetchers ─────────────────────────────────────────────────────
 
+
 def _fetch_lmsys_arena() -> list[dict] | None:
     """
     Attempt to fetch LMSYS Chatbot Arena coding leaderboard.
     Returns normalized ranking list or None on failure.
     """
     try:
-        import urllib.request
         import urllib.error
+        import urllib.request
 
         # LMSYS publishes leaderboard data via their HuggingFace space backend.
         # The coding-specific category filter produces the most relevant ranking.
@@ -172,13 +228,15 @@ def _fetch_lmsys_arena() -> list[dict] | None:
             name = entry.get("model") or entry.get("model_name") or entry.get("name", "")
             score = float(entry.get("elo") or entry.get("elo_score") or entry.get("score") or 0)
             if name and score:
-                rankings.append({
-                    "model_name": name.lower().replace(" ", "-"),
-                    "provider": _infer_provider(name),
-                    "elo_score": score,
-                    "coding_rank": i,
-                    "reasoning_rank": i,
-                })
+                rankings.append(
+                    {
+                        "model_name": name.lower().replace(" ", "-"),
+                        "provider": _infer_provider(name),
+                        "elo_score": score,
+                        "coding_rank": i,
+                        "reasoning_rank": i,
+                    }
+                )
         if rankings:
             log.info("LMSYS Arena: fetched %d model rankings", len(rankings))
             return rankings
@@ -198,8 +256,7 @@ def _fetch_hf_leaderboard() -> list[dict] | None:
 
         # HuggingFace Leaderboard 2 API endpoint for results summary
         url = (
-            "https://huggingface.co/api/datasets/open-llm-leaderboard/results"
-            "?split=train&limit=20"
+            "https://huggingface.co/api/datasets/open-llm-leaderboard/results?split=train&limit=20"
         )
         req = urllib.request.Request(url, headers={"User-Agent": "DeterminexOracle/1.0"})
         with urllib.request.urlopen(req, timeout=10) as resp:
@@ -211,17 +268,18 @@ def _fetch_hf_leaderboard() -> list[dict] | None:
             row_data = row.get("row", row)
             name = row_data.get("model") or row_data.get("model_name", "")
             avg = float(
-                row_data.get("Average", 0) or row_data.get("average", 0)
-                or row_data.get("score", 0)
+                row_data.get("Average", 0) or row_data.get("average", 0) or row_data.get("score", 0)
             )
             if name:
-                rankings.append({
-                    "model_name": name.lower().replace(" ", "-").split("/")[-1],
-                    "provider": _infer_provider(name),
-                    "elo_score": avg * 10,  # normalize to ~ELO scale
-                    "coding_rank": i,
-                    "reasoning_rank": i,
-                })
+                rankings.append(
+                    {
+                        "model_name": name.lower().replace(" ", "-").split("/")[-1],
+                        "provider": _infer_provider(name),
+                        "elo_score": avg * 10,  # normalize to ~ELO scale
+                        "coding_rank": i,
+                        "reasoning_rank": i,
+                    }
+                )
         if rankings:
             log.info("HF Leaderboard: fetched %d model rankings", len(rankings))
             return rankings
@@ -283,6 +341,7 @@ def fetch_rankings(force_refresh: bool = False) -> tuple[list[dict], str]:
 
 # ── Curriculum loader ────────────────────────────────────────────────────────
 
+
 def load_curriculum() -> list[dict]:
     """Load curriculum.jsonl. Exits if not found."""
     if not _CURRICULUM.exists():
@@ -301,6 +360,7 @@ def load_curriculum() -> list[dict]:
 
 
 # ── Provider mapping ─────────────────────────────────────────────────────────
+
 
 def build_enabled_providers(env: dict) -> set[str]:
     """Return set of provider IDs that are currently enabled in .env."""
@@ -338,6 +398,7 @@ def top_model(rankings: list[dict], category_focus: str = "coding") -> dict | No
 
 
 # ── Oracle Mode computations ─────────────────────────────────────────────────
+
 
 def compute_mode_a(
     rankings: list[dict],
@@ -418,7 +479,7 @@ def compute_category_priority(
     Mode B + C: score and sort categories, compute pass multipliers.
     Returns enriched category list sorted by priority descending.
     """
-    top_coding    = top_model(rankings, "coding")
+    top_coding = top_model(rankings, "coding")
     top_reasoning = top_model(rankings, "reasoning")
 
     enriched = []
@@ -429,24 +490,26 @@ def compute_category_priority(
         top = top_reasoning if cot else top_coding
 
         teacher = best_available_teacher(rankings, enabled_providers, focus)
-        quality  = compute_quality_score(teacher, top, f"{focus}_rank")
+        quality = compute_quality_score(teacher, top, f"{focus}_rank")
         multiplier = compute_pass_multiplier(quality)
 
         base_weight = cat.get("task_category_weight", 1.0)
         # Mode B final priority = base_weight × quality_score (higher quality → prioritized)
         priority_score = base_weight * quality
 
-        enriched.append({
-            **cat,
-            "_oracle": {
-                "teacher_model":   teacher["model_name"] if teacher else "none",
-                "teacher_provider": teacher["provider"] if teacher else "none",
-                "teacher_rank":    teacher.get(f"{focus}_rank", 99) if teacher else 99,
-                "quality_score":   round(quality, 3),
-                "pass_multiplier": multiplier,
-                "priority_score":  round(priority_score, 3),
-            },
-        })
+        enriched.append(
+            {
+                **cat,
+                "_oracle": {
+                    "teacher_model": teacher["model_name"] if teacher else "none",
+                    "teacher_provider": teacher["provider"] if teacher else "none",
+                    "teacher_rank": teacher.get(f"{focus}_rank", 99) if teacher else 99,
+                    "quality_score": round(quality, 3),
+                    "pass_multiplier": multiplier,
+                    "priority_score": round(priority_score, 3),
+                },
+            }
+        )
 
     # Mode B: sort by priority_score descending
     enriched.sort(key=lambda c: c["_oracle"]["priority_score"], reverse=True)
@@ -454,6 +517,7 @@ def compute_category_priority(
 
 
 # ── Session config writer ────────────────────────────────────────────────────
+
 
 def build_session_config(
     categories_enriched: list[dict],
@@ -466,16 +530,14 @@ def build_session_config(
 ) -> dict:
     """Assemble the full session_config dict."""
     samples_per_cat = env_int(env, "SESSION_SAMPLES_PER_CATEGORY", 50)
-    max_categories  = env_int(env, "SESSION_MAX_CATEGORIES_PER_RUN", 3)
+    max_categories = env_int(env, "SESSION_MAX_CATEGORIES_PER_RUN", 3)
     mode_a = env_bool(env, "ORACLE_MODE_A", True)
     mode_b = env_bool(env, "ORACLE_MODE_B", True)
     mode_c = env_bool(env, "ORACLE_MODE_C", True)
 
     # Filter by category if requested
     if filter_category:
-        categories_enriched = [
-            c for c in categories_enriched if c["category"] == filter_category
-        ]
+        categories_enriched = [c for c in categories_enriched if c["category"] == filter_category]
 
     # Agenda: top N categories (Mode B sorted if active, else original order)
     agenda_cats = categories_enriched if mode_b else categories_enriched
@@ -484,48 +546,51 @@ def build_session_config(
         oracle_meta = cat["_oracle"]
         multiplier = oracle_meta["pass_multiplier"] if mode_c else 1.0
         target = int(samples_per_cat * multiplier)
-        agenda.append({
-            "category":       cat["category"],
-            "display_name":   cat["display_name"],
-            "target_samples": target,
-            "teacher_model":  oracle_meta["teacher_model"],
-            "teacher_provider": oracle_meta["teacher_provider"],
-            "quality_score":  oracle_meta["quality_score"],
-            "pass_multiplier": oracle_meta["pass_multiplier"],
-            "priority_score": oracle_meta["priority_score"],
-            "validator":      cat.get("validator", "regex"),
-            "cot_requested":  cat.get("cot_requested", False),
-        })
+        agenda.append(
+            {
+                "category": cat["category"],
+                "display_name": cat["display_name"],
+                "target_samples": target,
+                "teacher_model": oracle_meta["teacher_model"],
+                "teacher_provider": oracle_meta["teacher_provider"],
+                "quality_score": oracle_meta["quality_score"],
+                "pass_multiplier": oracle_meta["pass_multiplier"],
+                "priority_score": oracle_meta["priority_score"],
+                "validator": cat.get("validator", "regex"),
+                "cot_requested": cat.get("cot_requested", False),
+            }
+        )
 
     # Teacher assignments dict keyed by category
     teacher_assignments = {
         cat["category"]: {
-            "provider":       cat["_oracle"]["teacher_provider"],
-            "model":          cat["_oracle"]["teacher_model"],
+            "provider": cat["_oracle"]["teacher_provider"],
+            "model": cat["_oracle"]["teacher_model"],
             "leaderboard_rank": cat["_oracle"]["teacher_rank"],
-            "quality_score":  cat["_oracle"]["quality_score"],
+            "quality_score": cat["_oracle"]["quality_score"],
             "pass_multiplier": cat["_oracle"]["pass_multiplier"],
-            "enabled":        cat["_oracle"]["teacher_provider"] in enabled_providers,
+            "enabled": cat["_oracle"]["teacher_provider"] in enabled_providers,
         }
         for cat in categories_enriched
     }
 
     config = {
-        "generated_at":      datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "leaderboard_source": source,
         "oracle_modes_active": [
             m for m, flag in [("A", mode_a), ("B", mode_b), ("C", mode_c)] if flag
         ],
         "enabled_providers": sorted(enabled_providers),
         "teacher_assignments": teacher_assignments,
-        "session_agenda":    agenda,
-        "opportunity_log":   opportunity_log if mode_a else [],
-        "top_rankings":      rankings[:10],
+        "session_agenda": agenda,
+        "opportunity_log": opportunity_log if mode_a else [],
+        "top_rankings": rankings[:10],
     }
     return config
 
 
 # ── Reporting ────────────────────────────────────────────────────────────────
+
 
 def print_session_report(config: dict, env: dict):
     """Print a human-readable session summary to stdout."""
@@ -556,10 +621,10 @@ def print_session_report(config: dict, env: dict):
 
     print("\n  TOP 5 CURRENT RANKINGS:")
     for model in config.get("top_rankings", [])[:5]:
-        rank  = model.get("coding_rank", "?")
-        name  = model.get("model_name", "unknown")
-        prov  = model.get("provider", "?")
-        elo   = model.get("elo_score", 0)
+        rank = model.get("coding_rank", "?")
+        name = model.get("model_name", "unknown")
+        prov = model.get("provider", "?")
+        elo = model.get("elo_score", 0)
         avail = "[ENABLED]" if prov in config["enabled_providers"] else "[disabled]"
         print(f"    #{rank:<3} {name:<35} {avail}  ELO {elo:.0f}")
 
@@ -581,18 +646,23 @@ def write_opportunity_log(config: dict):
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Determinex Leaderboard Oracle")
     parser.add_argument(
-        "--dry-run", action="store_true",
+        "--dry-run",
+        action="store_true",
         help="Print report only — do not write session_config.json",
     )
     parser.add_argument(
-        "--force-refresh", action="store_true",
+        "--force-refresh",
+        action="store_true",
         help="Bypass 24h cache and re-fetch live rankings",
     )
     parser.add_argument(
-        "--category", type=str, default=None,
+        "--category",
+        type=str,
+        default=None,
         help="Limit agenda to a single curriculum category (for testing)",
     )
     args = parser.parse_args()
@@ -623,7 +693,12 @@ def main():
 
     # ── Build session config
     config = build_session_config(
-        enriched, rankings, source, opportunities, env, enabled,
+        enriched,
+        rankings,
+        source,
+        opportunities,
+        env,
+        enabled,
         filter_category=args.category,
     )
 

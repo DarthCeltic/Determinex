@@ -1,4 +1,5 @@
 """Accessibility tree reader for browser agents."""
+
 from __future__ import annotations
 
 import hashlib
@@ -57,17 +58,29 @@ def find_by_name(tree: dict, name: str) -> list[dict]:
 
 def is_node_focused(tree: dict) -> bool:
     """Check if any node in the tree is focused."""
+
     def walk(node: dict) -> bool:
         if not isinstance(node, dict):
             return False
         if node.get("focused"):
             return True
         return any(walk(c) for c in node.get("children", []))
+
     return walk(tree)
 
 
 def get_focusable_elements(tree: dict) -> list[dict]:
-    focusable_roles = {"button", "link", "textbox", "checkbox", "radio", "combobox", "listbox", "menuitem", "tab"}
+    focusable_roles = {
+        "button",
+        "link",
+        "textbox",
+        "checkbox",
+        "radio",
+        "combobox",
+        "listbox",
+        "menuitem",
+        "tab",
+    }
     results: list[dict] = []
 
     def walk(node: dict) -> None:

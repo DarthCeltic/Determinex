@@ -1,9 +1,9 @@
 """Records for CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_TOKENS = (
     "CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_WRITTEN",

@@ -25,6 +25,7 @@ Hard rules enforced by load():
   * If source_mutation_authorized or training_eligible is True in
     the evidence, BLOCKS with BLOCKED_AUTHORITY_CONFUSION.
 """
+
 from __future__ import annotations
 
 import json
@@ -42,7 +43,6 @@ from .idea_lab_verified_demo_status_record import (
     IdeaLabVerifiedDemoStatus,
 )
 
-
 # Required boundary statements every reconciled demo evidence must
 # include in claim_boundary. Missing any of these = BLOCKED.
 REQUIRED_BOUNDARY_STATEMENTS = (
@@ -55,7 +55,8 @@ REQUIRED_BOUNDARY_STATEMENTS = (
 
 _DEFAULT_EVIDENCE_DIR = (
     Path(__file__).resolve().parents[2]
-    / "assurance" / "evidence"
+    / "assurance"
+    / "evidence"
     / "idea_lab_python_cli_verified_splash_demo"
 )
 
@@ -114,9 +115,7 @@ def load(evidence_dir: Path | str | None = None) -> IdeaLabVerifiedDemoStatus:
     ed = Path(evidence_dir) if evidence_dir else _DEFAULT_EVIDENCE_DIR
     chosen = _locate_latest_evidence(ed)
     if chosen is None:
-        return _awaiting(
-            f"no evidence file under {ed}"
-        )
+        return _awaiting(f"no evidence file under {ed}")
 
     try:
         blob = json.loads(chosen.read_text(encoding="utf-8"))
@@ -144,8 +143,7 @@ def load(evidence_dir: Path | str | None = None) -> IdeaLabVerifiedDemoStatus:
     boundary_list = blob.get("claim_boundary") or []
     boundary_joined = " ; ".join(str(b) for b in boundary_list).lower()
     missing_required = [
-        req for req in REQUIRED_BOUNDARY_STATEMENTS
-        if req.lower() not in boundary_joined
+        req for req in REQUIRED_BOUNDARY_STATEMENTS if req.lower() not in boundary_joined
     ]
     if missing_required:
         return _block(
@@ -162,16 +160,14 @@ def load(evidence_dir: Path | str | None = None) -> IdeaLabVerifiedDemoStatus:
     # 'not all apps' boundary entry does not mask an affirmative
     # 'Determinex supports all apps' marketing slip elsewhere.
     import re as _re
-    safe_haystack = json.dumps(
-        {k: v for k, v in blob.items() if k != "blocked_path_demo"}
-    ).lower()
+
+    safe_haystack = json.dumps({k: v for k, v in blob.items() if k != "blocked_path_demo"}).lower()
     for phrase in FORBIDDEN_BROAD_CLAIM_PHRASES:
         if phrase not in safe_haystack:
             continue
         affirmative_pattern = _re.compile(
             r"(?<!not )(?<!refuses )(?<!refused )(?<!refusing )"
-            r"(?<!refuse )(?<!blocks )(?<!blocked )"
-            + _re.escape(phrase)
+            r"(?<!refuse )(?<!blocks )(?<!blocked )" + _re.escape(phrase)
         )
         if affirmative_pattern.search(safe_haystack):
             return _block(

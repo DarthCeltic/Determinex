@@ -35,6 +35,7 @@ single parametrize argname only (no "a,b" multi-param strings), values must each
 plain constant (str/int/float/bool) -- anything else falls back to the pre-existing skip
 behavior rather than guessing.
 """
+
 from __future__ import annotations
 
 import ast
@@ -52,82 +53,83 @@ def _func(src: str) -> ast.FunctionDef:
 
 # ---------- _parametrize_cases() ----------
 
+
 def test_parametrize_cases_simple_string_list():
-    node = _func('''
+    node = _func("""
 @pytest.mark.parametrize("flag", ["-b", "--batch"])
 def test_x(flag):
     pass
-''')
+""")
     cases = iox._parametrize_cases(node)
     assert cases == [{"flag": "-b"}, {"flag": "--batch"}]
 
 
 def test_parametrize_cases_int_values():
-    node = _func('''
+    node = _func("""
 @pytest.mark.parametrize("n", [0, 1, 5])
 def test_x(n):
     pass
-''')
+""")
     cases = iox._parametrize_cases(node)
     assert cases == [{"n": 0}, {"n": 1}, {"n": 5}]
 
 
 def test_parametrize_cases_tuple_literal():
-    node = _func('''
+    node = _func("""
 @pytest.mark.parametrize("flag", ("-b", "--batch"))
 def test_x(flag):
     pass
-''')
+""")
     cases = iox._parametrize_cases(node)
     assert cases == [{"flag": "-b"}, {"flag": "--batch"}]
 
 
 def test_parametrize_cases_no_decorator_returns_none():
-    node = _func('''
+    node = _func("""
 def test_x():
     pass
-''')
+""")
     assert iox._parametrize_cases(node) is None
 
 
 def test_parametrize_cases_multi_param_name_bails():
-    """"a,b" multi-arg parametrize is out of scope -- never guess at splitting it."""
-    node = _func('''
+    """ "a,b" multi-arg parametrize is out of scope -- never guess at splitting it."""
+    node = _func("""
 @pytest.mark.parametrize("a,b", [(1, 2), (3, 4)])
 def test_x(a, b):
     pass
-''')
+""")
     assert iox._parametrize_cases(node) is None
 
 
 def test_parametrize_cases_non_constant_values_bail():
-    node = _func('''
+    node = _func("""
 @pytest.mark.parametrize("flag", [some_dynamic_list])
 def test_x(flag):
     pass
-''')
+""")
     assert iox._parametrize_cases(node) is None
 
 
 def test_parametrize_cases_mixed_decorators_are_ignored():
     """A non-parametrize decorator alongside a real one shouldn't confuse detection."""
-    node = _func('''
+    node = _func("""
 @pytest.mark.timeout(5)
 @pytest.mark.parametrize("flag", ["-b", "--batch"])
 def test_x(flag):
     pass
-''')
+""")
     cases = iox._parametrize_cases(node)
     assert cases == [{"flag": "-b"}, {"flag": "--batch"}]
 
 
 def test_parametrize_cases_stacked_decorators_cartesian_product():
-    node = _func('''
+    node = _func("""
 @pytest.mark.parametrize("a", [1, 2])
 @pytest.mark.parametrize("b", ["x", "y"])
 def test_x(a, b):
     pass
-''')
+""")
     cases = iox._parametrize_cases(node)
     assert len(cases) == 4
     assert {"a": 1, "b": "x"} in cases
@@ -135,18 +137,19 @@ def test_x(a, b):
 
 
 def test_parametrize_cases_empty_list_returns_none():
-    node = _func('''
+    node = _func("""
 @pytest.mark.parametrize("flag", [])
 def test_x(flag):
     pass
-''')
+""")
     assert iox._parametrize_cases(node) is None
 
 
 # ---------- extract_file() integration ----------
 
+
 def test_extract_file_expands_parametrized_flag_into_two_examples(tmp_path):
-    src = '''
+    src = """
 import subprocess
 
 EXECUTABLE = "./executable"
@@ -159,7 +162,7 @@ def run_command(args):
 def test_batch_flag(flag):
     stdout, stderr, returncode = run_command([flag, "echo", "test"])
     assert "test" in stdout or "test" in stderr
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -180,7 +183,7 @@ def test_batch_flag(flag):
 def test_extract_file_non_parametrized_test_unaffected(tmp_path):
     """A plain (non-parametrized) test still produces exactly one example, one test name,
     with no [..] suffix -- the fix must not disturb the existing common case."""
-    src = '''
+    src = """
 import subprocess
 
 EXECUTABLE = "./executable"
@@ -192,7 +195,7 @@ def run_command(args):
 def test_version():
     stdout, stderr, returncode = run_command(["--version"])
     assert returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -208,7 +211,7 @@ def test_extract_file_parametrize_with_unresolvable_values_falls_back_to_one_ski
     """A parametrize whose values can't be resolved must not silently drop coverage --
     it should fall back to treating the function as ONE unparametrized (and therefore
     unresolvable-argv) test, matching pre-fix behavior exactly."""
-    src = '''
+    src = """
 import subprocess
 
 EXECUTABLE = "./executable"
@@ -221,7 +224,7 @@ def run_command(args):
 def test_batch_flag(flag):
     stdout, stderr, returncode = run_command([flag, "echo", "test"])
     assert "test" in stdout or "test" in stderr
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

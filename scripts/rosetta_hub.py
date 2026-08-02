@@ -174,7 +174,9 @@ def pull(repo_id: str, out_dir: Path, arches: list[str] | None = None) -> int:
 
     out_dir.mkdir(parents=True, exist_ok=True)
     tok = _token()
-    mp = hf_hub_download(repo_id, MANIFEST_NAME, repo_type="model", token=tok, local_dir=str(out_dir))
+    mp = hf_hub_download(
+        repo_id, MANIFEST_NAME, repo_type="model", token=tok, local_dir=str(out_dir)
+    )
     manifest = json.loads(Path(mp).read_text(encoding="utf-8"))
     shards = manifest.get("shards") or {}
 
@@ -186,7 +188,9 @@ def pull(repo_id: str, out_dir: Path, arches: list[str] | None = None) -> int:
     got = 0
     for a in wanted:
         entry = shards[a]
-        hf_hub_download(repo_id, entry["file"], repo_type="model", token=tok, local_dir=str(out_dir))
+        hf_hub_download(
+            repo_id, entry["file"], repo_type="model", token=tok, local_dir=str(out_dir)
+        )
         got += entry["bytes"]
         print(f"  {a:12} {entry['bytes'] / 1_000_000:7.1f} MB")
     print(f"\n{len(wanted)} shards, {got / 1_000_000:.1f} MB -> {out_dir}")
@@ -194,7 +198,9 @@ def pull(repo_id: str, out_dir: Path, arches: list[str] | None = None) -> int:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p = sub.add_parser("push", help="Upload shards to HuggingFace (private by default)")

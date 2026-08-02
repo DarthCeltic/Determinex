@@ -21,6 +21,7 @@ Skip classification (from eval-report skip reasons):
 
 Re-run after every wave: python scripts/pb_ceiling_register.py
 """
+
 from __future__ import annotations
 
 import json
@@ -71,33 +72,33 @@ CEILING_CONFIRMED: dict[str, dict] = {
     "dalance__amber": {
         "ceiling": "~587/600 (97.8%)",
         "blocker": "Camp A branches assert rc=1 on no-TTY pipe; Camp B asserts rc=0+file-modify "
-                   "for the same invocation. No single binary satisfies both.",
+        "for the same invocation. No single binary satisfies both.",
     },
     "sharkdp__hexyl": {
         "ceiling": "~940/946 (99.37%)",
         "blocker": "--panels=1 row-width conflict with passing golden snapshot; decimal/octal "
-                   "zero-pad regex mismatch ({i:03} vs \\b10\\b).",
+        "zero-pad regex mismatch ({i:03} vs \\b10\\b).",
     },
     "sharkdp__fd": {
         "ceiling": "~1263/1271 (99.37%)",
         "blocker": "Root user makes all files executable (defeats chmod tests); subprocess "
-                   "FileNotFoundError on deleted cwd; \\Ac literal in Rust regex.",
+        "FileNotFoundError on deleted cwd; \\Ac literal in Rust regex.",
     },
     "johanneskaufmann__html-to-markdown": {
         "ceiling": "971/974 (99.69%)",
         "blocker": "Three branches assert conflicting --version strings for identical "
-                   "invocations. 4 independent evals all land at 971/974.",
+        "invocations. 4 independent evals all land at 971/974.",
     },
     "doxygen__doxygen": {
         "ceiling": "~250/394 (63.6%)",
         "blocker": "tests.json for 2 of 3 branches carries duplicate test IDs with both "
-                   "eval.tests. and tests. prefixes; JUnit XML only ever emits one prefix — "
-                   "the other half is permanently not_run.",
+        "eval.tests. and tests. prefixes; JUnit XML only ever emits one prefix — "
+        "the other half is permanently not_run.",
     },
     "orf__gping": {
         "ceiling": "649/655 (99.08%)",
         "blocker": "2 ping-missing ENXIO failures irreconcilable with ping-present branches; "
-                   "4 upstream skips.",
+        "4 upstream skips.",
     },
     "kyoh86__richgo": {
         "ceiling": "~787/823 (95.6%)",
@@ -140,8 +141,7 @@ def extract_skips(report_path: str) -> list[dict]:
             reason = (ex.get("text") or "").strip()
         # strip "path:line: " prefix pytest puts in front of the reason
         reason = re.sub(r"^\S+:\d+:\s*", "", reason.replace("\n", " "))[:200]
-        out.append({"test": str(v.get("name") or k), "reason": reason,
-                    "class": classify(reason)})
+        out.append({"test": str(v.get("name") or k), "reason": reason, "class": classify(reason)})
     return out
 
 
@@ -154,7 +154,7 @@ def main() -> int:
         "ledger_definitions": {
             "strict_lock": "passed==total, 0 skipped, 0 not_run, no eval_override, guard-clean",
             "reference_parity": "every non-passing test is a hard_upstream/root_container skip "
-                                "the reference binary also cannot pass; failed==0, not_run==0",
+            "the reference binary also cannot pass; failed==0, not_run==0",
             "ceiling_confirmed": "structurally impossible; proof recorded per tool",
         },
         "tools": {},
@@ -181,15 +181,19 @@ def main() -> int:
             recoverable = classes.get("env_conditional", 0) + classes.get("dependency_cascade", 0)
             hard = classes.get("hard_upstream", 0) + classes.get("root_container", 0)
             entry = {
-                "ledger": "strict_candidate_after_env_fix" if hard == 0 and classes.get("unverified", 0) == 0
-                          else ("reference_parity_ceiling" if recoverable == 0 and classes.get("unverified", 0) == 0
-                                else "mixed_needs_probe"),
+                "ledger": "strict_candidate_after_env_fix"
+                if hard == 0 and classes.get("unverified", 0) == 0
+                else (
+                    "reference_parity_ceiling"
+                    if recoverable == 0 and classes.get("unverified", 0) == 0
+                    else "mixed_needs_probe"
+                ),
                 "official": f"{e.get('official_passed')}/{e.get('official_total')}",
                 "skip_classes": dict(classes),
                 "skips": skips,
                 "strict_eligible": hard == 0,
                 "parity_ceiling_if_hard_stand": f"{(e.get('official_total') or 0) - hard}"
-                                                f"/{e.get('official_total')}",
+                f"/{e.get('official_total')}",
             }
         if entry:
             entry["status_at_generation"] = e.get("status")

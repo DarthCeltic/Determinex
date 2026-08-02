@@ -11,6 +11,7 @@ release pass has turned up: a check whose input a human types.
 computes `status` from the steps rather than accepting it, so the write-up of a session that did
 not finish cannot say it did.
 """
+
 from __future__ import annotations
 
 import json
@@ -37,8 +38,13 @@ def _step(step_id: int, *, status: str = "complete", oracle: str = "pass", **ext
 
 def _manifest(steps, **extra):
     base = {
-        "session_id": "s-1", "lang": "rust", "api_cost_usd": 0.0, "session_budget_usd": 2.0,
-        "correctness_test_harness": "", "steps": steps, "pending_escalations": [],
+        "session_id": "s-1",
+        "lang": "rust",
+        "api_cost_usd": 0.0,
+        "session_budget_usd": 2.0,
+        "correctness_test_harness": "",
+        "steps": steps,
+        "pending_escalations": [],
     }
     base.update(extra)
     return base
@@ -53,8 +59,9 @@ class TestStatusIsComputedNotAccepted:
         assert rec["observed_result"]["steps_failed"] == 0
 
     def test_a_failed_step_cannot_be_written_up_as_passed(self):
-        rec = C.build_record(_manifest([_step(1), _step(2, status="failed", oracle="fail")]),
-                             generated_at_utc=STAMP)
+        rec = C.build_record(
+            _manifest([_step(1), _step(2, status="failed", oracle="fail")]), generated_at_utc=STAMP
+        )
         assert rec["status"] == C.FAILED
         assert rec["observed_result"]["steps_failed"] == 1
 
@@ -84,8 +91,9 @@ class TestStatusIsComputedNotAccepted:
         assert rec["status"] == C.FAILED
 
     def test_a_pending_escalation_is_not_a_pass(self):
-        rec = C.build_record(_manifest([_step(1)], pending_escalations=[{"step": 1}]),
-                             generated_at_utc=STAMP)
+        rec = C.build_record(
+            _manifest([_step(1)], pending_escalations=[{"step": 1}]), generated_at_utc=STAMP
+        )
         assert rec["status"] == C.FAILED
         assert any("escalation" in q for q in rec["qualifications"])
 
@@ -122,8 +130,9 @@ class TestItRefusesWhatItCannotRead:
     def test_a_mismatched_session_id_is_refused(self, tmp_path):
         d = tmp_path / "sessions" / "asked-for"
         d.mkdir(parents=True)
-        (d / "manifest.json").write_text(json.dumps({"session_id": "something-else"}),
-                                        encoding="utf-8")
+        (d / "manifest.json").write_text(
+            json.dumps({"session_id": "something-else"}), encoding="utf-8"
+        )
         with pytest.raises(C.CaptureError, match="does not match requested"):
             C.load_manifest(tmp_path, "asked-for")
 
@@ -149,7 +158,10 @@ class TestTheGateAcceptsWhatThisWrites:
         d.mkdir(parents=True)
         (d / "manifest.json").write_text(json.dumps(_manifest(steps)), encoding="utf-8")
         rc = C.main(["--session", "s-1", "--root", str(root)])
-        out = root / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json"
+        out = (
+            root
+            / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json"
+        )
         assert out.is_file()
         return out, rc
 
@@ -176,8 +188,11 @@ class TestTheGateAcceptsWhatThisWrites:
 
 def test_the_shipped_evidence_is_derived_from_a_real_session():
     """Guards the regression directly: hand-written evidence has no `derived_from` session."""
-    path = (REPO_ROOT / "assurance/evidence/first_end_to_end_user_workflow"
-            / "rerun_after_builder_health_latest.json")
+    path = (
+        REPO_ROOT
+        / "assurance/evidence/first_end_to_end_user_workflow"
+        / "rerun_after_builder_health_latest.json"
+    )
     if not path.is_file():
         pytest.skip("no first-E2E rerun evidence in this checkout")
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -192,10 +207,14 @@ def test_the_shipped_evidence_is_derived_from_a_real_session():
     if not manifest.is_file():
         pytest.skip(f"session {session_id} manifest is not retained in this checkout")
     # Recompute from the manifest and require the evidence to still match it.
-    recomputed = C.build_record(json.loads(manifest.read_text(encoding="utf-8")),
-                                generated_at_utc=str(data.get("generated_at_utc") or STAMP))
+    recomputed = C.build_record(
+        json.loads(manifest.read_text(encoding="utf-8")),
+        generated_at_utc=str(data.get("generated_at_utc") or STAMP),
+    )
     assert recomputed["status"] == data["status"], (
         "the evidence disagrees with the session it claims to come from"
     )
-    assert recomputed["observed_result"]["steps_complete"] == data["observed_result"]["steps_complete"]
+    assert (
+        recomputed["observed_result"]["steps_complete"] == data["observed_result"]["steps_complete"]
+    )
     assert recomputed["observed_result"]["steps_total"] == data["observed_result"]["steps_total"]

@@ -1,6 +1,8 @@
 """SentinelBench action gate: DELETE_DATA always requires confirmation."""
-from tests.sentinelbench.helpers import make_action
+
 from agents.base_agent import ActionType, EnvType, VisualTaskSpec
+
+from tests.sentinelbench.helpers import make_action
 
 
 def test_delete_data_requires_confirmation(governor, browser_observation):

@@ -9,11 +9,11 @@ genuinely free local Ollama calls as costing real money. A session could
 blow through real dollars while session.budget_exhausted still read
 comfortably under the $2 default cap.
 """
+
 from __future__ import annotations
 
-import pytest
-
 import hive.budget as budget
+import pytest
 from hive.manifest import ManifestSession
 
 
@@ -28,6 +28,7 @@ def _session(budget_usd: float = 2.0) -> ManifestSession:
 
 
 # ── _estimate_cost_usd: pricing correctness ─────────────────────────────────
+
 
 def test_local_ollama_model_is_free():
     assert budget._estimate_cost_usd("ollama/qwen2.5-coder:14b", 50_000, None, None) == 0.0
@@ -61,7 +62,9 @@ def test_pricing_lookup_matches_provider_prefixed_model_string():
 
 def test_exact_prompt_completion_split_is_used_when_available():
     in_rate, out_rate = budget._MODEL_PRICING["claude-opus-4-6"]
-    cost = budget._estimate_cost_usd("claude-opus-4-6", 10_000, prompt_tokens=3000, completion_tokens=7000)
+    cost = budget._estimate_cost_usd(
+        "claude-opus-4-6", 10_000, prompt_tokens=3000, completion_tokens=7000
+    )
     expected = (3000 / 1_000_000) * in_rate + (7000 / 1_000_000) * out_rate
     assert cost == pytest.approx(expected)
 
@@ -76,6 +79,7 @@ def test_missing_split_falls_back_to_completion_heavy_assumption():
 
 
 # ── record_api_call_cost: session-level integration ─────────────────────────
+
 
 def test_record_api_call_cost_accumulates_real_cost():
     session = _session(budget_usd=2.0)

@@ -12,7 +12,9 @@ from corpus.programbench.cleanroom_image_scanner_admission import (  # noqa: E40
     CommandResult,
     ProgramBenchCleanroomImageScannerAdmission,
 )
-from corpus.programbench.cleanroom_image_scanner_admission_record import verify_cleanroom_image_scanner_admission_record  # noqa: E402
+from corpus.programbench.cleanroom_image_scanner_admission_record import (
+    verify_cleanroom_image_scanner_admission_record,  # noqa: E402
+)
 
 
 def _exe(tmp_path: Path, name: str) -> Path:
@@ -43,19 +45,28 @@ def _runner_ok(command: list[str], _timeout: int) -> CommandResult:
 def test_missing_scanner_path_produces_not_found(tmp_path):
     result = _admitter(tmp_path).admit("trivy", tmp_path / "missing.exe")
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_NOT_FOUND.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_NOT_FOUND.value
+    )
 
 
 def test_unknown_scanner_name_is_rejected(tmp_path):
     result = _admitter(tmp_path).admit("unknown", _exe(tmp_path, "unknown.exe"))
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_BLOCKED_UNKNOWN.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_BLOCKED_UNKNOWN.value
+    )
 
 
 def test_trivy_path_with_valid_version_and_capability_is_admitted(tmp_path):
     result = _admitter(tmp_path, runner=_runner_ok).admit("trivy", _exe(tmp_path, "trivy.exe"))
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+    )
     assert result["record"]["scanner_name"] == "trivy"
     assert "trivy image --input" in result["record"]["capability"]
 
@@ -63,28 +74,44 @@ def test_trivy_path_with_valid_version_and_capability_is_admitted(tmp_path):
 def test_grype_path_with_valid_version_and_capability_is_admitted(tmp_path):
     result = _admitter(tmp_path, runner=_runner_ok).admit("grype", _exe(tmp_path, "grype.exe"))
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+    )
     assert result["record"]["scanner_name"] == "grype"
     assert "docker-archive" in result["record"]["capability"]
 
 
 def test_docker_scout_admitted_only_when_archive_capability_verified(tmp_path):
-    result = _admitter(tmp_path, runner=_runner_ok).admit("docker_scout", _exe(tmp_path, "docker.exe"))
+    result = _admitter(tmp_path, runner=_runner_ok).admit(
+        "docker_scout", _exe(tmp_path, "docker.exe")
+    )
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+    )
     assert result["record"]["scanner_name"] == "docker_scout"
 
 
 def test_wrapper_path_rejected_unless_allowlisted(tmp_path):
     result = _admitter(tmp_path, runner=_runner_ok).admit("trivy", _exe(tmp_path, "trivy.ps1"))
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_BLOCKED_WRAPPER.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_BLOCKED_WRAPPER.value
+    )
 
 
 def test_allowlisted_wrapper_can_be_admitted(tmp_path):
-    result = _admitter(tmp_path, runner=_runner_ok, allow_wrappers=True).admit("trivy", _exe(tmp_path, "trivy.ps1"))
+    result = _admitter(tmp_path, runner=_runner_ok, allow_wrappers=True).admit(
+        "trivy", _exe(tmp_path, "trivy.ps1")
+    )
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+    )
 
 
 def test_scanner_requiring_container_execution_is_rejected(tmp_path):
@@ -95,7 +122,10 @@ def test_scanner_requiring_container_execution_is_rejected(tmp_path):
 
     result = _admitter(tmp_path, runner=runner).admit("docker_scout", _exe(tmp_path, "docker.exe"))
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_BLOCKED_REQUIRES_EXECUTION.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_BLOCKED_REQUIRES_EXECUTION.value
+    )
 
 
 def test_version_read_failure_rejects_scanner(tmp_path):
@@ -104,7 +134,10 @@ def test_version_read_failure_rejects_scanner(tmp_path):
 
     result = _admitter(tmp_path, runner=runner).admit("trivy", _exe(tmp_path, "trivy.exe"))
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_VERSION_FAILED.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_VERSION_FAILED.value
+    )
 
 
 def test_capability_check_failure_rejects_docker_scout(tmp_path):
@@ -115,7 +148,10 @@ def test_capability_check_failure_rejects_docker_scout(tmp_path):
 
     result = _admitter(tmp_path, runner=runner).admit("docker_scout", _exe(tmp_path, "docker.exe"))
 
-    assert result["record"]["status"] == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_BLOCKED_REQUIRES_EXECUTION.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_BLOCKED_REQUIRES_EXECUTION.value
+    )
 
 
 def test_signed_admission_record_is_produced(tmp_path):

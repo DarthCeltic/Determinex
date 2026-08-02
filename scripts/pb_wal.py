@@ -14,6 +14,7 @@ Usage:
     from pb_wal import wal_record
     wal_record(run_name, instance_id, attempt, system_prompt, user_msg, response, outcome)
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -40,8 +41,8 @@ def wal_record(
     outcome: dict,
 ) -> Path:
     """Append one WAL record. `outcome` should contain at minimum:
-       backend, model, compile_ok, eval_score, eval_passed, eval_total,
-       wins (test names), regressions (test names), failure_categories.
+    backend, model, compile_ok, eval_score, eval_passed, eval_total,
+    wins (test names), regressions (test names), failure_categories.
     """
     rec = {
         "ts": time.time(),
@@ -91,17 +92,22 @@ def wal_summary(run_name: str) -> str:
                 continue
             n_records += 1
             o = r.get("outcome", {})
-            if o.get("compile_ok"): n_compile += 1
+            if o.get("compile_ok"):
+                n_compile += 1
             score = o.get("eval_score", -1)
-            if score >= 100: n_locks += 1
+            if score >= 100:
+                n_locks += 1
             by_score[score // 10 * 10] = by_score.get(score // 10 * 10, 0) + 1
-    return (f"WAL {run_name}: {len(files)} tasks, {n_records} attempts, "
-            f"{n_compile} compiled, {n_locks} locked. Score histogram: " +
-            ", ".join(f"{k}+={v}" for k, v in sorted(by_score.items())))
+    return (
+        f"WAL {run_name}: {len(files)} tasks, {n_records} attempts, "
+        f"{n_compile} compiled, {n_locks} locked. Score histogram: "
+        + ", ".join(f"{k}+={v}" for k, v in sorted(by_score.items()))
+    )
 
 
 if __name__ == "__main__":
     import argparse
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--summary", help="Show WAL summary for a run")
     args = ap.parse_args()

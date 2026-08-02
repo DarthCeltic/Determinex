@@ -58,6 +58,7 @@ if str(_SCRIPTS_DIR) not in sys.path:
 # ── Load .env before any module reads os.environ for API keys ─────────────────
 try:
     from dotenv import load_dotenv as _load_dotenv
+
     _load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 except ImportError:
     pass  # python-dotenv not installed — keys must be set in the shell environment
@@ -67,12 +68,13 @@ except ImportError:
 # initialises its CUDA context.  The warning is cosmetic noise on Python 3.12+
 # and does not affect functionality.
 import warnings
+
 warnings.filterwarnings("ignore", category=FutureWarning, message=".*pynvml.*")
 try:
-    import determinex_rosetta
-    from determinex_rosetta import RosettaStone
     import determinex_inference
+    import determinex_rosetta
     from determinex_inference import DeterminexInference
+    from determinex_rosetta import RosettaStone
 except Exception as e:  # noqa: BLE001 - see below; this MUST NOT be ImportError only
     # `except ImportError` was not enough, and the gap took down the whole
     # product in its shipped form.
@@ -126,61 +128,42 @@ def _redirect_logging_to_stderr() -> None:
         if isinstance(handler, logging.StreamHandler) and handler.stream is sys.stdout:
             handler.stream = sys.stderr
 
+
 # ── Import all logic from hive.* modules ──────────────────────────────────────
-from hive.manifest import (
-    ManifestSession, StepRecord, PublicApiSnapshot,
-    save_manifest, load_manifest, list_sessions,
-    wal_write_pending, wal_complete, wal_fail, wal_recover_pending,
-    _session_dir, _manifest_path, _steps_dir,
-    DEFAULT_SESSION_BUDGET_USD,
-)
-from hive.hardware import (
-    HardwareProfile, profile_hardware, select_communication_layer,
-    effective_adjudication_weights, get_adjudication_embedder, adjudication_cosine,
-    ADJUDICATION_WEIGHTS,
-)
-from hive.workspace import (
-    create_workspace, scaffold_rust_project, scaffold_go_module,
-    scaffold_python_project, cleanup_workspace,
-    hash_workspace_files, build_signature_index,
-    get_target_region, assemble_builder_context,
-    SIG_INDEX_REGION_LINES, MAX_FILE_LINES_BEFORE_SIG,
+from hive.api_client import (
+    cmd_generate_dag,
+    load_role_assignments,
 )
 from hive.compiler import (
-    validate_scaffolding, validate_project,
-    sanitize_compiler_output, hash_compiler_error, classify_training_quality,
-    apply_step_output, extract_public_api, api_snapshots_differ,
-    COMPILE_TIMEOUT,
-)
-from hive.dag import topological_sort, flag_stale_downstream, build_execution_waves
-from hive.budget import (
-    estimate_session_cost, record_api_call_cost,
-    api_budget_preflight, queue_for_training,
-    APPROX_TOKENS_PER_STEP, APPROX_COST_PER_1K_TOKENS, BUDGET_WARN_FRACTION,
-)
-from hive.api_client import (
-    RateLimitExhausted, ApiRateLimiter,
-    load_rate_limit_profile, load_role_assignments, api_call,
-    generate_dag, cmd_generate_dag,
+    validate_scaffolding,
 )
 from hive.executor import (
-    build_escalation_payload, execute_step, run_session,
-    MAX_RETRIES_PER_STEP, MAX_CHALLENGES_PER_STEP,
-    MIN_CHALLENGE_DELTA, MAX_ESCALATIONS_PER_STEP,
+    run_session,
 )
-from hive.session_manager import new_session, check_session_resume
+from hive.manifest import (
+    DEFAULT_SESSION_BUDGET_USD,
+    list_sessions,
+    load_manifest,
+    save_manifest,
+    wal_recover_pending,
+)
+from hive.session_manager import check_session_resume, new_session
+from hive.workspace import (
+    cleanup_workspace,
+)
 
 # ── Paths (kept for backward compat if anything references them) ─────────────
-_ROOT         = Path(__file__).resolve().parent.parent
+_ROOT = Path(__file__).resolve().parent.parent
 _SESSIONS_DIR = _ROOT / "sessions"
 
 # ── Build loop constants (re-export from sub-modules) ─────────────────────────
-SHADOW_STEPS_PER_TYPE      = 5
-SHADOW_REENABLE_THRESHOLD  = 20
+SHADOW_STEPS_PER_TYPE = 5
+SHADOW_REENABLE_THRESHOLD = 20
 DEFAULT_SESSION_BUDGET_USD = DEFAULT_SESSION_BUDGET_USD
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
+
 
 def cmd_new_session(args) -> None:
     spec = Path(args.spec)
@@ -193,8 +176,9 @@ def cmd_new_session(args) -> None:
     # (semantic reframing detection) on the raw spec text.
     spec_text = spec.read_text(encoding="utf-8", errors="replace")
     try:
-        from hive.safety_gate import pre_spec_gate
         from determinex_safety import SafetyDenied
+        from hive.safety_gate import pre_spec_gate
+
         pre_spec_gate(spec_text, source="cli")
     except ImportError:
         log.warning("[SAFETY] Safety gate unavailable — spec check skipped")
@@ -219,6 +203,7 @@ def cmd_new_session(args) -> None:
             spec_to_understanding,
             write_project_md_files,
         )
+
         workspace = Path(session.project_root)
         understanding = spec_to_understanding(spec_text, args.lang, root=str(workspace))
         title_m = re.search(r"^#\s+(.+)$", spec_text, re.MULTILINE)
@@ -268,7 +253,9 @@ def cmd_run_session(args) -> None:
 def cmd_purge_workspaces(args) -> None:
     """Remove all workspace directories older than N days (default 1)."""
     import time
+
     from hive.workspace import WORKSPACE_BASE
+
     days = getattr(args, "days", 1)
     cutoff = time.time() - days * 86400
     removed = 0
@@ -276,6 +263,7 @@ def cmd_purge_workspaces(args) -> None:
     for d in WORKSPACE_BASE.iterdir() if WORKSPACE_BASE.exists() else []:
         if d.is_dir() and d.stat().st_mtime < cutoff:
             import shutil
+
             shutil.rmtree(d, ignore_errors=True)
             removed += 1
         else:
@@ -292,8 +280,8 @@ def cmd_status(args) -> None:
 
     workspace = Path(session.project_root)
     completed = sum(1 for s in session.steps if s.status == "complete")
-    total     = len(session.steps)
-    pending   = wal_recover_pending(args.session)
+    total = len(session.steps)
+    pending = wal_recover_pending(args.session)
 
     # G35: actually reset in-progress/orphaned steps to pending in the manifest
     # so resume picks them up rather than skipping them as "in_progress".
@@ -317,10 +305,15 @@ def cmd_status(args) -> None:
     if pending:
         print(f"WAL pending: {pending} (reset to pending — will retry on resume)")
 
-    print(f"\nStep summary:")
+    print("\nStep summary:")
     for s in session.steps:
-        status_icon = {"complete": "✓", "failed": "✗", "pending": "·",
-                       "in_progress": "»", "stale_instruction": "⚠"}.get(s.status, "?")
+        status_icon = {
+            "complete": "✓",
+            "failed": "✗",
+            "pending": "·",
+            "in_progress": "»",
+            "stale_instruction": "⚠",
+        }.get(s.status, "?")
         print(f"  {status_icon} [{s.id:03d}] {s.status:<18} {s.instruction[:60]}")
 
 
@@ -340,7 +333,7 @@ def cmd_resume(args) -> None:
     print(f"Next steps: {resume_info['next_step_ids']}")
 
     if resume_info["modified_files"]:
-        print(f"\nWARNING: These files were modified outside Determinex:")
+        print("\nWARNING: These files were modified outside Determinex:")
         for f in resume_info["modified_files"]:
             print(f"  {f}")
         print("  Action required: accept changes or revert before resuming.")
@@ -358,8 +351,10 @@ def cmd_list_sessions(args) -> None:
     print(f"\n{'Session ID':<38} {'Lang':<8} {'Steps':>7} {'Cost':>8} {'Updated'}")
     print("-" * 80)
     for s in sessions:
-        print(f"{s['session_id']:<38} {s['lang']:<8} {s['steps']:>7} "
-              f"${s['budget_usd']:>6.3f}  {s['updated_at'][:19]}")
+        print(
+            f"{s['session_id']:<38} {s['lang']:<8} {s['steps']:>7} "
+            f"${s['budget_usd']:>6.3f}  {s['updated_at'][:19]}"
+        )
 
 
 def cmd_diagnose(args) -> None:
@@ -371,6 +366,7 @@ def cmd_diagnose(args) -> None:
     """
     _redirect_logging_to_stderr()
     import json as _json
+
     workspace = Path(args.workspace)
     issue = args.issue or ""
 
@@ -381,6 +377,7 @@ def cmd_diagnose(args) -> None:
     # Try the full CodebaseExplorer diagnosis first
     try:
         from hive.explorer import diagnose_workspace as _diagnose
+
         manifest = _diagnose(str(workspace), issue)
         diag = manifest.get("diagnosis", {})
         result = {
@@ -416,7 +413,8 @@ def cmd_diagnose(args) -> None:
     explanation = (
         f"Issue: {issue[:200]}\n\nMost relevant files ({len(relevant)}):\n"
         + "\n".join(f"  • {p}" for p in relevant)
-        if relevant else f"No source files matched: {issue[:200]}"
+        if relevant
+        else f"No source files matched: {issue[:200]}"
     )
     print(_json.dumps({"explanation": explanation, "relevant_files": relevant, "raw": explanation}))
 
@@ -430,6 +428,7 @@ def cmd_fix(args) -> None:
     """
     _redirect_logging_to_stderr()
     import json as _json
+
     workspace = Path(args.workspace)
     issue = args.issue or ""
 
@@ -440,6 +439,7 @@ def cmd_fix(args) -> None:
     # Try the full CodebaseExplorer fix first
     try:
         from hive.explorer import fix_workspace as _fix
+
         manifest = _fix(str(workspace), issue, out_path=args.out)
         fix_result = manifest.get("result", {})
         result = {
@@ -532,7 +532,7 @@ def cmd_helper(args) -> None:
     import importlib
 
     name = args.script
-    if name not in _HELPER_MODULES:      # argparse enforces this; belt and braces
+    if name not in _HELPER_MODULES:  # argparse enforces this; belt and braces
         print(f"not an allowed helper: {name}", file=sys.stderr)
         raise SystemExit(2)
     mod = importlib.import_module(name)
@@ -571,6 +571,7 @@ def cmd_explore(args) -> None:
     """Print a JSON workspace summary: file listing, sizes, and step status."""
     _redirect_logging_to_stderr()
     import json as _json
+
     workspace = Path(args.workspace)
     if not workspace.exists():
         result = {"ok": False, "error": f"Workspace not found: {workspace}"}
@@ -627,23 +628,32 @@ def main() -> None:
 
     # new-session
     p_new = sub.add_parser("new-session", help="Start a new build session")
-    p_new.add_argument("--spec",   required=True, help="Path to the MD spec file")
-    p_new.add_argument("--lang",   required=True, choices=["rust", "go", "python"])
-    p_new.add_argument("--budget", type=float, default=DEFAULT_SESSION_BUDGET_USD,
-                        help=f"API budget in USD (default ${DEFAULT_SESSION_BUDGET_USD:.2f})")
+    p_new.add_argument("--spec", required=True, help="Path to the MD spec file")
+    p_new.add_argument("--lang", required=True, choices=["rust", "go", "python"])
+    p_new.add_argument(
+        "--budget",
+        type=float,
+        default=DEFAULT_SESSION_BUDGET_USD,
+        help=f"API budget in USD (default ${DEFAULT_SESSION_BUDGET_USD:.2f})",
+    )
     p_new.set_defaults(func=cmd_new_session)
 
     # generate-dag
     p_dag = sub.add_parser("generate-dag", help="Call Oracle+Architect to populate step manifest")
     p_dag.add_argument("--session", required=True)
-    p_dag.add_argument("--force", action="store_true", help="Regenerate even if steps already exist")
+    p_dag.add_argument(
+        "--force", action="store_true", help="Regenerate even if steps already exist"
+    )
     p_dag.set_defaults(func=cmd_generate_dag)
 
     # run-session
     p_run = sub.add_parser("run-session", help="Execute the DAG for an existing session")
     p_run.add_argument("--session", required=True)
-    p_run.add_argument("--keep-workspace", action="store_true",
-                       help="Do not delete workspace directory on success (for debugging)")
+    p_run.add_argument(
+        "--keep-workspace",
+        action="store_true",
+        help="Do not delete workspace directory on success (for debugging)",
+    )
     p_run.set_defaults(func=cmd_run_session)
 
     # status
@@ -678,10 +688,12 @@ def main() -> None:
     p_diag.set_defaults(func=cmd_diagnose)
 
     # purge-workspaces
-    p_purge = sub.add_parser("purge-workspaces",
-                             help="Delete workspace temp dirs older than N days (default 1)")
-    p_purge.add_argument("--days", type=int, default=1,
-                         help="Remove workspaces older than this many days")
+    p_purge = sub.add_parser(
+        "purge-workspaces", help="Delete workspace temp dirs older than N days (default 1)"
+    )
+    p_purge.add_argument(
+        "--days", type=int, default=1, help="Remove workspaces older than this many days"
+    )
     p_purge.set_defaults(func=cmd_purge_workspaces)
 
     # fix
@@ -692,11 +704,14 @@ def main() -> None:
     p_fix.set_defaults(func=cmd_fix)
 
     p_helper = sub.add_parser(
-        "helper", help="Run a bundled helper script (sidecar coverage for the "
-                       "non-hive scripts the desktop backend needs)")
+        "helper",
+        help="Run a bundled helper script (sidecar coverage for the "
+        "non-hive scripts the desktop backend needs)",
+    )
     p_helper.add_argument("script", choices=sorted(_HELPER_MODULES))
-    p_helper.add_argument("rest", nargs=argparse.REMAINDER,
-                          help="arguments forwarded verbatim to that script")
+    p_helper.add_argument(
+        "rest", nargs=argparse.REMAINDER, help="arguments forwarded verbatim to that script"
+    )
     p_helper.set_defaults(func=cmd_helper)
 
     args = parser.parse_args()

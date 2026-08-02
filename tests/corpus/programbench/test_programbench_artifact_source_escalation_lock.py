@@ -11,11 +11,18 @@ from corpus.programbench.artifact_source_escalation import (  # noqa: E402
     ArtifactSourceEscalationStatus,
     ProgramBenchArtifactSourceEscalation,
 )
-from corpus.programbench.artifact_source_escalation_record import verify_artifact_source_escalation_record  # noqa: E402
+from corpus.programbench.artifact_source_escalation_record import (
+    verify_artifact_source_escalation_record,  # noqa: E402
+)
 from corpus.programbench.infra_failure_triage import InfraFailureTriageStatus  # noqa: E402
-from corpus.programbench.infra_failure_triage_record import make_infra_failure_triage_record, write_infra_failure_triage_record  # noqa: E402
-from corpus.programbench.operator_artifact_admission_record import make_operator_artifact_admission_record, write_operator_artifact_admission_record  # noqa: E402
-
+from corpus.programbench.infra_failure_triage_record import (  # noqa: E402
+    make_infra_failure_triage_record,
+    write_infra_failure_triage_record,
+)
+from corpus.programbench.operator_artifact_admission_record import (  # noqa: E402
+    make_operator_artifact_admission_record,
+    write_operator_artifact_admission_record,
+)
 
 MISSING_IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 
@@ -59,7 +66,11 @@ def _escalator(tmp_path: Path):
 
 def _admission(tmp_path: Path, *, fixture: bool) -> Path:
     operator_id = "lock_fixture" if fixture else "ryan"
-    source = "fixture://programbench/doxygen/task_cleanroom" if fixture else "registry.internal/programbench/doxygen"
+    source = (
+        "fixture://programbench/doxygen/task_cleanroom"
+        if fixture
+        else "registry.internal/programbench/doxygen"
+    )
     reason = "fixture admission" if fixture else "real operator supplied provenance"
     record = make_operator_artifact_admission_record(
         status="OPERATOR_ARTIFACT_ADMISSION_ACCEPTED",
@@ -89,26 +100,40 @@ def test_missing_real_provenance_generates_operator_checklist(tmp_path):
     result = _escalator(tmp_path).escalate(_triage_path(tmp_path))
 
     record = result["record"]
-    assert record["status"] == ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_WRITTEN.value
-    assert ArtifactSourceEscalationStatus.MISSING_REAL_PROVENANCE.value in record["escalation_statuses"]
+    assert (
+        record["status"] == ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_WRITTEN.value
+    )
+    assert (
+        ArtifactSourceEscalationStatus.MISSING_REAL_PROVENANCE.value
+        in record["escalation_statuses"]
+    )
     assert any(MISSING_IMAGE in item for item in record["operator_checklist"])
 
 
 def test_missing_triage_blocks_escalation(tmp_path):
     result = _escalator(tmp_path).escalate(tmp_path / "missing.triage.json")
 
-    assert result["record"]["status"] == ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE.value
+    assert (
+        result["record"]["status"]
+        == ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE.value
+    )
 
 
 def test_non_missing_image_triage_blocks(tmp_path):
     result = _escalator(tmp_path).escalate(_triage_path(tmp_path, failure_type="MISSING_TASK_ROOT"))
 
-    assert result["record"]["status"] == ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE.value
+    assert (
+        result["record"]["status"]
+        == ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE.value
+    )
 
 
 def test_triage_not_requiring_operator_recovery_blocks(tmp_path):
     result = _escalator(tmp_path).escalate(
-        _triage_path(tmp_path, source_status=InfraFailureTriageStatus.IMAGE_SOURCE_EXACT_REFERENCE_FOUND.value)
+        _triage_path(
+            tmp_path,
+            source_status=InfraFailureTriageStatus.IMAGE_SOURCE_EXACT_REFERENCE_FOUND.value,
+        )
     )
 
     assert result["record"]["status"] == (
@@ -121,8 +146,14 @@ def test_fixture_admission_is_ignored_for_real_hydration(tmp_path):
 
     result = _escalator(tmp_path).escalate(_triage_path(tmp_path))
 
-    assert ArtifactSourceEscalationStatus.FIXTURE_ADMISSION_IGNORED.value in result["record"]["escalation_statuses"]
-    assert ArtifactSourceEscalationStatus.MISSING_REAL_PROVENANCE.value in result["record"]["escalation_statuses"]
+    assert (
+        ArtifactSourceEscalationStatus.FIXTURE_ADMISSION_IGNORED.value
+        in result["record"]["escalation_statuses"]
+    )
+    assert (
+        ArtifactSourceEscalationStatus.MISSING_REAL_PROVENANCE.value
+        in result["record"]["escalation_statuses"]
+    )
 
 
 def test_real_admission_marks_escalation_not_required(tmp_path):
@@ -157,8 +188,14 @@ def test_escalation_never_authorizes_hydration_or_execution(tmp_path):
 
     assert result["record"]["hydration_authorized"] is False
     assert result["record"]["executable"] is False
-    assert ArtifactSourceEscalationStatus.NO_HYDRATION_AUTHORIZED.value in result["record"]["escalation_statuses"]
-    assert ArtifactSourceEscalationStatus.NO_EXECUTION_AUTHORIZED.value in result["record"]["escalation_statuses"]
+    assert (
+        ArtifactSourceEscalationStatus.NO_HYDRATION_AUTHORIZED.value
+        in result["record"]["escalation_statuses"]
+    )
+    assert (
+        ArtifactSourceEscalationStatus.NO_EXECUTION_AUTHORIZED.value
+        in result["record"]["escalation_statuses"]
+    )
 
 
 def test_escalation_is_not_training_eligible(tmp_path):

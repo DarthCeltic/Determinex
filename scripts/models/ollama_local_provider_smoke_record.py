@@ -1,9 +1,9 @@
 """Records for OLLAMA_LOCAL_PROVIDER_SMOKE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 OLLAMA_LOCAL_PROVIDER_SMOKE_STATUS_TOKENS = (
     "OLLAMA_PROVIDER_SMOKE_PASSED",

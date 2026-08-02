@@ -18,6 +18,7 @@ Usage:
   python scripts/pb_hetzner_batch.py --phase download
   python scripts/pb_hetzner_batch.py --phase promote
 """
+
 from __future__ import annotations
 
 import argparse
@@ -29,23 +30,27 @@ import sys
 import tarfile
 import tempfile
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 try:
-    from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn, TimeElapsedColumn
     from rich.console import Console
+    from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
     from rich.table import Table
+
     _rich = True
 except ImportError:
     _rich = False
 
 _console = None
+
+
 def _get_console():
     global _console
     if _rich and _console is None:
         _console = Console()
     return _console
+
 
 ROOT = Path(__file__).parent.parent
 PB_DIR = ROOT / "corpus" / "programbench"
@@ -63,7 +68,7 @@ KEYWORD_FILTER = re.compile(
     re.IGNORECASE,
 )
 
-SEMANTIC_FILTER_BLOCK = '''\
+SEMANTIC_FILTER_BLOCK = """\
     def _is_tui_test(item):
         fpath = str(getattr(item, 'fspath', '') or '')
         tui_files = ('test_tui','test_tmux','test_pty','test_interactive',
@@ -86,12 +91,13 @@ SEMANTIC_FILTER_BLOCK = '''\
             pass
         return False
     keep = [item for item in items if not _is_tui_test(item)]
-    items[:] = keep'''
+    items[:] = keep"""
 
 
 # ──────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────
+
 
 def load_config() -> dict:
     return json.loads(HETZNER_CONFIG.read_text())
@@ -123,25 +129,44 @@ def load_ticket(tool_dir: Path) -> dict:
     return {}
 
 
-def ssh(node: dict, cmd: str, check: bool = True, timeout: int = 60,
-        no_stdin: bool = False) -> subprocess.CompletedProcess:
+def ssh(
+    node: dict, cmd: str, check: bool = True, timeout: int = 60, no_stdin: bool = False
+) -> subprocess.CompletedProcess:
     key = str(Path(node["ssh_key"].replace("~", str(Path.home()))))
-    base = ["ssh", "-i", key, "-o", "StrictHostKeyChecking=no",
-            "-o", f"ConnectTimeout={node.get('connect_timeout', 15)}"]
+    base = [
+        "ssh",
+        "-i",
+        key,
+        "-o",
+        "StrictHostKeyChecking=no",
+        "-o",
+        f"ConnectTimeout={node.get('connect_timeout', 15)}",
+    ]
     if no_stdin:
         base.append("-n")
     return subprocess.run(
         base + [f"{node['ssh_user']}@{node['ip']}", cmd],
-        capture_output=True, text=True, check=check, timeout=timeout,
+        capture_output=True,
+        text=True,
+        check=check,
+        timeout=timeout,
     )
 
 
 def scp_to(node: dict, local: Path, remote: str, timeout: int = 300) -> None:
     key = str(Path(node["ssh_key"].replace("~", str(Path.home()))))
     subprocess.run(
-        ["scp", "-i", key, "-o", "StrictHostKeyChecking=no",
-         str(local), f"{node['ssh_user']}@{node['ip']}:{remote}"],
-        check=True, timeout=timeout,
+        [
+            "scp",
+            "-i",
+            key,
+            "-o",
+            "StrictHostKeyChecking=no",
+            str(local),
+            f"{node['ssh_user']}@{node['ip']}:{remote}",
+        ],
+        check=True,
+        timeout=timeout,
     )
 
 
@@ -149,15 +174,25 @@ def scp_from(node: dict, remote: str, local: Path, timeout: int = 300) -> None:
     key = str(Path(node["ssh_key"].replace("~", str(Path.home()))))
     local.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(
-        ["scp", "-r", "-i", key, "-o", "StrictHostKeyChecking=no",
-         f"{node['ssh_user']}@{node['ip']}:{remote}", str(local)],
-        check=True, timeout=timeout,
+        [
+            "scp",
+            "-r",
+            "-i",
+            key,
+            "-o",
+            "StrictHostKeyChecking=no",
+            f"{node['ssh_user']}@{node['ip']}:{remote}",
+            str(local),
+        ],
+        check=True,
+        timeout=timeout,
     )
 
 
 # ──────────────────────────────────────────────────────────────────
 # PHASE 1: PREFLIGHT
 # ──────────────────────────────────────────────────────────────────
+
 
 def apply_change_a(compile_sh: str) -> tuple[str, list[str]]:
     """Remove del items[N:] lines and any immediately preceding if len(items) > N: guard."""
@@ -241,7 +276,11 @@ def preflight_tool(slug: str) -> dict:
                 return {"slug": slug, "ready_for_eval": False, "reason": "no compile.sh in tarball"}
             _f = tf.extractfile(compile_member)
             if _f is None:
-                return {"slug": slug, "ready_for_eval": False, "reason": "compile.sh is not a regular file"}
+                return {
+                    "slug": slug,
+                    "ready_for_eval": False,
+                    "reason": "compile.sh is not a regular file",
+                }
             compile_sh = _f.read().decode("utf-8", errors="replace")
     except Exception as ex:
         return {"slug": slug, "ready_for_eval": False, "reason": f"tarball read error: {ex}"}
@@ -257,8 +296,11 @@ def preflight_tool(slug: str) -> dict:
     # Verify no cap remains
     remaining = CAP_PATTERN.findall(compile_sh)
     if remaining:
-        return {"slug": slug, "ready_for_eval": False,
-                "reason": f"cap removal incomplete: {remaining}"}
+        return {
+            "slug": slug,
+            "ready_for_eval": False,
+            "reason": f"cap removal incomplete: {remaining}",
+        }
 
     # B: Semantic TUI filter
     compile_sh, b_applied = apply_change_b(compile_sh)
@@ -323,8 +365,10 @@ def phase_preflight(tools: list[dict]) -> tuple[list[dict], list[dict]]:
         else:
             not_ready.append((slug, m.get("reason", "?")))
 
-    print(f"\nPreflight complete: {len(ready)}/{len(tools)} ready for eval, "
-          f"{len(not_ready)} not ready")
+    print(
+        f"\nPreflight complete: {len(ready)}/{len(tools)} ready for eval, "
+        f"{len(not_ready)} not ready"
+    )
     if not_ready:
         for slug, reason in not_ready:
             print(f"  NOT READY: {slug} — {reason}")
@@ -334,6 +378,7 @@ def phase_preflight(tools: list[dict]) -> tuple[list[dict], list[dict]]:
 # ──────────────────────────────────────────────────────────────────
 # PHASE 2: UPLOAD
 # ──────────────────────────────────────────────────────────────────
+
 
 def assign_tools_to_nodes(tools: list[dict], nodes: list[dict]) -> dict[str, list[dict]]:
     """
@@ -386,9 +431,14 @@ def phase_upload(ready_tools: list[dict], nodes: list[dict]) -> dict[str, list[d
 
         if _rich:
             console = _get_console()
-            with Progress(SpinnerColumn(), TextColumn("[progress.description]{task.description}"),
-                          BarColumn(), TextColumn("{task.completed}/{task.total}"),
-                          TimeElapsedColumn(), console=console) as progress:
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                BarColumn(),
+                TextColumn("{task.completed}/{task.total}"),
+                TimeElapsedColumn(),
+                console=console,
+            ) as progress:
                 task = progress.add_task(f"[cyan]Uploading to {node['ip']}", total=len(node_tools))
                 uploaded = _do_upload(progress=progress, task_id=task)
         else:
@@ -481,8 +531,9 @@ def phase_execute(assignment: dict[str, list[dict]], nodes: list[dict], config: 
         script_remote = f"{work_dir}/run_all_evals.sh"
         log_remote = f"{work_dir}/batch_eval.log"
 
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".sh", delete=False,
-                                         newline="\n", encoding="utf-8") as f:
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".sh", delete=False, newline="\n", encoding="utf-8"
+        ) as f:
             f.write(script)
             script_local = Path(f.name)
 
@@ -508,6 +559,7 @@ def phase_execute(assignment: dict[str, list[dict]], nodes: list[dict], config: 
 # PHASE 4: MONITOR
 # ──────────────────────────────────────────────────────────────────
 
+
 def phase_monitor(assignment: dict[str, list[dict]], nodes: list[dict], config: dict) -> None:
     node_map = {n["id"]: n for n in nodes}
     poll_interval = config.get("poll_interval_seconds", 30)
@@ -523,7 +575,7 @@ def phase_monitor(assignment: dict[str, list[dict]], nodes: list[dict], config: 
         all_done = True
         elapsed = int(time.time() - start_time)
 
-        print(f"\n[{elapsed}s elapsed] {datetime.now(timezone.utc).strftime('%H:%M:%S UTC')}")
+        print(f"\n[{elapsed}s elapsed] {datetime.now(UTC).strftime('%H:%M:%S UTC')}")
 
         for node_id, tools in assignment.items():
             if not tools:
@@ -538,7 +590,9 @@ def phase_monitor(assignment: dict[str, list[dict]], nodes: list[dict], config: 
             completed_dirs = set(check.stdout.strip().split()) if check.stdout.strip() else set()
 
             # Check if all done
-            done_check = ssh(node, f"grep -c 'ALL_DONE' {log} 2>/dev/null || echo 0", check=False, timeout=15)
+            done_check = ssh(
+                node, f"grep -c 'ALL_DONE' {log} 2>/dev/null || echo 0", check=False, timeout=15
+            )
             node_done = done_check.stdout.strip() != "0"
 
             # Get current tool from log tail
@@ -562,8 +616,10 @@ def phase_monitor(assignment: dict[str, list[dict]], nodes: list[dict], config: 
 
             done_count = sum(1 for s in tool_status[node_id].values() if s == "done")
             total_count = len(tools)
-            print(f"  Node {node_id}: {done_count}/{total_count} done"
-                  f"{' [ALL DONE]' if node_done else ''}")
+            print(
+                f"  Node {node_id}: {done_count}/{total_count} done"
+                f"{' [ALL DONE]' if node_done else ''}"
+            )
             if current:
                 print(f"    Current: {current}")
 
@@ -576,6 +632,7 @@ def phase_monitor(assignment: dict[str, list[dict]], nodes: list[dict], config: 
 # ──────────────────────────────────────────────────────────────────
 # PHASE 5: DOWNLOAD
 # ──────────────────────────────────────────────────────────────────
+
 
 def phase_download(assignment: dict[str, list[dict]], nodes: list[dict]) -> None:
     node_map = {n["id"]: n for n in nodes}
@@ -616,21 +673,32 @@ def phase_download(assignment: dict[str, list[dict]], nodes: list[dict]) -> None
 
         # Clean remote
         print(f"  Cleaning remote {node['id']}...")
-        ssh(node, f"rm -rf {work_dir}/submissions {work_dir}/workspace {work_dir}/results", check=False)
-        print(f"  Done.")
+        ssh(
+            node,
+            f"rm -rf {work_dir}/submissions {work_dir}/workspace {work_dir}/results",
+            check=False,
+        )
+        print("  Done.")
 
 
 # ──────────────────────────────────────────────────────────────────
 # PHASE 6: PROMOTE
 # ──────────────────────────────────────────────────────────────────
 
+
 def phase_promote(tools: list[dict]) -> dict:
     """Auto-promote strict locks and upstream-skip locks from Hetzner results."""
     sys.path.insert(0, str(ROOT / "scripts"))
-    from pb_promote import promote_tool, validate_lock
-    import collections
 
-    results = {"strict_lock": [], "upstream_skips": [], "partial": [], "regression": [], "error": []}
+    from pb_promote import promote_tool, validate_lock
+
+    results = {
+        "strict_lock": [],
+        "upstream_skips": [],
+        "partial": [],
+        "regression": [],
+        "error": [],
+    }
 
     # Load current index to check for regressions
     index = load_index()
@@ -690,7 +758,7 @@ STATE_FILE = ROOT / "logs" / "hetzner_batch_state.json"
 
 def save_state(assignment: dict, ready: list, not_ready: list) -> None:
     state = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "assignment": {nid: [e["slug"] for e in tools] for nid, tools in assignment.items()},
         "ready": [e["slug"] for e in ready],
         "not_ready": [slug for slug, _ in not_ready],
@@ -709,11 +777,15 @@ def load_state() -> dict | None:
 # MAIN
 # ──────────────────────────────────────────────────────────────────
 
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Hetzner ProgramBench batch eval")
-    parser.add_argument("--phase", default="all",
-                        choices=["all", "preflight", "upload", "execute", "monitor", "download", "promote"],
-                        help="Which phase to run")
+    parser.add_argument(
+        "--phase",
+        default="all",
+        choices=["all", "preflight", "upload", "execute", "monitor", "download", "promote"],
+        help="Which phase to run",
+    )
     parser.add_argument("--tools", nargs="*", help="Specific tool slugs (default: all pending)")
     args = parser.parse_args()
 

@@ -37,7 +37,6 @@ import stat
 import sys
 import time
 from pathlib import Path
-from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -52,77 +51,77 @@ from torch.optim import AdamW
 # Chosen for: wide adoption, open weights, <8B for sequential A100 fit.
 BASE_MODELS = {
     "llama": {
-        "hf_id":     "meta-llama/Llama-3.1-8B-Instruct",
-        "dim":        4096,
-        "gated":      True,   # HF license required: huggingface.co/meta-llama/Llama-3.1-8B-Instruct
+        "hf_id": "meta-llama/Llama-3.1-8B-Instruct",
+        "dim": 4096,
+        "gated": True,  # HF license required: huggingface.co/meta-llama/Llama-3.1-8B-Instruct
         "embed_path": "model.embed_tokens",
-        "vram_gb":    16,     # fp16, fits on 20GB pod with cache cleanup
+        "vram_gb": 16,  # fp16, fits on 20GB pod with cache cleanup
     },
     "mistral": {
-        "hf_id":     "mistralai/Mistral-7B-Instruct-v0.3",
-        "dim":        4096,
-        "gated":      False,  # Apache 2.0 — openly downloadable, no license gate
+        "hf_id": "mistralai/Mistral-7B-Instruct-v0.3",
+        "dim": 4096,
+        "gated": False,  # Apache 2.0 — openly downloadable, no license gate
         "embed_path": "model.embed_tokens",
-        "vram_gb":    15,
+        "vram_gb": 15,
     },
     "qwen2": {
-        "hf_id":     "Qwen/Qwen2.5-7B-Instruct",
-        "dim":        3584,
-        "gated":      False,
+        "hf_id": "Qwen/Qwen2.5-7B-Instruct",
+        "dim": 3584,
+        "gated": False,
         "embed_path": "model.embed_tokens",
-        "vram_gb":    15,
+        "vram_gb": 15,
     },
     "phi3": {
-        "hf_id":     "microsoft/Phi-3-mini-4k-instruct",
-        "dim":        3072,
-        "gated":      False,
+        "hf_id": "microsoft/Phi-3-mini-4k-instruct",
+        "dim": 3072,
+        "gated": False,
         "embed_path": "model.embed_tokens",
-        "vram_gb":    8,
+        "vram_gb": 8,
     },
     # DeepSeek architecture family representative.
     # DeepSeek-Coder-V2-Lite is a 16B MoE (~30GB fp16) — does NOT fit 20GB pod volume.
     # Use deepseek-coder-6.7b-instruct instead: same DeepSeek architectural dialect, ~13GB fp16.
     # Alternative: deepseek-coder-1.3b-instruct (<3GB) if volume is still tight.
     "deepseek2": {
-        "hf_id":     "deepseek-ai/deepseek-coder-6.7b-instruct",
-        "dim":        4096,
-        "gated":      False,
+        "hf_id": "deepseek-ai/deepseek-coder-6.7b-instruct",
+        "dim": 4096,
+        "gated": False,
         "embed_path": "model.embed_tokens",
-        "vram_gb":    13,
+        "vram_gb": 13,
     },
     # Qwen2-1.5B: same architecture family as qwen2-7B but hidden_dim=1536.
     # Required for Rosetta projection with the determinex-engineer GGUF (Qwen2-1.5B).
     # Without this, Phase 3 injection falls back to direct self-injection because
     # the 1536-dim builder doesn't match the qwen2-7B entry (dim=3584).
     "qwen2_1b5": {
-        "hf_id":     "Qwen/Qwen2.5-1.5B-Instruct",
-        "dim":        1536,
-        "gated":      False,
+        "hf_id": "Qwen/Qwen2.5-1.5B-Instruct",
+        "dim": 1536,
+        "gated": False,
         "embed_path": "model.embed_tokens",
-        "vram_gb":    3,
+        "vram_gb": 3,
     },
     # Qwen2-3B: same qwen2 family but hidden_dim=2048.
     # Required for Rosetta projection with determinex-observer GGUFs (Qwen2.5-Coder-3B).
     # Confirmed from GGUF header: general.architecture=qwen2, embedding_length=2048.
     "qwen2_3b": {
-        "hf_id":     "Qwen/Qwen2.5-Coder-3B-Instruct",
-        "dim":        2048,
-        "gated":      False,
+        "hf_id": "Qwen/Qwen2.5-Coder-3B-Instruct",
+        "dim": 2048,
+        "gated": False,
         "embed_path": "model.embed_tokens",
-        "vram_gb":    6,
+        "vram_gb": 6,
     },
 }
 
-D_ROSETTA   = 4096   # Universal hub dimension
-TEMPERATURE = 0.10   # InfoNCE temperature. 0.07 is standard for vision, but creates extreme
-                     # gradients for architecturally similar pairs (llama/mistral both at d=4096)
-                     # causing them to be pushed to opposite Rosetta-space hemispheres.
-                     # 0.10 is warmer/softer — allows the harder same-family pairs to converge.
-MAX_SEQ_LEN = 128    # Truncation length for embedding extraction (prompts only)
-EXTRACT_BATCH = 64   # Prompts per extraction batch
-TRAIN_BATCH   = 256  # Pairs per training batch
-EPOCHS        = 15
-LR            = 3e-4
+D_ROSETTA = 4096  # Universal hub dimension
+TEMPERATURE = 0.10  # InfoNCE temperature. 0.07 is standard for vision, but creates extreme
+# gradients for architecturally similar pairs (llama/mistral both at d=4096)
+# causing them to be pushed to opposite Rosetta-space hemispheres.
+# 0.10 is warmer/softer — allows the harder same-family pairs to converge.
+MAX_SEQ_LEN = 128  # Truncation length for embedding extraction (prompts only)
+EXTRACT_BATCH = 64  # Prompts per extraction batch
+TRAIN_BATCH = 256  # Pairs per training batch
+EPOCHS = 15
+LR = 3e-4
 
 # Synthetic plan fragments — cover what the Architect role produces.
 # These teach the Rosetta Space to encode PLAN semantics, not just code.
@@ -163,6 +162,7 @@ SYNTHETIC_PLANS = [
 # Pre-flight Checks
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def preflight(data_dir: Path, out_dir: Path) -> str:
     """Run pre-flight checks. Returns HF token. Exits on failure."""
     print("=" * 60)
@@ -182,13 +182,14 @@ def preflight(data_dir: Path, out_dir: Path) -> str:
         print("ERROR: No CUDA GPU detected. This script requires a GPU.")
         sys.exit(1)
     gpu_name = torch.cuda.get_device_name(0)
-    vram_gb  = torch.cuda.get_device_properties(0).total_memory / 1e9
+    vram_gb = torch.cuda.get_device_properties(0).total_memory / 1e9
     print(f"  GPU      : {gpu_name}  ({vram_gb:.0f} GB VRAM)  OK")
     if vram_gb < 20:
-        print(f"  WARNING  : <20GB VRAM. Extraction will use CPU offload.")
+        print("  WARNING  : <20GB VRAM. Extraction will use CPU offload.")
 
     # Disk space (workspace)
     import shutil
+
     free_gb = shutil.disk_usage("/workspace").free / 1e9
     print(f"  Disk /ws : {free_gb:.0f} GB free")
     if free_gb < 80:
@@ -210,6 +211,7 @@ def preflight(data_dir: Path, out_dir: Path) -> str:
         print("  Testing HF authentication...", end=" ", flush=True)
         try:
             from huggingface_hub import HfApi
+
             api = HfApi(token=hf_token)
             api.whoami()
             print("OK")
@@ -231,8 +233,9 @@ def check_gated_access(hf_token: str) -> None:
     The actual test is attempting to download a tiny config file. A 403 here means the
     license has NOT been accepted on the HuggingFace website.
     """
-    from huggingface_hub import hf_hub_download
     import tempfile
+
+    from huggingface_hub import hf_hub_download
 
     print("Checking gated model download access:")
     gated = [(arch, info) for arch, info in BASE_MODELS.items() if info["gated"]]
@@ -260,7 +263,9 @@ def check_gated_access(hf_token: str) -> None:
             failed.append(hf_id)
 
     if failed:
-        print(f"\nAccept the license for {len(failed)} model(s) above on huggingface.co, then re-run.")
+        print(
+            f"\nAccept the license for {len(failed)} model(s) above on huggingface.co, then re-run."
+        )
         sys.exit(1)
     print()
 
@@ -268,6 +273,7 @@ def check_gated_access(hf_token: str) -> None:
 # ─────────────────────────────────────────────────────────────────────────────
 # Training Data Loading
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def load_training_prompts(data_dir: Path) -> list[str]:
     """
@@ -284,7 +290,7 @@ def load_training_prompts(data_dir: Path) -> list[str]:
     if data_dir.exists():
         for fpath in sorted(data_dir.glob("*.jsonl")):
             count_before = len(prompts)
-            with open(fpath, "r", encoding="utf-8") as f:
+            with open(fpath, encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
                     if not line:
@@ -346,6 +352,7 @@ def load_training_prompts(data_dir: Path) -> list[str]:
 # Phase A — Sequential Embedding Extraction
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def _get_embed_layer(model, embed_path: str) -> nn.Module:
     """Traverse dotted attribute path to get the embedding layer."""
     obj = model
@@ -355,12 +362,12 @@ def _get_embed_layer(model, embed_path: str) -> nn.Module:
 
 
 def extract_embeddings(
-    arch:       str,
+    arch: str,
     model_info: dict,
-    prompts:    list[str],
-    hf_token:   str,
-    save_path:  Path,
-    device:     str = "cuda",
+    prompts: list[str],
+    hf_token: str,
+    save_path: Path,
+    device: str = "cuda",
 ) -> torch.Tensor:
     """
     Load one base model, extract mean-pooled input embeddings for all prompts, save.
@@ -371,27 +378,27 @@ def extract_embeddings(
 
     Returns: [N, dim] float16 tensor, also saved to save_path.
     """
-    from transformers import AutoTokenizer, AutoModelForCausalLM
+    from transformers import AutoModelForCausalLM, AutoTokenizer
 
     hf_id = model_info["hf_id"]
-    dim   = model_info["dim"]
+    dim = model_info["dim"]
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"EXTRACTION: {arch.upper()}  ({hf_id})")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # Load tokenizer
     print("Loading tokenizer...", flush=True)
-    _tok = hf_token or None   # empty string → None (avoids "Bearer " header)
-    tokenizer = AutoTokenizer.from_pretrained(
-        hf_id, token=_tok, trust_remote_code=True
-    )
+    _tok = hf_token or None  # empty string → None (avoids "Bearer " header)
+    tokenizer = AutoTokenizer.from_pretrained(hf_id, token=_tok, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
     # Load model — CPU if not enough VRAM, GPU if available
-    vram_gb = torch.cuda.get_device_properties(0).total_memory / 1e9 if torch.cuda.is_available() else 0
-    use_gpu  = vram_gb >= 16
+    vram_gb = (
+        torch.cuda.get_device_properties(0).total_memory / 1e9 if torch.cuda.is_available() else 0
+    )
+    use_gpu = vram_gb >= 16
 
     print(f"Loading model on {'GPU' if use_gpu else 'CPU'} (fp16)...", flush=True)
     t0 = time.time()
@@ -404,7 +411,7 @@ def extract_embeddings(
         low_cpu_mem_usage=True,
     )
     model.eval()
-    print(f"  Loaded in {time.time()-t0:.0f}s", flush=True)
+    print(f"  Loaded in {time.time() - t0:.0f}s", flush=True)
 
     embed_layer = _get_embed_layer(model, model_info["embed_path"])
     embed_device = next(embed_layer.parameters()).device
@@ -417,7 +424,7 @@ def extract_embeddings(
 
     with torch.no_grad():
         for i in range(0, len(prompts), EXTRACT_BATCH):
-            batch_prompts = prompts[i:i + EXTRACT_BATCH]
+            batch_prompts = prompts[i : i + EXTRACT_BATCH]
 
             tokens = tokenizer(
                 batch_prompts,
@@ -426,7 +433,7 @@ def extract_embeddings(
                 truncation=True,
                 max_length=MAX_SEQ_LEN,
             )
-            input_ids      = tokens["input_ids"].to(embed_device)
+            input_ids = tokens["input_ids"].to(embed_device)
             attention_mask = tokens["attention_mask"].to(embed_device)
 
             # Input embedding lookup — Layer 0 output, before positional encoding
@@ -442,25 +449,29 @@ def extract_embeddings(
 
             if (i // EXTRACT_BATCH + 1) % 10 == 0:
                 elapsed = time.time() - t0
-                done    = i + len(batch_prompts)
-                eta     = elapsed / done * (len(prompts) - done)
+                done = i + len(batch_prompts)
+                eta = elapsed / done * (len(prompts) - done)
                 print(f"  [{done}/{len(prompts)}]  ETA: {eta:.0f}s", flush=True)
 
     result = torch.cat(all_embeddings, dim=0)  # [N, dim]
-    assert result.shape == (len(prompts), dim), \
+    assert result.shape == (len(prompts), dim), (
         f"Shape mismatch: expected ({len(prompts)}, {dim}), got {result.shape}"
+    )
 
     # ── Extract special token embeddings (EOS/BOS/PAD) ───────────────────
     # These are saved alongside prompt embeddings for use in EOS repulsion loss.
     # During inference, decoder outputs that land near these coordinates cause
     # the target model to misinterpret the prefix as a sequence delimiter.
     special_embeds: list[torch.Tensor] = []
-    special_names:  list[str]          = []
+    special_names: list[str] = []
     seen_ids: set[int] = set()
     for sname, tok_id in [
         ("eos", tokenizer.eos_token_id),
         ("bos", getattr(tokenizer, "bos_token_id", None)),
-        ("pad", tokenizer.pad_token_id if tokenizer.pad_token_id != tokenizer.eos_token_id else None),
+        (
+            "pad",
+            tokenizer.pad_token_id if tokenizer.pad_token_id != tokenizer.eos_token_id else None,
+        ),
     ]:
         if tok_id is not None and tok_id not in seen_ids:
             seen_ids.add(tok_id)
@@ -470,59 +481,74 @@ def extract_embeddings(
             special_embeds.append(s_embed)
             special_names.append(sname)
 
-    special_tensor = torch.cat(special_embeds, dim=0) if special_embeds else torch.zeros(0, dim, dtype=torch.float16)
+    special_tensor = (
+        torch.cat(special_embeds, dim=0)
+        if special_embeds
+        else torch.zeros(0, dim, dtype=torch.float16)
+    )
     print(f"  Special tokens extracted: {special_names}  shape={special_tensor.shape}", flush=True)
 
     # ── #24 Extract full vocabulary embedding matrix ─────────────────────
     # Used during training to anchor decoder outputs near real token coordinates,
     # preventing "void space" activations that destabilize target model forward passes.
     vocab_embeds = embed_layer.weight.data.clone().cpu().to(torch.float16)  # [vocab_size, dim]
-    print(f"  Vocabulary embeddings: shape={vocab_embeds.shape}  ({vocab_embeds.numel() * 2 / 1e6:.0f} MB)", flush=True)
+    print(
+        f"  Vocabulary embeddings: shape={vocab_embeds.shape}  ({vocab_embeds.numel() * 2 / 1e6:.0f} MB)",
+        flush=True,
+    )
 
     # ── #11 MoE router weight extraction ─────────────────────────────────
     # If this is an MoE model, extract the gating router weight matrix from
     # the first MoE layer. Used during training to penalize decoder outputs
     # that would route to incorrect expert subspaces.
     router_weight = None
-    n_experts = getattr(getattr(model, 'config', None), 'num_local_experts', 0) or 0
+    n_experts = getattr(getattr(model, "config", None), "num_local_experts", 0) or 0
     if n_experts == 0:
-        n_experts = getattr(getattr(model, 'config', None), 'n_routed_experts', 0) or 0
+        n_experts = getattr(getattr(model, "config", None), "n_routed_experts", 0) or 0
     if n_experts > 0:
         print(f"  MoE detected: {n_experts} experts. Extracting router weights...", flush=True)
         try:
             for layer in model.model.layers:
                 # Mixtral / Qwen-MoE style: block_sparse_moe.gate
-                if hasattr(layer, 'block_sparse_moe') and hasattr(layer.block_sparse_moe, 'gate'):
-                    router_weight = layer.block_sparse_moe.gate.weight.data.clone().cpu().to(torch.float16)
+                if hasattr(layer, "block_sparse_moe") and hasattr(layer.block_sparse_moe, "gate"):
+                    router_weight = (
+                        layer.block_sparse_moe.gate.weight.data.clone().cpu().to(torch.float16)
+                    )
                     break
                 # DeepSeek-V2 style: mlp.gate
-                if hasattr(layer, 'mlp') and hasattr(layer.mlp, 'gate'):
+                if hasattr(layer, "mlp") and hasattr(layer.mlp, "gate"):
                     gate = layer.mlp.gate
-                    if hasattr(gate, 'weight'):
+                    if hasattr(gate, "weight"):
                         router_weight = gate.weight.data.clone().cpu().to(torch.float16)
                         break
             if router_weight is not None:
-                print(f"  Router weight: shape={router_weight.shape}  ({n_experts} experts x {router_weight.shape[1]} dim)", flush=True)
+                print(
+                    f"  Router weight: shape={router_weight.shape}  ({n_experts} experts x {router_weight.shape[1]} dim)",
+                    flush=True,
+                )
             else:
-                print(f"  WARNING: MoE detected ({n_experts} experts) but router weight not found in expected locations.", flush=True)
+                print(
+                    f"  WARNING: MoE detected ({n_experts} experts) but router weight not found in expected locations.",
+                    flush=True,
+                )
         except Exception as e:
             print(f"  WARNING: Failed to extract MoE router weight: {e}", flush=True)
     else:
-        print(f"  Dense model (no MoE).", flush=True)
+        print("  Dense model (no MoE).", flush=True)
 
     # Save
     save_path.parent.mkdir(parents=True, exist_ok=True)
     save_dict = {
-        "arch":           arch,
-        "dim":            dim,
-        "embeddings":     result,
+        "arch": arch,
+        "dim": dim,
+        "embeddings": result,
         "special_embeds": special_tensor,  # [K, dim] — EOS/BOS/PAD vectors
-        "special_names":  special_names,
-        "vocab_embeds":   vocab_embeds,    # [vocab_size, dim] — #24 void space anchor
+        "special_names": special_names,
+        "vocab_embeds": vocab_embeds,  # [vocab_size, dim] — #24 void space anchor
     }
     if router_weight is not None:
         save_dict["router_weight"] = router_weight  # [n_experts, dim] — #11 MoE gating
-        save_dict["n_experts"]     = n_experts
+        save_dict["n_experts"] = n_experts
     torch.save(save_dict, str(save_path))
     size_mb = save_path.stat().st_size / 1e6
     print(f"  Saved: {save_path}  ({size_mb:.0f} MB)  shape={result.shape}", flush=True)
@@ -532,17 +558,22 @@ def extract_embeddings(
     gc.collect()
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
-        print(f"  VRAM freed. {torch.cuda.memory_allocated()/1e9:.2f} GB remaining.", flush=True)
+        print(f"  VRAM freed. {torch.cuda.memory_allocated() / 1e9:.2f} GB remaining.", flush=True)
 
     return result
 
 
 def run_extraction_phase(
-    prompts:    list[str],
-    hf_token:   str,
-    cache_dir:  Path,
-    arches:     Optional[list[str]] = None,
-) -> tuple[dict[str, torch.Tensor], dict[str, torch.Tensor], dict[str, torch.Tensor], dict[str, torch.Tensor]]:
+    prompts: list[str],
+    hf_token: str,
+    cache_dir: Path,
+    arches: list[str] | None = None,
+) -> tuple[
+    dict[str, torch.Tensor],
+    dict[str, torch.Tensor],
+    dict[str, torch.Tensor],
+    dict[str, torch.Tensor],
+]:
     """
     Extract embeddings for all base models sequentially.
     Skips models whose cache files already exist.
@@ -552,11 +583,11 @@ def run_extraction_phase(
       vocab_embeds:   {arch: [vocab_size, dim]}  — full vocabulary embeddings (#24 void space anchor)
       router_weights: {arch: [n_experts, dim]}   — MoE router weights (#11 expert gating)
     """
-    target_arches  = arches or list(BASE_MODELS.keys())
-    results:  dict[str, torch.Tensor] = {}
+    target_arches = arches or list(BASE_MODELS.keys())
+    results: dict[str, torch.Tensor] = {}
     specials: dict[str, torch.Tensor] = {}
-    vocabs:   dict[str, torch.Tensor] = {}
-    routers:  dict[str, torch.Tensor] = {}
+    vocabs: dict[str, torch.Tensor] = {}
+    routers: dict[str, torch.Tensor] = {}
 
     for arch in target_arches:
         # Skip gated models when no HF_TOKEN is available
@@ -568,21 +599,25 @@ def run_extraction_phase(
 
         if save_path.exists():
             print(f"\nLoading cached embeddings: {arch} ({save_path})")
-            ckpt  = torch.load(str(save_path), map_location="cpu", weights_only=True)
-            emb   = ckpt["embeddings"]
+            ckpt = torch.load(str(save_path), map_location="cpu", weights_only=True)
+            emb = ckpt["embeddings"]
             expected_dim = BASE_MODELS[arch]["dim"]
             if emb.shape[1] != expected_dim:
                 print(f"  WARNING: dim mismatch ({emb.shape[1]} vs {expected_dim}). Re-extracting.")
             elif emb.shape[0] != len(prompts):
-                print(f"  WARNING: prompt count mismatch ({emb.shape[0]} vs {len(prompts)}). Re-extracting.")
+                print(
+                    f"  WARNING: prompt count mismatch ({emb.shape[0]} vs {len(prompts)}). Re-extracting."
+                )
             else:
-                results[arch]  = emb.float()
+                results[arch] = emb.float()
                 # Load special token embeddings if present (older caches may not have them)
                 if "special_embeds" in ckpt and ckpt["special_embeds"].shape[0] > 0:
                     specials[arch] = ckpt["special_embeds"].float()
                     print(f"  {arch}: {emb.shape}  special={ckpt['special_embeds'].shape}  OK")
                 else:
-                    print(f"  {arch}: {emb.shape}  (no special embeds — re-run without --skip-extraction to capture them)")
+                    print(
+                        f"  {arch}: {emb.shape}  (no special embeds — re-run without --skip-extraction to capture them)"
+                    )
                 # Load vocab embeddings if present (#24 void space anchor)
                 if "vocab_embeds" in ckpt:
                     vocabs[arch] = ckpt["vocab_embeds"].float()
@@ -621,6 +656,7 @@ def run_extraction_phase(
 def _clear_hf_model_cache(hf_id: str) -> None:
     """Remove downloaded model weights from HuggingFace hub cache to reclaim disk."""
     import shutil
+
     cache_root = Path.home() / ".cache" / "huggingface" / "hub"
     # HF hub stores models as models--org--name
     model_dir_name = "models--" + hf_id.replace("/", "--")
@@ -635,7 +671,8 @@ def _clear_hf_model_cache(hf_id: str) -> None:
 # MLP Architecture (must stay in sync with determinex_rosetta.py:build_mlp)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def build_mlp(d_in: int, d_out: int, d_hidden: Optional[int] = None) -> nn.Module:
+
+def build_mlp(d_in: int, d_out: int, d_hidden: int | None = None) -> nn.Module:
     """
     2-layer MLP: d_in → d_hidden (GELU + LayerNorm) → d_out
     KEEP IN SYNC with determinex_rosetta.py:build_mlp — same architecture, same init.
@@ -655,6 +692,7 @@ def build_mlp(d_in: int, d_out: int, d_hidden: Optional[int] = None) -> nn.Modul
 # ─────────────────────────────────────────────────────────────────────────────
 # Phase B — InfoNCE Training
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def infonce_loss(
     h_a: torch.Tensor,
@@ -690,8 +728,8 @@ def infonce_loss(
 
 
 def eos_repulsion_loss(
-    decoder_output: torch.Tensor,    # [B, dim_target] — what the decoder injects into target model
-    special_embeds: torch.Tensor,    # [K, dim_target] — EOS/BOS/PAD embeddings of target model
+    decoder_output: torch.Tensor,  # [B, dim_target] — what the decoder injects into target model
+    special_embeds: torch.Tensor,  # [K, dim_target] — EOS/BOS/PAD embeddings of target model
     margin: float = 0.3,
 ) -> torch.Tensor:
     """
@@ -709,17 +747,17 @@ def eos_repulsion_loss(
     if special_embeds.shape[0] == 0:
         return torch.tensor(0.0, device=decoder_output.device)
 
-    dec_norm  = F.normalize(decoder_output, dim=-1)                                # [B, dim]
-    spec_norm = F.normalize(special_embeds.to(decoder_output.device), dim=-1)      # [K, dim]
-    cos_sim   = torch.matmul(dec_norm, spec_norm.T)                                 # [B, K]
-    cos_dist  = 1.0 - cos_sim                                                       # [B, K]
+    dec_norm = F.normalize(decoder_output, dim=-1)  # [B, dim]
+    spec_norm = F.normalize(special_embeds.to(decoder_output.device), dim=-1)  # [K, dim]
+    cos_sim = torch.matmul(dec_norm, spec_norm.T)  # [B, K]
+    cos_dist = 1.0 - cos_sim  # [B, K]
     return F.relu(margin - cos_dist).mean()
 
 
 def vocab_anchor_loss(
-    decoder_output: torch.Tensor,     # [B, dim_target] — decoder output in target model's space
-    vocab_norm:     torch.Tensor,     # [vocab_size, dim_target] — L2-normalized vocab embeddings
-    threshold:      float = 0.5,
+    decoder_output: torch.Tensor,  # [B, dim_target] — decoder output in target model's space
+    vocab_norm: torch.Tensor,  # [vocab_size, dim_target] — L2-normalized vocab embeddings
+    threshold: float = 0.5,
 ) -> torch.Tensor:
     """
     #24 Void Space Anchor: penalize decoder outputs far from all real token embeddings.
@@ -733,15 +771,15 @@ def vocab_anchor_loss(
     Only penalizes when decoder output is farther than `threshold` from the nearest
     real token embedding. No penalty when already close to a real coordinate.
     """
-    dec_norm = F.normalize(decoder_output, dim=-1)            # [B, dim]
-    cos_sim  = torch.matmul(dec_norm, vocab_norm.T)           # [B, vocab_size]
-    max_sim  = cos_sim.max(dim=-1).values                     # [B]
+    dec_norm = F.normalize(decoder_output, dim=-1)  # [B, dim]
+    cos_sim = torch.matmul(dec_norm, vocab_norm.T)  # [B, vocab_size]
+    max_sim = cos_sim.max(dim=-1).values  # [B]
     return F.relu(threshold - max_sim).mean()
 
 
 def expert_gating_loss(
-    decoder_output:       torch.Tensor,   # [B, dim_target]
-    router_weight:        torch.Tensor,   # [n_experts, dim_target] — MoE router weight matrix
+    decoder_output: torch.Tensor,  # [B, dim_target]
+    router_weight: torch.Tensor,  # [n_experts, dim_target] — MoE router weight matrix
     concentration_target: float = 2.0,
 ) -> torch.Tensor:
     """
@@ -759,23 +797,24 @@ def expert_gating_loss(
     concentration_target=2.0 allows moderate spread across ~7 experts (in a 64-expert
     model entropy is log(64) ~= 4.16, so 2.0 allows ~4-5 active experts).
     """
-    logits = F.linear(F.normalize(decoder_output, dim=-1),
-                      F.normalize(router_weight, dim=-1))     # [B, n_experts]
-    probs = F.softmax(logits / 0.1, dim=-1)                   # sharp temperature for routing
+    logits = F.linear(
+        F.normalize(decoder_output, dim=-1), F.normalize(router_weight, dim=-1)
+    )  # [B, n_experts]
+    probs = F.softmax(logits / 0.1, dim=-1)  # sharp temperature for routing
     log_probs = (probs + 1e-8).log()
-    entropy = -(probs * log_probs).sum(dim=-1).mean()          # mean entropy across batch
+    entropy = -(probs * log_probs).sum(dim=-1).mean()  # mean entropy across batch
     return F.relu(entropy - concentration_target)
 
 
 def train_mlp_projectors(
-    embeddings:     dict[str, torch.Tensor],
-    out_path:       Path,
+    embeddings: dict[str, torch.Tensor],
+    out_path: Path,
     special_embeds: dict[str, torch.Tensor] | None = None,
-    vocab_embeds:   dict[str, torch.Tensor] | None = None,
+    vocab_embeds: dict[str, torch.Tensor] | None = None,
     router_weights: dict[str, torch.Tensor] | None = None,
-    device:         str = "cuda",
-    epochs:         int = EPOCHS,
-    lr:             float = LR,
+    device: str = "cuda",
+    epochs: int = EPOCHS,
+    lr: float = LR,
 ) -> None:
     """
     Train MLP encoder/decoder pairs for all base architectures.
@@ -787,13 +826,13 @@ def train_mlp_projectors(
     All architectures are trained jointly — each encoder contributes to all pairs.
     """
     arches = list(embeddings.keys())
-    N      = next(iter(embeddings.values())).shape[0]
+    N = next(iter(embeddings.values())).shape[0]
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"TRAINING  {len(arches)} architectures  {N} prompts each")
     print(f"  Arches : {arches}")
     print(f"  Epochs : {epochs}  Batch: {TRAIN_BATCH}  LR: {lr}  Temp: {TEMPERATURE}")
-    print(f"{'='*60}\n", flush=True)
+    print(f"{'=' * 60}\n", flush=True)
 
     # Build encoder (arch → Rosetta) for each architecture
     encoders: dict[str, nn.Module] = {}
@@ -812,7 +851,9 @@ def train_mlp_projectors(
 
     # Cosine LR schedule
     total_steps = epochs * ((N + TRAIN_BATCH - 1) // TRAIN_BATCH)
-    scheduler   = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=total_steps, eta_min=lr * 0.01)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+        optimizer, T_max=total_steps, eta_min=lr * 0.01
+    )
 
     # Move embeddings to device
     emb_gpu = {arch: emb.to(device) for arch, emb in embeddings.items()}
@@ -820,10 +861,7 @@ def train_mlp_projectors(
     # ── #16 Scale targets: average L2 norm of raw embeddings per arch ────────
     # Decoder outputs should match this scale so injected tokens look natural
     # to the target model's first normalisation layer (RMSNorm / LayerNorm).
-    emb_rms: dict[str, float] = {
-        arch: emb_gpu[arch].norm(dim=-1).mean().item()
-        for arch in arches
-    }
+    emb_rms: dict[str, float] = {arch: emb_gpu[arch].norm(dim=-1).mean().item() for arch in arches}
     print(f"  Embedding RMS norms: { {k: f'{v:.2f}' for k, v in emb_rms.items()} }")
 
     # ── #17 EOS repulsion: move special token embeddings to device ───────────
@@ -845,7 +883,9 @@ def train_mlp_projectors(
                 vocab_gpu[arch] = F.normalize(ve.to(device), dim=-1)
         if vocab_gpu:
             total_mb = sum(v.numel() * 4 / 1e6 for v in vocab_gpu.values())  # float32
-            print(f"  Vocab anchor active for: {list(vocab_gpu.keys())}  ({total_mb:.0f} MB on device)")
+            print(
+                f"  Vocab anchor active for: {list(vocab_gpu.keys())}  ({total_mb:.0f} MB on device)"
+            )
         else:
             print("  Vocab anchor: no vocab embeddings available (will skip)")
 
@@ -861,25 +901,25 @@ def train_mlp_projectors(
             print("  MoE gating: no router weights available (all dense models)")
 
     # Generate all unique architecture pairs for InfoNCE
-    pairs = [(a, b) for i, a in enumerate(arches) for b in arches[i+1:]]
+    pairs = [(a, b) for i, a in enumerate(arches) for b in arches[i + 1 :]]
     print(f"  Training {len(pairs)} arch pairs: {pairs}\n", flush=True)
 
     best_loss = float("inf")
-    best_state: Optional[dict] = None
+    best_state: dict | None = None
 
     for epoch in range(1, epochs + 1):
-        epoch_loss        = 0.0
-        epoch_eos_loss    = 0.0
-        epoch_scale_loss  = 0.0
-        epoch_vocab_loss  = 0.0
+        epoch_loss = 0.0
+        epoch_eos_loss = 0.0
+        epoch_scale_loss = 0.0
+        epoch_vocab_loss = 0.0
         epoch_expert_loss = 0.0
-        n_steps         = 0
+        n_steps = 0
 
         # Shuffle indices each epoch
         idx = torch.randperm(N)
 
         for start in range(0, N, TRAIN_BATCH):
-            batch_idx = idx[start:start + TRAIN_BATCH]
+            batch_idx = idx[start : start + TRAIN_BATCH]
             if len(batch_idx) < 4:
                 continue  # skip tiny tail batches
 
@@ -887,12 +927,12 @@ def train_mlp_projectors(
             batch_loss = torch.tensor(0.0, device=device)
 
             for arch_a, arch_b in pairs:
-                h_a_raw = emb_gpu[arch_a][batch_idx]   # [B, dim_a]
-                h_b_raw = emb_gpu[arch_b][batch_idx]   # [B, dim_b]
+                h_a_raw = emb_gpu[arch_a][batch_idx]  # [B, dim_a]
+                h_b_raw = emb_gpu[arch_b][batch_idx]  # [B, dim_b]
 
                 # Project to Rosetta space
-                h_a = encoders[arch_a](h_a_raw)         # [B, D_ROSETTA]
-                h_b = encoders[arch_b](h_b_raw)         # [B, D_ROSETTA]
+                h_a = encoders[arch_a](h_a_raw)  # [B, D_ROSETTA]
+                h_b = encoders[arch_b](h_b_raw)  # [B, D_ROSETTA]
 
                 # ── #20 BF16 precision simulation ────────────────────────────
                 # Round-trip through BF16 trains the adapter to produce outputs that
@@ -908,8 +948,7 @@ def train_mlp_projectors(
                 h_a_recon = decoders[arch_a](h_a)
                 h_b_recon = decoders[arch_b](h_b)
                 loss_recon = (
-                    F.mse_loss(h_a_recon, h_a_raw.float()) +
-                    F.mse_loss(h_b_recon, h_b_raw.float())
+                    F.mse_loss(h_a_recon, h_a_raw.float()) + F.mse_loss(h_b_recon, h_b_raw.float())
                 ) * 0.1  # Small weight — reconstruction is a regularizer, not the objective
 
                 # ── #17 EOS repulsion ────────────────────────────────────────
@@ -920,7 +959,7 @@ def train_mlp_projectors(
                     loss_eos = loss_eos + eos_repulsion_loss(h_a_recon, special_gpu[arch_a])
                 if arch_b in special_gpu:
                     loss_eos = loss_eos + eos_repulsion_loss(h_b_recon, special_gpu[arch_b])
-                loss_eos = loss_eos * 0.15   # Weighted: important but secondary to alignment
+                loss_eos = loss_eos * 0.15  # Weighted: important but secondary to alignment
 
                 # ── #16 RMSNorm scale matching ───────────────────────────────
                 # Decoder output scale must match what target model expects at its
@@ -930,8 +969,7 @@ def train_mlp_projectors(
                 pred_rms_a = h_a_recon.norm(dim=-1).mean()
                 pred_rms_b = h_b_recon.norm(dim=-1).mean()
                 loss_scale = (
-                    (pred_rms_a - emb_rms[arch_a]) ** 2 +
-                    (pred_rms_b - emb_rms[arch_b]) ** 2
+                    (pred_rms_a - emb_rms[arch_a]) ** 2 + (pred_rms_b - emb_rms[arch_b]) ** 2
                 ) * 0.05
 
                 # ── #21 Gate survival (SiLU/GELU) ───────────────────────────
@@ -943,8 +981,7 @@ def train_mlp_projectors(
                 gate_b = F.silu(h_b_recon)
                 # Fraction of near-zero outputs after SiLU → proxy for suppression
                 suppression = (
-                    (gate_a.abs() < 0.01).float().mean() +
-                    (gate_b.abs() < 0.01).float().mean()
+                    (gate_a.abs() < 0.01).float().mean() + (gate_b.abs() < 0.01).float().mean()
                 ) * 0.5
                 loss_gate = suppression * 0.02
 
@@ -967,10 +1004,19 @@ def train_mlp_projectors(
                     loss_expert = loss_expert + expert_gating_loss(h_b_recon, router_gpu[arch_b])
                 loss_expert = loss_expert * 0.08  # MoE routing weight
 
-                batch_loss = batch_loss + loss_fwd + loss_recon + loss_eos + loss_scale + loss_gate + loss_vocab + loss_expert
-                epoch_eos_loss    += loss_eos.item()
-                epoch_scale_loss  += loss_scale.item()
-                epoch_vocab_loss  += loss_vocab.item()
+                batch_loss = (
+                    batch_loss
+                    + loss_fwd
+                    + loss_recon
+                    + loss_eos
+                    + loss_scale
+                    + loss_gate
+                    + loss_vocab
+                    + loss_expert
+                )
+                epoch_eos_loss += loss_eos.item()
+                epoch_scale_loss += loss_scale.item()
+                epoch_vocab_loss += loss_vocab.item()
                 epoch_expert_loss += loss_expert.item()
 
             batch_loss.backward()
@@ -982,20 +1028,23 @@ def train_mlp_projectors(
             scheduler.step()
 
             epoch_loss += batch_loss.item()
-            n_steps    += 1
+            n_steps += 1
 
-        avg_loss         = epoch_loss         / max(n_steps, 1)
-        avg_eos_loss     = epoch_eos_loss     / max(n_steps, 1)
-        avg_scale_loss   = epoch_scale_loss   / max(n_steps, 1)
-        avg_vocab_loss   = epoch_vocab_loss   / max(n_steps, 1)
-        avg_expert_loss  = epoch_expert_loss  / max(n_steps, 1)
+        avg_loss = epoch_loss / max(n_steps, 1)
+        avg_eos_loss = epoch_eos_loss / max(n_steps, 1)
+        avg_scale_loss = epoch_scale_loss / max(n_steps, 1)
+        avg_vocab_loss = epoch_vocab_loss / max(n_steps, 1)
+        avg_expert_loss = epoch_expert_loss / max(n_steps, 1)
 
         if avg_loss < best_loss:
             best_loss = avg_loss
-            best_state = {arch: {
-                "enc": {k: v.cpu() for k, v in encoders[arch].state_dict().items()},
-                "dec": {k: v.cpu() for k, v in decoders[arch].state_dict().items()},
-            } for arch in arches}
+            best_state = {
+                arch: {
+                    "enc": {k: v.cpu() for k, v in encoders[arch].state_dict().items()},
+                    "dec": {k: v.cpu() for k, v in decoders[arch].state_dict().items()},
+                }
+                for arch in arches
+            }
 
         lr_now = scheduler.get_last_lr()[0]
         print(
@@ -1009,11 +1058,11 @@ def train_mlp_projectors(
 
     # ── Assemble checkpoint ───────────────────────────────────────────────
     ckpt: dict = {
-        "version":   "1.0.0",
+        "version": "1.0.0",
         "d_rosetta": D_ROSETTA,
-        "anchor":    "pure_infonce",
-        "dims":      {arch: BASE_MODELS[arch]["dim"] for arch in arches},
-        "arches":    arches,
+        "anchor": "pure_infonce",
+        "dims": {arch: BASE_MODELS[arch]["dim"] for arch in arches},
+        "arches": arches,
     }
 
     assert best_state is not None
@@ -1024,12 +1073,13 @@ def train_mlp_projectors(
     # Save
     out_path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(ckpt, str(out_path))
-    print(f"  Saved checkpoint: {out_path}  ({out_path.stat().st_size/1e6:.0f} MB)", flush=True)
+    print(f"  Saved checkpoint: {out_path}  ({out_path.stat().st_size / 1e6:.0f} MB)", flush=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Sealing — tensor-content SHA256 (matches determinex_rosetta._verify_sha256)
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def _compute_weights_sha256(ckpt: dict) -> str:
     """
@@ -1074,7 +1124,7 @@ def seal_rosetta(path: Path) -> str:
     Returns the hex SHA256 string.
     """
     ckpt = torch.load(str(path), map_location="cpu", weights_only=True)
-    sha  = _compute_weights_sha256(ckpt)
+    sha = _compute_weights_sha256(ckpt)
     ckpt["sha256"] = sha
     torch.save(ckpt, str(path))
 
@@ -1090,7 +1140,7 @@ def seal_rosetta(path: Path) -> str:
     print(f"\nSealed: {path.name}")
     print(f"  Size   : {size_mb:.0f} MB")
     print(f"  SHA256 : {sha[:16]}...")
-    print(f"  Mode   : read-only")
+    print("  Mode   : read-only")
     return sha
 
 
@@ -1098,19 +1148,20 @@ def seal_rosetta(path: Path) -> str:
 # Validation — quick sanity check after training
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def validate(out_path: Path, embeddings: dict[str, torch.Tensor], n_samples: int = 100) -> None:
     """
     Sanity check: load the sealed Rosetta Stone, run a few projections,
     measure cosine similarity of same-prompt pairs vs different-prompt pairs.
     A working Rosetta Stone should show clearly higher similarity for same-prompt pairs.
     """
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("VALIDATION")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
-    ckpt  = torch.load(str(out_path), map_location="cpu", weights_only=True)
+    ckpt = torch.load(str(out_path), map_location="cpu", weights_only=True)
     arches = list(embeddings.keys())
-    pairs  = [(a, b) for i, a in enumerate(arches) for b in arches[i+1:]]
+    pairs = [(a, b) for i, a in enumerate(arches) for b in arches[i + 1 :]]
 
     for arch_a, arch_b in pairs:  # All pairs — was incorrectly [:3] before
         dim_a = BASE_MODELS[arch_a]["dim"]
@@ -1138,7 +1189,9 @@ def validate(out_path: Path, embeddings: dict[str, torch.Tensor], n_samples: int
 
         gap = same_sim - diff_sim
         status = "GOOD" if gap > 0.05 else ("WEAK" if gap > 0 else "FAIL")
-        print(f"  {arch_a} ↔ {arch_b}: same={same_sim:.3f}  diff={diff_sim:.3f}  gap={gap:.3f}  [{status}]")
+        print(
+            f"  {arch_a} ↔ {arch_b}: same={same_sim:.3f}  diff={diff_sim:.3f}  gap={gap:.3f}  [{status}]"
+        )
 
     print()
     print("  GOOD (gap > 0.05): strong alignment — projections are semantically meaningful")
@@ -1150,38 +1203,51 @@ def validate(out_path: Path, embeddings: dict[str, torch.Tensor], n_samples: int
 # CLI
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Train Rosetta Stone v1 — universal latent bridge for Determinex Hive Mind"
     )
-    parser.add_argument("--data-dir",       default="/workspace/data",
-                        help="Directory containing curriculum/gap JSONL files")
-    parser.add_argument("--out-dir",        default="/workspace/outputs",
-                        help="Output directory for rosetta_v1.pt")
-    parser.add_argument("--cache-dir",      default="/workspace/rosetta_cache",
-                        help="Directory to cache extracted embeddings between runs")
-    parser.add_argument("--skip-extraction", action="store_true",
-                        help="Skip extraction phase, load from cache only")
-    parser.add_argument("--skip-gated-check", action="store_true",
-                        help="Skip HF gated model license verification")
-    parser.add_argument("--arches",         default=None,
-                        help="Comma-separated subset of arches to train (e.g. llama,mistral)")
-    parser.add_argument("--epochs",         type=int, default=EPOCHS,
-                        help=f"Training epochs (default {EPOCHS})")
-    parser.add_argument("--lr",             type=float, default=LR,
-                        help=f"Learning rate (default {LR})")
-    parser.add_argument("--device",         default="cuda")
+    parser.add_argument(
+        "--data-dir",
+        default="/workspace/data",
+        help="Directory containing curriculum/gap JSONL files",
+    )
+    parser.add_argument(
+        "--out-dir", default="/workspace/outputs", help="Output directory for rosetta_v1.pt"
+    )
+    parser.add_argument(
+        "--cache-dir",
+        default="/workspace/rosetta_cache",
+        help="Directory to cache extracted embeddings between runs",
+    )
+    parser.add_argument(
+        "--skip-extraction", action="store_true", help="Skip extraction phase, load from cache only"
+    )
+    parser.add_argument(
+        "--skip-gated-check", action="store_true", help="Skip HF gated model license verification"
+    )
+    parser.add_argument(
+        "--arches",
+        default=None,
+        help="Comma-separated subset of arches to train (e.g. llama,mistral)",
+    )
+    parser.add_argument(
+        "--epochs", type=int, default=EPOCHS, help=f"Training epochs (default {EPOCHS})"
+    )
+    parser.add_argument("--lr", type=float, default=LR, help=f"Learning rate (default {LR})")
+    parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
 
     # Override training hyperparameters from CLI (passed as locals, not globals)
     train_epochs = args.epochs
-    train_lr     = args.lr
+    train_lr = args.lr
 
-    data_dir  = Path(args.data_dir)
-    out_dir   = Path(args.out_dir)
+    data_dir = Path(args.data_dir)
+    out_dir = Path(args.out_dir)
     cache_dir = Path(args.cache_dir)
-    out_path  = out_dir / "rosetta_v1.pt"
-    arches    = args.arches.split(",") if args.arches else None
+    out_path = out_dir / "rosetta_v1.pt"
+    arches = args.arches.split(",") if args.arches else None
 
     t_start = time.time()
 
@@ -1191,17 +1257,17 @@ def main() -> None:
         check_gated_access(hf_token)
 
     # ── Load training data ────────────────────────────────────────────────
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("LOADING TRAINING DATA")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     prompts = load_training_prompts(data_dir)
     random.shuffle(prompts)
 
     # ── Phase A: Sequential extraction ───────────────────────────────────
     if not args.skip_extraction:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print("PHASE A — SEQUENTIAL EMBEDDING EXTRACTION")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
     else:
         print("\nSkipping extraction phase (--skip-extraction). Loading from cache.")
 
@@ -1217,9 +1283,9 @@ def main() -> None:
         sys.exit(1)
 
     # ── Phase B: MLP training ─────────────────────────────────────────────
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("PHASE B — MLP PROJECTOR TRAINING")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     train_mlp_projectors(
         embeddings=embeddings,
         out_path=out_path,
@@ -1239,17 +1305,19 @@ def main() -> None:
 
     # ── Summary ───────────────────────────────────────────────────────────
     elapsed = time.time() - t_start
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("ROSETTA STONE v1 — COMPLETE")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     print(f"  Output  : {out_path}")
     print(f"  SHA256  : {sha}")
     print(f"  Arches  : {list(embeddings.keys())}")
     print(f"  Prompts : {len(prompts)}")
-    print(f"  Elapsed : {elapsed/60:.0f} min")
+    print(f"  Elapsed : {elapsed / 60:.0f} min")
     print()
     print("Next step: SCP to local machine and place in ~/.determinex/rosetta/")
-    print(f"  scp -P PORT -i ~/.ssh/id_runpod root@POD:{out_path} ~/.determinex/rosetta/rosetta_v1.pt")
+    print(
+        f"  scp -P PORT -i ~/.ssh/id_runpod root@POD:{out_path} ~/.determinex/rosetta/rosetta_v1.pt"
+    )
 
 
 if __name__ == "__main__":

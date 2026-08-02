@@ -17,6 +17,7 @@ PROVEN only if it comes from a sha-verified lock; otherwise it is CLAIMED (pendi
 Output: corpus/programbench/capability_map.json
 Usage:  python scripts/determinex_pb_capability_map.py build
 """
+
 from __future__ import annotations
 
 import json
@@ -37,6 +38,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 def _base(slug: str) -> str:
     s = (slug or "").replace(".eval", "")
     return s.split("__")[-1].split(".")[0] if "__" in s else s
+
 
 # language / build system from compile.sh
 _LANG = [
@@ -135,19 +137,22 @@ def _locked_base_index() -> dict[str, Path]:
     return idx
 
 
-def _resolve_artifact(base: str, full_slug: str, locked_idx: dict, override_idx: dict
-                      ) -> tuple[str, str, dict | None]:
+def _resolve_artifact(
+    base: str, full_slug: str, locked_idx: dict, override_idx: dict
+) -> tuple[str, str, dict | None]:
     """Find the best artifact for a tool. Returns (source, compile_sh_text, eval_report)."""
     # 1) locked archive (exact dir, full slug, or by base name)
-    d = next((LOCKED / c for c in (base, full_slug) if (LOCKED / c / "submission.tar.gz").exists()),
-             None) or locked_idx.get(base)
+    d = next(
+        (LOCKED / c for c in (base, full_slug) if (LOCKED / c / "submission.tar.gz").exists()), None
+    ) or locked_idx.get(base)
     if d is not None:
         rep = d / "eval_report.json"
         er = json.loads(rep.read_text(encoding="utf-8")) if rep.exists() else None
         return "locked_archive", _read_tarball_compile(d / "submission.tar.gz"), er
     # 2) per_tool_overrides (working copy) — match by base name (full-slug dirs)
-    d = next((OVERRIDES / c for c in (full_slug, base) if (OVERRIDES / c / "compile.sh").exists()),
-             None) or override_idx.get(base)
+    d = next(
+        (OVERRIDES / c for c in (full_slug, base) if (OVERRIDES / c / "compile.sh").exists()), None
+    ) or override_idx.get(base)
     if d is not None:
         return "override", (d / "compile.sh").read_text(encoding="utf-8", errors="replace"), None
     return "none", "", None
@@ -155,6 +160,7 @@ def _resolve_artifact(base: str, full_slug: str, locked_idx: dict, override_idx:
 
 def build() -> dict:
     import determinex_pb_lock_registry as R
+
     reg = R.load_registry()
     verified = set(reg.get("locks", {}).keys())
 
@@ -169,8 +175,11 @@ def build() -> dict:
         # prefer the richest slug (full author__tool.hash over bare base)
         cur = universe.get(b)
         if cur is None or ("__" in slug and "__" not in cur["slug"]):
-            universe[b] = {"slug": slug, "status_idx": e.get("status"),
-                           "fsr": bool(e.get("official_full_suite_resolved"))}
+            universe[b] = {
+                "slug": slug,
+                "status_idx": e.get("status"),
+                "fsr": bool(e.get("official_full_suite_resolved")),
+            }
 
     tools = {}
     tech_idx = defaultdict(list)
@@ -187,11 +196,11 @@ def build() -> dict:
         if base in verified or info["slug"] in verified:
             status = "PROVEN"
         elif source == "locked_archive":
-            status = "CLAIMED"          # locked archive, not sha-verified (likely degraded)
+            status = "CLAIMED"  # locked archive, not sha-verified (likely degraded)
         elif source == "override":
-            status = "UNLOCKED_WORKING" # factory/working copy exists, not locked
+            status = "UNLOCKED_WORKING"  # factory/working copy exists, not locked
         else:
-            status = "GAP"              # no artifact -> capability not yet attempted/built
+            status = "GAP"  # no artifact -> capability not yet attempted/built
         a["status"] = status
         a["artifact"] = source
         a["slug"] = info["slug"]
@@ -207,9 +216,9 @@ def build() -> dict:
     cap = {
         "schema": "determinex-pb-capability-map-v2",
         "note": "Full-capability map across ALL ~200 ProgramBench tasks (from eval_index, not "
-                "just locked/). status: PROVEN (sha-verified lock) / CLAIMED (locked archive, "
-                "unverified-likely-degraded) / UNLOCKED_WORKING (factory copy) / GAP (no artifact "
-                "-- capability not yet built). Capabilities observed from compile.sh + test names.",
+        "just locked/). status: PROVEN (sha-verified lock) / CLAIMED (locked archive, "
+        "unverified-likely-degraded) / UNLOCKED_WORKING (factory copy) / GAP (no artifact "
+        "-- capability not yet built). Capabilities observed from compile.sh + test names.",
         "summary": {
             "total_tasks": len(tools),
             "status_breakdown": dict(sorted(status_counts.items())),
@@ -232,6 +241,7 @@ def refresh() -> dict:
     cap = build()
     try:
         import gen_capability_doc
+
         gen_capability_doc.main()
     except Exception as e:  # doc render is best-effort; the JSON map is authoritative
         print(f"[capability] map rebuilt; doc render skipped: {e}")
@@ -250,7 +260,9 @@ def main() -> int:
         print(f"  total ProgramBench tasks: {s['total_tasks']}")
         print(f"  status breakdown: {s['status_breakdown']}")
         print(f"  languages: {', '.join(s['languages_covered'])}")
-        print(f"  techniques ({len(s['techniques_covered'])}): {', '.join(s['techniques_covered'])}")
+        print(
+            f"  techniques ({len(s['techniques_covered'])}): {', '.join(s['techniques_covered'])}"
+        )
         print(f"  behaviors ({len(s['behaviors_covered'])}): {', '.join(s['behaviors_covered'])}")
         print("\n  technique coverage (tasks per technique):")
         for k, v in sorted(cap["by_technique"].items(), key=lambda x: -len(x[1])):

@@ -12,6 +12,7 @@ Examples:
   python scripts/pb_corpus_hint_audit.py --slug doxygen__doxygen.966d98e \
       --input logs/programbench_factory/hetzner_foo/doxygen__doxygen_966d98e.err.log
 """
+
 from __future__ import annotations
 
 import argparse
@@ -22,9 +23,9 @@ import os
 import re
 import sys
 from collections import Counter
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
-
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 FACTORY = ROOT / "logs" / "programbench_factory"
@@ -60,7 +61,14 @@ PATTERNS: tuple[Pattern, ...] = (
             r"unknown option: --(?:output|background|fill-color|font-family)",
             r"Usage: [A-Za-z0-9_.+-]+ \[OPTIONS\] \[ARGS\]",
         ),
-        hook_rx=_rx(r"bootstrap scaffold", r"using bundled binary", r"build failed", r"fallback", r"pre-built one", r"canonical upstream"),
+        hook_rx=_rx(
+            r"bootstrap scaffold",
+            r"using bundled binary",
+            r"build failed",
+            r"fallback",
+            r"pre-built one",
+            r"canonical upstream",
+        ),
         next_action="Replace the fallback scaffold/stale binary with a real upstream build or known-good native binary before tuning output details.",
         severity="high",
     ),
@@ -68,8 +76,17 @@ PATTERNS: tuple[Pattern, ...] = (
         key="harness_test_suppression",
         title="candidate suppresses or rewrites harness test collection",
         lesson="Injected pytest collection filters can turn timeouts into missing-test failures; use runner resource controls instead of hiding tests.",
-        failure_rx=_rx(r"expected tests missing from JUnit XML", r"test\(s\) in JUnit XML not in tests\.json", r"missing from JUnit"),
-        hook_rx=_rx(r"collect_ignore_glob", r"pytest_collection_modifyitems", r"del items\[\d+:\]", r"pytest\.ini"),
+        failure_rx=_rx(
+            r"expected tests missing from JUnit XML",
+            r"test\(s\) in JUnit XML not in tests\.json",
+            r"missing from JUnit",
+        ),
+        hook_rx=_rx(
+            r"collect_ignore_glob",
+            r"pytest_collection_modifyitems",
+            r"del items\[\d+:\]",
+            r"pytest\.ini",
+        ),
         next_action="Remove candidate-side test suppression/truncation and solve resource issues through the guarded runner.",
         severity="high",
     ),
@@ -77,8 +94,16 @@ PATTERNS: tuple[Pattern, ...] = (
         key="argv0_preservation",
         title="argv[0] / executable path preservation",
         lesson="Help/version/error goldens often assert ./executable or /workspace/executable, not the real installed binary path.",
-        failure_rx=_rx(r"/usr/local/bin/[A-Za-z0-9_.+-]+", r"/workspace/executable", r"\./executable", r"argv\[0\]", r"program name"),
-        hook_rx=_rx(r"\bexec\s+-a\s+\"\$0\"", r"\bexec\s+-a\s+\$0", r"argv\[0\]", r"sys\.argv\[0\]"),
+        failure_rx=_rx(
+            r"/usr/local/bin/[A-Za-z0-9_.+-]+",
+            r"/workspace/executable",
+            r"\./executable",
+            r"argv\[0\]",
+            r"program name",
+        ),
+        hook_rx=_rx(
+            r"\bexec\s+-a\s+\"\$0\"", r"\bexec\s+-a\s+\$0", r"argv\[0\]", r"sys\.argv\[0\]"
+        ),
         next_action="Preserve the harness-visible program name in the wrapper before the native binary runs.",
         severity="high",
     ),
@@ -96,7 +121,16 @@ PATTERNS: tuple[Pattern, ...] = (
             r"Strings contain only whitespace",
             r"Full diff:",
         ),
-        hook_rx=_rx(r"mktemp", r"sed\b", r"stderr", r"stdout", r"filter", r"replace\(", r"Progress:", r"No files to be processed"),
+        hook_rx=_rx(
+            r"mktemp",
+            r"sed\b",
+            r"stderr",
+            r"stdout",
+            r"filter",
+            r"replace\(",
+            r"Progress:",
+            r"No files to be processed",
+        ),
         next_action="Capture output, normalize only the known noisy lines/bytes, and avoid broad filtering that can regress passing cases.",
         severity="high",
     ),
@@ -104,8 +138,23 @@ PATTERNS: tuple[Pattern, ...] = (
         key="fixed_time_date",
         title="fixed date/time/environment pinning",
         lesson="Git/history/report tools frequently need deterministic dates, authors, timezone, or SOURCE_DATE_EPOCH.",
-        failure_rx=_rx(r"20\d\d-\d\d-\d\d", r"timestamp", r"date", r"TIMEZONE", r"SOURCE_DATE_EPOCH", r"GIT_AUTHOR_DATE", r"GIT_COMMITTER_DATE"),
-        hook_rx=_rx(r"SOURCE_DATE_EPOCH", r"GIT_AUTHOR_DATE", r"GIT_COMMITTER_DATE", r"TZ=", r"2026-04-13", r"FAKETIME"),
+        failure_rx=_rx(
+            r"20\d\d-\d\d-\d\d",
+            r"timestamp",
+            r"date",
+            r"TIMEZONE",
+            r"SOURCE_DATE_EPOCH",
+            r"GIT_AUTHOR_DATE",
+            r"GIT_COMMITTER_DATE",
+        ),
+        hook_rx=_rx(
+            r"SOURCE_DATE_EPOCH",
+            r"GIT_AUTHOR_DATE",
+            r"GIT_COMMITTER_DATE",
+            r"TZ=",
+            r"2026-04-13",
+            r"FAKETIME",
+        ),
         next_action="Pin the environment or postprocess date fields to the upstream-observed golden date; verify against the real binary first.",
         severity="high",
     ),
@@ -113,7 +162,9 @@ PATTERNS: tuple[Pattern, ...] = (
         key="umask_file_modes",
         title="umask/file mode pinning",
         lesson="Copy/archive tools can miss dozens of tests if the cleanroom umask differs from golden file-mode assumptions.",
-        failure_rx=_rx(r"umask", r"permission", r"mode", r"0o[0-7]{3,4}", r"0755", r"0775", r"executable bit"),
+        failure_rx=_rx(
+            r"umask", r"permission", r"mode", r"0o[0-7]{3,4}", r"0755", r"0775", r"executable bit"
+        ),
         hook_rx=_rx(r"umask\s*\(", r"os\.umask", r"chmod", r"0o022", r"0o755"),
         next_action="Pin umask or chmod generated outputs at the narrow boundary that owns file creation.",
         severity="high",
@@ -122,7 +173,12 @@ PATTERNS: tuple[Pattern, ...] = (
         key="bash_path_dependency",
         title="bash/path dependency under constrained PATH",
         lesson="Some tests deliberately remove bash/go/git from PATH and assert native panic/error text.",
-        failure_rx=_rx(r"/usr/bin/env: .*bash.*No such file", r"bash.*No such file", r"executable file not found in \$PATH", r"command not found"),
+        failure_rx=_rx(
+            r"/usr/bin/env: .*bash.*No such file",
+            r"bash.*No such file",
+            r"executable file not found in \$PATH",
+            r"command not found",
+        ),
         hook_rx=_rx(r"#!/usr/bin/env bash", r"#!/bin/bash", r"\bbash\b", r"PATH=", r"exec: \"go\""),
         next_action="Avoid a bash wrapper for paths where tests intentionally remove bash; use /bin/sh or a compiled/native wrapper.",
         severity="high",
@@ -139,7 +195,9 @@ PATTERNS: tuple[Pattern, ...] = (
             r"panic:|goroutine \d+|thread 'main' panicked",
             r"timing|performance",
         ),
-        hook_rx=_rx(r"cargo build", r"go build", r"gcc\b", r"g\+\+", r"make\b", r"cmake", r"/usr/local/bin"),
+        hook_rx=_rx(
+            r"cargo build", r"go build", r"gcc\b", r"g\+\+", r"make\b", r"cmake", r"/usr/local/bin"
+        ),
         next_action="Route to native source or a compiled shim before more wrapper patching.",
         severity="high",
     ),
@@ -147,8 +205,24 @@ PATTERNS: tuple[Pattern, ...] = (
         key="serializer_exactness",
         title="byte-exact serializer/parser behavior",
         lesson="Converters need exact attribute order, escaping, URL normalization, encoding, and newline behavior.",
-        failure_rx=_rx(r"JSONDecodeError", r"yaml|toml|html|xml|url", r"escape", r"encoding", r"attribute", r"newline", r"mojibake"),
-        hook_rx=_rx(r"json", r"yaml", r"toml", r"html5lib|BeautifulSoup", r"urllib|urlparse", r"from_encoding", r"sort"),
+        failure_rx=_rx(
+            r"JSONDecodeError",
+            r"yaml|toml|html|xml|url",
+            r"escape",
+            r"encoding",
+            r"attribute",
+            r"newline",
+            r"mojibake",
+        ),
+        hook_rx=_rx(
+            r"json",
+            r"yaml",
+            r"toml",
+            r"html5lib|BeautifulSoup",
+            r"urllib|urlparse",
+            r"from_encoding",
+            r"sort",
+        ),
         next_action="Compare against the upstream binary for the exact serializer rule before adding local special cases.",
         severity="medium",
     ),
@@ -156,7 +230,13 @@ PATTERNS: tuple[Pattern, ...] = (
         key="clap_error_format",
         title="clap-style error formatting",
         lesson="CLI goldens often assert exact error:, USAGE:, and help trailer formatting.",
-        failure_rx=_rx(r"USAGE:", r"For more information try --help", r"error:", r"Found argument .* wasn't expected", r"unknown option|unrecognized option"),
+        failure_rx=_rx(
+            r"USAGE:",
+            r"For more information try --help",
+            r"error:",
+            r"Found argument .* wasn't expected",
+            r"unknown option|unrecognized option",
+        ),
         hook_rx=_rx(r"USAGE:", r"For more information try --help", r"argparse", r"clap", r"error:"),
         next_action="Patch the error formatter, not every individual failing assertion.",
         severity="medium",
@@ -165,7 +245,14 @@ PATTERNS: tuple[Pattern, ...] = (
         key="harness_plumbing",
         title="eval harness/image/executable plumbing",
         lesson="0/0, hash_executable_failed, symlink executables, or missing /workspace/executable are not behavioral failures.",
-        failure_rx=_rx(r"0/0", r"hash_executable_failed", r"/workspace/executable", r"stashed-executable", r"symlink", r"task_cleanroom"),
+        failure_rx=_rx(
+            r"0/0",
+            r"hash_executable_failed",
+            r"/workspace/executable",
+            r"stashed-executable",
+            r"symlink",
+            r"task_cleanroom",
+        ),
         hook_rx=_rx(r"submission\.tar\.gz", r"\bexecutable\b", r"ln -s", r"cp\b", r"chmod \+x"),
         next_action="Run image preflight and make compile.sh produce a real executable file, not a symlink.",
         severity="medium",
@@ -224,11 +311,16 @@ def _failure_records_from_json(data: Any) -> list[dict[str, str]]:
     if isinstance(data, list):
         for item in data:
             if isinstance(item, dict):
-                records.append({
-                    "name": str(item.get("name") or item.get("test_name") or ""),
-                    "status": str(item.get("status") or ""),
-                    "message": "\n".join(str(item.get(k) or "") for k in ("msg", "text", "message", "message_head")),
-                })
+                records.append(
+                    {
+                        "name": str(item.get("name") or item.get("test_name") or ""),
+                        "status": str(item.get("status") or ""),
+                        "message": "\n".join(
+                            str(item.get(k) or "")
+                            for k in ("msg", "text", "message", "message_head")
+                        ),
+                    }
+                )
         return records
 
     if not isinstance(data, dict):
@@ -241,11 +333,13 @@ def _failure_records_from_json(data: Any) -> list[dict[str, str]]:
         status = str(item.get("status") or "")
         if status not in {"failure", "failed", "error"}:
             continue
-        records.append({
-            "name": str(item.get("name") or ""),
-            "status": status,
-            "message": str((item.get("extra") or {}).get("message") or ""),
-        })
+        records.append(
+            {
+                "name": str(item.get("name") or ""),
+                "status": status,
+                "message": str((item.get("extra") or {}).get("message") or ""),
+            }
+        )
 
     # Gate result normalized summaries.
     cand = data.get("candidate") if isinstance(data.get("candidate"), dict) else {}
@@ -258,7 +352,9 @@ def _failure_records_from_json(data: Any) -> list[dict[str, str]]:
             continue
         tail = "\n".join(str(cmd.get(k) or "") for k in ("stdout_tail", "stderr_tail"))
         if tail.strip():
-            records.append({"name": str(cmd.get("step") or "command"), "status": "log", "message": tail})
+            records.append(
+                {"name": str(cmd.get("step") or "command"), "status": "log", "message": tail}
+            )
 
     return records
 
@@ -304,10 +400,30 @@ def _find_source_roots(slug: str | None, explicit: Iterable[Path]) -> list[Path]
     return out
 
 
-def _source_text(roots: list[Path], max_files: int = 80, max_chars: int = 500_000) -> tuple[str, list[str]]:
+def _source_text(
+    roots: list[Path], max_files: int = 80, max_chars: int = 500_000
+) -> tuple[str, list[str]]:
     chunks: list[str] = []
     files: list[str] = []
-    suffixes = {".py", ".sh", ".bash", ".go", ".rs", ".c", ".cc", ".cpp", ".h", ".hpp", ".js", ".ts", ".json", ".toml", ".yaml", ".yml", ""}
+    suffixes = {
+        ".py",
+        ".sh",
+        ".bash",
+        ".go",
+        ".rs",
+        ".c",
+        ".cc",
+        ".cpp",
+        ".h",
+        ".hpp",
+        ".js",
+        ".ts",
+        ".json",
+        ".toml",
+        ".yaml",
+        ".yml",
+        "",
+    }
     for root in roots:
         if root.is_file():
             paths = [root]
@@ -316,7 +432,9 @@ def _source_text(roots: list[Path], max_files: int = 80, max_chars: int = 500_00
         for path in paths:
             if len(files) >= max_files:
                 break
-            if any(part in {"target", "node_modules", ".git", "__pycache__"} for part in path.parts):
+            if any(
+                part in {"target", "node_modules", ".git", "__pycache__"} for part in path.parts
+            ):
                 continue
             txt = _safe_read(path, max_chars=80_000)
             if not txt:
@@ -329,7 +447,7 @@ def _source_text(roots: list[Path], max_files: int = 80, max_chars: int = 500_00
 
 
 def _match_patterns(records: list[dict[str, str]], source: str) -> list[dict[str, Any]]:
-    corpus = "\n".join(f"{r.get('name','')}\n{r.get('message','')}" for r in records)
+    corpus = "\n".join(f"{r.get('name', '')}\n{r.get('message', '')}" for r in records)
     matches: list[dict[str, Any]] = []
     for pattern in PATTERNS:
         failure_hits: list[str] = []
@@ -356,20 +474,26 @@ def _match_patterns(records: list[dict[str, str]], source: str) -> list[dict[str
                 break
         if hook_hits:
             status = "present-check-specificity"
-            if pattern.key in {"stderr_stdout_normalization", "fixed_time_date", "argv0_preservation"}:
+            if pattern.key in {
+                "stderr_stdout_normalization",
+                "fixed_time_date",
+                "argv0_preservation",
+            }:
                 status = "present-but-failing"
         else:
             status = "missing"
-        matches.append({
-            "key": pattern.key,
-            "title": pattern.title,
-            "severity": pattern.severity,
-            "status": status,
-            "failure_hits": failure_hits,
-            "hook_hits": hook_hits,
-            "lesson": pattern.lesson,
-            "next_action": pattern.next_action,
-        })
+        matches.append(
+            {
+                "key": pattern.key,
+                "title": pattern.title,
+                "severity": pattern.severity,
+                "status": status,
+                "failure_hits": failure_hits,
+                "hook_hits": hook_hits,
+                "lesson": pattern.lesson,
+                "next_action": pattern.next_action,
+            }
+        )
     return matches
 
 
@@ -392,7 +516,9 @@ def _write_reports(rows: list[dict[str, Any]], md_path: Path, json_path: Path) -
     lines: list[str] = []
     lines.append("# ProgramBench Corpus Hint Audit")
     lines.append("")
-    lines.append("Read-only audit. It maps current failures to known corpus lessons and checks whether the candidate source appears to contain the expected hook.")
+    lines.append(
+        "Read-only audit. It maps current failures to known corpus lessons and checks whether the candidate source appears to contain the expected hook."
+    )
     lines.append("")
     for row in rows:
         lines.append(f"## {row['slug']}")
@@ -408,13 +534,17 @@ def _write_reports(rows: list[dict[str, Any]], md_path: Path, json_path: Path) -
             lines.append(f"- Top modules: {mods}")
         lines.append("")
         if not row["matches"]:
-            lines.append("No known corpus pattern matched. Next step: inspect raw failures and add a new pattern if this repeats.")
+            lines.append(
+                "No known corpus pattern matched. Next step: inspect raw failures and add a new pattern if this repeats."
+            )
             lines.append("")
             continue
         lines.append("| Severity | Pattern | Status | Next action |")
         lines.append("|---|---|---|---|")
         for m in row["matches"]:
-            lines.append(f"| {m['severity']} | {m['title']} | `{m['status']}` | {m['next_action']} |")
+            lines.append(
+                f"| {m['severity']} | {m['title']} | `{m['status']}` | {m['next_action']} |"
+            )
         lines.append("")
         for m in row["matches"]:
             lines.append(f"### {m['title']}")
@@ -531,7 +661,9 @@ def _write_notes(rows: list[dict[str, Any]]) -> list[Path]:
                         lines.append(f"  - `{hit}`")
                 lines.append("")
         else:
-            lines.append("No known pattern matched. Add a new pattern if this failure shape repeats.")
+            lines.append(
+                "No known pattern matched. Add a new pattern if this failure shape repeats."
+            )
             lines.append("")
         md.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
         written.extend([jsonl, md])
@@ -554,12 +686,44 @@ def _default_inputs() -> list[Path]:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--slug", help="Tool slug. Inferred from input path when omitted.")
-    ap.add_argument("--input", action="append", type=Path, default=[], help="Failure/eval/gate/log file. Repeatable.")
-    ap.add_argument("--eval", dest="input", action="append", type=Path, help="Alias for --input; usually candidate eval JSON.")
-    ap.add_argument("--source-dir", action="append", type=Path, default=[], help="Extra source root to inspect. Repeatable.")
-    ap.add_argument("--source", dest="source_dir", action="append", type=Path, help="Alias for --source-dir; candidate source or run root.")
-    ap.add_argument("--all-current", action="store_true", help="Audit known *_failures_current.json files and recent gate results.")
-    ap.add_argument("--write-note", action="store_true", help="Append reject-note JSONL and per-tool in_progress markdown.")
+    ap.add_argument(
+        "--input",
+        action="append",
+        type=Path,
+        default=[],
+        help="Failure/eval/gate/log file. Repeatable.",
+    )
+    ap.add_argument(
+        "--eval",
+        dest="input",
+        action="append",
+        type=Path,
+        help="Alias for --input; usually candidate eval JSON.",
+    )
+    ap.add_argument(
+        "--source-dir",
+        action="append",
+        type=Path,
+        default=[],
+        help="Extra source root to inspect. Repeatable.",
+    )
+    ap.add_argument(
+        "--source",
+        dest="source_dir",
+        action="append",
+        type=Path,
+        help="Alias for --source-dir; candidate source or run root.",
+    )
+    ap.add_argument(
+        "--all-current",
+        action="store_true",
+        help="Audit known *_failures_current.json files and recent gate results.",
+    )
+    ap.add_argument(
+        "--write-note",
+        action="store_true",
+        help="Append reject-note JSONL and per-tool in_progress markdown.",
+    )
     ap.add_argument("--out-md", type=Path, default=OUT_MD)
     ap.add_argument("--out-json", type=Path, default=OUT_JSON)
     args = ap.parse_args(argv)
@@ -585,14 +749,16 @@ def main(argv: list[str] | None = None) -> int:
         roots = _find_source_roots(slug if slug != "unknown" else None, args.source_dir)
         source, source_files = _source_text(roots)
         matches = _match_patterns(records, source)
-        rows.append({
-            "slug": slug,
-            "inputs": [str(p) for p in paths],
-            "summary": _summarize_records(records),
-            "source_roots": [str(p) for p in roots],
-            "source_files": source_files,
-            "matches": matches,
-        })
+        rows.append(
+            {
+                "slug": slug,
+                "inputs": [str(p) for p in paths],
+                "summary": _summarize_records(records),
+                "source_roots": [str(p) for p in roots],
+                "source_files": source_files,
+                "matches": matches,
+            }
+        )
 
     _write_reports(rows, args.out_md, args.out_json)
     note_paths = _write_notes(rows) if args.write_note else []

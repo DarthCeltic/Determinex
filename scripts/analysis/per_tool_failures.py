@@ -17,11 +17,13 @@ Output:
 
 Run: python scripts/analysis/per_tool_failures.py
 """
+
 from __future__ import annotations
-import json
-import glob
-import re
+
 import collections
+import glob
+import json
+import re
 from pathlib import Path
 
 ROOT = Path("T:/determinex-programbench")
@@ -146,7 +148,9 @@ def main():
             "top_first_lines": first_line_counter.most_common(5),
             "top_normalized": norm_assertion_counter.most_common(5),
             "top_buckets": bucket_counter.most_common(5),
-            "bucket_samples": {b: bucket_to_test_names[b][:3] for b in dict(bucket_counter.most_common(5))},
+            "bucket_samples": {
+                b: bucket_to_test_names[b][:3] for b in dict(bucket_counter.most_common(5))
+            },
             "skipped_reasons": skipped_reasons.most_common(5),
             "skipped_samples": skipped_samples,
         }
@@ -155,12 +159,16 @@ def main():
     print(f"wrote {OUT_JSON} ({len(per_tool)} tools)")
 
     with OUT_TSV.open("w", encoding="utf-8", newline="\n") as f:
-        f.write("tool\tpct\tpassed\tfailed\tskipped\ttotal\ttop_bucket\ttop_bucket_count\ttop_assertion\tassertion_count\n")
+        f.write(
+            "tool\tpct\tpassed\tfailed\tskipped\ttotal\ttop_bucket\ttop_bucket_count\ttop_assertion\tassertion_count\n"
+        )
         for tool, d in sorted(per_tool.items(), key=lambda kv: -kv[1]["pct"]):
             top_b, top_bc = d["top_buckets"][0] if d["top_buckets"] else ("-", 0)
             top_a, top_ac = d["top_normalized"][0] if d["top_normalized"] else ("-", 0)
             top_a = top_a.replace("\t", " ").replace("\n", " ")[:100]
-            f.write(f"{tool}\t{d['pct']}\t{d['passed']}\t{d['failed']}\t{d['skipped']}\t{d['total']}\t{top_b}\t{top_bc}\t{top_a}\t{top_ac}\n")
+            f.write(
+                f"{tool}\t{d['pct']}\t{d['passed']}\t{d['failed']}\t{d['skipped']}\t{d['total']}\t{top_b}\t{top_bc}\t{top_a}\t{top_ac}\n"
+            )
     print(f"wrote {OUT_TSV}")
 
     with OUT_MATRIX.open("w", encoding="utf-8", newline="\n") as f:

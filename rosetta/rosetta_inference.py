@@ -44,10 +44,8 @@ Usage:
     )
 """
 
-import ctypes
 import sys
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import torch
@@ -62,6 +60,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 try:
     from llama_cpp import Llama, llama_cpp
+
     _LLAMA_AVAILABLE = True
 except ImportError:
     _LLAMA_AVAILABLE = False
@@ -81,6 +80,7 @@ except ImportError:
 # ---------------------------------------------------------------------------
 # BRIDGE
 # ---------------------------------------------------------------------------
+
 
 class RosettaInferenceBridge:
     """
@@ -106,12 +106,12 @@ class RosettaInferenceBridge:
 
     def __init__(
         self,
-        model_path:    str | Path,
-        rosetta_path:  str | Path,
+        model_path: str | Path,
+        rosetta_path: str | Path,
         target_family: str,
-        n_ctx:         int = 4096,
-        n_gpu_layers:  int = -1,    # -1 = all layers on GPU
-        verbose:       bool = False,
+        n_ctx: int = 4096,
+        n_gpu_layers: int = -1,  # -1 = all layers on GPU
+        verbose: bool = False,
     ):
         """
         Args:
@@ -129,7 +129,7 @@ class RosettaInferenceBridge:
             )
 
         self.target_family = target_family
-        self.model_path    = Path(model_path)
+        self.model_path = Path(model_path)
 
         # Load RosettaStone (CPU only — tiny <10M params)
         print(f"[RosettaBridge] Loading RosettaStone from {rosetta_path}...", flush=True)
@@ -155,7 +155,7 @@ class RosettaInferenceBridge:
             model_path=str(self.model_path),
             n_ctx=n_ctx,
             n_gpu_layers=n_gpu_layers,
-            embedding=True,   # required to enable embedding batch mode
+            embedding=True,  # required to enable embedding batch mode
             verbose=verbose,
         )
 
@@ -167,6 +167,7 @@ class RosettaInferenceBridge:
         if n_embd != self.target_dim:
             try:
                 from rosetta.model_registry import RosettaDimensionMismatch
+
                 raise RosettaDimensionMismatch(
                     source_model="(unspecified-source)",
                     source_arch=target_family,
@@ -217,9 +218,13 @@ class RosettaInferenceBridge:
         # belongs to the caller, not project().
         try:
             from rosetta.model_registry import (
-                resolve_model, get_arch, validate_hidden_dim,
-                RosettaArchUnknown, RosettaDimensionMismatch,
+                RosettaArchUnknown,
+                RosettaDimensionMismatch,
+                get_arch,
+                resolve_model,
+                validate_hidden_dim,
             )
+
             spec = resolve_model(source_family)
             if spec is not None:
                 validate_hidden_dim(spec, source_hidden, target_model=self.target_family)
@@ -255,11 +260,11 @@ class RosettaInferenceBridge:
 
     def generate_with_prefix(
         self,
-        prompt:         str,
+        prompt: str,
         prefix_vectors: list[torch.Tensor],
-        max_tokens:     int = 512,
-        temperature:    float = 0.2,
-        top_p:          float = 0.95,
+        max_tokens: int = 512,
+        temperature: float = 0.2,
+        top_p: float = 0.95,
         repeat_penalty: float = 1.1,
     ) -> str:
         """
@@ -340,7 +345,7 @@ class RosettaInferenceBridge:
             embeddings : float32 array [n_prefix, n_embd]
         """
         n_prefix = embeddings.shape[0]
-        ctx      = self._llm._ctx
+        ctx = self._llm._ctx
 
         # Build a llama_batch with embeddings mode
         batch = llama_cpp.llama_batch_init(n_prefix, self.n_embd, 1)
@@ -350,10 +355,10 @@ class RosettaInferenceBridge:
             for i, val in enumerate(flat):
                 batch.embd[i] = val
             for i in range(n_prefix):
-                batch.pos[i]           = i
-                batch.n_seq_id[i]      = 1
-                batch.seq_id[i][0]     = 0
-                batch.logits[i]        = False   # don't sample prefix positions
+                batch.pos[i] = i
+                batch.n_seq_id[i] = 1
+                batch.seq_id[i][0] = 0
+                batch.logits[i] = False  # don't sample prefix positions
 
             ret = llama_cpp.llama_decode(ctx, batch)
             if ret != 0:
@@ -366,11 +371,11 @@ class RosettaInferenceBridge:
 
     def generate(
         self,
-        prompt:         str,
-        source_hidden:  Optional[torch.Tensor] = None,
-        source_family:  Optional[str] = None,
-        max_tokens:     int = 512,
-        temperature:    float = 0.2,
+        prompt: str,
+        source_hidden: torch.Tensor | None = None,
+        source_family: str | None = None,
+        max_tokens: int = 512,
+        temperature: float = 0.2,
     ) -> str:
         """
         High-level convenience method:
@@ -405,7 +410,7 @@ class RosettaInferenceBridge:
             self._llm = None
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
-            print(f"[RosettaBridge] GGUF unloaded. VRAM cleared.", flush=True)
+            print("[RosettaBridge] GGUF unloaded. VRAM cleared.", flush=True)
 
     def __enter__(self):
         return self
@@ -417,6 +422,7 @@ class RosettaInferenceBridge:
 # ---------------------------------------------------------------------------
 # A/B EVALUATOR — validates Rosetta prefix vs. no-prefix compile rate
 # ---------------------------------------------------------------------------
+
 
 class RosettaABEvaluator:
     """
@@ -432,18 +438,18 @@ class RosettaABEvaluator:
 
     def __init__(
         self,
-        bridge:   RosettaInferenceBridge,
+        bridge: RosettaInferenceBridge,
         compiler: callable,  # fn(code: str) -> bool
     ):
-        self.bridge   = bridge
+        self.bridge = bridge
         self.compiler = compiler
 
     def run(
         self,
-        prompts:        list[str],
+        prompts: list[str],
         source_hiddens: list[torch.Tensor],
-        source_family:  str,
-        max_tokens:     int = 512,
+        source_family: str,
+        max_tokens: int = 512,
     ) -> dict:
         """
         Run A/B evaluation on a list of prompts.
@@ -459,7 +465,7 @@ class RosettaABEvaluator:
             }
         """
         baseline_pass = 0
-        rosetta_pass  = 0
+        rosetta_pass = 0
 
         for i, (prompt, hidden) in enumerate(zip(prompts, source_hiddens)):
             # A: no prefix
@@ -478,7 +484,7 @@ class RosettaABEvaluator:
                 rosetta_pass += 1
 
             print(
-                f"[A/B] {i+1}/{len(prompts)}  "
+                f"[A/B] {i + 1}/{len(prompts)}  "
                 f"baseline={'PASS' if self.compiler(output_a) else 'FAIL'}  "
                 f"rosetta={'PASS' if self.compiler(output_b) else 'FAIL'}",
                 flush=True,
@@ -486,12 +492,12 @@ class RosettaABEvaluator:
 
         n = len(prompts)
         return {
-            "n_prompts":      n,
-            "baseline_pass":  baseline_pass,
-            "rosetta_pass":   rosetta_pass,
-            "baseline_rate":  baseline_pass / n if n > 0 else 0.0,
-            "rosetta_rate":   rosetta_pass / n if n > 0 else 0.0,
-            "delta":          (rosetta_pass - baseline_pass) / n if n > 0 else 0.0,
+            "n_prompts": n,
+            "baseline_pass": baseline_pass,
+            "rosetta_pass": rosetta_pass,
+            "baseline_rate": baseline_pass / n if n > 0 else 0.0,
+            "rosetta_rate": rosetta_pass / n if n > 0 else 0.0,
+            "delta": (rosetta_pass - baseline_pass) / n if n > 0 else 0.0,
         }
 
 
@@ -502,7 +508,7 @@ class RosettaABEvaluator:
 if __name__ == "__main__":
     print("[RosettaBridge] Running projection self-test (no GGUF required)...", flush=True)
 
-    import tempfile, os
+    import tempfile
     from pathlib import Path as P
 
     # Create a minimal RosettaStone and save it
@@ -528,7 +534,9 @@ if __name__ == "__main__":
         projected.unsqueeze(0),
     ).item()
 
-    print(f"  mistral(4096) → qwen(2048): shape={tuple(projected.shape)}  cos_sim_check={cos_sim:.4f}")
+    print(
+        f"  mistral(4096) → qwen(2048): shape={tuple(projected.shape)}  cos_sim_check={cos_sim:.4f}"
+    )
     print(f"  norm: {projected.norm().item():.4f}")
 
     # Test multi-prefix stacking

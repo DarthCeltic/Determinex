@@ -4,10 +4,11 @@ Applies a quarantined patch plan ONLY to a temp workspace via
 LiveTempPatchVerifierGate. Runs the verifier. Source remains immutable.
 Human approval still required.
 """
+
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 from .live_patch_plan_record import QuarantinedPatchPlan
 from .live_temp_patch_verifier_gate import LiveTempPatchVerifierGate
@@ -39,14 +40,18 @@ class TempPatchVerifyCommand:
                 source_unchanged_confirmed=True,
                 human_approval_required=True,
                 training_eligible=False,
-                statuses_seen=("TEMP_PATCH_VERIFY_BLOCKED_NO_PLAN",
-                               "TEMP_PATCH_VERIFY_HUMAN_APPROVAL_REQUIRED"),
+                statuses_seen=(
+                    "TEMP_PATCH_VERIFY_BLOCKED_NO_PLAN",
+                    "TEMP_PATCH_VERIFY_HUMAN_APPROVAL_REQUIRED",
+                ),
                 notes=(f"plan.decision={plan.decision}",),
             )
 
         gate = LiveTempPatchVerifierGate()
         result = gate.apply_and_verify(
-            plan, temp_root=Path(temp_root), verifier=verifier or stub_verifier_pass,
+            plan,
+            temp_root=Path(temp_root),
+            verifier=verifier or stub_verifier_pass,
             workspace_id=workspace_id,
         )
 
@@ -61,7 +66,9 @@ class TempPatchVerifyCommand:
 
         statuses = [
             decision,
-            "TEMP_PATCH_VERIFY_SOURCE_UNCHANGED" if result.source_unchanged_confirmed else "TEMP_PATCH_VERIFY_FAILED",
+            "TEMP_PATCH_VERIFY_SOURCE_UNCHANGED"
+            if result.source_unchanged_confirmed
+            else "TEMP_PATCH_VERIFY_FAILED",
             "TEMP_PATCH_VERIFY_HUMAN_APPROVAL_REQUIRED",
         ]
         return TempPatchVerifyRecord(

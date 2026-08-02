@@ -1,4 +1,5 @@
 """Tests for CLAUDE_FRONTEND_AUTHORITY_VISUAL_AUDIT_LOCK_001."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -15,12 +16,10 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 va = importlib.import_module("ide.frontend_authority_visual_audit")
 va_rec = importlib.import_module("ide.frontend_authority_visual_audit_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_FRONTEND_AUTHORITY_VISUAL_AUDIT_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / ("CLAUDE_FRONTEND_AUTHORITY_VISUAL_AUDIT_LOCK_001.json")
 )
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_frontend_authority_visual_audit"
-)
+EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / ("claude_frontend_authority_visual_audit")
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
@@ -78,10 +77,16 @@ def test_missing_section_blocks():
 
 def test_unknown_section_blocks():
     layout = list(va.default_passing_layout())
-    layout.append(va_rec.SectionState(
-        section="model_route", visible=True, is_success_state=True,
-        negative_authority_caption="", is_blocked_state=False, blocked_text="",
-    ))
+    layout.append(
+        va_rec.SectionState(
+            section="model_route",
+            visible=True,
+            is_success_state=True,
+            negative_authority_caption="",
+            is_blocked_state=False,
+            blocked_text="",
+        )
+    )
     rec = va.audit(layout)
     assert rec.decision == "FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_AMBIGUOUS_STATE"
 
@@ -96,10 +101,16 @@ def test_compound_section_name_blocks():
     # Have to also remove the existing source_mutation_status so the
     # required-set check isn't the dominant failure.
     layout = [s for s in layout if s.section != "source_mutation_status"]
-    layout.append(va_rec.SectionState(
-        section="source_mutation_status", visible=True, is_success_state=False,
-        negative_authority_caption="", is_blocked_state=False, blocked_text="",
-    ))
+    layout.append(
+        va_rec.SectionState(
+            section="source_mutation_status",
+            visible=True,
+            is_success_state=False,
+            negative_authority_caption="",
+            is_blocked_state=False,
+            blocked_text="",
+        )
+    )
     rec = va.audit(layout)
     # The merged token isn't in FRONTEND_VISUAL_SECTIONS so it
     # registers as an unknown section first; the test passes if it
@@ -112,10 +123,16 @@ def test_slash_separated_compound_name_blocks():
     layout[0] = dataclasses.replace(layout[0], section="diagnosis/patch_preview")
     # Drop patch_preview to avoid double-coverage from the required-set check.
     layout = [s for s in layout if s.section != "patch_preview"]
-    layout.append(va_rec.SectionState(
-        section="patch_preview", visible=True, is_success_state=False,
-        negative_authority_caption="", is_blocked_state=False, blocked_text="",
-    ))
+    layout.append(
+        va_rec.SectionState(
+            section="patch_preview",
+            visible=True,
+            is_success_state=False,
+            negative_authority_caption="",
+            is_blocked_state=False,
+            blocked_text="",
+        )
+    )
     rec = va.audit(layout)
     assert rec.is_blocked
 
@@ -132,9 +149,7 @@ def test_success_state_without_negative_caption_blocks():
             layout[i] = dataclasses.replace(s, negative_authority_caption="")
             break
     rec = va.audit(layout)
-    assert rec.decision == (
-        "FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_MISSING_NEGATIVE_AUTHORITY"
-    )
+    assert rec.decision == ("FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_MISSING_NEGATIVE_AUTHORITY")
     assert any("approval_request" in m for m in rec.missing_negative_authority)
 
 
@@ -145,9 +160,7 @@ def test_success_diagnosis_without_negative_caption_blocks():
             layout[i] = dataclasses.replace(s, negative_authority_caption="")
             break
     rec = va.audit(layout)
-    assert rec.decision == (
-        "FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_MISSING_NEGATIVE_AUTHORITY"
-    )
+    assert rec.decision == ("FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_MISSING_NEGATIVE_AUTHORITY")
 
 
 def test_source_mutation_status_does_not_require_negative_caption():
@@ -159,7 +172,9 @@ def test_source_mutation_status_does_not_require_negative_caption():
     for i, s in enumerate(layout):
         if s.section == "source_mutation_status":
             layout[i] = dataclasses.replace(
-                s, is_success_state=True, negative_authority_caption="",
+                s,
+                is_success_state=True,
+                negative_authority_caption="",
             )
             break
     rec = va.audit(layout)
@@ -174,14 +189,15 @@ def test_blocked_state_with_visible_false_blocks():
     for i, s in enumerate(layout):
         if s.section == "verifier_result":
             layout[i] = dataclasses.replace(
-                s, is_success_state=False, visible=False,
-                is_blocked_state=True, blocked_text="verifier failed",
+                s,
+                is_success_state=False,
+                visible=False,
+                is_blocked_state=True,
+                blocked_text="verifier failed",
             )
             break
     rec = va.audit(layout)
-    assert rec.decision == (
-        "FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_BLOCKED_STATE_HIDDEN"
-    )
+    assert rec.decision == ("FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_BLOCKED_STATE_HIDDEN")
 
 
 def test_blocked_state_with_empty_text_blocks():
@@ -189,14 +205,15 @@ def test_blocked_state_with_empty_text_blocks():
     for i, s in enumerate(layout):
         if s.section == "verifier_result":
             layout[i] = dataclasses.replace(
-                s, is_success_state=False, visible=True,
-                is_blocked_state=True, blocked_text="",
+                s,
+                is_success_state=False,
+                visible=True,
+                is_blocked_state=True,
+                blocked_text="",
             )
             break
     rec = va.audit(layout)
-    assert rec.decision == (
-        "FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_BLOCKED_STATE_HIDDEN"
-    )
+    assert rec.decision == ("FRONTEND_AUTHORITY_VISUAL_AUDIT_BLOCKED_BLOCKED_STATE_HIDDEN")
 
 
 def test_blocked_state_visible_and_explained_passes():
@@ -204,8 +221,11 @@ def test_blocked_state_visible_and_explained_passes():
     for i, s in enumerate(layout):
         if s.section == "verifier_result":
             layout[i] = dataclasses.replace(
-                s, is_success_state=False, visible=True,
-                is_blocked_state=True, blocked_text="temp verifier failed",
+                s,
+                is_success_state=False,
+                visible=True,
+                is_blocked_state=True,
+                blocked_text="temp verifier failed",
                 negative_authority_caption="",  # exempt: it's not a success state
             )
             break

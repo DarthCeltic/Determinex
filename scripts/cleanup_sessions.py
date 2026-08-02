@@ -21,12 +21,11 @@ Options:
 """
 
 import argparse
-import os
 import shutil
 import sys
 import time
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 
@@ -42,8 +41,8 @@ def find_sessions_dir() -> Path:
     if cwd_candidate.is_dir():
         return cwd_candidate
     raise FileNotFoundError(
-        f"Could not locate sessions/ directory. "
-        f"Run from the Determinex repo root or pass --sessions-dir."
+        "Could not locate sessions/ directory. "
+        "Run from the Determinex repo root or pass --sessions-dir."
     )
 
 
@@ -63,11 +62,7 @@ def get_session_info(path: Path) -> dict:
     age_days = (time.time() - mtime) / 86400
 
     # Compute total size
-    total_bytes = sum(
-        f.stat().st_size
-        for f in path.rglob("*")
-        if f.is_file()
-    )
+    total_bytes = sum(f.stat().st_size for f in path.rglob("*") if f.is_file())
 
     return {
         "path": path,
@@ -100,9 +95,7 @@ def run(args: argparse.Namespace) -> int:
 
     # Collect UUID session dirs only (skip latent_rag.db, specs/, etc.)
     sessions = [
-        get_session_info(p)
-        for p in sessions_dir.iterdir()
-        if p.is_dir() and is_uuid_dir(p.name)
+        get_session_info(p) for p in sessions_dir.iterdir() if p.is_dir() and is_uuid_dir(p.name)
     ]
 
     if not sessions:
@@ -120,7 +113,9 @@ def run(args: argparse.Namespace) -> int:
         print("-" * 70)
         for i, s in enumerate(sessions, 1):
             age = f"{s['age_days']:.0f}d"
-            print(f"{i:<4} {s['modified']:<18} {age:>8} {format_size(s['size_bytes']):>10}  {s['name']}")
+            print(
+                f"{i:<4} {s['modified']:<18} {age:>8} {format_size(s['size_bytes']):>10}  {s['name']}"
+            )
         print()
         return 0
 
@@ -131,22 +126,25 @@ def run(args: argparse.Namespace) -> int:
 
     # Sessions to consider for deletion: older than cutoff AND not in the keep-N set
     protected = {s["name"] for s in sessions[:keep]}  # newest N are always safe
-    candidates = [
-        s for s in sessions
-        if s["mtime"] < cutoff_time and s["name"] not in protected
-    ]
+    candidates = [s for s in sessions if s["mtime"] < cutoff_time and s["name"] not in protected]
 
     if not candidates:
-        print(f"Nothing to clean up (0 sessions older than {older_than} days outside the {keep}-session grace window).")
+        print(
+            f"Nothing to clean up (0 sessions older than {older_than} days outside the {keep}-session grace window)."
+        )
         return 0
 
     total_freeable = sum(s["size_bytes"] for s in candidates)
-    print(f"\n{'DRY RUN — ' if dry_run else ''}Found {len(candidates)} session(s) to delete "
-          f"(>{older_than}d old, {format_size(total_freeable)} freeable):\n")
+    print(
+        f"\n{'DRY RUN — ' if dry_run else ''}Found {len(candidates)} session(s) to delete "
+        f"(>{older_than}d old, {format_size(total_freeable)} freeable):\n"
+    )
 
     for s in candidates:
         age = f"{s['age_days']:.0f}d"
-        print(f"  {'[SKIP] ' if dry_run else '[DELETE] '}{s['name']}  ({age} old, {format_size(s['size_bytes'])})")
+        print(
+            f"  {'[SKIP] ' if dry_run else '[DELETE] '}{s['name']}  ({age} old, {format_size(s['size_bytes'])})"
+        )
 
     if dry_run:
         print(f"\nDry run complete. Run without --dry-run to delete {len(candidates)} session(s).")
@@ -175,24 +173,31 @@ def main() -> None:
         epilog=__doc__,
     )
     parser.add_argument(
-        "--older-than", type=int, default=30, metavar="DAYS",
-        help="Delete sessions older than N days (default: 30)"
+        "--older-than",
+        type=int,
+        default=30,
+        metavar="DAYS",
+        help="Delete sessions older than N days (default: 30)",
     )
     parser.add_argument(
-        "--keep", type=int, default=5, metavar="N",
-        help="Always keep at least N most-recent sessions (default: 5)"
+        "--keep",
+        type=int,
+        default=5,
+        metavar="N",
+        help="Always keep at least N most-recent sessions (default: 5)",
     )
     parser.add_argument(
-        "--dry-run", action="store_true",
-        help="Print what would be deleted without deleting anything"
+        "--dry-run",
+        action="store_true",
+        help="Print what would be deleted without deleting anything",
     )
+    parser.add_argument("--list", action="store_true", help="List all sessions with ages and sizes")
     parser.add_argument(
-        "--list", action="store_true",
-        help="List all sessions with ages and sizes"
-    )
-    parser.add_argument(
-        "--sessions-dir", type=str, default=None, metavar="PATH",
-        help="Path to sessions directory (default: auto-detected)"
+        "--sessions-dir",
+        type=str,
+        default=None,
+        metavar="PATH",
+        help="Path to sessions directory (default: auto-detected)",
     )
     args = parser.parse_args()
     sys.exit(run(args))

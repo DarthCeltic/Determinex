@@ -22,7 +22,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import shutil
 import subprocess
 import sys
@@ -79,7 +78,10 @@ def clone_instance(instance: dict, output_dir: Path, shallow: bool = True) -> bo
         try:
             result = subprocess.run(
                 ["git", "rev-parse", "HEAD"],
-                cwd=repo_dir, capture_output=True, text=True, timeout=10,
+                cwd=repo_dir,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0 and result.stdout.strip().startswith(base_commit[:8]):
                 return True  # Already done
@@ -107,7 +109,10 @@ def clone_instance(instance: dict, output_dir: Path, shallow: bool = True) -> bo
         clone_cmd += [clone_url, str(repo_dir)]
 
         result = subprocess.run(
-            clone_cmd, capture_output=True, text=True, timeout=300,
+            clone_cmd,
+            capture_output=True,
+            text=True,
+            timeout=300,
         )
         if result.returncode != 0:
             print(f"    FAIL clone: {result.stderr[:200]}")
@@ -118,15 +123,20 @@ def clone_instance(instance: dict, output_dir: Path, shallow: bool = True) -> bo
             # Fetch the exact commit we need
             fetch_result = subprocess.run(
                 ["git", "fetch", "--depth", "1", "origin", base_commit],
-                cwd=repo_dir, capture_output=True, text=True, timeout=120,
+                cwd=repo_dir,
+                capture_output=True,
+                text=True,
+                timeout=120,
             )
             if fetch_result.returncode != 0:
                 # Some repos don't allow fetching by SHA — do a full fetch
-                print(f"    Shallow fetch failed, trying full clone...")
+                print("    Shallow fetch failed, trying full clone...")
                 shutil.rmtree(repo_dir, ignore_errors=True)
                 result = subprocess.run(
                     ["git", "clone", clone_url, str(repo_dir)],
-                    capture_output=True, text=True, timeout=600,
+                    capture_output=True,
+                    text=True,
+                    timeout=600,
                 )
                 if result.returncode != 0:
                     print(f"    FAIL full clone: {result.stderr[:200]}")
@@ -135,7 +145,10 @@ def clone_instance(instance: dict, output_dir: Path, shallow: bool = True) -> bo
         # Checkout the base commit
         checkout_result = subprocess.run(
             ["git", "checkout", base_commit],
-            cwd=repo_dir, capture_output=True, text=True, timeout=60,
+            cwd=repo_dir,
+            capture_output=True,
+            text=True,
+            timeout=60,
         )
         if checkout_result.returncode != 0:
             print(f"    FAIL checkout {base_commit[:8]}: {checkout_result.stderr[:200]}")
@@ -182,24 +195,30 @@ def main():
         description="Provision SWE-bench Lite instances for Determinex benchmarking"
     )
     parser.add_argument(
-        "--output", type=str, required=True,
-        help="Output directory for SWE-bench instances (e.g., ~/determinex-swebench)"
+        "--output",
+        type=str,
+        required=True,
+        help="Output directory for SWE-bench instances (e.g., ~/determinex-swebench)",
     )
     parser.add_argument(
-        "--limit", type=int, default=None,
-        help="Limit number of instances to provision (for testing)"
+        "--limit",
+        type=int,
+        default=None,
+        help="Limit number of instances to provision (for testing)",
     )
     parser.add_argument(
-        "--full-clone", action="store_true",
-        help="Use full git clone instead of shallow (slower, uses more disk)"
+        "--full-clone",
+        action="store_true",
+        help="Use full git clone instead of shallow (slower, uses more disk)",
     )
     parser.add_argument(
-        "--resume", action="store_true", default=True,
-        help="Skip already-provisioned instances (default: True)"
+        "--resume",
+        action="store_true",
+        default=True,
+        help="Skip already-provisioned instances (default: True)",
     )
     parser.add_argument(
-        "--dry-run", action="store_true",
-        help="Show what would be cloned without actually cloning"
+        "--dry-run", action="store_true", help="Show what would be cloned without actually cloning"
     )
 
     args = parser.parse_args()
@@ -226,16 +245,18 @@ def main():
     if output_dir.exists() or output_dir.parent.exists():
         check_path = output_dir if output_dir.exists() else output_dir.parent
         usage = shutil.disk_usage(check_path)
-        free_gb = usage.free / (1024 ** 3)
+        free_gb = usage.free / (1024**3)
         print(f"Free space on target drive: {free_gb:.1f} GB")
 
         if free_gb < est_gb * 1.2:  # 20% margin
-            print(f"WARNING: estimated usage ({est_gb:.0f} GB) is close to free space ({free_gb:.0f} GB)")
+            print(
+                f"WARNING: estimated usage ({est_gb:.0f} GB) is close to free space ({free_gb:.0f} GB)"
+            )
             response = input("Continue anyway? [y/N] ")
             if response.lower() != "y":
                 sys.exit(0)
     else:
-        print(f"WARNING: target path does not exist yet, will be created")
+        print("WARNING: target path does not exist yet, will be created")
 
     if args.dry_run:
         print("\n--- DRY RUN ---")
@@ -257,7 +278,7 @@ def main():
 
     for i, inst in enumerate(instances):
         iid = inst["instance_id"]
-        print(f"[{i+1}/{len(instances)}] {iid}")
+        print(f"[{i + 1}/{len(instances)}] {iid}")
         ok = clone_instance(inst, output_dir, shallow=shallow)
         results[iid] = ok
         status = "OK" if ok else "FAIL"
@@ -266,26 +287,22 @@ def main():
     # Summary
     provisioned = sum(1 for v in results.values() if v)
     failed = sum(1 for v in results.values() if not v)
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Provisioned: {provisioned}/{len(instances)}")
     print(f"Failed:      {failed}/{len(instances)}")
 
     # Actual disk usage
     if output_dir.exists():
-        total_size = sum(
-            f.stat().st_size
-            for f in output_dir.rglob("*")
-            if f.is_file()
-        )
+        total_size = sum(f.stat().st_size for f in output_dir.rglob("*") if f.is_file())
         print(f"Actual disk usage: {total_size / (1024**3):.1f} GB")
 
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # Write manifest
     write_manifest(output_dir, instances, results)
 
     # Usage hint
-    print(f"\nTo run SWE-bench evaluation:")
+    print("\nTo run SWE-bench evaluation:")
     print(f"  python scripts/master_bench.py --suite swebench --swebench-dir {output_dir}")
 
 

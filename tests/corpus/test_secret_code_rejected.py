@@ -7,20 +7,18 @@ finding is corpus-rejected regardless of its license.
 
 CORPUS_LICENSE_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
-from corpus.code_ingest.secret_scanner import scan_content, scan_file, is_clean
+from corpus.code_ingest.secret_scanner import is_clean, scan_content, scan_file
 
 
 class TestSecretScanner:
-
     def test_openai_key_detected(self):
         code = 'API_KEY = "sk-aBcDeFgHiJkLmNoPqRsTuVwXyZaAbBcCdDeEfFgGhHiIjJkK"\n'
         result = scan_content(code, "test_openai.py")
@@ -39,7 +37,9 @@ class TestSecretScanner:
         assert any(f.category == "aws" for f in result.findings)
 
     def test_private_key_detected(self):
-        code = "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEA...\n-----END RSA PRIVATE KEY-----\n"
+        code = (
+            "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEA...\n-----END RSA PRIVATE KEY-----\n"
+        )
         result = scan_content(code, "test_privkey.pem")
         assert not result.clean, "RSA private key must be detected"
         assert any(f.category == "private_key" for f in result.findings)
@@ -74,14 +74,17 @@ def calculate_sum(numbers):
         assert result.clean, "Placeholder values must not be flagged as secrets"
 
     def test_example_key_skipped(self):
-        code = '# AKIAIOSFODNN7EXAMPLE is used in AWS documentation\n'
+        code = "# AKIAIOSFODNN7EXAMPLE is used in AWS documentation\n"
         result = scan_content(code, "docs.py")
         assert result.clean, "AWS documentation example key must not be flagged"
 
     def test_file_scan(self, tmp_path):
         """scan_file() must detect secrets in a real file."""
         f = tmp_path / "config.py"
-        f.write_text('SECRET_KEY = "sk-ant-api03-realkey12345678901234567890123456789012"\n', encoding="utf-8")
+        f.write_text(
+            'SECRET_KEY = "sk-ant-api03-realkey12345678901234567890123456789012"\n',
+            encoding="utf-8",
+        )
         result = scan_file(f)
         assert not result.clean
 
@@ -104,9 +107,10 @@ def calculate_sum(numbers):
 
 
 class TestSecretScannerResult:
-
     def test_result_has_line_numbers(self):
-        code = "line1\nline2\nAPI_KEY='sk-aBcDeFgHiJkLmNoPqRsTuVwXyZaAbBcCdDeEfFgGhHiIjJkK'\nline4\n"
+        code = (
+            "line1\nline2\nAPI_KEY='sk-aBcDeFgHiJkLmNoPqRsTuVwXyZaAbBcCdDeEfFgGhHiIjJkK'\nline4\n"
+        )
         result = scan_content(code)
         assert any(f.line_number == 3 for f in result.findings)
 

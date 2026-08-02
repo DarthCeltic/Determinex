@@ -1,14 +1,11 @@
 """Tests for HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001."""
+
 from __future__ import annotations
 
-import datetime as _dt
-import hashlib
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -65,7 +62,9 @@ def test_build_packet_writes_packet():
 
 def test_evaluate_missing_packet():
     res = evaluate_submitted(
-        None, observed_diff="x", observed_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
+        None,
+        observed_diff="x",
+        observed_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
     assert res == "HUMAN_APPROVAL_BLOCKED_MISSING_PACKET"
 
@@ -73,32 +72,43 @@ def test_evaluate_missing_packet():
 def test_evaluate_stale_packet():
     p = _sample_packet()
     # Force stale by setting stale_after to a past timestamp.
-    p2 = HumanApprovalPacket(**{**p.to_dict(),
-        "stale_after": "2000-01-01T00:00:00+00:00",
-        "files_changed": tuple(p.files_changed),
-        "notes": tuple(p.notes),
-    })
-    res = evaluate_submitted(p2, observed_diff="x", observed_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY")
+    p2 = HumanApprovalPacket(
+        **{
+            **p.to_dict(),
+            "stale_after": "2000-01-01T00:00:00+00:00",
+            "files_changed": tuple(p.files_changed),
+            "notes": tuple(p.notes),
+        }
+    )
+    res = evaluate_submitted(
+        p2, observed_diff="x", observed_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY"
+    )
     assert res == "HUMAN_APPROVAL_BLOCKED_STALE_PACKET"
 
 
 def test_evaluate_diff_mismatch():
     p = _sample_packet(diff="aaaa")
-    res = evaluate_submitted(p, observed_diff="bbbb", observed_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY")
+    res = evaluate_submitted(
+        p, observed_diff="bbbb", observed_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY"
+    )
     assert res == "HUMAN_APPROVAL_BLOCKED_DIFF_MISMATCH"
 
 
 def test_evaluate_verifier_not_passed():
     diff = "--- a\n+++ b\n"
     p = _sample_packet(diff=diff)
-    res = evaluate_submitted(p, observed_diff=diff, observed_verifier_status="PATCH_VERIFIER_FAILED")
+    res = evaluate_submitted(
+        p, observed_diff=diff, observed_verifier_status="PATCH_VERIFIER_FAILED"
+    )
     assert res == "HUMAN_APPROVAL_BLOCKED_VERIFIER_NOT_PASSED"
 
 
 def test_evaluate_required_when_all_match():
     diff = "--- a\n+++ b\n"
     p = _sample_packet(diff=diff)
-    res = evaluate_submitted(p, observed_diff=diff, observed_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY")
+    res = evaluate_submitted(
+        p, observed_diff=diff, observed_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY"
+    )
     assert res == "HUMAN_APPROVAL_REQUIRED"
 
 

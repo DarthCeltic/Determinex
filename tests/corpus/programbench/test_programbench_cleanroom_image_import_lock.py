@@ -11,10 +11,17 @@ from corpus.programbench.cleanroom_image_import import (  # noqa: E402
     CleanroomImageImportStatus,
     ProgramBenchCleanroomImageImport,
 )
-from corpus.programbench.cleanroom_image_import_record import verify_cleanroom_image_import_record  # noqa: E402
-from corpus.programbench.dockerhub_manifest_provenance_record import make_dockerhub_manifest_provenance_record, write_dockerhub_manifest_provenance_record  # noqa: E402
-from corpus.programbench.operator_artifact_admission_record import make_operator_artifact_admission_record, write_operator_artifact_admission_record  # noqa: E402
-
+from corpus.programbench.cleanroom_image_import_record import (
+    verify_cleanroom_image_import_record,  # noqa: E402
+)
+from corpus.programbench.dockerhub_manifest_provenance_record import (  # noqa: E402
+    make_dockerhub_manifest_provenance_record,
+    write_dockerhub_manifest_provenance_record,
+)
+from corpus.programbench.operator_artifact_admission_record import (  # noqa: E402
+    make_operator_artifact_admission_record,
+    write_operator_artifact_admission_record,
+)
 
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
@@ -27,7 +34,9 @@ def _target() -> dict:
     }
 
 
-def _provenance_path(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, tag: str = "task_cleanroom") -> Path:
+def _provenance_path(
+    tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, tag: str = "task_cleanroom"
+) -> Path:
     record = make_dockerhub_manifest_provenance_record(
         status="EXACT_REMOTE_MANIFEST_FOUND",
         triage_record="triage.json",
@@ -115,19 +124,30 @@ def _scan(**overrides) -> dict:
 def test_missing_provenance_blocks(tmp_path):
     result = _importer(tmp_path).import_image(tmp_path / "missing.json", _admission_path(tmp_path))
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_NO_PROVENANCE.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_NO_PROVENANCE.value
+    )
 
 
 def test_missing_admission_blocks(tmp_path):
     result = _importer(tmp_path).import_image(_provenance_path(tmp_path), tmp_path / "missing.json")
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_NO_ADMISSION.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_NO_ADMISSION.value
+    )
 
 
 def test_fixture_admission_blocks(tmp_path):
-    result = _importer(tmp_path).import_image(_provenance_path(tmp_path), _admission_path(tmp_path, fixture=True))
+    result = _importer(tmp_path).import_image(
+        _provenance_path(tmp_path), _admission_path(tmp_path, fixture=True)
+    )
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_FIXTURE_ADMISSION.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_FIXTURE_ADMISSION.value
+    )
 
 
 def test_wrong_image_reference_blocks(tmp_path):
@@ -136,7 +156,10 @@ def test_wrong_image_reference_blocks(tmp_path):
         _admission_path(tmp_path, image="programbench/other:task_cleanroom"),
     )
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_IMAGE_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_IMAGE_MISMATCH.value
+    )
 
 
 def test_admission_digest_mismatch_blocks(tmp_path):
@@ -145,7 +168,10 @@ def test_admission_digest_mismatch_blocks(tmp_path):
         _admission_path(tmp_path, digest="sha256:" + "0" * 64),
     )
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_DIGEST_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_DIGEST_MISMATCH.value
+    )
 
 
 def test_unpinned_latest_blocks(tmp_path):
@@ -154,14 +180,24 @@ def test_unpinned_latest_blocks(tmp_path):
         _admission_path(tmp_path),
     )
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_UNPINNED.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_UNPINNED.value
+    )
 
 
 def test_pull_disabled_without_artifact_blocks(tmp_path):
     result = _importer(tmp_path).import_image(_provenance_path(tmp_path), _admission_path(tmp_path))
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_PULL_DISABLED.value
-    assert result["record"]["pull_command"] == ["docker", "pull", f"docker.io/programbench/doxygen_1776_doxygen.966d98e@{DIGEST}"]
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_PULL_DISABLED.value
+    )
+    assert result["record"]["pull_command"] == [
+        "docker",
+        "pull",
+        f"docker.io/programbench/doxygen_1776_doxygen.966d98e@{DIGEST}",
+    ]
 
 
 def test_observed_digest_mismatch_blocks(tmp_path):
@@ -173,7 +209,10 @@ def test_observed_digest_mismatch_blocks(tmp_path):
         scan_result=_scan(),
     )
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_DIGEST_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_DIGEST_MISMATCH.value
+    )
 
 
 def test_scan_unavailable_blocks(tmp_path):
@@ -184,7 +223,10 @@ def test_scan_unavailable_blocks(tmp_path):
         observed_digest=DIGEST,
     )
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_SCAN_UNAVAILABLE.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_SCAN_UNAVAILABLE.value
+    )
 
 
 def test_scan_failure_blocks(tmp_path):
@@ -196,7 +238,10 @@ def test_scan_failure_blocks(tmp_path):
         scan_result=_scan(policy="fail", critical=1),
     )
 
-    assert result["record"]["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_SCAN_FAILED.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_SCAN_FAILED.value
+    )
 
 
 def test_successful_import_writes_signed_quarantine_record(tmp_path):
@@ -209,9 +254,17 @@ def test_successful_import_writes_signed_quarantine_record(tmp_path):
     )
 
     record = result["record"]
-    assert record["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORTED_TO_QUARANTINE.value
-    assert CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_DIGEST_VERIFIED.value in record["import_statuses"]
-    assert CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_SCAN_PASSED.value in record["import_statuses"]
+    assert (
+        record["status"] == CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORTED_TO_QUARANTINE.value
+    )
+    assert (
+        CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_DIGEST_VERIFIED.value
+        in record["import_statuses"]
+    )
+    assert (
+        CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_SCAN_PASSED.value
+        in record["import_statuses"]
+    )
     assert (tmp_path / record["artifact_import_path"]).is_file()
     assert verify_cleanroom_image_import_record(record)
 
@@ -227,5 +280,10 @@ def test_successful_import_remains_not_executable_or_training_eligible(tmp_path)
 
     assert result["record"]["executable"] is False
     assert result["record"]["training_eligible"] is False
-    assert CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_NOT_EXECUTABLE.value in result["record"]["import_statuses"]
-    assert CleanroomImageImportStatus.TRAINING_INELIGIBLE.value in result["record"]["import_statuses"]
+    assert (
+        CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_NOT_EXECUTABLE.value
+        in result["record"]["import_statuses"]
+    )
+    assert (
+        CleanroomImageImportStatus.TRAINING_INELIGIBLE.value in result["record"]["import_statuses"]
+    )

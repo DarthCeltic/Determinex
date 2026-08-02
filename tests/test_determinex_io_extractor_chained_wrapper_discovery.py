@@ -62,6 +62,7 @@ regression above via 4 tests whose expected argv now correctly includes the
 base placeholder (updated, not suppressed) plus the conditional-argv test
 which correctly stays at n_examples==0.
 """
+
 from __future__ import annotations
 
 import ast
@@ -78,8 +79,9 @@ def _tree(src: str) -> ast.Module:
 
 # ---------- fix 1: _discover_wrapper_names fixed-point chaining ----------
 
+
 def test_discover_wrapper_names_finds_two_level_chain():
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 
 def run_lua(args, stdin=None):
@@ -87,7 +89,7 @@ def run_lua(args, stdin=None):
 
 def run_lua_cmd(args):
     return run_lua(["executable"] + args)
-''')
+""")
     names = iox._discover_wrapper_names(tree, Path("conftest.py"))
     assert names == {"run_lua", "run_lua_cmd"}
 
@@ -95,31 +97,31 @@ def run_lua_cmd(args):
 def test_discover_wrapper_names_single_pass_still_finds_direct_shellout():
     """A plain, non-chained direct shell-out is unaffected by the fixed-point loop --
     still found on the first pass, same as before this fix."""
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 
 def run(args):
     return subprocess.run(args, capture_output=True)
-''')
+""")
     assert iox._discover_wrapper_names(tree, Path("conftest.py")) == {"run"}
 
 
 def test_discover_wrapper_names_no_chain_when_target_never_shells_out():
     """A function that calls something NOT itself a known runner (and never
     resolves to one) must never be guessed into run_names."""
-    tree = _tree('''
+    tree = _tree("""
 def helper(x):
     return format_output(x)
 
 def format_output(x):
     return str(x).upper()
-''')
+""")
     assert iox._discover_wrapper_names(tree, Path("conftest.py")) == set()
 
 
 # ---------- fix 2: inline-concat base discovery for delegating closures ----------
 
-_LUA_CMD_CONFTEST = '''
+_LUA_CMD_CONFTEST = """
 import subprocess
 import pytest
 from pathlib import Path
@@ -138,7 +140,7 @@ def run_lua_cmd(lua_exec):
     def _run(args, stdin=None):
         return run_lua([lua_exec] + args, stdin=stdin)
     return _run
-'''
+"""
 
 
 def test_extract_wrapper_base_argv_finds_inline_concat_in_bare_return():
@@ -161,11 +163,11 @@ def test_discover_wrapper_names_chains_through_nested_closure_delegate():
 def test_extract_file_resolves_call_through_delegating_fixture(tmp_path):
     conf = tmp_path / "conftest.py"
     conf.write_text(_LUA_CMD_CONFTEST, encoding="utf-8")
-    src = '''
+    src = """
 def test_version(run_lua_cmd):
     result = run_lua_cmd(["-v"])
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -175,7 +177,7 @@ def test_version(run_lua_cmd):
 
 # ---------- fix 3: chained return-shape inheritance ----------
 
-_TUPLE_SHAPE_CONFTEST = '''
+_TUPLE_SHAPE_CONFTEST = """
 import subprocess
 
 def run_lua(args, stdin=None):
@@ -184,7 +186,7 @@ def run_lua(args, stdin=None):
 
 def run_lua_cmd(args):
     return run_lua(["executable"] + args)
-'''
+"""
 
 
 def test_discover_wrapper_return_shapes_inherits_through_passthrough():
@@ -197,12 +199,12 @@ def test_discover_wrapper_return_shapes_inherits_through_passthrough():
 def test_extract_file_resolves_tuple_unpack_through_delegating_wrapper(tmp_path):
     conf = tmp_path / "conftest.py"
     conf.write_text(_TUPLE_SHAPE_CONFTEST, encoding="utf-8")
-    src = '''
+    src = """
 def test_version(run_lua_cmd=run_lua_cmd):
     code, out, err = run_lua_cmd(["-v"])
     assert code == 0
     assert out == "1.0\\n"
-'''
+"""
     # run_lua_cmd isn't a fixture here (plain default-arg reference for a minimal
     # repro) -- what matters is that the tuple-unpack role mapping resolves through
     # run_lua_cmd's inherited shape, not run_lua's own name.
@@ -217,8 +219,9 @@ def test_version(run_lua_cmd=run_lua_cmd):
 
 # ---------- fix 4: executable-fixture PARAMETER resolution in base discovery ----------
 
+
 def test_extract_wrapper_base_argv_resolves_bare_exec_param():
-    src = '''
+    src = """
 import pytest
 from pathlib import Path
 
@@ -235,7 +238,7 @@ def run_binary(binary_path):
     def _run(args):
         return run_cheat(binary_path, args)
     return _run
-'''
+"""
     tree = ast.parse(src)
     kf = iox._discover_wrapper_kwarg_flags(tree, Path("conftest.py"))
     assert kf["run_cheat"]["base"] == ["executable"]
@@ -252,7 +255,8 @@ def test_extract_file_delegate_with_separate_params_includes_base_end_to_end(tmp
     dropped the executable placeholder entirely (argv=['--version'] instead of
     ['executable', '--version']) while still counting as 'resolved' in the aggregate."""
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import pytest
 import subprocess
 from pathlib import Path
@@ -269,12 +273,14 @@ def run_binary(binary_path):
     def _run(args):
         return run_cheat(binary_path, args)
     return _run
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_version_flag(run_binary):
     result = run_binary(["--version"])
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -285,13 +291,14 @@ def test_version_flag(run_binary):
 # ---------- fix 5 (the real regression this session caught): unresolvable positional
 #             arg must abort, never fall back to base-only ----------
 
+
 def test_control_flow_built_argv_stays_unresolved_even_with_learned_base(tmp_path):
     """The exact regression this fix chain introduced and then fixed: once a plain
     direct-shellout wrapper gains a learned base (from the inline-concat scan), a
     positional arg that exists but is unresolvable (built via runtime control flow)
     must still abort the whole candidate -- never silently produce argv=[base only],
     silently dropping every real argument."""
-    src = '''
+    src = """
 import subprocess
 
 def run_command(args):
@@ -303,7 +310,7 @@ def test_conditional(flag_value):
         args.extend(["-o", "test.png"])
     result = run_command(args)
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -314,7 +321,7 @@ def test_conditional(flag_value):
 def test_learned_base_wrapper_with_resolvable_positional_list_still_works(tmp_path):
     """Sanity check alongside the regression test above: a RESOLVABLE positional list
     on the same kind of learned-base wrapper must still correctly include the base."""
-    src = '''
+    src = """
 import subprocess
 
 def run_command(args):
@@ -323,7 +330,7 @@ def run_command(args):
 def test_help():
     result = run_command(["--help"])
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

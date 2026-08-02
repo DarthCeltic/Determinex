@@ -4,6 +4,7 @@ Every benchmark campaign must be trace-harvesting by default. Adapters can
 produce accepted, rejected, failed, and repair-task traces, but they should not
 finish a benchmark attempt without one of those signed trace intents.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -12,9 +13,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
-from .task_spec import TaskSpec
 from .bench_to_corpus_eligibility import complete_benchmark_payload
-
+from .task_spec import TaskSpec
 
 TraceKind = Literal["attempt", "accept", "reject", "infra_failure", "repair_task"]
 
@@ -72,7 +72,9 @@ class BenchmarkTraceAdapter(ABC):
         """Convert a benchmark attempt into a corpus trace."""
 
     @abstractmethod
-    def reject_to_trace(self, spec: TaskSpec, reason: str, result: dict[str, Any] | None = None) -> BenchmarkTrace:
+    def reject_to_trace(
+        self, spec: TaskSpec, reason: str, result: dict[str, Any] | None = None
+    ) -> BenchmarkTrace:
         """Convert a gate/source/license rejection into a corpus trace."""
 
     @abstractmethod
@@ -89,19 +91,33 @@ class GenericBenchmarkTraceAdapter(BenchmarkTraceAdapter):
 
     def attempt_to_trace(self, spec: TaskSpec, result: dict[str, Any]) -> BenchmarkTrace:
         verdict = str(result.get("verdict") or ("pass" if result.get("passed") else "fail"))
-        failure_type = str(result.get("failure_type") or result.get("failure_class") or ("none" if verdict == "pass" else "validator_failure"))
-        return self._trace(spec, "attempt", "benchmark_attempt", verdict, result, failure_type=failure_type)
+        failure_type = str(
+            result.get("failure_type")
+            or result.get("failure_class")
+            or ("none" if verdict == "pass" else "validator_failure")
+        )
+        return self._trace(
+            spec, "attempt", "benchmark_attempt", verdict, result, failure_type=failure_type
+        )
 
-    def reject_to_trace(self, spec: TaskSpec, reason: str, result: dict[str, Any] | None = None) -> BenchmarkTrace:
+    def reject_to_trace(
+        self, spec: TaskSpec, reason: str, result: dict[str, Any] | None = None
+    ) -> BenchmarkTrace:
         payload = dict(result or {})
         payload["reject_reason"] = reason
-        return self._trace(spec, "reject", "benchmark_reject", "reject", payload, failure_type=reason)
+        return self._trace(
+            spec, "reject", "benchmark_reject", "reject", payload, failure_type=reason
+        )
 
     def accept_to_trace(self, spec: TaskSpec, result: dict[str, Any]) -> BenchmarkTrace:
-        return self._trace(spec, "accept", "benchmark_accept", "pass", result, repair_outcome="pass")
+        return self._trace(
+            spec, "accept", "benchmark_accept", "pass", result, repair_outcome="pass"
+        )
 
     def failure_to_repair_task(self, spec: TaskSpec, result: dict[str, Any]) -> BenchmarkTrace:
-        failure_type = str(result.get("failure_type") or result.get("failure_class") or "validator_failure")
+        failure_type = str(
+            result.get("failure_type") or result.get("failure_class") or "validator_failure"
+        )
         return self._trace(
             spec,
             "repair_task",

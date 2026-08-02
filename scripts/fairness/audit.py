@@ -3,15 +3,15 @@
 This module measures group-level outcome disparities. It does not debias a model
 or certify dataset representativeness.
 """
+
 from __future__ import annotations
 
 import argparse
 import csv
 import json
 from collections import defaultdict
+from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
-from typing import Iterable, Mapping, Sequence
-
 
 SUPPORTED_METRICS = [
     "selection_rate",
@@ -167,7 +167,9 @@ def _load_rows(path: Path) -> list[dict[str, object]]:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Audit binary decision fairness metrics.")
-    parser.add_argument("--input", required=True, help="CSV or JSON rows with group/truth/prediction fields")
+    parser.add_argument(
+        "--input", required=True, help="CSV or JSON rows with group/truth/prediction fields"
+    )
     parser.add_argument("--group-field", required=True)
     parser.add_argument("--truth-field", required=True)
     parser.add_argument("--prediction-field", required=True)

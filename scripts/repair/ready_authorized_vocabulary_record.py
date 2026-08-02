@@ -11,11 +11,11 @@ synonyms — in particular ``capability_available`` (READY)
 is NOT ``execution_authorized``, ``source_mutation_authorized``,
 or ``training_eligible``.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 # The 8 disjoint classes the campaign requires.
 AUTHORITY_VOCABULARY_CLASSES = (
@@ -36,11 +36,13 @@ AUTHORITY_VOCABULARY_CLASSES = (
 # training_eligible are the STRONGEST and most dangerous: a token
 # may only be classified there if it represents a successful
 # completion of the specific gate, never a precondition.
-CLASSES_THAT_IMPLY_AUTHORIZATION = frozenset({
-    "execution_authorized",
-    "source_mutation_authorized",
-    "training_eligible",
-})
+CLASSES_THAT_IMPLY_AUTHORIZATION = frozenset(
+    {
+        "execution_authorized",
+        "source_mutation_authorized",
+        "training_eligible",
+    }
+)
 
 
 READY_AUTHORIZED_LANGUAGE_STATUS_TOKENS = (
@@ -54,6 +56,7 @@ READY_AUTHORIZED_LANGUAGE_STATUS_TOKENS = (
 class TokenClassification:
     """How a single status token classifies into the 8-class
     vocabulary."""
+
     token: str
     surface: str  # "backend", "frontend", or "shared"
     vocabulary_class: str

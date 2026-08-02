@@ -27,6 +27,7 @@ CLI
 ---
     python scripts/determinex_local_agent.py "<task>" --workspace W --model TAG
 """
+
 from __future__ import annotations
 
 import json
@@ -38,14 +39,24 @@ _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
 
+import determinex_local_model_bench as _bench  # noqa: E402
 from swe_agent.inference import _ollama  # noqa: E402
 from swe_agent.patch import _apply_search_replace_blocks, _parse_search_replace_blocks  # noqa: E402
-import determinex_local_model_bench as _bench  # noqa: E402
 
-_FILE_MARKER_RE = re.compile(r'^###\s*FILE:\s*(.+?)\s*$', re.MULTILINE)
+_FILE_MARKER_RE = re.compile(r"^###\s*FILE:\s*(.+?)\s*$", re.MULTILINE)
 _MAX_LISTED_FILES = 60
-_SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv", "target",
-             "dist", "build", ".next", ".pytest_cache"}
+_SKIP_DIRS = {
+    ".git",
+    "node_modules",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "target",
+    "dist",
+    "build",
+    ".next",
+    ".pytest_cache",
+}
 _DEFAULT_MODEL = "qwen2.5-coder:14b-instruct-q4_K_M"
 
 # Retry with the real failure injected -- the project's core loop, which this
@@ -118,9 +129,12 @@ def _rank_paths(workspace: Path, task: str) -> list[str]:
     return ranked
 
 
-def _render_file_contents(workspace: Path, paths: list[str],
-                          budget_chars: int = _CONTENT_BUDGET_CHARS,
-                          per_file_chars: int = _PER_FILE_CHARS) -> tuple[str, list[str]]:
+def _render_file_contents(
+    workspace: Path,
+    paths: list[str],
+    budget_chars: int = _CONTENT_BUDGET_CHARS,
+    per_file_chars: int = _PER_FILE_CHARS,
+) -> tuple[str, list[str]]:
     """Verbatim contents for as many ranked files as the budget allows."""
     out: list[str] = []
     shown: list[str] = []
@@ -133,7 +147,7 @@ def _render_file_contents(workspace: Path, paths: list[str],
             text = p.read_text(encoding="utf-8", errors="replace")
         except OSError:
             continue
-        if "\x00" in text[:1024]:      # binary; nothing to SEARCH in
+        if "\x00" in text[:1024]:  # binary; nothing to SEARCH in
             continue
         truncated = len(text) > per_file_chars
         head = _CTX_BEGIN.format(rel=rel)
@@ -167,9 +181,14 @@ def _list_workspace_files(workspace: Path, limit: int = _MAX_LISTED_FILES) -> li
     return out
 
 
-def _build_prompt(task: str, workspace: Path, contents: str = "",
-                  shown: list[str] | None = None, feedback: str = "",
-                  chat_mode: bool = False) -> str:
+def _build_prompt(
+    task: str,
+    workspace: Path,
+    contents: str = "",
+    shown: list[str] | None = None,
+    feedback: str = "",
+    chat_mode: bool = False,
+) -> str:
     files = _list_workspace_files(workspace)
     file_list = "\n".join(files) if files else "(empty or unreadable workspace)"
     # The file CONTENTS, not just the paths. Sending only a path list while
@@ -237,7 +256,9 @@ def _build_prompt(task: str, workspace: Path, contents: str = "",
             # was well-formed, matched nothing, and was skipped. A model that cannot see the tree
             # invents a plausible one, and `src/` is the most plausible guess in the world for a Rust
             # file.
-            chat_body += f"--- workspace files (relative paths) ---\n{file_list}\n--- end file list ---\n\n"
+            chat_body += (
+                f"--- workspace files (relative paths) ---\n{file_list}\n--- end file list ---\n\n"
+            )
             if contents:
                 chat_body += (
                     "--- current file contents (VERBATIM -- copy SEARCH text from here) ---\n"
@@ -290,9 +311,9 @@ def _split_by_file(raw: str) -> dict:
     return out
 
 
-def _apply_edits(by_file: dict, workspace: Path,
-                 propose_only: bool = False,
-                 proposals: "list | None" = None) -> tuple[bool, bool, list, list[str]]:
+def _apply_edits(
+    by_file: dict, workspace: Path, propose_only: bool = False, proposals: list | None = None
+) -> tuple[bool, bool, list, list[str]]:
     """Apply one attempt's blocks. -> (any_applied, any_attempted, failures, notes)
 
     `failures` is [(rel_path, unmatched_search_text)] -- the material the next
@@ -317,7 +338,9 @@ def _apply_edits(by_file: dict, workspace: Path,
         any_attempted = True
         target = workspace / rel_path
         try:
-            current = target.read_text(encoding="utf-8", errors="replace") if target.exists() else ""
+            current = (
+                target.read_text(encoding="utf-8", errors="replace") if target.exists() else ""
+            )
         except OSError as e:
             notes.append(f"  {rel_path}: FAILED to read ({e})")
             continue
@@ -328,8 +351,10 @@ def _apply_edits(by_file: dict, workspace: Path,
                 if proposals is not None:
                     proposals.append({"path": rel_path, "before": current, "after": updated})
                 any_applied = True
-                notes.append(f"  {rel_path}: PROPOSED {applied_n}/{len(blocks)} block(s) "
-                             f"(not written -- awaiting your approval)")
+                notes.append(
+                    f"  {rel_path}: PROPOSED {applied_n}/{len(blocks)} block(s) "
+                    f"(not written -- awaiting your approval)"
+                )
             else:
                 try:
                     target.parent.mkdir(parents=True, exist_ok=True)
@@ -359,8 +384,7 @@ def _render_proposal(proposals: list) -> str:
     payload = {
         "schema": "determinex-chat-proposed-edits-v1",
         "files": [
-            {"path": p["path"], "before": p["before"], "after": p["after"]}
-            for p in proposals
+            {"path": p["path"], "before": p["before"], "after": p["after"]} for p in proposals
         ],
     }
     summary = "\n".join(
@@ -411,8 +435,13 @@ def _build_feedback(failures: list) -> str:
     return "\n".join(parts)
 
 
-def run(task: str, workspace: Path, model: str,
-        max_attempts: int = _MAX_ATTEMPTS, chat_mode: bool = False) -> tuple[str, int]:
+def run(
+    task: str,
+    workspace: Path,
+    model: str,
+    max_attempts: int = _MAX_ATTEMPTS,
+    chat_mode: bool = False,
+) -> tuple[str, int]:
     """prompt -> local model -> apply -> ON FAILURE, retry with the failure injected.
 
     WHY THERE IS A LOOP HERE NOW
@@ -445,12 +474,16 @@ def run(task: str, workspace: Path, model: str,
 
     for attempt in range(1, max(1, max_attempts) + 1):
         prompt = _build_prompt(task, workspace, contents, shown, feedback, chat_mode=chat_mode)
-        response = _ollama(model, prompt,
-                           system=_SYSTEM_CHAT if chat_mode else _SYSTEM,
-                           timeout=timeout) or ""
+        response = (
+            _ollama(model, prompt, system=_SYSTEM_CHAT if chat_mode else _SYSTEM, timeout=timeout)
+            or ""
+        )
         if not response:
-            return ("[local-agent] Ollama returned no response -- is it running and is "
-                    f"'{model}' pulled? (ollama pull {model})", 1)
+            return (
+                "[local-agent] Ollama returned no response -- is it running and is "
+                f"'{model}' pulled? (ollama pull {model})",
+                1,
+            )
 
         by_file = _split_by_file(response)
         if not by_file:
@@ -460,7 +493,8 @@ def run(task: str, workspace: Path, model: str,
 
         proposals: list = []
         any_applied, any_attempted, failures, notes = _apply_edits(
-            by_file, workspace, propose_only=chat_mode, proposals=proposals)
+            by_file, workspace, propose_only=chat_mode, proposals=proposals
+        )
         log.append(f"--- attempt {attempt}/{max_attempts} ---")
         log.extend(notes)
 
@@ -509,24 +543,36 @@ def run(task: str, workspace: Path, model: str,
 def main() -> int:
     import argparse
 
-    parser = argparse.ArgumentParser(description="Local Ollama-driven agent (no external CLI dependency)")
+    parser = argparse.ArgumentParser(
+        description="Local Ollama-driven agent (no external CLI dependency)"
+    )
     parser.add_argument("task", nargs="?", default=None)
-    parser.add_argument("--task-file", default=None,
-                         help="read the task prompt from this file instead of the positional arg -- "
-                              "a large prompt (mission plan + transcript window) as a raw CLI argument "
-                              "can exceed Windows' command-line length limit (os error 206, "
-                              "ERROR_FILENAME_EXCED_RANGE)")
+    parser.add_argument(
+        "--task-file",
+        default=None,
+        help="read the task prompt from this file instead of the positional arg -- "
+        "a large prompt (mission plan + transcript window) as a raw CLI argument "
+        "can exceed Windows' command-line length limit (os error 206, "
+        "ERROR_FILENAME_EXCED_RANGE)",
+    )
     parser.add_argument("--workspace", required=True)
     parser.add_argument("--model", default=_DEFAULT_MODEL)
-    parser.add_argument("--max-attempts", type=int, default=_MAX_ATTEMPTS,
-                         help="retries when a SEARCH block matches nothing; each retry "
-                              "gets the unmatched text and the file's real bytes injected")
-    parser.add_argument("--chat", action="store_true",
-                         help="conversational turn in the multi-agent chat room: reply in prose by "
-                              "default and only edit files when asked. Without this the agent is "
-                              "told its job is editing, so a plain answer comes back dressed in "
-                              "SEARCH/REPLACE syntax, gets graded as a malformed patch, and the "
-                              "turn fails with the right answer inside it")
+    parser.add_argument(
+        "--max-attempts",
+        type=int,
+        default=_MAX_ATTEMPTS,
+        help="retries when a SEARCH block matches nothing; each retry "
+        "gets the unmatched text and the file's real bytes injected",
+    )
+    parser.add_argument(
+        "--chat",
+        action="store_true",
+        help="conversational turn in the multi-agent chat room: reply in prose by "
+        "default and only edit files when asked. Without this the agent is "
+        "told its job is editing, so a plain answer comes back dressed in "
+        "SEARCH/REPLACE syntax, gets graded as a malformed patch, and the "
+        "turn fails with the right answer inside it",
+    )
     args = parser.parse_args()
 
     if args.task_file:
@@ -542,8 +588,13 @@ def main() -> int:
     # should omit the flag, but treat empty as "use the default" here too so a
     # regression upstream can never resurrect that failure mode.
     model = args.model.strip() if args.model else ""
-    summary, code = run(task, Path(args.workspace), model or _DEFAULT_MODEL,
-                        max_attempts=args.max_attempts, chat_mode=args.chat)
+    summary, code = run(
+        task,
+        Path(args.workspace),
+        model or _DEFAULT_MODEL,
+        max_attempts=args.max_attempts,
+        chat_mode=args.chat,
+    )
     print(summary)
     return code
 

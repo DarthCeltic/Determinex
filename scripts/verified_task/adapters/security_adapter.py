@@ -6,7 +6,6 @@ from pathlib import Path
 
 from ..task_spec import ResourceLimits, TaskSpec
 
-
 SECURITY_COMMANDS_BY_LANGUAGE = {
     "python": ["bandit -q -r ."],
     "go": ["gosec ./..."],
@@ -31,7 +30,8 @@ def security_task_spec(
         language=language,
         repo_or_workspace=str(workspace),
         instruction=instruction,
-        validation_commands=scanner_commands or SECURITY_COMMANDS_BY_LANGUAGE.get(language, ["semgrep scan --config auto ."]),
+        validation_commands=scanner_commands
+        or SECURITY_COMMANDS_BY_LANGUAGE.get(language, ["semgrep scan --config auto ."]),
         scorer="all_commands_pass",
         privacy_policy="local",
         resource_limits=ResourceLimits(timeout_seconds=timeout_seconds, max_attempts=3),

@@ -14,6 +14,7 @@ Public API:
     extract_run_call(test_code) → {args, stdin}
     diff_batch(image, failures, max_n=8) → list[dict] with reference_output added
 """
+
 from __future__ import annotations
 
 import re
@@ -98,10 +99,10 @@ def _resolve_value(expr: str, test_code: str) -> Any:
             if val_expr.startswith(('"""', "'''", 'b"""', "b'''")):
                 # Find matching closing triple-quote
                 quote = val_expr[1:4] if val_expr.startswith("b") else val_expr[:3]
-                full = test_code[m.start(1):]
+                full = test_code[m.start(1) :]
                 end = full.find(quote, 3 + (1 if val_expr.startswith("b") else 0))
                 if end > 0:
-                    body = full[:end + 3]
+                    body = full[: end + 3]
                     try:
                         return eval(body, {"__builtins__": {}}, {})
                     except Exception:
@@ -122,14 +123,17 @@ def _split_top_level_commas(s: str) -> list[str]:
     for ch in s:
         if quote:
             buf.append(ch)
-            if ch == quote: quote = None
+            if ch == quote:
+                quote = None
         elif ch in ("'", '"'):
             quote = ch
             buf.append(ch)
         elif ch in "([{":
-            depth += 1; buf.append(ch)
+            depth += 1
+            buf.append(ch)
         elif ch in ")]}":
-            depth -= 1; buf.append(ch)
+            depth -= 1
+            buf.append(ch)
         elif ch == "," and depth == 0:
             out.append("".join(buf))
             buf = []
@@ -162,7 +166,12 @@ def diff_one_test(image: str, args: list[str], stdin_value: Any, timeout: int = 
     except subprocess.TimeoutExpired:
         return {"returncode": -1, "stdout": "", "stderr": "", "error": f"timeout after {timeout}s"}
     except Exception as e:
-        return {"returncode": -1, "stdout": "", "stderr": "", "error": f"{type(e).__name__}: {str(e)[:120]}"}
+        return {
+            "returncode": -1,
+            "stdout": "",
+            "stderr": "",
+            "error": f"{type(e).__name__}: {str(e)[:120]}",
+        }
 
 
 def diff_batch(image: str, failures: list[dict], max_n: int = 6) -> list[dict]:
@@ -175,6 +184,9 @@ def diff_batch(image: str, failures: list[dict], max_n: int = 6) -> list[dict]:
         if not invocation.get("args") and not invocation.get("stdin"):
             continue  # couldn't extract — skip
         ref = diff_one_test(image, invocation["args"], invocation["stdin"])
-        f["reference_invocation"] = {"args": invocation["args"][:5], "stdin_preview": str(invocation["stdin"])[:200]}
+        f["reference_invocation"] = {
+            "args": invocation["args"][:5],
+            "stdin_preview": str(invocation["stdin"])[:200],
+        }
         f["reference_output"] = ref
     return failures

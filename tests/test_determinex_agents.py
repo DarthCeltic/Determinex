@@ -9,6 +9,7 @@ local-ollama now drives determinex_local_agent.py directly (Ollama HTTP +
 swe_agent's proven SEARCH/REPLACE primitives) -- needs nothing beyond Python
 and a running Ollama, which are both already present.
 """
+
 from __future__ import annotations
 
 import shutil
@@ -30,8 +31,9 @@ def test_resolve_argv_local_ollama_substitutes_task_and_model():
     # on every single turn. resolve_argv() writes the task to a temp file and
     # substitutes its path instead, so the task content is verified by
     # reading that file back, not by string-matching argv.
-    argv = agents.resolve_argv("local-ollama", "fix the bug", Path("C:/ws"),
-                                model="qwen2.5-coder:14b-instruct-q4_K_M")
+    argv = agents.resolve_argv(
+        "local-ollama", "fix the bug", Path("C:/ws"), model="qwen2.5-coder:14b-instruct-q4_K_M"
+    )
     # argv[0] is sys.executable -- NOT shutil.which("python"), which this test
     # used to assert. A bare `python` on PATH can be the Windows Store
     # AppExecLink stub (exits without running anything) and need not be the
@@ -45,8 +47,10 @@ def test_resolve_argv_local_ollama_substitutes_task_and_model():
     task_file = Path(argv[3])
     assert task_file.read_text(encoding="utf-8") == "fix the bug"
     assert argv[4:] == [
-        "--workspace", "C:\\ws" if sys.platform == "win32" else "C:/ws",
-        "--model", "qwen2.5-coder:14b-instruct-q4_K_M",
+        "--workspace",
+        "C:\\ws" if sys.platform == "win32" else "C:/ws",
+        "--model",
+        "qwen2.5-coder:14b-instruct-q4_K_M",
     ]
     task_file.unlink()
 
@@ -104,29 +108,55 @@ def test_resolve_argv_existing_agents_unaffected_by_model_substitution():
     # -- claude with "the edit is queued but needs your approval", codex with
     # "the workspace is mounted read-only". Both are the BOUNDED setting, not the
     # bypass-everything one; see the registration comments.
-    assert agents.resolve_argv("claude-code", "do x", Path("C:/ws")) == \
-        [claude_exe, "-p", "--permission-mode", "acceptEdits"]
+    assert agents.resolve_argv("claude-code", "do x", Path("C:/ws")) == [
+        claude_exe,
+        "-p",
+        "--permission-mode",
+        "acceptEdits",
+    ]
     assert agents._AGENTS["claude-code"].stdin_prompt is True
-    assert agents.resolve_argv("codex", "do x", Path("C:/ws")) == \
-        [codex_exe, "exec", "--skip-git-repo-check", "--sandbox", "workspace-write"]
+    assert agents.resolve_argv("codex", "do x", Path("C:/ws")) == [
+        codex_exe,
+        "exec",
+        "--skip-git-repo-check",
+        "--sandbox",
+        "workspace-write",
+    ]
     assert agents._AGENTS["codex"].stdin_prompt is True
-    assert agents.resolve_argv("gemini-cli", "do x", Path("C:/ws")) == [gemini_exe, "-p", "do x", "--skip-trust"]
+    assert agents.resolve_argv("gemini-cli", "do x", Path("C:/ws")) == [
+        gemini_exe,
+        "-p",
+        "do x",
+        "--skip-trust",
+    ]
     assert agents.resolve_argv("cursor-agent", "do x", Path("C:/ws")) == ["cursor-agent", "do x"]
     # ANY LLM: claude-code/codex/gemini-cli each have a model_flag="--model"
     # (2026-07-22) -- passing model=... now appends [--model, value] since
     # none of their templates carry a {model} token. cursor-agent has no
     # model_flag at all, so a model there IS still a harmless no-op.
-    assert agents.resolve_argv("claude-code", "do x", Path("C:/ws"), model="opus") == \
-        [claude_exe, "-p", "--permission-mode", "acceptEdits", "--model", "opus"]
-    assert agents.resolve_argv("cursor-agent", "do x", Path("C:/ws"), model="irrelevant") == \
-        ["cursor-agent", "do x"]
+    assert agents.resolve_argv("claude-code", "do x", Path("C:/ws"), model="opus") == [
+        claude_exe,
+        "-p",
+        "--permission-mode",
+        "acceptEdits",
+        "--model",
+        "opus",
+    ]
+    assert agents.resolve_argv("cursor-agent", "do x", Path("C:/ws"), model="irrelevant") == [
+        "cursor-agent",
+        "do x",
+    ]
 
 
 def test_resolve_argv_workspace_substitution(monkeypatch):
     template = ["python", "{task}", "--cwd", "{workspace}"]
-    fake_agent = agents.Agent(name="_test-workspace-agent", probe="python",
-                              install_hint="", runner=agents._cli_runner(template),
-                              argv_template=template)
+    fake_agent = agents.Agent(
+        name="_test-workspace-agent",
+        probe="python",
+        install_hint="",
+        runner=agents._cli_runner(template),
+        argv_template=template,
+    )
     monkeypatch.setitem(agents._AGENTS, "_test-workspace-agent", fake_agent)
 
     argv = agents.resolve_argv("_test-workspace-agent", "task", Path("C:/some/ws"))
@@ -144,8 +174,9 @@ def test_run_agent_still_works_after_model_param_addition(monkeypatch, tmp_path)
         calls.append((task, workspace, timeout, model))
         return "ok", 0
 
-    fake_agent = agents.Agent(name="_test-fake-agent", probe="python",
-                              install_hint="", runner=fake_runner)
+    fake_agent = agents.Agent(
+        name="_test-fake-agent", probe="python", install_hint="", runner=fake_runner
+    )
     monkeypatch.setitem(agents._AGENTS, "_test-fake-agent", fake_agent)
 
     # bypass real oracle for this pure plumbing check
@@ -181,9 +212,7 @@ def _argv_from_cli_runner(monkeypatch, name, task, workspace, model=None):
 
     def fake_run(argv, **kwargs):
         seen["argv"] = list(argv)
-        seen["task_file_existed"] = [
-            (a, Path(a).is_file()) for a in argv if _TASKFILE_RE.search(a)
-        ]
+        seen["task_file_existed"] = [(a, Path(a).is_file()) for a in argv if _TASKFILE_RE.search(a)]
         seen["task_file_text"] = [
             Path(a).read_text(encoding="utf-8") for a in argv if _TASKFILE_RE.search(a)
         ]

@@ -7,13 +7,12 @@ This is the hard enforcement layer — no license = no corpus entry.
 
 CORPUS_LICENSE_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
@@ -22,7 +21,6 @@ from corpus.code_ingest.spdx_normalizer import ingest_allowed
 
 
 class TestNoUnlicensedIngest:
-
     def test_file_without_license_header_rejected(self, tmp_path):
         """A source file with no SPDX header and no LICENSE file must be rejected."""
         src = tmp_path / "utility.py"

@@ -2,9 +2,9 @@
 """Push missing :task images from local Docker to Hetzner via docker save | ssh docker load.
 Runs unattended - pipes one image at a time. 3GB images take ~10-15 min each on typical uplink.
 """
+
 import json
 import subprocess
-import sys
 import time
 from pathlib import Path
 
@@ -12,17 +12,33 @@ REMOTE = "root@5.78.192.163"
 SSH_KEY = str(Path.home() / ".ssh" / "id_citadel")
 ROOT = Path(__file__).resolve().parent.parent
 EVAL_INDEX = ROOT / "corpus" / "programbench" / "eval_index.json"
-TERMINAL = {"strict_lock", "locked", "ceiling_certified", "ceiling_confirmed",
-            "impossible_ceiling", "alias"}
+TERMINAL = {
+    "strict_lock",
+    "locked",
+    "ceiling_certified",
+    "ceiling_confirmed",
+    "impossible_ceiling",
+    "alias",
+}
 
 
 def remote_short_names() -> set[str]:
     """Get set of short tool names already on Hetzner."""
     r = subprocess.run(
-        ["ssh", "-i", SSH_KEY, "-o", "StrictHostKeyChecking=no",
-         "-o", "BatchMode=yes", REMOTE,
-         "docker images --format '{{.Repository}}'"],
-        capture_output=True, text=True, timeout=30
+        [
+            "ssh",
+            "-i",
+            SSH_KEY,
+            "-o",
+            "StrictHostKeyChecking=no",
+            "-o",
+            "BatchMode=yes",
+            REMOTE,
+            "docker images --format '{{.Repository}}'",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=30,
     )
     shorts = set()
     for line in r.stdout.splitlines():
@@ -45,11 +61,13 @@ def local_image_for_slug(slug: str) -> str | None:
     slug_img = slug.replace("__", "_1776_")
 
     r = subprocess.run(
-        ["docker", "images", "--format", "{{.Repository}}:{{.Tag}}"],
-        capture_output=True, text=True
+        ["docker", "images", "--format", "{{.Repository}}:{{.Tag}}"], capture_output=True, text=True
     )
-    lines = [l for l in r.stdout.splitlines() if short.lower() in l.lower()
-             and "programbench/" in l and "programbench-compiled" not in l]
+    lines = [
+        l
+        for l in r.stdout.splitlines()
+        if short.lower() in l.lower() and "programbench/" in l and "programbench-compiled" not in l
+    ]
     # prefer :task over :task_cleanroom_v6
     plain = [l for l in lines if l.endswith(":task")]
     if plain:
@@ -63,14 +81,25 @@ def local_image_for_slug(slug: str) -> str | None:
 def push_image(local_img: str, slug: str) -> bool:
     print(f"  [push] {local_img} -> Hetzner ...", flush=True)
     save_proc = subprocess.Popen(
-        ["docker", "save", local_img],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        ["docker", "save", local_img], stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
     load_proc = subprocess.Popen(
-        ["ssh", "-i", SSH_KEY, "-o", "StrictHostKeyChecking=no",
-         "-o", "BatchMode=yes", "-o", "ServerAliveInterval=30",
-         REMOTE, "docker load"],
-        stdin=save_proc.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        [
+            "ssh",
+            "-i",
+            SSH_KEY,
+            "-o",
+            "StrictHostKeyChecking=no",
+            "-o",
+            "BatchMode=yes",
+            "-o",
+            "ServerAliveInterval=30",
+            REMOTE,
+            "docker load",
+        ],
+        stdin=save_proc.stdout,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     )
     save_proc.stdout.close()
     load_out, load_err = load_proc.communicate(timeout=900)
@@ -89,9 +118,11 @@ def push_image(local_img: str, slug: str) -> bool:
 def main():
     print("[push] Loading eval_index...", flush=True)
     rows = json.loads(EVAL_INDEX.read_bytes())
-    slugs = [r["slug"] for r in rows
-             if r.get("status") not in TERMINAL and r.get("slug")
-             and "__" in r.get("slug", "")]
+    slugs = [
+        r["slug"]
+        for r in rows
+        if r.get("status") not in TERMINAL and r.get("slug") and "__" in r.get("slug", "")
+    ]
 
     print("[push] Checking what's already on Hetzner...", flush=True)
     have_shorts = remote_short_names()
@@ -113,7 +144,7 @@ def main():
     ok = 0
     fail = 0
     for i, (slug, img) in enumerate(to_push):
-        print(f"\n[push] {i+1}/{len(to_push)}: {slug} ({img})", flush=True)
+        print(f"\n[push] {i + 1}/{len(to_push)}: {slug} ({img})", flush=True)
         if push_image(img, slug):
             ok += 1
         else:

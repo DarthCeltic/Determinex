@@ -23,11 +23,11 @@ Hard rules enforced by the lock:
   * No claim may imply source mutation without explicit
     approval/verifier gates.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 PUBLIC_CLAIMS_LEDGER_STATUS_TOKENS = (
     "PUBLIC_CLAIMS_LEDGER_WRITTEN",
@@ -46,9 +46,11 @@ PUBLIC_CLAIM_CLASSIFICATIONS = (
 )
 
 # Classes that imply the claim is actively true today.
-CLASSIFICATIONS_THAT_IMPLY_LIVE_CAPABILITY = frozenset({
-    "implemented",
-})
+CLASSIFICATIONS_THAT_IMPLY_LIVE_CAPABILITY = frozenset(
+    {
+        "implemented",
+    }
+)
 
 
 @dataclass(frozen=True)

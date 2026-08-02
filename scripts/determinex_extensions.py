@@ -32,15 +32,16 @@ CLI
 ---
     python scripts/determinex_extensions.py            # list loaded extensions
 """
+
 from __future__ import annotations
 
 import importlib
 import importlib.util
 import os
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable
 
 _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
@@ -50,6 +51,7 @@ if _HERE not in sys.path:
 @dataclass
 class ExtensionAPI:
     """What a plugin's register(api) receives. Thin, stable, additive."""
+
     loaded_providers: list[str] = field(default_factory=list)
     loaded_oracles: list[str] = field(default_factory=list)
     loaded_commands: list[str] = field(default_factory=list)
@@ -57,15 +59,24 @@ class ExtensionAPI:
 
     def register_provider(self, name: str, **kw) -> None:
         from determinex_providers import register_provider
+
         register_provider(name, **kw)
         self.loaded_providers.append(name)
 
     def register_oracle_hint(self, language: str, command: str, tier: int = 3) -> None:
         """Register a (planned) oracle for a language via the registry's stub path."""
-        from determinex_oracle import Oracle, register, _stub
+        from determinex_oracle import Oracle, _stub, register
+
         probe = command.split()[0] if command else language
-        register(Oracle(language, (language,), (probe,),
-                        f"addon oracle: {command}", _stub(language, command)))
+        register(
+            Oracle(
+                language,
+                (language,),
+                (probe,),
+                f"addon oracle: {command}",
+                _stub(language, command),
+            )
+        )
         self.loaded_oracles.append(language)
 
     def register_command(self, name: str, handler: Callable) -> None:
@@ -86,7 +97,7 @@ def _load_module_from_path(path: Path):
     return None
 
 
-def load_extensions(api: "ExtensionAPI | None" = None) -> ExtensionAPI:
+def load_extensions(api: ExtensionAPI | None = None) -> ExtensionAPI:
     """Discover + load all plugins. Safe: a broken plugin is skipped with a note."""
     api = api or ExtensionAPI()
     seen: set[str] = set()
@@ -112,9 +123,13 @@ def load_extensions(api: "ExtensionAPI | None" = None) -> ExtensionAPI:
     # 2. entry-points group "determinex.plugins"
     try:
         from importlib.metadata import entry_points
+
         eps = entry_points()
-        group = eps.select(group="determinex.plugins") if hasattr(eps, "select") \
+        group = (
+            eps.select(group="determinex.plugins")
+            if hasattr(eps, "select")
             else eps.get("determinex.plugins", [])
+        )
         for ep in group:
             if ep.name in seen:
                 continue
@@ -143,6 +158,7 @@ def main() -> int:
         print(f"  ! {n}")
     # show the full provider roster after addons load
     from determinex_providers import available
+
     rdy = [k for k, v in available().items() if v]
     print(f"\n  AI providers ready (built-in + addons): {rdy}")
     print("  Drop a scripts/plugins/<name>.py with register(api) to add your own.")

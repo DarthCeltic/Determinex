@@ -27,13 +27,13 @@ Wraps:
     rosetta.kv_compress.KVCompressor    — int8 quantization
     rosetta.kv_compress.CompressedState — blob format
 """
+
 from __future__ import annotations
 
-import struct
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 
@@ -42,29 +42,31 @@ if hasattr(sys.stdout, "reconfigure"):
 
 # rosetta/ modules import each other; tolerate both module-path and direct execution
 try:
-    from rosetta.kv_store import KVStore
     from rosetta.kv_compress import CompressedState, KVCompressor
+    from rosetta.kv_store import KVStore
 except ImportError:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from kv_store import KVStore                        # type: ignore[no-redef]
     from kv_compress import CompressedState, KVCompressor  # type: ignore[no-redef]
+    from kv_store import KVStore  # type: ignore[no-redef]
 
 
 # ---------------------------------------------------------------------------
 # Hit record returned by retrieve()
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class LatentHit:
     """A single retrieved latent state with similarity score and metadata."""
-    similarity: float                       # cosine similarity vs query in [-1, 1]
-    family: str                             # source model family
-    layer_idx: int                          # transformer layer the state was drawn from
-    hidden_dim: int                         # vector length
-    context_hash: str                       # sha256 of the originating context text
-    context_preview: str                    # first 200 chars of the context
-    created_at: float                       # epoch seconds
-    pooled_state: np.ndarray                # dequantized [hidden_dim] float32 vector
+
+    similarity: float  # cosine similarity vs query in [-1, 1]
+    family: str  # source model family
+    layer_idx: int  # transformer layer the state was drawn from
+    hidden_dim: int  # vector length
+    context_hash: str  # sha256 of the originating context text
+    context_preview: str  # first 200 chars of the context
+    created_at: float  # epoch seconds
+    pooled_state: np.ndarray  # dequantized [hidden_dim] float32 vector
     metadata: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
@@ -83,6 +85,7 @@ class LatentHit:
 # ---------------------------------------------------------------------------
 # LatentMemory
 # ---------------------------------------------------------------------------
+
 
 class LatentMemory:
     """Layer 2C: latent memory / hidden-state RAG.
@@ -105,7 +108,7 @@ class LatentMemory:
     def close(self) -> None:
         self._store.close()
 
-    def __enter__(self) -> "LatentMemory":
+    def __enter__(self) -> LatentMemory:
         return self
 
     def __exit__(self, *_) -> None:
@@ -117,7 +120,7 @@ class LatentMemory:
         self,
         context: str,
         hidden_state: Any,
-        metadata: Optional[dict] = None,
+        metadata: dict | None = None,
     ) -> int:
         """Store a pooled hidden state keyed by its originating context.
 
@@ -143,6 +146,7 @@ class LatentMemory:
         # Defer torch import to call site so import time stays low for non-torch users
         try:
             import torch
+
             state_t = torch.from_numpy(pooled).float()
         except ImportError as e:
             raise RuntimeError(
@@ -198,16 +202,18 @@ class LatentMemory:
             pooled = self._dequantize(cs)
             denom = (q_norm * float(np.linalg.norm(pooled))) or 1e-12
             sim = float(np.dot(query_vec, pooled) / denom)
-            hits.append(LatentHit(
-                similarity=sim,
-                family=row[2],
-                layer_idx=row[3],
-                hidden_dim=row[4],
-                context_hash=row[1],
-                context_preview=row[6] or "",
-                created_at=row[5],
-                pooled_state=pooled,
-            ))
+            hits.append(
+                LatentHit(
+                    similarity=sim,
+                    family=row[2],
+                    layer_idx=row[3],
+                    hidden_dim=row[4],
+                    context_hash=row[1],
+                    context_preview=row[6] or "",
+                    created_at=row[5],
+                    pooled_state=pooled,
+                )
+            )
 
         hits.sort(key=lambda h: h.similarity, reverse=True)
         return hits[:k]
@@ -225,18 +231,20 @@ class LatentMemory:
         if cs is None:
             return []
         pooled = self._dequantize(cs)
-        return [LatentHit(
-            similarity=1.0,
-            family=cs.family,
-            layer_idx=cs.layer_idx,
-            hidden_dim=cs.hidden_dim,
-            context_hash=cs.context_hash,
-            context_preview=query_text[:200],
-            created_at=0.0,
-            pooled_state=pooled,
-        )][:k]
+        return [
+            LatentHit(
+                similarity=1.0,
+                family=cs.family,
+                layer_idx=cs.layer_idx,
+                hidden_dim=cs.hidden_dim,
+                context_hash=cs.context_hash,
+                context_preview=query_text[:200],
+                created_at=0.0,
+                pooled_state=pooled,
+            )
+        ][:k]
 
-    def recent(self, k: int = 5, family: Optional[str] = None) -> list[LatentHit]:
+    def recent(self, k: int = 5, family: str | None = None) -> list[LatentHit]:
         """Return the k most-recent stored states (optional family filter)."""
         rows = self._store.retrieve_recent(n=k, family=family)
         hits = []
@@ -246,16 +254,18 @@ class LatentMemory:
                 # retrieve_recent may not include the state in some shapes; skip
                 continue
             pooled = self._dequantize(cs)
-            hits.append(LatentHit(
-                similarity=1.0,
-                family=r.get("source_family", ""),
-                layer_idx=r.get("layer_idx", -1),
-                hidden_dim=r.get("hidden_dim", 0),
-                context_hash=r.get("context_hash", ""),
-                context_preview=r.get("context_preview", ""),
-                created_at=r.get("created_at", 0.0),
-                pooled_state=pooled,
-            ))
+            hits.append(
+                LatentHit(
+                    similarity=1.0,
+                    family=r.get("source_family", ""),
+                    layer_idx=r.get("layer_idx", -1),
+                    hidden_dim=r.get("hidden_dim", 0),
+                    context_hash=r.get("context_hash", ""),
+                    context_preview=r.get("context_preview", ""),
+                    created_at=r.get("created_at", 0.0),
+                    pooled_state=pooled,
+                )
+            )
         return hits
 
     # ── Diagnostics ──────────────────────────────────────────────────────────
@@ -313,6 +323,7 @@ class LatentMemory:
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def _cli():
     import argparse

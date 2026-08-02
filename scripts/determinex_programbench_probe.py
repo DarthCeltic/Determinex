@@ -22,6 +22,7 @@ from pathlib import Path
 
 try:
     from dotenv import load_dotenv
+
     load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=False)
 except ImportError:
     pass
@@ -31,12 +32,15 @@ DOCKER_ORG = "programbench"
 MODEL = "claude-sonnet-4-6"
 
 # HF cache snapshot — populated when eval runs
-_HF_SNAPSHOT_ROOT = Path.home() / ".cache/huggingface/hub/datasets--programbench--ProgramBench-Tests/snapshots"
+_HF_SNAPSHOT_ROOT = (
+    Path.home() / ".cache/huggingface/hub/datasets--programbench--ProgramBench-Tests/snapshots"
+)
 
 
 # ---------------------------------------------------------------------------
 # Blob cache helpers
 # ---------------------------------------------------------------------------
+
 
 def _find_blob_dir(instance_id: str) -> Path | None:
     """Return the local HF snapshot dir for this instance, or None."""
@@ -67,7 +71,8 @@ def get_test_branches(instance_id: str) -> list[tuple[str, Path]]:
     tests_json = (
         Path(__file__).parent.parent
         / "T:/Dev/ProgramBench/src/programbench/data/tasks"
-        / instance_id / "tests.json"
+        / instance_id
+        / "tests.json"
     )
     # Also try relative to ProgramBench repo
     pb_tasks = Path("T:/Dev/ProgramBench/src/programbench/data/tasks")
@@ -103,6 +108,7 @@ def get_test_branches(instance_id: str) -> list[tuple[str, Path]]:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _image_name(instance_id: str) -> str:
     return f"{DOCKER_ORG}/{instance_id.replace('__', '_1776_')}:task_cleanroom"
 
@@ -125,6 +131,7 @@ def _bad_probe(cmd: str) -> bool:
 # ---------------------------------------------------------------------------
 # Primary probe: run the actual pytest suite
 # ---------------------------------------------------------------------------
+
 
 def run_pytest_probe(
     instance_id: str,
@@ -183,41 +190,41 @@ def run_pytest_probe(
             cname = f"/mnt/blobs/branch_{i}.tar.gz"
             blob_mounts.append((_to_docker_path(tar_path), cname))
             script_lines += [
-                f"",
+                "",
                 f"echo 'BRANCH_START:{sha}'",
-                f"cd /workspace",
-                f"rm -rf eval/ executable",  # nuke both — tar contains reference binary
+                "cd /workspace",
+                "rm -rf eval/ executable",  # nuke both — tar contains reference binary
                 f"tar -xzf {cname} -C /workspace/ 2>/dev/null || true",
                 # Branch tarballs may ship 'executable' as a symlink to 'executable_cov'
                 # (a coverage-instrumented reference binary). A plain `cp` follows the
                 # symlink and tries to overwrite the read-only Rust ELF — silently failing
                 # under set+e and leaving the reference binary in place.  Remove the symlink
                 # first so our backup is installed as a fresh regular file.
-                f"rm -f /workspace/executable",
-                f"if [ -f /tmp/_executable_backup ]; then",
-                f"  cp /tmp/_executable_backup /workspace/executable",
-                f"else",
+                "rm -f /workspace/executable",
+                "if [ -f /tmp/_executable_backup ]; then",
+                "  cp /tmp/_executable_backup /workspace/executable",
+                "else",
                 f"  (cd /workspace && bash compile.sh >/tmp/recompile_{sha}.txt 2>&1)",
-                f"fi",
-                f"chmod +x /workspace/executable 2>/dev/null || true",
-                f"if [ ! -f /workspace/executable ]; then",
+                "fi",
+                "chmod +x /workspace/executable 2>/dev/null || true",
+                "if [ ! -f /workspace/executable ]; then",
                 f"  echo 'BRANCH_NO_EXECUTABLE:{sha}'",
                 f"  cat /tmp/recompile_{sha}.txt 2>/dev/null | tail -20",
-                f"fi",
+                "fi",
                 # Use eval/run.sh if present (mirrors official ProgramBench eval exactly).
                 # Fallback to direct pytest for branches that pre-date run.sh convention.
-                f"if [ -f /workspace/eval/run.sh ]; then",
-                f"  cd /workspace",
-                f"  chmod +x eval/run.sh",
+                "if [ -f /workspace/eval/run.sh ]; then",
+                "  cd /workspace",
+                "  chmod +x eval/run.sh",
                 f"  bash eval/run.sh --junitxml=/tmp/results_{sha}.xml 2>&1 | tail -80",
-                f"  # run.sh may write results.xml inside eval/ — check both locations",
+                "  # run.sh may write results.xml inside eval/ — check both locations",
                 f"  if [ ! -f /tmp/results_{sha}.xml ] && [ -f /workspace/eval/results.xml ]; then",
                 f"    cp /workspace/eval/results.xml /tmp/results_{sha}.xml",
-                f"  fi",
-                f"else",
-                f"  PYTHONPATH=/workspace/eval/tests:$PYTHONPATH python3 -m pytest eval/ --tb=short -q --no-header -p no:warnings \\",
+                "  fi",
+                "else",
+                "  PYTHONPATH=/workspace/eval/tests:$PYTHONPATH python3 -m pytest eval/ --tb=short -q --no-header -p no:warnings \\",
                 f"    --junit-xml=/tmp/results_{sha}.xml 2>&1 | tail -80",
-                f"fi",
+                "fi",
                 f"echo 'JUNIT_START:{sha}'",
                 f"cat /tmp/results_{sha}.xml 2>/dev/null || echo '<testsuite/>'",
                 f"echo 'JUNIT_END:{sha}'",
@@ -243,9 +250,8 @@ def run_pytest_probe(
         cmd += [img, "bash", "-c", "bash /mnt/src/probe.sh"]
 
         result = subprocess.run(cmd, capture_output=True, timeout=timeout)
-        raw = (
-            result.stdout.decode("utf-8", errors="replace")
-            + result.stderr.decode("utf-8", errors="replace")
+        raw = result.stdout.decode("utf-8", errors="replace") + result.stderr.decode(
+            "utf-8", errors="replace"
         )
 
         if "PROBE_COMPILE_FAILED" in raw:
@@ -276,12 +282,17 @@ def run_pytest_probe(
 
     except subprocess.TimeoutExpired:
         # The entire probe docker run exceeded the timeout ceiling
-        return [], (
-            "BINARY_HUNG: probe hit the hard timeout ceiling — your executable "
-            "never terminated during one of the test branches. Check all output "
-            "modes for infinite loops, especially --suggest, --syntax-suggest, "
-            "and --transform on inputs with backticks or unclosed constructs."
-        ), 0, 0
+        return (
+            [],
+            (
+                "BINARY_HUNG: probe hit the hard timeout ceiling — your executable "
+                "never terminated during one of the test branches. Check all output "
+                "modes for infinite loops, especially --suggest, --syntax-suggest, "
+                "and --transform on inputs with backticks or unclosed constructs."
+            ),
+            0,
+            0,
+        )
     finally:
         shutil.rmtree(staging, ignore_errors=True)
 
@@ -332,12 +343,14 @@ def _parse_junit_blocks(
                 source = _extract_test_source(tar_path, test_id)
                 test_sources[test_id] = source
 
-            all_failures.append({
-                "test": test_id,
-                "message": message,
-                "source": source,
-                "branch": sha,
-            })
+            all_failures.append(
+                {
+                    "test": test_id,
+                    "message": message,
+                    "source": source,
+                    "branch": sha,
+                }
+            )
 
     return all_failures, total_passed, total_tests
 
@@ -357,7 +370,8 @@ def _extract_test_source(tar_path: Path, test_id: str) -> str:
 
         result = subprocess.run(
             ["tar", "-xzOf", str(tar_path), module_path],
-            capture_output=True, timeout=5,
+            capture_output=True,
+            timeout=5,
         )
         if result.returncode != 0:
             return ""
@@ -375,7 +389,7 @@ def _extract_test_source(tar_path: Path, test_id: str) -> str:
 
         # Collect function body (until next def/class at same indent or EOF)
         body = [lines[start]]
-        for line in lines[start + 1:]:
+        for line in lines[start + 1 :]:
             if line and not line[0].isspace() and not line.startswith("#"):
                 break
             body.append(line)
@@ -391,6 +405,7 @@ def _extract_test_source(tar_path: Path, test_id: str) -> str:
 # Format failure report for Claude
 # ---------------------------------------------------------------------------
 
+
 def format_failure_report(failures: list[dict], max_failures: int = 12) -> str:
     if not failures:
         return ""
@@ -405,7 +420,7 @@ def format_failure_report(failures: list[dict], max_failures: int = 12) -> str:
     ]
 
     for i, f in enumerate(failures[:max_failures]):
-        lines.append(f"=== Failure {i+1}: {f['test']} ===")
+        lines.append(f"=== Failure {i + 1}: {f['test']} ===")
         if f.get("source"):
             lines.append("TEST CODE:")
             lines.append(f["source"])
@@ -433,8 +448,10 @@ def format_failure_report(failures: list[dict], max_failures: int = 12) -> str:
 # Local syntax pre-check (fast, zero Docker cost)
 # ---------------------------------------------------------------------------
 
+
 def local_syntax_check(compile_sh: str, files: dict[str, str]) -> tuple[bool, str]:
-    import tempfile, sys as _sys
+    import sys as _sys
+    import tempfile
 
     errors: list[str] = []
 
@@ -456,7 +473,9 @@ def local_syntax_check(compile_sh: str, files: dict[str, str]) -> tuple[bool, st
         if not fname.endswith(".py"):
             continue
         try:
-            with tempfile.NamedTemporaryFile(suffix=".py", delete=False, mode="w", encoding="utf-8") as f:
+            with tempfile.NamedTemporaryFile(
+                suffix=".py", delete=False, mode="w", encoding="utf-8"
+            ) as f:
                 f.write(content)
                 tmp = f.name
             r = subprocess.run(
@@ -479,6 +498,7 @@ def local_syntax_check(compile_sh: str, files: dict[str, str]) -> tuple[bool, st
 # ---------------------------------------------------------------------------
 # Fallback: differential probe vs reference binary (no blob data)
 # ---------------------------------------------------------------------------
+
 
 def run_differential(
     instance_id: str,
@@ -530,27 +550,27 @@ def run_differential(
             our_cmd = cmd.replace("BINARY", "/workspace/executable")
             safe_cmd = cmd.replace("'", "'\\''")
             lines += [
-                f"",
+                "",
                 f"REF_OUT=$({ref_cmd} 2>&1)",
                 f"OUR_OUT=$({our_cmd} 2>&1)",
-                f"REF_NORM=$(echo \"$REF_OUT\" | sed 's|/tmp/ref_exec|BINARY|g; s|/workspace/executable|BINARY|g')",
-                f"OUR_NORM=$(echo \"$OUR_OUT\" | sed 's|/tmp/ref_exec|BINARY|g; s|/workspace/executable|BINARY|g')",
-                f"if [ \"$REF_NORM\" = \"$OUR_NORM\" ]; then",
-                f"  PASS=$((PASS+1))",
-                f"else",
-                f"  FAIL=$((FAIL+1))",
+                "REF_NORM=$(echo \"$REF_OUT\" | sed 's|/tmp/ref_exec|BINARY|g; s|/workspace/executable|BINARY|g')",
+                "OUR_NORM=$(echo \"$OUR_OUT\" | sed 's|/tmp/ref_exec|BINARY|g; s|/workspace/executable|BINARY|g')",
+                'if [ "$REF_NORM" = "$OUR_NORM" ]; then',
+                "  PASS=$((PASS+1))",
+                "else",
+                "  FAIL=$((FAIL+1))",
                 f"  echo 'PROBE_FAIL_{i}'",
                 f"  echo 'CMD:{safe_cmd}'",
-                f"  echo 'EXPECTED_START'",
-                f"  echo \"$REF_OUT\"",
-                f"  echo 'EXPECTED_END'",
-                f"  echo 'ACTUAL_START'",
-                f"  echo \"$OUR_OUT\"",
-                f"  echo 'ACTUAL_END'",
-                f"fi",
+                "  echo 'EXPECTED_START'",
+                '  echo "$REF_OUT"',
+                "  echo 'EXPECTED_END'",
+                "  echo 'ACTUAL_START'",
+                '  echo "$OUR_OUT"',
+                "  echo 'ACTUAL_END'",
+                "fi",
             ]
 
-        lines += ["", "echo \"PROBE_SUMMARY pass=$PASS fail=$FAIL\"", "[ $FAIL -eq 0 ]"]
+        lines += ["", 'echo "PROBE_SUMMARY pass=$PASS fail=$FAIL"', "[ $FAIL -eq 0 ]"]
         probe_sh = "\n".join(lines) + "\n"
         (staging / "probe.sh").write_text(
             probe_sh.replace("\r\n", "\n"), newline="\n", encoding="utf-8"
@@ -559,13 +579,22 @@ def run_differential(
         docker_path = _to_docker_path(staging)
         img = _image_name(instance_id)
         result = subprocess.run(
-            ["docker", "run", "--rm", "-v", f"{docker_path}:/mnt/src:ro",
-             img, "bash", "-c", "bash /mnt/src/probe.sh"],
-            capture_output=True, timeout=timeout,
+            [
+                "docker",
+                "run",
+                "--rm",
+                "-v",
+                f"{docker_path}:/mnt/src:ro",
+                img,
+                "bash",
+                "-c",
+                "bash /mnt/src/probe.sh",
+            ],
+            capture_output=True,
+            timeout=timeout,
         )
-        raw = (
-            result.stdout.decode("utf-8", errors="replace")
-            + result.stderr.decode("utf-8", errors="replace")
+        raw = result.stdout.decode("utf-8", errors="replace") + result.stderr.decode(
+            "utf-8", errors="replace"
         )
 
         if "PROBE_COMPILE_FAILED" in raw:
@@ -601,7 +630,10 @@ def _parse_diff_failures(raw: str) -> list[dict]:
 # Observer (disabled until re-tuned)
 # ---------------------------------------------------------------------------
 
-def observer_diagnose(instance_id: str, failures: list[dict], observations: str, model: str | None = None) -> str:
+
+def observer_diagnose(
+    instance_id: str, failures: list[dict], observations: str, model: str | None = None
+) -> str:
     """Disabled — Observer v6-dsl hallucinates code instead of plain-text diagnosis."""
     return ""
 

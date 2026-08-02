@@ -34,6 +34,7 @@ Usage::
 Downloads resume, so an interrupted 7.7 GB fetch does not start over. Registration is
 idempotent -- a model already in `ollama list` is skipped.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -115,8 +116,12 @@ def _run(cmd: list[str], timeout: int = 120) -> subprocess.CompletedProcess:
     one character instead of aborting a 12 GB provisioning run.
     """
     return subprocess.run(
-        cmd, capture_output=True, text=True, timeout=timeout,
-        encoding="utf-8", errors="replace",
+        cmd,
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        encoding="utf-8",
+        errors="replace",
     )
 
 
@@ -222,8 +227,10 @@ def download(spec: ModelSpec, dest: Path, quiet: bool = False) -> Path:
                     pct = int(done * 100 / total)
                     if pct != last_pct:
                         last_pct = pct
-                        print(f"    {spec.tag}: {pct}%  ({done / 1e9:.2f} / {total / 1e9:.2f} GB)",
-                              flush=True)
+                        print(
+                            f"    {spec.tag}: {pct}%  ({done / 1e9:.2f} / {total / 1e9:.2f} GB)",
+                            flush=True,
+                        )
 
     part.replace(dest)
     return dest
@@ -241,7 +248,7 @@ def verify(path: Path, expected: str | None, quiet: bool = False) -> bool:
     got = h.hexdigest()
     if got == expected:
         if not quiet:
-            print(f"    sha256 OK")
+            print("    sha256 OK")
         return True
     print(f"    sha256 MISMATCH for {path.name}: expected {expected[:16]}..., got {got[:16]}...")
     return False
@@ -257,8 +264,9 @@ def register(spec: ModelSpec, gguf: Path, quiet: bool = False) -> bool:
     if not ollama_available():
         print("    ollama not on PATH; cannot register")
         return False
-    with tempfile.NamedTemporaryFile("w", suffix=".Modelfile", delete=False,
-                                     encoding="utf-8") as fh:
+    with tempfile.NamedTemporaryFile(
+        "w", suffix=".Modelfile", delete=False, encoding="utf-8"
+    ) as fh:
         fh.write(f"FROM {gguf.as_posix()}\n")
         fh.write(f"PARAMETER num_ctx {spec.num_ctx}\n")
         fh.write("PARAMETER temperature 0\n")
@@ -312,12 +320,17 @@ def models_dir() -> Path:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--check", action="store_true", help="report what is missing and exit")
     ap.add_argument("--dry-run", action="store_true", help="plan without downloading")
-    ap.add_argument("--role", choices=[m.role for m in MODELS], action="append",
-                    help="install only these roles (repeatable)")
+    ap.add_argument(
+        "--role",
+        choices=[m.role for m in MODELS],
+        action="append",
+        help="install only these roles (repeatable)",
+    )
     ap.add_argument("--dest", type=Path, default=None, help="where to store GGUFs")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
@@ -326,7 +339,7 @@ def main() -> int:
     present = installed_tags()
     dest_root = args.dest or models_dir()
 
-    print(f"Determinex model install")
+    print("Determinex model install")
     print(f"  ollama       : {'found' if ollama_available() else 'NOT FOUND on PATH'}")
     print(f"  gguf storage : {dest_root}")
     print()

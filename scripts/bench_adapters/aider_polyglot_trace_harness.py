@@ -25,7 +25,6 @@ from verified_task.benchmark_trace_contract import BenchmarkTrace, GenericBenchm
 from verified_task.language_profiles import default_validation_commands
 from verified_task.task_spec import ResourceLimits, TaskSpec
 
-
 AIDER_BENCHMARK_NAME = "Aider Polyglot"
 AiderOutcome = Literal["pass", "fail", "reject", "infra_failure"]
 
@@ -45,7 +44,7 @@ class AiderPolyglotCase:
     source_id: str = ""
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "AiderPolyglotCase":
+    def from_dict(cls, data: dict[str, Any]) -> AiderPolyglotCase:
         return cls(
             task_id=str(data["task_id"]),
             language=str(data["language"]).lower(),
@@ -67,7 +66,8 @@ class AiderPolyglotCase:
             language=self.language,
             repo_or_workspace=self.workspace or None,
             instruction=self.instruction,
-            validation_commands=self.validation_commands or default_validation_commands(self.language),
+            validation_commands=self.validation_commands
+            or default_validation_commands(self.language),
             scorer="all_commands_pass",
             privacy_policy="local",
             resource_limits=ResourceLimits(timeout_seconds=900, max_attempts=2, max_parallel=1),
@@ -103,7 +103,9 @@ def result_to_trace(spec: TaskSpec, result: dict[str, Any]) -> BenchmarkTrace:
     if outcome == "pass" or result.get("passed") is True:
         return adapter.accept_to_trace(spec, result)
     if outcome == "reject":
-        return adapter.reject_to_trace(spec, str(result.get("reject_reason") or "benchmark_reject"), result)
+        return adapter.reject_to_trace(
+            spec, str(result.get("reject_reason") or "benchmark_reject"), result
+        )
     if outcome == "infra_failure":
         return BenchmarkTrace(
             trace_kind="infra_failure",
@@ -125,7 +127,9 @@ def result_to_trace(spec: TaskSpec, result: dict[str, Any]) -> BenchmarkTrace:
     return adapter.failure_to_repair_task(spec, result)
 
 
-def write_trace(trace: BenchmarkTrace, output_jsonl: Path, *, corpus_type: CorpusType = CorpusType.CODE_VERDICT) -> dict[str, Any]:
+def write_trace(
+    trace: BenchmarkTrace, output_jsonl: Path, *, corpus_type: CorpusType = CorpusType.CODE_VERDICT
+) -> dict[str, Any]:
     """Append a signed Aider trace row and return the signed record."""
     payload = trace.to_corpus_payload()
     if trace.trace_kind == "infra_failure":
@@ -147,7 +151,9 @@ def write_trace(trace: BenchmarkTrace, output_jsonl: Path, *, corpus_type: Corpu
     return record
 
 
-def write_case_result(case: AiderPolyglotCase, result: dict[str, Any], output_jsonl: Path) -> dict[str, Any]:
+def write_case_result(
+    case: AiderPolyglotCase, result: dict[str, Any], output_jsonl: Path
+) -> dict[str, Any]:
     return write_trace(result_to_trace(case.to_task_spec(), result), output_jsonl)
 
 
@@ -156,8 +162,12 @@ def summarize_records(records: list[dict[str, Any]]) -> dict[str, Any]:
     statuses: dict[str, int] = {}
     training_eligible = 0
     for row in records:
-        languages[str(row.get("language") or "unknown")] = languages.get(str(row.get("language") or "unknown"), 0) + 1
-        statuses[str(row.get("record_status") or "unknown")] = statuses.get(str(row.get("record_status") or "unknown"), 0) + 1
+        languages[str(row.get("language") or "unknown")] = (
+            languages.get(str(row.get("language") or "unknown"), 0) + 1
+        )
+        statuses[str(row.get("record_status") or "unknown")] = (
+            statuses.get(str(row.get("record_status") or "unknown"), 0) + 1
+        )
         ok, _ = signed_training_eligible(row)
         if ok:
             training_eligible += 1

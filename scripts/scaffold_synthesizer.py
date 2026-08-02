@@ -20,10 +20,11 @@ Run order:
   3. python scripts/scaffold_synthesizer.py --execute  (regen scaffolds)
   4. queue + eval via pool
 """
+
 from __future__ import annotations
+
 import argparse
 import json
-import subprocess
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -39,9 +40,13 @@ PB_ROOT = Path("T:/determinex-programbench")
 sys.path.insert(0, str(ROOT / "corpus" / "programbench" / "families"))
 try:
     from generator_lib import (
-        FAMILY_SPECS, INSTANCE_SUBTYPE_OVERRIDES,
-        write_scaffold, load_probe, ProbeSummary,
+        FAMILY_SPECS,
+        INSTANCE_SUBTYPE_OVERRIDES,
+        ProbeSummary,
+        load_probe,
+        write_scaffold,
     )
+
     EXISTING_FAMILIES = set(FAMILY_SPECS.keys())
 except Exception as e:
     print(f"WARN: could not import generator_lib ({e})")
@@ -49,37 +54,87 @@ except Exception as e:
     INSTANCE_SUBTYPE_OVERRIDES = {}
     FAMILY_SPECS = {}
     write_scaffold = None  # type: ignore
-    load_probe = None      # type: ignore
-    ProbeSummary = None    # type: ignore
+    load_probe = None  # type: ignore
+    ProbeSummary = None  # type: ignore
 
 
 # Decision rules: map inspection signature → scaffold choice
 # Order matters: first match wins
 DECISION_RULES = [
     # (predicate, family_or_subtype, reason, expected_ceiling, needs_new)
-    (lambda r: r.get("fixtures_total", {}).get("tmux", 0) > 0,
-     "tui_pexpect", "tests drive via tmux — need PTY scaffold", 50, True),
-    (lambda r: r.get("fixtures_total", {}).get("pty", 0) > 0,
-     "tui_pexpect", "tests use pty — need PTY scaffold", 50, True),
-    (lambda r: r.get("fixtures_total", {}).get("network_server", 0) > 0,
-     "network_http.fixture_server", "tests bind sockets — need network harness", 40, True),
-    (lambda r: "structured_output (json" in r.get("scaffold_hint", ""),
-     "json_yaml_toml.structured_output_json", "tests parse JSON output", 60, True),
-    (lambda r: "structured_output (csv" in r.get("scaffold_hint", ""),
-     "csv_table.structured_output_csv", "tests parse CSV output", 60, True),
-    (lambda r: r.get("fixtures_total", {}).get("git_init", 0) > 0,
-     "git_wrappers", "tests init git repos", 70, False),
-    (lambda r: r.get("fixtures_total", {}).get("mkfifo", 0) > 0,
-     "search_grep", "FIFO tests (walk_files fix already shipped)", 50, False),
+    (
+        lambda r: r.get("fixtures_total", {}).get("tmux", 0) > 0,
+        "tui_pexpect",
+        "tests drive via tmux — need PTY scaffold",
+        50,
+        True,
+    ),
+    (
+        lambda r: r.get("fixtures_total", {}).get("pty", 0) > 0,
+        "tui_pexpect",
+        "tests use pty — need PTY scaffold",
+        50,
+        True,
+    ),
+    (
+        lambda r: r.get("fixtures_total", {}).get("network_server", 0) > 0,
+        "network_http.fixture_server",
+        "tests bind sockets — need network harness",
+        40,
+        True,
+    ),
+    (
+        lambda r: "structured_output (json" in r.get("scaffold_hint", ""),
+        "json_yaml_toml.structured_output_json",
+        "tests parse JSON output",
+        60,
+        True,
+    ),
+    (
+        lambda r: "structured_output (csv" in r.get("scaffold_hint", ""),
+        "csv_table.structured_output_csv",
+        "tests parse CSV output",
+        60,
+        True,
+    ),
+    (
+        lambda r: r.get("fixtures_total", {}).get("git_init", 0) > 0,
+        "git_wrappers",
+        "tests init git repos",
+        70,
+        False,
+    ),
+    (
+        lambda r: r.get("fixtures_total", {}).get("mkfifo", 0) > 0,
+        "search_grep",
+        "FIFO tests (walk_files fix already shipped)",
+        50,
+        False,
+    ),
     # Golden-file heavy = byte-exact; ceiling is bounded
-    (lambda r: r.get("verdict") == "golden_file_ceiling (per-tool byte-exact impl needed)",
-     "golden_file_specialized", "byte-exact golden files; needs per-tool generator", 40, True),
+    (
+        lambda r: r.get("verdict") == "golden_file_ceiling (per-tool byte-exact impl needed)",
+        "golden_file_specialized",
+        "byte-exact golden files; needs per-tool generator",
+        40,
+        True,
+    ),
     # needs_specific_subtype with no specific signal → tag for manual review
-    (lambda r: r.get("verdict") == "needs_specific_subtype",
-     "MANUAL_REVIEW", "inspection flagged subtype need without clear pattern", 30, True),
+    (
+        lambda r: r.get("verdict") == "needs_specific_subtype",
+        "MANUAL_REVIEW",
+        "inspection flagged subtype need without clear pattern",
+        30,
+        True,
+    ),
     # feasible_with_generic → use existing family selection from queue/state
-    (lambda r: r.get("verdict") == "feasible_with_generic",
-     "USE_EXISTING_FAMILY", "scaffold's existing family is appropriate", 60, False),
+    (
+        lambda r: r.get("verdict") == "feasible_with_generic",
+        "USE_EXISTING_FAMILY",
+        "scaffold's existing family is appropriate",
+        60,
+        False,
+    ),
 ]
 
 
@@ -92,8 +147,10 @@ def existing_family_for(inst: str) -> str | None:
             for r in data.get("ranked", []):
                 if r.get("instance") == inst:
                     fam = r.get("family")
-                    if fam: return fam
-        except Exception: pass
+                    if fam:
+                        return fam
+        except Exception:
+            pass
     return None
 
 
@@ -132,10 +189,12 @@ def plan_for(inst: str, report: dict) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--execute", action="store_true",
-                    help="actually regenerate scaffolds per plan")
-    ap.add_argument("--force-overwrite-locked", action="store_true",
-                    help="overwrite scaffolds for tools already scoring >=70% on eval.json")
+    ap.add_argument("--execute", action="store_true", help="actually regenerate scaffolds per plan")
+    ap.add_argument(
+        "--force-overwrite-locked",
+        action="store_true",
+        help="overwrite scaffolds for tools already scoring >=70% on eval.json",
+    )
     args = ap.parse_args()
 
     if not INSPECT.is_file():
@@ -168,7 +227,7 @@ def main() -> int:
         for t in tools[:3]:
             print(f"    - {t}")
         if len(tools) > 3:
-            print(f"    ... ({len(tools)-3} more)")
+            print(f"    ... ({len(tools) - 3} more)")
 
     if args.execute:
         print()
@@ -186,14 +245,18 @@ def main() -> int:
         if ORACLE_FILE.is_file():
             oracle_data = json.loads(ORACLE_FILE.read_text(encoding="utf-8"))
             total_memos = sum(len(v.get("memos", [])) for v in oracle_data.values())
-            print(f"  oracle: {len(oracle_data)} tools, {total_memos} memos loaded from {ORACLE_FILE.name}")
+            print(
+                f"  oracle: {len(oracle_data)} tools, {total_memos} memos loaded from {ORACLE_FILE.name}"
+            )
         else:
             print(f"  oracle: no {ORACLE_FILE.name} found; scaffolds will skip oracle lookup")
         fixture_data = {}
         if FIXTURE_FILE.is_file():
             fixture_data = json.loads(FIXTURE_FILE.read_text(encoding="utf-8"))
             total_files = sum(len(v) for v in fixture_data.values())
-            print(f"  fixtures: {len(fixture_data)} tools, {total_files} files loaded from {FIXTURE_FILE.name}")
+            print(
+                f"  fixtures: {len(fixture_data)} tools, {total_files} files loaded from {FIXTURE_FILE.name}"
+            )
         else:
             print(f"  fixtures: no {FIXTURE_FILE.name} found; scaffolds will skip fixture bank")
 
@@ -202,9 +265,13 @@ def main() -> int:
         # high-scoring scaffolds are PRECIOUS — losing one (e.g. igrep v2b at
         # 73%) takes hours to rebuild. Override with --force-overwrite-locked.
         LOCK_THRESHOLD = 70.0
+
         def existing_score(inst: str) -> float | None:
             import glob as _g
-            cands = _g.glob(f"T:/determinex-programbench/determinex_pb_*_v*/{inst}/{inst}.eval.json")
+
+            cands = _g.glob(
+                f"T:/determinex-programbench/determinex_pb_*_v*/{inst}/{inst}.eval.json"
+            )
             best = None
             for ej in cands:
                 try:
@@ -226,7 +293,9 @@ def main() -> int:
             chosen = p["chosen"]
             # MANUAL_REVIEW tools still get a generic scaffold IF there's a
             # per-tool override (we can hand-tune them via the override mechanism).
-            override_path = ROOT / "corpus" / "programbench" / "per_tool_overrides" / inst / "main.py"
+            override_path = (
+                ROOT / "corpus" / "programbench" / "per_tool_overrides" / inst / "main.py"
+            )
             if chosen == "MANUAL_REVIEW":
                 if not override_path.is_file():
                     skipped += 1
@@ -239,7 +308,9 @@ def main() -> int:
                 continue
             score = existing_score(inst)
             if score is not None and score >= LOCK_THRESHOLD and not args.force_overwrite_locked:
-                print(f"  PROTECT {inst}: existing eval scores {score:.1f}% >= {LOCK_THRESHOLD}% (pass --force-overwrite-locked to override)")
+                print(
+                    f"  PROTECT {inst}: existing eval scores {score:.1f}% >= {LOCK_THRESHOLD}% (pass --force-overwrite-locked to override)"
+                )
                 protected += 1
                 continue
             spec = FAMILY_SPECS[chosen]
@@ -265,14 +336,19 @@ def main() -> int:
                 # Per-tool override: if corpus/programbench/per_tool_overrides/<inst>/main.py
                 # exists, overwrite the generated main.py with the hand-tuned version.
                 # This lets us push bottom-15 tools above the generic scaffold ceiling.
-                override = ROOT / "corpus" / "programbench" / "per_tool_overrides" / inst / "main.py"
+                override = (
+                    ROOT / "corpus" / "programbench" / "per_tool_overrides" / inst / "main.py"
+                )
                 if override.is_file():
                     target = factory / inst / "source" / "main.py"
-                    target.write_text(override.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
+                    target.write_text(
+                        override.read_text(encoding="utf-8"), encoding="utf-8", newline="\n"
+                    )
                     # Re-pack the submission.tar.gz since main.py changed
                     try:
                         import tarfile
                         from io import BytesIO
+
                         sub_dir = factory / inst / "source"
                         sub_tar = factory / inst / "submission.tar.gz"
                         epoch = 1_767_225_600
@@ -290,7 +366,9 @@ def main() -> int:
                                 tf.addfile(info, BytesIO(data))
                         print(f"  OVERRIDE {inst}: per-tool main.py applied")
                     except Exception as ex:
-                        print(f"  WARN {inst}: override main.py written but tar repack failed: {ex}")
+                        print(
+                            f"  WARN {inst}: override main.py written but tar repack failed: {ex}"
+                        )
                 regen += 1
             except Exception as ex:
                 print(f"  ERR  {inst}: {ex}")

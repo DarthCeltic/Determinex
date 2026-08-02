@@ -1,4 +1,5 @@
 """Tests for REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -22,21 +23,25 @@ RealModelPatchPlanWithVerifierContextRecord = rec_mod.RealModelPatchPlanWithVeri
 RealLocalModelHealthcheckRecord = hc_mod.RealLocalModelHealthcheckRecord
 BuildAdapterBackedVerifierSelectionRecord = sel_mod.BuildAdapterBackedVerifierSelectionRecord
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "REAL_MODEL_PATCH_PLAN_WITH_VERIFIER_CONTEXT_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "real_model_patch_plan_with_verifier_context"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "REAL_PATCH_PLAN_CONTEXT_QUARANTINED",
-    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NO_VERIFIER",
-    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_HEALTHCHECK",
-    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NOT_OPTED_IN",
-    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_SCHEMA_INVALID",
-    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_PATH_ESCAPE",
-    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_UNSUPPORTED_OPERATION",
-    "REAL_PATCH_PLAN_CONTEXT_OUTPUT_UNTRUSTED",
-    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_MODEL_ADMISSION_REQUIRED",
-})
+EXPECTED = frozenset(
+    {
+        "REAL_PATCH_PLAN_CONTEXT_QUARANTINED",
+        "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NO_VERIFIER",
+        "REAL_PATCH_PLAN_CONTEXT_BLOCKED_HEALTHCHECK",
+        "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NOT_OPTED_IN",
+        "REAL_PATCH_PLAN_CONTEXT_BLOCKED_SCHEMA_INVALID",
+        "REAL_PATCH_PLAN_CONTEXT_BLOCKED_PATH_ESCAPE",
+        "REAL_PATCH_PLAN_CONTEXT_BLOCKED_UNSUPPORTED_OPERATION",
+        "REAL_PATCH_PLAN_CONTEXT_OUTPUT_UNTRUSTED",
+        "REAL_PATCH_PLAN_CONTEXT_BLOCKED_MODEL_ADMISSION_REQUIRED",
+    }
+)
 
 
 def _admission_admitted():
@@ -44,51 +49,66 @@ def _admission_admitted():
     from models.real_local_model_admission_record import (
         RealLocalModelAdmissionRecord,
     )
+
     return RealLocalModelAdmissionRecord(
         decision="REAL_LOCAL_MODEL_ADMITTED",
         provider="ollama",
         model_id="determinex-engineer-v11-dsl",
         task_classes_admitted=("PATCH_GENERATION",),
-        dry_run_default=True, opt_in=True,
+        dry_run_default=True,
+        opt_in=True,
     )
 
 
 def _hc_passed():
     return RealLocalModelHealthcheckRecord(
         decision="REAL_LOCAL_MODEL_HEALTHCHECK_PASSED",
-        model_id="determinex-engineer-v11-dsl", provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
+        provider="ollama",
         endpoint="http://127.0.0.1:11434",
-        prompt="trivial", response_chars=2, elapsed_ms=200,
+        prompt="trivial",
+        response_chars=2,
+        elapsed_ms=200,
     )
 
 
 def _hc_failed():
     return RealLocalModelHealthcheckRecord(
         decision="REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_TIMEOUT",
-        model_id="determinex-engineer-v11-dsl", provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
+        provider="ollama",
         endpoint="http://127.0.0.1:11434",
-        prompt="trivial", response_chars=0, elapsed_ms=5000,
+        prompt="trivial",
+        response_chars=0,
+        elapsed_ms=5000,
     )
 
 
 def _sel_selected():
     return BuildAdapterBackedVerifierSelectionRecord(
         decision="BUILD_ADAPTER_VERIFIER_SELECTED",
-        workspace="/ws", adapter_name="Python",
-        build_system_id="pip", test_framework_id="pytest",
+        workspace="/ws",
+        adapter_name="Python",
+        build_system_id="pip",
+        test_framework_id="pytest",
         verifier_command=("pytest",),
         hardened_runner="intake.hardened_runner",
-        multi_match=False, matched_adapters=("Python",),
+        multi_match=False,
+        matched_adapters=("Python",),
     )
 
 
 def _sel_blocked():
     return BuildAdapterBackedVerifierSelectionRecord(
         decision="BUILD_ADAPTER_VERIFIER_BLOCKED_UNSUPPORTED_REPO",
-        workspace="/ws", adapter_name="", build_system_id="",
-        test_framework_id="", verifier_command=(),
+        workspace="/ws",
+        adapter_name="",
+        build_system_id="",
+        test_framework_id="",
+        verifier_command=(),
         hardened_runner="intake.hardened_runner",
-        multi_match=False, matched_adapters=(),
+        multi_match=False,
+        matched_adapters=(),
     )
 
 
@@ -98,10 +118,10 @@ def test_status_tokens_exact():
 
 def test_healthcheck_failed_blocks(tmp_path):
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_failed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_failed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "src/x.py",
-                       "new_content": "x = 1\n"}],
+        plan_entries=[{"operation": "replace_file", "path": "src/x.py", "new_content": "x = 1\n"}],
         opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_BLOCKED_HEALTHCHECK"
@@ -109,10 +129,10 @@ def test_healthcheck_failed_blocks(tmp_path):
 
 def test_verifier_not_selected_blocks(tmp_path):
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_blocked(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_blocked(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "src/x.py",
-                       "new_content": "x = 1\n"}],
+        plan_entries=[{"operation": "replace_file", "path": "src/x.py", "new_content": "x = 1\n"}],
         opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NO_VERIFIER"
@@ -120,10 +140,10 @@ def test_verifier_not_selected_blocks(tmp_path):
 
 def test_not_opted_in_blocks(tmp_path):
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "src/x.py",
-                       "new_content": "x = 1\n"}],
+        plan_entries=[{"operation": "replace_file", "path": "src/x.py", "new_content": "x = 1\n"}],
         opt_in=False,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NOT_OPTED_IN"
@@ -131,11 +151,14 @@ def test_not_opted_in_blocks(tmp_path):
 
 def test_valid_plan_quarantined(tmp_path):
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "src/lib.py",
-                       "new_content": "x = 2\n"}],
-        admission=_admission_admitted(), opt_in=True,
+        plan_entries=[
+            {"operation": "replace_file", "path": "src/lib.py", "new_content": "x = 2\n"}
+        ],
+        admission=_admission_admitted(),
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_QUARANTINED"
     assert r.quarantined is True
@@ -150,32 +173,36 @@ def test_valid_plan_quarantined(tmp_path):
 
 def test_path_escape_blocks(tmp_path):
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "../escape",
-                       "new_content": "x"}],
-        admission=_admission_admitted(), opt_in=True,
+        plan_entries=[{"operation": "replace_file", "path": "../escape", "new_content": "x"}],
+        admission=_admission_admitted(),
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_BLOCKED_PATH_ESCAPE"
 
 
 def test_unsupported_operation_blocks(tmp_path):
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "rm_rf", "path": "src/lib.py",
-                       "new_content": ""}],
-        admission=_admission_admitted(), opt_in=True,
+        plan_entries=[{"operation": "rm_rf", "path": "src/lib.py", "new_content": ""}],
+        admission=_admission_admitted(),
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_BLOCKED_UNSUPPORTED_OPERATION"
 
 
 def test_schema_invalid_blocks(tmp_path):
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
         plan_entries=[{"path": "src/lib.py", "new_content": "x"}],  # no operation
-        admission=_admission_admitted(), opt_in=True,
+        admission=_admission_admitted(),
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_BLOCKED_SCHEMA_INVALID"
 
@@ -185,11 +212,12 @@ def test_no_filesystem_write(tmp_path):
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text("original\n", encoding="utf-8")
     quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "src/lib.py",
-                       "new_content": "EDITED"}],
-        admission=_admission_admitted(), opt_in=True,
+        plan_entries=[{"operation": "replace_file", "path": "src/lib.py", "new_content": "EDITED"}],
+        admission=_admission_admitted(),
+        opt_in=True,
     )
     assert target.read_text(encoding="utf-8") == "original\n"
 
@@ -197,11 +225,12 @@ def test_no_filesystem_write(tmp_path):
 def test_claude_auth_004_missing_admission_blocks(tmp_path):
     """CLAUDE-AUTH-004: no admission supplied → blocked, no synthesis."""
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "src/lib.py",
-                       "new_content": "x"}],
-        admission=None, opt_in=True,
+        plan_entries=[{"operation": "replace_file", "path": "src/lib.py", "new_content": "x"}],
+        admission=None,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_BLOCKED_MODEL_ADMISSION_REQUIRED"
 
@@ -211,17 +240,20 @@ def test_claude_auth_004_blocked_admission_blocks(tmp_path):
     from models.real_local_model_admission_record import (
         RealLocalModelAdmissionRecord,
     )
+
     blocked = RealLocalModelAdmissionRecord(
         decision="REAL_LOCAL_MODEL_BLOCKED_STALE",
-        provider="ollama", model_id="determinex-engineer-v10-dsl",
+        provider="ollama",
+        model_id="determinex-engineer-v10-dsl",
         task_classes_admitted=(),
     )
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "src/lib.py",
-                       "new_content": "x"}],
-        admission=blocked, opt_in=True,
+        plan_entries=[{"operation": "replace_file", "path": "src/lib.py", "new_content": "x"}],
+        admission=blocked,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_BLOCKED_MODEL_ADMISSION_REQUIRED"
 
@@ -231,36 +263,46 @@ def test_claude_auth_004_admission_model_must_match_healthcheck(tmp_path):
     from models.real_local_model_admission_record import (
         RealLocalModelAdmissionRecord,
     )
+
     mismatched = RealLocalModelAdmissionRecord(
         decision="REAL_LOCAL_MODEL_ADMITTED",
         provider="ollama",
         model_id="determinex-observer-v6-dsl",  # ≠ healthcheck.model_id
-        task_classes_admitted=("PATCH_GENERATION",), opt_in=True,
+        task_classes_admitted=("PATCH_GENERATION",),
+        opt_in=True,
     )
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "src/lib.py",
-                       "new_content": "x"}],
-        admission=mismatched, opt_in=True,
+        plan_entries=[{"operation": "replace_file", "path": "src/lib.py", "new_content": "x"}],
+        admission=mismatched,
+        opt_in=True,
     )
     assert r.decision == "REAL_PATCH_PLAN_CONTEXT_BLOCKED_MODEL_ADMISSION_REQUIRED"
 
 
 def test_module_does_not_open_network():
     src = Path(mod.__file__).read_text(encoding="utf-8")
-    for forbidden in ("requests", "httpx", "urllib.request",
-                      "socket.connect", "subprocess.Popen", "subprocess.run"):
+    for forbidden in (
+        "requests",
+        "httpx",
+        "urllib.request",
+        "socket.connect",
+        "subprocess.Popen",
+        "subprocess.run",
+    ):
         assert forbidden not in src
 
 
 def test_record_serializes_safely(tmp_path):
     r = quarantine_with_verifier_context(
-        healthcheck=_hc_passed(), verifier_selection=_sel_selected(),
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
         workspace=tmp_path,
-        plan_entries=[{"operation": "replace_file", "path": "a/b.py",
-                       "new_content": "x"}],
-        admission=_admission_admitted(), opt_in=True,
+        plan_entries=[{"operation": "replace_file", "path": "a/b.py", "new_content": "x"}],
+        admission=_admission_admitted(),
+        opt_in=True,
     )
     d = r.to_dict()
     json.dumps(d)

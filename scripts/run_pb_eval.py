@@ -11,6 +11,7 @@ This same mechanism is the IDE's real-project env-provisioning layer.
 
 Usage: python scripts/run_pb_eval.py <tool> <pilot_dir> [--filter <author>]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -28,7 +29,9 @@ BASE_CAPS = ["NET_RAW"]  # harmless default for any ICMP tool
 
 
 def _docker(*args: str, timeout: int = 60, check: bool = False) -> subprocess.CompletedProcess:
-    return subprocess.run(["docker", *args], capture_output=True, text=True, timeout=timeout, check=check)
+    return subprocess.run(
+        ["docker", *args], capture_output=True, text=True, timeout=timeout, check=check
+    )
 
 
 def _load_entry(tool: str) -> dict:
@@ -56,7 +59,18 @@ def provision(tool: str, entry: dict) -> tuple[list[str], list[str], str | None]
             for k, v in (svc.get("env") or {}).items():
                 env_args += ["-e", f"{k}={v}"]
             _docker("rm", "-f", name)
-            r = _docker("run", "-d", "--name", name, "--network", net, "--network-alias", name, *env_args, image)
+            r = _docker(
+                "run",
+                "-d",
+                "--name",
+                name,
+                "--network",
+                net,
+                "--network-alias",
+                name,
+                *env_args,
+                image,
+            )
             if r.returncode != 0:
                 raise RuntimeError(f"sidecar {name} failed: {r.stderr.strip()}")
             started.append(name)
@@ -102,10 +116,25 @@ def main(argv: list[str] | None = None) -> int:
     try:
         sys.path.insert(0, str(_ROOT / "scripts"))
         from programbench_resource_guard import build_eval_cmd  # type: ignore
+
         cmd, _policy = build_eval_cmd(scaffold_root=args.pilot_dir, filter_re=flt, force=True)
     except Exception:
-        cmd = ["uv", "run", "programbench", "eval", args.pilot_dir, "--filter", flt,
-               "--workers", "1", "--branch-workers", "1", "--docker-cpus", "1", "--force"]
+        cmd = [
+            "uv",
+            "run",
+            "programbench",
+            "eval",
+            args.pilot_dir,
+            "--filter",
+            flt,
+            "--workers",
+            "1",
+            "--branch-workers",
+            "1",
+            "--docker-cpus",
+            "1",
+            "--force",
+        ]
     try:
         rc = subprocess.run(cmd, cwd=PB, env=env)
         return rc.returncode

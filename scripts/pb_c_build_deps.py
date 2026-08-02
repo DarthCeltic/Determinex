@@ -4,6 +4,7 @@ Add proper build dependencies and build commands to C/C++ tool compile.sh files.
 Replaces the bare `make 2>build.err || true` pattern with proper dep install + build.
 Always writes LF endings (no CRLF on Windows).
 """
+
 import sys
 from pathlib import Path
 
@@ -37,9 +38,9 @@ PATCHES = {
             "    [ -f configure ] && [ ! -f Makefile ] && \\\n"
             "        ./configure --prefix=/usr/local 2>/dev/null || true\n"
             "    if [ -f Makefile ]; then\n"
-            "        make -j\"$(nproc 2>/dev/null || echo 2)\" prefix=/usr/local 2>build.err || \\\n"
+            '        make -j"$(nproc 2>/dev/null || echo 2)" prefix=/usr/local 2>build.err || \\\n'
             "        make prefix=/usr/local 2>>build.err || true\n"
-            "        for c in src/tig ./tig; do [ -f \"$c\" ] && cp \"$c\" /usr/local/bin/tig && break; done || true\n"
+            '        for c in src/tig ./tig; do [ -f "$c" ] && cp "$c" /usr/local/bin/tig && break; done || true\n'
             "    fi\n"
             "    [ ! -f /usr/local/bin/tig ] && \\\n"
             "        gcc -O2 -o tig *.c -lncurses -lreadline 2>>build.err && \\\n"
@@ -72,8 +73,8 @@ PATCHES = {
             "  libreadline-dev libpcre2-dev 2>/dev/null || true\n"
             "\n"
             "if command -v make >/dev/null 2>&1 && [ -f Makefile ]; then\n"
-            "    make -j\"$(nproc 2>/dev/null || echo 2)\" O_PCRE=1 2>build.err || \\\n"
-            "    make -j\"$(nproc 2>/dev/null || echo 2)\" 2>>build.err || \\\n"
+            '    make -j"$(nproc 2>/dev/null || echo 2)" O_PCRE=1 2>build.err || \\\n'
+            '    make -j"$(nproc 2>/dev/null || echo 2)" 2>>build.err || \\\n'
             "    make 2>>build.err || true\n"
             "fi\n"
             "chmod +x ./nnn 2>/dev/null || true\n"
@@ -108,8 +109,8 @@ PATCHES = {
             "    [ -f configure ] && [ ! -f Makefile ] && \\\n"
             "        ./configure --prefix=/usr/local 2>/dev/null || true\n"
             "    if [ -f Makefile ]; then\n"
-            "        make -j\"$(nproc 2>/dev/null || echo 2)\" 2>build.err || make 2>>build.err || true\n"
-            "        for c in src/calcurse ./calcurse; do [ -f \"$c\" ] && cp \"$c\" /usr/local/bin/calcurse && break; done || true\n"
+            '        make -j"$(nproc 2>/dev/null || echo 2)" 2>build.err || make 2>>build.err || true\n'
+            '        for c in src/calcurse ./calcurse; do [ -f "$c" ] && cp "$c" /usr/local/bin/calcurse && break; done || true\n'
             "    fi\n"
             "fi\n"
             "chmod +x /usr/local/bin/calcurse 2>/dev/null || true\n"
@@ -131,7 +132,7 @@ PATCHES = {
             "\n"
             "if command -v gcc >/dev/null 2>&1; then\n"
             "    if [ -f Makefile ]; then\n"
-            "        make -j\"$(nproc 2>/dev/null || echo 2)\" VERSION=0.9.28 2>build.err || \\\n"
+            '        make -j"$(nproc 2>/dev/null || echo 2)" VERSION=0.9.28 2>build.err || \\\n'
             "        make VERSION=0.9.28 2>>build.err || true\n"
             "    fi\n"
             "    if [ ! -f ./tinycc ]; then\n"
@@ -157,7 +158,7 @@ PATCHES = {
             "\n"
             "if command -v gcc >/dev/null 2>&1; then\n"
             "    if [ -f Makefile ]; then\n"
-            "        make -j\"$(nproc 2>/dev/null || echo 2)\" linux 2>build.err || \\\n"
+            '        make -j"$(nproc 2>/dev/null || echo 2)" linux 2>build.err || \\\n'
             "        make linux 2>>build.err || make 2>>build.err || true\n"
             "    fi\n"
             "    if [ ! -f ./lua ]; then\n"
@@ -182,7 +183,7 @@ PATCHES = {
             "\n"
             "if command -v gcc >/dev/null 2>&1; then\n"
             "    if [ -f Makefile ]; then\n"
-            "        make -j\"$(nproc 2>/dev/null || echo 2)\" BUILDMODE=static 2>build.err || \\\n"
+            '        make -j"$(nproc 2>/dev/null || echo 2)" BUILDMODE=static 2>build.err || \\\n'
             "        make 2>>build.err || true\n"
             "        # LuaJIT binary is at src/luajit\n"
             "        [ ! -f ./luajit ] && [ -f src/luajit ] && cp src/luajit ./luajit || true\n"
@@ -211,7 +212,7 @@ PATCHES = {
             "\n"
             "if command -v gcc >/dev/null 2>&1; then\n"
             "    if [ -f Makefile ]; then\n"
-            "        make -j\"$(nproc 2>/dev/null || echo 2)\" 2>build.err || make 2>>build.err || true\n"
+            '        make -j"$(nproc 2>/dev/null || echo 2)" 2>build.err || make 2>>build.err || true\n'
             "    fi\n"
             "fi\n"
         ),
@@ -233,7 +234,7 @@ PATCHES = {
             "\n"
             "if command -v gcc >/dev/null 2>&1; then\n"
             "    if [ -f Makefile ]; then\n"
-            "        make -j\"$(nproc 2>/dev/null || echo 2)\" 2>build.err || make 2>>build.err || true\n"
+            '        make -j"$(nproc 2>/dev/null || echo 2)" 2>build.err || make 2>>build.err || true\n'
             "    fi\n"
             "    if [ ! -f ./masscan ]; then\n"
             "        gcc -O2 -Wall -o masscan *.c -lpcap 2>>build.err || true\n"
@@ -261,7 +262,7 @@ PATCHES = {
             "    [ -f configure ] && [ ! -f Makefile ] && \\\n"
             "        ./configure --prefix=/usr/local --disable-syslog 2>/dev/null || true\n"
             "    if [ -f Makefile ]; then\n"
-            "        make -j\"$(nproc 2>/dev/null || echo 2)\" PROGRAMS=dropbear 2>build.err || \\\n"
+            '        make -j"$(nproc 2>/dev/null || echo 2)" PROGRAMS=dropbear 2>build.err || \\\n'
             "        make 2>>build.err || true\n"
             "    fi\n"
             "fi\n"
@@ -282,8 +283,8 @@ def fix_tool(dir_name: str, patch: dict, dry_run: bool = False) -> str:
             results.append(f"NO compile.sh: {d.name}")
             continue
 
-        raw = sh.read_bytes().replace(b'\r\n', b'\n').replace(b'\r', b'\n')
-        content = raw.decode('utf-8', errors='replace')
+        raw = sh.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+        content = raw.decode("utf-8", errors="replace")
 
         old = patch["old"]
         if old not in content:
@@ -294,7 +295,7 @@ def fix_tool(dir_name: str, patch: dict, dry_run: bool = False) -> str:
         if dry_run:
             results.append(f"[DRY] {d.name}")
         else:
-            sh.write_bytes(new_content.encode('utf-8'))
+            sh.write_bytes(new_content.encode("utf-8"))
             results.append(f"[FIX] {d.name}")
 
     return " | ".join(results)

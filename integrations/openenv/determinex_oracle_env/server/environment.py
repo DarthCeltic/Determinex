@@ -125,7 +125,10 @@ class DeterminexOracleEnv(Environment):
             )
         except _oracle.OracleUnavailable as e:
             observation = DeterminexOracleObservation(
-                done=True, reward=0.0, passed=False, error=str(e),
+                done=True,
+                reward=0.0,
+                passed=False,
+                error=str(e),
             )
 
         return self._apply_transform(observation)

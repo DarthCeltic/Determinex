@@ -15,6 +15,7 @@ This script never performs source mutation, never calls a live model,
 never accesses the network. Every command path goes through the
 already-locked IDEBackendCommandSurface.
 """
+
 from __future__ import annotations
 
 import contextlib
@@ -22,14 +23,12 @@ import json
 import sys
 from pathlib import Path
 
-
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from ide.backend_command_surface import IDEBackendCommandSurface  # noqa: E402
-
 
 _MODEL_COMMANDS = {"build_idea", "diagnose_live_opt_in", "generate_patch_plan"}
 _DEFAULT_LOCAL_MODEL = "determinex-engineer-v11-dsl"
@@ -51,8 +50,9 @@ def _build_local_config(model_id: str):
     return rec if getattr(rec, "is_written", False) else None
 
 
-def _respond(command: str, status: str, payload: dict | None = None,
-             notes: tuple[str, ...] = ()) -> dict[str, object]:
+def _respond(
+    command: str, status: str, payload: dict | None = None, notes: tuple[str, ...] = ()
+) -> dict[str, object]:
     return {
         "command": command,
         "status": status,
@@ -140,8 +140,9 @@ def _dispatch(command: str, args: dict[str, object]) -> dict[str, object]:
     ):
         inner = command
     else:
-        return _respond(command, "TAURI_COMMAND_BLOCKED_UNKNOWN",
-                        notes=(f"unknown command {command!r}",))
+        return _respond(
+            command, "TAURI_COMMAND_BLOCKED_UNKNOWN", notes=(f"unknown command {command!r}",)
+        )
 
     res = surface.call(
         inner,
@@ -160,12 +161,12 @@ def _dispatch(command: str, args: dict[str, object]) -> dict[str, object]:
 
     # Map inner status → Tauri status (mirrors the Python tauri_backend_bridge).
     inner_to_tauri = {
-        "IDE_COMMAND_OK":                       "TAURI_COMMAND_OK",
-        "IDE_COMMAND_TEMP_ONLY":                "TAURI_COMMAND_TEMP_ONLY",
-        "IDE_COMMAND_SOURCE_MUTATION_BLOCKED":  "TAURI_COMMAND_SOURCE_MUTATION_BLOCKED",
-        "IDE_COMMAND_BLOCKED_NOT_OPTED_IN":     "TAURI_COMMAND_BLOCKED_NOT_OPTED_IN",
-        "IDE_COMMAND_BLOCKED_NO_MODEL":         "TAURI_COMMAND_BLOCKED_NO_MODEL",
-        "IDE_COMMAND_BLOCKED_UNKNOWN_COMMAND":  "TAURI_COMMAND_BLOCKED_UNKNOWN",
+        "IDE_COMMAND_OK": "TAURI_COMMAND_OK",
+        "IDE_COMMAND_TEMP_ONLY": "TAURI_COMMAND_TEMP_ONLY",
+        "IDE_COMMAND_SOURCE_MUTATION_BLOCKED": "TAURI_COMMAND_SOURCE_MUTATION_BLOCKED",
+        "IDE_COMMAND_BLOCKED_NOT_OPTED_IN": "TAURI_COMMAND_BLOCKED_NOT_OPTED_IN",
+        "IDE_COMMAND_BLOCKED_NO_MODEL": "TAURI_COMMAND_BLOCKED_NO_MODEL",
+        "IDE_COMMAND_BLOCKED_UNKNOWN_COMMAND": "TAURI_COMMAND_BLOCKED_UNKNOWN",
     }
     status = inner_to_tauri.get(res.status, "TAURI_COMMAND_OK")
     return _respond(command, status, payload=res.payload, notes=tuple(res.notes))
@@ -173,8 +174,15 @@ def _dispatch(command: str, args: dict[str, object]) -> dict[str, object]:
 
 def main(argv: list[str]) -> int:
     if len(argv) < 3:
-        print(json.dumps(_respond("", "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
-                                  notes=("driver invoked without command/args",))))
+        print(
+            json.dumps(
+                _respond(
+                    "",
+                    "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
+                    notes=("driver invoked without command/args",),
+                )
+            )
+        )
         return 1
     command = argv[1]
     try:
@@ -182,8 +190,15 @@ def main(argv: list[str]) -> int:
         if not isinstance(args, dict):
             raise ValueError("args must be a JSON object")
     except (ValueError, json.JSONDecodeError) as exc:
-        print(json.dumps(_respond(command, "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
-                                  notes=(f"bad args JSON: {exc}",))))
+        print(
+            json.dumps(
+                _respond(
+                    command,
+                    "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
+                    notes=(f"bad args JSON: {exc}",),
+                )
+            )
+        )
         return 1
 
     # stdout is a JSON-only channel: ide_repair_bridge.rs feeds the whole of it
@@ -206,8 +221,11 @@ def main(argv: list[str]) -> int:
         with contextlib.redirect_stdout(sys.stderr):
             response = _dispatch(command, args)
     except Exception as exc:  # noqa: BLE001 - must still answer in JSON
-        response = _respond(command, "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
-                            notes=(f"driver raised: {exc}",))
+        response = _respond(
+            command,
+            "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
+            notes=(f"driver raised: {exc}",),
+        )
     # Single-line JSON for the Rust side.
     print(json.dumps(response), file=real_stdout)
     return 0

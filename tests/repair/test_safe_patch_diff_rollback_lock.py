@@ -12,6 +12,7 @@ Asserts the SafePatchWorkspace contract:
   * verifier failure rolls back when rollback_on_failure=True
   * the lock/evidence/index entries all validate
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -183,15 +184,18 @@ def test_verifier_skipped_when_none(repos):
 # ---------------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("bad_path", [
-    "../etc/passwd",
-    "..\\..\\windows\\system32",
-    "/absolute/path",
-    "C:/abs",
-    "foo/../bar",
-    "",
-    "/etc/shadow",
-])
+@pytest.mark.parametrize(
+    "bad_path",
+    [
+        "../etc/passwd",
+        "..\\..\\windows\\system32",
+        "/absolute/path",
+        "C:/abs",
+        "foo/../bar",
+        "",
+        "/etc/shadow",
+    ],
+)
 def test_path_traversal_blocked(repos, bad_path):
     original, temp_root = repos
     sp = SafePatchWorkspace(original, temp_root)
@@ -199,7 +203,9 @@ def test_path_traversal_blocked(repos, bad_path):
         [FilePatch(bad_path, "x\n")],
         rollback_on_failure=True,
     )
-    assert res.status == "PATCH_BLOCKED_PATH_ESCAPE", f"path {bad_path!r} should block, got {res.status}"
+    assert res.status == "PATCH_BLOCKED_PATH_ESCAPE", (
+        f"path {bad_path!r} should block, got {res.status}"
+    )
     assert res.original_unchanged is True
 
 
@@ -227,29 +233,35 @@ def test_symlink_escape_blocked(repos, tmp_path, monkeypatch):
     except (OSError, NotImplementedError):
         link.mkdir()
         orig_resolve = Path.resolve
+
         def mock_resolve(self, strict=False):
             self_abs = str(self.absolute())
             link_abs = str(link.absolute())
             if self_abs == link_abs:
                 return outside.resolve(strict=strict)
             elif self_abs.startswith(link_abs + os.sep):
-                remainder = self_abs[len(link_abs)+1:]
+                remainder = self_abs[len(link_abs) + 1 :]
                 return outside.resolve(strict=strict) / remainder
             return orig_resolve(self, strict=strict)
+
         monkeypatch.setattr(Path, "resolve", mock_resolve)
 
         orig_is_symlink = Path.is_symlink
+
         def mock_is_symlink(self):
             if str(self.absolute()) == str(link.absolute()):
                 return True
             return orig_is_symlink(self)
+
         monkeypatch.setattr(Path, "is_symlink", mock_is_symlink)
 
         orig_os_islink = os.path.islink
+
         def mock_os_islink(path):
             if str(Path(path).absolute()) == str(link.absolute()):
                 return True
             return orig_os_islink(path)
+
         monkeypatch.setattr(os.path, "islink", mock_os_islink)
     # Now try to patch through the symlink.
     res = sp.apply_and_verify(
@@ -279,26 +291,32 @@ def test_symlink_target_as_file_blocked(repos, tmp_path, monkeypatch):
     except (OSError, NotImplementedError):
         link.write_text("mock", encoding="utf-8")
         orig_resolve = Path.resolve
+
         def mock_resolve(self, strict=False):
             self_abs = str(self.absolute())
             link_abs = str(link.absolute())
             if self_abs == link_abs:
                 return outside.resolve(strict=strict)
             return orig_resolve(self, strict=strict)
+
         monkeypatch.setattr(Path, "resolve", mock_resolve)
 
         orig_is_symlink = Path.is_symlink
+
         def mock_is_symlink(self):
             if str(self.absolute()) == str(link.absolute()):
                 return True
             return orig_is_symlink(self)
+
         monkeypatch.setattr(Path, "is_symlink", mock_is_symlink)
 
         orig_os_islink = os.path.islink
+
         def mock_os_islink(path):
             if str(Path(path).absolute()) == str(link.absolute()):
                 return True
             return orig_os_islink(path)
+
         monkeypatch.setattr(os.path, "islink", mock_os_islink)
     res = sp.apply_and_verify(
         [FilePatch("README.md", "patched\n")],
@@ -344,7 +362,7 @@ def test_original_unchanged_after_every_rejection(repos):
         except Exception:
             pass
         # Re-init for a fresh stage attempt each loop.
-        sp = SafePatchWorkspace(original, temp_root, workspace_id=f"x{hash(bad)&0xffff:04x}")
+        sp = SafePatchWorkspace(original, temp_root, workspace_id=f"x{hash(bad) & 0xFFFF:04x}")
     assert _hash_tree(original) == before
 
 

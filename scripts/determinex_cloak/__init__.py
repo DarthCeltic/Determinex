@@ -14,6 +14,7 @@ Architecture (7 components across 6 submodules):
   context        — CloakContext + AuditLogger: per-solve() session objects
   lang_extractor — Multi-language extraction + pipeline entry point (build_cloak_context)
 """
+
 from __future__ import annotations
 
 from typing import Optional
@@ -41,13 +42,13 @@ class CloakObfuscationError(RuntimeError):
         self,
         *,
         path: str = "",
-        cause: Optional[BaseException] = None,
+        cause: BaseException | None = None,
         source_len: int = 0,
     ):
         self.path = path
         self.cause = cause
         self.source_len = source_len
-        msg = f"CloakObfuscationError: failed to obfuscate"
+        msg = "CloakObfuscationError: failed to obfuscate"
         if path:
             msg += f" {path!r}"
         if cause is not None:
@@ -65,18 +66,18 @@ class CloakObfuscationError(RuntimeError):
         }
 
 
-from .safe_list import _build_safe_list, _ALWAYS_SAFE, FRAMEWORK_KEEP_LIST
-from .classifier import build_private_identifier_set, _IdentifierCollector
-from .symbol_map import SymbolMap
-from .transformer import obfuscate_source, obfuscate_issue_text
-from .restoration import restore_file_content, restore_patch
-from .context import CloakContext, CloakAuditLogger
+from ._treesitter_bridge import _TS_AVAILABLE, TS_SUPPORTED_LANGUAGES
+from .classifier import _IdentifierCollector, build_private_identifier_set
+from .context import CloakAuditLogger, CloakContext
 from .lang_extractor import (
-    build_cloak_context,
     _build_cloak_context_nonpython,
     _build_cloak_context_regex,
+    build_cloak_context,
 )
-from ._treesitter_bridge import _TS_AVAILABLE, TS_SUPPORTED_LANGUAGES
+from .restoration import restore_file_content, restore_patch
+from .safe_list import _ALWAYS_SAFE, FRAMEWORK_KEEP_LIST, _build_safe_list
+from .symbol_map import SymbolMap
+from .transformer import obfuscate_issue_text, obfuscate_source
 
 __all__ = [
     "CloakContext",

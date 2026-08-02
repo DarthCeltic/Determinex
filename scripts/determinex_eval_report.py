@@ -20,6 +20,7 @@ status breakdown, or parsed failures should `from determinex_eval_report import
 load` rather than re-deriving `test_results` parsing (which is how the
 `failed`-vs-`failure` counting bug kept recurring across ad-hoc one-liners).
 """
+
 from __future__ import annotations
 
 import json
@@ -32,18 +33,19 @@ from pydantic import BaseModel, Field, ValidationError
 # Canonical status keywords as emitted by the programbench scorer. Never guess
 # these -- read them from here.
 PASSED = "passed"
-FAILURE = "failure"      # NOT "failed"
+FAILURE = "failure"  # NOT "failed"
 ERROR = "error"
 NOT_RUN = "not_run"
 SKIPPED = "skipped"
 
 # Pulls `CompletedProcess(args=['./executable', '-u', '5'], returncode=0, ...)`
-RE_COMPLETED = re.compile(
-    r"CompletedProcess\(args=(\[[^\]]*\])(?:,\s*returncode=(-?\d+))?", re.S)
+RE_COMPLETED = re.compile(r"CompletedProcess\(args=(\[[^\]]*\])(?:,\s*returncode=(-?\d+))?", re.S)
 RE_RUNRESULT_RC = re.compile(r"\b(?:rc|code|returncode)\s*=\s*(-?\d+)")
 # `assert <left> == <expected>` and `assert <snippet> in <...>`
-RE_ASSERT_RC = re.compile(r"returncode\s*==\s*(-?\d+)|\.code\s*==\s*(-?\d+)"
-                          r"|\brc\s*==\s*(-?\d+)")
+RE_ASSERT_RC = re.compile(
+    r"returncode\s*==\s*(-?\d+)|\.code\s*==\s*(-?\d+)"
+    r"|\brc\s*==\s*(-?\d+)"
+)
 RE_ASSERT_IN = re.compile(r"assert\s+(b?(['\"]).*?\2)\s+in\b")
 RE_PARAM_ID = re.compile(r"\[([^\]]+)\]\s*$")
 
@@ -70,14 +72,14 @@ class TestResult(BaseModel):
 
 class FailRecord(BaseModel):
     name: str
-    short: str                       # bare test_name (no namespace/param)
+    short: str  # bare test_name (no namespace/param)
     status: str
-    argv: list = Field(default_factory=list)   # reconstructed command argv
+    argv: list = Field(default_factory=list)  # reconstructed command argv
     returncode_actual: int | None = None
     expect_rc: int | None = None
     expect_in: list = Field(default_factory=list)  # snippets asserted present
     param_id: str | None = None
-    text: str = ""                   # raw traceback (trimmed)
+    text: str = ""  # raw traceback (trimmed)
 
 
 class EvalReport(BaseModel):
@@ -85,7 +87,7 @@ class EvalReport(BaseModel):
     total: int
     passed: int
     counts: dict
-    unique_total: int                # de-duplicated across bidir namespaces
+    unique_total: int  # de-duplicated across bidir namespaces
     unique_passed: int
     failures: list[FailRecord]
     is_lock: bool
@@ -98,9 +100,11 @@ class EvalReport(BaseModel):
     def summary(self) -> str:
         nr = self.not_run
         lock = " LOCK" if self.is_lock else ""
-        return (f"{self.passed}/{self.total} ({100*self.score:.1f}%) "
-                f"[unique {self.unique_passed}/{self.unique_total}] "
-                f"not_run={nr} {dict(self.counts)}{lock}")
+        return (
+            f"{self.passed}/{self.total} ({100 * self.score:.1f}%) "
+            f"[unique {self.unique_passed}/{self.unique_total}] "
+            f"not_run={nr} {dict(self.counts)}{lock}"
+        )
 
 
 def _bare(name: str) -> str:
@@ -146,7 +150,7 @@ def load(path: str | Path) -> EvalReport:
     results = data.get("test_results", [])
     counts: Counter = Counter()
     failures: list[FailRecord] = []
-    uniq_status: dict[str, str] = {}   # bare name -> best status (passed wins)
+    uniq_status: dict[str, str] = {}  # bare name -> best status (passed wins)
 
     for raw in results:
         # Validated WAL/JSON boundary: a genuinely malformed entry (wrong
@@ -177,16 +181,29 @@ def load(path: str | Path) -> EvalReport:
     uniq_total = len(uniq_status)
     uniq_passed = sum(1 for s in uniq_status.values() if s == PASSED)
     not_run = counts.get(NOT_RUN, 0)
-    is_lock = (passed == total and total > 0 and not_run == 0
-               and counts.get(SKIPPED, 0) == 0 and counts.get(ERROR, 0) == 0)
+    is_lock = (
+        passed == total
+        and total > 0
+        and not_run == 0
+        and counts.get(SKIPPED, 0) == 0
+        and counts.get(ERROR, 0) == 0
+    )
     return EvalReport(
-        path=str(p), total=total, passed=passed, counts=dict(counts),
-        unique_total=uniq_total, unique_passed=uniq_passed,
-        failures=failures, is_lock=is_lock, not_run=not_run)
+        path=str(p),
+        total=total,
+        passed=passed,
+        counts=dict(counts),
+        unique_total=uniq_total,
+        unique_passed=uniq_passed,
+        failures=failures,
+        is_lock=is_lock,
+        not_run=not_run,
+    )
 
 
 def main(argv=None):
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex canonical eval-report reader")
     ap.add_argument("eval_jsons", nargs="+")
     ap.add_argument("--json", action="store_true", help="emit machine JSON")
@@ -197,13 +214,15 @@ def main(argv=None):
         rep = load(ej)
         short = Path(ej).name.split("__")[-1].split(".")[0]
         if a.json:
-            out[short] = {**{k: v for k, v in rep.model_dump().items() if k != "failures"},
-                          "score": rep.score}
+            out[short] = {
+                **{k: v for k, v in rep.model_dump().items() if k != "failures"},
+                "score": rep.score,
+            }
         else:
             print(f"{short:18} {rep.summary()}")
             if a.failures:
                 for f in rep.failures[:40]:
-                    exp = (f"rc={f.expect_rc}" if f.expect_rc is not None else "")
+                    exp = f"rc={f.expect_rc}" if f.expect_rc is not None else ""
                     inn = (" in:" + ",".join(f.expect_in[:2])) if f.expect_in else ""
                     print(f"    {f.short:42} argv={f.argv} act_rc={f.returncode_actual} {exp}{inn}")
     if a.json:

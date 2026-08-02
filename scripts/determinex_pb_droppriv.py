@@ -20,6 +20,7 @@ priv drop — that would break tests that legitimately need root, the pty/non_tt
 GREEN per integrity: reproduces the reference (non-root) environment; no skip-injection, no
 output rewrite, no fixture edit.
 """
+
 from __future__ import annotations
 
 import re
@@ -29,9 +30,10 @@ ROOTPERM_RE = re.compile(
     r"unreadable|no_read_permission|as_non_root|permission_denied|"
     r"reports_errors_on_atomic_file_swap|read_only_dir|cannot_write|eacces|not_readable|"
     r"write_permission|permission_error|readonly|read_only",
-    re.I)
+    re.I,
+)
 
-DROPPRIV_PLUGIN = r'''# --- determinex drop-privileges MATCH (root-perm tests run non-root, like upstream CI) ---
+DROPPRIV_PLUGIN = r"""# --- determinex drop-privileges MATCH (root-perm tests run non-root, like upstream CI) ---
 import os as _dp_os, re as _dp_re, subprocess as _dp_sp, pwd as _dp_pwd
 _DP_RE = _dp_re.compile(r"unreadable|no_read_permission|as_non_root|permission_denied|reports_errors_on_atomic_file_swap|read_only_dir|cannot_write|eacces|not_readable|write_permission|permission_error|readonly|read_only", _dp_re.I)
 _DP_UID = 12000
@@ -106,13 +108,14 @@ def pytest_runtest_teardown(item, nextitem):
     if _dp_real_geteuid is not None: _dp_os.geteuid = _dp_real_geteuid
     if _dp_real_getuid is not None: _dp_os.getuid = _dp_real_getuid
 # --- end determinex drop-privileges MATCH ---
-'''
+"""
 
 
 def droppriv_candidate(eval_report_path) -> tuple[bool, str]:
     """True if the report has root-perm tests that are skipped/not_run (drop-priv MATCH-able)."""
     import json
     from pathlib import Path
+
     p = Path(eval_report_path)
     if not p.exists():
         return False, "no report"
@@ -120,8 +123,11 @@ def droppriv_candidate(eval_report_path) -> tuple[bool, str]:
         tr = json.loads(p.read_text(encoding="utf-8")).get("test_results") or []
     except Exception:
         return False, "unreadable"
-    hits = [x.get("name", "") for x in tr
-            if x.get("status") in ("skipped", "not_run") and ROOTPERM_RE.search(x.get("name", ""))]
+    hits = [
+        x.get("name", "")
+        for x in tr
+        if x.get("status") in ("skipped", "not_run") and ROOTPERM_RE.search(x.get("name", ""))
+    ]
     if hits:
         return True, f"{len(hits)} root-perm skip(s) -> drop-priv MATCH"
     return False, "no root-perm skips"
@@ -139,10 +145,10 @@ def inject_droppriv(compile_sh_text: str) -> tuple[str, bool]:
         "\n# --- determinex drop-privileges: install as pytest11 plugin (reliable load) ---\n"
         "mkdir -p /opt/determinex_droppriv\n"
         "cat > /opt/determinex_droppriv/determinex_droppriv_plugin.py <<'DETERMINEX_DP_EOF'\n"
-        + DROPPRIV_PLUGIN.strip("\n") +
-        "\nDETERMINEX_DP_EOF\n"
+        + DROPPRIV_PLUGIN.strip("\n")
+        + "\nDETERMINEX_DP_EOF\n"
         "cat > /opt/determinex_droppriv/setup.py <<'DETERMINEX_DP_SETUP'\n"
-        'from setuptools import setup\n'
+        "from setuptools import setup\n"
         'setup(name="determinex_droppriv", version="1.0", py_modules=["determinex_droppriv_plugin"],\n'
         '      entry_points={"pytest11": ["determinex_droppriv = determinex_droppriv_plugin"]})\n'
         "DETERMINEX_DP_SETUP\n"
@@ -153,4 +159,5 @@ def inject_droppriv(compile_sh_text: str) -> tuple[str, bool]:
 
 if __name__ == "__main__":
     import sys
+
     print(droppriv_candidate(sys.argv[1]) if len(sys.argv) > 1 else "usage: <eval_report.json>")

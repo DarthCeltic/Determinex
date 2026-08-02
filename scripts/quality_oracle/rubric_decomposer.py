@@ -9,19 +9,18 @@ maximally predicts the preference score from atomic feature results.
 """
 
 from __future__ import annotations
+
 import os
-import json
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass
 class RubricWeights:
     feature_names: list[str]
-    weights: list[float]           # Parallel to feature_names
+    weights: list[float]  # Parallel to feature_names
     intercept: float = 0.0
-    source: str = "zero_shot"      # "zero_shot" | "supervised"
-    r2: float = 0.0               # R² on training data (supervised only)
+    source: str = "zero_shot"  # "zero_shot" | "supervised"
+    r2: float = 0.0  # R² on training data (supervised only)
 
     def weight_for(self, feature_name: str) -> float:
         try:
@@ -44,15 +43,15 @@ _WEIGHT_TOOL = {
                     "properties": {
                         "feature": {"type": "string"},
                         "weight": {"type": "number", "description": "Importance 0.0-3.0"},
-                        "rationale": {"type": "string"}
+                        "rationale": {"type": "string"},
                     },
-                    "required": ["feature", "weight", "rationale"]
-                }
+                    "required": ["feature", "weight", "rationale"],
+                },
             },
-            "intercept": {"type": "number", "description": "Base score offset"}
+            "intercept": {"type": "number", "description": "Base score offset"},
         },
-        "required": ["weights"]
-    }
+        "required": ["weights"],
+    },
 }
 
 
@@ -65,7 +64,7 @@ class RubricDecomposer:
     def from_text_zero_shot(
         self,
         rubric_text: str,
-        feature_names: Optional[list[str]] = None,
+        feature_names: list[str] | None = None,
     ) -> RubricWeights:
         """Use LLM to estimate feature importance from rubric text.
 
@@ -73,8 +72,9 @@ class RubricDecomposer:
             rubric_text: Natural language description of the rubric/criteria
             feature_names: Features to weight. Defaults to STANDARD_CHECKS names.
         """
-        from .feature_checks import STANDARD_CHECKS
         import anthropic
+
+        from .feature_checks import STANDARD_CHECKS
 
         if feature_names is None:
             feature_names = [name for name, _, _ in STANDARD_CHECKS]
@@ -94,13 +94,15 @@ class RubricDecomposer:
                 max_tokens=1024,
                 tools=[_WEIGHT_TOOL],
                 tool_choice={"type": "tool", "name": "estimate_rubric_weights"},
-                messages=[{"role": "user", "content": user_msg}]
+                messages=[{"role": "user", "content": user_msg}],
             )
         except Exception as e:
             print(f"  [rubric_decomposer] API error: {e}; using uniform weights")
-            return RubricWeights(feature_names=feature_names,
-                                 weights=[1.0] * len(feature_names),
-                                 source="fallback_uniform")
+            return RubricWeights(
+                feature_names=feature_names,
+                weights=[1.0] * len(feature_names),
+                source="fallback_uniform",
+            )
 
         weights = [1.0] * len(feature_names)
         intercept = 0.0
@@ -115,13 +117,14 @@ class RubricDecomposer:
                         weights[feature_names.index(feat)] = w
                 break
 
-        return RubricWeights(feature_names=feature_names, weights=weights,
-                             intercept=intercept, source="zero_shot")
+        return RubricWeights(
+            feature_names=feature_names, weights=weights, intercept=intercept, source="zero_shot"
+        )
 
     def from_examples(
         self,
         examples: list[dict],
-        feature_names: Optional[list[str]] = None,
+        feature_names: list[str] | None = None,
     ) -> RubricWeights:
         """Fit a linear model from (response, score, features) examples.
 
@@ -131,15 +134,17 @@ class RubricDecomposer:
             feature_names: Feature names in examples["features"]. Auto-detected if None.
         """
         try:
+            import numpy as np
             from sklearn.linear_model import Ridge
             from sklearn.metrics import r2_score
-            import numpy as np
         except ImportError:
             print("  [rubric_decomposer] sklearn not available; using uniform weights")
             from .feature_checks import STANDARD_CHECKS
+
             names = feature_names or [n for n, _, _ in STANDARD_CHECKS]
-            return RubricWeights(feature_names=names, weights=[1.0]*len(names),
-                                 source="fallback_uniform")
+            return RubricWeights(
+                feature_names=names, weights=[1.0] * len(names), source="fallback_uniform"
+            )
 
         if not examples:
             raise ValueError("Need at least one example")
@@ -147,8 +152,7 @@ class RubricDecomposer:
         if feature_names is None:
             feature_names = list(examples[0]["features"].keys())
 
-        X = np.array([[ex["features"].get(f, 0.0) for f in feature_names]
-                      for ex in examples])
+        X = np.array([[ex["features"].get(f, 0.0) for f in feature_names] for ex in examples])
         y = np.array([ex["score"] for ex in examples])
 
         model = Ridge(alpha=1.0)
@@ -160,8 +164,13 @@ class RubricDecomposer:
         intercept = float(model.intercept_)
 
         print(f"  [rubric_decomposer] fitted on {len(examples)} examples, R²={r2:.3f}")
-        return RubricWeights(feature_names=feature_names, weights=weights,
-                             intercept=intercept, source="supervised", r2=r2)
+        return RubricWeights(
+            feature_names=feature_names,
+            weights=weights,
+            intercept=intercept,
+            source="supervised",
+            r2=r2,
+        )
 
 
 # ── Pre-built rubrics for common benchmarks ───────────────────────────────────

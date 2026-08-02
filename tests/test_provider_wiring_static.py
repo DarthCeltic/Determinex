@@ -1,13 +1,16 @@
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_setup_and_config_vault_expose_all_advertised_cloud_key_providers():
     setup = (ROOT / "frontend/src/components/SetupWizard.tsx").read_text(encoding="utf-8")
-    settings_context = (ROOT / "frontend/src/contexts/SettingsContext.tsx").read_text(encoding="utf-8")
-    settings_modal = (ROOT / "frontend/src/components/modals/SettingsModal.tsx").read_text(encoding="utf-8")
+    settings_context = (ROOT / "frontend/src/contexts/SettingsContext.tsx").read_text(
+        encoding="utf-8"
+    )
+    settings_modal = (ROOT / "frontend/src/components/modals/SettingsModal.tsx").read_text(
+        encoding="utf-8"
+    )
     api = (ROOT / "frontend/src/lib/api.ts").read_text(encoding="utf-8")
     api_keys = (ROOT / "frontend/src-tauri/src/api_keys.rs").read_text(encoding="utf-8")
 
@@ -58,8 +61,12 @@ def test_role_assignment_cloud_options_match_litellm_model_names():
 
 
 def test_tauri_pipeline_resolves_cloud_routes_instead_of_falling_back_to_ollama():
-    pipeline = (ROOT / "frontend/src-tauri/src/orchestrator/pipeline_models.rs").read_text(encoding="utf-8")
-    transport = (ROOT / "frontend/src-tauri/src/orchestrator/transport.rs").read_text(encoding="utf-8")
+    pipeline = (ROOT / "frontend/src-tauri/src/orchestrator/pipeline_models.rs").read_text(
+        encoding="utf-8"
+    )
+    transport = (ROOT / "frontend/src-tauri/src/orchestrator/transport.rs").read_text(
+        encoding="utf-8"
+    )
     orchestrator = (ROOT / "frontend/src-tauri/src/orchestrator/mod.rs").read_text(encoding="utf-8")
 
     assert "pub enum ModelRoute" in pipeline

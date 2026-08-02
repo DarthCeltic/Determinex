@@ -17,12 +17,13 @@ If any gate fails, the workspace is NOT touched.
 After a successful write, ``post_apply_verifier_required=True`` is
 recorded; running it is rung 9.
 """
+
 from __future__ import annotations
 
 import hashlib
 import sys
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -33,6 +34,8 @@ from ide.real_human_approval_admission_record import (  # noqa: E402
     RealHumanApprovalAdmissionRecord,
 )
 
+from . import patch_body_hash as _patch_body_hash  # noqa: E402
+from . import symlink_policy as _symlink_policy  # noqa: E402
 from .real_patch_plan_quarantine_record import (  # noqa: E402
     RealPatchPlanQuarantineRecord,
 )
@@ -46,8 +49,6 @@ from .source_mutation_apply_after_approval_record import (
 from .source_mutation_rollback_snapshot_record import (  # noqa: E402
     SourceMutationRollbackSnapshotRecord,
 )
-from . import patch_body_hash as _patch_body_hash  # noqa: E402
-from . import symlink_policy as _symlink_policy  # noqa: E402
 
 
 def _sha256_tree(root: Path) -> str:
@@ -199,9 +200,7 @@ def apply_after_approval(
             approval_ref=approval.decision,
             verifier_ref=temp_verify.verifier_status,
             rollback_ref=rollback_snapshot.decision,
-            note=(
-                "workspace hash diverged from snapshot.pre_apply_source_hash"
-            ),
+            note=("workspace hash diverged from snapshot.pre_apply_source_hash"),
         )
 
     if _hash(observed_diff) != approval.diff_hash:

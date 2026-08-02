@@ -18,11 +18,12 @@ PERMANENTLY stops environment bugs from masquerading as capability ceilings -- t
 failure that lied for 24h. Idempotent; injectable like bidir/droppriv. GREEN per integrity
 (reproduces a deterministic reference env; no output rewrite, no skip, no fixture edit).
 """
+
 from __future__ import annotations
 
 import re
 
-HERMETIC_PLUGIN = r'''# --- determinex hermetic determinism layer (env frozen for every test) ---
+HERMETIC_PLUGIN = r"""# --- determinex hermetic determinism layer (env frozen for every test) ---
 import os as _hz_os, random as _hz_random, socket as _hz_socket
 # 1) deterministic locale / encoding / timezone
 for _k, _v in {"TZ":"UTC","LC_ALL":"C.UTF-8","LANG":"C.UTF-8","LANGUAGE":"C",
@@ -57,17 +58,17 @@ def _hz_guard(self, addr):
 if _hz_os.environ.get("DETERMINEX_HERMETIC_NET","block")=="block":
     _hz_socket.socket.connect = _hz_guard
 # --- end determinex hermetic determinism layer ---
-'''
+"""
 
 # the env exports for the SHELL side of compile.sh (so the built binary inherits them too)
 HERMETIC_ENV_EXPORTS = (
-    'export TZ=UTC LC_ALL=C.UTF-8 LANG=C.UTF-8 PYTHONUTF8=1 '
-    'PYTHONHASHSEED=0 SOURCE_DATE_EPOCH=1735689600\n'
-    '# frozen wall clock if libfaketime is available (clock-timing family)\n'
-    'if [ -f /usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1 ]; then\n'
+    "export TZ=UTC LC_ALL=C.UTF-8 LANG=C.UTF-8 PYTHONUTF8=1 "
+    "PYTHONHASHSEED=0 SOURCE_DATE_EPOCH=1735689600\n"
+    "# frozen wall clock if libfaketime is available (clock-timing family)\n"
+    "if [ -f /usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1 ]; then\n"
     '  export FAKETIME="2025-01-01 00:00:00" '
-    'LD_PRELOAD=/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1 || true\n'
-    'fi\n'
+    "LD_PRELOAD=/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1 || true\n"
+    "fi\n"
 )
 
 _HEREDOC = re.compile(r"(cat\s*>\s*[^\n]*conftest\.py[^\n]*<<\s*'?(\w+)'?\n)(.*?)(\n\2)", re.DOTALL)
@@ -101,10 +102,10 @@ def inject_hermetic(compile_sh_text: str) -> tuple[str, bool]:
         "\n# --- determinex hermetic: install as pytest11 plugin (reliable load) ---\n"
         "mkdir -p /opt/determinex_hermetic\n"
         "cat > /opt/determinex_hermetic/determinex_hermetic_plugin.py <<'DETERMINEX_HZ_EOF'\n"
-        + HERMETIC_PLUGIN.strip("\n") +
-        "\nDETERMINEX_HZ_EOF\n"
+        + HERMETIC_PLUGIN.strip("\n")
+        + "\nDETERMINEX_HZ_EOF\n"
         "cat > /opt/determinex_hermetic/setup.py <<'DETERMINEX_HZ_SETUP'\n"
-        'from setuptools import setup\n'
+        "from setuptools import setup\n"
         'setup(name="determinex_hermetic", version="1.0", py_modules=["determinex_hermetic_plugin"],\n'
         '      entry_points={"pytest11": ["determinex_hermetic = determinex_hermetic_plugin"]})\n'
         "DETERMINEX_HZ_SETUP\n"
@@ -116,6 +117,7 @@ def inject_hermetic(compile_sh_text: str) -> tuple[str, bool]:
 
 if __name__ == "__main__":
     import sys
+
     if len(sys.argv) > 1:
         t = open(sys.argv[1], encoding="utf-8").read()
         out, ch = inject_hermetic(t)

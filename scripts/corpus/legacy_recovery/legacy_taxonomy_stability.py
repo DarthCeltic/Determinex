@@ -52,25 +52,36 @@ def _failure_percentages(chunk: dict[str, Any]) -> dict[str, float]:
 
 
 def _tool_list(chunk: dict[str, Any]) -> list[str]:
-    return [str(row.get("tool")) for row in chunk.get("top_replay_candidates") or [] if row.get("tool")]
+    return [
+        str(row.get("tool")) for row in chunk.get("top_replay_candidates") or [] if row.get("tool")
+    ]
 
 
-def _class_stability(chunks: list[dict[str, Any]], percentages: list[dict[str, float]]) -> dict[str, Any]:
+def _class_stability(
+    chunks: list[dict[str, Any]], percentages: list[dict[str, float]]
+) -> dict[str, Any]:
     all_classes = sorted({label for pct in percentages for label in pct})
     rows: list[dict[str, Any]] = []
     for label in all_classes:
         values = [pct.get(label, 0.0) for pct in percentages]
-        rows.append({
-            "failure_class": label,
-            "percentages": values,
-            "min": min(values),
-            "max": max(values),
-            "spread": round(max(values) - min(values), 6),
-            "present_in_chunks": sum(1 for value in values if value > 0),
-        })
-    rows.sort(key=lambda row: (row["present_in_chunks"], -row["spread"], row["failure_class"]), reverse=True)
+        rows.append(
+            {
+                "failure_class": label,
+                "percentages": values,
+                "min": min(values),
+                "max": max(values),
+                "spread": round(max(values) - min(values), 6),
+                "present_in_chunks": sum(1 for value in values if value > 0),
+            }
+        )
+    rows.sort(
+        key=lambda row: (row["present_in_chunks"], -row["spread"], row["failure_class"]),
+        reverse=True,
+    )
     discovered = {
-        str(chunks[i].get("label")): sorted(set(percentages[i]) - set().union(*percentages[:i])) if i else sorted(percentages[i])
+        str(chunks[i].get("label")): sorted(set(percentages[i]) - set().union(*percentages[:i]))
+        if i
+        else sorted(percentages[i])
         for i in range(len(chunks))
     }
     return {"classes": rows, "new_classes_by_chunk": discovered}
@@ -92,9 +103,15 @@ def _tool_stability(tool_sets: list[list[str]]) -> dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Compare legacy recovery taxonomy stability across scan chunks.")
+    parser = argparse.ArgumentParser(
+        description="Compare legacy recovery taxonomy stability across scan chunks."
+    )
     parser.add_argument("chunks", nargs="+", type=Path)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/legacy_taxonomy_stability_report_100k.json"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("assurance/evidence/legacy_taxonomy_stability_report_100k.json"),
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
     report = build_stability_report(args.chunks)
@@ -107,4 +124,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

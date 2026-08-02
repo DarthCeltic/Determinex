@@ -4,28 +4,42 @@ Native C/C++ repair pipeline.
 Gates Make/CMake/autotools projects before mutation and corpus ingest, then
 extracts verifier-backed null-guard repair traces.
 """
+
 from __future__ import annotations
 
 import hashlib
 import logging
 import re
-from intake.hardened_runner import run as _hardened_run
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
-from agents.prompt_injection_detector import InjectionRisk, scan as injection_scan
+from agents.prompt_injection_detector import InjectionRisk
+from agents.prompt_injection_detector import scan as injection_scan
 from corpus.code_ingest.license_detector import detect
 from corpus.code_ingest.native_c_cpp_project_indexer import NativeProject, index_native_project
 from corpus.code_ingest.native_c_cpp_task_extractor import NativeRepairTask, NativeTaskExtractor
 from corpus.code_ingest.secret_scanner import is_clean as secrets_clean
+from intake.hardened_runner import run as _hardened_run
 
 log = logging.getLogger(__name__)
 
 Executor = Callable[[list[str], Path, int], tuple[int, str, str]]
-_BUILD_FILES = ("Makefile", "makefile", "CMakeLists.txt", "configure", "configure.ac", "meson.build")
-_CMAKE_EXEC_RE = re.compile(r"\bexecute_process\s*\([^)]*(curl\s+https?://|env\s*\|\s*curl)", re.I | re.S)
-_CUSTOM_COMMAND_RE = re.compile(r"\badd_custom_command\s*\([^)]*(curl\s+https?://|env\s*\|\s*curl)", re.I | re.S)
+_BUILD_FILES = (
+    "Makefile",
+    "makefile",
+    "CMakeLists.txt",
+    "configure",
+    "configure.ac",
+    "meson.build",
+)
+_CMAKE_EXEC_RE = re.compile(
+    r"\bexecute_process\s*\([^)]*(curl\s+https?://|env\s*\|\s*curl)", re.I | re.S
+)
+_CUSTOM_COMMAND_RE = re.compile(
+    r"\badd_custom_command\s*\([^)]*(curl\s+https?://|env\s*\|\s*curl)", re.I | re.S
+)
 
 
 def _default_executor(cmd: list[str], cwd: Path, timeout: int) -> tuple[int, str, str]:
@@ -92,7 +106,9 @@ class NativeCxxRepairPipeline:
         result.license_spdx = license_result.spdx_id or "unknown"
         result.license_bucket = license_result.bucket
         if not license_result.ingest_allowed:
-            result.rejected_reason = f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            result.rejected_reason = (
+                f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            )
             return result
 
         if not secrets_clean(repo_path):
@@ -141,15 +157,25 @@ class NativeCxxRepairPipeline:
 
     def _check_native_content_safety(self, content: str, path: Path) -> NativeSafetyResult:
         if _CMAKE_EXEC_RE.search(content):
-            return NativeSafetyResult(safe=False, reason="cmake_execute_process_network", file_path=str(path))
+            return NativeSafetyResult(
+                safe=False, reason="cmake_execute_process_network", file_path=str(path)
+            )
         if _CUSTOM_COMMAND_RE.search(content):
-            return NativeSafetyResult(safe=False, reason="cmake_custom_command_network", file_path=str(path))
-        if re.search(r"\bsystem\s*\([^)]*(curl\s+https?://|env\s*\|\s*curl|/bin/sh|cmd\.exe)", content, re.I):
-            return NativeSafetyResult(safe=False, reason="runtime_shell_execution", file_path=str(path))
+            return NativeSafetyResult(
+                safe=False, reason="cmake_custom_command_network", file_path=str(path)
+            )
+        if re.search(
+            r"\bsystem\s*\([^)]*(curl\s+https?://|env\s*\|\s*curl|/bin/sh|cmd\.exe)", content, re.I
+        ):
+            return NativeSafetyResult(
+                safe=False, reason="runtime_shell_execution", file_path=str(path)
+            )
         return NativeSafetyResult(safe=True, reason="", file_path="")
 
     def _extract_tasks(self, repo_path: Path, project: NativeProject) -> list[NativeRepairTask]:
-        extractor = NativeTaskExtractor(repo_path, test_command=_test_command_for(project), timeout=self._timeout)
+        extractor = NativeTaskExtractor(
+            repo_path, test_command=_test_command_for(project), timeout=self._timeout
+        )
         pipeline_self = self
 
         def _patched_run(cmd: list[str], cwd: Path | None = None) -> tuple[int, str, str]:
@@ -161,8 +187,11 @@ class NativeCxxRepairPipeline:
     def _write_corpus_record(self, task: NativeRepairTask, benchmark: str) -> str | None:
         try:
             from agents.base_agent import CorpusType
+
             payload = task.to_corpus_payload()
-            input_hash = hashlib.blake2b((task.mutated_line + task.failure_output).encode(), digest_size=16).hexdigest()
+            input_hash = hashlib.blake2b(
+                (task.mutated_line + task.failure_output).encode(), digest_size=16
+            ).hexdigest()
             output_hash = hashlib.blake2b(task.original_line.encode(), digest_size=16).hexdigest()
             record = self._cm._normalize_record(
                 corpus_type=CorpusType.CODE_VERDICT,

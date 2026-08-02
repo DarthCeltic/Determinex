@@ -23,6 +23,7 @@ here). Every row's task_id must resolve via task_provenance before any field cha
 
 Usage:  python scripts/corpus/backfill_verdict_language.py [--apply]
 """
+
 from __future__ import annotations
 
 import json
@@ -35,8 +36,9 @@ SCRIPTS = ROOT / "scripts"
 if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
-from corpus.corpus_manager import _verify_signature, resign_record  # noqa: E402
 import determinex_corpus_api as api  # noqa: E402
+
+from corpus.corpus_manager import _verify_signature, resign_record  # noqa: E402
 
 CODE_VERDICT_DIR = Path("T:/determinex_corpus/code_verdict")
 TASK_ID_RE = re.compile(r"^pb_(.+?)_(?:eval\.tests|tests)\.")
@@ -45,7 +47,9 @@ OVERRIDES_DIR = ROOT / "corpus" / "programbench" / "per_tool_overrides"
 # language (as stored in canonical_tasks.json) -> fixed build_system, EXCEPT "c"/"cpp"/"java"
 # which need per-tool refinement (see _build_system_for below).
 _LANG_TO_BUILD: dict[str, str] = {
-    "rs": "cargo", "go": "go", "hs": "cabal",
+    "rs": "cargo",
+    "go": "go",
+    "hs": "cabal",
 }
 
 
@@ -55,14 +59,16 @@ def _slug_for(task_id: str) -> str | None:
 
 
 _cmake_make_cache: dict[str, str] = {}
-_JAVA_BUILD_OVERRIDES = {"stathissideris__ditaa.f2286c4": "lein"}  # verified per-tool (no single Java default)
+_JAVA_BUILD_OVERRIDES = {
+    "stathissideris__ditaa.f2286c4": "lein"
+}  # verified per-tool (no single Java default)
 
 
 def _build_system_for(slug: str, language: str) -> str | None:
     if language in _LANG_TO_BUILD:
         return _LANG_TO_BUILD[language]
     if language == "java":
-        return _JAVA_BUILD_OVERRIDES.get(slug)   # unresolved Java tools stay untagged, not guessed
+        return _JAVA_BUILD_OVERRIDES.get(slug)  # unresolved Java tools stay untagged, not guessed
     if language in ("c", "cpp"):
         if slug in _cmake_make_cache:
             return _cmake_make_cache[slug] or None
@@ -83,8 +89,13 @@ def run(apply: bool = False) -> dict:
     canonical = api.load_canonical_tasks()
     lang_cache: dict[str, str | None] = {}
     unresolvable: set[str] = set()
-    results: dict = {"scanned": 0, "language_corrected": 0, "build_system_tagged": 0,
-                     "sig_invalid_skipped": [], "by_tool": {}}
+    results: dict = {
+        "scanned": 0,
+        "language_corrected": 0,
+        "build_system_tagged": 0,
+        "sig_invalid_skipped": [],
+        "by_tool": {},
+    }
     files = sorted(CODE_VERDICT_DIR.glob("*.jsonl"))
     for f in files:
         lines = f.read_text(encoding="utf-8", errors="replace").splitlines()

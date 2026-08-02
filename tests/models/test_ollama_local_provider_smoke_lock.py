@@ -1,4 +1,5 @@
 """Tests for OLLAMA_LOCAL_PROVIDER_SMOKE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -22,27 +23,32 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "OLLAMA_LOCAL_PROVIDER_SMOKE_LOC
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "ollama_local_provider_smoke"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "OLLAMA_PROVIDER_SMOKE_PASSED",
-    "OLLAMA_PROVIDER_SMOKE_BLOCKED_NOT_CONFIGURED",
-    "OLLAMA_PROVIDER_SMOKE_BLOCKED_UNAVAILABLE",
-    "OLLAMA_PROVIDER_SMOKE_BLOCKED_TIMEOUT",
-    "OLLAMA_PROVIDER_OUTPUT_UNTRUSTED",
-})
+EXPECTED = frozenset(
+    {
+        "OLLAMA_PROVIDER_SMOKE_PASSED",
+        "OLLAMA_PROVIDER_SMOKE_BLOCKED_NOT_CONFIGURED",
+        "OLLAMA_PROVIDER_SMOKE_BLOCKED_UNAVAILABLE",
+        "OLLAMA_PROVIDER_SMOKE_BLOCKED_TIMEOUT",
+        "OLLAMA_PROVIDER_OUTPUT_UNTRUSTED",
+    }
+)
 
 
 def _ok_transport(endpoint, timeout):
     from models.ollama_local_provider_smoke import _ProbeResult
+
     return _ProbeResult(status_code=200, ok=True, timed_out=False)
 
 
 def _timeout_transport(endpoint, timeout):
     from models.ollama_local_provider_smoke import _ProbeResult
+
     return _ProbeResult(status_code=0, ok=False, timed_out=True, error="timed out")
 
 
 def _unavailable_transport(endpoint, timeout):
     from models.ollama_local_provider_smoke import _ProbeResult
+
     return _ProbeResult(status_code=0, ok=False, timed_out=False, error="connection refused")
 
 

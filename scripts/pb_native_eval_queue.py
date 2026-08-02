@@ -12,6 +12,7 @@ This script is intentionally mechanical:
 It does not gate or apply results. Launch mode only starts official ProgramBench
 eval lanes using the existing PowerShell launcher.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -24,7 +25,6 @@ from typing import Any
 
 from determinex_atomic_io import write_json_atomic as _write_json_atomic
 from pb_native_source_guard import check_path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 PB_STAGING_ROOT = Path(os.environ.get("DETERMINEX_PB_STAGING_ROOT", "T:/determinex-staging"))
@@ -87,8 +87,7 @@ def discover() -> list[dict[str, Any]]:
             if not run_root.is_dir():
                 continue
             candidates = [
-                d for d in run_root.iterdir()
-                if d.is_dir() and (d / "submission.tar.gz").is_file()
+                d for d in run_root.iterdir() if d.is_dir() and (d / "submission.tar.gz").is_file()
             ]
             if len(candidates) != 1:
                 continue
@@ -103,7 +102,9 @@ def discover() -> list[dict[str, Any]]:
             audit_row = audit.get(slug) or {}
             st, artifact = _status(run_root, slug)
             best_passed = int(board_row.get("best_passed") or audit_row.get("passed") or 0)
-            best_runnable = int(board_row.get("best_runnable_total") or audit_row.get("runnable") or 0)
+            best_runnable = int(
+                board_row.get("best_runnable_total") or audit_row.get("runnable") or 0
+            )
             if best_runnable > 0 and best_passed == best_runnable:
                 st = "locked"
                 artifact = board_row.get("best_eval_path") or artifact
@@ -144,12 +145,14 @@ def discover() -> list[dict[str, Any]]:
                 if (new_mtime, -new_rank) > (old_mtime, -old_rank):
                     rows_by_slug[row_key] = row
     rows = list(rows_by_slug.values())
-    rows.sort(key=lambda r: (
-        0 if r["status"] == "queued" else 1,
-        -r["score"],
-        -r["runnable"],
-        r["slug"],
-    ))
+    rows.sort(
+        key=lambda r: (
+            0 if r["status"] == "queued" else 1,
+            -r["score"],
+            -r["runnable"],
+            r["slug"],
+        )
+    )
     return rows
 
 
@@ -161,7 +164,9 @@ def launch(rows: list[dict[str, Any]], count: int, dry_run: bool) -> int:
             break
         if r["status"] != "queued":
             continue
-        run_root = ROOT / r["run_root"] if not Path(r["run_root"]).is_absolute() else Path(r["run_root"])
+        run_root = (
+            ROOT / r["run_root"] if not Path(r["run_root"]).is_absolute() else Path(r["run_root"])
+        )
         if not r.get("native_source_ok"):
             print(f"SKIP {r['slug']}: {r.get('native_source_reason')}")
             continue

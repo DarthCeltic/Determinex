@@ -13,11 +13,14 @@ verifier and does not generate a patch.
 
 Pluggable transport so tests exercise the gate without sockets.
 """
+
 from __future__ import annotations
 
+import sys as _sys
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable, Optional
+from pathlib import Path as _Path
 from urllib.parse import urlparse
 
 from .real_local_model_healthcheck_record import (
@@ -27,8 +30,6 @@ from .real_model_diagnose_with_build_verifier_record import (
     REAL_MODEL_DIAGNOSE_WITH_BUILD_VERIFIER_STATUS_TOKENS,
     RealModelDiagnoseWithBuildVerifierRecord,
 )
-import sys as _sys
-from pathlib import Path as _Path
 
 _HERE = _Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -38,7 +39,6 @@ if str(_SCRIPTS) not in _sys.path:
 from repair.build_adapter_backed_verifier_selection_record import (  # noqa: E402
     BuildAdapterBackedVerifierSelectionRecord,
 )
-
 
 _LOCAL_HOSTS: frozenset[str] = frozenset({"localhost", "127.0.0.1", "::1"})
 _ADVISORY_CAP = 2048
@@ -56,6 +56,7 @@ def _opacify_workspace_identity(raw: str) -> str:
     boundary. The raw identity is hashed with sha256 and truncated;
     no caller-supplied content reaches the model prompt verbatim."""
     import hashlib
+
     if not isinstance(raw, str):
         raw = str(raw)
     h = hashlib.sha256(raw.encode("utf-8", errors="replace")).hexdigest()
@@ -64,7 +65,9 @@ def _opacify_workspace_identity(raw: str) -> str:
 
 
 def _build_prompt(
-    *, build_system_id: str, verifier_argv: tuple[str, ...],
+    *,
+    build_system_id: str,
+    verifier_argv: tuple[str, ...],
     workspace_identity: str,
 ) -> str:
     """Verifier-context prompt. Carries no source content.
@@ -99,22 +102,29 @@ GenTransport = Callable[[str, str, str, str, float], _GenResult]
 
 
 def _default_transport(
-    endpoint: str, model_id: str, prompt: str, system: str,
+    endpoint: str,
+    model_id: str,
+    prompt: str,
+    system: str,
     timeout_seconds: float,
 ) -> _GenResult:
     import json as _json
-    import socket
     import urllib.error
     import urllib.request
 
-    body = _json.dumps({
-        "model": model_id, "prompt": prompt, "system": system,
-        "stream": False,
-    }).encode("utf-8")
+    body = _json.dumps(
+        {
+            "model": model_id,
+            "prompt": prompt,
+            "system": system,
+            "stream": False,
+        }
+    ).encode("utf-8")
     try:
         req = urllib.request.Request(
             url=endpoint.rstrip("/") + "/api/generate",
-            method="POST", data=body,
+            method="POST",
+            data=body,
             headers={
                 "User-Agent": "determinex-diagnose-with-verifier/1",
                 "Content-Type": "application/json",
@@ -122,20 +132,18 @@ def _default_transport(
         )
         with urllib.request.urlopen(req, timeout=timeout_seconds) as resp:
             if not (200 <= resp.status < 300):
-                return _GenResult(ok=False, timed_out=False,
-                                  error=f"status {resp.status}")
+                return _GenResult(ok=False, timed_out=False, error=f"status {resp.status}")
             try:
                 payload = _json.loads(resp.read().decode("utf-8") or "{}")
             except (ValueError, UnicodeDecodeError) as exc:
-                return _GenResult(ok=False, timed_out=False,
-                                  error=f"malformed json: {exc}")
+                return _GenResult(ok=False, timed_out=False, error=f"malformed json: {exc}")
             text = ""
             if isinstance(payload, dict):
                 t = payload.get("response")
                 if isinstance(t, str):
                     text = t
             return _GenResult(ok=True, timed_out=False, text=text)
-    except socket.timeout:
+    except TimeoutError:
         return _GenResult(ok=False, timed_out=True, error="socket timeout")
     except urllib.error.URLError as exc:
         reason = str(getattr(exc, "reason", exc)).lower()
@@ -158,7 +166,7 @@ def diagnose(
     opt_in: bool = False,
     endpoint: str = "http://127.0.0.1:11434",
     timeout_seconds: float = 30.0,
-    transport: Optional[GenTransport] = None,
+    transport: GenTransport | None = None,
 ) -> RealModelDiagnoseWithBuildVerifierRecord:
     if healthcheck is None or not healthcheck.is_passed:
         return _blocked(
@@ -166,8 +174,12 @@ def diagnose(
             workspace=workspace_identity,
             model_id=getattr(healthcheck, "model_id", "") if healthcheck else "",
             provider=getattr(healthcheck, "provider", "") if healthcheck else "",
-            build_system_id=getattr(verifier_selection, "build_system_id", "") if verifier_selection else "",
-            verifier_argv=tuple(getattr(verifier_selection, "verifier_command", ())) if verifier_selection else (),
+            build_system_id=getattr(verifier_selection, "build_system_id", "")
+            if verifier_selection
+            else "",
+            verifier_argv=tuple(getattr(verifier_selection, "verifier_command", ()))
+            if verifier_selection
+            else (),
             note="healthcheck missing or not passed",
         )
 
@@ -175,8 +187,10 @@ def diagnose(
         return _blocked(
             "REAL_MODEL_DIAGNOSE_BLOCKED_NO_VERIFIER",
             workspace=workspace_identity,
-            model_id=healthcheck.model_id, provider=healthcheck.provider,
-            build_system_id="", verifier_argv=(),
+            model_id=healthcheck.model_id,
+            provider=healthcheck.provider,
+            build_system_id="",
+            verifier_argv=(),
             note="verifier selection missing or not selected",
         )
 
@@ -184,7 +198,8 @@ def diagnose(
         return _blocked(
             "REAL_MODEL_DIAGNOSE_BLOCKED_NOT_OPTED_IN",
             workspace=workspace_identity,
-            model_id=healthcheck.model_id, provider=healthcheck.provider,
+            model_id=healthcheck.model_id,
+            provider=healthcheck.provider,
             build_system_id=verifier_selection.build_system_id,
             verifier_argv=verifier_selection.verifier_command,
             note="explicit opt_in=True is required",
@@ -194,7 +209,8 @@ def diagnose(
         return _blocked(
             "REAL_MODEL_DIAGNOSE_BLOCKED_PROVIDER_ERROR",
             workspace=workspace_identity,
-            model_id=healthcheck.model_id, provider=healthcheck.provider,
+            model_id=healthcheck.model_id,
+            provider=healthcheck.provider,
             build_system_id=verifier_selection.build_system_id,
             verifier_argv=verifier_selection.verifier_command,
             note="endpoint host not in local set",
@@ -208,15 +224,15 @@ def diagnose(
 
     use_transport = transport or _default_transport
     start = time.monotonic()
-    result = use_transport(endpoint, healthcheck.model_id, prompt, _SYSTEM,
-                           timeout_seconds)
+    result = use_transport(endpoint, healthcheck.model_id, prompt, _SYSTEM, timeout_seconds)
     elapsed = int((time.monotonic() - start) * 1000)
 
     if result.timed_out:
         return _blocked(
             "REAL_MODEL_DIAGNOSE_BLOCKED_TIMEOUT",
             workspace=workspace_identity,
-            model_id=healthcheck.model_id, provider=healthcheck.provider,
+            model_id=healthcheck.model_id,
+            provider=healthcheck.provider,
             build_system_id=verifier_selection.build_system_id,
             verifier_argv=verifier_selection.verifier_command,
             note=result.error or "timed out",
@@ -227,7 +243,8 @@ def diagnose(
         return _blocked(
             "REAL_MODEL_DIAGNOSE_BLOCKED_PROVIDER_ERROR",
             workspace=workspace_identity,
-            model_id=healthcheck.model_id, provider=healthcheck.provider,
+            model_id=healthcheck.model_id,
+            provider=healthcheck.provider,
             build_system_id=verifier_selection.build_system_id,
             verifier_argv=verifier_selection.verifier_command,
             note=result.error or "provider error",

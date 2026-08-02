@@ -7,11 +7,15 @@ from corpus.programbench.batch001_import_scan_pipeline import (
     fixture_import_packet,
     hash_packet,
 )
-from corpus.programbench.batch001_import_scan_pipeline_record import verify_import_scan_pipeline_record
+from corpus.programbench.batch001_import_scan_pipeline_record import (
+    verify_import_scan_pipeline_record,
+)
 
 
 def _campaign(**kwargs: object) -> ProgramBenchBatch001ImportScanPipeline:
-    return ProgramBenchBatch001ImportScanPipeline(Batch001ImportScanConfig(write_records=False, write_outbox=False, **kwargs))
+    return ProgramBenchBatch001ImportScanPipeline(
+        Batch001ImportScanConfig(write_records=False, write_outbox=False, **kwargs)
+    )
 
 
 def test_artifact_import_request_packets_bind_exact_digests_without_authority() -> None:
@@ -22,7 +26,9 @@ def test_artifact_import_request_packets_bind_exact_digests_without_authority() 
     assert verify_import_scan_pipeline_record(record)
     assert all(packet["exact_digest"].startswith("sha256:") for packet in record["packets"])
     assert all(packet["requested_import_mode"]["no_run"] is True for packet in record["packets"])
-    assert all(packet["requested_import_mode"]["no_pull_by_tag"] is True for packet in record["packets"])
+    assert all(
+        packet["requested_import_mode"]["no_pull_by_tag"] is True for packet in record["packets"]
+    )
     assert all(packet["authorizes_execution"] is False for packet in record["packets"])
     assert record["authorization"]["executable"] is False
 
@@ -32,7 +38,10 @@ def test_artifact_import_preflight_blocks_without_safe_import_method() -> None:
 
     assert record["status"] == "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD"
     assert record["summary"]["blocked"] == 10
-    assert all(row["status"] == "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD" for row in record["rows"])
+    assert all(
+        row["status"] == "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD"
+        for row in record["rows"]
+    )
     assert all(row["execution_performed"] is False for row in record["rows"])
 
 
@@ -52,9 +61,13 @@ def test_operator_artifact_import_packet_bundle_written_when_preflight_blocked()
     assert record["status"] == "OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_WRITTEN"
     assert record["summary"]["operator_import_packets_written"] == 10
     assert record["outbox_manifest"] == {}
-    assert all(template["approval_status"] == "TEMPLATE_NOT_APPROVAL" for template in record["templates"])
+    assert all(
+        template["approval_status"] == "TEMPLATE_NOT_APPROVAL" for template in record["templates"]
+    )
     assert all(template["authorizes_execution"] is False for template in record["templates"])
-    assert all(template["scan_required_after_admission"] is True for template in record["templates"])
+    assert all(
+        template["scan_required_after_admission"] is True for template in record["templates"]
+    )
 
 
 def test_exact_artifact_import_gate_requires_live_import_by_default() -> None:
@@ -73,10 +86,22 @@ def test_exact_artifact_import_gate_fixture_accept_and_reject_paths() -> None:
     bad_digest = fixture_import_packet(expected, digest="sha256:" + "0" * 64)
     missing_hash = fixture_import_packet(expected, include_hash=False)
 
-    assert evaluate_import_packet(valid, expected, allow_fixture=True)["status"] == "EXACT_ARTIFACT_IMPORT_ACCEPTED"
-    assert evaluate_import_packet(valid, expected, allow_fixture=False)["status"] == "EXACT_ARTIFACT_IMPORT_BLOCKED_FIXTURE_NOT_LIVE"
-    assert evaluate_import_packet(bad_digest, expected, allow_fixture=True)["status"] == "EXACT_ARTIFACT_IMPORT_BLOCKED_DIGEST_MISMATCH"
-    assert evaluate_import_packet(missing_hash, expected, allow_fixture=True)["status"] == "EXACT_ARTIFACT_IMPORT_BLOCKED_FILE_HASH_MISSING"
+    assert (
+        evaluate_import_packet(valid, expected, allow_fixture=True)["status"]
+        == "EXACT_ARTIFACT_IMPORT_ACCEPTED"
+    )
+    assert (
+        evaluate_import_packet(valid, expected, allow_fixture=False)["status"]
+        == "EXACT_ARTIFACT_IMPORT_BLOCKED_FIXTURE_NOT_LIVE"
+    )
+    assert (
+        evaluate_import_packet(bad_digest, expected, allow_fixture=True)["status"]
+        == "EXACT_ARTIFACT_IMPORT_BLOCKED_DIGEST_MISMATCH"
+    )
+    assert (
+        evaluate_import_packet(missing_hash, expected, allow_fixture=True)["status"]
+        == "EXACT_ARTIFACT_IMPORT_BLOCKED_FILE_HASH_MISSING"
+    )
     assert hash_packet(valid).startswith("sha256:")
 
 
@@ -92,7 +117,9 @@ def test_scan_queue_represents_all_targets_pending_import() -> None:
 
 def test_scan_queue_ready_fixture_after_accepted_import_packet() -> None:
     expected = _campaign()._admitted_rows()[0]
-    gate = _campaign().exact_artifact_import_gate([fixture_import_packet(expected)], allow_fixture=True)
+    gate = _campaign().exact_artifact_import_gate(
+        [fixture_import_packet(expected)], allow_fixture=True
+    )
     record = _campaign().scan_queue(gate)
 
     first = next(item for item in record["items"] if item["instance_id"] == expected["instance_id"])

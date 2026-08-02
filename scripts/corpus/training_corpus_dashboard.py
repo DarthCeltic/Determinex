@@ -6,15 +6,17 @@ from eval evidence. It is the guardrail for corpus compounding: a large signed
 corpus is not enough; the training split needs balanced, verifier-backed,
 schema-complete rows.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[1]
 if str(_SCRIPTS) not in sys.path:
@@ -125,7 +127,10 @@ def _count_training_record(counters: dict[str, Counter], record: dict[str, Any])
     _inc(counters["source_kind"], _field(record, "source_kind"))
     _inc(counters["benchmark"], _field(record, "source_benchmark", "benchmark"))
     _inc(counters["license"], _field(record, "license_provenance", "license_bucket"))
-    _inc(counters["verifier"], _normalise(_field(record, "verifier_command", "validator", "validation_commands")))
+    _inc(
+        counters["verifier"],
+        _normalise(_field(record, "verifier_command", "validator", "validation_commands")),
+    )
     _inc(counters["repair_outcome"], _field(record, "repair_outcome", "verdict"))
 
 
@@ -147,11 +152,15 @@ def _maturity_failures(dashboard: TrainingDashboard) -> list[str]:
     if dashboard.unsigned_training_rows:
         failures.append(f"unsigned_training_rows:{dashboard.unsigned_training_rows}")
     if dashboard.verifier_missing_training_rows:
-        failures.append(f"verifier_missing_training_rows:{dashboard.verifier_missing_training_rows}")
+        failures.append(
+            f"verifier_missing_training_rows:{dashboard.verifier_missing_training_rows}"
+        )
     if dashboard.license_missing_training_rows:
         failures.append(f"license_missing_training_rows:{dashboard.license_missing_training_rows}")
     if dashboard.duplicate_training_trace_hashes:
-        failures.append(f"duplicate_training_trace_hashes:{dashboard.duplicate_training_trace_hashes}")
+        failures.append(
+            f"duplicate_training_trace_hashes:{dashboard.duplicate_training_trace_hashes}"
+        )
     return failures
 
 

@@ -11,10 +11,9 @@ from __future__ import annotations
 import argparse
 import json
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
-
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INBOX = ROOT / "assurance" / "memory" / "learning_inbox.jsonl"
@@ -42,7 +41,7 @@ class InboxRecord:
 def append_record(inbox: Path, summary: str, source: str, target: str) -> InboxRecord:
     record = InboxRecord(
         id=str(uuid4()),
-        created_at=datetime.now(timezone.utc).isoformat(),
+        created_at=datetime.now(UTC).isoformat(),
         summary=summary,
         source=source,
         target=target.replace("\\", "/"),

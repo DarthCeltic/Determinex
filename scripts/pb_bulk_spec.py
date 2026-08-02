@@ -20,6 +20,7 @@ AUDIT-BEFORE-BUILD: this script does NOT reimplement extraction. It reuses
 and only orchestrates them across all 200 tools + ranks tools by how
 reimpl-ready their spec is (high exact-assertion coverage, low test count first).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -44,9 +45,14 @@ HF_DATASET_ID = os.environ.get("DETERMINEX_PB_TESTS_DATASET", "programbench/Prog
 
 def find_snapshot() -> Path:
     snaps = sorted(HF_SNAP_ROOT.glob("*/"), key=lambda p: p.stat().st_mtime, reverse=True)
-    if not snaps and os.environ.get("DETERMINEX_PB_SPEC_AUTO_DOWNLOAD", "1").lower() not in {"0", "false", "no"}:
+    if not snaps and os.environ.get("DETERMINEX_PB_SPEC_AUTO_DOWNLOAD", "1").lower() not in {
+        "0",
+        "false",
+        "no",
+    }:
         try:
             from huggingface_hub import snapshot_download  # type: ignore[import-not-found]
+
             snapshot_download(repo_id=HF_DATASET_ID, repo_type="dataset")
         except Exception as exc:
             sys.exit(f"no HF snapshot under {HF_SNAP_ROOT}; auto-download failed: {exc}")
@@ -118,8 +124,8 @@ def harvest_tool(tool_dir: Path) -> dict:
         "slug": slug,
         "language": tool_lang(slug),
         "n_branches": n_branches,
-        "n_tests_total": n_tests_total,      # all test fns seen (incl. unextractable)
-        "n_examples": len(examples),         # examples with a usable argv+expectation
+        "n_tests_total": n_tests_total,  # all test fns seen (incl. unextractable)
+        "n_examples": len(examples),  # examples with a usable argv+expectation
         "n_with_exact_stdout": n_exact,
         "n_with_rc": n_rc,
         "n_skipped": skipped_total,
@@ -130,7 +136,7 @@ def harvest_tool(tool_dir: Path) -> dict:
 def difficulty_rank(spec: dict) -> tuple:
     """Lower = easier to reimpl first. Prefer high exact coverage, fewer tests."""
     n_tests = max(spec["n_tests_total"], 1)
-    cover = spec["n_examples"] / n_tests          # how much of behavior is pinned down
+    cover = spec["n_examples"] / n_tests  # how much of behavior is pinned down
     exact_frac = spec["n_with_exact_stdout"] / max(spec["n_examples"], 1)
     # easy = high coverage, high exact fraction, small suite
     score = (1 - cover) * 2 + (1 - exact_frac) + (n_tests / 1000.0)
@@ -156,26 +162,35 @@ def main():
             continue
         spec = harvest_tool(td)
         (OUT_DIR / f"{spec['slug']}.json").write_text(
-            json.dumps(spec, indent=1, ensure_ascii=False), encoding="utf-8")
+            json.dumps(spec, indent=1, ensure_ascii=False), encoding="utf-8"
+        )
         rank = difficulty_rank(spec)
-        index.append({
-            "slug": spec["slug"], "language": spec["language"],
-            "n_tests_total": spec["n_tests_total"], "n_examples": spec["n_examples"],
-            "n_with_exact_stdout": spec["n_with_exact_stdout"],
-            "coverage": round(spec["n_examples"] / max(spec["n_tests_total"], 1), 3),
-            "difficulty": rank[0],
-        })
-        print(f"{spec['slug']:48s} tests={spec['n_tests_total']:5d} "
-              f"ex={spec['n_examples']:5d} exact={spec['n_with_exact_stdout']:5d} "
-              f"cov={index[-1]['coverage']:.2f} diff={rank[0]:.2f}")
+        index.append(
+            {
+                "slug": spec["slug"],
+                "language": spec["language"],
+                "n_tests_total": spec["n_tests_total"],
+                "n_examples": spec["n_examples"],
+                "n_with_exact_stdout": spec["n_with_exact_stdout"],
+                "coverage": round(spec["n_examples"] / max(spec["n_tests_total"], 1), 3),
+                "difficulty": rank[0],
+            }
+        )
+        print(
+            f"{spec['slug']:48s} tests={spec['n_tests_total']:5d} "
+            f"ex={spec['n_examples']:5d} exact={spec['n_with_exact_stdout']:5d} "
+            f"cov={index[-1]['coverage']:.2f} diff={rank[0]:.2f}"
+        )
 
     index.sort(key=lambda r: r["difficulty"])
     (OUT_DIR / "_index.json").write_text(json.dumps(index, indent=1), encoding="utf-8")
     print(f"\n=== {len(index)} specs written to {OUT_DIR} ===")
     print("=== EASIEST 25 (reimpl these first) ===")
     for r in index[:25]:
-        print(f"  {r['slug']:46s} {r['language']:6s} tests={r['n_tests_total']:5d} "
-              f"cov={r['coverage']:.2f} exact={r['n_with_exact_stdout']:4d}")
+        print(
+            f"  {r['slug']:46s} {r['language']:6s} tests={r['n_tests_total']:5d} "
+            f"cov={r['coverage']:.2f} exact={r['n_with_exact_stdout']:4d}"
+        )
 
 
 if __name__ == "__main__":

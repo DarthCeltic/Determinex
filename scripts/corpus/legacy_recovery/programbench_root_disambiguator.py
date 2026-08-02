@@ -13,7 +13,10 @@ _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from corpus.legacy_recovery.programbench_source_index import ProgramBenchSourceEntry, ProgramBenchSourceIndex
+from corpus.legacy_recovery.programbench_source_index import (
+    ProgramBenchSourceEntry,
+    ProgramBenchSourceIndex,
+)
 from corpus.legacy_recovery.programbench_tool_alias_index import normalized_slug
 
 
@@ -70,8 +73,14 @@ class ProgramBenchRootDisambiguator:
         candidates = list(batch.get("selected") or [])
         results = [self.disambiguate_candidate(candidate) for candidate in candidates]
         selected = sum(1 for row in results if row.status in SELECTED_STATUSES)
-        ambiguous = sum(1 for row in results if row.status == DisambiguationStatus.AMBIGUOUS_NEEDS_OVERRIDE.value)
-        unsafe = sum(1 for row in results if row.status == DisambiguationStatus.UNSAFE_ROOT_REJECTED.value)
+        ambiguous = sum(
+            1
+            for row in results
+            if row.status == DisambiguationStatus.AMBIGUOUS_NEEDS_OVERRIDE.value
+        )
+        unsafe = sum(
+            1 for row in results if row.status == DisambiguationStatus.UNSAFE_ROOT_REJECTED.value
+        )
         report = {
             "schema_version": "determinex-programbench-root-disambiguation-v1",
             "batch_id": "legacy_replay_promotion_batch_001",
@@ -85,7 +94,9 @@ class ProgramBenchRootDisambiguator:
             "policy": "Disambiguation selects canonical runnable roots only through deterministic precedence or evidence-backed manual override.",
         }
         self.config.output_path.parent.mkdir(parents=True, exist_ok=True)
-        self.config.output_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        self.config.output_path.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         return report
 
     def disambiguate_candidate(self, candidate: dict[str, Any]) -> RootDisambiguationResult:
@@ -123,7 +134,9 @@ class ProgramBenchRootDisambiguator:
             key=lambda row: (row["rank"], -row["score"], row["root"]),
         )
         best = scored[0]
-        tied = [row for row in scored if row["rank"] == best["rank"] and row["score"] == best["score"]]
+        tied = [
+            row for row in scored if row["rank"] == best["rank"] and row["score"] == best["score"]
+        ]
         if len(tied) > 1:
             base.status = DisambiguationStatus.AMBIGUOUS_NEEDS_OVERRIDE.value
             base.reason = "multiple_equal_roots"
@@ -139,7 +152,9 @@ class ProgramBenchRootDisambiguator:
         key = normalized_slug(tool)
         return _dedupe(self.index.find_by_key(key) + self.index.find_by_binary(key))
 
-    def _try_override(self, tool: str, base: RootDisambiguationResult) -> RootDisambiguationResult | None:
+    def _try_override(
+        self, tool: str, base: RootDisambiguationResult
+    ) -> RootDisambiguationResult | None:
         override = _override_for(tool, self.overrides)
         if not override:
             return None
@@ -167,7 +182,11 @@ class ProgramBenchRootDisambiguator:
             "status": DisambiguationStatus.OVERRIDE_ROOT_SELECTED.value,
             "method": "manual_override",
             "confidence": 0.99,
-            "evidence": ["manual_override", *[str(item) for item in evidence], "inside_allowed_root"],
+            "evidence": [
+                "manual_override",
+                *[str(item) for item in evidence],
+                "inside_allowed_root",
+            ],
         }
         return _selected(base, row)
 
@@ -247,7 +266,9 @@ def _selected(base: RootDisambiguationResult, row: dict[str, Any]) -> RootDisamb
 
 
 def _entry_for_root(root: Path) -> ProgramBenchSourceEntry:
-    from corpus.legacy_recovery.programbench_source_index import _entry_for  # local helper, same package
+    from corpus.legacy_recovery.programbench_source_index import (
+        _entry_for,  # local helper, same package
+    )
 
     return _entry_for(root)
 
@@ -273,8 +294,15 @@ def _override_for(tool: str, overrides: dict[str, Any]) -> dict[str, Any] | None
     return None
 
 
-def _filter_safe(entries: list[ProgramBenchSourceEntry], allowed_roots: list[Path]) -> list[ProgramBenchSourceEntry]:
-    return [entry for entry in entries if _inside_any(Path(entry.root), allowed_roots) and _inside_any(Path(entry.source_root), allowed_roots)]
+def _filter_safe(
+    entries: list[ProgramBenchSourceEntry], allowed_roots: list[Path]
+) -> list[ProgramBenchSourceEntry]:
+    return [
+        entry
+        for entry in entries
+        if _inside_any(Path(entry.root), allowed_roots)
+        and _inside_any(Path(entry.source_root), allowed_roots)
+    ]
 
 
 def _inside_any(path: Path, roots: list[Path]) -> bool:
@@ -308,15 +336,28 @@ def _dedupe(entries: list[ProgramBenchSourceEntry]) -> list[ProgramBenchSourceEn
 
 
 def _has_eval_harness(root: Path) -> bool:
-    return (root / "eval").is_dir() or (root / "manifest.json").is_file() or (root / "gate_result.json").is_file()
+    return (
+        (root / "eval").is_dir()
+        or (root / "manifest.json").is_file()
+        or (root / "gate_result.json").is_file()
+    )
 
 
 def _has_candidate_manifest(root: Path) -> bool:
-    return any((root / name).is_file() for name in ("manifest.json", "gate_result.json", "candidate_manifest.json"))
+    return any(
+        (root / name).is_file()
+        for name in ("manifest.json", "gate_result.json", "candidate_manifest.json")
+    )
 
 
 def _has_expected_source_or_binary(root: Path) -> bool:
-    return (root / "source").is_dir() or (root / "executable").is_file() or any((root / name).is_file() for name in ("Cargo.toml", "go.mod", "package.json", "Makefile"))
+    return (
+        (root / "source").is_dir()
+        or (root / "executable").is_file()
+        or any(
+            (root / name).is_file() for name in ("Cargo.toml", "go.mod", "package.json", "Makefile")
+        )
+    )
 
 
 def _manifest_matches(entry: ProgramBenchSourceEntry, candidate: dict[str, Any]) -> bool:
@@ -339,11 +380,19 @@ def _counts(statuses) -> dict[str, int]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Select canonical ProgramBench roots from ambiguous resolver candidates.")
+    parser = argparse.ArgumentParser(
+        description="Select canonical ProgramBench roots from ambiguous resolver candidates."
+    )
     parser.add_argument("batch_artifact", type=Path)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/programbench_root_disambiguation_batch_001.json"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("assurance/evidence/programbench_root_disambiguation_batch_001.json"),
+    )
     parser.add_argument("--root", action="append", type=Path, default=None)
-    parser.add_argument("--overrides", type=Path, default=Path("assurance/config/programbench_root_overrides.json"))
+    parser.add_argument(
+        "--overrides", type=Path, default=Path("assurance/config/programbench_root_overrides.json")
+    )
     args = parser.parse_args()
 
     config = default_config(args.output)

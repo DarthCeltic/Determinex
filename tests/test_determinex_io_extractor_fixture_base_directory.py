@@ -16,6 +16,7 @@ rooted at a FIXTURE (only module-level constants populate resolver.vars via lear
 so `examples_dir / "language" / "go.go"` -- a BinOp/Div chain whose ultimate base is
 that fixture Name -- was structurally invisible to eval_path's Name lookup.
 """
+
 from __future__ import annotations
 
 import sys
@@ -26,14 +27,14 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_track_fixture_real_file_paths_captures_directory_returning_fixture():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 from pathlib import Path
 import pytest
 
 @pytest.fixture
 def examples_dir():
     return Path(__file__).parent.parent.parent / "examples"
-''')
+""")
     result = iox._track_fixture_real_file_paths(tree)
     assert "examples_dir" in result
 
@@ -47,7 +48,8 @@ def test_extract_file_resolves_fixture_base_directory_further_divided(tmp_path):
     (lang_dir / "go.go").write_text("package main\n", encoding="utf-8", newline="")
 
     conf = tests_dir / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import pytest
 from pathlib import Path
@@ -68,12 +70,14 @@ def run_scc(binary):
 @pytest.fixture
 def examples_dir():
     return Path(__file__).parent.parent / "examples"
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_format_json_produces_valid_json_array(run_scc, examples_dir):
     result = run_scc("--format", "json", str(examples_dir / "language" / "go.go"))
     assert result.returncode == 0
-'''
+"""
     f = tests_dir / "test_x.py"
     f.write_text(src, encoding="utf-8")
 
@@ -92,7 +96,8 @@ def test_extract_file_declines_when_subdirectory_file_does_not_exist(tmp_path):
     (tmp_path / "examples" / "language").mkdir(parents=True)
 
     conf = tests_dir / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import pytest
 from pathlib import Path
@@ -110,12 +115,14 @@ def run_scc(binary):
 @pytest.fixture
 def examples_dir():
     return Path(__file__).parent.parent.parent / "examples"
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_missing(run_scc, examples_dir):
     result = run_scc(str(examples_dir / "language" / "does_not_exist.go"))
     assert result.returncode == 0
-'''
+"""
     f = tests_dir / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

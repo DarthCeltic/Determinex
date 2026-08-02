@@ -6,6 +6,7 @@ campaign's own bulk artifacts (19.86 GB of PB-specific scaffolding/archives that
 per RELEASE_CHECKLIST.md and never help a user on their own project). This file is that
 distillation: real class_patterns from build_knowledge.json, reframed as general principles.
 """
+
 from __future__ import annotations
 
 import json
@@ -15,7 +16,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import determinex_corpus_api as api  # noqa: E402
 
-PLAYBOOK_PATH = Path(__file__).resolve().parent.parent / "corpus" / "general_engineering_playbook.json"
+PLAYBOOK_PATH = (
+    Path(__file__).resolve().parent.parent / "corpus" / "general_engineering_playbook.json"
+)
 
 
 def test_playbook_file_exists_and_parses():
@@ -48,8 +51,19 @@ def test_no_entry_names_a_specific_programbench_tool_in_its_lesson():
     why_it_generalizes prose must not.)"""
     # A conservative sample of literal PB tool names that appear as `applies_to` entries
     # in the source class_patterns this playbook draws from.
-    pb_tool_markers = ("gowsdl", "pixterm", "felix", "duckdb", "ffmpeg", "brotli", "chroma",
-                        "serpl", "jplot", "go-critic", "eva ")
+    pb_tool_markers = (
+        "gowsdl",
+        "pixterm",
+        "felix",
+        "duckdb",
+        "ffmpeg",
+        "brotli",
+        "chroma",
+        "serpl",
+        "jplot",
+        "go-critic",
+        "eva ",
+    )
     pb = api.general_engineering_playbook()
     for entry_id, entry in pb.items():
         prose = f"{entry['lesson']} {entry['why_it_generalizes']}".lower()

@@ -30,6 +30,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -45,7 +46,6 @@ if str(_SCRIPTS) not in sys.path:
 from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 _EVIDENCE_DIR = (
@@ -275,7 +275,10 @@ def load(
         )
 
     flagship_flows_raw = blob.get("flagship_flows")
-    if not isinstance(flagship_flows_raw, list) or len(flagship_flows_raw) != EXPECTED_FLAGSHIP_FLOWS_COUNT:
+    if (
+        not isinstance(flagship_flows_raw, list)
+        or len(flagship_flows_raw) != EXPECTED_FLAGSHIP_FLOWS_COUNT
+    ):
         return _block(
             _token("BLOCKED_FLAGSHIP_COUNT_MISMATCH"),
             f"flagship_flows length={len(flagship_flows_raw) if isinstance(flagship_flows_raw, list) else 'absent'} (expected {EXPECTED_FLAGSHIP_FLOWS_COUNT})",
@@ -330,7 +333,9 @@ def load(
     return PublicTidalWaveFlagshipFlowCertificationStatus(
         decision=_token("PASSED"),
         target_surface="Public Tidal Wave Flagship Flow Certification",
-        target_workflow=str(blob.get("target_workflow") or "public tidal wave flagship flow certification"),
+        target_workflow=str(
+            blob.get("target_workflow") or "public tidal wave flagship flow certification"
+        ),
         lock_id=LOCK_ID,
         source_truth_lock_id=SOURCE_TRUTH_LOCK_ID,
         source_truth_commit=SOURCE_TRUTH_COMMIT,

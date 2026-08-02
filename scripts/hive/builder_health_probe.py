@@ -4,12 +4,13 @@ This is intentionally narrower than a full Hive workflow. It verifies that the
 selected Builder model can answer the existing executor health preflight and
 records the exact model selected after fallback resolution.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -40,7 +41,10 @@ def run_probe(
     selected = assignments.get("builder", model)
     payload: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
-        "generated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "generated_at_utc": datetime.now(UTC)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
         "status": "passed" if ok else "blocked",
         "release_ready": False,
         "builder_model_requested": model,

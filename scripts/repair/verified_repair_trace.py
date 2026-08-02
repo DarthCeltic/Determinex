@@ -16,12 +16,13 @@ the original workspace — that would invoke a real toolchain. The
 verifier is the only place where a real toolchain might run, and the
 caller controls whether to pass a real one. Tests use stub verifiers.
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Mapping, Sequence
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -45,7 +46,6 @@ from .verified_repair_trace_record import (
     derive_trace_id,
 )
 
-
 _PIPELINE: tuple[TaskClass, ...] = (
     TaskClass.BUILD_DIAGNOSIS,
     TaskClass.PATCH_PLANNING,
@@ -66,7 +66,7 @@ def default_canned() -> dict[TaskClass, dict[str, object]]:
         },
         TaskClass.PATCH_GENERATION: {
             "kind": "MOCK_PATCH_DIFF",
-            "patches": [],   # filled by the caller's patch_provider
+            "patches": [],  # filled by the caller's patch_provider
         },
         TaskClass.VERIFIER_SUMMARY: {
             "kind": "MOCK_VERIFIER_SUMMARY",
@@ -160,9 +160,7 @@ class VerifiedRepairTraceRunner:
             rec = self._router.route(tc, mode=RouterMode.LIVE)
             route_decisions.append(rec.to_dict())
             if rec.is_blocked or rec.is_no_model:
-                notes.append(
-                    f"{tc.value}: route {rec.decision} — not invoking mock."
-                )
+                notes.append(f"{tc.value}: route {rec.decision} — not invoking mock.")
                 continue
             try:
                 mock_client.invoke(tc, rec, payload={"workspace": str(ws)})

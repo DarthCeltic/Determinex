@@ -11,10 +11,12 @@ from corpus.programbench.codex_completion_campaign import (  # noqa: E402
     DIGEST,
     IMAGE,
     INSTANCE_ID,
-    ProgramBenchCodexCompletionCampaign,
     CampaignConfig,
+    ProgramBenchCodexCompletionCampaign,
 )
-from corpus.programbench.codex_completion_campaign_record import verify_campaign_record  # noqa: E402
+from corpus.programbench.codex_completion_campaign_record import (
+    verify_campaign_record,  # noqa: E402
+)
 
 
 def _campaign():
@@ -55,7 +57,13 @@ def test_policy_exception_request_is_request_not_approval():
     assert request["status"] == "SECURITY_POLICY_EXCEPTION_REQUEST_WRITTEN"
     assert request["image_reference"] == IMAGE
     assert request["image_digest"] == DIGEST
-    assert request["scan_summary"] == {"critical": 38, "high": 617, "medium": 2729, "low": 154, "total": 3538}
+    assert request["scan_summary"] == {
+        "critical": 38,
+        "high": 617,
+        "medium": 2729,
+        "low": 154,
+        "total": 3538,
+    }
     assert request["dominant_risk_category"] == "language_runtime"
     assert request["human_operator_approval_required"] is True
     assert request["authorization"]["docker_execution_authorized"] is False
@@ -66,7 +74,9 @@ def test_policy_exception_request_is_request_not_approval():
 def test_policy_admission_live_requires_real_approval():
     sandbox = _campaign().sandbox_requirements()
     request = _campaign().policy_exception_request(Path(sandbox["record_path"]))
-    admission = _campaign().policy_admission_gate(Path(request["record_path"]), Path(sandbox["record_path"]))["record"]
+    admission = _campaign().policy_admission_gate(
+        Path(request["record_path"]), Path(sandbox["record_path"])
+    )["record"]
     assert admission["status"] == "SECURITY_POLICY_ADMISSION_REQUIRED"
     assert admission["live_policy_admission_accepted"] is False
     assert admission["authorization"]["policy_admission_accepted"] is False
@@ -96,18 +106,26 @@ def test_policy_admission_fixture_acceptance_is_not_live(tmp_path):
         ),
         encoding="utf-8",
     )
-    admission = _campaign().policy_admission_gate(Path(request["record_path"]), Path(sandbox["record_path"]), approval)["record"]
+    admission = _campaign().policy_admission_gate(
+        Path(request["record_path"]), Path(sandbox["record_path"]), approval
+    )["record"]
     assert admission["status"] == "SECURITY_POLICY_ADMISSION_ACCEPTED_FIXTURE"
     assert admission["fixture_only"] is True
     assert admission["live_policy_admission_accepted"] is False
-    Path("assurance/evidence/programbench_security_policy_admissions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.SECURITY_POLICY_ADMISSION_ACCEPTED_FIXTURE.json").unlink(missing_ok=True)
+    Path(
+        "assurance/evidence/programbench_security_policy_admissions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.SECURITY_POLICY_ADMISSION_ACCEPTED_FIXTURE.json"
+    ).unlink(missing_ok=True)
 
 
 def test_execution_preflight_blocks_without_live_policy_admission():
     sandbox = _campaign().sandbox_requirements()
     request = _campaign().policy_exception_request(Path(sandbox["record_path"]))
-    admission = _campaign().policy_admission_gate(Path(request["record_path"]), Path(sandbox["record_path"]))
-    preflight = _campaign().execution_preflight(Path(sandbox["record_path"]), Path(request["record_path"]), Path(admission["record_path"]))["record"]
+    admission = _campaign().policy_admission_gate(
+        Path(request["record_path"]), Path(sandbox["record_path"])
+    )
+    preflight = _campaign().execution_preflight(
+        Path(sandbox["record_path"]), Path(request["record_path"]), Path(admission["record_path"])
+    )["record"]
     assert preflight["status"] == "OFFICIAL_ARTIFACT_PREFLIGHT_BLOCKED_POLICY_ADMISSION_REQUIRED"
     assert preflight["checks"]["scope_exact"] is True
     assert preflight["checks"]["max_attempts_one"] is True
@@ -118,8 +136,12 @@ def test_execution_preflight_blocks_without_live_policy_admission():
 def test_task_skip_records_precise_non_model_failure_reason():
     sandbox = _campaign().sandbox_requirements()
     request = _campaign().policy_exception_request(Path(sandbox["record_path"]))
-    admission = _campaign().policy_admission_gate(Path(request["record_path"]), Path(sandbox["record_path"]))
-    preflight = _campaign().execution_preflight(Path(sandbox["record_path"]), Path(request["record_path"]), Path(admission["record_path"]))
+    admission = _campaign().policy_admission_gate(
+        Path(request["record_path"]), Path(sandbox["record_path"])
+    )
+    preflight = _campaign().execution_preflight(
+        Path(sandbox["record_path"]), Path(request["record_path"]), Path(admission["record_path"])
+    )
     skip = _campaign().task_skip(Path(preflight["record_path"]))["record"]
     assert skip["status"] == "TASK_SKIP_WITH_PROVENANCE_REASON_WRITTEN"
     assert skip["skip_reason"] == "POLICY_ADMISSION_REQUIRED_FOR_SCAN_FAILED_OFFICIAL_ARTIFACT"

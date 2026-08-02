@@ -15,23 +15,27 @@ Output:
   logs/patch_iterate/run_<ts>/<slug>/patch_eval.txt
   logs/patch_iterate/run_<ts>/results.json
 """
+
 from __future__ import annotations
+
 import json
-import os
 import re
 import shutil
 import subprocess
 import sys
 import time
 import urllib.request
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from full_sweep_iterate import (  # type: ignore
-    _patch_runner, find_extracted_branches, mini_eval, extract_python,
-    syntactic_validity, call_model as _,  # noqa
+    _patch_runner,
+    extract_python,
+    find_extracted_branches,
+    mini_eval,
+    syntactic_validity,  # noqa
 )
 
 EXTRACTED = Path("T:/determinex-programbench/_extracted_tests")
@@ -46,9 +50,9 @@ OLLAMA_URL = "http://localhost:11434"
 TARGETS = [
     ("anordal__shellharden.6a6ffd4", 76.32),
     ("nachoparker__dutree.44e877d", 45.25),
-    ("orf__gping.26eb5b9",          42.04),
-    ("sharkdp__hyperfine.327d5f4",  41.95),
-    ("kyoh86__richgo.313114f",      36.32),
+    ("orf__gping.26eb5b9", 42.04),
+    ("sharkdp__hyperfine.327d5f4", 41.95),
+    ("kyoh86__richgo.313114f", 36.32),
 ]
 
 MAX_PATCHES_PER_TOOL = 5
@@ -56,17 +60,25 @@ MAX_FAILING_TESTS_TO_TRY = 5
 
 
 def call_model_raw(prompt: str, timeout_s: int = 240) -> str:
-    payload = json.dumps({
-        "model": MODEL,
-        "prompt": prompt,
-        "stream": False,
-        "options": {"num_ctx": 8192, "num_predict": 4096,
-                    "temperature": 0.2, "top_p": 0.9,
-                    "repeat_penalty": 1.18},
-    }).encode()
+    payload = json.dumps(
+        {
+            "model": MODEL,
+            "prompt": prompt,
+            "stream": False,
+            "options": {
+                "num_ctx": 8192,
+                "num_predict": 4096,
+                "temperature": 0.2,
+                "top_p": 0.9,
+                "repeat_penalty": 1.18,
+            },
+        }
+    ).encode()
     req = urllib.request.Request(
-        f"{OLLAMA_URL}/api/generate", data=payload,
-        headers={"Content-Type": "application/json"}, method="POST",
+        f"{OLLAMA_URL}/api/generate",
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     try:
         with urllib.request.urlopen(req, timeout=timeout_s) as r:
@@ -111,8 +123,7 @@ def candidate_is_safe(code: str) -> tuple[bool, str]:
     return True, "OK"
 
 
-def mini_eval_with_failures(candidate: Path, branches: list[Path]
-                             ) -> tuple[int, int, list[dict]]:
+def mini_eval_with_failures(candidate: Path, branches: list[Path]) -> tuple[int, int, list[dict]]:
     """Run mini-eval, return passed/total + list of failing test details.
 
     Each failing test dict: {test_id, error_line}
@@ -149,8 +160,9 @@ def target_test_passes(candidate: Path, branches: list[Path], test_id: str) -> b
             had_exe = exe_shim.exists()
             if not had_exe:
                 try:
-                    exe_shim.write_text(candidate.read_text(encoding="utf-8"),
-                                        encoding="utf-8", newline="\n")
+                    exe_shim.write_text(
+                        candidate.read_text(encoding="utf-8"), encoding="utf-8", newline="\n"
+                    )
                 except Exception:
                     pass
             try:
@@ -158,9 +170,20 @@ def target_test_passes(candidate: Path, branches: list[Path], test_id: str) -> b
                 if node_tail:
                     node += "::" + node_tail
                 r = subprocess.run(
-                    [sys.executable, "-m", "pytest", node,
-                     "-q", "--tb=no", "--no-header", "-p", "no:cacheprovider"],
-                    capture_output=True, encoding="utf-8", errors="replace",
+                    [
+                        sys.executable,
+                        "-m",
+                        "pytest",
+                        node,
+                        "-q",
+                        "--tb=no",
+                        "--no-header",
+                        "-p",
+                        "no:cacheprovider",
+                    ],
+                    capture_output=True,
+                    encoding="utf-8",
+                    errors="replace",
                     timeout=60,
                 )
                 if r.returncode != 0:
@@ -176,8 +199,9 @@ def target_test_passes(candidate: Path, branches: list[Path], test_id: str) -> b
     return matched
 
 
-def build_patch_prompt(tool_name: str, current_code: str, test_id: str,
-                        test_source: str, error_msg: str) -> str:
+def build_patch_prompt(
+    tool_name: str, current_code: str, test_id: str, test_source: str, error_msg: str
+) -> str:
     if len(current_code) > 12000:
         current_code = (
             current_code[:7000]
@@ -244,18 +268,23 @@ def process_one(slug: str, baseline: float, log) -> dict:
     log.write(f"  copied override ({override.stat().st_size} bytes)\n")
     p, t, failures = mini_eval_with_failures(current, branches)
     if t == 0:
-        return {"slug": slug, "baseline": baseline,
-                "skipped": "mini_eval ran 0 tests (harness)"}
+        return {"slug": slug, "baseline": baseline, "skipped": "mini_eval ran 0 tests (harness)"}
     base_pct = 100.0 * p / t
     log.write(f"  mini_eval baseline: {p}/{t} = {base_pct:.1f}%  ({len(failures)} failing)\n")
     best_p, best_t, best_pct = p, t, base_pct
 
     if not failures:
-        log.write(f"  no failures — already perfect on mini_eval\n")
-        return {"slug": slug, "baseline": baseline,
-                "candidate_score": base_pct, "local_delta": 0.0,
-                "matrix_delta": base_pct - baseline,
-                "passed": p, "total": t, "patches": 0}
+        log.write("  no failures — already perfect on mini_eval\n")
+        return {
+            "slug": slug,
+            "baseline": baseline,
+            "candidate_score": base_pct,
+            "local_delta": 0.0,
+            "matrix_delta": base_pct - baseline,
+            "passed": p,
+            "total": t,
+            "patches": 0,
+        }
 
     # Step 2: try patching for each failing test (cap N)
     patches_tried = 0
@@ -264,8 +293,9 @@ def process_one(slug: str, baseline: float, log) -> dict:
         test_id = failure["test_id"]
         err = failure["error"]
         test_src = find_test_source(test_id, branches)
-        prompt = build_patch_prompt(tool_name, current.read_text(encoding="utf-8"),
-                                     test_id, test_src, err)
+        prompt = build_patch_prompt(
+            tool_name, current.read_text(encoding="utf-8"), test_id, test_src, err
+        )
         (attempts_dir / f"prompt_{f_idx}.txt").write_text(prompt, encoding="utf-8")
         log.write(f"  patch[{f_idx}] target: {test_id[:60]}\n")
         log.write(f"           err: {err[:80]}\n")
@@ -273,11 +303,11 @@ def process_one(slug: str, baseline: float, log) -> dict:
         t0 = time.time()
         raw = call_model_raw(prompt)
         (attempts_dir / f"raw_{f_idx}.txt").write_text(raw, encoding="utf-8")
-        log.write(f"           model: {time.time()-t0:.1f}s, {len(raw)} chars\n")
+        log.write(f"           model: {time.time() - t0:.1f}s, {len(raw)} chars\n")
 
         code = extract_python(raw)
         if not code:
-            log.write(f"           no code extracted\n")
+            log.write("           no code extracted\n")
             continue
         ok, reason = candidate_is_safe(code)
         if not ok:
@@ -292,13 +322,13 @@ def process_one(slug: str, baseline: float, log) -> dict:
         pct2 = 100.0 * p2 / max(1, t2)
         log.write(f"           mini_eval: {p2}/{t2} = {pct2:.1f}%  (was {best_p}/{best_t})\n")
         if not target_test_passes(candidate, branches, test_id):
-            log.write(f"           target test still fails; rejecting\n")
+            log.write("           target test still fails; rejecting\n")
             continue
         if t2 != best_t:
             log.write(f"           test count changed {best_t}->{t2}; rejecting\n")
             continue
         if p2 > best_p:
-            log.write(f"           *** LIFT: {best_p}->{p2} (+{p2-best_p} tests) ***\n")
+            log.write(f"           *** LIFT: {best_p}->{p2} (+{p2 - best_p} tests) ***\n")
             shutil.copy(candidate, current)
             best_p, best_t, best_pct = p2, t2, pct2
             patches_kept += 1
@@ -307,21 +337,25 @@ def process_one(slug: str, baseline: float, log) -> dict:
             if patches_kept >= MAX_PATCHES_PER_TOOL:
                 break
         else:
-            log.write(f"           no lift, reverting\n")
+            log.write("           no lift, reverting\n")
 
     local_delta = best_pct - base_pct
     matrix_delta = best_pct - baseline
-    log.write(f"  FINAL: {best_p}/{best_t} = {best_pct:.1f}%  "
-              f"localΔ={local_delta:+.2f}pp matrixΔ={matrix_delta:+.2f}pp  "
-              f"({patches_kept}/{patches_tried} patches kept)\n")
+    log.write(
+        f"  FINAL: {best_p}/{best_t} = {best_pct:.1f}%  "
+        f"localΔ={local_delta:+.2f}pp matrixΔ={matrix_delta:+.2f}pp  "
+        f"({patches_kept}/{patches_tried} patches kept)\n"
+    )
 
     return {
-        "slug": slug, "baseline": baseline,
+        "slug": slug,
+        "baseline": baseline,
         "mini_eval_baseline": base_pct,
         "candidate_score": best_pct,
         "local_delta": local_delta,
         "matrix_delta": matrix_delta,
-        "passed": best_p, "total": best_t,
+        "passed": best_p,
+        "total": best_t,
         "patches_tried": patches_tried,
         "patches_kept": patches_kept,
     }
@@ -344,18 +378,21 @@ def main():
             r = {"slug": slug, "baseline": baseline, "error": str(e)}
         results.append(r)
         (OUT / "results.json").write_text(
-            json.dumps(results, indent=2, default=str), encoding="utf-8")
+            json.dumps(results, indent=2, default=str), encoding="utf-8"
+        )
 
-    log.write(f"\n========== SUMMARY ==========\n")
+    log.write("\n========== SUMMARY ==========\n")
     for r in results:
         if r.get("candidate_score") is not None:
-            log.write(f"  {r['slug']:50}  base={r['baseline']:6.2f}  "
-                      f"local={r.get('mini_eval_baseline', 0):6.2f}->{r['candidate_score']:6.2f}  "
-                      f"localΔ={r.get('local_delta', 0):+6.2f}pp  "
-                      f"matrixΔ={r.get('matrix_delta', 0):+6.2f}pp  "
-                      f"({r.get('patches_kept',0)} patches)\n")
+            log.write(
+                f"  {r['slug']:50}  base={r['baseline']:6.2f}  "
+                f"local={r.get('mini_eval_baseline', 0):6.2f}->{r['candidate_score']:6.2f}  "
+                f"localΔ={r.get('local_delta', 0):+6.2f}pp  "
+                f"matrixΔ={r.get('matrix_delta', 0):+6.2f}pp  "
+                f"({r.get('patches_kept', 0)} patches)\n"
+            )
         else:
-            log.write(f"  {r['slug']:50}  skipped: {r.get('skipped', r.get('error',''))}\n")
+            log.write(f"  {r['slug']:50}  skipped: {r.get('skipped', r.get('error', ''))}\n")
     log.write(f"\nResults: {OUT}/results.json\n")
 
 

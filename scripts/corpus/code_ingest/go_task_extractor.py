@@ -5,6 +5,7 @@ The first Go mutation class is nil-guard removal. The extractor proves a
 baseline with `go test ./...`, mutates one guard to `if false {`, confirms
 the tests fail, then restores the source file before returning the task.
 """
+
 from __future__ import annotations
 
 import difflib
@@ -62,7 +63,9 @@ class GoTaskExtractor:
 
     def _run(self, cmd: list[str], cwd: Path | None = None) -> tuple[int, str, str]:
         try:
-            r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd or self._root, timeout=self._timeout)
+            r = subprocess.run(
+                cmd, capture_output=True, text=True, cwd=cwd or self._root, timeout=self._timeout
+            )
             return r.returncode, r.stdout, r.stderr
         except subprocess.TimeoutExpired:
             return -1, "", "TIMEOUT"
@@ -99,13 +102,15 @@ class GoTaskExtractor:
             line = m.group(0)
             if line.lstrip().startswith("//"):
                 continue
-            sites.append({
-                "file": go_file,
-                "line_number": line_no,
-                "original": line,
-                "indent": m.group("indent"),
-                "relative_path": _safe_relative(go_file, self._root),
-            })
+            sites.append(
+                {
+                    "file": go_file,
+                    "line_number": line_no,
+                    "original": line,
+                    "indent": m.group("indent"),
+                    "relative_path": _safe_relative(go_file, self._root),
+                }
+            )
         return sites
 
     def _mutate_nil_guard(self, text: str, site: dict) -> str:
@@ -184,10 +189,12 @@ def _make_task_id(rel_path: str, line_number: int) -> str:
 
 
 def _unified_diff(path: str, original: str, mutated: str) -> str:
-    return "".join(difflib.unified_diff(
-        mutated.splitlines(keepends=True),
-        original.splitlines(keepends=True),
-        fromfile=f"a/{path}",
-        tofile=f"b/{path}",
-        lineterm="",
-    ))
+    return "".join(
+        difflib.unified_diff(
+            mutated.splitlines(keepends=True),
+            original.splitlines(keepends=True),
+            fromfile=f"a/{path}",
+            tofile=f"b/{path}",
+            lineterm="",
+        )
+    )

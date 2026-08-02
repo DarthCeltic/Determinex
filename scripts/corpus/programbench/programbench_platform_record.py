@@ -29,5 +29,7 @@ def verify_platform_record(record: dict[str, Any]) -> bool:
     return verify_campaign_record(record)
 
 
-def write_platform_record(record: dict[str, Any], output_dir: Path, *, name_key: str = "record_id") -> Path:
+def write_platform_record(
+    record: dict[str, Any], output_dir: Path, *, name_key: str = "record_id"
+) -> Path:
     return write_campaign_record(record, output_dir, name_key=name_key)

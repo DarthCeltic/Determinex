@@ -1,9 +1,11 @@
 import os
 import sys
 import types
-import pytest
 from unittest import mock
-from scripts.determinex_providers import _litellm_generator, NetworkPolicyViolation
+
+import pytest
+
+from scripts.determinex_providers import NetworkPolicyViolation, _litellm_generator
 
 
 def _install_fake_litellm(monkeypatch, content="test response"):
@@ -16,15 +18,19 @@ def _install_fake_litellm(monkeypatch, content="test response"):
     monkeypatch.setitem(sys.modules, "litellm", fake)
     return fake
 
+
 def test_network_policy_online():
     # When online, external models should proceed (and hit litellm which we can mock or just check if it bypasses our check)
     with mock.patch.dict(os.environ, {"DETERMINEX_NETWORK_POLICY": "online"}):
         gen = _litellm_generator("openai/gpt-4o")
         with mock.patch("litellm.completion") as mock_litellm:
-            mock_litellm.return_value.choices = [mock.Mock(message=mock.Mock(content="test response"))]
+            mock_litellm.return_value.choices = [
+                mock.Mock(message=mock.Mock(content="test response"))
+            ]
             res = gen("hello", 0.7)
             assert res == "test response"
             mock_litellm.assert_called_once()
+
 
 def test_network_policy_offline_blocks_cloud():
     # When offline, external models should raise NetworkPolicyViolation
@@ -33,12 +39,15 @@ def test_network_policy_offline_blocks_cloud():
         with pytest.raises(NetworkPolicyViolation, match="Cannot use cloud model"):
             gen("hello", 0.7)
 
+
 def test_network_policy_offline_allows_local():
     # When offline, local models should still be allowed
     with mock.patch.dict(os.environ, {"DETERMINEX_NETWORK_POLICY": "offline"}):
         gen = _litellm_generator("ollama/llama3")
         with mock.patch("litellm.completion") as mock_litellm:
-            mock_litellm.return_value.choices = [mock.Mock(message=mock.Mock(content="local test response"))]
+            mock_litellm.return_value.choices = [
+                mock.Mock(message=mock.Mock(content="local test response"))
+            ]
             res = gen("hello", 0.7)
             assert res == "local test response"
             mock_litellm.assert_called_once()

@@ -3,11 +3,12 @@
 Takes a list of model-produced patch entries and quarantines them via
 LivePatchPlanQuarantine. Does NOT apply the patch. Requires opt_in=True.
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -52,17 +53,24 @@ class OptInPatchPlanCommand:
     ) -> OptInPatchPlanRecord:
         ws = Path(workspace).resolve()
 
-        if config is None or not (config.is_written or config.decision == "LOCAL_MODEL_CONFIG_DRY_RUN_ONLY"):
+        if config is None or not (
+            config.is_written or config.decision == "LOCAL_MODEL_CONFIG_DRY_RUN_ONLY"
+        ):
             return self._blocked(ws, config, "OPT_IN_PATCH_PLAN_BLOCKED_NO_MODEL", "config missing")
 
         if not opt_in:
-            return self._blocked(ws, config, "OPT_IN_PATCH_PLAN_BLOCKED_NOT_OPTED_IN", "opt_in=False")
+            return self._blocked(
+                ws, config, "OPT_IN_PATCH_PLAN_BLOCKED_NOT_OPTED_IN", "opt_in=False"
+            )
 
         # Build admission via live gate.
         inv = LocalModelInventory.of(sorted(CURRENT_MODEL_IDS))
-        gate = LiveModelAdmissionGate(config=LiveModelAdmissionConfig(
-            mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=True,
-        ))
+        gate = LiveModelAdmissionGate(
+            config=LiveModelAdmissionConfig(
+                mode=LiveAdmissionMode.OPT_IN_LIVE,
+                opt_in_live=True,
+            )
+        )
         candidate = LocalModelCandidate(
             model_id=config.model_id,
             provider=config.provider or ModelProvider.OLLAMA.value,
@@ -73,15 +81,20 @@ class OptInPatchPlanCommand:
         admission = gate.evaluate(candidate, TaskClass.PATCH_GENERATION, inv, route)
         if not admission.is_ready:
             return self._blocked(
-                ws, config, "OPT_IN_PATCH_PLAN_BLOCKED_PROVIDER_UNAVAILABLE",
+                ws,
+                config,
+                "OPT_IN_PATCH_PLAN_BLOCKED_PROVIDER_UNAVAILABLE",
                 f"admission not ready: {admission.decision}",
             )
 
         # Quarantine.
         q = LivePatchPlanQuarantine()
         plan = q.quarantine(
-            plan_entries, admission=admission, workspace=ws,
-            provider_name=config.provider, model_id=config.model_id,
+            plan_entries,
+            admission=admission,
+            workspace=ws,
+            provider_name=config.provider,
+            model_id=config.model_id,
         )
         if plan.decision == "PATCH_PLAN_BLOCKED_PATH_ESCAPE":
             cmd_dec = "OPT_IN_PATCH_PLAN_BLOCKED_PATH_ESCAPE"
@@ -107,7 +120,9 @@ class OptInPatchPlanCommand:
         )
 
     @staticmethod
-    def _blocked(ws: Path, config: LocalModelConfigRecord | None, decision: str, note: str) -> OptInPatchPlanRecord:
+    def _blocked(
+        ws: Path, config: LocalModelConfigRecord | None, decision: str, note: str
+    ) -> OptInPatchPlanRecord:
         return OptInPatchPlanRecord(
             decision=decision,
             workspace=str(ws),

@@ -18,18 +18,19 @@ coarse — the 1.5B/3B/7B/14B Qwen variants have different hidden_dims (1536 /
 Bridge results must declare which path executed using BridgeStatus. Anything
 else is a silent fallback and must not be reported as Rosetta in eval output.
 """
+
 from __future__ import annotations
 
 import enum
 import os
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Optional, Any
-
+from typing import Any
 
 # ---------------------------------------------------------------------------
 # Exceptions
 # ---------------------------------------------------------------------------
+
 
 class RosettaDimensionMismatch(Exception):
     """Hidden-state tensor dim does not match the source arch's registered dim.
@@ -78,6 +79,7 @@ class RosettaDimensionMismatch(Exception):
 
 class RosettaArchUnknown(Exception):
     """An arch key was referenced that is not registered."""
+
     def __init__(self, arch: str, known: list[str]):
         self.arch = arch
         self.known = known
@@ -86,6 +88,7 @@ class RosettaArchUnknown(Exception):
 
 class RosettaModelUnknown(Exception):
     """A model name/alias was referenced that is not registered (require_model only)."""
+
     def __init__(self, name: str, known: list[str]):
         self.name = name
         self.known = known
@@ -96,6 +99,7 @@ class RosettaModelUnknown(Exception):
 # Bridge result enum — eval reports MUST use these. No silent fallback.
 # ---------------------------------------------------------------------------
 
+
 class BridgeStatus(str, enum.Enum):
     """Result classifier for a Rosetta-mediated generation attempt.
 
@@ -103,10 +107,11 @@ class BridgeStatus(str, enum.Enum):
     reports as "rosetta_projected" is a fake-good number that pollutes A/B
     results — see the Rosetta acceptance line.
     """
-    ROSETTA_PROJECTED      = "rosetta_projected"
-    DIRECT_SELF_INJECTION  = "direct_self_injection"
-    TEXT_FALLBACK          = "text_fallback"
-    FAILED_BRIDGE          = "failed_bridge"
+
+    ROSETTA_PROJECTED = "rosetta_projected"
+    DIRECT_SELF_INJECTION = "direct_self_injection"
+    TEXT_FALLBACK = "text_fallback"
+    FAILED_BRIDGE = "failed_bridge"
 
 
 # ---------------------------------------------------------------------------
@@ -119,10 +124,11 @@ DETERMINEX_MODELS_DIR = Path(os.environ.get("DETERMINEX_MODELS_DIR", "T:/determi
 @dataclass(frozen=True)
 class ArchSpec:
     """A Rosetta-registered architecture. Arch keys are SIZE-SPECIFIC."""
-    key: str                  # "qwen2_1b5", "qwen2_7b", "mistral_7b" — never bare "qwen2"
-    family: str               # "qwen2" / "mistral" / "llama3" — upstream family label
-    parameters_label: str     # "1.5B" / "3B" / "7B" / "14B"
-    hidden_dim: int           # transformer hidden_size — load-bearing for Rosetta
+
+    key: str  # "qwen2_1b5", "qwen2_7b", "mistral_7b" — never bare "qwen2"
+    family: str  # "qwen2" / "mistral" / "llama3" — upstream family label
+    parameters_label: str  # "1.5B" / "3B" / "7B" / "14B"
+    hidden_dim: int  # transformer hidden_size — load-bearing for Rosetta
     notes: str = ""
 
     def to_dict(self) -> dict:
@@ -137,15 +143,16 @@ class ModelSpec:
         name, role, provider, gguf_path, rosetta_arch, hidden_dim
     plus an aliases tuple for ollama-tag / role-name lookups.
     """
-    name: str                       # canonical name, e.g. "engineer"
-    role: str                       # engineer | observer | sentinel | architect | oracle
-    provider: str                   # "ollama" | "gguf" | "hybrid"
-    gguf_path: Optional[Path]       # absolute path on disk if available
-    rosetta_arch: str               # arch key — must exist in ARCHES
-    hidden_dim: int                 # denormalized from ARCHES for fast validation
-    ollama_tag: Optional[str] = None
+
+    name: str  # canonical name, e.g. "engineer"
+    role: str  # engineer | observer | sentinel | architect | oracle
+    provider: str  # "ollama" | "gguf" | "hybrid"
+    gguf_path: Path | None  # absolute path on disk if available
+    rosetta_arch: str  # arch key — must exist in ARCHES
+    hidden_dim: int  # denormalized from ARCHES for fast validation
+    ollama_tag: str | None = None
     description: str = ""
-    aliases: tuple = ()             # additional handles (e.g. tag, role name)
+    aliases: tuple = ()  # additional handles (e.g. tag, role name)
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -159,22 +166,26 @@ class ModelSpec:
 # ---------------------------------------------------------------------------
 
 ARCHES: dict[str, ArchSpec] = {
-    "qwen2_1b5": ArchSpec("qwen2_1b5", "qwen2", "1.5B", 1536,
-                          "Qwen2.5-Coder-1.5B-Instruct — C1 Engineer base"),
-    "qwen2_3b":  ArchSpec("qwen2_3b",  "qwen2", "3B",   2048,
-                          "Qwen2.5-3B-Instruct — C3 Observer base"),
-    "qwen2_7b":  ArchSpec("qwen2_7b",  "qwen2", "7B",   3584,
-                          "Qwen2.5-Coder-7B-Instruct — architect/oracle role"),
-    "qwen2_14b": ArchSpec("qwen2_14b", "qwen2", "14B",  5120,
-                          "Qwen2.5-Coder-14B-Instruct — heavyweight local builder"),
-    "mistral_7b": ArchSpec("mistral_7b", "mistral", "7B", 4096,
-                           "Mistral-7B-Instruct-v0.2 — C7 Sentinel base"),
-    "llama3_8b":  ArchSpec("llama3_8b",  "llama3",  "8B", 4096,
-                           "Llama-3-8B-Instruct — optional alternate sentinel"),
+    "qwen2_1b5": ArchSpec(
+        "qwen2_1b5", "qwen2", "1.5B", 1536, "Qwen2.5-Coder-1.5B-Instruct — C1 Engineer base"
+    ),
+    "qwen2_3b": ArchSpec("qwen2_3b", "qwen2", "3B", 2048, "Qwen2.5-3B-Instruct — C3 Observer base"),
+    "qwen2_7b": ArchSpec(
+        "qwen2_7b", "qwen2", "7B", 3584, "Qwen2.5-Coder-7B-Instruct — architect/oracle role"
+    ),
+    "qwen2_14b": ArchSpec(
+        "qwen2_14b", "qwen2", "14B", 5120, "Qwen2.5-Coder-14B-Instruct — heavyweight local builder"
+    ),
+    "mistral_7b": ArchSpec(
+        "mistral_7b", "mistral", "7B", 4096, "Mistral-7B-Instruct-v0.2 — C7 Sentinel base"
+    ),
+    "llama3_8b": ArchSpec(
+        "llama3_8b", "llama3", "8B", 4096, "Llama-3-8B-Instruct — optional alternate sentinel"
+    ),
 }
 
 
-def _maybe_gguf(*candidates: str) -> Optional[Path]:
+def _maybe_gguf(*candidates: str) -> Path | None:
     """Return the first candidate filename that exists under DETERMINEX_MODELS_DIR.
 
     Variadic so each ModelSpec can list its current name AND legacy file names
@@ -191,7 +202,9 @@ def _maybe_gguf(*candidates: str) -> Optional[Path]:
 # Determinex C-tier models. `aliases` lets ollama tags and role names resolve too.
 _MODELS_LIST: list[ModelSpec] = [
     ModelSpec(
-        name="engineer", role="engineer", provider="ollama",
+        name="engineer",
+        role="engineer",
+        provider="ollama",
         # v11-dsl is served via Ollama only; bare-GGUF fallbacks cover legacy
         # generations that share the same Qwen2.5-Coder-1.5B base.
         gguf_path=_maybe_gguf(
@@ -200,33 +213,40 @@ _MODELS_LIST: list[ModelSpec] = [
             "determinex-engineer-v1.1.gguf",
             "determinex-1-tiny-v1.1-repair.gguf",
         ),
-        rosetta_arch="qwen2_1b5", hidden_dim=ARCHES["qwen2_1b5"].hidden_dim,
+        rosetta_arch="qwen2_1b5",
+        hidden_dim=ARCHES["qwen2_1b5"].hidden_dim,
         ollama_tag="determinex-engineer-v11-dsl",
         description="C1 — Builder, fast code generation, DSL fine-tuned",
         aliases=("c1", "determinex-engineer-v11-dsl"),
     ),
     ModelSpec(
-        name="observer", role="observer", provider="ollama",
+        name="observer",
+        role="observer",
+        provider="ollama",
         gguf_path=_maybe_gguf(
             "observer-v6.gguf",
             "determinex-observer-v4.gguf",
             "determinex-observer-v1.1.gguf",
             "determinex-3-medium-v1.1-repair.gguf",
         ),
-        rosetta_arch="qwen2_3b", hidden_dim=ARCHES["qwen2_3b"].hidden_dim,
+        rosetta_arch="qwen2_3b",
+        hidden_dim=ARCHES["qwen2_3b"].hidden_dim,
         ollama_tag="determinex-observer-v6-dsl",
         description="C3 — Monitor, error diagnosis, adjudication",
         aliases=("c3", "determinex-observer-v6-dsl"),
     ),
     ModelSpec(
-        name="sentinel", role="sentinel", provider="ollama",
+        name="sentinel",
+        role="sentinel",
+        provider="ollama",
         gguf_path=_maybe_gguf(
             "sentinel-v5.gguf",
             "determinex-sentinel-v1.1.gguf",
             "determinex-sentinel-base-q8.gguf",
             "determinex-7-large-v1.1.gguf",
         ),
-        rosetta_arch="mistral_7b", hidden_dim=ARCHES["mistral_7b"].hidden_dim,
+        rosetta_arch="mistral_7b",
+        hidden_dim=ARCHES["mistral_7b"].hidden_dim,
         ollama_tag="determinex-sentinel-v5-dsl",
         description="C7 — Architect / Oracle base, DAG planning, escalation",
         aliases=("c7", "determinex-sentinel-v5-dsl"),
@@ -234,17 +254,23 @@ _MODELS_LIST: list[ModelSpec] = [
     # Architect/Oracle roles are bound to qwen7b per the role-assignment memory:
     # "architect+oracle = determinex/qwen7b. NEVER assign architect to determinex/sentinel"
     ModelSpec(
-        name="architect", role="architect", provider="ollama",
+        name="architect",
+        role="architect",
+        provider="ollama",
         gguf_path=_maybe_gguf("qwen2.5-coder-7b-instruct.gguf"),
-        rosetta_arch="qwen2_7b", hidden_dim=ARCHES["qwen2_7b"].hidden_dim,
+        rosetta_arch="qwen2_7b",
+        hidden_dim=ARCHES["qwen2_7b"].hidden_dim,
         ollama_tag="determinex/qwen7b",
         description="DAG planner — Qwen2.5-Coder-7B (NOT sentinel; see role memory)",
         aliases=("architect-7b", "determinex/qwen7b"),
     ),
     ModelSpec(
-        name="oracle", role="oracle", provider="ollama",
+        name="oracle",
+        role="oracle",
+        provider="ollama",
         gguf_path=_maybe_gguf("qwen2.5-coder-7b-instruct.gguf"),
-        rosetta_arch="qwen2_7b", hidden_dim=ARCHES["qwen2_7b"].hidden_dim,
+        rosetta_arch="qwen2_7b",
+        hidden_dim=ARCHES["qwen2_7b"].hidden_dim,
         ollama_tag="determinex/qwen7b",
         description="Compiler-output adjudication assist — same backing model as architect",
         aliases=("oracle-7b",),
@@ -273,6 +299,7 @@ _ALIAS_INDEX = _build_alias_index()
 # Public API (matches the API contract the user specified)
 # ---------------------------------------------------------------------------
 
+
 def supported_arches() -> list[str]:
     """Return all registered Rosetta arch keys (sorted)."""
     return sorted(ARCHES.keys())
@@ -290,7 +317,7 @@ def get_arch(key: str) -> ArchSpec:
     return ARCHES[key]
 
 
-def resolve_model(name_or_alias: str) -> Optional[ModelSpec]:
+def resolve_model(name_or_alias: str) -> ModelSpec | None:
     """Lookup a model by any handle (name, ollama_tag, alias). Returns None if not found."""
     if not name_or_alias:
         return None
@@ -366,13 +393,14 @@ def validate_hidden_dim(
 # Diagnostic helpers
 # ---------------------------------------------------------------------------
 
+
 def snapshot() -> dict:
     """JSON-serializable snapshot of the full registry — used by healthcheck."""
     return {
         "determinex_models_dir": str(DETERMINEX_MODELS_DIR),
         "arches": {k: v.to_dict() for k, v in ARCHES.items()},
         "models": {k: v.to_dict() for k, v in MODELS.items()},
-        "family":  {role: m.name for role, m in current_family().items()},
+        "family": {role: m.name for role, m in current_family().items()},
         "bridge_status_values": [s.value for s in BridgeStatus],
     }
 
@@ -380,6 +408,7 @@ def snapshot() -> dict:
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def _cli():
     import argparse

@@ -19,15 +19,14 @@ Usage:
     python scripts/pb_provenance_calibrate.py --top-bigrams 30 --min-tier inspiration
     python scripts/pb_provenance_calibrate.py --json-out logs/provenance_calibrate.json
 """
+
 from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 import tarfile
-import tempfile
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 
 # Ensure scripts/ is on the path when run from repo root
@@ -37,9 +36,7 @@ if str(_SCRIPTS) not in sys.path:
 
 from determinex_copyright_guard import (  # noqa: E402
     CopyrightGuard,
-    _bigrams,
     _filtered_bigrams,
-    _jaccard,
     _license_tier,
     _tokenize,
     get_guard,
@@ -57,7 +54,7 @@ def _extract_source_from_tarball(tarball: Path) -> str | None:
                     member = tf.getmember(candidate)
                     with tf.extractfile(member) as fh:  # type: ignore[arg-type]
                         return fh.read().decode("utf-8", errors="replace")
-    except Exception as exc:
+    except Exception:
         return None
     return None
 
@@ -126,28 +123,25 @@ def calibrate(
             source_license_tiers[tag.source_label] = _license_tier(tag.license)
 
             # Flag inspiration-tier hits on permissive sources as FP candidates
-            if (
-                tag.match_type == "inspiration"
-                and _license_tier(tag.license) == "permissive"
-            ):
+            if tag.match_type == "inspiration" and _license_tier(tag.license) == "permissive":
                 out_tokens = _tokenize(source)
                 fbg = _filtered_bigrams(out_tokens)
                 # Find the bigrams that drove the Jaccard score (present in both)
-                ref_refs = [
-                    r for r in guard._references if r.label == tag.source_label
-                ]
+                ref_refs = [r for r in guard._references if r.label == tag.source_label]
                 if ref_refs:
                     ref_fbg = ref_refs[0].filtered_bigrams
                     shared = fbg & ref_fbg
                     fp_bigram_counter.update(shared)
 
-                false_positive_candidates.append({
-                    "tool": tool_name,
-                    "source": tag.source_label,
-                    "license": tag.license,
-                    "similarity": round(tag.similarity_score, 4),
-                    "excerpt": tag.excerpt[:120],
-                })
+                false_positive_candidates.append(
+                    {
+                        "tool": tool_name,
+                        "source": tag.source_label,
+                        "license": tag.license,
+                        "similarity": round(tag.similarity_score, 4),
+                        "excerpt": tag.excerpt[:120],
+                    }
+                )
 
     # Build summary
     summary = {
@@ -168,12 +162,13 @@ def calibrate(
 
 
 def _print_report(summary: dict) -> None:
-    print(f"\n{'─'*60}")
+    print(f"\n{'─' * 60}")
     print("  Provenance Calibration Report")
-    print(f"{'─'*60}")
+    print(f"{'─' * 60}")
     print(f"  Tools scanned:          {summary['tools_scanned']}")
-    print(f"  Tools with any tag:     {summary['tools_with_any_tag']}  "
-          f"({summary['tag_rate_pct']}%)")
+    print(
+        f"  Tools with any tag:     {summary['tools_with_any_tag']}  ({summary['tag_rate_pct']}%)"
+    )
     print()
     print("  Tags by tier:")
     for tier, count in sorted(summary["tier_counts"].items()):
@@ -190,7 +185,7 @@ def _print_report(summary: dict) -> None:
         for entry in summary["top_fp_bigrams"][:15]:
             bg = " ".join(entry["bigram"])
             print(f"    {entry['count']:>4}×  {bg}")
-    print(f"{'─'*60}\n")
+    print(f"{'─' * 60}\n")
 
 
 def main() -> None:
@@ -226,11 +221,15 @@ def main() -> None:
 
     guard = get_guard()
     if not guard._references:
-        print("[calibrate] WARNING: no reference sources registered — nothing to calibrate against.")
+        print(
+            "[calibrate] WARNING: no reference sources registered — nothing to calibrate against."
+        )
         print("  Seed corpus/references/ first (see corpus/references/README.md).")
         sys.exit(0)
 
-    print(f"[calibrate] scanning {locked_dir} against {len(guard._references)} registered references...")
+    print(
+        f"[calibrate] scanning {locked_dir} against {len(guard._references)} registered references..."
+    )
     summary = calibrate(locked_dir, guard, top_bigrams=args.top_bigrams, min_tier=args.min_tier)
     _print_report(summary)
 

@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_IDE_CONSUMER_READY_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -20,7 +21,9 @@ assemble = final_mod.assemble_consumer_ready_final_state
 upstream_locks = final_mod.upstream_locks
 TOKENS = rec_mod.DETERMINEX_IDE_CONSUMER_READY_FINAL_STATE_TOKENS
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_IDE_CONSUMER_READY_FINAL_STATE_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_IDE_CONSUMER_READY_FINAL_STATE_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_ide_consumer_ready_final_state"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
@@ -83,7 +86,10 @@ def test_state_json_round_trip():
 
 
 def test_modules_do_not_import_subprocess_or_urllib():
-    for fname in ("determinex_ide_consumer_ready_final_state.py", "determinex_ide_consumer_ready_final_state_record.py"):
+    for fname in (
+        "determinex_ide_consumer_ready_final_state.py",
+        "determinex_ide_consumer_ready_final_state_record.py",
+    ):
         src = (_REPO_ROOT / "scripts" / "dev" / fname).read_text(encoding="utf-8")
         assert "import subprocess" not in src
         assert "import urllib" not in src

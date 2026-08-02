@@ -7,6 +7,7 @@ For each completed dir on Hetzner that has not been locally gated yet:
 3. Gate with --skip-eval (uses Hetzner's eval result)
 4. Apply accepted gates (Rule A/B/C)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -30,7 +31,9 @@ PYTHON = Path(sys.executable)
 def _ssh(cmd: str, timeout: int = 60) -> str:
     r = subprocess.run(
         [str(SSH), "-o", "StrictHostKeyChecking=no", "-i", str(SSH_KEY), SSH_HOST, cmd],
-        capture_output=True, text=True, timeout=timeout,
+        capture_output=True,
+        text=True,
+        timeout=timeout,
     )
     return r.stdout.strip()
 
@@ -39,9 +42,19 @@ def _scp_dir(remote_path: str, local_path: Path) -> bool:
     """Copy remote dir to local via scp -r."""
     local_path.mkdir(parents=True, exist_ok=True)
     r = subprocess.run(
-        [str(SCP), "-o", "StrictHostKeyChecking=no", "-i", str(SSH_KEY),
-         "-r", f"{SSH_HOST}:{remote_path}", str(local_path) + "/"],
-        capture_output=True, text=True, timeout=300,
+        [
+            str(SCP),
+            "-o",
+            "StrictHostKeyChecking=no",
+            "-i",
+            str(SSH_KEY),
+            "-r",
+            f"{SSH_HOST}:{remote_path}",
+            str(local_path) + "/",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=300,
     )
     return r.returncode == 0
 
@@ -127,11 +140,15 @@ def gate_tool(
         return None
 
     cmd = [
-        str(PYTHON), str(ROOT / "scripts" / "pb_candidate_gate.py"),
-        slug, str(local_import_dir),
+        str(PYTHON),
+        str(ROOT / "scripts" / "pb_candidate_gate.py"),
+        slug,
+        str(local_import_dir),
         "--skip-eval",
-        "--min-baseline-passed", str(min_baseline),
-        "--baseline-eval", str(baseline_eval),
+        "--min-baseline-passed",
+        str(min_baseline),
+        "--baseline-eval",
+        str(baseline_eval),
     ]
     if dry_run:
         print(f"  [DRY] gate cmd (last 6 args): {' '.join(cmd[-6:])}")
@@ -151,10 +168,14 @@ def gate_tool(
 def apply_gate(slug: str, local_import_dir: Path, dry_run: bool) -> int:
     gate_path = local_import_dir / "gate_result.json"
     cmd = [
-        str(PYTHON), str(ROOT / "scripts" / "pb_apply_gate_decision.py"),
-        slug, str(gate_path),
-        "--run-root", str(local_import_dir),
-        "--python", str(PYTHON),
+        str(PYTHON),
+        str(ROOT / "scripts" / "pb_apply_gate_decision.py"),
+        slug,
+        str(gate_path),
+        "--run-root",
+        str(local_import_dir),
+        "--python",
+        str(PYTHON),
     ]
     if dry_run:
         print("  [DRY] apply (would write lesson/sidecar/board annotations)")
@@ -169,7 +190,9 @@ def main() -> int:
     ap.add_argument("--limit", type=int, default=0, help="max tools to process (0=all)")
     ap.add_argument("--only-slug", default="", help="only process tools containing this substring")
     ap.add_argument("--no-skip-locked", action="store_true", help="gate even already-locked tools")
-    ap.add_argument("--re-gate", action="store_true", help="re-gate even tools with existing gate_result.json")
+    ap.add_argument(
+        "--re-gate", action="store_true", help="re-gate even tools with existing gate_result.json"
+    )
     args = ap.parse_args()
 
     board = load_board()
@@ -183,8 +206,16 @@ def main() -> int:
         completed = [(s, d) for s, d in completed if args.only_slug in s]
         print(f"Filtered to {len(completed)} matching '{args.only_slug}'", flush=True)
 
-    stats = {"processed": 0, "accepted": 0, "rule_c": 0, "potential_lock": 0,
-             "rejected": 0, "skipped": 0, "no_baseline": 0, "not_native": 0}
+    stats = {
+        "processed": 0,
+        "accepted": 0,
+        "rule_c": 0,
+        "potential_lock": 0,
+        "rejected": 0,
+        "skipped": 0,
+        "no_baseline": 0,
+        "not_native": 0,
+    }
 
     for slug, remote_dir in completed:
         if args.limit and stats["processed"] >= args.limit:
@@ -196,7 +227,9 @@ def main() -> int:
             stats["skipped"] += 1
             continue
 
-        local_import_dir = HETZ_IMPORT_BASE / f"hetz_import_{slug.replace('__', '_').replace('/', '_')}"
+        local_import_dir = (
+            HETZ_IMPORT_BASE / f"hetz_import_{slug.replace('__', '_').replace('/', '_')}"
+        )
         local_slug_dir = local_import_dir / slug
 
         # Check if already gated (and not re-gating)
@@ -215,21 +248,21 @@ def main() -> int:
             except Exception:
                 pass
 
-        print(f"\n[{stats['processed']+1}] {slug}", flush=True)
+        print(f"\n[{stats['processed'] + 1}] {slug}", flush=True)
 
         # Sync eval JSON from Hetzner (skip if already present)
         eval_already = local_slug_dir / f"{slug}.eval.json"
         if not eval_already.exists():
             if not _scp_dir(f"{remote_dir}/{slug}", local_import_dir):
-                print(f"  scp FAILED, skipping")
+                print("  scp FAILED, skipping")
                 stats["skipped"] += 1
                 continue
         else:
-            print(f"  (eval JSON already local, skipping scp)")
+            print("  (eval JSON already local, skipping scp)")
 
         # Check native (not python wrapper)
         if not _check_native(local_slug_dir):
-            print(f"  SKIP: looks like python wrapper (compile.sh contains subprocess/import)")
+            print("  SKIP: looks like python wrapper (compile.sh contains subprocess/import)")
             stats["not_native"] += 1
             stats["skipped"] += 1
             continue
@@ -285,13 +318,15 @@ def main() -> int:
 
         stats["processed"] += 1
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Processed:      {stats['processed']}")
     print(f"Accepted (A+B): {stats['accepted'] - stats['rule_c']}")
     print(f"Accepted (C):   {stats['rule_c']}  (progress-grade; fix regressions for ledger)")
     print(f"Rejected:       {stats['rejected']}")
     print(f"Potential 100%: {stats['potential_lock']}")
-    print(f"Skipped:        {stats['skipped']}  (locked={len(locked_bases)}, no-baseline={stats['no_baseline']}, not-native={stats['not_native']})")
+    print(
+        f"Skipped:        {stats['skipped']}  (locked={len(locked_bases)}, no-baseline={stats['no_baseline']}, not-native={stats['not_native']})"
+    )
     return 0
 
 

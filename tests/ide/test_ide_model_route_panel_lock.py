@@ -1,12 +1,11 @@
 """Tests for IDE_MODEL_ROUTE_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -84,11 +83,16 @@ def test_stale_model_blocks(tmp_path):
     # Force a stale id directly into the record (bypassing the wizard's
     # block) since the wizard would refuse to write one.
     from models.local_model_config_record import LocalModelConfigRecord
+
     cfg = LocalModelConfigRecord(
-        provider="ollama", model_id="determinex-observer-v5-dsl",
-        model_digest_or_revision="", capabilities=("code_generation",),
+        provider="ollama",
+        model_id="determinex-observer-v5-dsl",
+        model_digest_or_revision="",
+        capabilities=("code_generation",),
         task_classes_allowed=("BUILD_DIAGNOSIS",),
-        network_required=False, local_only=True, enabled=True,
+        network_required=False,
+        local_only=True,
+        enabled=True,
         dry_run_default=True,
         created_at="2026-05-28T00:00:00+00:00",
         stale_after="2026-11-24T00:00:00+00:00",
@@ -101,11 +105,16 @@ def test_stale_model_blocks(tmp_path):
 
 def test_network_provider_blocks(tmp_path):
     from models.local_model_config_record import LocalModelConfigRecord
+
     cfg = LocalModelConfigRecord(
-        provider="ollama", model_id="determinex-engineer-v11-dsl",
-        model_digest_or_revision="", capabilities=("code_generation",),
+        provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
+        model_digest_or_revision="",
+        capabilities=("code_generation",),
         task_classes_allowed=("BUILD_DIAGNOSIS",),
-        network_required=True, local_only=False, enabled=True,
+        network_required=True,
+        local_only=False,
+        enabled=True,
         dry_run_default=True,
         created_at="2026-05-28T00:00:00+00:00",
         stale_after="2026-11-24T00:00:00+00:00",

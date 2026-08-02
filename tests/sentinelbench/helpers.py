@@ -1,8 +1,9 @@
 """Shared helpers for SentinelBench tests — import from here, not conftest."""
+
 from __future__ import annotations
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "scripts"))
 
@@ -20,4 +21,6 @@ def assert_denied(verdict, layer: str | None = None) -> None:
 
 
 def assert_passed(verdict) -> None:
-    assert verdict.safe, f"Expected PASS but got DENY: reason={verdict.reason} layer={verdict.layer}"
+    assert verdict.safe, (
+        f"Expected PASS but got DENY: reason={verdict.reason} layer={verdict.layer}"
+    )

@@ -16,22 +16,27 @@ aggregator drive iter1/iter2 reports and any future run without code edits.
 Output filenames follow `{run_id}_{phase}_summary.{json,md}` so multiple runs
 coexist in the same out dir.
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import os
-import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-_DEFAULT_ROOT = Path(os.environ.get(
-    "DETERMINEX_PB_AGGREGATE_ROOT",
-    "T:/determinex-programbench/mass_run_v2_base",
-))
-_DEFAULT_OUT = Path(os.environ.get(
-    "DETERMINEX_PB_AGGREGATE_OUT",
-    str(Path(__file__).resolve().parents[1] / "logs" / "mass_run_v2"),
-))
+_DEFAULT_ROOT = Path(
+    os.environ.get(
+        "DETERMINEX_PB_AGGREGATE_ROOT",
+        "T:/determinex-programbench/mass_run_v2_base",
+    )
+)
+_DEFAULT_OUT = Path(
+    os.environ.get(
+        "DETERMINEX_PB_AGGREGATE_OUT",
+        str(Path(__file__).resolve().parents[1] / "logs" / "mass_run_v2"),
+    )
+)
 
 
 def parse_one(eval_json: Path) -> dict:
@@ -62,6 +67,7 @@ def parse_one(eval_json: Path) -> dict:
 # in this file keep working with no behavior change.
 import sys as _sys
 from pathlib import Path as _Path
+
 _sys.path.insert(0, str(_Path(__file__).resolve().parent))
 from determinex_pb_taxonomy import classify_one as classify  # noqa: F401
 
@@ -132,7 +138,7 @@ def aggregate(
 
     stem = f"{run_id}_{phase}" if phase else run_id
     out_json = out_dir / f"{stem}_summary.json"
-    out_md   = out_dir / f"{stem}_summary.md"
+    out_md = out_dir / f"{stem}_summary.md"
     out_json.write_text(json.dumps(summary, indent=2, default=str), encoding="utf-8")
 
     # Markdown report
@@ -158,17 +164,23 @@ def aggregate(
     md.append("| Score | Pass / Total | Tool |")
     md.append("|---:|---|---|")
     for r in rows[:20]:
-        md.append(f"| {r.get('score', 0):.1f} | {r.get('passed', 0)} / {r.get('total', 0)} | {r['instance_id']} |")
+        md.append(
+            f"| {r.get('score', 0):.1f} | {r.get('passed', 0)} / {r.get('total', 0)} | {r['instance_id']} |"
+        )
     if len(rows) > 40:
         md.append("| ... | ... | ... |")
         for r in rows[-20:]:
-            md.append(f"| {r.get('score', 0):.1f} | {r.get('passed', 0)} / {r.get('total', 0)} | {r['instance_id']} |")
+            md.append(
+                f"| {r.get('score', 0):.1f} | {r.get('passed', 0)} / {r.get('total', 0)} | {r['instance_id']} |"
+            )
     out_md.write_text("\n".join(md), encoding="utf-8")
 
     print(f"wrote {out_json}")
     print(f"wrote {out_md}")
     print()
-    print(f"=== {run_id} / {phase} : {summary['tools_evaluated']} tools, avg {summary['avg_score_per_tool']}/100 ===")
+    print(
+        f"=== {run_id} / {phase} : {summary['tools_evaluated']} tools, avg {summary['avg_score_per_tool']}/100 ==="
+    )
     print(f"total: {total_pass:,}/{total_tests:,} ({summary['pct_passing']}%)")
     print(f"perfect: {summary['perfect_score_count']}   zeros: {summary['zero_score_count']}")
     print()
@@ -180,14 +192,20 @@ def aggregate(
 
 def _cli():
     ap = argparse.ArgumentParser(description="Aggregate one ProgramBench run's eval JSONs")
-    ap.add_argument("--root", type=Path, default=_DEFAULT_ROOT,
-                    help=f"eval root dir (default: {_DEFAULT_ROOT})")
-    ap.add_argument("--run-id", default="mass_run_v2_base",
-                    help="ledger run_id label (also used in output filename)")
-    ap.add_argument("--phase", default="base",
-                    help="phase label for output filename: base|iter1|iter2|...")
-    ap.add_argument("--out", type=Path, default=_DEFAULT_OUT,
-                    help=f"output directory (default: {_DEFAULT_OUT})")
+    ap.add_argument(
+        "--root", type=Path, default=_DEFAULT_ROOT, help=f"eval root dir (default: {_DEFAULT_ROOT})"
+    )
+    ap.add_argument(
+        "--run-id",
+        default="mass_run_v2_base",
+        help="ledger run_id label (also used in output filename)",
+    )
+    ap.add_argument(
+        "--phase", default="base", help="phase label for output filename: base|iter1|iter2|..."
+    )
+    ap.add_argument(
+        "--out", type=Path, default=_DEFAULT_OUT, help=f"output directory (default: {_DEFAULT_OUT})"
+    )
     args = ap.parse_args()
     aggregate(root=args.root, run_id=args.run_id, phase=args.phase, out_dir=args.out)
 

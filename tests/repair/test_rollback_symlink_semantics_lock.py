@@ -16,13 +16,14 @@ These tests use ``Path.symlink_to`` which on Windows requires the
 "Create symbolic links" right or Developer Mode. When symlink
 creation fails the test is skipped.
 """
+
 from __future__ import annotations
 
 import importlib
 import json
+import os
 import sys
 from pathlib import Path
-import os
 
 import pytest
 
@@ -60,17 +61,21 @@ def _can_symlink(tmp_path: Path, monkeypatch=None) -> bool:
             return False
         # Mock symlink creation
         orig_is_symlink = Path.is_symlink
+
         def mock_is_symlink(self):
             if str(self.absolute()).endswith("link"):
                 return True
             return orig_is_symlink(self)
+
         monkeypatch.setattr(Path, "is_symlink", mock_is_symlink)
 
         orig_os_islink = os.path.islink
+
         def mock_os_islink(path):
             if str(path).endswith("link"):
                 return True
             return orig_os_islink(path)
+
         monkeypatch.setattr(os.path, "islink", mock_os_islink)
         return True
     finally:
@@ -375,9 +380,7 @@ def test_apply_record_token_set_includes_symlinks_token():
 
 
 def test_rollback_execution_record_token_set_includes_symlinks_token():
-    rec_mod = importlib.import_module(
-        "repair.source_mutation_rollback_execution_record"
-    )
+    rec_mod = importlib.import_module("repair.source_mutation_rollback_execution_record")
     assert "SOURCE_ROLLBACK_BLOCKED_SYMLINKS_UNSUPPORTED" in (
         rec_mod.SOURCE_MUTATION_ROLLBACK_EXECUTION_STATUS_TOKENS
     )

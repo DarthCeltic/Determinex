@@ -13,6 +13,7 @@ guard tests -- one scan, same protection.
 Exit 1 on any anchor asserted true. Designed to slot into .pre-commit-config.yaml
 alongside pb_doc_count_check.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -26,7 +27,9 @@ if _HERE not in sys.path:
 import json  # noqa: E402
 
 from governance.authority import (  # noqa: E402
-    AUTHORITY_FALSE, json_anchor_violations, scan_text_for_anchor_true,
+    AUTHORITY_FALSE,
+    json_anchor_violations,
+    scan_text_for_anchor_true,
 )
 
 REPO = Path(__file__).resolve().parent.parent.parent
@@ -35,8 +38,16 @@ _SCAN_EXT = {".json", ".md", ".yaml", ".yml", ".toml", ".cfg", ".ini"}
 # reuse the names as per-cell fields (a 'release_supported' cell != the global
 # release_supported authority anchor). JSON files are checked STRUCTURALLY
 # (top-level / authority block only), so they need no skipping.
-_SKIP = ("archive/", "docs/audits/", "scripts/status/", "scripts/proof/",
-         "tests/status/", "tests/proof/", "node_modules/", "corpus/")
+_SKIP = (
+    "archive/",
+    "docs/audits/",
+    "scripts/status/",
+    "scripts/proof/",
+    "tests/status/",
+    "tests/proof/",
+    "node_modules/",
+    "corpus/",
+)
 # text (non-JSON) scanning is the blunt instrument -> restrict it to evidence-free
 # canonical surfaces; evidence trees use the anchor NAMES as rule descriptions.
 _TEXT_SKIP = ("assurance/", "locks/", "docs/ide-frontend/")
@@ -44,8 +55,9 @@ _TEXT_SKIP = ("assurance/", "locks/", "docs/ide-frontend/")
 
 def _tracked_files() -> list[Path]:
     try:
-        out = subprocess.run(["git", "ls-files"], cwd=str(REPO),
-                             capture_output=True, text=True, timeout=60).stdout
+        out = subprocess.run(
+            ["git", "ls-files"], cwd=str(REPO), capture_output=True, text=True, timeout=60
+        ).stdout
     except Exception:
         return []
     files = []
@@ -79,22 +91,26 @@ def main() -> int:
                 hits = []
         else:
             # blunt text scan -> only on canonical (evidence-free) surfaces
-            if any(rel.replace("\\", "/").startswith(s) or f"/{s}" in rel.replace("\\", "/")
-                   for s in _TEXT_SKIP):
+            if any(
+                rel.replace("\\", "/").startswith(s) or f"/{s}" in rel.replace("\\", "/")
+                for s in _TEXT_SKIP
+            ):
                 continue
             hits = scan_text_for_anchor_true(text)
         if hits:
             violations.append((rel, hits))
 
-    print(f"governance overclaim guard: scanned {len(files)} files, "
-          f"{len(AUTHORITY_FALSE)} anchors.")
+    print(
+        f"governance overclaim guard: scanned {len(files)} files, {len(AUTHORITY_FALSE)} anchors."
+    )
     if violations:
-        print(f"\nFAIL: {len(violations)} file(s) assert an authority anchor TRUE "
-              f"without proof:")
+        print(f"\nFAIL: {len(violations)} file(s) assert an authority anchor TRUE without proof:")
         for path, hits in violations:
             print(f"  {path}: {', '.join(hits)}")
-        print("\nAn anchor may only be True when genuinely earned + proven. "
-              "If this is real, update governance/authority.py deliberately.")
+        print(
+            "\nAn anchor may only be True when genuinely earned + proven. "
+            "If this is real, update governance/authority.py deliberately."
+        )
         return 1
     print("OK: no authority anchor is asserted true. No-overclaim invariant holds.")
     return 0

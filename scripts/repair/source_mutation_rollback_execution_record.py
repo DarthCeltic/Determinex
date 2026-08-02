@@ -1,9 +1,9 @@
 """Records for SOURCE_MUTATION_ROLLBACK_EXECUTION_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 SOURCE_MUTATION_ROLLBACK_EXECUTION_STATUS_TOKENS = (
     "SOURCE_ROLLBACK_EXECUTED",

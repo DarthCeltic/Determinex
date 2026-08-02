@@ -7,18 +7,17 @@ metadata when recorded.
 
 JAVA_REPAIR_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
-import re
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / "scripts"))
 
 from agents.base_agent import CorpusType
-from corpus.corpus_manager import CorpusManager
 from corpus.code_ingest.java_repair_pipeline import JavaRepairPipeline
-
+from corpus.corpus_manager import CorpusManager
 
 _GENERIC_SOURCE = """\
 import java.util.List;
@@ -62,9 +61,9 @@ public class Dog extends Animal {
 
 
 class TestGenericTypeRepair:
-
     def test_null_check_found_in_generic_class(self, tmp_path):
         from corpus.code_ingest.java_task_extractor import JavaTaskExtractor
+
         java_file = tmp_path / "Container.java"
         java_file.write_text(_GENERIC_SOURCE, encoding="utf-8")
         extractor = JavaTaskExtractor(tmp_path)
@@ -76,6 +75,7 @@ class TestGenericTypeRepair:
     def test_off_by_one_candidate_in_bounds_check(self, tmp_path):
         """Bounds check `index >= items.size()` is a mutation candidate."""
         from corpus.code_ingest.java_task_extractor import JavaTaskExtractor
+
         java_file = tmp_path / "Container.java"
         java_file.write_text(_GENERIC_SOURCE, encoding="utf-8")
         extractor = JavaTaskExtractor(tmp_path)
@@ -90,8 +90,16 @@ class TestGenericTypeRepair:
             error_message="IndexOutOfBoundsException: Index: -1",
         )
         payload = task.to_corpus_payload()
-        for field in ("language", "build_system", "failure_type", "error_message",
-                      "mutated_file", "repair_patch", "validator", "verdict"):
+        for field in (
+            "language",
+            "build_system",
+            "failure_type",
+            "error_message",
+            "mutated_file",
+            "repair_patch",
+            "validator",
+            "verdict",
+        ):
             assert field in payload, f"Missing field: {field}"
 
     def test_generic_task_payload_language_is_java(self, tmp_path):
@@ -123,6 +131,7 @@ class TestGenericTypeRepair:
     def test_annotation_source_parse_does_not_crash(self, tmp_path):
         """JavaTaskExtractor must handle @Override annotations without error."""
         from corpus.code_ingest.java_task_extractor import JavaTaskExtractor
+
         java_file = tmp_path / "Dog.java"
         java_file.write_text(_ANNOTATION_SOURCE, encoding="utf-8")
         extractor = JavaTaskExtractor(tmp_path)

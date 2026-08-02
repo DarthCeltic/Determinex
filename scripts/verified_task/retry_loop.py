@@ -3,16 +3,15 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Callable
 
 from .command_runner import CommandRunner
 from .corpus_writer import CorpusWriter
 from .task_spec import TaskSpec
 from .verdict_recorder import atomic_write_json
 from .workspace_manager import WorkspaceLease
-
 
 RepairHook = Callable[[TaskSpec, WorkspaceLease, "AttemptRecord"], str | None]
 
@@ -118,7 +117,11 @@ class RetryLoop:
             return "timeout"
         if "syntaxerror" in text or "parse error" in text:
             return "syntax"
-        if "modulenotfounderror" in text or "no module named" in text or "cannot find module" in text:
+        if (
+            "modulenotfounderror" in text
+            or "no module named" in text
+            or "cannot find module" in text
+        ):
             return "dependency_import"
         if "assert" in text or "expected" in text or "actual" in text:
             return "wrong_output"

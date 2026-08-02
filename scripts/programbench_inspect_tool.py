@@ -16,7 +16,9 @@ Usage:
   python scripts/programbench_inspect_tool.py <instance_id>
   python scripts/programbench_inspect_tool.py --all
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import re
@@ -25,34 +27,40 @@ import tarfile
 from collections import Counter
 from pathlib import Path
 
-HF_SNAPSHOT_ROOT = Path.home() / ".cache" / "huggingface" / "hub" / \
-    "datasets--programbench--ProgramBench-Tests" / "snapshots"
+HF_SNAPSHOT_ROOT = (
+    Path.home()
+    / ".cache"
+    / "huggingface"
+    / "hub"
+    / "datasets--programbench--ProgramBench-Tests"
+    / "snapshots"
+)
 
 # Patterns that signal scaffold feature requirements
 FIXTURE_PATTERNS = {
-    "mkfifo":         re.compile(r"\bos\.mkfifo\b|mkfifo\("),
-    "threading":      re.compile(r"\bthreading\.Thread\b|\bThread\(target"),
-    "multiprocess":   re.compile(r"\bmultiprocessing\.|\bProcess\(target"),
-    "tmux":           re.compile(r"\btmux\b|tui2cli"),
-    "pty":            re.compile(r"\bpty\.|\bptyprocess\b|\bspawn\("),
+    "mkfifo": re.compile(r"\bos\.mkfifo\b|mkfifo\("),
+    "threading": re.compile(r"\bthreading\.Thread\b|\bThread\(target"),
+    "multiprocess": re.compile(r"\bmultiprocessing\.|\bProcess\(target"),
+    "tmux": re.compile(r"\btmux\b|tui2cli"),
+    "pty": re.compile(r"\bpty\.|\bptyprocess\b|\bspawn\("),
     "network_server": re.compile(r"socket\.\w*[lL]isten|HTTPServer|TCPServer|socket\.bind"),
-    "fork":           re.compile(r"\bos\.fork\b"),
-    "popen_pipe":     re.compile(r"subprocess\.Popen\b"),
+    "fork": re.compile(r"\bos\.fork\b"),
+    "popen_pipe": re.compile(r"subprocess\.Popen\b"),
     "subprocess_run": re.compile(r"subprocess\.run\b"),
-    "tempfile":       re.compile(r"\btempfile\b|tmp_path"),
-    "git_init":       re.compile(r"git\s+init|gitpython|Repo\(\.init"),
+    "tempfile": re.compile(r"\btempfile\b|tmp_path"),
+    "git_init": re.compile(r"git\s+init|gitpython|Repo\(\.init"),
 }
 
 ASSERTION_PATTERNS = {
-    "golden_file":    re.compile(r"\.golden|read_text\(\)\s*(?:==|in)|(?:==|in)\s*\w+\.read_text\(\)"),
-    "exact_stdout":   re.compile(r"assert\s+result\.stdout\s*==\s*[bB]?[\"']"),
-    "substring_in":   re.compile(r"assert\s+[bB]?[\"'][^\"']+[\"']\s+in\s+\w*\.std"),
-    "returncode_only":re.compile(r"assert\s+\w*\.returncode\s*==\s*\d+(?!\s*[,\)])"),
-    "regex_match":    re.compile(r"re\.(search|match|fullmatch)|assertRegex"),
-    "json_parse":     re.compile(r"json\.loads\(.*std|loads\(result"),
-    "csv_parse":      re.compile(r"csv\.reader|csv\.DictReader"),
-    "structural":     re.compile(r"len\(\w*\.\w*\)\s*==|len\(lines\)|cols\[\d+\]|fields\[\d+\]"),
-    "long_compare":   re.compile(r"== b?[\"'][^\"']{200,}[\"']"),
+    "golden_file": re.compile(r"\.golden|read_text\(\)\s*(?:==|in)|(?:==|in)\s*\w+\.read_text\(\)"),
+    "exact_stdout": re.compile(r"assert\s+result\.stdout\s*==\s*[bB]?[\"']"),
+    "substring_in": re.compile(r"assert\s+[bB]?[\"'][^\"']+[\"']\s+in\s+\w*\.std"),
+    "returncode_only": re.compile(r"assert\s+\w*\.returncode\s*==\s*\d+(?!\s*[,\)])"),
+    "regex_match": re.compile(r"re\.(search|match|fullmatch)|assertRegex"),
+    "json_parse": re.compile(r"json\.loads\(.*std|loads\(result"),
+    "csv_parse": re.compile(r"csv\.reader|csv\.DictReader"),
+    "structural": re.compile(r"len\(\w*\.\w*\)\s*==|len\(lines\)|cols\[\d+\]|fields\[\d+\]"),
+    "long_compare": re.compile(r"== b?[\"'][^\"']{200,}[\"']"),
 }
 
 ARGV_INVOCATION_PATTERNS = [
@@ -100,7 +108,9 @@ def inspect_branch(tarball: Path) -> dict:
                     continue
                 files_scanned += 1
                 if "/test_" in m.name or m.name.endswith("/conftest.py"):
-                    test_count += sum(1 for _ in re.finditer(r"^\s*def\s+test_", data, re.MULTILINE))
+                    test_count += sum(
+                        1 for _ in re.finditer(r"^\s*def\s+test_", data, re.MULTILINE)
+                    )
                 for name, regex in FIXTURE_PATTERNS.items():
                     if regex.search(data):
                         fix[name] += 1
@@ -198,9 +208,15 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("instances", nargs="*", help="instance IDs (default: a single tool)")
     ap.add_argument("--all", action="store_true", help="inspect all tools in mass_run_v2_base")
-    ap.add_argument("--out", type=Path,
-                    default=Path(__file__).resolve().parent.parent / "logs" / "mass_run_v2" / "inspection_report.json",
-                    help="write per-tool reports to this JSON")
+    ap.add_argument(
+        "--out",
+        type=Path,
+        default=Path(__file__).resolve().parent.parent
+        / "logs"
+        / "mass_run_v2"
+        / "inspection_report.json",
+        help="write per-tool reports to this JSON",
+    )
     args = ap.parse_args()
 
     targets: list[str] = []

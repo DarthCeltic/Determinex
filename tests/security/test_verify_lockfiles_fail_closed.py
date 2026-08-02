@@ -51,7 +51,9 @@ def test_an_unreadable_requirements_file_is_reported_not_silently_passed(tmp_pat
         f"the unreadable-file violation is not severe enough to block; `passed` only considers "
         f"CRITICAL and HIGH, so a MEDIUM here would still pass: {[v.severity for v in violations]}"
     )
-    assert any("never checked" in v.reason or "could not be read" in v.reason for v in violations), (
+    assert any(
+        "never checked" in v.reason or "could not be read" in v.reason for v in violations
+    ), (
         "the violation does not say the file was unread, so a reader would think it found a real "
         "pinning problem"
     )
@@ -61,10 +63,7 @@ def test_a_readable_clean_file_still_produces_no_violations(tmp_path):
     """The obvious counterpart: over-reporting would make the gate useless and get switched off."""
     target = tmp_path / "requirements.txt"
     target.write_text(
-        "# a comment\n"
-        "\n"
-        "requests==2.32.3\n"
-        "urllib3==2.2.2\n",
+        "# a comment\n\nrequests==2.32.3\nurllib3==2.2.2\n",
         encoding="utf-8",
     )
     assert verify_lockfiles.check_file(target) == []
@@ -123,6 +122,7 @@ def test_floor_conflicts_are_blocking_not_advisory():
     -- converting those to `==` would freeze the floors and stop future fixes arriving. A lock
     *contradicting* a floor is categorically different and must block."""
     import inspect
+
     src = inspect.getsource(verify_lockfiles.check_lock_floor_conflicts)
     assert 'severity="HIGH"' in src, (
         "lock-vs-floor conflicts are no longer HIGH, so they cannot fail the gate"
@@ -160,6 +160,7 @@ def test_the_coverage_check_ignores_bench_only_requirements():
     closure by design and must not be reported as gaps. Without this scoping the check would fail
     permanently and get switched off, which is how S1.4 happened."""
     import inspect
+
     src = inspect.getsource(verify_lockfiles.check_lock_covers_declared)
     assert '"requirements.txt"' in src, "the coverage check no longer scopes to the root file"
     assert "_REQUIREMENTS_FILES" not in src, (

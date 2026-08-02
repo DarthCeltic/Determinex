@@ -11,14 +11,14 @@ Threshold tuning:
 """
 
 from __future__ import annotations
+
 import os
-import struct
 import sqlite3
-from dataclasses import dataclass, field
-from typing import Optional
+import struct
+from dataclasses import dataclass
 
 _EMBEDDER = None
-_DB_PATH: Optional[str] = None
+_DB_PATH: str | None = None
 
 SUPPORT_THRESHOLD = 0.72
 UNCERTAIN_THRESHOLD = 0.55
@@ -29,12 +29,11 @@ def _init_rag() -> bool:
     if _EMBEDDER is not None:
         return True
     try:
-        import sqlite_vec
         from fastembed import TextEmbedding
+
         _EMBEDDER = TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
         _DB_PATH = os.environ.get(
-            "DETERMINEX_DB",
-            r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
+            "DETERMINEX_DB", r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
         )
         return True
     except Exception as e:
@@ -42,7 +41,7 @@ def _init_rag() -> bool:
         return False
 
 
-def _embed(text: str) -> Optional[list[float]]:
+def _embed(text: str) -> list[float] | None:
     if _EMBEDDER is None:
         return None
     try:
@@ -55,17 +54,17 @@ def _embed(text: str) -> Optional[list[float]]:
 @dataclass
 class ClaimVerification:
     claim_text: str
-    supported: bool                    # True if KB supports this claim
-    uncertain: bool = False            # True if evidence is weak but present
-    similarity: float = 0.0           # Best cosine similarity found
-    evidence: str = ""                # Best-matching KB chunk (for feedback)
-    evidence_source: str = ""         # Metadata / source of the evidence chunk
+    supported: bool  # True if KB supports this claim
+    uncertain: bool = False  # True if evidence is weak but present
+    similarity: float = 0.0  # Best cosine similarity found
+    evidence: str = ""  # Best-matching KB chunk (for feedback)
+    evidence_source: str = ""  # Metadata / source of the evidence chunk
 
 
 class RagVerifier:
     """Verify claims against the sqlite-vec knowledge base."""
 
-    def __init__(self, tables: Optional[list[tuple[str, str]]] = None, top_k: int = 3):
+    def __init__(self, tables: list[tuple[str, str]] | None = None, top_k: int = 3):
         """
         Args:
             tables: List of (content_table, vss_table) pairs to search.
@@ -84,13 +83,18 @@ class RagVerifier:
     def verify(self, claim_text: str) -> ClaimVerification:
         """Verify a single claim against the KB."""
         if not _init_rag():
-            return ClaimVerification(claim_text=claim_text, supported=True, uncertain=True,
-                                     evidence="[RAG unavailable — cannot verify]")
+            return ClaimVerification(
+                claim_text=claim_text,
+                supported=True,
+                uncertain=True,
+                evidence="[RAG unavailable — cannot verify]",
+            )
 
         vec = _embed(claim_text)
         if vec is None:
-            return ClaimVerification(claim_text=claim_text, supported=True, uncertain=True,
-                                     evidence="[embedding failed]")
+            return ClaimVerification(
+                claim_text=claim_text, supported=True, uncertain=True, evidence="[embedding failed]"
+            )
 
         vec_bytes = struct.pack(f"{len(vec)}f", *vec)
         best_sim = 0.0
@@ -99,6 +103,7 @@ class RagVerifier:
 
         try:
             import sqlite_vec
+
             con = sqlite3.connect(_DB_PATH)
             con.enable_load_extension(True)
             sqlite_vec.load(con)
@@ -115,7 +120,7 @@ class RagVerifier:
                         WHERE v.embedding_vector MATCH ? AND k = ?
                         ORDER BY similarity DESC
                         """,
-                        (vec_bytes, vec_bytes, self.top_k)
+                        (vec_bytes, vec_bytes, self.top_k),
                     ).fetchall()
                     for content, metadata, sim in rows:
                         if sim > best_sim:
@@ -126,8 +131,9 @@ class RagVerifier:
                     continue
             con.close()
         except Exception as e:
-            return ClaimVerification(claim_text=claim_text, supported=True, uncertain=True,
-                                     evidence=f"[DB error: {e}]")
+            return ClaimVerification(
+                claim_text=claim_text, supported=True, uncertain=True, evidence=f"[DB error: {e}]"
+            )
 
         supported = best_sim >= SUPPORT_THRESHOLD
         uncertain = not supported and best_sim >= UNCERTAIN_THRESHOLD
@@ -143,7 +149,6 @@ class RagVerifier:
 
     def verify_all(self, claims: list, min_confidence: float = 0.6) -> list[ClaimVerification]:
         """Verify a list of Claim objects. Skips low-confidence claims."""
-        from .claim_extractor import Claim
         results = []
         for claim in claims:
             c = claim if isinstance(claim, str) else claim.text
@@ -163,6 +168,7 @@ class RagVerifier:
             return []
 
         from .claim_extractor import ClaimExtractor
+
         extractor = ClaimExtractor()
         claims = extractor.extract(text)
 
@@ -172,6 +178,7 @@ class RagVerifier:
             if vec is None:
                 continue
             import numpy as np
+
             claim_arr = np.array(vec, dtype=np.float32)
             best_sim = 0.0
             best_chunk = ""
@@ -180,19 +187,23 @@ class RagVerifier:
                 if chunk_vec is None:
                     continue
                 chunk_arr = np.array(chunk_vec, dtype=np.float32)
-                sim = float(np.dot(claim_arr, chunk_arr) /
-                            (np.linalg.norm(claim_arr) * np.linalg.norm(chunk_arr) + 1e-9))
+                sim = float(
+                    np.dot(claim_arr, chunk_arr)
+                    / (np.linalg.norm(claim_arr) * np.linalg.norm(chunk_arr) + 1e-9)
+                )
                 if sim > best_sim:
                     best_sim = sim
                     best_chunk = chunk[:400]
             supported = best_sim >= SUPPORT_THRESHOLD
             uncertain = not supported and best_sim >= UNCERTAIN_THRESHOLD
-            results.append(ClaimVerification(
-                claim_text=claim.text,
-                supported=supported,
-                uncertain=uncertain,
-                similarity=round(best_sim, 3),
-                evidence=best_chunk,
-                evidence_source="inline_context",
-            ))
+            results.append(
+                ClaimVerification(
+                    claim_text=claim.text,
+                    supported=supported,
+                    uncertain=uncertain,
+                    similarity=round(best_sim, 3),
+                    evidence=best_chunk,
+                    evidence_source="inline_context",
+                )
+            )
         return results

@@ -1,7 +1,7 @@
 """UIAutomator XML reader — extracts the Android accessibility/UI tree."""
+
 from __future__ import annotations
 
-import hashlib
 import logging
 import subprocess
 import xml.etree.ElementTree as ET
@@ -14,10 +14,17 @@ def dump_ui_xml(serial: str) -> str:
     """Dump UIAutomator XML from device."""
     try:
         remote = "/sdcard/determinex_ui_dump.xml"
-        subprocess.run(["adb", "-s", serial, "shell", "uiautomator", "dump", remote],
-                       capture_output=True, timeout=15)
-        result = subprocess.run(["adb", "-s", serial, "shell", "cat", remote],
-                                capture_output=True, text=True, timeout=10)
+        subprocess.run(
+            ["adb", "-s", serial, "shell", "uiautomator", "dump", remote],
+            capture_output=True,
+            timeout=15,
+        )
+        result = subprocess.run(
+            ["adb", "-s", serial, "shell", "cat", remote],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
         return result.stdout
     except Exception as exc:
         log.error("[uiautomator] dump_ui_xml failed: %s", exc)
@@ -46,23 +53,31 @@ def _walk(node: ET.Element, out: list) -> None:
             x, y, w, h = x1, y1, x2 - x1, y2 - y1
         except (ValueError, IndexError):
             pass
-    out.append({
-        "class": attrib.get("class", ""),
-        "resource_id": attrib.get("resource-id", ""),
-        "text": attrib.get("text", ""),
-        "content_desc": attrib.get("content-desc", ""),
-        "clickable": attrib.get("clickable", "false") == "true",
-        "enabled": attrib.get("enabled", "true") == "true",
-        "focused": attrib.get("focused", "false") == "true",
-        "x": x, "y": y, "w": w, "h": h,
-    })
+    out.append(
+        {
+            "class": attrib.get("class", ""),
+            "resource_id": attrib.get("resource-id", ""),
+            "text": attrib.get("text", ""),
+            "content_desc": attrib.get("content-desc", ""),
+            "clickable": attrib.get("clickable", "false") == "true",
+            "enabled": attrib.get("enabled", "true") == "true",
+            "focused": attrib.get("focused", "false") == "true",
+            "x": x,
+            "y": y,
+            "w": w,
+            "h": h,
+        }
+    )
     for child in node:
         _walk(child, out)
 
 
-def find_element(elements: list[dict], text: str | None = None,
-                 resource_id: str | None = None,
-                 class_name: str | None = None) -> list[dict]:
+def find_element(
+    elements: list[dict],
+    text: str | None = None,
+    resource_id: str | None = None,
+    class_name: str | None = None,
+) -> list[dict]:
     results = []
     for el in elements:
         if text and text.lower() not in el.get("text", "").lower():

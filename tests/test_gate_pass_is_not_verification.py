@@ -57,12 +57,15 @@ def _entries(path: Path) -> list[dict]:
 PATCH = "diff --git a/x.py b/x.py\n--- a/x.py\n+++ b/x.py\n@@ -1 +1 @@\n-a\n+b\n"
 
 
-@pytest.mark.parametrize("verification", [
-    "unverified:baseline_compile_failed",
-    "unverified:no_compile_check",
-    "unverified:gate_exception",
-    "unverified:no_gate_run",
-])
+@pytest.mark.parametrize(
+    "verification",
+    [
+        "unverified:baseline_compile_failed",
+        "unverified:no_compile_check",
+        "unverified:gate_exception",
+        "unverified:no_gate_run",
+    ],
+)
 def test_an_unverified_patch_never_enters_the_training_corpus(curriculum, verification):
     """THE regression. Not "written with verified=False" -- not written at all, so the corpus
     stays clean whether or not a downstream consumer remembers to filter."""
@@ -117,12 +120,15 @@ class _Gate:
         return self.last_gate_verification
 
 
-@pytest.mark.parametrize("compiled,tested,expected", [
-    (True, True, "compiled+tested"),
-    (True, False, "compiled_only"),
-    (False, False, "unverified:no_compile_check"),
-    (False, True, "unverified:no_compile_check"),   # tests without a compile is not verified
-])
+@pytest.mark.parametrize(
+    "compiled,tested,expected",
+    [
+        (True, True, "compiled+tested"),
+        (True, False, "compiled_only"),
+        (False, False, "unverified:no_compile_check"),
+        (False, True, "unverified:no_compile_check"),  # tests without a compile is not verified
+    ],
+)
 def test_the_gate_classification_maps_to_what_actually_ran(compiled, tested, expected):
     assert _Gate(compiled, tested).classify() == expected
 
@@ -142,6 +148,7 @@ def test_every_gate_verification_string_is_classified_by_the_flywheel():
     the reject branch -- safe, but silently starving. This pins the two sets together."""
     src = (REPO_ROOT / "scripts" / "determinex_swebench_agent.py").read_text(encoding="utf-8")
     import re
+
     assigned = set(re.findall(r'last_gate_verification\s*=\s*"([^"]+)"', src))
     assert assigned, "no gate verification assignments found; did the field get renamed?"
     for kind in assigned:

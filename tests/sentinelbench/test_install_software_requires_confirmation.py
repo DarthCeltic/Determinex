@@ -1,6 +1,8 @@
 """SentinelBench action gate: INSTALL_SOFTWARE always requires confirmation."""
-from tests.sentinelbench.helpers import make_action
+
 from agents.base_agent import ActionType
+
+from tests.sentinelbench.helpers import make_action
 
 
 def test_install_software_requires_confirmation(governor, benign_task, browser_observation):

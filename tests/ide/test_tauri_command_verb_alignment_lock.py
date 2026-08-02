@@ -4,10 +4,10 @@ Asserts every Tauri command maps to a backend command whose verb
 matches the Tauri-side label, and that the dedicated
 source_apply_dry_run inner command exists.
 """
+
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -19,18 +19,18 @@ EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
 EXPECTED_VERB_MAP = {
-    "open_workspace":             "inspect_workspace",
-    "get_workspace_status":       "inspect_workspace",
-    "get_model_route_status":     "route_model",
-    "diagnose_dry_run":           "diagnose_dry_run",
-    "diagnose_live_opt_in":       "diagnose_live_opt_in",
-    "generate_patch_plan":        "generate_patch_plan_opt_in",
-    "verify_temp_patch":          "verify_temp_patch",
-    "get_human_approval_packet":  "get_human_approval_packet",
+    "open_workspace": "inspect_workspace",
+    "get_workspace_status": "inspect_workspace",
+    "get_model_route_status": "route_model",
+    "diagnose_dry_run": "diagnose_dry_run",
+    "diagnose_live_opt_in": "diagnose_live_opt_in",
+    "generate_patch_plan": "generate_patch_plan_opt_in",
+    "verify_temp_patch": "verify_temp_patch",
+    "get_human_approval_packet": "get_human_approval_packet",
     # CLAUDE-AUTH-006 remediation: source_apply_dry_run now has its
     # own backend command, not aliased to get_repair_state.
-    "source_apply_dry_run":       "source_apply_dry_run",
-    "get_repair_flow_state":      "get_repair_state",
+    "source_apply_dry_run": "source_apply_dry_run",
+    "get_repair_flow_state": "get_repair_state",
 }
 
 
@@ -39,6 +39,7 @@ def test_driver_maps_every_tauri_command():
     inner status (or an explicitly safe one). Source apply must NOT
     map to repair_state — that was the CLAUDE-AUTH-006 bug."""
     import sys
+
     sys.path.insert(0, str(_REPO_ROOT / "scripts"))
     from ide._tauri_driver import _dispatch  # noqa: E402
 
@@ -80,6 +81,7 @@ def test_dispatcher_returns_dedicated_dry_run_record():
     """End-to-end via _dispatch: source_apply_dry_run returns the
     dedicated payload (dry_run_only) — NOT the repair_state payload."""
     import sys
+
     sys.path.insert(0, str(_REPO_ROOT / "scripts"))
     from ide._tauri_driver import _dispatch  # noqa: E402
 

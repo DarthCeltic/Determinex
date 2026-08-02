@@ -5,6 +5,7 @@ The first backend is sqlite because it is stdlib, local, and deterministic.
 It provides schema inspection, unsafe-query blocking, result normalization,
 execution, comparison, controlled mutation, and signed corpus write helpers.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -13,7 +14,6 @@ import sqlite3
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
-
 
 _BLOCKED_SQL_RE = re.compile(
     r"\b(attach|detach|drop|delete|update|insert|alter|create|replace|pragma\s+writable_schema|vacuum)\b",
@@ -90,20 +90,25 @@ class SqlOracle:
 
     def load_schema(self) -> SqlSchema:
         tables = [
-            row[0] for row in self._conn.execute(
+            row[0]
+            for row in self._conn.execute(
                 "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name"
             ).fetchall()
         ]
         columns: list[SqlColumn] = []
         for table in tables:
-            for cid, name, col_type, not_null, default, pk in self._conn.execute(f"PRAGMA table_info({table})"):
-                columns.append(SqlColumn(
-                    table=table,
-                    name=name,
-                    type=col_type or "",
-                    not_null=bool(not_null),
-                    primary_key=bool(pk),
-                ))
+            for cid, name, col_type, not_null, default, pk in self._conn.execute(
+                f"PRAGMA table_info({table})"
+            ):
+                columns.append(
+                    SqlColumn(
+                        table=table,
+                        name=name,
+                        type=col_type or "",
+                        not_null=bool(not_null),
+                        primary_key=bool(pk),
+                    )
+                )
         return SqlSchema(dialect="sqlite", tables=tables, columns=columns)
 
     def is_safe_query(self, sql: str) -> bool:
@@ -123,7 +128,9 @@ class SqlOracle:
         except sqlite3.Error as exc:
             return SqlExecutionResult(ok=False, error=str(exc))
 
-    def compare(self, actual: list[tuple[Any, ...]], expected: list[tuple[Any, ...]], ordered: bool = False) -> bool:
+    def compare(
+        self, actual: list[tuple[Any, ...]], expected: list[tuple[Any, ...]], ordered: bool = False
+    ) -> bool:
         return normalize_rows(actual, ordered=ordered) == normalize_rows(expected, ordered=ordered)
 
     def mutate_predicate(self, sql: str) -> str:
@@ -135,8 +142,11 @@ class SqlOracle:
 
     def write_corpus_record(self, corpus_manager: Any, trace: SqlRepairTrace) -> str:
         from agents.base_agent import CorpusType
+
         payload = trace.to_corpus_payload()
-        input_hash = hashlib.blake2b((trace.question + trace.initial_sql).encode(), digest_size=16).hexdigest()
+        input_hash = hashlib.blake2b(
+            (trace.question + trace.initial_sql).encode(), digest_size=16
+        ).hexdigest()
         output_hash = hashlib.blake2b(trace.repaired_sql.encode(), digest_size=16).hexdigest()
         record = corpus_manager._normalize_record(
             corpus_type=CorpusType.CODE_VERDICT,

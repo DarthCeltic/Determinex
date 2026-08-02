@@ -20,31 +20,30 @@ Build loop integration (from executor.py):
   from hive.thermal import check_temps_or_pause
   check_temps_or_pause(session_id="abc123")  # blocks until safe, or raises if critical
 """
+
 from __future__ import annotations
 
 import logging
-import os
 import subprocess
 import sys
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 log = logging.getLogger("hive.thermal")
 
 # ── Safety thresholds (°C) ────────────────────────────────────────────────────
-GPU_WARN_C    = 80   # log warning
-GPU_DANGER_C  = 85   # pause build loop until cool
-GPU_CRITICAL_C= 90   # abort session
+GPU_WARN_C = 80  # log warning
+GPU_DANGER_C = 85  # pause build loop until cool
+GPU_CRITICAL_C = 90  # abort session
 
-CPU_WARN_C    = 85
-CPU_DANGER_C  = 92
-CPU_CRITICAL_C= 95
+CPU_WARN_C = 85
+CPU_DANGER_C = 92
+CPU_CRITICAL_C = 95
 
 # Proxy: if we can't read CPU temp, treat >90% sustained CPU usage as "hot"
-CPU_USAGE_PROXY_WARN    = 85.0
-CPU_USAGE_PROXY_DANGER  = 93.0
+CPU_USAGE_PROXY_WARN = 85.0
+CPU_USAGE_PROXY_DANGER = 93.0
 
 # How long to sleep between poll retries when cooling down
 COOLDOWN_SLEEP_S = 30
@@ -54,21 +53,22 @@ MAX_COOLDOWN_POLLS = 10  # give up waiting after this many polls
 @dataclass
 class ThermalSnapshot:
     """One point-in-time temperature reading from all available sources."""
+
     timestamp: float = field(default_factory=time.time)
 
-    gpu_temps: list[float] = field(default_factory=list)   # °C, one per GPU
-    cpu_temps: list[float] = field(default_factory=list)   # °C, one per chip/core
-    cpu_usage: float = 0.0                                  # 0-100 %
+    gpu_temps: list[float] = field(default_factory=list)  # °C, one per GPU
+    cpu_temps: list[float] = field(default_factory=list)  # °C, one per chip/core
+    cpu_usage: float = 0.0  # 0-100 %
 
     sources_tried: list[str] = field(default_factory=list)
-    sources_ok:    list[str] = field(default_factory=list)
+    sources_ok: list[str] = field(default_factory=list)
 
     @property
-    def max_gpu(self) -> Optional[float]:
+    def max_gpu(self) -> float | None:
         return max(self.gpu_temps) if self.gpu_temps else None
 
     @property
-    def max_cpu(self) -> Optional[float]:
+    def max_cpu(self) -> float | None:
         return max(self.cpu_temps) if self.cpu_temps else None
 
     @property
@@ -89,20 +89,25 @@ class ThermalSnapshot:
         cpu = self.max_cpu
 
         # Critical check first
-        if (gpu is not None and gpu >= GPU_CRITICAL_C) or \
-           (cpu is not None and cpu >= CPU_CRITICAL_C):
+        if (gpu is not None and gpu >= GPU_CRITICAL_C) or (
+            cpu is not None and cpu >= CPU_CRITICAL_C
+        ):
             return "critical"
 
         # Danger
-        if (gpu is not None and gpu >= GPU_DANGER_C) or \
-           (cpu is not None and cpu >= CPU_DANGER_C) or \
-           self.cpu_usage >= CPU_USAGE_PROXY_DANGER:
+        if (
+            (gpu is not None and gpu >= GPU_DANGER_C)
+            or (cpu is not None and cpu >= CPU_DANGER_C)
+            or self.cpu_usage >= CPU_USAGE_PROXY_DANGER
+        ):
             return "danger"
 
         # Warn
-        if (gpu is not None and gpu >= GPU_WARN_C) or \
-           (cpu is not None and cpu >= CPU_WARN_C) or \
-           self.cpu_usage >= CPU_USAGE_PROXY_WARN:
+        if (
+            (gpu is not None and gpu >= GPU_WARN_C)
+            or (cpu is not None and cpu >= CPU_WARN_C)
+            or self.cpu_usage >= CPU_USAGE_PROXY_WARN
+        ):
             return "warn"
 
         return "ok"
@@ -110,12 +115,15 @@ class ThermalSnapshot:
 
 # ── Reader implementations ────────────────────────────────────────────────────
 
+
 def _read_nvidia_smi() -> list[float]:
     """NVIDIA: parse nvidia-smi --query-gpu=temperature.gpu"""
     try:
         r = subprocess.run(
             ["nvidia-smi", "--query-gpu=temperature.gpu", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         if r.returncode != 0:
             return []
@@ -137,11 +145,14 @@ def _read_rocm_smi() -> list[float]:
     try:
         r = subprocess.run(
             ["rocm-smi", "--showtemp", "--json"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         if r.returncode != 0:
             return []
         import json
+
         data = json.loads(r.stdout)
         temps = []
         for card_data in data.values():
@@ -160,6 +171,7 @@ def _read_psutil_cpu() -> list[float]:
     """psutil.sensors_temperatures — works on Linux and macOS."""
     try:
         import psutil
+
         sensors = psutil.sensors_temperatures()
         if not sensors:
             return []
@@ -167,8 +179,9 @@ def _read_psutil_cpu() -> list[float]:
         # Prefer coretemp, k10temp, cpu_thermal
         priority_keys = ["coretemp", "k10temp", "cpu_thermal", "acpitz"]
         all_keys = list(sensors.keys())
-        ordered = [k for k in priority_keys if k in all_keys] + \
-                  [k for k in all_keys if k not in priority_keys]
+        ordered = [k for k in priority_keys if k in all_keys] + [
+            k for k in all_keys if k not in priority_keys
+        ]
         for key in ordered[:3]:  # top 3 sensor groups
             for entry in sensors[key]:
                 if entry.current and entry.current > 0:
@@ -184,10 +197,17 @@ def _read_wmi_cpu() -> list[float]:
         return []
     try:
         r = subprocess.run(
-            ["powershell", "-NoProfile", "-NonInteractive", "-Command",
-             "(Get-WmiObject MSAcpi_ThermalZoneTemperature -Namespace root/wmi "
-             "-ErrorAction SilentlyContinue).CurrentTemperature"],
-            capture_output=True, text=True, timeout=8,
+            [
+                "powershell",
+                "-NoProfile",
+                "-NonInteractive",
+                "-Command",
+                "(Get-WmiObject MSAcpi_ThermalZoneTemperature -Namespace root/wmi "
+                "-ErrorAction SilentlyContinue).CurrentTemperature",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=8,
         )
         if r.returncode != 0 or not r.stdout.strip():
             return []
@@ -209,12 +229,14 @@ def _read_cpu_usage() -> float:
     """psutil CPU % — universally available, used as load proxy."""
     try:
         import psutil
+
         return psutil.cpu_percent(interval=0.5)
     except (ImportError, Exception):
         return 0.0
 
 
 # ── Public API ────────────────────────────────────────────────────────────────
+
 
 def read_temps() -> ThermalSnapshot:
     """
@@ -301,7 +323,9 @@ def check_temps_or_pause(
         if poll == 0:
             log.warning(
                 "%s DANGER: temps too high — pausing build for %ds. %s",
-                prefix, int(cooldown_sleep), snap.summary,
+                prefix,
+                int(cooldown_sleep),
+                snap.summary,
             )
         else:
             log.info("%s still hot (poll %d/%d) — %s", prefix, poll + 1, max_polls, snap.summary)
@@ -316,12 +340,13 @@ def check_temps_or_pause(
             f"Build aborted. {snap.summary}"
         )
     # still danger but we've waited long enough — log and continue
-    log.warning("[thermal] Resuming after %d cooldown polls (still warm). %s",
-                max_polls, snap.summary)
+    log.warning(
+        "[thermal] Resuming after %d cooldown polls (still warm). %s", max_polls, snap.summary
+    )
     return snap
 
 
-def thermal_throttle_factor(snap: Optional[ThermalSnapshot] = None) -> float:
+def thermal_throttle_factor(snap: ThermalSnapshot | None = None) -> float:
     """
     #39: Return a [0.0, 1.0] throttle factor based on current thermal state.
     0.0 = cool, no throttling.  1.0 = near-danger, heavy throttling.
@@ -364,12 +389,18 @@ def thermal_throttle_factor(snap: Optional[ThermalSnapshot] = None) -> float:
     if usage >= CPU_USAGE_PROXY_DANGER:
         factor = max(factor, 0.7)
     elif usage >= CPU_USAGE_PROXY_WARN:
-        factor = max(factor, 0.2 + 0.5 * (usage - CPU_USAGE_PROXY_WARN) / (CPU_USAGE_PROXY_DANGER - CPU_USAGE_PROXY_WARN))
+        factor = max(
+            factor,
+            0.2
+            + 0.5
+            * (usage - CPU_USAGE_PROXY_WARN)
+            / (CPU_USAGE_PROXY_DANGER - CPU_USAGE_PROXY_WARN),
+        )
 
     return min(factor, 1.0)
 
 
-def dynamic_ipc_timeout(base_timeout: float, snap: Optional[ThermalSnapshot] = None) -> float:
+def dynamic_ipc_timeout(base_timeout: float, snap: ThermalSnapshot | None = None) -> float:
     """
     #39: Return a thermally-adjusted IPC timeout.
 
@@ -384,10 +415,12 @@ def dynamic_ipc_timeout(base_timeout: float, snap: Optional[ThermalSnapshot] = N
     The snap argument allows passing a pre-read ThermalSnapshot to avoid
     reading sensors twice in the same executor step.
     """
-    factor  = thermal_throttle_factor(snap)
-    scaled  = base_timeout * (1.0 + factor)
+    factor = thermal_throttle_factor(snap)
+    scaled = base_timeout * (1.0 + factor)
     if factor > 0.1:
-        log.debug("IPC timeout scaled: %.0fs → %.0fs (throttle_factor=%.2f)", base_timeout, scaled, factor)
+        log.debug(
+            "IPC timeout scaled: %.0fs → %.0fs (throttle_factor=%.2f)", base_timeout, scaled, factor
+        )
     return scaled
 
 
@@ -424,7 +457,10 @@ def thermal_hard_halt(
         log.error(
             "%s #23 HARD THERMAL HALT: GPU at %.0f°C (limit=%.0f°C) — "
             "aborting DAG to protect inference quality. %s",
-            prefix, gpu, gpu_danger, snap.summary,
+            prefix,
+            gpu,
+            gpu_danger,
+            snap.summary,
         )
         raise ThermalCriticalError(
             f"#23 GPU temperature {gpu:.0f}°C exceeds hard limit {gpu_danger:.0f}°C. "
@@ -446,18 +482,24 @@ class ThermalCriticalError(RuntimeError):
 
 # ── Standalone daemon mode ────────────────────────────────────────────────────
 
+
 def _run_daemon(interval: int, danger_gpu: float, danger_cpu: float) -> None:
     """Poll temperatures on a fixed interval and print alerts."""
     import signal
 
     print(f"[thermal] Determinex thermal monitor — polling every {interval}s")
-    print(f"[thermal] Thresholds: GPU warn={GPU_WARN_C}°C danger={danger_gpu}°C critical={GPU_CRITICAL_C}°C")
-    print(f"[thermal] Thresholds: CPU warn={CPU_WARN_C}°C danger={danger_cpu}°C critical={CPU_CRITICAL_C}°C")
+    print(
+        f"[thermal] Thresholds: GPU warn={GPU_WARN_C}°C danger={danger_gpu}°C critical={GPU_CRITICAL_C}°C"
+    )
+    print(
+        f"[thermal] Thresholds: CPU warn={CPU_WARN_C}°C danger={danger_cpu}°C critical={CPU_CRITICAL_C}°C"
+    )
     print("[thermal] Ctrl+C to stop\n")
 
     def _signal_handler(sig, frame):
         print("\n[thermal] Stopped.")
         sys.exit(0)
+
     signal.signal(signal.SIGINT, _signal_handler)
 
     log_path = Path(__file__).resolve().parent.parent.parent / "logs" / "thermal.log"
@@ -488,11 +530,22 @@ def _run_daemon(interval: int, danger_gpu: float, danger_cpu: float) -> None:
 
 if __name__ == "__main__":
     import argparse
+
     p = argparse.ArgumentParser(description="Determinex thermal monitor daemon")
-    p.add_argument("--interval",   type=int,   default=30,           help="Poll interval in seconds (default 30)")
-    p.add_argument("--danger-gpu", type=float, default=GPU_DANGER_C, help=f"GPU danger threshold °C (default {GPU_DANGER_C})")
-    p.add_argument("--danger-cpu", type=float, default=CPU_DANGER_C, help=f"CPU danger threshold °C (default {CPU_DANGER_C})")
-    p.add_argument("--once",       action="store_true",              help="Print one reading and exit")
+    p.add_argument("--interval", type=int, default=30, help="Poll interval in seconds (default 30)")
+    p.add_argument(
+        "--danger-gpu",
+        type=float,
+        default=GPU_DANGER_C,
+        help=f"GPU danger threshold °C (default {GPU_DANGER_C})",
+    )
+    p.add_argument(
+        "--danger-cpu",
+        type=float,
+        default=CPU_DANGER_C,
+        help=f"CPU danger threshold °C (default {CPU_DANGER_C})",
+    )
+    p.add_argument("--once", action="store_true", help="Print one reading and exit")
     args = p.parse_args()
 
     if args.once:

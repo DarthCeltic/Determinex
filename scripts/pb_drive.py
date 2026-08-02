@@ -19,7 +19,9 @@ Usage:
   python scripts/pb_drive.py <slug> [<slug>...] [--target 90] [--max-iters 4]
   python scripts/pb_drive.py --from-triage [--bucket AUTOFIX] [--target 90]
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import subprocess
@@ -73,7 +75,7 @@ def read_eval(fdir: str, slug: str) -> tuple[int, int, Counter, Counter]:
         "for x in tr if x.get('status') in ('failed','error','failure')];"
         "print(json.dumps({'p':st.get('passed',0),'t':len(tr),'st':dict(st),'sig':dict(sig.most_common(8))}))"
     )
-    out = ssh(f"{PB.replace('programbench','python')} -c \"{pycode}\"")
+    out = ssh(f'{PB.replace("programbench", "python")} -c "{pycode}"')
     for ln in out.splitlines():
         if ln.startswith("{"):
             d = json.loads(ln)
@@ -83,16 +85,22 @@ def read_eval(fdir: str, slug: str) -> tuple[int, int, Counter, Counter]:
 
 def run_eval(fdir: str, author: str, slug: str, timeout: int = 3600) -> None:
     log = f"/tmp/grind/{slug}.drive.log"
-    ssh(f"mkdir -p /tmp/grind; PYTHONUTF8=1 PROGRAMBENCH_DOCKER_CPUS=4 {PB} eval "
-        f"{ROOT}/{fdir} --filter {author} --force > {log} 2>&1", timeout=timeout)
+    ssh(
+        f"mkdir -p /tmp/grind; PYTHONUTF8=1 PROGRAMBENCH_DOCKER_CPUS=4 {PB} eval "
+        f"{ROOT}/{fdir} --filter {author} --force > {log} 2>&1",
+        timeout=timeout,
+    )
 
 
 def upload(slug: str, fdir: str) -> bool:
     sub = A.OVERRIDES / slug / "submission.tar.gz"
     A.pack_submission(slug)
-    r = subprocess.run(SCP + [str(sub),
-                        f"{HOST}:{ROOT}/{fdir}/{slug}/submission.tar.gz"],
-                       capture_output=True, text=True, timeout=120)
+    r = subprocess.run(
+        SCP + [str(sub), f"{HOST}:{ROOT}/{fdir}/{slug}/submission.tar.gz"],
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
     return r.returncode == 0
 
 
@@ -121,14 +129,29 @@ def drive(slug: str, target: float, max_iters: int) -> dict:
         if res.changed:
             print(f"[drive {full}] corpus self-fixed: {res.applied or res.notes[:1]}", flush=True)
             if not upload(full, fdir):
-                return {"slug": full, "verdict": "UPLOAD_FAILED", "score": score, "history": history}
+                return {
+                    "slug": full,
+                    "verdict": "UPLOAD_FAILED",
+                    "score": score,
+                    "history": history,
+                }
             continue
         # no auto-fix -> report exactly what the corpus still needs
         needs = "; ".join(f"[{n}] {s}" for s, n in sig.most_common(5))
         print(f"[drive {full}] CORPUS NEEDS NEXT (no auto-fix): {needs}", flush=True)
-        return {"slug": full, "verdict": "NEEDS_BEHAVIORAL", "score": score,
-                "needs": dict(sig.most_common(8)), "history": history}
-    return {"slug": full, "verdict": "MAX_ITERS", "score": history[-1] if history else 0, "history": history}
+        return {
+            "slug": full,
+            "verdict": "NEEDS_BEHAVIORAL",
+            "score": score,
+            "needs": dict(sig.most_common(8)),
+            "history": history,
+        }
+    return {
+        "slug": full,
+        "verdict": "MAX_ITERS",
+        "score": history[-1] if history else 0,
+        "history": history,
+    }
 
 
 def main() -> int:
@@ -136,16 +159,21 @@ def main() -> int:
     ap.add_argument("slugs", nargs="*")
     ap.add_argument("--target", type=float, default=90.0)
     ap.add_argument("--max-iters", type=int, default=4)
-    ap.add_argument("--wait-for-queues", action="store_true",
-                    help="wait until grinder/phase* + any programbench eval finish before starting")
+    ap.add_argument(
+        "--wait-for-queues",
+        action="store_true",
+        help="wait until grinder/phase* + any programbench eval finish before starting",
+    )
     args = ap.parse_args()
     if args.wait_for_queues:
         print("[drive] waiting for existing queues to clear...", flush=True)
         while True:
             # [p] bracket trick so the pgrep command does not match ITSELF (the self-match
             # bug that hung the first run: 'programbench eval' matched the pgrep argv).
-            busy = ssh("pgrep -f '[p]rogrambench eval' >/dev/null && echo busy || "
-                       "(pgrep -f '[p]b_grind.sh|[p]b_phase' >/dev/null && echo busy || echo free)")
+            busy = ssh(
+                "pgrep -f '[p]rogrambench eval' >/dev/null && echo busy || "
+                "(pgrep -f '[p]b_grind.sh|[p]b_phase' >/dev/null && echo busy || echo free)"
+            )
             if "free" in busy:
                 break
             time.sleep(60)
@@ -162,7 +190,7 @@ def main() -> int:
     out.write_text(json.dumps(results, indent=2), encoding="utf-8")
     print(f"\n=== pb_drive done -> {out} ===")
     for r in results:
-        print(f"  {r.get('verdict'):18} {r['slug']:42} {r.get('score','')}")
+        print(f"  {r.get('verdict'):18} {r['slug']:42} {r.get('score', '')}")
     return 0
 
 

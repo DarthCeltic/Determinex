@@ -44,6 +44,7 @@ and a trailing-newline check) -- none forced. Full 6-tool re-scan (3 branches ea
 549->627 examples, skip rate 45.8%->38.0%. Other 5 tools unchanged (pattern absent in
 their sampled branches).
 """
+
 from __future__ import annotations
 
 import ast
@@ -60,8 +61,9 @@ def _tree(src: str) -> ast.Module:
 
 # ---------- _track_run_fixtures(): chained resolution ----------
 
+
 def test_resolves_a_two_level_fixture_chain():
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 
 def run_cmd(args):
@@ -74,7 +76,7 @@ def help_result():
 @pytest.fixture(scope="session")
 def help_text(help_result):
     return help_result.stdout
-''')
+""")
     fx = iox._track_run_fixtures(tree, set())
     assert "help_result" in fx
     assert "help_text" in fx
@@ -86,7 +88,7 @@ def test_resolves_a_three_level_fixture_chain():
     """A chain three deep: each link projects an attribute off the previous fixture --
     same shape as the two-level case, just applied twice, confirming the fixed-point
     loop isn't hardcoded to exactly one hop."""
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 
 def run_cmd(args):
@@ -103,7 +105,7 @@ def help_text(help_result):
 @pytest.fixture
 def help_text_length(help_text):
     return help_text.__len__
-''')
+""")
     fx = iox._track_run_fixtures(tree, set())
     assert "help_text_length" in fx
     assert fx["help_text_length"] == fx["help_result"]
@@ -112,7 +114,7 @@ def help_text_length(help_text):
 def test_fixture_with_real_logic_in_body_is_not_chained():
     """A fixture that does more than a bare `return <param>.<attr>` is not a transparent
     projection -- never guess past real logic in the body."""
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 
 def run_cmd(args):
@@ -126,14 +128,14 @@ def help_result():
 def help_text_upper(help_result):
     text = help_result.stdout
     return text.upper()
-''')
+""")
     fx = iox._track_run_fixtures(tree, set())
     assert "help_result" in fx
     assert "help_text_upper" not in fx
 
 
 def test_fixture_projecting_an_unresolved_fixture_stays_unresolved():
-    tree = _tree('''
+    tree = _tree("""
 @pytest.fixture
 def sample_result():
     return make_something_not_a_run_call()
@@ -141,7 +143,7 @@ def sample_result():
 @pytest.fixture
 def sample_text(sample_result):
     return sample_result.stdout
-''')
+""")
     fx = iox._track_run_fixtures(tree, set())
     assert fx == {}
 
@@ -149,7 +151,7 @@ def sample_text(sample_result):
 def test_fixture_attribute_of_unrelated_name_not_chained():
     """The Attribute base must be one of THIS fixture's own parameters -- an attribute
     access on some other name (e.g. a module-level constant) must not match."""
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 
 def run_cmd(args):
@@ -164,7 +166,7 @@ SOME_OBJ = object()
 @pytest.fixture
 def odd_fixture(help_result):
     return SOME_OBJ.attr
-''')
+""")
     fx = iox._track_run_fixtures(tree, set())
     assert "help_result" in fx
     assert "odd_fixture" not in fx
@@ -172,7 +174,7 @@ def odd_fixture(help_result):
 
 # ---------- extract_file() integration ----------
 
-_PREFIX = '''
+_PREFIX = """
 import subprocess
 
 def run_cmd(args):
@@ -185,15 +187,18 @@ def help_result():
 @pytest.fixture(scope="session")
 def help_text(help_result):
     return help_result.stdout
-'''
+"""
 
 
 def test_extract_file_resolves_test_via_chained_fixture(tmp_path):
-    src = _PREFIX + '''
+    src = (
+        _PREFIX
+        + """
 @pytest.mark.parametrize("flag", ["--help", "--version"])
 def test_help_documents_flag(help_text, flag):
     assert flag in help_text
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

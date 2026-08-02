@@ -7,9 +7,10 @@ section the frontend renders) and refuses any layout that mixes
 authority signals, hides blocked state, or shows a green success
 state without a 'does NOT authorize X' caption.
 """
+
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 from .frontend_authority_visual_audit_record import (
     FRONTEND_AUTHORITY_VISUAL_AUDIT_STATUS_TOKENS,
@@ -32,9 +33,7 @@ def audit(sections: Iterable[SectionState]) -> FrontendAuthorityVisualAuditRecor
     # 1) Every required section must be represented.
     missing = [s for s in FRONTEND_VISUAL_SECTIONS if s not in seen_names]
     if missing:
-        ambiguities.append(
-            f"required sections missing from layout: {missing!r}"
-        )
+        ambiguities.append(f"required sections missing from layout: {missing!r}")
 
     # 2) Unknown sections.
     for s in sec_list:
@@ -45,16 +44,16 @@ def audit(sections: Iterable[SectionState]) -> FrontendAuthorityVisualAuditRecor
     for s in sec_list:
         if "+" in s.section or "/" in s.section or "&" in s.section:
             section_merges.append(
-                f"section name {s.section!r} looks merged "
-                "(must be a single distinct section)"
+                f"section name {s.section!r} looks merged (must be a single distinct section)"
             )
         # Common mismatches called out by the audit spec:
         # diagnosis + source_mutation; operator_queue + approval.
         compound_patterns = (
-            ("diagnosis_and_source_mutation",
-             "diagnosis must be separate from source_mutation_status"),
-            ("operator_queue_and_approval",
-             "operator queue must be separate from approval grants"),
+            (
+                "diagnosis_and_source_mutation",
+                "diagnosis must be separate from source_mutation_status",
+            ),
+            ("operator_queue_and_approval", "operator queue must be separate from approval grants"),
         )
         for pat, msg in compound_patterns:
             if pat in s.section:

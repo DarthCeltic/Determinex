@@ -7,14 +7,18 @@ _ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
 from corpus.programbench.infra_failure_triage import InfraFailureTriageStatus  # noqa: E402
-from corpus.programbench.infra_failure_triage_record import make_infra_failure_triage_record, write_infra_failure_triage_record  # noqa: E402
+from corpus.programbench.infra_failure_triage_record import (  # noqa: E402
+    make_infra_failure_triage_record,
+    write_infra_failure_triage_record,
+)
 from corpus.programbench.operator_artifact_admission import (  # noqa: E402
     OperatorArtifactAdmissionConfig,
     OperatorArtifactAdmissionStatus,
     ProgramBenchOperatorArtifactAdmission,
 )
-from corpus.programbench.operator_artifact_admission_record import verify_operator_artifact_admission_record  # noqa: E402
-
+from corpus.programbench.operator_artifact_admission_record import (
+    verify_operator_artifact_admission_record,  # noqa: E402
+)
 
 MISSING_IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 
@@ -92,14 +96,20 @@ def test_valid_operator_admission_with_exact_image_and_digest_is_accepted(tmp_pa
     result = _admitter(tmp_path).admit(_triage_path(tmp_path), _claim())
 
     record = result["record"]
-    assert record["status"] == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.value
+    assert (
+        record["status"]
+        == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.value
+    )
     assert record["image_reference"] == MISSING_IMAGE
 
 
 def test_missing_triage_record_blocks(tmp_path):
     result = _admitter(tmp_path).admit(tmp_path / "missing.triage.json", _claim())
 
-    assert result["record"]["status"] == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_TRIAGE.value
+    assert (
+        result["record"]["status"]
+        == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_TRIAGE.value
+    )
 
 
 def test_non_missing_cleanroom_image_triage_blocks(tmp_path):
@@ -108,7 +118,10 @@ def test_non_missing_cleanroom_image_triage_blocks(tmp_path):
         _claim(),
     )
 
-    assert result["record"]["status"] == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_TRIAGE.value
+    assert (
+        result["record"]["status"]
+        == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_TRIAGE.value
+    )
 
 
 def test_image_mismatch_blocks(tmp_path):
@@ -117,7 +130,10 @@ def test_image_mismatch_blocks(tmp_path):
         _claim(image_reference="programbench/other:task_cleanroom"),
     )
 
-    assert result["record"]["status"] == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_IMAGE_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_IMAGE_MISMATCH.value
+    )
 
 
 def test_scope_mismatch_blocks(tmp_path):
@@ -128,19 +144,30 @@ def test_scope_mismatch_blocks(tmp_path):
     }
     result = _admitter(tmp_path).admit(_triage_path(tmp_path), _claim(intended_scope=bad_scope))
 
-    assert result["record"]["status"] == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_SCOPE_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_SCOPE_MISMATCH.value
+    )
 
 
 def test_missing_digest_blocks(tmp_path):
-    result = _admitter(tmp_path).admit(_triage_path(tmp_path), _claim(digest="", immutable_revision=""))
+    result = _admitter(tmp_path).admit(
+        _triage_path(tmp_path), _claim(digest="", immutable_revision="")
+    )
 
-    assert result["record"]["status"] == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_DIGEST.value
+    assert (
+        result["record"]["status"]
+        == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_DIGEST.value
+    )
 
 
 def test_latest_floating_tag_without_digest_blocks(tmp_path):
     result = _admitter(tmp_path).admit(_triage_path(tmp_path), _claim(tag="latest", digest=""))
 
-    assert result["record"]["status"] == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_FLOATING_TAG.value
+    assert (
+        result["record"]["status"]
+        == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_FLOATING_TAG.value
+    )
 
 
 def test_missing_provenance_blocks(tmp_path):
@@ -149,13 +176,20 @@ def test_missing_provenance_blocks(tmp_path):
         _claim(license_provenance_notes="", provenance_notes=""),
     )
 
-    assert result["record"]["status"] == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_PROVENANCE.value
+    assert (
+        result["record"]["status"]
+        == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_PROVENANCE.value
+    )
 
 
 def test_public_untrusted_direct_hydration_blocks(tmp_path):
     result = _admitter(tmp_path).admit(
         _triage_path(tmp_path),
-        _claim(source_type="public_untrusted", trust_level="public_untrusted", requested_use="direct_hydration"),
+        _claim(
+            source_type="public_untrusted",
+            trust_level="public_untrusted",
+            requested_use="direct_hydration",
+        ),
     )
 
     assert result["record"]["status"] == (
@@ -167,14 +201,20 @@ def test_accepted_admission_becomes_hydration_candidate_only(tmp_path):
     result = _admitter(tmp_path).admit(_triage_path(tmp_path), _claim())
 
     assert result["record"]["hydration_candidate"] is True
-    assert OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_HYDRATION_CANDIDATE.value in result["record"]["admission_statuses"]
+    assert (
+        OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_HYDRATION_CANDIDATE.value
+        in result["record"]["admission_statuses"]
+    )
 
 
 def test_accepted_admission_is_not_executable(tmp_path):
     result = _admitter(tmp_path).admit(_triage_path(tmp_path), _claim())
 
     assert result["record"]["executable"] is False
-    assert OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_NOT_EXECUTABLE.value in result["record"]["admission_statuses"]
+    assert (
+        OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_NOT_EXECUTABLE.value
+        in result["record"]["admission_statuses"]
+    )
 
 
 def test_accepted_admission_is_not_training_eligible(tmp_path):
@@ -194,8 +234,14 @@ def test_signed_admission_outcome_is_produced(tmp_path):
 
 def test_triage_not_requiring_operator_recovery_blocks(tmp_path):
     result = _admitter(tmp_path).admit(
-        _triage_path(tmp_path, source_status=InfraFailureTriageStatus.IMAGE_SOURCE_EXACT_REFERENCE_FOUND.value),
+        _triage_path(
+            tmp_path,
+            source_status=InfraFailureTriageStatus.IMAGE_SOURCE_EXACT_REFERENCE_FOUND.value,
+        ),
         _claim(),
     )
 
-    assert result["record"]["status"] == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_TRIAGE.value
+    assert (
+        result["record"]["status"]
+        == OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_TRIAGE.value
+    )

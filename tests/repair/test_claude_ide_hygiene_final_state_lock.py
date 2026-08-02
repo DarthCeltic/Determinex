@@ -1,4 +1,5 @@
 """Tests for CLAUDE_IDE_HYGIENE_FINAL_STATE_LOCK_001 (rung 9 finale)."""
+
 from __future__ import annotations
 
 import importlib
@@ -14,12 +15,8 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 
 final = importlib.import_module("repair.claude_ide_hygiene_final_state")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_IDE_HYGIENE_FINAL_STATE_LOCK_001.json"
-)
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_ide_hygiene_final_state"
-)
+LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / ("CLAUDE_IDE_HYGIENE_FINAL_STATE_LOCK_001.json")
+EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / ("claude_ide_hygiene_final_state")
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
@@ -28,9 +25,7 @@ EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 # ---------------------------------------------------------------------------
 def test_live_evaluation_passes():
     rec = final.evaluate(_REPO_ROOT)
-    assert rec.is_passed, (
-        f"finale evaluator did not pass; notes={rec.notes!r}"
-    )
+    assert rec.is_passed, f"finale evaluator did not pass; notes={rec.notes!r}"
 
 
 def test_live_evaluation_all_dimensions_closed():
@@ -89,8 +84,7 @@ def test_synthetic_full_skeleton_passes(tmp_path):
 
 def test_missing_rung_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    (fake / "locks" / "sentinel"
-     / "CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001.json").unlink()
+    (fake / "locks" / "sentinel" / "CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001.json").unlink()
     rec = final.evaluate(fake)
     assert rec.is_blocked
     assert rec.public_claims_ledger_closed is False
@@ -99,8 +93,7 @@ def test_missing_rung_blocks(tmp_path):
 
 def test_lock_with_open_source_mutation_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "CLAUDE_CONFIG_ROOT_ALLOWLIST_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "CLAUDE_CONFIG_ROOT_ALLOWLIST_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["source_mutation_authorized"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -111,8 +104,7 @@ def test_lock_with_open_source_mutation_blocks(tmp_path):
 
 def test_lock_with_opened_training_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["training_eligible"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -123,8 +115,9 @@ def test_lock_with_opened_training_blocks(tmp_path):
 
 def test_missing_demo_rung_sets_demo_ready_false(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    (fake / "locks" / "sentinel"
-     / "CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001.json").unlink()
+    (
+        fake / "locks" / "sentinel" / "CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001.json"
+    ).unlink()
     rec = final.evaluate(fake)
     assert rec.is_blocked
     assert rec.demo_script_closed is False

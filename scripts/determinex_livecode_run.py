@@ -16,6 +16,7 @@ Usage:
     python scripts/determinex_livecode_run.py --n 300 --difficulty all --workers 4 \\
         --out logs/livecode/run_20260503.jsonl
 """
+
 from __future__ import annotations
 
 import argparse
@@ -29,7 +30,6 @@ import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Optional
 
 _SCRIPTS_DIR = Path(__file__).resolve().parent
 if str(_SCRIPTS_DIR) not in sys.path:
@@ -43,17 +43,18 @@ logging.basicConfig(
 log = logging.getLogger("determinex_livecode")
 
 # ── Backend config (reuses determinex_swebench_agent env vars) ───────────────────
-_ANTHROPIC_KEY   = os.getenv("DETERMINEX_ANTHROPIC_KEY", os.getenv("ANTHROPIC_API_KEY", ""))
+_ANTHROPIC_KEY = os.getenv("DETERMINEX_ANTHROPIC_KEY", os.getenv("ANTHROPIC_API_KEY", ""))
 _ANTHROPIC_MODEL = os.getenv("DETERMINEX_ANTHROPIC_MODEL", "claude-sonnet-4-6")
-_ANTHROPIC_URL   = "https://api.anthropic.com/v1/messages"
-_DEEPSEEK_KEY    = os.getenv("DETERMINEX_DEEPSEEK_KEY", os.getenv("DEEPSEEK_API_KEY", ""))
-_DEEPSEEK_MODEL  = os.getenv("DETERMINEX_DEEPSEEK_MODEL", "deepseek-chat")
-_DEEPSEEK_URL    = "https://api.deepseek.com/v1"
+_ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
+_DEEPSEEK_KEY = os.getenv("DETERMINEX_DEEPSEEK_KEY", os.getenv("DEEPSEEK_API_KEY", ""))
+_DEEPSEEK_MODEL = os.getenv("DETERMINEX_DEEPSEEK_MODEL", "deepseek-chat")
+_DEEPSEEK_URL = "https://api.deepseek.com/v1"
 
 _DEFAULT_BACKEND = os.getenv("DETERMINEX_LCB_BACKEND", "anthropic")
 
 
 # ── LLM call ──────────────────────────────────────────────────────────────────
+
 
 def _call_llm(prompt: str, backend: str = _DEFAULT_BACKEND, temperature: float = 0.1) -> str:
     import urllib.request
@@ -94,7 +95,10 @@ def _call_llm(prompt: str, backend: str = _DEFAULT_BACKEND, temperature: float =
         body = {
             "model": _DEEPSEEK_MODEL,
             "messages": [
-                {"role": "system", "content": "You are an expert competitive programmer. Write correct, efficient Python solutions."},
+                {
+                    "role": "system",
+                    "content": "You are an expert competitive programmer. Write correct, efficient Python solutions.",
+                },
                 {"role": "user", "content": prompt},
             ],
             "temperature": temperature,
@@ -104,7 +108,10 @@ def _call_llm(prompt: str, backend: str = _DEFAULT_BACKEND, temperature: float =
         req = urllib.request.Request(
             f"{_DEEPSEEK_URL}/chat/completions",
             data=json.dumps(body).encode(),
-            headers={"Content-Type": "application/json", "Authorization": f"Bearer {_DEEPSEEK_KEY}"},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {_DEEPSEEK_KEY}",
+            },
             method="POST",
         )
         try:
@@ -121,14 +128,15 @@ def _call_llm(prompt: str, backend: str = _DEFAULT_BACKEND, temperature: float =
 
 # ── Code extraction ────────────────────────────────────────────────────────────
 
+
 def _extract_python_code(response: str) -> str:
     """Extract Python code from a markdown-fenced or bare response."""
     # Try ```python ... ``` first
-    m = re.search(r'```python\s*(.*?)```', response, re.DOTALL)
+    m = re.search(r"```python\s*(.*?)```", response, re.DOTALL)
     if m:
         return m.group(1).strip()
     # Try ``` ... ```
-    m = re.search(r'```\s*(.*?)```', response, re.DOTALL)
+    m = re.search(r"```\s*(.*?)```", response, re.DOTALL)
     if m:
         return m.group(1).strip()
     # Return as-is if no fences
@@ -136,6 +144,7 @@ def _extract_python_code(response: str) -> str:
 
 
 # ── Test execution ────────────────────────────────────────────────────────────
+
 
 def _run_test_cases(
     code: str,
@@ -158,13 +167,16 @@ def _run_test_cases(
     messages = []
 
     for i, tc in enumerate(test_cases):
-        tc_input  = tc.get("input", "")
+        tc_input = tc.get("input", "")
         tc_output = tc.get("output", "").strip()
-        tc_type   = tc.get("testtype", "stdin")
+        tc_type = tc.get("testtype", "stdin")
 
         with tempfile.NamedTemporaryFile(
-            suffix=".py", mode="w", delete=False,
-            prefix="lcb_solution_", encoding="utf-8",
+            suffix=".py",
+            mode="w",
+            delete=False,
+            prefix="lcb_solution_",
+            encoding="utf-8",
         ) as f:
             f.write(code)
             tmp_path = f.name
@@ -173,7 +185,8 @@ def _run_test_cases(
             result = subprocess.run(
                 [sys.executable, tmp_path],
                 input=tc_input,
-                capture_output=True, text=True,
+                capture_output=True,
+                text=True,
                 timeout=timeout,
             )
             actual = result.stdout.strip()
@@ -203,19 +216,22 @@ def _run_test_cases(
 
 # ── Prompt builder ─────────────────────────────────────────────────────────────
 
+
 def _build_prompt(problem: dict, failed_output: str = "") -> str:
-    title       = problem.get("question_title", "Problem")
-    content     = problem.get("question_content", "")
-    starter     = problem.get("starter_code", "")
-    difficulty  = problem.get("difficulty", "")
-    pub_tests   = problem.get("public_test_cases", [])
+    title = problem.get("question_title", "Problem")
+    content = problem.get("question_content", "")
+    starter = problem.get("starter_code", "")
+    difficulty = problem.get("difficulty", "")
+    pub_tests = problem.get("public_test_cases", [])
 
     # Format a few public test examples
     test_examples = ""
     if pub_tests:
         examples = []
         for tc in pub_tests[:3]:
-            examples.append(f"Input:\n{tc.get('input', '')}\nExpected Output:\n{tc.get('output', '')}")
+            examples.append(
+                f"Input:\n{tc.get('input', '')}\nExpected Output:\n{tc.get('output', '')}"
+            )
         test_examples = "\n\nExample test cases:\n" + "\n\n".join(examples)
 
     retry_section = ""
@@ -241,14 +257,15 @@ def _build_prompt(problem: dict, failed_output: str = "") -> str:
         )
     else:
         prompt += (
-            f"Return ONLY the complete Python solution — no explanation, no extra prose.\n"
-            f"Your code must read from stdin and write to stdout.\n"
+            "Return ONLY the complete Python solution — no explanation, no extra prose.\n"
+            "Your code must read from stdin and write to stdout.\n"
         )
 
     return prompt
 
 
 # ── Single instance solver ────────────────────────────────────────────────────
+
 
 def solve_instance(
     problem: dict,
@@ -258,9 +275,9 @@ def solve_instance(
 ) -> dict:
     """Solve a single LiveCodeBench problem."""
     instance_id = problem.get("question_id", "unknown")
-    difficulty  = problem.get("difficulty", "?")
-    pub_tests   = problem.get("public_test_cases", [])
-    priv_tests  = problem.get("private_test_cases", [])
+    difficulty = problem.get("difficulty", "?")
+    pub_tests = problem.get("public_test_cases", [])
+    priv_tests = problem.get("private_test_cases", [])
 
     last_failure = ""
     solution = ""
@@ -302,7 +319,9 @@ def solve_instance(
 
     if solution and priv_tests:
         priv_passed_all, priv_msg, priv_pass_count, _ = _run_test_cases(
-            solution, priv_tests, timeout=test_timeout,
+            solution,
+            priv_tests,
+            timeout=test_timeout,
         )
 
     return {
@@ -320,9 +339,10 @@ def solve_instance(
 
 # ── Dataset loader ────────────────────────────────────────────────────────────
 
+
 def _load_dataset(
     n: int,
-    difficulty: Optional[str] = None,
+    difficulty: str | None = None,
     dataset_name: str = "livecodebench/code_generation_lite",
 ) -> list[dict]:
     """Load LiveCodeBench instances. Falls back to cached JSONL if HF offline."""
@@ -331,6 +351,7 @@ def _load_dataset(
     # Try HuggingFace datasets first
     try:
         from datasets import load_dataset  # type: ignore[import]
+
         ds = load_dataset(dataset_name, split="test", trust_remote_code=True)
         instances = [dict(row) for row in ds]
         log.info("Loaded %d LiveCodeBench instances from HuggingFace", len(instances))
@@ -379,17 +400,23 @@ def _load_dataset(
 
 # ── Main runner ───────────────────────────────────────────────────────────────
 
+
 def run_benchmark(
     n: int = 50,
-    difficulty: Optional[str] = None,
+    difficulty: str | None = None,
     workers: int = 4,
     backend: str = _DEFAULT_BACKEND,
     max_retries: int = 2,
     output_path: str = "logs/livecode/results.jsonl",
     test_timeout: int = 10,
 ) -> list[dict]:
-    log.info("LiveCodeBench: n=%d difficulty=%s workers=%d backend=%s",
-             n, difficulty or "all", workers, backend)
+    log.info(
+        "LiveCodeBench: n=%d difficulty=%s workers=%d backend=%s",
+        n,
+        difficulty or "all",
+        workers,
+        backend,
+    )
 
     instances = _load_dataset(n, difficulty)
     if not instances:
@@ -413,28 +440,33 @@ def run_benchmark(
                 elapsed = time.time() - start
                 log.info(
                     "[%d/%d] %s → %s (%d/%d private) | Running: %d/%d (%.1f%%) | %.0fs",
-                    len(results), len(instances),
+                    len(results),
+                    len(instances),
                     result["instance_id"],
                     "PASS" if result["passed"] else "FAIL",
-                    result["private_pass_count"], result["private_total"],
-                    solved, len(results),
+                    result["private_pass_count"],
+                    result["private_total"],
+                    solved,
+                    len(results),
                     100 * solved / len(results),
                     elapsed,
                 )
             except Exception as e:
                 inst = futures[future]
                 log.warning("Instance %s raised: %s", inst.get("question_id", "?"), e)
-                results.append({
-                    "instance_id": inst.get("question_id", "unknown"),
-                    "difficulty": inst.get("difficulty", "?"),
-                    "solution": "",
-                    "passed": False,
-                    "private_pass_count": 0,
-                    "private_total": 0,
-                    "public_passed": False,
-                    "message": str(e),
-                    "backend": backend,
-                })
+                results.append(
+                    {
+                        "instance_id": inst.get("question_id", "unknown"),
+                        "difficulty": inst.get("difficulty", "?"),
+                        "solution": "",
+                        "passed": False,
+                        "private_pass_count": 0,
+                        "private_total": 0,
+                        "public_passed": False,
+                        "message": str(e),
+                        "backend": backend,
+                    }
+                )
 
     # Write results
     with open(output_path, "w", encoding="utf-8") as f:
@@ -453,8 +485,13 @@ def run_benchmark(
     log.info("FINAL: %d/%d = %.1f%%", solved, total, 100 * solved / total if total else 0)
     for diff_name, outcomes in sorted(by_diff.items()):
         pass_count = sum(outcomes)
-        log.info("  %-8s %d/%d = %.1f%%", diff_name, pass_count, len(outcomes),
-                 100 * pass_count / len(outcomes) if outcomes else 0)
+        log.info(
+            "  %-8s %d/%d = %.1f%%",
+            diff_name,
+            pass_count,
+            len(outcomes),
+            100 * pass_count / len(outcomes) if outcomes else 0,
+        )
     log.info("Results written to: %s", output_path)
     log.info("=" * 60)
 
@@ -463,15 +500,24 @@ def run_benchmark(
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def main() -> None:
     p = argparse.ArgumentParser(description="Determinex LiveCodeBench harness")
     p.add_argument("--n", type=int, default=50, help="Number of instances to solve")
-    p.add_argument("--difficulty", choices=["easy", "medium", "hard", "all"],
-                   default=None, help="Filter by difficulty tier")
+    p.add_argument(
+        "--difficulty",
+        choices=["easy", "medium", "hard", "all"],
+        default=None,
+        help="Filter by difficulty tier",
+    )
     p.add_argument("--workers", type=int, default=4, help="Parallel workers")
     p.add_argument("--backend", choices=["anthropic", "deepseek"], default=_DEFAULT_BACKEND)
-    p.add_argument("--max-retries", type=int, default=2,
-                   help="Retry attempts per problem when public tests fail")
+    p.add_argument(
+        "--max-retries",
+        type=int,
+        default=2,
+        help="Retry attempts per problem when public tests fail",
+    )
     p.add_argument("--timeout", type=int, default=10, help="Seconds per test case")
     p.add_argument("--out", default="logs/livecode/results.jsonl", help="Output JSONL path")
     args = p.parse_args()

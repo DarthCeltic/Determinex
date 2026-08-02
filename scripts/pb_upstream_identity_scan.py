@@ -40,6 +40,7 @@ Usage:
   python scripts/pb_upstream_identity_scan.py --guard                    # exit 1 on any un-flagged
                                                                           # PROVEN/STRONG hit among locks
 """
+
 from __future__ import annotations
 
 import argparse
@@ -67,25 +68,43 @@ for _s in (sys.stdout, sys.stderr):
     except Exception:
         pass
 
-_SRC_EXT = (".rs", ".go", ".c", ".cpp", ".h", ".hpp", ".py", ".js", ".ts", ".rb", ".php", ".java", ".kt", ".swift")
+_SRC_EXT = (
+    ".rs",
+    ".go",
+    ".c",
+    ".cpp",
+    ".h",
+    ".hpp",
+    ".py",
+    ".js",
+    ".ts",
+    ".rb",
+    ".php",
+    ".java",
+    ".kt",
+    ".swift",
+)
 
 # manifest filename -> regex fields worth pulling for identity comparison
 _MANIFEST_FIELD_PATTERNS = {
     "Cargo.toml": [
-        ("authors", re.compile(r'^\s*authors\s*=\s*\[(.*?)\]', re.M)),
+        ("authors", re.compile(r"^\s*authors\s*=\s*\[(.*?)\]", re.M)),
         ("repository", re.compile(r'^\s*repository\s*=\s*"([^"]+)"', re.M)),
         ("homepage", re.compile(r'^\s*homepage\s*=\s*"([^"]+)"', re.M)),
     ],
     "go.mod": [
-        ("module", re.compile(r'^\s*module\s+(\S+)', re.M)),
+        ("module", re.compile(r"^\s*module\s+(\S+)", re.M)),
     ],
     "package.json": [
-        ("repository", re.compile(r'"repository"\s*:\s*(?:\{[^}]*"url"\s*:\s*"([^"]+)"|"([^"]+)")')),
+        (
+            "repository",
+            re.compile(r'"repository"\s*:\s*(?:\{[^}]*"url"\s*:\s*"([^"]+)"|"([^"]+)")'),
+        ),
         ("author", re.compile(r'"author"\s*:\s*"([^"]+)"')),
         ("homepage", re.compile(r'"homepage"\s*:\s*"([^"]+)"')),
     ],
     "pyproject.toml": [
-        ("authors", re.compile(r'^\s*authors\s*=\s*\[(.*?)\]', re.M | re.S)),
+        ("authors", re.compile(r"^\s*authors\s*=\s*\[(.*?)\]", re.M | re.S)),
         ("homepage", re.compile(r'^\s*(?:homepage|Homepage)\s*=\s*"([^"]+)"', re.M)),
     ],
     "setup.py": [
@@ -95,8 +114,8 @@ _MANIFEST_FIELD_PATTERNS = {
 }
 
 _COPYRIGHT_RE = re.compile(
-    r'(Copyright\s*(?:\(C\)|©)?\s*\d{4}[^\n]{0,120}|Released as open source by [^\n]{0,80}|'
-    r'This file is part of [^\n]{0,80})',
+    r"(Copyright\s*(?:\(C\)|©)?\s*\d{4}[^\n]{0,120}|Released as open source by [^\n]{0,80}|"
+    r"This file is part of [^\n]{0,80})",
     re.I,
 )
 
@@ -140,12 +159,14 @@ def tier1_manifest_scan(src_dir: Path, repository: str) -> dict[str, Any]:
                 low = value.lower()
                 matches_upstream = owner in low or repo_name in low
                 if matches_upstream:
-                    hits.append({
-                        "file": str(path.relative_to(src_dir)),
-                        "field": field_name,
-                        "value": value[:200],
-                        "matches_upstream_identity": True,
-                    })
+                    hits.append(
+                        {
+                            "file": str(path.relative_to(src_dir)),
+                            "field": field_name,
+                            "value": value[:200],
+                            "matches_upstream_identity": True,
+                        }
+                    )
     return {"hits": hits, "match_count": len(hits)}
 
 
@@ -164,11 +185,13 @@ def tier1_header_scan(src_dir: Path, repository: str) -> dict[str, Any]:
             snippet = m.group(0)[:200]
             low = snippet.lower()
             matches_upstream = owner in low or repo_name in low
-            hits.append({
-                "file": str(path.relative_to(src_dir)),
-                "snippet": snippet,
-                "matches_upstream_identity": matches_upstream,
-            })
+            hits.append(
+                {
+                    "file": str(path.relative_to(src_dir)),
+                    "snippet": snippet,
+                    "matches_upstream_identity": matches_upstream,
+                }
+            )
     return {"hits": hits, "match_count": sum(1 for h in hits if h["matches_upstream_identity"])}
 
 
@@ -176,7 +199,9 @@ def _clone_url(repository: str) -> str:
     return f"https://github.com/{repository}.git"
 
 
-def tier2_upstream_diff(src_dir: Path, repository: str, commit: str, *, network: bool = True) -> dict[str, Any]:
+def tier2_upstream_diff(
+    src_dir: Path, repository: str, commit: str, *, network: bool = True
+) -> dict[str, Any]:
     if not network:
         return {"skipped": True, "reason": "--no-network"}
     url = _clone_url(repository)
@@ -184,17 +209,30 @@ def tier2_upstream_diff(src_dir: Path, repository: str, commit: str, *, network:
         clone_dir = Path(td) / "upstream"
         r = subprocess.run(
             ["git", "clone", "--filter=blob:none", "--no-checkout", url, str(clone_dir)],
-            capture_output=True, text=True, timeout=600,
+            capture_output=True,
+            text=True,
+            timeout=600,
         )
         if r.returncode != 0:
             return {"error": f"clone failed: {r.stderr[-300:]}"}
-        co = subprocess.run(["git", "-C", str(clone_dir), "checkout", commit],
-                             capture_output=True, text=True, timeout=300)
+        co = subprocess.run(
+            ["git", "-C", str(clone_dir), "checkout", commit],
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
         if co.returncode != 0:
-            subprocess.run(["git", "-C", str(clone_dir), "fetch", "--depth", "1", "origin", commit],
-                            capture_output=True, timeout=300)
-            co = subprocess.run(["git", "-C", str(clone_dir), "checkout", commit],
-                                 capture_output=True, text=True, timeout=300)
+            subprocess.run(
+                ["git", "-C", str(clone_dir), "fetch", "--depth", "1", "origin", commit],
+                capture_output=True,
+                timeout=300,
+            )
+            co = subprocess.run(
+                ["git", "-C", str(clone_dir), "checkout", commit],
+                capture_output=True,
+                text=True,
+                timeout=300,
+            )
             if co.returncode != 0:
                 return {"error": f"checkout {commit} failed: {co.stderr[-300:]}"}
 
@@ -204,9 +242,7 @@ def tier2_upstream_diff(src_dir: Path, repository: str, commit: str, *, network:
             if p.is_file() and ".git" not in p.parts
         }
         submission_files = {
-            p.relative_to(src_dir).as_posix(): p
-            for p in src_dir.rglob("*")
-            if p.is_file()
+            p.relative_to(src_dir).as_posix(): p for p in src_dir.rglob("*") if p.is_file()
         }
         common = set(upstream_files) & set(submission_files)
         identical = 0
@@ -219,7 +255,9 @@ def tier2_upstream_diff(src_dir: Path, repository: str, commit: str, *, network:
                 # (or the submission tarball's own line-ending choice) produces byte differences
                 # with zero code-content meaning -- confirmed on dirble/main.rs 2026-07-16 (100%
                 # content-identical, 0% raw-byte-identical, purely from Windows checkout CRLF).
-                if up_bytes == sub_bytes or up_bytes.replace(b"\r\n", b"\n") == sub_bytes.replace(b"\r\n", b"\n"):
+                if up_bytes == sub_bytes or up_bytes.replace(b"\r\n", b"\n") == sub_bytes.replace(
+                    b"\r\n", b"\n"
+                ):
                     identical += 1
                 else:
                     differing += 1
@@ -256,18 +294,27 @@ def compute_verdict(tier1_manifest: dict, tier1_header: dict, tier2: dict) -> st
 def scan_slug(slug: str, *, network: bool = True) -> dict[str, Any]:
     prov = corpus_api.task_provenance(slug)
     if prov is None:
-        return {"slug": slug, "error": "no canonical_tasks.json entry found via corpus API "
-                "(run: python scripts/pb_canonical_tasks.py to refresh the index)"}
+        return {
+            "slug": slug,
+            "error": "no canonical_tasks.json entry found via corpus API "
+            "(run: python scripts/pb_canonical_tasks.py to refresh the index)",
+        }
 
     with tempfile.TemporaryDirectory() as td:
         src_dir = extract_submission(slug, Path(td) / "submission")
         if src_dir is None:
-            return {"slug": slug, "repository": prov.repository, "commit": prov.commit,
-                     "error": f"no submission.tar.gz at {LOCKED / slug}"}
+            return {
+                "slug": slug,
+                "repository": prov.repository,
+                "commit": prov.commit,
+                "error": f"no submission.tar.gz at {LOCKED / slug}",
+            }
 
         tier1_manifest = tier1_manifest_scan(src_dir, prov.repository or "")
         tier1_header = tier1_header_scan(src_dir, prov.repository or "")
-        tier2 = tier2_upstream_diff(src_dir, prov.repository or "", prov.commit or "", network=network)
+        tier2 = tier2_upstream_diff(
+            src_dir, prov.repository or "", prov.commit or "", network=network
+        )
 
     verdict = compute_verdict(tier1_manifest, tier1_header, tier2)
     return {

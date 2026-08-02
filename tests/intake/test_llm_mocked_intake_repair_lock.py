@@ -19,6 +19,7 @@ mocked model outputs only. Asserts that:
   * The lock manifest, evidence artifact, and evidence_index entry are
     all present and well-formed.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -59,18 +60,20 @@ EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "llm_mocked_intake_repair
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-STATUS_TOKENS = frozenset({
-    "DIAGNOSE_MOCK_ROUTE_SELECTED",
-    "PATCH_PLAN_MOCK_GENERATED",
-    "PATCH_NOT_APPLIED_TO_SOURCE",
-    "VERIFIER_RESULT_CAPTURED",
-    "TRAINING_ELIGIBLE_FALSE",
-    "EVIDENCE_WRITTEN",
-    "UNSUPPORTED_REPO_BLOCKED",
-    "NO_NETWORK_CALL_MADE",
-    "NO_SUBPROCESS_CALL_MADE",
-    "NO_SOURCE_MUTATION",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "DIAGNOSE_MOCK_ROUTE_SELECTED",
+        "PATCH_PLAN_MOCK_GENERATED",
+        "PATCH_NOT_APPLIED_TO_SOURCE",
+        "VERIFIER_RESULT_CAPTURED",
+        "TRAINING_ELIGIBLE_FALSE",
+        "EVIDENCE_WRITTEN",
+        "UNSUPPORTED_REPO_BLOCKED",
+        "NO_NETWORK_CALL_MADE",
+        "NO_SUBPROCESS_CALL_MADE",
+        "NO_SOURCE_MUTATION",
+    }
+)
 
 
 def _hash_tree(root: Path) -> dict[str, str]:
@@ -141,9 +144,7 @@ SUPPORTED_FIXTURES = [
 
 
 @pytest.mark.parametrize("fixture_name,expected_build_system", SUPPORTED_FIXTURES)
-def test_loop_drives_supported_fixture_to_complete_trace(
-    loop, fixture_name, expected_build_system
-):
+def test_loop_drives_supported_fixture_to_complete_trace(loop, fixture_name, expected_build_system):
     ws = FIXTURES / fixture_name
     assert ws.is_dir(), f"Missing fixture: {ws}"
     trace = loop.run(ws)
@@ -209,6 +210,7 @@ def test_mock_client_refuses_unauthorized_route():
     """If a RouteRecord has execution_authorized=False, MockModelClient
     must raise rather than fabricate a response."""
     from models.model_router_record import RouteRecord
+
     client = MockModelClient(default_mock_canned())
     blocked = RouteRecord(
         task_class=TaskClass.BUILD_DIAGNOSIS.value,
@@ -228,6 +230,7 @@ def test_mock_client_refuses_unauthorized_route():
 def test_mock_client_raises_on_unknown_task_class():
     """The mock fixture must enumerate every class it intends to exercise."""
     from models.model_router_record import RouteRecord
+
     client = MockModelClient({TaskClass.BUILD_DIAGNOSIS: {"kind": "MOCK"}})
     authorized = RouteRecord(
         task_class=TaskClass.PATCH_PLANNING.value,

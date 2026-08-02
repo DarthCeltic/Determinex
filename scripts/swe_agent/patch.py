@@ -15,6 +15,7 @@ then applies them to source via a 6-pass fuzzy-matching cascade:
 
 All functions are pure (no I/O, no mutable state). Fully testable in isolation.
 """
+
 from __future__ import annotations
 
 import logging
@@ -22,7 +23,7 @@ import re
 
 log = logging.getLogger("determinex_swe")
 
-_LINE_NUM_PREFIX_RE = re.compile(r'^\s*\d+\s*\|\s?')
+_LINE_NUM_PREFIX_RE = re.compile(r"^\s*\d+\s*\|\s?")
 
 
 def _normalize_for_match(s: str) -> str:
@@ -34,9 +35,9 @@ def _normalize_for_match(s: str) -> str:
 def _strip_block_fences(text: str) -> str:
     """Remove markdown code fences that small models sometimes wrap around SEARCH/REPLACE content."""
     lines = text.split("\n")
-    if lines and re.match(r'^\s*`{3}', lines[0]):
+    if lines and re.match(r"^\s*`{3}", lines[0]):
         lines = lines[1:]
-    if lines and re.match(r'^\s*`{3}\s*$', lines[-1]):
+    if lines and re.match(r"^\s*`{3}\s*$", lines[-1]):
         lines = lines[:-1]
     return "\n".join(lines)
 
@@ -71,10 +72,11 @@ def _parse_search_replace_blocks(raw: str) -> list[tuple[str, str]]:
         - longer separator runs ("====", "-----")
         - ">>>" without "REPLACE" keyword
     """
+
     def _build_blocks(pattern: re.Pattern) -> list[tuple[str, str]]:
         result: list[tuple[str, str]] = []
         for m in pattern.finditer(raw):
-            search  = _strip_line_number_prefixes(_strip_block_fences(m.group(1)))
+            search = _strip_line_number_prefixes(_strip_block_fences(m.group(1)))
             replace = _strip_line_number_prefixes(_strip_block_fences(m.group(2)))
             if search.strip() == replace.strip():
                 log.debug("_parse_search_replace_blocks: rejecting no-op block")
@@ -84,7 +86,7 @@ def _parse_search_replace_blocks(raw: str) -> list[tuple[str, str]]:
 
     # Pass 1: strict
     strict = re.compile(
-        r'<<<\s*SEARCH\s*\n(.*?)\n===\s*\n(.*?)\n>>>\s*REPLACE',
+        r"<<<\s*SEARCH\s*\n(.*?)\n===\s*\n(.*?)\n>>>\s*REPLACE",
         re.DOTALL,
     )
     blocks = _build_blocks(strict)
@@ -93,7 +95,7 @@ def _parse_search_replace_blocks(raw: str) -> list[tuple[str, str]]:
 
     # Pass 2: lenient — handles format variations DeepSeek/Anthropic occasionally emit
     lenient = re.compile(
-        r'<<<\s*SEARCH[^\n]*\n(.*?)\n={3,}[^\n]*\n(.*?)\n>{3}[^\n]*',
+        r"<<<\s*SEARCH[^\n]*\n(.*?)\n={3,}[^\n]*\n(.*?)\n>{3}[^\n]*",
         re.DOTALL,
     )
     blocks = _build_blocks(lenient)
@@ -148,19 +150,19 @@ def _apply_search_replace_blocks(
             continue
 
         # 2. Trailing-whitespace + CRLF normalized
-        norm_src  = _normalize_for_match(result)
+        norm_src = _normalize_for_match(result)
         norm_srch = _normalize_for_match(search)
         if norm_srch and norm_srch in norm_src:
             idx = norm_src.find(norm_srch)
-            orig_lines   = result.split("\n")
+            orig_lines = result.split("\n")
             lines_before = norm_src[:idx].count("\n")
-            match_lines  = norm_srch.count("\n") + 1
+            match_lines = norm_srch.count("\n") + 1
             new_result = (
                 "\n".join(orig_lines[:lines_before])
                 + ("\n" if lines_before > 0 else "")
                 + replace
                 + ("\n" if lines_before + match_lines < len(orig_lines) else "")
-                + "\n".join(orig_lines[lines_before + match_lines:])
+                + "\n".join(orig_lines[lines_before + match_lines :])
             )
             if new_result != result:
                 result = new_result
@@ -168,7 +170,7 @@ def _apply_search_replace_blocks(
                 continue
 
         # 3. Tab ↔ 4-space equivalence
-        tab4_src  = _normalize_for_match(result).replace("\t", "    ")
+        tab4_src = _normalize_for_match(result).replace("\t", "    ")
         tab4_srch = _normalize_for_match(search).replace("\t", "    ")
         if tab4_srch and tab4_srch in tab4_src:
             new_result = norm_src.replace(
@@ -190,15 +192,15 @@ def _apply_search_replace_blocks(
         norm_stripped = _normalize_for_match(search_stripped)
         if norm_stripped and norm_stripped != norm_srch and norm_stripped in norm_src:
             idx = norm_src.find(norm_stripped)
-            orig_lines   = result.split("\n")
+            orig_lines = result.split("\n")
             lines_before = norm_src[:idx].count("\n")
-            match_lines  = norm_stripped.count("\n") + 1
+            match_lines = norm_stripped.count("\n") + 1
             new_result = (
                 "\n".join(orig_lines[:lines_before])
                 + ("\n" if lines_before > 0 else "")
                 + replace
                 + ("\n" if lines_before + match_lines < len(orig_lines) else "")
-                + "\n".join(orig_lines[lines_before + match_lines:])
+                + "\n".join(orig_lines[lines_before + match_lines :])
             )
             if new_result != result:
                 result = new_result
@@ -229,18 +231,19 @@ def _apply_search_replace_blocks(
                             threshold, min_lines = 0.6, 1
                         else:
                             src_base_si = src_norm_si.split("(")[0].rstrip()
-                            if (len(anchor_base) < _MIN_ANCHOR_BASE
-                                    or src_base_si != anchor_base
-                                    or src_norm_si == anchor_norm):
+                            if (
+                                len(anchor_base) < _MIN_ANCHOR_BASE
+                                or src_base_si != anchor_base
+                                or src_norm_si == anchor_norm
+                            ):
                                 continue
                             threshold, min_lines = 0.5, 2
 
-                        window_size  = len(search.split("\n"))
-                        window_lines = src_lines_all[si: si + window_size]
-                        window_norm  = _normalize_for_match("\n".join(window_lines))
+                        window_size = len(search.split("\n"))
+                        window_lines = src_lines_all[si : si + window_size]
+                        window_norm = _normalize_for_match("\n".join(window_lines))
                         matching = sum(
-                            1 for sl in search_lines_ne
-                            if _normalize_for_match(sl) in window_norm
+                            1 for sl in search_lines_ne if _normalize_for_match(sl) in window_norm
                         )
                         if matching >= max(min_lines, int(len(search_lines_ne) * threshold)):
                             new_result = (
@@ -248,13 +251,15 @@ def _apply_search_replace_blocks(
                                 + ("\n" if si > 0 else "")
                                 + replace
                                 + ("\n" if si + window_size < len(src_lines_all) else "")
-                                + "\n".join(src_lines_all[si + window_size:])
+                                + "\n".join(src_lines_all[si + window_size :])
                             )
                             if new_result != result:
                                 result = new_result
                                 log.debug(
                                     "fuzzy match (anchor-window pass=%d %d/%d) succeeded",
-                                    pass_num, matching, len(search_lines_ne),
+                                    pass_num,
+                                    matching,
+                                    len(search_lines_ne),
                                 )
                                 anchor_matched = True
                                 break
@@ -276,7 +281,7 @@ def _apply_search_replace_blocks(
                         + ("\n" if si > 0 else "")
                         + replace
                         + ("\n" if si + 1 < len(src_lines_all) else "")
-                        + "\n".join(src_lines_all[si + 1:])
+                        + "\n".join(src_lines_all[si + 1 :])
                     )
                     if new_result != result:
                         result = new_result
@@ -292,10 +297,9 @@ def _apply_search_replace_blocks(
         #    that are purely comment markers and retry the search with the remaining
         #    code lines. The replacement is applied as-is (it may legitimately add
         #    a comment back).
-        _COMMENT_LINE_RE = re.compile(r'^\s*(?:#|//|/\*|\*)')
+        _COMMENT_LINE_RE = re.compile(r"^\s*(?:#|//|/\*|\*)")
         search_no_comments = "\n".join(
-            l for l in search.split("\n")
-            if not _COMMENT_LINE_RE.match(l)
+            l for l in search.split("\n") if not _COMMENT_LINE_RE.match(l)
         )
         if search_no_comments.strip() and search_no_comments != search:
             if search_no_comments in result:
@@ -325,7 +329,7 @@ def _apply_search_replace_blocks(
                     + ("\n" if start_line > 0 else "")
                     + replace
                     + ("\n" if start_line + n_lines < len(orig_lines) else "")
-                    + "\n".join(orig_lines[start_line + n_lines:])
+                    + "\n".join(orig_lines[start_line + n_lines :])
                 )
                 if new_result != result:
                     result = new_result

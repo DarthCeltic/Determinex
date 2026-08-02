@@ -21,6 +21,7 @@ set[str] to dict[str, str] (alias name -> its real target name), then copying th
 target's kwarg_flags entry to the alias's own name too, whenever the alias doesn't
 already have its own entry.
 """
+
 from __future__ import annotations
 
 import sys
@@ -31,7 +32,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_discover_fixture_wrapper_aliases_returns_target_mapping():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 import pytest
 
@@ -42,14 +43,15 @@ def run_binary(*args, **kwargs):
 @pytest.fixture
 def run_cmd():
     return run_binary
-''')
+""")
     aliases = iox._discover_fixture_wrapper_aliases(tree, Path("conftest.py"), {"run_binary"})
     assert aliases == {"run_cmd": "run_binary"}
 
 
 def test_extract_file_resolves_dropbear_shaped_bare_alias_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import pytest
 
@@ -61,12 +63,14 @@ def run_binary(*args, **kwargs):
 @pytest.fixture
 def run_cmd():
     return run_binary
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_help(run_cmd):
     result = run_cmd("-h")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

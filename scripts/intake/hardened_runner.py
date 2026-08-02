@@ -50,12 +50,13 @@ covered — see docs/SECURITY_POSTURE.md "Hardened Runner — Actual Boundary"):
 For anything that needs a real boundary against these gaps, use Docker
 (as SWE-bench already does), not this runner alone.
 """
+
 from __future__ import annotations
 
 import os
 import shutil
 import subprocess
-from collections.abc import Iterable, Mapping, Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Final
@@ -67,35 +68,45 @@ from typing import Final
 # Environment variables stripped from every child invocation. These are the
 # classic "library injection" / shell-startup hooks. Stripping is
 # unconditional — there is no opt-in.
-BLOCKED_ENV_VARS: Final[frozenset[str]] = frozenset({
-    "LD_PRELOAD",
-    "LD_LIBRARY_PATH",
-    "LD_AUDIT",
-    "DYLD_INSERT_LIBRARIES",
-    "DYLD_LIBRARY_PATH",
-    "DYLD_FALLBACK_LIBRARY_PATH",
-    "DYLD_FORCE_FLAT_NAMESPACE",
-    "PYTHONSTARTUP",
-    "PYTHONHOME",
-    "PYTHONUSERBASE",
-    "IFS",
-    "PS4",
-    "BASH_ENV",
-    "ENV",
-    "FCEDIT",
-    "TMPPREFIX",
-    "PROMPT_COMMAND",
-})
+BLOCKED_ENV_VARS: Final[frozenset[str]] = frozenset(
+    {
+        "LD_PRELOAD",
+        "LD_LIBRARY_PATH",
+        "LD_AUDIT",
+        "DYLD_INSERT_LIBRARIES",
+        "DYLD_LIBRARY_PATH",
+        "DYLD_FALLBACK_LIBRARY_PATH",
+        "DYLD_FORCE_FLAT_NAMESPACE",
+        "PYTHONSTARTUP",
+        "PYTHONHOME",
+        "PYTHONUSERBASE",
+        "IFS",
+        "PS4",
+        "BASH_ENV",
+        "ENV",
+        "FCEDIT",
+        "TMPPREFIX",
+        "PROMPT_COMMAND",
+    }
+)
 
 # First-argv programs we refuse by default.
-REFUSED_PROGRAMS: Final[frozenset[str]] = frozenset({
-    "docker", "docker.exe",
-    "docker-compose", "docker-compose.exe",
-    "podman", "podman.exe",
-    "buildah", "buildah.exe",
-    "kubectl", "kubectl.exe",
-    "helm", "helm.exe",
-})
+REFUSED_PROGRAMS: Final[frozenset[str]] = frozenset(
+    {
+        "docker",
+        "docker.exe",
+        "docker-compose",
+        "docker-compose.exe",
+        "podman",
+        "podman.exe",
+        "buildah",
+        "buildah.exe",
+        "kubectl",
+        "kubectl.exe",
+        "helm",
+        "helm.exe",
+    }
+)
 
 # First-argv programs that imply network egress, refused by default. This is
 # a best-effort argv[0] denylist, not real network isolation (no namespace /
@@ -105,24 +116,42 @@ REFUSED_PROGRAMS: Final[frozenset[str]] = frozenset({
 # bash, powershell, ...) are NOT here because intake/build/repair legitimately
 # needs them, and a script-language process making an HTTP call is invisible
 # to an argv[0] check no matter what's on this list.
-NETWORK_PROGRAMS: Final[frozenset[str]] = frozenset({
-    "curl", "curl.exe",
-    "wget", "wget.exe",
-    "ncat", "ncat.exe",
-    "netcat", "netcat.exe",
-    "nc", "nc.exe",
-    "ssh", "ssh.exe",
-    "scp", "scp.exe",
-    "sftp", "sftp.exe",
-    "rsync", "rsync.exe",
-    "ftp", "ftp.exe",
-    "tftp", "tftp.exe",
-    "telnet", "telnet.exe",
-    "dig", "dig.exe",
-    "nslookup", "nslookup.exe",
-    "host", "host.exe",
-    "whois", "whois.exe",
-})
+NETWORK_PROGRAMS: Final[frozenset[str]] = frozenset(
+    {
+        "curl",
+        "curl.exe",
+        "wget",
+        "wget.exe",
+        "ncat",
+        "ncat.exe",
+        "netcat",
+        "netcat.exe",
+        "nc",
+        "nc.exe",
+        "ssh",
+        "ssh.exe",
+        "scp",
+        "scp.exe",
+        "sftp",
+        "sftp.exe",
+        "rsync",
+        "rsync.exe",
+        "ftp",
+        "ftp.exe",
+        "tftp",
+        "tftp.exe",
+        "telnet",
+        "telnet.exe",
+        "dig",
+        "dig.exe",
+        "nslookup",
+        "nslookup.exe",
+        "host",
+        "host.exe",
+        "whois",
+        "whois.exe",
+    }
+)
 
 # Upper sanity cap on any timeout the caller requests.
 MAX_TIMEOUT_S: Final[int] = 600
@@ -132,6 +161,7 @@ MAX_TIMEOUT_S: Final[int] = 600
 # Block reasons — string constants used in RunResult.reason
 # ---------------------------------------------------------------------------
 
+
 class BlockReason:
     SHELL_STRING = "command must be list[str], not a shell string"
     NON_STRING_ARG = "every command argument must be a str"
@@ -140,18 +170,24 @@ class BlockReason:
     BAD_TIMEOUT = "timeout must be a positive integer"
     BAD_WORKSPACE = "workspace must be an existing directory"
     CWD_OUTSIDE_WORKSPACE = "cwd resolves outside workspace"
-    DOCKER_REFUSED = "Docker/container runtime refused by default (pass allow_docker=True to opt in)"
-    NETWORK_REFUSED = "network-enabling command refused by default (pass allow_network=True to opt in)"
+    DOCKER_REFUSED = (
+        "Docker/container runtime refused by default (pass allow_docker=True to opt in)"
+    )
+    NETWORK_REFUSED = (
+        "network-enabling command refused by default (pass allow_network=True to opt in)"
+    )
 
 
 # ---------------------------------------------------------------------------
 # Result type
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class RunResult:
     """Structured outcome from :func:`run`. Never indicates success by
     exception — all failure modes are flags + a ``reason`` string."""
+
     command: list[str]
     cwd: str
     exit_code: int
@@ -190,6 +226,7 @@ class RunResult:
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def scrub_env(extra_env: Mapping[str, str] | None = None) -> tuple[dict[str, str], list[str]]:
     """Return ``(scrubbed_env, stripped_keys)``.
@@ -241,7 +278,9 @@ def _to_list_argv(cmd: object) -> list[str] | None:
 
 
 def _blocked(
-    cmd: object, cwd: object, reason: str,
+    cmd: object,
+    cwd: object,
+    reason: str,
     scrubbed: list[str] | None = None,
 ) -> RunResult:
     if isinstance(cmd, (list, tuple)):
@@ -263,6 +302,7 @@ def _blocked(
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
+
 
 def run(
     cmd: Sequence[str],
@@ -319,7 +359,8 @@ def run(
     ws_resolved = workspace.resolve(strict=False)
     if not ws_resolved.is_dir():
         return _blocked(
-            cmd_list, cwd or workspace,
+            cmd_list,
+            cwd or workspace,
             f"{BlockReason.BAD_WORKSPACE}: {ws_resolved}",
         )
 

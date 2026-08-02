@@ -1,4 +1,5 @@
 """Create Windows signing and SmartScreen trust evidence from installer artifacts."""
+
 from __future__ import annotations
 
 import argparse
@@ -7,7 +8,7 @@ import json
 import os
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -24,7 +25,7 @@ WINDOWS_ARTIFACT_TYPES = {"windows_msi", "windows_nsis_setup"}
 
 
 def _utc_stamp() -> str:
-    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
 def _sha256(path: Path) -> str:
@@ -90,7 +91,15 @@ def _powershell_signature(path: Path) -> dict[str, str]:
             "SignerCertificateSubject": "",
             "TimeStamperCertificateSubject": "",
         }
-    return {key: str(data.get(key) or "") for key in ("Status", "StatusMessage", "SignerCertificateSubject", "TimeStamperCertificateSubject")}
+    return {
+        key: str(data.get(key) or "")
+        for key in (
+            "Status",
+            "StatusMessage",
+            "SignerCertificateSubject",
+            "TimeStamperCertificateSubject",
+        )
+    }
 
 
 def build_packet(
@@ -103,7 +112,10 @@ def build_packet(
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     artifacts: list[dict[str, Any]] = []
     for artifact in manifest.get("artifacts", []):
-        if not isinstance(artifact, dict) or artifact.get("artifact_type") not in WINDOWS_ARTIFACT_TYPES:
+        if (
+            not isinstance(artifact, dict)
+            or artifact.get("artifact_type") not in WINDOWS_ARTIFACT_TYPES
+        ):
             continue
         path = _resolve_artifact_path(root, manifest, artifact)
         signature = _powershell_signature(path)
@@ -128,10 +140,12 @@ def build_packet(
     statuses = {str(item["authenticode_status"]) for item in artifacts}
     all_signed = statuses == {"Valid"}
     timestamp_verified = all(bool(item["timestamp_certificate_subject"]) for item in artifacts)
-    certificate_subjects = sorted({str(item["certificate_subject"]) for item in artifacts if item["certificate_subject"]})
+    certificate_subjects = sorted(
+        {str(item["certificate_subject"]) for item in artifacts if item["certificate_subject"]}
+    )
     return {
         "schema_version": SCHEMA_VERSION,
-        "generated_at_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "generated_at_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "manifest_path": str(manifest_path),
         "artifact_authenticode_status": "Valid" if all_signed else ",".join(sorted(statuses)),
         "code_signing_verified": all_signed,
@@ -171,7 +185,10 @@ def main() -> int:
         manifest_path = resolved
     else:
         manifest_path = args.manifest if args.manifest.is_absolute() else root / args.manifest
-    output = args.output or root / "assurance/evidence/windows_trust" / f"windows_trust_{_utc_stamp()}.json"
+    output = (
+        args.output
+        or root / "assurance/evidence/windows_trust" / f"windows_trust_{_utc_stamp()}.json"
+    )
     output = output if output.is_absolute() else root / output
 
     packet = build_packet(
@@ -182,7 +199,15 @@ def main() -> int:
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(packet, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"output": str(output), "artifact_authenticode_status": packet["artifact_authenticode_status"]}, indent=2))
+    print(
+        json.dumps(
+            {
+                "output": str(output),
+                "artifact_authenticode_status": packet["artifact_authenticode_status"],
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

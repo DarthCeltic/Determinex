@@ -9,38 +9,35 @@ Verifies:
   - emit() is fail-silent on filesystem errors (non-blocking guarantee)
   - DeterminexEvent.to_dict() has no Python enum values (JSON-serializable)
 """
+
 from __future__ import annotations
 
 import json
-import os
 import sys
-import tempfile
 from pathlib import Path
 from unittest.mock import patch
-
-import pytest
 
 _SCRIPTS = Path(__file__).resolve().parents[2] / "scripts"
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from observability.event_schema import DeterminexEvent, EventType
 from observability.event_logger import (
     emit,
-    emit_task_accepted,
-    emit_task_denied,
     emit_baseline,
-    emit_corpus_written,
-    emit_corpus_rejected,
-    emit_license_rejected,
     emit_cloak_applied,
     emit_cloak_failed,
+    emit_corpus_rejected,
+    emit_corpus_written,
+    emit_license_rejected,
+    emit_task_accepted,
+    emit_task_denied,
 )
-
+from observability.event_schema import DeterminexEvent, EventType
 
 # ---------------------------------------------------------------------------
 # DeterminexEvent shape
 # ---------------------------------------------------------------------------
+
 
 def test_event_has_trace_id():
     evt = DeterminexEvent(event_type=EventType.TASK_ACCEPTED)
@@ -85,6 +82,7 @@ def test_to_dict_has_no_enum_values():
 # EventType completeness
 # ---------------------------------------------------------------------------
 
+
 def test_event_type_has_task_lifecycle_events():
     assert EventType.TASK_ACCEPTED in EventType
     assert EventType.TASK_DENIED in EventType
@@ -121,6 +119,7 @@ def test_event_type_has_action_events():
 # emit() returns correct DeterminexEvent
 # ---------------------------------------------------------------------------
 
+
 def test_emit_returns_determinex_event(tmp_path):
     with patch("observability.event_logger._audit_dir", return_value=tmp_path):
         evt = emit(EventType.TASK_ACCEPTED, task_id="t1", language="python")
@@ -155,7 +154,10 @@ def test_emit_multiple_events_appends(tmp_path):
 
 def test_emit_is_fail_silent_on_bad_path():
     """emit() must not raise even if the log directory is unwritable."""
-    with patch("observability.event_logger._today_log_path", return_value=Path("/nonexistent/dir/events.jsonl")):
+    with patch(
+        "observability.event_logger._today_log_path",
+        return_value=Path("/nonexistent/dir/events.jsonl"),
+    ):
         evt = emit(EventType.TASK_ACCEPTED, task_id="silent-test")
     # Must return the event even though write failed
     assert evt.task_id == "silent-test"
@@ -164,6 +166,7 @@ def test_emit_is_fail_silent_on_bad_path():
 # ---------------------------------------------------------------------------
 # Convenience wrappers
 # ---------------------------------------------------------------------------
+
 
 def test_emit_task_accepted(tmp_path):
     with patch("observability.event_logger._audit_dir", return_value=tmp_path):

@@ -9,7 +9,6 @@ Validates YAML output via:
 
 from __future__ import annotations
 
-import json
 import logging
 import os
 import re
@@ -87,7 +86,9 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
     try:
         result = subprocess.run(
             [yamllint, "--format", "parsable", path],
-            capture_output=True, text=True, timeout=10,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         if result.returncode == 0:
             return True, "parse + schema + yamllint clean"

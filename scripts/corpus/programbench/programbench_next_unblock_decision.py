@@ -16,7 +16,6 @@ from corpus.programbench.programbench_next_unblock_decision_record import (  # n
     write_programbench_next_unblock_decision_record,
 )
 
-
 DOXYGEN_REF = "assurance/evidence/programbench_doxygen_lane_final_state/doxygen__doxygen.966d98e.DOXYGEN_LANE_FINAL_STATE_WRITTEN.json"
 PER_TARGET_GRAPH_REF = "assurance/evidence/programbench_per_target_unified_graph_expansion/run_20260528.PROGRAMBENCH_PER_TARGET_GRAPH_WRITTEN.json"
 IMPORT_SCAN_FINAL_REF = "assurance/evidence/programbench_batch001_import_scan_campaign_final_state/programbench_batch001_import_scan_campaign_final_state_run_20260528.BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_WRITTEN.json"
@@ -85,7 +84,9 @@ def decide_next_programbench_unblock(
     options = [
         {
             "option": "doxygen_security_policy_admission",
-            "current_status": doxygen.get("security_execution_authority", "ABSENT_PENDING_OPERATOR_POLICY_ADMISSION"),
+            "current_status": doxygen.get(
+                "security_execution_authority", "ABSENT_PENDING_OPERATOR_POLICY_ADMISSION"
+            ),
             "required_operator_packet": "security_policy_admission",
             "required_artifact_provenance": "already has official artifact authority; scan failed/policy admission required",
             "required_scanner_policy_status": "operator must acknowledge scan/security policy",
@@ -96,7 +97,9 @@ def decide_next_programbench_unblock(
         },
         {
             "option": "batch001_one_target_artifact_import_scan_policy",
-            "current_status": first_target.get("next_unblocker", "supply exact artifact import provenance"),
+            "current_status": first_target.get(
+                "next_unblocker", "supply exact artifact import provenance"
+            ),
             "target": first_target.get("instance_id"),
             "required_operator_packet": "artifact_import_provenance_packet",
             "required_artifact_provenance": "exact artifact tar/ref bound to manifest digest and sha256",
@@ -108,7 +111,9 @@ def decide_next_programbench_unblock(
         },
         {
             "option": "hold_for_evidence_ledger",
-            "current_status": "ledger_ready" if ledger_ready and count_ready else "ledger_not_ready",
+            "current_status": "ledger_ready"
+            if ledger_ready and count_ready
+            else "ledger_not_ready",
             "required_operator_packet": "none",
             "required_artifact_provenance": "none",
             "required_scanner_policy_status": "none",

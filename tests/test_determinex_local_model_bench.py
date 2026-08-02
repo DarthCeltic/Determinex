@@ -12,6 +12,7 @@ been wrong for this exact machine. These tests mock the network call (no
 real Ollama round-trip) so the suite stays fast and deterministic; the real
 end-to-end path was exercised manually, not just unit-tested.
 """
+
 from __future__ import annotations
 
 import json
@@ -36,6 +37,7 @@ def _rewire(monkeypatch, tmp_path: Path) -> None:
 # infer_tier
 # ---------------------------------------------------------------------------
 
+
 def test_infer_tier_exact_matches():
     assert bench.infer_tier("qwen2.5-coder:14b-instruct-q4_K_M") == "14b"
     assert bench.infer_tier("qwen2.5-coder:1.5b-instruct") == "1.5b"
@@ -55,6 +57,7 @@ def test_infer_tier_nearest_fallback_for_unlisted_size():
 # detect_hardware -- never raises, degrades gracefully
 # ---------------------------------------------------------------------------
 
+
 def test_detect_hardware_never_raises_even_without_nvidia_smi():
     with patch("subprocess.run", side_effect=FileNotFoundError("no nvidia-smi")):
         hw = bench.detect_hardware()
@@ -67,6 +70,7 @@ def test_detect_hardware_never_raises_even_without_nvidia_smi():
 # ---------------------------------------------------------------------------
 # bench_model -- mocked network, real caching logic
 # ---------------------------------------------------------------------------
+
 
 def _fake_urlopen_success(eval_count=5):
     mock_resp = MagicMock()
@@ -118,6 +122,7 @@ def test_bench_model_network_failure_records_error_not_raise(tmp_path, monkeypat
 # estimate_timeout_seconds -- priority chain: local -> community -> placeholder
 # ---------------------------------------------------------------------------
 
+
 def test_estimate_timeout_from_real_local_measurement(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     with patch("urllib.request.urlopen", return_value=_fake_urlopen_success()):
@@ -131,12 +136,19 @@ def test_estimate_timeout_falls_back_to_community_when_local_fails(tmp_path, mon
     _rewire(monkeypatch, tmp_path)
     bench.COMMUNITY_BENCH_DIR.mkdir(parents=True)
     community_entry = {
-        "model": "test-model:7b", "hardware_key": "someone-elses-rig",
-        "latency_seconds": 15.0, "tokens_generated": 5, "tokens_per_second": 0.33,
-        "hardware": {}, "measured_at": "2026-01-01T00:00:00+00:00",
-        "error": None, "source": "community",
+        "model": "test-model:7b",
+        "hardware_key": "someone-elses-rig",
+        "latency_seconds": 15.0,
+        "tokens_generated": 5,
+        "tokens_per_second": 0.33,
+        "hardware": {},
+        "measured_at": "2026-01-01T00:00:00+00:00",
+        "error": None,
+        "source": "community",
     }
-    (bench.COMMUNITY_BENCH_DIR / "contrib1.json").write_text(json.dumps(community_entry), encoding="utf-8")
+    (bench.COMMUNITY_BENCH_DIR / "contrib1.json").write_text(
+        json.dumps(community_entry), encoding="utf-8"
+    )
 
     with patch("urllib.request.urlopen", side_effect=ConnectionRefusedError("no local ollama")):
         timeout = bench.estimate_timeout_seconds("test-model:7b")
@@ -163,6 +175,7 @@ def test_estimate_timeout_never_raises_and_stays_within_bounds(tmp_path, monkeyp
 # Community submission -- "others who download can report their findings"
 # ---------------------------------------------------------------------------
 
+
 def test_submit_community_bench_writes_a_file(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     with patch("urllib.request.urlopen", return_value=_fake_urlopen_success()):
@@ -187,11 +200,21 @@ def test_submit_community_bench_does_not_clobber_prior_submissions(tmp_path, mon
 def test_load_community_benchmarks_skips_malformed_files(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     bench.COMMUNITY_BENCH_DIR.mkdir(parents=True)
-    (bench.COMMUNITY_BENCH_DIR / "good.json").write_text(json.dumps({
-        "model": "m", "hardware_key": "hw", "latency_seconds": 1.0,
-        "tokens_generated": 1, "tokens_per_second": 1.0, "hardware": {},
-        "measured_at": "2026-01-01T00:00:00+00:00", "error": None,
-    }), encoding="utf-8")
+    (bench.COMMUNITY_BENCH_DIR / "good.json").write_text(
+        json.dumps(
+            {
+                "model": "m",
+                "hardware_key": "hw",
+                "latency_seconds": 1.0,
+                "tokens_generated": 1,
+                "tokens_per_second": 1.0,
+                "hardware": {},
+                "measured_at": "2026-01-01T00:00:00+00:00",
+                "error": None,
+            }
+        ),
+        encoding="utf-8",
+    )
     (bench.COMMUNITY_BENCH_DIR / "bad.json").write_text("not valid json{{{", encoding="utf-8")
 
     results = bench.load_community_benchmarks()

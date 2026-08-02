@@ -12,6 +12,7 @@ Eight user levels with per-level profiles. Hard rules:
   * Every level must declare a teaching window that includes the
     phrase 'training stays false' in 'what_not_to_hide'.
 """
+
 from __future__ import annotations
 
 from .user_levels_and_teaching_windows_record import (
@@ -23,14 +24,18 @@ from .user_levels_and_teaching_windows_record import (
 
 
 def _profile(
-    level: str, *,
-    detail: str, ui: str,
+    level: str,
+    *,
+    detail: str,
+    ui: str,
     explanations: str,
     warnings: tuple[str, ...] = (),
     teaching: tuple[str, ...] = (),
     next_action: str = "open Idea Lab or Repo Clinic",
     not_hide: tuple[str, ...] = (
-        "proof status", "training stays false", "blocked reasons",
+        "proof status",
+        "training stays false",
+        "blocked reasons",
     ),
     not_over_explain: tuple[str, ...] = (),
 ) -> UserLevelProfile:
@@ -194,25 +199,19 @@ def build_record() -> UserLevelsAndTeachingWindowsRecord:
         )
 
     # 4) Teaching windows must explain blocked reason for every level.
-    no_blocked = [
-        p.level for p in profiles
-        if not p.teaching_window_explains_blocked_reason
-    ]
+    no_blocked = [p.level for p in profiles if not p.teaching_window_explains_blocked_reason]
     if no_blocked:
         return _block(
             "USER_LEVELS_BLOCKED_AUTHORITY_BYPASS",
             profiles=profiles,
-            note=(
-                f"teaching_window_explains_blocked_reason=False at "
-                f"levels: {no_blocked!r}"
-            ),
+            note=(f"teaching_window_explains_blocked_reason=False at levels: {no_blocked!r}"),
         )
 
     # 5) Every level must keep training_stays_false in what_not_to_hide.
     missing_training_hide = [
-        p.level for p in profiles
-        if not any("training" in s.lower() and "false" in s.lower()
-                   for s in p.what_not_to_hide)
+        p.level
+        for p in profiles
+        if not any("training" in s.lower() and "false" in s.lower() for s in p.what_not_to_hide)
     ]
     if missing_training_hide:
         return _block(
@@ -239,7 +238,8 @@ def build_record() -> UserLevelsAndTeachingWindowsRecord:
 
 
 def _block(
-    decision: str, *,
+    decision: str,
+    *,
     profiles: tuple[UserLevelProfile, ...],
     note: str,
 ) -> UserLevelsAndTeachingWindowsRecord:

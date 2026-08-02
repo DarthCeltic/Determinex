@@ -40,6 +40,7 @@ CLI:
     python scripts/determinex_project_md.py generate <project_root> [--answers answers.json]
     python scripts/determinex_project_md.py questions <project_root>
 """
+
 from __future__ import annotations
 
 import argparse
@@ -61,19 +62,19 @@ from determinex_ingest import Spec, TaskUnderstanding, ingest  # noqa: E402
 # reverse-engineering one out of each would be a much larger and more fragile undertaking than
 # maintaining the well-known standard command for each ecosystem directly.
 LANGUAGE_COMMANDS: dict[str, dict[str, str]] = {
-    "rust":       {"build": "cargo build", "test": "cargo test", "lint": "cargo clippy"},
-    "go":         {"build": "go build ./...", "test": "go test ./...", "lint": "go vet ./..."},
-    "python":     {"build": "pip install -e .", "test": "pytest", "lint": "ruff check ."},
+    "rust": {"build": "cargo build", "test": "cargo test", "lint": "cargo clippy"},
+    "go": {"build": "go build ./...", "test": "go test ./...", "lint": "go vet ./..."},
+    "python": {"build": "pip install -e .", "test": "pytest", "lint": "ruff check ."},
     "typescript": {"build": "npm run build", "test": "npm test", "lint": "npm run lint"},
     "javascript": {"build": "npm run build", "test": "npm test", "lint": "npm run lint"},
-    "java":       {"build": "gradle build", "test": "gradle test", "lint": ""},
-    "kotlin":     {"build": "gradle build", "test": "gradle test", "lint": ""},
-    "csharp":     {"build": "dotnet build", "test": "dotnet test", "lint": ""},
-    "cpp":        {"build": "cmake --build build", "test": "ctest --test-dir build", "lint": ""},
-    "c":          {"build": "make", "test": "make test", "lint": ""},
-    "ruby":       {"build": "bundle install", "test": "bundle exec rspec", "lint": "rubocop"},
-    "php":        {"build": "composer install", "test": "phpunit", "lint": "phpcs"},
-    "swift":      {"build": "swift build", "test": "swift test", "lint": ""},
+    "java": {"build": "gradle build", "test": "gradle test", "lint": ""},
+    "kotlin": {"build": "gradle build", "test": "gradle test", "lint": ""},
+    "csharp": {"build": "dotnet build", "test": "dotnet test", "lint": ""},
+    "cpp": {"build": "cmake --build build", "test": "ctest --test-dir build", "lint": ""},
+    "c": {"build": "make", "test": "make test", "lint": ""},
+    "ruby": {"build": "bundle install", "test": "bundle exec rspec", "lint": "rubocop"},
+    "php": {"build": "composer install", "test": "phpunit", "lint": "phpcs"},
+    "swift": {"build": "swift build", "test": "swift test", "lint": ""},
 }
 
 # Short system/harness names matching determinex_ingest.py's own convention (_detect_build /
@@ -81,15 +82,34 @@ LANGUAGE_COMMANDS: dict[str, dict[str, str]] = {
 # LANGUAGE_COMMANDS so the "Stack" section reads the same whether a project came from ingest()
 # on real source or spec_to_understanding() on a fresh spec with no source yet.
 _BUILD_SYSTEM_NAMES: dict[str, str] = {
-    "rust": "cargo", "go": "go", "python": "pip", "typescript": "npm", "javascript": "npm",
-    "java": "gradle", "kotlin": "gradle", "csharp": "dotnet", "cpp": "cmake", "c": "make",
-    "ruby": "bundler", "php": "composer", "swift": "swift-pm",
+    "rust": "cargo",
+    "go": "go",
+    "python": "pip",
+    "typescript": "npm",
+    "javascript": "npm",
+    "java": "gradle",
+    "kotlin": "gradle",
+    "csharp": "dotnet",
+    "cpp": "cmake",
+    "c": "make",
+    "ruby": "bundler",
+    "php": "composer",
+    "swift": "swift-pm",
 }
 _HARNESS_NAMES: dict[str, str] = {
-    "rust": "cargo-test", "go": "go-test", "python": "pytest", "typescript": "npm-test",
-    "javascript": "npm-test", "java": "gradle-test", "kotlin": "gradle-test",
-    "csharp": "dotnet-test", "cpp": "ctest", "c": "make-test", "ruby": "rspec",
-    "php": "phpunit", "swift": "swift-test",
+    "rust": "cargo-test",
+    "go": "go-test",
+    "python": "pytest",
+    "typescript": "npm-test",
+    "javascript": "npm-test",
+    "java": "gradle-test",
+    "kotlin": "gradle-test",
+    "csharp": "dotnet-test",
+    "cpp": "ctest",
+    "c": "make-test",
+    "ruby": "rspec",
+    "php": "phpunit",
+    "swift": "swift-test",
 }
 
 # Files every common LLM/agent tool reads for project instructions, in write order.
@@ -107,7 +127,9 @@ class ConventionQuestion:
     options: list[str] = field(default_factory=list)  # empty = free-text
 
 
-def infer_project_convention_questions(understanding: TaskUnderstanding) -> list[ConventionQuestion]:
+def infer_project_convention_questions(
+    understanding: TaskUnderstanding,
+) -> list[ConventionQuestion]:
     """The bounded, deterministic 'what to ask' list. Every question here is something
     determinex_ingest.py's TaskUnderstanding genuinely cannot answer from source/spec alone --
     if a future ingest() improvement CAN derive one of these (e.g. detecting a public API from
@@ -116,25 +138,25 @@ def infer_project_convention_questions(understanding: TaskUnderstanding) -> list
         ConventionQuestion(
             id="api_surface",
             question="Is this a library (other code imports it) or an application "
-                     "(it's the thing that runs)?",
+            "(it's the thing that runs)?",
             why_it_matters="Changes whether backward-compatibility and public-API stability "
-                            "matter, and whether the project-md should warn against breaking "
-                            "signatures other code depends on.",
+            "matter, and whether the project-md should warn against breaking "
+            "signatures other code depends on.",
             options=["library", "application", "both"],
         ),
         ConventionQuestion(
             id="lint_strictness",
             question="Should lint/format failures block a build, or just warn?",
             why_it_matters="Determines whether the generated marching-orders section tells an "
-                            "agent to treat lint output as a hard gate or an advisory pass.",
+            "agent to treat lint output as a hard gate or an advisory pass.",
             options=["blocking", "advisory"],
         ),
         ConventionQuestion(
             id="test_philosophy",
             question="Unit-test-first, integration-test-first, or a mix?",
             why_it_matters="Shapes what 'done' means when an agent adds a feature -- whether it "
-                            "should reach for a narrow unit test or a broader end-to-end one by "
-                            "default.",
+            "should reach for a narrow unit test or a broader end-to-end one by "
+            "default.",
             options=["unit-first", "integration-first", "mixed"],
         ),
     ]
@@ -142,15 +164,17 @@ def infer_project_convention_questions(understanding: TaskUnderstanding) -> list
     # Determinex's synthesize_oracle() to manufacture a test suite automatically, or wants to
     # write the first tests by hand before any agent touches the code.
     if not understanding.has_tests:
-        qs.append(ConventionQuestion(
-            id="oracle_synthesis",
-            question="No test suite was found. Synthesize one automatically (example + "
-                     "property tests), or do you want to write the first tests yourself?",
-            why_it_matters="Determinex's compiler-oracle contract requires SOME ground truth to "
-                            "verify against; this decides whether that ground truth is "
-                            "machine-synthesized now or supplied by you first.",
-            options=["synthesize", "i_will_write_tests"],
-        ))
+        qs.append(
+            ConventionQuestion(
+                id="oracle_synthesis",
+                question="No test suite was found. Synthesize one automatically (example + "
+                "property tests), or do you want to write the first tests yourself?",
+                why_it_matters="Determinex's compiler-oracle contract requires SOME ground truth to "
+                "verify against; this decides whether that ground truth is "
+                "machine-synthesized now or supplied by you first.",
+                options=["synthesize", "i_will_write_tests"],
+            )
+        )
     return qs
 
 
@@ -191,8 +215,10 @@ def spec_to_understanding(spec_text: str, language: str, root: str = "") -> Task
 def _commands_section(language: str) -> str:
     cmds = LANGUAGE_COMMANDS.get(language.lower())
     if not cmds:
-        return f"- No known standard command set for `{language}` -- confirm build/test/lint " \
-               f"commands with the project owner before assuming any."
+        return (
+            f"- No known standard command set for `{language}` -- confirm build/test/lint "
+            f"commands with the project owner before assuming any."
+        )
     lines = [f"- Build: `{cmds['build']}`", f"- Test: `{cmds['test']}`"]
     if cmds.get("lint"):
         lines.append(f"- Lint: `{cmds['lint']}`")
@@ -250,15 +276,21 @@ def generate_agents_md(
     if api_surface:
         lines.append("## API surface")
         if api_surface == "library":
-            lines.append("This is a **library** -- other code imports it. Treat public "
-                          "signatures as load-bearing; don't break them without a version bump.")
+            lines.append(
+                "This is a **library** -- other code imports it. Treat public "
+                "signatures as load-bearing; don't break them without a version bump."
+            )
         elif api_surface == "application":
-            lines.append("This is an **application** -- it is the thing that runs. Public "
-                          "function signatures are internal; the CLI/API contract with its "
-                          "users is what must stay stable.")
+            lines.append(
+                "This is an **application** -- it is the thing that runs. Public "
+                "function signatures are internal; the CLI/API contract with its "
+                "users is what must stay stable."
+            )
         else:
-            lines.append("This project has **both** library and application surfaces -- treat "
-                          "exported symbols as load-bearing, internal wiring as free to change.")
+            lines.append(
+                "This project has **both** library and application surfaces -- treat "
+                "exported symbols as load-bearing, internal wiring as free to change."
+            )
         lines.append("")
 
     lint_strictness = answers.get("lint_strictness")
@@ -266,15 +298,19 @@ def generate_agents_md(
     if lint_strictness or test_philosophy:
         lines.append("## Conventions")
         if lint_strictness == "blocking":
-            lines.append("- Lint/format failures are a hard gate -- fix them before considering "
-                          "a change done.")
+            lines.append(
+                "- Lint/format failures are a hard gate -- fix them before considering "
+                "a change done."
+            )
         elif lint_strictness == "advisory":
             lines.append("- Lint/format output is advisory -- worth fixing, not a blocker.")
         if test_philosophy:
-            label = {"unit-first": "Prefer a narrow unit test for new logic.",
-                     "integration-first": "Prefer a broader end-to-end test over a narrow unit test.",
-                     "mixed": "Use unit tests for logic, integration tests for behavior across "
-                              "components."}.get(test_philosophy)
+            label = {
+                "unit-first": "Prefer a narrow unit test for new logic.",
+                "integration-first": "Prefer a broader end-to-end test over a narrow unit test.",
+                "mixed": "Use unit tests for logic, integration tests for behavior across "
+                "components.",
+            }.get(test_philosophy)
             if label:
                 lines.append(f"- {label}")
         lines.append("")
@@ -302,11 +338,15 @@ def generate_agents_md(
 
     lines.append("## Marching orders")
     lines.append("1. Read this file before making any change.")
-    lines.append(f"2. Run the test command above ({_first_test_cmd(understanding.language)}) "
-                 "before AND after your change -- confirm the baseline, then confirm you didn't "
-                 "break it.")
-    lines.append("3. Match the existing code's own conventions in files you touch over any "
-                 "generic style preference.")
+    lines.append(
+        f"2. Run the test command above ({_first_test_cmd(understanding.language)}) "
+        "before AND after your change -- confirm the baseline, then confirm you didn't "
+        "break it."
+    )
+    lines.append(
+        "3. Match the existing code's own conventions in files you touch over any "
+        "generic style preference."
+    )
     lines.append("4. Don't add scope beyond what was asked.")
     lines.append("")
 

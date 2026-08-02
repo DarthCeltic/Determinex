@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Import returned Hetzner ProgramBench eval artifacts into local staging."""
+
 from __future__ import annotations
 
 import argparse
 import json
 import shutil
 from pathlib import Path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 RESERVATIONS = ROOT / "logs" / "programbench_factory" / "NATIVE_EVAL_RESERVATIONS.json"

@@ -1,4 +1,5 @@
 """Tests for OPT_IN_LIVE_DIAGNOSE_COMMAND_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -78,7 +77,8 @@ def test_no_opt_in_blocks(tmp_path):
     rec = OptInLiveDiagnoseCommand().run(
         FIXTURES / "python_broken",
         task_class="BUILD_DIAGNOSIS",
-        config=cfg, provider=DeterministicProvider(canned={"summary": "ok"}),
+        config=cfg,
+        provider=DeterministicProvider(canned={"summary": "ok"}),
         opt_in=False,
     )
     assert rec.decision == "OPT_IN_LIVE_DIAGNOSE_BLOCKED_NOT_OPTED_IN"
@@ -87,8 +87,10 @@ def test_no_opt_in_blocks(tmp_path):
 
 def test_no_model_config_blocks(tmp_path):
     rec = OptInLiveDiagnoseCommand().run(
-        FIXTURES / "python_broken", task_class="BUILD_DIAGNOSIS",
-        config=None, provider=DeterministicProvider(canned={"summary": "x"}),
+        FIXTURES / "python_broken",
+        task_class="BUILD_DIAGNOSIS",
+        config=None,
+        provider=DeterministicProvider(canned={"summary": "x"}),
         opt_in=True,
     )
     assert rec.decision == "OPT_IN_LIVE_DIAGNOSE_BLOCKED_NO_MODEL_CONFIG"
@@ -97,8 +99,10 @@ def test_no_model_config_blocks(tmp_path):
 def test_unsupported_task_blocks(tmp_path):
     cfg = _cfg(tmp_path)
     rec = OptInLiveDiagnoseCommand().run(
-        FIXTURES / "python_broken", task_class="PATCH_GENERATION",
-        config=cfg, provider=DeterministicProvider(canned={"summary": "x"}),
+        FIXTURES / "python_broken",
+        task_class="PATCH_GENERATION",
+        config=cfg,
+        provider=DeterministicProvider(canned={"summary": "x"}),
         opt_in=True,
     )
     assert rec.decision == "OPT_IN_LIVE_DIAGNOSE_BLOCKED_UNSUPPORTED_TASK"
@@ -107,8 +111,11 @@ def test_unsupported_task_blocks(tmp_path):
 def test_provider_unavailable_blocks(tmp_path):
     cfg = _cfg(tmp_path)
     rec = OptInLiveDiagnoseCommand().run(
-        FIXTURES / "python_broken", task_class="BUILD_DIAGNOSIS",
-        config=cfg, provider=TimeoutProvider(), opt_in=True,
+        FIXTURES / "python_broken",
+        task_class="BUILD_DIAGNOSIS",
+        config=cfg,
+        provider=TimeoutProvider(),
+        opt_in=True,
     )
     assert rec.decision == "OPT_IN_LIVE_DIAGNOSE_BLOCKED_PROVIDER_UNAVAILABLE"
 
@@ -116,8 +123,10 @@ def test_provider_unavailable_blocks(tmp_path):
 def test_happy_path_writes_advisory(tmp_path):
     cfg = _cfg(tmp_path)
     rec = OptInLiveDiagnoseCommand().run(
-        FIXTURES / "python_broken", task_class="BUILD_DIAGNOSIS",
-        config=cfg, provider=DeterministicProvider(canned={"summary": "fixture diagnose"}),
+        FIXTURES / "python_broken",
+        task_class="BUILD_DIAGNOSIS",
+        config=cfg,
+        provider=DeterministicProvider(canned={"summary": "fixture diagnose"}),
         opt_in=True,
     )
     assert rec.decision == "OPT_IN_LIVE_DIAGNOSE_READY"
@@ -133,8 +142,10 @@ def test_command_does_not_mutate_workspace(tmp_path):
     ws = FIXTURES / "python_broken"
     before = _hash_tree(ws)
     OptInLiveDiagnoseCommand().run(
-        ws, task_class="BUILD_DIAGNOSIS",
-        config=cfg, provider=DeterministicProvider(canned={"summary": "x"}),
+        ws,
+        task_class="BUILD_DIAGNOSIS",
+        config=cfg,
+        provider=DeterministicProvider(canned={"summary": "x"}),
         opt_in=True,
     )
     assert _hash_tree(ws) == before

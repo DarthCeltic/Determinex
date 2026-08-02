@@ -8,6 +8,7 @@ Defender or another process can briefly hold a lock on a just-written file).
 One canonical, tenacity-backed implementation instead of N hand-rolled
 copies that could silently drift out of sync with each other.
 """
+
 from __future__ import annotations
 
 import json

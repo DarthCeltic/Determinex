@@ -62,7 +62,7 @@ def test_pinned_requirements_are_parsed(line, expected_name):
         "-r other-requirements.txt",
         "-e .",
         "--extra-index-url https://example.invalid/simple",
-        "requests",                                  # unpinned: nothing to verify
+        "requests",  # unpinned: nothing to verify
         "torch @ https://example.invalid/torch.whl",  # direct URL
     ],
 )
@@ -88,8 +88,14 @@ def test_a_cve_in_the_comment_marks_the_line_as_a_security_floor():
 
 
 def _drift(**kw):
-    base = dict(package="pkg", declared=">=2.0", installed="1.0",
-                severity="HIGH", source_file="requirements.txt", security_ids=[])
+    base = dict(
+        package="pkg",
+        declared=">=2.0",
+        installed="1.0",
+        severity="HIGH",
+        source_file="requirements.txt",
+        security_ids=[],
+    )
     base.update(kw)
     return verify_installed.Drift(**base)
 
@@ -109,8 +115,9 @@ def test_an_unapplied_security_floor_blocks_but_a_merely_absent_package_does_not
 
 
 def test_the_describe_line_names_both_versions():
-    d = _drift(package="aiohttp", declared=">=3.14.1", installed="3.13.5",
-               security_ids=["CVE-2026-54273"])
+    d = _drift(
+        package="aiohttp", declared=">=3.14.1", installed="3.13.5", security_ids=["CVE-2026-54273"]
+    )
     text = d.describe()
     assert "aiohttp" in text and ">=3.14.1" in text and "3.13.5" in text
     assert "CVE-2026-54273" in text
@@ -130,10 +137,8 @@ def test_this_environment_has_no_unapplied_security_floor():
     """
     payload = verify_installed.run(write=False)
     offenders = [d for d in payload["drifts"] if d["severity"] == "CRITICAL"]
-    assert not offenders, (
-        "declared security floors are not installed: "
-        + "; ".join(f"{d['package']} declared {d['declared']}, have {d['installed']}"
-                    for d in offenders)
+    assert not offenders, "declared security floors are not installed: " + "; ".join(
+        f"{d['package']} declared {d['declared']}, have {d['installed']}" for d in offenders
     )
 
 
@@ -144,5 +149,5 @@ def test_pip_audit_itself_is_installed():
     pytest.importorskip(
         "pip_audit",
         reason="pip-audit is declared in requirements.txt and must be installed, or "
-               "dependency_scan cannot run at all",
+        "dependency_scan cannot run at all",
     )

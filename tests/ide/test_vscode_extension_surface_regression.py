@@ -1,4 +1,5 @@
 """Regression coverage for the Determinex VS Code extension surface."""
+
 from __future__ import annotations
 
 import json
@@ -6,7 +7,6 @@ import re
 import sys
 from collections import Counter
 from pathlib import Path
-
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 _EXTENSION_TS = _REPO_ROOT / "frontend" / "vscode-extension" / "src" / "extension.ts"

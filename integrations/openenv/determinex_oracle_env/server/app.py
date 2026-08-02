@@ -30,7 +30,10 @@ def _make_env() -> DeterminexOracleEnv:
 
 
 app = create_app(
-    _make_env, DeterminexOracleAction, DeterminexOracleObservation, env_name="determinex_oracle_env",
+    _make_env,
+    DeterminexOracleAction,
+    DeterminexOracleObservation,
+    env_name="determinex_oracle_env",
 )
 
 

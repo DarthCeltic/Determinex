@@ -28,7 +28,9 @@ class ReplayManifest:
 def write_replay_manifest(manifest: ReplayManifest, root: Path) -> Path:
     root.mkdir(parents=True, exist_ok=True)
     path = root / f"{_safe(manifest.tool)}.replay_manifest.json"
-    path.write_text(json.dumps(manifest.to_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(manifest.to_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return path
 
 

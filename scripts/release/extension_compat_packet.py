@@ -25,6 +25,7 @@ ELECTRON_RUN_AS_NODE: cleared before invoking anything, for the reason documente
 src/test/runTest.ts — it makes VS Code's own binary behave as plain Node, and VS Code sets it for
 processes it spawns, so it is present whenever this is run from a VS Code terminal.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -37,7 +38,7 @@ import subprocess
 import sys
 import tempfile
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -50,8 +51,17 @@ EXTENSION_DIR = Path("frontend/vscode-extension")
 CONTRACT_DOC = Path("docs/release/DETERMINEX_EXTENSION_COMPATIBILITY_CONTRACT.md")
 
 #: Open VSX rejects a package missing any of these.
-OPEN_VSX_REQUIRED = ("name", "displayName", "description", "version", "publisher", "engines",
-                     "license", "repository", "categories")
+OPEN_VSX_REQUIRED = (
+    "name",
+    "displayName",
+    "description",
+    "version",
+    "publisher",
+    "engines",
+    "license",
+    "repository",
+    "categories",
+)
 
 #: Patterns that would break the sandbox claim: a shell, or a command built by interpolation.
 UNSAFE_SPAWN_PATTERNS = (
@@ -62,11 +72,11 @@ UNSAFE_SPAWN_PATTERNS = (
 
 
 def _utc_stamp() -> str:
-    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
 def _utc_now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _sha256(path: Path) -> str:
@@ -102,6 +112,7 @@ def _find_vscode_cli(ext_dir: Path) -> Path | None:
 
 
 # ── the five checks ──────────────────────────────────────────────────────────────────────────────
+
 
 def _check_contract(root: Path, manifest: dict[str, Any]) -> dict[str, Any]:
     """The contract must define the bar the gate enforces, and describe this extension.
@@ -141,20 +152,29 @@ def _check_contract(root: Path, manifest: dict[str, Any]) -> dict[str, Any]:
                 "contract omits gate-required field(s): " + ", ".join(undocumented_fields)
             )
         if gates.EXTENSION_COMPAT_SCHEMA_VERSION not in text:
-            problems.append(f"contract omits the schema version {gates.EXTENSION_COMPAT_SCHEMA_VERSION}")
+            problems.append(
+                f"contract omits the schema version {gates.EXTENSION_COMPAT_SCHEMA_VERSION}"
+            )
     except Exception as exc:  # the gate module is the authority; say so if it cannot be read
         gate_fields = []
-        problems.append(f"could not cross-check against the release gate: {type(exc).__name__}: {exc}")
+        problems.append(
+            f"could not cross-check against the release gate: {type(exc).__name__}: {exc}"
+        )
 
-    contributed = [c.get("command", "") for c in (manifest.get("contributes", {}) or {}).get("commands", [])]
+    contributed = [
+        c.get("command", "") for c in (manifest.get("contributes", {}) or {}).get("commands", [])
+    ]
     undocumented_commands = [c for c in contributed if c and c not in text]
     if undocumented_commands:
         problems.append("contract does not mention command(s): " + ", ".join(undocumented_commands))
 
     return {
         "passed": not problems,
-        "reason": ("contract defines every gate-required field and names every contributed command"
-                   if not problems else "; ".join(problems)),
+        "reason": (
+            "contract defines every gate-required field and names every contributed command"
+            if not problems
+            else "; ".join(problems)
+        ),
         "path": str(CONTRACT_DOC).replace("\\", "/"),
         "gate_required_fields": gate_fields,
         "commands_contributed": contributed,
@@ -174,7 +194,9 @@ def _check_open_vsx_metadata(manifest: dict[str, Any]) -> dict[str, Any]:
         problems.append("repository.url must be an http(s) URL")
     return {
         "passed": not problems,
-        "reason": "all Open VSX required fields present" if not problems else f"missing/invalid: {problems}",
+        "reason": "all Open VSX required fields present"
+        if not problems
+        else f"missing/invalid: {problems}",
         "identity": f"{manifest.get('publisher')}.{manifest.get('name')}@{manifest.get('version')}",
         "license": manifest.get("license"),
         "engines_vscode": engines.get("vscode") if isinstance(engines, dict) else None,
@@ -201,14 +223,19 @@ def _check_sandbox_permissions(ext_dir: Path, manifest: dict[str, Any]) -> dict[
     problems.extend(findings)
     return {
         "passed": not problems,
-        "reason": ("no capabilities declared; backend invoked via a fixed argv with no shell"
-                   if not problems else "; ".join(problems)),
+        "reason": (
+            "no capabilities declared; backend invoked via a fixed argv with no shell"
+            if not problems
+            else "; ".join(problems)
+        ),
         "declares_capabilities": manifest.get("capabilities") is not None,
         "unsafe_spawn_findings": findings,
     }
 
 
-def _check_vsix_import(ext_dir: Path, manifest: dict[str, Any], vscode_cli: Path | None) -> dict[str, Any]:
+def _check_vsix_import(
+    ext_dir: Path, manifest: dict[str, Any], vscode_cli: Path | None
+) -> dict[str, Any]:
     """Actually install the VSIX with a real VS Code and list it back.
 
     A structural check on the zip proves the file is well-formed; it does not prove VS Code will
@@ -243,25 +270,50 @@ def _check_vsix_import(ext_dir: Path, manifest: dict[str, Any], vscode_cli: Path
         result.update(passed=False, reason="packaged identity differs from source package.json")
         return result
     if result["ships_test_harness"]:
-        result.update(passed=False, reason="the VSIX contains out/test/ — the harness must not ship")
+        result.update(
+            passed=False, reason="the VSIX contains out/test/ — the harness must not ship"
+        )
         return result
     if vscode_cli is None:
-        result.update(passed=False,
-                      reason="no cached VS Code under .vscode-test — run `npm test` once so the "
-                             "install can be verified against a real VS Code")
+        result.update(
+            passed=False,
+            reason="no cached VS Code under .vscode-test — run `npm test` once so the "
+            "install can be verified against a real VS Code",
+        )
         return result
 
     tmp = Path(tempfile.mkdtemp(prefix="dtx-vsix-"))
     try:
         install = subprocess.run(
-            [str(vscode_cli), "--install-extension", str(vsix), "--force",
-             "--extensions-dir", str(tmp / "ext"), "--user-data-dir", str(tmp / "user")],
-            capture_output=True, text=True, timeout=300, env=_clean_env(),
+            [
+                str(vscode_cli),
+                "--install-extension",
+                str(vsix),
+                "--force",
+                "--extensions-dir",
+                str(tmp / "ext"),
+                "--user-data-dir",
+                str(tmp / "user"),
+            ],
+            capture_output=True,
+            text=True,
+            timeout=300,
+            env=_clean_env(),
         )
         listing = subprocess.run(
-            [str(vscode_cli), "--list-extensions", "--show-versions",
-             "--extensions-dir", str(tmp / "ext"), "--user-data-dir", str(tmp / "user")],
-            capture_output=True, text=True, timeout=300, env=_clean_env(),
+            [
+                str(vscode_cli),
+                "--list-extensions",
+                "--show-versions",
+                "--extensions-dir",
+                str(tmp / "ext"),
+                "--user-data-dir",
+                str(tmp / "user"),
+            ],
+            capture_output=True,
+            text=True,
+            timeout=300,
+            env=_clean_env(),
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         result.update(passed=False, reason=f"VS Code install invocation failed: {exc}")
@@ -274,9 +326,12 @@ def _check_vsix_import(ext_dir: Path, manifest: dict[str, Any], vscode_cli: Path
     ok = install.returncode == 0 and any(entry.lower() == wanted.lower() for entry in listed)
     result.update(
         passed=ok,
-        reason=(f"VS Code installed and listed {wanted}" if ok else
-                f"install rc={install.returncode}; listed={listed}; "
-                f"{(install.stderr or install.stdout).strip()[:300]}"),
+        reason=(
+            f"VS Code installed and listed {wanted}"
+            if ok
+            else f"install rc={install.returncode}; listed={listed}; "
+            f"{(install.stderr or install.stdout).strip()[:300]}"
+        ),
         vscode_cli=str(vscode_cli),
         install_exit_code=install.returncode,
         extensions_listed=listed,
@@ -293,17 +348,28 @@ def _check_activation_smoke(ext_dir: Path, run_host: bool) -> dict[str, Any]:
     """
     suite = ext_dir / "src" / "test" / "suite" / "extension.test.ts"
     if not suite.is_file():
-        return {"passed": False, "reason": "no extension-host suite at src/test/suite/extension.test.ts"}
+        return {
+            "passed": False,
+            "reason": "no extension-host suite at src/test/suite/extension.test.ts",
+        }
     if not run_host:
-        return {"passed": False, "reason": "skipped (--no-host); the packet cannot claim this field"}
+        return {
+            "passed": False,
+            "reason": "skipped (--no-host); the packet cannot claim this field",
+        }
 
     npm = shutil.which("npm") or shutil.which("npm.cmd")
     if npm is None:
         return {"passed": False, "reason": "npm not on PATH, so the extension host cannot be run"}
     try:
         proc = subprocess.run(
-            [npm, "test"], cwd=str(ext_dir), capture_output=True, text=True,
-            timeout=1800, env=_clean_env(), shell=False,
+            [npm, "test"],
+            cwd=str(ext_dir),
+            capture_output=True,
+            text=True,
+            timeout=1800,
+            env=_clean_env(),
+            shell=False,
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return {"passed": False, "reason": f"extension-host run failed to start: {exc}"}
@@ -313,9 +379,11 @@ def _check_activation_smoke(ext_dir: Path, run_host: bool) -> dict[str, Any]:
     transition = "activation observed as a transition: true" in output
     return {
         "passed": proc.returncode == 0 and transition,
-        "reason": ("the extension host observed an inactive->active transition via a contributed command"
-                   if proc.returncode == 0 and transition else
-                   f"npm test rc={proc.returncode}; transition_observed={transition}"),
+        "reason": (
+            "the extension host observed an inactive->active transition via a contributed command"
+            if proc.returncode == 0 and transition
+            else f"npm test rc={proc.returncode}; transition_observed={transition}"
+        ),
         "harness": "@vscode/test-electron",
         "tests_passing": int(passing.group(1)) if passing else 0,
         "activation_transition_observed": transition,
@@ -368,13 +436,19 @@ def build_packet(root: Path, *, run_host: bool = True) -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=None)
-    parser.add_argument("--no-host", action="store_true",
-                        help="skip the extension-host run (the packet then cannot claim activation)")
+    parser.add_argument(
+        "--no-host",
+        action="store_true",
+        help="skip the extension-host run (the packet then cannot claim activation)",
+    )
     args = parser.parse_args()
 
     root = Path.cwd()
     packet = build_packet(root, run_host=not args.no_host)
-    output = args.output or root / "assurance/evidence/extension_compat" / f"extension_compat_{_utc_stamp()}.json"
+    output = (
+        args.output
+        or root / "assurance/evidence/extension_compat" / f"extension_compat_{_utc_stamp()}.json"
+    )
     output = output if output.is_absolute() else root / output
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(packet, indent=2) + "\n", encoding="utf-8")
@@ -383,9 +457,16 @@ def main() -> int:
     for field, check in packet["checks"].items():
         mark = "PASS" if check.get("passed") else "FAIL"
         print(f"  {mark}  {field}: {check.get('reason')}")
-    all_true = all(packet[f] for f in (
-        "extension_api_contract_defined", "vsix_import_smoke_passed", "open_vsx_metadata_parsed",
-        "sandbox_permissions_enforced", "activation_event_smoke_passed"))
+    all_true = all(
+        packet[f]
+        for f in (
+            "extension_api_contract_defined",
+            "vsix_import_smoke_passed",
+            "open_vsx_metadata_parsed",
+            "sandbox_permissions_enforced",
+            "activation_event_smoke_passed",
+        )
+    )
     print(f"\nall five fields established: {all_true}")
     return 0 if all_true else 1
 

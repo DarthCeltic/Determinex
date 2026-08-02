@@ -6,6 +6,7 @@ adequate md (or even if they do) the project automatically converts the
 stewardship document from the project or in lieu of it not having one,
 creates it on the initial scan run so that EVERYTHING stays synced."
 """
+
 from __future__ import annotations
 
 import sys
@@ -52,7 +53,9 @@ def test_is_adequate_rejects_stub_files(tmp_path):
 
 def test_is_adequate_accepts_real_content(tmp_path):
     real = tmp_path / "CLAUDE.md"
-    real.write_text("# Real Project\n\n" + ("This is real documentation content. " * 20), encoding="utf-8")
+    real.write_text(
+        "# Real Project\n\n" + ("This is real documentation content. " * 20), encoding="utf-8"
+    )
     assert steward.is_adequate(real) is True
 
 
@@ -102,10 +105,14 @@ def test_resolve_stewardship_content_generates_and_persists_when_missing(tmp_pat
 
 
 def test_resolve_stewardship_content_includes_runtime_doc_above_project_doc(tmp_path):
-    (tmp_path / "CLAUDE.md").write_text("# Runtime Doc\n\n" + ("Runtime content. " * 20), encoding="utf-8")
+    (tmp_path / "CLAUDE.md").write_text(
+        "# Runtime Doc\n\n" + ("Runtime content. " * 20), encoding="utf-8"
+    )
     workspace = tmp_path / "proj"
     workspace.mkdir()
-    (workspace / "PROJECT.md").write_text("# Project Doc\n\n" + ("Project content. " * 20), encoding="utf-8")
+    (workspace / "PROJECT.md").write_text(
+        "# Project Doc\n\n" + ("Project content. " * 20), encoding="utf-8"
+    )
 
     content = steward.resolve_stewardship_content(workspace)
     runtime_idx = content.index("Runtime Doc")

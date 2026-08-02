@@ -7,7 +7,6 @@ import json
 import os
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -23,8 +22,10 @@ from corpus.programbench.programbench_campaign_platform import (
     DOXYGEN_INSTANCE,
     EVIDENCE_GRAPH,
 )
-from corpus.programbench.programbench_platform_record import make_platform_record, write_platform_record
-
+from corpus.programbench.programbench_platform_record import (
+    make_platform_record,
+    write_platform_record,
+)
 
 RUN_ID = "run_20260527"
 INBOX = Path("assurance/operator_inbox/programbench")
@@ -78,8 +79,12 @@ class ProgramBenchOperatorReadyPlatform:
                 "record_id": "programbench_operator_packet_templates_run_20260527",
                 "templates": templates,
                 "template_count": len(templates),
-                "doxygen_security_template": _find_template(templates, "security_policy_admission", DOXYGEN_INSTANCE),
-                "all_templates_are_not_approvals": all(t["template_only"] is True for t in templates),
+                "doxygen_security_template": _find_template(
+                    templates, "security_policy_admission", DOXYGEN_INSTANCE
+                ),
+                "all_templates_are_not_approvals": all(
+                    t["template_only"] is True for t in templates
+                ),
                 "training_eligible": False,
                 "authorization": _closed_auth(),
             },
@@ -88,7 +93,9 @@ class ProgramBenchOperatorReadyPlatform:
 
     def operator_packet_validator(self) -> dict[str, Any]:
         templates = self._base_templates()
-        fixture_valid = _fill_fixture_packet(_find_template(templates, "security_policy_admission", DOXYGEN_INSTANCE))
+        fixture_valid = _fill_fixture_packet(
+            _find_template(templates, "security_policy_admission", DOXYGEN_INSTANCE)
+        )
         fixture_invalid = {**fixture_valid, "image_digest": "sha256:" + "0" * 64}
         results = {
             "valid_fixture": validate_operator_packet(fixture_valid, allow_fixture=True),
@@ -168,7 +175,9 @@ class ProgramBenchOperatorReadyPlatform:
         )
         return self._write(record, "programbench_batch001_operator_packet_bundle")
 
-    def operator_inbox_scanner(self, inbox: Path | None = None, *, allow_fixture: bool = False) -> dict[str, Any]:
+    def operator_inbox_scanner(
+        self, inbox: Path | None = None, *, allow_fixture: bool = False
+    ) -> dict[str, Any]:
         inbox_path = inbox or self.config.root / INBOX
         packets: list[dict[str, Any]] = []
         parse_errors: list[str] = []
@@ -180,7 +189,9 @@ class ProgramBenchOperatorReadyPlatform:
                     parse_errors.append(f"{path.name}:{exc.msg}")
                     continue
                 result = validate_operator_packet(packet, allow_fixture=allow_fixture)
-                packets.append({"path": _rel(path), "packet_type": packet.get("packet_type", ""), **result})
+                packets.append(
+                    {"path": _rel(path), "packet_type": packet.get("packet_type", ""), **result}
+                )
         if parse_errors:
             status = "OPERATOR_INBOX_BLOCKED_PARSE_ERROR"
         elif not inbox_path.exists() or not packets:
@@ -205,7 +216,9 @@ class ProgramBenchOperatorReadyPlatform:
         )
         return self._write(record, "programbench_operator_inbox_scanner")
 
-    def packet_admission_router(self, inbox_scan: dict[str, Any] | None = None, *, allow_fixture_routes: bool = False) -> dict[str, Any]:
+    def packet_admission_router(
+        self, inbox_scan: dict[str, Any] | None = None, *, allow_fixture_routes: bool = False
+    ) -> dict[str, Any]:
         inbox_scan = inbox_scan or self.operator_inbox_scanner()
         routes: list[dict[str, Any]] = []
         for packet in inbox_scan.get("packets", []):
@@ -217,11 +230,17 @@ class ProgramBenchOperatorReadyPlatform:
             elif packet_type not in ROUTE_TARGETS:
                 routes.append(_route(packet, "OPERATOR_PACKET_ROUTE_BLOCKED_UNKNOWN_TYPE", ""))
             else:
-                routes.append(_route(packet, "OPERATOR_PACKET_ROUTE_WRITTEN", ROUTE_TARGETS[packet_type]))
-        status = "OPERATOR_PACKET_ROUTE_NO_PACKETS" if not routes else (
-            "OPERATOR_PACKET_ROUTE_WRITTEN"
-            if all(r["status"] == "OPERATOR_PACKET_ROUTE_WRITTEN" for r in routes)
-            else routes[0]["status"]
+                routes.append(
+                    _route(packet, "OPERATOR_PACKET_ROUTE_WRITTEN", ROUTE_TARGETS[packet_type])
+                )
+        status = (
+            "OPERATOR_PACKET_ROUTE_NO_PACKETS"
+            if not routes
+            else (
+                "OPERATOR_PACKET_ROUTE_WRITTEN"
+                if all(r["status"] == "OPERATOR_PACKET_ROUTE_WRITTEN" for r in routes)
+                else routes[0]["status"]
+            )
         )
         record = self._record(
             "programbench_operator_packet_admission_router",
@@ -239,16 +258,29 @@ class ProgramBenchOperatorReadyPlatform:
         )
         return self._write(record, "programbench_operator_packet_admission_router")
 
-    def packet_admission_processing(self, inbox: Path | None = None, *, allow_fixture: bool = False) -> dict[str, Any]:
+    def packet_admission_processing(
+        self, inbox: Path | None = None, *, allow_fixture: bool = False
+    ) -> dict[str, Any]:
         inbox_scan = self.operator_inbox_scanner(inbox, allow_fixture=allow_fixture)
         router = self.packet_admission_router(inbox_scan, allow_fixture_routes=allow_fixture)
-        accepted = [route for route in router.get("routes", []) if route.get("status") == "OPERATOR_PACKET_ROUTE_WRITTEN"]
-        blocked = [route for route in router.get("routes", []) if route.get("status") != "OPERATOR_PACKET_ROUTE_WRITTEN"]
+        accepted = [
+            route
+            for route in router.get("routes", [])
+            if route.get("status") == "OPERATOR_PACKET_ROUTE_WRITTEN"
+        ]
+        blocked = [
+            route
+            for route in router.get("routes", [])
+            if route.get("status") != "OPERATOR_PACKET_ROUTE_WRITTEN"
+        ]
         if not inbox_scan.get("packets"):
             status = "OPERATOR_PACKET_ADMISSION_PROCESSING_NO_LIVE_PACKETS"
         elif accepted and not blocked:
             status = "OPERATOR_PACKET_ADMISSION_PROCESSING_READY_FOR_GATE_REVIEW"
-        elif any(route.get("status") == "OPERATOR_PACKET_ROUTE_BLOCKED_FIXTURE_NOT_LIVE" for route in blocked):
+        elif any(
+            route.get("status") == "OPERATOR_PACKET_ROUTE_BLOCKED_FIXTURE_NOT_LIVE"
+            for route in blocked
+        ):
             status = "OPERATOR_PACKET_ADMISSION_PROCESSING_BLOCKED_FIXTURE_NOT_LIVE"
         elif blocked:
             status = "OPERATOR_PACKET_ADMISSION_PROCESSING_BLOCKED_INVALID_PACKET"
@@ -310,7 +342,13 @@ class ProgramBenchOperatorReadyPlatform:
     def operator_ready_audit(self) -> dict[str, Any]:
         templates = self.operator_packet_templates()
         validator = self.operator_packet_validator()
-        missing_inbox = self.operator_inbox_scanner(self.config.root / "assurance" / "operator_inbox" / "programbench" / "__missing_audit_inbox__")
+        missing_inbox = self.operator_inbox_scanner(
+            self.config.root
+            / "assurance"
+            / "operator_inbox"
+            / "programbench"
+            / "__missing_audit_inbox__"
+        )
         router = self.packet_admission_router(missing_inbox)
         simulation = self.unblock_simulation()
         integrity = self.evidence_graph_integrity_guard()
@@ -321,40 +359,97 @@ class ProgramBenchOperatorReadyPlatform:
         live_review = self.packet_admission_live_packet_review()
         batch_queue = self.metadata_recovery_queue()
         readme_path = _test_redirected_outbox(self.config.root / OUTBOX) / "README.md"
-        readme = readme_path.read_text(encoding="utf-8", errors="replace") if readme_path.exists() else _outbox_readme()
+        readme = (
+            readme_path.read_text(encoding="utf-8", errors="replace")
+            if readme_path.exists()
+            else _outbox_readme()
+        )
 
-        template_exec = check_evidence_graph_integrity({"nodes": [{"template_only": True, "executable": True}]})
-        fixture_live = check_evidence_graph_integrity({"nodes": [{"fixture_packet": True, "status": "GENERIC_POLICY_ADMISSION_ACCEPTED"}]})
-        metadata_exec = check_evidence_graph_integrity({"nodes": [{"authority": "metadata_only", "executable": True}]})
-        blocked_training = check_evidence_graph_integrity({"nodes": [{"status": "SKIPPED_WITH_PROVENANCE_REASON", "training_eligible": True}]})
+        template_exec = check_evidence_graph_integrity(
+            {"nodes": [{"template_only": True, "executable": True}]}
+        )
+        fixture_live = check_evidence_graph_integrity(
+            {"nodes": [{"fixture_packet": True, "status": "GENERIC_POLICY_ADMISSION_ACCEPTED"}]}
+        )
+        metadata_exec = check_evidence_graph_integrity(
+            {"nodes": [{"authority": "metadata_only", "executable": True}]}
+        )
+        blocked_training = check_evidence_graph_integrity(
+            {"nodes": [{"status": "SKIPPED_WITH_PROVENANCE_REASON", "training_eligible": True}]}
+        )
         queue_items = batch_queue.get("items", [])
         checks = {
             "templates_not_approvals": templates.get("all_templates_are_not_approvals") is True
-            and all(t.get("approval_status") == "TEMPLATE_NOT_APPROVAL" and t.get("authorizes_execution") is False for t in templates.get("templates", [])),
-            "validator_rejects_fixture_live_path": validator.get("validation_results", {}).get("fixture_not_live", {}).get("status") == "OPERATOR_PACKET_BLOCKED_FIXTURE_NOT_LIVE",
-            "inbox_empty_clean": missing_inbox.get("status") == "OPERATOR_INBOX_EMPTY" and missing_inbox.get("mutated_packet_files") is False,
-            "router_no_approval_or_execution": router.get("approves") is False and router.get("executes") is False,
-            "simulation_never_training_eligible": all(s.get("training_eligibility_remains_false") is True and s.get("execution_performed") is False for s in simulation.get("scenarios", [])),
-            "graph_guard_catches_template_execution": template_exec.get("no_template_authorizes_run") is False,
-            "graph_guard_catches_fixture_live_approval": fixture_live.get("no_policy_admission_from_fixture") is False,
-            "graph_guard_catches_metadata_only_executable": metadata_exec.get("no_executable_true_from_metadata_only") is False,
-            "graph_guard_catches_blocked_training_eligible": blocked_training.get("no_training_true_from_blocked") is False,
-            "live_graph_integrity_passes": integrity.get("status") == "EVIDENCE_GRAPH_INTEGRITY_PASSED",
-            "cli_read_only_except_outbox": cli.get("read_only_except_packet_outbox") is True and cli.get("authorization", {}).get("programbench_rerun_authorized") is False,
-            "outbox_readme_fill_sign_submit": all(token in readme.lower() for token in ("templates, not approvals", "identity/signature", "assurance/operator_inbox/programbench")),
-            "doxygen_status_blocked_not_dead_end": doxygen_state.get("artifact_authority") == "PRESENT"
-            and doxygen_state.get("security_execution_authority") == "ABSENT_PENDING_OPERATOR_POLICY_ADMISSION"
-            and doxygen_state.get("why_not_dead_end") == "The official artifact exists and is digest verified; the blocker is policy admission."
+            and all(
+                t.get("approval_status") == "TEMPLATE_NOT_APPROVAL"
+                and t.get("authorizes_execution") is False
+                for t in templates.get("templates", [])
+            ),
+            "validator_rejects_fixture_live_path": validator.get("validation_results", {})
+            .get("fixture_not_live", {})
+            .get("status")
+            == "OPERATOR_PACKET_BLOCKED_FIXTURE_NOT_LIVE",
+            "inbox_empty_clean": missing_inbox.get("status") == "OPERATOR_INBOX_EMPTY"
+            and missing_inbox.get("mutated_packet_files") is False,
+            "router_no_approval_or_execution": router.get("approves") is False
+            and router.get("executes") is False,
+            "simulation_never_training_eligible": all(
+                s.get("training_eligibility_remains_false") is True
+                and s.get("execution_performed") is False
+                for s in simulation.get("scenarios", [])
+            ),
+            "graph_guard_catches_template_execution": template_exec.get(
+                "no_template_authorizes_run"
+            )
+            is False,
+            "graph_guard_catches_fixture_live_approval": fixture_live.get(
+                "no_policy_admission_from_fixture"
+            )
+            is False,
+            "graph_guard_catches_metadata_only_executable": metadata_exec.get(
+                "no_executable_true_from_metadata_only"
+            )
+            is False,
+            "graph_guard_catches_blocked_training_eligible": blocked_training.get(
+                "no_training_true_from_blocked"
+            )
+            is False,
+            "live_graph_integrity_passes": integrity.get("status")
+            == "EVIDENCE_GRAPH_INTEGRITY_PASSED",
+            "cli_read_only_except_outbox": cli.get("read_only_except_packet_outbox") is True
+            and cli.get("authorization", {}).get("programbench_rerun_authorized") is False,
+            "outbox_readme_fill_sign_submit": all(
+                token in readme.lower()
+                for token in (
+                    "templates, not approvals",
+                    "identity/signature",
+                    "assurance/operator_inbox/programbench",
+                )
+            ),
+            "doxygen_status_blocked_not_dead_end": doxygen_state.get("artifact_authority")
+            == "PRESENT"
+            and doxygen_state.get("security_execution_authority")
+            == "ABSENT_PENDING_OPERATOR_POLICY_ADMISSION"
+            and doxygen_state.get("why_not_dead_end")
+            == "The official artifact exists and is digest verified; the blocker is policy admission."
             and doxygen_state.get("training_eligible") is False
             and doxygen_state.get("executable") is False,
-            "batch001_missing_metadata_actionable": any(item.get("required_action") == "RECOVER_TASK_IMAGE_METADATA" and item.get("training_eligible") is False for item in queue_items),
+            "batch001_missing_metadata_actionable": any(
+                item.get("required_action") == "RECOVER_TASK_IMAGE_METADATA"
+                and item.get("training_eligible") is False
+                for item in queue_items
+            ),
             "scorecard_no_blocked_100": scorecard.get("no_inflated_blocked_scores") is True,
             "live_review_no_live_packets": live_review.get("status") == "NO_LIVE_PACKETS"
             and live_review.get("execution_performed") is False
             and live_review.get("training_rows_written") is False,
             "closed_authority": all(value is False for value in _closed_auth().values()),
         }
-        status = "PROGRAMBENCH_OPERATOR_READY_AUDIT_PASSED" if all(checks.values()) else "PROGRAMBENCH_OPERATOR_READY_AUDIT_FINDINGS_WRITTEN"
+        status = (
+            "PROGRAMBENCH_OPERATOR_READY_AUDIT_PASSED"
+            if all(checks.values())
+            else "PROGRAMBENCH_OPERATOR_READY_AUDIT_FINDINGS_WRITTEN"
+        )
         record = self._record(
             "programbench_operator_ready_audit",
             "determinex-programbench-operator-ready-audit-v1",
@@ -374,12 +469,36 @@ class ProgramBenchOperatorReadyPlatform:
 
     def unblock_simulation(self) -> dict[str, Any]:
         scenarios = [
-            _scenario("doxygen_security_policy_admission_supplied", ["Doxygen policy admission would become accepted"], ["bounded official-artifact rerun authorization"]),
-            _scenario("missing_image_metadata_supplied_for_all_batch001", ["missing image metadata would become reviewable"], ["provider manifest digest proof", "scan evidence"]),
-            _scenario("exact_provider_manifests_supplied", ["artifact authority could become present after exact digest verification"], ["scan evidence", "metadata admission"]),
-            _scenario("scanner_evidence_supplied", ["scan status would become known"], ["policy admission if scan fails"]),
-            _scenario("bounded_rerun_authorization_supplied", ["bounded rerun authorization would be reviewable"], ["execution preflight ready state"]),
-            _scenario("all_operator_packets_supplied", ["operator inputs would be routeable"], ["explicit execution lock still required"]),
+            _scenario(
+                "doxygen_security_policy_admission_supplied",
+                ["Doxygen policy admission would become accepted"],
+                ["bounded official-artifact rerun authorization"],
+            ),
+            _scenario(
+                "missing_image_metadata_supplied_for_all_batch001",
+                ["missing image metadata would become reviewable"],
+                ["provider manifest digest proof", "scan evidence"],
+            ),
+            _scenario(
+                "exact_provider_manifests_supplied",
+                ["artifact authority could become present after exact digest verification"],
+                ["scan evidence", "metadata admission"],
+            ),
+            _scenario(
+                "scanner_evidence_supplied",
+                ["scan status would become known"],
+                ["policy admission if scan fails"],
+            ),
+            _scenario(
+                "bounded_rerun_authorization_supplied",
+                ["bounded rerun authorization would be reviewable"],
+                ["execution preflight ready state"],
+            ),
+            _scenario(
+                "all_operator_packets_supplied",
+                ["operator inputs would be routeable"],
+                ["explicit execution lock still required"],
+            ),
         ]
         record = self._record(
             "programbench_batch001_unblock_simulation",
@@ -399,8 +518,14 @@ class ProgramBenchOperatorReadyPlatform:
     def evidence_graph_integrity_guard(self, graph: dict[str, Any] | None = None) -> dict[str, Any]:
         graph = graph or self._read(EVIDENCE_GRAPH)
         checks = check_evidence_graph_integrity(graph)
-        status = "EVIDENCE_GRAPH_BLOCKED_MISSING_GRAPH" if not graph else (
-            "EVIDENCE_GRAPH_INTEGRITY_PASSED" if all(checks.values()) else "EVIDENCE_GRAPH_INTEGRITY_FAILED"
+        status = (
+            "EVIDENCE_GRAPH_BLOCKED_MISSING_GRAPH"
+            if not graph
+            else (
+                "EVIDENCE_GRAPH_INTEGRITY_PASSED"
+                if all(checks.values())
+                else "EVIDENCE_GRAPH_INTEGRITY_FAILED"
+            )
         )
         record = self._record(
             "programbench_evidence_graph_integrity_guard",
@@ -458,12 +583,19 @@ class ProgramBenchOperatorReadyPlatform:
             readme_path.write_text(readme, encoding="utf-8")
             files.append(_file_entry(readme_path))
             for template in templates:
-                path = outbox_path / f"{_safe(template['instance_id'])}.{template['packet_type']}.template.json"
-                path.write_text(json.dumps(template, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+                path = (
+                    outbox_path
+                    / f"{_safe(template['instance_id'])}.{template['packet_type']}.template.json"
+                )
+                path.write_text(
+                    json.dumps(template, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+                )
                 files.append(_file_entry(path))
             manifest_path = outbox_path / "manifest.json"
             manifest = {"files": files, "templates_are_not_approvals": True}
-            manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            manifest_path.write_text(
+                json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+            )
             files.append(_file_entry(manifest_path))
         record = self._record(
             "programbench_operator_outbox",
@@ -484,12 +616,29 @@ class ProgramBenchOperatorReadyPlatform:
     def completion_scorecard(self) -> dict[str, Any]:
         dimensions = [
             _score("artifact discovery", 70, "partial", ["missing image metadata for Batch 001"]),
-            _score("artifact authority", 65, "partial", ["Doxygen present; other Batch 001 inconclusive"]),
+            _score(
+                "artifact authority",
+                65,
+                "partial",
+                ["Doxygen present; other Batch 001 inconclusive"],
+            ),
             _score("provenance recovery", 55, "partial", ["operator provenance needed"]),
-            _score("scan/security policy", 60, "blocked", ["Doxygen scan failed pending policy admission"]),
-            _score("operator admission", 75, "ready_for_input", ["validator/router/outbox present; no live approval"]),
+            _score(
+                "scan/security policy",
+                60,
+                "blocked",
+                ["Doxygen scan failed pending policy admission"],
+            ),
+            _score(
+                "operator admission",
+                75,
+                "ready_for_input",
+                ["validator/router/outbox present; no live approval"],
+            ),
             _score("execution preflight", 70, "blocked", ["policy admission required"]),
-            _score("bounded rerun authorization", 40, "blocked", ["no official rerun authorization"]),
+            _score(
+                "bounded rerun authorization", 40, "blocked", ["no official rerun authorization"]
+            ),
             _score("skip taxonomy", 100, "present", []),
             _score("batch coverage", 90, "present", ["Batch 001 known rows covered"]),
             _score("operator actionability", 95, "present", ["outbox templates ready"]),
@@ -506,7 +655,9 @@ class ProgramBenchOperatorReadyPlatform:
                 "dimensions": dimensions,
                 "doxygen_score": 76,
                 "batch001_score": 68,
-                "no_inflated_blocked_scores": all(d["score"] < 100 for d in dimensions if d["blockers"]),
+                "no_inflated_blocked_scores": all(
+                    d["score"] < 100 for d in dimensions if d["blockers"]
+                ),
                 "execution_performed": False,
                 "training_eligible": False,
                 "authorization": _closed_auth(),
@@ -589,13 +740,18 @@ class ProgramBenchOperatorReadyPlatform:
         }
 
     def _base_templates(self) -> list[dict[str, Any]]:
-        templates = [_template(packet_type, DOXYGEN_INSTANCE, DOXYGEN_IMAGE, DOXYGEN_DIGEST) for packet_type in sorted(PACKET_TYPES)]
+        templates = [
+            _template(packet_type, DOXYGEN_INSTANCE, DOXYGEN_IMAGE, DOXYGEN_DIGEST)
+            for packet_type in sorted(PACKET_TYPES)
+        ]
         # Keep the security template first for operators and tests.
         templates.sort(key=lambda t: 0 if t["packet_type"] == "security_policy_admission" else 1)
         return templates
 
     def _bundle_templates(self) -> list[dict[str, Any]]:
-        templates = [_template("security_policy_admission", DOXYGEN_INSTANCE, DOXYGEN_IMAGE, DOXYGEN_DIGEST)]
+        templates = [
+            _template("security_policy_admission", DOXYGEN_INSTANCE, DOXYGEN_IMAGE, DOXYGEN_DIGEST)
+        ]
         for state in self._batch_states():
             if state["instance_id"] == DOXYGEN_INSTANCE:
                 continue
@@ -605,12 +761,20 @@ class ProgramBenchOperatorReadyPlatform:
     def _batch_states(self) -> list[dict[str, Any]]:
         return self._read(BATCH_STATE).get("instances", [])
 
-    def _record(self, record_type: str, schema_version: str, status: str, payload: dict[str, Any]) -> dict[str, Any]:
-        return make_platform_record(record_type=record_type, schema_version=schema_version, status=status, payload=payload)
+    def _record(
+        self, record_type: str, schema_version: str, status: str, payload: dict[str, Any]
+    ) -> dict[str, Any]:
+        return make_platform_record(
+            record_type=record_type, schema_version=schema_version, status=status, payload=payload
+        )
 
     def _write(self, record: dict[str, Any], directory_name: str) -> dict[str, Any]:
         if self.config.write_records:
-            write_platform_record(record, self.config.root / "assurance" / "evidence" / directory_name, name_key="record_id")
+            write_platform_record(
+                record,
+                self.config.root / "assurance" / "evidence" / directory_name,
+                name_key="record_id",
+            )
         return record
 
     def _read(self, path: Path) -> dict[str, Any]:
@@ -620,61 +784,115 @@ class ProgramBenchOperatorReadyPlatform:
         return json.loads(full.read_text(encoding="utf-8"))
 
 
-def validate_operator_packet(packet: dict[str, Any], *, allow_fixture: bool = False) -> dict[str, Any]:
+def validate_operator_packet(
+    packet: dict[str, Any], *, allow_fixture: bool = False
+) -> dict[str, Any]:
     packet_type = str(packet.get("packet_type") or "")
     if not packet.get("schema_version"):
         return _validation("OPERATOR_PACKET_INVALID_SCHEMA", packet, ["schema_version_missing"])
     if packet.get("template_only") is True:
-        return _validation("OPERATOR_PACKET_INVALID_SCHEMA", packet, ["template_is_not_operator_packet"])
+        return _validation(
+            "OPERATOR_PACKET_INVALID_SCHEMA", packet, ["template_is_not_operator_packet"]
+        )
     if packet_type not in PACKET_TYPES:
         return _validation("OPERATOR_PACKET_INVALID_TYPE", packet, ["unknown_packet_type"])
     if packet.get("fixture_packet") and not allow_fixture:
-        return _validation("OPERATOR_PACKET_BLOCKED_FIXTURE_NOT_LIVE", packet, ["fixture_packet_not_live"])
+        return _validation(
+            "OPERATOR_PACKET_BLOCKED_FIXTURE_NOT_LIVE", packet, ["fixture_packet_not_live"]
+        )
     if not packet.get("operator_identity"):
-        return _validation("OPERATOR_PACKET_BLOCKED_MISSING_SIGNATURE", packet, ["operator_identity_missing"])
+        return _validation(
+            "OPERATOR_PACKET_BLOCKED_MISSING_SIGNATURE", packet, ["operator_identity_missing"]
+        )
     if not (packet.get("operator_signature") or packet.get("local_record_signature")):
-        return _validation("OPERATOR_PACKET_BLOCKED_MISSING_SIGNATURE", packet, ["operator_signature_missing"])
+        return _validation(
+            "OPERATOR_PACKET_BLOCKED_MISSING_SIGNATURE", packet, ["operator_signature_missing"]
+        )
     if _is_stale(packet):
-        return _validation("OPERATOR_PACKET_BLOCKED_STALE", packet, ["packet_stale_or_timestamp_missing"])
+        return _validation(
+            "OPERATOR_PACKET_BLOCKED_STALE", packet, ["packet_stale_or_timestamp_missing"]
+        )
     if packet.get("instance_id") == DOXYGEN_INSTANCE:
         if packet.get("image_name") and packet["image_name"] != DOXYGEN_IMAGE:
-            return _validation("OPERATOR_PACKET_BLOCKED_SCOPE_MISMATCH", packet, ["doxygen_image_name_mismatch"])
+            return _validation(
+                "OPERATOR_PACKET_BLOCKED_SCOPE_MISMATCH", packet, ["doxygen_image_name_mismatch"]
+            )
         if packet.get("image_digest") and packet["image_digest"] != DOXYGEN_DIGEST:
-            return _validation("OPERATOR_PACKET_BLOCKED_DIGEST_MISMATCH", packet, ["doxygen_digest_mismatch"])
+            return _validation(
+                "OPERATOR_PACKET_BLOCKED_DIGEST_MISMATCH", packet, ["doxygen_digest_mismatch"]
+            )
     if packet_type == "security_policy_admission" and packet.get("training_eligible") is not False:
-        return _validation("OPERATOR_PACKET_BLOCKED_OVERBROAD_AUTHORITY", packet, ["security_admission_cannot_authorize_training"])
+        return _validation(
+            "OPERATOR_PACKET_BLOCKED_OVERBROAD_AUTHORITY",
+            packet,
+            ["security_admission_cannot_authorize_training"],
+        )
     if packet_type != "bounded_rerun_authorization" and packet.get("authorizes_execution") is True:
-        return _validation("OPERATOR_PACKET_BLOCKED_OVERBROAD_AUTHORITY", packet, ["packet_type_cannot_authorize_execution"])
-    if packet_type == "bounded_rerun_authorization" and packet.get("requires_preflight_ready") is not True:
-        return _validation("OPERATOR_PACKET_BLOCKED_OVERBROAD_AUTHORITY", packet, ["rerun_authorization_cannot_bypass_preflight"])
+        return _validation(
+            "OPERATOR_PACKET_BLOCKED_OVERBROAD_AUTHORITY",
+            packet,
+            ["packet_type_cannot_authorize_execution"],
+        )
+    if (
+        packet_type == "bounded_rerun_authorization"
+        and packet.get("requires_preflight_ready") is not True
+    ):
+        return _validation(
+            "OPERATOR_PACKET_BLOCKED_OVERBROAD_AUTHORITY",
+            packet,
+            ["rerun_authorization_cannot_bypass_preflight"],
+        )
     return _validation("OPERATOR_PACKET_VALID", packet, [])
 
 
 def check_evidence_graph_integrity(graph: dict[str, Any]) -> dict[str, bool]:
     raw = json.dumps(graph, sort_keys=True)
     nodes = graph.get("nodes", []) if isinstance(graph.get("nodes"), list) else []
-    metadata_exec = any(node.get("executable") is True and str(node.get("authority", "")).lower() in {"metadata_only", "metadata-only"} for node in nodes if isinstance(node, dict))
-    template_exec = any(node.get("template_only") is True and (node.get("executable") is True or node.get("authorizes_execution") is True) for node in nodes if isinstance(node, dict))
-    fixture_live = any(node.get("fixture_packet") is True and "ACCEPTED" in str(node.get("status", "")) for node in nodes if isinstance(node, dict))
+    metadata_exec = any(
+        node.get("executable") is True
+        and str(node.get("authority", "")).lower() in {"metadata_only", "metadata-only"}
+        for node in nodes
+        if isinstance(node, dict)
+    )
+    template_exec = any(
+        node.get("template_only") is True
+        and (node.get("executable") is True or node.get("authorizes_execution") is True)
+        for node in nodes
+        if isinstance(node, dict)
+    )
+    fixture_live = any(
+        node.get("fixture_packet") is True and "ACCEPTED" in str(node.get("status", ""))
+        for node in nodes
+        if isinstance(node, dict)
+    )
     blocked_training = any(
-        node.get("training_eligible") is True and any(token in str(node.get("status", "")) for token in ("SKIP", "BLOCKED", "REQUIRED"))
+        node.get("training_eligible") is True
+        and any(token in str(node.get("status", "")) for token in ("SKIP", "BLOCKED", "REQUIRED"))
         for node in nodes
         if isinstance(node, dict)
     )
     return {
-        "no_training_true_from_blocked": not blocked_training and "TRAINING_ELIGIBLE_TRUE" not in raw and '"training_eligible": true' not in raw,
-        "no_executable_true_from_metadata_only": not metadata_exec and '"executable": true' not in raw,
+        "no_training_true_from_blocked": not blocked_training
+        and "TRAINING_ELIGIBLE_TRUE" not in raw
+        and '"training_eligible": true' not in raw,
+        "no_executable_true_from_metadata_only": not metadata_exec
+        and '"executable": true' not in raw,
         "no_rerun_authorized_without_preflight": '"rerun_authorized": true' not in raw,
-        "no_preflight_ready_without_policy_admission": "PREFLIGHT_READY_WITHOUT_POLICY_ADMISSION" not in raw,
-        "no_policy_admission_from_fixture": not fixture_live and "ACCEPTED_FIXTURE_AUTHORIZES_LIVE" not in raw,
+        "no_preflight_ready_without_policy_admission": "PREFLIGHT_READY_WITHOUT_POLICY_ADMISSION"
+        not in raw,
+        "no_policy_admission_from_fixture": not fixture_live
+        and "ACCEPTED_FIXTURE_AUTHORIZES_LIVE" not in raw,
         "no_cache_ready_scan_failed_without_exception": '"cache_ready": true' not in raw,
         "no_dead_end_when_upstream_present": "CLEANROOM_PROVENANCE_DEAD_END" not in raw,
         "no_model_failure_for_security_skip": '"model_failure": true' not in raw,
-        "no_template_authorizes_run": not template_exec and "template_authorizes_execution" not in raw,
+        "no_template_authorizes_run": not template_exec
+        and "template_authorizes_execution" not in raw,
     }
 
 
-def _template(packet_type: str, instance_id: str, image_name: str, image_digest: str) -> dict[str, Any]:
+def _template(
+    packet_type: str, instance_id: str, image_name: str, image_digest: str
+) -> dict[str, Any]:
     authorizes_execution = packet_type == "bounded_rerun_authorization"
     return {
         "schema_version": "determinex-programbench-operator-packet-template-v1",
@@ -703,12 +921,33 @@ def _template(packet_type: str, instance_id: str, image_name: str, image_digest:
 
 def _required_evidence(packet_type: str) -> list[str]:
     mapping = {
-        "security_policy_admission": ["scan evidence", "sandbox requirements", "policy exception request", "risk acknowledgement"],
-        "image_metadata_submission": ["exact image name", "exact digest", "provider manifest evidence"],
-        "operator_provenance_submission": ["operator provenance statement", "source artifact reference", "signature"],
+        "security_policy_admission": [
+            "scan evidence",
+            "sandbox requirements",
+            "policy exception request",
+            "risk acknowledgement",
+        ],
+        "image_metadata_submission": [
+            "exact image name",
+            "exact digest",
+            "provider manifest evidence",
+        ],
+        "operator_provenance_submission": [
+            "operator provenance statement",
+            "source artifact reference",
+            "signature",
+        ],
         "pinned_base_digest_submission": ["base image name", "base digest", "manifest evidence"],
-        "original_build_recipe_submission": ["Dockerfile or build recipe", "base digest", "source ref"],
-        "bounded_rerun_authorization": ["accepted preflight", "max_attempts=1", "exact instance scope"],
+        "original_build_recipe_submission": [
+            "Dockerfile or build recipe",
+            "base digest",
+            "source ref",
+        ],
+        "bounded_rerun_authorization": [
+            "accepted preflight",
+            "max_attempts=1",
+            "exact instance scope",
+        ],
         "scanner_admission": ["scanner name", "version", "archive-only scan capability evidence"],
         "artifact_import_provenance": ["artifact source", "digest", "import manifest"],
     }
@@ -716,11 +955,20 @@ def _required_evidence(packet_type: str) -> list[str]:
 
 
 def _acceptable_forms(packet_type: str) -> list[str]:
-    return ["operator-signed JSON packet", "locally signed evidence record", f"{packet_type} packet matching template schema"]
+    return [
+        "operator-signed JSON packet",
+        "locally signed evidence record",
+        f"{packet_type} packet matching template schema",
+    ]
 
 
 def _rejected_forms(packet_type: str) -> list[str]:
-    rejected = ["latest tag", "name-only reference", "inferred officialness", "fixture packet as live approval"]
+    rejected = [
+        "latest tag",
+        "name-only reference",
+        "inferred officialness",
+        "fixture packet as live approval",
+    ]
     if packet_type != "bounded_rerun_authorization":
         rejected.append("execution authorization")
     return rejected
@@ -771,9 +1019,23 @@ def _metadata_recovery_item(state: dict[str, Any]) -> dict[str, Any]:
         "missing_fields": missing,
         "required_action": action,
         "priority": priority,
-        "allowed_sources": ["local ProgramBench docs", "local evidence roots", "admitted exact provider metadata", "operator signed packets"],
-        "disallowed_sources": ["broad web search", "latest tags", "name-only references", "inferred officialness"],
-        "acceptable_evidence_forms": ["signed JSON evidence", "exact manifest metadata", "operator signed packet"],
+        "allowed_sources": [
+            "local ProgramBench docs",
+            "local evidence roots",
+            "admitted exact provider metadata",
+            "operator signed packets",
+        ],
+        "disallowed_sources": [
+            "broad web search",
+            "latest tags",
+            "name-only references",
+            "inferred officialness",
+        ],
+        "acceptable_evidence_forms": [
+            "signed JSON evidence",
+            "exact manifest metadata",
+            "operator signed packet",
+        ],
         "evidence_refs": state.get("evidence_refs", {}),
         "training_eligible": False,
     }
@@ -820,7 +1082,9 @@ def _route(packet: dict[str, Any], status: str, target: str) -> dict[str, Any]:
         "instance_id": packet.get("instance_id", ""),
         "status": status,
         "target_gate": target,
-        "required_next_step": "run target gate in non-executing admission mode" if target else "supply valid live packet",
+        "required_next_step": "run target gate in non-executing admission mode"
+        if target
+        else "supply valid live packet",
         "executes": False,
         "approves": False,
     }
@@ -843,7 +1107,9 @@ def _is_stale(packet: dict[str, Any]) -> bool:
     return not timestamp or timestamp.startswith("2020-")
 
 
-def _find_template(templates: list[dict[str, Any]], packet_type: str, instance_id: str) -> dict[str, Any]:
+def _find_template(
+    templates: list[dict[str, Any]], packet_type: str, instance_id: str
+) -> dict[str, Any]:
     for template in templates:
         if template["packet_type"] == packet_type and template["instance_id"] == instance_id:
             return template
@@ -921,7 +1187,17 @@ def _test_redirected_outbox(path: Path) -> Path:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="ProgramBench operator-ready platform CLI")
     sub = parser.add_subparsers(dest="command", required=True)
-    for name in ("status", "actions", "packets", "inbox-scan", "process-inbox", "review-live-packets", "simulate-unblock", "evidence-graph", "all"):
+    for name in (
+        "status",
+        "actions",
+        "packets",
+        "inbox-scan",
+        "process-inbox",
+        "review-live-packets",
+        "simulate-unblock",
+        "evidence-graph",
+        "all",
+    ):
         p = sub.add_parser(name)
         p.add_argument("--json", action="store_true")
     sub.choices["packets"].add_argument("--out", default=str(OUTBOX))
@@ -930,7 +1206,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "all":
         payload = platform.run_all()
     elif args.command == "status":
-        payload = _read_json(Path("assurance/evidence/programbench_codex_operator_ready_final_state/programbench_codex_operator_ready_final_state_run_20260527.CODEX_OPERATOR_READY_FINAL_STATE_WRITTEN.json"))
+        payload = _read_json(
+            Path(
+                "assurance/evidence/programbench_codex_operator_ready_final_state/programbench_codex_operator_ready_final_state_run_20260527.CODEX_OPERATOR_READY_FINAL_STATE_WRITTEN.json"
+            )
+        )
     elif args.command == "actions":
         payload = _read_json(ACTION_QUEUE)
     elif args.command == "packets":

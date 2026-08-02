@@ -3,16 +3,16 @@
 This campaign is SUBORDINATE to the Codex proof-control audit repair.
 Full-suite clean is NOT claimed here.
 """
+
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .claude_real_model_verifier_ready_final_state_record import (
     CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_TOKENS,
     ClaudeRealModelVerifierReadyFinalState,
 )
-
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
@@ -41,18 +41,20 @@ def assemble_real_model_verifier_ready_final_state() -> ClaudeRealModelVerifierR
     notes: list[str] = []
     if missing:
         notes.append(f"{len(missing)} upstream lock(s) missing")
-    notes.extend([
-        "This campaign is SUBORDINATE to Codex's proof-control audit repair.",
-        "Full-suite clean is NOT claimed here. Three pre-existing audit "
-        "failures from the unrelated PB lane proof-control commit remain.",
-        "Source mutation requires real human approval + temp verifier + "
-        "rollback snapshot + build-adapter post-apply verifier + "
-        "rollback-on-fail. Training eligibility blocked. Network providers "
-        "blocked. No Docker. No release workflow.",
-    ])
+    notes.extend(
+        [
+            "This campaign is SUBORDINATE to Codex's proof-control audit repair.",
+            "Full-suite clean is NOT claimed here. Three pre-existing audit "
+            "failures from the unrelated PB lane proof-control commit remain.",
+            "Source mutation requires real human approval + temp verifier + "
+            "rollback snapshot + build-adapter post-apply verifier + "
+            "rollback-on-fail. Training eligibility blocked. Network providers "
+            "blocked. No Docker. No release workflow.",
+        ]
+    )
 
     return ClaudeRealModelVerifierReadyFinalState(
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=datetime.now(UTC).isoformat(),
         canonical_model_id="READY",
         model_available="READY_OR_BLOCKED_WITH_REASON",
         model_healthcheck="READY_OR_BLOCKED_WITH_REASON",

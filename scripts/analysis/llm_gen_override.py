@@ -25,7 +25,9 @@ Usage:
 
 Requires: ANTHROPIC_API_KEY in env.
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -88,9 +90,12 @@ def load_pb_meta() -> dict:
             if len(parts) >= 6:
                 _, inst, lang, _, tests, frontier = parts[:6]
                 slug = inst.lower().replace("/", "__")
-                meta[slug] = {"lang": lang, "tests": int(tests),
-                              "tool_name": inst.split("/", 1)[-1].lower(),
-                              "frontier_pct": float(frontier)}
+                meta[slug] = {
+                    "lang": lang,
+                    "tests": int(tests),
+                    "tool_name": inst.split("/", 1)[-1].lower(),
+                    "frontier_pct": float(frontier),
+                }
     return meta
 
 
@@ -175,9 +180,7 @@ def extract_python_from_response(response_text: str) -> str | None:
     """
     candidates = []
     # 1. Strict python fence
-    for pat in (r"```python\r?\n(.*?)```",
-                r"```py\r?\n(.*?)```",
-                r"```python3?\r?\n(.*?)```"):
+    for pat in (r"```python\r?\n(.*?)```", r"```py\r?\n(.*?)```", r"```python3?\r?\n(.*?)```"):
         m = re.search(pat, response_text, re.DOTALL | re.IGNORECASE)
         if m:
             candidates.append(m.group(1).rstrip())
@@ -185,7 +188,9 @@ def extract_python_from_response(response_text: str) -> str | None:
     m = re.search(r"```\r?\n(.*?)```", response_text, re.DOTALL)
     if m:
         body = m.group(1).rstrip()
-        if any(t in body for t in ("import ", "def ", "#!/usr/bin/env python", "sys.exit", "print(")):
+        if any(
+            t in body for t in ("import ", "def ", "#!/usr/bin/env python", "sys.exit", "print(")
+        ):
             candidates.append(body)
     # 3. No fence; starts with shebang
     body = response_text.lstrip()
@@ -238,13 +243,17 @@ def call_deepseek(prompt: str, model: str = "deepseek-chat") -> str:
     if not api_key:
         print("ERROR: DEEPSEEK_API_KEY not set")
         sys.exit(1)
-    import urllib.request, urllib.error
-    body = json.dumps({
-        "model": model,
-        "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 8000,
-        "temperature": 0.2,
-    }).encode("utf-8")
+    import urllib.error
+    import urllib.request
+
+    body = json.dumps(
+        {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": 8000,
+            "temperature": 0.2,
+        }
+    ).encode("utf-8")
     req = urllib.request.Request(
         "https://api.deepseek.com/v1/chat/completions",
         data=body,
@@ -264,17 +273,21 @@ def call_ollama(prompt: str, model: str = "qwen2.5-coder:7b") -> str:
     For Hetzner: export OLLAMA_HOST=http://5.78.192.163:11434
     """
     import urllib.request
+
     host = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
     if not host.startswith("http"):
         host = f"http://{host}"
-    body = json.dumps({
-        "model": model,
-        "prompt": prompt,
-        "stream": False,
-        "options": {"num_predict": 8000, "temperature": 0.2},
-    }).encode("utf-8")
-    req = urllib.request.Request(f"{host}/api/generate", data=body,
-                                  headers={"Content-Type": "application/json"})
+    body = json.dumps(
+        {
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {"num_predict": 8000, "temperature": 0.2},
+        }
+    ).encode("utf-8")
+    req = urllib.request.Request(
+        f"{host}/api/generate", data=body, headers={"Content-Type": "application/json"}
+    )
     with urllib.request.urlopen(req, timeout=600) as r:
         j = json.loads(r.read())
     return j.get("response", "")
@@ -282,14 +295,16 @@ def call_ollama(prompt: str, model: str = "qwen2.5-coder:7b") -> str:
 
 # Fallback chain: try each (backend, model) in order until extractable code returned.
 FALLBACK_CHAIN = [
-    ("ollama", "qwen2.5-coder:7b"),          # Hetzner-hosted, FREE
-    ("deepseek", "deepseek-chat"),           # Cheap (~$0.001/call)
-    ("anthropic", "claude-sonnet-4-6"),      # Medium (~$0.01)
-    ("anthropic", "claude-opus-4-7"),        # Expensive (~$0.05) last
+    ("ollama", "qwen2.5-coder:7b"),  # Hetzner-hosted, FREE
+    ("deepseek", "deepseek-chat"),  # Cheap (~$0.001/call)
+    ("anthropic", "claude-sonnet-4-6"),  # Medium (~$0.01)
+    ("anthropic", "claude-opus-4-7"),  # Expensive (~$0.05) last
 ]
 
 
-def call_with_fallback(prompt: str, chain: list[tuple[str, str]] | None = None) -> tuple[str, str, str]:
+def call_with_fallback(
+    prompt: str, chain: list[tuple[str, str]] | None = None
+) -> tuple[str, str, str]:
     """Try backends in fallback order. Returns (backend, model, response) of first
     that returns extractable code. Raises if all fail."""
     chain = chain or FALLBACK_CHAIN
@@ -318,10 +333,16 @@ def call_llm(prompt: str, backend: str, model: str) -> str:
     raise ValueError(f"unknown backend: {backend}")
 
 
-def generate_override(tool_key: str, meta: dict, failures: dict, snippets: dict,
-                       model: str = "deepseek-chat", backend: str = "deepseek",
-                       use_fallback: bool = False,
-                       dry_run: bool = False) -> bool:
+def generate_override(
+    tool_key: str,
+    meta: dict,
+    failures: dict,
+    snippets: dict,
+    model: str = "deepseek-chat",
+    backend: str = "deepseek",
+    use_fallback: bool = False,
+    dry_run: bool = False,
+) -> bool:
     fail_data = failures.get(tool_key)
     if not fail_data:
         print(f"  {tool_key}: no failure data — skip")
@@ -369,15 +390,21 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tool", help="single tool_key (e.g. wfxr__csview.8ac4de0)")
     ap.add_argument("--slugs", help="comma-separated tool slug filter substring")
-    ap.add_argument("--tier", choices=["near-lock", "upper", "mid", "floor", "all-below-lock"],
-                    help="generate for entire tier")
-    ap.add_argument("--backend", default="deepseek",
-                    choices=["anthropic", "deepseek", "ollama"],
-                    help="LLM backend (ignored if --use-fallback)")
-    ap.add_argument("--model", default=None,
-                    help="model id; defaults by backend")
-    ap.add_argument("--use-fallback", action="store_true",
-                    help="try Qwen->DeepSeek->Sonnet->Opus in order")
+    ap.add_argument(
+        "--tier",
+        choices=["near-lock", "upper", "mid", "floor", "all-below-lock"],
+        help="generate for entire tier",
+    )
+    ap.add_argument(
+        "--backend",
+        default="deepseek",
+        choices=["anthropic", "deepseek", "ollama"],
+        help="LLM backend (ignored if --use-fallback)",
+    )
+    ap.add_argument("--model", default=None, help="model id; defaults by backend")
+    ap.add_argument(
+        "--use-fallback", action="store_true", help="try Qwen->DeepSeek->Sonnet->Opus in order"
+    )
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, default=0)
     args = ap.parse_args()
@@ -421,16 +448,26 @@ def main():
         sys.exit(1)
 
     if args.limit:
-        candidates = candidates[:args.limit]
+        candidates = candidates[: args.limit]
 
-    mode = "fallback-chain (Qwen/Hetzner -> DeepSeek -> Sonnet -> Opus)" if args.use_fallback else f"{args.backend}/{args.model}"
+    mode = (
+        "fallback-chain (Qwen/Hetzner -> DeepSeek -> Sonnet -> Opus)"
+        if args.use_fallback
+        else f"{args.backend}/{args.model}"
+    )
     print(f"Generating overrides for {len(candidates)} tool(s) using {mode}")
     success = 0
     for tk in candidates:
-        if generate_override(tk, meta, failures, snippets,
-                              model=args.model, backend=args.backend,
-                              use_fallback=args.use_fallback,
-                              dry_run=args.dry_run):
+        if generate_override(
+            tk,
+            meta,
+            failures,
+            snippets,
+            model=args.model,
+            backend=args.backend,
+            use_fallback=args.use_fallback,
+            dry_run=args.dry_run,
+        ):
             success += 1
     print()
     print(f"Generated: {success}/{len(candidates)}")

@@ -133,9 +133,7 @@ async def _run_delve(
 
     output = (stdout + stderr).decode("utf-8", errors="replace")
     stack_lines = [
-        line
-        for line in output.splitlines()
-        if "goroutine" in line or line.strip().startswith("*")
+        line for line in output.splitlines() if "goroutine" in line or line.strip().startswith("*")
     ][:10]
     return {
         "stack": "\n".join(stack_lines),

@@ -3,16 +3,16 @@
 Consolidates the 11 rungs of the real-frontend campaign plus the prior
 UI-ready foundation into a single DeterminexIDEFrontendReadyFinalState.
 """
+
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .determinex_ide_frontend_ready_final_state_record import (
     DETERMINEX_IDE_FRONTEND_READY_FINAL_STATE_TOKENS,
     DeterminexIDEFrontendReadyFinalState,
 )
-
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
@@ -52,7 +52,7 @@ def assemble_frontend_ready_final_state() -> DeterminexIDEFrontendReadyFinalStat
     )
 
     return DeterminexIDEFrontendReadyFinalState(
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=datetime.now(UTC).isoformat(),
         tauri_rust_command_bridge="READY_AS_STANDALONE_MODULE",
         frontend_repair_panel_shell="READY",
         frontend_workspace_status_panel="READY",

@@ -10,6 +10,7 @@ consistent and attested to the wrong artifact.
 
 These tests fail if any of that comes back.
 """
+
 from __future__ import annotations
 
 import json
@@ -51,7 +52,9 @@ class TestCanonicalResolver:
         time.sleep(0.01)
         newer = _manifest(tmp_path, "determinex_download_bundle_20000101", [{"sha256": "new"}])
         # Name ordering would prefer 20991231; mtime ordering must prefer 20000101.
-        assert older.name == newer.name, "precondition: names are identical, so name sort is a no-op"
+        assert older.name == newer.name, (
+            "precondition: names are identical, so name sort is a no-op"
+        )
         assert determinex_release_gates.newest_download_manifest_path(tmp_path) == newer
 
     def test_returns_none_when_no_manifest_exists(self, tmp_path: Path) -> None:
@@ -59,7 +62,9 @@ class TestCanonicalResolver:
         assert determinex_release_gates.newest_download_manifest_path(tmp_path) is None
 
     def test_skips_a_directory_with_no_manifest_inside(self, tmp_path: Path) -> None:
-        (tmp_path / "assurance" / "evidence" / "determinex_download_bundle_20260101").mkdir(parents=True)
+        (tmp_path / "assurance" / "evidence" / "determinex_download_bundle_20260101").mkdir(
+            parents=True
+        )
         real = _manifest(tmp_path, "determinex_download_bundle_20250101", [{"sha256": "x"}])
         assert determinex_release_gates.newest_download_manifest_path(tmp_path) == real
 
@@ -170,7 +175,7 @@ class TestNoHardcodedBundleDate:
             "import argparse\n"
             "\n"
             "def main():\n"
-            '    p = argparse.ArgumentParser()\n'
+            "    p = argparse.ArgumentParser()\n"
             '    p.add_argument("--manifest", default="assurance/evidence/'
             'determinex_download_bundle_20260707/download_manifest.json")\n',
             encoding="utf-8",
@@ -209,7 +214,7 @@ class TestPowerShellTwinMatchesPython:
             f"$src = Get-Content -Raw -LiteralPath '{SMOKE.as_posix()}'\n"
             "$start = $src.IndexOf('function Resolve-NewestManifest')\n"
             "if ($start -lt 0) { throw 'Resolve-NewestManifest not found in the smoke script' }\n"
-            "$end = $src.IndexOf(\"`n}\", $start)\n"
+            '$end = $src.IndexOf("`n}", $start)\n'
             "if ($end -lt 0) { throw 'could not delimit Resolve-NewestManifest' }\n"
             "Invoke-Expression $src.Substring($start, $end - $start + 3)\n"
             f"Resolve-NewestManifest -Root '{tmp_path.as_posix()}'\n"
@@ -239,17 +244,16 @@ class TestSha256VerificationFailsClosed:
 
     def test_the_unconditional_true_is_gone(self) -> None:
         source = SMOKE.read_text(encoding="utf-8")
-        body = "\n".join(
-            line for line in source.splitlines()
-            if not line.strip().startswith("#")
-        )
+        body = "\n".join(line for line in source.splitlines() if not line.strip().startswith("#"))
         assert "$installerSha256Verified = $true\n} else" not in body.replace("\r", "")
         # The else-branch must attempt a real lookup against the manifest.
         assert "$manifest.artifacts" in body, "the no-artifact branch must consult the manifest"
 
     def test_the_gate_still_requires_the_field(self) -> None:
         """If this stops being required, failing closed buys nothing."""
-        gates = (ROOT / "scripts" / "release" / "determinex_release_gates.py").read_text(encoding="utf-8")
+        gates = (ROOT / "scripts" / "release" / "determinex_release_gates.py").read_text(
+            encoding="utf-8"
+        )
         assert 'bundle.get("installer_sha256_verified") is not True' in gates
 
     def test_transcript_records_the_basis_for_the_boolean(self) -> None:

@@ -29,6 +29,7 @@ Canonical payload format (LF-separated string), then UTF-8 bytes:
 Empty fields are still present (e.g. ``verifier_status=``) so the
 canonical bytes are deterministic and tamper-evident.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -36,7 +37,6 @@ import hmac
 import os
 import secrets
 from pathlib import Path
-
 
 SIGNATURE_KIND_HMAC = "real_local_hmac"
 SIGNATURE_KIND_LEGACY = "real_local_signed"
@@ -100,7 +100,9 @@ def canonical_payload(
 
 
 def sign(
-    payload: bytes, *, secret: bytes | None = None,
+    payload: bytes,
+    *,
+    secret: bytes | None = None,
     secret_path: Path | None = None,
 ) -> str:
     """Return the hex HMAC-SHA256 of payload."""
@@ -109,7 +111,9 @@ def sign(
 
 
 def verify(
-    payload: bytes, signature_hex: str, *,
+    payload: bytes,
+    signature_hex: str,
+    *,
     secret: bytes | None = None,
     secret_path: Path | None = None,
 ) -> bool:

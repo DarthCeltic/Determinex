@@ -3,6 +3,7 @@
 Single test module for both since they're sister profiles. No `cc`/`c++`
 build invocation in tests — that would add toolchain dependency to CI.
 """
+
 from __future__ import annotations
 
 import json
@@ -17,8 +18,7 @@ sys.path.insert(0, str(_REPO / "scripts"))
 
 from executors import CExecutor, CppExecutor  # noqa: E402
 
-
-_FAKE_C_INSTANCE   = "lh3__seqtk.94e7070"
+_FAKE_C_INSTANCE = "lh3__seqtk.94e7070"
 _FAKE_CPP_INSTANCE = "facebook__zstd.b2a5f0a"
 
 
@@ -33,6 +33,7 @@ def synthetic_tasks_dir(tmp_path):
 
 
 # ── C ────────────────────────────────────────────────────────────────────
+
 
 def test_c_scaffold_writes_three_files(synthetic_tasks_dir, tmp_path):
     ex = CExecutor(tasks_dir=synthetic_tasks_dir)
@@ -66,6 +67,7 @@ def test_c_compile_sh_uses_cc(synthetic_tasks_dir, tmp_path):
 
 # ── C++ ──────────────────────────────────────────────────────────────────
 
+
 def test_cpp_scaffold_writes_three_files(synthetic_tasks_dir, tmp_path):
     ex = CppExecutor(tasks_dir=synthetic_tasks_dir)
     sc = ex.scaffold(ex.probe(_FAKE_CPP_INSTANCE), tmp_path / "work")
@@ -96,21 +98,34 @@ def test_cpp_compile_sh_uses_cpp17(synthetic_tasks_dir, tmp_path):
 
 # ── Shared invariants across the language family ────────────────────────
 
-@pytest.mark.parametrize("ExClass,iid", [
-    (CExecutor, _FAKE_C_INSTANCE),
-    (CppExecutor, _FAKE_CPP_INSTANCE),
-])
+
+@pytest.mark.parametrize(
+    "ExClass,iid",
+    [
+        (CExecutor, _FAKE_C_INSTANCE),
+        (CppExecutor, _FAKE_CPP_INSTANCE),
+    ],
+)
 def test_classify_routes_through_central_taxonomy(ExClass, iid, tmp_path):
     """All executors classify through determinex_pb_taxonomy — no per-language drift."""
     ex = ExClass()
     eval_json = tmp_path / "fake.eval.json"
-    eval_json.write_text(json.dumps({
-        "test_results": [
-            {"status": "failure", "name": "t",
-             "extra": {"message": "tool: unknown option: --x"}},
-        ],
-    }), encoding="utf-8")
+    eval_json.write_text(
+        json.dumps(
+            {
+                "test_results": [
+                    {
+                        "status": "failure",
+                        "name": "t",
+                        "extra": {"message": "tool: unknown option: --x"},
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
     from executors.base import EvalResult
+
     er = EvalResult(instance_id=iid, score=0.0, passed=0, total=1, eval_json_path=eval_json)
     cr = ex.classify(er)
     assert cr.families.get("rc_2_unknown_option") == 1

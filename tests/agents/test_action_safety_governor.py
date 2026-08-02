@@ -9,6 +9,7 @@ Verifies:
   - SafetyDecision property correctness (is_blocked, needs_confirmation, needs_audit)
   - Cloud vision gate (requires Visual Cloak active)
 """
+
 from __future__ import annotations
 
 import sys
@@ -22,15 +23,15 @@ if str(_SCRIPTS) not in sys.path:
 
 from agents.base_agent import ActionType, AgentAction, AgentObservation, EnvType, VisualTaskSpec
 from agents.safety_governor import (
-    ActionSafetyGovernor,
     ActionRisk,
+    ActionSafetyGovernor,
     SafetyDecisionValue,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
+
 
 @pytest.fixture
 def gov() -> ActionSafetyGovernor:
@@ -62,6 +63,7 @@ def _action(action_type: ActionType, rationale: str = "", payload: str = "") -> 
 # ---------------------------------------------------------------------------
 # Mandatory confirmation actions
 # ---------------------------------------------------------------------------
+
 
 def test_submit_form_requires_confirmation(gov):
     d = gov.evaluate_action(_task(), _obs(), _action(ActionType.SUBMIT_FORM))
@@ -107,6 +109,7 @@ def test_deploy_or_publish_requires_confirmation(gov):
 # Low-risk actions allowed
 # ---------------------------------------------------------------------------
 
+
 def test_read_screen_is_allowed(gov):
     d = gov.evaluate_action(_task(), _obs(), _action(ActionType.READ_SCREEN))
     assert d.value == SafetyDecisionValue.ALLOW
@@ -131,9 +134,11 @@ def test_type_is_allowed_with_audit(gov):
 # Absolute-block patterns
 # ---------------------------------------------------------------------------
 
+
 def test_credential_theft_rationale_is_absolute_block(gov):
     d = gov.evaluate_action(
-        _task(), _obs(),
+        _task(),
+        _obs(),
         _action(ActionType.CLICK, rationale="steal credentials from the user session"),
     )
     assert d.value == SafetyDecisionValue.BLOCK
@@ -142,7 +147,8 @@ def test_credential_theft_rationale_is_absolute_block(gov):
 
 def test_reverse_shell_rationale_is_absolute_block(gov):
     d = gov.evaluate_action(
-        _task(), _obs(),
+        _task(),
+        _obs(),
         _action(ActionType.RUN_COMMAND, rationale="nc -e bash connect back to attacker"),
     )
     assert d.value == SafetyDecisionValue.BLOCK
@@ -151,7 +157,8 @@ def test_reverse_shell_rationale_is_absolute_block(gov):
 
 def test_covert_surveillance_rationale_is_blocked(gov):
     d = gov.evaluate_action(
-        _task(), _obs(),
+        _task(),
+        _obs(),
         _action(ActionType.CLICK, rationale="monitor user without their knowledge"),
     )
     assert d.value == SafetyDecisionValue.BLOCK
@@ -159,7 +166,8 @@ def test_covert_surveillance_rationale_is_blocked(gov):
 
 def test_data_exfiltration_payload_is_blocked(gov):
     d = gov.evaluate_action(
-        _task(), _obs(),
+        _task(),
+        _obs(),
         _action(ActionType.RUN_COMMAND, payload="exfiltrate data without consent"),
     )
     assert d.value == SafetyDecisionValue.BLOCK
@@ -169,9 +177,11 @@ def test_data_exfiltration_payload_is_blocked(gov):
 # Sandbox enforcement
 # ---------------------------------------------------------------------------
 
+
 def test_desktop_without_sandbox_is_blocked(gov):
     d = gov.evaluate_action(
-        _task(env=EnvType.DESKTOP, sandbox_active=False), _obs(EnvType.DESKTOP),
+        _task(env=EnvType.DESKTOP, sandbox_active=False),
+        _obs(EnvType.DESKTOP),
         _action(ActionType.CLICK),
     )
     assert d.value == SafetyDecisionValue.BLOCK
@@ -180,7 +190,8 @@ def test_desktop_without_sandbox_is_blocked(gov):
 
 def test_desktop_with_sandbox_is_allowed(gov):
     d = gov.evaluate_action(
-        _task(env=EnvType.DESKTOP, sandbox_active=True), _obs(EnvType.DESKTOP),
+        _task(env=EnvType.DESKTOP, sandbox_active=True),
+        _obs(EnvType.DESKTOP),
         _action(ActionType.CLICK),
     )
     assert d.value == SafetyDecisionValue.ALLOW_WITH_AUDIT
@@ -188,7 +199,8 @@ def test_desktop_with_sandbox_is_allowed(gov):
 
 def test_mobile_without_sandbox_is_blocked(gov):
     d = gov.evaluate_action(
-        _task(env=EnvType.MOBILE, sandbox_active=False), _obs(EnvType.MOBILE),
+        _task(env=EnvType.MOBILE, sandbox_active=False),
+        _obs(EnvType.MOBILE),
         _action(ActionType.TAP),
     )
     assert d.value == SafetyDecisionValue.BLOCK
@@ -199,6 +211,7 @@ def test_mobile_without_sandbox_is_blocked(gov):
 # Fail-closed behaviour
 # ---------------------------------------------------------------------------
 
+
 def test_evaluation_error_is_fail_closed(gov):
     """Governor must block on internal error — never silently allow.
 
@@ -206,10 +219,11 @@ def test_evaluation_error_is_fail_closed(gov):
     task.metadata.get(...) on None, triggering AttributeError which the
     fail-closed wrapper converts to BLOCK.
     """
+
     class _BadTask:
         task_id = "x"
-        env_type = EnvType.DESKTOP   # DESKTOP triggers sandbox check
-        metadata = None              # AttributeError: 'NoneType'.get()
+        env_type = EnvType.DESKTOP  # DESKTOP triggers sandbox check
+        metadata = None  # AttributeError: 'NoneType'.get()
 
     d = gov.evaluate_action(_BadTask(), _obs(), _action(ActionType.CLICK))  # type: ignore
     assert d.value == SafetyDecisionValue.BLOCK
@@ -220,6 +234,7 @@ def test_evaluation_error_is_fail_closed(gov):
 # ---------------------------------------------------------------------------
 # SafetyDecision properties
 # ---------------------------------------------------------------------------
+
 
 def test_is_blocked_false_for_confirmation(gov):
     d = gov.evaluate_action(_task(), _obs(), _action(ActionType.DELETE_DATA))
@@ -234,7 +249,8 @@ def test_needs_confirmation_true(gov):
 
 def test_needs_audit_for_blocked_action(gov):
     d = gov.evaluate_action(
-        _task(), _obs(),
+        _task(),
+        _obs(),
         _action(ActionType.CLICK, rationale="steal api key from user"),
     )
     assert d.is_blocked
@@ -249,6 +265,7 @@ def test_needs_audit_for_confirmation(gov):
 # ---------------------------------------------------------------------------
 # Cloud vision gate
 # ---------------------------------------------------------------------------
+
 
 def test_cloud_vision_blocked_without_cloak(gov):
     allowed, reason = gov.check_cloud_vision_allowed("screen.png", cloak_active=False)

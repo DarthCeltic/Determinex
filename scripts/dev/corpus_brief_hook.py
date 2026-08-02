@@ -24,6 +24,7 @@ hook surfaces nothing at all.
       ]
     }
 """
+
 from __future__ import annotations
 
 import json
@@ -75,6 +76,7 @@ def main() -> int:
 
     try:
         from determinex_corpus_api import brief, format_brief
+
         text = format_brief(brief([rel]), [rel])
     except Exception:
         return 0  # the corpus being unreadable must not stop anyone working

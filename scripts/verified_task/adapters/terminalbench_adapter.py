@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ..task_spec import ResourceLimits, TaskSpec
 from ..language_profiles import default_validation_commands
+from ..task_spec import ResourceLimits, TaskSpec
 
 
 def terminal_task_spec(

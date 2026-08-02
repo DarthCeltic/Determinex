@@ -20,10 +20,10 @@ The gate composes:
 The gate performs no I/O. It never calls a model. It never spawns a
 subprocess. It never reaches the network.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Iterable
 
 from .live_model_admission_record import (
     LOCAL_MODEL_LIVE_ADMISSION_STATUS_TOKENS,
@@ -39,23 +39,33 @@ from .model_inventory import LocalModelInventory
 from .model_router import CURRENT_MODEL_IDS, STALE_MODEL_IDS, TaskClass
 from .model_router_record import RouteRecord
 
-
 # Provider-type classification. Network providers are not part of the
 # local-model admission surface and are always blocked here. The
 # LOCAL_HF / OLLAMA / EXECUTABLE_ADAPTER providers are local-only.
-_LOCAL_PROVIDERS: frozenset[str] = frozenset({
-    ModelProvider.OLLAMA.value,
-    ModelProvider.LOCAL_HF.value,
-    ModelProvider.EXECUTABLE_ADAPTER.value,
-    ModelProvider.NO_MODEL.value,
-})
+_LOCAL_PROVIDERS: frozenset[str] = frozenset(
+    {
+        ModelProvider.OLLAMA.value,
+        ModelProvider.LOCAL_HF.value,
+        ModelProvider.EXECUTABLE_ADAPTER.value,
+        ModelProvider.NO_MODEL.value,
+    }
+)
 
 # Network providers — kept here for clarity. Any non-local provider
 # string is treated as network/unknown and refused.
-_NETWORK_PROVIDER_TOKENS: frozenset[str] = frozenset({
-    "anthropic", "openai", "google", "deepseek", "gemini", "openrouter",
-    "vllm-remote", "cloud", "network",
-})
+_NETWORK_PROVIDER_TOKENS: frozenset[str] = frozenset(
+    {
+        "anthropic",
+        "openai",
+        "google",
+        "deepseek",
+        "gemini",
+        "openrouter",
+        "vllm-remote",
+        "cloud",
+        "network",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -65,9 +75,7 @@ class LiveModelAdmissionConfig:
     require_pinned_id: bool = True
     allow_network_provider: bool = False
     allowed_task_classes: frozenset[str] = field(
-        default_factory=lambda: frozenset(
-            t.value for t in TaskClass if t is not TaskClass.UNKNOWN
-        )
+        default_factory=lambda: frozenset(t.value for t in TaskClass if t is not TaskClass.UNKNOWN)
     )
 
 
@@ -99,7 +107,9 @@ class LiveModelAdmissionGate:
         # 0. Dry-run is the default — refuses live admission outright.
         if self._config.mode is not LiveAdmissionMode.OPT_IN_LIVE:
             return self._blocked(
-                candidate, tc, route_ref,
+                candidate,
+                tc,
+                route_ref,
                 "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_DRY_RUN_DEFAULT",
                 "config.mode is DRY_RUN (default); live admission requires "
                 "mode=OPT_IN_LIVE and opt_in_live=True",
@@ -108,7 +118,9 @@ class LiveModelAdmissionGate:
         # 1. Explicit opt-in flag required.
         if not self._config.opt_in_live:
             return self._blocked(
-                candidate, tc, route_ref,
+                candidate,
+                tc,
+                route_ref,
                 "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_NO_CONFIG",
                 "config.opt_in_live=False; explicit caller opt-in required",
             )
@@ -116,7 +128,9 @@ class LiveModelAdmissionGate:
         # 2. Inventory required.
         if inventory is None or not bool(inventory):
             return self._blocked(
-                candidate, tc, route_ref,
+                candidate,
+                tc,
+                route_ref,
                 "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_MISSING_INVENTORY",
                 "no LocalModelInventory supplied or inventory is empty",
             )
@@ -125,7 +139,9 @@ class LiveModelAdmissionGate:
         if candidate.provider in _NETWORK_PROVIDER_TOKENS:
             if not self._config.allow_network_provider:
                 return self._blocked(
-                    candidate, tc, route_ref,
+                    candidate,
+                    tc,
+                    route_ref,
                     "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_NETWORK_PROVIDER",
                     f"candidate.provider {candidate.provider!r} is a network "
                     f"provider; allow_network_provider=False",
@@ -133,16 +149,19 @@ class LiveModelAdmissionGate:
                 )
         if candidate.provider not in _LOCAL_PROVIDERS:
             return self._blocked(
-                candidate, tc, route_ref,
+                candidate,
+                tc,
+                route_ref,
                 "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNKNOWN_PROVIDER",
-                f"candidate.provider {candidate.provider!r} is not a known "
-                f"local provider",
+                f"candidate.provider {candidate.provider!r} is not a known local provider",
             )
 
         # 4. Stale id.
         if candidate.model_id in STALE_MODEL_IDS:
             return self._blocked(
-                candidate, tc, route_ref,
+                candidate,
+                tc,
+                route_ref,
                 "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_STALE_MODEL_ID",
                 f"model_id {candidate.model_id!r} is in STALE_MODEL_IDS",
                 stale_model_id_detected=True,
@@ -155,7 +174,9 @@ class LiveModelAdmissionGate:
             and candidate.model_id not in CURRENT_MODEL_IDS
         ):
             return self._blocked(
-                candidate, tc, route_ref,
+                candidate,
+                tc,
+                route_ref,
                 "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNPINNED_MODEL",
                 f"model_id {candidate.model_id!r} not pinned in CURRENT_MODEL_IDS",
             )
@@ -163,7 +184,9 @@ class LiveModelAdmissionGate:
         # 6. Unsupported task class.
         if tc not in self._config.allowed_task_classes:
             return self._blocked(
-                candidate, tc, route_ref,
+                candidate,
+                tc,
+                route_ref,
                 "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNSUPPORTED_TASK_CLASS",
                 f"task_class {tc!r} not in policy.allowed_task_classes",
             )
@@ -193,7 +216,9 @@ class LiveModelAdmissionGate:
         # 8. Availability check.
         if not inventory.is_available(candidate.model_id):
             return self._blocked(
-                candidate, tc, route_ref,
+                candidate,
+                tc,
+                route_ref,
                 "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_MODEL_UNAVAILABLE",
                 f"model_id {candidate.model_id!r} not present in inventory",
             )
@@ -214,8 +239,10 @@ class LiveModelAdmissionGate:
             source_mutation_authorized=False,
             corpus_write_authorized=False,
             training_eligible=False,
-            notes=("live admission granted; downstream gates "
-                   "(source mutation, corpus, training) remain closed",),
+            notes=(
+                "live admission granted; downstream gates "
+                "(source mutation, corpus, training) remain closed",
+            ),
         )
 
     @staticmethod

@@ -30,6 +30,7 @@ Also exercises fix 36's companion: _const() gaining ast.BinOp(Mult) support for
 string-repetition content (`"x" * 10000`), a common test-data-generation idiom that
 was previously entirely unresolvable (_UNK).
 """
+
 from __future__ import annotations
 
 import sys
@@ -50,12 +51,12 @@ def test_const_resolves_string_repetition_reversed_operands():
 
 
 def test_const_declines_non_string_mult():
-    node = iox.ast.parse('3 * 4').body[0].value
+    node = iox.ast.parse("3 * 4").body[0].value
     assert iox._const(node) is iox._UNK
 
 
 def test_discover_temp_files_object_fixtures_finds_mkdtemp_plus_create_class():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import tempfile
 import pytest
 from pathlib import Path
@@ -69,14 +70,14 @@ def temp_files():
         def path(self, name=""):
             pass
     yield TempFiles()
-''')
+""")
     assert iox._discover_temp_files_object_fixtures(tree) == {"temp_files"}
 
 
 def test_discover_temp_files_object_fixtures_ignores_bare_scratch_dir_fixture():
     """A fixture yielding the bare TemporaryDirectory path (fix 23's shape) must
     NOT be mistaken for the object-fixture shape -- no nested class at all here."""
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import tempfile
 import pytest
 from pathlib import Path
@@ -85,16 +86,16 @@ from pathlib import Path
 def temp_dir():
     with tempfile.TemporaryDirectory() as tmpdir:
         yield Path(tmpdir)
-''')
+""")
     assert iox._discover_temp_files_object_fixtures(tree) == set()
 
 
 def test_track_temp_files_object_creates_resolves_name_and_repeated_content():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def test_x(temp_files):
     temp_files.create("dir/file1.txt", "x" * 1000)
     temp_files.create("file2.txt", "content")
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._track_temp_files_object_creates(func, {"temp_files"}, {})
     assert result == {
@@ -105,7 +106,8 @@ def test_x(temp_files):
 
 def test_extract_file_resolves_dust_shaped_temp_files_object_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import os
 import tempfile
@@ -144,14 +146,16 @@ def temp_files():
     temp = TempFiles(tempdir)
     yield temp
     shutil.rmtree(tempdir, ignore_errors=True)
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_filecount_flag(temp_files):
     temp_files.create("dir/file1.txt", "x" * 1000)
     temp_files.create("dir/file2.txt", "x" * 2000)
     result = run("-P", "-c", "-f", str(temp_files.path()))
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -166,7 +170,8 @@ def test_filecount_flag(temp_files):
 
 def test_extract_file_resolves_temp_files_path_with_name_argument(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import tempfile
 import shutil
@@ -190,13 +195,15 @@ def temp_files():
             return Path(tempdir) / name if name else Path(tempdir)
     yield TempFiles()
     shutil.rmtree(tempdir, ignore_errors=True)
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_subdir(temp_files):
     temp_files.create("dir1/a.txt", "hello")
     result = run(str(temp_files.path("dir1")))
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

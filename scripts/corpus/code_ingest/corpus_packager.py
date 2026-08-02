@@ -1,4 +1,5 @@
 """Package licensed source into a verifier-ready corpus intake manifest."""
+
 from __future__ import annotations
 
 import argparse
@@ -21,9 +22,12 @@ from corpus.code_ingest.quality_filter import assess as quality_assess
 from corpus.code_ingest.secret_scanner import is_clean as secrets_clean
 from corpus.code_ingest.source_fetcher import stage_local_source
 
-
-DEFAULT_STAGING = Path(os.environ.get("DETERMINEX_CODE_INGEST_STAGING", "T:/determinex_corpus/intake_sources"))
-DEFAULT_MANIFEST_DIR = Path(os.environ.get("DETERMINEX_CODE_INGEST_MANIFESTS", "T:/determinex_corpus/intake_manifests"))
+DEFAULT_STAGING = Path(
+    os.environ.get("DETERMINEX_CODE_INGEST_STAGING", "T:/determinex_corpus/intake_sources")
+)
+DEFAULT_MANIFEST_DIR = Path(
+    os.environ.get("DETERMINEX_CODE_INGEST_MANIFESTS", "T:/determinex_corpus/intake_manifests")
+)
 
 
 @dataclass
@@ -37,7 +41,9 @@ def _hash_manifest(payload: dict[str, Any]) -> str:
     return hashlib.blake2b(raw, digest_size=32).hexdigest()
 
 
-def assess_source(source: Path, *, benchmark: str = "code_ingest", staging_root: Path = DEFAULT_STAGING) -> dict[str, Any]:
+def assess_source(
+    source: Path, *, benchmark: str = "code_ingest", staging_root: Path = DEFAULT_STAGING
+) -> dict[str, Any]:
     fetched = stage_local_source(source, staging_root)
     staged = Path(fetched.staged_path)
     license_result = detect(staged)
@@ -72,7 +78,7 @@ def assess_source(source: Path, *, benchmark: str = "code_ingest", staging_root:
 
     payload: dict[str, Any] = {
         "schema_version": "determinex-code-intake-v1",
-        "captured_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "captured_at": dt.datetime.now(dt.UTC).isoformat(),
         "benchmark": benchmark,
         "source": fetched.to_dict(),
         "license": license_result.to_dict(),

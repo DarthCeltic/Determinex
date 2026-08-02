@@ -37,6 +37,7 @@ Sections queried:
                               stripped of tool-specific framing -- see general_engineering_
                               playbook()'s docstring. Searched only for the default corpus.
 """
+
 from __future__ import annotations
 
 import json
@@ -46,30 +47,44 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-DEFAULT_PATH = Path(__file__).resolve().parent.parent / "corpus" / "programbench" / "build_knowledge.json"
-CANONICAL_TASKS_PATH = Path(__file__).resolve().parent.parent / "corpus" / "programbench" / "canonical_tasks.json"
+DEFAULT_PATH = (
+    Path(__file__).resolve().parent.parent / "corpus" / "programbench" / "build_knowledge.json"
+)
+CANONICAL_TASKS_PATH = (
+    Path(__file__).resolve().parent.parent / "corpus" / "programbench" / "canonical_tasks.json"
+)
 SWEBENCH_DIR = Path(__file__).resolve().parent.parent / "corpus" / "swebench"
 TERMINAL_BENCH_DIR = Path(__file__).resolve().parent.parent / "corpus" / "terminal_bench"
 VERDICT_CORPUS_PATH = (
     Path(__file__).resolve().parent.parent
-    / "corpus" / "programbench" / "training_corpus" / "pb_verdict_corpus.jsonl"
+    / "corpus"
+    / "programbench"
+    / "training_corpus"
+    / "pb_verdict_corpus.jsonl"
 )
 # General, non-tool-specific engineering lessons distilled FROM the ProgramBench campaign's
 # class_patterns (build_knowledge.json), stripped of PB-specific framing so they transfer to any
 # project a user brings through the Hive loop. Deliberately top-level in corpus/, not under
 # corpus/programbench/ -- this is general knowledge, not PB campaign data. See the file's own
 # _doc field for the full rationale.
-GENERAL_PLAYBOOK_PATH = Path(__file__).resolve().parent.parent / "corpus" / "general_engineering_playbook.json"
+GENERAL_PLAYBOOK_PATH = (
+    Path(__file__).resolve().parent.parent / "corpus" / "general_engineering_playbook.json"
+)
 
 # Keys that are structural/bookkeeping, not searchable knowledge entries.
-_NON_ENTRY_KEYS = frozenset({
-    "_topic_index", "class_patterns", "learned_classes", "absorbed_sources",
-})
+_NON_ENTRY_KEYS = frozenset(
+    {
+        "_topic_index",
+        "class_patterns",
+        "learned_classes",
+        "absorbed_sources",
+    }
+)
 
 
 @dataclass
 class SearchHit:
-    source: str          # "topic" | "class_pattern" | "learned_class" | "entry"
+    source: str  # "topic" | "class_pattern" | "learned_class" | "entry"
     key: str
     title: str
     snippet: str
@@ -140,7 +155,9 @@ def get_class_pattern(key: str, corpus: dict[str, Any] | None = None) -> dict[st
     return v if isinstance(v, dict) else None
 
 
-def learned_classes(verified_only: bool = True, corpus: dict[str, Any] | None = None) -> dict[str, Any]:
+def learned_classes(
+    verified_only: bool = True, corpus: dict[str, Any] | None = None
+) -> dict[str, Any]:
     """The live flywheel. By construction (post 2026-07-16 quarantine + the learn_class writer)
     every entry here has verified=True; `verified_only` is kept as an explicit safety filter so a
     future writer can never silently leak an unverified row into what callers treat as trustworthy."""
@@ -177,10 +194,7 @@ def general_engineering_playbook(path: Path | None = None) -> dict[str, dict[str
     entries = data.get("entries", [])
     if not isinstance(entries, list):
         return {}
-    result = {
-        e["id"]: e for e in entries
-        if isinstance(e, dict) and isinstance(e.get("id"), str)
-    }
+    result = {e["id"]: e for e in entries if isinstance(e, dict) and isinstance(e.get("id"), str)}
     if path is None:
         _GENERAL_PLAYBOOK_CACHE = result
     return result
@@ -199,7 +213,9 @@ def stats(corpus: dict[str, Any] | None = None) -> CorpusStats:
         q = kn.get(qk)
         if isinstance(q, dict):
             entries = q.get("entries")
-            quarantined_count += len(entries) if isinstance(entries, dict) else int(q.get("count") or 0)
+            quarantined_count += (
+                len(entries) if isinstance(entries, dict) else int(q.get("count") or 0)
+            )
     entry_keys = [k for k in kn if k not in _NON_ENTRY_KEYS and not k.startswith("_")]
     return CorpusStats(
         total_top_level_entries=len(entry_keys),
@@ -236,8 +252,16 @@ def search(query: str, limit: int = 10, corpus: dict[str, Any] | None = None) ->
                 key, summary = str(row.get("key", "")), str(row.get("summary", "") or "")
                 score = len(qtoks & _tokens(key + " " + summary))
                 if score:
-                    hits.append(SearchHit("topic", key, key.replace("_", " "),
-                                          summary[:220] or "(no summary; see full entry)", score, topic))
+                    hits.append(
+                        SearchHit(
+                            "topic",
+                            key,
+                            key.replace("_", " "),
+                            summary[:220] or "(no summary; see full entry)",
+                            score,
+                            topic,
+                        )
+                    )
 
     for key, v in class_patterns(kn).items():
         if not isinstance(v, dict):
@@ -245,8 +269,11 @@ def search(query: str, limit: int = 10, corpus: dict[str, Any] | None = None) ->
         blob = " ".join(str(v.get(f, "")) for f in ("detect", "symptom", "fix", "applies_to"))
         score = len(qtoks & _tokens(key + " " + blob))
         if score:
-            hits.append(SearchHit("class_pattern", key, key.replace("_", " "),
-                                  str(v.get("fix", ""))[:220], score))
+            hits.append(
+                SearchHit(
+                    "class_pattern", key, key.replace("_", " "), str(v.get("fix", ""))[:220], score
+                )
+            )
 
     # general_engineering_playbook is a SEPARATE file (not part of `kn`/build_knowledge.json --
     # see general_engineering_playbook()'s docstring), so it is only searched when the caller is
@@ -260,9 +287,16 @@ def search(query: str, limit: int = 10, corpus: dict[str, Any] | None = None) ->
             blob = " ".join(str(v.get(f, "")) for f in ("lesson", "why_it_generalizes", "category"))
             score = len(qtoks & _tokens(key + " " + blob))
             if score:
-                hits.append(SearchHit("general_playbook", key, key.replace("_", " "),
-                                      str(v.get("lesson", ""))[:220], score,
-                                      str(v.get("category", ""))))
+                hits.append(
+                    SearchHit(
+                        "general_playbook",
+                        key,
+                        key.replace("_", " "),
+                        str(v.get("lesson", ""))[:220],
+                        score,
+                        str(v.get("category", "")),
+                    )
+                )
 
     for key, v in learned_classes(verified_only=True, corpus=kn).items():
         if not isinstance(v, dict):
@@ -270,13 +304,30 @@ def search(query: str, limit: int = 10, corpus: dict[str, Any] | None = None) ->
         blob = str(v.get("detect", "")) + " " + str(v.get("fix", ""))
         score = len(qtoks & _tokens(blob))
         if score:
-            hits.append(SearchHit("learned_class", key, str(v.get("source_tool", key)),
-                                  str(v.get("fix", ""))[:220], score))
+            hits.append(
+                SearchHit(
+                    "learned_class",
+                    key,
+                    str(v.get("source_tool", key)),
+                    str(v.get("fix", ""))[:220],
+                    score,
+                )
+            )
 
     for key, v in kn.items():
-        if key in _NON_ENTRY_KEYS or key.startswith("_") or key.startswith("learned_classes_quarantine_"):
+        if (
+            key in _NON_ENTRY_KEYS
+            or key.startswith("_")
+            or key.startswith("learned_classes_quarantine_")
+        ):
             continue
-        blob = v if isinstance(v, str) else json.dumps(v)[:4000] if isinstance(v, (dict, list)) else str(v)
+        blob = (
+            v
+            if isinstance(v, str)
+            else json.dumps(v)[:4000]
+            if isinstance(v, (dict, list))
+            else str(v)
+        )
         score = len(qtoks & _tokens(key + " " + blob[:2000]))
         if score:
             snippet = blob[:220] if isinstance(blob, str) else ""
@@ -309,12 +360,17 @@ _BLEND_NS_PREFIXES = ("class_pattern::", "learned_class::")
 def _blend_key(key: str) -> str:
     for prefix in _BLEND_NS_PREFIXES:
         if key.startswith(prefix):
-            return key[len(prefix):]
+            return key[len(prefix) :]
     return key
 
 
-def hybrid_search(query: str, limit: int = 10, corpus: dict[str, Any] | None = None,
-                  semantic_weight: float = 0.5, bm25_share: float = 0.7) -> list[SearchHit]:
+def hybrid_search(
+    query: str,
+    limit: int = 10,
+    corpus: dict[str, Any] | None = None,
+    semantic_weight: float = 0.5,
+    bm25_share: float = 0.7,
+) -> list[SearchHit]:
     """search() finds a query only if it shares literal tokens with an entry -- "missing
     dependency" will not find an entry written as "package not found" (2026-07-18 audit finding:
     "no embeddings, no BM25, no reranking, deliberately... synonyms and paraphrases... are
@@ -368,6 +424,7 @@ def hybrid_search(query: str, limit: int = 10, corpus: dict[str, Any] | None = N
     if use_global_indexes:
         try:
             from corpus import corpus_embeddings  # noqa: PLC0415
+
             sem_hits = corpus_embeddings.semantic_search(query, k=max(limit * 3, 20))
         except Exception:
             sem_hits = []
@@ -382,6 +439,7 @@ def hybrid_search(query: str, limit: int = 10, corpus: dict[str, Any] | None = N
     if use_global_indexes:
         try:
             from corpus import corpus_fts  # noqa: PLC0415
+
             fts_hits = corpus_fts.bm25_search(query, k=max(limit * 3, 20))
         except Exception:
             fts_hits = []
@@ -403,16 +461,22 @@ def hybrid_search(query: str, limit: int = 10, corpus: dict[str, Any] | None = N
     scored: list[tuple[float, SearchHit]] = []
     for key in all_keys:
         lex_norm = (lex_by_key[key].score / max_lex) if key in lex_by_key else 0.0
-        sem_norm = max(sem_by_key.get(key, 0.0), 0.0)   # cosine in [-1,1]; clip negative to 0
-        bm_norm = fts_by_key.get(key, 0.0)              # already normalised to (0,1]
+        sem_norm = max(sem_by_key.get(key, 0.0), 0.0)  # cosine in [-1,1]; clip negative to 0
+        bm_norm = fts_by_key.get(key, 0.0)  # already normalised to (0,1]
         blended = w_tok * lex_norm + semantic_weight * sem_norm + w_bm25 * bm_norm
         if key in lex_by_key:
             h = lex_by_key[key]
         else:
             meta = fts_meta.get(key) or sem_meta.get(key) or {}
             source = "bm25" if key in fts_meta else "semantic"
-            h = SearchHit(source, key, key.replace("_", " "),
-                          str(meta.get("snippet", ""))[:220], 0, str(meta.get("topic", "")))
+            h = SearchHit(
+                source,
+                key,
+                key.replace("_", " "),
+                str(meta.get("snippet", ""))[:220],
+                0,
+                str(meta.get("topic", "")),
+            )
         scored.append((blended, h))
     scored.sort(key=lambda t: t[0], reverse=True)
     return [h for _, h in scored[:limit]]
@@ -506,13 +570,19 @@ def tool_status(query: str) -> dict[str, Any]:
 
     def _m(s: str) -> bool:
         s = s.lower()
-        return s in ids or any(s.startswith(i + ".") or i.endswith("__" + s) or
-                               s.endswith("__" + i) or s.split("__")[-1].split(".")[0] == i
-                               for i in ids if i)
+        return s in ids or any(
+            s.startswith(i + ".")
+            or i.endswith("__" + s)
+            or s.endswith("__" + i)
+            or s.split("__")[-1].split(".")[0] == i
+            for i in ids
+            if i
+        )
 
     ei = _pb_json("eval_index.json")
-    out["eval_index"] = next((r for r in ei or [] if isinstance(r, dict)
-                              and _m(str(r.get("slug", "")))), None)
+    out["eval_index"] = next(
+        (r for r in ei or [] if isinstance(r, dict) and _m(str(r.get("slug", "")))), None
+    )
     vl = _pb_json("verified_locks.json") or {}
     locks = vl.get("locks", {}) if isinstance(vl, dict) else {}
     out["verified_lock"] = next((v for k, v in locks.items() if _m(k)), None)
@@ -524,15 +594,27 @@ def tool_status(query: str) -> dict[str, Any]:
     out["ceiling"] = next((v for k, v in crt.items() if _m(k)), None)
     kn = load_corpus()
     pt = kn.get("per_tool", {})
-    out["build_knowledge_per_tool"] = next((v for k, v in pt.items()
-                                            if isinstance(k, str) and _m(k)), None)
+    out["build_knowledge_per_tool"] = next(
+        (v for k, v in pt.items() if isinstance(k, str) and _m(k)), None
+    )
     # X-RAY: the per-eval failure-function breakdown (mode, %, to_fix_by_category) from
     # xray_index.json -- summarized (fail_funcs elided) so the federated view stays readable.
     xr = _pb_json("xray_index.json")
     row = next((r for r in xr or [] if isinstance(r, dict) and _m(str(r.get("slug", "")))), None)
-    out["xray"] = ({k: v for k, v in row.items() if k != "fail_funcs"} if row else None)
-    out["found_in"] = [k for k in ("provenance", "eval_index", "verified_lock", "capability",
-                                   "ceiling", "build_knowledge_per_tool", "xray") if out.get(k)]
+    out["xray"] = {k: v for k, v in row.items() if k != "fail_funcs"} if row else None
+    out["found_in"] = [
+        k
+        for k in (
+            "provenance",
+            "eval_index",
+            "verified_lock",
+            "capability",
+            "ceiling",
+            "build_knowledge_per_tool",
+            "xray",
+        )
+        if out.get(k)
+    ]
     return out
 
 
@@ -585,8 +667,9 @@ def terminal_bench_task(name: str) -> dict[str, Any] | None:
     if not isinstance(rows, list):
         return None
     low = name.lower()
-    return next((r for r in rows if isinstance(r, dict)
-                and str(r.get("task", "")).lower() == low), None)
+    return next(
+        (r for r in rows if isinstance(r, dict) and str(r.get("task", "")).lower() == low), None
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -603,6 +686,7 @@ def terminal_bench_task(name: str) -> dict[str, Any] | None:
 # (a real vector DB, not a flat numpy cache) -- these two functions instead
 # stream the file line-by-line (never loading it into memory) to make it at
 # least genuinely discoverable and literal-text-searchable today.
+
 
 @dataclass
 class VerdictCorpusStats:
@@ -646,13 +730,17 @@ def verdict_corpus_stats(max_lines: int | None = None) -> VerdictCorpusStats:
                 v = str(row.get("verdict", "?"))
                 verdicts[v] = verdicts.get(v, 0) + 1
     return VerdictCorpusStats(
-        exists=True, total_lines=total, verdict_counts=verdicts,
+        exists=True,
+        total_lines=total,
+        verdict_counts=verdicts,
         conversation_records=conv,
         file_bytes=VERDICT_CORPUS_PATH.stat().st_size,
     )
 
 
-def verdict_corpus_grep(query: str, limit: int = 20, max_scan: int = 200_000) -> list[dict[str, Any]]:
+def verdict_corpus_grep(
+    query: str, limit: int = 20, max_scan: int = 200_000
+) -> list[dict[str, Any]]:
     """Literal (case-insensitive) substring search over verdict-shaped rows
     only (slug/verdict/root_cause/fix_summary) -- streams the file, stops
     early at `limit` matches or after scanning `max_scan` lines, whichever
@@ -704,7 +792,11 @@ def extract_cross_references(corpus: dict[str, Any] | None = None) -> list[Cross
     kn = corpus if corpus is not None else load_corpus()
     refs: list[CrossReference] = []
     for key, v in kn.items():
-        if key in _NON_ENTRY_KEYS or key.startswith("_") or key.startswith("learned_classes_quarantine_"):
+        if (
+            key in _NON_ENTRY_KEYS
+            or key.startswith("_")
+            or key.startswith("learned_classes_quarantine_")
+        ):
             continue
         blob = v if isinstance(v, str) else json.dumps(v, ensure_ascii=False)
         for m in _XREF_RE.finditer(blob):
@@ -725,7 +817,14 @@ def related_entries(key: str, corpus: dict[str, Any] | None = None) -> dict[str,
 
 
 _SUPERSESSION_MARKERS = (
-    "invalidat", "CORRECTED", "supersed", "now stale", "was wrong", "demoted", "DEMOTED", "WRONG",
+    "invalidat",
+    "CORRECTED",
+    "supersed",
+    "now stale",
+    "was wrong",
+    "demoted",
+    "DEMOTED",
+    "WRONG",
 )
 
 
@@ -746,20 +845,30 @@ def find_superseded_claims(corpus: dict[str, Any] | None = None) -> list[Superse
     kn = corpus if corpus is not None else load_corpus()
     out: list[SupersessionFlag] = []
     for key, v in kn.items():
-        if key in _NON_ENTRY_KEYS or key.startswith("_") or key.startswith("learned_classes_quarantine_"):
+        if (
+            key in _NON_ENTRY_KEYS
+            or key.startswith("_")
+            or key.startswith("learned_classes_quarantine_")
+        ):
             continue
         blob = v if isinstance(v, str) else json.dumps(v, ensure_ascii=False)
         for marker in _SUPERSESSION_MARKERS:
             idx = blob.find(marker)
             if idx >= 0:
-                snippet = blob[max(0, idx - 60):idx + 200].replace("\n", " ")
+                snippet = blob[max(0, idx - 60) : idx + 200].replace("\n", " ")
                 out.append(SupersessionFlag(key=key, marker=marker, snippet=snippet))
     return out
 
 
 _MATURITY_MARKERS = (
-    "NOT YET BUILT", "HIGH RISK, UNRESOLVED", "UNRESOLVED", "STILL_NEEDED",
-    "remaining_work", "REMAINING_WORK", "TODO", "NEEDS_RE",
+    "NOT YET BUILT",
+    "HIGH RISK, UNRESOLVED",
+    "UNRESOLVED",
+    "STILL_NEEDED",
+    "remaining_work",
+    "REMAINING_WORK",
+    "TODO",
+    "NEEDS_RE",
 )
 _MATURITY_WEAK_MARKERS = ("gap", "GAP")  # common word -- lower-confidence bucket
 
@@ -780,6 +889,7 @@ class MaturityReport:
     HACKATHON_LEVER_MAP_2026_07_13). This is NOT an LLM guessing at gaps; every open_item
     below is a literal substring match you can go verify in build_knowledge.json yourself.
     """
+
     generated_from: str
     stats: CorpusStats
     flywheel_is_empty: bool
@@ -815,7 +925,9 @@ def _entry_topic(key: str, topic_of_key: dict[str, str]) -> str:
     return topic_of_key.get(key, "")
 
 
-def maturity_report(topic_filter: str | None = None, corpus: dict[str, Any] | None = None) -> MaturityReport:
+def maturity_report(
+    topic_filter: str | None = None, corpus: dict[str, Any] | None = None
+) -> MaturityReport:
     """Scan every top-level entry for the corpus's own open/unresolved convention.
     Pass topic_filter='HACKATHON_CAMPAIGN' to scope the report to just that track --
     exactly what a session mid-hackathon needs, without wading through PB-only entries."""
@@ -833,7 +945,11 @@ def maturity_report(topic_filter: str | None = None, corpus: dict[str, Any] | No
     open_items: list[OpenItem] = []
     weak_items: list[OpenItem] = []
     for key, v in kn.items():
-        if key in _NON_ENTRY_KEYS or key.startswith("_") or key.startswith("learned_classes_quarantine_"):
+        if (
+            key in _NON_ENTRY_KEYS
+            or key.startswith("_")
+            or key.startswith("learned_classes_quarantine_")
+        ):
             continue
         topic = _entry_topic(key, topic_of_key)
         if topic_filter and topic != topic_filter:
@@ -842,17 +958,18 @@ def maturity_report(topic_filter: str | None = None, corpus: dict[str, Any] | No
         for marker in _MATURITY_MARKERS:
             idx = blob.find(marker)
             if idx >= 0:
-                snippet = blob[max(0, idx - 40):idx + 160].replace("\n", " ")
+                snippet = blob[max(0, idx - 40) : idx + 160].replace("\n", " ")
                 open_items.append(OpenItem(key=key, marker=marker, topic=topic, snippet=snippet))
         for marker in _MATURITY_WEAK_MARKERS:
             idx = blob.find(marker)
             if idx >= 0:
-                snippet = blob[max(0, idx - 40):idx + 160].replace("\n", " ")
+                snippet = blob[max(0, idx - 40) : idx + 160].replace("\n", " ")
                 weak_items.append(OpenItem(key=key, marker=marker, topic=topic, snippet=snippet))
 
     quarantine_count = sum(
         len(v.get("entries", {})) if isinstance((v := kn.get(k)), dict) else 0
-        for k in kn if k.startswith("learned_classes_quarantine_")
+        for k in kn
+        if k.startswith("learned_classes_quarantine_")
     )
 
     return MaturityReport(
@@ -914,7 +1031,9 @@ class TimelineEntry:
     topic: str
 
 
-def timeline(topic_filter: str | None = None, corpus: dict[str, Any] | None = None) -> list[TimelineEntry]:
+def timeline(
+    topic_filter: str | None = None, corpus: dict[str, Any] | None = None
+) -> list[TimelineEntry]:
     """Every top-level entry with a YYYY_MM_DD date in its own key, sorted chronologically --
     a real 'how did understanding of X evolve' view (85 of 112 entries carry this convention
     as of 2026-07-16). Dates come from the corpus's own naming convention, not inferred."""
@@ -929,7 +1048,11 @@ def timeline(topic_filter: str | None = None, corpus: dict[str, Any] | None = No
 
     out: list[TimelineEntry] = []
     for key in kn:
-        if key in _NON_ENTRY_KEYS or key.startswith("_") or key.startswith("learned_classes_quarantine_"):
+        if (
+            key in _NON_ENTRY_KEYS
+            or key.startswith("_")
+            or key.startswith("learned_classes_quarantine_")
+        ):
             continue
         m = _DATE_IN_KEY_RE.search(key)
         if not m:
@@ -937,7 +1060,9 @@ def timeline(topic_filter: str | None = None, corpus: dict[str, Any] | None = No
         topic = topic_of_key.get(key, "")
         if topic_filter and topic != topic_filter:
             continue
-        out.append(TimelineEntry(key=key, date=f"{m.group(1)}-{m.group(2)}-{m.group(3)}", topic=topic))
+        out.append(
+            TimelineEntry(key=key, date=f"{m.group(1)}-{m.group(2)}-{m.group(3)}", topic=topic)
+        )
     out.sort(key=lambda e: e.date)
     return out
 
@@ -952,6 +1077,7 @@ def stale_report(days: int = 30, corpus: dict[str, Any] | None = None) -> list[d
     itself. The 2026-07-18 audit found the gap ledgers were 3+ weeks stale and actively
     misleading sessions; this verb makes that failure mode visible on demand."""
     import datetime as _dt
+
     kn = corpus if corpus is not None else load_corpus()
     today = _dt.date.today()
     out = []
@@ -965,10 +1091,16 @@ def stale_report(days: int = 30, corpus: dict[str, Any] | None = None) -> list[d
             continue
         blob = json.dumps(kn.get(e.key, ""), ensure_ascii=False)
         if _CLAIM_RE.search(blob):
-            out.append({"key": e.key, "date": e.date, "age_days": str(age),
-                        "topic": e.topic,
-                        "hint": "carries numeric/status claims; reconcile against code/board "
-                                "before planning from it"})
+            out.append(
+                {
+                    "key": e.key,
+                    "date": e.date,
+                    "age_days": str(age),
+                    "topic": e.topic,
+                    "hint": "carries numeric/status claims; reconcile against code/board "
+                    "before planning from it",
+                }
+            )
     out.sort(key=lambda r: r["date"])
     return out
 
@@ -976,15 +1108,14 @@ def stale_report(days: int = 30, corpus: dict[str, Any] | None = None) -> list[d
 @dataclass
 class BriefHit:
     key: str
-    why: str          # what matched -- so a reader can judge the hit instead of trusting it
+    why: str  # what matched -- so a reader can judge the hit instead of trusting it
     detect: str
     symptom: str
     fix: str
     score: int
 
 
-def brief(paths: list[str], corpus: dict[str, Any] | None = None,
-          limit: int = 6) -> list[BriefHit]:
+def brief(paths: list[str], corpus: dict[str, Any] | None = None, limit: int = 6) -> list[BriefHit]:
     """What the corpus already knows about the code someone is about to touch.
 
     THE GAP THIS CLOSES. Every other mode here is PULL -- search, ask, topic, related --
@@ -1020,9 +1151,7 @@ def brief(paths: list[str], corpus: dict[str, Any] | None = None,
         if not isinstance(val, dict):
             continue
         globs = val.get("code_paths") or []
-        matched_glob = next(
-            (g for g in globs if any(fnmatch.fnmatch(p, g) for p in norm)), None
-        )
+        matched_glob = next((g for g in globs if any(fnmatch.fnmatch(p, g) for p in norm)), None)
         text = " ".join(str(val.get(f, "")) for f in ("detect", "symptom", "fix", "rule")).lower()
         overlap = sorted(w for w in words if w in text)
 
@@ -1033,12 +1162,16 @@ def brief(paths: list[str], corpus: dict[str, Any] | None = None,
             score, why = len(overlap), "mentions " + ", ".join(overlap[:4])
         else:
             continue
-        hits.append(BriefHit(
-            key=key, why=why, score=score,
-            detect=str(val.get("detect", val.get("rule", "")))[:400],
-            symptom=str(val.get("symptom", ""))[:400],
-            fix=str(val.get("fix", ""))[:400],
-        ))
+        hits.append(
+            BriefHit(
+                key=key,
+                why=why,
+                score=score,
+                detect=str(val.get("detect", val.get("rule", "")))[:400],
+                symptom=str(val.get("symptom", ""))[:400],
+                fix=str(val.get("fix", ""))[:400],
+            )
+        )
 
     hits.sort(key=lambda h: (-h.score, h.key))
     return hits[:limit]
@@ -1059,11 +1192,13 @@ def format_brief(hits: list[BriefHit], paths: list[str]) -> str:
 
 
 def main(argv: list[str]) -> int:
-    usage = ("usage: determinex_corpus_api.py <brief PATH... | search QUERY | topics | topic TOPIC | stats | "
-              "maturity [TOPIC] | related KEY | superseded | ask QUERY | timeline [TOPIC] | "
-              "provenance TASK_ID_OR_SLUG_OR_REPO | tool SLUG | stale [DAYS] | "
-              "swebench-stats | swebench-repo OWNER/REPO | "
-              "terminal-bench-stats | terminal-bench-task SLUG>")
+    usage = (
+        "usage: determinex_corpus_api.py <brief PATH... | search QUERY | topics | topic TOPIC | stats | "
+        "maturity [TOPIC] | related KEY | superseded | ask QUERY | timeline [TOPIC] | "
+        "provenance TASK_ID_OR_SLUG_OR_REPO | tool SLUG | stale [DAYS] | "
+        "swebench-stats | swebench-repo OWNER/REPO | "
+        "terminal-bench-stats | terminal-bench-task SLUG>"
+    )
     if len(argv) < 2:
         print(usage)
         return 1
@@ -1124,4 +1259,5 @@ def main(argv: list[str]) -> int:
 
 if __name__ == "__main__":
     import sys
+
     raise SystemExit(main(sys.argv))

@@ -21,6 +21,7 @@ project's own manifest and the notice index is generated from that, so a human c
     python scripts/release/third_party_corpus_audit.py --notices        # write THIRD_PARTY_NOTICES.md
     python scripts/release/third_party_corpus_audit.py --fetch-missing  # pull absent LICENSE texts
 """
+
 from __future__ import annotations
 
 import argparse
@@ -50,25 +51,41 @@ VENDORED_ROOTS = (
 )
 
 #: Filenames that count as the project's own license text.
-LICENSE_NAMES = ("LICENSE", "LICENSE.txt", "LICENSE.md", "LICENSE-MIT", "LICENSE-APACHE",
-                 "COPYING", "COPYING.txt", "LICENCE", "LICENCE.txt", "UNLICENSE", "NOTICE")
+LICENSE_NAMES = (
+    "LICENSE",
+    "LICENSE.txt",
+    "LICENSE.md",
+    "LICENSE-MIT",
+    "LICENSE-APACHE",
+    "COPYING",
+    "COPYING.txt",
+    "LICENCE",
+    "LICENCE.txt",
+    "UNLICENSE",
+    "NOTICE",
+)
 
 #: Manifests we can read an SPDX identifier out of, in priority order.
 _MANIFEST_LICENSE = (
     ("Cargo.toml", re.compile(r'^\s*license\s*=\s*"([^"]+)"', re.MULTILINE)),
     ("package.json", re.compile(r'"license"\s*:\s*"([^"]+)"')),
-    ("pyproject.toml", re.compile(r'^\s*license\s*=\s*(?:\{\s*text\s*=\s*)?"([^"]+)"', re.MULTILINE)),
+    (
+        "pyproject.toml",
+        re.compile(r'^\s*license\s*=\s*(?:\{\s*text\s*=\s*)?"([^"]+)"', re.MULTILINE),
+    ),
     ("setup.py", re.compile(r'license\s*=\s*["\']([^"\']+)["\']')),
     ("go.mod", re.compile(r"^$", re.MULTILINE)),  # go.mod carries no license field; presence only
 )
 
 #: `owner__repo.commit` -> upstream identity, which is how nearly every tool dir is named.
-_DIR_PROVENANCE = re.compile(r"^(?P<owner>[A-Za-z0-9_.-]+)__(?P<repo>[A-Za-z0-9_.-]+?)(?:\.(?P<commit>[0-9a-f]{7,40}))?$")
+_DIR_PROVENANCE = re.compile(
+    r"^(?P<owner>[A-Za-z0-9_.-]+)__(?P<repo>[A-Za-z0-9_.-]+?)(?:\.(?P<commit>[0-9a-f]{7,40}))?$"
+)
 
 
 @dataclass
 class Vendored:
-    path: Path                      # repo-relative tree root
+    path: Path  # repo-relative tree root
     name: str
     spdx: str = ""
     license_files: list[str] = field(default_factory=list)
@@ -93,8 +110,9 @@ def _tracked(root: Path) -> set[str]:
     codepage (cp1252 here) and the corpus contains vendored filenames with bytes that codepage has
     no mapping for, so the reader thread dies with UnicodeDecodeError and stdout comes back None.
     """
-    out = subprocess.run(["git", "ls-files", "-z", str(root)], cwd=_ROOT,
-                         capture_output=True, timeout=900)
+    out = subprocess.run(
+        ["git", "ls-files", "-z", str(root)], cwd=_ROOT, capture_output=True, timeout=900
+    )
     return {p for p in out.stdout.decode("utf-8", errors="replace").split("\0") if p}
 
 
@@ -165,7 +183,8 @@ def discover(tracked: set[str], provenance: dict[str, tuple[str, str]]) -> list[
                         break
 
             entry.license_files = sorted(
-                p.name for p in tree.iterdir()
+                p.name
+                for p in tree.iterdir()
                 if p.is_file() and any(p.name.upper().startswith(n) for n in LICENSE_NAMES)
             )
 
@@ -266,9 +285,11 @@ def render_notices(entries: list[Vendored]) -> str:
             "| --- | --- | --- |",
         ]
         for e in sorted(withheld, key=lambda x: x.name.lower()):
-            why = ("no license file in the tree, and no upstream provenance to fetch one from"
-                   if not e.upstream_url else
-                   f"no license file found upstream at {e.owner}/{e.repo}")
+            why = (
+                "no license file in the tree, and no upstream provenance to fetch one from"
+                if not e.upstream_url
+                else f"no license file found upstream at {e.owner}/{e.repo}"
+            )
             lines.append(f"| `{e.name}` | {e.spdx or '_undeclared_'} | {why} |")
     lines.append("")
     return "\n".join(lines)
@@ -289,18 +310,43 @@ def fetch_license(entry: Vendored, timeout: int = 60) -> tuple[bool, str]:
     # projects "missing" that plainly ship one: pandoc uses COPYRIGHT, 7zip uses License.txt, lua
     # puts it under doc/, several Rust crates dual-license via LICENSE-MIT + LICENSE-APACHE. Raw
     # GitHub is case-sensitive, so the casings are enumerated rather than assumed.
-    for name in ("LICENSE", "LICENSE.txt", "LICENSE.md", "LICENSE.rst", "License.txt", "License",
-                 "license", "license.txt", "COPYING", "COPYING.txt", "Copying", "COPYRIGHT",
-                 "COPYRIGHT.txt", "Copyright", "LICENCE", "LICENCE.txt", "UNLICENSE",
-                 "LICENSE-MIT", "LICENSE-APACHE", "LICENSE.APACHE2", "LICENSE.MIT",
-                 "doc/COPYRIGHT", "docs/LICENSE", "LICENSES/LICENSE", "legal/LICENSE"):
+    for name in (
+        "LICENSE",
+        "LICENSE.txt",
+        "LICENSE.md",
+        "LICENSE.rst",
+        "License.txt",
+        "License",
+        "license",
+        "license.txt",
+        "COPYING",
+        "COPYING.txt",
+        "Copying",
+        "COPYRIGHT",
+        "COPYRIGHT.txt",
+        "Copyright",
+        "LICENCE",
+        "LICENCE.txt",
+        "UNLICENSE",
+        "LICENSE-MIT",
+        "LICENSE-APACHE",
+        "LICENSE.APACHE2",
+        "LICENSE.MIT",
+        "doc/COPYRIGHT",
+        "docs/LICENSE",
+        "LICENSES/LICENSE",
+        "legal/LICENSE",
+    ):
         url = f"https://raw.githubusercontent.com/{entry.owner}/{entry.repo}/{ref}/{name}"
         try:
             # Bytes, not text: a license file can carry non-cp1252 characters (accented copyright
             # holders are common) and Python would otherwise decode with the console codepage and
             # hand back None. Written through verbatim so the notice is byte-identical to upstream.
-            proc = subprocess.run(["curl", "-fsSL", "--max-time", str(timeout), url],
-                                  capture_output=True, timeout=timeout + 15)
+            proc = subprocess.run(
+                ["curl", "-fsSL", "--max-time", str(timeout), url],
+                capture_output=True,
+                timeout=timeout + 15,
+            )
         except (OSError, subprocess.TimeoutExpired):
             continue
         if proc.returncode == 0 and proc.stdout and proc.stdout.strip():
@@ -313,14 +359,22 @@ def fetch_license(entry: Vendored, timeout: int = 60) -> tuple[bool, str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__,
-                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--notices", action="store_true", help=f"write {NOTICES_PATH}")
-    parser.add_argument("--fetch-missing", action="store_true",
-                        help="download absent LICENSE texts from the pinned upstream commit")
+    parser.add_argument(
+        "--fetch-missing",
+        action="store_true",
+        help="download absent LICENSE texts from the pinned upstream commit",
+    )
     parser.add_argument("--limit", type=int, default=0, help="with --fetch-missing, stop after N")
-    parser.add_argument("--manifest", type=Path, default=None,
-                        help="write the publish/withhold boundary as JSON for the publish tooling")
+    parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=None,
+        help="write the publish/withhold boundary as JSON for the publish tooling",
+    )
     args = parser.parse_args()
 
     print("enumerating tracked corpus files ...")
@@ -371,8 +425,10 @@ def main() -> int:
         # A withheld tree is a HANDLED case, not a failure: the boundary manifest excludes it from
         # publication and THIRD_PARTY_NOTICES.md records why. Reporting it as a hard error would
         # make the release gate unsatisfiable for a corpus that is behaving correctly.
-        print(f"\n{len(missing)} project(s) carry no license text and are WITHHELD from "
-              "publication (listed in corpus/THIRD_PARTY_NOTICES.md).")
+        print(
+            f"\n{len(missing)} project(s) carry no license text and are WITHHELD from "
+            "publication (listed in corpus/THIRD_PARTY_NOTICES.md)."
+        )
         for entry in missing[:10]:
             print(f"  {entry.name}  (declared: {entry.spdx or 'undeclared'})")
         if len(missing) > 10:

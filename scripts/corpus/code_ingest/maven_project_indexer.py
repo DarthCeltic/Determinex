@@ -5,13 +5,13 @@ Scans a root directory for pom.xml files, extracts project metadata
 (groupId, artifactId, version, license, dependencies), and produces
 an index suitable for license-gated corpus processing.
 """
+
 from __future__ import annotations
 
 import logging
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
 
 log = logging.getLogger(__name__)
 
@@ -100,7 +100,9 @@ def parse_pom(pom_path: Path) -> MavenProject | None:
     license_url = ""
     licenses_el = find("licenses")
     if licenses_el is not None:
-        for lic_el in (licenses_el.findall(f"{{{_MAVEN_NS}}}license") or licenses_el.findall("license")):
+        for lic_el in licenses_el.findall(f"{{{_MAVEN_NS}}}license") or licenses_el.findall(
+            "license"
+        ):
             license_name = _text(_find(lic_el, "name"))
             license_url = _text(_find(lic_el, "url"))
             break
@@ -109,19 +111,21 @@ def parse_pom(pom_path: Path) -> MavenProject | None:
     dependencies = []
     deps_el = find("dependencies")
     if deps_el is not None:
-        for dep in (deps_el.findall(f"{{{_MAVEN_NS}}}dependency") or deps_el.findall("dependency")):
-            dependencies.append({
-                "groupId": _text(_find(dep, "groupId")),
-                "artifactId": _text(_find(dep, "artifactId")),
-                "version": _text(_find(dep, "version")),
-                "scope": _text(_find(dep, "scope")) or "compile",
-            })
+        for dep in deps_el.findall(f"{{{_MAVEN_NS}}}dependency") or deps_el.findall("dependency"):
+            dependencies.append(
+                {
+                    "groupId": _text(_find(dep, "groupId")),
+                    "artifactId": _text(_find(dep, "artifactId")),
+                    "version": _text(_find(dep, "version")),
+                    "scope": _text(_find(dep, "scope")) or "compile",
+                }
+            )
 
     # Modules (multi-module projects)
     modules = []
     modules_el = find("modules")
     if modules_el is not None:
-        for mod_el in (modules_el.findall(f"{{{_MAVEN_NS}}}module") or modules_el.findall("module")):
+        for mod_el in modules_el.findall(f"{{{_MAVEN_NS}}}module") or modules_el.findall("module"):
             if mod_el.text:
                 modules.append(mod_el.text.strip())
 

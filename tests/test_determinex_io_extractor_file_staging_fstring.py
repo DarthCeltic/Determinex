@@ -50,6 +50,7 @@ category, neither touched by this fix). Full 6-tool re-scan: xh 541->549 example
 skip rate 46.5%->45.8%. Other 5 tools unchanged (pattern not present in their sampled
 branches).
 """
+
 from __future__ import annotations
 
 import ast
@@ -59,8 +60,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import determinex_io_extractor as iox  # noqa: E402
 
-
 # ---------- _file_arg(): f-string branch ----------
+
 
 def test_file_arg_resolves_fstring_wrapping_one_file_var():
     node = ast.parse("f'@{test_file}'", mode="eval").body
@@ -117,18 +118,20 @@ def test_file_arg_non_file_arg_node_returns_none():
 
 # ---------- extract_file() integration ----------
 
-_PREFIX = '''
+_PREFIX = """
 import subprocess
 
 RESOURCES = __import__("pathlib").Path(__file__).parent / "test_resources" / "test_x"
 
 def run(args):
     return subprocess.run(["./executable"] + args, capture_output=True, text=True)
-'''
+"""
 
 
 def test_extract_file_stages_fstring_referenced_file_correctly(tmp_path):
-    src = _PREFIX + '''
+    src = (
+        _PREFIX
+        + """
 def test_data_binary_from_file():
     test_file = RESOURCES / "binary_test.txt"
     test_file.write_text("binary content\\n")
@@ -136,7 +139,8 @@ def test_data_binary_from_file():
     assert result.returncode == 0
     assert "--data-binary" in result.stdout
     assert f"@{test_file}" in result.stdout
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -158,13 +162,16 @@ def test_extract_file_does_not_stage_the_arg_text_as_the_filename(tmp_path):
     ('binary_test.txt'), never the CLI arg text with its '@' prefix -- staging under
     the wrong name would mean the oracle creates a file the CLI never actually looks
     for, silently defeating the whole point of staging it."""
-    src = _PREFIX + '''
+    src = (
+        _PREFIX
+        + """
 def test_x():
     test_file = RESOURCES / "binary_test.txt"
     test_file.write_text("binary content\\n")
     result = run(["--curl", "http://httpbin.org/post", f"@{test_file}"])
     assert result.returncode == 0
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

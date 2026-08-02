@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from corpus.programbench.batch001_unblock_priority import ProgramBenchBatch001UnblockPriority, PriorityConfig
+from corpus.programbench.batch001_unblock_priority import (
+    PriorityConfig,
+    ProgramBenchBatch001UnblockPriority,
+)
 from corpus.programbench.batch001_unblock_priority_record import verify_priority_record
 from corpus.programbench.operator_ready_platform import DOXYGEN_INSTANCE
 
@@ -28,7 +31,9 @@ def test_priority_ranks_metadata_targets_before_doxygen() -> None:
 
     assert ranked[0]["estimated_difficulty"] == "EASY_METADATA_ONLY"
     assert ranked[0]["exact_operator_packet_needed"] == "image_metadata_submission"
-    assert DOXYGEN_INSTANCE not in [row["instance_id"] for row in record["top_3_safest_next_targets"]]
+    assert DOXYGEN_INSTANCE not in [
+        row["instance_id"] for row in record["top_3_safest_next_targets"]
+    ]
     doxygen = next(row for row in ranked if row["instance_id"] == DOXYGEN_INSTANCE)
     assert doxygen["estimated_difficulty"] == "HARD_POLICY_ADMISSION_REQUIRED"
     assert doxygen["exact_operator_packet_needed"] == "security_policy_admission"
@@ -36,7 +41,9 @@ def test_priority_ranks_metadata_targets_before_doxygen() -> None:
 
 
 def test_priority_preserves_doxygen_blocked_state_and_training_false() -> None:
-    doxygen = next(row for row in _record()["ranked_unblock_list"] if row["instance_id"] == DOXYGEN_INSTANCE)
+    doxygen = next(
+        row for row in _record()["ranked_unblock_list"] if row["instance_id"] == DOXYGEN_INSTANCE
+    )
 
     assert doxygen["artifact_authority_status"] == "ARTIFACT_AUTHORITY_PRESENT"
     assert doxygen["scan_status"] == "CLEANROOM_IMAGE_SCAN_FAILED"
@@ -45,12 +52,17 @@ def test_priority_preserves_doxygen_blocked_state_and_training_false() -> None:
     assert doxygen["execution_authorized"] is False
 
 
-def test_priority_identifies_targets_that_can_progress_without_policy_admission_only_for_metadata() -> None:
+def test_priority_identifies_targets_that_can_progress_without_policy_admission_only_for_metadata() -> (
+    None
+):
     record = _record()
 
     assert record["summary"]["any_target_can_proceed_without_security_policy_admission"] is True
     assert record["summary"]["any_target_has_lower_scan_security_burden_than_doxygen"] is True
-    assert record["summary"]["doxygen_recommendation"] == "PAUSE_UNTIL_OPERATOR_SECURITY_POLICY_ADMISSION"
+    assert (
+        record["summary"]["doxygen_recommendation"]
+        == "PAUSE_UNTIL_OPERATOR_SECURITY_POLICY_ADMISSION"
+    )
     metadata_rows = [
         row
         for row in record["ranked_unblock_list"]

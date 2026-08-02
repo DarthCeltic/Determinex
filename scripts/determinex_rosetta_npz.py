@@ -60,7 +60,7 @@ def _gelu_exact(x: np.ndarray) -> np.ndarray:
 
     flat = np.asarray(x, dtype=np.float64).reshape(-1)
     erfs = np.fromiter((erf(v / sqrt(2.0)) for v in flat), dtype=np.float64, count=flat.size)
-    return (0.5 * np.asarray(x, dtype=np.float32) * (1.0 + erfs.reshape(x.shape).astype(np.float32)))
+    return 0.5 * np.asarray(x, dtype=np.float32) * (1.0 + erfs.reshape(x.shape).astype(np.float32))
 
 
 def _layer_norm(x: np.ndarray, weight: np.ndarray, bias: np.ndarray) -> np.ndarray:
@@ -71,7 +71,9 @@ def _layer_norm(x: np.ndarray, weight: np.ndarray, bias: np.ndarray) -> np.ndarr
     return (x - mean) / np.sqrt(var + LAYERNORM_EPS) * weight + bias
 
 
-def mlp_forward(x: np.ndarray, w0: np.ndarray, ln_w: np.ndarray, ln_b: np.ndarray, w3: np.ndarray) -> np.ndarray:
+def mlp_forward(
+    x: np.ndarray, w0: np.ndarray, ln_w: np.ndarray, ln_b: np.ndarray, w3: np.ndarray
+) -> np.ndarray:
     """The projection block, in float32 regardless of stored dtype."""
     h = x.astype(np.float32) @ w0.astype(np.float32).T
     h = _gelu_exact(h)
@@ -322,7 +324,9 @@ def verify_parity(ckpt_path: Path, npz_dir: Path, arch: str | None = None, seq: 
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     e = sub.add_parser("export", help="Export a .pt checkpoint to .npz shards")

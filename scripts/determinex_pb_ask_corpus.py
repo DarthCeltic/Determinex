@@ -15,12 +15,12 @@ right; get each tool as high as it goes, then tackle the residual ceilings colle
 Usage:
   python scripts/determinex_pb_ask_corpus.py <full_slug>
 """
+
 from __future__ import annotations
 
 import collections
 import json
 import pathlib
-import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -34,8 +34,18 @@ def _short(slug: str) -> str:
 
 
 _SRC_EXTS = (".go", ".rs", ".c", ".cc", ".cpp", ".h", ".hpp", ".py", ".js", ".ts")
-_PRUNE_DIRS = {"test", "tests", "testdata", "fixtures", "fixture", "vendor",
-               "node_modules", "target", ".git", "__pycache__"}
+_PRUNE_DIRS = {
+    "test",
+    "tests",
+    "testdata",
+    "fixtures",
+    "fixture",
+    "vendor",
+    "node_modules",
+    "target",
+    ".git",
+    "__pycache__",
+}
 
 
 def _source_shape(tool_dir: pathlib.Path) -> dict:
@@ -173,15 +183,24 @@ def ask_corpus(slug: str) -> dict:
     kb = _load_build_knowledge()
     sn = _short(slug)
     import determinex_pb_autofix as AF
+
     full = AF._resolve_full_slug(slug) or slug
     sn = _short(full)
     shape = _source_shape(PB / "per_tool_overrides" / full)
     spec = _load_spec(full, sn)
     skill = _load_reimpl_skill(sn)
-    out: dict = {"slug": full, "short": sn, "per_tool": None,
-                 "class_patterns": [], "adjudication": None, "prescription": [],
-                 "source_shape": shape, "spec": spec, "reimpl_skill": skill,
-                 "recommended_engine": ""}
+    out: dict = {
+        "slug": full,
+        "short": sn,
+        "per_tool": None,
+        "class_patterns": [],
+        "adjudication": None,
+        "prescription": [],
+        "source_shape": shape,
+        "spec": spec,
+        "reimpl_skill": skill,
+        "recommended_engine": "",
+    }
 
     # 1) per_tool entry (exact tool knowledge)
     per = kb.get("per_tool", {})
@@ -196,15 +215,21 @@ def ask_corpus(slug: str) -> dict:
             continue
         applies = body.get("applies_to", [])
         if _pattern_applies(sn, applies):
-            out["class_patterns"].append({
-                "class": cls, "detect": body.get("detect", ""),
-                "fix": body.get("fix", ""), "generalized_in": body.get("generalized_in", "")})
+            out["class_patterns"].append(
+                {
+                    "class": cls,
+                    "detect": body.get("detect", ""),
+                    "fix": body.get("fix", ""),
+                    "generalized_in": body.get("generalized_in", ""),
+                }
+            )
 
     # 3) adjudicator over the freshest eval_report (per-failure prescribed technique)
     rep = AF._find_eval_report(full, None)
     if rep and rep.exists():
         try:
-            from determinex_adjudicator import adjudicate_eval_report, _base_nodeid, Verdict
+            from determinex_adjudicator import Verdict, _base_nodeid, adjudicate_eval_report
+
             adjs = adjudicate_eval_report(rep, "", "")
             seen = {}
             for a in adjs:
@@ -217,12 +242,11 @@ def ask_corpus(slug: str) -> dict:
             cc = collections.Counter(r.get("status") for r in tr)
             out["adjudication"] = {
                 "report": str(rep),
-                "score": f"{cc.get('passed',0)}/{len(tr)}",
+                "score": f"{cc.get('passed', 0)}/{len(tr)}",
                 "verdicts": dict(byv),
                 "top_strategies": dict(strat.most_common(6)),
                 "ceiling_units": byv.get(Verdict.IMPOSSIBLE.value, 0),
-                "reopenable_units": sum(n for v, n in byv.items()
-                                        if v != Verdict.IMPOSSIBLE.value),
+                "reopenable_units": sum(n for v, n in byv.items() if v != Verdict.IMPOSSIBLE.value),
             }
         except Exception as e:
             out["adjudication"] = {"error": str(e)}
@@ -232,7 +256,9 @@ def ask_corpus(slug: str) -> dict:
     if shape["class"] == "upstream-source-prohibited":
         out["recommended_engine"] = "native-reimpl-loop"
         lang = (spec or {}).get("language") or "<native-lang>"
-        rx.append("STOP: current override is upstream-source-prohibited; do not eval/autofix/pin it.")
+        rx.append(
+            "STOP: current override is upstream-source-prohibited; do not eval/autofix/pin it."
+        )
         rx.append(
             f"Run reimpl path: determinex_io_extractor/spec -> determinex_local_oracle -> "
             f"determinex_reimpl_drive {full} --lang {lang} --models local/<available> --iters N; "
@@ -253,7 +279,9 @@ def ask_corpus(slug: str) -> dict:
         )
     else:
         out["recommended_engine"] = "extract-spec-first"
-        rx.append("No harvested spec/reimpl skill found; run determinex_io_extractor/pb_bulk_spec first.")
+        rx.append(
+            "No harvested spec/reimpl skill found; run determinex_io_extractor/pb_bulk_spec first."
+        )
 
     if out["adjudication"] and out["adjudication"].get("reopenable_units", 0) > 0:
         for strat, n in out["adjudication"].get("top_strategies", {}).items():
@@ -273,25 +301,37 @@ def main() -> int:
         return 2
     ans = ask_corpus(sys.argv[1])
     shape = ans.get("source_shape") or {}
-    print(f"source_shape: {shape.get('class')} src={shape.get('source_files')} "
-          f"sample={shape.get('sample', [])[:3]}")
+    print(
+        f"source_shape: {shape.get('class')} src={shape.get('source_files')} "
+        f"sample={shape.get('sample', [])[:3]}"
+    )
     print("recommended_engine:", ans.get("recommended_engine", ""))
     if ans.get("spec"):
         s = ans["spec"]
-        print(f"spec: {s.get('path')} examples={s.get('n_examples')}/"
-              f"{s.get('n_tests_total')} coverage={s.get('coverage')} lang={s.get('language')}")
+        print(
+            f"spec: {s.get('path')} examples={s.get('n_examples')}/"
+            f"{s.get('n_tests_total')} coverage={s.get('coverage')} lang={s.get('language')}"
+        )
     if ans.get("reimpl_skill"):
         sk = ans["reimpl_skill"]
-        print(f"reimpl_skill: {sk.get('path')} probes={sk.get('probe_count')} "
-              f"best={sk.get('best_official')}/{sk.get('best_official_total')} "
-              f"last_local={sk.get('last_local')}")
+        print(
+            f"reimpl_skill: {sk.get('path')} probes={sk.get('probe_count')} "
+            f"best={sk.get('best_official')}/{sk.get('best_official_total')} "
+            f"last_local={sk.get('last_local')}"
+        )
     print(f"\n=== CORPUS SAYS — {ans['slug']} ({ans['short']}) ===")
     if ans["adjudication"]:
         a = ans["adjudication"]
-        print(f"score {a.get('score','?')} | verdicts {a.get('verdicts',{})} | "
-              f"ceiling={a.get('ceiling_units',0)} reopenable={a.get('reopenable_units',0)}")
-    print("per_tool:", "yes" if ans["per_tool"] else "none",
-          "| class_patterns:", [c["class"] for c in ans["class_patterns"]])
+        print(
+            f"score {a.get('score', '?')} | verdicts {a.get('verdicts', {})} | "
+            f"ceiling={a.get('ceiling_units', 0)} reopenable={a.get('reopenable_units', 0)}"
+        )
+    print(
+        "per_tool:",
+        "yes" if ans["per_tool"] else "none",
+        "| class_patterns:",
+        [c["class"] for c in ans["class_patterns"]],
+    )
     print("\nPRESCRIPTION (corpus-ordered):")
     for r in ans["prescription"]:
         print("  -", r)

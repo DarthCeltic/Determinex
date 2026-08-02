@@ -2,6 +2,7 @@
 Browser controller — the ONLY module that calls Playwright.
 Every action goes through safety_governor first. Every trace is written to corpus.
 """
+
 from __future__ import annotations
 
 import logging
@@ -14,19 +15,17 @@ from agents.base_agent import (
     ActionType,
     AgentAction,
     AgentObservation,
-    CorpusType,
     EnvType,
-    OracleVerdict,
-    OracleType,
     VisualTaskSpec,
 )
-from agents.safety_governor import get_governor, SafetyDecisionValue
+from agents.safety_governor import get_governor
 from corpus.corpus_manager import get_manager
 
 log = logging.getLogger(__name__)
 
 try:
-    from playwright.sync_api import sync_playwright, Browser, Page
+    from playwright.sync_api import Browser, Page, sync_playwright
+
     _PW_AVAILABLE = True
 except ImportError:
     _PW_AVAILABLE = False
@@ -49,7 +48,9 @@ class BrowserController:
         screenshot_dir: str | Path = ".",
     ) -> None:
         if not _PW_AVAILABLE:
-            raise RuntimeError("playwright is required for BrowserController. Install with: pip install playwright && playwright install")
+            raise RuntimeError(
+                "playwright is required for BrowserController. Install with: pip install playwright && playwright install"
+            )
         self.task = task
         self.headless = headless
         self.screenshot_dir = Path(screenshot_dir)
@@ -57,8 +58,8 @@ class BrowserController:
         self._governor = get_governor()
         self._corpus = get_manager()
         self._pw = None
-        self._browser: "Browser | None" = None
-        self._page: "Page | None" = None
+        self._browser: Browser | None = None
+        self._page: Page | None = None
         self._step = 0
 
     # ------------------------------------------------------------------
@@ -76,7 +77,9 @@ class BrowserController:
             accept_downloads=False,  # block by default; confirm required
         )
         self._page = context.new_page()
-        log.info("[browser_controller] launched (headless=%s) task=%s", self.headless, self.task.task_id)
+        log.info(
+            "[browser_controller] launched (headless=%s) task=%s", self.headless, self.task.task_id
+        )
 
     def close(self) -> None:
         try:
@@ -87,7 +90,7 @@ class BrowserController:
         except Exception as exc:
             log.warning("[browser_controller] close error: %s", exc)
 
-    def __enter__(self) -> "BrowserController":
+    def __enter__(self) -> BrowserController:
         self.launch()
         return self
 
@@ -124,8 +127,10 @@ class BrowserController:
             )
 
         if decision.needs_confirmation:
-            log.warning("[browser_controller] action %s requires human confirmation — AUTO-DENIED in non-interactive mode",
-                        action.action_type.value)
+            log.warning(
+                "[browser_controller] action %s requires human confirmation — AUTO-DENIED in non-interactive mode",
+                action.action_type.value,
+            )
             return ActionResult(
                 action=action,
                 success=False,
@@ -157,8 +162,7 @@ class BrowserController:
 
         if at == ActionType.READ_SCREEN:
             path = self._take_screenshot(f"step_{self._step}_read_screen")
-            return ActionResult(action=action, success=True,
-                                metadata={"screenshot": str(path)})
+            return ActionResult(action=action, success=True, metadata={"screenshot": str(path)})
 
         if at == ActionType.READ_DOM:
             html = page.content()
@@ -195,7 +199,9 @@ class BrowserController:
 
         if at == ActionType.RUN_COMMAND:
             result = page.evaluate(action.payload or "undefined")
-            return ActionResult(action=action, success=True, metadata={"js_result": str(result)[:500]})
+            return ActionResult(
+                action=action, success=True, metadata={"js_result": str(result)[:500]}
+            )
 
         raise ValueError(f"Unhandled action type in browser controller: {at}")
 
@@ -208,7 +214,8 @@ class BrowserController:
         if page is None:
             return AgentObservation(env_type=EnvType.BROWSER, step=self._step)
         try:
-            from browser.dom_reader import get_dom_snapshot, dom_hash
+            from browser.dom_reader import dom_hash, get_dom_snapshot
+
             html = get_dom_snapshot(page)
             d_hash = dom_hash(html)
             screenshot_path = str(self._take_screenshot(f"obs_{self._step}"))
@@ -236,6 +243,7 @@ class BrowserController:
 
     def navigate(self, url: str) -> ActionResult:
         from browser.safe_browsing_policy import check_url
+
         verdict = check_url(url)
         if not verdict.allowed:
             self._corpus.write_refusal(

@@ -4,15 +4,16 @@ The audit is intentionally deterministic and conservative. It checks that the
 main user surfaces, backend command paths, release gates, and LLM advisory
 boundaries are wired. It does not grant release readiness.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Callable
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -113,7 +114,9 @@ def _check_contains(root: Path, path: Path, needles: tuple[str, ...], check_id: 
     normalized_text = _normalize_ws(text)
     missing = [needle for needle in needles if _normalize_ws(needle) not in normalized_text]
     if not path.is_file():
-        return AuditCheck(check_id, "blocked", (_rel(root, path),), f"missing file: {_rel(root, path)}")
+        return AuditCheck(
+            check_id, "blocked", (_rel(root, path),), f"missing file: {_rel(root, path)}"
+        )
     if missing:
         return AuditCheck(
             check_id,
@@ -125,7 +128,9 @@ def _check_contains(root: Path, path: Path, needles: tuple[str, ...], check_id: 
 
 
 def _section(section_id: str, title: str, checks: tuple[AuditCheck, ...]) -> AuditSection:
-    blockers = [check.exact_blocker for check in checks if check.status != "passed" and check.exact_blocker]
+    blockers = [
+        check.exact_blocker for check in checks if check.status != "passed" and check.exact_blocker
+    ]
     return AuditSection(
         section_id=section_id,
         title=title,
@@ -158,7 +163,7 @@ def _mission_control_section(root: Path) -> AuditSection:
                 panel,
                 (
                     'data-testid="mission-control-panel"',
-                    'data-testid={`mission-tab-${candidate.id}`}',
+                    "data-testid={`mission-tab-${candidate.id}`}",
                     'data-testid="mission-next-action"',
                 ),
                 "mission-control-panel-interactive",
@@ -183,7 +188,7 @@ def _tools_and_providers_section(root: Path) -> AuditSection:
                     "OpenAI",
                     "Ollama Local",
                     "Hybrid Stack",
-                    'data-testid={`tools-launch-${id}`}',
+                    "data-testid={`tools-launch-${id}`}",
                     "ProgramBench and hardened benchmark runners remain network-denied",
                 ),
                 "tools-provider-routing-visible",
@@ -242,7 +247,9 @@ def _release_gate_section(root: Path) -> AuditSection:
     # still-accurate claim from "a developer can build one locally" -- updating
     # that text is a release-messaging decision, not a test-staleness fix.
     release = root / "frontend/src/lib/releaseGateStatus.ts"
-    evidence = root / "assurance/evidence/determinex_release_gate_status/release_gates_20260707.json"
+    evidence = (
+        root / "assurance/evidence/determinex_release_gate_status/release_gates_20260707.json"
+    )
     return _section(
         "release_gates",
         "Release gates and download setup boundaries",
@@ -346,7 +353,10 @@ def collect(root: Path | str | None = None) -> SystematicIDEUserAudit:
     sections = tuple(builder(repo_root) for builder in section_builders)
     return SystematicIDEUserAudit(
         schema_version=SCHEMA_VERSION,
-        generated_at_utc=datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        generated_at_utc=datetime.now(UTC)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
         release_ready=False,
         authority_granted=False,
         sections=sections,
@@ -367,7 +377,11 @@ def write_report(output_path: Path, root: Path | str | None = None) -> Systemati
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=None)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/systematic_ide_user_audit/run_20260707.json"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("assurance/evidence/systematic_ide_user_audit/run_20260707.json"),
+    )
     args = parser.parse_args()
     report = write_report(args.output, args.root)
     print(json.dumps(report.to_dict(), indent=2))

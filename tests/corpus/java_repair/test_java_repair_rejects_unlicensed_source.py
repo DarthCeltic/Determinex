@@ -6,6 +6,7 @@ license before any mutation or corpus write occurs.
 
 JAVA_REPAIR_LOCK_001 / CORPUS_LICENSE_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -13,9 +14,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / "scripts"))
 
-from corpus.corpus_manager import CorpusManager
 from corpus.code_ingest.java_repair_pipeline import JavaRepairPipeline
-
+from corpus.corpus_manager import CorpusManager
 
 _JAVA_SOURCE = """\
 public class Calc {
@@ -44,7 +44,6 @@ def _make_repo(tmp_path: Path, license_text: str | None) -> Path:
 
 
 class TestJavaRepairRejectsUnlicensedSource:
-
     def test_no_license_file_is_rejected(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         pipeline = JavaRepairPipeline(corpus_manager=cm)
@@ -81,6 +80,7 @@ class TestJavaRepairRejectsUnlicensedSource:
         cm = CorpusManager(root=tmp_path / "corpus")
         # Executor: baseline=pass, but mutation runs fail (so tasks=0, but gate passed)
         call_n = {"n": 0}
+
         def executor(cmd, cwd, timeout):
             call_n["n"] += 1
             return (1, "", "BUILD FAILURE") if call_n["n"] > 1 else (0, "BUILD SUCCESS", "")

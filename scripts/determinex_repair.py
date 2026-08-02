@@ -22,37 +22,39 @@ as the rest of the system, instead of a separate legacy repair path.
     r = repair_workspace(Path("repo/"))            # diagnosis only (no model)
     r = repair_workspace(Path("repo/"), generate=model, opt_in=True)  # + amplified fix
 """
+
 from __future__ import annotations
 
 import os
 import re
 import sys
 import tempfile
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Callable
 
 _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
+from agents.prompt_injection_detector import scan as _scan_injection  # noqa: E402
+from agents.prompt_injection_detector import wrap_as_data
 from determinex_adjudicator import Failure, Verdict, classify_failure  # noqa: E402
-from determinex_test_validator import TestVerdict, validate_eval_report  # noqa: E402
 from determinex_explainer import explain_eval_report  # noqa: E402
-from agents.prompt_injection_detector import scan as _scan_injection, wrap_as_data  # noqa: E402
+from determinex_test_validator import TestVerdict, validate_eval_report  # noqa: E402
 
 GenerateFn = Callable[[str, float], str]
 
 
 @dataclass
 class RepairResult:
-    healthy: bool                      # oracle already passes
+    healthy: bool  # oracle already passes
     language: str
     oracle: str
     n_failures: int
-    blame: dict                        # CODE / ENVIRONMENT / TEST counts
-    verdicts: dict                     # adjudicator strategy -> count
-    proven_slop: int                   # tests the validator proved wrong
-    fixed: bool = False                # an amplified fix passed the oracle
+    blame: dict  # CODE / ENVIRONMENT / TEST counts
+    verdicts: dict  # adjudicator strategy -> count
+    proven_slop: int  # tests the validator proved wrong
+    fixed: bool = False  # an amplified fix passed the oracle
     fix_code: str = ""
     notes: list[str] = field(default_factory=list)
     # Per-failure CODE/TEST/ENVIRONMENT explanations (determinex_explainer),
@@ -63,12 +65,17 @@ class RepairResult:
 
 def _oracle_for(language: str):
     from determinex_oracle import get_oracle  # lazy: keeps repair importable w/o oracle deps
+
     return get_oracle(language)
 
 
-def repair_workspace(workspace: Path, generate: GenerateFn | None = None,
-                     opt_in: bool = False, k: int = 6,
-                     forced_language: str | None = None) -> RepairResult:
+def repair_workspace(
+    workspace: Path,
+    generate: GenerateFn | None = None,
+    opt_in: bool = False,
+    k: int = 6,
+    forced_language: str | None = None,
+) -> RepairResult:
     """Diagnose (always) and, with opt-in + a model, attempt an amplified fix.
 
     forced_language: skip re-deriving the language via a whole-tree census
@@ -78,6 +85,7 @@ def repair_workspace(workspace: Path, generate: GenerateFn | None = None,
     subproject path can be ambiguous or simply wrong in a way the marker
     itself never is)."""
     from determinex_ingest import ingest
+
     if forced_language is not None:
         lang = forced_language
         notes: list[str] = []
@@ -90,22 +98,40 @@ def repair_workspace(workspace: Path, generate: GenerateFn | None = None,
     try:
         oracle = _oracle_for(lang)
         if not oracle.available():
-            return RepairResult(False, lang, "unavailable", 0, {}, {}, 0,
-                                notes=notes + [f"oracle toolchain for {lang} not installed"])
+            return RepairResult(
+                False,
+                lang,
+                "unavailable",
+                0,
+                {},
+                {},
+                0,
+                notes=notes + [f"oracle toolchain for {lang} not installed"],
+            )
         result = oracle.verify(workspace)
     except Exception as e:
-        return RepairResult(False, lang, "error", 0, {}, {}, 0,
-                            notes=notes + [f"oracle error: {e}"])
+        return RepairResult(
+            False, lang, "error", 0, {}, {}, 0, notes=notes + [f"oracle error: {e}"]
+        )
 
     if result.passed:
-        return RepairResult(True, lang, oracle.name, 0, {}, {}, 0,
-                            notes=notes + ["oracle passes -- nothing to repair"])
+        return RepairResult(
+            True,
+            lang,
+            oracle.name,
+            0,
+            {},
+            {},
+            0,
+            notes=notes + ["oracle passes -- nothing to repair"],
+        )
 
     failures: list[Failure] = list(getattr(result, "failures", []) or [])
     n = len(failures)
 
     # 2. adjudicate + 3. validate (slop) + 4. explain -- all canonical
     from collections import Counter
+
     verdicts: Counter = Counter()
     blame: Counter = Counter()
     for f in failures:
@@ -131,15 +157,23 @@ def repair_workspace(workspace: Path, generate: GenerateFn | None = None,
     except Exception:
         pass
 
-    res = RepairResult(False, lang, oracle.name, n, dict(blame), dict(verdicts),
-                       slop, notes=notes, explanations=explanations)
+    res = RepairResult(
+        False,
+        lang,
+        oracle.name,
+        n,
+        dict(blame),
+        dict(verdicts),
+        slop,
+        notes=notes,
+        explanations=explanations,
+    )
 
     # 5. optional amplified fix (opt-in + a model), against the SAME oracle
     if opt_in and generate is not None and lang in ("python", "py"):
         # The failure text carries the traceback, which names the file to rewrite.
         _out = "\n".join(str(getattr(f, "text", "") or "") for f in failures)
-        res.fixed, res.fix_code = _amplified_python_fix(workspace, generate, k,
-                                                        oracle_output=_out)
+        res.fixed, res.fix_code = _amplified_python_fix(workspace, generate, k, oracle_output=_out)
         if res.fixed:
             res.notes.append("amplified fix PASSES the oracle (temp-only; not applied)")
     elif opt_in and generate is not None:
@@ -154,15 +188,19 @@ class WorkspaceHealth:
     silently standing in for the whole tree. Ryan: "it should be fixed to
     where it all compiles and reports one way or the other" -- this IS
     that "one way or the other", per subproject, not a guess."""
-    healthy: bool                       # ALL subprojects healthy
-    subprojects: list[RepairResult]      # one per discovered subproject, same order as discover_subprojects
-    paths: list[str]                    # parallel to subprojects -- where each was verified
-    languages: list[str]                # parallel to subprojects
+
+    healthy: bool  # ALL subprojects healthy
+    subprojects: list[
+        RepairResult
+    ]  # one per discovered subproject, same order as discover_subprojects
+    paths: list[str]  # parallel to subprojects -- where each was verified
+    languages: list[str]  # parallel to subprojects
     notes: list[str] = field(default_factory=list)
 
 
-def repair_workspace_all(root: Path, generate: GenerateFn | None = None,
-                         opt_in: bool = False, k: int = 6) -> WorkspaceHealth:
+def repair_workspace_all(
+    root: Path, generate: GenerateFn | None = None, opt_in: bool = False, k: int = 6
+) -> WorkspaceHealth:
     """Verify EVERY real subproject in a polyglot workspace at its own
     path, instead of one oracle for whichever language has the most files
     repo-wide, run at the (possibly wrong) workspace root. Found live
@@ -177,18 +215,24 @@ def repair_workspace_all(root: Path, generate: GenerateFn | None = None,
     behavior) when no build markers are found at all -- e.g. a small,
     single-language task directory with no nested subproject structure."""
     from determinex_ingest import discover_subprojects
+
     subprojects = discover_subprojects(root)
     if not subprojects:
         single = repair_workspace(root, generate=generate, opt_in=opt_in, k=k)
         return WorkspaceHealth(
-            healthy=single.healthy, subprojects=[single],
-            paths=[str(root)], languages=[single.language],
+            healthy=single.healthy,
+            subprojects=[single],
+            paths=[str(root)],
+            languages=[single.language],
             notes=["no nested build markers found -- verified as a single workspace"],
         )
     results: list[RepairResult] = []
     for sp in subprojects:
-        results.append(repair_workspace(sp.path, generate=generate, opt_in=opt_in, k=k,
-                                        forced_language=sp.language))
+        results.append(
+            repair_workspace(
+                sp.path, generate=generate, opt_in=opt_in, k=k, forced_language=sp.language
+            )
+        )
     return WorkspaceHealth(
         healthy=all(r.healthy for r in results),
         subprojects=results,
@@ -199,8 +243,16 @@ def repair_workspace_all(root: Path, generate: GenerateFn | None = None,
 
 def _failures_as_eval_report(failures: list[Failure]) -> Path:
     import json
-    results = [{"status": "failed", "classname": "", "name": f.name or f.test_id,
-                "extra": {"text": f.text}} for f in failures]
+
+    results = [
+        {
+            "status": "failed",
+            "classname": "",
+            "name": f.name or f.test_id,
+            "extra": {"text": f.text},
+        }
+        for f in failures
+    ]
     p = Path(tempfile.mkstemp(suffix=".json")[1])
     p.write_text(json.dumps({"test_results": results}), encoding="utf-8")
     return p
@@ -208,7 +260,7 @@ def _failures_as_eval_report(failures: list[Failure]) -> Path:
 
 _TRACEBACK_FILE = re.compile(r'^\s*(?:File "|)([^"\n]+?\.py)[",:]', re.M)
 # pytest node ids, e.g. tests/_stats/test_regression.py::TestPolyFit::test_missing_data
-_TEST_ID = re.compile(r'([\w./\\-]+?test[\w./\\-]*\.py::[\w:\[\].-]+)')
+_TEST_ID = re.compile(r"([\w./\\-]+?test[\w./\\-]*\.py::[\w:\[\].-]+)")
 
 
 def _infer_fix_target(workspace: Path, oracle_output: str) -> Path | None:
@@ -236,10 +288,10 @@ def _infer_fix_target(workspace: Path, oracle_output: str) -> Path | None:
             continue
         name = cand.name.lower()
         if name.startswith("test_") or name.endswith("_test.py") or "tests" in cand.parts:
-            continue          # never rewrite the specification to make it pass
+            continue  # never rewrite the specification to make it pass
         if "site-packages" in cand.parts or ".venv" in cand.parts:
-            continue          # never rewrite a dependency
-        best = cand           # later frames are deeper -> closer to the defect
+            continue  # never rewrite a dependency
+        best = cand  # later frames are deeper -> closer to the defect
     if best is not None:
         return best
     fallback = workspace / "solution.py"
@@ -253,8 +305,9 @@ _TRACEBACK_FILE_LINE = re.compile(r'File "([^"\n]+?\.py)",\s*line\s+(\d+)', re.M
 _SOURCE_BUDGET = int(os.environ.get("DETERMINEX_REPAIR_SRC_BUDGET", "24000"))
 
 
-def _source_for_prompt(path: Path, rel: str, oracle_output: str,
-                       budget: int = _SOURCE_BUDGET) -> str:
+def _source_for_prompt(
+    path: Path, rel: str, oracle_output: str, budget: int = _SOURCE_BUDGET
+) -> str:
     """The file, or -- when the file is too big to send -- the regions that matter.
 
     Embedding the whole target was fine until fix-target inference landed on
@@ -278,27 +331,34 @@ def _source_for_prompt(path: Path, rel: str, oracle_output: str,
 
     lines = text.splitlines()
     stem = rel.rsplit("/", 1)[-1]
-    hits = sorted({
-        int(n) for f, n in _TRACEBACK_FILE_LINE.findall(oracle_output or "")
-        if f.replace("\\", "/").endswith(stem)
-    })
+    hits = sorted(
+        {
+            int(n)
+            for f, n in _TRACEBACK_FILE_LINE.findall(oracle_output or "")
+            if f.replace("\\", "/").endswith(stem)
+        }
+    )
     if not hits:
         # Nothing implicates a region, so the head is the least-bad guess: imports and the
         # top-level definitions a small edit most often touches.
         head = "\n".join(lines[: max(1, budget // 60)])
-        return (f"# NOTE: {rel} is {len(lines)} lines; showing the first section only.\n"
-                f"# The failure did not name a line in this file.\n{head}\n"
-                f"# ... {len(lines) - min(len(lines), budget // 60)} further lines omitted ...")
+        return (
+            f"# NOTE: {rel} is {len(lines)} lines; showing the first section only.\n"
+            f"# The failure did not name a line in this file.\n{head}\n"
+            f"# ... {len(lines) - min(len(lines), budget // 60)} further lines omitted ..."
+        )
 
     span = max(40, budget // (len(hits) * 2 * 60))
     keep: set[int] = set()
     for h in hits:
         keep.update(range(max(1, h - span), min(len(lines), h + span) + 1))
 
-    out = [f"# NOTE: {rel} is {len(lines)} lines -- too large to send whole. Showing only "
-           f"the regions the failure names (lines {', '.join(map(str, hits))}), with real "
-           f"line numbers. Text marked omitted is NOT available: never write a SEARCH "
-           f"anchor that spans an omission."]
+    out = [
+        f"# NOTE: {rel} is {len(lines)} lines -- too large to send whole. Showing only "
+        f"the regions the failure names (lines {', '.join(map(str, hits))}), with real "
+        f"line numbers. Text marked omitted is NOT available: never write a SEARCH "
+        f"anchor that spans an omission."
+    ]
     prev = 0
     for i in sorted(keep):
         if i != prev + 1 and prev:
@@ -310,8 +370,7 @@ def _source_for_prompt(path: Path, rel: str, oracle_output: str,
     return "\n".join(out)
 
 
-_SEARCH_REPLACE = re.compile(
-    r"<{5,}\s*SEARCH\s*\n(.*?)\n={5,}\s*\n(.*?)\n>{5,}\s*REPLACE", re.S)
+_SEARCH_REPLACE = re.compile(r"<{5,}\s*SEARCH\s*\n(.*?)\n={5,}\s*\n(.*?)\n>{5,}\s*REPLACE", re.S)
 
 
 def apply_search_replace(original: str, response: str) -> tuple[str | None, str]:
@@ -344,8 +403,9 @@ def apply_search_replace(original: str, response: str) -> tuple[str | None, str]
     return text, ""
 
 
-def _failing_test_source(workspace: Path, oracle_output: str, limit: int = 2,
-                         node_ids: "list[str] | None" = None) -> str:
+def _failing_test_source(
+    workspace: Path, oracle_output: str, limit: int = 2, node_ids: list[str] | None = None
+) -> str:
     """The source of the tests that failed.
 
     The test IS the specification, and the model was never shown it. On SWE-bench
@@ -361,6 +421,7 @@ def _failing_test_source(workspace: Path, oracle_output: str, limit: int = 2,
     i.e. dropping missing rows must not change the answer. Given that, the fix is legible.
     """
     import ast
+
     out: list[str] = []
     # The oracle reports DOTTED ids ("tests._stats.test_regression.TestPolyFit.test_missing_data")
     # while _TEST_ID matches pytest "path.py::Class::test" node ids. Relying on the regex alone
@@ -381,16 +442,18 @@ def _failing_test_source(workspace: Path, oracle_output: str, limit: int = 2,
             continue
         for n in ast.walk(tree):
             if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.name == wanted:
-                body = "\n".join(src[n.lineno - 1: (n.end_lineno or n.lineno)])
+                body = "\n".join(src[n.lineno - 1 : (n.end_lineno or n.lineno)])
                 out.append(f"### {node_id}\n```python\n{body}\n```")
                 break
     return "\n\n".join(out)
 
 
-def _amplified_python_fix(workspace: Path, generate: GenerateFn, k: int,
-                          oracle_output: str = "") -> tuple[bool, str]:
+def _amplified_python_fix(
+    workspace: Path, generate: GenerateFn, k: int, oracle_output: str = ""
+) -> tuple[bool, str]:
     """Amplified solve against the workspace's own pytest oracle. Temp-only."""
     import shutil
+
     from determinex_verified_search import VerifiedSearch
 
     _t = _infer_fix_target(workspace, oracle_output)
@@ -400,8 +463,12 @@ def _amplified_python_fix(workspace: Path, generate: GenerateFn, k: int,
 
     # The repo's OWN interpreter if it ships a venv -- see the note in verify().
     _py = Path(sys.executable)
-    for _c in (workspace / ".venv/Scripts/python.exe", workspace / ".venv/bin/python",
-               workspace / "venv/Scripts/python.exe", workspace / "venv/bin/python"):
+    for _c in (
+        workspace / ".venv/Scripts/python.exe",
+        workspace / ".venv/bin/python",
+        workspace / "venv/Scripts/python.exe",
+        workspace / "venv/bin/python",
+    ):
         if _c.exists():
             _py = _c
             break
@@ -412,6 +479,7 @@ def _amplified_python_fix(workspace: Path, generate: GenerateFn, k: int,
     # DETERMINEX_PYTEST_SCOPE wins: it is what the diagnosis oracle itself ran, so the fix
     # is judged against the same question that was asked.
     import os as _os
+
     _scope = [s for s in _os.environ.get("DETERMINEX_PYTEST_SCOPE", "").split() if s]
     if not _scope:
         _scope = sorted({t for t in _TEST_ID.findall(oracle_output or "")})
@@ -425,11 +493,15 @@ def _amplified_python_fix(workspace: Path, generate: GenerateFn, k: int,
             self.passed = ok
             self.failures = [] if ok else [Failure("oracle", "tests", out[:600])]
 
-    def verify(code: str) -> "_OR":
+    def verify(code: str) -> _OR:
         with tempfile.TemporaryDirectory() as d:
             dp = Path(d)
-            shutil.copytree(workspace, dp / "ws", dirs_exist_ok=True,
-                            ignore=shutil.ignore_patterns(".git", "__pycache__", "node_modules"))
+            shutil.copytree(
+                workspace,
+                dp / "ws",
+                dirs_exist_ok=True,
+                ignore=shutil.ignore_patterns(".git", "__pycache__", "node_modules"),
+            )
             # Rewrite the file the FAILURE points at, not a hard-coded solution.py.
             rel = target_rel[0] if target_rel else None
             if rel is None:
@@ -441,7 +513,7 @@ def _amplified_python_fix(workspace: Path, generate: GenerateFn, k: int,
             patched, err = apply_search_replace(target.read_text(encoding="utf-8"), code)
             if patched is None:
                 if "def " in code or "import " in code:
-                    patched = code          # model returned a full module instead
+                    patched = code  # model returned a full module instead
                 else:
                     return _OR(False, f"unusable edit: {err}")
             target.write_text(patched, encoding="utf-8")
@@ -458,9 +530,9 @@ def _amplified_python_fix(workspace: Path, generate: GenerateFn, k: int,
             # thousands of tests and the budget is 60s. The diagnosis already knows which
             # tests failed; re-run exactly those, which is what "fixed" has to mean.
             from intake.hardened_runner import run as _hrun
+
             cmd = [str(_py), "-m", "pytest", "-q", "-p", "no:cacheprovider", *_scope]
-            res = _hrun(cmd, workspace=dp / "ws", cwd=dp / "ws",
-                        timeout=180, allow_network=False)
+            res = _hrun(cmd, workspace=dp / "ws", cwd=dp / "ws", timeout=180, allow_network=False)
             return _OR(res.exit_code == 0, (res.stdout + res.stderr)[-600:])
 
     # The prompt used to be exactly:
@@ -483,12 +555,17 @@ def _amplified_python_fix(workspace: Path, generate: GenerateFn, k: int,
     #
     # hive/executor.py and determinex_swebench_agent.py already scan; this path did not,
     # and it is the one a user points at an unfamiliar repository.
-    for _label, _blob in (("target file", src), ("failing test", _tests),
-                          ("oracle output", oracle_output)):
+    for _label, _blob in (
+        ("target file", src),
+        ("failing test", _tests),
+        ("oracle output", oracle_output),
+    ):
         _res = _scan_injection(_blob or "", source=_label)
         if not _res.is_clean:
-            print(f"  [repair] INJECTION PATTERN in {_label}: "
-                  f"{[f.name for f in _res.findings][:3]} -- wrapping as data, not directives")
+            print(
+                f"  [repair] INJECTION PATTERN in {_label}: "
+                f"{[f.name for f in _res.findings][:3]} -- wrapping as data, not directives"
+            )
     src = wrap_as_data(src, "repository source") if src else src
     _tests = wrap_as_data(_tests, "failing test") if _tests else _tests
 
@@ -496,8 +573,11 @@ def _amplified_python_fix(workspace: Path, generate: GenerateFn, k: int,
         f"A test is failing in this Python project. Make the SMALLEST edit that fixes it.\n\n"
         f"## File to change: {_f}\n"
         f"```python\n{src}\n```\n\n"
-        + (f"## The failing test -- this is the SPECIFICATION, read it first\n{_tests}\n\n"
-           if _tests else "")
+        + (
+            f"## The failing test -- this is the SPECIFICATION, read it first\n{_tests}\n\n"
+            if _tests
+            else ""
+        )
         + f"## How it currently fails\n```\n{(oracle_output or '(no output captured)')[:2000]}\n```\n\n"
         f"Reply with ONE OR MORE edit blocks in EXACTLY this format and nothing else:\n\n"
         f"<<<<<<< SEARCH\n"
@@ -515,6 +595,7 @@ def _amplified_python_fix(workspace: Path, generate: GenerateFn, k: int,
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex brownfield repair (Repo Clinic engine)")
     ap.add_argument("workspace", type=Path)
     args = ap.parse_args()
@@ -527,8 +608,11 @@ def main() -> int:
         print(f"proven slop tests: {r.proven_slop}")
         for exp in r.explanations[:10]:
             print()
-            head = {"CODE": "FIX THE CODE", "TEST": "THE TEST IS WRONG (proven)",
-                    "ENVIRONMENT": "MATCH THE ENVIRONMENT"}.get(exp["responsible"], exp["responsible"])
+            head = {
+                "CODE": "FIX THE CODE",
+                "TEST": "THE TEST IS WRONG (proven)",
+                "ENVIRONMENT": "MATCH THE ENVIRONMENT",
+            }.get(exp["responsible"], exp["responsible"])
             print(f"[{exp['responsible']}] {head}  ({exp['test_id']})")
             print(f"  why  : {exp['why']}")
             print(f"  delta: {exp['delta']}")

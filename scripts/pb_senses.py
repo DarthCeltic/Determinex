@@ -31,7 +31,6 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from typing import Optional
 
 # ── Classification keyword patterns ────────────────────────────────────────────
 
@@ -157,7 +156,7 @@ def load_test_sources(test_src_dir: Path) -> dict[str, str]:
     return result
 
 
-def find_test_source(test_id: str, sources: dict[str, str]) -> Optional[str]:
+def find_test_source(test_id: str, sources: dict[str, str]) -> str | None:
     """Try to find the source file content for a given test_id."""
     # test_id format: eval.tests.test_foo.TestClass::test_method or similar
     parts = test_id.replace("::", ".").split(".")
@@ -177,9 +176,9 @@ def find_test_source(test_id: str, sources: dict[str, str]) -> Optional[str]:
 
 def classify_test(
     result: str,
-    reason: Optional[str],
-    junit_entry: Optional[dict],
-    source_content: Optional[str],
+    reason: str | None,
+    junit_entry: dict | None,
+    source_content: str | None,
 ) -> tuple[str, str]:
     """Returns (classification, evidence_line)."""
 
@@ -299,10 +298,10 @@ def normalize_entry(entry: dict) -> tuple[str, str, str]:
 
 def run_senses(
     eval_path: Path,
-    tests_path: Optional[Path],
-    junit_path: Optional[Path],
-    test_src_dir: Optional[Path],
-    out_path: Optional[Path],
+    tests_path: Path | None,
+    junit_path: Path | None,
+    test_src_dir: Path | None,
+    out_path: Path | None,
     summary_only: bool = False,
 ) -> dict:
     eval_data = load_eval_report(eval_path)
@@ -348,9 +347,7 @@ def run_senses(
 
         source_content = find_test_source(test_id, sources) if sources else None
 
-        classification, evidence = classify_test(
-            result, reason, junit_entry, source_content
-        )
+        classification, evidence = classify_test(result, reason, junit_entry, source_content)
 
         histogram[classification] = histogram.get(classification, 0) + 1
         classified.append(
@@ -399,7 +396,7 @@ def run_senses(
                 print(f"    {cls}: {count}")
         unclassified = [r for r in classified if r["classification"] == "unclassified"]
         if unclassified:
-            print(f"\n  UNCLASSIFIED (driver must adjudicate):")
+            print("\n  UNCLASSIFIED (driver must adjudicate):")
             for r in unclassified[:10]:
                 print(f"    {r['test_id'][:80]} — {r['evidence'][:80]}")
             if len(unclassified) > 10:
@@ -415,15 +412,11 @@ def main() -> None:
     parser.add_argument("--eval", required=True, help="Path to eval_report.json")
     parser.add_argument("--tests", help="Path to tests.json (optional)")
     parser.add_argument("--junit", help="Path to JUnit XML results file (optional)")
-    parser.add_argument(
-        "--test-src", help="Directory containing test_*.py source files (optional)"
-    )
+    parser.add_argument("--test-src", help="Directory containing test_*.py source files (optional)")
     parser.add_argument(
         "--out", help="Output path for senses_report.json (default: next to eval_report.json)"
     )
-    parser.add_argument(
-        "--summary", action="store_true", help="Print summary to stdout"
-    )
+    parser.add_argument("--summary", action="store_true", help="Print summary to stdout")
     args = parser.parse_args()
 
     eval_path = Path(args.eval)

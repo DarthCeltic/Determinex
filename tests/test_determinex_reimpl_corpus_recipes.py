@@ -6,6 +6,7 @@ domain detection (name + observed-output signals, not family-name classification
 only cover 52/200 real tasks), and (4) the explicit _RECIPE_PRIORITY ordering that replaced the
 original accidental insert(0)-order-determines-priority behavior.
 """
+
 from __future__ import annotations
 
 import sys
@@ -27,6 +28,7 @@ class _FakeObs:
 
 
 # ---------- json/io recipe content: no stale Python-only code ----------
+
 
 def test_json_recipe_has_no_bare_python_code_fence():
     assert "```python" not in CORPUS._RECIPES["json"]
@@ -56,6 +58,7 @@ def test_table_and_tui_recipes_unchanged_still_present():
 
 # ---------- new recipes exist and carry real content ----------
 
+
 def test_all_new_recipes_present():
     for domain in ("diff", "csv", "regex_glob", "ansi", "checksum", "http", "git_plumbing"):
         assert domain in CORPUS._RECIPES
@@ -64,7 +67,9 @@ def test_all_new_recipes_present():
 
 def test_diff_recipe_mentions_hunk_format():
     assert "@@" in CORPUS._RECIPES["diff"]
-    assert "LCS" in CORPUS._RECIPES["diff"] or "longest-common-subsequence" in CORPUS._RECIPES["diff"]
+    assert (
+        "LCS" in CORPUS._RECIPES["diff"] or "longest-common-subsequence" in CORPUS._RECIPES["diff"]
+    )
 
 
 def test_csv_recipe_mentions_rfc4180_quoting_rule():
@@ -98,12 +103,14 @@ def test_git_plumbing_recipe_recommends_shelling_out_not_reimplementing():
 
 # ---------- recipes_for(): baseline ----------
 
+
 def test_recipes_for_baseline_no_match_returns_only_io():
     result = CORPUS.recipes_for("totally_unclassifiable_tool", [])
     assert result == CORPUS._RECIPES["io"]
 
 
 # ---------- recipes_for(): name-based detection ----------
+
 
 def test_recipes_for_detects_diff_by_name():
     result = CORPUS.recipes_for("diffr", [])
@@ -136,6 +143,7 @@ def test_recipes_for_detects_checksum_by_name():
 
 
 # ---------- recipes_for(): content-based detection ----------
+
 
 def test_recipes_for_detects_json_from_observed_content():
     obs = [_FakeObs(stdout='{"a": 1, "b": 2}')]
@@ -183,6 +191,7 @@ def test_recipes_for_detects_http_from_status_line_in_output():
 
 # ---------- recipes_for(): priority ordering under multiple matches ----------
 
+
 def test_recipes_for_tui_outranks_table_and_json_when_all_match():
     """Matches the pre-existing behavior (tui was always inserted last = highest priority)."""
     obs = [_FakeObs(stdout='{"a": 1} ┌──┐ \x1b[42mX\x1b[0m', probe_name="tui-snapshot-1")]
@@ -212,6 +221,7 @@ def test_recipe_priority_list_matches_actual_recipes_dict_keys():
 
 
 # ---------- render_prompt_block(): full coach block still composes correctly ----------
+
 
 def test_render_prompt_block_still_includes_recipe_and_pitfalls():
     block = CORPUS.render_prompt_block("diffr", observations=[])

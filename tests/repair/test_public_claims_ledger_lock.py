@@ -1,4 +1,5 @@
 """Tests for CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -14,12 +15,8 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 pcl = importlib.import_module("repair.public_claims_ledger")
 pcl_rec = importlib.import_module("repair.public_claims_ledger_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001.json"
-)
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_public_claims_ledger"
-)
+LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / ("CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001.json")
+EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / ("claude_public_claims_ledger")
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
@@ -113,8 +110,11 @@ def test_public_packaging_not_implemented():
 
 
 def test_federated_forge_and_mobile_console_are_research_track():
-    found = {c.key: c.classification for c in pcl.canonical_ledger()
-             if c.key in ("federated_forge", "mobile_console")}
+    found = {
+        c.key: c.classification
+        for c in pcl.canonical_ledger()
+        if c.key in ("federated_forge", "mobile_console")
+    }
     assert found["federated_forge"] == "research_track"
     assert found["mobile_console"] == "research_track"
 
@@ -154,8 +154,10 @@ def test_synthetic_training_implemented_triggers_overclaim(monkeypatch):
     for i, c in enumerate(bad):
         if c.key == "training_eligibility":
             bad[i] = pcl_rec.PublicClaim(
-                key=c.key, classification="implemented",
-                short=c.short, evidence_ref=c.evidence_ref,
+                key=c.key,
+                classification="implemented",
+                short=c.short,
+                evidence_ref=c.evidence_ref,
                 blocks_or_gates=c.blocks_or_gates,
             )
     monkeypatch.setattr(pcl, "_CANONICAL_LEDGER", tuple(bad))
@@ -169,8 +171,10 @@ def test_synthetic_release_implemented_triggers_overclaim(monkeypatch):
     for i, c in enumerate(bad):
         if c.key == "release_readiness":
             bad[i] = pcl_rec.PublicClaim(
-                key=c.key, classification="implemented",
-                short=c.short, evidence_ref=c.evidence_ref,
+                key=c.key,
+                classification="implemented",
+                short=c.short,
+                evidence_ref=c.evidence_ref,
             )
     monkeypatch.setattr(pcl, "_CANONICAL_LEDGER", tuple(bad))
     rec = pcl.build_record()
@@ -180,8 +184,10 @@ def test_synthetic_release_implemented_triggers_overclaim(monkeypatch):
 def test_synthetic_benchmark_key_triggers_overclaim(monkeypatch):
     bad = list(pcl._CANONICAL_LEDGER) + [
         pcl_rec.PublicClaim(
-            key="programbench_execution", classification="implemented",
-            short="x", evidence_ref="x",
+            key="programbench_execution",
+            classification="implemented",
+            short="x",
+            evidence_ref="x",
         ),
     ]
     monkeypatch.setattr(pcl, "_CANONICAL_LEDGER", tuple(bad))
@@ -202,8 +208,10 @@ def test_synthetic_unknown_classification_triggers_ambiguity(monkeypatch):
     for i, c in enumerate(bad):
         if c.key == "post_apply_verifier":
             bad[i] = pcl_rec.PublicClaim(
-                key=c.key, classification="ALMOST_IMPLEMENTED",
-                short=c.short, evidence_ref=c.evidence_ref,
+                key=c.key,
+                classification="ALMOST_IMPLEMENTED",
+                short=c.short,
+                evidence_ref=c.evidence_ref,
             )
     monkeypatch.setattr(pcl, "_CANONICAL_LEDGER", tuple(bad))
     rec = pcl.build_record()

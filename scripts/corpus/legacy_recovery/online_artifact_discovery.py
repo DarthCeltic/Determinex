@@ -4,10 +4,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -16,7 +17,6 @@ if str(_SCRIPTS) not in sys.path:
 from corpus.legacy_recovery.artifact_provenance import provenance_record, write_provenance_record
 from corpus.legacy_recovery.artifact_source_registry import ArtifactSourceRegistry
 from corpus.legacy_recovery.artifact_trust_policy import evaluate_artifact_policy
-
 
 ArtifactSearcher = Callable[[dict[str, Any]], list[dict[str, Any]]]
 
@@ -35,7 +35,9 @@ class OnlineArtifactDiscoveryConfig:
     provenance_root: Path = Path("T:/determinex_artifacts/provenance")
     quarantine_root: Path = Path("T:/determinex_artifacts/quarantine")
     cache_root: Path = Path("T:/determinex_artifacts/cache")
-    output_path: Path = Path("assurance/evidence/programbench_online_artifact_discovery_batch_001.json")
+    output_path: Path = Path(
+        "assurance/evidence/programbench_online_artifact_discovery_batch_001.json"
+    )
     searcher: ArtifactSearcher | None = None
     allow_download: bool = False
 
@@ -66,29 +68,46 @@ class OnlineArtifactDiscovery:
             "schema_version": "determinex-online-artifact-discovery-v1",
             "batch_id": "legacy_replay_promotion_batch_001",
             "candidates": len(candidates),
-            "online_candidates_found": counts.get(OnlineArtifactStatus.ONLINE_DISCOVERY_CANDIDATE_FOUND.value, 0),
-            "online_artifacts_pinned": counts.get(OnlineArtifactStatus.ONLINE_ARTIFACT_PINNED.value, 0),
-            "online_artifacts_rejected": counts.get(OnlineArtifactStatus.ONLINE_ARTIFACT_REJECTED.value, 0),
-            "online_artifacts_ambiguous": counts.get(OnlineArtifactStatus.ONLINE_ARTIFACT_AMBIGUOUS.value, 0),
+            "online_candidates_found": counts.get(
+                OnlineArtifactStatus.ONLINE_DISCOVERY_CANDIDATE_FOUND.value, 0
+            ),
+            "online_artifacts_pinned": counts.get(
+                OnlineArtifactStatus.ONLINE_ARTIFACT_PINNED.value, 0
+            ),
+            "online_artifacts_rejected": counts.get(
+                OnlineArtifactStatus.ONLINE_ARTIFACT_REJECTED.value, 0
+            ),
+            "online_artifacts_ambiguous": counts.get(
+                OnlineArtifactStatus.ONLINE_ARTIFACT_AMBIGUOUS.value, 0
+            ),
             "missing": counts.get(OnlineArtifactStatus.IMAGE_MISSING.value, 0),
             "status_counts": counts,
             "results": [asdict(result) for result in results],
             "policy": "Online sources may suggest artifacts. Only pinned, scanned, provenance-recorded artifacts can enter replay hydration.",
         }
         self.config.output_path.parent.mkdir(parents=True, exist_ok=True)
-        self.config.output_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        self.config.output_path.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         return report
 
     def discover_for_candidate(self, candidate: dict[str, Any]) -> OnlineArtifactDiscoveryResult:
         tool = str(candidate.get("tool") or "")
         if self.config.searcher is None:
-            return OnlineArtifactDiscoveryResult(tool, OnlineArtifactStatus.IMAGE_MISSING.value, "online_searcher_not_configured")
+            return OnlineArtifactDiscoveryResult(
+                tool, OnlineArtifactStatus.IMAGE_MISSING.value, "online_searcher_not_configured"
+            )
 
         discovered = self.config.searcher(candidate)
         if not discovered:
-            return OnlineArtifactDiscoveryResult(tool, OnlineArtifactStatus.IMAGE_MISSING.value, "no_online_candidates")
+            return OnlineArtifactDiscoveryResult(
+                tool, OnlineArtifactStatus.IMAGE_MISSING.value, "no_online_candidates"
+            )
 
-        scored = sorted([(_score(row, candidate), idx, row) for idx, row in enumerate(discovered)], key=lambda item: item[0])
+        scored = sorted(
+            [(_score(row, candidate), idx, row) for idx, row in enumerate(discovered)],
+            key=lambda item: item[0],
+        )
         best_score, _idx, best = scored[-1]
         if len(scored) > 1 and scored[-2][0] == best_score:
             return OnlineArtifactDiscoveryResult(
@@ -113,7 +132,9 @@ class OnlineArtifactDiscovery:
                 resolved_digest=str(best.get("resolved_digest") or best.get("digest") or ""),
                 revision=str(best.get("revision") or ""),
                 score=best_score,
-                rejected_candidates=[{"artifact_id": str(best.get("artifact_id") or ""), "reason": decision.reason}],
+                rejected_candidates=[
+                    {"artifact_id": str(best.get("artifact_id") or ""), "reason": decision.reason}
+                ],
             )
 
         # Discovery-only lock: no download/execution is performed. Quarantine and
@@ -141,7 +162,9 @@ def _score(candidate: dict[str, Any], request: dict[str, Any]) -> int:
     repo = str(candidate.get("repo") or "").lower()
     if tool and (tool in artifact_id or tool in image or tool in repo):
         score += 20
-    if str(candidate.get("programbench_task_id") or "") == str(request.get("programbench_task_id") or ""):
+    if str(candidate.get("programbench_task_id") or "") == str(
+        request.get("programbench_task_id") or ""
+    ):
         score += 15
     if str(candidate.get("resolved_digest") or candidate.get("digest") or "").startswith("sha256:"):
         score += 10
@@ -164,13 +187,21 @@ def _counts(values) -> dict[str, int]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Discovery-only ProgramBench artifact candidate resolver.")
+    parser = argparse.ArgumentParser(
+        description="Discovery-only ProgramBench artifact candidate resolver."
+    )
     parser.add_argument("candidates", type=Path)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/programbench_online_artifact_discovery_batch_001.json"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("assurance/evidence/programbench_online_artifact_discovery_batch_001.json"),
+    )
     args = parser.parse_args()
     data = json.loads(args.candidates.read_text(encoding="utf-8"))
     candidates = list(data.get("selected") or data.get("results") or [])
-    report = OnlineArtifactDiscovery(OnlineArtifactDiscoveryConfig(output_path=args.output)).discover_batch(candidates)
+    report = OnlineArtifactDiscovery(
+        OnlineArtifactDiscoveryConfig(output_path=args.output)
+    ).discover_batch(candidates)
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 

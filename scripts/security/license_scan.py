@@ -1,4 +1,5 @@
 """Repository license scan wrapper for assurance artifacts."""
+
 from __future__ import annotations
 
 import argparse
@@ -11,8 +12,26 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from corpus.code_ingest.license_detector import detect
 
-
 DEFAULT_OUT = ROOT / "assurance" / "licenses" / "license_inventory.json"
+
+
+def _rel(p: object) -> str:
+    """Path relative to ROOT, with forward slashes. Machine-independent by construction.
+
+    Falls back to the basename rather than the absolute path when something genuinely lives
+    outside the checkout -- an inventory row is worth less than leaking where the repo sits,
+    and this file is published. Non-path values pass through unchanged (`source` is sometimes
+    a short string like "classifier" rather than a file).
+    """
+    if not p:
+        return ""
+    s = str(p)
+    if not (("/" in s) or ("\\" in s)):
+        return s  # not a path at all
+    try:
+        return Path(s).resolve().relative_to(ROOT).as_posix()
+    except (ValueError, OSError):
+        return Path(s).name
 
 
 def dependency_paths() -> list[Path]:
@@ -47,7 +66,7 @@ def dependency_paths() -> list[Path]:
             declared = json.loads(package_json.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             declared = {}
-        for name in sorted((declared.get("dependencies") or {})):
+        for name in sorted(declared.get("dependencies") or {}):
             candidate = node_modules.joinpath(*name.split("/"))
             if candidate.is_dir():
                 paths.append(candidate)
@@ -148,7 +167,11 @@ def scan(paths: list[Path]) -> dict:
             if declared:
                 from corpus.code_ingest.license_detector import (  # local: avoid import cycle
                     bucket as _bucket,
+                )
+                from corpus.code_ingest.license_detector import (
                     ingest_allowed as _ingest_allowed,
+                )
+                from corpus.code_ingest.license_detector import (
                     normalize as _normalize,
                 )
 
@@ -169,15 +192,23 @@ def scan(paths: list[Path]) -> dict:
             allowed = True
             bucket_name = "green_by_exception"
             note = why
-        rows.append({
-            "path": str(path),
-            "spdx_id": spdx,
-            "bucket": bucket_name,
-            "ingest_allowed": allowed,
-            "source": source,
-            "confidence": confidence,
-            "note": note,
-        })
+        rows.append(
+            {
+                # Relative to ROOT, not absolute. The inventory is a PUBLISHED compliance
+                # artifact -- every one of its 179 rows carried a full
+                # C:\Dev\Determinex\.venv\Lib\site-packages\... path, so the public repo was
+                # shipping one machine's filesystem layout, and the rows were unreadable to
+                # anyone whose checkout lives anywhere else. Relative paths are the actual
+                # compliance content; the drive letter never was.
+                "path": _rel(path),
+                "spdx_id": spdx,
+                "bucket": bucket_name,
+                "ingest_allowed": allowed,
+                "source": _rel(source),
+                "confidence": confidence,
+                "note": note,
+            }
+        )
     return {
         "schema_version": "determinex-license-inventory-v1",
         "rows": rows,
@@ -197,14 +228,20 @@ def main() -> int:
         # Nothing to scan is not a pass: it means the environment was not installed, so no licence
         # was examined. Reporting "0 blocked" here would be the same silence-looks-like-safety
         # shape this scanner is meant to prevent.
-        print("license_scan: no dependency licence surfaces found (is the venv installed?)",
-              file=sys.stderr)
+        print(
+            "license_scan: no dependency licence surfaces found (is the venv installed?)",
+            file=sys.stderr,
+        )
         return 2
     report = scan(targets)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(args.out)
-    print(json.dumps({"blocked_count": report["blocked_count"], "rows": len(report["rows"])}, indent=2))
+    print(
+        json.dumps(
+            {"blocked_count": report["blocked_count"], "rows": len(report["rows"])}, indent=2
+        )
+    )
     return 0 if report["blocked_count"] == 0 else 2
 
 

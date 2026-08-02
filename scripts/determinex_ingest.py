@@ -32,6 +32,7 @@ CLI
 ---
     python scripts/determinex_ingest.py <repo_or_task_dir> [--json]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -59,19 +60,43 @@ except Exception:
 
 
 _LANG_BY_EXT = {
-    ".rs": "rust", ".go": "go", ".py": "python", ".c": "c", ".h": "c",
-    ".cc": "cpp", ".cpp": "cpp", ".cxx": "cpp", ".hpp": "cpp",
-    ".ts": "typescript", ".tsx": "typescript", ".js": "javascript", ".jsx": "javascript",
-    ".kt": "kotlin", ".java": "java", ".swift": "swift", ".cs": "csharp",
-    ".rb": "ruby", ".php": "php",
-    ".cob": "cobol", ".cbl": "cobol", ".bas": "basic",
+    ".rs": "rust",
+    ".go": "go",
+    ".py": "python",
+    ".c": "c",
+    ".h": "c",
+    ".cc": "cpp",
+    ".cpp": "cpp",
+    ".cxx": "cpp",
+    ".hpp": "cpp",
+    ".ts": "typescript",
+    ".tsx": "typescript",
+    ".js": "javascript",
+    ".jsx": "javascript",
+    ".kt": "kotlin",
+    ".java": "java",
+    ".swift": "swift",
+    ".cs": "csharp",
+    ".rb": "ruby",
+    ".php": "php",
+    ".cob": "cobol",
+    ".cbl": "cobol",
+    ".bas": "basic",
 }
 
 _BUILD_MARKERS = {
-    "Cargo.toml": "cargo", "go.mod": "go", "CMakeLists.txt": "cmake",
-    "Makefile": "make", "configure": "autotools", "package.json": "npm",
-    "build.gradle": "gradle", "build.gradle.kts": "gradle", "pom.xml": "maven",
-    "setup.py": "pip", "pyproject.toml": "pip", "Package.swift": "swiftpm",
+    "Cargo.toml": "cargo",
+    "go.mod": "go",
+    "CMakeLists.txt": "cmake",
+    "Makefile": "make",
+    "configure": "autotools",
+    "package.json": "npm",
+    "build.gradle": "gradle",
+    "build.gradle.kts": "gradle",
+    "pom.xml": "maven",
+    "setup.py": "pip",
+    "pyproject.toml": "pip",
+    "Package.swift": "swiftpm",
 }
 
 _HARNESS_SIGNATURES = [
@@ -86,11 +111,11 @@ _HARNESS_SIGNATURES = [
 @dataclass
 class Spec:
     summary: str = ""
-    cli_surface: list[str] = field(default_factory=list)   # observed argv/flags
-    behaviors: list[str] = field(default_factory=list)     # asserted behaviors
-    invariants: list[str] = field(default_factory=list)    # derived properties
-    terms: dict = field(default_factory=dict)              # canonical verbiage
-                                                           # (extracted, never guessed)
+    cli_surface: list[str] = field(default_factory=list)  # observed argv/flags
+    behaviors: list[str] = field(default_factory=list)  # asserted behaviors
+    invariants: list[str] = field(default_factory=list)  # derived properties
+    terms: dict = field(default_factory=dict)  # canonical verbiage
+    # (extracted, never guessed)
 
 
 @dataclass
@@ -101,20 +126,27 @@ class TaskUnderstanding:
     build_system: str
     harness: str
     has_tests: bool
-    oracle: str                 # registered language oracle name, or "SYNTHESIZE"
+    oracle: str  # registered language oracle name, or "SYNTHESIZE"
     oracle_available: bool
     spec: Spec
     notes: list[str] = field(default_factory=list)
-    hardware_profile: dict | None = None   # Pre-Flight Static Graph Profiler result, if a
-                                            # known hardware-kernel dialect was auto-detected
+    hardware_profile: dict | None = None  # Pre-Flight Static Graph Profiler result, if a
+    # known hardware-kernel dialect was auto-detected
 
 
 _EXCLUDED_DIR_NAMES = (
     # VCS
-    ".git", ".svn", ".hg",
+    ".git",
+    ".svn",
+    ".hg",
     # Language dependency/package dirs
-    "node_modules", "vendor", "target",
-    "venv", ".venv", "env", ".env",
+    "node_modules",
+    "vendor",
+    "target",
+    "venv",
+    ".venv",
+    "env",
+    ".env",
     # Interpreter/tool caches -- never source, and on a large repo can
     # dwarf real source by orders of magnitude (found live 2026-07-22: this
     # project's own .venv/scratch/corpus/.pytest_tmp_* dirs pushed a single
@@ -122,12 +154,21 @@ _EXCLUDED_DIR_NAMES = (
     # with the crash fixed but no exclusions beyond the original 4-item
     # list -- a general-purpose "point this at any repo" ingester needs to
     # skip these by default, not just avoid crashing on them).
-    "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".tox",
-    ".uv-cache", ".cache",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".tox",
+    ".uv-cache",
+    ".cache",
     # Build/dist output
-    "dist", "build", ".next", "out",
+    "dist",
+    "build",
+    ".next",
+    "out",
     # Editor/IDE
-    ".vscode", ".idea",
+    ".vscode",
+    ".idea",
     # "testdata" -- a well-established convention across many tools (Go's
     # own build explicitly ignores any "testdata/" dir for exactly this
     # reason: it's data a project studies/tests against, not the project's
@@ -174,14 +215,17 @@ _EXCLUDED_DIR_NAMES = (
     # broken fixtures for testing determinex_ingest's own build-adapter
     # detection (test_build_adapter_registry_lock.py). Verifying these
     # "must pass" would be verifying the exact opposite of their purpose.
-    "go_broken", "python_broken", "rust_broken", "ts_broken",
+    "go_broken",
+    "python_broken",
+    "rust_broken",
+    "ts_broken",
 )
 
 
 _GIT_LS_FILES_TIMEOUT = 30
 
 
-def _git_tracked_files(root: Path) -> "list[Path] | None":
+def _git_tracked_files(root: Path) -> list[Path] | None:
     """Ask git for the real file list (tracked + untracked-but-not-ignored)
     instead of walking the filesystem by hand. Automatically respects
     .gitignore/.git/info/exclude/global excludes -- far more correct AND
@@ -211,7 +255,10 @@ def _git_tracked_files(root: Path) -> "list[Path] | None":
         # crash, on whatever doesn't decode as UTF-8.
         result = subprocess.run(
             ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
-            cwd=str(root), capture_output=True, encoding="utf-8", errors="replace",
+            cwd=str(root),
+            capture_output=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=_GIT_LS_FILES_TIMEOUT,
         )
         if result.returncode != 0:
@@ -348,7 +395,7 @@ def _is_under(p: Path, base: Path) -> bool:
         return False
 
 
-def _resolve_subproject_language(system: str, proj_dir: Path, files: list[Path]) -> "str | None":
+def _resolve_subproject_language(system: str, proj_dir: Path, files: list[Path]) -> str | None:
     if system in _BUILD_MARKER_LANGUAGE:
         return _BUILD_MARKER_LANGUAGE[system]
     if system == "npm":
@@ -358,8 +405,11 @@ def _resolve_subproject_language(system: str, proj_dir: Path, files: list[Path])
             return None
         return "typescript" if ts >= js else "javascript"
     if system in _C_FAMILY_BUILD_SYSTEMS:
-        cpp = sum(1 for p in files if p.suffix.lower() in (".cpp", ".cc", ".cxx", ".hpp")
-                 and _is_under(p, proj_dir))
+        cpp = sum(
+            1
+            for p in files
+            if p.suffix.lower() in (".cpp", ".cc", ".cxx", ".hpp") and _is_under(p, proj_dir)
+        )
         c = sum(1 for p in files if p.suffix.lower() == ".c" and _is_under(p, proj_dir))
         if cpp == 0 and c == 0:
             return None
@@ -410,8 +460,10 @@ def _merge_tauri_pairs(subprojects: list[Subproject]) -> list[Subproject]:
     determinex_oracle._verify_tauri (both halves), instead of reporting
     two separately-half-verified results for what is really one app."""
     tauri_backends = {
-        sp.path.parent: sp for sp in subprojects
-        if sp.language == "rust" and sp.path.name == "src-tauri"
+        sp.path.parent: sp
+        for sp in subprojects
+        if sp.language == "rust"
+        and sp.path.name == "src-tauri"
         and (sp.path / "tauri.conf.json").exists()
     }
     if not tauri_backends:
@@ -434,12 +486,20 @@ def _detect_harness(files: list[Path]) -> tuple[str, bool, list[Path]]:
     test_files: list[Path] = []
     for p in files:
         n = p.name.lower()
-        in_test_path = any("test" in part.lower() or "spec" in part.lower()
-                           for part in p.parts[:-1])
-        looks_like_test = (n.startswith("test_") or n.endswith("_test.py")
-                           or n.endswith(".test.ts") or n.endswith(".test.js")
-                           or n.endswith("_test.go") or n.endswith("_test.rs")
-                           or n in ("tests.rs",) or "test" in n or "spec" in n)
+        in_test_path = any(
+            "test" in part.lower() or "spec" in part.lower() for part in p.parts[:-1]
+        )
+        looks_like_test = (
+            n.startswith("test_")
+            or n.endswith("_test.py")
+            or n.endswith(".test.ts")
+            or n.endswith(".test.js")
+            or n.endswith("_test.go")
+            or n.endswith("_test.rs")
+            or n in ("tests.rs",)
+            or "test" in n
+            or "spec" in n
+        )
         if (looks_like_test or in_test_path) and p.suffix.lower() in _LANG_BY_EXT:
             test_files.append(p)
     sample = ""
@@ -469,8 +529,9 @@ def _infer_spec(test_files: list[Path], language: str) -> Spec:
         for m in re.finditer(r"""["'](--?[a-zA-Z][\w-]*)["']""", src):
             cli.add(m.group(1))
         # asserted behaviors: test docstrings + assertion lines
-        for m in re.finditer(r'def (test_\w+)\([^)]*\):\s*(?:"""(.*?)"""|\'\'\'(.*?)\'\'\')?',
-                             src, re.DOTALL):
+        for m in re.finditer(
+            r'def (test_\w+)\([^)]*\):\s*(?:"""(.*?)"""|\'\'\'(.*?)\'\'\')?', src, re.DOTALL
+        ):
             name = m.group(1)
             doc = (m.group(2) or m.group(3) or "").strip().splitlines()
             desc = doc[0].strip() if doc else name.replace("test_", "").replace("_", " ")
@@ -488,6 +549,7 @@ def _infer_spec(test_files: list[Path], language: str) -> Spec:
     terms: dict = {}
     try:
         from determinex_term_extractor import mine_texts
+
         blobs = []
         for p in test_files[:80]:
             try:
@@ -498,11 +560,17 @@ def _infer_spec(test_files: list[Path], language: str) -> Spec:
     except Exception:
         terms = {}
 
-    summary = (f"{language} tool; {len(behaviors)} asserted behaviors across "
-               f"{len(test_files)} test files; {len(cli)} CLI tokens observed.")
-    return Spec(summary=summary, cli_surface=sorted(cli)[:60],
-                behaviors=behaviors[:200], invariants=sorted(invariants),
-                terms=terms)
+    summary = (
+        f"{language} tool; {len(behaviors)} asserted behaviors across "
+        f"{len(test_files)} test files; {len(cli)} CLI tokens observed."
+    )
+    return Spec(
+        summary=summary,
+        cli_surface=sorted(cli)[:60],
+        behaviors=behaviors[:200],
+        invariants=sorted(invariants),
+        terms=terms,
+    )
 
 
 def ingest(root: Path) -> TaskUnderstanding:
@@ -531,11 +599,17 @@ def ingest(root: Path) -> TaskUnderstanding:
         notes.append(f"no registered oracle for '{language}' -- register one or synthesize.")
     if not has_tests:
         oracle_name = "SYNTHESIZE"
-        notes.append("no tests shipped -> synthesize_oracle() must manufacture ground "
-                     "truth (characterization / property / golden / contract) first.")
+        notes.append(
+            "no tests shipped -> synthesize_oracle() must manufacture ground "
+            "truth (characterization / property / golden / contract) first."
+        )
 
     hardware_profile = None
-    if detect_dialect_sources is not None and hw_profile_repo is not None and language in ("c", "cpp"):
+    if (
+        detect_dialect_sources is not None
+        and hw_profile_repo is not None
+        and language in ("c", "cpp")
+    ):
         try:
             found = detect_dialect_sources(root)
             if found:
@@ -547,17 +621,26 @@ def ingest(root: Path) -> TaskUnderstanding:
                         f"PRE-FLIGHT PROFILER: {hp.n_critical} CRITICAL hardware-boundary risk(s) "
                         f"detected across {hp.n_tensor_eligible}/{hp.n_call_sites} hardware-unit-"
                         f"eligible call sites for dialect '{dialect}' -- see hardware_profile."
-                        f"critical_findings before starting any optimization work on this kernel.")
+                        f"critical_findings before starting any optimization work on this kernel."
+                    )
                 for w in hp.warnings:
                     notes.append(f"PRE-FLIGHT PROFILER warning: {w}")
         except Exception as e:
             notes.append(f"hardware profiler attempted but failed: {e}")
 
     return TaskUnderstanding(
-        root=str(root), language=language, language_census=census,
-        build_system=build, harness=harness, has_tests=has_tests,
-        oracle=oracle_name, oracle_available=oracle_avail, spec=spec, notes=notes,
-        hardware_profile=hardware_profile)
+        root=str(root),
+        language=language,
+        language_census=census,
+        build_system=build,
+        harness=harness,
+        has_tests=has_tests,
+        oracle=oracle_name,
+        oracle_available=oracle_avail,
+        spec=spec,
+        notes=notes,
+        hardware_profile=hardware_profile,
+    )
 
 
 def main() -> int:

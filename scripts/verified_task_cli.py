@@ -36,7 +36,16 @@ def cmd_terminal(args: argparse.Namespace) -> None:
     lease = manager.create(spec)
     corpus = CorpusWriter(lease.corpus / "verified_task_trace.jsonl")
     result = RetryLoop(corpus_writer=corpus).run(spec, lease)
-    print(json.dumps({"passed": result.passed, "workspace": str(lease.workspace), "result": str(result.final_verdict_path)}, indent=2))
+    print(
+        json.dumps(
+            {
+                "passed": result.passed,
+                "workspace": str(lease.workspace),
+                "result": str(result.final_verdict_path),
+            },
+            indent=2,
+        )
+    )
 
 
 def cmd_inventory(args: argparse.Namespace) -> None:
@@ -47,12 +56,16 @@ def cmd_inventory(args: argparse.Namespace) -> None:
 
 def cmd_compress(args: argparse.Namespace) -> None:
     out = compress_directory(Path(args.path), delete_original=args.delete_original)
-    print(json.dumps({"archive": str(out), "deleted_original": bool(args.delete_original)}, indent=2))
+    print(
+        json.dumps({"archive": str(out), "deleted_original": bool(args.delete_original)}, indent=2)
+    )
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--root", default=None, help=f"staging root, default {default_verified_root()}")
+    parser.add_argument(
+        "--root", default=None, help=f"staging root, default {default_verified_root()}"
+    )
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_spec = sub.add_parser("run-spec", help="run a JSON TaskSpec")

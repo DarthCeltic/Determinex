@@ -29,6 +29,7 @@ for the inner Name, returning `str(vmap[name])`. This is NOT ffmpeg-specific -- 
 general Python idiom (assign a Path, then str() it for subprocess argv) so the fix
 applies via _find_run_call's and _resolve_list's shared _resolve() call.
 """
+
 from __future__ import annotations
 
 import sys
@@ -56,7 +57,8 @@ def test_resolve_bare_name_still_works():
 
 def test_extract_file_resolves_variadic_call_with_str_wrapped_scratch_output(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import pytest
 
@@ -66,13 +68,15 @@ def run_ffmpeg():
         cmd = ["executable"] + list(args)
         return subprocess.run(cmd, capture_output=True, text=True)
     return _run
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_multistream_mkv(run_ffmpeg, tmp_path):
     output = tmp_path / "out.mkv"
     result = run_ffmpeg("-i", "in.mp4", "-c", "copy", str(output), "-y")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -84,7 +88,8 @@ def test_extract_file_resolves_list_literal_with_str_wrapped_scratch_output(tmp_
     """The same str(Name) fix must also apply inside a LIST-literal argv (_resolve_list
     shares the same _resolve() call), not just the variadic-*args path above."""
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import pytest
 
@@ -94,13 +99,15 @@ def run_thing():
         cmd = ["executable"] + args
         return subprocess.run(cmd, capture_output=True, text=True)
     return _run
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_output_via_list(run_thing, tmp_path):
     output = tmp_path / "result.bin"
     result = run_thing(["-o", str(output)])
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

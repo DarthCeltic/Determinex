@@ -1,4 +1,5 @@
 """Tests for IDE_DIAGNOSE_FLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -53,8 +52,10 @@ def _hash_tree(root: Path) -> dict[str, str]:
 def _cfg(tmp_path):
     w = LocalModelConfigWizard(WizardConfig(config_root=tmp_path))
     return w.write_config(
-        provider="ollama", model_id="determinex-engineer-v11-dsl",
-        capabilities=("diagnose",), task_classes_allowed=("BUILD_DIAGNOSIS",),
+        provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
+        capabilities=("diagnose",),
+        task_classes_allowed=("BUILD_DIAGNOSIS",),
         enabled=True,
     )
 
@@ -83,8 +84,10 @@ def test_dry_run_default(tmp_path):
 def test_live_opt_in_with_config(tmp_path):
     cfg = _cfg(tmp_path)
     rec = IDEDiagnoseFlow().run(
-        FIXTURES / "python_broken", mode="live_opt_in",
-        config=cfg, provider=DeterministicProvider(canned={"summary": "ok"}),
+        FIXTURES / "python_broken",
+        mode="live_opt_in",
+        config=cfg,
+        provider=DeterministicProvider(canned={"summary": "ok"}),
     )
     assert rec.decision == "IDE_DIAGNOSE_LIVE_OPT_IN_READY"
     assert "IDE_DIAGNOSE_ADVISORY_AVAILABLE" in rec.statuses_seen
@@ -93,15 +96,18 @@ def test_live_opt_in_with_config(tmp_path):
 
 def test_live_opt_in_without_config_blocks():
     rec = IDEDiagnoseFlow().run(
-        FIXTURES / "python_broken", mode="live_opt_in",
-        config=None, provider=DeterministicProvider(canned={"summary": "ok"}),
+        FIXTURES / "python_broken",
+        mode="live_opt_in",
+        config=None,
+        provider=DeterministicProvider(canned={"summary": "ok"}),
     )
     assert rec.decision == "IDE_DIAGNOSE_BLOCKED_NO_MODEL"
 
 
 def test_unsupported_task_blocks():
     rec = IDEDiagnoseFlow().run(
-        FIXTURES / "python_broken", task_class="PATCH_GENERATION",
+        FIXTURES / "python_broken",
+        task_class="PATCH_GENERATION",
     )
     assert rec.decision == "IDE_DIAGNOSE_BLOCKED_UNSUPPORTED_TASK"
 
@@ -109,8 +115,10 @@ def test_unsupported_task_blocks():
 def test_provider_unavailable_blocks(tmp_path):
     cfg = _cfg(tmp_path)
     rec = IDEDiagnoseFlow().run(
-        FIXTURES / "python_broken", mode="live_opt_in",
-        config=cfg, provider=TimeoutProvider(),
+        FIXTURES / "python_broken",
+        mode="live_opt_in",
+        config=cfg,
+        provider=TimeoutProvider(),
     )
     assert rec.decision == "IDE_DIAGNOSE_BLOCKED_NOT_OPTED_IN"
 
@@ -120,7 +128,9 @@ def test_flow_does_not_mutate_workspace(tmp_path):
     ws = FIXTURES / "python_broken"
     before = _hash_tree(ws)
     IDEDiagnoseFlow().run(
-        ws, mode="live_opt_in", config=cfg,
+        ws,
+        mode="live_opt_in",
+        config=cfg,
         provider=DeterministicProvider(canned={"summary": "x"}),
     )
     assert _hash_tree(ws) == before

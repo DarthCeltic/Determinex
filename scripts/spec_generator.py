@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-import sys
 import argparse
 import os
 import subprocess
+import sys
 
 os.environ.setdefault("LITELLM_TELEMETRY", "False")
 os.environ.setdefault("LITELLM_LOG", "ERROR")
@@ -90,9 +90,7 @@ def _ollama_models() -> tuple[list[str], str | None]:
 
 def _tag_installed(required: str, installed: list[str]) -> bool:
     return any(
-        tag == required
-        or tag.startswith(f"{required}:")
-        or tag.startswith(required)
+        tag == required or tag.startswith(f"{required}:") or tag.startswith(required)
         for tag in installed
     )
 
@@ -181,6 +179,7 @@ def select_spec_model(roles: dict) -> str:
 
     return primary
 
+
 SYSTEM_PROMPT = """You are the Oracle for the Determinex Hive Mind.
 Your task is to convert free-text project ideas into the exact Determinex MD Specification format.
 
@@ -220,28 +219,36 @@ Selection rules:
 - Do not convert web/mobile product requests into Rust CLI tools.
 """
 
+
 def generate_spec_from_idea(idea: str):
     roles = load_role_assignments()
     oracle_model = select_spec_model(roles)
-    
+
     response = api_call(
         litellm.completion,
         model=oracle_model,
         role="oracle",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": f"USER IDEA:\n\n{idea}\n\nGenerate the MD Spec format now:"}
+            {
+                "role": "user",
+                "content": f"USER IDEA:\n\n{idea}\n\nGenerate the MD Spec format now:",
+            },
         ],
         temperature=0.2,
-        estimated_tokens=800
+        estimated_tokens=800,
     )
     return response.choices[0].message.content
 
+
 def main():
     import json
+
     parser = argparse.ArgumentParser(description="Generate Determinex MD Spec from free text.")
     parser.add_argument("--idea", type=str, required=False, help="The free text idea prompt")
-    parser.add_argument("--stdin", action="store_true", help="Read idea as JSON from stdin ({\"idea\": \"...\"})")
+    parser.add_argument(
+        "--stdin", action="store_true", help='Read idea as JSON from stdin ({"idea": "..."})'
+    )
     args = parser.parse_args()
 
     if args.stdin:
@@ -262,6 +269,7 @@ def main():
     except Exception as e:
         print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

@@ -8,6 +8,7 @@ Note: Gradle's Groovy DSL is not formally parseable without executing it.
 This indexer uses regex extraction on common patterns and is best-effort.
 For authoritative metadata, use `gradle properties` at runtime.
 """
+
 from __future__ import annotations
 
 import logging
@@ -24,7 +25,7 @@ class GradleProject:
     name: str
     group: str
     version: str
-    license_expression: str     # raw text found near "license" keyword
+    license_expression: str  # raw text found near "license" keyword
     plugins: list[str] = field(default_factory=list)
     dependencies: list[dict[str, str]] = field(default_factory=list)
     is_kotlin_dsl: bool = False
@@ -45,14 +46,14 @@ class GradleProject:
 
 
 _PATTERNS = {
-    "group":   re.compile(r"""^group\s*[=:]\s*['"]([^'"]+)['"]""", re.M),
+    "group": re.compile(r"""^group\s*[=:]\s*['"]([^'"]+)['"]""", re.M),
     "version": re.compile(r"""^version\s*[=:]\s*['"]([^'"]+)['"]""", re.M),
-    "name":    re.compile(r"""^rootProject\.name\s*[=:]\s*['"]([^'"]+)['"]""", re.M),
+    "name": re.compile(r"""^rootProject\.name\s*[=:]\s*['"]([^'"]+)['"]""", re.M),
     "license": re.compile(r"""(?:license|licensing).{0,80}['"]([A-Za-z0-9.\-\s]+)['"]""", re.I),
-    "plugin":  re.compile(r"""(?:id|plugin)\s*\(?['"]([^'"]+)['"]"""),
-    "dep":     re.compile(
+    "plugin": re.compile(r"""(?:id|plugin)\s*\(?['"]([^'"]+)['"]"""),
+    "dep": re.compile(
         r"""(?:implementation|api|compile|testImplementation|runtimeOnly)\s*\(?['"]([^'"]+)['"]""",
-        re.M
+        re.M,
     ),
 }
 
@@ -93,11 +94,13 @@ def parse_build_file(build_path: Path) -> GradleProject | None:
     for dep in raw_deps:
         parts = dep.split(":")
         if len(parts) >= 2:
-            dependencies.append({
-                "groupId": parts[0],
-                "artifactId": parts[1],
-                "version": parts[2] if len(parts) > 2 else "",
-            })
+            dependencies.append(
+                {
+                    "groupId": parts[0],
+                    "artifactId": parts[1],
+                    "version": parts[2] if len(parts) > 2 else "",
+                }
+            )
 
     return GradleProject(
         path=build_path,

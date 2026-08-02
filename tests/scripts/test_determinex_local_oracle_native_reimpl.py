@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from intake.hardened_runner import RunResult
+
 from scripts.determinex_io_extractor import Example
 from scripts.determinex_local_oracle import _run_reimpl
 
@@ -14,7 +15,7 @@ def test_native_reimpl_directory_compiles_and_runs_executable(tmp_path: Path):
         "set -e\n"
         "cat > executable <<'EOF'\n"
         "#!/bin/sh\n"
-        "printf 'native:%s:%s\\n' \"$1\" \"$2\"\n"
+        'printf \'native:%s:%s\\n\' "$1" "$2"\n'
         "EOF\n"
         "chmod +x executable\n",
         encoding="utf-8",
@@ -38,7 +39,7 @@ def test_native_reimpl_preserves_file_path_argument(tmp_path: Path):
         "set -e\n"
         "cat > executable <<'EOF'\n"
         "#!/bin/sh\n"
-        "printf 'args:%s:%s\\n' \"$1\" \"$2\"\n"
+        'printf \'args:%s:%s\\n\' "$1" "$2"\n'
         "EOF\n"
         "chmod +x executable\n",
         encoding="utf-8",
@@ -56,8 +57,7 @@ def test_native_reimpl_preserves_file_path_argument(tmp_path: Path):
 def test_python_reimpl_still_runs_via_python(tmp_path: Path):
     reimpl = tmp_path / "tool.py"
     reimpl.write_text(
-        "import sys\n"
-        "print('python:' + sys.argv[1])\n",
+        "import sys\nprint('python:' + sys.argv[1])\n",
         encoding="utf-8",
     )
 

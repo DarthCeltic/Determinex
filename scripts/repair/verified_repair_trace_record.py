@@ -17,12 +17,12 @@ design — corpus eligibility lives behind a separate gate. The
 ``trace_id`` is a deterministic sha256 over the workspace path, the
 canned-response kind, and the salt — so a test can pin it.
 """
+
 from __future__ import annotations
 
 import hashlib
 import json
 from dataclasses import asdict, dataclass, field
-
 
 VERIFIED_REPAIR_TRACE_STATUS_TOKENS = (
     "VERIFIED_REPAIR_TRACE_WRITTEN",

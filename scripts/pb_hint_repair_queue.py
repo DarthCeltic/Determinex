@@ -5,6 +5,7 @@ The queue is intentionally advisory. It does not modify overrides, pack
 candidates, reserve workers, or deploy shards. It ranks rejected/non-lock tools
 whose hint audit produced a specific next action.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -12,7 +13,6 @@ import json
 from collections import Counter
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 NOTES = ROOT / "corpus" / "programbench" / "training_corpus" / "reject_notes"
@@ -102,20 +102,22 @@ def _rule_b_floor_note(note: dict[str, Any], board_row: dict[str, Any]) -> dict[
     passed = floor.get("passed")
     runnable = floor.get("runnable_total")
     out = dict(note)
-    out.update({
-        "requeue_priority": "high",
-        "likely_cause": "accepted floor raise awaiting strict promotion",
-        "next_action": (
-            f"Run a clean Rule A re-gate from the accepted floor "
-            f"({passed}/{runnable}) before further pattern tuning."
-        ),
-        "matched_patterns": ["rule_b_floor"],
-        "hook_status": {
-            "rule_b_discovery": "present",
-            "captured_at": floor_ts,
-        },
-        "captured_at": floor_ts or note_ts,
-    })
+    out.update(
+        {
+            "requeue_priority": "high",
+            "likely_cause": "accepted floor raise awaiting strict promotion",
+            "next_action": (
+                f"Run a clean Rule A re-gate from the accepted floor "
+                f"({passed}/{runnable}) before further pattern tuning."
+            ),
+            "matched_patterns": ["rule_b_floor"],
+            "hook_status": {
+                "rule_b_discovery": "present",
+                "captured_at": floor_ts,
+            },
+            "captured_at": floor_ts or note_ts,
+        }
+    )
     return out
 
 
@@ -136,8 +138,12 @@ def build_queue(limit: int) -> list[dict[str, Any]]:
             "priority": note.get("requeue_priority") or "low",
             "rank_score": _score(note, board_row),
             "board_score": board_row.get("best_score") or board_row.get("score"),
-            "passed": floor.get("passed") or board_row.get("best_passed") or board_row.get("passed"),
-            "runnable": floor.get("runnable_total") or board_row.get("best_runnable_total") or board_row.get("runnable"),
+            "passed": floor.get("passed")
+            or board_row.get("best_passed")
+            or board_row.get("passed"),
+            "runnable": floor.get("runnable_total")
+            or board_row.get("best_runnable_total")
+            or board_row.get("runnable"),
             "status": status,
             "likely_cause": note.get("likely_cause") or "",
             "next_action": note.get("next_action") or "",
@@ -184,7 +190,9 @@ def main() -> int:
     counts = Counter(str(r["priority"]) for r in rows)
     print("priority:", dict(counts))
     for row in rows[:15]:
-        print(f"{row['rank_score']:>4} {row['priority']:<6} {row['slug']} :: {row['likely_cause']} -> {row['next_action']}")
+        print(
+            f"{row['rank_score']:>4} {row['priority']:<6} {row['slug']} :: {row['likely_cause']} -> {row['next_action']}"
+        )
     return 0
 
 

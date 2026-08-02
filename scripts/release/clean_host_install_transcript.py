@@ -4,11 +4,12 @@ This helper does not install Determinex by itself. It defines the evidence
 packet that a clean Windows runner must produce after executing the packaged
 installer, launching the app, smoking the core IDE surfaces, and uninstalling.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -16,7 +17,7 @@ from scripts.release import determinex_release_gates
 
 
 def _utc_now() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def build_template(generated_at_utc: str | None = None) -> dict[str, Any]:
@@ -108,7 +109,16 @@ def main() -> int:
     exit_code = 0
     if args.template_output:
         payload = write_template(args.template_output)
-        print(json.dumps({"status": "template_written", "path": str(args.template_output), "template": payload}, indent=2))
+        print(
+            json.dumps(
+                {
+                    "status": "template_written",
+                    "path": str(args.template_output),
+                    "template": payload,
+                },
+                indent=2,
+            )
+        )
     if args.validate:
         result = validate_file(args.validate)
         print(json.dumps(result, indent=2))

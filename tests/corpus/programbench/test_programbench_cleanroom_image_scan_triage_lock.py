@@ -6,8 +6,14 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
-from corpus.programbench.cleanroom_image_hydration_record import make_cleanroom_image_hydration_record, write_cleanroom_image_hydration_record  # noqa: E402
-from corpus.programbench.cleanroom_image_scan_record import make_cleanroom_image_scan_record, write_cleanroom_image_scan_record  # noqa: E402
+from corpus.programbench.cleanroom_image_hydration_record import (  # noqa: E402
+    make_cleanroom_image_hydration_record,
+    write_cleanroom_image_hydration_record,
+)
+from corpus.programbench.cleanroom_image_scan_record import (  # noqa: E402
+    make_cleanroom_image_scan_record,
+    write_cleanroom_image_scan_record,
+)
 from corpus.programbench.cleanroom_image_scan_triage import (  # noqa: E402
     EXPECTED_DIGEST,
     EXPECTED_IMAGE,
@@ -15,7 +21,9 @@ from corpus.programbench.cleanroom_image_scan_triage import (  # noqa: E402
     CleanroomImageScanTriageStatus,
     ProgramBenchCleanroomImageScanTriage,
 )
-from corpus.programbench.cleanroom_image_scan_triage_record import verify_cleanroom_image_scan_triage_record  # noqa: E402
+from corpus.programbench.cleanroom_image_scan_triage_record import (
+    verify_cleanroom_image_scan_triage_record,  # noqa: E402
+)
 
 
 def _findings() -> list[dict[str, str]]:
@@ -55,9 +63,22 @@ def _findings() -> list[dict[str, str]]:
     ]
 
 
-def _write_scan(tmp_path: Path, *, findings=None, expected_digest: str = EXPECTED_DIGEST, status: str = "CLEANROOM_IMAGE_SCAN_FAILED") -> Path:
+def _write_scan(
+    tmp_path: Path,
+    *,
+    findings=None,
+    expected_digest: str = EXPECTED_DIGEST,
+    status: str = "CLEANROOM_IMAGE_SCAN_FAILED",
+) -> Path:
     findings = _findings() if findings is None else findings
-    summary = {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0, "total": len(findings)}
+    summary = {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "unknown": 0,
+        "total": len(findings),
+    }
     for item in findings:
         summary[item.get("severity", "unknown").lower()] += 1
     record = make_cleanroom_image_scan_record(
@@ -109,14 +130,20 @@ def test_missing_scan_evidence_blocks_triage(tmp_path):
     hydration = _write_hydration(tmp_path)
     result = _triage(tmp_path).triage(tmp_path / "missing.json", hydration)
 
-    assert result["record"]["status"] == CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_SCAN.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_SCAN.value
+    )
 
 
 def test_missing_hydration_policy_block_evidence_blocks_triage(tmp_path):
     scan = _write_scan(tmp_path)
     result = _triage(tmp_path).triage(scan, tmp_path / "missing.json")
 
-    assert result["record"]["status"] == CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_HYDRATION.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_HYDRATION.value
+    )
 
 
 def test_wrong_artifact_digest_blocks_triage(tmp_path):
@@ -124,7 +151,10 @@ def test_wrong_artifact_digest_blocks_triage(tmp_path):
     hydration = _write_hydration(tmp_path)
     result = _triage(tmp_path).triage(scan, hydration)
 
-    assert result["record"]["status"] == CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_DIGEST_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_DIGEST_MISMATCH.value
+    )
 
 
 def test_empty_findings_with_failed_scan_produces_data_insufficient(tmp_path):
@@ -132,7 +162,10 @@ def test_empty_findings_with_failed_scan_produces_data_insufficient(tmp_path):
     hydration = _write_hydration(tmp_path)
     result = _triage(tmp_path).triage(scan, hydration)
 
-    assert result["record"]["status"] == CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_SCAN_DATA_INSUFFICIENT.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_SCAN_DATA_INSUFFICIENT.value
+    )
     assert result["record"]["recommendation"] == "SCAN_DATA_INSUFFICIENT"
 
 
@@ -143,7 +176,15 @@ def test_critical_and_high_findings_are_grouped_deterministically(tmp_path):
     groups = result["record"]["grouped_findings"]
 
     assert [group["severity"] for group in groups[:3]] == ["critical", "critical", "high"]
-    assert groups == sorted(groups, key=lambda item: ({"critical": 0, "high": 1, "medium": 2, "low": 3, "unknown": 4}[item["severity"]], -item["count"], item["package"], item["id"]))
+    assert groups == sorted(
+        groups,
+        key=lambda item: (
+            {"critical": 0, "high": 1, "medium": 2, "low": 3, "unknown": 4}[item["severity"]],
+            -item["count"],
+            item["package"],
+            item["id"],
+        ),
+    )
 
 
 def test_fixed_version_availability_is_summarized(tmp_path):
@@ -174,7 +215,10 @@ def test_triage_recommends_remediation_when_critical_high_exceed_policy(tmp_path
     result = _triage(tmp_path).triage(_write_scan(tmp_path), _write_hydration(tmp_path))
 
     assert result["record"]["recommendation"] == "REMEDIATE_IMAGE_REQUIRED"
-    assert CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_REMEDIATE_REQUIRED.value in result["record"]["triage_statuses"]
+    assert (
+        CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_REMEDIATE_REQUIRED.value
+        in result["record"]["triage_statuses"]
+    )
 
 
 def test_triage_does_not_suppress_vulnerabilities(tmp_path):

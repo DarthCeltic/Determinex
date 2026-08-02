@@ -10,6 +10,7 @@ This wrapper preserves the older release-runbook command shape:
 It scans tracked public claim surfaces for authority anchors asserted true
 without proof. It does not grant release readiness.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -23,7 +24,11 @@ _SCRIPTS = _HERE.parents[1]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from governance.authority import AUTHORITY_FALSE, json_anchor_violations, scan_text_for_anchor_true  # noqa: E402
+from governance.authority import (  # noqa: E402
+    AUTHORITY_FALSE,
+    json_anchor_violations,
+    scan_text_for_anchor_true,
+)
 
 SCAN_EXTENSIONS = {".json", ".md", ".yaml", ".yml", ".toml", ".cfg", ".ini"}
 #: Trees that are not Determinex's claims. `node_modules/` was already here; `.vscode-test/` is the
@@ -41,8 +46,14 @@ SCAN_EXTENSIONS = {".json", ".md", ".yaml", ".yml", ".toml", ".cfg", ".ini"}
 #: should keep reading. `.tmp/` was already being scanned before tonight and was never the
 #: bottleneck — widening the skip list past the actual cause would have quietly cost real coverage.
 SKIP_PREFIXES = (
-    "archive/", "docs/audits/", "scripts/status/", "scripts/proof/",
-    "tests/status/", "tests/proof/", "node_modules/", "corpus/",
+    "archive/",
+    "docs/audits/",
+    "scripts/status/",
+    "scripts/proof/",
+    "tests/status/",
+    "tests/proof/",
+    "node_modules/",
+    "corpus/",
     ".vscode-test/",
 )
 TEXT_SKIP_PREFIXES = ("assurance/", "locks/", "docs/ide-frontend/")
@@ -63,7 +74,9 @@ def _tracked_files(root: Path) -> list[Path]:
     files: list[Path] = []
     for rel in result.stdout.splitlines():
         normalized = rel.replace("\\", "/")
-        if any(normalized.startswith(prefix) or f"/{prefix}" in normalized for prefix in SKIP_PREFIXES):
+        if any(
+            normalized.startswith(prefix) or f"/{prefix}" in normalized for prefix in SKIP_PREFIXES
+        ):
             continue
         path = root / rel
         if path.suffix.lower() in SCAN_EXTENSIONS and path.is_file():
@@ -92,7 +105,9 @@ def scan(root: Path) -> dict[str, object]:
         if hits:
             violations.append({"path": rel, "anchors": hits})
     return {
-        "status": "DAY_ONE_PUBLIC_CLAIM_SCANNER_PASSED" if not violations else "DAY_ONE_PUBLIC_CLAIM_SCANNER_FAILED",
+        "status": "DAY_ONE_PUBLIC_CLAIM_SCANNER_PASSED"
+        if not violations
+        else "DAY_ONE_PUBLIC_CLAIM_SCANNER_FAILED",
         "claim_clean": not violations,
         "current_repo_violation_count": len(violations),
         "scanner_self_test_passed": True,

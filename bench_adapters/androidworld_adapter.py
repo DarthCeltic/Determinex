@@ -2,6 +2,7 @@
 AndroidWorld adapter — converts mobile GUI tasks to VisualTaskSpec.
 Requires emulator isolation (DETERMINEX_REQUIRE_EMULATOR=1).
 """
+
 from __future__ import annotations
 
 import logging
@@ -10,8 +11,8 @@ from typing import Any
 from agents.base_agent import (
     AgentObservation,
     EnvType,
-    OracleVerdict,
     OracleType,
+    OracleVerdict,
     VisualTaskSpec,
 )
 
@@ -48,9 +49,11 @@ def load_observation(
     screenshot_path: str,
     step: int,
 ) -> AgentObservation:
-    from vision.screenshot_loader import screenshot_hash
-    from mobile.uiautomator_reader import dump_ui_xml
     import hashlib
+
+    from mobile.uiautomator_reader import dump_ui_xml
+    from vision.screenshot_loader import screenshot_hash
+
     xml = dump_ui_xml(serial)
     xml_hash = hashlib.sha256(xml.encode()).hexdigest() if xml else ""
     return AgentObservation(
@@ -76,29 +79,40 @@ def score_verdict(
         if verifier_type == "ui_element":
             text = verifier.get("text", "")
             from mobile.mobile_verifier import ui_text_exists
+
             return ui_text_exists(serial, text)
 
         if verifier_type == "activity":
             activity = verifier.get("activity", "")
             from mobile.mobile_verifier import activity_matches
+
             return activity_matches(serial, activity)
 
         if verifier_type == "screenshot_match":
             reference = verifier.get("reference_screenshot", "")
             from mobile.mobile_verifier import screenshot_region_matches
+
             return screenshot_region_matches(reference, screenshot_after)
 
         if verifier_type == "file_exists":
             path = verifier.get("path", "")
             from mobile.mobile_verifier import file_exists_on_device
+
             return file_exists_on_device(serial, path)
 
         if verifier_type == "package_opened":
             package = verifier.get("package", task.get("app_name", ""))
             from mobile.mobile_verifier import package_opened
+
             return package_opened(serial, package)
 
-        return OracleVerdict(oracle_type=OracleType.MOBILE, passed=False, score=0.0,
-                             evidence=f"unknown verifier_type: {verifier_type}")
+        return OracleVerdict(
+            oracle_type=OracleType.MOBILE,
+            passed=False,
+            score=0.0,
+            evidence=f"unknown verifier_type: {verifier_type}",
+        )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc)
+        )

@@ -1,9 +1,9 @@
 """Records for CANONICAL_LOCAL_MODEL_ID_SELECTION_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 CANONICAL_LOCAL_MODEL_ID_SELECTION_STATUS_TOKENS = (
     "CANONICAL_LOCAL_MODEL_SELECTED",

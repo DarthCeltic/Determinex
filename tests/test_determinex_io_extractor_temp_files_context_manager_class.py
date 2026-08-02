@@ -36,6 +36,7 @@ _track_temp_files_path_vars (maps a local var assigned from `.path(name)` to tha
 literal basename, mirroring _track_local_scratch_vars's one-assignment-removed
 reasoning).
 """
+
 from __future__ import annotations
 
 import sys
@@ -46,7 +47,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_discover_temp_files_context_manager_classes_finds_enter_plus_create():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import tempfile
 import shutil
 from pathlib import Path
@@ -61,42 +62,42 @@ class TempFiles:
         pass
     def path(self, name):
         pass
-''')
+""")
     assert iox._discover_temp_files_context_manager_classes(tree) == {"TempFiles"}
 
 
 def test_discover_temp_files_context_manager_classes_ignores_unrelated_class():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 class Helper:
     def __enter__(self):
         return self
     def __exit__(self, *args):
         pass
-''')
+""")
     assert iox._discover_temp_files_context_manager_classes(tree) == set()
 
 
 def test_track_with_block_scratch_objects_finds_bound_variable():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def test_x():
     with TempFiles() as tf:
         pass
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     assert iox._track_with_block_scratch_objects(func, {"TempFiles"}) == {"tf"}
 
 
 def test_track_temp_files_path_vars_resolves_str_wrapped_assignment():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def test_x(tf):
     dst = str(tf.path("copy.tif"))
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     assert iox._track_temp_files_path_vars(func, {"tf"}) == {"dst": "copy.tif"}
 
 
 def test_extract_file_resolves_gdal_shaped_with_block_end_to_end(tmp_path):
-    src = '''
+    src = """
 import subprocess
 import os
 import tempfile
@@ -127,7 +128,7 @@ def test_dataset_copy():
         dst = str(tf.path("copy.tif"))
         result = run("dataset", "copy", BYTE_TIF, dst)
         assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

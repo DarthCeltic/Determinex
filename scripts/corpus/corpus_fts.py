@@ -32,6 +32,7 @@ callers keep the same best-effort contract corpus_embeddings.semantic_search() a
 Document universe is corpus_embeddings._entries() -- deliberately reused, not re-derived, so
 the key space is identical to the embeddings cache and the two can blend in hybrid_search().
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -193,10 +194,7 @@ def bm25_search(query: str, k: int = 10, auto_build: bool = True) -> list[dict[s
         return []
     # bm25() is negative, best = most negative. Flip, then scale by the best magnitude.
     best = max(abs(r[3]) for r in rows) or 1.0
-    return [
-        {"key": r[0], "topic": r[1], "snippet": r[2], "score": abs(r[3]) / best}
-        for r in rows
-    ]
+    return [{"key": r[0], "topic": r[1], "snippet": r[2], "score": abs(r[3]) / best} for r in rows]
 
 
 def stats() -> dict[str, Any]:

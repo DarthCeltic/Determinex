@@ -15,21 +15,27 @@ from corpus.programbench.official_artifact_security_decision_record import (  # 
     verify_official_artifact_security_decision_record,
 )
 
-
-RECHECK = Path("assurance/evidence/programbench_upstream_artifact_authority_recheck/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_COMPLETED.json")
+RECHECK = Path(
+    "assurance/evidence/programbench_upstream_artifact_authority_recheck/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_COMPLETED.json"
+)
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
 
 
 def _runner(tmp_path: Path):
     return ProgramBenchOfficialArtifactSecurityDecision(
-        OfficialArtifactSecurityDecisionConfig(root=_ROOT, output_dir=tmp_path / "security_decisions")
+        OfficialArtifactSecurityDecisionConfig(
+            root=_ROOT, output_dir=tmp_path / "security_decisions"
+        )
     )
 
 
 def test_security_decision_blocks_execution_when_scan_failed(tmp_path):
     record = _runner(tmp_path).decide(RECHECK)["record"]
-    assert record["decision"] == OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED.value
+    assert (
+        record["decision"]
+        == OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED.value
+    )
     assert record["security_findings"]["execution_security_policy"] == "BLOCKED_SCAN_FAILED"
     assert record["security_findings"]["scan_status"] == "CLEANROOM_IMAGE_SCAN_FAILED"
 
@@ -38,7 +44,10 @@ def test_security_decision_keeps_metadata_only_admission(tmp_path):
     record = _runner(tmp_path).decide(RECHECK)["record"]
     assert record["security_findings"]["official_artifact_metadata_only"] is True
     assert record["authorization"]["metadata_only_admitted"] is True
-    assert OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED.value in record["security_findings"]["decision_statuses"]
+    assert (
+        OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED.value
+        in record["security_findings"]["decision_statuses"]
+    )
 
 
 def test_security_decision_records_expected_doxygen_image_and_digest(tmp_path):
@@ -75,7 +84,10 @@ def test_security_decision_consumes_upstream_authority_recheck(tmp_path):
 
 def test_missing_recheck_blocks_security_decision(tmp_path):
     record = _runner(tmp_path).decide(tmp_path / "missing.json")["record"]
-    assert record["decision"] == OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK.value
+    assert (
+        record["decision"]
+        == OfficialArtifactSecurityDecisionStatus.OFFICIAL_ARTIFACT_SECURITY_DECISION_BLOCKED_NO_AUTHORITY_RECHECK.value
+    )
     assert record["authorization"]["docker_execution_authorized"] is False
 
 

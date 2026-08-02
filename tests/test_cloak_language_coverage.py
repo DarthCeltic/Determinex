@@ -29,6 +29,7 @@ actually_loadable is the standing guard against that gap reopening silently.
 Fixtures deliberately use zzq-prefixed names: nonsense to any safe-list, so anything surviving
 into the output is a genuine leak and not a stdlib/framework keep-list hit.
 """
+
 from __future__ import annotations
 
 import re
@@ -162,8 +163,7 @@ def _cloak(tmp_path: Path, language: str) -> tuple[str | None, list[str]]:
 # contract, while `res.status` and `JSON.parse` are untouched -- verified on a fixture that
 # contains both. strict=True is what surfaced the fix: closing the gap XPASSed and failed the
 # suite until this entry was removed, exactly as intended.
-_KNOWN_GAPS: dict[str, str] = {
-}
+_KNOWN_GAPS: dict[str, str] = {}
 
 
 def test_advertised_languages_are_actually_loadable():
@@ -187,7 +187,8 @@ def test_every_advertised_language_has_some_extraction_path():
     """A language with neither a working grammar nor a regex fallback extracts NOTHING, so
     obfuscation is an identity function and the file goes to the cloud API in plaintext."""
     uncovered = sorted(
-        lang for lang in TS_SUPPORTED_LANGUAGES
+        lang
+        for lang in TS_SUPPORTED_LANGUAGES
         if lang not in _AST_REAL and lang not in _LANG_DEF_PATTERNS
     )
     assert not uncovered, (
@@ -202,7 +203,9 @@ def test_every_advertised_language_has_some_extraction_path():
         pytest.param(
             lang,
             marks=pytest.mark.xfail(strict=True, reason=_KNOWN_GAPS[lang]),
-        ) if lang in _KNOWN_GAPS else lang
+        )
+        if lang in _KNOWN_GAPS
+        else lang
         for lang in sorted(CASES)
     ],
 )
@@ -264,7 +267,9 @@ def _force_zero_extraction(monkeypatch):
     return lx
 
 
-def test_uncovered_language_fails_closed_instead_of_passing_plaintext(tmp_path, _force_zero_extraction):
+def test_uncovered_language_fails_closed_instead_of_passing_plaintext(
+    tmp_path, _force_zero_extraction
+):
     """The guard added 2026-07-26 in _build_cloak_context_nonpython.
 
     Before it, a language with no extraction path produced an EMPTY symbol map, obfuscate_source
@@ -274,9 +279,7 @@ def test_uncovered_language_fails_closed_instead_of_passing_plaintext(tmp_path, 
     source ever reaches a cloud LLM API call', so extracting nothing from real source files must
     raise, not return.
     """
-    (tmp_path / "lib.rs").write_text(
-        "pub struct ZzqRec { pub zzq_field: i64 }\n", encoding="utf-8"
-    )
+    (tmp_path / "lib.rs").write_text("pub struct ZzqRec { pub zzq_field: i64 }\n", encoding="utf-8")
     with pytest.raises(CloakObfuscationError) as exc:
         _build_cloak_context_nonpython("t", tmp_path, "rust")
     assert "rust" in str(exc.value)
@@ -289,7 +292,9 @@ def test_empty_repo_does_not_trip_the_fail_closed_guard(tmp_path, _force_zero_ex
     assert ctx.symbol_map.forward == {}
 
 
-def test_degraded_opt_out_downgrades_the_refusal_to_a_warning(tmp_path, monkeypatch, _force_zero_extraction):
+def test_degraded_opt_out_downgrades_the_refusal_to_a_warning(
+    tmp_path, monkeypatch, _force_zero_extraction
+):
     """DETERMINEX_CLOAK_ALLOW_DEGRADED=1 is the operator's explicit accept-reduced-privacy
     switch, and it must keep working for the new guard exactly as it does for the import-time
     tree-sitter check -- otherwise the guard is unbypassable and would strand real runs."""
@@ -298,7 +303,7 @@ def test_degraded_opt_out_downgrades_the_refusal_to_a_warning(tmp_path, monkeypa
     monkeypatch.setattr(lx, "_ALLOW_DEGRADED", True)
     (tmp_path / "lib.rs").write_text("pub struct ZzqRec { pub zzq_field: i64 }\n", encoding="utf-8")
     ctx = lx._build_cloak_context_nonpython("t", tmp_path, "rust")
-    assert ctx.symbol_map.forward == {}   # proceeds, uncloaked, by explicit operator choice
+    assert ctx.symbol_map.forward == {}  # proceeds, uncloaked, by explicit operator choice
 
 
 # ─────────────────────────────────────────────────────────────────────────────

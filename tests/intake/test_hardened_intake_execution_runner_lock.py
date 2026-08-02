@@ -6,6 +6,7 @@ network, env scrubbing, timeout, missing tool), the migration of
 execution audit's before/after MUST_MIGRATE delta (10 -> 5), and that
 prior smoke fixtures still pass unchanged.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -32,29 +33,32 @@ LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-STATUS_TOKENS = frozenset({
-    "HARDENED_INTAKE_RUNNER_READY",
-    "COMMAND_EXECUTED_BOUNDED",
-    "COMMAND_BLOCKED_SHELL",
-    "COMMAND_BLOCKED_PATH_ESCAPE",
-    "COMMAND_BLOCKED_DOCKER",
-    "COMMAND_TIMEOUT_STRUCTURED",
-    "COMMAND_TOOL_MISSING_STRUCTURED",
-    "ENVIRONMENT_SCRUBBED",
-    "CODEBASE_EXPLORER_COMPAT_PRESERVED",
-    "BUILD_ADAPTER_COMPAT_PRESERVED",
-    "MUST_MIGRATE_COUNT_REDUCED",
-    "REPAIR_PIPELINES_DEFERRED",
-    "SOURCE_TREE_UNMUTATED",
-    "CORPUS_UNMUTATED",
-    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
-    "SAFETY_DEFAULTS_RESPECTED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "HARDENED_INTAKE_RUNNER_READY",
+        "COMMAND_EXECUTED_BOUNDED",
+        "COMMAND_BLOCKED_SHELL",
+        "COMMAND_BLOCKED_PATH_ESCAPE",
+        "COMMAND_BLOCKED_DOCKER",
+        "COMMAND_TIMEOUT_STRUCTURED",
+        "COMMAND_TOOL_MISSING_STRUCTURED",
+        "ENVIRONMENT_SCRUBBED",
+        "CODEBASE_EXPLORER_COMPAT_PRESERVED",
+        "BUILD_ADAPTER_COMPAT_PRESERVED",
+        "MUST_MIGRATE_COUNT_REDUCED",
+        "REPAIR_PIPELINES_DEFERRED",
+        "SOURCE_TREE_UNMUTATED",
+        "CORPUS_UNMUTATED",
+        "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+        "SAFETY_DEFAULTS_RESPECTED",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _sha256(p: Path) -> str | None:
     if not p.is_file():
@@ -83,6 +87,7 @@ def _has_tool(name: str) -> bool:
 # ---------------------------------------------------------------------------
 # Module sanity
 # ---------------------------------------------------------------------------
+
 
 def test_status_tokens_match_expected_set():
     expected = {
@@ -123,6 +128,7 @@ def test_hardened_runner_exposes_public_api():
 # COMMAND_EXECUTED_BOUNDED — happy path
 # ---------------------------------------------------------------------------
 
+
 def test_runs_python_version_successfully(tmp_path: Path):
     r = hr.run([sys.executable, "--version"], workspace=tmp_path, timeout=10)
     assert not r.blocked
@@ -137,15 +143,25 @@ def test_runs_python_version_successfully(tmp_path: Path):
 def test_run_result_has_required_fields(tmp_path: Path):
     r = hr.run([sys.executable, "-c", "print('ok')"], workspace=tmp_path, timeout=10)
     d = r.to_dict()
-    for key in ("command", "cwd", "exit_code", "stdout", "stderr",
-                "timed_out", "tool_missing", "blocked", "reason",
-                "scrubbed_env_vars"):
+    for key in (
+        "command",
+        "cwd",
+        "exit_code",
+        "stdout",
+        "stderr",
+        "timed_out",
+        "tool_missing",
+        "blocked",
+        "reason",
+        "scrubbed_env_vars",
+    ):
         assert key in d
 
 
 # ---------------------------------------------------------------------------
 # COMMAND_BLOCKED_SHELL — shell strings rejected, list-of-strings required
 # ---------------------------------------------------------------------------
+
 
 def test_shell_string_is_rejected(tmp_path: Path):
     r = hr.run("python --version", workspace=tmp_path, timeout=10)  # type: ignore[arg-type]
@@ -226,11 +242,14 @@ def test_bare_command_resolved_via_pathext_before_spawn(monkeypatch, tmp_path: P
 # COMMAND_BLOCKED_PATH_ESCAPE — cwd must stay inside workspace
 # ---------------------------------------------------------------------------
 
+
 def test_cwd_outside_workspace_is_rejected(tmp_path: Path):
     outside = tmp_path.parent  # one directory up
     r = hr.run(
         [sys.executable, "--version"],
-        workspace=tmp_path, timeout=10, cwd=outside,
+        workspace=tmp_path,
+        timeout=10,
+        cwd=outside,
     )
     assert r.blocked
     assert "workspace" in r.reason.lower()
@@ -243,7 +262,9 @@ def test_path_traversal_cwd_is_rejected(tmp_path: Path):
     escape = nested / ".." / ".." / ".."
     r = hr.run(
         [sys.executable, "--version"],
-        workspace=tmp_path, timeout=10, cwd=escape,
+        workspace=tmp_path,
+        timeout=10,
+        cwd=escape,
     )
     assert r.blocked
     assert "workspace" in r.reason.lower()
@@ -254,7 +275,9 @@ def test_cwd_inside_workspace_is_accepted(tmp_path: Path):
     nested.mkdir()
     r = hr.run(
         [sys.executable, "--version"],
-        workspace=tmp_path, timeout=10, cwd=nested,
+        workspace=tmp_path,
+        timeout=10,
+        cwd=nested,
     )
     assert not r.blocked
 
@@ -269,10 +292,19 @@ def test_workspace_must_exist(tmp_path: Path):
 # COMMAND_BLOCKED_DOCKER — container runtimes refused by default
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("argv0", [
-    "docker", "docker.exe", "docker-compose", "podman", "buildah",
-    "kubectl", "helm",
-])
+
+@pytest.mark.parametrize(
+    "argv0",
+    [
+        "docker",
+        "docker.exe",
+        "docker-compose",
+        "podman",
+        "buildah",
+        "kubectl",
+        "helm",
+    ],
+)
 def test_docker_family_blocked_by_default(tmp_path: Path, argv0: str):
     r = hr.run([argv0, "ps"], workspace=tmp_path, timeout=10)
     assert r.blocked
@@ -291,7 +323,9 @@ def test_allow_docker_opt_in_lets_docker_through_validation(tmp_path: Path):
     this proves the guard distinguishes refusal from execution."""
     r = hr.run(
         ["docker_fake_xyz_unlikely", "ps"],
-        workspace=tmp_path, timeout=10, allow_docker=True,
+        workspace=tmp_path,
+        timeout=10,
+        allow_docker=True,
     )
     # Either tool_missing (most envs) or some other non-blocked outcome —
     # the key is the guard did NOT classify it as blocked-by-default.
@@ -301,6 +335,7 @@ def test_allow_docker_opt_in_lets_docker_through_validation(tmp_path: Path):
 # ---------------------------------------------------------------------------
 # Network commands blocked by default
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.parametrize("argv0", ["curl", "wget", "ncat", "netcat"])
 def test_network_programs_blocked_by_default(tmp_path: Path, argv0: str):
@@ -313,10 +348,12 @@ def test_network_programs_blocked_by_default(tmp_path: Path, argv0: str):
 # COMMAND_TIMEOUT_STRUCTURED + COMMAND_TOOL_MISSING_STRUCTURED
 # ---------------------------------------------------------------------------
 
+
 def test_timeout_returns_structured_timed_out(tmp_path: Path):
     r = hr.run(
         [sys.executable, "-c", "import time; time.sleep(10)"],
-        workspace=tmp_path, timeout=1,
+        workspace=tmp_path,
+        timeout=1,
     )
     assert r.timed_out is True
     assert r.blocked is False
@@ -334,7 +371,8 @@ def test_zero_or_negative_timeout_is_rejected(tmp_path: Path):
 def test_missing_tool_returns_structured_tool_missing(tmp_path: Path):
     r = hr.run(
         ["__not_a_real_binary_xyz12345__"],
-        workspace=tmp_path, timeout=5,
+        workspace=tmp_path,
+        timeout=5,
     )
     assert r.tool_missing is True
     assert r.blocked is False
@@ -344,6 +382,7 @@ def test_missing_tool_returns_structured_tool_missing(tmp_path: Path):
 # ---------------------------------------------------------------------------
 # ENVIRONMENT_SCRUBBED — code-injection vectors stripped
 # ---------------------------------------------------------------------------
+
 
 def test_scrub_env_strips_blocked_vars(monkeypatch):
     monkeypatch.setenv("LD_PRELOAD", "/evil.so")
@@ -372,7 +411,8 @@ def test_child_process_does_not_see_ld_preload(monkeypatch, tmp_path: Path):
     monkeypatch.setenv("LD_PRELOAD", "/this/should/be/stripped.so")
     r = hr.run(
         [sys.executable, "-c", "import os; print(os.environ.get('LD_PRELOAD', '__ABSENT__'))"],
-        workspace=tmp_path, timeout=10,
+        workspace=tmp_path,
+        timeout=10,
     )
     assert r.exit_code == 0, r.stderr
     assert "__ABSENT__" in r.stdout
@@ -383,25 +423,29 @@ def test_child_process_does_not_see_ld_preload(monkeypatch, tmp_path: Path):
 # Migration: BuildAdapter._run routes through hardened runner
 # ---------------------------------------------------------------------------
 
+
 def test_build_adapters_imports_hardened_runner():
     """build_adapters.py MUST import the hardened runner — proves the
     migration source-level wiring is in place."""
-    src = (_REPO_ROOT / "scripts" / "intake" / "build_adapters.py").read_text(
-        encoding="utf-8"
-    )
-    assert "from intake.hardened_runner import" in src or \
-           "import intake.hardened_runner" in src
+    src = (_REPO_ROOT / "scripts" / "intake" / "build_adapters.py").read_text(encoding="utf-8")
+    assert "from intake.hardened_runner import" in src or "import intake.hardened_runner" in src
 
 
 def test_build_adapter_run_blocks_when_runner_blocks(monkeypatch, tmp_path: Path):
     """If hardened_runner returns blocked=True, BuildAdapter._run translates
     to ShadowBuildResult(ran=False, success=False)."""
+
     def _fake_run(cmd, *, workspace, timeout, **kwargs):
         return hr.RunResult(
-            command=list(cmd), cwd=str(workspace),
-            exit_code=-1, stdout="", stderr="blocked-for-test",
-            blocked=True, reason="blocked-for-test",
+            command=list(cmd),
+            cwd=str(workspace),
+            exit_code=-1,
+            stdout="",
+            stderr="blocked-for-test",
+            blocked=True,
+            reason="blocked-for-test",
         )
+
     monkeypatch.setattr(adapters_mod, "_hardened_run", _fake_run)
     out = adapters_mod._run(["echo", "x"], tmp_path, 5)
     assert out.ran is False
@@ -412,10 +456,15 @@ def test_build_adapter_run_blocks_when_runner_blocks(monkeypatch, tmp_path: Path
 def test_build_adapter_run_propagates_tool_missing(monkeypatch, tmp_path: Path):
     def _fake_run(cmd, *, workspace, timeout, **kwargs):
         return hr.RunResult(
-            command=list(cmd), cwd=str(workspace),
-            exit_code=-2, stdout="", stderr="tool not found: x",
-            tool_missing=True, reason="tool not found",
+            command=list(cmd),
+            cwd=str(workspace),
+            exit_code=-2,
+            stdout="",
+            stderr="tool not found: x",
+            tool_missing=True,
+            reason="tool not found",
         )
+
     monkeypatch.setattr(adapters_mod, "_hardened_run", _fake_run)
     out = adapters_mod._run(["x"], tmp_path, 5)
     assert out.tool_missing is True
@@ -425,10 +474,15 @@ def test_build_adapter_run_propagates_tool_missing(monkeypatch, tmp_path: Path):
 def test_build_adapter_run_propagates_timeout(monkeypatch, tmp_path: Path):
     def _fake_run(cmd, *, workspace, timeout, **kwargs):
         return hr.RunResult(
-            command=list(cmd), cwd=str(workspace),
-            exit_code=-3, stdout="", stderr="timed out",
-            timed_out=True, reason="timed out",
+            command=list(cmd),
+            cwd=str(workspace),
+            exit_code=-3,
+            stdout="",
+            stderr="timed out",
+            timed_out=True,
+            reason="timed out",
         )
+
     monkeypatch.setattr(adapters_mod, "_hardened_run", _fake_run)
     out = adapters_mod._run(["x"], tmp_path, 5)
     assert out.timed_out is True
@@ -450,6 +504,7 @@ def test_python_adapter_run_shadow_build_still_returns_ran_true(tmp_path: Path):
 # Migration: ShadowCompiler routes through hardened runner
 # ---------------------------------------------------------------------------
 
+
 def test_codebase_explorer_imports_hardened_runner_in_shadow_compiler():
     src = (_REPO_ROOT / "scripts" / "codebase_explorer.py").read_text(encoding="utf-8")
     assert "from intake.hardened_runner import run as _hardened_run" in src
@@ -467,6 +522,7 @@ def test_codebase_explorer_explore_still_works_on_python_fixture(tmp_path: Path)
         workspace = tmp_path / "py"
         shutil.copytree(FIXTURES / "python_broken", workspace)
         from codebase_explorer import CodebaseExplorer
+
         rep = CodebaseExplorer(workspace).explore()
         assert rep.build_system == "pip"
         assert rep.test_framework == "pytest"
@@ -483,6 +539,7 @@ def test_codebase_explorer_explore_still_works_on_python_fixture(tmp_path: Path)
 # Parallel audit before/after — MUST_MIGRATE delta is the headline
 # ---------------------------------------------------------------------------
 
+
 def test_parallel_audit_no_must_migrate_in_intake_or_codebase_explorer():
     """Rung-5 invariant: scripts/intake/build_adapters.py and
     scripts/codebase_explorer.py must have ZERO MUST_MIGRATE sites
@@ -493,9 +550,11 @@ def test_parallel_audit_no_must_migrate_in_intake_or_codebase_explorer():
     audit_mod = importlib.import_module("scripts.dev.parallel_execution_layer_audit")
     rpt = audit_mod.run_audit()
     rung5_must_migrate = [
-        s for s in rpt.sites
+        s
+        for s in rpt.sites
         if s.classification == "MUST_MIGRATE_TO_HARDENED_RUNNER"
-        and s.file_path in {
+        and s.file_path
+        in {
             "scripts/intake/build_adapters.py",
             "scripts/codebase_explorer.py",
         }
@@ -509,8 +568,7 @@ def test_parallel_audit_no_must_migrate_in_intake_or_codebase_explorer():
 def test_parallel_audit_hardened_runner_is_classified_hardened():
     audit_mod = importlib.import_module("scripts.dev.parallel_execution_layer_audit")
     rpt = audit_mod.run_audit()
-    matches = [s for s in rpt.sites
-               if s.file_path == "scripts/intake/hardened_runner.py"]
+    matches = [s for s in rpt.sites if s.file_path == "scripts/intake/hardened_runner.py"]
     assert len(matches) >= 1
     for s in matches:
         assert s.classification == "HARDENED_COMPILER_PATH"
@@ -520,10 +578,13 @@ def test_parallel_audit_hardened_runner_is_classified_hardened():
 # Cross-cutting safety
 # ---------------------------------------------------------------------------
 
+
 def test_corpus_write_guard_active():
     from corpus.corpus_manager import (  # type: ignore[attr-defined]
-        _assert_writes_allowed, CorpusWriteBlockedError,
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
     )
+
     os.environ["DETERMINEX_NO_CORPUS_WRITE"] = "1"
     try:
         with pytest.raises(CorpusWriteBlockedError):
@@ -534,6 +595,7 @@ def test_corpus_write_guard_active():
 
 def test_safety_defaults_remain_fail_closed():
     from determinex_settings import DeterminexSettings, reset_settings
+
     reset_settings()
     s = DeterminexSettings()
     assert s.assert_safety_defaults() == []
@@ -560,10 +622,7 @@ def test_hardened_runner_does_not_mutate_signed_evidence(tmp_path: Path):
 # Lock manifest alignment
 # ---------------------------------------------------------------------------
 
-_LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001.json"
-)
+_LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001.json"
 
 
 def test_lock_manifest_exists():

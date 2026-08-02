@@ -19,6 +19,7 @@ so it is dropped, never trained on.
 See docs/fleet/ for the protocol spec, contributor terms, privacy policy, and the
 HF + Cloudflare hosting setup checklist.
 """
+
 from __future__ import annotations
 
 PROTOCOL_VERSION = 1

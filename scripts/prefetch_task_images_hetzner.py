@@ -3,9 +3,9 @@
 
 Run this locally — it SSHes into Hetzner and runs docker pull for each missing image.
 """
-import subprocess
-import sys
+
 import json
+import subprocess
 import time
 
 REMOTE = "root@5.78.192.163"
@@ -13,14 +13,34 @@ SSH_KEY = str(__import__("pathlib").Path.home() / ".ssh" / "id_citadel")
 ROOT = __import__("pathlib").Path(__file__).resolve().parent.parent
 EVAL_INDEX = ROOT / "corpus" / "programbench" / "eval_index.json"
 
-TERMINAL = {"strict_lock", "locked", "ceiling_certified", "ceiling_confirmed", "impossible_ceiling", "alias"}
+TERMINAL = {
+    "strict_lock",
+    "locked",
+    "ceiling_certified",
+    "ceiling_confirmed",
+    "impossible_ceiling",
+    "alias",
+}
 
 
 def ssh(cmd: str, timeout: int = 30) -> str:
     r = subprocess.run(
-        ["ssh", "-i", SSH_KEY, "-o", "StrictHostKeyChecking=no",
-         "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", REMOTE, cmd],
-        capture_output=True, text=True, timeout=timeout
+        [
+            "ssh",
+            "-i",
+            SSH_KEY,
+            "-o",
+            "StrictHostKeyChecking=no",
+            "-o",
+            "BatchMode=yes",
+            "-o",
+            "ConnectTimeout=15",
+            REMOTE,
+            cmd,
+        ],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
     )
     return r.stdout
 
@@ -39,7 +59,7 @@ def slug_to_image(slug: str) -> str:
 def main():
     print("[prefetch] Loading eval_index...", flush=True)
     rows = json.loads(EVAL_INDEX.read_bytes())
-    
+
     slugs = [r["slug"] for r in rows if r.get("status") not in TERMINAL and r.get("slug")]
     print(f"[prefetch] {len(slugs)} non-terminal tools", flush=True)
 
@@ -61,17 +81,20 @@ def main():
     ok = 0
     fail = 0
     for i, (slug, img) in enumerate(missing):
-        print(f"\n[prefetch] {i+1}/{len(missing)}: {img}", flush=True)
+        print(f"\n[prefetch] {i + 1}/{len(missing)}: {img}", flush=True)
         # Fire background pull on Hetzner (non-blocking, each pull runs in background)
         cmd = f"nohup docker pull {img} >> /root/pb_image_pull.log 2>&1 &"
         ssh(cmd, timeout=15)
-        print(f"  [queued on Hetzner]", flush=True)
+        print("  [queued on Hetzner]", flush=True)
         ok += 1
         # Stagger slightly to avoid hammering the registry
         time.sleep(0.3)
 
     print(f"\n[prefetch] Done queuing. {ok} pulls fired on Hetzner.", flush=True)
-    print("[prefetch] Monitor with: ssh root@5.78.192.163 'tail -f /root/pb_image_pull.log'", flush=True)
+    print(
+        "[prefetch] Monitor with: ssh root@5.78.192.163 'tail -f /root/pb_image_pull.log'",
+        flush=True,
+    )
 
 
 if __name__ == "__main__":

@@ -42,6 +42,7 @@ Hard rules enforced:
     - Never runs the official eval directly - only via pb_candidate_gate.py
       inside the worker loop (and only in --execute).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -53,7 +54,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 FACTORY_DIR = ROOT / "logs" / "programbench_factory"
 NIGHTLY_DIR = FACTORY_DIR / "nightly"
@@ -62,26 +62,30 @@ BOARD_JSON = ROOT / "logs" / "programbench_lock_board.json"
 REGISTRY_JSONL = FACTORY_DIR / "accepted_runs.jsonl"
 
 SCRIPTS = {
-    "audit":    ROOT / "scripts" / "pb_score_audit.py",
+    "audit": ROOT / "scripts" / "pb_score_audit.py",
     "dispatch": ROOT / "scripts" / "pb_factory_dispatch.py",
-    "worker":   ROOT / "scripts" / "pb_factory_worker_loop.py",
+    "worker": ROOT / "scripts" / "pb_factory_worker_loop.py",
 }
 
 
 def _utc_now() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    return datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds")
 
 
 def _utc_tag() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
 def _git_head() -> str:
     try:
         p = subprocess.run(
             ["git", "rev-parse", "HEAD"],
-            cwd=str(ROOT), capture_output=True, text=True,
-            encoding="utf-8", errors="replace", timeout=10,
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=10,
         )
         if p.returncode == 0:
             return p.stdout.strip()
@@ -95,8 +99,12 @@ def _git_dirty() -> list[str]:
     try:
         p = subprocess.run(
             ["git", "status", "--porcelain"],
-            cwd=str(ROOT), capture_output=True, text=True,
-            encoding="utf-8", errors="replace", timeout=20,
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=20,
         )
     except Exception:
         return []
@@ -130,23 +138,39 @@ def _run(cmd: list[str], timeout: int = 600) -> dict[str, Any]:
     env.setdefault("PYTHONUTF8", "1")
     try:
         p = subprocess.run(
-            cmd, cwd=str(ROOT),
-            capture_output=True, text=True,
-            encoding="utf-8", errors="replace",
-            env=env, timeout=timeout,
+            cmd,
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=env,
+            timeout=timeout,
         )
         return {
-            "cmd": cmd, "started": started, "finished": _utc_now(),
+            "cmd": cmd,
+            "started": started,
+            "finished": _utc_now(),
             "returncode": p.returncode,
             "stdout_tail": (p.stdout or "")[-3000:],
             "stderr_tail": (p.stderr or "")[-3000:],
         }
     except subprocess.TimeoutExpired:
-        return {"cmd": cmd, "started": started, "finished": _utc_now(),
-                "returncode": -1, "error": f"timeout after {timeout}s"}
+        return {
+            "cmd": cmd,
+            "started": started,
+            "finished": _utc_now(),
+            "returncode": -1,
+            "error": f"timeout after {timeout}s",
+        }
     except Exception as e:
-        return {"cmd": cmd, "started": started, "finished": _utc_now(),
-                "returncode": -1, "error": f"{type(e).__name__}: {e}"}
+        return {
+            "cmd": cmd,
+            "started": started,
+            "finished": _utc_now(),
+            "returncode": -1,
+            "error": f"{type(e).__name__}: {e}",
+        }
 
 
 def _read_queue() -> list[dict[str, Any]]:
@@ -190,11 +214,11 @@ def write_nightly_artifacts(tag: str, payload: dict[str, Any]) -> tuple[Path, Pa
 
     # Markdown report
     lines: list[str] = []
-    lines.append(f"# Nightly factory run report")
+    lines.append("# Nightly factory run report")
     lines.append("")
     lines.append(f"- Timestamp: `{payload.get('timestamp')}`")
     lines.append(f"- Mode: **{'dry-run' if payload.get('dry_run') else 'execute'}**")
-    lines.append(f"- git HEAD: `{payload.get('git_head','')}`")
+    lines.append(f"- git HEAD: `{payload.get('git_head', '')}`")
     lines.append(f"- Dirty files at start: {len(payload.get('git_dirty_before') or [])}")
     lines.append(f"- Registry rows before: {payload.get('registry_rows_before')}")
     lines.append(f"- Registry rows after:  {payload.get('registry_rows_after')}")
@@ -227,7 +251,9 @@ def write_nightly_artifacts(tag: str, payload: dict[str, Any]) -> tuple[Path, Pa
             brt = q.get("best_runnable_total")
             bs = q.get("best_score")
             bs_disp = f"{bs:.2f}" if isinstance(bs, (int, float)) else "n/a"
-            lines.append(f"| {i} | `{q.get('slug')}` | {q.get('next_action')} | {bs_disp} | {bp}/{brt} |")
+            lines.append(
+                f"| {i} | `{q.get('slug')}` | {q.get('next_action')} | {bs_disp} | {bp}/{brt} |"
+            )
     lines.append("")
     lines.append("## Per-slug results")
     lines.append("")
@@ -257,32 +283,55 @@ def write_nightly_artifacts(tag: str, payload: dict[str, Any]) -> tuple[Path, Pa
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--top", type=int, default=3,
-                    help="how many queue slots to process (default 3)")
-    ap.add_argument("--max-attempts", type=int, default=2,
-                    help="per-slug worker loop attempt budget (default 2)")
-    ap.add_argument("--model-cmd", default=None,
-                    help="shell command for the model. Required for --execute.")
-    ap.add_argument("--execute", action="store_true",
-                    help="actually invoke the chain. Default is dry-run.")
-    ap.add_argument("--dry-run", action="store_true", default=False,
-                    help="explicit dry-run (default if --execute is absent)")
-    ap.add_argument("--allow-dirty", action="store_true",
-                    help="permit --execute even when git has dirty files")
-    ap.add_argument("--stop-on-accept", action="store_true",
-                    help="stop the nightly after first worker that exits 0")
-    ap.add_argument("--stop-on-error", action="store_true",
-                    help="stop after first worker exits 2 or 3 (infra failure)")
-    ap.add_argument("--slug", default=None,
-                    help="bypass dispatch; run a single slug")
-    ap.add_argument("--include-recovery", action="store_true",
-                    help="pass --include-recovery to the dispatcher")
-    ap.add_argument("--refresh-board", action="store_true",
-                    help="pass --refresh-board to each worker invocation")
-    ap.add_argument("--refresh-rag", action="store_true",
-                    help="pass --refresh-rag to each worker invocation")
-    ap.add_argument("--python", default=sys.executable,
-                    help="Python interpreter for sub-script invocations")
+    ap.add_argument(
+        "--top", type=int, default=3, help="how many queue slots to process (default 3)"
+    )
+    ap.add_argument(
+        "--max-attempts",
+        type=int,
+        default=2,
+        help="per-slug worker loop attempt budget (default 2)",
+    )
+    ap.add_argument(
+        "--model-cmd", default=None, help="shell command for the model. Required for --execute."
+    )
+    ap.add_argument(
+        "--execute", action="store_true", help="actually invoke the chain. Default is dry-run."
+    )
+    ap.add_argument(
+        "--dry-run",
+        action="store_true",
+        default=False,
+        help="explicit dry-run (default if --execute is absent)",
+    )
+    ap.add_argument(
+        "--allow-dirty", action="store_true", help="permit --execute even when git has dirty files"
+    )
+    ap.add_argument(
+        "--stop-on-accept",
+        action="store_true",
+        help="stop the nightly after first worker that exits 0",
+    )
+    ap.add_argument(
+        "--stop-on-error",
+        action="store_true",
+        help="stop after first worker exits 2 or 3 (infra failure)",
+    )
+    ap.add_argument("--slug", default=None, help="bypass dispatch; run a single slug")
+    ap.add_argument(
+        "--include-recovery", action="store_true", help="pass --include-recovery to the dispatcher"
+    )
+    ap.add_argument(
+        "--refresh-board",
+        action="store_true",
+        help="pass --refresh-board to each worker invocation",
+    )
+    ap.add_argument(
+        "--refresh-rag", action="store_true", help="pass --refresh-rag to each worker invocation"
+    )
+    ap.add_argument(
+        "--python", default=sys.executable, help="Python interpreter for sub-script invocations"
+    )
     args = ap.parse_args()
 
     dry_run = (not args.execute) or args.dry_run
@@ -334,7 +383,7 @@ def main() -> int:
     if args.execute and not args.model_cmd:
         payload["exit_code"] = 3
         payload["error"] = "--execute requires --model-cmd"
-        payload["next_safe_action"] = "Pass --model-cmd \"<shell command>\" or remove --execute."
+        payload["next_safe_action"] = 'Pass --model-cmd "<shell command>" or remove --execute.'
         write_nightly_artifacts(tag, payload)
         sys.stderr.write("ERROR: --execute requires --model-cmd\n")
         return 3
@@ -365,10 +414,13 @@ def main() -> int:
             write_nightly_artifacts(tag, payload)
             return 2
     else:
-        payload["preflight"].append({
-            "step": "score_audit", "skipped": True,
-            "reason": "dry-run: would rewrite logs/programbench_lock_board.json",
-        })
+        payload["preflight"].append(
+            {
+                "step": "score_audit",
+                "skipped": True,
+                "reason": "dry-run: would rewrite logs/programbench_lock_board.json",
+            }
+        )
 
     # Step 2: dispatch (or skip if --slug)
     if args.slug:
@@ -377,26 +429,38 @@ def main() -> int:
         if row is None:
             payload["exit_code"] = 3
             payload["error"] = f"slug not found in board: {args.slug}"
-            payload["next_safe_action"] = "Run scripts\\pb_score_audit.py to refresh the board first."
+            payload["next_safe_action"] = (
+                "Run scripts\\pb_score_audit.py to refresh the board first."
+            )
             write_nightly_artifacts(tag, payload)
             return 3
-        queue = [{
-            "slug": row.get("slug"),
-            "base_slug": row.get("base_slug"),
-            "next_action": row.get("next_action"),
-            "best_score": row.get("best_score"),
-            "best_passed": row.get("best_passed"),
-            "best_runnable_total": row.get("best_runnable_total"),
-            "best_eval_path": row.get("best_eval_path"),
-        }]
-        payload["preflight"].append({
-            "step": "dispatch", "skipped": True,
-            "reason": f"--slug={args.slug} bypassed dispatch",
-        })
+        queue = [
+            {
+                "slug": row.get("slug"),
+                "base_slug": row.get("base_slug"),
+                "next_action": row.get("next_action"),
+                "best_score": row.get("best_score"),
+                "best_passed": row.get("best_passed"),
+                "best_runnable_total": row.get("best_runnable_total"),
+                "best_eval_path": row.get("best_eval_path"),
+            }
+        ]
+        payload["preflight"].append(
+            {
+                "step": "dispatch",
+                "skipped": True,
+                "reason": f"--slug={args.slug} bypassed dispatch",
+            }
+        )
     else:
-        dispatch_cmd = [args.python, str(SCRIPTS["dispatch"]),
-                        "--top", str(args.top),
-                        "--python", args.python]
+        dispatch_cmd = [
+            args.python,
+            str(SCRIPTS["dispatch"]),
+            "--top",
+            str(args.top),
+            "--python",
+            args.python,
+        ]
         if args.include_recovery:
             dispatch_cmd.append("--include-recovery")
         if dry_run:
@@ -423,7 +487,7 @@ def main() -> int:
 
     # ===== Per-slug worker loops =====
 
-    final_exit = 0       # 0/1/2 - promoted as we go
+    final_exit = 0  # 0/1/2 - promoted as we go
     accepted_count = 0
     rejected_count = 0
     error_count = 0
@@ -434,9 +498,15 @@ def main() -> int:
         if not slug:
             continue
 
-        worker_cmd = [args.python, str(SCRIPTS["worker"]), slug,
-                      "--max-attempts", str(args.max_attempts),
-                      "--python", args.python]
+        worker_cmd = [
+            args.python,
+            str(SCRIPTS["worker"]),
+            slug,
+            "--max-attempts",
+            str(args.max_attempts),
+            "--python",
+            args.python,
+        ]
         if args.model_cmd:
             worker_cmd += ["--model-cmd", args.model_cmd]
         if args.refresh_board:
@@ -458,9 +528,13 @@ def main() -> int:
 
         rc = rec.get("returncode")
         if rc == 0:
-            disposition = "accepted" if (worker_result and worker_result.get("final_disposition") == "accepted") \
-                else "dry-run-complete" if (worker_result and worker_result.get("final_disposition") == "dry-run-complete") \
+            disposition = (
+                "accepted"
+                if (worker_result and worker_result.get("final_disposition") == "accepted")
+                else "dry-run-complete"
+                if (worker_result and worker_result.get("final_disposition") == "dry-run-complete")
                 else "ok"
+            )
             if disposition == "accepted":
                 accepted_count += 1
         elif rc == 1:
@@ -476,14 +550,16 @@ def main() -> int:
             error_count += 1
             final_exit = 2
 
-        payload["per_slug"].append({
-            "slug": slug,
-            "returncode": rc,
-            "disposition": disposition,
-            "worker_result": worker_result,
-            "cmd": rec.get("cmd"),
-            "stderr_tail": (rec.get("stderr_tail") or "")[-2000:],
-        })
+        payload["per_slug"].append(
+            {
+                "slug": slug,
+                "returncode": rc,
+                "disposition": disposition,
+                "worker_result": worker_result,
+                "cmd": rec.get("cmd"),
+                "stderr_tail": (rec.get("stderr_tail") or "")[-2000:],
+            }
+        )
 
         # Stop controls
         if args.stop_on_accept and rc == 0:
@@ -533,18 +609,23 @@ def main() -> int:
     json_path, md_path = write_nightly_artifacts(tag, payload)
 
     # Console summary
-    print(json.dumps({
-        "tag": tag,
-        "dry_run": dry_run,
-        "queue_size": len(queue),
-        "accepted": accepted_count,
-        "rejected": rejected_count,
-        "errors": error_count,
-        "stopped_reason": stopped_reason,
-        "exit_code": final_exit,
-        "result_json": str(json_path),
-        "report_md": str(md_path),
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "tag": tag,
+                "dry_run": dry_run,
+                "queue_size": len(queue),
+                "accepted": accepted_count,
+                "rejected": rejected_count,
+                "errors": error_count,
+                "stopped_reason": stopped_reason,
+                "exit_code": final_exit,
+                "result_json": str(json_path),
+                "report_md": str(md_path),
+            },
+            indent=2,
+        )
+    )
 
     return final_exit
 

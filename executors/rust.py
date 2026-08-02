@@ -27,21 +27,24 @@ Build cost on Tier-0 hardware:
   the per-instance CARGO_HOME isolation prevents N×N lock contention when
   evaluating multiple tools in parallel.
 """
+
 from __future__ import annotations
 
 import os
 import shutil
 import subprocess
-import sys
 import time
 from pathlib import Path
 
 from .base import (
-    Executor, ExecutorError,
-    ProbeResult, ScaffoldResult, BuildResult, EvalResult,
+    BuildResult,
+    EvalResult,
+    Executor,
+    ExecutorError,
+    ProbeResult,
+    ScaffoldResult,
 )
 from .python import PythonExecutor, _derive_tool_name  # reuse probe + helpers
-
 
 # ---------------------------------------------------------------------------
 # Cargo.toml template
@@ -75,7 +78,7 @@ clap = {{ version = "4", features = ["derive"] }}
 # stdin / file behavior.
 # ---------------------------------------------------------------------------
 
-_MAIN_RS = '''//! {tool_name} — Determinex mass-run Rust scaffold.
+_MAIN_RS = """//! {tool_name} — Determinex mass-run Rust scaffold.
 //!
 //! Bakes in the 8 universal CLI patterns: invalid, multiple, help, empty,
 //! no-*, unknown, version, missing. Tool-specific behavior is the iteration
@@ -203,7 +206,7 @@ fn atty_stdin() -> bool {{
     use std::io::IsTerminal;
     io::stdin().is_terminal()
 }}
-'''
+"""
 
 
 # ---------------------------------------------------------------------------
@@ -240,8 +243,10 @@ chmod +x ./executable
 # Executor
 # ---------------------------------------------------------------------------
 
+
 class RustExecutor(Executor):
     """Concrete Rust language executor."""
+
     family: str = "rust"
     file_ext: str = ".rs"
     executable_name: str = "executable"
@@ -340,16 +345,13 @@ class RustExecutor(Executor):
         proc = subprocess.run(
             ["bash", "./compile.sh"],
             cwd=str(source),
-            capture_output=True, text=True,
-            timeout=600,    # 10 min for cold cargo compile
+            capture_output=True,
+            text=True,
+            timeout=600,  # 10 min for cold cargo compile
         )
         elapsed = time.time() - t0
         executable = source / self.executable_name
-        ok = (
-            proc.returncode == 0
-            and executable.is_file()
-            and not executable.is_symlink()
-        )
+        ok = proc.returncode == 0 and executable.is_file() and not executable.is_symlink()
         if not ok and executable.is_symlink():
             raise ExecutorError(
                 f"build: {executable} is a symlink — programbench moves it to /opt "
@@ -376,15 +378,21 @@ class RustExecutor(Executor):
 # CLI — one-shot end-to-end run for a single tool (mirrors python.py)
 # ---------------------------------------------------------------------------
 
+
 def _cli() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Rust executor — run one tool through all 7 phases")
     ap.add_argument("instance_id", help="e.g. burntsushi__ripgrep.3b7fd44")
     ap.add_argument("--work-dir", type=Path, default=None)
-    ap.add_argument("--skip-eval", action="store_true",
-                    help="skip the official eval (useful for scaffold+build smoke)")
-    ap.add_argument("--skip-build", action="store_true",
-                    help="skip the cargo build (scaffold-only smoke)")
+    ap.add_argument(
+        "--skip-eval",
+        action="store_true",
+        help="skip the official eval (useful for scaffold+build smoke)",
+    )
+    ap.add_argument(
+        "--skip-build", action="store_true", help="skip the cargo build (scaffold-only smoke)"
+    )
     args = ap.parse_args()
 
     work_dir = args.work_dir or Path(
@@ -407,14 +415,14 @@ def _cli() -> int:
         print("=== skipping build (--skip-build) ===")
         return 0
 
-    print(f"=== build (this may take 90-180s cold) ===")
+    print("=== build (this may take 90-180s cold) ===")
     b = ex.build(work_dir)
     print(f"  ok={b.ok}  elapsed={b.elapsed_seconds}s  exec={b.executable_path}")
     if not b.ok:
         print(f"  stderr: {b.stderr[:400]}")
         return 1
 
-    print(f"=== pack ===")
+    print("=== pack ===")
     p = ex.pack(work_dir)
     print(f"  submission: {p.submission_path}  ({p.n_files} files)")
 
@@ -422,7 +430,7 @@ def _cli() -> int:
         print("=== skipping eval (--skip-eval) ===")
         return 0
 
-    print(f"=== eval ===")
+    print("=== eval ===")
     e = ex.eval(work_dir, args.instance_id)
     if e.error:
         print(f"  ERROR: {e.error}")

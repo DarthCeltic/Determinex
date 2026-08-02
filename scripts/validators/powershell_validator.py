@@ -80,7 +80,9 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
 
         result = subprocess.run(
             [pwsh, "-NoProfile", "-NonInteractive", "-File", parser_script, "-Path", script_path],
-            capture_output=True, text=True, timeout=15,
+            capture_output=True,
+            text=True,
+            timeout=15,
         )
         if result.returncode != 0:
             try:
@@ -93,7 +95,10 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
                     f"{first.get('Column', '?')} — {first.get('Message', 'unknown')}"
                 )
             except (json.JSONDecodeError, IndexError):
-                return False, f"PowerShell parse failed: {(result.stdout or result.stderr).strip()[:200]}"
+                return (
+                    False,
+                    f"PowerShell parse failed: {(result.stdout or result.stderr).strip()[:200]}",
+                )
 
         if task_meta.get("skip_analyzer"):
             return True, "parse passed (analyzer skipped)"
@@ -106,7 +111,9 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
         )
         analyzer = subprocess.run(
             [pwsh, "-NoProfile", "-NonInteractive", "-Command", analyzer_cmd],
-            capture_output=True, text=True, timeout=20,
+            capture_output=True,
+            text=True,
+            timeout=20,
         )
         if not analyzer.stdout.strip():
             return True, "parse passed (PSScriptAnalyzer unavailable)"

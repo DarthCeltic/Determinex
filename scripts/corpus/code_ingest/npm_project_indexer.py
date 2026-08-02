@@ -4,6 +4,7 @@ TypeScript/JavaScript npm project indexer.
 Detects package-manager layout, TypeScript config, test tools, frontend
 framework hints, source directories, and package metadata without running npm.
 """
+
 from __future__ import annotations
 
 import json

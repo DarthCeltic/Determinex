@@ -3,6 +3,7 @@ scripts/hive/api_client.py — Rate limiter, role assignments, API call wrapper,
 ==============================================================================================
 Moved from determinex_hive.py (lines ~133-366, ~1611-1819).
 """
+
 from __future__ import annotations
 
 import json
@@ -12,22 +13,30 @@ import sys
 import time as _time
 import uuid
 from pathlib import Path
+
+from hive.budget import is_local_model, record_api_call_cost
+from hive.concurrent_guard import (
+    api_backpressure,  # #27 per-role concurrency semaphore
+    drop_session_state,  # #34 cleanup on session end
+)
+from hive.hardware import get_hw_profile
 from hive.manifest import (
-    ManifestSession, StepRecord, save_manifest, load_manifest, resolve_repo_root,
+    ManifestSession,
+    StepRecord,
+    load_manifest,
+    resolve_repo_root,
+    save_manifest,
 )
 from hive.workspace import (
-    scaffold_rust_project, scaffold_go_module, scaffold_python_project,
-)
-from hive.budget import is_local_model, record_api_call_cost
-from hive.hardware import get_hw_profile
-from hive.concurrent_guard import (
-    api_backpressure,           # #27 per-role concurrency semaphore
-    get_session_state,          # #34 epoch-tagged state
-    drop_session_state,         # #34 cleanup on session end
+    scaffold_go_module,
+    scaffold_python_project,
+    scaffold_rust_project,
 )
 
 try:
-    from hive._log import get_logger as _get_logger, bind_session as _bind_session  # noqa: F401
+    from hive._log import bind_session as _bind_session
+    from hive._log import get_logger as _get_logger  # noqa: F401
+
     log = _get_logger("hive.api_client")
 except ImportError:
     log = logging.getLogger("hive")
@@ -39,12 +48,14 @@ except ImportError:
 # Both environment variable (subprocess-safe) and attribute (in-process) must be
 # set before any litellm import in downstream code executes the telemetry path.
 import os as _os_env
+
 _os_env.environ["LITELLM_TELEMETRY"] = "False"
 try:
     import litellm as _litellm_init
+
     _litellm_init.telemetry = False
     _litellm_init.suppress_debug_info = True
-except Exception:   # litellm not yet installed (e.g. test env) — skip silently
+except Exception:  # litellm not yet installed (e.g. test env) — skip silently
     pass
 
 # ── #29 KV Cache UUID Namespace ──────────────────────────────────────────────
@@ -83,9 +94,7 @@ def inject_kv_namespace(messages: list[dict], session_id: str) -> list[dict]:
     for i, msg in enumerate(messages):
         if msg.get("role") == "system":
             messages[i] = dict(msg)
-            messages[i]["content"] = (
-                f"[session:{ns}]\n{msg['content']}"
-            )
+            messages[i]["content"] = f"[session:{ns}]\n{msg['content']}"
             break
 
     return messages
@@ -106,8 +115,8 @@ def _ollama_extra(model: str, role: str, hw_profile=None) -> dict:
     """Return extra_body dict for Ollama calls, empty dict for API models."""
     if not model.startswith("ollama/"):
         return {}
-    keep_hot = (hw_profile.lifecycle.keep_hot if hw_profile else ["builder"])
-    max_loaded = (hw_profile.lifecycle.max_loaded if hw_profile else 2)
+    keep_hot = hw_profile.lifecycle.keep_hot if hw_profile else ["builder"]
+    max_loaded = hw_profile.lifecycle.max_loaded if hw_profile else 2
 
     # The monitor eviction is decided from CAPACITY, before keep_hot is consulted.
     #
@@ -128,12 +137,12 @@ def _ollama_extra(model: str, role: str, hw_profile=None) -> dict:
     if role == "monitor" and max_loaded <= 1:
         keep_alive = 0
     elif role in keep_hot:
-        keep_alive = -1   # builder: never evict — stays hot between steps
+        keep_alive = -1  # builder: never evict — stays hot between steps
     elif role == "monitor":
-        keep_alive = 0    # evict observer immediately after verdict
+        keep_alive = 0  # evict observer immediately after verdict
     else:
         keep_alive = 300  # default 5min (oracle, architect, unknown roles); keeps qwen7b
-                          # alive across the oracle→architect handoff inside generate_dag.
+        # alive across the oracle→architect handoff inside generate_dag.
     return {"keep_alive": keep_alive}
 
 
@@ -153,6 +162,7 @@ def _provider_extra_body(
         body = {**body, "keep_alive": 0}
     return body
 
+
 # ── Paths ─────────────────────────────────────────────────────────────────────
 # ONE resolver, in hive.manifest (already imported above, and lower-level -- it does
 # not import this module, so there is no cycle). A second copy here is exactly the
@@ -170,9 +180,9 @@ _ROOT = resolve_repo_root()
 
 # ── API rate limit defaults ──────────────────────────────────────────────────────
 _DEFAULT_RATE_LIMIT_PROFILE = {
-    "backoff_seconds":  [5, 15, 30, 60, 120],
+    "backoff_seconds": [5, 15, 30, 60, 120],
     "inter_call_pause": 1.0,
-    "max_retries":      5,
+    "max_retries": 5,
 }
 
 # Timeout (seconds) for all local Ollama calls (Builder, Monitor, Oracle, Architect).
@@ -199,23 +209,27 @@ class ApiRateLimiter:
 
     def __init__(self, profile: dict | None = None) -> None:
         p = profile or _DEFAULT_RATE_LIMIT_PROFILE
-        self._backoff_seconds:  list[int] = p["backoff_seconds"]
-        self._inter_call_pause: float     = p["inter_call_pause"]
-        self._max_retries:      int       = p["max_retries"]
-        self._tpm_limit:        int       = p.get("tpm_limit", 40_000)
-        self._last_call_time:   float     = 0.0
-        self._token_window:     list[tuple[float, int]] = []
+        self._backoff_seconds: list[int] = p["backoff_seconds"]
+        self._inter_call_pause: float = p["inter_call_pause"]
+        self._max_retries: int = p["max_retries"]
+        self._tpm_limit: int = p.get("tpm_limit", 40_000)
+        self._last_call_time: float = 0.0
+        self._token_window: list[tuple[float, int]] = []
         # G18: protect _token_window and _last_call_time from concurrent mutations
         self._rate_lock = __import__("threading").Lock()
 
     def reconfigure(self, profile: dict) -> None:
         """Hot-reload rate limit profile."""
-        self._backoff_seconds  = profile["backoff_seconds"]
+        self._backoff_seconds = profile["backoff_seconds"]
         self._inter_call_pause = profile["inter_call_pause"]
-        self._max_retries      = profile["max_retries"]
-        self._tpm_limit        = profile.get("tpm_limit", self._tpm_limit)
-        log.info("Rate limiter reconfigured: pause=%.2fs, tpm=%d, max_retries=%d",
-                 self._inter_call_pause, self._tpm_limit, self._max_retries)
+        self._max_retries = profile["max_retries"]
+        self._tpm_limit = profile.get("tpm_limit", self._tpm_limit)
+        log.info(
+            "Rate limiter reconfigured: pause=%.2fs, tpm=%d, max_retries=%d",
+            self._inter_call_pause,
+            self._tpm_limit,
+            self._max_retries,
+        )
 
     def _tokens_in_window(self, now: float) -> int:
         """Sum tokens used in the last 60 seconds. Caller must hold _rate_lock."""
@@ -236,8 +250,9 @@ class ApiRateLimiter:
             sleep_until = oldest_ts + 60.0
             wait = max(0.0, sleep_until - now)
         if wait > 0:
-            log.info("Proactive TPM wait: %.1fs (window used %d/%d tokens)",
-                     wait, used, self._tpm_limit)
+            log.info(
+                "Proactive TPM wait: %.1fs (window used %d/%d tokens)", wait, used, self._tpm_limit
+            )
             _time.sleep(wait)
 
     def record_tokens(self, tokens: int) -> None:
@@ -319,11 +334,17 @@ class ApiRateLimiter:
                         "under determinex.rate_limits: to match your API tier."
                     ) from exc
 
-                retry_after = getattr(getattr(exc, "response", None), "headers", {}).get("retry-after")
-                wait = int(retry_after) if retry_after else self._backoff_seconds[
-                    min(attempt - 1, len(self._backoff_seconds) - 1)
-                ]
-                log.warning("Rate limit (attempt %d/%d) — backing off %ds", attempt, self._max_retries, wait)
+                retry_after = getattr(getattr(exc, "response", None), "headers", {}).get(
+                    "retry-after"
+                )
+                wait = (
+                    int(retry_after)
+                    if retry_after
+                    else self._backoff_seconds[min(attempt - 1, len(self._backoff_seconds) - 1)]
+                )
+                log.warning(
+                    "Rate limit (attempt %d/%d) — backing off %ds", attempt, self._max_retries, wait
+                )
                 _time.sleep(wait)
 
 
@@ -337,13 +358,18 @@ def load_rate_limit_profile(config_path: Path | None = None) -> dict:
 
     try:
         import yaml
+
         with open(config_path) as f:
             config = yaml.safe_load(f) or {}
         rl = (config.get("determinex") or {}).get("rate_limits") or {}
         return {
-            "backoff_seconds":  rl.get("backoff_seconds",  _DEFAULT_RATE_LIMIT_PROFILE["backoff_seconds"]),
-            "inter_call_pause": rl.get("inter_call_pause", _DEFAULT_RATE_LIMIT_PROFILE["inter_call_pause"]),
-            "max_retries":      rl.get("max_retries",      _DEFAULT_RATE_LIMIT_PROFILE["max_retries"]),
+            "backoff_seconds": rl.get(
+                "backoff_seconds", _DEFAULT_RATE_LIMIT_PROFILE["backoff_seconds"]
+            ),
+            "inter_call_pause": rl.get(
+                "inter_call_pause", _DEFAULT_RATE_LIMIT_PROFILE["inter_call_pause"]
+            ),
+            "max_retries": rl.get("max_retries", _DEFAULT_RATE_LIMIT_PROFILE["max_retries"]),
         }
     except Exception as e:
         log.warning("Could not load rate_limits from litellm_config.yaml (%s) — using defaults", e)
@@ -366,10 +392,10 @@ def load_role_assignments(config_path: Path | None = None) -> dict:
     # config is genuinely missing. Under normal operation litellm_config.yaml
     # overrides these with the DSL-fine-tuned determinex/* models.
     defaults = {
-        "oracle":    "local/fast",    # Qwen2.5-3B (local Ollama)
-        "architect": "local/fast",    # Qwen2.5-3B (local Ollama)
-        "builder":   "local/coder",   # Qwen2.5-Coder-1.5B (local Ollama)
-        "monitor":   "local/fast",    # Qwen2.5-3B (local Ollama)
+        "oracle": "local/fast",  # Qwen2.5-3B (local Ollama)
+        "architect": "local/fast",  # Qwen2.5-3B (local Ollama)
+        "builder": "local/coder",  # Qwen2.5-Coder-1.5B (local Ollama)
+        "monitor": "local/fast",  # Qwen2.5-3B (local Ollama)
     }
 
     if not config_path.exists():
@@ -383,12 +409,16 @@ def load_role_assignments(config_path: Path | None = None) -> dict:
 
     try:
         import yaml
+
         with open(config_path) as f:
             config = yaml.safe_load(f) or {}
         roles = (config.get("determinex") or {}).get("roles") or {}
         return _apply_role_overrides({**defaults, **roles})
     except Exception as e:
-        log.warning("Could not load role assignments from litellm_config.yaml (%s) — using local-only defaults", e)
+        log.warning(
+            "Could not load role assignments from litellm_config.yaml (%s) — using local-only defaults",
+            e,
+        )
         return _apply_role_overrides(defaults)
 
 
@@ -415,8 +445,7 @@ def _apply_role_overrides(roles: dict) -> dict:
             # Plain format string, not structlog kwargs: this runs during config
             # load, which is exactly when the structlog binding may not be in
             # place, and a TypeError here would take out role resolution itself.
-            log.info("role override: %s -> %s (DETERMINEX_ROLE_%s)",
-                     role, val, role.upper())
+            log.info("role override: %s -> %s (DETERMINEX_ROLE_%s)", role, val, role.upper())
     return out
 
 
@@ -425,7 +454,7 @@ def _apply_role_overrides(roles: dict) -> dict:
 # litellm params (model string, api_key, api_base).  No Router — no health
 # checks, no cost-based probing, no startup failures on missing local models.
 
-_alias_map: dict | None = None   # lazy-loaded on first api_call
+_alias_map: dict | None = None  # lazy-loaded on first api_call
 
 
 def _alias_config_candidates() -> list[Path]:
@@ -452,10 +481,12 @@ def _alias_config_candidates() -> list[Path]:
     # Beside the running executable, and the `../../` resource layout Tauri preserves
     # (bundle.resources declared as "../../x" land in <install>/_up_/_up_/x).
     exe_dir = Path(sys.executable).resolve().parent
-    candidates.extend([
-        exe_dir / "litellm_config.yaml",
-        exe_dir / "_up_" / "_up_" / "litellm_config.yaml",
-    ])
+    candidates.extend(
+        [
+            exe_dir / "litellm_config.yaml",
+            exe_dir / "_up_" / "_up_" / "litellm_config.yaml",
+        ]
+    )
     # Deduplicate, preserving order.
     seen: set[str] = set()
     unique: list[Path] = []
@@ -489,10 +520,11 @@ def _load_alias_map() -> dict:
 
     try:
         import yaml
+
         with open(config_path, encoding="utf-8") as f:
             cfg = yaml.safe_load(f) or {}
         for entry in cfg.get("model_list", []):
-            name   = entry.get("model_name", "")
+            name = entry.get("model_name", "")
             params = entry.get("litellm_params", {})
             if name and params.get("model"):
                 _alias_map[name] = params
@@ -517,6 +549,7 @@ def _resolve_model(alias: str) -> tuple[str, dict]:
         DETERMINEX_ALLOW_CLOUD_FALLBACK=1
     """
     import os
+
     amap = _load_alias_map()
     if alias not in amap:
         return alias, {}
@@ -551,8 +584,9 @@ def _resolve_model(alias: str) -> tuple[str, dict]:
     api_key = params.get("api_key", "")
     if api_key.startswith("os.environ/"):
         import os
+
         env_name = api_key.split("os.environ/", 1)[1]
-        api_key  = os.environ.get(env_name, "")
+        api_key = os.environ.get(env_name, "")
     if api_key:
         extra["api_key"] = api_key
 
@@ -563,8 +597,15 @@ def _resolve_model(alias: str) -> tuple[str, dict]:
 _api_rate_limiter = ApiRateLimiter(load_rate_limit_profile())
 
 
-def api_call(fn, *args, model: str = "", role: str = "", session_id: str = "",
-             cloak_active: bool = False, **kwargs):
+def api_call(
+    fn,
+    *args,
+    model: str = "",
+    role: str = "",
+    session_id: str = "",
+    cloak_active: bool = False,
+    **kwargs,
+):
     """
     Wrapper for all Hive Mind API calls.
 
@@ -599,6 +640,7 @@ def api_call(fn, *args, model: str = "", role: str = "", session_id: str = "",
     _messages = kwargs.get("messages", [])
     try:
         from hive.safety_gate import pre_api_gate
+
         pre_api_gate(_messages, _effective_model, cloak_active=cloak_active)
     except Exception as _safety_err:
         log.error("[api_call] Safety gate rejected call to '%s': %s", _effective_model, _safety_err)
@@ -621,28 +663,28 @@ def api_call(fn, *args, model: str = "", role: str = "", session_id: str = "",
 # Known Rust crates → Cargo.toml value string.
 # Entries with features use inline table syntax so serde derive works out of the box.
 _RUST_KNOWN_CRATES: dict[str, str] = {
-    "serde":        '{ version = "1", features = ["derive"] }',
-    "serde_json":   '"1"',
-    "serde_yaml":   '"0.9"',
-    "tokio":        '{ version = "1", features = ["full"] }',
-    "clap":         '{ version = "4", features = ["derive"] }',
-    "anyhow":       '"1"',
-    "thiserror":    '"1"',
-    "reqwest":      '{ version = "0.11", features = ["json", "blocking"] }',
-    "rand":         '"0.8"',
-    "chrono":       '"0.4"',
-    "regex":        '"1"',
-    "uuid":         '{ version = "1", features = ["v4"] }',
-    "log":          '"0.4"',
-    "env_logger":   '"0.10"',
-    "actix-web":    '"4"',
-    "lazy_static":  '"1"',
-    "once_cell":    '"1"',
-    "itertools":    '"0.12"',
-    "indexmap":     '"2"',
-    "tracing":      '"0.1"',
+    "serde": '{ version = "1", features = ["derive"] }',
+    "serde_json": '"1"',
+    "serde_yaml": '"0.9"',
+    "tokio": '{ version = "1", features = ["full"] }',
+    "clap": '{ version = "4", features = ["derive"] }',
+    "anyhow": '"1"',
+    "thiserror": '"1"',
+    "reqwest": '{ version = "0.11", features = ["json", "blocking"] }',
+    "rand": '"0.8"',
+    "chrono": '"0.4"',
+    "regex": '"1"',
+    "uuid": '{ version = "1", features = ["v4"] }',
+    "log": '"0.4"',
+    "env_logger": '"0.10"',
+    "actix-web": '"4"',
+    "lazy_static": '"1"',
+    "once_cell": '"1"',
+    "itertools": '"0.12"',
+    "indexmap": '"2"',
+    "tracing": '"0.1"',
     "tracing-subscriber": '"0.3"',
-    "axum":         '"0.7"',
+    "axum": '"0.7"',
 }
 
 
@@ -668,7 +710,19 @@ def _parse_md_dependencies(spec_text: str, lang: str) -> dict[str, str]:
                 continue
             name = m.group(1).lower()
             # Skip sentinel "no dependency" values the model emits
-            if name in {"none", "n/a", "na", "nil", "null", "stdlib", "standard", "builtin", "built-in", "no", "nothing"}:
+            if name in {
+                "none",
+                "n/a",
+                "na",
+                "nil",
+                "null",
+                "stdlib",
+                "standard",
+                "builtin",
+                "built-in",
+                "no",
+                "nothing",
+            }:
                 continue
             if lang == "rust":
                 deps[name] = _RUST_KNOWN_CRATES.get(name, '"*"')
@@ -807,8 +861,11 @@ def _preprocess_spec_to_dsl(
         return spec_text
     real_model, _ = _resolve_model(builder_model)
     if not real_model.startswith("ollama/"):
-        log.debug("DSL pre-processor skipped: resolved model is not local (%s → %s)",
-                  builder_model, real_model)
+        log.debug(
+            "DSL pre-processor skipped: resolved model is not local (%s → %s)",
+            builder_model,
+            real_model,
+        )
         return spec_text
     # Skip if spec is already short enough to not benefit from compression
     if len(spec_text.strip()) < 400:
@@ -816,12 +873,15 @@ def _preprocess_spec_to_dsl(
         return spec_text
 
     import litellm
+
     messages = [
         {"role": "system", "content": _DSL_PREPROCESSOR_SYSTEM},
-        {"role": "user",   "content": f"SPECIFICATION:\n\n{spec_text}"},
+        {"role": "user", "content": f"SPECIFICATION:\n\n{spec_text}"},
     ]
     try:
-        log.info("DSL pre-processor: compressing spec (%d chars) via %s", len(spec_text), builder_model)
+        log.info(
+            "DSL pre-processor: compressing spec (%d chars) via %s", len(spec_text), builder_model
+        )
         # keep_alive=0: evict immediately after preprocessing so the larger Oracle
         # model (3B) can load without VRAM contention from the hot engineer (1.5B).
         # The engineer gets keep_alive=-1 during actual build steps; pre-processing
@@ -849,7 +909,9 @@ def _preprocess_spec_to_dsl(
             return spec_text
         log.info(
             "DSL pre-processor: compressed %d → %d chars\n%s",
-            len(spec_text), len(dsl_packet), dsl_packet[:300],
+            len(spec_text),
+            len(dsl_packet),
+            dsl_packet[:300],
         )
         return dsl_packet
     except Exception as exc:
@@ -860,20 +922,23 @@ def _preprocess_spec_to_dsl(
 
 def _build_oracle_messages(spec_text: str) -> list[dict]:
     return [
-        {"role": "system", "content": (
-            "You are the Oracle for the Determinex build system. "
-            "Read the specification and write a plain English summary (3-5 sentences). "
-            "Cover: what the software does, the programming language, "
-            "the key data structures or types needed, and the critical constraints. "
-            "Output plain prose only — no JSON, no DSL tags, no bullet points, no markdown."
-        )},
+        {
+            "role": "system",
+            "content": (
+                "You are the Oracle for the Determinex build system. "
+                "Read the specification and write a plain English summary (3-5 sentences). "
+                "Cover: what the software does, the programming language, "
+                "the key data structures or types needed, and the critical constraints. "
+                "Output plain prose only — no JSON, no DSL tags, no bullet points, no markdown."
+            ),
+        },
         {"role": "user", "content": f"SPECIFICATION:\n\n{spec_text}"},
     ]
 
 
 def _extract_spec_constraints(spec_text: str) -> str:
     """Extract ## Constraints section from MD spec for explicit injection."""
-    m = re.search(r'## Constraints\s*\n(.*?)(?:\n##|\Z)', spec_text, re.DOTALL)
+    m = re.search(r"## Constraints\s*\n(.*?)(?:\n##|\Z)", spec_text, re.DOTALL)
     if not m:
         return ""
     return m.group(1).strip()
@@ -885,22 +950,28 @@ def _count_spec_source_files(spec_text: str) -> int:
     Returns the number of source files found (e.g. .rs/.go/.py entries).
     Returns 0 if no ## Files section exists.
     """
-    m = re.search(r'## Files\s*\n(.*?)(?:\n##|\Z)', spec_text, re.DOTALL)
+    m = re.search(r"## Files\s*\n(.*?)(?:\n##|\Z)", spec_text, re.DOTALL)
     if not m:
         return 0
     block = m.group(1)
     # Match lines like: - `src/main.rs` — ...  or  - src/main.rs
     file_lines = re.findall(
-        r'^\s*-\s+`?([^\s`\n]+\.[a-zA-Z0-9]+)`?',
-        block, re.MULTILINE,
+        r"^\s*-\s+`?([^\s`\n]+\.[a-zA-Z0-9]+)`?",
+        block,
+        re.MULTILINE,
     )
     # Filter to actual source files (exclude config files like Cargo.toml, go.mod)
-    _config_files = {"cargo.toml", "go.mod", "go.sum", "pyproject.toml",
-                     "setup.py", "requirements.txt", "makefile", ".gitignore"}
-    source_files = [
-        f for f in file_lines
-        if Path(f).name.lower() not in _config_files
-    ]
+    _config_files = {
+        "cargo.toml",
+        "go.mod",
+        "go.sum",
+        "pyproject.toml",
+        "setup.py",
+        "requirements.txt",
+        "makefile",
+        ".gitignore",
+    }
+    source_files = [f for f in file_lines if Path(f).name.lower() not in _config_files]
     return len(set(source_files))
 
 
@@ -925,9 +996,17 @@ def _build_architect_messages(
     single_file_directive = ""
     spec_lower = spec_text.lower()
     _is_single_file = (
-        any(x in spec_lower for x in (
-            "single source file", "single file", "one file", ".rs only", ".go only", ".py only"
-        ))
+        any(
+            x in spec_lower
+            for x in (
+                "single source file",
+                "single file",
+                "one file",
+                ".rs only",
+                ".go only",
+                ".py only",
+            )
+        )
         or _count_spec_source_files(spec_text) == 1
     )
     if _is_single_file:
@@ -940,15 +1019,18 @@ def _build_architect_messages(
 
     return [
         {"role": "system", "content": _ARCHITECT_SYSTEM},
-        {"role": "user", "content": (
-            f"LANGUAGE: {lang}\n\n"
-            f"ORACLE SUMMARY:\n{oracle_summary}\n\n"
-            f"MD SPECIFICATION:\n{spec_text}"
-            f"{constraint_block}"
-            f"{single_file_directive}"
-            f"{note}\n\n"
-            "Generate the step manifest JSON array now:"
-        )},
+        {
+            "role": "user",
+            "content": (
+                f"LANGUAGE: {lang}\n\n"
+                f"ORACLE SUMMARY:\n{oracle_summary}\n\n"
+                f"MD SPECIFICATION:\n{spec_text}"
+                f"{constraint_block}"
+                f"{single_file_directive}"
+                f"{note}\n\n"
+                "Generate the step manifest JSON array now:"
+            ),
+        },
     ]
 
 
@@ -962,9 +1044,9 @@ def _repair_json(text: str) -> str:
     2. Trailing commas before ] or } (strict JSON doesn't allow them).
     """
     # Fix invalid escape sequences: \X where X is not a valid JSON escape char
-    repaired = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', text)
+    repaired = re.sub(r'\\(?!["\\/bfnrtu])', r"\\\\", text)
     # Strip trailing commas before closing brackets/braces
-    repaired = re.sub(r',\s*([}\]])', r'\1', repaired)
+    repaired = re.sub(r",\s*([}\]])", r"\1", repaired)
     return repaired
 
 
@@ -1010,14 +1092,16 @@ def _parse_step_records(raw: list, lang: str) -> list[StepRecord]:
         if wm == "replace_function" and lang != "rust":
             wm = "replace_file"
 
-        steps.append(StepRecord(
-            id=sid,
-            instruction=str(item.get("instruction", "")).strip(),
-            depends_on=[int(d) for d in item.get("depends_on", []) if int(d) < sid],
-            target_file=str(item.get("target_file", "")).strip(),
-            write_mode=wm,
-            target_region=item.get("target_region") or None,
-        ))
+        steps.append(
+            StepRecord(
+                id=sid,
+                instruction=str(item.get("instruction", "")).strip(),
+                depends_on=[int(d) for d in item.get("depends_on", []) if int(d) < sid],
+                target_file=str(item.get("target_file", "")).strip(),
+                write_mode=wm,
+                target_region=item.get("target_region") or None,
+            )
+        )
     steps.sort(key=lambda s: s.id)
     return steps
 
@@ -1055,13 +1139,17 @@ def generate_dag(
     if spec_text_for_api is not spec_text:
         log.info(
             "DSL pre-processor active: Oracle will receive compressed spec (%d → %d chars)",
-            len(spec_text), len(spec_text_for_api),
+            len(spec_text),
+            len(spec_text_for_api),
         )
 
     # ── Oracle: encode spec intent ────────────────────────────────────────────
     oracle_model = model_assignments.get("oracle") or model_assignments.get("architect")
     log.info("Oracle: encoding spec (%d chars) via %s", len(spec_text_for_api), oracle_model)
-    print(f"[DETERMINEX] Oracle ({oracle_model}) encoding spec — may take 30-90s on first load...", flush=True)
+    print(
+        f"[DETERMINEX] Oracle ({oracle_model}) encoding spec — may take 30-90s on first load...",
+        flush=True,
+    )
     try:
         oracle_resp = api_call(
             litellm.completion,
@@ -1075,7 +1163,9 @@ def generate_dag(
         )
         o_usage = getattr(oracle_resp, "usage", None)
         record_api_call_cost(
-            session, getattr(o_usage, "total_tokens", 800) if o_usage else 800, model=oracle_model or "",
+            session,
+            getattr(o_usage, "total_tokens", 800) if o_usage else 800,
+            model=oracle_model or "",
             prompt_tokens=getattr(o_usage, "prompt_tokens", None) if o_usage else None,
             completion_tokens=getattr(o_usage, "completion_tokens", None) if o_usage else None,
         )
@@ -1088,7 +1178,10 @@ def generate_dag(
     # ── Architect: generate step manifest ────────────────────────────────────
     arch_model = model_assignments.get("architect") or oracle_model
     log.info("Architect: generating DAG via %s", arch_model)
-    print(f"[DETERMINEX] Architect ({arch_model}) planning DAG — may take 30-90s on first load...", flush=True)
+    print(
+        f"[DETERMINEX] Architect ({arch_model}) planning DAG — may take 30-90s on first load...",
+        flush=True,
+    )
 
     error_note = ""
     steps: list[StepRecord] = []
@@ -1097,8 +1190,9 @@ def generate_dag(
             arch_resp = api_call(
                 litellm.completion,
                 model=arch_model,
-                messages=_build_architect_messages(spec_text, oracle_summary,
-                                                   session.lang, error_note),
+                messages=_build_architect_messages(
+                    spec_text, oracle_summary, session.lang, error_note
+                ),
                 session_id=session.session_id,
                 role="architect",
                 estimated_tokens=4000,
@@ -1107,7 +1201,9 @@ def generate_dag(
             )
             a_usage = getattr(arch_resp, "usage", None)
             record_api_call_cost(
-                session, getattr(a_usage, "total_tokens", 3000) if a_usage else 3000, model=arch_model or "",
+                session,
+                getattr(a_usage, "total_tokens", 3000) if a_usage else 3000,
+                model=arch_model or "",
                 prompt_tokens=getattr(a_usage, "prompt_tokens", None) if a_usage else None,
                 completion_tokens=getattr(a_usage, "completion_tokens", None) if a_usage else None,
             )
@@ -1146,39 +1242,46 @@ def generate_dag(
     # list only one source file. Collapse to a single new_file step.
     spec_lower = spec_text.lower()
     _single_file_spec = (
-        any(x in spec_lower for x in (
-            "single source file", "single file", ".rs only", ".go only", ".py only"
-        ))
+        any(
+            x in spec_lower
+            for x in ("single source file", "single file", ".rs only", ".go only", ".py only")
+        )
         or _count_spec_source_files(spec_text) == 1
     )
     _SOURCE_EXTS = {".rs", ".go", ".py", ".ts", ".js", ".c", ".cpp", ".java"}
     if len(steps) > 1 and _single_file_spec:
         # Only count source-code files — data/json/txt steps don't block collapse
         src_target_files = {
-            s.target_file for s in steps
+            s.target_file
+            for s in steps
             if s.target_file and Path(s.target_file).suffix in _SOURCE_EXTS
         }
         if len(src_target_files) == 1:
             target_file = list(src_target_files)[0]
             # Collect instructions from source steps only
             combined = " ".join(
-                s.instruction for s in steps
+                s.instruction
+                for s in steps
                 if s.target_file and Path(s.target_file).suffix in _SOURCE_EXTS
             )
-            steps = [StepRecord(
-                id=1,
-                instruction=(
-                    f"Write the COMPLETE, compilable {session.lang} implementation for "
-                    f"{target_file}. Include all functions. {combined}"
-                )[:800],
-                depends_on=[],
-                target_file=target_file,
-                write_mode="new_file",
-                target_region=None,
-                status="pending",
-            )]
-            log.info("DAG collapse: multi-step → 1 (single source file %s, data-file steps dropped)",
-                     target_file)
+            steps = [
+                StepRecord(
+                    id=1,
+                    instruction=(
+                        f"Write the COMPLETE, compilable {session.lang} implementation for "
+                        f"{target_file}. Include all functions. {combined}"
+                    )[:800],
+                    depends_on=[],
+                    target_file=target_file,
+                    write_mode="new_file",
+                    target_region=None,
+                    status="pending",
+                )
+            ]
+            log.info(
+                "DAG collapse: multi-step → 1 (single source file %s, data-file steps dropped)",
+                target_file,
+            )
 
     session.steps = steps
 
@@ -1188,8 +1291,9 @@ def generate_dag(
     if md_deps:
         log.info("Parsed %d dependencies from MD spec: %s", len(md_deps), list(md_deps.keys()))
     if session.lang == "rust":
-        cargo_content = scaffold_rust_project(workspace, package_name=pkg_name,
-                                              dependencies=md_deps or None)
+        cargo_content = scaffold_rust_project(
+            workspace, package_name=pkg_name, dependencies=md_deps or None
+        )
         session.cargo_toml = cargo_content
         log.info("Scaffolded Rust project: %s/Cargo.toml", workspace)
     elif session.lang == "go":
@@ -1214,7 +1318,9 @@ def cmd_generate_dag(args) -> None:
 
     if session.steps and not getattr(args, "force", False):
         print(f"Session already has {len(session.steps)} steps.")
-        print(f"Use --force to regenerate.  Run: python determinex_hive.py run-session --session {args.session}")
+        print(
+            f"Use --force to regenerate.  Run: python determinex_hive.py run-session --session {args.session}"
+        )
         sys.exit(0)
 
     try:
@@ -1227,7 +1333,7 @@ def cmd_generate_dag(args) -> None:
     print(f"\nDAG generated: {len(session.steps)} steps")
     print(f"  Session: {session.session_id}")
     print(f"  API cost so far: ${session.api_cost_usd:.4f}")
-    print(f"\nStep manifest:")
+    print("\nStep manifest:")
     for s in session.steps:
         deps = f"  [deps: {s.depends_on}]" if s.depends_on else ""
         print(f"  [{s.id:03d}] {s.write_mode:<18} {s.target_file:<25} {s.instruction[:55]}{deps}")

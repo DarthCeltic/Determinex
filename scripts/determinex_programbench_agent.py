@@ -28,23 +28,29 @@ if hasattr(sys.stdout, "reconfigure"):
 if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-from determinex_programbench_probe import (
-    run_pytest_probe,
-    get_test_branches,
-    run_differential,
-    format_failure_report,
-    local_syntax_check,
-    observer_diagnose,
-)
-from programbench_eval_runner import run_eval as _pb_run_eval
 from cloak_audit import (
-    audit_call as _cloak_audit_call,
-    obfuscate_compile_errors as _cloak_obfuscate,
-    CLOAK_ON as _CLOAK_ON,
     AUDIT_ON as _AUDIT_ON,
 )
-from pb_wal import wal_record as _wal_record
+from cloak_audit import (
+    CLOAK_ON as _CLOAK_ON,
+)
+from cloak_audit import (
+    audit_call as _cloak_audit_call,
+)
+from cloak_audit import (
+    obfuscate_compile_errors as _cloak_obfuscate,
+)
 from determinex_copyright_guard import get_guard as _get_provenance_guard
+from determinex_programbench_probe import (
+    format_failure_report,
+    get_test_branches,
+    local_syntax_check,
+    observer_diagnose,
+    run_differential,
+    run_pytest_probe,
+)
+from pb_wal import wal_record as _wal_record
+from programbench_eval_runner import run_eval as _pb_run_eval
 
 
 def _run_provenance_check(
@@ -68,14 +74,20 @@ def _run_provenance_check(
                 + ", ".join(a.work_label for a in report.copyright_alerts)
             )
         if report.has_attributions:
-            labels = [t.source_label for t in report.attribution_tags
-                      if t.match_type != "verbatim_reproduction"]
+            labels = [
+                t.source_label
+                for t in report.attribution_tags
+                if t.match_type != "verbatim_reproduction"
+            ]
             if labels:
-                print(f"  [provenance] inspiration tagged: {', '.join(labels[:3])}"
-                      + (f" +{len(labels)-3} more" if len(labels) > 3 else ""))
+                print(
+                    f"  [provenance] inspiration tagged: {', '.join(labels[:3])}"
+                    + (f" +{len(labels) - 3} more" if len(labels) > 3 else "")
+                )
         guard.log_attribution(report)
     except Exception as exc:
         import logging
+
         logging.getLogger(__name__).debug("[provenance] check failed (non-fatal): %s", exc)
 
 
@@ -113,10 +125,14 @@ def _write_wal_for_attempt(run_name: str, instance_id: str, am, ev=None) -> None
     except Exception as e:
         # WAL is best-effort — don't ever crash the agent because of it
         print(f"  [wal] WARN: failed to write WAL record: {e}")
-from budget_guard import BudgetGuard, BudgetExceeded
+
+
+from budget_guard import BudgetExceeded, BudgetGuard
 
 # One BudgetGuard per run, lazily created on first cloud call.
 _BUDGET_GUARD: BudgetGuard | None = None
+
+
 def _get_budget(run_name: str) -> BudgetGuard:
     global _BUDGET_GUARD
     if _BUDGET_GUARD is None or _BUDGET_GUARD.run_name != run_name:
@@ -135,8 +151,10 @@ def _budget_purpose(instance_id: str, attempt: int, backend: str) -> str:
         return f"programbench:{short}:initial_build:{backend}"
     return f"programbench:{short}:retry_with_eval_feedback:{backend}"
 
+
 try:
     from dotenv import load_dotenv
+
     load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=False)
 except ImportError:
     pass
@@ -165,7 +183,7 @@ LOCAL_MODEL = os.environ.get(
 ESCALATE = False  # set by --escalate CLI flag in main()
 LOCAL_OLLAMA_URL = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 LOCAL_NUM_PREDICT = 16000  # local model output cap (smaller than Sonnet's 64k)
-LOCAL_TIMEOUT = 1800       # 30-min timeout for big generations on local hardware
+LOCAL_TIMEOUT = 1800  # 30-min timeout for big generations on local hardware
 
 # Curated easy targets (short name → full instance ID)
 EASY_TARGETS: dict[str, str] = {
@@ -194,8 +212,8 @@ ANCHOR_TOOLS = {"jq", "fzf", "lz4", "fd", "curlie"}
 # loaded). DeepSeek is $0.001/call, cheaper than the wasted attempt cycles
 # of 14b OOMs. Restore the 14b row when running on a card with ≥10GB VRAM.
 ESCALATION_LADDER: list[tuple[str, str | None, str]] = [
-    ("local",    "qwen2.5-coder:7b-instruct",  "T1·7b"),
-    ("deepseek", None,                          "T2·deepseek"),
+    ("local", "qwen2.5-coder:7b-instruct", "T1·7b"),
+    ("deepseek", None, "T2·deepseek"),
 ]
 
 
@@ -270,9 +288,11 @@ def pick_tier(instance_id: str, history: list, escalate: bool = True) -> int:
 
     return current
 
+
 # ---------------------------------------------------------------------------
 # Metrics
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class AttemptMetrics:
@@ -285,12 +305,12 @@ class AttemptMetrics:
     compile_ok: bool = False
     probe_pass: int = 0
     probe_total: int = 0
-    eval_score: int = -1     # -1 = not run, 0-100 = official `programbench eval` score
+    eval_score: int = -1  # -1 = not run, 0-100 = official `programbench eval` score
     eval_passed: int = 0
     eval_total: int = 0
     eval_cached: bool = False
     eval_error: str = ""
-    model_used: str = ""     # ladder label, e.g. "T1·7b" / "T2·14b" / "T3·deepseek"
+    model_used: str = ""  # ladder label, e.g. "T1·7b" / "T2·14b" / "T3·deepseek"
     observer_diagnosis: str = ""
     # WAL capture — full prompt + response so the (failure → fix) pair becomes training data.
     # Truncated when written to disk; held in-memory at full length until then.
@@ -323,12 +343,12 @@ class TaskMetrics:
     t_probe_gen_end: float = 0.0
     attempts: list[AttemptMetrics] = field(default_factory=list)
     t_end: float = 0.0
-    solved: bool = False             # legacy alias of verified_locked, kept for back-compat
-    shipped: bool = False            # compile-clean submission written to disk
-    verified_locked: bool = False    # official `programbench eval` returned score == 100
-    final_eval_score: int = -1       # BEST eval score across all attempts (was: last)
-    best_attempt: int = -1           # which attempt produced the best score
-    best_compile_sh: str = ""        # cached BEST submission (for retry feedback context)
+    solved: bool = False  # legacy alias of verified_locked, kept for back-compat
+    shipped: bool = False  # compile-clean submission written to disk
+    verified_locked: bool = False  # official `programbench eval` returned score == 100
+    final_eval_score: int = -1  # BEST eval score across all attempts (was: last)
+    best_attempt: int = -1  # which attempt produced the best score
+    best_compile_sh: str = ""  # cached BEST submission (for retry feedback context)
     best_files: dict[str, str] = field(default_factory=dict)
     # Per-test progress tracking: previous attempt's per-test status, used to compute
     # wins (newly passing) / regressions (newly failing) / persistent failures.
@@ -360,18 +380,30 @@ class TaskMetrics:
 
     def print_summary(self) -> None:
         elapsed = self.elapsed
-        status = "VERIFIED LOCK" if self.verified_locked else ("SHIPPED" if self.shipped else "NO SUBMISSION")
+        status = (
+            "VERIFIED LOCK"
+            if self.verified_locked
+            else ("SHIPPED" if self.shipped else "NO SUBMISSION")
+        )
         eval_str = f"{self.final_eval_score}/100" if self.final_eval_score >= 0 else "no eval"
         print(f"\n  +-- {self.instance_id}")
-        print(f"  |   Total: {elapsed:.0f}s ({elapsed/60:.1f}m)  Status: {status}  Final eval: {eval_str}")
-        print(f"  |")
-        print(f"  |   {'Att':>3}  {'%Probe':>6}  {'Eval':>6}  {'Claude':>7}  {'Compile':>8}  {'Probe':>6}  Note")
-        print(f"  |   {'---':>3}  {'------':>6}  {'------':>6}  {'-------':>7}  {'--------':>8}  {'------':>6}")
+        print(
+            f"  |   Total: {elapsed:.0f}s ({elapsed / 60:.1f}m)  Status: {status}  Final eval: {eval_str}"
+        )
+        print("  |")
+        print(
+            f"  |   {'Att':>3}  {'%Probe':>6}  {'Eval':>6}  {'Claude':>7}  {'Compile':>8}  {'Probe':>6}  Note"
+        )
+        print(
+            f"  |   {'---':>3}  {'------':>6}  {'------':>6}  {'-------':>7}  {'--------':>8}  {'------':>6}"
+        )
         for a in self.attempts:
             if a.syntax_blocked:
-                note = "SYNTAX BLOCKED"; pct = "-"
+                note = "SYNTAX BLOCKED"
+                pct = "-"
             elif not a.compile_ok:
-                note = "COMPILE FAIL"; pct = "-"
+                note = "COMPILE FAIL"
+                pct = "-"
             else:
                 pct = f"{a.probe_pct:.0f}%"
                 if a.eval_score >= 100:
@@ -387,12 +419,15 @@ class TaskMetrics:
                 f"  |   {a.attempt:>3}  {pct:>6}  {ev:>6}  "
                 f"{a.t_claude:>6.0f}s  {a.t_compile:>7.0f}s  {a.t_probe:>5.0f}s  {note}"
             )
-        print(f"  +-- final eval: {eval_str}  shipped: {self.shipped}  locked: {self.verified_locked}")
+        print(
+            f"  +-- final eval: {eval_str}  shipped: {self.shipped}  locked: {self.verified_locked}"
+        )
 
 
 # ---------------------------------------------------------------------------
 # Docker helpers
 # ---------------------------------------------------------------------------
+
 
 def image_name(instance_id: str) -> str:
     return f"{DOCKER_ORG}/{instance_id.replace('__', '_1776_')}:task_cleanroom"
@@ -401,7 +436,9 @@ def image_name(instance_id: str) -> str:
 def docker_run(image: str, cmd: str, timeout: int = 120) -> tuple[str, int]:
     result = subprocess.run(
         ["docker", "run", "--rm", image, "bash", "-c", cmd],
-        capture_output=True, text=True, timeout=timeout
+        capture_output=True,
+        text=True,
+        timeout=timeout,
     )
     return ((result.stdout or "") + (result.stderr or "")).strip(), result.returncode
 
@@ -411,8 +448,7 @@ def pull_image(instance_id: str) -> bool:
     print(f"  Pulling {img}...")
     try:
         result = subprocess.run(
-            ["docker", "pull", img],
-            capture_output=True, text=True, timeout=1800
+            ["docker", "pull", img], capture_output=True, text=True, timeout=1800
         )
     except subprocess.TimeoutExpired:
         print(f"  PULL TIMED OUT after 1800s — skipping {instance_id}")
@@ -442,14 +478,14 @@ EXTRA_PROBES: dict[str, list[str]] = {
     "yj": [
         # Use printf so \\n expands to real newlines inside the container
         "printf 'name: test\\nvalue: 42\\nlist:\\n  - a\\n  - b\\n' | BINARY -yj 2>&1",
-        "printf '{\"name\":\"test\",\"value\":42}\\n' | BINARY -jy 2>&1",
+        'printf \'{"name":"test","value":42}\\n\' | BINARY -jy 2>&1',
         "printf '[title]\\nhello = \"world\"\\n' | BINARY -tj 2>&1",
         "printf 'name: test\\nvalue: 42\\n' | BINARY -yj -i 2>&1",
-        "printf '{\"a\":1,\"b\":2}\\n' | BINARY -jt 2>&1",
+        'printf \'{"a":1,"b":2}\\n\' | BINARY -jt 2>&1',
         "printf 'key = \"val\"\\n[section]\\nfoo = 1\\n' | BINARY -tj 2>&1",
     ],
     "htmlq": [
-        "printf '<html><body><h1 id=\"main\">Hello</h1><p class=\"intro\">World</p><a href=\"/foo\">link</a></body></html>\\n' | BINARY 'p.intro' 2>&1",
+        'printf \'<html><body><h1 id="main">Hello</h1><p class="intro">World</p><a href="/foo">link</a></body></html>\\n\' | BINARY \'p.intro\' 2>&1',
         "printf '<html><body><h1>Hello</h1><p>World</p></body></html>\\n' | BINARY --text 'p' 2>&1",
         "printf '<html><body><a href=\"/page\">link</a></body></html>\\n' | BINARY --attribute href 'a' 2>&1",
         "printf '<ul><li>one</li><li>two</li></ul>\\n' | BINARY 'li' 2>&1",
@@ -748,32 +784,43 @@ R33. EXPECT BINARY DATA. Some tools (lz4, blake3, ripsecrets) work on bytes,
 def parse_response(text: str) -> tuple[str, dict[str, str]]:
     """Extract compile_sh and source files from Claude's response."""
     import re
+
     compile_sh = ""
     files: dict[str, str] = {}
 
     # Extract <compile_sh>...</compile_sh> (handles slightly wrong tags)
-    m = re.search(r'<(?:compile_sh|compile\.sh|compilesh)[^>]*>(.*?)</(?:compile_sh|compile\.sh|compilesh)>', text, re.DOTALL | re.IGNORECASE)
+    m = re.search(
+        r"<(?:compile_sh|compile\.sh|compilesh)[^>]*>(.*?)</(?:compile_sh|compile\.sh|compilesh)>",
+        text,
+        re.DOTALL | re.IGNORECASE,
+    )
     if m:
         compile_sh = m.group(1).strip()
 
     # Extract <file name="...">...</file> blocks (handles single/double/no quotes and name= vs path=)
-    for m in re.finditer(r'<file\s+(?:name|path)=["\']?([^"\'>\s]+)["\']?>(.*?)</file>', text, re.DOTALL | re.IGNORECASE):
+    for m in re.finditer(
+        r'<file\s+(?:name|path)=["\']?([^"\'>\s]+)["\']?>(.*?)</file>',
+        text,
+        re.DOTALL | re.IGNORECASE,
+    ):
         fname, content = m.group(1), m.group(2).strip()
         files[fname] = content
 
     # Fallback: handle unclosed <file> tags (response truncated at max_tokens)
     if not files:
-        for m in re.finditer(r'<file\s+(?:name|path)=["\']?([^"\'>\s]+)["\']?>(.*)', text, re.DOTALL | re.IGNORECASE):
+        for m in re.finditer(
+            r'<file\s+(?:name|path)=["\']?([^"\'>\s]+)["\']?>(.*)', text, re.DOTALL | re.IGNORECASE
+        ):
             fname, content = m.group(1), m.group(2).strip()
             # Strip any trailing partial XML
-            content = re.sub(r'\s*</?\w[^>]*>?\s*$', '', content).strip()
+            content = re.sub(r"\s*</?\w[^>]*>?\s*$", "", content).strip()
             files[fname] = content
             break  # Only grab the first (and likely only) file
 
     # Fallback: try markdown code blocks if no XML tags found
     if not compile_sh:
         # Look for compile.sh in code blocks - check for compiler commands directly
-        for m in re.finditer(r'```(?:bash|sh)?\n(.*?)```', text, re.DOTALL):
+        for m in re.finditer(r"```(?:bash|sh)?\n(.*?)```", text, re.DOTALL):
             block = m.group(1).strip()
             if any(x in block for x in ["gcc", "rustc", "go build", "./executable", "cp main.py"]):
                 compile_sh = block
@@ -781,18 +828,18 @@ def parse_response(text: str) -> tuple[str, dict[str, str]]:
 
     # Fallback: if files still empty, try to extract named code blocks
     if not files and compile_sh:
-        for m in re.finditer(r'```(?:python|go|rust|c|cpp|sh|bash)?\n(.*?)```', text, re.DOTALL):
+        for m in re.finditer(r"```(?:python|go|rust|c|cpp|sh|bash)?\n(.*?)```", text, re.DOTALL):
             block = m.group(1).strip()
             if block == compile_sh:
                 continue
-            
+
             # Label before the block?
-            pre = text[max(0, text.index(m.group(0))-200):text.index(m.group(0))]
-            label_match = re.search(r'(\S+\.\w+)\s*[:\n]\s*$', pre.strip())
+            pre = text[max(0, text.index(m.group(0)) - 200) : text.index(m.group(0))]
+            label_match = re.search(r"(\S+\.\w+)\s*[:\n]\s*$", pre.strip())
             if label_match:
                 files[label_match.group(1)] = block
             elif "main.py" in pre[-80:] or "main.go" in pre[-80:] or "main.rs" in pre[-80:]:
-                ext_match = re.search(r'(main\.\w+)', pre[-80:])
+                ext_match = re.search(r"(main\.\w+)", pre[-80:])
                 if ext_match:
                     files[ext_match.group(1)] = block
             elif len(block) > 100 and not files:
@@ -812,11 +859,11 @@ def parse_response(text: str) -> tuple[str, dict[str, str]]:
     return compile_sh, files
 
 
-CORPUS_ROOT       = Path(__file__).resolve().parent.parent / "corpus" / "programbench"
+CORPUS_ROOT = Path(__file__).resolve().parent.parent / "corpus" / "programbench"
 CORPUS_INPROGRESS = CORPUS_ROOT / "in_progress"
-CORPUS_STRATEGY   = CORPUS_ROOT / "_strategy"
-CORPUS_LOCKED     = CORPUS_ROOT / "locked"
-WISDOM_DB_PATH    = Path(os.path.expanduser("~/AppData/Roaming/run.determinex.app/determinex.sqlite"))
+CORPUS_STRATEGY = CORPUS_ROOT / "_strategy"
+CORPUS_LOCKED = CORPUS_ROOT / "locked"
+WISDOM_DB_PATH = Path(os.path.expanduser("~/AppData/Roaming/run.determinex.app/determinex.sqlite"))
 
 
 def load_behavioral_spec(instance_id: str) -> str:
@@ -849,7 +896,10 @@ def load_behavioral_spec(instance_id: str) -> str:
 
 _PLAYBOOK_CACHE: str | None = None
 
-_PB_PLAYBOOK_PATH = Path(__file__).resolve().parent.parent / "docs" / "programs" / "programbench" / "PB_PLAYBOOK.md"
+_PB_PLAYBOOK_PATH = (
+    Path(__file__).resolve().parent.parent / "docs" / "programs" / "programbench" / "PB_PLAYBOOK.md"
+)
+
 
 def load_universal_playbook() -> str:
     """Concatenate the load-bearing strategy docs into one block. Cached."""
@@ -857,7 +907,11 @@ def load_universal_playbook() -> str:
     if _PLAYBOOK_CACHE is not None:
         return _PLAYBOOK_CACHE
     parts: list[str] = []
-    for fname in ("universal_cli_patterns.md", "per_language_scaffolds.md", "empirical_spec_method.md"):
+    for fname in (
+        "universal_cli_patterns.md",
+        "per_language_scaffolds.md",
+        "empirical_spec_method.md",
+    ):
         p = CORPUS_STRATEGY / fname
         if p.exists():
             txt = p.read_text(encoding="utf-8", errors="replace")
@@ -873,19 +927,28 @@ def load_universal_playbook() -> str:
 
 # ── Locked-tool lessons — same-language prior-art for transfer learning ─────
 
+
 # Filename hint → language map. Used to pick which locked tools' lessons apply.
 def _detect_lang(files: dict[str, str]) -> str:
-    if not files: return ""
+    if not files:
+        return ""
     fnames = " ".join(files.keys()).lower()
-    if "main.py" in fnames or fnames.endswith(".py"): return "python"
-    if "main.go" in fnames or ".go" in fnames: return "go"
-    if "main.rs" in fnames or ".rs" in fnames: return "rust"
-    if ".cpp" in fnames or ".cc" in fnames: return "cpp"
-    if ".c" in fnames: return "c"
+    if "main.py" in fnames or fnames.endswith(".py"):
+        return "python"
+    if "main.go" in fnames or ".go" in fnames:
+        return "go"
+    if "main.rs" in fnames or ".rs" in fnames:
+        return "rust"
+    if ".cpp" in fnames or ".cc" in fnames:
+        return "cpp"
+    if ".c" in fnames:
+        return "c"
     return ""
+
 
 # Per-language lessons (curated from `corpus/programbench/locked/<X>/lessons.md`)
 _LOCKED_LESSONS_CACHE: dict[str, str] | None = None
+
 
 def load_locked_lessons_for_lang(_lang: str) -> str:
     """Return concatenated `lessons.md` from locked tools.
@@ -898,12 +961,15 @@ def load_locked_lessons_for_lang(_lang: str) -> str:
             # heuristic: htmlq, ripsecrets are both Rust originals; their lessons are
             # transferable to other small CLI tools regardless of target language.
             for d in CORPUS_LOCKED.iterdir():
-                if not d.is_dir(): continue
+                if not d.is_dir():
+                    continue
                 lp = d / "lessons.md"
                 if lp.exists():
                     _LOCKED_LESSONS_CACHE.setdefault("any", "")
-                    _LOCKED_LESSONS_CACHE["any"] += f"\n\n## Lessons from locked tool: {d.name}\n\n" + \
-                                                     lp.read_text(encoding="utf-8", errors="replace")
+                    _LOCKED_LESSONS_CACHE["any"] += (
+                        f"\n\n## Lessons from locked tool: {d.name}\n\n"
+                        + lp.read_text(encoding="utf-8", errors="replace")
+                    )
     return _LOCKED_LESSONS_CACHE.get("any", "")
 
 
@@ -911,6 +977,7 @@ def load_locked_lessons_for_lang(_lang: str) -> str:
 
 _RAG_CONN = None
 _RAG_EMBEDDER = None
+
 
 def _rag_init() -> bool:
     """Lazy init of sqlite + fastembed. Returns False if unavailable."""
@@ -920,8 +987,11 @@ def _rag_init() -> bool:
     if not WISDOM_DB_PATH.exists():
         return False
     try:
-        import sqlite3, sqlite_vec
+        import sqlite3
+
+        import sqlite_vec
         from fastembed import TextEmbedding
+
         _RAG_CONN = sqlite3.connect(str(WISDOM_DB_PATH), check_same_thread=False)
         _RAG_CONN.enable_load_extension(True)
         sqlite_vec.load(_RAG_CONN)
@@ -953,16 +1023,18 @@ def rag_retrieve_for_task(instance_id: str, top_k: int = 5, max_chars: int = 600
         if spec_head.startswith("---"):
             end = spec_head.find("---", 3)
             if end > 0:
-                spec_head = spec_head[end + 3:]
+                spec_head = spec_head[end + 3 :]
         # Strip markdown headers and collapse whitespace
-        spec_head = " ".join(line for line in spec_head.split("\n") if line.strip() and not line.startswith("#"))
+        spec_head = " ".join(
+            line for line in spec_head.split("\n") if line.strip() and not line.startswith("#")
+        )
         query = f"{short} CLI tool: {spec_head[:400]}"
     else:
         query = f"reimplement {short} CLI tool"
     try:
         embeds = list(_RAG_EMBEDDER.embed([query]))  # type: ignore
-        if not embeds: return ""
-        import numpy as np
+        if not embeds:
+            return ""
         vec = embeds[0]
         if hasattr(vec, "tolist"):
             vec_list = vec.tolist()
@@ -970,31 +1042,40 @@ def rag_retrieve_for_task(instance_id: str, top_k: int = 5, max_chars: int = 600
             vec_list = list(vec)
         # serialize as float32 little-endian
         import struct
+
         vec_bytes = struct.pack(f"<{len(vec_list)}f", *vec_list)
         cur = _RAG_CONN.cursor()  # type: ignore
         # sqlite-vec requires `k = ?` on KNN queries (not LIMIT).
         # Pull a wider set first, then filter to programbench-tagged in Python.
         wide_k = top_k * 6
-        cur.execute("""
+        cur.execute(
+            """
             SELECT vss.rowid
             FROM vss_wisdom vss
             WHERE vss.embedding_vector MATCH ? AND k = ?
-        """, (vec_bytes, wide_k))
+        """,
+            (vec_bytes, wide_k),
+        )
         rowids = [r[0] for r in cur.fetchall()]
         if not rowids:
             return ""
         placeholders = ",".join("?" * len(rowids))
-        cur.execute(f"""
+        cur.execute(
+            f"""
             SELECT id, metadata, content FROM wisdom
             WHERE id IN ({placeholders}) AND metadata LIKE '%programbench%'
-        """, rowids)
+        """,
+            rowids,
+        )
         rows = cur.fetchall()[:top_k]
-        if not rows: return ""
+        if not rows:
+            return ""
         out_parts = []
         running = 0
         for _id, meta, content in rows:
             chunk = f"--- {meta} ---\n{content}\n"
-            if running + len(chunk) > max_chars: break
+            if running + len(chunk) > max_chars:
+                break
             out_parts.append(chunk)
             running += len(chunk)
         return "\n".join(out_parts)
@@ -1003,10 +1084,12 @@ def rag_retrieve_for_task(instance_id: str, top_k: int = 5, max_chars: int = 600
         return ""
 
 
-def _generate_via_local_ollama(system_prompt: str, user_msg: str, model_tag: str | None = None) -> str:
+def _generate_via_local_ollama(
+    system_prompt: str, user_msg: str, model_tag: str | None = None
+) -> str:
     """Call local Ollama; returns the assistant message text. Used when MODEL_BACKEND=local."""
-    import urllib.request
     import urllib.error
+    import urllib.request
 
     payload = {
         "model": model_tag or LOCAL_MODEL,
@@ -1039,16 +1122,22 @@ def _generate_via_local_ollama(system_prompt: str, user_msg: str, model_tag: str
                 return data.get("message", {}).get("content", "")
         except urllib.error.HTTPError as e:
             last_err = e
-            print(f"  [ollama] HTTP {e.code} on try {tries+1}/3 — backing off {3*(tries+1)}s")
+            print(f"  [ollama] HTTP {e.code} on try {tries + 1}/3 — backing off {3 * (tries + 1)}s")
             import time as _t
+
             _t.sleep(3 * (tries + 1))
         except urllib.error.URLError as e:
             last_err = e
-            print(f"  [ollama] connection error on try {tries+1}/3: {e} — backing off {3*(tries+1)}s")
+            print(
+                f"  [ollama] connection error on try {tries + 1}/3: {e} — backing off {3 * (tries + 1)}s"
+            )
             import time as _t
+
             _t.sleep(3 * (tries + 1))
     # All 3 retries failed — return empty string so attempt is marked failed but run continues.
-    print(f"  [ollama] FAILED after 3 retries: {last_err}. Returning empty (attempt will be marked failed).")
+    print(
+        f"  [ollama] FAILED after 3 retries: {last_err}. Returning empty (attempt will be marked failed)."
+    )
     return ""
 
 
@@ -1058,6 +1147,7 @@ def _generate_via_deepseek(system_prompt: str, user_msg: str) -> tuple[str, int,
     Use 'deepseek-reasoner' for the thinking model when chat plateaus.
     Retries up to 3× on transient errors (5xx, timeouts, connection reset)."""
     from openai import OpenAI
+
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key:
         raise RuntimeError("DEEPSEEK_API_KEY not set")
@@ -1085,13 +1175,30 @@ def _generate_via_deepseek(system_prompt: str, user_msg: str) -> tuple[str, int,
             last_err = e
             es = str(e).lower()
             # Retry on transient errors only (don't burn money on auth/quota fails)
-            transient = any(s in es for s in ("timeout", "timed out", "503", "502", "504", "connection", "reset", "rate limit", "ratelimit", "too many requests"))
+            transient = any(
+                s in es
+                for s in (
+                    "timeout",
+                    "timed out",
+                    "503",
+                    "502",
+                    "504",
+                    "connection",
+                    "reset",
+                    "rate limit",
+                    "ratelimit",
+                    "too many requests",
+                )
+            )
             if not transient or tries == 2:
                 # Non-transient or last try → give up
                 raise
             backoff = 5 * (tries + 1)
-            print(f"  [deepseek] transient error on try {tries+1}/3: {str(e)[:120]} — backing off {backoff}s")
+            print(
+                f"  [deepseek] transient error on try {tries + 1}/3: {str(e)[:120]} — backing off {backoff}s"
+            )
             import time as _t
+
             _t.sleep(backoff)
     # Should not reach here
     raise last_err if last_err else RuntimeError("deepseek call failed")
@@ -1128,7 +1235,7 @@ def generate_code(
     # DeepSeek: 64K context. On RETRY attempts, the error_block adds the full
     # best source (up to 25KB) + failure analysis; shrink corpus so total fits.
     if backend == "local":
-        spec_max, playbook_max, lessons_max, rag_max = 8000, 3000, 1500, 2500   # ~15KB total
+        spec_max, playbook_max, lessons_max, rag_max = 8000, 3000, 1500, 2500  # ~15KB total
     elif attempt == 1:
         spec_max, playbook_max, lessons_max, rag_max = 38000, 8000, 3000, 5000  # ~54KB
     else:
@@ -1147,7 +1254,9 @@ Behavioral spec (empirically derived from the actual test suite — follow this 
 </behavioral_spec>
 """
         if attempt == 1:
-            print(f"  [spec] injecting {min(len(spec), spec_max):,}/{len(spec):,} chars of behavioral spec ({backend})")
+            print(
+                f"  [spec] injecting {min(len(spec), spec_max):,}/{len(spec):,} chars of behavioral spec ({backend})"
+            )
 
     # Universal playbook (loaded once, cached): CLI patterns + per-language scaffolds + spec method.
     playbook = load_universal_playbook()
@@ -1161,7 +1270,9 @@ Universal CLI implementation playbook (apply these patterns to every tool):
 </playbook>
 """
         if attempt == 1:
-            print(f"  [playbook] injecting {min(len(playbook), playbook_max):,} chars of universal patterns")
+            print(
+                f"  [playbook] injecting {min(len(playbook), playbook_max):,} chars of universal patterns"
+            )
 
     # Locked-tool lessons (transferable wisdom from prior wins).
     lessons = load_locked_lessons_for_lang("any")
@@ -1175,7 +1286,9 @@ Lessons from previously-locked tools (transferable wisdom):
 </locked_lessons>
 """
         if attempt == 1:
-            print(f"  [lessons] injecting {min(len(lessons), lessons_max):,} chars of locked-tool lessons")
+            print(
+                f"  [lessons] injecting {min(len(lessons), lessons_max):,} chars of locked-tool lessons"
+            )
 
     # RAG retrieval — top-K semantic matches from corpus wisdom DB (8956 chunks).
     rag = rag_retrieve_for_task(instance_id, top_k=5, max_chars=rag_max)
@@ -1197,17 +1310,21 @@ Additional context from Determinex corpus (semantic retrieval):
         # can incrementally fix instead of rewriting from scratch (which causes regression).
         prior_src_block = ""
         if prior_compile_sh or prior_files:
-            best_msg = (f"BEST score so far: {best_eval_score}/100. " if best_eval_score >= 0 else "")
+            best_msg = f"BEST score so far: {best_eval_score}/100. " if best_eval_score >= 0 else ""
             prior_src_parts = [
                 f"\n\nYour PREVIOUS attempt's submission is below. {best_msg}"
                 "DIFF + PATCH this code — fix only the failing tests. "
                 "DO NOT rewrite from scratch (that causes regression).\n"
             ]
             if prior_compile_sh:
-                prior_src_parts.append(f"<prior_compile_sh>\n{prior_compile_sh[:1500]}\n</prior_compile_sh>\n")
+                prior_src_parts.append(
+                    f"<prior_compile_sh>\n{prior_compile_sh[:1500]}\n</prior_compile_sh>\n"
+                )
             for fname, content in (prior_files or {}).items():
                 # Cap each file at 25KB — shellharden Python impl is ~600 lines (~20KB)
-                prior_src_parts.append(f"<prior_file name=\"{fname}\">\n{content[:25000]}\n</prior_file>\n")
+                prior_src_parts.append(
+                    f'<prior_file name="{fname}">\n{content[:25000]}\n</prior_file>\n'
+                )
             prior_src_block = "".join(prior_src_parts)
 
         error_block = f"""
@@ -1250,7 +1367,7 @@ Observed behavior (README + binary probes):
     # Append the format/template section after either branch above.
     if _python_only:
         # Spec mandates Python — show ONLY the Python template, never Rust/Go/C.
-        user_msg += f"""
+        user_msg += """
 
 ⚠️⚠️⚠️ LANGUAGE LOCKED: PYTHON ONLY ⚠️⚠️⚠️
 The behavioral spec requires Python. compile.sh = `cp main.py executable`.
@@ -1281,7 +1398,7 @@ Rules:
 - No placeholders, no TODOs, no `pass` stubs.
 """
     else:
-        user_msg += f"""
+        user_msg += """
 
 ═══════════════════════════════════════════════════════════════════════════════
 PICK ONE LANGUAGE. Use the matching compile.sh + file pattern EXACTLY.
@@ -1301,7 +1418,7 @@ DO NOT MIX PATTERNS ACROSS LANGUAGES.
     #!/bin/bash
     set -e
     rustc -O main.rs -o executable
-  files: main.rs (NO shebang, real Rust source with `fn main() {{}}`).
+  files: main.rs (NO shebang, real Rust source with `fn main() {}`).
   WRONG: `cp main.rs executable && rustc -O executable` (this corrupts the source).
 
 ▼ Go (compiled — go build generates the binary):
@@ -1310,7 +1427,7 @@ DO NOT MIX PATTERNS ACROSS LANGUAGES.
     set -e
     go mod init prog 2>/dev/null || true
     go build -o executable .
-  files: main.go with `package main` and `func main() {{}}`.
+  files: main.go with `package main` and `func main() {}`.
 
 ▼ C (compiled — gcc generates the binary):
   compile_sh:
@@ -1339,8 +1456,8 @@ set -e
 <source_files>
 <file name="[main.py | main.rs | main.go | main.c | main.cpp]">
 [REPLACE this entire block with your real source code. For Python start with
-`#!/usr/bin/env python3`. For Rust use `fn main() {{}}`. For Go use `package main`
-+ `func main() {{}}`. For C/C++ use `int main()`. Do NOT leave this placeholder.]
+`#!/usr/bin/env python3`. For Rust use `fn main() {}`. For Go use `package main`
++ `func main() {}`. For C/C++ use `int main()`. Do NOT leave this placeholder.]
 </file>
 </source_files>
 
@@ -1390,8 +1507,10 @@ Rules:
             f"total=${guard.state.spend_usd:.4f}/${guard.state.max_usd}"
         )
         import anthropic
+
         client = anthropic.Anthropic(
-            api_key=os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("DETERMINEX_ANTHROPIC_KEY")
+            api_key=os.environ.get("ANTHROPIC_API_KEY")
+            or os.environ.get("DETERMINEX_ANTHROPIC_KEY")
         )
         print(f"  Calling Claude (attempt {attempt}/{MAX_RETRIES})...")
         # Streaming required for max_tokens > ~10min generation budget (SDK hard guard).
@@ -1466,7 +1585,9 @@ Rules:
             reason=f"pre-call estimate ${est:.4f}",
         )
 
-        print(f"  Calling DeepSeek V4 (attempt {attempt}/{MAX_RETRIES}){' [CLOAKED]' if _CLOAK_ON else ''}...")
+        print(
+            f"  Calling DeepSeek V4 (attempt {attempt}/{MAX_RETRIES}){' [CLOAKED]' if _CLOAK_ON else ''}..."
+        )
         _t0 = time.time()
         text, _in_tok, _out_tok = _generate_via_deepseek(SYSTEM_PROMPT, outbound_msg)
         _latency = time.time() - _t0
@@ -1487,7 +1608,9 @@ Rules:
             reason="charged after API usage report",
             outcome={"latency_s": round(_latency, 2), "response_chars": len(text or "")},
         )
-        print(f"  [budget] DeepSeek call: in={_in_tok} out={_out_tok} cost=${cost:.4f}  total=${guard.state.spend_usd:.4f}/${guard.state.max_usd}")
+        print(
+            f"  [budget] DeepSeek call: in={_in_tok} out={_out_tok} cost=${cost:.4f}  total=${guard.state.spend_usd:.4f}/${guard.state.max_usd}"
+        )
 
         # Audit log every cloud call (whether cloaked or not).
         if _AUDIT_ON:
@@ -1511,14 +1634,15 @@ Rules:
     compile_sh_parsed, files_parsed = parse_response(text)
     if compile_sh_parsed and not files_parsed:
         import re as _re
+
         print(f"  [DEBUG] No files parsed. Response len={len(text)}")
         # Try the exact regex and show what happens
         pat = r'<file\s+name=["\']?([^"\'>\s]+)["\']?>(.*?)</file>'
         matches = list(_re.finditer(pat, text, _re.DOTALL))
         print(f"  [DEBUG] regex matches: {len(matches)}")
         # Show all <file occurrences with 120 chars
-        for i, m in enumerate(_re.finditer(r'<file', text)):
-            snippet = text[m.start():m.start()+120]
+        for i, m in enumerate(_re.finditer(r"<file", text)):
+            snippet = text[m.start() : m.start() + 120]
             print(f"  [DEBUG] <file at {m.start()}: {repr(snippet)}")
         # Show last 200 chars (closing tags)
         print(f"  [DEBUG] Response tail: {repr(text[-300:])}")
@@ -1531,7 +1655,10 @@ Rules:
 # Compilation + packaging
 # ---------------------------------------------------------------------------
 
-def compile_in_container(instance_id: str, compile_sh: str, files: dict[str, str]) -> tuple[bool, str]:
+
+def compile_in_container(
+    instance_id: str, compile_sh: str, files: dict[str, str]
+) -> tuple[bool, str]:
     """Write files to a temp dir, volume-mount into container, run compile.sh in one shot."""
     img = image_name(instance_id)
 
@@ -1540,10 +1667,13 @@ def compile_in_container(instance_id: str, compile_sh: str, files: dict[str, str
     staging_root.mkdir(parents=True, exist_ok=True)
 
     import uuid
+
     staging = staging_root / str(uuid.uuid4())
     staging.mkdir()
     try:
-        (staging / "compile.sh").write_text(compile_sh.replace("\r\n", "\n"), newline="\n", encoding="utf-8")
+        (staging / "compile.sh").write_text(
+            compile_sh.replace("\r\n", "\n"), newline="\n", encoding="utf-8"
+        )
         for fname, content in files.items():
             fpath = staging / fname
             fpath.parent.mkdir(parents=True, exist_ok=True)
@@ -1569,12 +1699,18 @@ def compile_in_container(instance_id: str, compile_sh: str, files: dict[str, str
 
         result = subprocess.run(
             [
-                "docker", "run", "--rm",
-                "-v", f"{docker_path}:/mnt/src:ro",
+                "docker",
+                "run",
+                "--rm",
+                "-v",
+                f"{docker_path}:/mnt/src:ro",
                 img,
-                "bash", "-c", script,
+                "bash",
+                "-c",
+                script,
             ],
-            capture_output=True, timeout=300
+            capture_output=True,
+            timeout=300,
         )
         stdout = result.stdout.decode("utf-8", errors="replace")
         stderr = result.stderr.decode("utf-8", errors="replace")
@@ -1584,10 +1720,13 @@ def compile_in_container(instance_id: str, compile_sh: str, files: dict[str, str
         return False, "compile.sh timed out after 300s"
     finally:
         import shutil
+
         shutil.rmtree(staging, ignore_errors=True)
 
 
-def package_submission(instance_id: str, compile_sh: str, files: dict[str, str], run_dir: Path) -> Path:
+def package_submission(
+    instance_id: str, compile_sh: str, files: dict[str, str], run_dir: Path
+) -> Path:
     """Package as submission.tar.gz in the run directory."""
     task_dir = run_dir / instance_id
     task_dir.mkdir(parents=True, exist_ok=True)
@@ -1595,7 +1734,9 @@ def package_submission(instance_id: str, compile_sh: str, files: dict[str, str],
     # Write files to a staging area for inspection
     staging = task_dir / "source"
     staging.mkdir(exist_ok=True)
-    (staging / "compile.sh").write_text(compile_sh.replace("\r\n", "\n"), newline="\n", encoding="utf-8")
+    (staging / "compile.sh").write_text(
+        compile_sh.replace("\r\n", "\n"), newline="\n", encoding="utf-8"
+    )
     for fname, content in files.items():
         fpath = staging / fname
         fpath.parent.mkdir(parents=True, exist_ok=True)
@@ -1618,17 +1759,19 @@ def package_submission(instance_id: str, compile_sh: str, files: dict[str, str],
 # Main solve loop
 # ---------------------------------------------------------------------------
 
+
 def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Task: {instance_id}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     metrics = TaskMetrics(instance_id=instance_id, t_start=time.time())
 
     # Pull image (force fresh if env says so, otherwise only if missing)
     force_pull = os.environ.get("DETERMINEX_PB_FORCE_PULL", "").lower() in ("1", "true", "yes")
-    images = subprocess.run(["docker", "images", "-q", image_name(instance_id)],
-                            capture_output=True, text=True).stdout.strip()
+    images = subprocess.run(
+        ["docker", "images", "-q", image_name(instance_id)], capture_output=True, text=True
+    ).stdout.strip()
     if not images or force_pull:
         if force_pull and images:
             print(f"  DETERMINEX_PB_FORCE_PULL=1 → re-pulling {image_name(instance_id)}")
@@ -1647,7 +1790,7 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
     if has_blobs:
         print(f"  Using actual pytest suite ({len(branches)} test branches) — ground truth mode")
     else:
-        print(f"  No blob data — will use differential probe vs reference binary")
+        print("  No blob data — will use differential probe vs reference binary")
 
     prior_error = ""
     compile_sh: str = ""
@@ -1660,7 +1803,9 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             tier_idx = pick_tier(instance_id, metrics.attempts, escalate=True)
             backend, model_tag, tier_label = ESCALATION_LADDER[tier_idx]
             am.model_used = tier_label
-            print(f"  Attempt {attempt}: tier={tier_label} (backend={backend}, model={model_tag or 'cloud'})")
+            print(
+                f"  Attempt {attempt}: tier={tier_label} (backend={backend}, model={model_tag or 'cloud'})"
+            )
         else:
             backend = MODEL_BACKEND
             model_tag = LOCAL_MODEL if MODEL_BACKEND == "local" else None
@@ -1671,8 +1816,13 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             # eval-scored submission). Otherwise model would diff broken code.
             inject_prior = metrics.best_compile_sh and metrics.final_eval_score > 0
             compile_sh, files, _wal_user_msg, _wal_response = generate_code(
-                instance_id, observations, prior_error, attempt,
-                backend=backend, model_tag=model_tag, run_name=run_name,
+                instance_id,
+                observations,
+                prior_error,
+                attempt,
+                backend=backend,
+                model_tag=model_tag,
+                run_name=run_name,
                 prior_compile_sh=metrics.best_compile_sh if inject_prior else "",
                 prior_files=metrics.best_files if inject_prior else None,
                 best_eval_score=metrics.final_eval_score if inject_prior else -1,
@@ -1685,7 +1835,8 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             print(f"  Attempt {attempt}: BUDGET CAP — giving up early ({e})")
             am.syntax_blocked = True
             am.t_claude_end = time.time()
-            metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+            metrics.attempts.append(am)
+            _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
             break
         except Exception as e:
             # Backend hard failure (Ollama down, API key invalid, etc).
@@ -1694,7 +1845,8 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             prior_error = f"Backend ({backend}) call failed with {type(e).__name__}: {str(e)[:300]}. Retrying."
             am.syntax_blocked = True  # Reuse this flag — won't count as compile attempt
             am.t_claude_end = time.time()
-            metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+            metrics.attempts.append(am)
+            _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
             time.sleep(5)
             continue
         am.t_claude_end = time.time()
@@ -1703,10 +1855,13 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             print(f"  Attempt {attempt}: failed to parse response (no compile_sh)")
             prior_error = "Claude's response did not contain a valid <compile_sh> block. Please follow the exact format."
             am.syntax_blocked = True
-            metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+            metrics.attempts.append(am)
+            _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
             continue
 
-        print(f"  Attempt {attempt}: compile_sh={len(compile_sh)}b, files={list(files.keys())} | Claude: {am.t_claude:.0f}s")
+        print(
+            f"  Attempt {attempt}: compile_sh={len(compile_sh)}b, files={list(files.keys())} | Claude: {am.t_claude:.0f}s"
+        )
 
         # --- Sidecar step 0: template-leak detector (free, instant) ---
         # Catch the model verbatim-copying our prompt placeholders before wasting compile.
@@ -1736,16 +1891,25 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
                 if marker in cl:
                     leaks.append(f"{fname} contains unmodified template placeholder: '{marker}'")
             # Also catch effectively-empty bodies (just shebang or just one comment)
-            real_lines = [ln for ln in content.splitlines() if ln.strip() and not ln.strip().startswith("#")]
+            real_lines = [
+                ln for ln in content.splitlines() if ln.strip() and not ln.strip().startswith("#")
+            ]
             if len(real_lines) < 3:
                 leaks.append(f"{fname} has fewer than 3 lines of real code — looks empty/stub")
         if leaks:
-            msg = "TEMPLATE LEAK — you copied placeholder text verbatim instead of writing real code:\n  - " + "\n  - ".join(leaks[:5])
+            msg = (
+                "TEMPLATE LEAK — you copied placeholder text verbatim instead of writing real code:\n  - "
+                + "\n  - ".join(leaks[:5])
+            )
             print(f"  Attempt {attempt}: TEMPLATE LEAK:\n  - " + "\n  - ".join(leaks[:5]))
-            prior_error = msg + "\n\nReplace ALL placeholder/template text with a complete working implementation. The compile.sh must contain real shell commands; the source files must contain real source code."
+            prior_error = (
+                msg
+                + "\n\nReplace ALL placeholder/template text with a complete working implementation. The compile.sh must contain real shell commands; the source files must contain real source code."
+            )
             am.syntax_blocked = True
             am.t_compile_end = time.time()
-            metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+            metrics.attempts.append(am)
+            _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
             continue
 
         # --- Sidecar step 1: provenance check (fire-and-forget, never blocks) ---
@@ -1758,7 +1922,8 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             prior_error = f"Syntax error caught before compilation:\n{syntax_err}"
             am.syntax_blocked = True
             am.t_compile_end = time.time()
-            metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+            metrics.attempts.append(am)
+            _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
             continue
 
         success, compile_output = compile_in_container(instance_id, compile_sh, files)
@@ -1767,16 +1932,16 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
 
         if not success:
             print(f"  Attempt {attempt}: COMPILE FAILED ({am.t_compile:.0f}s)")
-            
+
             # Print bottom of error to console so we can see the actual fatal error
             console_err = compile_output[-500:] if len(compile_output) > 500 else compile_output
             print(f"  Error (last 500 chars):\n{console_err}")
-            
+
             # Keep the BOTTOM 4000 characters of the compiler output, since Rust outputs warnings
             # first and the fatal error at the very end.
             safe_output = compile_output[-4000:] if len(compile_output) > 4000 else compile_output
             prior_error = safe_output
-            
+
             same_error_count = 0
             for prev in metrics.attempts:
                 if not prev.compile_ok and not prev.syntax_blocked:
@@ -1796,14 +1961,17 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
                         "Do NOT use external crates without a Cargo.toml. Use only std::*. "
                         "Stdin: `use std::io::Read; let mut s = String::new(); io::stdin().read_to_string(&mut s)?;`"
                     )
-                elif "main.go" not in (files or {}) and any(f.endswith(".go") for f in (files or {})):
+                elif "main.go" not in (files or {}) and any(
+                    f.endswith(".go") for f in (files or {})
+                ):
                     lang_hint = "\n\nGO HINT: file should be named main.go, with `package main` declaration."
                 prior_error = (
                     f"REPEAT COMPILE FAILURE (attempt {attempt}, this error class has now failed {same_error_count + 1} times). "
                     f"The same approach is not working. CHANGE STRATEGY this attempt — do NOT just tweak the prior code. "
                     f"Re-read your compile.sh AND source from scratch.{lang_hint}\n\nLatest compile error:\n{safe_output}"
                 )
-            metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+            metrics.attempts.append(am)
+            _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
             time.sleep(1)
             continue
 
@@ -1821,7 +1989,8 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
                 am.probe_total = 0
                 print(f"  Attempt {attempt}: PROBE NO_BLOBS (cache miss)")
                 prior_error = "Probe blob cache unavailable — check HF snapshot dir."
-                metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+                metrics.attempts.append(am)
+                _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
                 time.sleep(1)
                 continue
             elif probe_raw.startswith("COMPILE_FAILED"):
@@ -1829,11 +1998,12 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
                 am.t_probe_end = time.time()
                 am.probe_pass = 0
                 am.probe_total = 0
-                compile_err = probe_raw[len("COMPILE_FAILED\n"):]
+                compile_err = probe_raw[len("COMPILE_FAILED\n") :]
                 print(f"  Attempt {attempt}: PROBE COMPILE FAILED")
                 prior_error = compile_err
                 am.compile_ok = False
-                metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+                metrics.attempts.append(am)
+                _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
                 time.sleep(1)
                 continue
             elif probe_raw.startswith("PROBE_TIMEOUT_OR_CRASH") or probe_raw == "probe timed out":
@@ -1842,7 +2012,8 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
                 am.probe_total = 0
                 print(f"  Attempt {attempt}: PROBE TIMED OUT/CRASHED")
                 prior_error = "Test runner timed out or crashed. Consider a faster implementation."
-                metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+                metrics.attempts.append(am)
+                _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
                 time.sleep(1)
                 continue
         else:
@@ -1856,7 +2027,9 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
         am.probe_total = total
 
         pct = f"{am.probe_pct:.0f}%" if total > 0 else "N/A"
-        print(f"  Attempt {attempt}: internal probe {pct} ({passed}/{total}) | probe: {am.t_probe:.0f}s")
+        print(
+            f"  Attempt {attempt}: internal probe {pct} ({passed}/{total}) | probe: {am.t_probe:.0f}s"
+        )
 
         # Fast pre-filter: if the internal pytest probe found real failures
         # (only meaningful when has_blobs=True), don't pay the cost of the
@@ -1871,7 +2044,8 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             diagnosis = observer_diagnose(instance_id, failures, observations)
             am.observer_diagnosis = diagnosis[:200] if diagnosis else ""
             prior_error = diagnosis + format_failure_report(failures)
-            metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+            metrics.attempts.append(am)
+            _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
             time.sleep(1)
             continue
 
@@ -1897,8 +2071,10 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
         if ev.error:
             print(f"  Attempt {attempt}: official eval ERROR ({eval_dt:.0f}s): {ev.error[:200]}")
         else:
-            print(f"  Attempt {attempt}: official eval = {ev.score}/100  "
-                  f"({ev.passed}/{ev.total} tests, {eval_dt:.0f}s){cache_tag}  best-so-far={max(prior_best, ev.score)}/100")
+            print(
+                f"  Attempt {attempt}: official eval = {ev.score}/100  "
+                f"({ev.passed}/{ev.total} tests, {eval_dt:.0f}s){cache_tag}  best-so-far={max(prior_best, ev.score)}/100"
+            )
 
         # BEST-tracking: only treat this as the canonical submission if it beats prior best.
         if ev.score > prior_best:
@@ -1915,7 +2091,9 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             # Submission tarball already written by package_submission above; it IS the new best.
         elif ev.score < prior_best and prior_best >= 0 and metrics.best_compile_sh:
             # This attempt regressed. Restore the BEST submission to disk so we ship the best one.
-            print(f"  Attempt {attempt}: REGRESSION ({ev.score} < best {prior_best}) — restoring best submission to disk")
+            print(
+                f"  Attempt {attempt}: REGRESSION ({ev.score} < best {prior_best}) — restoring best submission to disk"
+            )
             package_submission(instance_id, metrics.best_compile_sh, metrics.best_files, run_dir)
             # Reset last_per_test to best's baseline so the NEXT retry's diff is vs the BEST
             # (not vs this broken regression).  Without this, next attempt sees "YOU BROKE 517
@@ -1927,7 +2105,8 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             metrics.verified_locked = True
             metrics.solved = True  # back-compat
             metrics.t_end = time.time()
-            metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+            metrics.attempts.append(am)
+            _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
             metrics.save(run_dir)
             metrics.print_summary()
             return True
@@ -1940,9 +2119,12 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
             # Last two attempts both regressed below the best
             recent = eval_history[-2:]
             if all(s < prior_best for s in recent) and prior_best >= 30:
-                print(f"  Attempt {attempt}: REGRESSION-STOP — 2 attempts in a row scored below best ({prior_best}). "
-                      f"Local max reached. Shipping best submission.")
-                metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+                print(
+                    f"  Attempt {attempt}: REGRESSION-STOP — 2 attempts in a row scored below best ({prior_best}). "
+                    f"Local max reached. Shipping best submission."
+                )
+                metrics.attempts.append(am)
+                _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
                 metrics.t_end = time.time()
                 metrics.save(run_dir)
                 metrics.print_summary()
@@ -1978,7 +2160,10 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
                         "  rustc main.rs -o executable\n"
                         "or, if cargo project: `cargo build --release && cp target/release/<name> executable`"
                     )
-                elif any(f.endswith(".c") or f.endswith(".cc") or f.endswith(".cpp") for f in (files or {})):
+                elif any(
+                    f.endswith(".c") or f.endswith(".cc") or f.endswith(".cpp")
+                    for f in (files or {})
+                ):
                     lang_hint = (
                         "Your compile.sh did NOT produce ./executable. Use:\n"
                         "  gcc -O2 -o executable *.c\n"
@@ -2026,14 +2211,14 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
                         f"   Before doing ANYTHING else: UNDO the change(s) that caused these regressions.\n"
                         f"   Tests that were passing before and now fail: "
                         + ", ".join(regressions[:12])
-                        + (f", ... +{len(regressions)-12} more" if len(regressions) > 12 else "")
+                        + (f", ... +{len(regressions) - 12} more" if len(regressions) > 12 else "")
                         + "\n\n"
                     )
                 elif wins:
                     progress_block = (
                         f"✓ Good progress — you FIXED {len(wins)} tests last attempt: "
                         + ", ".join(wins[:8])
-                        + (f", ... +{len(wins)-8} more" if len(wins) > 8 else "")
+                        + (f", ... +{len(wins) - 8} more" if len(wins) > 8 else "")
                         + "\n  Keep going — now fix the remaining failures below.\n\n"
                     )
 
@@ -2072,7 +2257,8 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
                 # Regressions lead — model MUST see them before any new failure detail.
                 prior_error = progress_block + ev.feedback_block()
 
-        metrics.attempts.append(am); _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
+        metrics.attempts.append(am)
+        _write_wal_for_attempt(run_name, instance_id, am, locals().get("ev"))
         time.sleep(1)
 
     print(f"  GAVE UP after {MAX_RETRIES} attempts.")
@@ -2088,20 +2274,39 @@ def solve_task(instance_id: str, run_dir: Path, run_name: str = "") -> bool:
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def main():
     parser = argparse.ArgumentParser(description="Determinex ProgramBench Agent")
     parser.add_argument("--task", help="Full instance ID (e.g. sclevine__yj.8016400)")
-    parser.add_argument("--tasks", nargs="+", help="Short task names (yj, htmlq, ...) or 'all_easy'")
-    parser.add_argument("--run-name", default=f"determinex_{int(time.time())}", help="Run directory name")
+    parser.add_argument(
+        "--tasks", nargs="+", help="Short task names (yj, htmlq, ...) or 'all_easy'"
+    )
+    parser.add_argument(
+        "--run-name", default=f"determinex_{int(time.time())}", help="Run directory name"
+    )
     parser.add_argument("--workers", type=int, default=1, help="Parallel workers (future)")
-    parser.add_argument("--model", choices=("anthropic", "local", "deepseek"), default="anthropic",
-                        help="Builder backend: anthropic (Sonnet 4.6), local (Ollama Qwen2.5-Coder), deepseek (DeepSeek V4). Default: anthropic.")
-    parser.add_argument("--local-model", default=None,
-                        help="Override Ollama model tag (default: qwen2.5-coder:14b-instruct-q4_K_M, env: DETERMINEX_LOCAL_BUILDER_MODEL)")
-    parser.add_argument("--escalate", action="store_true",
-                        help="Auto-escalate builder when stuck: 7b → 14b → DeepSeek. Anchors start at DeepSeek.")
-    parser.add_argument("--no-escalate", dest="escalate", action="store_false",
-                        help="Disable escalation (use --model + --local-model only).")
+    parser.add_argument(
+        "--model",
+        choices=("anthropic", "local", "deepseek"),
+        default="anthropic",
+        help="Builder backend: anthropic (Sonnet 4.6), local (Ollama Qwen2.5-Coder), deepseek (DeepSeek V4). Default: anthropic.",
+    )
+    parser.add_argument(
+        "--local-model",
+        default=None,
+        help="Override Ollama model tag (default: qwen2.5-coder:14b-instruct-q4_K_M, env: DETERMINEX_LOCAL_BUILDER_MODEL)",
+    )
+    parser.add_argument(
+        "--escalate",
+        action="store_true",
+        help="Auto-escalate builder when stuck: 7b → 14b → DeepSeek. Anchors start at DeepSeek.",
+    )
+    parser.add_argument(
+        "--no-escalate",
+        dest="escalate",
+        action="store_false",
+        help="Disable escalation (use --model + --local-model only).",
+    )
     parser.set_defaults(escalate=False)
     args = parser.parse_args()
 
@@ -2115,7 +2320,10 @@ def main():
         ladder = " → ".join(label for _b, _m, label in ESCALATION_LADDER)
         print(f"[builder] ESCALATION ON  ladder: {ladder}  anchors→T3 from attempt 1")
     else:
-        print(f"[builder] backend={MODEL_BACKEND}" + (f" model={LOCAL_MODEL}" if MODEL_BACKEND == "local" else f" model={MODEL}"))
+        print(
+            f"[builder] backend={MODEL_BACKEND}"
+            + (f" model={LOCAL_MODEL}" if MODEL_BACKEND == "local" else f" model={MODEL}")
+        )
 
     run_dir = OUTPUT_BASE / args.run_name
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -2146,9 +2354,9 @@ def main():
         results[iid] = solve_task(iid, run_dir, run_name=args.run_name)
     run_elapsed = time.time() - run_start
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("RESULTS")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     passed = sum(results.values())
     for iid, ok in results.items():
         # Load saved metrics for per-task summary
@@ -2169,11 +2377,15 @@ def main():
                     final_pct_str = f"{pct:.0f}%"
             except Exception:
                 pass
-        print(f"  {'PASS' if ok else 'FAIL'}  {iid}  {final_pct_str:>5}  {attempts_str}  {elapsed_str}")
+        print(
+            f"  {'PASS' if ok else 'FAIL'}  {iid}  {final_pct_str:>5}  {attempts_str}  {elapsed_str}"
+        )
 
-    print(f"\n{passed}/{len(results)} solved  |  total wall time: {run_elapsed:.0f}s ({run_elapsed/60:.1f}m)")
+    print(
+        f"\n{passed}/{len(results)} solved  |  total wall time: {run_elapsed:.0f}s ({run_elapsed / 60:.1f}m)"
+    )
     print(f"Run dir: {run_dir}")
-    print(f"\nTo evaluate:")
+    print("\nTo evaluate:")
     print(f"  cd T:/Dev/ProgramBench && uv run programbench eval {run_dir}")
 
 

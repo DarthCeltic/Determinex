@@ -17,6 +17,7 @@ complete or as an inline further-divided base (`str(RESOURCES / 'x')`) -- this c
 a plain local Assign inside the TEST body itself, referenced bare (not `str(...)`
 -wrapped, not inline at the call site) later on.
 """
+
 from __future__ import annotations
 
 import sys
@@ -32,16 +33,16 @@ def test_track_resource_path_vars_resolves_real_file(tmp_path):
     (resources / "simple_box.txt").write_text("+--+\n|  |\n+--+\n", encoding="utf-8", newline="")
 
     test_file = tmp_path / "test_x.py"
-    test_file.write_text('', encoding="utf-8")
+    test_file.write_text("", encoding="utf-8")
     resolver = iox._PathResolver(test_file)
 
-    tree = iox.ast.parse(f'''
+    tree = iox.ast.parse(f"""
 from pathlib import Path
 RESOURCES = Path({str(tmp_path)!r}) / "test_resources"
 
 def test_x():
     input_file = RESOURCES / "simple_box.txt"
-''')
+""")
     resolver.learn(tree)
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._track_resource_path_vars(func, resolver)
@@ -53,15 +54,15 @@ def test_x():
 
 def test_track_resource_path_vars_declines_nonexistent_file(tmp_path):
     test_file = tmp_path / "test_x.py"
-    test_file.write_text('', encoding="utf-8")
+    test_file.write_text("", encoding="utf-8")
     resolver = iox._PathResolver(test_file)
-    tree = iox.ast.parse(f'''
+    tree = iox.ast.parse(f"""
 from pathlib import Path
 RESOURCES = Path({str(tmp_path)!r}) / "test_resources"
 
 def test_x():
     input_file = RESOURCES / "does_not_exist.txt"
-''')
+""")
     resolver.learn(tree)
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._track_resource_path_vars(func, resolver)
@@ -72,12 +73,12 @@ def test_track_resource_path_vars_declines_scratch_output_that_does_not_exist_ye
     """A scratch OUTPUT path (`temp_dir / 'out.png'`) doesn't exist on disk until the
     real invocation creates it -- must never be mistaken for a real shipped file."""
     test_file = tmp_path / "test_x.py"
-    test_file.write_text('', encoding="utf-8")
+    test_file.write_text("", encoding="utf-8")
     resolver = iox._PathResolver(test_file)
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def test_x(temp_dir):
     output_file = temp_dir / "out.png"
-''')
+""")
     resolver.learn(tree)
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._track_resource_path_vars(func, resolver)
@@ -89,10 +90,13 @@ def test_extract_file_resolves_ditaa_shaped_local_resource_var_end_to_end(tmp_pa
     tests_dir.mkdir()
     resources_dir = tests_dir.parent / "test_resources" / "test_rendering"
     resources_dir.mkdir(parents=True)
-    (resources_dir / "simple_box.txt").write_text("+--+\n|  |\n+--+\n", encoding="utf-8", newline="")
+    (resources_dir / "simple_box.txt").write_text(
+        "+--+\n|  |\n+--+\n", encoding="utf-8", newline=""
+    )
 
     conf = tests_dir / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import tempfile
 import pytest
@@ -116,8 +120,10 @@ def run_ditaa(temp_dir):
             args.extend(extra_args)
         return subprocess.run(args, capture_output=True, text=True, timeout=30)
     return _run
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 from pathlib import Path
 
 RESOURCES = Path(__file__).parent.parent / "test_resources" / "test_rendering"
@@ -127,7 +133,7 @@ def test_no_shadows_flag_accepted(run_ditaa, temp_dir):
     output_file = temp_dir / "out.png"
     result = run_ditaa(input_file, output_file, extra_args=["-S"])
     assert result.returncode == 0
-'''
+"""
     f = tests_dir / "test_x.py"
     f.write_text(src, encoding="utf-8")
 

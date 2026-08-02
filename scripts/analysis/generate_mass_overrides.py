@@ -16,14 +16,11 @@ Each generated override embeds:
 
 Run:  python scripts/analysis/generate_mass_overrides.py [--threshold 30] [--dry-run]
 """
+
 from __future__ import annotations
+
 import argparse
-import glob
-import io
 import json
-import re
-import stat
-import tarfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -268,10 +265,15 @@ def generate_one(tool_key: str, ours: dict, tool_meta: dict, dry_run: bool) -> b
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--threshold", type=float, default=30.0,
-                    help="generate overrides for tools with pct < threshold")
-    ap.add_argument("--skip-existing", action="store_true",
-                    help="don't overwrite existing overrides")
+    ap.add_argument(
+        "--threshold",
+        type=float,
+        default=30.0,
+        help="generate overrides for tools with pct < threshold",
+    )
+    ap.add_argument(
+        "--skip-existing", action="store_true", help="don't overwrite existing overrides"
+    )
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 

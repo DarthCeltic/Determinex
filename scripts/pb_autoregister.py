@@ -18,6 +18,7 @@ Usage:
                                     [--commit] [--dry-run]
   e.g. python scripts/pb_autoregister.py /root/capfix9 --commit
 """
+
 from __future__ import annotations
 
 import argparse
@@ -32,15 +33,19 @@ REG = ROOT / "corpus" / "programbench" / "verified_locks.json"
 
 
 def _ssh(host: str, key: str, cmd: str) -> str:
-    r = subprocess.run(["ssh", "-i", key, "-o", "ConnectTimeout=25", host, cmd],
-                       capture_output=True, text=True)
+    r = subprocess.run(
+        ["ssh", "-i", key, "-o", "ConnectTimeout=25", host, cmd], capture_output=True, text=True
+    )
     return r.stdout
 
 
 def _scp(host: str, key: str, remote: str, local: Path) -> bool:
     local.parent.mkdir(parents=True, exist_ok=True)
-    r = subprocess.run(["scp", "-i", key, "-o", "ConnectTimeout=25",
-                        f"{host}:{remote}", str(local)], capture_output=True, text=True)
+    r = subprocess.run(
+        ["scp", "-i", key, "-o", "ConnectTimeout=25", f"{host}:{remote}", str(local)],
+        capture_output=True,
+        text=True,
+    )
     return r.returncode == 0 and local.exists()
 
 
@@ -56,7 +61,8 @@ def main() -> int:
     verified = set(json.loads(REG.read_text(encoding="utf-8"))["locks"]) if REG.exists() else set()
     raw = _ssh(args.host, args.key, f"cat {args.remote_base}/results.jsonl 2>/dev/null")
     if not raw.strip():
-        print(f"no results at {args.remote_base}/results.jsonl"); return 1
+        print(f"no results at {args.remote_base}/results.jsonl")
+        return 1
 
     clean, notclean, already = [], [], []
     for line in raw.splitlines():
@@ -71,17 +77,28 @@ def main() -> int:
         if not slug:
             continue
         is_clean = d.get("clean") or (
-            d.get("error") is None and d.get("passed") == d.get("total")
-            and d.get("failed", 1) == 0 and d.get("not_run", 1) == 0 and d.get("skipped", 1) == 0)
+            d.get("error") is None
+            and d.get("passed") == d.get("total")
+            and d.get("failed", 1) == 0
+            and d.get("not_run", 1) == 0
+            and d.get("skipped", 1) == 0
+        )
         if not is_clean:
-            notclean.append((slug, d.get("error") or
-                             f"{d.get('passed')}/{d.get('total')} sk={d.get('skipped')} nr={d.get('not_run')} f={d.get('failed')}"))
+            notclean.append(
+                (
+                    slug,
+                    d.get("error")
+                    or f"{d.get('passed')}/{d.get('total')} sk={d.get('skipped')} nr={d.get('not_run')} f={d.get('failed')}",
+                )
+            )
         elif slug in verified:
             already.append(slug)
         else:
             clean.append(slug)
 
-    print(f"results: {len(clean)} new-clean | {len(already)} already-locked | {len(notclean)} not-clean")
+    print(
+        f"results: {len(clean)} new-clean | {len(already)} already-locked | {len(notclean)} not-clean"
+    )
     for s, why in notclean:
         print(f"  skip {s}: {why}")
     if args.dry_run:
@@ -92,30 +109,59 @@ def main() -> int:
     registered = []
     for slug in clean:
         d = LOCKED / slug
-        ok_sub = _scp(args.host, args.key, f"{args.remote_base}/pilot/{slug}/submission.tar.gz",
-                      d / "submission.tar.gz")
-        ok_json = _scp(args.host, args.key, f"{args.remote_base}/jsons/{slug}.eval.json",
-                       d / "eval_report.json")
+        ok_sub = _scp(
+            args.host,
+            args.key,
+            f"{args.remote_base}/pilot/{slug}/submission.tar.gz",
+            d / "submission.tar.gz",
+        )
+        ok_json = _scp(
+            args.host,
+            args.key,
+            f"{args.remote_base}/jsons/{slug}.eval.json",
+            d / "eval_report.json",
+        )
         if not (ok_sub and ok_json):
-            print(f"  FETCH-FAIL {slug} (sub={ok_sub} json={ok_json})"); continue
+            print(f"  FETCH-FAIL {slug} (sub={ok_sub} json={ok_json})")
+            continue
         # the gates live in the registry verify -- this is the only thing that can mint a lock
-        r = subprocess.run([sys.executable, str(ROOT / "scripts" / "determinex_pb_lock_registry.py"),
-                            "verify", slug, str(d / "eval_report.json")],
-                           capture_output=True, text=True)
+        r = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "determinex_pb_lock_registry.py"),
+                "verify",
+                slug,
+                str(d / "eval_report.json"),
+            ],
+            capture_output=True,
+            text=True,
+        )
         out = r.stdout + r.stderr
         if "'ok': True" in out:
             registered.append(slug)
             print(f"  REGISTERED {slug}")
         else:
-            print(f"  GATE-REJECT {slug}: {out.strip().splitlines()[-1] if out.strip() else 'no output'}")
+            print(
+                f"  GATE-REJECT {slug}: {out.strip().splitlines()[-1] if out.strip() else 'no output'}"
+            )
 
     print(f"\nregistered {len(registered)} new locks")
     if registered and args.commit:
-        subprocess.run(["git", "add", "corpus/programbench/verified_locks.json",
-                        "corpus/programbench/locked", "corpus/programbench/CAPABILITY.md"], cwd=ROOT)
-        msg = (f"PB: auto-register {len(registered)} locks via pb_autoregister "
-               f"({', '.join(s.split('__')[-1].split('.')[0] for s in registered)})\n\n"
-               "Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>")
+        subprocess.run(
+            [
+                "git",
+                "add",
+                "corpus/programbench/verified_locks.json",
+                "corpus/programbench/locked",
+                "corpus/programbench/CAPABILITY.md",
+            ],
+            cwd=ROOT,
+        )
+        msg = (
+            f"PB: auto-register {len(registered)} locks via pb_autoregister "
+            f"({', '.join(s.split('__')[-1].split('.')[0] for s in registered)})\n\n"
+            "Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
+        )
         subprocess.run(["git", "commit", "-q", "-m", msg], cwd=ROOT)
         n = len(json.loads(REG.read_text(encoding="utf-8"))["locks"])
         print(f"committed. verified_locks now: {n}")

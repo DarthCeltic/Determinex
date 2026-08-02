@@ -15,6 +15,7 @@ Usage:
     python scripts/pb_generate_lessons.py            # write drafts for stubs only
     python scripts/pb_generate_lessons.py --tool oha
 """
+
 from __future__ import annotations
 
 import argparse
@@ -67,7 +68,11 @@ def extract_comment_blocks(text: str) -> list[str]:
     if len(cur) >= 2:
         blocks.append("\n".join(cur))
     # Keep substantive blocks (those mentioning a decision/version/fix/test).
-    keep = [b for b in blocks if re.search(r"decision|version|fix|test|branch|golden|rc=|panic|wrapper", b, re.I)]
+    keep = [
+        b
+        for b in blocks
+        if re.search(r"decision|version|fix|test|branch|golden|rc=|panic|wrapper", b, re.I)
+    ]
     return keep[:6]
 
 

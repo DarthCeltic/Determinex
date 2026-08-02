@@ -6,6 +6,7 @@ diff mismatch, missing approval, and verifier-not-passed.
 
 This rung never writes to source.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -107,8 +108,9 @@ class SourceMutationApplyDryRun:
             conflicts=(),
             source_unchanged=True,
             training_eligible=False,
-            notes=("dry-run only; no write performed; "
-                   "real apply requires a separate, audited step",),
+            notes=(
+                "dry-run only; no write performed; real apply requires a separate, audited step",
+            ),
         )
 
 

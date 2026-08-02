@@ -20,6 +20,7 @@ Usage::
     python scripts/release/clean_host_kit.py --output .tmp/clean-host-kit
     python scripts/release/clean_host_kit.py --output .tmp/clean-host-kit --zip
 """
+
 from __future__ import annotations
 
 import argparse
@@ -276,12 +277,17 @@ def build(out_dir: Path, make_zip: bool, installer_choice: str = "msi") -> None:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--output", type=Path, default=ROOT / ".tmp" / "clean-host-kit")
     ap.add_argument("--zip", action="store_true", help="also produce a single .zip")
-    ap.add_argument("--installer", choices=("msi", "nsis", "both"), default="msi",
-                    help="which installer to ship (default: msi -- the smoke installs one)")
+    ap.add_argument(
+        "--installer",
+        choices=("msi", "nsis", "both"),
+        default="msi",
+        help="which installer to ship (default: msi -- the smoke installs one)",
+    )
     args = ap.parse_args()
     build(args.output, args.zip, args.installer)
     return 0

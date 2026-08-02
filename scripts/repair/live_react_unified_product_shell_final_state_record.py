@@ -1,9 +1,9 @@
 """Records for DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_STATUS_TOKENS = (
     "LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_PASSED",
@@ -48,9 +48,7 @@ class LiveReactUnifiedProductShellFinalStateRecord:
 
     @property
     def is_blocked(self) -> bool:
-        return self.decision.startswith(
-            "LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_BLOCKED_"
-        )
+        return self.decision.startswith("LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_BLOCKED_")
 
 
 __all__ = [

@@ -8,6 +8,7 @@ back into determinex_agents.py's `record-turn` CLI subcommand, which
 delegates to record_turn() here -- not covered by these tests (no subprocess
 involved on this side).
 """
+
 from __future__ import annotations
 
 import json
@@ -29,7 +30,11 @@ def _rewire(monkeypatch, tmp_path: Path) -> None:
     monkeypatch.setattr(chat, "INDEX_PATH", sessions_dir / "_index.json")
     # Oracle feedback loop's durable store -- must never touch the real
     # corpus/chat_sessions/oracle_outcomes.jsonl during a test run.
-    monkeypatch.setattr(chat, "_ORACLE_OUTCOMES_PATH", tmp_path / "corpus" / "chat_sessions" / "oracle_outcomes.jsonl")
+    monkeypatch.setattr(
+        chat,
+        "_ORACLE_OUTCOMES_PATH",
+        tmp_path / "corpus" / "chat_sessions" / "oracle_outcomes.jsonl",
+    )
     # _CLOAK_CONTEXTS is a module-level, session_id-keyed in-memory cache --
     # clear it so one test's cloak state can't leak into another's.
     chat._CLOAK_CONTEXTS.clear()
@@ -38,6 +43,7 @@ def _rewire(monkeypatch, tmp_path: Path) -> None:
 # ---------------------------------------------------------------------------
 # @mention parsing
 # ---------------------------------------------------------------------------
+
 
 def test_parse_mentions_matches_agent_name_and_alias():
     known = ["claude-code", "codex", "local-ollama"]
@@ -67,6 +73,7 @@ def test_parse_mentions_deduplicates():
 # ---------------------------------------------------------------------------
 # Session create / index
 # ---------------------------------------------------------------------------
+
 
 def test_create_session_writes_index_entry_and_list_sessions_reflects_it(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
@@ -98,14 +105,25 @@ def test_get_session_returns_none_for_unknown_id(tmp_path, monkeypatch):
 # append_turn / read_transcript round-trip
 # ---------------------------------------------------------------------------
 
+
 def _make_turn(session_id: str, seq: int, speaker: str = "codex") -> chat.ChatTurn:
     return chat.ChatTurn(
-        turn_id=f"{session_id}-{seq}", session_id=session_id, seq=seq,
-        speaker=speaker, speaker_kind="agent", addressed_to=[], mode="broadcast",
-        task_prompt="do the thing", raw_output="did the thing",
-        returncode=0, verified=True, oracle="pytest", n_failures=0,
+        turn_id=f"{session_id}-{seq}",
+        session_id=session_id,
+        seq=seq,
+        speaker=speaker,
+        speaker_kind="agent",
+        addressed_to=[],
+        mode="broadcast",
+        task_prompt="do the thing",
+        raw_output="did the thing",
+        returncode=0,
+        verified=True,
+        oracle="pytest",
+        n_failures=0,
         note="oracle PASSES after agent edits",
-        started_at="2026-07-20T00:00:00+00:00", finished_at="2026-07-20T00:00:05+00:00",
+        started_at="2026-07-20T00:00:00+00:00",
+        finished_at="2026-07-20T00:00:05+00:00",
     )
 
 
@@ -146,6 +164,7 @@ def test_read_transcript_skips_malformed_lines(tmp_path, monkeypatch):
 # build_context_prompt
 # ---------------------------------------------------------------------------
 
+
 def test_build_context_prompt_includes_recent_turns_and_workspace(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     chat.create_session("sess-e", "C:/my/workspace", ["claude-code", "codex"], "mention")
@@ -180,6 +199,7 @@ def test_build_context_prompt_caps_at_max_turns(tmp_path, monkeypatch):
 # transcript windowing. "there should be a universal place they all run to
 # for their marching orders or we will have chaos and duplication."
 # ---------------------------------------------------------------------------
+
 
 def test_read_plan_returns_default_template_for_a_never_created_session(tmp_path, monkeypatch):
     """read_plan()'s own fallback (no plan file on disk at all) is distinct
@@ -256,18 +276,29 @@ def test_build_context_prompt_truncates_long_output(tmp_path, monkeypatch):
 # record_turn -- oracle verification wiring
 # ---------------------------------------------------------------------------
 
+
 def test_record_turn_user_message_is_not_oracle_checked(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     chat.create_session("sess-h", "C:/ws", ["codex"], "broadcast")
 
-    turn = chat.record_turn("sess-h", "user", tmp_path, "please fix it", 0,
-                             "sess-h-0", "please fix it", speaker_kind="user")
+    turn = chat.record_turn(
+        "sess-h",
+        "user",
+        tmp_path,
+        "please fix it",
+        0,
+        "sess-h-0",
+        "please fix it",
+        speaker_kind="user",
+    )
     assert turn.verified is True
     assert turn.note == "user message"
     assert turn.oracle == ""
 
 
-def test_record_turn_agent_message_calls_repair_workspace_and_records_verdict(tmp_path, monkeypatch):
+def test_record_turn_agent_message_calls_repair_workspace_and_records_verdict(
+    tmp_path, monkeypatch
+):
     _rewire(monkeypatch, tmp_path)
     chat.create_session("sess-i", "C:/ws", ["codex"], "broadcast")
 
@@ -277,8 +308,16 @@ def test_record_turn_agent_message_calls_repair_workspace_and_records_verdict(tm
         n_failures = 0
 
     with patch("determinex_repair.repair_workspace", return_value=FakeDiag()):
-        turn = chat.record_turn("sess-i", "codex", tmp_path, "raw agent output",
-                                 0, "sess-i-0", "do the thing", speaker_kind="agent")
+        turn = chat.record_turn(
+            "sess-i",
+            "codex",
+            tmp_path,
+            "raw agent output",
+            0,
+            "sess-i-0",
+            "do the thing",
+            speaker_kind="agent",
+        )
 
     assert turn.verified is True
     assert turn.oracle == "pytest"
@@ -298,8 +337,16 @@ def test_record_turn_agent_failure_case_marks_unverified(tmp_path, monkeypatch):
         n_failures = 3
 
     with patch("determinex_repair.repair_workspace", return_value=FakeDiag()):
-        turn = chat.record_turn("sess-j", "codex", tmp_path, "broke something",
-                                 1, "sess-j-0", "do the thing", speaker_kind="agent")
+        turn = chat.record_turn(
+            "sess-j",
+            "codex",
+            tmp_path,
+            "broke something",
+            1,
+            "sess-j-0",
+            "do the thing",
+            speaker_kind="agent",
+        )
 
     assert turn.verified is False
     assert turn.n_failures == 3
@@ -317,8 +364,9 @@ def test_record_turn_caps_raw_output(tmp_path, monkeypatch):
         n_failures = 0
 
     with patch("determinex_repair.repair_workspace", return_value=FakeDiag()):
-        turn = chat.record_turn("sess-k", "codex", tmp_path, huge, 0,
-                                 "sess-k-0", "do the thing", speaker_kind="agent")
+        turn = chat.record_turn(
+            "sess-k", "codex", tmp_path, huge, 0, "sess-k-0", "do the thing", speaker_kind="agent"
+        )
 
     assert len(turn.raw_output) <= chat._RAW_OUTPUT_CAP + len("\n…[truncated]")
     assert turn.raw_output.endswith("…[truncated]")
@@ -409,7 +457,9 @@ def test_get_cloak_context_fails_closed_and_caches_the_failure(tmp_path, monkeyp
     _rewire(monkeypatch, tmp_path)
     ws = _make_sensitive_workspace(tmp_path)
 
-    with patch("determinex_cloak.build_cloak_context", side_effect=RuntimeError("boom")) as mock_build:
+    with patch(
+        "determinex_cloak.build_cloak_context", side_effect=RuntimeError("boom")
+    ) as mock_build:
         ctx1 = chat.get_cloak_context("cloak-sess-c", ws)
         ctx2 = chat.get_cloak_context("cloak-sess-c", ws)  # must not retry in the same process
     assert ctx1 is None
@@ -452,7 +502,9 @@ def test_prepare_cloaked_workspace_returns_none_when_cloak_unavailable(tmp_path,
     assert shadow is None
 
 
-def test_sync_cloaked_edits_restores_real_identifiers_and_preserves_agent_edit(tmp_path, monkeypatch):
+def test_sync_cloaked_edits_restores_real_identifiers_and_preserves_agent_edit(
+    tmp_path, monkeypatch
+):
     _rewire(monkeypatch, tmp_path)
     ws = _make_sensitive_workspace(tmp_path)
 
@@ -560,6 +612,7 @@ def test_build_context_prompt_obfuscates_for_cloud_but_not_local_participant(tmp
 # exact git_show_unsupported_filetype_fatal_on_large_diff_20260720 entry).
 # ---------------------------------------------------------------------------
 
+
 class _FakeHit:
     def __init__(self, title, key, snippet):
         self.title, self.key, self.snippet = title, key, snippet
@@ -578,9 +631,11 @@ def test_corpus_context_for_empty_query_returns_empty_string():
 
 def test_corpus_context_for_formats_hits(monkeypatch):
     fake_module = type(sys)("determinex_corpus_api")
-    fake_module.ask = lambda q: _FakeAskResult([
-        _FakeHit("Some Lesson", "some-lesson-key", "a" * 500),
-    ])
+    fake_module.ask = lambda q: _FakeAskResult(
+        [
+            _FakeHit("Some Lesson", "some-lesson-key", "a" * 500),
+        ]
+    )
     monkeypatch.setitem(sys.modules, "determinex_corpus_api", fake_module)
 
     result = chat.corpus_context_for("some query")
@@ -626,7 +681,9 @@ def test_build_context_prompt_includes_corpus_lessons_when_relevant(tmp_path, mo
     chat.record_turn("sess-corpus-a", "user", ws, msg, 0, "t0", msg, speaker_kind="user")
 
     fake_module = type(sys)("determinex_corpus_api")
-    fake_module.ask = lambda q: _FakeAskResult([_FakeHit("Corpus Lesson", "corpus-key", "the fix was X")])
+    fake_module.ask = lambda q: _FakeAskResult(
+        [_FakeHit("Corpus Lesson", "corpus-key", "the fix was X")]
+    )
     monkeypatch.setitem(sys.modules, "determinex_corpus_api", fake_module)
 
     prompt = chat.build_context_prompt("sess-corpus-a", "codex")
@@ -657,6 +714,7 @@ def test_build_context_prompt_unaffected_when_cloak_disabled(tmp_path, monkeypat
 # history (answer_as_corpus).
 # ---------------------------------------------------------------------------
 
+
 def test_record_turn_agent_message_writes_oracle_outcome_to_corpus(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     chat.create_session("sess-oracle-a", "C:/ws", ["codex"], "broadcast")
@@ -667,11 +725,22 @@ def test_record_turn_agent_message_writes_oracle_outcome_to_corpus(tmp_path, mon
         n_failures = 0
 
     with patch("determinex_repair.repair_workspace", return_value=FakeDiag()):
-        chat.record_turn("sess-oracle-a", "codex", tmp_path, "raw output",
-                         0, "sess-oracle-a-0", "do the thing", speaker_kind="agent")
+        chat.record_turn(
+            "sess-oracle-a",
+            "codex",
+            tmp_path,
+            "raw output",
+            0,
+            "sess-oracle-a-0",
+            "do the thing",
+            speaker_kind="agent",
+        )
 
     assert chat._ORACLE_OUTCOMES_PATH.exists()
-    records = [json.loads(line) for line in chat._ORACLE_OUTCOMES_PATH.read_text(encoding="utf-8").splitlines()]
+    records = [
+        json.loads(line)
+        for line in chat._ORACLE_OUTCOMES_PATH.read_text(encoding="utf-8").splitlines()
+    ]
     assert len(records) == 1
     assert records[0]["session_id"] == "sess-oracle-a"
     assert records[0]["agent"] == "codex"
@@ -684,8 +753,16 @@ def test_record_turn_user_and_corpus_turns_do_not_write_oracle_outcomes(tmp_path
     chat.create_session("sess-oracle-b", "C:/ws", ["codex"], "broadcast")
 
     chat.record_turn("sess-oracle-b", "user", tmp_path, "hi", 0, "t0", "hi", speaker_kind="user")
-    chat.record_turn("sess-oracle-b", chat.CORPUS_SPEAKER, tmp_path, "an answer", 0, "t1", "hi",
-                     speaker_kind="corpus")
+    chat.record_turn(
+        "sess-oracle-b",
+        chat.CORPUS_SPEAKER,
+        tmp_path,
+        "an answer",
+        0,
+        "t1",
+        "hi",
+        speaker_kind="corpus",
+    )
 
     assert not chat._ORACLE_OUTCOMES_PATH.exists()
 
@@ -694,8 +771,17 @@ def test_record_turn_dispatch_failed_does_not_write_oracle_outcome(tmp_path, mon
     _rewire(monkeypatch, tmp_path)
     chat.create_session("sess-oracle-c", "C:/ws", ["codex"], "broadcast")
 
-    chat.record_turn("sess-oracle-c", "codex", tmp_path, "spawn error", 1, "t0", "do the thing",
-                     speaker_kind="agent", dispatch_failed=True)
+    chat.record_turn(
+        "sess-oracle-c",
+        "codex",
+        tmp_path,
+        "spawn error",
+        1,
+        "t0",
+        "do the thing",
+        speaker_kind="agent",
+        dispatch_failed=True,
+    )
 
     assert not chat._ORACLE_OUTCOMES_PATH.exists()
 
@@ -704,8 +790,16 @@ def test_record_turn_corpus_speaker_kind_is_not_oracle_checked(tmp_path, monkeyp
     _rewire(monkeypatch, tmp_path)
     chat.create_session("sess-oracle-d", "C:/ws", ["codex"], "broadcast")
 
-    turn = chat.record_turn("sess-oracle-d", chat.CORPUS_SPEAKER, tmp_path, "the answer",
-                            0, "t0", "the question", speaker_kind="corpus")
+    turn = chat.record_turn(
+        "sess-oracle-d",
+        chat.CORPUS_SPEAKER,
+        tmp_path,
+        "the answer",
+        0,
+        "t0",
+        "the question",
+        speaker_kind="corpus",
+    )
 
     assert turn.verified is True
     assert turn.note == "corpus response"
@@ -728,8 +822,9 @@ def test_record_oracle_outcome_write_failure_is_non_fatal(tmp_path, monkeypatch)
         n_failures = 0
 
     with patch("determinex_repair.repair_workspace", return_value=FakeDiag()):
-        turn = chat.record_turn("sess-oracle-e", "codex", tmp_path, "raw",
-                                0, "t0", "do it", speaker_kind="agent")
+        turn = chat.record_turn(
+            "sess-oracle-e", "codex", tmp_path, "raw", 0, "t0", "do it", speaker_kind="agent"
+        )
     assert turn.verified is True  # the chat turn itself is unaffected
 
 
@@ -754,12 +849,18 @@ def test_session_oracle_digest_filters_by_session_and_counts_verified(tmp_path, 
         n_failures = 2
 
     with patch("determinex_repair.repair_workspace", return_value=Pass()):
-        chat.record_turn("sess-digest-a", "codex", tmp_path, "ok", 0, "t0", "x", speaker_kind="agent")
+        chat.record_turn(
+            "sess-digest-a", "codex", tmp_path, "ok", 0, "t0", "x", speaker_kind="agent"
+        )
     with patch("determinex_repair.repair_workspace", return_value=Fail()):
-        chat.record_turn("sess-digest-a", "codex", tmp_path, "bad", 1, "t1", "x", speaker_kind="agent")
+        chat.record_turn(
+            "sess-digest-a", "codex", tmp_path, "bad", 1, "t1", "x", speaker_kind="agent"
+        )
     # A different session's outcomes must not leak into sess-digest-a's digest.
     with patch("determinex_repair.repair_workspace", return_value=Pass()):
-        chat.record_turn("sess-digest-b", "codex", tmp_path, "ok", 0, "t0", "x", speaker_kind="agent")
+        chat.record_turn(
+            "sess-digest-b", "codex", tmp_path, "ok", 0, "t0", "x", speaker_kind="agent"
+        )
 
     digest = chat.session_oracle_digest("sess-digest-a")
     assert "1/2 agent turns verified" in digest
@@ -776,17 +877,35 @@ def test_last_query_for_session_empty_transcript(tmp_path, monkeypatch):
 def test_last_query_for_session_returns_most_recent_message(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     chat.create_session("sess-lastq-b", "C:/ws", ["codex"], "broadcast")
-    chat.record_turn("sess-lastq-b", "user", tmp_path, "first", 0, "t0", "first", speaker_kind="user")
-    chat.record_turn("sess-lastq-b", "user", tmp_path, "second question", 0, "t1", "second question",
-                     speaker_kind="user")
+    chat.record_turn(
+        "sess-lastq-b", "user", tmp_path, "first", 0, "t0", "first", speaker_kind="user"
+    )
+    chat.record_turn(
+        "sess-lastq-b",
+        "user",
+        tmp_path,
+        "second question",
+        0,
+        "t1",
+        "second question",
+        speaker_kind="user",
+    )
     assert chat._last_query_for_session("sess-lastq-b") == "second question"
 
 
 def test_answer_as_corpus_includes_hits_and_oracle_digest(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     chat.create_session("sess-ask-a", "C:/ws", ["codex"], "broadcast")
-    chat.record_turn("sess-ask-a", "user", tmp_path, "how do I fix the build", 0, "t0",
-                     "how do I fix the build", speaker_kind="user")
+    chat.record_turn(
+        "sess-ask-a",
+        "user",
+        tmp_path,
+        "how do I fix the build",
+        0,
+        "t0",
+        "how do I fix the build",
+        speaker_kind="user",
+    )
 
     class Pass:
         healthy = True
@@ -794,10 +913,14 @@ def test_answer_as_corpus_includes_hits_and_oracle_digest(tmp_path, monkeypatch)
         n_failures = 0
 
     with patch("determinex_repair.repair_workspace", return_value=Pass()):
-        chat.record_turn("sess-ask-a", "codex", tmp_path, "fixed", 0, "t1", "x", speaker_kind="agent")
+        chat.record_turn(
+            "sess-ask-a", "codex", tmp_path, "fixed", 0, "t1", "x", speaker_kind="agent"
+        )
 
     fake_module = type(sys)("determinex_corpus_api")
-    fake_module.ask = lambda q: _FakeAskResult([_FakeHit("Build Fix Lesson", "build-fix-key", "do X")])
+    fake_module.ask = lambda q: _FakeAskResult(
+        [_FakeHit("Build Fix Lesson", "build-fix-key", "do X")]
+    )
     monkeypatch.setitem(sys.modules, "determinex_corpus_api", fake_module)
 
     answer = chat.answer_as_corpus("sess-ask-a")
@@ -821,7 +944,9 @@ def test_answer_as_corpus_handles_no_hits_and_no_history_gracefully(tmp_path, mo
 def test_answer_as_corpus_survives_corpus_query_failure(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     chat.create_session("sess-ask-c", "C:/ws", ["codex"], "broadcast")
-    chat.record_turn("sess-ask-c", "user", tmp_path, "anything", 0, "t0", "anything", speaker_kind="user")
+    chat.record_turn(
+        "sess-ask-c", "user", tmp_path, "anything", 0, "t0", "anything", speaker_kind="user"
+    )
 
     fake_module = type(sys)("determinex_corpus_api")
 
@@ -888,7 +1013,9 @@ def test_an_empty_model_clears_the_override(tmp_path, monkeypatch):
     chat.set_model("s1", "claude-code", "")
 
     assert chat.session_models("s1") == {}
-    assert "claude-code" not in json.loads(chat.INDEX_PATH.read_text(encoding="utf-8"))["s1"]["models"]
+    assert (
+        "claude-code" not in json.loads(chat.INDEX_PATH.read_text(encoding="utf-8"))["s1"]["models"]
+    )
 
 
 def test_a_whitespace_model_is_not_stored(tmp_path, monkeypatch):

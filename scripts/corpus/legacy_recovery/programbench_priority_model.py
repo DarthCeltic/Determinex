@@ -27,17 +27,21 @@ def build_priority_model(scan_report: dict[str, Any]) -> dict[str, Any]:
         rows = by_tool.get(tool, [])
         classes = Counter(label for row in rows for label in row.get("failure_classes", []))
         risk = classes.get("wrapper_churn_risk", 0) + classes.get("argv0_alias_regression", 0)
-        clarity = classes.get("date_time_nondeterminism", 0) + classes.get("stdout_stderr_mismatch", 0)
+        clarity = classes.get("date_time_nondeterminism", 0) + classes.get(
+            "stdout_stderr_mismatch", 0
+        )
         score = int(replayable) * 3 + clarity * 2 - risk
-        scored.append({
-            "tool": tool,
-            "priority_score": score,
-            "replayable_rows": int(replayable),
-            "repair_hint_clarity": clarity,
-            "regression_risk": risk,
-            "top_failure_classes": dict(classes.most_common(5)),
-            "training_eligible": False,
-        })
+        scored.append(
+            {
+                "tool": tool,
+                "priority_score": score,
+                "replayable_rows": int(replayable),
+                "repair_hint_clarity": clarity,
+                "regression_risk": risk,
+                "top_failure_classes": dict(classes.most_common(5)),
+                "training_eligible": False,
+            }
+        )
     scored.sort(key=lambda row: row["priority_score"], reverse=True)
     return {
         "schema_version": "determinex-programbench-priority-model-v1",
@@ -48,10 +52,14 @@ def build_priority_model(scan_report: dict[str, Any]) -> dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Rank ProgramBench replay/repair priority from legacy evidence.")
+    parser = argparse.ArgumentParser(
+        description="Rank ProgramBench replay/repair priority from legacy evidence."
+    )
     parser.add_argument("roots", nargs="+", type=Path)
     parser.add_argument("--max-rows", type=int, default=None)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/programbench_priority_model.json"))
+    parser.add_argument(
+        "--output", type=Path, default=Path("assurance/evidence/programbench_priority_model.json")
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
     model = build_priority_model(scan_legacy_roots(args.roots, max_rows=args.max_rows))

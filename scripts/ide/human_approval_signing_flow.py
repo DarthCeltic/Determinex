@@ -4,6 +4,7 @@ Displays the approval packet, accepts explicit approve/reject action,
 validates stale/diff/verifier state. Source mutation NOT authorized
 even when accepted — that's the next rung.
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -42,12 +43,16 @@ class IDEHumanApprovalSigningFlow:
         fixture: bool = True,
         now: _dt.datetime | None = None,
     ) -> IDEHumanApprovalSigningRecord:
-        now = now or _dt.datetime.now(_dt.timezone.utc)
+        now = now or _dt.datetime.now(_dt.UTC)
 
         if not operator_identity or not operator_identity.strip():
             return self._refuse(
-                packet, action, "", "IDE_APPROVAL_BLOCKED_OPERATOR_EMPTY",
-                "operator_identity empty", now,
+                packet,
+                action,
+                "",
+                "IDE_APPROVAL_BLOCKED_OPERATOR_EMPTY",
+                "operator_identity empty",
+                now,
             )
 
         # Stale check.
@@ -55,29 +60,43 @@ class IDEHumanApprovalSigningFlow:
             stale = _dt.datetime.fromisoformat(packet.stale_after)
         except (ValueError, TypeError):
             return self._refuse(
-                packet, action, operator_identity,
+                packet,
+                action,
+                operator_identity,
                 "IDE_APPROVAL_BLOCKED_STALE_PACKET",
-                "stale_after unparseable", now,
+                "stale_after unparseable",
+                now,
             )
         if now >= stale:
             return self._refuse(
-                packet, action, operator_identity,
-                "IDE_APPROVAL_BLOCKED_STALE_PACKET", "packet stale", now,
+                packet,
+                action,
+                operator_identity,
+                "IDE_APPROVAL_BLOCKED_STALE_PACKET",
+                "packet stale",
+                now,
             )
 
         # Diff hash check.
         if _hash(observed_diff) != packet.diff_hash:
             return self._refuse(
-                packet, action, operator_identity,
-                "IDE_APPROVAL_BLOCKED_DIFF_MISMATCH", "diff hash mismatch", now,
+                packet,
+                action,
+                operator_identity,
+                "IDE_APPROVAL_BLOCKED_DIFF_MISMATCH",
+                "diff hash mismatch",
+                now,
             )
 
         # Verifier check.
         if observed_verifier_status != "PATCH_VERIFIER_PASSED_TEMP_ONLY":
             return self._refuse(
-                packet, action, operator_identity,
+                packet,
+                action,
+                operator_identity,
                 "IDE_APPROVAL_BLOCKED_VERIFIER_NOT_PASSED",
-                f"verifier status={observed_verifier_status!r}", now,
+                f"verifier status={observed_verifier_status!r}",
+                now,
             )
 
         # Rejection path.

@@ -28,6 +28,7 @@ Hetzner layout expected:
   /root/Citadel/logs/pb_churn_events.jsonl   — written by determinex_pb_churn.py
   /root/Citadel/logs/reimpl/<short>_drive.py — candidate files
 """
+
 from __future__ import annotations
 
 import argparse
@@ -43,17 +44,17 @@ from typing import Any
 
 # ── path constants ─────────────────────────────────────────────────────────────
 ROOT = Path(__file__).resolve().parent.parent
-PY   = Path(sys.executable)
-SSH  = Path(r"C:\Windows\System32\OpenSSH\ssh.exe")
-SCP  = Path(r"C:\Windows\System32\OpenSSH\scp.exe")
-SSH_KEY  = Path.home() / ".ssh" / "id_citadel"
-REMOTE   = "root@5.78.192.163"
+PY = Path(sys.executable)
+SSH = Path(r"C:\Windows\System32\OpenSSH\ssh.exe")
+SCP = Path(r"C:\Windows\System32\OpenSSH\scp.exe")
+SSH_KEY = Path.home() / ".ssh" / "id_citadel"
+REMOTE = "root@5.78.192.163"
 REMOTE_ROOT = "/root/Citadel"
 
-PB         = ROOT / "corpus" / "programbench"
+PB = ROOT / "corpus" / "programbench"
 EVAL_INDEX = PB / "eval_index.json"
-BOARD      = ROOT / "logs" / "programbench_lock_board.json"
-OVERRIDES  = PB / "per_tool_overrides"
+BOARD = ROOT / "logs" / "programbench_lock_board.json"
+OVERRIDES = PB / "per_tool_overrides"
 
 EVENTS_LOG = ROOT / "logs" / "pb_conveyor_events.jsonl"
 STATE_PATH = ROOT / "logs" / "pb_conveyor_state.json"
@@ -62,8 +63,11 @@ PB_STAGING_ROOT = Path(os.environ.get("DETERMINEX_PB_STAGING_ROOT", "T:/determin
 CONVEYOR_RUN_ROOT = PB_STAGING_ROOT / "pb_conveyor"
 
 TERMINAL_STATUSES = {
-    "strict_lock", "locked", "ceiling_certified",
-    "ceiling_confirmed", "impossible_ceiling",
+    "strict_lock",
+    "locked",
+    "ceiling_certified",
+    "ceiling_confirmed",
+    "impossible_ceiling",
 }
 
 MAX_CONSECUTIVE_FAILURES = 3
@@ -71,8 +75,9 @@ MAX_CONSECUTIVE_FAILURES = 3
 
 # ── helpers ────────────────────────────────────────────────────────────────────
 
+
 def _utc() -> str:
-    return _dt.datetime.now(_dt.timezone.utc).isoformat()
+    return _dt.datetime.now(_dt.UTC).isoformat()
 
 
 def _log_event(kind: str, **fields: Any) -> None:
@@ -80,21 +85,37 @@ def _log_event(kind: str, **fields: Any) -> None:
     rec = {"ts": _utc(), "kind": kind, **fields}
     with EVENTS_LOG.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(rec, ensure_ascii=False, default=str) + "\n")
-    print(f"[conveyor] {kind}: {json.dumps({k: v for k, v in fields.items() if k != 'detail'}, default=str)}")
+    print(
+        f"[conveyor] {kind}: {json.dumps({k: v for k, v in fields.items() if k != 'detail'}, default=str)}"
+    )
 
 
 def _ssh(cmd: str, *, check: bool = True, timeout: int = 60) -> str:
     r = subprocess.run(
-        [str(SSH), "-i", str(SSH_KEY), "-o", "BatchMode=yes",
-         "-o", "ConnectTimeout=15", REMOTE, cmd],
-        capture_output=True, text=True, timeout=timeout, check=False,
+        [
+            str(SSH),
+            "-i",
+            str(SSH_KEY),
+            "-o",
+            "BatchMode=yes",
+            "-o",
+            "ConnectTimeout=15",
+            REMOTE,
+            cmd,
+        ],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        check=False,
     )
     if check and r.returncode != 0:
         raise RuntimeError(f"ssh failed rc={r.returncode}: {r.stderr[:500]}")
     return r.stdout
 
 
-def _run(cmd: list[Any], *, cwd: Path | None = None, timeout: int = 3600) -> subprocess.CompletedProcess[str]:
+def _run(
+    cmd: list[Any], *, cwd: Path | None = None, timeout: int = 3600
+) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [str(c) for c in cmd],
         cwd=str(cwd or ROOT),
@@ -134,6 +155,7 @@ def _save_state(s: dict[str, Any]) -> None:
 
 
 # ── eval-index helpers ─────────────────────────────────────────────────────────
+
 
 def _eval_index_rows() -> list[dict[str, Any]]:
     return _load_json(EVAL_INDEX, [])
@@ -194,15 +216,25 @@ def _min_baseline_passed(slug: str) -> int:
 
 # ── remote churn event reader ──────────────────────────────────────────────────
 
+
 def _fetch_remote_events() -> list[dict[str, Any]]:
     """SCP the remote pb_churn_events.jsonl and parse it."""
     remote_path = f"{REMOTE_ROOT}/logs/pb_churn_events.jsonl"
     local_tmp = ROOT / "logs" / ".pb_churn_events_remote.jsonl"
     try:
         r = subprocess.run(
-            [str(SCP), "-i", str(SSH_KEY), "-o", "BatchMode=yes",
-             f"{REMOTE}:{remote_path}", str(local_tmp)],
-            capture_output=True, text=True, timeout=30,
+            [
+                str(SCP),
+                "-i",
+                str(SSH_KEY),
+                "-o",
+                "BatchMode=yes",
+                f"{REMOTE}:{remote_path}",
+                str(local_tmp),
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
         )
         if r.returncode != 0:
             return []
@@ -232,8 +264,7 @@ def _fetch_remote_reimpl_slugs(already: set[str]) -> list[str]:
     produced but which may not yet have an oracle-green churn event.
     """
     try:
-        out = _ssh(f"ls {REMOTE_ROOT}/logs/reimpl/ 2>/dev/null || true",
-                   check=False, timeout=15)
+        out = _ssh(f"ls {REMOTE_ROOT}/logs/reimpl/ 2>/dev/null || true", check=False, timeout=15)
     except Exception:
         return []
 
@@ -319,6 +350,7 @@ def _oracle_green_slugs(events: list[dict[str, Any]], already_processed: set[str
 
 # ── step 1: pull candidate file from Hetzner ──────────────────────────────────
 
+
 def _local_candidate_path(slug: str) -> Path | None:
     """Return an existing local candidate path for this slug, if any."""
     short = slug.split("__")[-1].split(".")[0]
@@ -359,21 +391,30 @@ def pull_candidate(slug: str) -> Path | None:
     last_err = ""
     for remote_candidate in remote_names:
         r = subprocess.run(
-            [str(SCP), "-i", str(SSH_KEY), "-o", "BatchMode=yes",
-             f"{REMOTE}:{remote_candidate}", str(local_path)],
-            capture_output=True, text=True, timeout=30,
+            [
+                str(SCP),
+                "-i",
+                str(SSH_KEY),
+                "-o",
+                "BatchMode=yes",
+                f"{REMOTE}:{remote_candidate}",
+                str(local_path),
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
         )
         if r.returncode == 0:
-            _log_event("pulled_candidate", slug=slug, source=remote_candidate,
-                       local=str(local_path))
+            _log_event(
+                "pulled_candidate", slug=slug, source=remote_candidate, local=str(local_path)
+            )
             return local_path
         last_err = r.stderr.strip()
 
     # Remote not ready — fall back to any existing local candidate
     fallback = _local_candidate_path(slug)
     if fallback:
-        _log_event("pull_fallback", slug=slug, fallback=str(fallback),
-                   detail=last_err[:200])
+        _log_event("pull_fallback", slug=slug, fallback=str(fallback), detail=last_err[:200])
         return fallback
 
     _log_event("pull_failed", slug=slug, detail=last_err[:400])
@@ -381,6 +422,7 @@ def pull_candidate(slug: str) -> Path | None:
 
 
 # ── step 2: install candidate into override dir ────────────────────────────────
+
 
 def install_candidate(slug: str, candidate_path: Path) -> bool:
     """
@@ -404,15 +446,21 @@ def install_candidate(slug: str, candidate_path: Path) -> bool:
 
 # ── step 3: pack into submission.tar.gz ───────────────────────────────────────
 
+
 def pack_candidate(slug: str) -> Path | None:
     """Call pb_pack_candidate.py → submission.tar.gz under CONVEYOR_RUN_ROOT."""
     run_root = CONVEYOR_RUN_ROOT / slug
     run_root.mkdir(parents=True, exist_ok=True)
 
-    r = _run([
-        PY, ROOT / "scripts" / "pb_pack_candidate.py",
-        slug, "--run-root", str(run_root),
-    ])
+    r = _run(
+        [
+            PY,
+            ROOT / "scripts" / "pb_pack_candidate.py",
+            slug,
+            "--run-root",
+            str(run_root),
+        ]
+    )
     if r.returncode != 0:
         _log_event("pack_failed", slug=slug, detail=(r.stdout + r.stderr)[:600])
         return None
@@ -447,7 +495,8 @@ def _resolve_hetzner_slug(slug: str) -> str:
     try:
         out = _ssh(
             "ls /root/ProgramBench/src/programbench/data/tasks/ 2>/dev/null",
-            check=False, timeout=15,
+            check=False,
+            timeout=15,
         )
         for line in out.splitlines():
             line = line.strip()
@@ -495,6 +544,7 @@ def hetzner_eval_and_gate(slug: str, run_root: Path) -> str:
     # Load pb_eval_unified locally and monkey-patch so it uses canonical slug + our tarball
     try:
         import importlib.util as _ilu
+
         spec = _ilu.spec_from_file_location(
             "pb_eval_unified", ROOT / "scripts" / "pb_eval_unified.py"
         )
@@ -525,17 +575,14 @@ def hetzner_eval_and_gate(slug: str, run_root: Path) -> str:
     total = classified.get("total", result.get("total", 0))
     score = classified.get("pct", 0.0)
     outcome = classified.get("outcome", "PARTIAL")
-    _log_event("eval_done", slug=slug, passed=passed, total=total,
-               score=score, outcome=outcome)
+    _log_event("eval_done", slug=slug, passed=passed, total=total, score=score, outcome=outcome)
 
     # Save result
     inst_dir = run_root / slug
     inst_dir.mkdir(parents=True, exist_ok=True)
     eval_json = inst_dir / "conveyor_eval_result.json"
     try:
-        eval_json.write_text(
-            json.dumps(result, indent=2, default=str), encoding="utf-8"
-        )
+        eval_json.write_text(json.dumps(result, indent=2, default=str), encoding="utf-8")
     except Exception:
         pass
 
@@ -554,13 +601,21 @@ def hetzner_eval_and_gate(slug: str, run_root: Path) -> str:
 
     if decision == "accept":
         gate_path = run_root / "gate_result.json"
-        gate_path.write_text(json.dumps({
-            "decision": decision,
-            "decision_rule": "conveyor_hetzner_eval",
-            "reason": reason,
-            "passed": passed, "total": total,
-            "score_pct": score, "outcome": outcome,
-        }, indent=2), encoding="utf-8")
+        gate_path.write_text(
+            json.dumps(
+                {
+                    "decision": decision,
+                    "decision_rule": "conveyor_hetzner_eval",
+                    "reason": reason,
+                    "passed": passed,
+                    "total": total,
+                    "score_pct": score,
+                    "outcome": outcome,
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
         apply_accept(slug, run_root)
 
     return decision
@@ -568,20 +623,27 @@ def hetzner_eval_and_gate(slug: str, run_root: Path) -> str:
 
 # ── step 6a: apply accepted gate ──────────────────────────────────────────────
 
+
 def apply_accept(slug: str, run_root: Path) -> None:
     gate_path = run_root / "gate_result.json"
     if not gate_path.is_file():
         return
-    r = _run([
-        PY, ROOT / "scripts" / "pb_apply_gate_decision.py",
-        slug, str(gate_path),
-        "--run-root", str(run_root),
-        "--refresh-board",
-    ])
+    r = _run(
+        [
+            PY,
+            ROOT / "scripts" / "pb_apply_gate_decision.py",
+            slug,
+            str(gate_path),
+            "--run-root",
+            str(run_root),
+            "--refresh-board",
+        ]
+    )
     _log_event("applied_accept", slug=slug, rc=r.returncode)
 
 
 # ── step 6b: prune Hetzner compiled cache (NOT the :task base image) ──────────
+
 
 def prune_compiled_cache_remote(slug: str) -> None:
     """
@@ -604,6 +666,7 @@ def prune_compiled_cache_remote(slug: str) -> None:
 
 # ── step 7: prefetch next tool's :task image on Hetzner ───────────────────────
 
+
 def prefetch_next_task_image(next_slug: str) -> None:
     """
     Ask Hetzner to docker pull the :task image for the next slug so the churn
@@ -622,6 +685,7 @@ def prefetch_next_task_image(next_slug: str) -> None:
 
 
 # ── conveyor core ─────────────────────────────────────────────────────────────
+
 
 def _has_candidate_locally(slug: str) -> bool:
     """True if there's already a candidate Python file we can pack for this slug."""
@@ -747,16 +811,20 @@ def run_conveyor(
                 state["total_accepted"] += 1
             elif outcome == "reject":
                 state["total_rejected"] += 1
-                state["consecutive_failures"] = 0  # Rejects mean the pipeline works, candidate just failed
+                state["consecutive_failures"] = (
+                    0  # Rejects mean the pipeline works, candidate just failed
+                )
             else:
                 state["consecutive_failures"] += 1
 
             _save_state(state)
 
             if state["consecutive_failures"] >= max_failures:
-                _log_event("failure_budget_exhausted",
-                           consecutive=state["consecutive_failures"],
-                           max=max_failures)
+                _log_event(
+                    "failure_budget_exhausted",
+                    consecutive=state["consecutive_failures"],
+                    max=max_failures,
+                )
                 print(
                     f"[conveyor] STOPPING — {state['consecutive_failures']} consecutive "
                     f"non-improvements (budget={max_failures}).  "
@@ -770,28 +838,46 @@ def run_conveyor(
         print(f"[conveyor] waiting {interval}s before next pass")
         time.sleep(interval)
 
-    _log_event("conveyor_done",
-               total_accepted=state["total_accepted"],
-               total_rejected=state["total_rejected"])
+    _log_event(
+        "conveyor_done",
+        total_accepted=state["total_accepted"],
+        total_rejected=state["total_rejected"],
+    )
     return 0
 
 
 # ── CLI ────────────────────────────────────────────────────────────────────────
 
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--once", action="store_true",
-                    help="process one tool then exit")
-    ap.add_argument("--interval", type=int, default=120,
-                    help="seconds between passes when watching (default 120)")
-    ap.add_argument("--max-failures", type=int, default=MAX_CONSECUTIVE_FAILURES,
-                    help=f"stop after N consecutive non-improvements (default {MAX_CONSECUTIVE_FAILURES})")
-    ap.add_argument("--slug", action="append", default=[],
-                    help="process this specific slug (can repeat); skips remote event poll")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="just print what would be processed, no side effects")
-    ap.add_argument("--reset-state", action="store_true",
-                    help="clear the processed/failure-count state before starting")
+    ap.add_argument("--once", action="store_true", help="process one tool then exit")
+    ap.add_argument(
+        "--interval",
+        type=int,
+        default=120,
+        help="seconds between passes when watching (default 120)",
+    )
+    ap.add_argument(
+        "--max-failures",
+        type=int,
+        default=MAX_CONSECUTIVE_FAILURES,
+        help=f"stop after N consecutive non-improvements (default {MAX_CONSECUTIVE_FAILURES})",
+    )
+    ap.add_argument(
+        "--slug",
+        action="append",
+        default=[],
+        help="process this specific slug (can repeat); skips remote event poll",
+    )
+    ap.add_argument(
+        "--dry-run", action="store_true", help="just print what would be processed, no side effects"
+    )
+    ap.add_argument(
+        "--reset-state",
+        action="store_true",
+        help="clear the processed/failure-count state before starting",
+    )
     args = ap.parse_args()
 
     if args.reset_state and STATE_PATH.is_file():

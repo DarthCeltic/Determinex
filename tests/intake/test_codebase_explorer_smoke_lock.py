@@ -15,6 +15,7 @@ build/test, surface at least one issue signal, and do all of that
 Tests for Rust and Go are skipped when ``cargo``/``go`` are not on PATH,
 so the lock is honest about toolchain dependence in CI.
 """
+
 from __future__ import annotations
 
 import contextlib
@@ -39,25 +40,28 @@ LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 
 
 # Status tokens — closed set, also pinned in the lock manifest.
-STATUS_TOKENS = frozenset({
-    "CODEBASE_EXPLORER_SMOKE_PASSED",
-    "CODEBASE_EXPLORER_SMOKE_FAILED",
-    "FIXTURE_REPO_LOADED",
-    "LANGUAGE_DETECTED",
-    "BUILD_HINT_DETECTED",
-    "DIAGNOSIS_REPORT_WRITTEN",
-    "ISSUE_SIGNAL_DETECTED",
-    "SOURCE_TREE_UNMUTATED",
-    "CORPUS_UNMUTATED",
-    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
-    "PATH_PORTABLE",
-    "SAFETY_DEFAULTS_RESPECTED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "CODEBASE_EXPLORER_SMOKE_PASSED",
+        "CODEBASE_EXPLORER_SMOKE_FAILED",
+        "FIXTURE_REPO_LOADED",
+        "LANGUAGE_DETECTED",
+        "BUILD_HINT_DETECTED",
+        "DIAGNOSIS_REPORT_WRITTEN",
+        "ISSUE_SIGNAL_DETECTED",
+        "SOURCE_TREE_UNMUTATED",
+        "CORPUS_UNMUTATED",
+        "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+        "PATH_PORTABLE",
+        "SAFETY_DEFAULTS_RESPECTED",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _sha256(path: Path) -> str | None:
     if not path.is_file():
@@ -75,13 +79,25 @@ def _hash_source_tree(root: Path) -> dict[str, str]:
     writes `go.sum` on first `go build` with deps; pytest leaves
     `__pycache__/`; etc. These are not source mutations and would fail the
     intent of SOURCE_TREE_UNMUTATED."""
-    cruft_dirs = frozenset({
-        "target", "__pycache__", ".pytest_cache", "node_modules",
-        "build", "dist", ".git", "_audit",
-    })
-    cruft_files = frozenset({
-        "Cargo.lock", "go.sum", ".coverage",
-    })
+    cruft_dirs = frozenset(
+        {
+            "target",
+            "__pycache__",
+            ".pytest_cache",
+            "node_modules",
+            "build",
+            "dist",
+            ".git",
+            "_audit",
+        }
+    )
+    cruft_files = frozenset(
+        {
+            "Cargo.lock",
+            "go.sum",
+            ".coverage",
+        }
+    )
     out: dict[str, str] = {}
     for p in sorted(root.rglob("*")):
         if not p.is_file():
@@ -161,6 +177,7 @@ def _has_tool(name: str) -> bool:
 # Module-level sanity
 # ---------------------------------------------------------------------------
 
+
 def test_status_tokens_match_expected_set():
     expected = {
         "CODEBASE_EXPLORER_SMOKE_PASSED",
@@ -183,6 +200,7 @@ def test_codebase_explorer_imports_cleanly():
     """The module imports without raising. The SSRF guard at import time
     must not fire under our default env."""
     from codebase_explorer import CodebaseExplorer  # noqa: F401
+
     assert CodebaseExplorer is not None
 
 
@@ -206,8 +224,10 @@ def test_no_drive_letter_in_repo_root_assumption():
 #      no drive letter required
 # ---------------------------------------------------------------------------
 
-def _explore_fixture(fixture_name: str, expected_lang: str,
-                     expected_build: str, tmp_path: Path) -> dict[str, Any]:
+
+def _explore_fixture(
+    fixture_name: str, expected_lang: str, expected_build: str, tmp_path: Path
+) -> dict[str, Any]:
     """Shared smoke flow. Returns a status dict that the per-fixture tests
     assert against."""
     from codebase_explorer import CodebaseExplorer
@@ -224,16 +244,17 @@ def _explore_fixture(fixture_name: str, expected_lang: str,
     evidence_after = _hash_signed_evidence()
 
     src_diffs = sorted(
-        k for k in set(src_before) | set(src_after)
-        if src_before.get(k) != src_after.get(k)
+        k for k in set(src_before) | set(src_after) if src_before.get(k) != src_after.get(k)
     )
     evidence_diffs = sorted(
-        k for k in set(evidence_before) | set(evidence_after)
+        k
+        for k in set(evidence_before) | set(evidence_after)
         if evidence_before.get(k) != evidence_after.get(k)
     )
 
     # The report is a dataclass; convert to dict for stable assertions.
     from dataclasses import asdict
+
     report_dict = asdict(report)
 
     statuses: list[str] = ["FIXTURE_REPO_LOADED"]
@@ -327,10 +348,7 @@ def test_go_broken_smoke(tmp_path: Path):
     assert rep["test_framework"] == "go test"
     assert "go" in rep["languages"]
     # go build should fail → compilation finding (or test_failure from go test)
-    has_signal = any(
-        f["category"] in ("compilation", "test_failure")
-        for f in rep["findings"]
-    )
+    has_signal = any(f["category"] in ("compilation", "test_failure") for f in rep["findings"])
     assert has_signal, f"Expected a build/test finding in: {rep['findings']}"
     assert "SOURCE_TREE_UNMUTATED" in result["statuses"], result["src_diffs"]
 
@@ -338,6 +356,7 @@ def test_go_broken_smoke(tmp_path: Path):
 # ---------------------------------------------------------------------------
 # Cross-cutting safety + portability assertions
 # ---------------------------------------------------------------------------
+
 
 def test_no_drive_letter_required_for_intake(tmp_path: Path, monkeypatch):
     """Strip every DETERMINEX_* / HF_HOME / OLLAMA_* env var and confirm the
@@ -349,6 +368,7 @@ def test_no_drive_letter_required_for_intake(tmp_path: Path, monkeypatch):
     # localhost or unset; unset is fine.
     workspace = _copy_fixture("python_broken", tmp_path)
     from codebase_explorer import WorkspaceLoader
+
     loader = WorkspaceLoader(workspace)
     files = loader.scan()
     assert len(files) > 0
@@ -359,9 +379,10 @@ def test_corpus_write_guard_is_in_effect_during_smoke():
     """The corpus write guard must be ACTIVE before smoke runs — this is
     the wire that makes CORPUS_UNMUTATED meaningful."""
     from corpus.corpus_manager import (  # type: ignore[attr-defined]
-        _assert_writes_allowed,
         CorpusWriteBlockedError,
+        _assert_writes_allowed,
     )
+
     saved = os.environ.get("DETERMINEX_NO_CORPUS_WRITE")
     os.environ["DETERMINEX_NO_CORPUS_WRITE"] = "1"
     try:
@@ -379,6 +400,7 @@ def test_safety_defaults_remain_fail_closed_after_smoke():
     the live determinex_settings still reports zero violations under a
     clean env."""
     from determinex_settings import DeterminexSettings, reset_settings
+
     # We don't strip env vars here — we just confirm violations() returns []
     # under the current env, which is the contract the gauntlet checks.
     reset_settings()
@@ -391,10 +413,7 @@ def test_safety_defaults_remain_fail_closed_after_smoke():
 # Lock manifest alignment
 # ---------------------------------------------------------------------------
 
-_LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "CODEBASE_EXPLORER_SMOKE_LOCK_001.json"
-)
+_LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "CODEBASE_EXPLORER_SMOKE_LOCK_001.json"
 
 
 def test_lock_manifest_exists():
@@ -403,6 +422,7 @@ def test_lock_manifest_exists():
 
 def test_lock_manifest_status_tokens_match_module():
     import json
+
     data = json.loads(_LOCK_PATH.read_text(encoding="utf-8"))
     declared = set(data.get("status_tokens", []))
     assert declared == set(STATUS_TOKENS), (
@@ -414,5 +434,6 @@ def test_lock_manifest_status_tokens_match_module():
 
 def test_lock_manifest_pins_fixture_count():
     import json
+
     data = json.loads(_LOCK_PATH.read_text(encoding="utf-8"))
     assert data.get("fixtures_count") == 3

@@ -31,6 +31,7 @@ Hard rules enforced by load():
     state without naming user-ready/release-gate evidence path
     -> BLOCKED_RELEASE_OVERCLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -48,7 +49,6 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _has_release_proof_reference,
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 
@@ -316,7 +316,9 @@ def _fixture_caveat_hits(blob: dict, captions: tuple[str, ...]) -> tuple[str, ..
     return tuple(found)
 
 
-def _shell(*, decision: str, note: str, cfg: _GulpConfig = GULP_BATCH_005) -> Universal100SectorGulpStatus:
+def _shell(
+    *, decision: str, note: str, cfg: _GulpConfig = GULP_BATCH_005
+) -> Universal100SectorGulpStatus:
     return Universal100SectorGulpStatus(
         decision=decision,
         target_surface="Universal 100 Sector Gulp",
@@ -351,7 +353,9 @@ def _shell(*, decision: str, note: str, cfg: _GulpConfig = GULP_BATCH_005) -> Un
         blocked_cells=tuple(),
         claim_boundary=tuple(),
         forbidden_claims=tuple(),
-        strongest_truthful_new_claim="(awaiting evidence)" if "AWAITING" in decision else "(blocked)",
+        strongest_truthful_new_claim="(awaiting evidence)"
+        if "AWAITING" in decision
+        else "(blocked)",
         sector_readiness=tuple(),
         sector_registry_ref="",
         sector_state_ladder_ref="",
@@ -367,7 +371,9 @@ def _awaiting(note: str, cfg: _GulpConfig = GULP_BATCH_005) -> Universal100Secto
     return _shell(decision=cfg.token("AWAITING_EVIDENCE"), note=note, cfg=cfg)
 
 
-def _block(decision: str, note: str, cfg: _GulpConfig = GULP_BATCH_005) -> Universal100SectorGulpStatus:
+def _block(
+    decision: str, note: str, cfg: _GulpConfig = GULP_BATCH_005
+) -> Universal100SectorGulpStatus:
     return _shell(decision=decision, note=note, cfg=cfg)
 
 
@@ -464,7 +470,10 @@ def load(
                 cfg=cfg,
             )
         # FULLY_SUPPORTED_WITH_CAVEATS lifecycle requires user-ready / release proof.
-        if row.lifecycle_state == "FULLY_SUPPORTED_WITH_CAVEATS" and not _has_release_proof_reference(blob):
+        if (
+            row.lifecycle_state == "FULLY_SUPPORTED_WITH_CAVEATS"
+            and not _has_release_proof_reference(blob)
+        ):
             return _block(
                 cfg.token("BLOCKED_RELEASE_OVERCLAIM"),
                 f"promoted cell {row.cell_id} claims FULLY_SUPPORTED_WITH_CAVEATS without release-proof source path",
@@ -518,9 +527,15 @@ def load(
         cells_promoted=int(summary.get("cells_promoted", len(promoted))),
         cells_blocked=int(summary.get("cells_blocked", len(blocked))),
         release_supported_count=release_supported,
-        claim_state_counts={str(k): int(v) for k, v in (summary.get("claim_state_counts") or {}).items()},
-        support_state_counts={str(k): int(v) for k, v in (summary.get("support_state_counts") or {}).items()},
-        lifecycle_state_counts={str(k): int(v) for k, v in (summary.get("lifecycle_state_counts") or {}).items()},
+        claim_state_counts={
+            str(k): int(v) for k, v in (summary.get("claim_state_counts") or {}).items()
+        },
+        support_state_counts={
+            str(k): int(v) for k, v in (summary.get("support_state_counts") or {}).items()
+        },
+        lifecycle_state_counts={
+            str(k): int(v) for k, v in (summary.get("lifecycle_state_counts") or {}).items()
+        },
         blocker_counts={str(k): int(v) for k, v in (summary.get("blocker_counts") or {}).items()},
         source_mutation_authorized=False,
         real_user_source_mutation_authorized=False,

@@ -22,6 +22,7 @@ Outputs:
 
 Does not commit, does not run eval, does not pack candidates.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -32,7 +33,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 BOARD_JSON = ROOT / "logs" / "programbench_lock_board.json"
 FACTORY_DIR = ROOT / "logs" / "programbench_factory"
@@ -42,7 +42,7 @@ QUEUE_JSON = FACTORY_DIR / "DISPATCH_QUEUE.json"
 # Priority rank: lower = higher priority
 PRIORITY = {
     "push-to-lock": 1,
-    "lock-now": 0,        # Should normally go straight to archive, not a worker; rank highest if encountered
+    "lock-now": 0,  # Should normally go straight to archive, not a worker; rank highest if encountered
     "hand-test-iterate": 2,
     "create-override": 3,
     "verify/archive-lock": 4,
@@ -130,7 +130,9 @@ def _load_language_classification() -> dict[str, dict[str, Any]]:
     return out
 
 
-def queue_row(row: dict[str, Any], lang_index: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
+def queue_row(
+    row: dict[str, Any], lang_index: dict[str, dict[str, Any]] | None = None
+) -> dict[str, Any]:
     """Reduce a full board row to the worker-relevant fields."""
     base = {
         "slug": row.get("slug") or row.get("base_slug"),
@@ -160,11 +162,18 @@ def cluster_report_exists(slug: str) -> bool:
 
 def _run_cluster(slug: str, eval_path: str, py: str) -> bool:
     """Invoke pb_cluster_from_eval.py for a slug + eval path. Returns True on success."""
-    cmd = [py, str(ROOT / "scripts" / "pb_cluster_from_eval.py"), slug, str(eval_path),
-           "--out-dir", str(INVENTORY_DIR)]
+    cmd = [
+        py,
+        str(ROOT / "scripts" / "pb_cluster_from_eval.py"),
+        slug,
+        str(eval_path),
+        "--out-dir",
+        str(INVENTORY_DIR),
+    ]
     try:
-        proc = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True,
-                              encoding="utf-8", errors="replace")
+        proc = subprocess.run(
+            cmd, cwd=str(ROOT), capture_output=True, text=True, encoding="utf-8", errors="replace"
+        )
         if proc.returncode != 0:
             sys.stderr.write(f"cluster step failed for {slug}: {proc.stderr[:400]}\n")
             return False
@@ -178,8 +187,9 @@ def _run_make_packet(slug: str, py: str) -> Path | None:
     """Invoke pb_make_packet.py for a slug. Returns the packet path on success."""
     cmd = [py, str(ROOT / "scripts" / "pb_make_packet.py"), slug]
     try:
-        proc = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True,
-                              encoding="utf-8", errors="replace")
+        proc = subprocess.run(
+            cmd, cwd=str(ROOT), capture_output=True, text=True, encoding="utf-8", errors="replace"
+        )
         if proc.returncode != 0:
             sys.stderr.write(f"make-packet step failed for {slug}: {proc.stderr[:400]}\n")
             return None
@@ -192,7 +202,7 @@ def _run_make_packet(slug: str, py: str) -> Path | None:
 def write_queue(queue: list[dict[str, Any]], extras: dict[str, Any] | None = None) -> Path:
     FACTORY_DIR.mkdir(parents=True, exist_ok=True)
     payload = {
-        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+        "generated_at": datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds"),
         "queue": queue,
         **(extras or {}),
     }
@@ -204,7 +214,9 @@ def print_summary(queue: list[dict[str, Any]]) -> None:
     if not queue:
         print("(queue is empty)")
         return
-    print(f"{'#':>3} {'slug':<48} {'action':<22} {'best':>10} {'lang':<18} {'override':<8} {'has_eval':<8}")
+    print(
+        f"{'#':>3} {'slug':<48} {'action':<22} {'best':>10} {'lang':<18} {'override':<8} {'has_eval':<8}"
+    )
     print("-" * 130)
     for i, r in enumerate(queue, 1):
         bp = r.get("best_passed") or 0
@@ -216,20 +228,33 @@ def print_summary(queue: list[dict[str, Any]]) -> None:
         lc = r.get("language_classification") or "?"
         lconf = r.get("language_confidence") or "?"
         lang_disp = f"{lc[:11]}/{lconf[:1]}" if lc != "?" else "?"
-        print(f"{i:>3} {str(r.get('slug') or '?'):<48} {str(r.get('next_action') or '?'):<22} "
-              f"{bs_disp}/{bp}/{brt:<5} {lang_disp:<18} {ov:<8} {ev:<8}")
+        print(
+            f"{i:>3} {str(r.get('slug') or '?'):<48} {str(r.get('next_action') or '?'):<22} "
+            f"{bs_disp}/{bp}/{brt:<5} {lang_disp:<18} {ov:<8} {ev:<8}"
+        )
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--top", type=int, default=5, help="how many top candidates to queue (default: 5)")
-    ap.add_argument("--slug", default=None, help="dispatch a specific slug, ignoring priority ordering")
-    ap.add_argument("--include-recovery", action="store_true",
-                    help="include create-override (recovery-first) rows in the queue")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="rank and write queue JSON, but do NOT run cluster or make-packet steps")
-    ap.add_argument("--python", default=sys.executable,
-                    help="Python interpreter for sub-script invocations")
+    ap.add_argument(
+        "--top", type=int, default=5, help="how many top candidates to queue (default: 5)"
+    )
+    ap.add_argument(
+        "--slug", default=None, help="dispatch a specific slug, ignoring priority ordering"
+    )
+    ap.add_argument(
+        "--include-recovery",
+        action="store_true",
+        help="include create-override (recovery-first) rows in the queue",
+    )
+    ap.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="rank and write queue JSON, but do NOT run cluster or make-packet steps",
+    )
+    ap.add_argument(
+        "--python", default=sys.executable, help="Python interpreter for sub-script invocations"
+    )
     args = ap.parse_args()
 
     board = _load_board(BOARD_JSON)

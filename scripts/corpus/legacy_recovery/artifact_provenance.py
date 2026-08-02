@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -9,18 +9,22 @@ from corpus.corpus_manager import hmac_key_scope, resign_record, verify_signatur
 from corpus.legacy_recovery.artifact_security_scan import security_scan
 
 
-def provenance_record(candidate: dict[str, Any], *, allowed_use: list[str] | None = None) -> dict[str, Any]:
+def provenance_record(
+    candidate: dict[str, Any], *, allowed_use: list[str] | None = None
+) -> dict[str, Any]:
     scan = security_scan(candidate)
     digest = str(candidate.get("resolved_digest") or candidate.get("digest") or "")
     record = {
         "schema_version": "determinex-artifact-provenance-v1",
-        "artifact_id": str(candidate.get("artifact_id") or candidate.get("image") or candidate.get("repo_id") or ""),
+        "artifact_id": str(
+            candidate.get("artifact_id") or candidate.get("image") or candidate.get("repo_id") or ""
+        ),
         "artifact_type": str(candidate.get("artifact_type") or ""),
         "source": str(candidate.get("source") or ""),
         "resolved_digest": digest,
         "revision": str(candidate.get("revision") or ""),
         "tag": str(candidate.get("tag") or ""),
-        "retrieved_at": datetime.now(timezone.utc).isoformat(),
+        "retrieved_at": datetime.now(UTC).isoformat(),
         "trust_level": str(candidate.get("trust_level") or ""),
         "license": candidate.get("license"),
         "security_scan": {

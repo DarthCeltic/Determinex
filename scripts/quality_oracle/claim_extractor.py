@@ -5,13 +5,14 @@ checkable assertions. Each claim is independently verifiable against a KB.
 """
 
 from __future__ import annotations
+
 import os
-import json
-from dataclasses import dataclass, field
-from typing import Optional
+from dataclasses import dataclass
+
 import anthropic
 
-_CLIENT: Optional[anthropic.Anthropic] = None
+_CLIENT: anthropic.Anthropic | None = None
+
 
 def _client() -> anthropic.Anthropic:
     global _CLIENT
@@ -22,11 +23,11 @@ def _client() -> anthropic.Anthropic:
 
 @dataclass
 class Claim:
-    text: str                          # The claim as a standalone assertion
-    claim_type: str                    # "factual" | "procedural" | "causal" | "definitional"
-    subject: str                       # Main subject/entity being claimed about
-    confidence: float = 1.0           # Extractor confidence (0-1)
-    source_span: str = ""             # Verbatim text span the claim was extracted from
+    text: str  # The claim as a standalone assertion
+    claim_type: str  # "factual" | "procedural" | "causal" | "definitional"
+    subject: str  # Main subject/entity being claimed about
+    confidence: float = 1.0  # Extractor confidence (0-1)
+    source_span: str = ""  # Verbatim text span the claim was extracted from
 
 
 _EXTRACT_TOOL = {
@@ -40,18 +41,33 @@ _EXTRACT_TOOL = {
                 "items": {
                     "type": "object",
                     "properties": {
-                        "text": {"type": "string", "description": "The claim as a standalone declarative sentence"},
-                        "claim_type": {"type": "string", "enum": ["factual", "procedural", "causal", "definitional"]},
-                        "subject": {"type": "string", "description": "Primary entity or concept this claim is about"},
-                        "confidence": {"type": "number", "description": "Extractor confidence 0.0-1.0"},
-                        "source_span": {"type": "string", "description": "Verbatim text this claim was extracted from (≤80 chars)"}
+                        "text": {
+                            "type": "string",
+                            "description": "The claim as a standalone declarative sentence",
+                        },
+                        "claim_type": {
+                            "type": "string",
+                            "enum": ["factual", "procedural", "causal", "definitional"],
+                        },
+                        "subject": {
+                            "type": "string",
+                            "description": "Primary entity or concept this claim is about",
+                        },
+                        "confidence": {
+                            "type": "number",
+                            "description": "Extractor confidence 0.0-1.0",
+                        },
+                        "source_span": {
+                            "type": "string",
+                            "description": "Verbatim text this claim was extracted from (≤80 chars)",
+                        },
                     },
-                    "required": ["text", "claim_type", "subject", "confidence", "source_span"]
-                }
+                    "required": ["text", "claim_type", "subject", "confidence", "source_span"],
+                },
             }
         },
-        "required": ["claims"]
-    }
+        "required": ["claims"],
+    },
 }
 
 _SYSTEM = """You are a claim extractor. Given a text response, identify every discrete verifiable claim it makes.
@@ -99,7 +115,7 @@ class ClaimExtractor:
                 system=_SYSTEM,
                 tools=[_EXTRACT_TOOL],
                 tool_choice={"type": "tool", "name": "extract_claims"},
-                messages=[{"role": "user", "content": user_content}]
+                messages=[{"role": "user", "content": user_content}],
             )
         except Exception as e:
             print(f"  [claim_extractor] API error: {e}")
@@ -111,13 +127,15 @@ class ClaimExtractor:
                 claims = []
                 for c in raw:
                     try:
-                        claims.append(Claim(
-                            text=c["text"],
-                            claim_type=c.get("claim_type", "factual"),
-                            subject=c.get("subject", ""),
-                            confidence=float(c.get("confidence", 1.0)),
-                            source_span=c.get("source_span", "")[:80],
-                        ))
+                        claims.append(
+                            Claim(
+                                text=c["text"],
+                                claim_type=c.get("claim_type", "factual"),
+                                subject=c.get("subject", ""),
+                                confidence=float(c.get("confidence", 1.0)),
+                                source_span=c.get("source_span", "")[:80],
+                            )
+                        )
                     except (KeyError, TypeError, ValueError):
                         continue
                 return claims
@@ -129,7 +147,11 @@ class ClaimExtractor:
 
         Focuses on behavioral claims: 'this function does X', 'the output is Y'.
         """
-        context = f"This is a code solution. Task: {task_prompt[:300]}" if task_prompt else "This is a code solution."
+        context = (
+            f"This is a code solution. Task: {task_prompt[:300]}"
+            if task_prompt
+            else "This is a code solution."
+        )
         claims = self.extract(response, context)
         # Filter to claims relevant to code behavior
         return [c for c in claims if c.claim_type in ("factual", "procedural", "causal")]

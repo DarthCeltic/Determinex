@@ -19,11 +19,12 @@ Decisions:
   - BLOCKED_TIMEOUT                   — answer exceeded timeout
   - BLOCKED_PROVIDER_ERROR            — non-2xx, malformed json, etc.
 """
+
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable, Optional
 from urllib.parse import urlparse
 
 from .canonical_local_model_id_selection_record import (
@@ -34,16 +35,13 @@ from .real_local_model_healthcheck_record import (
     RealLocalModelHealthcheckRecord,
 )
 
-
 _LOCAL_HOSTS: frozenset[str] = frozenset({"localhost", "127.0.0.1", "::1"})
 
 # Trivial fixed prompt — never contains source/repo content. The
 # prompt is intentionally context-free so the healthcheck cannot
 # accidentally leak workspace state into the model.
 _HEALTHCHECK_PROMPT = "Reply with the single word 'OK'."
-_HEALTHCHECK_SYSTEM = (
-    "You are a healthcheck. Output is recorded as untrusted."
-)
+_HEALTHCHECK_SYSTEM = "You are a healthcheck. Output is recorded as untrusted."
 _RESPONSE_CAP = 256
 
 
@@ -61,21 +59,25 @@ GenTransport = Callable[[str, str, str, str, float], _GenResult]
 
 
 def _default_transport(
-    endpoint: str, model_id: str, prompt: str, system: str,
+    endpoint: str,
+    model_id: str,
+    prompt: str,
+    system: str,
     timeout_seconds: float,
 ) -> _GenResult:
     """Stdlib urllib POST to /api/generate, localhost-bound by caller."""
     import json as _json
-    import socket
     import urllib.error
     import urllib.request
 
-    body = _json.dumps({
-        "model": model_id,
-        "prompt": prompt,
-        "system": system,
-        "stream": False,
-    }).encode("utf-8")
+    body = _json.dumps(
+        {
+            "model": model_id,
+            "prompt": prompt,
+            "system": system,
+            "stream": False,
+        }
+    ).encode("utf-8")
     try:
         req = urllib.request.Request(
             url=endpoint.rstrip("/") + "/api/generate",
@@ -88,56 +90,80 @@ def _default_transport(
         )
         with urllib.request.urlopen(req, timeout=timeout_seconds) as resp:
             if resp.status == 404:
-                return _GenResult(ok=False, timed_out=False, not_pulled=True,
-                                  not_reachable=False,
-                                  error=f"status {resp.status}")
+                return _GenResult(
+                    ok=False,
+                    timed_out=False,
+                    not_pulled=True,
+                    not_reachable=False,
+                    error=f"status {resp.status}",
+                )
             if not (200 <= resp.status < 300):
-                return _GenResult(ok=False, timed_out=False, not_pulled=False,
-                                  not_reachable=False,
-                                  error=f"status {resp.status}")
+                return _GenResult(
+                    ok=False,
+                    timed_out=False,
+                    not_pulled=False,
+                    not_reachable=False,
+                    error=f"status {resp.status}",
+                )
             raw = resp.read().decode("utf-8") or "{}"
             try:
                 payload = _json.loads(raw)
             except (ValueError, UnicodeDecodeError) as exc:
-                return _GenResult(ok=False, timed_out=False, not_pulled=False,
-                                  not_reachable=False,
-                                  error=f"malformed json: {exc}")
+                return _GenResult(
+                    ok=False,
+                    timed_out=False,
+                    not_pulled=False,
+                    not_reachable=False,
+                    error=f"malformed json: {exc}",
+                )
             # Ollama returns an error payload with `error` key when
             # the model isn't pulled.
             if isinstance(payload, dict) and isinstance(payload.get("error"), str):
                 err = payload["error"].lower()
                 if "not found" in err or "no such file" in err or "pull" in err:
                     return _GenResult(
-                        ok=False, timed_out=False, not_pulled=True,
-                        not_reachable=False, error=payload["error"],
+                        ok=False,
+                        timed_out=False,
+                        not_pulled=True,
+                        not_reachable=False,
+                        error=payload["error"],
                     )
                 return _GenResult(
-                    ok=False, timed_out=False, not_pulled=False,
-                    not_reachable=False, error=payload["error"],
+                    ok=False,
+                    timed_out=False,
+                    not_pulled=False,
+                    not_reachable=False,
+                    error=payload["error"],
                 )
             text = ""
             if isinstance(payload, dict):
                 t = payload.get("response")
                 if isinstance(t, str):
                     text = t
-            return _GenResult(ok=True, timed_out=False, not_pulled=False,
-                              not_reachable=False, text=text)
-    except socket.timeout:
-        return _GenResult(ok=False, timed_out=True, not_pulled=False,
-                          not_reachable=False, error="socket timeout")
+            return _GenResult(
+                ok=True, timed_out=False, not_pulled=False, not_reachable=False, text=text
+            )
+    except TimeoutError:
+        return _GenResult(
+            ok=False, timed_out=True, not_pulled=False, not_reachable=False, error="socket timeout"
+        )
     except urllib.error.URLError as exc:
         reason = str(getattr(exc, "reason", exc)).lower()
         if "timed out" in reason:
-            return _GenResult(ok=False, timed_out=True, not_pulled=False,
-                              not_reachable=False, error=str(exc))
+            return _GenResult(
+                ok=False, timed_out=True, not_pulled=False, not_reachable=False, error=str(exc)
+            )
         if "refused" in reason:
-            return _GenResult(ok=False, timed_out=False, not_pulled=False,
-                              not_reachable=True, error=str(exc))
-        return _GenResult(ok=False, timed_out=False, not_pulled=False,
-                          not_reachable=False, error=str(exc))
+            return _GenResult(
+                ok=False, timed_out=False, not_pulled=False, not_reachable=True, error=str(exc)
+            )
+        return _GenResult(
+            ok=False, timed_out=False, not_pulled=False, not_reachable=False, error=str(exc)
+        )
     except OSError as exc:
-        return _GenResult(ok=False, timed_out=False, not_pulled=False,
-                          not_reachable=False, error=str(exc))
+        return _GenResult(
+            ok=False, timed_out=False, not_pulled=False, not_reachable=False, error=str(exc)
+        )
 
 
 def _host_is_local(endpoint: str) -> bool:
@@ -149,7 +175,7 @@ def run(
     selection: CanonicalLocalModelIdSelectionRecord | None,
     endpoint: str = "http://127.0.0.1:11434",
     timeout_seconds: float = 5.0,
-    transport: Optional[GenTransport] = None,
+    transport: GenTransport | None = None,
 ) -> RealLocalModelHealthcheckRecord:
     if selection is None or not selection.is_selected:
         return _blocked(
@@ -171,24 +197,31 @@ def run(
 
     use_transport: GenTransport = transport or _default_transport
     start = time.monotonic()
-    result = use_transport(endpoint, selection.selected_model_id,
-                           _HEALTHCHECK_PROMPT, _HEALTHCHECK_SYSTEM,
-                           timeout_seconds)
+    result = use_transport(
+        endpoint,
+        selection.selected_model_id,
+        _HEALTHCHECK_PROMPT,
+        _HEALTHCHECK_SYSTEM,
+        timeout_seconds,
+    )
     elapsed = int((time.monotonic() - start) * 1000)
 
     if result.timed_out:
         return _blocked(
             "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_TIMEOUT",
             model_id=selection.selected_model_id,
-            provider=selection.provider, endpoint=endpoint,
-            elapsed_ms=elapsed, note=result.error or "timed out",
+            provider=selection.provider,
+            endpoint=endpoint,
+            elapsed_ms=elapsed,
+            note=result.error or "timed out",
         )
 
     if result.not_pulled:
         return _blocked(
             "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_MODEL_NOT_PULLED",
             model_id=selection.selected_model_id,
-            provider=selection.provider, endpoint=endpoint,
+            provider=selection.provider,
+            endpoint=endpoint,
             elapsed_ms=elapsed,
             note=result.error or "model not pulled",
         )
@@ -197,7 +230,8 @@ def run(
         return _blocked(
             "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_PROVIDER_UNAVAILABLE",
             model_id=selection.selected_model_id,
-            provider=selection.provider, endpoint=endpoint,
+            provider=selection.provider,
+            endpoint=endpoint,
             elapsed_ms=elapsed,
             note=result.error or "provider not reachable",
         )
@@ -206,7 +240,8 @@ def run(
         return _blocked(
             "REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_PROVIDER_ERROR",
             model_id=selection.selected_model_id,
-            provider=selection.provider, endpoint=endpoint,
+            provider=selection.provider,
+            endpoint=endpoint,
             elapsed_ms=elapsed,
             note=result.error or "provider error",
         )

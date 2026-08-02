@@ -5,6 +5,7 @@ asserts the delta math + lock detection + regression detection are correct.
 The ledger is a real SQLite + JSONL pair built in a temp dir, so the test
 exercises the actual `query_run_meta` + `_scores_from_ledger` read path.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,16 +16,23 @@ import pytest
 _SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(_SCRIPTS))
 
-import run_ledger as rl                          # noqa: E402
-import programbench_compare_runs as cmp_module   # noqa: E402
+import programbench_compare_runs as cmp_module  # noqa: E402
+import run_ledger as rl  # noqa: E402
 
 
-def _seed_one_event(tmp_db: Path, tmp_jsonl_dir: Path, run_id: str, task_id: str,
-                    score: float, passed: int, total: int,
-                    families: dict[str, int] | None = None) -> None:
+def _seed_one_event(
+    tmp_db: Path,
+    tmp_jsonl_dir: Path,
+    run_id: str,
+    task_id: str,
+    score: float,
+    passed: int,
+    total: int,
+    families: dict[str, int] | None = None,
+) -> None:
     """Append an `eval / completed` event to a transient ledger."""
     rl.LEDGER_DIR = tmp_jsonl_dir  # type: ignore[assignment]
-    rl.SQLITE_PATH = tmp_db        # type: ignore[assignment]
+    rl.SQLITE_PATH = tmp_db  # type: ignore[assignment]
     evt = rl.LedgerEvent(
         run_id=run_id,
         task_id=task_id,
@@ -38,10 +46,16 @@ def _seed_one_event(tmp_db: Path, tmp_jsonl_dir: Path, run_id: str, task_id: str
     rl.append_event(evt, sqlite_path=tmp_db)
 
 
-def _seed_meta(tmp_db: Path, tmp_jsonl_dir: Path, run_id: str, scaffold_version: str,
-               patch_family: str, base_run_id: str | None = None) -> None:
+def _seed_meta(
+    tmp_db: Path,
+    tmp_jsonl_dir: Path,
+    run_id: str,
+    scaffold_version: str,
+    patch_family: str,
+    base_run_id: str | None = None,
+) -> None:
     rl.LEDGER_DIR = tmp_jsonl_dir  # type: ignore[assignment]
-    rl.SQLITE_PATH = tmp_db        # type: ignore[assignment]
+    rl.SQLITE_PATH = tmp_db  # type: ignore[assignment]
     rl.record_run_meta(
         run_id=run_id,
         base_run_id=base_run_id,
@@ -69,27 +83,32 @@ def test_compare_two_basic_deltas(tmp_ledger):
     tmp_db, tmp_jsonl = tmp_ledger
     # base run: three tools with scores 20 / 50 / 70
     _seed_meta(tmp_db, tmp_jsonl, "base", "scaff_v0", "(baseline)")
-    _seed_one_event(tmp_db, tmp_jsonl, "base", "tool_a", 20.0, 200, 1000,
-                    families={"rc_2_unknown_option": 800})
-    _seed_one_event(tmp_db, tmp_jsonl, "base", "tool_b", 50.0, 500, 1000,
-                    families={"rc_2_unknown_option": 500})
+    _seed_one_event(
+        tmp_db, tmp_jsonl, "base", "tool_a", 20.0, 200, 1000, families={"rc_2_unknown_option": 800}
+    )
+    _seed_one_event(
+        tmp_db, tmp_jsonl, "base", "tool_b", 50.0, 500, 1000, families={"rc_2_unknown_option": 500}
+    )
     _seed_one_event(tmp_db, tmp_jsonl, "base", "tool_c", 70.0, 700, 1000)
 
     # iter1: tool_a lifts to 60 (+40), tool_b regresses to 40 (-10), tool_c locks at 100
-    _seed_meta(tmp_db, tmp_jsonl, "iter1", "scaff_clap_v1", "rc_2_unknown_option",
-               base_run_id="base")
-    _seed_one_event(tmp_db, tmp_jsonl, "iter1", "tool_a", 60.0, 600, 1000,
-                    families={"rc_2_unknown_option": 400})
-    _seed_one_event(tmp_db, tmp_jsonl, "iter1", "tool_b", 40.0, 400, 1000,
-                    families={"rc_2_unknown_option": 600})
+    _seed_meta(
+        tmp_db, tmp_jsonl, "iter1", "scaff_clap_v1", "rc_2_unknown_option", base_run_id="base"
+    )
+    _seed_one_event(
+        tmp_db, tmp_jsonl, "iter1", "tool_a", 60.0, 600, 1000, families={"rc_2_unknown_option": 400}
+    )
+    _seed_one_event(
+        tmp_db, tmp_jsonl, "iter1", "tool_b", 40.0, 400, 1000, families={"rc_2_unknown_option": 600}
+    )
     _seed_one_event(tmp_db, tmp_jsonl, "iter1", "tool_c", 100.0, 1000, 1000)
 
     report = cmp_module.compare_two("base", "iter1")
 
     assert report["shared_tools"] == 3
-    assert report["avg_score_base"] == 46.7   # (20+50+70)/3 rounded
-    assert report["avg_score_iter"] == 66.7   # (60+40+100)/3
-    assert report["avg_delta_pp"] == 20.0     # net positive
+    assert report["avg_score_base"] == 46.7  # (20+50+70)/3 rounded
+    assert report["avg_score_iter"] == 66.7  # (60+40+100)/3
+    assert report["avg_delta_pp"] == 20.0  # net positive
 
     assert report["new_locks"] == ["tool_c"]
     assert report["new_unlocks"] == []
@@ -112,12 +131,28 @@ def test_compare_two_basic_deltas(tmp_ledger):
 def test_compare_two_family_histogram_delta(tmp_ledger):
     tmp_db, tmp_jsonl = tmp_ledger
     _seed_meta(tmp_db, tmp_jsonl, "b", "v0", "(baseline)")
-    _seed_one_event(tmp_db, tmp_jsonl, "b", "tool_x", 10.0, 100, 1000,
-                    families={"rc_2_unknown_option": 800, "help_text_mismatch": 100})
+    _seed_one_event(
+        tmp_db,
+        tmp_jsonl,
+        "b",
+        "tool_x",
+        10.0,
+        100,
+        1000,
+        families={"rc_2_unknown_option": 800, "help_text_mismatch": 100},
+    )
 
     _seed_meta(tmp_db, tmp_jsonl, "i1", "v1_clap", "rc_2_unknown_option", base_run_id="b")
-    _seed_one_event(tmp_db, tmp_jsonl, "i1", "tool_x", 90.0, 900, 1000,
-                    families={"rc_2_unknown_option": 50, "help_text_mismatch": 50})
+    _seed_one_event(
+        tmp_db,
+        tmp_jsonl,
+        "i1",
+        "tool_x",
+        90.0,
+        900,
+        1000,
+        families={"rc_2_unknown_option": 50, "help_text_mismatch": 50},
+    )
 
     report = cmp_module.compare_two("b", "i1")
     fams = {f["family"]: f for f in report["family_delta"]}
@@ -160,8 +195,14 @@ def test_compare_two_handles_only_one_side(tmp_ledger):
 def test_compare_three_trajectory(tmp_ledger):
     tmp_db, tmp_jsonl = tmp_ledger
     for run_id, score in [("b", 20.0), ("i1", 60.0), ("i2", 90.0)]:
-        _seed_meta(tmp_db, tmp_jsonl, run_id, f"v_{run_id}", "fam",
-                   base_run_id=("b" if run_id != "b" else None))
+        _seed_meta(
+            tmp_db,
+            tmp_jsonl,
+            run_id,
+            f"v_{run_id}",
+            "fam",
+            base_run_id=("b" if run_id != "b" else None),
+        )
         _seed_one_event(tmp_db, tmp_jsonl, run_id, "tool_t", score, int(score), 100)
 
     report = cmp_module.compare_three("b", "i1", "i2")

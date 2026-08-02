@@ -68,6 +68,7 @@ def _call_critic(output: str, task_prompt: str) -> tuple[bool, str]:
     # Parse the critic's JSON verdict
     # Handle cases where the model wraps JSON in markdown fences
     import re
+
     clean = response.strip()
     clean = re.sub(r"^```(?:json)?\s*\n", "", clean, flags=re.MULTILINE)
     clean = re.sub(r"\n```\s*$", "", clean, flags=re.MULTILINE)
@@ -80,7 +81,7 @@ def _call_critic(output: str, task_prompt: str) -> tuple[bool, str]:
     try:
         verdict_obj = json.loads(clean)
         verdict = verdict_obj.get("verdict", "").upper()
-        reason  = verdict_obj.get("reason", "No reason given")
+        reason = verdict_obj.get("reason", "No reason given")
 
         if verdict == "PASS":
             log.debug("Critic PASS: %s", reason[:100])

@@ -42,7 +42,7 @@ import subprocess
 import sys
 import tempfile
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 # ── UTF-8 terminal (Windows) ─────────────────────────────────────────────────
@@ -59,18 +59,18 @@ logging.basicConfig(
 log = logging.getLogger("convert")
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-_SCRIPTS_DIR  = Path(__file__).resolve().parent
+_SCRIPTS_DIR = Path(__file__).resolve().parent
 _DETERMINEX_ROOT = _SCRIPTS_DIR.parent
-_SRC_TAURI    = _DETERMINEX_ROOT / "frontend" / "src-tauri"
+_SRC_TAURI = _DETERMINEX_ROOT / "frontend" / "src-tauri"
 
-INPUT_PATH  = _SRC_TAURI / "determinex_v1_failures.jsonl"
+INPUT_PATH = _SRC_TAURI / "determinex_v1_failures.jsonl"
 OUTPUT_PATH = _SRC_TAURI / "determinex_v1_failures_sft.jsonl"
 REPORT_PATH = _SCRIPTS_DIR / "failures_conversion_report.json"
 
 # ── Ollama config ─────────────────────────────────────────────────────────────
-OLLAMA_CHAT_URL  = os.getenv("OLLAMA_HOST", "http://localhost:11434") + "/api/chat"
+OLLAMA_CHAT_URL = os.getenv("OLLAMA_HOST", "http://localhost:11434") + "/api/chat"
 OLLAMA_ALIVE_URL = os.getenv("OLLAMA_HOST", "http://localhost:11434") + "/api/tags"
-TEACHER_MODEL    = "determinex-leviathan:v1"
+TEACHER_MODEL = "determinex-leviathan:v1"
 
 # Allowlist for Ollama model names — prevents unsanitized CLI input reaching urllib.
 # Valid examples: "determinex-leviathan:v1", "deepseek-coder-v2:latest", "llama3.2:3b"
@@ -116,8 +116,8 @@ def _sanitize_model(name: str) -> str:
     return m.group(0)  # sanitized — not the raw CLI arg
 
 
-OLLAMA_TIMEOUT   = 180   # seconds — Leviathan can be slow on complex fixes
-COMPILE_TIMEOUT  = 30    # seconds per rustc/go call
+OLLAMA_TIMEOUT = 180  # seconds — Leviathan can be slow on complex fixes
+COMPILE_TIMEOUT = 30  # seconds per rustc/go call
 
 # ── Language system prompts ───────────────────────────────────────────────────
 _SYSTEM = {
@@ -180,6 +180,7 @@ _STRICT_LANGS = {"Rust", "Go", "Python"}
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
+
 def strip_fences(code: str) -> str:
     """Remove ```lang ... ``` or ``` ... ``` fences if the model included them."""
     code = code.strip()
@@ -192,10 +193,10 @@ def build_user_prompt(sample: dict) -> str:
     _raw_lang = sample.get("language", "code")
     # Sanitize lang against the frozen allowlist so only known labels reach
     # the prompt string — this breaks the SSRF taint chain from JSONL data.
-    lang      = _raw_lang if _raw_lang in _ALLOWED_LANGS else "code"
-    broken    = sample.get("original_broken_code", "").strip()
-    error     = sample.get("raw_compiler_panic", "").strip()
-    status    = sample.get("final_status", "")
+    lang = _raw_lang if _raw_lang in _ALLOWED_LANGS else "code"
+    broken = sample.get("original_broken_code", "").strip()
+    error = sample.get("raw_compiler_panic", "").strip()
+    status = sample.get("final_status", "")
 
     if error:
         return (
@@ -205,7 +206,11 @@ def build_user_prompt(sample: dict) -> str:
             f"Provide the corrected {lang} code only, with no explanation."
         )
     else:
-        hint = "(The model's output was malformed or truncated.)" if status == "ENGINEER_PARSE_FAIL" else ""
+        hint = (
+            "(The model's output was malformed or truncated.)"
+            if status == "ENGINEER_PARSE_FAIL"
+            else ""
+        )
         return (
             f"The following {lang} code is broken. {hint}\n\n"
             f"Broken code:\n{broken}\n\n"
@@ -215,9 +220,11 @@ def build_user_prompt(sample: dict) -> str:
 
 # ── Ollama call ───────────────────────────────────────────────────────────────
 
+
 def ollama_alive() -> bool:
     try:
         import urllib.request
+
         safe_url = _validate_localhost_url(OLLAMA_ALIVE_URL)
         with urllib.request.urlopen(safe_url, timeout=5) as r:  # noqa: S310  # snyk:ignore python/Ssrf — URL validated to localhost only
             return r.status == 200
@@ -240,27 +247,31 @@ def call_leviathan(system: str, user: str, model: str) -> str | None:
     # Bound content lengths before they enter the HTTP payload (SSRF guard).
     # These are well above any legitimate prompt size for this pipeline.
     _MAX_SYSTEM = 4_096
-    _MAX_USER   = 16_384
+    _MAX_USER = 16_384
     safe_system = str(system)[:_MAX_SYSTEM]
-    safe_user   = str(user)[:_MAX_USER]
+    safe_user = str(user)[:_MAX_USER]
 
     try:
-        import urllib.request, urllib.error
+        import urllib.error
+        import urllib.request
+
         safe_url = _validate_localhost_url(OLLAMA_CHAT_URL)
-        payload = json.dumps({
-            "model": model,  # sanitized by _sanitize_model() in main()
-            "messages": [
-                {"role": "system",  "content": safe_system},
-                {"role": "user",    "content": safe_user},
-            ],
-            "stream": False,
-            "options": {
-                "temperature":    0,
-                "num_predict":    1800,
-                "top_p":          1.0,
-                "repeat_penalty": 1.1,
-            },
-        }).encode("utf-8")
+        payload = json.dumps(
+            {
+                "model": model,  # sanitized by _sanitize_model() in main()
+                "messages": [
+                    {"role": "system", "content": safe_system},
+                    {"role": "user", "content": safe_user},
+                ],
+                "stream": False,
+                "options": {
+                    "temperature": 0,
+                    "num_predict": 1800,
+                    "top_p": 1.0,
+                    "repeat_penalty": 1.1,
+                },
+            }
+        ).encode("utf-8")
 
         req = urllib.request.Request(
             safe_url,
@@ -278,6 +289,7 @@ def call_leviathan(system: str, user: str, model: str) -> str | None:
 
 
 # ── Validators ────────────────────────────────────────────────────────────────
+
 
 def _validate_rust(code: str) -> tuple[bool, str]:
     code = strip_fences(code)
@@ -303,7 +315,9 @@ def _validate_rust(code: str) -> tuple[bool, str]:
     try:
         r = subprocess.run(
             ["rustc", "--edition", "2021", "--crate-type", "lib", "-o", out, src],
-            capture_output=True, text=True, timeout=COMPILE_TIMEOUT,
+            capture_output=True,
+            text=True,
+            timeout=COMPILE_TIMEOUT,
         )
         if r.returncode == 0:
             return True, "rustc OK"
@@ -335,14 +349,14 @@ def _validate_go(code: str) -> tuple[bool, str]:
     try:
         with tempfile.TemporaryDirectory() as tmpdir:
             td = Path(tmpdir)
-            (td / "go.mod").write_text(
-                "module determinex_validate\n\ngo 1.21\n", encoding="utf-8"
-            )
+            (td / "go.mod").write_text("module determinex_validate\n\ngo 1.21\n", encoding="utf-8")
             (td / "main.go").write_text(code, encoding="utf-8")
 
             r = subprocess.run(
                 ["go", "build", "."],
-                capture_output=True, text=True, timeout=COMPILE_TIMEOUT,
+                capture_output=True,
+                text=True,
+                timeout=COMPILE_TIMEOUT,
                 cwd=tmpdir,
             )
             if r.returncode == 0:
@@ -369,10 +383,10 @@ def _validate_python(code: str) -> tuple[bool, str]:
 
 # Language-specific keyword sanity checks for non-compiled languages
 _LANG_KEYWORDS: dict[str, list[str]] = {
-    "Kotlin":     ["fun ", "class ", "val ", "var ", "object ", "interface "],
-    "Cpp":        ["#include", "int ", "void ", "class ", "struct ", "namespace"],
+    "Kotlin": ["fun ", "class ", "val ", "var ", "object ", "interface "],
+    "Cpp": ["#include", "int ", "void ", "class ", "struct ", "namespace"],
     "TypeScript": ["function", "const ", "let ", "interface ", "class ", "type ", "=>"],
-    "Sql":        ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "WITH", "FROM"],
+    "Sql": ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "WITH", "FROM"],
 }
 
 
@@ -402,12 +416,13 @@ def validate(code: str, lang: str) -> tuple[bool, str]:
 
 # ── Stats tracker ─────────────────────────────────────────────────────────────
 
+
 class ConversionStats:
     def __init__(self):
-        self.attempted   = 0
-        self.validated   = 0
-        self.rejected    = 0
-        self.skipped     = 0
+        self.attempted = 0
+        self.validated = 0
+        self.rejected = 0
+        self.skipped = 0
         self.by_lang: dict[str, dict] = {}
         self.rejection_reasons: list[str] = []
         self._start = time.time()
@@ -439,20 +454,20 @@ class ConversionStats:
         if rate == 0:
             return "unknown"
         secs = remaining / rate
-        return f"{secs/60:.0f}m"
+        return f"{secs / 60:.0f}m"
 
     def to_dict(self) -> dict:
         elapsed = round(time.time() - self._start, 1)
         return {
-            "generated_at":       datetime.now(timezone.utc).isoformat(),
-            "elapsed_seconds":    elapsed,
-            "attempted":          self.attempted,
-            "validated":          self.validated,
-            "rejected":           self.rejected,
-            "skipped":            self.skipped,
-            "pass_rate":          round(self.validated / max(self.attempted, 1), 3),
-            "by_language":        self.by_lang,
-            "rejection_reasons":  self.rejection_reasons[-50:],  # last 50
+            "generated_at": datetime.now(UTC).isoformat(),
+            "elapsed_seconds": elapsed,
+            "attempted": self.attempted,
+            "validated": self.validated,
+            "rejected": self.rejected,
+            "skipped": self.skipped,
+            "pass_rate": round(self.validated / max(self.attempted, 1), 3),
+            "by_language": self.by_lang,
+            "rejection_reasons": self.rejection_reasons[-50:],  # last 50
         }
 
     def print_summary(self):
@@ -466,7 +481,8 @@ class ConversionStats:
             "  Elapsed    : %.1f min\n%s",
             "=" * 60,
             self.attempted,
-            self.validated, 100 * self.validated / max(self.attempted, 1),
+            self.validated,
+            100 * self.validated / max(self.attempted, 1),
             self.rejected,
             self.skipped,
             elapsed / 60,
@@ -475,23 +491,43 @@ class ConversionStats:
         log.info("Breakdown by language:")
         for lang, d in sorted(self.by_lang.items()):
             pct = 100 * d["validated"] / max(d["attempted"], 1)
-            log.info("  %-14s  %d validated / %d attempted  (%.0f%%)", lang, d["validated"], d["attempted"], pct)
+            log.info(
+                "  %-14s  %d validated / %d attempted  (%.0f%%)",
+                lang,
+                d["validated"],
+                d["attempted"],
+                pct,
+            )
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Determinex Failure → SFT Converter")
-    parser.add_argument("--lang",    type=str, default=None,
-                        help="Filter to one language (Rust, Go, Python, Kotlin, Cpp, TypeScript, Sql)")
-    parser.add_argument("--n",       type=int, default=None,
-                        help="Process at most N samples (for smoke testing).")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Generate and validate but do NOT write output JSONL.")
-    parser.add_argument("--resume",  action="store_true",
-                        help="Skip task_ids already present in the output file.")
-    parser.add_argument("--model",   type=str, default=TEACHER_MODEL,
-                        help=f"Ollama model to use as teacher (default: {TEACHER_MODEL}).")
+    parser.add_argument(
+        "--lang",
+        type=str,
+        default=None,
+        help="Filter to one language (Rust, Go, Python, Kotlin, Cpp, TypeScript, Sql)",
+    )
+    parser.add_argument(
+        "--n", type=int, default=None, help="Process at most N samples (for smoke testing)."
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Generate and validate but do NOT write output JSONL.",
+    )
+    parser.add_argument(
+        "--resume", action="store_true", help="Skip task_ids already present in the output file."
+    )
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=TEACHER_MODEL,
+        help=f"Ollama model to use as teacher (default: {TEACHER_MODEL}).",
+    )
     args = parser.parse_args()
 
     # Validate --lang early against the known allowlist (breaks SSRF taint path).
@@ -546,7 +582,7 @@ def main():
         samples = [s for s in samples if s.get("language") == args.lang]
         log.info("Filtered to lang=%s: %d samples", args.lang, len(samples))
     if args.n:
-        samples = samples[:args.n]
+        samples = samples[: args.n]
         log.info("Capped at --n=%d samples", args.n)
 
     total = len(samples)
@@ -557,7 +593,8 @@ def main():
         "  Teacher  : %s\n%s",
         "=" * 60,
         " [DRY RUN]" if args.dry_run else "",
-        total, OUTPUT_PATH.name,
+        total,
+        OUTPUT_PATH.name,
         teacher,
         "=" * 60,
     )
@@ -565,10 +602,10 @@ def main():
     stats = ConversionStats()
 
     for idx, sample in enumerate(samples):
-        task_id  = sample.get("task_id", f"unknown_{idx}")
-        lang     = sample.get("language", "Unknown")
-        status   = sample.get("final_status", "?")
-        broken   = sample.get("original_broken_code", "").strip()
+        task_id = sample.get("task_id", f"unknown_{idx}")
+        lang = sample.get("language", "Unknown")
+        status = sample.get("final_status", "?")
+        broken = sample.get("original_broken_code", "").strip()
 
         # ── Skip already-done ─────────────────────────────────────────────────
         if task_id in done_ids:
@@ -585,16 +622,21 @@ def main():
         remaining = total - (idx + 1)
         log.info(
             "[%d/%d]  %s  %s  (%s)  ETA ~%s",
-            idx + 1, total, lang, task_id, status, stats.eta(remaining),
+            idx + 1,
+            total,
+            lang,
+            task_id,
+            status,
+            stats.eta(remaining),
         )
 
         # ── Build prompts ─────────────────────────────────────────────────────
         system_prompt = _SYSTEM.get(lang, _DEFAULT_SYSTEM)
-        user_prompt   = build_user_prompt(sample)
+        user_prompt = build_user_prompt(sample)
 
         # ── Call Leviathan ────────────────────────────────────────────────────
         stats.record_attempt(lang)
-        t0     = time.time()
+        t0 = time.time()
         output = call_leviathan(system_prompt, user_prompt, teacher)
         elapsed_call = round(time.time() - t0, 1)
 
@@ -616,23 +658,26 @@ def main():
         # ── Build SFT sample ──────────────────────────────────────────────────
         strict = lang in _STRICT_LANGS
         sft_sample = {
-            "system":    system_prompt,
-            "user":      user_prompt,
+            "system": system_prompt,
+            "user": user_prompt,
             "assistant": fixed_code,
-            "_meta": {                           # stripped by train_unsloth.py token pre-check
-                "task_id":            task_id,
-                "language":           lang,
-                "original_status":    status,
-                "validator":          "compile" if strict else "format",
-                "validator_result":   reason,
-                "converted_at":       datetime.now(timezone.utc).isoformat(),
+            "_meta": {  # stripped by train_unsloth.py token pre-check
+                "task_id": task_id,
+                "language": lang,
+                "original_status": status,
+                "validator": "compile" if strict else "format",
+                "validator_result": reason,
+                "converted_at": datetime.now(UTC).isoformat(),
             },
         }
 
         stats.record_validated(lang)
         log.info(
             "  PASS    %s  (%.1fs)  %s  [%s]",
-            task_id, elapsed_call, reason, "strict" if strict else "lenient",
+            task_id,
+            elapsed_call,
+            reason,
+            "strict" if strict else "lenient",
         )
 
         # ── Write ─────────────────────────────────────────────────────────────
@@ -654,7 +699,7 @@ def main():
         if stats.validated > 0:
             log.info(
                 "\n  NEXT STEP — add to v6 training:\n"
-                "  1. Verify output:  python -c \"import pathlib,json; "
+                '  1. Verify output:  python -c "import pathlib,json; '
                 "p=pathlib.Path(r'%s'); "
                 "lines=[l for l in p.read_text().splitlines() if l.strip()]; "
                 "print(f'{len(lines)} validated samples')\"\n"

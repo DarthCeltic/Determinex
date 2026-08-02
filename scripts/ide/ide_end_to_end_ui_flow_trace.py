@@ -13,9 +13,9 @@ Composes every IDE flow rung from this campaign:
 
 Fixture providers only. No network. No source mutation.
 """
+
 from __future__ import annotations
 
-import datetime as _dt
 import sys
 from pathlib import Path
 
@@ -60,35 +60,49 @@ def build_ui_flow_trace(
 
     # 2. Model route panel.
     panel = IDEModelRoutePanel().view(
-        task_class="BUILD_DIAGNOSIS", config=config, opt_in=True,
+        task_class="BUILD_DIAGNOSIS",
+        config=config,
+        opt_in=True,
     )
     stages.append(IDEUIFlowStage(name="model_route_panel", status=panel.decision))
 
     # 3. Diagnose.
     diag = IDEDiagnoseFlow().run(
-        ws, task_class="BUILD_DIAGNOSIS", mode="live_opt_in", config=config,
+        ws,
+        task_class="BUILD_DIAGNOSIS",
+        mode="live_opt_in",
+        config=config,
         provider=DeterministicProvider(canned={"summary": "fixture diagnose"}),
     )
     stages.append(IDEUIFlowStage(name="diagnose", status=diag.decision))
 
     # 4. Patch plan.
     plan_flow = IDEPatchPlanFlow().run(
-        ws, config=config, opt_in=True, plan_entries=plan_entries,
+        ws,
+        config=config,
+        opt_in=True,
+        plan_entries=plan_entries,
     )
     stages.append(IDEUIFlowStage(name="patch_plan", status=plan_flow.decision))
 
     # 5. Temp verify (only if plan quarantined).
-    from repair.live_patch_plan_quarantine import LivePatchPlanQuarantine
     from models.live_model_admission import (
-        LiveAdmissionMode, LiveModelAdmissionConfig, LiveModelAdmissionGate,
+        LiveAdmissionMode,
+        LiveModelAdmissionConfig,
+        LiveModelAdmissionGate,
     )
     from models.local_model_admission_policy import LocalModelCandidate, ModelProvider
     from models.model_inventory import LocalModelInventory
     from models.model_router import CURRENT_MODEL_IDS, ModelRouter, RouterMode, TaskClass
+    from repair.live_patch_plan_quarantine import LivePatchPlanQuarantine
+
     inv = LocalModelInventory.of(sorted(CURRENT_MODEL_IDS))
-    gate = LiveModelAdmissionGate(config=LiveModelAdmissionConfig(
-        mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=True,
-    ))
+    gate = LiveModelAdmissionGate(
+        config=LiveModelAdmissionConfig(
+            mode=LiveAdmissionMode.OPT_IN_LIVE,
+            opt_in_live=True,
+        )
+    )
     candidate = LocalModelCandidate(
         model_id=config.model_id,
         provider=config.provider or ModelProvider.OLLAMA.value,
@@ -96,18 +110,25 @@ def build_ui_flow_trace(
         supported_task_classes=(TaskClass.PATCH_GENERATION.value,),
     )
     admission = gate.evaluate(
-        candidate, TaskClass.PATCH_GENERATION, inv,
+        candidate,
+        TaskClass.PATCH_GENERATION,
+        inv,
         ModelRouter(inventory=inv).route(TaskClass.PATCH_GENERATION, mode=RouterMode.LIVE),
     )
     quarantined = LivePatchPlanQuarantine().quarantine(
-        list(plan_entries), admission=admission, workspace=ws,
+        list(plan_entries),
+        admission=admission,
+        workspace=ws,
     )
     verifier_status = ""
     unified_diff = ""
     if quarantined.is_quarantined:
         from repair.safe_patch_workspace import stub_verifier_pass
+
         verify = IDETempVerifyFlow().run(
-            quarantined, temp_root=Path(temp_root), verifier=stub_verifier_pass,
+            quarantined,
+            temp_root=Path(temp_root),
+            verifier=stub_verifier_pass,
             workspace_id="e2e_ui",
         )
         stages.append(IDEUIFlowStage(name="temp_verify", status=verify.decision))
@@ -125,7 +146,9 @@ def build_ui_flow_trace(
         verifier_status=verifier_status or "PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
     signing = IDEHumanApprovalSigningFlow().submit(
-        packet, action="approve", operator_identity="ryan",
+        packet,
+        action="approve",
+        operator_identity="ryan",
         observed_diff=unified_diff,
         observed_verifier_status=verifier_status or "PATCH_VERIFIER_PASSED_TEMP_ONLY",
         fixture=True,
@@ -134,7 +157,10 @@ def build_ui_flow_trace(
 
     # 7. Source apply gate.
     apply = IDESourceApplyGateFlow().evaluate(
-        ws, signing=signing, packet=packet, observed_diff=unified_diff,
+        ws,
+        signing=signing,
+        packet=packet,
+        observed_diff=unified_diff,
         observed_source_hash_at_packet_time=workspace_hash(ws),
         verifier_status=verifier_status or "PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )

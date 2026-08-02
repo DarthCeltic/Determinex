@@ -23,6 +23,7 @@ Usage:
     python scripts/model_advisor.py --list
     python scripts/model_advisor.py --refresh   # force live data pull
 """
+
 from __future__ import annotations
 
 import argparse
@@ -30,9 +31,9 @@ import json
 import logging
 import os
 import time
-import urllib.request
 import urllib.error
-from datetime import datetime, timezone
+import urllib.request
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import NamedTuple
 
@@ -43,94 +44,101 @@ log = logging.getLogger("determinex.advisor")
 # Sources: SWE-bench Verified leaderboard, HumanEval+, MBPP+, BigCodeBench.
 SEEDED: dict[str, dict] = {
     "anthropic": {
-        "model":         "claude-sonnet-4-6",
-        "display":       "Claude Sonnet 4.6",
-        "backend_key":   "anthropic",
-        "cost_in":       3.00,
-        "cost_out":      15.00,
-        "cloak":         True,
+        "model": "claude-sonnet-4-6",
+        "display": "Claude Sonnet 4.6",
+        "backend_key": "anthropic",
+        "cost_in": 3.00,
+        "cost_out": 15.00,
+        "cloak": True,
         "benchmarks": {
             "swebench_verified": 0.796,  # SWE-bench Verified, May 2026
-            "humaneval":         0.937,  # HumanEval+
-            "mbpp":              0.894,  # MBPP+
-            "bigcodebench":      0.586,  # BigCodeBench completion
-            "livecodebench":     None,
+            "humaneval": 0.937,  # HumanEval+
+            "mbpp": 0.894,  # MBPP+
+            "bigcodebench": 0.586,  # BigCodeBench completion
+            "livecodebench": None,
         },
-        "strengths":   ["architect", "complex_reasoning", "root_cause_analysis",
-                        "security_review", "multi_file_refactor"],
-        "weaknesses":  ["high_cost", "slower_throughput"],
+        "strengths": [
+            "architect",
+            "complex_reasoning",
+            "root_cause_analysis",
+            "security_review",
+            "multi_file_refactor",
+        ],
+        "weaknesses": ["high_cost", "slower_throughput"],
     },
     "openai": {
-        "model":         "gpt-4.1",
-        "display":       "GPT-4.1 / GPT-5",
-        "backend_key":   "openai",
-        "cost_in":       2.50,
-        "cost_out":      15.00,
-        "cloak":         True,
+        "model": "gpt-4.1",
+        "display": "GPT-4.1 / GPT-5",
+        "backend_key": "openai",
+        "cost_in": 2.50,
+        "cost_out": 15.00,
+        "cloak": True,
         "benchmarks": {
             "swebench_verified": 0.800,  # GPT-5.4 proxy
-            "humaneval":         0.940,  # GPT-5
-            "mbpp":              0.910,
-            "bigcodebench":      0.611,  # GPT-4o
-            "livecodebench":     None,
+            "humaneval": 0.940,  # GPT-5
+            "mbpp": 0.910,
+            "bigcodebench": 0.611,  # GPT-4o
+            "livecodebench": None,
         },
-        "strengths":   ["architect", "complex_reasoning", "broad_knowledge",
-                        "long_context"],
-        "weaknesses":  ["high_cost", "no_local_fallback"],
+        "strengths": ["architect", "complex_reasoning", "broad_knowledge", "long_context"],
+        "weaknesses": ["high_cost", "no_local_fallback"],
     },
     "deepseek": {
-        "model":         "deepseek-v4-flash",
-        "display":       "DeepSeek V3/V4",
-        "backend_key":   "deepseek",
-        "cost_in":       0.14,
-        "cost_out":      0.28,
-        "cloak":         True,
+        "model": "deepseek-v4-flash",
+        "display": "DeepSeek V3/V4",
+        "backend_key": "deepseek",
+        "cost_in": 0.14,
+        "cost_out": 0.28,
+        "cloak": True,
         "benchmarks": {
             "swebench_verified": 0.730,  # DeepSeek V3.2
-            "humaneval":         0.850,
-            "mbpp":              0.894,  # DeepSeek-Coder-V2
-            "bigcodebench":      0.597,  # DeepSeek-Coder-V2
-            "livecodebench":     None,
+            "humaneval": 0.850,
+            "mbpp": 0.894,  # DeepSeek-Coder-V2
+            "bigcodebench": 0.597,  # DeepSeek-Coder-V2
+            "livecodebench": None,
         },
-        "strengths":   ["builder", "high_volume", "low_cost", "fast_iteration",
-                        "batch_processing"],
-        "weaknesses":  ["weaker_architecture", "less_surgical_patches"],
+        "strengths": ["builder", "high_volume", "low_cost", "fast_iteration", "batch_processing"],
+        "weaknesses": ["weaker_architecture", "less_surgical_patches"],
     },
     "gemini": {
-        "model":         "gemini-2.5-pro",
-        "display":       "Gemini 2.5 Pro",
-        "backend_key":   "gemini",
-        "cost_in":       1.25,
-        "cost_out":      5.00,
-        "cloak":         True,
+        "model": "gemini-2.5-pro",
+        "display": "Gemini 2.5 Pro",
+        "backend_key": "gemini",
+        "cost_in": 1.25,
+        "cost_out": 5.00,
+        "cloak": True,
         "benchmarks": {
             "swebench_verified": 0.806,  # Gemini 3.1 Pro
-            "humaneval":         0.900,
-            "mbpp":              0.897,  # Gemini 1.5 Pro 002
-            "bigcodebench":      None,
-            "livecodebench":     None,
+            "humaneval": 0.900,
+            "mbpp": 0.897,  # Gemini 1.5 Pro 002
+            "bigcodebench": None,
+            "livecodebench": None,
         },
-        "strengths":   ["architect", "ui_frontend", "visual_reasoning",
-                        "multimodal", "long_context"],
-        "weaknesses":  ["variable_code_consistency"],
+        "strengths": ["architect", "ui_frontend", "visual_reasoning", "multimodal", "long_context"],
+        "weaknesses": ["variable_code_consistency"],
     },
     "ollama": {
-        "model":         "local",
-        "display":       "Local (Ollama)",
-        "backend_key":   "ollama",
-        "cost_in":       0.00,
-        "cost_out":      0.00,
-        "cloak":         False,
+        "model": "local",
+        "display": "Local (Ollama)",
+        "backend_key": "ollama",
+        "cost_in": 0.00,
+        "cost_out": 0.00,
+        "cloak": False,
         "benchmarks": {
             "swebench_verified": None,
-            "humaneval":         None,
-            "mbpp":              None,
-            "bigcodebench":      None,
-            "livecodebench":     None,
+            "humaneval": None,
+            "mbpp": None,
+            "bigcodebench": None,
+            "livecodebench": None,
         },
-        "strengths":   ["privacy_sovereign", "zero_cost", "offline",
-                        "no_data_sharing", "low_latency_local"],
-        "weaknesses":  ["lower_quality", "hardware_dependent"],
+        "strengths": [
+            "privacy_sovereign",
+            "zero_cost",
+            "offline",
+            "no_data_sharing",
+            "low_latency_local",
+        ],
+        "weaknesses": ["lower_quality", "hardware_dependent"],
     },
 }
 
@@ -140,86 +148,164 @@ SEEDED: dict[str, dict] = {
 GOAL_WEIGHTS: dict[str, dict[str, float]] = {
     "architect": {
         "swebench_verified": 0.55,
-        "humaneval":         0.15,
-        "mbpp":              0.10,
-        "bigcodebench":      0.10,
-        "livecodebench":     0.10,
+        "humaneval": 0.15,
+        "mbpp": 0.10,
+        "bigcodebench": 0.10,
+        "livecodebench": 0.10,
     },
     "builder": {
         "swebench_verified": 0.20,
-        "humaneval":         0.35,
-        "mbpp":              0.25,
-        "bigcodebench":      0.15,
-        "livecodebench":     0.05,
+        "humaneval": 0.35,
+        "mbpp": 0.25,
+        "bigcodebench": 0.15,
+        "livecodebench": 0.05,
     },
     "high_volume": {
         "swebench_verified": 0.15,
-        "humaneval":         0.30,
-        "mbpp":              0.30,
-        "bigcodebench":      0.20,
-        "livecodebench":     0.05,
+        "humaneval": 0.30,
+        "mbpp": 0.30,
+        "bigcodebench": 0.20,
+        "livecodebench": 0.05,
     },
     "ui_frontend": {
         "swebench_verified": 0.20,
-        "humaneval":         0.30,
-        "mbpp":              0.30,
-        "bigcodebench":      0.10,
-        "livecodebench":     0.10,
+        "humaneval": 0.30,
+        "mbpp": 0.30,
+        "bigcodebench": 0.10,
+        "livecodebench": 0.10,
     },
     "algorithm": {
         "swebench_verified": 0.10,
-        "humaneval":         0.25,
-        "mbpp":              0.25,
-        "bigcodebench":      0.10,
-        "livecodebench":     0.30,
+        "humaneval": 0.25,
+        "mbpp": 0.25,
+        "bigcodebench": 0.10,
+        "livecodebench": 0.30,
     },
     "security_review": {
         "swebench_verified": 0.60,
-        "humaneval":         0.15,
-        "mbpp":              0.10,
-        "bigcodebench":      0.10,
-        "livecodebench":     0.05,
+        "humaneval": 0.15,
+        "mbpp": 0.10,
+        "bigcodebench": 0.10,
+        "livecodebench": 0.05,
     },
     "cost_sensitive": {
         "swebench_verified": 0.30,
-        "humaneval":         0.25,
-        "mbpp":              0.25,
-        "bigcodebench":      0.15,
-        "livecodebench":     0.05,
+        "humaneval": 0.25,
+        "mbpp": 0.25,
+        "bigcodebench": 0.15,
+        "livecodebench": 0.05,
     },
     "privacy_required": {
         "swebench_verified": 0.40,
-        "humaneval":         0.25,
-        "mbpp":              0.20,
-        "bigcodebench":      0.10,
-        "livecodebench":     0.05,
+        "humaneval": 0.25,
+        "mbpp": 0.20,
+        "bigcodebench": 0.10,
+        "livecodebench": 0.05,
     },
 }
 
 # Natural language goal keywords → task type mapping
 GOAL_KEYWORDS: dict[str, list[str]] = {
-    "architect":       ["architect", "design", "plan", "dag", "structure", "refactor",
-                        "complex", "multi-file", "system", "migration", "overhaul"],
-    "builder":         ["build", "implement", "fix", "patch", "bug", "generate",
-                        "code", "write", "function", "method", "class"],
-    "high_volume":     ["scale", "volume", "batch", "many", "bulk", "hundreds",
-                        "thousands", "cheap", "fast", "throughput"],
-    "ui_frontend":     ["ui", "frontend", "react", "css", "html", "visual",
-                        "component", "page", "layout", "design"],
-    "algorithm":       ["algorithm", "sort", "search", "dynamic", "competitive",
-                        "leetcode", "optimiz", "math", "dp"],
-    "security_review": ["security", "vuln", "exploit", "cve", "auth", "injection",
-                        "xss", "sql", "safe", "audit"],
-    "cost_sensitive":  ["cheap", "budget", "cost", "free", "affordable", "low cost",
-                        "save money", "expensive"],
-    "privacy_required":["private", "proprietary", "secret", "confidential", "cloak",
-                        "nda", "internal", "sensitive"],
+    "architect": [
+        "architect",
+        "design",
+        "plan",
+        "dag",
+        "structure",
+        "refactor",
+        "complex",
+        "multi-file",
+        "system",
+        "migration",
+        "overhaul",
+    ],
+    "builder": [
+        "build",
+        "implement",
+        "fix",
+        "patch",
+        "bug",
+        "generate",
+        "code",
+        "write",
+        "function",
+        "method",
+        "class",
+    ],
+    "high_volume": [
+        "scale",
+        "volume",
+        "batch",
+        "many",
+        "bulk",
+        "hundreds",
+        "thousands",
+        "cheap",
+        "fast",
+        "throughput",
+    ],
+    "ui_frontend": [
+        "ui",
+        "frontend",
+        "react",
+        "css",
+        "html",
+        "visual",
+        "component",
+        "page",
+        "layout",
+        "design",
+    ],
+    "algorithm": [
+        "algorithm",
+        "sort",
+        "search",
+        "dynamic",
+        "competitive",
+        "leetcode",
+        "optimiz",
+        "math",
+        "dp",
+    ],
+    "security_review": [
+        "security",
+        "vuln",
+        "exploit",
+        "cve",
+        "auth",
+        "injection",
+        "xss",
+        "sql",
+        "safe",
+        "audit",
+    ],
+    "cost_sensitive": [
+        "cheap",
+        "budget",
+        "cost",
+        "free",
+        "affordable",
+        "low cost",
+        "save money",
+        "expensive",
+    ],
+    "privacy_required": [
+        "private",
+        "proprietary",
+        "secret",
+        "confidential",
+        "cloak",
+        "nda",
+        "internal",
+        "sensitive",
+    ],
 }
 
 CACHE_TTL_HOURS = 6
 MIN_LOCAL_SAMPLES = 30
 
 # ── Live data fetchers ─────────────────────────────────────────────────────────
+
 
 def _fetch_json(url: str, timeout: int = 8) -> dict | list | None:
     try:
@@ -236,11 +322,11 @@ def _fetch_json(url: str, timeout: int = 8) -> dict | list | None:
 def _fetch_paperswithcode(benchmark: str) -> dict[str, float]:
     """Fetch top model scores from Papers with Code API for a given benchmark."""
     slug_map = {
-        "humaneval":         "humaneval",
-        "mbpp":              "mostly-basic-python-problems-mbpp",
+        "humaneval": "humaneval",
+        "mbpp": "mostly-basic-python-problems-mbpp",
         "swebench_verified": "swe-bench-verified",
-        "bigcodebench":      "bigcodebench",
-        "livecodebench":     "livecodebench",
+        "bigcodebench": "bigcodebench",
+        "livecodebench": "livecodebench",
     }
     slug = slug_map.get(benchmark)
     if not slug:
@@ -313,11 +399,16 @@ def _fetch_live_benchmarks(cache_path: Path) -> dict[str, dict[str, float]]:
 
     if fetched_any:
         cache_path.parent.mkdir(parents=True, exist_ok=True)
-        cache_path.write_text(json.dumps({
-            "fetched_at": time.time(),
-            "fetched_utc": datetime.now(timezone.utc).isoformat(),
-            "scores": live,
-        }, indent=2))
+        cache_path.write_text(
+            json.dumps(
+                {
+                    "fetched_at": time.time(),
+                    "fetched_utc": datetime.now(UTC).isoformat(),
+                    "scores": live,
+                },
+                indent=2,
+            )
+        )
         log.info("Live benchmark data fetched and cached → %s", cache_path)
     else:
         log.info("Live fetch failed — using seeded benchmark data")
@@ -342,6 +433,7 @@ def _merge_benchmarks(
 
 
 # ── Goal parser ────────────────────────────────────────────────────────────────
+
 
 def _parse_goal(goal_text: str) -> str:
     """
@@ -391,6 +483,7 @@ def _score_provider(
 
 # ── Local stats ────────────────────────────────────────────────────────────────
 
+
 def _load_local_stats(data_dir: Path) -> dict:
     stats_path = data_dir / "advisor_stats.jsonl"
     if not stats_path.exists():
@@ -428,16 +521,21 @@ def record_outcome(
     stats_path = data_dir / "advisor_stats.jsonl"
     stats_path.parent.mkdir(parents=True, exist_ok=True)
     with open(stats_path, "a", encoding="utf-8") as f:
-        f.write(json.dumps({
-            "provider":    provider,
-            "task_type":   task_type,
-            "instance_id": instance_id,
-            "solved":      solved,
-            "repo_type":   repo_type,
-            "patch_lines": patch_lines,
-            "attempts":    attempts,
-            "ts":          datetime.now(timezone.utc).isoformat(),
-        }) + "\n")
+        f.write(
+            json.dumps(
+                {
+                    "provider": provider,
+                    "task_type": task_type,
+                    "instance_id": instance_id,
+                    "solved": solved,
+                    "repo_type": repo_type,
+                    "patch_lines": patch_lines,
+                    "attempts": attempts,
+                    "ts": datetime.now(UTC).isoformat(),
+                }
+            )
+            + "\n"
+        )
 
 
 # ── Data sharing (opt-in, open source) ────────────────────────────────────────
@@ -447,7 +545,7 @@ def record_outcome(
 # Sharing is orthogonal to Cloak: you can share outcomes without sharing code.
 # Cloak audit log provides cryptographic proof of zero identifier leakage.
 
-SHARE_ENABLED  = bool(os.getenv("DETERMINEX_SHARE_OUTCOMES", ""))
+SHARE_ENABLED = bool(os.getenv("DETERMINEX_SHARE_OUTCOMES", ""))
 SHARE_ENDPOINT = os.getenv("DETERMINEX_SHARE_ENDPOINT", "https://data.determinex.dev/contribute")
 
 
@@ -455,14 +553,25 @@ def share_outcome(record: dict) -> bool:
     """POST anonymized outcome metadata to community dataset. Never sends code."""
     if not SHARE_ENABLED:
         return False
-    safe = {k: record.get(k) for k in
-            ["provider", "task_type", "repo_type", "solved",
-             "patch_lines", "attempts", "determinex_version"]}
+    safe = {
+        k: record.get(k)
+        for k in [
+            "provider",
+            "task_type",
+            "repo_type",
+            "solved",
+            "patch_lines",
+            "attempts",
+            "determinex_version",
+        ]
+    }
     try:
         payload = json.dumps(safe).encode()
         req = urllib.request.Request(
-            SHARE_ENDPOINT, data=payload,
-            headers={"Content-Type": "application/json"}, method="POST",
+            SHARE_ENDPOINT,
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
         )
         urllib.request.urlopen(req, timeout=5)
         return True
@@ -472,30 +581,31 @@ def share_outcome(record: dict) -> bool:
 
 # ── Recommendation ─────────────────────────────────────────────────────────────
 
+
 class Recommendation(NamedTuple):
-    rank:        int
-    provider:    str
-    display:     str
-    model:       str
+    rank: int
+    provider: str
+    display: str
+    model: str
     backend_key: str
-    task_type:   str
-    score:       float
-    source:      str
-    cost_in:     float
-    cost_out:    float
-    cloak:       bool
-    strengths:   list[str]
-    env_var:     str
+    task_type: str
+    score: float
+    source: str
+    cost_in: float
+    cost_out: float
+    cloak: bool
+    strengths: list[str]
+    env_var: str
 
 
 def recommend(
-    goal:       str  = "",
-    task_type:  str  = "",
-    budget:     str  = "any",
-    privacy:    bool = False,  # noqa: ARG001 — reserved for future provider filtering
-    data_dir:   Path | None = None,
-    cache_dir:  Path | None = None,
-    top_n:      int  = 3,
+    goal: str = "",
+    task_type: str = "",
+    budget: str = "any",
+    privacy: bool = False,  # noqa: ARG001 — reserved for future provider filtering
+    data_dir: Path | None = None,
+    cache_dir: Path | None = None,
+    top_n: int = 3,
     force_live: bool = False,
 ) -> list[Recommendation]:
     """
@@ -511,16 +621,16 @@ def recommend(
     if not task_type:
         task_type = "builder"
 
-    _data_dir  = data_dir  or Path("data")
+    _data_dir = data_dir or Path("data")
     _cache_dir = cache_dir or Path("data")
     cache_path = _cache_dir / "benchmark_cache.json"
 
     if force_live and cache_path.exists():
         cache_path.unlink()
 
-    live   = _fetch_live_benchmarks(cache_path)
+    live = _fetch_live_benchmarks(cache_path)
     merged = _merge_benchmarks(live)
-    local  = _load_local_stats(_data_dir)
+    local = _load_local_stats(_data_dir)
 
     budget_cap = {"low": 0.50, "medium": 3.50, "any": 9999}.get(budget, 9999)
 
@@ -545,25 +655,28 @@ def recommend(
         else:
             env = f"DETERMINEX_BUILDER_BACKEND={provider}"
 
-        results.append(Recommendation(
-            rank=i,
-            provider=provider,
-            display=info["display"],
-            model=info["model"],
-            backend_key=info["backend_key"],
-            task_type=task_type,
-            score=round(score, 4),
-            source=source,
-            cost_in=info["cost_in"],
-            cost_out=info["cost_out"],
-            cloak=info["cloak"],
-            strengths=info["strengths"][:4],
-            env_var=env,
-        ))
+        results.append(
+            Recommendation(
+                rank=i,
+                provider=provider,
+                display=info["display"],
+                model=info["model"],
+                backend_key=info["backend_key"],
+                task_type=task_type,
+                score=round(score, 4),
+                source=source,
+                cost_in=info["cost_in"],
+                cost_out=info["cost_out"],
+                cloak=info["cloak"],
+                strengths=info["strengths"][:4],
+                env_var=env,
+            )
+        )
     return results
 
 
 # ── CLI ────────────────────────────────────────────────────────────────────────
+
 
 def _cli() -> None:
     logging.basicConfig(level=logging.WARNING)
@@ -580,15 +693,17 @@ Examples:
   python scripts/model_advisor.py --refresh
         """,
     )
-    parser.add_argument("--goal",     default="", help="Natural language project goal")
-    parser.add_argument("--task",     default="", choices=list(GOAL_WEIGHTS.keys()), help="Explicit task type")
-    parser.add_argument("--budget",   default="any", choices=["low", "medium", "any"])
-    parser.add_argument("--privacy",  action="store_true", help="Flag privacy-sensitive project")
+    parser.add_argument("--goal", default="", help="Natural language project goal")
+    parser.add_argument(
+        "--task", default="", choices=list(GOAL_WEIGHTS.keys()), help="Explicit task type"
+    )
+    parser.add_argument("--budget", default="any", choices=["low", "medium", "any"])
+    parser.add_argument("--privacy", action="store_true", help="Flag privacy-sensitive project")
     parser.add_argument("--data-dir", default="data", help="Local stats directory")
-    parser.add_argument("--top",      type=int, default=3)
-    parser.add_argument("--list",     action="store_true", help="Show all providers + benchmark scores")
-    parser.add_argument("--refresh",  action="store_true", help="Force live data pull, ignore cache")
-    parser.add_argument("--verbose",  action="store_true")
+    parser.add_argument("--top", type=int, default=3)
+    parser.add_argument("--list", action="store_true", help="Show all providers + benchmark scores")
+    parser.add_argument("--refresh", action="store_true", help="Force live data pull, ignore cache")
+    parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args()
 
     if args.verbose:
@@ -600,21 +715,28 @@ Examples:
         cache_path = data_dir / "benchmark_cache.json"
         if args.refresh and cache_path.exists():
             cache_path.unlink()
-        live   = _fetch_live_benchmarks(cache_path)
+        live = _fetch_live_benchmarks(cache_path)
         merged = _merge_benchmarks(live)
 
         source_label = "live" if live else "seeded (live unavailable)"
         print(f"\nBenchmark scores [{source_label}]")
-        print(f"{'Provider':<12} {'Display':<22} {'SWE-b':>7} {'HEval':>7} {'MBPP':>7} {'BCB':>7} {'$/in':>7} {'$/out':>8} {'Cloak':>6}")
+        print(
+            f"{'Provider':<12} {'Display':<22} {'SWE-b':>7} {'HEval':>7} {'MBPP':>7} {'BCB':>7} {'$/in':>7} {'$/out':>8} {'Cloak':>6}"
+        )
         print("-" * 90)
         for provider, info in sorted(SEEDED.items(), key=lambda x: x[1]["cost_in"]):
             b = merged.get(provider, {})
-            def fmt(v): return f"{v:.1%}" if v else "  —  "
+
+            def fmt(v):
+                return f"{v:.1%}" if v else "  —  "
+
             cloak = "yes" if info["cloak"] else "no"
-            print(f"{provider:<12} {info['display']:<22} {fmt(b.get('swebench_verified')):>7} "
-                  f"{fmt(b.get('humaneval')):>7} {fmt(b.get('mbpp')):>7} "
-                  f"{fmt(b.get('bigcodebench')):>7} "
-                  f"${info['cost_in']:>5.2f} ${info['cost_out']:>6.2f} {cloak:>6}")
+            print(
+                f"{provider:<12} {info['display']:<22} {fmt(b.get('swebench_verified')):>7} "
+                f"{fmt(b.get('humaneval')):>7} {fmt(b.get('mbpp')):>7} "
+                f"{fmt(b.get('bigcodebench')):>7} "
+                f"${info['cost_in']:>5.2f} ${info['cost_out']:>6.2f} {cloak:>6}"
+            )
         return
 
     recs = recommend(
@@ -634,7 +756,7 @@ Examples:
 
     task_label = recs[0].task_type
     goal_label = f'"{args.goal}" -> ' if args.goal else ""
-    print(f"\nDeterminex Model Advisor")
+    print("\nDeterminex Model Advisor")
     print(f"Goal: {goal_label}{task_label} | Budget: {args.budget} | Privacy: {args.privacy}")
     print(f"Scores: {recs[0].source}")
     print()
@@ -644,7 +766,7 @@ Examples:
     if local_count > 0:
         print(f"  Using {local_count} compiler-verified outcomes from your local data.")
     else:
-        print(f"  No local data yet. Run 30+ instances to override public benchmarks with your own.")
+        print("  No local data yet. Run 30+ instances to override public benchmarks with your own.")
     print()
 
     for r in recs:

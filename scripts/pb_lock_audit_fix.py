@@ -10,6 +10,7 @@ Applies the structural changes from the audit:
 
 Usage: python scripts/pb_lock_audit_fix.py [--dry-run]
 """
+
 import json
 import re
 import sys
@@ -95,8 +96,10 @@ def main() -> None:
                     "re-evaluated before this can be claimed as a genuine lock."
                 )
                 n_demoted += 1
-                print(f"  DEMOTED: {slug} ({ad['official_score']*100:.1f}% official, "
-                      f"{ad['not_run']} not_run)")
+                print(
+                    f"  DEMOTED: {slug} ({ad['official_score'] * 100:.1f}% official, "
+                    f"{ad['not_run']} not_run)"
+                )
             elif resolved and entry.get("locked_archive"):
                 n_confirmed += 1
         else:
@@ -108,9 +111,8 @@ def main() -> None:
         if tarball_content:
             override_type, override_detail = classify_override(tarball_content)
         elif short:
-            candidates = (
-                list(OVERRIDES_DIR.glob(f"{slug}*"))
-                + list(OVERRIDES_DIR.glob(f"*__{short}.*"))
+            candidates = list(OVERRIDES_DIR.glob(f"{slug}*")) + list(
+                OVERRIDES_DIR.glob(f"*__{short}.*")
             )
             if candidates:
                 compile_sh = candidates[0] / "compile.sh"
@@ -124,12 +126,14 @@ def main() -> None:
             n_override_classified += 1
 
     true_locks = sum(1 for e in board if e.get("locked_archive"))
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"  Genuine full-suite locks (locked_archive=True): {true_locks}")
     print(f"  Confirmed: {n_confirmed}, Demoted: {n_demoted}")
     print(f"  Override type classified: {n_override_classified}")
-    print(f"  Eval overrides on locked tools: "
-          f"{sum(1 for e in board if e.get('locked_archive') and e.get('override_type') == 'eval_override')}")
+    print(
+        f"  Eval overrides on locked tools: "
+        f"{sum(1 for e in board if e.get('locked_archive') and e.get('override_type') == 'eval_override')}"
+    )
 
     if DRY_RUN:
         print("\nDRY RUN — board not written.")

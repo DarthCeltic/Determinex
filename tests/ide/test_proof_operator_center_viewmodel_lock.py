@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_PROOF_OPERATOR_CENTER_VIEWMODEL_LOCK_001."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -15,15 +16,19 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 pc = importlib.import_module("ide.proof_operator_center_viewmodel")
 pc_rec = importlib.import_module("ide.proof_operator_center_viewmodel_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_PROOF_OPERATOR_CENTER_VIEWMODEL_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_PROOF_OPERATOR_CENTER_VIEWMODEL_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_proof_operator_center_viewmodel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
 def _action(label="Request approval", routes_to="external_approval_workflow"):
     return pc_rec.OperatorAction(
-        label=label, kind="request",
-        visible=True, routes_to=routes_to,
+        label=label,
+        kind="request",
+        visible=True,
+        routes_to=routes_to,
     )
 
 
@@ -61,11 +66,15 @@ def test_status_tokens_exact():
 
 def test_sections_exact():
     assert pc.canonical_sections() == (
-        "evidence_ledger", "current_workspace_status",
-        "source_mutation_gates", "verifier_status", "rollback_status",
+        "evidence_ledger",
+        "current_workspace_status",
+        "source_mutation_gates",
+        "verifier_status",
+        "rollback_status",
         "operator_actions",
         "programbench_provenance_status_read_only",
-        "training_eligibility_status", "claim_safety_status",
+        "training_eligibility_status",
+        "claim_safety_status",
         "blocked_actions",
     )
 

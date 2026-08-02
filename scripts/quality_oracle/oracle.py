@@ -15,23 +15,24 @@ Usage:
 """
 
 from __future__ import annotations
+
 import time
 from dataclasses import dataclass, field
-from typing import Optional
 
-from .claim_extractor import ClaimExtractor, Claim
-from .rag_verifier import RagVerifier, ClaimVerification
-from .feature_checks import FeatureChecker, FeatureResult, STANDARD_CHECKS, CODE_CHECKS
-from .rubric_decomposer import RubricDecomposer, RubricWeights
+from .claim_extractor import Claim, ClaimExtractor
+from .feature_checks import CODE_CHECKS, FeatureChecker, FeatureResult
 from .feedback_builder import build_feedback_block, build_regression_feedback
+from .rag_verifier import ClaimVerification, RagVerifier
+from .rubric_decomposer import RubricDecomposer, RubricWeights
 
 
 @dataclass
 class OracleResult:
     """Result of a quality oracle evaluation. Mirrors EvalResult interface."""
-    score: float                           # 0.0-1.0 normalized quality score
-    score_pct: int = 0                     # Integer 0-100 for display
-    solved: bool = False                   # True if score >= solve_threshold
+
+    score: float  # 0.0-1.0 normalized quality score
+    score_pct: int = 0  # Integer 0-100 for display
+    solved: bool = False  # True if score >= solve_threshold
     attempt: int = 1
 
     claims: list[Claim] = field(default_factory=list)
@@ -46,8 +47,9 @@ class OracleResult:
 
     def __post_init__(self):
         self.score_pct = int(self.score * 100)
-        self.hallucination_count = sum(1 for v in self.verifications
-                                       if not v.supported and not v.uncertain)
+        self.hallucination_count = sum(
+            1 for v in self.verifications if not v.supported and not v.uncertain
+        )
         self.failed_feature_count = sum(1 for r in self.feature_results if not r.passed)
 
     def feedback_block(self) -> str:
@@ -87,10 +89,10 @@ class QualityOracle:
 
     def __init__(
         self,
-        rubric: Optional[str | RubricWeights] = None,
-        feature_checker: Optional[FeatureChecker] = None,
-        rag_verifier: Optional[RagVerifier] = None,
-        claim_extractor: Optional[ClaimExtractor] = None,
+        rubric: str | RubricWeights | None = None,
+        feature_checker: FeatureChecker | None = None,
+        rag_verifier: RagVerifier | None = None,
+        claim_extractor: ClaimExtractor | None = None,
         solve_threshold: float = 0.85,
         verify_claims: bool = True,
         inline_context: bool = False,
@@ -111,8 +113,9 @@ class QualityOracle:
             decomposer = RubricDecomposer()
             self.weights = decomposer.from_text_zero_shot(rubric)
             if self.weights:
-                print(f"  [oracle] rubric decomposed: "
-                      f"{len(self.weights.weights)} features weighted")
+                print(
+                    f"  [oracle] rubric decomposed: {len(self.weights.weights)} features weighted"
+                )
 
         # Apply rubric weights to feature checker
         if self.weights and self.checker:
@@ -127,9 +130,9 @@ class QualityOracle:
         response: str,
         question: str = "",
         context: str = "",
-        context_chunks: Optional[list[str]] = None,
+        context_chunks: list[str] | None = None,
         attempt: int = 1,
-        prev_result: Optional["OracleResult"] = None,
+        prev_result: OracleResult | None = None,
     ) -> OracleResult:
         """Evaluate a response and return an OracleResult.
 
@@ -147,7 +150,7 @@ class QualityOracle:
 
         # 1. Extract and verify claims
         if self.verify_claims and response.strip():
-            print(f"  [oracle] extracting claims...", end=" ", flush=True)
+            print("  [oracle] extracting claims...", end=" ", flush=True)
             claims = self.extractor.extract(response, task_context=question)
             print(f"{len(claims)} found", flush=True)
 
@@ -202,10 +205,10 @@ class QualityOracle:
     def score_with_regression_check(
         self,
         response: str,
-        best_result: Optional["OracleResult"],
+        best_result: OracleResult | None,
         attempt: int,
         **kwargs,
-    ) -> tuple["OracleResult", bool]:
+    ) -> tuple[OracleResult, bool]:
         """Score and detect regression vs. best result.
 
         Returns (result, is_regression).
@@ -226,21 +229,22 @@ class QualityOracle:
         return result, False
 
     @classmethod
-    def for_code_tasks(cls, **kwargs) -> "QualityOracle":
+    def for_code_tasks(cls, **kwargs) -> QualityOracle:
         """Pre-configured oracle for code generation tasks."""
         from .rubric_decomposer import HUMANEVAL_RUBRIC
-        return cls(rubric=HUMANEVAL_RUBRIC,
-                   feature_checker=FeatureChecker(CODE_CHECKS),
-                   **kwargs)
+
+        return cls(rubric=HUMANEVAL_RUBRIC, feature_checker=FeatureChecker(CODE_CHECKS), **kwargs)
 
     @classmethod
-    def for_factual_qa(cls, **kwargs) -> "QualityOracle":
+    def for_factual_qa(cls, **kwargs) -> QualityOracle:
         """Pre-configured oracle for factual question answering."""
         from .rubric_decomposer import FACTUAL_QA_RUBRIC
+
         return cls(rubric=FACTUAL_QA_RUBRIC, verify_claims=True, **kwargs)
 
     @classmethod
-    def for_mt_bench(cls, **kwargs) -> "QualityOracle":
+    def for_mt_bench(cls, **kwargs) -> QualityOracle:
         """Pre-configured oracle for MT-Bench style evaluation."""
         from .rubric_decomposer import MT_BENCH_RUBRIC
+
         return cls(rubric=MT_BENCH_RUBRIC, **kwargs)

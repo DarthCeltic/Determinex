@@ -1,4 +1,5 @@
 """Tests for SOURCE_MUTATION_APPLY_DRY_RUN_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -67,13 +66,17 @@ def test_happy_dry_run(tmp_path):
     ws = _seed(tmp_path)
     diff = "--- a/src/lib.py\n+++ b/src/lib.py\n@@ -1 +1 @@\n-x = 0\n+x = 1\n"
     packet = build_packet(
-        trace_id="t1", workspace_identity=str(ws), unified_diff=diff,
+        trace_id="t1",
+        workspace_identity=str(ws),
+        unified_diff=diff,
         files_changed=("src/lib.py",),
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
     before = _hash_tree(ws)
     rec = SourceMutationApplyDryRun().run(
-        ws, approval=packet, observed_diff=diff,
+        ws,
+        approval=packet,
+        observed_diff=diff,
         observed_source_hash_at_packet_time=workspace_hash(ws),
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
@@ -86,7 +89,9 @@ def test_happy_dry_run(tmp_path):
 def test_no_approval_blocks(tmp_path):
     ws = _seed(tmp_path)
     rec = SourceMutationApplyDryRun().run(
-        ws, approval=None, observed_diff="x",
+        ws,
+        approval=None,
+        observed_diff="x",
         observed_source_hash_at_packet_time=workspace_hash(ws),
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
@@ -96,12 +101,16 @@ def test_no_approval_blocks(tmp_path):
 def test_verifier_not_passed_blocks(tmp_path):
     ws = _seed(tmp_path)
     packet = build_packet(
-        trace_id="t1", workspace_identity=str(ws), unified_diff="x",
+        trace_id="t1",
+        workspace_identity=str(ws),
+        unified_diff="x",
         files_changed=("src/lib.py",),
         verifier_status="PATCH_VERIFIER_FAILED",
     )
     rec = SourceMutationApplyDryRun().run(
-        ws, approval=packet, observed_diff="x",
+        ws,
+        approval=packet,
+        observed_diff="x",
         observed_source_hash_at_packet_time=workspace_hash(ws),
         verifier_status="PATCH_VERIFIER_FAILED",
     )
@@ -111,12 +120,16 @@ def test_verifier_not_passed_blocks(tmp_path):
 def test_diff_mismatch_blocks(tmp_path):
     ws = _seed(tmp_path)
     packet = build_packet(
-        trace_id="t1", workspace_identity=str(ws), unified_diff="aaaa",
+        trace_id="t1",
+        workspace_identity=str(ws),
+        unified_diff="aaaa",
         files_changed=("src/lib.py",),
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
     rec = SourceMutationApplyDryRun().run(
-        ws, approval=packet, observed_diff="bbbb",
+        ws,
+        approval=packet,
+        observed_diff="bbbb",
         observed_source_hash_at_packet_time=workspace_hash(ws),
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
@@ -127,12 +140,16 @@ def test_stale_source_blocks(tmp_path):
     ws = _seed(tmp_path)
     diff = "x"
     packet = build_packet(
-        trace_id="t1", workspace_identity=str(ws), unified_diff=diff,
+        trace_id="t1",
+        workspace_identity=str(ws),
+        unified_diff=diff,
         files_changed=("src/lib.py",),
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
     rec = SourceMutationApplyDryRun().run(
-        ws, approval=packet, observed_diff=diff,
+        ws,
+        approval=packet,
+        observed_diff=diff,
         observed_source_hash_at_packet_time="stale-hash",
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
@@ -144,12 +161,16 @@ def test_dry_run_never_mutates_source(tmp_path):
     before = _hash_tree(ws)
     diff = "x"
     packet = build_packet(
-        trace_id="t1", workspace_identity=str(ws), unified_diff=diff,
+        trace_id="t1",
+        workspace_identity=str(ws),
+        unified_diff=diff,
         files_changed=("src/lib.py",),
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )
     SourceMutationApplyDryRun().run(
-        ws, approval=packet, observed_diff=diff,
+        ws,
+        approval=packet,
+        observed_diff=diff,
         observed_source_hash_at_packet_time=workspace_hash(ws),
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )

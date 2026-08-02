@@ -21,12 +21,13 @@ surfaces honestly via the Adjudicator -- never a silent wrong answer.
     ])
     result = router.solve_leaf(verify=oracle_slice, prompt=leaf_prompt, start_tier=1)
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable
 
 _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
@@ -39,10 +40,10 @@ GenerateFn = Callable[[str, float], str]
 @dataclass
 class ModelEntry:
     name: str
-    tier: int                       # 1=tiny/cheap ... 4=frontier/expensive
-    cost: float                     # relative cost per call (for telemetry)
+    tier: int  # 1=tiny/cheap ... 4=frontier/expensive
+    cost: float  # relative cost per call (for telemetry)
     generate: GenerateFn
-    capability_hint: str = ""       # e.g. "qwen2.5-coder:1.5b" -> leaf sizing
+    capability_hint: str = ""  # e.g. "qwen2.5-coder:1.5b" -> leaf sizing
 
 
 @dataclass
@@ -76,25 +77,35 @@ class ModelRouter:
             # every tier BELOW the top hands a zero-signal leaf up immediately instead
             # of burning its full round budget; the top tier has nowhere to go, so it
             # keeps every round (see VerifiedSearch.early_escalate).
-            vs = VerifiedSearch(verify=verify, k=self.k, rounds=self.rounds,
-                                early_escalate=(i < len(ladder) - 1))
+            vs = VerifiedSearch(
+                verify=verify, k=self.k, rounds=self.rounds, early_escalate=(i < len(ladder) - 1)
+            )
             res = vs.solve(entry.generate, prompt)
             cost += entry.cost * res.total_samples
             last = res
             if res.solved:
-                return RouteResult(solved=True, model_used=entry.name,
-                                   tier_used=entry.tier, escalations=escalations,
-                                   total_cost=cost, search=res)
+                return RouteResult(
+                    solved=True,
+                    model_used=entry.name,
+                    tier_used=entry.tier,
+                    escalations=escalations,
+                    total_cost=cost,
+                    search=res,
+                )
             # if the Adjudicator says the failures are genuinely IMPOSSIBLE,
             # escalating to a bigger model cannot help -> stop honestly.
             if res.next_moves == [] and res.escalated and last is not None:
                 # no reopenable moves found -> genuine ceiling, do not waste tiers
                 break
             escalations += 1
-        return RouteResult(solved=False,
-                           model_used=last and "exhausted-ladder" or "none",
-                           tier_used=start_tier, escalations=escalations,
-                           total_cost=cost, search=last)
+        return RouteResult(
+            solved=False,
+            model_used=last and "exhausted-ladder" or "none",
+            tier_used=start_tier,
+            escalations=escalations,
+            total_cost=cost,
+            search=last,
+        )
 
 
 def main() -> int:
@@ -108,19 +119,24 @@ def main() -> int:
         failures: list
 
     TARGET = "RIGHT"
+
     def verify(t):
         from determinex_adjudicator import Failure
-        return _O(t.strip() == TARGET, [] if t.strip() == TARGET
-                  else [Failure("t", "eq", "wrong")])
+
+        return _O(t.strip() == TARGET, [] if t.strip() == TARGET else [Failure("t", "eq", "wrong")])
 
     def weak(p):
         return lambda prompt, temp: TARGET if random.random() < p else "WRONG"
 
     random.seed(3)
-    router = ModelRouter([
-        ModelEntry("local-1.5b", tier=1, cost=0.0, generate=weak(0.10)),
-        ModelEntry("frontier", tier=4, cost=5.0, generate=weak(0.90)),
-    ], k=6, rounds=1)
+    router = ModelRouter(
+        [
+            ModelEntry("local-1.5b", tier=1, cost=0.0, generate=weak(0.10)),
+            ModelEntry("frontier", tier=4, cost=5.0, generate=weak(0.90)),
+        ],
+        k=6,
+        rounds=1,
+    )
     solved = sum(router.solve_leaf(verify, "x").solved for _ in range(100))
     print(f"router (tiny->frontier escalation): solved {solved}/100")
     return 0

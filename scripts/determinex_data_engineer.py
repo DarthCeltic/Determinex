@@ -82,8 +82,8 @@ customers as (
 )
 
 select
-    {_quote_cols('o', order_names)},
-    {_quote_cols('c', cust_names)}
+    {_quote_cols("o", order_names)},
+    {_quote_cols("c", cust_names)}
 from orders o
 left join customers c on o.{join_key} = c.{join_key}{where_clause}
 """.strip()

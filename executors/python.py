@@ -31,6 +31,7 @@ Usage (programmatic):
     classif = ex.classify(eval_r)
     report  = ex.report(eval_r, classif)
 """
+
 from __future__ import annotations
 
 import os
@@ -39,23 +40,29 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Optional
 
 from .base import (
-    Executor, ExecutorError,
-    ProbeResult, ScaffoldResult, BuildResult, EvalResult,
+    BuildResult,
+    EvalResult,
+    Executor,
+    ExecutorError,
+    ProbeResult,
+    ScaffoldResult,
 )
 
-
 # Where programbench task definitions live (env-overridable for cross-machine repro)
-_DEFAULT_TASKS_DIR = Path(os.environ.get(
-    "DETERMINEX_PB_TASKS_DIR",
-    "T:/Dev/ProgramBench/src/programbench/data/tasks",
-))
-_DEFAULT_PB_DIR = Path(os.environ.get(
-    "PROGRAMBENCH_DIR",
-    "T:/Dev/ProgramBench",
-))
+_DEFAULT_TASKS_DIR = Path(
+    os.environ.get(
+        "DETERMINEX_PB_TASKS_DIR",
+        "T:/Dev/ProgramBench/src/programbench/data/tasks",
+    )
+)
+_DEFAULT_PB_DIR = Path(
+    os.environ.get(
+        "PROGRAMBENCH_DIR",
+        "T:/Dev/ProgramBench",
+    )
+)
 
 
 # Source-of-truth template — reuses the same PYTHON_TEMPLATE from mass_run_v2_scaffold.
@@ -64,12 +71,14 @@ _DEFAULT_PB_DIR = Path(os.environ.get(
 def _get_python_template() -> str:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
     from mass_run_v2_scaffold import PYTHON_TEMPLATE  # type: ignore[import-not-found]
+
     return PYTHON_TEMPLATE
 
 
 def _get_compile_sh() -> str:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
     from mass_run_v2_scaffold import COMPILE_SH  # type: ignore[import-not-found]
+
     return COMPILE_SH
 
 
@@ -84,8 +93,10 @@ def _derive_tool_name(instance_id: str) -> tuple[str, str]:
 # Executor
 # ---------------------------------------------------------------------------
 
+
 class PythonExecutor(Executor):
     """Concrete Python language executor. Default scaffold + thin compile."""
+
     family: str = "python"
     file_ext: str = ".py"
     executable_name: str = "executable"
@@ -123,6 +134,7 @@ class PythonExecutor(Executor):
         if task_yaml.is_file():
             try:
                 import yaml  # type: ignore[import-untyped]
+
                 td = yaml.safe_load(task_yaml.read_text(encoding="utf-8")) or {}
                 # Common field names across PB task definitions
                 if isinstance(td.get("flags"), list):
@@ -143,6 +155,7 @@ class PythonExecutor(Executor):
         if tests_json.is_file():
             try:
                 import json
+
                 tj = json.loads(tests_json.read_text(encoding="utf-8"))
                 if isinstance(tj, list):
                     test_count = len(tj)
@@ -198,7 +211,11 @@ class PythonExecutor(Executor):
 
         return ScaffoldResult(
             work_dir=work_dir,
-            files_written=[source / "main.py", source / "compile.sh", source / "README_DETERMINEX.md"],
+            files_written=[
+                source / "main.py",
+                source / "compile.sh",
+                source / "README_DETERMINEX.md",
+            ],
         )
 
     # ── build ─────────────────────────────────────────────────────────────
@@ -235,15 +252,13 @@ class PythonExecutor(Executor):
             proc = subprocess.run(
                 ["bash", "./compile.sh"],
                 cwd=str(source),
-                capture_output=True, text=True, timeout=60,
+                capture_output=True,
+                text=True,
+                timeout=60,
             )
         elapsed = time.time() - t0
         executable = source / self.executable_name
-        ok = (
-            proc.returncode == 0
-            and executable.is_file()
-            and not executable.is_symlink()
-        )
+        ok = proc.returncode == 0 and executable.is_file() and not executable.is_symlink()
         if not ok and executable.is_symlink():
             # Honest error: the audit caught this class of bug across SWE-bench too
             raise ExecutorError(
@@ -275,6 +290,7 @@ class PythonExecutor(Executor):
         # resource guard: some "single" evals still fan out inside Docker via
         # pytest-xdist and subprocess-heavy tests.
         import sys as _sys
+
         _scripts = Path(__file__).resolve().parent.parent / "scripts"
         if str(_scripts) not in _sys.path:
             _sys.path.insert(0, str(_scripts))
@@ -295,8 +311,12 @@ class PythonExecutor(Executor):
         env["PYTHONUTF8"] = "1"
         try:
             proc = subprocess.run(
-                cmd, cwd=str(self.programbench_dir),
-                capture_output=True, text=True, timeout=policy.timeout_seconds, env=env,
+                cmd,
+                cwd=str(self.programbench_dir),
+                capture_output=True,
+                text=True,
+                timeout=policy.timeout_seconds,
+                env=env,
             )
         except subprocess.TimeoutExpired:
             return EvalResult(
@@ -311,7 +331,7 @@ class PythonExecutor(Executor):
 
         # The harness writes <instance_id>/<instance_id>.eval.json
         inst_dir = work_dir
-        eval_json: Optional[Path] = None
+        eval_json: Path | None = None
         for p in inst_dir.glob("*.eval.json"):
             eval_json = p
             break
@@ -323,6 +343,7 @@ class PythonExecutor(Executor):
             )
 
         import json as _json
+
         try:
             d = _json.loads(eval_json.read_text(encoding="utf-8"))
         except Exception as e:
@@ -331,7 +352,7 @@ class PythonExecutor(Executor):
         if d.get("error_code"):
             return EvalResult(
                 instance_id=instance_id,
-                error=f"eval error_code={d['error_code']} details={str(d.get('error_details',''))[:200]}",
+                error=f"eval error_code={d['error_code']} details={str(d.get('error_details', ''))[:200]}",
                 eval_json_path=eval_json,
             )
 
@@ -353,14 +374,23 @@ class PythonExecutor(Executor):
 # CLI — one-shot end-to-end run for a single tool
 # ---------------------------------------------------------------------------
 
+
 def _cli() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Python executor — run one tool through all 7 phases")
     ap.add_argument("instance_id", help="e.g. psampaz__go-mod-outdated.bb79367")
-    ap.add_argument("--work-dir", type=Path, default=None,
-                    help="work dir (default: T:/determinex-programbench/_executor_test/<instance>/)")
-    ap.add_argument("--skip-eval", action="store_true",
-                    help="skip the official eval (useful for scaffold+build smoke)")
+    ap.add_argument(
+        "--work-dir",
+        type=Path,
+        default=None,
+        help="work dir (default: T:/determinex-programbench/_executor_test/<instance>/)",
+    )
+    ap.add_argument(
+        "--skip-eval",
+        action="store_true",
+        help="skip the official eval (useful for scaffold+build smoke)",
+    )
     args = ap.parse_args()
 
     work_dir = args.work_dir or Path(
@@ -379,14 +409,14 @@ def _cli() -> int:
     sc = ex.scaffold(probe, work_dir)
     print(f"  wrote {len(sc.files_written)} files")
 
-    print(f"=== build ===")
+    print("=== build ===")
     b = ex.build(work_dir)
     print(f"  ok={b.ok}  elapsed={b.elapsed_seconds}s  exec={b.executable_path}")
     if not b.ok:
         print(f"  stderr: {b.stderr[:400]}")
         return 1
 
-    print(f"=== pack ===")
+    print("=== pack ===")
     p = ex.pack(work_dir)
     print(f"  submission: {p.submission_path}  ({p.n_files} files)")
 
@@ -394,18 +424,18 @@ def _cli() -> int:
         print("=== skipping eval (--skip-eval) ===")
         return 0
 
-    print(f"=== eval ===")
+    print("=== eval ===")
     e = ex.eval(work_dir, args.instance_id)
     if e.error:
         print(f"  ERROR: {e.error}")
         return 1
     print(f"  score: {e.score}/100  ({e.passed}/{e.total})")
 
-    print(f"=== classify ===")
+    print("=== classify ===")
     c = ex.classify(e)
     print(f"  top families: {sorted(c.families.items(), key=lambda kv: -kv[1])[:5]}")
 
-    print(f"=== report ===")
+    print("=== report ===")
     r = ex.report(e, c)
     print()
     print(r.summary_md)

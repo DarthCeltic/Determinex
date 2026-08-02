@@ -1,10 +1,11 @@
 """Build the legal/public distribution evidence packet for source opening."""
+
 from __future__ import annotations
 
 import argparse
 import json
 import subprocess
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 SCHEMA_VERSION = "determinex-legal-public-distribution-evidence-v1"
@@ -128,8 +129,10 @@ def build_packet(root: Path, *, operator_reviewed: bool, pushed_secret_scan: boo
     secret_clean, secret_scan_transcript = _secret_scan_clean(pushed_secret_scan)
     return {
         "schema_version": SCHEMA_VERSION,
-        "generated_at_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "legal_review_completed": bool(operator_reviewed and agpl_ok and notices_ok and secret_clean),
+        "generated_at_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "legal_review_completed": bool(
+            operator_reviewed and agpl_ok and notices_ok and secret_clean
+        ),
         "license_inventory_reviewed": agpl_ok,
         "model_notice_reviewed": notices_ok,
         "public_repo_secret_scan_passed": secret_clean,
@@ -153,8 +156,12 @@ def build_packet(root: Path, *, operator_reviewed: bool, pushed_secret_scan: boo
     }
 
 
-def write_packet(root: Path, output: Path, *, operator_reviewed: bool, pushed_secret_scan: bool = True) -> dict:
-    packet = build_packet(root, operator_reviewed=operator_reviewed, pushed_secret_scan=pushed_secret_scan)
+def write_packet(
+    root: Path, output: Path, *, operator_reviewed: bool, pushed_secret_scan: bool = True
+) -> dict:
+    packet = build_packet(
+        root, operator_reviewed=operator_reviewed, pushed_secret_scan=pushed_secret_scan
+    )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(packet, indent=2) + "\n", encoding="utf-8")
     return packet
@@ -168,8 +175,13 @@ def main() -> int:
     args = parser.parse_args()
 
     root = Path.cwd()
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    output = args.output or root / "assurance/evidence/public_distribution" / f"legal_public_distribution_{stamp}.json"
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    output = (
+        args.output
+        or root
+        / "assurance/evidence/public_distribution"
+        / f"legal_public_distribution_{stamp}.json"
+    )
     output = output if output.is_absolute() else root / output
     packet = write_packet(
         root,
@@ -177,18 +189,27 @@ def main() -> int:
         operator_reviewed=args.operator_reviewed,
         pushed_secret_scan=not args.tracked_only_secret_scan,
     )
-    print(json.dumps({"output": str(output), "legal_review_completed": packet["legal_review_completed"]}, indent=2))
-    return 0 if all(
-        packet[field] is True
-        for field in (
-            "legal_review_completed",
-            "license_inventory_reviewed",
-            "model_notice_reviewed",
-            "public_repo_secret_scan_passed",
-            "public_repo_scrub_completed",
-            "third_party_notices_present",
+    print(
+        json.dumps(
+            {"output": str(output), "legal_review_completed": packet["legal_review_completed"]},
+            indent=2,
         )
-    ) else 2
+    )
+    return (
+        0
+        if all(
+            packet[field] is True
+            for field in (
+                "legal_review_completed",
+                "license_inventory_reviewed",
+                "model_notice_reviewed",
+                "public_repo_secret_scan_passed",
+                "public_repo_scrub_completed",
+                "third_party_notices_present",
+            )
+        )
+        else 2
+    )
 
 
 if __name__ == "__main__":

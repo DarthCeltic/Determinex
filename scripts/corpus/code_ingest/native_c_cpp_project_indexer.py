@@ -5,6 +5,7 @@ Detects Make/CMake/Meson/autotools style projects and records enough structure
 for the verified repair factory. This is static analysis only; it never runs
 configure, make, cmake, or compiler commands.
 """
+
 from __future__ import annotations
 
 import re
@@ -98,14 +99,16 @@ def index_native_project(path: Path) -> NativeProject | None:
                 headers.append(rel)
             languages.add("cpp")
 
-    has_build_file = any((
-        (path / "Makefile").is_file(),
-        (path / "makefile").is_file(),
-        (path / "CMakeLists.txt").is_file(),
-        (path / "meson.build").is_file(),
-        (path / "configure").is_file(),
-        (path / "configure.ac").is_file(),
-    ))
+    has_build_file = any(
+        (
+            (path / "Makefile").is_file(),
+            (path / "makefile").is_file(),
+            (path / "CMakeLists.txt").is_file(),
+            (path / "meson.build").is_file(),
+            (path / "configure").is_file(),
+            (path / "configure.ac").is_file(),
+        )
+    )
     if not sources and not has_build_file:
         return None
 

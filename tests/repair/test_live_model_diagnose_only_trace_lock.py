@@ -1,4 +1,5 @@
 """Tests for LIVE_MODEL_DIAGNOSE_ONLY_TRACE_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -57,9 +56,12 @@ def _stocked_inventory() -> LocalModelInventory:
 
 
 def _admission_ready():
-    gate = LiveModelAdmissionGate(config=LiveModelAdmissionConfig(
-        mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=True,
-    ))
+    gate = LiveModelAdmissionGate(
+        config=LiveModelAdmissionConfig(
+            mode=LiveAdmissionMode.OPT_IN_LIVE,
+            opt_in_live=True,
+        )
+    )
     candidate = LocalModelCandidate(
         model_id="determinex-engineer-v11-dsl",
         provider=ModelProvider.OLLAMA.value,
@@ -67,8 +69,12 @@ def _admission_ready():
         supported_task_classes=(TaskClass.BUILD_DIAGNOSIS.value,),
     )
     return gate.evaluate(
-        candidate, TaskClass.BUILD_DIAGNOSIS, _stocked_inventory(),
-        ModelRouter(inventory=_stocked_inventory()).route(TaskClass.BUILD_DIAGNOSIS, mode=RouterMode.LIVE),
+        candidate,
+        TaskClass.BUILD_DIAGNOSIS,
+        _stocked_inventory(),
+        ModelRouter(inventory=_stocked_inventory()).route(
+            TaskClass.BUILD_DIAGNOSIS, mode=RouterMode.LIVE
+        ),
     )
 
 
@@ -82,7 +88,9 @@ def _admission_blocked():
         supported_task_classes=(TaskClass.BUILD_DIAGNOSIS.value,),
     )
     return gate.evaluate(
-        candidate, TaskClass.BUILD_DIAGNOSIS, _stocked_inventory(),
+        candidate,
+        TaskClass.BUILD_DIAGNOSIS,
+        _stocked_inventory(),
         ModelRouter(inventory=_stocked_inventory()).route(TaskClass.BUILD_DIAGNOSIS),
     )
 
@@ -119,9 +127,12 @@ def test_status_tokens_match_expected_set():
 
 
 def test_allowed_task_classes_are_diagnose_only():
-    assert allowed_task_classes() == frozenset({
-        "BUILD_DIAGNOSIS", "TEST_FAILURE_LOCALIZATION",
-    })
+    assert allowed_task_classes() == frozenset(
+        {
+            "BUILD_DIAGNOSIS",
+            "TEST_FAILURE_LOCALIZATION",
+        }
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -225,8 +236,10 @@ def test_runner_does_not_mutate_workspace():
     ws = FIXTURES / "python_broken"
     before = _hash_tree(ws)
     runner.run(
-        ws, task_class="BUILD_DIAGNOSIS",
-        admission=_admission_ready(), provider=provider,
+        ws,
+        task_class="BUILD_DIAGNOSIS",
+        admission=_admission_ready(),
+        provider=provider,
     )
     after = _hash_tree(ws)
     assert before == after

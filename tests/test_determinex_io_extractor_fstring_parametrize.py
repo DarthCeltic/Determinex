@@ -46,6 +46,7 @@ bonus +12 on xh (529->541, general mechanism reused elsewhere in that corpus too
 specifically targeted). atlas/ov/hwatch/lazygit unchanged (pattern absent in their sampled
 branches).
 """
+
 from __future__ import annotations
 
 import ast
@@ -55,34 +56,34 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import determinex_io_extractor as iox  # noqa: E402
 
-
 # ---------- _track_local_fstring_vars() ----------
 
+
 def test_resolves_local_fstring_var_using_parametrize_case():
-    tree = ast.parse('''
+    tree = ast.parse("""
 def test_x(extension):
     filename = f"test.{extension}"
-''')
+""")
     node = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef))
     out = iox._track_local_fstring_vars(node, {"extension": "png"})
     assert out == {"filename": "test.png"}
 
 
 def test_does_not_overwrite_an_existing_vars_map_entry():
-    tree = ast.parse('''
+    tree = ast.parse("""
 def test_x(extension):
     filename = f"test.{extension}"
-''')
+""")
     node = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef))
     out = iox._track_local_fstring_vars(node, {"extension": "png", "filename": "already-set"})
     assert out == {}
 
 
 def test_leaves_unresolvable_fstring_out(tmp_path=None):
-    tree = ast.parse('''
+    tree = ast.parse("""
 def test_x():
     filename = f"test.{unknown_var}"
-''')
+""")
     node = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef))
     out = iox._track_local_fstring_vars(node, {})
     assert out == {}
@@ -91,16 +92,17 @@ def test_x():
 def test_ignores_plain_literal_assignments():
     """A literal (non-f-string) assignment isn't this function's job -- _track_vars
     already handles it; must not duplicate or interfere."""
-    tree = ast.parse('''
+    tree = ast.parse("""
 def test_x():
     filename = "plain.txt"
-''')
+""")
     node = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef))
     out = iox._track_local_fstring_vars(node, {})
     assert out == {}
 
 
 # ---------- _resolve(): inline f-string resolution ----------
+
 
 def test_resolve_handles_inline_fstring_via_vars_map():
     node = ast.parse('f"--{flag}"', mode="eval").body
@@ -123,22 +125,25 @@ def test_resolve_still_handles_plain_name_and_constant():
 
 # ---------- extract_file() integration ----------
 
-_PREFIX = '''
+_PREFIX = """
 import subprocess
 
 def run_command(args):
     return subprocess.run(["./executable"] + args, capture_output=True, text=True)
-'''
+"""
 
 
 def test_extract_file_resolves_argv_via_local_fstring_var(tmp_path):
-    src = _PREFIX + '''
+    src = (
+        _PREFIX
+        + """
 @pytest.mark.parametrize("extension", ["png", "svg"])
 def test_output_supported_formats(extension):
     filename = f"test.{extension}"
     result = run_command(["-o", filename, "-c", "test"])
     assert result.returncode == 0
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -147,19 +152,32 @@ def test_output_supported_formats(extension):
     # run_command's own base is now correctly included as the "executable"
     # placeholder (fix 40, 2026-07-17: _is_executable_path_expr now also
     # recognizes a bare string literal with slashes baked in).
-    assert by_name["test_output_supported_formats[png]"].argv == \
-        ["executable", "-o", "test.png", "-c", "test"]
-    assert by_name["test_output_supported_formats[svg]"].argv == \
-        ["executable", "-o", "test.svg", "-c", "test"]
+    assert by_name["test_output_supported_formats[png]"].argv == [
+        "executable",
+        "-o",
+        "test.png",
+        "-c",
+        "test",
+    ]
+    assert by_name["test_output_supported_formats[svg]"].argv == [
+        "executable",
+        "-o",
+        "test.svg",
+        "-c",
+        "test",
+    ]
 
 
 def test_extract_file_resolves_argv_via_inline_fstring(tmp_path):
-    src = _PREFIX + '''
+    src = (
+        _PREFIX
+        + """
 @pytest.mark.parametrize("flag", ["color", "reverse"])
 def test_color_flags(flag):
     result = run_command([f"--{flag}", "#ff0000", "-o", "test.png"])
     assert result.returncode == 0
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -167,16 +185,28 @@ def test_color_flags(flag):
     by_name = {e.test: e for e in cov.examples}
     # run_command's own base is now correctly included as the "executable"
     # placeholder (fix 40, 2026-07-17).
-    assert by_name["test_color_flags[color]"].argv == \
-        ["executable", "--color", "#ff0000", "-o", "test.png"]
-    assert by_name["test_color_flags[reverse]"].argv == \
-        ["executable", "--reverse", "#ff0000", "-o", "test.png"]
+    assert by_name["test_color_flags[color]"].argv == [
+        "executable",
+        "--color",
+        "#ff0000",
+        "-o",
+        "test.png",
+    ]
+    assert by_name["test_color_flags[reverse]"].argv == [
+        "executable",
+        "--reverse",
+        "#ff0000",
+        "-o",
+        "test.png",
+    ]
 
 
 def test_extract_file_conditional_argv_still_correctly_unresolved(tmp_path):
     """Confirms the known, deliberately-unbuilt boundary: argv built by branching on the
     parametrize value at runtime (control flow, not data resolution) stays skipped."""
-    src = _PREFIX + '''
+    src = (
+        _PREFIX
+        + """
 @pytest.mark.parametrize("flag_value", ["--output=test.png", "--language=python"])
 def test_long_flags_with_equals(flag_value):
     args = [flag_value, "-c", "test"]
@@ -184,7 +214,8 @@ def test_long_flags_with_equals(flag_value):
         args.extend(["-o", "test.png"])
     result = run_command(args)
     assert result.returncode == 0
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

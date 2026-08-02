@@ -17,12 +17,13 @@ Refuses to act unless:
 Training eligibility remains False on every record — promotion to
 True is gated by a separate (future) global training guard.
 """
+
 from __future__ import annotations
 
 import importlib
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -59,7 +60,6 @@ from .source_mutation_rollback_snapshot import (  # noqa: E402
     take_snapshot as _take_snapshot,
 )
 
-
 _OUTPUT_CAP = 2048
 _PYTEST_COMMANDS = frozenset({"pytest", "pytest.exe"})
 
@@ -72,7 +72,9 @@ def _portable_hardened_runner_argv(verifier_argv: Sequence[str]) -> list[str]:
 
 
 def _build_post_apply_verifier_callable(
-    verifier_argv: Sequence[str], *, timeout_seconds: int,
+    verifier_argv: Sequence[str],
+    *,
+    timeout_seconds: int,
 ):
     """Closure that runs verifier_argv on the *workspace* through the
     hardened runner. Returns a function compatible with
@@ -84,15 +86,17 @@ def _build_post_apply_verifier_callable(
 
     def verifier(workspace: Path) -> VerifierResult:
         if hr is None:
-            return VerifierResult(passed=False,
-                                  output="HARDENED_RUNNER_UNAVAILABLE")
-        res = hr.run(_portable_hardened_runner_argv(verifier_argv), workspace=Path(workspace),
-                     timeout=timeout_seconds)
+            return VerifierResult(passed=False, output="HARDENED_RUNNER_UNAVAILABLE")
+        res = hr.run(
+            _portable_hardened_runner_argv(verifier_argv),
+            workspace=Path(workspace),
+            timeout=timeout_seconds,
+        )
         if getattr(res, "blocked", False):
-            return VerifierResult(passed=False,
-                                  output=f"HARDENED_RUNNER_BLOCKED: "
-                                          f"{getattr(res, 'reason', '')}"
-                                          [:_OUTPUT_CAP])
+            return VerifierResult(
+                passed=False,
+                output=f"HARDENED_RUNNER_BLOCKED: {getattr(res, 'reason', '')}"[:_OUTPUT_CAP],
+            )
         if getattr(res, "timed_out", False):
             return VerifierResult(
                 passed=False,
@@ -101,7 +105,8 @@ def _build_post_apply_verifier_callable(
         passed = bool(getattr(res, "success", False))
         out = (getattr(res, "stdout", "") or "") + (
             "\n--- stderr ---\n" + (getattr(res, "stderr", "") or "")
-            if getattr(res, "stderr", "") else ""
+            if getattr(res, "stderr", "")
+            else ""
         )
         return VerifierResult(passed=passed, output=out[:_OUTPUT_CAP])
 
@@ -109,8 +114,11 @@ def _build_post_apply_verifier_callable(
 
 
 def _synthesize_quarantine_plan(
-    plan_entries: Sequence[dict], *, workspace: str,
-    model_id: str, provider: str,
+    plan_entries: Sequence[dict],
+    *,
+    workspace: str,
+    model_id: str,
+    provider: str,
 ) -> RealPatchPlanQuarantineRecord:
     """Convert raw plan_entries into the quarantine record shape that
     source_mutation_apply_after_approval expects."""
@@ -122,16 +130,27 @@ def _synthesize_quarantine_plan(
         path = str(e.get("path") or "").replace("\\", "/").strip("/")
         body = e.get("new_content")
         if op == "replace_file" and path and isinstance(body, str):
-            accepted.append(RealQuarantinedPatchEntry(
-                operation=op, path=path, new_content_chars=len(body),
-            ))
+            accepted.append(
+                RealQuarantinedPatchEntry(
+                    operation=op,
+                    path=path,
+                    new_content_chars=len(body),
+                )
+            )
     return RealPatchPlanQuarantineRecord(
-        decision="REAL_PATCH_PLAN_QUARANTINED" if accepted else "REAL_PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
-        workspace=workspace, model_id=model_id, provider=provider,
-        accepted=tuple(accepted), rejected=tuple(),
+        decision="REAL_PATCH_PLAN_QUARANTINED"
+        if accepted
+        else "REAL_PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
+        workspace=workspace,
+        model_id=model_id,
+        provider=provider,
+        accepted=tuple(accepted),
+        rejected=tuple(),
         quarantined=bool(accepted),
-        output_trusted=False, patch_applied=False,
-        source_mutation_authorized=False, training_eligible=False,
+        output_trusted=False,
+        patch_applied=False,
+        source_mutation_authorized=False,
+        training_eligible=False,
     )
 
 
@@ -200,16 +219,15 @@ def trace(
         )
 
     if approval.is_fixture or approval.signature_kind not in {
-        "real_local_signed", "real_local_hmac",
+        "real_local_signed",
+        "real_local_hmac",
     }:
         return _blocked(
             "REAL_APPROVAL_APPLY_BLOCKED_NO_APPROVAL",
             ws=str(ws),
             approval_decision=approval.decision,
             temp_verify_decision=temp_verify.decision,
-            note=(
-                "approval is fixture or signature_kind not in production set"
-            ),
+            note=("approval is fixture or signature_kind not in production set"),
         )
 
     # Trace + diff + verifier-status binding sanity.
@@ -224,8 +242,11 @@ def trace(
 
     # 1. Take rollback snapshot.
     snap = _take_snapshot(
-        workspace=ws, snapshot_root=Path(snapshot_root),
-        snapshot_id=snapshot_id, approval=approval, temp_verify=temp_verify,
+        workspace=ws,
+        snapshot_root=Path(snapshot_root),
+        snapshot_id=snapshot_id,
+        approval=approval,
+        temp_verify=temp_verify,
     )
     if not snap.is_written:
         return _blocked(
@@ -239,8 +260,10 @@ def trace(
 
     # 2. Apply.
     plan_rec = _synthesize_quarantine_plan(
-        plan_entries, workspace=str(ws),
-        model_id=model_id, provider=provider,
+        plan_entries,
+        workspace=str(ws),
+        model_id=model_id,
+        provider=provider,
     )
     if not plan_rec.is_quarantined:
         return _blocked(
@@ -253,8 +276,12 @@ def trace(
         )
 
     apply_rec = _apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=temp_verify,
-        rollback_snapshot=snap, plan=plan_rec, plan_entries=plan_entries,
+        workspace=ws,
+        approval=approval,
+        temp_verify=temp_verify,
+        rollback_snapshot=snap,
+        plan=plan_rec,
+        plan_entries=plan_entries,
         observed_diff=observed_diff,
     )
     if not apply_rec.is_applied:
@@ -273,14 +300,15 @@ def trace(
         verifier_selection.verifier_command,
         timeout_seconds=verifier_timeout_seconds,
     )
-    post = _post_run(workspace=ws, apply_record=apply_rec,
-                    verifier=verifier_callable)
+    post = _post_run(workspace=ws, apply_record=apply_rec, verifier=verifier_callable)
 
     # 4. Rollback if needed.
     if post.rollback_recommended:
         rollback = _execute_rollback(
-            workspace=ws, rollback_snapshot=snap,
-            apply_record=apply_rec, post_apply=post,
+            workspace=ws,
+            rollback_snapshot=snap,
+            apply_record=apply_rec,
+            post_apply=post,
         )
         return RealApprovalApplyPostVerifyTraceRecord(
             decision="REAL_APPROVAL_APPLY_POST_VERIFY_FAILED_ROLLBACK_REQUIRED",
@@ -294,9 +322,7 @@ def trace(
             source_mutation_applied=True,
             rollback_executed=rollback.is_executed,
             training_eligible=False,
-            statuses_seen=(
-                "REAL_APPROVAL_APPLY_POST_VERIFY_FAILED_ROLLBACK_REQUIRED",
-            ),
+            statuses_seen=("REAL_APPROVAL_APPLY_POST_VERIFY_FAILED_ROLLBACK_REQUIRED",),
             notes=(
                 "post-apply verifier failed; rollback executed",
                 f"rollback decision: {rollback.decision}",

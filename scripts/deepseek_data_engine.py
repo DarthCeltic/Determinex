@@ -28,7 +28,7 @@ import random
 import sys
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 # ── UTF-8 terminal fix (Windows) ────────────────────────────────────────────
@@ -45,30 +45,32 @@ logging.basicConfig(
 log = logging.getLogger("engine")
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-_SCRIPTS_DIR    = Path(__file__).resolve().parent
-_DETERMINEX_ROOT   = _SCRIPTS_DIR.parent
-_SRC_TAURI      = _DETERMINEX_ROOT / "frontend" / "src-tauri"
+_SCRIPTS_DIR = Path(__file__).resolve().parent
+_DETERMINEX_ROOT = _SCRIPTS_DIR.parent
+_SRC_TAURI = _DETERMINEX_ROOT / "frontend" / "src-tauri"
 _SESSION_CONFIG = _SCRIPTS_DIR / "session_config.json"
-_CURRICULUM     = _SCRIPTS_DIR / "curriculum.jsonl"
-_LOG_DIR        = _DETERMINEX_ROOT / "logs"
-_ENV_FILE       = _DETERMINEX_ROOT / ".env"
+_CURRICULUM = _SCRIPTS_DIR / "curriculum.jsonl"
+_LOG_DIR = _DETERMINEX_ROOT / "logs"
+_ENV_FILE = _DETERMINEX_ROOT / ".env"
 
 # JSONL output files -- match exactly what train_unsloth.py reads
 _JSONL_MAP = {
     "api_anthropic": _SRC_TAURI / "determinex_v1_distilled_claude.jsonl",
-    "api_google":    _SRC_TAURI / "determinex_v1_distilled_gemini.jsonl",
-    "local_ollama":  _SRC_TAURI / "determinex_v1_distilled_observer.jsonl",
-    "api_deepseek":  _SRC_TAURI / "determinex_v1_distilled_observer.jsonl",  # routes to observer file
-    "api_openai":    _SRC_TAURI / "determinex_v1_distilled_claude.jsonl",    # routes to claude file
+    "api_google": _SRC_TAURI / "determinex_v1_distilled_gemini.jsonl",
+    "local_ollama": _SRC_TAURI / "determinex_v1_distilled_observer.jsonl",
+    "api_deepseek": _SRC_TAURI
+    / "determinex_v1_distilled_observer.jsonl",  # routes to observer file
+    "api_openai": _SRC_TAURI / "determinex_v1_distilled_claude.jsonl",  # routes to claude file
 }
 _DEFAULT_JSONL = _SRC_TAURI / "determinex_v1_distilled_observer.jsonl"
 
 # Token limit guard (must match train_unsloth.py MAX_SEQ_LENGTH)
-_MAX_TOKEN_ESTIMATE = 2000   # chars / 4 ≈ tokens; conservative 8000 char ceiling
-_MAX_CHARS          = 8000
+_MAX_TOKEN_ESTIMATE = 2000  # chars / 4 ≈ tokens; conservative 8000 char ceiling
+_MAX_CHARS = 8000
 
 
 # ── .env loader ──────────────────────────────────────────────────────────────
+
 
 def load_env() -> dict:
     env = {}
@@ -86,6 +88,7 @@ def load_env() -> dict:
 
 # ── Session config loader ────────────────────────────────────────────────────
 
+
 def load_session_config() -> dict:
     if not _SESSION_CONFIG.exists():
         log.error(
@@ -102,6 +105,7 @@ def load_session_config() -> dict:
 
 
 # ── Curriculum loader ────────────────────────────────────────────────────────
+
 
 def load_curriculum(path: Path | None = None) -> dict[str, dict]:
     """Return curriculum indexed by category name. Uses _CURRICULUM by default."""
@@ -124,6 +128,7 @@ def load_curriculum(path: Path | None = None) -> dict[str, dict]:
 
 # ── Provider dispatch ────────────────────────────────────────────────────────
 
+
 def dispatch(provider: str, model: str, system: str, user: str, cot: bool) -> str | None:
     """
     Route generation to the correct provider adapter.
@@ -144,14 +149,17 @@ def dispatch(provider: str, model: str, system: str, user: str, cot: bool) -> st
         log.warning("Provider '%s' failed -- falling back to local Ollama", provider)
         fallback_fn = PROVIDER_MAP["local_ollama"]
         result = fallback_fn(
-            system=system, user=user,
-            model="determinex-leviathan:v1", cot=cot,
+            system=system,
+            user=user,
+            model="determinex-leviathan:v1",
+            cot=cot,
         )
 
     return result
 
 
 # ── Validation dispatch ──────────────────────────────────────────────────────
+
 
 def run_validator(
     output: str,
@@ -163,7 +171,9 @@ def run_validator(
 
     fn = VALIDATOR_MAP.get(validator_type)
     if fn is None:
-        log.warning("Unknown validator '%s' -- skipping validation (PASS by default)", validator_type)
+        log.warning(
+            "Unknown validator '%s' -- skipping validation (PASS by default)", validator_type
+        )
         return True, f"Unknown validator '{validator_type}' -- passed by default"
 
     try:
@@ -174,6 +184,7 @@ def run_validator(
 
 
 # ── Token pre-check ──────────────────────────────────────────────────────────
+
 
 def passes_token_check(system: str, user: str, assistant: str) -> tuple[bool, int]:
     """
@@ -194,14 +205,16 @@ def passes_token_check(system: str, user: str, assistant: str) -> tuple[bool, in
 
 # ── JSONL writer ─────────────────────────────────────────────────────────────
 
+
 def write_sample(provider: str, system: str, user: str, assistant: str, dry_run: bool) -> Path:
     """
     Append a validated sample to the appropriate JSONL file.
     Returns the path written to (or would write to, in dry_run mode).
     """
     target = _JSONL_MAP.get(provider, _DEFAULT_JSONL)
-    sample = json.dumps({"system": system, "user": user, "assistant": assistant},
-                        ensure_ascii=False)
+    sample = json.dumps(
+        {"system": system, "user": user, "assistant": assistant}, ensure_ascii=False
+    )
     if not dry_run:
         target.parent.mkdir(parents=True, exist_ok=True)
         with target.open("a", encoding="utf-8") as f:
@@ -211,33 +224,34 @@ def write_sample(provider: str, system: str, user: str, assistant: str, dry_run:
 
 # ── Generation report ────────────────────────────────────────────────────────
 
+
 class SessionReport:
     """Accumulates stats for a generation run and writes generation_report.json."""
 
     def __init__(self, session_id: str, category: str, teacher_model: str, provider: str):
-        self.session_id      = session_id
-        self.category        = category
-        self.teacher_model   = teacher_model
-        self.provider        = provider
-        self.start_time      = datetime.now(timezone.utc).isoformat()
-        self.attempted       = 0
-        self.validated       = 0
-        self.rejected        = 0
-        self.token_overflow  = 0
+        self.session_id = session_id
+        self.category = category
+        self.teacher_model = teacher_model
+        self.provider = provider
+        self.start_time = datetime.now(UTC).isoformat()
+        self.attempted = 0
+        self.validated = 0
+        self.rejected = 0
+        self.token_overflow = 0
         self.rejection_reasons: list[str] = []
-        self._start_ts       = time.time()
+        self._start_ts = time.time()
 
         # Rough cost estimate per token (USD) -- update as pricing changes
         _COST_PER_TOKEN = {
-            "api_anthropic": 0.000003,   # ~$3/M input+output blended
-            "api_google":    0.000001,   # ~$1/M blended
-            "api_deepseek":  0.00000027, # ~$0.27/M
-            "api_openai":    0.000005,   # ~$5/M blended
-            "local_ollama":  0.0,
+            "api_anthropic": 0.000003,  # ~$3/M input+output blended
+            "api_google": 0.000001,  # ~$1/M blended
+            "api_deepseek": 0.00000027,  # ~$0.27/M
+            "api_openai": 0.000005,  # ~$5/M blended
+            "local_ollama": 0.0,
         }
         self._cost_per_token = _COST_PER_TOKEN.get(provider, 0.0)
-        self.estimated_cost  = 0.0
-        self._total_chars    = 0
+        self.estimated_cost = 0.0
+        self._total_chars = 0
 
     def record_attempt(self, output_chars: int = 0):
         self.attempted += 1
@@ -259,20 +273,20 @@ class SessionReport:
         elapsed = round(time.time() - self._start_ts, 1)
         rejection_rate = self.rejected / max(self.attempted, 1)
         return {
-            "session_id":           self.session_id,
-            "category":             self.category,
-            "teacher_model":        self.teacher_model,
-            "provider":             self.provider,
-            "start_time":           self.start_time,
-            "end_time":             datetime.now(timezone.utc).isoformat(),
-            "elapsed_seconds":      elapsed,
-            "samples_attempted":    self.attempted,
-            "samples_validated":    self.validated,
-            "samples_rejected":     self.rejected,
+            "session_id": self.session_id,
+            "category": self.category,
+            "teacher_model": self.teacher_model,
+            "provider": self.provider,
+            "start_time": self.start_time,
+            "end_time": datetime.now(UTC).isoformat(),
+            "elapsed_seconds": elapsed,
+            "samples_attempted": self.attempted,
+            "samples_validated": self.validated,
+            "samples_rejected": self.rejected,
             "token_overflow_count": self.token_overflow,
-            "rejection_rate":       round(rejection_rate, 3),
-            "rejection_reasons":    self.rejection_reasons[:20],
-            "estimated_cost_usd":   round(self.estimated_cost, 4),
+            "rejection_rate": round(rejection_rate, 3),
+            "rejection_reasons": self.rejection_reasons[:20],
+            "estimated_cost_usd": round(self.estimated_cost, 4),
         }
 
     def write(self, dry_run: bool = False):
@@ -286,6 +300,7 @@ class SessionReport:
 
 # ── Category runner ──────────────────────────────────────────────────────────
 
+
 def run_category(
     agenda_item: dict,
     curriculum: dict[str, dict],
@@ -296,12 +311,12 @@ def run_category(
     Generate and validate samples for one curriculum category.
     Returns a SessionReport with counts and stats.
     """
-    category    = agenda_item["category"]
-    target      = max_samples or agenda_item.get("target_samples", 50)
-    provider    = agenda_item.get("teacher_provider", "local_ollama")
-    model       = agenda_item.get("teacher_model", "determinex-leviathan:v1")
+    category = agenda_item["category"]
+    target = max_samples or agenda_item.get("target_samples", 50)
+    provider = agenda_item.get("teacher_provider", "local_ollama")
+    model = agenda_item.get("teacher_model", "determinex-leviathan:v1")
     validator_type = agenda_item.get("validator", "regex")
-    cot         = agenda_item.get("cot_requested", False)
+    cot = agenda_item.get("cot_requested", False)
 
     cat_def = curriculum.get(category)
     if not cat_def:
@@ -310,7 +325,7 @@ def run_category(
         return report
 
     system_prompt = cat_def.get("system_prompt", "You are a helpful assistant.")
-    templates     = cat_def.get("prompt_templates", [])
+    templates = cat_def.get("prompt_templates", [])
 
     if not templates:
         log.error("Category '%s' has no prompt templates -- skipping", category)
@@ -326,12 +341,17 @@ def run_category(
         "  Target  : %d samples\n"
         "  Validator: %s\n"
         "  CoT     : %s",
-        category, model, provider, target, validator_type, cot,
+        category,
+        model,
+        provider,
+        target,
+        validator_type,
+        cot,
     )
 
     validated_count = 0
-    attempt_count   = 0
-    max_attempts    = target * 4  # allow up to 4x attempts to hit target (rejection tolerance)
+    attempt_count = 0
+    max_attempts = target * 4  # allow up to 4x attempts to hit target (rejection tolerance)
 
     # Shuffle templates so we don't always use the same ones first
     shuffled_templates = templates.copy()
@@ -345,7 +365,10 @@ def run_category(
         attempt_count += 1
         log.info(
             "[ENGINE] Attempt %d/%d  (validated: %d/%d)",
-            attempt_count, max_attempts, validated_count, target,
+            attempt_count,
+            max_attempts,
+            validated_count,
+            target,
         )
 
         # ── Generate ────────────────────────────────────────────────────────
@@ -389,7 +412,9 @@ def run_category(
         mode_tag = "[DRY RUN]" if dry_run else ""
         log.info(
             "[ENGINE] VALIDATED %s --> %s  (est. %d tokens)",
-            mode_tag, jsonl_path.name, est_tokens,
+            mode_tag,
+            jsonl_path.name,
+            est_tokens,
         )
 
     # ── Summary ──────────────────────────────────────────────────────────────
@@ -402,8 +427,10 @@ def run_category(
         "  Est. cost  : $%.4f",
         category,
         report.attempted,
-        report.validated, target,
-        report.rejected, rejection_pct,
+        report.validated,
+        target,
+        report.rejected,
+        rejection_pct,
         report.estimated_cost,
     )
 
@@ -411,7 +438,8 @@ def run_category(
         log.warning(
             "[ENGINE] High rejection rate (%.0f%%) for '%s' -- "
             "consider refining prompt templates or system prompt.",
-            rejection_pct, category,
+            rejection_pct,
+            category,
         )
 
     return report
@@ -419,28 +447,37 @@ def run_category(
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Determinex Data Engine")
     parser.add_argument(
-        "--category", type=str, default=None,
+        "--category",
+        type=str,
+        default=None,
         help="Run only this category (e.g., rust_code_generation). Default: run full agenda.",
     )
     parser.add_argument(
-        "--n", type=int, default=None,
+        "--n",
+        type=int,
+        default=None,
         help="Override target sample count for the run.",
     )
     parser.add_argument(
-        "--dry-run", action="store_true",
+        "--dry-run",
+        action="store_true",
         help="Generate and validate samples but do NOT write to JSONL files.",
     )
     parser.add_argument(
-        "--run-oracle", action="store_true",
+        "--run-oracle",
+        action="store_true",
         help="Re-run the Leaderboard Oracle to refresh session_config.json first.",
     )
     parser.add_argument(
-        "--curriculum", type=str, default=None,
+        "--curriculum",
+        type=str,
+        default=None,
         help="Path to a curriculum JSONL file. Defaults to scripts/curriculum.jsonl. "
-             "Use scripts/micro_curriculum.jsonl for a focused micro-test.",
+        "Use scripts/micro_curriculum.jsonl for a focused micro-test.",
     )
     args = parser.parse_args()
 
@@ -449,6 +486,7 @@ def main():
     # ── Optionally re-run Oracle ─────────────────────────────────────────────
     if args.run_oracle:
         import subprocess
+
         oracle_script = _SCRIPTS_DIR / "leaderboard_oracle.py"
         log.info("Running Oracle before engine...")
         result = subprocess.run(
@@ -459,8 +497,8 @@ def main():
             log.warning("Oracle returned non-zero exit -- proceeding with existing session_config")
 
     # ── Load session config ──────────────────────────────────────────────────
-    config   = load_session_config()
-    agenda   = config.get("session_agenda", [])
+    config = load_session_config()
+    agenda = config.get("session_agenda", [])
     curriculum = load_curriculum(curriculum_path)
 
     if not agenda:
@@ -476,28 +514,29 @@ def main():
             if args.category in assignments:
                 assignment = assignments[args.category]
                 cat_def = curriculum.get(args.category, {})
-                agenda = [{
-                    "category":        args.category,
-                    "display_name":    cat_def.get("display_name", args.category),
-                    "target_samples":  args.n or 50,
-                    "teacher_model":   assignment.get("model", "determinex-leviathan:v1"),
-                    "teacher_provider": assignment.get("provider", "local_ollama"),
-                    "quality_score":   assignment.get("quality_score", 0.5),
-                    "pass_multiplier": assignment.get("pass_multiplier", 1.0),
-                    "priority_score":  0.0,
-                    "validator":       cat_def.get("validator", "regex"),
-                    "cot_requested":   cat_def.get("cot_requested", False),
-                }]
+                agenda = [
+                    {
+                        "category": args.category,
+                        "display_name": cat_def.get("display_name", args.category),
+                        "target_samples": args.n or 50,
+                        "teacher_model": assignment.get("model", "determinex-leviathan:v1"),
+                        "teacher_provider": assignment.get("provider", "local_ollama"),
+                        "quality_score": assignment.get("quality_score", 0.5),
+                        "pass_multiplier": assignment.get("pass_multiplier", 1.0),
+                        "priority_score": 0.0,
+                        "validator": cat_def.get("validator", "regex"),
+                        "cot_requested": cat_def.get("cot_requested", False),
+                    }
+                ]
             else:
                 log.error("Category '%s' not found in curriculum or session config", args.category)
                 sys.exit(1)
 
     dry_tag = " [DRY RUN]" if args.dry_run else ""
     log.info(
-        "\n%s\n  DETERMINEX DATA ENGINE STARTING%s\n"
-        "  Source  : %s\n"
-        "  Agenda  : %d categories\n%s",
-        "=" * 60, dry_tag,
+        "\n%s\n  DETERMINEX DATA ENGINE STARTING%s\n  Source  : %s\n  Agenda  : %d categories\n%s",
+        "=" * 60,
+        dry_tag,
         config.get("leaderboard_source", "unknown"),
         len(agenda),
         "=" * 60,
@@ -505,7 +544,7 @@ def main():
 
     all_reports = []
     total_validated = 0
-    total_cost      = 0.0
+    total_cost = 0.0
 
     for agenda_item in agenda:
         report = run_category(
@@ -517,7 +556,7 @@ def main():
         report.write(dry_run=args.dry_run)
         all_reports.append(report.to_dict())
         total_validated += report.validated
-        total_cost      += report.estimated_cost
+        total_cost += report.estimated_cost
 
     # ── Final summary ────────────────────────────────────────────────────────
     log.info(
@@ -525,7 +564,8 @@ def main():
         "  Categories : %d\n"
         "  Total validated samples : %d\n"
         "  Estimated total cost    : $%.4f\n%s",
-        "=" * 60, dry_tag,
+        "=" * 60,
+        dry_tag,
         len(agenda),
         total_validated,
         total_cost,

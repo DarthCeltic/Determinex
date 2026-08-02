@@ -2,11 +2,12 @@
 Browser oracle — verifies task completion criteria after actions.
 Returns OracleVerdict from the base_agent contract.
 """
+
 from __future__ import annotations
 
 import logging
-import re
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from agents.base_agent import OracleType, OracleVerdict
 
@@ -24,7 +25,9 @@ def url_matches(page: Any, expected_url: str, partial: bool = True) -> OracleVer
             evidence=f"url={actual} expected={expected_url}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.BROWSER, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.BROWSER, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def selector_exists(page: Any, selector: str) -> OracleVerdict:
@@ -43,6 +46,7 @@ def selector_exists(page: Any, selector: str) -> OracleVerdict:
 
 def text_exists(page: Any, text: str, case_sensitive: bool = False) -> OracleVerdict:
     from browser.dom_reader import extract_visible_text
+
     try:
         content = extract_visible_text(page) or ""
         if not case_sensitive:
@@ -61,6 +65,7 @@ def text_exists(page: Any, text: str, case_sensitive: bool = False) -> OracleVer
 
 def form_value_matches(page: Any, selector: str, expected_value: str) -> OracleVerdict:
     from browser.dom_reader import get_input_value
+
     try:
         actual = get_input_value(page, selector)
         passed = actual == expected_value
@@ -75,7 +80,8 @@ def form_value_matches(page: Any, selector: str, expected_value: str) -> OracleV
 
 
 def accessibility_node_exists(page: Any, role: str, name: str | None = None) -> OracleVerdict:
-    from browser.accessibility_reader import get_accessibility_tree, find_by_role
+    from browser.accessibility_reader import find_by_role, get_accessibility_tree
+
     try:
         tree = get_accessibility_tree(page)
         nodes = find_by_role(tree, role, name)
@@ -87,7 +93,9 @@ def accessibility_node_exists(page: Any, role: str, name: str | None = None) -> 
             evidence=f"role={role} name={name} found={len(nodes)}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.ACCESSIBILITY, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.ACCESSIBILITY, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def visual_region_matches(
@@ -96,6 +104,7 @@ def visual_region_matches(
     threshold: float = 0.05,
 ) -> OracleVerdict:
     from vision.visual_diff import compare
+
     try:
         result = compare(screenshot_path_a, screenshot_path_b, threshold=threshold)
         return OracleVerdict(
@@ -105,7 +114,9 @@ def visual_region_matches(
             evidence=f"pixel_diff={result.pixel_diff_score:.4f} threshold={threshold}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.VISUAL, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.VISUAL, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def run_evaluator(evaluator_fn: Callable[..., bool], *args: Any, **kwargs: Any) -> OracleVerdict:
@@ -119,4 +130,6 @@ def run_evaluator(evaluator_fn: Callable[..., bool], *args: Any, **kwargs: Any) 
             evidence=f"custom_evaluator={evaluator_fn.__name__}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.BROWSER, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.BROWSER, passed=False, score=0.0, evidence=str(exc)
+        )

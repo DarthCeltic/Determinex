@@ -19,12 +19,13 @@ Idempotent: skips if already seeded (checks row count).
 """
 
 from __future__ import annotations
+
+import hashlib
 import os
 import re
 import sqlite3
 import struct
 import sys
-import hashlib
 from pathlib import Path
 
 try:
@@ -39,16 +40,17 @@ except ImportError:
 
 # ── Paths ───────────────────────────────────────────────────────────────────
 
-REPO_ROOT    = Path(__file__).parent.parent
-DB_PATH      = Path(os.environ.get(
-    "DETERMINEX_DB",
-    r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
-))
-CODING_LAWS  = REPO_ROOT / "scripts" / "coding_laws.md"
-ENG_KB       = REPO_ROOT / "data" / "knowledge_vault" / "engineering_knowledge_base.md"
+REPO_ROOT = Path(__file__).parent.parent
+DB_PATH = Path(
+    os.environ.get(
+        "DETERMINEX_DB", r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
+    )
+)
+CODING_LAWS = REPO_ROOT / "scripts" / "coding_laws.md"
+ENG_KB = REPO_ROOT / "data" / "knowledge_vault" / "engineering_knowledge_base.md"
 COMPANION_DIR = REPO_ROOT / "docs" / "companions"
 PROGRAMBENCH_DIR = REPO_ROOT / "corpus" / "programbench"
-SWEBENCH_DIR     = REPO_ROOT / "corpus" / "swebench"
+SWEBENCH_DIR = REPO_ROOT / "corpus" / "swebench"
 PROGRAMBENCH_FACTORY_DIR = REPO_ROOT / "logs" / "programbench_factory"
 PROGRAMBENCH_FAILURE_INVENTORY_DIR = REPO_ROOT / "logs" / "programbench_failure_inventory"
 
@@ -58,12 +60,12 @@ CHUNK_CAP = 1200
 # ── Table mapping ────────────────────────────────────────────────────────────
 
 COLLECTION_TABLES = {
-    "general":      ("wisdom",                 "vss_wisdom"),
-    "rust":         ("knowledge_rust",          "vss_code_rust"),
-    "web":          ("knowledge_web",           "vss_code_web"),
-    "security":     ("knowledge_security",      "vss_security"),
-    "architecture": ("knowledge_architecture",  "vss_architecture"),
-    "companion":    ("knowledge_companion",     "vss_companion"),
+    "general": ("wisdom", "vss_wisdom"),
+    "rust": ("knowledge_rust", "vss_code_rust"),
+    "web": ("knowledge_web", "vss_code_web"),
+    "security": ("knowledge_security", "vss_security"),
+    "architecture": ("knowledge_architecture", "vss_architecture"),
+    "companion": ("knowledge_companion", "vss_companion"),
 }
 
 COMPANION_SOURCE_TYPE = "companion_doc"
@@ -108,11 +110,13 @@ def ensure_memory_provenance_schema(conn: sqlite3.Connection) -> None:
     )
     conn.commit()
 
+
 # ── Section → collection routing for engineering_knowledge_base.md ──────────
 
-_WEB_PATTERNS  = re.compile(r"react|next\.js|typescript|javascript|css|html|node", re.I)
-_SEC_PATTERNS  = re.compile(r"security|auth|encrypt|hash|password|jwt|cors|ssl|xss|csrf", re.I)
+_WEB_PATTERNS = re.compile(r"react|next\.js|typescript|javascript|css|html|node", re.I)
+_SEC_PATTERNS = re.compile(r"security|auth|encrypt|hash|password|jwt|cors|ssl|xss|csrf", re.I)
 _ARCH_PATTERNS = re.compile(r"architecture|docker|deployment|database|sql|best practice", re.I)
+
 
 def route_section(header: str) -> str:
     if _SEC_PATTERNS.search(header):
@@ -125,6 +129,7 @@ def route_section(header: str) -> str:
 
 
 # ── Chunking ─────────────────────────────────────────────────────────────────
+
 
 def chunk_by_h2(text: str, file_label: str) -> list[tuple[str, str]]:
     """
@@ -180,7 +185,8 @@ def chunks_for_eng_kb(text: str) -> list[tuple[str, str, str]]:
 
 # ── COMPANION doc parsing ───────────────────────────────────────────────────
 
-_FRONTMATTER_RE = re.compile(r'^---\s*\n(.*?)\n---\s*\n', re.DOTALL)
+_FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
+
 
 def _strip_frontmatter(text: str) -> tuple[dict[str, str], str]:
     """
@@ -193,7 +199,7 @@ def _strip_frontmatter(text: str) -> tuple[dict[str, str], str]:
         return {}, text
 
     front_text = m.group(1)
-    body = text[m.end():]
+    body = text[m.end() :]
 
     # Parse name: and description: manually (no external YAML dep required)
     meta: dict[str, str] = {}
@@ -201,25 +207,25 @@ def _strip_frontmatter(text: str) -> tuple[dict[str, str], str]:
     current_lines: list[str] = []
 
     for line in front_text.splitlines():
-        if re.match(r'^(\w[\w-]*):\s*(\|)?\s*$', line):
+        if re.match(r"^(\w[\w-]*):\s*(\|)?\s*$", line):
             if current_key:
-                meta[current_key] = ' '.join(current_lines).strip()
-            key_match = re.match(r'^([\w-]+):', line)
+                meta[current_key] = " ".join(current_lines).strip()
+            key_match = re.match(r"^([\w-]+):", line)
             current_key = key_match.group(1) if key_match else None
             current_lines = []
-        elif current_key and (line.startswith('  ') or line.startswith('\t')):
+        elif current_key and (line.startswith("  ") or line.startswith("\t")):
             current_lines.append(line.strip())
-        elif re.match(r'^([\w-]+):\s+(.+)$', line):
-            kv = re.match(r'^([\w-]+):\s+(.+)$', line)
+        elif re.match(r"^([\w-]+):\s+(.+)$", line):
+            kv = re.match(r"^([\w-]+):\s+(.+)$", line)
             if kv:
                 if current_key:
-                    meta[current_key] = ' '.join(current_lines).strip()
+                    meta[current_key] = " ".join(current_lines).strip()
                 meta[kv.group(1)] = kv.group(2).strip()
                 current_key = None
                 current_lines = []
 
     if current_key and current_lines:
-        meta[current_key] = ' '.join(current_lines).strip()
+        meta[current_key] = " ".join(current_lines).strip()
 
     return meta, body
 
@@ -256,6 +262,7 @@ def chunks_for_companion_doc(path: Path) -> list[tuple[str, str, str]]:
 
 
 # ── ProgramBench corpus parsing ─────────────────────────────────────────────
+
 
 def _walk_md_tree(root: Path, label_prefix: str) -> list[tuple[str, str, str]]:
     """Walk a markdown tree, chunk by h2, return (text, metadata, collection)."""
@@ -321,6 +328,7 @@ def chunks_for_pb_knowledge() -> list[tuple[str, str, str]]:
     reseeding replaces it cleanly.
     """
     import json as _json
+
     chunks: list[tuple[str, str, str]] = []
     bk = PROGRAMBENCH_DIR / "build_knowledge.json"
     if bk.exists():
@@ -338,13 +346,17 @@ def chunks_for_pb_knowledge() -> list[tuple[str, str, str]]:
         try:
             r = _json.loads(reg.read_text(encoding="utf-8"))
             locks = r.get("locks", {})
-            summ = (f"# ProgramBench verified-lock registry (single source of truth)\n\n"
-                    f"{r.get('note','')}\n\nRegistered locks: {len(locks)}. "
-                    f"A lock is genuine ONLY if its archived eval is passed==total (0 not_run/skipped/failed) "
-                    f"AND the pinned submission_sha256 still matches the archive tarball; otherwise it is "
-                    f"UNVERIFIED (run determinex_pb_lock_registry.py check-integrity). Tools: "
-                    + ", ".join(sorted(locks)[:80]))
-            chunks.append((summ, "programbench | verified_locks.json | registry-summary", "general"))
+            summ = (
+                f"# ProgramBench verified-lock registry (single source of truth)\n\n"
+                f"{r.get('note', '')}\n\nRegistered locks: {len(locks)}. "
+                f"A lock is genuine ONLY if its archived eval is passed==total (0 not_run/skipped/failed) "
+                f"AND the pinned submission_sha256 still matches the archive tarball; otherwise it is "
+                f"UNVERIFIED (run determinex_pb_lock_registry.py check-integrity). Tools: "
+                + ", ".join(sorted(locks)[:80])
+            )
+            chunks.append(
+                (summ, "programbench | verified_locks.json | registry-summary", "general")
+            )
         except Exception as e:
             print(f"  [WARN] verified_locks.json not ingested: {e}")
     return chunks
@@ -366,6 +378,7 @@ def chunks_for_programbench_factory_logs() -> list[tuple[str, str, str]]:
 
 
 # ── Embedding + insert ────────────────────────────────────────────────────────
+
 
 def embed_and_insert(
     conn: sqlite3.Connection,
@@ -568,6 +581,7 @@ PB_METADATA_PREFIX = "programbench |"
 SB_METADATA_PREFIX = "swebench |"
 PB_FACTORY_METADATA_PREFIXES = ("pb_factory |", "pb_failure_inventory |")
 
+
 def already_seeded(conn: sqlite3.Connection) -> bool:
     """Returns True if seeding has run before (checks for marker row in wisdom)."""
     try:
@@ -679,6 +693,7 @@ def insert_marker(conn: sqlite3.Connection, model: TextEmbedding) -> None:
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 
+
 def _open_db() -> sqlite3.Connection:
     conn = sqlite3.connect(str(DB_PATH))
     conn.enable_load_extension(True)
@@ -704,7 +719,7 @@ def seed_swebench(model: TextEmbedding, *, reseed: bool = False) -> int:
         if not chunks:
             print(f"[WARN] no markdown found under {SWEBENCH_DIR}")
             return 0
-        print(f"Reading corpus/swebench/...")
+        print("Reading corpus/swebench/...")
         print(f"  -> {len(chunks)} chunks (collection=general, prefix={SB_METADATA_PREFIX})")
         n = embed_and_insert(conn, model, chunks)
         print(f"  -> inserted {n} rows")
@@ -737,7 +752,7 @@ def seed_programbench(model: TextEmbedding, *, reseed: bool = False) -> int:
         if not chunks:
             print(f"[WARN] no markdown found under {PROGRAMBENCH_DIR}")
             return 0
-        print(f"Reading corpus/programbench/...")
+        print("Reading corpus/programbench/...")
         print(f"  -> {len(chunks)} chunks (collection=general, prefix={PB_METADATA_PREFIX})")
         n = embed_and_insert(conn, model, chunks)
         print(f"  -> inserted {n} rows")
@@ -762,7 +777,9 @@ def seed_programbench_factory_logs(model: TextEmbedding, *, reseed: bool = False
     try:
         if already_seeded_pb_factory(conn):
             if not reseed:
-                print("ProgramBench factory logs already seeded (use --reseed-programbench to re-ingest)")
+                print(
+                    "ProgramBench factory logs already seeded (use --reseed-programbench to re-ingest)"
+                )
                 return 0
             cleared = clear_programbench_factory_rows(conn)
             print(f"Cleared {cleared} prior ProgramBench factory rows for reseed")
@@ -785,19 +802,38 @@ def seed_programbench_factory_logs(model: TextEmbedding, *, reseed: bool = False
 
 def main() -> None:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex knowledge-base seeder")
-    ap.add_argument("--reseed-programbench", action="store_true",
-                    help="Wipe & re-ingest corpus/programbench/ even if already seeded")
-    ap.add_argument("--programbench-only", action="store_true",
-                    help="Skip core seeding; only refresh the programbench corpus")
-    ap.add_argument("--reseed-swebench", action="store_true",
-                    help="Wipe & re-ingest corpus/swebench/ even if already seeded")
-    ap.add_argument("--swebench-only", action="store_true",
-                    help="Skip core seeding; only refresh the swebench corpus")
-    ap.add_argument("--reseed-companions", action="store_true",
-                    help="Wipe & re-ingest docs/companions/ even if source hashes match")
-    ap.add_argument("--companions-only", action="store_true",
-                    help="Skip other seeding; only refresh companion project memory")
+    ap.add_argument(
+        "--reseed-programbench",
+        action="store_true",
+        help="Wipe & re-ingest corpus/programbench/ even if already seeded",
+    )
+    ap.add_argument(
+        "--programbench-only",
+        action="store_true",
+        help="Skip core seeding; only refresh the programbench corpus",
+    )
+    ap.add_argument(
+        "--reseed-swebench",
+        action="store_true",
+        help="Wipe & re-ingest corpus/swebench/ even if already seeded",
+    )
+    ap.add_argument(
+        "--swebench-only",
+        action="store_true",
+        help="Skip core seeding; only refresh the swebench corpus",
+    )
+    ap.add_argument(
+        "--reseed-companions",
+        action="store_true",
+        help="Wipe & re-ingest docs/companions/ even if source hashes match",
+    )
+    ap.add_argument(
+        "--companions-only",
+        action="store_true",
+        help="Skip other seeding; only refresh companion project memory",
+    )
     args = ap.parse_args()
 
     if not DB_PATH.exists():

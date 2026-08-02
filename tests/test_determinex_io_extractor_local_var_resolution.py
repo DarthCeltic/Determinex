@@ -15,6 +15,7 @@ Three indirection shapes, all found against real test source before building any
   3. A for-loop iteration variable over a literal list used in an `in` check:
      `for needle in [...]: assert needle in out`.
 """
+
 from __future__ import annotations
 
 import ast
@@ -31,6 +32,7 @@ def _func(src: str) -> ast.FunctionDef:
 
 
 # ---------- _analyze_run_wrapper_return_shape(): tuple-return position mapping ----------
+
 
 def test_analyze_return_shape_rc_then_stdout():
     wrapper = _func(
@@ -78,8 +80,7 @@ def test_analyze_return_shape_single_object_returns_none():
     """A wrapper returning ONE object (not a tuple) already goes through the direct
     attribute-access path -- this function should return None, not a bogus shape."""
     wrapper = _func(
-        "def run_exe(args):\n"
-        "    return subprocess.run([EXE, *args], capture_output=True)\n"
+        "def run_exe(args):\n    return subprocess.run([EXE, *args], capture_output=True)\n"
     )
     assert iox._analyze_run_wrapper_return_shape(wrapper) is None
 
@@ -90,6 +91,7 @@ def test_analyze_return_shape_unrelated_tuple_returns_none():
 
 
 # ---------- _discover_wrapper_return_shapes(): own file + sibling module ----------
+
 
 def test_discover_wrapper_return_shapes_own_file():
     src = (
@@ -120,12 +122,9 @@ def test_discover_wrapper_return_shapes_sibling_conftest(tmp_path):
 
 # ---------- _track_result_roles(): tuple-unpack + direct decode-to-local-var ----------
 
+
 def test_track_result_roles_tuple_unpack():
-    func = _func(
-        "def test_x():\n"
-        "    code, out = run_exe(['-h'])\n"
-        "    assert code == 0\n"
-    )
+    func = _func("def test_x():\n    code, out = run_exe(['-h'])\n    assert code == 0\n")
     shapes = {"run_exe": {"rc_pos": 0, "stdout_pos": 1}}
     roles = iox._track_result_roles(func, shapes)
     assert roles == {"code": "rc", "out": "stdout"}
@@ -163,11 +162,10 @@ def test_track_result_roles_direct_rc_assignment():
 
 # ---------- _track_loop_literal_lists(): for-loop iteration variable -> literal list ----------
 
+
 def test_track_loop_literal_lists_finds_string_list():
     func = _func(
-        "def test_x():\n"
-        "    for needle in ['a', 'b', 'c']:\n"
-        "        assert needle in out\n"
+        "def test_x():\n    for needle in ['a', 'b', 'c']:\n        assert needle in out\n"
     )
     loops = iox._track_loop_literal_lists(func)
     assert loops == {"needle": ["a", "b", "c"]}
@@ -175,15 +173,14 @@ def test_track_loop_literal_lists_finds_string_list():
 
 def test_track_loop_literal_lists_ignores_non_literal_iterable():
     func = _func(
-        "def test_x():\n"
-        "    for needle in some_dynamic_list():\n"
-        "        assert needle in out\n"
+        "def test_x():\n    for needle in some_dynamic_list():\n        assert needle in out\n"
     )
     loops = iox._track_loop_literal_lists(func)
     assert loops == {}
 
 
 # ---------- _is_rc_expr / _is_out_expr: attribute OR resolved-role name ----------
+
 
 def test_is_rc_expr_true_for_direct_attribute():
     node = ast.parse("proc.returncode").body[0].value
@@ -212,6 +209,7 @@ def test_is_out_expr_false_for_stderr_role():
 
 
 # ---------- end-to-end: extract_file() recovers the real solar patterns ----------
+
 
 def test_extract_file_recovers_tuple_unpacked_rc_check(tmp_path):
     test_file = tmp_path / "test_solar.py"

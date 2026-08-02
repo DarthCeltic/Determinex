@@ -38,15 +38,14 @@ import hashlib
 import json
 import logging
 import os
-import re
 import platform
+import re
 import shutil
 import subprocess
 import sys
 import threading
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 # Ensure scripts/ dir is on path so sibling modules (determinex_cloak, etc.) are importable
 # when agent is run standalone. The runner already does this via sys.path.insert.
@@ -61,19 +60,24 @@ try:
         CloakObfuscationError,
         build_cloak_context,
     )
+
     _CLOAK_AVAILABLE = True
 except ImportError:
     _CLOAK_AVAILABLE = False
     CloakContext = None  # type: ignore[assignment,misc]
+
     class CloakObfuscationError(RuntimeError):  # type: ignore[no-redef]
         """Stub when determinex_cloak unavailable — should never fire."""
+
 
 # Workspace escape guard — prevents symlink/traversal escapes on all file writes
 try:
     from hive.workspace import assert_inside_workspace as _assert_in_workspace
 except ImportError:
+
     def _assert_in_workspace(path: Path, workspace: Path) -> None:  # type: ignore[misc]
         pass
+
 
 _CLOAK_ENABLED = bool(os.getenv("DETERMINEX_CLOAK", "")) and _CLOAK_AVAILABLE
 
@@ -93,45 +97,70 @@ _ROOT = Path(__file__).resolve().parent.parent
 
 # ── swe_agent subpackage ──────────────────────────────────────────────────────
 from swe_agent.constants import (
-    BUILDER_MODEL, OBSERVER_MODEL, MAX_RETRIES, MAX_FILES, CTX_LINES, TEST_TIMEOUT,
-    TEMPERATURES, VRAM_PARALLEL_THRESHOLD_MB,
-    _GATE_TEMPS, _GATE_MAX_AUTO, _GATE_MAX_TOTAL, SKIP_NATIVE_TESTS, _NO_BLOCKS_SENTINEL,
-    USE_LOCAL_BUILDER, LOCAL_BUILDER_MODEL,
-    _LANG_DISPLAY, _LANG_EXT, _LANG_EXTS, _LANG_FENCE, _LANG_COMPILE,
+    _GATE_MAX_AUTO,
+    _GATE_MAX_TOTAL,
+    _GATE_TEMPS,
+    _LANG_COMPILE,
+    _LANG_DISPLAY,
+    _LANG_EXT,
+    _LANG_EXTS,
+    _LANG_FENCE,
+    _NO_BLOCKS_SENTINEL,
+    BUILDER_MODEL,
+    CTX_LINES,
+    LOCAL_BUILDER_MODEL,
+    MAX_FILES,
+    MAX_RETRIES,
+    OBSERVER_MODEL,
+    SKIP_NATIVE_TESTS,
+    TEMPERATURES,
+    TEST_TIMEOUT,
+    USE_LOCAL_BUILDER,
+    VRAM_PARALLEL_THRESHOLD_MB,
 )
 from swe_agent.inference import _infer, _ollama, _warm_local_builder
-from swe_agent.rag import _load_latent_index, _latent_retrieve, _ADAPT_THRESHOLD, _HINT_THRESHOLD
 from swe_agent.patch import (
+    _apply_search_replace_blocks,
     _normalize_for_match,
-    _parse_search_replace_blocks, _apply_search_replace_blocks,
+    _parse_search_replace_blocks,
 )
+from swe_agent.rag import _ADAPT_THRESHOLD, _HINT_THRESHOLD, _latent_retrieve, _load_latent_index
 
 
 def _detect_repo_language(repo_path: Path) -> str:
     """Infer primary language by counting source files. Returns lowercase language name."""
     _SKIP_FRAG = {
-        "site-packages", "__pycache__", ".tox", ".eggs", "node_modules",
-        "target", "vendor", ".gradle", ".mvn", "build", "dist",
-        "resources", "fixtures", ".cargo", "_vendor",
+        "site-packages",
+        "__pycache__",
+        ".tox",
+        ".eggs",
+        "node_modules",
+        "target",
+        "vendor",
+        ".gradle",
+        ".mvn",
+        "build",
+        "dist",
+        "resources",
+        "fixtures",
+        ".cargo",
+        "_vendor",
     }
     counts: dict[str, int] = {}
     lang_globs = [
-        ("python",     "*.py"),
-        ("java",       "*.java"),
-        ("go",         "*.go"),
-        ("rust",       "*.rs"),
+        ("python", "*.py"),
+        ("java", "*.java"),
+        ("go", "*.go"),
+        ("rust", "*.rs"),
         ("javascript", "*.js"),
         ("typescript", "*.ts"),
-        ("ruby",       "*.rb"),
-        ("cpp",        "*.cpp"),
-        ("c",          "*.c"),
-        ("php",        "*.php"),
+        ("ruby", "*.rb"),
+        ("cpp", "*.cpp"),
+        ("c", "*.c"),
+        ("php", "*.php"),
     ]
     for lang, pattern in lang_globs:
-        hits = [
-            f for f in repo_path.rglob(pattern)
-            if not any(p in _SKIP_FRAG for p in f.parts)
-        ]
+        hits = [f for f in repo_path.rglob(pattern) if not any(p in _SKIP_FRAG for p in f.parts)]
         if hits:
             counts[lang] = len(hits)
 
@@ -180,15 +209,18 @@ that calls it from the appropriate location — dead code that is never called i
 Go/Java/Rust files or vice versa; respect the language's own conventions exactly as shown in the source
 """
 
+
 # Only pass --timeout to pytest when pytest-timeout is installed.
 def _pytest_timeout_flag() -> list[str]:
     import importlib.util
+
     if importlib.util.find_spec("pytest_timeout") is not None:
         return [f"--timeout={TEST_TIMEOUT}"]
     return []
 
 
 # ── Hardware detection ────────────────────────────────────────────────────────
+
 
 def _detect_compute_tier() -> str:
     """
@@ -202,13 +234,15 @@ def _detect_compute_tier() -> str:
 
     try:
         r = subprocess.run(
-            ["nvidia-smi", "--query-gpu=memory.total",
-             "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=5,
+            ["nvidia-smi", "--query-gpu=memory.total", "--format=csv,noheader,nounits"],
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         if r.returncode == 0:
-            vram_values = [int(x.strip()) for x in r.stdout.strip().splitlines()
-                           if x.strip().isdigit()]
+            vram_values = [
+                int(x.strip()) for x in r.stdout.strip().splitlines() if x.strip().isdigit()
+            ]
             if vram_values and max(vram_values) >= VRAM_PARALLEL_THRESHOLD_MB:
                 return "parallel"
     except Exception:
@@ -217,16 +251,12 @@ def _detect_compute_tier() -> str:
     return "sequential"
 
 
-
-
-
-
 # ── Phase 2: Shadow Compilation ───────────────────────────────────────────────
 
 _SHADOW_CLEAN = object()  # sentinel: tests pass on unmodified repo → skip instance
 
 
-def shadow_compile(repo_path: Path, repo_language: str = "python") -> "str | object":
+def shadow_compile(repo_path: Path, repo_language: str = "python") -> str | object:
     """
     Run the test suite on the UNMODIFIED repo before any changes.
 
@@ -247,7 +277,10 @@ def shadow_compile(repo_path: Path, repo_language: str = "python") -> "str | obj
         try:
             r = subprocess.run(
                 ["go", "test", "-short", "-count=1", "./..."],
-                capture_output=True, text=True, timeout=90, cwd=repo_path,
+                capture_output=True,
+                text=True,
+                timeout=90,
+                cwd=repo_path,
             )
             if r.returncode == 0:
                 return _SHADOW_CLEAN
@@ -268,7 +301,10 @@ def shadow_compile(repo_path: Path, repo_language: str = "python") -> "str | obj
         try:
             r = subprocess.run(
                 ["cargo", "test", "--", "--test-threads=4"],
-                capture_output=True, text=True, timeout=120, cwd=repo_path,
+                capture_output=True,
+                text=True,
+                timeout=120,
+                cwd=repo_path,
             )
             if r.returncode == 0:
                 return _SHADOW_CLEAN
@@ -283,14 +319,15 @@ def shadow_compile(repo_path: Path, repo_language: str = "python") -> "str | obj
 
     if repo_language == "java":
         for build_file, cmd in [
-            ("pom.xml",       ["mvn", "-q", "test", "-Dsurefire.failIfNoSpecifiedTests=false"]),
-            ("build.gradle",  ["./gradlew", "test", "--quiet"]),
+            ("pom.xml", ["mvn", "-q", "test", "-Dsurefire.failIfNoSpecifiedTests=false"]),
+            ("build.gradle", ["./gradlew", "test", "--quiet"]),
             ("build.gradle.kts", ["./gradlew", "test", "--quiet"]),
         ]:
             if (repo_path / build_file).exists():
                 try:
-                    r = subprocess.run(cmd, capture_output=True, text=True,
-                                       timeout=120, cwd=repo_path)
+                    r = subprocess.run(
+                        cmd, capture_output=True, text=True, timeout=120, cwd=repo_path
+                    )
                     if r.returncode == 0:
                         return _SHADOW_CLEAN
                     return (r.stdout + r.stderr)[:2000]
@@ -304,29 +341,30 @@ def shadow_compile(repo_path: Path, repo_language: str = "python") -> "str | obj
         return ""
 
     test_candidates = (
-        list(repo_path.rglob("test_*.py"))[:5] +
-        list(repo_path.rglob("*_test.py"))[:3]
+        list(repo_path.rglob("test_*.py"))[:5] + list(repo_path.rglob("*_test.py"))[:3]
     )
-    test_candidates = [
-        f for f in test_candidates
-        if not any(s in f.parts for s in _SKIP)
-    ]
+    test_candidates = [f for f in test_candidates if not any(s in f.parts for s in _SKIP)]
     if not test_candidates:
         log.info("No Python test files found — shadow compilation skipped")
         return ""
 
     try:
         result = subprocess.run(
-            [sys.executable, "-m", "pytest"] + [str(t) for t in test_candidates[:3]] +
-            ["-x", "--tb=short", "-q", "--no-header"] + _pytest_timeout_flag(),
-            capture_output=True, text=True,
+            [sys.executable, "-m", "pytest"]
+            + [str(t) for t in test_candidates[:3]]
+            + ["-x", "--tb=short", "-q", "--no-header"]
+            + _pytest_timeout_flag(),
+            capture_output=True,
+            text=True,
             timeout=TEST_TIMEOUT + 30,
             cwd=repo_path,
             env={**os.environ, "PYTHONWARNINGS": "ignore"},
         )
         output = _format_test_output(result.stdout, result.stderr)
         if result.returncode == 0:
-            log.info("Shadow compile: all tests already pass on unmodified repo — skipping instance")
+            log.info(
+                "Shadow compile: all tests already pass on unmodified repo — skipping instance"
+            )
             return _SHADOW_CLEAN
         log.info("Shadow compile: traceback captured (%d chars)", len(output))
         return output
@@ -337,15 +375,40 @@ def shadow_compile(repo_path: Path, repo_language: str = "python") -> "str | obj
 
 # ── Step 1: File Localization ─────────────────────────────────────────────────
 
-_SKIP_NAME_PATTERNS = frozenset({
-    "__init__", "setup_package", "conftest", "_version", "version",
-    "setup", "_setup", "compat", "_compat",
-})
-_SKIP_DIR_FRAGMENTS = frozenset({
-    "site-packages", "__pycache__", ".pyinstaller", ".tox",
-    "build", "dist", ".eggs", "node_modules", "target", "vendor",
-    ".gradle", ".mvn", "resources", "fixtures", ".cargo", "_vendor",
-})
+_SKIP_NAME_PATTERNS = frozenset(
+    {
+        "__init__",
+        "setup_package",
+        "conftest",
+        "_version",
+        "version",
+        "setup",
+        "_setup",
+        "compat",
+        "_compat",
+    }
+)
+_SKIP_DIR_FRAGMENTS = frozenset(
+    {
+        "site-packages",
+        "__pycache__",
+        ".pyinstaller",
+        ".tox",
+        "build",
+        "dist",
+        ".eggs",
+        "node_modules",
+        "target",
+        "vendor",
+        ".gradle",
+        ".mvn",
+        "resources",
+        "fixtures",
+        ".cargo",
+        "_vendor",
+    }
+)
+
 
 def _is_source_candidate(f: Path) -> bool:
     """True for files that could plausibly contain the bug, false for boilerplate."""
@@ -364,7 +427,7 @@ def _is_test_file(f: Path) -> bool:
     Covers naming conventions across Python, Go, Java, Rust, Ruby, JS/TS, PHP, C/C++.
     """
     name = f.stem.lower()
-    ext  = f.suffix.lower()
+    ext = f.suffix.lower()
 
     # Universal stem-based patterns
     if name.startswith("test_") or name.endswith("_test"):
@@ -401,8 +464,10 @@ def _is_test_file(f: Path) -> bool:
 
     # Files inside canonical test/spec directories (all languages)
     parts_lower = [p.lower() for p in f.parts]
-    return any(p in parts_lower for p in
-               ("tests", "test", "spec", "specs", "__tests__", "testdata", "test_data"))
+    return any(
+        p in parts_lower
+        for p in ("tests", "test", "spec", "specs", "__tests__", "testdata", "test_data")
+    )
 
 
 def _module_path_to_file(repo_path: Path, module_str: str) -> Path | None:
@@ -465,28 +530,79 @@ def locate_relevant_files(
         f"Return ONLY a JSON list of strings, nothing else.\n\nIssue:\n{issue_text[:2000]}"
     )
     kw_resp = _infer(
-        OBSERVER_MODEL, kw_prompt,
+        OBSERVER_MODEL,
+        kw_prompt,
         system="You extract code identifiers from bug reports. Return only JSON.",
         keep_alive=0,
     )
 
     keywords: list[str] = []
     try:
-        m = re.search(r'\[.*?\]', kw_resp, re.DOTALL)
+        m = re.search(r"\[.*?\]", kw_resp, re.DOTALL)
         if m:
             keywords = json.loads(m.group())
     except Exception:
         pass
 
-    _NOISE = frozenset({
-        'error', 'issue', 'should', 'would', 'could', 'please', 'count',
-        'stdout', 'stdin', 'stderr', 'sys', 'os', 'path', 'test', 'tests',
-        'assert', 'format', 'print', 'write', 'read', 'open', 'true', 'false',
-        'none', 'self', 'args', 'kwargs', 'return', 'raise', 'import', 'from',
-        'with', 'file', 'data', 'value', 'result', 'output', 'input', 'name',
-        'type', 'class', 'object', 'string', 'list', 'dict', 'tuple', 'bool',
-        'nil', 'null', 'void', 'int', 'str', 'uint', 'byte', 'char',
-    })
+    _NOISE = frozenset(
+        {
+            "error",
+            "issue",
+            "should",
+            "would",
+            "could",
+            "please",
+            "count",
+            "stdout",
+            "stdin",
+            "stderr",
+            "sys",
+            "os",
+            "path",
+            "test",
+            "tests",
+            "assert",
+            "format",
+            "print",
+            "write",
+            "read",
+            "open",
+            "true",
+            "false",
+            "none",
+            "self",
+            "args",
+            "kwargs",
+            "return",
+            "raise",
+            "import",
+            "from",
+            "with",
+            "file",
+            "data",
+            "value",
+            "result",
+            "output",
+            "input",
+            "name",
+            "type",
+            "class",
+            "object",
+            "string",
+            "list",
+            "dict",
+            "tuple",
+            "bool",
+            "nil",
+            "null",
+            "void",
+            "int",
+            "str",
+            "uint",
+            "byte",
+            "char",
+        }
+    )
 
     keywords = [k for k in keywords if k.lower() not in _NOISE]
 
@@ -495,28 +611,27 @@ def locate_relevant_files(
         try:
             test_ids = json.loads(fail_tests) if fail_tests.startswith("[") else [fail_tests]
             for tid in test_ids[:5]:
-                parts = re.findall(r'\b[a-zA-Z_][a-zA-Z0-9_]{3,}\b', tid)
+                parts = re.findall(r"\b[a-zA-Z_][a-zA-Z0-9_]{3,}\b", tid)
                 keywords += [p for p in parts if p.lower() not in _NOISE]
         except Exception:
             pass
 
     if not keywords:
         keywords = [
-            w for w in re.findall(r'\b[a-zA-Z_][a-zA-Z0-9_]{4,}\b', issue_text)
+            w
+            for w in re.findall(r"\b[a-zA-Z_][a-zA-Z0-9_]{4,}\b", issue_text)
             if w.lower() not in _NOISE
         ][:8]
 
     def _clean_kw(k: str) -> str:
-        k = re.sub(r'\(.*', '', k)
-        m = re.match(r'^[a-zA-Z]{1,2}\.(.+)$', k)
+        k = re.sub(r"\(.*", "", k)
+        m = re.match(r"^[a-zA-Z]{1,2}\.(.+)$", k)
         if m:
             k = m.group(1)
         return k.strip()
 
     raw_keywords = keywords
-    keywords = list(dict.fromkeys(
-        _clean_kw(k) for k in raw_keywords if len(_clean_kw(k)) >= 4
-    ))
+    keywords = list(dict.fromkeys(_clean_kw(k) for k in raw_keywords if len(_clean_kw(k)) >= 4))
     log.info("Keywords: %s", keywords)
 
     scores: dict[Path, float] = {}
@@ -530,18 +645,18 @@ def locate_relevant_files(
                     resolved = _module_path_to_file(repo_path, candidate_kw)
                     if resolved and _is_source_candidate(resolved):
                         scores[resolved] = scores.get(resolved, 0) + 10.0
-                        log.info("Direct module resolve: %s → %s", candidate_kw,
-                                 resolved.relative_to(repo_path))
+                        log.info(
+                            "Direct module resolve: %s → %s",
+                            candidate_kw,
+                            resolved.relative_to(repo_path),
+                        )
 
     # Scan correct source extensions for this language
     patterns = _LANG_EXTS.get(repo_language, ["*.py"])
     src_files: list[Path] = []
     for pat in patterns:
-        src_files.extend(
-            f for f in repo_path.rglob(pat)
-            if _is_source_candidate(f)
-        )
-    src_files = list(dict.fromkeys(src_files))   # dedup
+        src_files.extend(f for f in repo_path.rglob(pat) if _is_source_candidate(f))
+    src_files = list(dict.fromkeys(src_files))  # dedup
 
     # Language-specific definition patterns for scoring
     if repo_language == "python":
@@ -570,7 +685,7 @@ def locate_relevant_files(
                         break
                 if not matched_def:
                     # Language-agnostic call-site fallback: `funcName(`
-                    call_pattern = re.compile(rf'\b{re.escape(kw)}\s*\(')
+                    call_pattern = re.compile(rf"\b{re.escape(kw)}\s*\(")
                     if call_pattern.search(content):
                         weight = 1.0 if _is_test_file(p) else 2.5
                         scores[p] = scores.get(p, 0) + weight
@@ -584,10 +699,10 @@ def locate_relevant_files(
         return sorted(src_files, key=lambda f: f.stat().st_size)[:MAX_FILES], keywords
 
     source_files = [(p, s) for p, s in scores.items() if not _is_test_file(p)]
-    test_files   = [(p, s) for p, s in scores.items() if _is_test_file(p)]
+    test_files = [(p, s) for p, s in scores.items() if _is_test_file(p)]
 
     source_ranked = sorted(source_files, key=lambda x: (-x[1], len(str(x[0]))))
-    test_ranked   = sorted(test_files, key=lambda x: (-x[1], len(str(x[0]))))
+    test_ranked = sorted(test_files, key=lambda x: (-x[1], len(str(x[0]))))
 
     final_list = [p for p, _ in source_ranked] + [p for p, _ in test_ranked]
     return final_list[:MAX_FILES], keywords
@@ -599,9 +714,13 @@ def read_file_context(
     source_override: str = "",
 ) -> str:
     try:
-        content = source_override if source_override else file_path.read_text(encoding="utf-8", errors="replace")
+        content = (
+            source_override
+            if source_override
+            else file_path.read_text(encoding="utf-8", errors="replace")
+        )
         lines = content.splitlines()
-        numbered = [f"{i+1:4d}: {line}" for i, line in enumerate(lines[:max_lines])]
+        numbered = [f"{i + 1:4d}: {line}" for i, line in enumerate(lines[:max_lines])]
         if len(lines) > max_lines:
             numbered.append(f"... ({len(lines) - max_lines} more lines truncated)")
         return "\n".join(numbered)
@@ -610,6 +729,7 @@ def read_file_context(
 
 
 # ── Step 1b: Semantic Key — local context bridge for Cloak ───────────────────
+
 
 def _name_to_hint(real_name: str) -> str:
     """Convert a real identifier to a semantic hint without exposing the name.
@@ -623,13 +743,22 @@ def _name_to_hint(real_name: str) -> str:
     category = ""
     if name.startswith("__") and name.endswith("__"):
         # dunder — describe by well-known ones, else generic
-        known = {"__init__": "object initializer", "__repr__": "repr method",
-                 "__str__": "str method", "__len__": "length method",
-                 "__eq__": "equality method", "__hash__": "hash method",
-                 "__call__": "callable method", "__enter__": "context enter",
-                 "__exit__": "context exit", "__iter__": "iterator method",
-                 "__next__": "iterator next", "__getitem__": "item getter",
-                 "__setitem__": "item setter", "__contains__": "membership test"}
+        known = {
+            "__init__": "object initializer",
+            "__repr__": "repr method",
+            "__str__": "str method",
+            "__len__": "length method",
+            "__eq__": "equality method",
+            "__hash__": "hash method",
+            "__call__": "callable method",
+            "__enter__": "context enter",
+            "__exit__": "context exit",
+            "__iter__": "iterator method",
+            "__next__": "iterator next",
+            "__getitem__": "item getter",
+            "__setitem__": "item setter",
+            "__contains__": "membership test",
+        }
         return known.get(name, "dunder method")
     if name.startswith("__"):
         name = name[2:]
@@ -640,13 +769,13 @@ def _name_to_hint(real_name: str) -> str:
     if name.isupper():
         category = (category + " constant").strip()
     # camelCase → words
-    name = re.sub(r'([a-z])([A-Z])', r'\1 \2', name)
+    name = re.sub(r"([a-z])([A-Z])", r"\1 \2", name)
     words = name.replace("_", " ").lower().strip()
     return f"{words} ({category})" if category else words
 
 
 def build_semantic_key(
-    cloak_ctx: "CloakContext",
+    cloak_ctx: CloakContext,
     relevant_files: list[Path],
     repo_path: Path,
     max_tokens: int = 30,
@@ -662,7 +791,7 @@ def build_semantic_key(
     tokens). The real names never appear in the outbound API payload — only
     the functional descriptions do.
     """
-    _X_RE = re.compile(r'\bx_\d{4}\b')
+    _X_RE = re.compile(r"\bx_\d{4}\b")
     seen_tokens: dict[str, int] = {}  # token → frequency
 
     if cloak_ctx is None:
@@ -695,19 +824,19 @@ def build_semantic_key(
 
     return (
         "[SYMBOL GUIDE — generated locally, not transmitted as real names]\n"
-        "Token semantics for this fix region:\n"
-        + "\n".join(lines)
+        "Token semantics for this fix region:\n" + "\n".join(lines)
     )
 
 
 # ── Step 2: Architect — Generate Fix Plan ────────────────────────────────────
 
+
 def plan_fix(
-    issue_text: str,           # may already contain shadow traceback
+    issue_text: str,  # may already contain shadow traceback
     relevant_files: list[Path],
     repo_path: Path,
     temperature: float = 0.1,
-    cloak_ctx: "Optional[CloakContext]" = None,
+    cloak_ctx: CloakContext | None = None,
     semantic_key: str = "",
     hints: str = "",
     fail_tests: str = "",
@@ -845,7 +974,8 @@ def plan_fix(
     )
 
     plan_resp = _infer(
-        OBSERVER_MODEL, plan_prompt,
+        OBSERVER_MODEL,
+        plan_prompt,
         system="You plan minimal code fixes. Return only JSON arrays.",
         temperature=temperature,
         keep_alive=0,
@@ -853,7 +983,7 @@ def plan_fix(
 
     steps: list[dict] = []
     try:
-        m = re.search(r'\[.*?\]', plan_resp, re.DOTALL)
+        m = re.search(r"\[.*?\]", plan_resp, re.DOTALL)
         if m:
             steps = json.loads(m.group())
     except Exception:
@@ -863,18 +993,18 @@ def plan_fix(
     # e.g. file="path/to/file.py", description="fix fitsrec.py" → resolve fitsrec.py
     # Language-aware: search for the repo's primary extension in the description text.
     _lang_ext_re = {
-        "python": r'\b([\w/]+\.py)\b',
-        "java":   r'\b([\w/]+\.java)\b',
-        "go":     r'\b([\w/]+\.go)\b',
-        "rust":   r'\b([\w/]+\.rs)\b',
-        "ruby":   r'\b([\w/]+\.rb)\b',
-        "php":    r'\b([\w/]+\.php)\b',
-        "javascript": r'\b([\w/]+\.(?:js|ts))\b',
-        "typescript": r'\b([\w/]+\.(?:ts|js))\b',
-        "c":      r'\b([\w/]+\.(?:c|h))\b',
-        "cpp":    r'\b([\w/]+\.(?:cpp|cc|cxx|hpp|h))\b',
+        "python": r"\b([\w/]+\.py)\b",
+        "java": r"\b([\w/]+\.java)\b",
+        "go": r"\b([\w/]+\.go)\b",
+        "rust": r"\b([\w/]+\.rs)\b",
+        "ruby": r"\b([\w/]+\.rb)\b",
+        "php": r"\b([\w/]+\.php)\b",
+        "javascript": r"\b([\w/]+\.(?:js|ts))\b",
+        "typescript": r"\b([\w/]+\.(?:ts|js))\b",
+        "c": r"\b([\w/]+\.(?:c|h))\b",
+        "cpp": r"\b([\w/]+\.(?:cpp|cc|cxx|hpp|h))\b",
     }
-    _file_re = re.compile(_lang_ext_re.get(repo_language, r'\b([\w/]+\.\w+)\b'))
+    _file_re = re.compile(_lang_ext_re.get(repo_language, r"\b([\w/]+\.\w+)\b"))
 
     steps = [s for s in steps if isinstance(s, dict)]
     for step in steps:
@@ -888,57 +1018,73 @@ def plan_fix(
                 matches = [f for f in matches if _is_source_candidate(f) and not _is_test_file(f)]
                 if matches:
                     healed = str(matches[0].relative_to(repo_path))
-                    log.info("Healed template path '%s' → '%s' (from description)",
-                             file_val, healed)
+                    log.info(
+                        "Healed template path '%s' → '%s' (from description)", file_val, healed
+                    )
                     break
             # Fallback: use top-ranked relevant file when description gives no filename
             if not healed and relevant_files:
                 src_files = [f for f in relevant_files if not _is_test_file(f)]
                 fallback = (src_files or relevant_files)[0]
                 healed = str(fallback.relative_to(repo_path))
-                log.info("Healed template path '%s' → '%s' (top relevant file fallback)",
-                         file_val, healed)
+                log.info(
+                    "Healed template path '%s' → '%s' (top relevant file fallback)",
+                    file_val,
+                    healed,
+                )
             if healed:
                 step["file"] = healed
 
     if not steps and relevant_files:
         rel = relevant_files[0].relative_to(repo_path)
-        steps = [{"step": 1, "file": str(rel), "action": "modify",
-                  "description": f"Fix the bug described in the issue in {rel}"}]
+        steps = [
+            {
+                "step": 1,
+                "file": str(rel),
+                "action": "modify",
+                "description": f"Fix the bug described in the issue in {rel}",
+            }
+        ]
 
     log.info("Fix plan: %d step(s)", len(steps))
     for s in steps:
-        log.info("  Step %s: %s → %s",
-                 s.get("step", "?"), s.get("file", "?"), s.get("description", "?"))
+        log.info(
+            "  Step %s: %s → %s", s.get("step", "?"), s.get("file", "?"), s.get("description", "?")
+        )
     return steps
 
 
 # ── Step 3: Builder — Generate Code Fix ──────────────────────────────────────
 
 _REGION_THRESHOLD = int(os.getenv("DETERMINEX_REGION_THRESHOLD", "0"))  # 0 = always use region mode
-_REGION_CONTEXT   = int(os.getenv("DETERMINEX_REGION_CONTEXT",   "80"))
+_REGION_CONTEXT = int(os.getenv("DETERMINEX_REGION_CONTEXT", "80"))
 
 
 def _fn_def_patterns(lang: str) -> list[str]:
     """Return ordered list of function-definition regex templates for anchoring."""
     if lang == "python":
-        return [r'\s*(?:async\s+)?def\s+{name}\s*\(']
+        return [r"\s*(?:async\s+)?def\s+{name}\s*\("]
     if lang == "go":
-        return [r'\s*func\s+(?:\([^)]*\)\s*)?{name}\s*\(']
+        return [r"\s*func\s+(?:\([^)]*\)\s*)?{name}\s*\("]
     if lang == "rust":
-        return [r'\s*(?:pub\s+)?(?:async\s+)?fn\s+{name}\s*[(<]']
+        return [r"\s*(?:pub\s+)?(?:async\s+)?fn\s+{name}\s*[(<]"]
     if lang == "java":
-        return [r'\s*(?:(?:public|private|protected|static|final|abstract|synchronized)\s+)*\w[\w<>\[\]]*\s+{name}\s*\(']
+        return [
+            r"\s*(?:(?:public|private|protected|static|final|abstract|synchronized)\s+)*\w[\w<>\[\]]*\s+{name}\s*\("
+        ]
     if lang in ("javascript", "typescript"):
-        return [r'\s*(?:async\s+)?function\s+{name}\s*\(', r'\s*(?:const|let|var)\s+{name}\s*=\s*(?:async\s+)?\(']
+        return [
+            r"\s*(?:async\s+)?function\s+{name}\s*\(",
+            r"\s*(?:const|let|var)\s+{name}\s*=\s*(?:async\s+)?\(",
+        ]
     if lang == "ruby":
-        return [r'\s*def\s+{name}(?:\s*\(|\s*$)']
+        return [r"\s*def\s+{name}(?:\s*\(|\s*$)"]
     if lang == "php":
-        return [r'\s*(?:public\s+|private\s+|protected\s+|static\s+)*function\s+{name}\s*\(']
+        return [r"\s*(?:public\s+|private\s+|protected\s+|static\s+)*function\s+{name}\s*\("]
     if lang in ("c", "cpp"):
-        return [r'[\w\s\*]+\s+{name}\s*\(']
+        return [r"[\w\s\*]+\s+{name}\s*\("]
     # fallback: any language
-    return [r'(?:def|fn|func|function)\s+{name}\s*[(\s]', r'\b{name}\s*[=:]\s*(?:function|async)']
+    return [r"(?:def|fn|func|function)\s+{name}\s*[(\s]", r"\b{name}\s*[=:]\s*(?:function|async)"]
 
 
 def _extract_target_region(
@@ -962,12 +1108,12 @@ def _extract_target_region(
     cause. Swapping priority in Cloak mode avoids anchoring in the wrong function.
     """
     anchor_shadow = -1
-    anchor_desc   = -1
+    anchor_desc = -1
 
     # Shadow traceback — look for "filename", line N (language-agnostic)
     fname = Path(file_path).name
     for m in re.finditer(
-        rf'(?:{re.escape(fname)}|{re.escape(file_path.replace(chr(92), "/"))})[^\d]*?(\d+)',
+        rf"(?:{re.escape(fname)}|{re.escape(file_path.replace(chr(92), '/'))})[^\d]*?(\d+)",
         shadow_trace,
     ):
         candidate = int(m.group(1)) - 1  # 0-indexed
@@ -976,14 +1122,27 @@ def _extract_target_region(
             break
 
     fn_patterns = _fn_def_patterns(repo_language)
-    _SKIP_NAMES = {"def", "class", "if", "for", "return", "self", "func", "fn",
-                   "function", "public", "private", "protected", "static"}
+    _SKIP_NAMES = {
+        "def",
+        "class",
+        "if",
+        "for",
+        "return",
+        "self",
+        "func",
+        "fn",
+        "function",
+        "public",
+        "private",
+        "protected",
+        "static",
+    }
 
     # Named function from step description.
     # In Cloak mode step_desc contains x_NNNN tokens — extract them directly.
     # In normal mode extract call-site patterns: identifier( or `identifier`.
     if cloak_mode:
-        cloak_tokens = re.findall(r'\bx_\d{4}\b', step_desc)
+        cloak_tokens = re.findall(r"\bx_\d{4}\b", step_desc)
         # Pass 1: function/class definition lines (strongest anchor)
         for token in cloak_tokens:
             for i, line in enumerate(lines):
@@ -1000,7 +1159,7 @@ def _extract_target_region(
         # Searching for lines with multiple co-occurring tokens pinpoints the exact line
         # even when x_6161 appears in many places (e.g., as a function parameter).
         if anchor_desc < 0 and len(cloak_tokens) >= 2:
-            all_toks_re = [re.compile(rf'\b{re.escape(t)}\b') for t in cloak_tokens]
+            all_toks_re = [re.compile(rf"\b{re.escape(t)}\b") for t in cloak_tokens]
             for i, line in enumerate(lines):
                 if all(r.search(line) for r in all_toks_re):
                     anchor_desc = i
@@ -1010,9 +1169,9 @@ def _extract_target_region(
         # inside a parameter docstring when the actual implementation is elsewhere.
         if anchor_desc < 0:
             for token in cloak_tokens:
-                tok_re = re.compile(rf'\b{re.escape(token)}\b')
+                tok_re = re.compile(rf"\b{re.escape(token)}\b")
                 code_hit = -1
-                doc_hit  = -1
+                doc_hit = -1
                 in_docstring = False
                 for i, raw in enumerate(lines):
                     s = raw.strip()
@@ -1051,24 +1210,26 @@ def _extract_target_region(
 
     # Resolve priority — log which signal won for debugging
     if cloak_mode and anchor_desc >= 0:
-        anchor = anchor_desc          # Architect's explicit target wins in Cloak mode
+        anchor = anchor_desc  # Architect's explicit target wins in Cloak mode
         log.info("[region] cloak anchor=%d from desc (file=%s)", anchor, Path(file_path).name)
     elif anchor_shadow >= 0:
-        anchor = anchor_shadow        # shadow trace wins in normal mode
+        anchor = anchor_shadow  # shadow trace wins in normal mode
         log.info("[region] shadow anchor=%d (file=%s)", anchor, Path(file_path).name)
     elif anchor_desc >= 0:
         anchor = anchor_desc
         log.info("[region] desc anchor=%d (file=%s)", anchor, Path(file_path).name)
     else:
-        anchor = min(50, len(lines) - 1)   # fallback: top of file
-        log.warning("[region] no anchor — falling back to line %d (file=%s)", anchor, Path(file_path).name)
+        anchor = min(50, len(lines) - 1)  # fallback: top of file
+        log.warning(
+            "[region] no anchor — falling back to line %d (file=%s)", anchor, Path(file_path).name
+        )
 
     # If anchor is on a def/class line, the function body lives below the docstring.
     # Shift the window center to the first code line after the docstring so the
     # builder sees what needs changing rather than spending its context on the signature.
     body_anchor = anchor
     anchor_stripped = lines[anchor].strip() if 0 <= anchor < len(lines) else ""
-    if re.match(r'(async\s+)?def\s+|class\s+', anchor_stripped):
+    if re.match(r"(async\s+)?def\s+|class\s+", anchor_stripped):
         in_ds = False
         for j in range(anchor + 1, min(anchor + 120, len(lines))):
             s = lines[j].strip()
@@ -1081,15 +1242,13 @@ def _extract_target_region(
                 break
 
     start = max(0, body_anchor - context)
-    end   = min(len(lines), body_anchor + context)
+    end = min(len(lines), body_anchor + context)
     # Always include the def/class line itself for signature context
     start = min(start, anchor)
     return start, end
 
 
-
-
-def _check_fixed_syntax(target: Path, content: str, repo_language: str = "python") -> Optional[str]:
+def _check_fixed_syntax(target: Path, content: str, repo_language: str = "python") -> str | None:
     """
     Run a quick compile/parse check on the proposed fixed content.
     Returns None if the content is syntactically valid (or check not available).
@@ -1111,24 +1270,26 @@ def _check_fixed_syntax(target: Path, content: str, repo_language: str = "python
             r = subprocess.run(
                 ["go", "build", "./..."],
                 cwd=target.parent,
-                capture_output=True, text=True, timeout=30,
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
             if r.returncode != 0:
                 # Filter out errors in the Go module cache (pre-existing dep issues).
                 # Only report errors in files under the repo directory.
                 repo_root = str(target.parent)
                 error_lines = [
-                    l for l in (r.stderr + r.stdout).splitlines()
-                    if "error" in l.lower()
-                    and repo_root.lower() in l.lower()
+                    l
+                    for l in (r.stderr + r.stdout).splitlines()
+                    if "error" in l.lower() and repo_root.lower() in l.lower()
                 ]
                 if not error_lines:
-                    return None   # all errors are in deps, not our code
+                    return None  # all errors are in deps, not our code
                 errors = "\n".join(error_lines)[:600]
                 return f"Go compile error:\n{errors}" if errors else None
             return None
         except FileNotFoundError:
-            return None   # go not on PATH
+            return None  # go not on PATH
         except subprocess.TimeoutExpired:
             return None
         except Exception as e:
@@ -1145,11 +1306,13 @@ def _check_fixed_syntax(target: Path, content: str, repo_language: str = "python
     if not cmd_template:
         return None
 
-    tmp_path: Optional[str] = None
+    tmp_path: str | None = None
     try:
         with tempfile.NamedTemporaryFile(
-            mode="w", suffix=_LANG_EXT.get(repo_language, ".tmp"),
-            delete=False, encoding="utf-8",
+            mode="w",
+            suffix=_LANG_EXT.get(repo_language, ".tmp"),
+            delete=False,
+            encoding="utf-8",
         ) as tf:
             tf.write(content)
             tmp_path = tf.name
@@ -1159,19 +1322,17 @@ def _check_fixed_syntax(target: Path, content: str, repo_language: str = "python
 
         if r.returncode != 0:
             errors = "\n".join(
-                l for l in (r.stderr + r.stdout).splitlines()
-                if "error" in l.lower()
+                l for l in (r.stderr + r.stdout).splitlines() if "error" in l.lower()
             )[:600]
 
             if repo_language in ("c", "cpp"):
                 # Filter Windows MinGW missing system headers — infrastructure gap, not code bug
-                _sys_hdr_re = re.compile(r'fatal error: [^/\\<>\n]+: [Nn]o such file')
+                _sys_hdr_re = re.compile(r"fatal error: [^/\\<>\n]+: [Nn]o such file")
                 real_errors = [
-                    l for l in errors.splitlines()
-                    if l.strip() and not _sys_hdr_re.search(l)
+                    l for l in errors.splitlines() if l.strip() and not _sys_hdr_re.search(l)
                 ]
                 if not real_errors:
-                    return None   # only system headers missing — Docker will compile
+                    return None  # only system headers missing — Docker will compile
                 return f"{_LANG_DISPLAY.get(repo_language, repo_language)} compile error:\n{errors}"
 
             if repo_language == "python":
@@ -1183,9 +1344,9 @@ def _check_fixed_syntax(target: Path, content: str, repo_language: str = "python
         return None
 
     except FileNotFoundError:
-        return None   # compiler not on PATH — skip check
+        return None  # compiler not on PATH — skip check
     except subprocess.TimeoutExpired:
-        return None   # timeout — skip check, Docker will validate
+        return None  # timeout — skip check, Docker will validate
     except Exception as e:
         log.debug("_check_fixed_syntax error: %s", e)
         return None
@@ -1211,42 +1372,55 @@ def _detect_dead_new_function(original: str, modified: str, lang: str = "python"
 
     # Per-language definition regex
     if lang == "python":
-        def_re  = re.compile(r'^\s*(?:async\s+)?def\s+(\w+)\s*\(', re.MULTILINE)
-        def_cnt_re = lambda n: re.compile(rf'(?:^|\s)(?:async\s+)?def\s+{re.escape(n)}\s*\(', re.MULTILINE)  # noqa: E731
+        def_re = re.compile(r"^\s*(?:async\s+)?def\s+(\w+)\s*\(", re.MULTILINE)
+        def_cnt_re = lambda n: re.compile(
+            rf"(?:^|\s)(?:async\s+)?def\s+{re.escape(n)}\s*\(", re.MULTILINE
+        )  # noqa: E731
     elif lang == "go":
-        def_re  = re.compile(r'(?:^|\s)func\s+(?:\([^)]*\)\s*)?(\w+)\s*\(', re.MULTILINE)
-        def_cnt_re = lambda n: re.compile(rf'func\s+(?:\([^)]*\)\s*)?{re.escape(n)}\s*\(', re.MULTILINE)  # noqa: E731
+        def_re = re.compile(r"(?:^|\s)func\s+(?:\([^)]*\)\s*)?(\w+)\s*\(", re.MULTILINE)
+        def_cnt_re = lambda n: re.compile(
+            rf"func\s+(?:\([^)]*\)\s*)?{re.escape(n)}\s*\(", re.MULTILINE
+        )  # noqa: E731
     elif lang == "rust":
-        def_re  = re.compile(r'(?:^|\s)(?:pub\s+)?(?:async\s+)?fn\s+(\w+)\s*[(<]', re.MULTILINE)
-        def_cnt_re = lambda n: re.compile(rf'fn\s+{re.escape(n)}\s*[(<]', re.MULTILINE)  # noqa: E731
+        def_re = re.compile(r"(?:^|\s)(?:pub\s+)?(?:async\s+)?fn\s+(\w+)\s*[(<]", re.MULTILINE)
+        def_cnt_re = lambda n: re.compile(rf"fn\s+{re.escape(n)}\s*[(<]", re.MULTILINE)  # noqa: E731
     elif lang == "ruby":
         # Ruby: def method_name OR def method_name( — parens optional
-        def_re  = re.compile(r'^\s*def\s+([a-zA-Z_]\w*[!?]?)', re.MULTILINE)
-        def_cnt_re = lambda n: re.compile(rf'def\s+{re.escape(n)}(?:\s*\(|\s*$)', re.MULTILINE)  # noqa: E731
+        def_re = re.compile(r"^\s*def\s+([a-zA-Z_]\w*[!?]?)", re.MULTILINE)
+        def_cnt_re = lambda n: re.compile(rf"def\s+{re.escape(n)}(?:\s*\(|\s*$)", re.MULTILINE)  # noqa: E731
     elif lang == "php":
-        def_re  = re.compile(r'(?:^|\s)function\s+(\w+)\s*\(', re.MULTILINE)
-        def_cnt_re = lambda n: re.compile(rf'function\s+{re.escape(n)}\s*\(', re.MULTILINE)  # noqa: E731
+        def_re = re.compile(r"(?:^|\s)function\s+(\w+)\s*\(", re.MULTILINE)
+        def_cnt_re = lambda n: re.compile(rf"function\s+{re.escape(n)}\s*\(", re.MULTILINE)  # noqa: E731
     else:
         # JS/TS/Java: generic multi-syntax
-        def_re  = re.compile(r'(?:^|\s)(?:function\s+(\w+)|(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s+)?\(|fn\s+(\w+))', re.MULTILINE)
-        def_cnt_re = lambda n: re.compile(rf'(?:function\s+{re.escape(n)}|(?:const|let|var)\s+{re.escape(n)}\s*=)', re.MULTILINE)  # noqa: E731
+        def_re = re.compile(
+            r"(?:^|\s)(?:function\s+(\w+)|(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s+)?\(|fn\s+(\w+))",
+            re.MULTILINE,
+        )
+        def_cnt_re = lambda n: re.compile(
+            rf"(?:function\s+{re.escape(n)}|(?:const|let|var)\s+{re.escape(n)}\s*=)", re.MULTILINE
+        )  # noqa: E731
 
     # Extract names — for multi-group patterns, take first non-None group
     def _names(text: str) -> set[str]:
         found: set[str] = set()
         for m in def_re.finditer(text):
-            name = next((g for g in m.groups() if g), None) if m.lastindex and m.lastindex > 1 else m.group(1)
+            name = (
+                next((g for g in m.groups() if g), None)
+                if m.lastindex and m.lastindex > 1
+                else m.group(1)
+            )
             if name:
                 found.add(name)
         return found
 
     orig_fns = _names(original)
-    mod_fns  = _names(modified)
-    new_fns  = mod_fns - orig_fns
+    mod_fns = _names(modified)
+    new_fns = mod_fns - orig_fns
 
     for fn_name in new_fns:
-        call_count = len(re.findall(rf'\b{re.escape(fn_name)}\s*[\(\.]', modified))
-        def_count  = len(def_cnt_re(fn_name).findall(modified))
+        call_count = len(re.findall(rf"\b{re.escape(fn_name)}\s*[\(\.]", modified))
+        def_count = len(def_cnt_re(fn_name).findall(modified))
         if call_count <= def_count:
             return (
                 f"Dead code detected: '{fn_name}' was defined but never called. "
@@ -1268,7 +1442,7 @@ def _apply_region_fix(original_lines: list[str], start: int, end: int, fixed_reg
         region_lines[-1] += "\n"
 
     orig_region = [l.rstrip("\n") for l in original_lines[start:end]]
-    new_region  = [l.rstrip("\n") for l in region_lines]
+    new_region = [l.rstrip("\n") for l in region_lines]
 
     # Check that unchanged lines (same content modulo leading whitespace) kept
     # their original indentation.  Build a stripped→original map from orig.
@@ -1302,7 +1476,7 @@ def generate_fix(
     source_override: str = "",
     cloak_mode: bool = False,
     semantic_key: str = "",
-    symbol_map: "dict[str, str] | None" = None,
+    symbol_map: dict[str, str] | None = None,
     hints: str = "",
     fail_tests: str = "",
     repo_language: str = "python",
@@ -1329,23 +1503,27 @@ def generate_fix(
     retry_ctx = ""
     if compiler_error:
         retry_ctx = (
-            f"\n\nAttempt #{attempt-1} FAILED with this error:\n{compiler_error[:600]}\n"
+            f"\n\nAttempt #{attempt - 1} FAILED with this error:\n{compiler_error[:600]}\n"
             f"Your SEARCH blocks must still match the CURRENT file exactly. "
             f"Fix the error above in your REPLACE block."
         )
 
-    _X_TOKEN_RE = re.compile(r'\bx_\d{4}\b')
+    _X_TOKEN_RE = re.compile(r"\bx_\d{4}\b")
     cloak_active = bool(source_override and _X_TOKEN_RE.search(source_override))
     cloak_notice = (
-        "\n\nCRITICAL: This code uses x_NNNN tokens as identifier placeholders. "
-        "Preserve every x_NNNN token exactly — do NOT rename or expand them."
-    ) if cloak_active else ""
+        (
+            "\n\nCRITICAL: This code uses x_NNNN tokens as identifier placeholders. "
+            "Preserve every x_NNNN token exactly — do NOT rename or expand them."
+        )
+        if cloak_active
+        else ""
+    )
 
     # Translate step description identifiers to x_NNNN tokens when Cloak is active
     builder_desc = step.get("description", "Fix the bug")
     if cloak_mode and symbol_map:
         for real_name, token in sorted(symbol_map.items(), key=lambda kv: -len(kv[0])):
-            builder_desc = re.sub(rf'\b{re.escape(real_name)}\b', token, builder_desc)
+            builder_desc = re.sub(rf"\b{re.escape(real_name)}\b", token, builder_desc)
 
     # Extract the relevant region for the prompt (keeps context tight under Cloak)
     region_context = 20 if cloak_mode else 40
@@ -1365,7 +1543,9 @@ def generate_fix(
     total = len(lines)
     key_section = f"\n\n{semantic_key}" if semantic_key else ""
     hints_section = f"\n\nHints:\n{hints}" if hints else ""
-    fail_section = f"\n\nFailing tests (your fix must make these pass):\n{fail_tests}" if fail_tests else ""
+    fail_section = (
+        f"\n\nFailing tests (your fix must make these pass):\n{fail_tests}" if fail_tests else ""
+    )
 
     # Pre-context: 8 lines before the edit window for indentation awareness
     pre_start = max(0, r_start - 8)
@@ -1383,11 +1563,11 @@ def generate_fix(
     # Under Cloak: anonymize the filename so the model can't recognize it from
     # training memory and hallucinate real identifier names into REPLACE blocks.
     if cloak_active:
-        _h = hashlib.md5(step['file'].encode()).hexdigest()[:8]
-        _ext = Path(step['file']).suffix
+        _h = hashlib.md5(step["file"].encode()).hexdigest()[:8]
+        _ext = Path(step["file"]).suffix
         display_file = f"module_{_h}{_ext}"
     else:
-        display_file = step['file']
+        display_file = step["file"]
 
     # ── SWE-bench repo-spec injection (corpus-driven empirical context) ─────
     # Prepend the per-repo behavioral spec when available. Withheld under Cloak
@@ -1396,6 +1576,7 @@ def generate_fix(
     if instance_id and not cloak_mode:
         try:
             from swebench_spec_lookup import inject_block_for as _swe_inject
+
             spec_block = _swe_inject(instance_id, max_spec_chars=12000)
             if spec_block:
                 spec_block = (
@@ -1414,7 +1595,7 @@ def generate_fix(
         f"Fix description: {builder_desc}\n\n"
         f"File: {display_file} ({total} lines total)\n\n"
         f"{pre_ctx_block}"
-        f"Edit window — lines {r_start+1}-{r_end} (these are the ONLY lines you may change):\n"
+        f"Edit window — lines {r_start + 1}-{r_end} (these are the ONLY lines you may change):\n"
         f"```{lang_fence}\n{numbered_region}\n```\n"
         f"HARD LIMIT: Each SEARCH block must be ≤30 lines. Copy 3-10 lines from the edit "
         f"window around the broken line. Do NOT put the whole file in SEARCH.\n"
@@ -1425,28 +1606,32 @@ def generate_fix(
     # Language-specific Builder reminders (most critical anti-patterns per language)
     _builder_rules: dict[str, str] = {
         "python": " Preserve `is None` / `is not None` semantics. Use exact exception types.",
-        "go":     " No naked returns from error paths. Every error must be checked (`if err != nil`).",
-        "rust":   " Propagate errors with `?`. No unnecessary `.unwrap()`. Respect borrow rules.",
-        "java":   " Use `.equals()` for String comparison. Null-check before dereference.",
+        "go": " No naked returns from error paths. Every error must be checked (`if err != nil`).",
+        "rust": " Propagate errors with `?`. No unnecessary `.unwrap()`. Respect borrow rules.",
+        "java": " Use `.equals()` for String comparison. Null-check before dereference.",
         "javascript": " Use `===`. Await async calls. Don't mutate shared arrays in place.",
         "typescript": " Narrow types before use. No `as any`. Await async calls.",
-        "ruby":   " Check `nil?` before method calls on optionals. Use `||` for default values.",
-        "php":    " Use `===`. `isset()` for key existence. `count()` not `sizeof()`.",
-        "c":      " Check pointer non-NULL before dereference. Free what you malloc.",
-        "cpp":    " Prefer RAII. Check iterator validity. No UB from signed overflow.",
+        "ruby": " Check `nil?` before method calls on optionals. Use `||` for default values.",
+        "php": " Use `===`. `isset()` for key existence. `count()` not `sizeof()`.",
+        "c": " Check pointer non-NULL before dereference. Free what you malloc.",
+        "cpp": " Prefer RAII. Check iterator validity. No UB from signed overflow.",
     }
     _builder_hint = _builder_rules.get(repo_language, "")
     _cloak_sys = (
-        " ABSOLUTE RULE: All identifiers in this codebase use x_NNNN encoding "
-        "(x_0001, x_0042, x_1234, etc.). These are FIXED SYMBOLS — the real variable names "
-        "encoded for transmission. You MUST copy every x_NNNN token character-for-character "
-        "into both SEARCH and REPLACE blocks. NEVER rename, expand, abbreviate, or guess "
-        "what they mean. CRITICAL: Do NOT use real identifier names from your training "
-        "memory — this file's identifiers look nothing like their real names. Every "
-        "identifier in your SEARCH and REPLACE blocks must appear VERBATIM in the edit "
-        "window shown above. ANY real identifier name or invented x_NNNN token causes "
-        "a FATAL CHECKSUM FAILURE and the entire patch is discarded."
-    ) if cloak_active else ""
+        (
+            " ABSOLUTE RULE: All identifiers in this codebase use x_NNNN encoding "
+            "(x_0001, x_0042, x_1234, etc.). These are FIXED SYMBOLS — the real variable names "
+            "encoded for transmission. You MUST copy every x_NNNN token character-for-character "
+            "into both SEARCH and REPLACE blocks. NEVER rename, expand, abbreviate, or guess "
+            "what they mean. CRITICAL: Do NOT use real identifier names from your training "
+            "memory — this file's identifiers look nothing like their real names. Every "
+            "identifier in your SEARCH and REPLACE blocks must appear VERBATIM in the edit "
+            "window shown above. ANY real identifier name or invented x_NNNN token causes "
+            "a FATAL CHECKSUM FAILURE and the entire patch is discarded."
+        )
+        if cloak_active
+        else ""
+    )
     system_msg = (
         f"You are a battle-hardened {lang_label} engineer who rose from grunt to "
         f"architect by knowing exactly how to unfuck broken code. You have seen every "
@@ -1459,9 +1644,11 @@ def generate_fix(
     # Track 2: three-mode latent RAG (ADAPT / HINT / GENERATE)
     latent_ctx, top_score = _latent_retrieve(issue_text)
     retrieve_mode = (
-        "adapt"    if top_score >= _ADAPT_THRESHOLD else
-        "hint"     if top_score >= _HINT_THRESHOLD  else
-        "generate"
+        "adapt"
+        if top_score >= _ADAPT_THRESHOLD
+        else "hint"
+        if top_score >= _HINT_THRESHOLD
+        else "generate"
     )
     log.info("[Latent RAG] mode=%s top_score=%.3f", retrieve_mode, top_score)
 
@@ -1471,7 +1658,7 @@ def generate_fix(
     # obfuscated source (which uses a different symbol map for the same identifiers).
     # Replace them with [ID] so the builder still gets structural guidance without
     # copying stale obfuscation artifacts.
-    _x_token_re = re.compile(r'\bx_\d{4}\b')
+    _x_token_re = re.compile(r"\bx_\d{4}\b")
     if cloak_mode and latent_ctx and _x_token_re.search(latent_ctx):
         latent_ctx = _x_token_re.sub("[ID]", latent_ctx)
         log.debug("[Latent RAG] stripped x_NNNN tokens from hint (cloak active)")
@@ -1491,7 +1678,8 @@ def generate_fix(
 
     task_vector = step.get("task_vector", "")
     raw = _infer(
-        BUILDER_MODEL, prompt,
+        BUILDER_MODEL,
+        prompt,
         system=system_msg,
         temperature=temperature + (attempt * 0.03),
         keep_alive=-1,
@@ -1505,7 +1693,9 @@ def generate_fix(
     # If the model produced no <<<SEARCH blocks at all, return sentinel so
     # _solve_one_path can give targeted feedback ("produce search/replace blocks")
     if "<<<" not in raw and "SEARCH" not in raw:
-        log.warning("[generate_fix] Model returned no search/replace blocks — raw[:200]: %r", raw[:200])
+        log.warning(
+            "[generate_fix] Model returned no search/replace blocks — raw[:200]: %r", raw[:200]
+        )
         return _NO_BLOCKS_SENTINEL
 
     log.debug("[generate_fix] Builder raw output (%d chars): %r...", len(raw), raw[:300])
@@ -1514,9 +1704,10 @@ def generate_fix(
 
 # ── Local Builder: real-code generation without x_NNNN obfuscation ────────────
 
+
 def _ask_architect_clarification(
     question: str,
-    cloak_ctx: "CloakContext",
+    cloak_ctx: CloakContext,
 ) -> str:
     """
     Bidirectional Cloak channel: local builder sends a question UP to the cloud
@@ -1552,12 +1743,14 @@ def _verify_clarify_against_file(answer: str, step: dict, wt_path: Path) -> str:
         file_content = full_path.read_text(encoding="utf-8", errors="ignore")
     except OSError:
         return answer
-    fragments = re.findall(r'`([^`\n]{10,})`', answer)
+    fragments = re.findall(r"`([^`\n]{10,})`", answer)
     missing = [f for f in fragments if f not in file_content]
     if missing:
         log.warning(
             "[LocalBuilder] CLARIFY answer has %d snippet(s) not in %s: %s",
-            len(missing), target_file, [m[:60] for m in missing[:2]],
+            len(missing),
+            target_file,
+            [m[:60] for m in missing[:2]],
         )
         answer += (
             f"\n\nIMPORTANT: The code the Architect described "
@@ -1628,7 +1821,7 @@ def generate_fix_local(
     retry_ctx = ""
     if compiler_error:
         retry_ctx = (
-            f"\n\nAttempt #{attempt-1} FAILED:\n{compiler_error[:600]}\n"
+            f"\n\nAttempt #{attempt - 1} FAILED:\n{compiler_error[:600]}\n"
             f"Your SEARCH blocks must match the CURRENT file exactly. Fix the error above."
         )
 
@@ -1638,20 +1831,22 @@ def generate_fix_local(
     if pre_lines:
         plain_pre = "\n".join(pre_lines)
         pre_ctx_block = (
-            f"Context before edit window (READ-ONLY — lines {pre_start+1}-{r_start}):\n"
+            f"Context before edit window (READ-ONLY — lines {pre_start + 1}-{r_start}):\n"
             f"```{lang_fence}\n{plain_pre}\n```\n\n"
         )
 
     hints_section = f"\n\nHints:\n{hints}" if hints else ""
-    fail_section = f"\n\nFailing tests (must pass after your fix):\n{fail_tests}" if fail_tests else ""
+    fail_section = (
+        f"\n\nFailing tests (must pass after your fix):\n{fail_tests}" if fail_tests else ""
+    )
 
     prompt = (
         f"Fix this {lang_label} file to resolve the GitHub issue.\n\n"
         f"Issue:\n{issue_text[:1500]}\n\n"
         f"Fix: {real_description}\n\n"
-        f"File: {step['file']} (lines {r_start+1}-{r_end} shown, {total} total)\n\n"
+        f"File: {step['file']} (lines {r_start + 1}-{r_end} shown, {total} total)\n\n"
         f"{pre_ctx_block}"
-        f"EDIT WINDOW — copy SEARCH blocks verbatim from this code (lines {r_start+1}-{r_end}), no line-number prefixes:\n"
+        f"EDIT WINDOW — copy SEARCH blocks verbatim from this code (lines {r_start + 1}-{r_end}), no line-number prefixes:\n"
         f"```{lang_fence}\n{plain_region}\n```\n\n"
         f"Location reference (do NOT include these line numbers in SEARCH blocks):\n"
         f"```\n{numbered_region}\n```\n"
@@ -1660,24 +1855,24 @@ def generate_fix_local(
     )
 
     _builder_rules: dict[str, str] = {
-        "python":     " Preserve `is None`/`is not None` semantics. Use exact exception types.",
-        "go":         " No naked returns from error paths. Every error must be checked.",
-        "rust":       " Propagate errors with `?`. No unnecessary `.unwrap()`. Respect borrow rules.",
-        "java":       " Use `.equals()` for String comparison. Null-check before dereference.",
+        "python": " Preserve `is None`/`is not None` semantics. Use exact exception types.",
+        "go": " No naked returns from error paths. Every error must be checked.",
+        "rust": " Propagate errors with `?`. No unnecessary `.unwrap()`. Respect borrow rules.",
+        "java": " Use `.equals()` for String comparison. Null-check before dereference.",
         "javascript": " Use `===`. Await async calls. Don't mutate shared arrays in place.",
         "typescript": " Narrow types before use. No `as any`. Await async calls.",
-        "ruby":       " Check `nil?` before method calls on optionals.",
-        "php":        " Use `===`. `isset()` for key existence.",
-        "c":          " Check pointer non-NULL before dereference. Free what you malloc.",
-        "cpp":        " Prefer RAII. Check iterator validity.",
+        "ruby": " Check `nil?` before method calls on optionals.",
+        "php": " Use `===`. `isset()` for key existence.",
+        "c": " Check pointer non-NULL before dereference. Free what you malloc.",
+        "cpp": " Prefer RAII. Check iterator validity.",
     }
     _builder_hint = _builder_rules.get(repo_language, "")
 
     clarify_rule = (
         "If the plan refers to something you cannot locate in the file shown, respond with: "
         "<<<CLARIFY\n[your specific question about the plan]\n>>> instead of a patch."
-        if allow_clarify else
-        "You MUST output SEARCH/REPLACE blocks. Do NOT output <<<CLARIFY>>> under any circumstances."
+        if allow_clarify
+        else "You MUST output SEARCH/REPLACE blocks. Do NOT output <<<CLARIFY>>> under any circumstances."
     )
     system_msg = (
         f"You are a battle-hardened {lang_label} engineer. "
@@ -1690,9 +1885,11 @@ def generate_fix_local(
     # Latent RAG — same as cloud path
     latent_ctx, top_score = _latent_retrieve(issue_text)
     retrieve_mode = (
-        "adapt"    if top_score >= _ADAPT_THRESHOLD else
-        "hint"     if top_score >= _HINT_THRESHOLD  else
-        "generate"
+        "adapt"
+        if top_score >= _ADAPT_THRESHOLD
+        else "hint"
+        if top_score >= _HINT_THRESHOLD
+        else "generate"
     )
     log.info("[LocalBuilder] Latent RAG mode=%s top_score=%.3f", retrieve_mode, top_score)
 
@@ -1710,7 +1907,8 @@ def generate_fix_local(
         ) + prompt
 
     raw = _ollama(
-        LOCAL_BUILDER_MODEL, prompt,
+        LOCAL_BUILDER_MODEL,
+        prompt,
         system=system_msg,
         temperature=temperature + (attempt * 0.03),
         keep_alive=-1,
@@ -1727,6 +1925,7 @@ def generate_fix_local(
 
 
 # ── Step 4a: Targeted Tests ───────────────────────────────────────────────────
+
 
 def _format_test_output(stdout: str, stderr: str) -> str:
     raw = (stdout + "\n" + stderr).splitlines()
@@ -1752,19 +1951,23 @@ def run_tests(repo_path: Path, target_file: Path) -> tuple[bool, str]:
     env = {**os.environ, "PYTHONWARNINGS": "ignore"}
     stem = target_file.stem
     candidates = (
-        list(repo_path.rglob(f"test_{stem}.py")) +
-        list(repo_path.rglob(f"test*{stem}*.py")) +
-        list(repo_path.rglob(f"*{stem}*test*.py"))
+        list(repo_path.rglob(f"test_{stem}.py"))
+        + list(repo_path.rglob(f"test*{stem}*.py"))
+        + list(repo_path.rglob(f"*{stem}*test*.py"))
     )
     test_args = [str(t) for t in candidates[:3]] if candidates else [str(repo_path)]
 
     try:
         result = subprocess.run(
-            [sys.executable, "-m", "pytest"] + test_args +
-            ["-x", "--tb=short", "-q", "--no-header"] + _pytest_timeout_flag(),
-            capture_output=True, text=True,
+            [sys.executable, "-m", "pytest"]
+            + test_args
+            + ["-x", "--tb=short", "-q", "--no-header"]
+            + _pytest_timeout_flag(),
+            capture_output=True,
+            text=True,
             timeout=TEST_TIMEOUT + 30,
-            cwd=repo_path, env=env,
+            cwd=repo_path,
+            env=env,
         )
         return result.returncode == 0, _format_test_output(result.stdout, result.stderr)
     except subprocess.TimeoutExpired:
@@ -1773,7 +1976,10 @@ def run_tests(repo_path: Path, target_file: Path) -> tuple[bool, str]:
         try:
             r = subprocess.run(
                 [sys.executable, "-m", "py_compile", str(target_file)],
-                capture_output=True, text=True, timeout=10, env=env,
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
             )
             return r.returncode == 0, _format_test_output(r.stdout, r.stderr)
         except Exception as e:
@@ -1781,6 +1987,7 @@ def run_tests(repo_path: Path, target_file: Path) -> tuple[bool, str]:
 
 
 # ── Step 4b: Phase 3 — Ripple Regression Sweep ───────────────────────────────
+
 
 def run_regression_sweep(repo_path: Path, target_file: Path) -> tuple[bool, str]:
     """
@@ -1796,9 +2003,7 @@ def run_regression_sweep(repo_path: Path, target_file: Path) -> tuple[bool, str]
         if parent == repo_path or not parent.is_relative_to(repo_path):
             break
         test_dirs = (
-            list(parent.glob("tests")) +
-            list(parent.glob("test")) +
-            list(parent.glob("test_*"))
+            list(parent.glob("tests")) + list(parent.glob("test")) + list(parent.glob("test_*"))
         )
         if test_dirs:
             sweep_dir = test_dirs[0]
@@ -1807,12 +2012,22 @@ def run_regression_sweep(repo_path: Path, target_file: Path) -> tuple[bool, str]
     log.info("Regression sweep dir: %s", sweep_dir.relative_to(repo_path))
     try:
         result = subprocess.run(
-            [sys.executable, "-m", "pytest", str(sweep_dir),
-             "--tb=line", "-q", "--no-header", "--ignore=.git"] +
-            _pytest_timeout_flag(),
-            capture_output=True, text=True,
+            [
+                sys.executable,
+                "-m",
+                "pytest",
+                str(sweep_dir),
+                "--tb=line",
+                "-q",
+                "--no-header",
+                "--ignore=.git",
+            ]
+            + _pytest_timeout_flag(),
+            capture_output=True,
+            text=True,
             timeout=TEST_TIMEOUT * 4,
-            cwd=repo_path, env=env,
+            cwd=repo_path,
+            env=env,
         )
         passed = result.returncode == 0
         output = _format_test_output(result.stdout, result.stderr)
@@ -1828,6 +2043,7 @@ def run_regression_sweep(repo_path: Path, target_file: Path) -> tuple[bool, str]
 
 # ── Step 5: Export patch / repo utils ────────────────────────────────────────
 
+
 def make_targeted_patch(step_file: str, original: str, fixed: str) -> str:
     """
     Build a clean unified diff from original→fixed content using difflib.
@@ -1840,13 +2056,16 @@ def make_targeted_patch(step_file: str, original: str, fixed: str) -> str:
     These criteria let large files produce large diffs for legitimate targeted fixes.
     """
     import difflib
+
     rel = Path(step_file).as_posix()
-    diff_lines = list(difflib.unified_diff(
-        original.splitlines(keepends=True),
-        fixed.splitlines(keepends=True),
-        fromfile=f"a/{rel}",
-        tofile=f"b/{rel}",
-    ))
+    diff_lines = list(
+        difflib.unified_diff(
+            original.splitlines(keepends=True),
+            fixed.splitlines(keepends=True),
+            fromfile=f"a/{rel}",
+            tofile=f"b/{rel}",
+        )
+    )
     if not diff_lines:
         return ""
     patch = f"diff --git a/{rel} b/{rel}\n" + "".join(diff_lines)
@@ -1862,8 +2081,6 @@ def make_targeted_patch(step_file: str, original: str, fixed: str) -> str:
     return patch
 
 
-
-
 def install_repo_editable(repo_path: Path) -> None:
     """
     Run `pip install -e .` on the cloned repo so the package is importable
@@ -1871,10 +2088,7 @@ def install_repo_editable(repo_path: Path) -> None:
     their own test suite if not installed — even when the source is present.
     Runs silently; failures are logged as warnings, never fatal.
     """
-    has_setup = any(
-        (repo_path / f).exists()
-        for f in ("setup.py", "setup.cfg", "pyproject.toml")
-    )
+    has_setup = any((repo_path / f).exists() for f in ("setup.py", "setup.cfg", "pyproject.toml"))
     if not has_setup:
         return
     log.info("Installing repo in editable mode (pip install -e .)...")
@@ -1883,18 +2097,25 @@ def install_repo_editable(repo_path: Path) -> None:
         # Fall back to --no-deps if extras are undefined or fail.
         r = subprocess.run(
             [sys.executable, "-m", "pip", "install", "-e", ".[test]", "--quiet"],
-            cwd=repo_path, capture_output=True, text=True, timeout=240,
+            cwd=repo_path,
+            capture_output=True,
+            text=True,
+            timeout=240,
         )
         if r.returncode != 0:
             r = subprocess.run(
                 [sys.executable, "-m", "pip", "install", "-e", ".", "--quiet"],
-                cwd=repo_path, capture_output=True, text=True, timeout=120,
+                cwd=repo_path,
+                capture_output=True,
+                text=True,
+                timeout=120,
             )
         if r.returncode == 0:
             log.info("Repo installed OK")
         else:
-            log.warning("pip install -e . returned %d — continuing anyway\n%s",
-                        r.returncode, r.stderr[:400])
+            log.warning(
+                "pip install -e . returned %d — continuing anyway\n%s", r.returncode, r.stderr[:400]
+            )
     except Exception as e:
         log.warning("Repo install skipped: %s", e)
 
@@ -1903,7 +2124,9 @@ def reset_repo(repo_path: Path) -> None:
     try:
         subprocess.run(
             ["git", "checkout", "--", "."],
-            cwd=repo_path, capture_output=True, timeout=15,
+            cwd=repo_path,
+            capture_output=True,
+            timeout=15,
         )
     except Exception:
         pass
@@ -1911,21 +2134,28 @@ def reset_repo(repo_path: Path) -> None:
 
 # ── Worktree management ───────────────────────────────────────────────────────
 
-def _create_worktree(repo_path: Path, label: str) -> Optional[Path]:
+
+def _create_worktree(repo_path: Path, label: str) -> Path | None:
     """Create an isolated git worktree for one execution path."""
     wt_path = repo_path.parent / f"determinex_wt_{label}"
     try:
         subprocess.run(
             ["git", "worktree", "add", "--force", str(wt_path), "HEAD"],
-            cwd=repo_path, capture_output=True, timeout=30, check=True,
+            cwd=repo_path,
+            capture_output=True,
+            timeout=30,
+            check=True,
         )
         return wt_path
     except Exception as e:
         log.warning("Worktree creation failed (%s): %s — using copy fallback", label, e)
         # Fallback: simple directory copy if git worktree not available
         try:
-            shutil.copytree(str(repo_path), str(wt_path),
-                            ignore=shutil.ignore_patterns(".git", "*.pyc", "__pycache__"))
+            shutil.copytree(
+                str(repo_path),
+                str(wt_path),
+                ignore=shutil.ignore_patterns(".git", "*.pyc", "__pycache__"),
+            )
             # Copy .git reference so git diff works
             git_dir = repo_path / ".git"
             if git_dir.exists():
@@ -1941,7 +2171,9 @@ def _remove_worktree(repo_path: Path, wt_path: Path) -> None:
     try:
         subprocess.run(
             ["git", "worktree", "remove", "--force", str(wt_path)],
-            cwd=repo_path, capture_output=True, timeout=15,
+            cwd=repo_path,
+            capture_output=True,
+            timeout=15,
         )
     except Exception:
         pass
@@ -1954,6 +2186,7 @@ def _remove_worktree(repo_path: Path, wt_path: Path) -> None:
 
 # ── Single-path solve (one worktree, one temperature) ────────────────────────
 
+
 def _is_meaningful_test_failure(test_out: str) -> bool:
     """True when a test failure contains actionable signal (not just import errors)."""
     if not test_out:
@@ -1965,7 +2198,9 @@ def _is_meaningful_test_failure(test_out: str) -> bool:
 def _run_fail_to_pass_tests(wt_path: Path, fail_tests_json: str) -> tuple[bool, str]:
     """Run the FAIL_TO_PASS test list. Returns (all_pass, output)."""
     try:
-        test_ids = json.loads(fail_tests_json) if fail_tests_json.startswith("[") else [fail_tests_json]
+        test_ids = (
+            json.loads(fail_tests_json) if fail_tests_json.startswith("[") else [fail_tests_json]
+        )
     except Exception:
         test_ids = [fail_tests_json]
     if not test_ids:
@@ -1976,10 +2211,15 @@ def _run_fail_to_pass_tests(wt_path: Path, fail_tests_json: str) -> tuple[bool, 
     env = {**os.environ, "PYTHONWARNINGS": "ignore"}
     try:
         r = subprocess.run(
-            [sys.executable, "-m", "pytest"] + test_args +
-            ["-x", "--tb=short", "-q", "--no-header"] + _pytest_timeout_flag(),
-            capture_output=True, text=True, timeout=TEST_TIMEOUT + 30,
-            cwd=wt_path, env=env,
+            [sys.executable, "-m", "pytest"]
+            + test_args
+            + ["-x", "--tb=short", "-q", "--no-header"]
+            + _pytest_timeout_flag(),
+            capture_output=True,
+            text=True,
+            timeout=TEST_TIMEOUT + 30,
+            cwd=wt_path,
+            env=env,
         )
         return r.returncode == 0, _format_test_output(r.stdout, r.stderr)
     except Exception as e:
@@ -1995,13 +2235,13 @@ def _solve_one_path(
     path_id: int,
     enable_regression: bool = True,
     shadow_trace: str = "",
-    cloak_ctx: "Optional[CloakContext]" = None,
+    cloak_ctx: CloakContext | None = None,
     semantic_key: str = "",
     repo_language: str = "python",
     fail_tests: str = "",
-    feedback: "Optional[dict]" = None,
+    feedback: dict | None = None,
     instance_id: str = "",
-) -> Optional[str]:
+) -> str | None:
     """
     Run the build→test→regression loop on an isolated worktree.
     Returns unified diff string on success, None on failure or cancellation.
@@ -2017,8 +2257,9 @@ def _solve_one_path(
 
         step_file = step.get("file", "")
         if "path/to" in step_file or step_file.startswith("path/"):
-            log.debug("[Path %d] Architect returned template path '%s' — skipping",
-                      path_id, step_file)
+            log.debug(
+                "[Path %d] Architect returned template path '%s' — skipping", path_id, step_file
+            )
             return None
 
         target = wt_path / step_file
@@ -2029,10 +2270,15 @@ def _solve_one_path(
         try:
             _assert_in_workspace(target, wt_path)
         except ValueError as _esc:
-            log.error("[SEC] Workspace escape blocked for step_file=%r wt=%s: %s", step_file, wt_path, _esc)
+            log.error(
+                "[SEC] Workspace escape blocked for step_file=%r wt=%s: %s",
+                step_file,
+                wt_path,
+                _esc,
+            )
             continue
 
-        with open(target, "r", encoding="utf-8", newline="\n") as f:
+        with open(target, encoding="utf-8", newline="\n") as f:
             original = f.read()
 
         # Pre-obfuscate this file once for all Builder attempts.
@@ -2046,7 +2292,9 @@ def _solve_one_path(
             except CloakObfuscationError as _coe:
                 log.error(
                     "[Cloak FAIL-CLOSED] step %s file=%s — refusing to send plaintext to API: %s",
-                    step.get("step", "?"), step_file, _coe,
+                    step.get("step", "?"),
+                    step_file,
+                    _coe,
                 )
                 # Best-effort audit-log the failure so verify_cloak runs flag it.
                 try:
@@ -2070,14 +2318,15 @@ def _solve_one_path(
         _local_clarify_ctx = ""
         if USE_LOCAL_BUILDER and cloak_ctx:
             _local_real_desc = cloak_ctx.restore_content(step.get("description", ""))  # type: ignore[union-attr]
-            _hallucinated = re.findall(r'\bx_\d{4}\b', _local_real_desc)
+            _hallucinated = re.findall(r"\bx_\d{4}\b", _local_real_desc)
             if _hallucinated:
                 log.warning(
                     "[LocalBuilder] Architect hallucinated %d token(s) not in symbol map: %s — replacing with [UNKNOWN]",
-                    len(_hallucinated), _hallucinated[:5],
+                    len(_hallucinated),
+                    _hallucinated[:5],
                 )
                 # Replace hallucinated tokens so builder doesn't treat them as real identifiers
-                _local_real_desc = re.sub(r'\bx_\d{4}\b', '[UNKNOWN-IDENTIFIER]', _local_real_desc)
+                _local_real_desc = re.sub(r"\bx_\d{4}\b", "[UNKNOWN-IDENTIFIER]", _local_real_desc)
 
         last_error = ""
         _too_large_count = 0
@@ -2087,24 +2336,41 @@ def _solve_one_path(
             if stop_event.is_set():
                 return None
 
-            log.info("[Path %d T=%.1f] Step %s attempt %d/%d",
-                     path_id, temperature, step.get("step", 1), attempt, MAX_RETRIES)
+            log.info(
+                "[Path %d T=%.1f] Step %s attempt %d/%d",
+                path_id,
+                temperature,
+                step.get("step", 1),
+                attempt,
+                MAX_RETRIES,
+            )
 
             if USE_LOCAL_BUILDER and cloak_ctx:
                 # Local builder works in real-identifier space — restore issue text
                 # from x_NNNN tokens back to real names before passing to builder.
                 _local_issue_text = cloak_ctx.restore_content(issue_text)  # type: ignore[union-attr]
                 model_out = generate_fix_local(
-                    step, _local_issue_text, wt_path, _local_real_desc,
-                    compiler_error=last_error, attempt=attempt,
-                    temperature=temperature, shadow_trace=shadow_trace,
+                    step,
+                    _local_issue_text,
+                    wt_path,
+                    _local_real_desc,
+                    compiler_error=last_error,
+                    attempt=attempt,
+                    temperature=temperature,
+                    shadow_trace=shadow_trace,
                     hints=_local_clarify_ctx,
-                    fail_tests=fail_tests, repo_language=repo_language,
+                    fail_tests=fail_tests,
+                    repo_language=repo_language,
                     allow_clarify=not bool(_local_clarify_ctx),
                 )
             else:
                 model_out = generate_fix(
-                    step, issue_text, wt_path, last_error, attempt, temperature,
+                    step,
+                    issue_text,
+                    wt_path,
+                    last_error,
+                    attempt,
+                    temperature,
                     shadow_trace=shadow_trace,
                     source_override=obfuscated_source,
                     cloak_mode=bool(cloak_ctx),
@@ -2138,7 +2404,7 @@ def _solve_one_path(
             # Guard: only allow one clarification round per step — if the model
             # already got an answer and is CLARIFY-ing again, force a patch attempt.
             if USE_LOCAL_BUILDER and cloak_ctx and model_out and "CLARIFY" in model_out:
-                _cm = re.search(r'<<<CLARIFY\n(.*?)\n>>>', model_out, re.DOTALL)
+                _cm = re.search(r"<<<CLARIFY\n(.*?)\n>>>", model_out, re.DOTALL)
                 if _cm and not _local_clarify_ctx:
                     _question = _cm.group(1).strip()
                     _local_clarify_ctx = _ask_architect_clarification(_question, cloak_ctx)
@@ -2164,7 +2430,8 @@ def _solve_one_path(
             # Skip for local builder — it works with real identifiers throughout.
             if cloak_ctx and obfuscated_source and not USE_LOCAL_BUILDER:
                 model_out = _normalize_to_cloak_tokens(
-                    model_out, cloak_ctx.symbol_map.forward  # type: ignore[union-attr]
+                    model_out,
+                    cloak_ctx.symbol_map.forward,  # type: ignore[union-attr]
                 )
 
             # ── Parse search/replace blocks ───────────────────────────────────
@@ -2173,7 +2440,9 @@ def _solve_one_path(
                 log.warning(
                     "[_solve_one_path] _parse_search_replace_blocks returned [] "
                     "(attempt %d) — raw output (%d chars): %r...",
-                    attempt, len(model_out), model_out[:400],
+                    attempt,
+                    len(model_out),
+                    model_out[:400],
                 )
                 last_error = (
                     "Could not parse any valid <<<SEARCH...>>>REPLACE blocks from your output. "
@@ -2190,23 +2459,33 @@ def _solve_one_path(
             # Detect this early — before deobfuscation — so we can inject surgical feedback.
             _max_search_lines = 80  # edit window is 40 lines; Builder may add pre-context
             _block_sizes = [(len(s.splitlines()), len(r.splitlines())) for s, r in blocks]
-            log.info("[Path %d] blocks=%d sizes=%s search[0]=%r",
-                     path_id, len(blocks),
-                     [(ss, rs) for ss, rs in _block_sizes],
-                     blocks[0][0][:120] if blocks else "")
-            _oversized_blocks = [(i, ss, rs) for i, (ss, rs) in enumerate(_block_sizes)
-                                 if ss > _max_search_lines or rs > _max_search_lines]
+            log.info(
+                "[Path %d] blocks=%d sizes=%s search[0]=%r",
+                path_id,
+                len(blocks),
+                [(ss, rs) for ss, rs in _block_sizes],
+                blocks[0][0][:120] if blocks else "",
+            )
+            _oversized_blocks = [
+                (i, ss, rs)
+                for i, (ss, rs) in enumerate(_block_sizes)
+                if ss > _max_search_lines or rs > _max_search_lines
+            ]
             if _oversized_blocks:
                 worst_i, worst_s, worst_r = max(_oversized_blocks, key=lambda x: max(x[1], x[2]))
                 log.warning(
                     "[Path %d] Block %d is oversized: SEARCH=%d lines, REPLACE=%d lines "
                     "(max %d) — whole-file rewrite guard triggered",
-                    path_id, worst_i, worst_s, worst_r, _max_search_lines,
+                    path_id,
+                    worst_i,
+                    worst_s,
+                    worst_r,
+                    _max_search_lines,
                 )
                 _too_large_count += 1
                 _too_large_lines = max(worst_s, worst_r)
                 last_error = (
-                    f"Your SEARCH block #{worst_i+1} is {worst_s} lines "
+                    f"Your SEARCH block #{worst_i + 1} is {worst_s} lines "
                     f"and REPLACE is {worst_r} lines — this is a WHOLE-FILE REWRITE. "
                     f"REJECTED. You must make a SURGICAL change: find the SINGLE broken "
                     f"statement and write a SEARCH block of 3-15 lines around it. "
@@ -2227,7 +2506,7 @@ def _solve_one_path(
             # appear in NO file in the codebase symbol map).
             # Skip for local builder — it works with real identifiers, no x_NNNN.
             if cloak_ctx and obfuscated_source and not USE_LOCAL_BUILDER:
-                _xt = re.compile(r'\bx_\d{4}\b')
+                _xt = re.compile(r"\bx_\d{4}\b")
                 # Valid = any token in the codebase symbol map (all files)
                 _src_toks = set(_xt.findall(obfuscated_source))
                 try:
@@ -2242,7 +2521,9 @@ def _solve_one_path(
                     examples = ", ".join(sorted(_invented)[:4])
                     log.warning(
                         "[Path %d] Checksum: SEARCH blocks contain %d hallucinated tokens (%s...) — retry",
-                        path_id, len(_invented), examples,
+                        path_id,
+                        len(_invented),
+                        examples,
                     )
                     last_error = (
                         f"CRITICAL TOKEN VIOLATION: Your SEARCH blocks contain {len(_invented)} "
@@ -2261,7 +2542,7 @@ def _solve_one_path(
                     _real_names = set(cloak_ctx.symbol_map.forward.keys())  # type: ignore[union-attr]
                     _private_real = {n for n in _real_names if n.startswith("_")}
                     _replace_toks: set[str] = set()
-                    _word_re = re.compile(r'\b([A-Za-z_]\w*)\b')
+                    _word_re = re.compile(r"\b([A-Za-z_]\w*)\b")
                     for _, _r in blocks:
                         _replace_toks.update(_word_re.findall(_r))
                     _leaked = _replace_toks & _private_real
@@ -2269,7 +2550,9 @@ def _solve_one_path(
                         examples_r = ", ".join(sorted(_leaked)[:4])
                         log.warning(
                             "[Path %d] REPLACE leak: %d real identifiers in REPLACE blocks (%s) — retry",
-                            path_id, len(_leaked), examples_r,
+                            path_id,
+                            len(_leaked),
+                            examples_r,
                         )
                         last_error = (
                             f"CRITICAL: Your REPLACE blocks contain {len(_leaked)} real identifier "
@@ -2284,14 +2567,16 @@ def _solve_one_path(
             # ── Apply blocks to (obfuscated or real) source ───────────────────
             # Local builder works with real source directly; no obfuscation needed.
             source_to_patch = (
-                original if (USE_LOCAL_BUILDER and cloak_ctx)
+                original
+                if (USE_LOCAL_BUILDER and cloak_ctx)
                 else (obfuscated_source if cloak_ctx else original)
             )
             fixed_obf, failed = _apply_search_replace_blocks(source_to_patch, blocks)
 
             if failed:
-                log.warning("[Path %d] %d block(s) failed to match: %s",
-                            path_id, len(failed), failed[:3])
+                log.warning(
+                    "[Path %d] %d block(s) failed to match: %s", path_id, len(failed), failed[:3]
+                )
                 # For local builder: find the actual code at the anchor so the model
                 # can copy it correctly on the next attempt instead of hallucinating.
                 actual_snippet = ""
@@ -2315,11 +2600,11 @@ def _solve_one_path(
                                 and fb_norm.split("(")[0].rstrip() == anchor_base_fb
                             )
                             if exact_hit or paren_hit:
-                                snippet_lines = src_lines_fb[fb_i: fb_i + 20]
+                                snippet_lines = src_lines_fb[fb_i : fb_i + 20]
                                 actual_snippet = (
-                                    f"\n\nThe ACTUAL code in the file starting at that location is:\n"
-                                    f"```\n" + "\n".join(snippet_lines) + "\n```\n"
-                                    f"Copy SEARCH from the above — do NOT generate from memory."
+                                    "\n\nThe ACTUAL code in the file starting at that location is:\n"
+                                    "```\n" + "\n".join(snippet_lines) + "\n```\n"
+                                    "Copy SEARCH from the above — do NOT generate from memory."
                                 )
                                 break
                 last_error = (
@@ -2343,14 +2628,22 @@ def _solve_one_path(
                 _orig_lc = len(original.splitlines())
                 _obf_lc = len(fixed_obf.splitlines())
                 _fix_lc = len(fixed.splitlines())
-                log.info("[Path %d] restore lines: original=%d obf_applied=%d fixed=%d",
-                         path_id, _orig_lc, _obf_lc, _fix_lc)
+                log.info(
+                    "[Path %d] restore lines: original=%d obf_applied=%d fixed=%d",
+                    path_id,
+                    _orig_lc,
+                    _obf_lc,
+                    _fix_lc,
+                )
             else:
                 fixed = fixed_obf
 
             if fixed == original:
-                log.warning("[Path %d] No-change patch — REPLACE identical to source or no "
-                            "SEARCH/REPLACE blocks in response", path_id)
+                log.warning(
+                    "[Path %d] No-change patch — REPLACE identical to source or no "
+                    "SEARCH/REPLACE blocks in response",
+                    path_id,
+                )
                 last_error = (
                     "Your fix produced no changes to the file. "
                     "The SEARCH block matched but REPLACE was identical. "
@@ -2368,8 +2661,9 @@ def _solve_one_path(
             # ── Syntax/compile check ──────────────────────────────────────────
             syntax_err = _check_fixed_syntax(target, fixed, repo_language)
             if syntax_err:
-                log.warning("[Path %d] Compile check failed — retrying: %s",
-                            path_id, syntax_err[:120])
+                log.warning(
+                    "[Path %d] Compile check failed — retrying: %s", path_id, syntax_err[:120]
+                )
                 last_error = f"Your fix has a compile/syntax error:\n{syntax_err}"
                 continue
 
@@ -2387,11 +2681,16 @@ def _solve_one_path(
                     continue
                 diff_line_count = patch.count("\n")
                 _patch_preview = "\n".join(patch.splitlines()[:8])
-                log.info("[Path %d] patch preview (%d \\n chars):\n%s",
-                         path_id, diff_line_count, _patch_preview)
+                log.info(
+                    "[Path %d] patch preview (%d \\n chars):\n%s",
+                    path_id,
+                    diff_line_count,
+                    _patch_preview,
+                )
                 if diff_line_count > 500:
-                    log.warning("[Path %d] Patch too large (%d lines) — retrying",
-                                path_id, diff_line_count)
+                    log.warning(
+                        "[Path %d] Patch too large (%d lines) — retrying", path_id, diff_line_count
+                    )
                     _too_large_count += 1
                     _too_large_lines = diff_line_count
                     last_error = (
@@ -2404,26 +2703,40 @@ def _solve_one_path(
                     continue
                 # Show the patch so humans can verify it looks correct
                 patch_preview = "\n".join(patch.splitlines()[:40])
-                log.info("[Path %d] PATCH PREVIEW (%d lines):\n%s",
-                         path_id, diff_line_count, patch_preview)
+                log.info(
+                    "[Path %d] PATCH PREVIEW (%d lines):\n%s",
+                    path_id,
+                    diff_line_count,
+                    patch_preview,
+                )
 
                 # Optionally run FAIL_TO_PASS tests as a quality gate
                 if fail_tests and attempt < MAX_RETRIES:
                     log.info("[Path %d] Running FAIL_TO_PASS tests...", path_id)
                     tests_ok, test_out = _run_fail_to_pass_tests(wt_path, fail_tests)
                     if tests_ok:
-                        log.info("[Path %d T=%.1f] FAIL_TO_PASS tests PASS — accepting patch",
-                                 path_id, temperature)
+                        log.info(
+                            "[Path %d T=%.1f] FAIL_TO_PASS tests PASS — accepting patch",
+                            path_id,
+                            temperature,
+                        )
                         return patch
                     if _is_meaningful_test_failure(test_out):
-                        log.info("[Path %d] FAIL_TO_PASS FAIL — test output:\n%s",
-                                 path_id, test_out[:400])
+                        log.info(
+                            "[Path %d] FAIL_TO_PASS FAIL — test output:\n%s",
+                            path_id,
+                            test_out[:400],
+                        )
                         last_error = f"Failing tests still fail after your fix:\n{test_out[:600]}"
                         with open(target, "w", encoding="utf-8", newline="\n") as f:
                             f.write(original)
                         continue
-                log.info("[Path %d T=%.1f] Patch accepted (%d diff lines, Docker will verify)",
-                         path_id, temperature, diff_line_count)
+                log.info(
+                    "[Path %d T=%.1f] Patch accepted (%d diff lines, Docker will verify)",
+                    path_id,
+                    temperature,
+                    diff_line_count,
+                )
                 return patch
 
             # Native test mode
@@ -2447,8 +2760,7 @@ def _solve_one_path(
 
             patch = make_targeted_patch(step_file, original, fixed)
             if patch:
-                log.info("[Path %d T=%.1f] SUCCESS on attempt %d",
-                         path_id, temperature, attempt)
+                log.info("[Path %d T=%.1f] SUCCESS on attempt %d", path_id, temperature, attempt)
                 return patch
 
         # Step exhausted — restore original
@@ -2470,7 +2782,8 @@ def _solve_one_path(
 
 # ── Compile gate helpers ──────────────────────────────────────────────────────
 
-def _normalize_to_cloak_tokens(text: str, forward_map: "dict[str, str]") -> str:
+
+def _normalize_to_cloak_tokens(text: str, forward_map: dict[str, str]) -> str:
     """
     Substitute real identifier names back to x_NNNN tokens in Builder output.
 
@@ -2491,7 +2804,7 @@ def _normalize_to_cloak_tokens(text: str, forward_map: "dict[str, str]") -> str:
             continue
         if real_name not in result:
             continue
-        result = re.sub(rf'\b{re.escape(real_name)}\b', token, result)
+        result = re.sub(rf"\b{re.escape(real_name)}\b", token, result)
     return result
 
 
@@ -2503,13 +2816,14 @@ def _collect_all_errors(stdout: str, stderr: str, max_chars: int = 3000) -> str:
     raw = (stdout + "\n" + stderr).strip()
     if not raw:
         return ""
-    cleaned = re.sub(r'\n{3,}', '\n\n', raw)
+    cleaned = re.sub(r"\n{3,}", "\n\n", raw)
     if len(cleaned) > max_chars:
         cleaned = cleaned[:max_chars] + "\n...[truncated]"
     return cleaned
 
 
 # ── Main Agent ────────────────────────────────────────────────────────────────
+
 
 class DeterminexSWEAgent:
     """
@@ -2528,7 +2842,7 @@ class DeterminexSWEAgent:
     def solve(
         self,
         instance: dict,
-        repo_path: Optional[Path] = None,
+        repo_path: Path | None = None,
         enable_regression: bool = True,
     ) -> str:
         issue_text: str = instance.get("problem_statement", instance.get("issue_text", "")) or ""
@@ -2549,7 +2863,9 @@ class DeterminexSWEAgent:
         reset_repo(repo_path)
 
         # Detect repo language first — shadow compile and Cloak both need it
-        repo_language: str = instance.get("language", "").lower() or _detect_repo_language(repo_path)
+        repo_language: str = instance.get("language", "").lower() or _detect_repo_language(
+            repo_path
+        )
         log.info("Repo language: %s", repo_language)
 
         install_repo_editable(repo_path)
@@ -2572,19 +2888,25 @@ class DeterminexSWEAgent:
         # Build symbol map now, but obfuscate AFTER file discovery.
         # File search compares keywords against real source content on disk —
         # obfuscated x_NNNN keywords would match nothing and return wrong files.
-        cloak_ctx: "Optional[CloakContext]" = None
+        cloak_ctx: CloakContext | None = None
         if _CLOAK_ENABLED:
             try:
                 cloak_ctx = build_cloak_context(instance_id, repo_path, language=repo_language)
-                log.info("Cloak ACTIVE — %d identifiers mapped for %s",
-                         len(cloak_ctx.symbol_map.forward), instance_id)  # type: ignore[union-attr]
+                log.info(
+                    "Cloak ACTIVE — %d identifiers mapped for %s",
+                    len(cloak_ctx.symbol_map.forward),
+                    instance_id,
+                )  # type: ignore[union-attr]
             except Exception as e:
                 log.warning("Cloak: context build failed (%s) — proceeding uncloaked", e)
                 cloak_ctx = None
 
         # Locate files using REAL identifiers — must match actual file content on disk
         relevant_files, keywords = locate_relevant_files(
-            repo_path, issue_text, repo_language=repo_language, fail_tests=fail_tests,
+            repo_path,
+            issue_text,
+            repo_language=repo_language,
+            fail_tests=fail_tests,
         )
 
         # Build semantic key BEFORE obfuscation: reads real names, emits only hints.
@@ -2595,18 +2917,19 @@ class DeterminexSWEAgent:
             try:
                 semantic_key = build_semantic_key(cloak_ctx, relevant_files, repo_path)
                 if semantic_key:
-                    log.info("Semantic key built — %d token hints for AI context",
-                             semantic_key.count("\n  x_"))
+                    log.info(
+                        "Semantic key built — %d token hints for AI context",
+                        semantic_key.count("\n  x_"),
+                    )
             except Exception as e:
                 log.warning("Semantic key build failed (%s) — proceeding without", e)
 
         # NOW obfuscate for AI calls (Architect planning + Builder code-gen)
         if cloak_ctx:
-            issue_text = cloak_ctx.obfuscate_text(issue_text)              # type: ignore[union-attr]
+            issue_text = cloak_ctx.obfuscate_text(issue_text)  # type: ignore[union-attr]
             issue_with_trace = cloak_ctx.obfuscate_text(issue_with_trace)  # type: ignore[union-attr]
         # ─────────────────────────────────────────────────────────────────────
-        log.info("Relevant files: %s",
-                 [str(f.relative_to(repo_path)) for f in relevant_files])
+        log.info("Relevant files: %s", [str(f.relative_to(repo_path)) for f in relevant_files])
 
         # ── Phase 1: Compile-gate solve loop ─────────────────────────────────
         # _gate_solve_loop drives up to _GATE_MAX_TOTAL attempts.
@@ -2624,10 +2947,16 @@ class DeterminexSWEAgent:
             _warm_local_builder()
 
         patch = self._gate_solve_loop(
-            repo_path, issue_with_trace, relevant_files, enable_regression,
-            shadow_trace=shadow_trace, cloak_ctx=cloak_ctx,
-            semantic_key=semantic_key, repo_language=repo_language,
-            fail_tests=fail_tests, keywords=keywords,
+            repo_path,
+            issue_with_trace,
+            relevant_files,
+            enable_regression,
+            shadow_trace=shadow_trace,
+            cloak_ctx=cloak_ctx,
+            semantic_key=semantic_key,
+            repo_language=repo_language,
+            fail_tests=fail_tests,
+            keywords=keywords,
             instance_id=instance_id,
         )
 
@@ -2635,8 +2964,12 @@ class DeterminexSWEAgent:
         if patch:
             try:
                 from determinex_flywheel import capture_successful_epoch
+
                 capture_successful_epoch(  # type: ignore[arg-type]
-                    issue_text, patch, instance_id, repo_name,
+                    issue_text,
+                    patch,
+                    instance_id,
+                    repo_name,
                     verification=self.last_gate_verification,
                 )
             except ImportError:
@@ -2665,7 +2998,7 @@ class DeterminexSWEAgent:
         repo_path: Path,
         issue_text: str,
         relevant_files: list[Path],
-        cloak_ctx: "Optional[CloakContext]" = None,
+        cloak_ctx: CloakContext | None = None,
         repo_language: str = "python",
         fail_tests: str = "",
     ) -> str:
@@ -2696,15 +3029,19 @@ class DeterminexSWEAgent:
             except CloakObfuscationError as _coe:
                 log.error(
                     "[Cloak FAIL-CLOSED] single-shot fix for %s — refusing plaintext API call: %s",
-                    rel_path, _coe,
+                    rel_path,
+                    _coe,
                 )
                 return ""
         else:
             obfuscated = ""
 
         model_out = generate_fix(
-            stub_step, issue_text, repo_path,
-            attempt=1, temperature=0.2,
+            stub_step,
+            issue_text,
+            repo_path,
+            attempt=1,
+            temperature=0.2,
             source_override=obfuscated,
             cloak_mode=bool(cloak_ctx),
             symbol_map=cloak_ctx.symbol_map.forward if cloak_ctx else None,  # type: ignore[union-attr]
@@ -2718,7 +3055,8 @@ class DeterminexSWEAgent:
         # Normalize real names → x_NNNN before block apply
         if cloak_ctx and obfuscated:
             model_out = _normalize_to_cloak_tokens(
-                model_out, cloak_ctx.symbol_map.forward  # type: ignore[union-attr]
+                model_out,
+                cloak_ctx.symbol_map.forward,  # type: ignore[union-attr]
             )
 
         blocks = _parse_search_replace_blocks(model_out)
@@ -2728,7 +3066,7 @@ class DeterminexSWEAgent:
         # Cloak checksum: block tokens that were hallucinated (appear in NO file).
         # Cross-file token references are allowed — SEARCH matching is the real check.
         if cloak_ctx and obfuscated:
-            _xt_re = re.compile(r'\bx_\d{4}\b')
+            _xt_re = re.compile(r"\bx_\d{4}\b")
             _src_toks = set(_xt_re.findall(obfuscated))
             try:
                 _src_toks |= set(cloak_ctx.symbol_map.forward.values())  # type: ignore[union-attr]
@@ -2795,14 +3133,20 @@ class DeterminexSWEAgent:
         try:
             if repo_language == "python":
                 src_files = [
-                    str(f) for f in repo_path.rglob("*.py")
-                    if not any(p in f.parts for p in {"__pycache__", "site-packages", "vendor", ".git"})
+                    str(f)
+                    for f in repo_path.rglob("*.py")
+                    if not any(
+                        p in f.parts for p in {"__pycache__", "site-packages", "vendor", ".git"}
+                    )
                 ][:30]
                 if not src_files:
-                    return "", False   # nothing to compile is not a clean compile
+                    return "", False  # nothing to compile is not a clean compile
                 r = subprocess.run(
                     [sys.executable, "-m", "py_compile"] + src_files,
-                    capture_output=True, text=True, timeout=30, cwd=repo_path,
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                    cwd=repo_path,
                 )
                 if r.returncode != 0:
                     return _collect_all_errors(r.stdout, r.stderr), True
@@ -2811,7 +3155,10 @@ class DeterminexSWEAgent:
             if repo_language == "go":
                 r = subprocess.run(
                     ["go", "build", "./..."],
-                    capture_output=True, text=True, timeout=90, cwd=repo_path,
+                    capture_output=True,
+                    text=True,
+                    timeout=90,
+                    cwd=repo_path,
                 )
                 if r.returncode != 0:
                     return _collect_all_errors(r.stdout, r.stderr), True
@@ -2821,7 +3168,10 @@ class DeterminexSWEAgent:
                 # cargo check is faster than cargo build and emits all type/borrow errors
                 r = subprocess.run(
                     ["cargo", "check", "--message-format=short"],
-                    capture_output=True, text=True, timeout=120, cwd=repo_path,
+                    capture_output=True,
+                    text=True,
+                    timeout=120,
+                    cwd=repo_path,
                 )
                 if r.returncode != 0:
                     return _collect_all_errors(r.stdout, r.stderr), True
@@ -2829,50 +3179,68 @@ class DeterminexSWEAgent:
 
             if repo_language == "java":
                 for build_file, cmd in [
-                    ("pom.xml",          ["mvn", "compile", "-q", "--fail-at-end"]),
-                    ("build.gradle",     ["./gradlew", "compileJava", "-q"]),
+                    ("pom.xml", ["mvn", "compile", "-q", "--fail-at-end"]),
+                    ("build.gradle", ["./gradlew", "compileJava", "-q"]),
                     ("build.gradle.kts", ["./gradlew", "compileJava", "-q"]),
                 ]:
                     if (repo_path / build_file).exists():
-                        r = subprocess.run(cmd, capture_output=True, text=True,
-                                           timeout=120, cwd=repo_path)
+                        r = subprocess.run(
+                            cmd, capture_output=True, text=True, timeout=120, cwd=repo_path
+                        )
                         if r.returncode != 0:
                             return _collect_all_errors(r.stdout, r.stderr), True
                         return "", True
-                return "", False   # no recognised build file — nothing was compiled
+                return "", False  # no recognised build file — nothing was compiled
 
             if repo_language == "typescript":
                 if (repo_path / "tsconfig.json").exists():
                     r = subprocess.run(
                         ["npx", "--yes", "tsc", "--noEmit"],
-                        capture_output=True, text=True, timeout=90, cwd=repo_path,
+                        capture_output=True,
+                        text=True,
+                        timeout=90,
+                        cwd=repo_path,
                     )
                     if r.returncode != 0:
                         return _collect_all_errors(r.stdout, r.stderr), True
                     return "", True
-                return "", False   # no tsconfig — tsc never ran
+                return "", False  # no tsconfig — tsc never ran
 
             if repo_language in ("c", "cpp"):
                 build_dir = repo_path / "_determinex_build_gate"
                 try:
                     if (repo_path / "CMakeLists.txt").exists():
                         build_dir.mkdir(exist_ok=True)
-                        subprocess.run(["cmake", "..", "-DCMAKE_BUILD_TYPE=Debug"],
-                                       cwd=build_dir, capture_output=True, timeout=60)
-                        r = subprocess.run(["make", "-j2", "-k"],  # -k = keep going on error
-                                           cwd=build_dir, capture_output=True, text=True, timeout=120)
+                        subprocess.run(
+                            ["cmake", "..", "-DCMAKE_BUILD_TYPE=Debug"],
+                            cwd=build_dir,
+                            capture_output=True,
+                            timeout=60,
+                        )
+                        r = subprocess.run(
+                            ["make", "-j2", "-k"],  # -k = keep going on error
+                            cwd=build_dir,
+                            capture_output=True,
+                            text=True,
+                            timeout=120,
+                        )
                         if r.returncode != 0:
                             return _collect_all_errors(r.stdout, r.stderr), True
                         return "", True
                     if (repo_path / "Makefile").exists():
-                        r = subprocess.run(["make", "-k"],
-                                           cwd=repo_path, capture_output=True, text=True, timeout=120)
+                        r = subprocess.run(
+                            ["make", "-k"],
+                            cwd=repo_path,
+                            capture_output=True,
+                            text=True,
+                            timeout=120,
+                        )
                         if r.returncode != 0:
                             return _collect_all_errors(r.stdout, r.stderr), True
                         return "", True
                 finally:
                     shutil.rmtree(str(build_dir), ignore_errors=True)
-                return "", False   # neither CMakeLists nor Makefile — nothing was built
+                return "", False  # neither CMakeLists nor Makefile — nothing was built
 
         except FileNotFoundError as e:
             # The toolchain is absent. Previously "" => PASS for every patch on this host.
@@ -2887,7 +3255,10 @@ class DeterminexSWEAgent:
         return "", False  # unsupported language — no check ran
 
     def _run_target_tests(
-        self, repo_path: Path, repo_language: str, fail_tests: str,
+        self,
+        repo_path: Path,
+        repo_language: str,
+        fail_tests: str,
     ) -> tuple[str, bool]:
         """
         Run only the FAIL_TO_PASS tests without -x/--fail-fast so ALL failures are collected.
@@ -2899,25 +3270,29 @@ class DeterminexSWEAgent:
         """
         test_ids = [t.strip() for t in fail_tests.splitlines() if t.strip()][:10]
         if not test_ids:
-            return "", False   # no FAIL_TO_PASS ids given — no test ran
+            return "", False  # no FAIL_TO_PASS ids given — no test ran
 
         try:
             if repo_language == "python":
                 r = subprocess.run(
                     [sys.executable, "-m", "pytest", "--tb=short", "--no-header", "-q"] + test_ids,
-                    capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
+                    capture_output=True,
+                    text=True,
+                    timeout=TEST_TIMEOUT,
+                    cwd=repo_path,
                 )
                 if r.returncode != 0:
                     return _collect_all_errors(r.stdout, r.stderr), True
                 return "", True
 
             if repo_language == "go":
-                pattern = "|".join(
-                    re.escape(t.split("::")[-1]) for t in test_ids
-                )
+                pattern = "|".join(re.escape(t.split("::")[-1]) for t in test_ids)
                 r = subprocess.run(
                     ["go", "test", "-run", pattern, "-v", "./..."],
-                    capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
+                    capture_output=True,
+                    text=True,
+                    timeout=TEST_TIMEOUT,
+                    cwd=repo_path,
                 )
                 if r.returncode != 0:
                     return _collect_all_errors(r.stdout, r.stderr), True
@@ -2927,7 +3302,10 @@ class DeterminexSWEAgent:
                 names = [t.split("::")[-1] for t in test_ids]
                 r = subprocess.run(
                     ["cargo", "test", "--", "--test-threads=2"] + names,
-                    capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
+                    capture_output=True,
+                    text=True,
+                    timeout=TEST_TIMEOUT,
+                    cwd=repo_path,
                 )
                 if r.returncode != 0:
                     return _collect_all_errors(r.stdout, r.stderr), True
@@ -2936,24 +3314,35 @@ class DeterminexSWEAgent:
             if repo_language == "java":
                 test_class = ",".join(t.split("::")[-1] for t in test_ids)
                 for build_file, cmd in [
-                    ("pom.xml", ["mvn", "test", "--fail-at-end",
-                                 "-Dsurefire.failIfNoSpecifiedTests=false",
-                                 f"-Dtest={test_class}"]),
-                    ("build.gradle",     ["./gradlew", "test", f"--tests={test_class}"]),
+                    (
+                        "pom.xml",
+                        [
+                            "mvn",
+                            "test",
+                            "--fail-at-end",
+                            "-Dsurefire.failIfNoSpecifiedTests=false",
+                            f"-Dtest={test_class}",
+                        ],
+                    ),
+                    ("build.gradle", ["./gradlew", "test", f"--tests={test_class}"]),
                     ("build.gradle.kts", ["./gradlew", "test", f"--tests={test_class}"]),
                 ]:
                     if (repo_path / build_file).exists():
-                        r = subprocess.run(cmd, capture_output=True, text=True,
-                                           timeout=TEST_TIMEOUT, cwd=repo_path)
+                        r = subprocess.run(
+                            cmd, capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path
+                        )
                         if r.returncode != 0:
                             return _collect_all_errors(r.stdout, r.stderr), True
                         return "", True
-                return "", False   # no recognised build file — no test ran
+                return "", False  # no recognised build file — no test ran
 
             if repo_language in ("javascript", "typescript"):
                 r = subprocess.run(
                     ["npx", "--yes", "jest", "--no-coverage", "--forceExit"] + test_ids,
-                    capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
+                    capture_output=True,
+                    text=True,
+                    timeout=TEST_TIMEOUT,
+                    cwd=repo_path,
                 )
                 if r.returncode != 0:
                     return _collect_all_errors(r.stdout, r.stderr), True
@@ -2964,33 +3353,51 @@ class DeterminexSWEAgent:
                 # Bundle exec preserves Gemfile-locked gem versions
                 test_files = [t for t in test_ids if t.endswith(".rb")]
                 method_filters = [t.split("#")[-1] for t in test_ids if "#" in t]
-                filter_flag = ["-n", "/(" + "|".join(re.escape(m) for m in method_filters) + ")/"] if method_filters else []
+                filter_flag = (
+                    ["-n", "/(" + "|".join(re.escape(m) for m in method_filters) + ")/"]
+                    if method_filters
+                    else []
+                )
                 if (repo_path / "Gemfile").exists():
-                    cmd = ["bundle", "exec", "ruby", "-Ilib:test"] + filter_flag + (test_files or ["-e", "exit"])
+                    cmd = (
+                        ["bundle", "exec", "ruby", "-Ilib:test"]
+                        + filter_flag
+                        + (test_files or ["-e", "exit"])
+                    )
                 else:
                     cmd = ["ruby", "-Ilib:test"] + filter_flag + (test_files or [])
-                r = subprocess.run(cmd, capture_output=True, text=True,
-                                   timeout=TEST_TIMEOUT, cwd=repo_path)
+                r = subprocess.run(
+                    cmd, capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path
+                )
                 if r.returncode != 0:
                     return _collect_all_errors(r.stdout, r.stderr), True
                 return "", True
 
             if repo_language == "php":
                 # Prefer phpunit from vendor (Composer-managed)
-                phpunit = "vendor/bin/phpunit" if (repo_path / "vendor/bin/phpunit").exists() else "phpunit"
-                method_filter = "|".join(re.escape(t.split("::")[-1]) for t in test_ids if "::" in t)
+                phpunit = (
+                    "vendor/bin/phpunit"
+                    if (repo_path / "vendor/bin/phpunit").exists()
+                    else "phpunit"
+                )
+                method_filter = "|".join(
+                    re.escape(t.split("::")[-1]) for t in test_ids if "::" in t
+                )
                 filter_args = ["--filter", method_filter] if method_filter else []
                 test_paths = [t.split("::")[0] for t in test_ids if "::" in t] or test_ids
                 r = subprocess.run(
                     [phpunit, "--no-coverage"] + filter_args + test_paths,
-                    capture_output=True, text=True, timeout=TEST_TIMEOUT, cwd=repo_path,
+                    capture_output=True,
+                    text=True,
+                    timeout=TEST_TIMEOUT,
+                    cwd=repo_path,
                 )
                 if r.returncode != 0:
                     return _collect_all_errors(r.stdout, r.stderr), True
                 return "", True
 
         except FileNotFoundError:
-            return "", False   # test runner absent — nothing was verified
+            return "", False  # test runner absent — nothing was verified
         except subprocess.TimeoutExpired:
             return "[target tests timed out]", True
         except Exception as e:
@@ -3004,7 +3411,7 @@ class DeterminexSWEAgent:
         repo_path: Path,
         repo_language: str,
         fail_tests: str,
-        cloak_ctx: "Optional[CloakContext]",
+        cloak_ctx: CloakContext | None,
     ) -> tuple[bool, str]:
         """
         Apply patch to an isolated git worktree, compile, run target tests.
@@ -3014,7 +3421,7 @@ class DeterminexSWEAgent:
 
         Returns (passed, error_text).  error_text is "" on pass.
         """
-        wt: Optional[Path] = None
+        wt: Path | None = None
         label = f"gate_{repo_path.name[:12]}_{os.getpid()}_{threading.get_ident()}"
         # Reset per run: a previous instance's "compiled+tested" must never carry over.
         self.last_gate_verification = "unverified:no_gate_run"
@@ -3046,8 +3453,11 @@ class DeterminexSWEAgent:
                 # Still apply the patch so Docker eval can test it
                 subprocess.run(
                     ["git", "apply", "--whitespace=fix", "--ignore-whitespace", "-"],
-                    input=patch_to_apply, text=True, cwd=wt,
-                    capture_output=True, timeout=30,
+                    input=patch_to_apply,
+                    text=True,
+                    cwd=wt,
+                    capture_output=True,
+                    timeout=30,
                 )
                 # PASS so the run continues -- we cannot penalise a patch for a dependency bug
                 # we do not control -- but the patch itself was never compiled, so this is not
@@ -3059,14 +3469,18 @@ class DeterminexSWEAgent:
                 # build file). Nothing downstream can be called compiler-validated.
                 log.warning(
                     "Compile gate: no compile check available for %s — patch will be "
-                    "UNVERIFIED, not compiler-validated", repo_language,
+                    "UNVERIFIED, not compiler-validated",
+                    repo_language,
                 )
 
             # Apply patch
             apply_r = subprocess.run(
                 ["git", "apply", "--whitespace=fix", "--ignore-whitespace", "-"],
-                input=patch_to_apply, text=True, cwd=wt,
-                capture_output=True, timeout=30,
+                input=patch_to_apply,
+                text=True,
+                cwd=wt,
+                capture_output=True,
+                timeout=30,
             )
             if apply_r.returncode != 0:
                 raw = _collect_all_errors(apply_r.stdout, apply_r.stderr)
@@ -3137,19 +3551,27 @@ class DeterminexSWEAgent:
         """
         try:
             import sys as _sys
+
             _here = str(Path(__file__).resolve().parent)
             if _here not in _sys.path:
                 _sys.path.insert(0, _here)
             from determinex_adjudicator import Failure, Verdict, classify_failure
+
             recs, verdicts = [], []
             for i, err in enumerate(all_errors):
                 if not err:
                     continue
-                a = classify_failure(Failure(test_id=f"attempt_{i}",
-                                             name=f"attempt_{i}", text=str(err)))
+                a = classify_failure(
+                    Failure(test_id=f"attempt_{i}", name=f"attempt_{i}", text=str(err))
+                )
                 verdicts.append(a.verdict.value)
-                recs.append({"verdict": a.verdict.value, "strategy": a.strategy,
-                             "remediation": a.remediation})
+                recs.append(
+                    {
+                        "verdict": a.verdict.value,
+                        "strategy": a.strategy,
+                        "remediation": a.remediation,
+                    }
+                )
             reopenable = [r for r in recs if r["verdict"] != Verdict.IMPOSSIBLE.value]
             return {
                 "adjudicated": True,
@@ -3175,25 +3597,36 @@ class DeterminexSWEAgent:
             msg = (
                 f"Instance '{instance_id}' exhausted {_GATE_MAX_TOTAL} compile-gate "
                 f"attempts. Adjudicator says: "
-                + ("GENUINE CEILING (all verdicts IMPOSSIBLE) -- human review."
-                   if genuine_ceiling else
-                   f"REOPENABLE -- untried moves: {adj.get('next_moves')}. "
-                   f"This is unfinished work, not a ceiling.")
+                + (
+                    "GENUINE CEILING (all verdicts IMPOSSIBLE) -- human review."
+                    if genuine_ceiling
+                    else f"REOPENABLE -- untried moves: {adj.get('next_moves')}. "
+                    f"This is unfinished work, not a ceiling."
+                )
             )
-            esc_path.write_text(json.dumps({
-                "instance_id": instance_id,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "total_attempts": len(wal),
-                "all_errors": all_errors,
-                "wal": wal,
-                "adjudication": adj,
-                "user_action_required": genuine_ceiling,
-                "message": msg,
-            }, indent=2), encoding="utf-8")
-            log.warning("[%s] ESCALATION -- %d attempts. Adjudicator: %s. See: %s",
-                        instance_id, len(wal),
-                        "GENUINE CEILING" if genuine_ceiling else
-                        f"REOPENABLE {adj.get('next_moves')}", esc_path)
+            esc_path.write_text(
+                json.dumps(
+                    {
+                        "instance_id": instance_id,
+                        "timestamp": datetime.now(UTC).isoformat(),
+                        "total_attempts": len(wal),
+                        "all_errors": all_errors,
+                        "wal": wal,
+                        "adjudication": adj,
+                        "user_action_required": genuine_ceiling,
+                        "message": msg,
+                    },
+                    indent=2,
+                ),
+                encoding="utf-8",
+            )
+            log.warning(
+                "[%s] ESCALATION -- %d attempts. Adjudicator: %s. See: %s",
+                instance_id,
+                len(wal),
+                "GENUINE CEILING" if genuine_ceiling else f"REOPENABLE {adj.get('next_moves')}",
+                esc_path,
+            )
         except Exception as e:
             log.debug("Gate escalation write failed: %s", e)
 
@@ -3204,11 +3637,11 @@ class DeterminexSWEAgent:
         relevant_files: list[Path],
         enable_regression: bool,
         shadow_trace: str = "",
-        cloak_ctx: "Optional[CloakContext]" = None,
+        cloak_ctx: CloakContext | None = None,
         semantic_key: str = "",
         repo_language: str = "python",
         fail_tests: str = "",
-        keywords: "list[str] | None" = None,
+        keywords: list[str] | None = None,
         instance_id: str = "unknown",
     ) -> str:
         """
@@ -3237,7 +3670,10 @@ class DeterminexSWEAgent:
 
             log.info(
                 "[%s] Gate attempt %d/%d (T=%.1f)%s",
-                instance_id, attempt_num, _GATE_MAX_TOTAL, temp,
+                instance_id,
+                attempt_num,
+                _GATE_MAX_TOTAL,
+                temp,
                 " [ESCALATION]" if is_escalation else "",
             )
 
@@ -3245,10 +3681,16 @@ class DeterminexSWEAgent:
             # temperature_override pins exactly the scheduled temp so the gate
             # drives escalation; _solve_sequential does not sweep internally.
             patch = self._solve_sequential(
-                repo_path, issue_with_errors, relevant_files, enable_regression,
-                shadow_trace=shadow_trace, cloak_ctx=cloak_ctx,
-                semantic_key=semantic_key, repo_language=repo_language,
-                fail_tests=fail_tests, keywords=keywords,
+                repo_path,
+                issue_with_errors,
+                relevant_files,
+                enable_regression,
+                shadow_trace=shadow_trace,
+                cloak_ctx=cloak_ctx,
+                semantic_key=semantic_key,
+                repo_language=repo_language,
+                fail_tests=fail_tests,
+                keywords=keywords,
                 temperature_override=temp,
                 instance_id=instance_id,
             )
@@ -3256,12 +3698,18 @@ class DeterminexSWEAgent:
             if not patch:
                 log.warning("[%s] Gate attempt %d: no patch from builder", instance_id, attempt_num)
                 no_patch_err = "[no patch generated — x_NNNN token preservation check failed]"
-                gate_wal.append({
-                    "instance_id": instance_id, "attempt": attempt_num, "temperature": temp,
-                    "patch_lines": 0, "passed": False, "errors": no_patch_err,
-                    "escalation": is_escalation,
-                    "ts": datetime.now(timezone.utc).isoformat(),
-                })
+                gate_wal.append(
+                    {
+                        "instance_id": instance_id,
+                        "attempt": attempt_num,
+                        "temperature": temp,
+                        "patch_lines": 0,
+                        "passed": False,
+                        "errors": no_patch_err,
+                        "escalation": is_escalation,
+                        "ts": datetime.now(UTC).isoformat(),
+                    }
+                )
                 # Inject token rule violation into the next attempt's context so the
                 # Builder knows WHY it was rejected, not just that it failed.
                 issue_with_errors = (
@@ -3278,7 +3726,9 @@ class DeterminexSWEAgent:
                 continue
 
             # Compile gate: apply to isolated worktree, compile, test
-            passed, errors = self._compile_gate(patch, repo_path, repo_language, fail_tests, cloak_ctx)
+            passed, errors = self._compile_gate(
+                patch, repo_path, repo_language, fail_tests, cloak_ctx
+            )
 
             wal_entry: dict = {
                 "instance_id": instance_id,
@@ -3288,7 +3738,7 @@ class DeterminexSWEAgent:
                 "passed": passed,
                 "errors": errors,
                 "escalation": is_escalation,
-                "ts": datetime.now(timezone.utc).isoformat(),
+                "ts": datetime.now(UTC).isoformat(),
             }
             gate_wal.append(wal_entry)
             self._write_gate_wal(instance_id, wal_entry)
@@ -3299,7 +3749,8 @@ class DeterminexSWEAgent:
 
             log.warning(
                 "[%s] Gate FAILED attempt %d — errors:\n%s",
-                instance_id, attempt_num,
+                instance_id,
+                attempt_num,
                 errors[:500] if errors else "(none captured)",
             )
 
@@ -3345,12 +3796,12 @@ class DeterminexSWEAgent:
         relevant_files: list[Path],
         enable_regression: bool,
         shadow_trace: str = "",
-        cloak_ctx: "Optional[CloakContext]" = None,
+        cloak_ctx: CloakContext | None = None,
         semantic_key: str = "",
         repo_language: str = "python",
         fail_tests: str = "",
-        keywords: "list[str] | None" = None,
-        temperature_override: "Optional[float]" = None,
+        keywords: list[str] | None = None,
+        temperature_override: float | None = None,
         instance_id: str = "",
     ) -> str:
         """
@@ -3367,9 +3818,14 @@ class DeterminexSWEAgent:
             log.info("Sequential path %d/%d (T=%.1f)...", t_idx + 1, len(TEMPERATURES), temperature)
 
             steps = plan_fix(
-                issue_text, relevant_files, repo_path, temperature,
-                cloak_ctx=cloak_ctx, semantic_key=semantic_key,
-                repo_language=repo_language, fail_tests=fail_tests,
+                issue_text,
+                relevant_files,
+                repo_path,
+                temperature,
+                cloak_ctx=cloak_ctx,
+                semantic_key=semantic_key,
+                repo_language=repo_language,
+                fail_tests=fail_tests,
                 keywords=keywords,
             )
             if not steps:
@@ -3377,11 +3833,19 @@ class DeterminexSWEAgent:
 
             feedback: dict = {}
             patch = _solve_one_path(
-                repo_path, issue_text, steps, temperature,
-                stop, path_id=t_idx, enable_regression=enable_regression,
-                shadow_trace=shadow_trace, cloak_ctx=cloak_ctx,
-                semantic_key=semantic_key, repo_language=repo_language,
-                fail_tests=fail_tests, feedback=feedback,
+                repo_path,
+                issue_text,
+                steps,
+                temperature,
+                stop,
+                path_id=t_idx,
+                enable_regression=enable_regression,
+                shadow_trace=shadow_trace,
+                cloak_ctx=cloak_ctx,
+                semantic_key=semantic_key,
+                repo_language=repo_language,
+                fail_tests=fail_tests,
+                feedback=feedback,
                 instance_id=instance_id,
             )
             if patch:
@@ -3397,20 +3861,21 @@ class DeterminexSWEAgent:
                 log.warning(
                     "Sequential: step '%s' produced %d-line patch on every attempt — "
                     "requesting Architect decomposition",
-                    tl["step_file"], tl["line_count"],
+                    tl["step_file"],
+                    tl["line_count"],
                 )
                 # decompose_hint is passed as a separate kwarg so plan_fix injects it
                 # AFTER the file summaries — it never gets swallowed by issue_text[:2000].
                 decompose_hint = (
                     f"[DECOMPOSE REQUEST — CRITICAL]\n"
-                    f"The previous plan targeted \"{tl['step_file']}\" as a single step "
+                    f'The previous plan targeted "{tl["step_file"]}" as a single step '
                     f"and the builder generated a {tl['line_count']}-line patch every time "
                     f"(whole-file rewrite). This MUST NOT happen again.\n"
                     f"MANDATORY RULES for your new plan:\n"
-                    f"1. Do NOT return a single step that targets \"{tl['step_file']}\" as a whole.\n"
-                    f"2. If you must touch \"{tl['step_file']}\", identify the SPECIFIC FUNCTION "
+                    f'1. Do NOT return a single step that targets "{tl["step_file"]}" as a whole.\n'
+                    f'2. If you must touch "{tl["step_file"]}", identify the SPECIFIC FUNCTION '
                     f"or METHOD by name that needs changing and write the description as: "
-                    f"\"Modify function <name> in {tl['step_file']} to fix <X>\" — "
+                    f'"Modify function <name> in {tl["step_file"]} to fix <X>" — '
                     f"the builder must change fewer than 80 diff lines.\n"
                     f"3. Prefer 2–3 sub-steps that each target a narrow, named code region.\n"
                     f"4. If the fix is inherently large, split it across multiple small steps "
@@ -3419,10 +3884,16 @@ class DeterminexSWEAgent:
                     f"remains unresolved."
                 )
                 decomposed_steps = plan_fix(
-                    issue_text, relevant_files, repo_path, temperature,
-                    cloak_ctx=cloak_ctx, semantic_key=semantic_key,
-                    repo_language=repo_language, fail_tests=fail_tests,
-                    keywords=keywords, decompose_hint=decompose_hint,
+                    issue_text,
+                    relevant_files,
+                    repo_path,
+                    temperature,
+                    cloak_ctx=cloak_ctx,
+                    semantic_key=semantic_key,
+                    repo_language=repo_language,
+                    fail_tests=fail_tests,
+                    keywords=keywords,
+                    decompose_hint=decompose_hint,
                 )
                 # Guard: if decompose returned the same single step targeting the same
                 # large file, retrying is futile — the builder will produce another
@@ -3432,18 +3903,29 @@ class DeterminexSWEAgent:
                     and decomposed_steps[0].get("file", "") == tl["step_file"]
                 )
                 if decomposed_steps and decomposed_steps != steps and not _same_single_file:
-                    log.info("Sequential: decomposed into %d sub-steps — retrying",
-                             len(decomposed_steps))
+                    log.info(
+                        "Sequential: decomposed into %d sub-steps — retrying", len(decomposed_steps)
+                    )
                     # Inject line-budget reminder into each step description so the
                     # Builder also sees the constraint (not just the Architect).
                     for ds in decomposed_steps:
                         if "(< 80 lines)" not in ds.get("description", ""):
-                            ds["description"] = ds.get("description", "") + " (< 80 diff lines — targeted change only)"
+                            ds["description"] = (
+                                ds.get("description", "")
+                                + " (< 80 diff lines — targeted change only)"
+                            )
                     patch = _solve_one_path(
-                        repo_path, issue_text, decomposed_steps, temperature,
-                        stop, path_id=t_idx, enable_regression=enable_regression,
-                        shadow_trace=shadow_trace, cloak_ctx=cloak_ctx,
-                        semantic_key=semantic_key, repo_language=repo_language,
+                        repo_path,
+                        issue_text,
+                        decomposed_steps,
+                        temperature,
+                        stop,
+                        path_id=t_idx,
+                        enable_regression=enable_regression,
+                        shadow_trace=shadow_trace,
+                        cloak_ctx=cloak_ctx,
+                        semantic_key=semantic_key,
+                        repo_language=repo_language,
                         fail_tests=fail_tests,
                         instance_id=instance_id,
                     )
@@ -3462,8 +3944,12 @@ class DeterminexSWEAgent:
         # All temperature attempts exhausted — direct patch fallback (Phase 2)
         log.info("Sequential: all temperatures exhausted — trying direct patch fallback")
         patch = self._direct_patch_fallback(
-            repo_path, issue_text, relevant_files,
-            cloak_ctx=cloak_ctx, repo_language=repo_language, fail_tests=fail_tests,
+            repo_path,
+            issue_text,
+            relevant_files,
+            cloak_ctx=cloak_ctx,
+            repo_language=repo_language,
+            fail_tests=fail_tests,
         )
         if patch:
             log.info("Sequential: direct fallback succeeded")
@@ -3479,19 +3965,19 @@ class DeterminexSWEAgent:
         instance_id: str,
         enable_regression: bool,
         shadow_trace: str = "",
-        cloak_ctx: "Optional[CloakContext]" = None,
+        cloak_ctx: CloakContext | None = None,
         semantic_key: str = "",
         repo_language: str = "python",
         fail_tests: str = "",
-        keywords: "list[str] | None" = None,
+        keywords: list[str] | None = None,
     ) -> str:
         """
         Spawn 3 isolated git worktrees. Run each temperature in a thread.
         First thread to produce a passing patch cancels the others.
         """
         stop_event = threading.Event()
-        worktrees: list[Optional[Path]] = []
-        winning_patch: Optional[str] = None
+        worktrees: list[Path | None] = []
+        winning_patch: str | None = None
 
         # Create worktrees before starting threads
         for i in range(len(TEMPERATURES)):
@@ -3504,9 +3990,14 @@ class DeterminexSWEAgent:
             plans = []
             for t in TEMPERATURES:
                 steps = plan_fix(
-                    issue_text, relevant_files, repo_path, t,
-                    cloak_ctx=cloak_ctx, semantic_key=semantic_key,
-                    repo_language=repo_language, fail_tests=fail_tests,
+                    issue_text,
+                    relevant_files,
+                    repo_path,
+                    t,
+                    cloak_ctx=cloak_ctx,
+                    semantic_key=semantic_key,
+                    repo_language=repo_language,
+                    fail_tests=fail_tests,
                     keywords=keywords,
                 )
                 plans.append(steps)
@@ -3528,9 +4019,18 @@ class DeterminexSWEAgent:
                 future_map = {
                     executor.submit(
                         _solve_one_path,
-                        wt, issue_text, steps, temp, stop_event, path_id,
-                        enable_regression, shadow_trace, cloak_ctx, semantic_key,
-                        repo_language, fail_tests,
+                        wt,
+                        issue_text,
+                        steps,
+                        temp,
+                        stop_event,
+                        path_id,
+                        enable_regression,
+                        shadow_trace,
+                        cloak_ctx,
+                        semantic_key,
+                        repo_language,
+                        fail_tests,
                     ): (path_id, temp)
                     for path_id, wt, temp, steps in valid_paths
                 }
@@ -3540,8 +4040,9 @@ class DeterminexSWEAgent:
                     try:
                         result = future.result()
                         if result and not stop_event.is_set():
-                            log.info("Path %d (T=%.1f) WON — cancelling remaining paths",
-                                     path_id, temp)
+                            log.info(
+                                "Path %d (T=%.1f) WON — cancelling remaining paths", path_id, temp
+                            )
                             stop_event.set()
                             winning_patch = result
                             # Cancel pending futures (Python 3.9+)
@@ -3564,18 +4065,24 @@ class DeterminexSWEAgent:
 
 # ── CLI for standalone testing ────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="Determinex SWE-bench Agent (Flow AI Test-Time Scaling)"
     )
-    parser.add_argument("--repo",     type=Path, required=True)
-    parser.add_argument("--issue",    type=str,  required=True)
-    parser.add_argument("--out",      type=Path, default=None)
+    parser.add_argument("--repo", type=Path, required=True)
+    parser.add_argument("--issue", type=str, required=True)
+    parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--instance-id", default="test-instance")
-    parser.add_argument("--tier",     choices=["parallel", "sequential"], default=None,
-                        help="Override compute tier (default: auto-detect from VRAM)")
-    parser.add_argument("--no-regression", action="store_true",
-                        help="Skip ripple regression sweep (Phase 3)")
+    parser.add_argument(
+        "--tier",
+        choices=["parallel", "sequential"],
+        default=None,
+        help="Override compute tier (default: auto-detect from VRAM)",
+    )
+    parser.add_argument(
+        "--no-regression", action="store_true", help="Skip ripple regression sweep (Phase 3)"
+    )
     args = parser.parse_args()
 
     repo_resolved = Path(args.repo).resolve()

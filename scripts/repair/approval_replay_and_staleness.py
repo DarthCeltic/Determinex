@@ -21,6 +21,7 @@ state by accident.
 This module DOES NOT mutate any approval packet. It DOES NOT
 emit a packet. It DOES NOT touch the network or the workspace.
 """
+
 from __future__ import annotations
 
 import time
@@ -31,7 +32,6 @@ from .approval_replay_and_staleness_record import (
     ApprovalPacket,
     ApprovalReplayAndStalenessRecord,
 )
-
 
 # Default policy: 24 hour freshness window.
 DEFAULT_MAX_AGE_SECONDS = 24 * 60 * 60
@@ -102,7 +102,8 @@ class ApprovalReplayAndStalenessVerifier:
         if packet.approval_id in self._ledger:
             return self._block(
                 "APPROVAL_REPLAY_BLOCKED_REUSED_NONCE",
-                packet=packet, age=age,
+                packet=packet,
+                age=age,
                 note=(
                     f"approval_id={packet.approval_id!r} has already "
                     "been consumed by this verifier; replay refused"
@@ -112,7 +113,8 @@ class ApprovalReplayAndStalenessVerifier:
         if age > self._max_age_seconds:
             return self._block(
                 "APPROVAL_REPLAY_BLOCKED_STALE_APPROVAL",
-                packet=packet, age=age,
+                packet=packet,
+                age=age,
                 note=(
                     f"packet age={age}s > max_age={self._max_age_seconds}s; "
                     "approval is stale and cannot be honored"
@@ -122,32 +124,32 @@ class ApprovalReplayAndStalenessVerifier:
         if packet.workspace_identity_hash != expected_workspace_identity_hash:
             return self._block(
                 "APPROVAL_REPLAY_BLOCKED_WORKSPACE_MISMATCH",
-                packet=packet, age=age,
-                note=(
-                    "packet.workspace_identity_hash does not match expected"
-                ),
+                packet=packet,
+                age=age,
+                note=("packet.workspace_identity_hash does not match expected"),
             )
 
         if packet.canonical_patch_body_hash != expected_canonical_patch_body_hash:
             return self._block(
                 "APPROVAL_REPLAY_BLOCKED_PATCH_BODY_MISMATCH",
-                packet=packet, age=age,
-                note=(
-                    "packet.canonical_patch_body_hash does not match expected"
-                ),
+                packet=packet,
+                age=age,
+                note=("packet.canonical_patch_body_hash does not match expected"),
             )
 
         if packet.verifier_ref != expected_verifier_ref:
             return self._block(
                 "APPROVAL_REPLAY_BLOCKED_VERIFIER_REF_MISMATCH",
-                packet=packet, age=age,
+                packet=packet,
+                age=age,
                 note="packet.verifier_ref does not match expected",
             )
 
         if packet.rollback_snapshot_ref != expected_rollback_snapshot_ref:
             return self._block(
                 "APPROVAL_REPLAY_BLOCKED_SNAPSHOT_REF_MISMATCH",
-                packet=packet, age=age,
+                packet=packet,
+                age=age,
                 note="packet.rollback_snapshot_ref does not match expected",
             )
 
@@ -184,8 +186,12 @@ class ApprovalReplayAndStalenessVerifier:
         return ApprovalReplayAndStalenessRecord(
             decision=decision,
             approval_id=getattr(packet, "approval_id", "") if packet else "",
-            workspace_identity_hash=getattr(packet, "workspace_identity_hash", "") if packet else "",
-            canonical_patch_body_hash=getattr(packet, "canonical_patch_body_hash", "") if packet else "",
+            workspace_identity_hash=getattr(packet, "workspace_identity_hash", "")
+            if packet
+            else "",
+            canonical_patch_body_hash=getattr(packet, "canonical_patch_body_hash", "")
+            if packet
+            else "",
             verifier_ref=getattr(packet, "verifier_ref", "") if packet else "",
             rollback_snapshot_ref=getattr(packet, "rollback_snapshot_ref", "") if packet else "",
             age_seconds=age,

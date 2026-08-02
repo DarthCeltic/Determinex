@@ -21,6 +21,7 @@ pointed at "citadel-engineer-v11-dsl"/"citadel-observer-v6-dsl", but the actuall
 registered Ollama tags (per CLAUDE.md's own model table) are
 "determinex-engineer-v11-dsl"/"determinex-observer-v6-dsl".
 """
+
 from __future__ import annotations
 
 import ast
@@ -36,6 +37,7 @@ def test_run_agent_on_instance_imports_the_real_agent_module():
     """The exact regression: this import must resolve to a module/class that
     genuinely exists, not a phantom pre-rename name."""
     import determinex_swebench_agent  # the real module -- must exist and import clean
+
     assert hasattr(determinex_swebench_agent, "DeterminexSWEAgent")
 
     source = _SCRIPT.read_text(encoding="utf-8")

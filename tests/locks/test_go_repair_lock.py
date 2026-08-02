@@ -5,6 +5,7 @@ The Go backend follows the same factory contract as Java, Rust, and Python:
 index project, gate source, prove baseline, inject a controlled failure, verify
 with the native oracle, and write an HMAC-signed corpus record.
 """
+
 from __future__ import annotations
 
 import sys
@@ -17,7 +18,6 @@ from corpus.code_ingest.go_project_indexer import index_go_project
 from corpus.code_ingest.go_task_extractor import GoTaskExtractor
 from corpus.corpus_manager import CorpusManager
 from repair.go_repair_pipeline import GoRepairPipeline
-
 
 _GO_MOD = """\
 module example.com/determinex/go-sample
@@ -142,7 +142,11 @@ def _executor_baseline_pass_mutation_fail():
             state["tests"] += 1
             if state["tests"] == 1:
                 return (0, "ok example.com/determinex/go-sample", "")
-            return (1, "--- FAIL: TestProcessNil\npanic: runtime error: invalid memory address or nil pointer dereference", "")
+            return (
+                1,
+                "--- FAIL: TestProcessNil\npanic: runtime error: invalid memory address or nil pointer dereference",
+                "",
+            )
         return (0, "", "")
 
     return executor
@@ -251,7 +255,9 @@ class TestGoSafetyGate:
                 return (0, "sample.go\n", "")
             return (0, "ok", "")
 
-        result = GoRepairPipeline(CorpusManager(root=tmp_path / "corpus"), executor=executor).process_repo(repo)
+        result = GoRepairPipeline(
+            CorpusManager(root=tmp_path / "corpus"), executor=executor
+        ).process_repo(repo)
         assert not result.accepted
         assert result.rejected_reason == "gofmt_not_clean"
 
@@ -271,7 +277,9 @@ class TestGoLicenseGate:
 
     def test_mit_license_passes_gate(self, tmp_path):
         repo = _make_go_repo(tmp_path)
-        result = GoRepairPipeline(CorpusManager(root=tmp_path / "corpus"), executor=_executor_always_pass()).process_repo(repo)
+        result = GoRepairPipeline(
+            CorpusManager(root=tmp_path / "corpus"), executor=_executor_always_pass()
+        ).process_repo(repo)
         assert result.accepted
         assert result.license_bucket == "green"
 
@@ -290,14 +298,18 @@ class TestGoBaselineAndExtraction:
         assert len(sites) == 1
 
     def test_no_nil_guard_returns_no_tasks(self, tmp_path):
-        repo = _make_go_repo(tmp_path, source="package sample\nfunc Process(v *string) string { return *v }\n")
+        repo = _make_go_repo(
+            tmp_path, source="package sample\nfunc Process(v *string) string { return *v }\n"
+        )
         extractor = GoTaskExtractor(repo)
         extractor._run = lambda cmd, cwd=None: (0, "ok", "")
         assert extractor.extract_tasks() == []
 
     def test_pipeline_zero_tasks_when_baseline_fails(self, tmp_path):
         repo = _make_go_repo(tmp_path)
-        result = GoRepairPipeline(CorpusManager(root=tmp_path / "corpus"), executor=_executor_baseline_fail()).process_repo(repo)
+        result = GoRepairPipeline(
+            CorpusManager(root=tmp_path / "corpus"), executor=_executor_baseline_fail()
+        ).process_repo(repo)
         assert result.accepted
         assert result.tasks_extracted == 0
 
@@ -389,7 +401,9 @@ class TestGoCorpusSigning:
             ("go-m-005", "table_test_regression", "test_failure"),
         ]
         for task_id, mutation, failure in cases:
-            task = GoRepairPipeline.make_test_task(task_id=task_id, mutation_type=mutation, failure_type=failure)
+            task = GoRepairPipeline.make_test_task(
+                task_id=task_id, mutation_type=mutation, failure_type=failure
+            )
             record = cm._normalize_record(
                 corpus_type=CorpusType.CODE_VERDICT,
                 task_id=task.task_id,

@@ -13,6 +13,7 @@ ALL go-build tools (local toolchain already present in the image).
 Usage:
   python scripts/determinex_pb_go_toolchain_sweep.py [--dry-run]
 """
+
 from __future__ import annotations
 
 import pathlib
@@ -54,7 +55,7 @@ def main() -> int:
     for c in changed[:15]:
         print(f"  {c.split('__')[-1]}")
     if len(changed) > 15:
-        print(f"  ... +{len(changed)-15} more")
+        print(f"  ... +{len(changed) - 15} more")
     return 0
 
 

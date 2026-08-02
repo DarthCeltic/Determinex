@@ -15,6 +15,7 @@ specifically): 77/520 (14.8%) of codesnap's skips. Verified via A/B counterfactu
 data (never AST-presence counting alone, per the standing lesson from fix 5): +61 examples
 recovered (294 -> 355 of 814 tests).
 """
+
 from __future__ import annotations
 
 import ast
@@ -32,6 +33,7 @@ def _func(src: str) -> ast.FunctionDef:
 
 # ---------- _resolve_in_snippet(): now generalized to accept NotIn too ----------
 
+
 def test_resolve_in_snippet_accepts_notin_operator():
     compare = ast.parse('"needle" not in haystack').body[0].value
     items, ci = iox._resolve_in_snippet(compare, {}, {})
@@ -47,12 +49,13 @@ def test_resolve_in_snippet_notin_case_insensitive():
 
 def test_resolve_in_snippet_rejects_other_operators():
     """Only In/NotIn are accepted -- an Eq compare must still return empty."""
-    compare = ast.parse('x == y').body[0].value
+    compare = ast.parse("x == y").body[0].value
     items, ci = iox._resolve_in_snippet(compare, {}, {})
     assert items == []
 
 
 # ---------- _find_expectations(): NotIn routes to expect_not_in, not expect_in ----------
+
 
 def test_find_expectations_notin_routes_to_not_in_not_contains():
     func = _func(
@@ -61,7 +64,9 @@ def test_find_expectations_notin_routes_to_not_in_not_contains():
         "    assert 'unexpected argument' not in r.stdout.lower()\n"
     )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert not_in == ["unexpected argument"]
     assert contains == []
     assert ci
@@ -77,7 +82,9 @@ def test_find_expectations_in_and_notin_coexist_correctly():
         "    assert 'error' not in r.stdout\n"
     )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert contains == ["ok"]
     assert not_in == ["error"]
 
@@ -92,20 +99,19 @@ def test_find_expectations_notin_with_tuple_unpacked_variable():
     resolver = iox._PathResolver(Path("test_fake.py"))
     shapes = {"run_exe": {"rc_pos": 0, "stdout_pos": 1}}
     rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
-        func, resolver, wrapper_shapes=shapes)
+        func, resolver, wrapper_shapes=shapes
+    )
     assert not_in == ["unexpected argument"]
 
 
 def test_find_expectations_notin_only_test_no_other_signal_still_extractable():
     """A test whose ONLY expectation is a NotIn check must still be recognized as having a
     real signal -- confirms the skip-decision itself was updated, not just resolution."""
-    func = _func(
-        "def test_x():\n"
-        "    r = run(['x'])\n"
-        "    assert 'crash' not in r.stdout\n"
-    )
+    func = _func("def test_x():\n    r = run(['x'])\n    assert 'crash' not in r.stdout\n")
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert not_in == ["crash"]
 
 
@@ -113,16 +119,17 @@ def test_boolop_or_branch_still_rejects_notin():
     """The BoolOp(Or) handling from fix 6 must remain scoped to In only -- NotIn inside an
     Or was never validated against real data and shouldn't silently start being accepted."""
     func = _func(
-        "def test_x():\n"
-        "    r = run(['x'])\n"
-        "    assert 'a' not in r.stdout or 'b' in r.stdout\n"
+        "def test_x():\n    r = run(['x'])\n    assert 'a' not in r.stdout or 'b' in r.stdout\n"
     )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert in_any == []
 
 
 # ---------- Example dataclass: the new field ----------
+
 
 def test_example_has_expect_not_in_field_defaulting_empty():
     ex = iox.Example(test="t")
@@ -130,6 +137,7 @@ def test_example_has_expect_not_in_field_defaulting_empty():
 
 
 # ---------- end-to-end: extract_file() recovers the real codesnap pattern ----------
+
 
 def test_extract_file_recovers_notin_pattern(tmp_path):
     test_file = tmp_path / "test_codesnap.py"

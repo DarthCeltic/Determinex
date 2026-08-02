@@ -18,7 +18,6 @@ from corpus.programbench.batch001_import_scan_pipeline_record import (
     write_import_scan_pipeline_record,
 )
 
-
 DIGEST_ADMISSION_RECORD = Path(
     "assurance/evidence/programbench_batch001_metadata_digest_admission/"
     "programbench_batch001_metadata_digest_admission_run_20260528.BATCH001_METADATA_DIGEST_ADMITTED.json"
@@ -78,7 +77,9 @@ class ProgramBenchBatch001ImportScanPipeline:
         packets = [_import_request(row) for row in self._admitted_rows()]
         status = (
             "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN"
-            if all(packet["status"] == "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN" for packet in packets)
+            if all(
+                packet["status"] == "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN" for packet in packets
+            )
             else "ARTIFACT_IMPORT_REQUEST_BLOCKED_NO_DIGEST"
         )
         record = self._record(
@@ -89,7 +90,13 @@ class ProgramBenchBatch001ImportScanPipeline:
                 "record_id": "programbench_batch001_artifact_import_request_packet_run_20260528",
                 "input_metadata_digest_admission": _rel(DIGEST_ADMISSION_RECORD),
                 "packets": packets,
-                "summary": {"import_requests_written": sum(1 for p in packets if p["status"] == "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN")},
+                "summary": {
+                    "import_requests_written": sum(
+                        1
+                        for p in packets
+                        if p["status"] == "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN"
+                    )
+                },
                 "import_performed": False,
                 "docker_pull_performed": False,
                 "docker_run_performed": False,
@@ -99,14 +106,27 @@ class ProgramBenchBatch001ImportScanPipeline:
         )
         return self._write(record, "programbench_batch001_artifact_import_requests")
 
-    def artifact_import_preflight(self, request_record: dict[str, Any] | None = None) -> dict[str, Any]:
-        request_record = request_record or self._read_or_build(IMPORT_REQUEST_RECORD, self.artifact_import_request_packet)
-        rows = [_preflight_row(packet, self.config.local_safe_import_method, self.config.scanner_available) for packet in request_record.get("packets", [])]
+    def artifact_import_preflight(
+        self, request_record: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        request_record = request_record or self._read_or_build(
+            IMPORT_REQUEST_RECORD, self.artifact_import_request_packet
+        )
+        rows = [
+            _preflight_row(
+                packet, self.config.local_safe_import_method, self.config.scanner_available
+            )
+            for packet in request_record.get("packets", [])
+        ]
         if rows and all(row["status"] == "ARTIFACT_IMPORT_PREFLIGHT_READY" for row in rows):
             status = "ARTIFACT_IMPORT_PREFLIGHT_READY"
-        elif any(row["status"] == "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_DIGEST_MISSING" for row in rows):
+        elif any(
+            row["status"] == "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_DIGEST_MISSING" for row in rows
+        ):
             status = "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_DIGEST_MISSING"
-        elif any(row["status"] == "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_SCAN_UNAVAILABLE" for row in rows):
+        elif any(
+            row["status"] == "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_SCAN_UNAVAILABLE" for row in rows
+        ):
             status = "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_SCAN_UNAVAILABLE"
         else:
             status = "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD"
@@ -116,7 +136,11 @@ class ProgramBenchBatch001ImportScanPipeline:
             status,
             {
                 "record_id": "programbench_batch001_artifact_import_preflight_run_20260528",
-                "input_import_request": _record_ref("programbench_batch001_artifact_import_requests", "programbench_batch001_artifact_import_request_packet_run_20260528", request_record.get("status", "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN")),
+                "input_import_request": _record_ref(
+                    "programbench_batch001_artifact_import_requests",
+                    "programbench_batch001_artifact_import_request_packet_run_20260528",
+                    request_record.get("status", "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN"),
+                ),
                 "rows": rows,
                 "summary": _preflight_summary(rows),
                 "import_performed": False,
@@ -127,21 +151,41 @@ class ProgramBenchBatch001ImportScanPipeline:
         )
         return self._write(record, "programbench_batch001_artifact_import_preflight")
 
-    def operator_artifact_import_packet_bundle(self, preflight: dict[str, Any] | None = None) -> dict[str, Any]:
-        preflight = preflight or self._read_or_build(IMPORT_PREFLIGHT_RECORD, self.artifact_import_preflight)
-        templates = [_operator_import_template(row) for row in preflight.get("rows", []) if row["status"] != "ARTIFACT_IMPORT_PREFLIGHT_READY"]
-        outbox_manifest = self._write_operator_import_outbox(templates) if self.config.write_records and self.config.write_outbox else {}
+    def operator_artifact_import_packet_bundle(
+        self, preflight: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        preflight = preflight or self._read_or_build(
+            IMPORT_PREFLIGHT_RECORD, self.artifact_import_preflight
+        )
+        templates = [
+            _operator_import_template(row)
+            for row in preflight.get("rows", [])
+            if row["status"] != "ARTIFACT_IMPORT_PREFLIGHT_READY"
+        ]
+        outbox_manifest = (
+            self._write_operator_import_outbox(templates)
+            if self.config.write_records and self.config.write_outbox
+            else {}
+        )
         record = self._record(
             "programbench_batch001_operator_artifact_import_packet_bundle",
             "determinex-programbench-batch001-operator-artifact-import-packet-bundle-v1",
             "OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_WRITTEN",
             {
                 "record_id": "programbench_batch001_operator_artifact_import_packet_bundle_run_20260528",
-                "input_preflight": _record_ref("programbench_batch001_artifact_import_preflight", "programbench_batch001_artifact_import_preflight_run_20260528", preflight.get("status", "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD")),
+                "input_preflight": _record_ref(
+                    "programbench_batch001_artifact_import_preflight",
+                    "programbench_batch001_artifact_import_preflight_run_20260528",
+                    preflight.get(
+                        "status", "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD"
+                    ),
+                ),
                 "templates": templates,
                 "outbox_manifest": outbox_manifest,
                 "summary": {"operator_import_packets_written": len(templates)},
-                "all_templates_not_approvals": all(t["approval_status"] == "TEMPLATE_NOT_APPROVAL" for t in templates),
+                "all_templates_not_approvals": all(
+                    t["approval_status"] == "TEMPLATE_NOT_APPROVAL" for t in templates
+                ),
                 "approvals_granted": 0,
                 "execution_authorized": False,
                 "training_eligible": False,
@@ -150,19 +194,37 @@ class ProgramBenchBatch001ImportScanPipeline:
         )
         return self._write(record, "programbench_batch001_operator_artifact_import_packet_bundle")
 
-    def exact_artifact_import_gate(self, live_packets: list[dict[str, Any]] | None = None, *, allow_fixture: bool = False) -> dict[str, Any]:
+    def exact_artifact_import_gate(
+        self, live_packets: list[dict[str, Any]] | None = None, *, allow_fixture: bool = False
+    ) -> dict[str, Any]:
         expected = {row["instance_id"]: row for row in self._admitted_rows()}
         packets = live_packets or []
-        decisions = [evaluate_import_packet(packet, expected.get(str(packet.get("instance_id") or ""), {}), allow_fixture=allow_fixture) for packet in packets]
+        decisions = [
+            evaluate_import_packet(
+                packet,
+                expected.get(str(packet.get("instance_id") or ""), {}),
+                allow_fixture=allow_fixture,
+            )
+            for packet in packets
+        ]
         if not decisions:
             status = "EXACT_ARTIFACT_IMPORT_REQUIRED"
         elif all(decision["status"] == "EXACT_ARTIFACT_IMPORT_ACCEPTED" for decision in decisions):
             status = "EXACT_ARTIFACT_IMPORT_ACCEPTED"
-        elif any(decision["status"] == "EXACT_ARTIFACT_IMPORT_BLOCKED_FIXTURE_NOT_LIVE" for decision in decisions):
+        elif any(
+            decision["status"] == "EXACT_ARTIFACT_IMPORT_BLOCKED_FIXTURE_NOT_LIVE"
+            for decision in decisions
+        ):
             status = "EXACT_ARTIFACT_IMPORT_BLOCKED_FIXTURE_NOT_LIVE"
-        elif any(decision["status"] == "EXACT_ARTIFACT_IMPORT_BLOCKED_DIGEST_MISMATCH" for decision in decisions):
+        elif any(
+            decision["status"] == "EXACT_ARTIFACT_IMPORT_BLOCKED_DIGEST_MISMATCH"
+            for decision in decisions
+        ):
             status = "EXACT_ARTIFACT_IMPORT_BLOCKED_DIGEST_MISMATCH"
-        elif any(decision["status"] == "EXACT_ARTIFACT_IMPORT_BLOCKED_FILE_HASH_MISSING" for decision in decisions):
+        elif any(
+            decision["status"] == "EXACT_ARTIFACT_IMPORT_BLOCKED_FILE_HASH_MISSING"
+            for decision in decisions
+        ):
             status = "EXACT_ARTIFACT_IMPORT_BLOCKED_FILE_HASH_MISSING"
         else:
             status = "EXACT_ARTIFACT_IMPORT_REJECTED"
@@ -187,15 +249,26 @@ class ProgramBenchBatch001ImportScanPipeline:
 
     def scan_queue(self, gate: dict[str, Any] | None = None) -> dict[str, Any]:
         gate = gate or self._read_or_build(IMPORT_GATE_RECORD, self.exact_artifact_import_gate)
-        accepted = {row.get("instance_id") for row in gate.get("decisions", []) if row.get("status") == "EXACT_ARTIFACT_IMPORT_ACCEPTED"}
-        items = [_scan_queue_item(row, accepted, self.config.scanner_available) for row in self._admitted_rows()]
+        accepted = {
+            row.get("instance_id")
+            for row in gate.get("decisions", [])
+            if row.get("status") == "EXACT_ARTIFACT_IMPORT_ACCEPTED"
+        }
+        items = [
+            _scan_queue_item(row, accepted, self.config.scanner_available)
+            for row in self._admitted_rows()
+        ]
         record = self._record(
             "programbench_batch001_scan_queue",
             "determinex-programbench-batch001-scan-queue-v1",
             "BATCH001_SCAN_QUEUE_WRITTEN",
             {
                 "record_id": "programbench_batch001_scan_queue_run_20260528",
-                "input_import_gate": _record_ref("programbench_batch001_exact_artifact_import_gate", "programbench_batch001_exact_artifact_import_gate_run_20260528", gate.get("status", "EXACT_ARTIFACT_IMPORT_REQUIRED")),
+                "input_import_gate": _record_ref(
+                    "programbench_batch001_exact_artifact_import_gate",
+                    "programbench_batch001_exact_artifact_import_gate_run_20260528",
+                    gate.get("status", "EXACT_ARTIFACT_IMPORT_REQUIRED"),
+                ),
                 "items": items,
                 "summary": _count_by(items, "status"),
                 "scan_performed": False,
@@ -238,19 +311,32 @@ class ProgramBenchBatch001ImportScanPipeline:
         scan_queue: dict[str, Any] | None = None,
         scan_policy: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        requests = requests or self._read_or_build(IMPORT_REQUEST_RECORD, self.artifact_import_request_packet)
-        preflight = preflight or self._read_or_build(IMPORT_PREFLIGHT_RECORD, self.artifact_import_preflight)
-        operator_packets = operator_packets or self._read_or_build(OPERATOR_IMPORT_PACKET_RECORD, self.operator_artifact_import_packet_bundle)
+        requests = requests or self._read_or_build(
+            IMPORT_REQUEST_RECORD, self.artifact_import_request_packet
+        )
+        preflight = preflight or self._read_or_build(
+            IMPORT_PREFLIGHT_RECORD, self.artifact_import_preflight
+        )
+        operator_packets = operator_packets or self._read_or_build(
+            OPERATOR_IMPORT_PACKET_RECORD, self.operator_artifact_import_packet_bundle
+        )
         gate = gate or self._read_or_build(IMPORT_GATE_RECORD, self.exact_artifact_import_gate)
         scan_queue = scan_queue or self._read_or_build(SCAN_QUEUE_RECORD, self.scan_queue)
-        scan_policy = scan_policy or self._read_or_build(SCAN_POLICY_RECORD, self.scan_policy_precheck)
+        scan_policy = scan_policy or self._read_or_build(
+            SCAN_POLICY_RECORD, self.scan_policy_precheck
+        )
         summary = {
             "metadata_admitted_targets": len(self._admitted_rows()),
-            "import_requests_written": requests.get("summary", {}).get("import_requests_written", 0),
+            "import_requests_written": requests.get("summary", {}).get(
+                "import_requests_written", 0
+            ),
             "import_preflight_ready": preflight.get("summary", {}).get("ready", 0),
             "import_preflight_blocked": preflight.get("summary", {}).get("blocked", 0),
-            "operator_import_packets_written": operator_packets.get("summary", {}).get("operator_import_packets_written", 0),
-            "artifact_import_gate_ready": gate.get("status") in {"EXACT_ARTIFACT_IMPORT_REQUIRED", "EXACT_ARTIFACT_IMPORT_ACCEPTED"},
+            "operator_import_packets_written": operator_packets.get("summary", {}).get(
+                "operator_import_packets_written", 0
+            ),
+            "artifact_import_gate_ready": gate.get("status")
+            in {"EXACT_ARTIFACT_IMPORT_REQUIRED", "EXACT_ARTIFACT_IMPORT_ACCEPTED"},
             "scan_queue_entries": len(scan_queue.get("items", [])),
             "scan_policy_precheck": scan_policy.get("status", ""),
             "artifacts_imported": 0,
@@ -267,12 +353,40 @@ class ProgramBenchBatch001ImportScanPipeline:
                 "record_id": "programbench_batch001_import_scan_campaign_final_state_run_20260528",
                 "inputs": {
                     "lookup_campaign_final_state": _rel(LOOKUP_FINAL_RECORD),
-                    "artifact_import_request_packet": _record_ref("programbench_batch001_artifact_import_requests", "programbench_batch001_artifact_import_request_packet_run_20260528", requests.get("status", "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN")),
-                    "artifact_import_preflight": _record_ref("programbench_batch001_artifact_import_preflight", "programbench_batch001_artifact_import_preflight_run_20260528", preflight.get("status", "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD")),
-                    "operator_artifact_import_packet_bundle": _record_ref("programbench_batch001_operator_artifact_import_packet_bundle", "programbench_batch001_operator_artifact_import_packet_bundle_run_20260528", operator_packets.get("status", "OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_WRITTEN")),
-                    "exact_artifact_import_gate": _record_ref("programbench_batch001_exact_artifact_import_gate", "programbench_batch001_exact_artifact_import_gate_run_20260528", gate.get("status", "EXACT_ARTIFACT_IMPORT_REQUIRED")),
-                    "scan_queue": _record_ref("programbench_batch001_scan_queue", "programbench_batch001_scan_queue_run_20260528", scan_queue.get("status", "BATCH001_SCAN_QUEUE_WRITTEN")),
-                    "scan_policy_precheck": _record_ref("programbench_batch001_scan_policy_precheck", "programbench_batch001_scan_policy_precheck_run_20260528", scan_policy.get("status", "SCAN_POLICY_PRECHECK_WRITTEN")),
+                    "artifact_import_request_packet": _record_ref(
+                        "programbench_batch001_artifact_import_requests",
+                        "programbench_batch001_artifact_import_request_packet_run_20260528",
+                        requests.get("status", "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN"),
+                    ),
+                    "artifact_import_preflight": _record_ref(
+                        "programbench_batch001_artifact_import_preflight",
+                        "programbench_batch001_artifact_import_preflight_run_20260528",
+                        preflight.get(
+                            "status", "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD"
+                        ),
+                    ),
+                    "operator_artifact_import_packet_bundle": _record_ref(
+                        "programbench_batch001_operator_artifact_import_packet_bundle",
+                        "programbench_batch001_operator_artifact_import_packet_bundle_run_20260528",
+                        operator_packets.get(
+                            "status", "OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_WRITTEN"
+                        ),
+                    ),
+                    "exact_artifact_import_gate": _record_ref(
+                        "programbench_batch001_exact_artifact_import_gate",
+                        "programbench_batch001_exact_artifact_import_gate_run_20260528",
+                        gate.get("status", "EXACT_ARTIFACT_IMPORT_REQUIRED"),
+                    ),
+                    "scan_queue": _record_ref(
+                        "programbench_batch001_scan_queue",
+                        "programbench_batch001_scan_queue_run_20260528",
+                        scan_queue.get("status", "BATCH001_SCAN_QUEUE_WRITTEN"),
+                    ),
+                    "scan_policy_precheck": _record_ref(
+                        "programbench_batch001_scan_policy_precheck",
+                        "programbench_batch001_scan_policy_precheck_run_20260528",
+                        scan_policy.get("status", "SCAN_POLICY_PRECHECK_WRITTEN"),
+                    ),
                 },
                 "summary": summary,
                 "per_target_next_action": _per_target_next_action(scan_queue),
@@ -317,7 +431,9 @@ class ProgramBenchBatch001ImportScanPipeline:
             return {}
         return json.loads(full.read_text(encoding="utf-8"))
 
-    def _record(self, record_type: str, schema_version: str, status: str, payload: dict[str, Any]) -> dict[str, Any]:
+    def _record(
+        self, record_type: str, schema_version: str, status: str, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         return make_import_scan_pipeline_record(
             record_type=record_type,
             schema_version=schema_version,
@@ -327,11 +443,19 @@ class ProgramBenchBatch001ImportScanPipeline:
 
     def _write(self, record: dict[str, Any], directory_name: str) -> dict[str, Any]:
         if self.config.write_records:
-            write_import_scan_pipeline_record(record, self.config.root / "assurance" / "evidence" / directory_name)
+            write_import_scan_pipeline_record(
+                record, self.config.root / "assurance" / "evidence" / directory_name
+            )
         return record
 
     def _write_operator_import_outbox(self, templates: list[dict[str, Any]]) -> dict[str, Any]:
-        outbox = self.config.root / "assurance" / "operator_outbox" / "programbench" / "batch001_import_scan"
+        outbox = (
+            self.config.root
+            / "assurance"
+            / "operator_outbox"
+            / "programbench"
+            / "batch001_import_scan"
+        )
         outbox.mkdir(parents=True, exist_ok=True)
         readme = outbox / "README.md"
         readme.write_text(
@@ -345,7 +469,10 @@ class ProgramBenchBatch001ImportScanPipeline:
         )
         entries = [_file_entry(readme)]
         for template in templates:
-            path = outbox / f"{_safe(template['instance_id'])}.artifact_import_provenance.template.json"
+            path = (
+                outbox
+                / f"{_safe(template['instance_id'])}.artifact_import_provenance.template.json"
+            )
             path.write_text(json.dumps(template, indent=2, sort_keys=True) + "\n", encoding="utf-8")
             entries.append(_file_entry(path))
         manifest = {
@@ -357,29 +484,59 @@ class ProgramBenchBatch001ImportScanPipeline:
             "entries": entries,
         }
         manifest_path = outbox / "manifest.json"
-        manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        manifest_path.write_text(
+            json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         entries.append(_file_entry(manifest_path))
         return {"path": _rel(manifest_path), "template_count": len(templates), "entries": entries}
 
 
-def evaluate_import_packet(packet: dict[str, Any], expected: dict[str, Any], *, allow_fixture: bool = False) -> dict[str, Any]:
+def evaluate_import_packet(
+    packet: dict[str, Any], expected: dict[str, Any], *, allow_fixture: bool = False
+) -> dict[str, Any]:
     instance_id = str(packet.get("instance_id") or "")
     if packet.get("fixture_packet") and not allow_fixture:
-        return _gate_decision("EXACT_ARTIFACT_IMPORT_BLOCKED_FIXTURE_NOT_LIVE", instance_id, packet, ["fixture_packet_not_live"])
+        return _gate_decision(
+            "EXACT_ARTIFACT_IMPORT_BLOCKED_FIXTURE_NOT_LIVE",
+            instance_id,
+            packet,
+            ["fixture_packet_not_live"],
+        )
     if not expected or instance_id != expected.get("instance_id"):
-        return _gate_decision("EXACT_ARTIFACT_IMPORT_BLOCKED_SCOPE_MISMATCH", instance_id, packet, ["scope_mismatch"])
+        return _gate_decision(
+            "EXACT_ARTIFACT_IMPORT_BLOCKED_SCOPE_MISMATCH", instance_id, packet, ["scope_mismatch"]
+        )
     if packet.get("image_name") != expected.get("image_name"):
-        return _gate_decision("EXACT_ARTIFACT_IMPORT_BLOCKED_SCOPE_MISMATCH", instance_id, packet, ["image_name_mismatch"])
+        return _gate_decision(
+            "EXACT_ARTIFACT_IMPORT_BLOCKED_SCOPE_MISMATCH",
+            instance_id,
+            packet,
+            ["image_name_mismatch"],
+        )
     if packet.get("manifest_digest") != expected.get("digest"):
-        return _gate_decision("EXACT_ARTIFACT_IMPORT_BLOCKED_DIGEST_MISMATCH", instance_id, packet, ["manifest_digest_mismatch"])
+        return _gate_decision(
+            "EXACT_ARTIFACT_IMPORT_BLOCKED_DIGEST_MISMATCH",
+            instance_id,
+            packet,
+            ["manifest_digest_mismatch"],
+        )
     if not str(packet.get("artifact_file_sha256") or "").startswith("sha256:"):
-        return _gate_decision("EXACT_ARTIFACT_IMPORT_BLOCKED_FILE_HASH_MISSING", instance_id, packet, ["artifact_file_sha256_missing"])
+        return _gate_decision(
+            "EXACT_ARTIFACT_IMPORT_BLOCKED_FILE_HASH_MISSING",
+            instance_id,
+            packet,
+            ["artifact_file_sha256_missing"],
+        )
     if packet.get("authorizes_execution") is True or packet.get("training_eligible") is True:
-        return _gate_decision("EXACT_ARTIFACT_IMPORT_REJECTED", instance_id, packet, ["overbroad_authority"])
+        return _gate_decision(
+            "EXACT_ARTIFACT_IMPORT_REJECTED", instance_id, packet, ["overbroad_authority"]
+        )
     return _gate_decision("EXACT_ARTIFACT_IMPORT_ACCEPTED", instance_id, packet, [])
 
 
-def fixture_import_packet(row: dict[str, Any], *, digest: str | None = None, include_hash: bool = True) -> dict[str, Any]:
+def fixture_import_packet(
+    row: dict[str, Any], *, digest: str | None = None, include_hash: bool = True
+) -> dict[str, Any]:
     return {
         "schema_version": "determinex-programbench-operator-artifact-import-v1",
         "packet_type": "artifact_import_provenance",
@@ -399,7 +556,11 @@ def fixture_import_packet(row: dict[str, Any], *, digest: str | None = None, inc
 
 def _import_request(row: dict[str, Any]) -> dict[str, Any]:
     digest = str(row.get("digest") or "")
-    status = "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN" if digest.startswith("sha256:") else "ARTIFACT_IMPORT_REQUEST_BLOCKED_NO_DIGEST"
+    status = (
+        "ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN"
+        if digest.startswith("sha256:")
+        else "ARTIFACT_IMPORT_REQUEST_BLOCKED_NO_DIGEST"
+    )
     instance_id = str(row.get("instance_id") or "")
     return {
         "schema_version": "determinex-programbench-artifact-import-request-v1",
@@ -429,7 +590,9 @@ def _import_request(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _preflight_row(packet: dict[str, Any], local_safe_import_method: str, scanner_available: bool) -> dict[str, Any]:
+def _preflight_row(
+    packet: dict[str, Any], local_safe_import_method: str, scanner_available: bool
+) -> dict[str, Any]:
     digest = str(packet.get("exact_digest") or "")
     if not digest.startswith("sha256:"):
         status = "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_DIGEST_MISSING"
@@ -437,7 +600,10 @@ def _preflight_row(packet: dict[str, Any], local_safe_import_method: str, scanne
     elif not scanner_available:
         status = "ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_SCAN_UNAVAILABLE"
         reason = "scanner_unavailable"
-    elif local_safe_import_method in {"operator_supplied_tar", "exact_digest_registry_quarantine_import"}:
+    elif local_safe_import_method in {
+        "operator_supplied_tar",
+        "exact_digest_registry_quarantine_import",
+    }:
         status = "ARTIFACT_IMPORT_PREFLIGHT_READY"
         reason = "safe_import_method_available"
     else:
@@ -453,9 +619,11 @@ def _preflight_row(packet: dict[str, Any], local_safe_import_method: str, scanne
         "metadata_only_digest_admission_exists": digest.startswith("sha256:"),
         "import_method_available": bool(local_safe_import_method),
         "import_method": local_safe_import_method or "",
-        "method_does_not_run_containers": local_safe_import_method in {"operator_supplied_tar", "exact_digest_registry_quarantine_import"},
+        "method_does_not_run_containers": local_safe_import_method
+        in {"operator_supplied_tar", "exact_digest_registry_quarantine_import"},
         "method_uses_tag_only_pull": False,
-        "observed_digest_verifiable": local_safe_import_method in {"operator_supplied_tar", "exact_digest_registry_quarantine_import"},
+        "observed_digest_verifiable": local_safe_import_method
+        in {"operator_supplied_tar", "exact_digest_registry_quarantine_import"},
         "quarantine_path_available": True,
         "scanner_available": scanner_available,
         "execution_performed": False,
@@ -484,7 +652,9 @@ def _operator_import_template(row: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _scan_queue_item(row: dict[str, Any], accepted: set[Any], scanner_available: bool) -> dict[str, Any]:
+def _scan_queue_item(
+    row: dict[str, Any], accepted: set[Any], scanner_available: bool
+) -> dict[str, Any]:
     imported = row.get("instance_id") in accepted
     if imported and scanner_available:
         status = "SCAN_READY_FOR_IMPORTED_ARTIFACT"
@@ -510,7 +680,9 @@ def _scan_queue_item(row: dict[str, Any], accepted: set[Any], scanner_available:
     }
 
 
-def _gate_decision(status: str, instance_id: str, packet: dict[str, Any], reasons: list[str]) -> dict[str, Any]:
+def _gate_decision(
+    status: str, instance_id: str, packet: dict[str, Any], reasons: list[str]
+) -> dict[str, Any]:
     return {
         "instance_id": instance_id,
         "status": status,
@@ -532,7 +704,11 @@ def _preflight_summary(rows: list[dict[str, Any]]) -> dict[str, int]:
 def _next_unblockers(preflight: dict[str, Any]) -> list[str]:
     if preflight.get("status") == "ARTIFACT_IMPORT_PREFLIGHT_READY":
         return ["EXACT_ARTIFACT_IMPORT_GATE_REVIEW", "SCAN_QUEUE"]
-    return ["OPERATOR_ARTIFACT_IMPORT_PACKET", "EXACT_ARTIFACT_IMPORT_GATE_REVIEW", "SCAN_QUEUE_AFTER_IMPORT"]
+    return [
+        "OPERATOR_ARTIFACT_IMPORT_PACKET",
+        "EXACT_ARTIFACT_IMPORT_GATE_REVIEW",
+        "SCAN_QUEUE_AFTER_IMPORT",
+    ]
 
 
 def _per_target_next_action(scan_queue: dict[str, Any]) -> list[dict[str, Any]]:
@@ -595,7 +771,9 @@ def hash_packet(packet: dict[str, Any]) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Write Batch001 import/scan planning campaign evidence.")
+    parser = argparse.ArgumentParser(
+        description="Write Batch001 import/scan planning campaign evidence."
+    )
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--no-write", action="store_true")
     parser.add_argument("--safe-import-method", default="")

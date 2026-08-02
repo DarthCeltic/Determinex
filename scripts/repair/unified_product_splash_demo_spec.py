@@ -11,6 +11,7 @@ about scope must appear ('not all apps', 'not all languages',
 'not production-ready arbitrary apps', 'not training enabled').
 No network, no Docker, no ProgramBench, no real external mutation.
 """
+
 from __future__ import annotations
 
 from .unified_product_splash_demo_spec_record import (
@@ -22,13 +23,14 @@ from .unified_product_splash_demo_spec_record import (
     UnifiedProductSplashDemoSpecRecord,
 )
 
-
 _FORBIDDEN_INFRA_PHRASES = {
     "network": ("call openai", "call anthropic", "remote model", "external api"),
     "docker": ("docker run", "docker compose", "docker pull"),
     "programbench": ("programbench eval", "programbench run"),
     "real_external_mutation": (
-        "mutate the user's real repo", "real user source repo", "live production codebase",
+        "mutate the user's real repo",
+        "real user source repo",
+        "live production codebase",
     ),
 }
 
@@ -125,13 +127,17 @@ def build_record() -> UnifiedProductSplashDemoSpecRecord:
     # 3) Structural requirements: 5 steps mapped to 5 distinct surfaces.
     surfaces_seen = [s.surface for s in seq]
     expected_surfaces = [
-        "idea_lab", "repo_clinic", "maintenance_bay",
-        "learning_studio", "proof_operator_center",
+        "idea_lab",
+        "repo_clinic",
+        "maintenance_bay",
+        "learning_studio",
+        "proof_operator_center",
     ]
     if surfaces_seen != expected_surfaces:
         return _block(
             "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_AUTHORITY_CONFUSION",
-            seq=seq, haystack=haystack,
+            seq=seq,
+            haystack=haystack,
             note=f"surfaces must follow {expected_surfaces!r}; got {surfaces_seen!r}",
         )
 
@@ -143,26 +149,30 @@ def build_record() -> UnifiedProductSplashDemoSpecRecord:
     if not blocked:
         return _block(
             "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_AUTHORITY_CONFUSION",
-            seq=seq, haystack=haystack,
+            seq=seq,
+            haystack=haystack,
             note="no blocked path step found",
         )
     if not teaching:
         return _block(
             "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_AUTHORITY_CONFUSION",
-            seq=seq, haystack=haystack,
+            seq=seq,
+            haystack=haystack,
             note="no teaching step found",
         )
     if not proof:
         return _block(
             "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_MISSING_PROOF_VIEW",
-            seq=seq, haystack=haystack,
+            seq=seq,
+            haystack=haystack,
             note="no proof/evidence view step",
         )
 
     if network_required or docker_required or pb_required or real_ext:
         return _block(
             "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_FALSE_UNIVERSALITY",
-            seq=seq, haystack=haystack,
+            seq=seq,
+            haystack=haystack,
             note=(
                 f"forbidden infra: network={network_required}, "
                 f"docker={docker_required}, programbench={pb_required}, "
@@ -177,21 +187,24 @@ def build_record() -> UnifiedProductSplashDemoSpecRecord:
     if not tagline_present:
         return _block(
             "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_FALSE_UNIVERSALITY",
-            seq=seq, haystack=haystack,
+            seq=seq,
+            haystack=haystack,
             note=f"required tagline {REQUIRED_TAGLINE!r} not present",
         )
     if not phrases_present:
         missing = [p for p in REQUIRED_PHRASES if p.lower() not in haystack_lower]
         return _block(
             "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_FALSE_UNIVERSALITY",
-            seq=seq, haystack=haystack,
+            seq=seq,
+            haystack=haystack,
             note=f"required phrases missing: {missing!r}",
         )
     if not caveats_present:
         missing = [c for c in REQUIRED_NEGATIVE_CAVEATS if c.lower() not in haystack_lower]
         return _block(
             "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_FALSE_UNIVERSALITY",
-            seq=seq, haystack=haystack,
+            seq=seq,
+            haystack=haystack,
             note=f"required negative caveats missing: {missing!r}",
         )
 

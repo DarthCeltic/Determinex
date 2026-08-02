@@ -31,6 +31,8 @@ def swebench_pro_task_spec(
         scorer="all_commands_pass",
         privacy_policy="cloak",
         cloak_mode=cloak_mode,
-        resource_limits=ResourceLimits(timeout_seconds=timeout_seconds, max_attempts=5, docker_cpus=2),
+        resource_limits=ResourceLimits(
+            timeout_seconds=timeout_seconds, max_attempts=5, docker_cpus=2
+        ),
         metadata={"adapter": "swebench_pro", "task_shape": "repo_repair"},
     )

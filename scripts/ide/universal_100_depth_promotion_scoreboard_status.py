@@ -29,6 +29,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -46,11 +47,8 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
 
-
 _REPO_ROOT = _HERE.parent.parent.parent
-_EVIDENCE_DIR = (
-    _REPO_ROOT / "assurance" / "evidence" / "universal_100_depth_promotion_scoreboard"
-)
+_EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "universal_100_depth_promotion_scoreboard"
 EXPECTED_STATUS = "UNIVERSAL_100_DEPTH_PROMOTION_SCOREBOARD_PASSED"
 LOCK_ID = "DETERMINEX_UNIVERSAL_100_DEPTH_PROMOTION_SCOREBOARD_LOCK_001"
 EXPECTED_FAMILIES_TOTAL = 40
@@ -281,7 +279,9 @@ def load(
 
     release_supported_families = _as_int(blob.get("release_supported_families", 0))
     release_supported_cells = _as_int(blob.get("release_supported_cells", 0))
-    if (release_supported_families > 0 or release_supported_cells > 0) and not _has_release_proof_reference(blob):
+    if (
+        release_supported_families > 0 or release_supported_cells > 0
+    ) and not _has_release_proof_reference(blob):
         return _block(
             _token("BLOCKED_RELEASE_OVERCLAIM"),
             f"release_supported_families={release_supported_families} / "
@@ -309,14 +309,18 @@ def load(
     return Universal100DepthPromotionScoreboardStatus(
         decision=_token("PASSED"),
         target_surface="Universal 100 Depth Promotion Scoreboard",
-        target_workflow=str(blob.get("target_workflow") or "universal 100 depth promotion scoreboard"),
+        target_workflow=str(
+            blob.get("target_workflow") or "universal 100 depth promotion scoreboard"
+        ),
         lock_id=LOCK_ID,
         families_total=families_total,
         families_level_1_covered=families_level_1,
         families_with_any_evidence_before=_as_int(blob.get("families_with_any_evidence_before", 0)),
         families_with_any_evidence_after=_as_int(blob.get("families_with_any_evidence_after", 0)),
         families_with_no_evidence_after=_as_int(blob.get("families_with_no_evidence_after", 0)),
-        families_by_highest_support_depth={str(k): _as_int(v) for k, v in families_by_depth_raw.items()},
+        families_by_highest_support_depth={
+            str(k): _as_int(v) for k, v in families_by_depth_raw.items()
+        },
         cells_by_support_depth={str(k): _as_int(v) for k, v in cells_by_depth_raw.items()},
         release_supported_cells=release_supported_cells,
         release_supported_families=release_supported_families,
@@ -327,8 +331,12 @@ def load(
         fresh_install_verified_cells=_as_int(blob.get("fresh_install_verified_cells", 0)),
         fresh_install_verified_families=_as_int(blob.get("fresh_install_verified_families", 0)),
         blockers_remaining_by_category={str(k): _as_int(v) for k, v in blockers_by_cat_raw.items()},
-        families_improved_this_wave=tuple(str(x) for x in (blob.get("families_improved_this_wave") or [])),
-        next_depth_promotion_queue=tuple(str(x) for x in (blob.get("next_depth_promotion_queue") or [])),
+        families_improved_this_wave=tuple(
+            str(x) for x in (blob.get("families_improved_this_wave") or [])
+        ),
+        next_depth_promotion_queue=tuple(
+            str(x) for x in (blob.get("next_depth_promotion_queue") or [])
+        ),
         source_mutation_authorized=False,
         real_user_source_mutation_authorized=False,
         approval_authority_granted=False,

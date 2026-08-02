@@ -18,9 +18,9 @@ Run:
 Then SSH to the box with:  ssh -R 18080:localhost:18080 ...
 and on the box export:      DETERMINEX_DEEPSEEK_HOST=http://localhost:18080
 """
+
 from __future__ import annotations
 
-import io
 import os
 import sys
 import urllib.request
@@ -37,7 +37,7 @@ def _load_key() -> str:
     # fall back to .env next to the repo root
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     try:
-        for ln in io.open(os.path.join(root, ".env"), encoding="utf-8"):
+        for ln in open(os.path.join(root, ".env"), encoding="utf-8"):
             if ln.strip().startswith("#") or "=" not in ln:
                 continue
             name, val = ln.split("=", 1)
@@ -103,9 +103,14 @@ class Handler(BaseHTTPRequestHandler):
 
 def main() -> int:
     if not KEY:
-        print("WARN: no DEEPSEEK_API_KEY found locally; proxy will forward without auth", file=sys.stderr)
+        print(
+            "WARN: no DEEPSEEK_API_KEY found locally; proxy will forward without auth",
+            file=sys.stderr,
+        )
     srv = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
-    print(f"[key-proxy] listening 127.0.0.1:{PORT} -> {UPSTREAM} (key {'loaded' if KEY else 'MISSING'})")
+    print(
+        f"[key-proxy] listening 127.0.0.1:{PORT} -> {UPSTREAM} (key {'loaded' if KEY else 'MISSING'})"
+    )
     srv.serve_forever()
     return 0
 

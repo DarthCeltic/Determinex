@@ -6,7 +6,7 @@ import json
 import os
 import unicodedata
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -43,7 +43,7 @@ class CleanroomImageScanTriageRecord:
     def signed(self) -> dict[str, Any]:
         row = asdict(self)
         if not row["created_at"]:
-            row["created_at"] = datetime.now(timezone.utc).isoformat()
+            row["created_at"] = datetime.now(UTC).isoformat()
         row["record_signature"] = _signature(row)
         return row
 

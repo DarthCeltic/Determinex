@@ -9,6 +9,7 @@ see the module's own LlamaCppUnavailable). Every test here either exercises the 
 don't need it (Ollama discovery, output-format contract) or mocks `llama_cpp` so the collection
 LOGIC is verified without the native library being present.
 """
+
 from __future__ import annotations
 
 import subprocess
@@ -59,7 +60,9 @@ def test_discover_parses_list_and_resolves_from_line(tmp_path):
     blob = tmp_path / "sha256-abc123"
     blob.write_bytes(b"fake gguf bytes")
 
-    list_output = "NAME               ID              SIZE\nmy-model:latest    abc123          1.0 GB\n"
+    list_output = (
+        "NAME               ID              SIZE\nmy-model:latest    abc123          1.0 GB\n"
+    )
     modelfile_output = f"# comment\nFROM {blob}\nTEMPLATE {{{{ .Prompt }}}}\n"
 
     def fake_run(cmd, **kwargs):
@@ -78,7 +81,9 @@ def test_discover_parses_list_and_resolves_from_line(tmp_path):
 def test_discover_skips_a_model_whose_blob_does_not_resolve():
     """A FROM line pointing at a path that doesn't exist on disk must not be reported as
     discoverable -- collect_states_gguf would just fail to load it."""
-    list_output = "NAME               ID              SIZE\nghost-model:latest abc123          1.0 GB\n"
+    list_output = (
+        "NAME               ID              SIZE\nghost-model:latest abc123          1.0 GB\n"
+    )
     modelfile_output = "FROM /this/path/does/not/exist\n"
 
     def fake_run(cmd, **kwargs):
@@ -228,6 +233,7 @@ def test_run_collection_gguf_writes_a_summary_with_gguf_backend_tag(tmp_path):
 
     assert results == {"testfamily": len(SHARED_PROMPTS)}
     import json
+
     summary = json.loads((out_dir / "collection_summary.json").read_text(encoding="utf-8"))
     assert summary["backend"] == "gguf"
     assert summary["families"]["testfamily"] == len(SHARED_PROMPTS)
@@ -271,4 +277,5 @@ def test_shared_prompts_identical_between_both_collectors():
     """The whole point of extracting shared_prompts.py: both collectors must train the SAME
     signal, regardless of which one loaded the model."""
     from rosetta.collect_hidden_states import SHARED_PROMPTS as hf_prompts
+
     assert hf_prompts == SHARED_PROMPTS

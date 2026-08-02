@@ -44,16 +44,19 @@ from hive import hardware as H  # noqa: E402
 
 def _fake_run(responses: dict[str, tuple[int, str]]):
     """subprocess.run stub keyed on the executable name."""
+
     def run(argv, *_a, **_k):
         exe = Path(str(argv[0])).name.lower().removesuffix(".exe")
         rc, out = responses.get(exe, (1, ""))
         if rc == -1:
             raise FileNotFoundError(exe)
         return subprocess.CompletedProcess(argv, rc, out, "")
+
     return run
 
 
 # ── NVIDIA: verified against the real host ───────────────────────────────────────────────────────
+
 
 def test_this_machine_is_detected_and_is_not_reported_as_cpu_only():
     """Not a mock. If this box has an accelerator, Determinex must see it."""
@@ -73,17 +76,23 @@ def test_this_machine_is_detected_and_is_not_reported_as_cpu_only():
 
 # ── AMD: simulated vendor output ─────────────────────────────────────────────────────────────────
 
+
 def test_amd_is_detected_via_rocm_smi_and_bytes_are_not_read_as_megabytes(monkeypatch):
     """`rocm-smi --showmeminfo vram --csv` reports BYTES. 24 GB must land in tier 2."""
     rocm_csv = (
-        "device,VRAM Total Memory (B),VRAM Total Used Memory (B)\n"
-        "card0, 25757220864, 1048576\n"
+        "device,VRAM Total Memory (B),VRAM Total Used Memory (B)\ncard0, 25757220864, 1048576\n"
     )
-    monkeypatch.setattr(subprocess, "run", _fake_run({
-        "nvidia-smi": (-1, ""),      # absent, as on an AMD box
-        "amd-smi": (-1, ""),         # older ROCm
-        "rocm-smi": (0, rocm_csv),
-    }))
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        _fake_run(
+            {
+                "nvidia-smi": (-1, ""),  # absent, as on an AMD box
+                "amd-smi": (-1, ""),  # older ROCm
+                "rocm-smi": (0, rocm_csv),
+            }
+        ),
+    )
     vendor, torch_device, vram_gb, count = H.detect_accelerator()
     assert vendor == "amd", f"expected amd, got {vendor}"
     assert torch_device == "cuda", (
@@ -95,14 +104,18 @@ def test_amd_is_detected_via_rocm_smi_and_bytes_are_not_read_as_megabytes(monkey
 
 
 def test_amd_multi_gpu_reports_the_largest_card_and_the_count(monkeypatch):
-    rocm_csv = (
-        "device,VRAM Total Memory (B)\n"
-        "card0, 17163091968\n"
-        "card1, 25757220864\n"
+    rocm_csv = "device,VRAM Total Memory (B)\ncard0, 17163091968\ncard1, 25757220864\n"
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        _fake_run(
+            {
+                "nvidia-smi": (-1, ""),
+                "amd-smi": (-1, ""),
+                "rocm-smi": (0, rocm_csv),
+            }
+        ),
     )
-    monkeypatch.setattr(subprocess, "run", _fake_run({
-        "nvidia-smi": (-1, ""), "amd-smi": (-1, ""), "rocm-smi": (0, rocm_csv),
-    }))
     _vendor, _dev, vram_gb, count = H.detect_accelerator()
     assert count == 2
     assert 23.0 < vram_gb < 25.0, "should report the largest card, as the NVIDIA path does"
@@ -110,10 +123,16 @@ def test_amd_multi_gpu_reports_the_largest_card_and_the_count(monkeypatch):
 
 def test_amd_smi_megabytes_are_scaled_correctly(monkeypatch):
     """The newer tool reports MB, not bytes — the opposite scaling mistake."""
-    monkeypatch.setattr(subprocess, "run", _fake_run({
-        "nvidia-smi": (-1, ""),
-        "amd-smi": (0, "gpu,vram_size\n0,24560\n"),
-    }))
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        _fake_run(
+            {
+                "nvidia-smi": (-1, ""),
+                "amd-smi": (0, "gpu,vram_size\n0,24560\n"),
+            }
+        ),
+    )
     vendor, _dev, vram_gb, count = H.detect_accelerator()
     assert vendor == "amd"
     assert 23.0 < vram_gb < 25.0, f"24560 MB parsed as {vram_gb:.1f} GB"
@@ -122,10 +141,17 @@ def test_amd_smi_megabytes_are_scaled_correctly(monkeypatch):
 
 def test_an_amd_rig_reaches_tier_2_and_keeps_models_resident(monkeypatch):
     """The whole point: the tier must follow the memory, so the lifecycle policy stops starving."""
-    monkeypatch.setattr(subprocess, "run", _fake_run({
-        "nvidia-smi": (-1, ""), "amd-smi": (-1, ""),
-        "rocm-smi": (0, "device,VRAM Total Memory (B)\ncard0, 25757220864\n"),
-    }))
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        _fake_run(
+            {
+                "nvidia-smi": (-1, ""),
+                "amd-smi": (-1, ""),
+                "rocm-smi": (0, "device,VRAM Total Memory (B)\ncard0, 25757220864\n"),
+            }
+        ),
+    )
     monkeypatch.setattr(H.ThermalProfile, "measure", staticmethod(lambda: H.ThermalProfile()))
     profile = H.profile_hardware()
     assert profile.accelerator == "amd"
@@ -137,15 +163,24 @@ def test_an_amd_rig_reaches_tier_2_and_keeps_models_resident(monkeypatch):
 
 # ── Apple Silicon ────────────────────────────────────────────────────────────────────────────────
 
+
 def test_apple_silicon_reports_a_share_of_unified_memory(monkeypatch):
     """Unified memory is not a separate pool. Claiming all of it would put an 8 GB Mac in tier 0 and
     start swapping under a 3B model, so a fraction is reported."""
     monkeypatch.setattr(H.platform, "system", lambda: "Darwin")
     monkeypatch.setattr(H.platform, "machine", lambda: "arm64")
-    monkeypatch.setattr(subprocess, "run", _fake_run({
-        "nvidia-smi": (-1, ""), "amd-smi": (-1, ""), "rocm-smi": (-1, ""),
-        "sysctl": (0, str(64 * 1024 ** 3)),        # 64 GB M-series
-    }))
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        _fake_run(
+            {
+                "nvidia-smi": (-1, ""),
+                "amd-smi": (-1, ""),
+                "rocm-smi": (-1, ""),
+                "sysctl": (0, str(64 * 1024**3)),  # 64 GB M-series
+            }
+        ),
+    )
     vendor, torch_device, vram_gb, count = H.detect_accelerator()
     assert vendor == "apple"
     assert torch_device == "mps", "Metal is reached through torch's 'mps' device, not 'cuda'"
@@ -157,19 +192,28 @@ def test_intel_mac_is_not_reported_as_apple_silicon(monkeypatch):
     """`mps` does not exist on an Intel Mac; handing it to torch would raise."""
     monkeypatch.setattr(H.platform, "system", lambda: "Darwin")
     monkeypatch.setattr(H.platform, "machine", lambda: "x86_64")
-    monkeypatch.setattr(subprocess, "run", _fake_run({
-        "nvidia-smi": (-1, ""), "amd-smi": (-1, ""), "rocm-smi": (-1, ""),
-        "sysctl": (0, str(32 * 1024 ** 3)),
-    }))
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        _fake_run(
+            {
+                "nvidia-smi": (-1, ""),
+                "amd-smi": (-1, ""),
+                "rocm-smi": (-1, ""),
+                "sysctl": (0, str(32 * 1024**3)),
+            }
+        ),
+    )
     vendor, torch_device, _vram, _count = H.detect_accelerator()
     assert vendor == "cpu" and torch_device == "cpu"
 
 
 # ── No accelerator ───────────────────────────────────────────────────────────────────────────────
 
+
 def test_a_machine_with_no_accelerator_falls_back_to_cpu_honestly(monkeypatch):
     monkeypatch.setattr(H.platform, "system", lambda: "Linux")
-    monkeypatch.setattr(subprocess, "run", _fake_run({}))   # every tool absent
+    monkeypatch.setattr(subprocess, "run", _fake_run({}))  # every tool absent
     vendor, torch_device, vram_gb, count = H.detect_accelerator()
     assert (vendor, torch_device, vram_gb, count) == ("cpu", "cpu", 0.0, 0)
 
@@ -197,12 +241,12 @@ class TestAcceleratorlessCapacityComesFromRam:
     @pytest.mark.parametrize(
         "ram_gb,expected_tier",
         [
-            (8.0, -1),    # 8 - 8 reserve = 0 usable: genuinely cannot host a model
-            (12.0, 0),    # 4 usable: the 1.5B builder fits
-            (16.0, 0),    # 8 usable
-            (24.0, 1),    # 16 usable
+            (8.0, -1),  # 8 - 8 reserve = 0 usable: genuinely cannot host a model
+            (12.0, 0),  # 4 usable: the 1.5B builder fits
+            (16.0, 0),  # 8 usable
+            (24.0, 1),  # 16 usable
             (32.0, 1),
-            (64.0, 1),    # capped at 1 -- see below
+            (64.0, 1),  # capped at 1 -- see below
             (128.0, 1),
         ],
     )
@@ -324,14 +368,17 @@ class TestWindowsOnArmIsNamedWithoutClaimingAnNpu:
 
 def test_a_vendor_tool_that_crashes_does_not_abort_detection(monkeypatch):
     """A broken nvidia-smi on an AMD box must not stop the AMD probe from running."""
+
     def run(argv, *_a, **_k):
         exe = Path(str(argv[0])).name.lower().removesuffix(".exe")
         if exe == "nvidia-smi":
             raise OSError("driver mismatch")
         if exe == "rocm-smi":
             return subprocess.CompletedProcess(
-                argv, 0, "device,VRAM Total Memory (B)\ncard0, 17163091968\n", "")
+                argv, 0, "device,VRAM Total Memory (B)\ncard0, 17163091968\n", ""
+            )
         raise FileNotFoundError(exe)
+
     monkeypatch.setattr(subprocess, "run", run)
     vendor, _dev, vram_gb, _count = H.detect_accelerator()
     assert vendor == "amd" and vram_gb > 15
@@ -339,16 +386,20 @@ def test_a_vendor_tool_that_crashes_does_not_abort_detection(monkeypatch):
 
 # ── Tier arithmetic ──────────────────────────────────────────────────────────────────────────────
 
-@pytest.mark.parametrize("advertised_gb,reported_gib,expected_tier", [
-    (24, 24564 / 1024, 2),    # RTX 4090 / 24 GB Radeon -- reports 23.99 GiB
-    (48, 49140 / 1024, 2),
-    (12, 12288 / 1024, 1),    # 12 GB card -- reports 12.0
-    (12, 12030 / 1024, 1),    # ... and one that reports slightly under
-    (8,   8192 / 1024, 0),
-    (4,   4096 / 1024, 0),
-    (4,   3900 / 1024, 0),    # a 4 GB card reporting under
-    (2,   2048 / 1024, -1),
-])
+
+@pytest.mark.parametrize(
+    "advertised_gb,reported_gib,expected_tier",
+    [
+        (24, 24564 / 1024, 2),  # RTX 4090 / 24 GB Radeon -- reports 23.99 GiB
+        (48, 49140 / 1024, 2),
+        (12, 12288 / 1024, 1),  # 12 GB card -- reports 12.0
+        (12, 12030 / 1024, 1),  # ... and one that reports slightly under
+        (8, 8192 / 1024, 0),
+        (4, 4096 / 1024, 0),
+        (4, 3900 / 1024, 0),  # a 4 GB card reporting under
+        (2, 2048 / 1024, -1),
+    ],
+)
 def test_an_advertised_card_size_lands_in_the_tier_it_should(
     advertised_gb, reported_gib, expected_tier, monkeypatch
 ):
@@ -389,6 +440,7 @@ def test_the_top_tier_actually_keeps_the_extra_roles_resident():
 
 
 # ── RAM ──────────────────────────────────────────────────────────────────────────────────────────
+
 
 def test_total_ram_is_actually_readable_on_this_machine():
     """Reported 0.0 GB on a working box until 2026-07-30.
@@ -440,6 +492,7 @@ def test_a_ram_probe_failure_reports_zero_rather_than_crashing_the_profile():
     """0.0 is the honest 'could not read' value here, and callers treat it as unknown. The bug was
     never the zero -- it was that a REACHABLE probe was returning it."""
     import builtins
+
     real_open = builtins.open
 
     def boom(*_a, **_k):
@@ -456,6 +509,7 @@ def test_a_ram_probe_failure_reports_zero_rather_than_crashing_the_profile():
 
 # ── Intel Arc / XPU ──────────────────────────────────────────────────────────────────────────────
 
+
 def test_intel_arc_is_detected_and_uses_its_own_torch_device(monkeypatch):
     """Intel is NOT a cuda alias the way ROCm is.
 
@@ -463,14 +517,19 @@ def test_intel_arc_is_detected_and_uses_its_own_torch_device(monkeypatch):
     device: handing "cuda" to a caller on Arc would fail. That is why the device string is carried
     per-vendor in `_ACCELERATORS` rather than inferred from the vendor name.
     """
-    xpu_csv = (
-        "Device ID,Device Name,Memory Physical Size\n"
-        "0,Intel(R) Arc(TM) A770 Graphics,16384\n"
+    xpu_csv = "Device ID,Device Name,Memory Physical Size\n0,Intel(R) Arc(TM) A770 Graphics,16384\n"
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        _fake_run(
+            {
+                "nvidia-smi": (-1, ""),
+                "amd-smi": (-1, ""),
+                "rocm-smi": (-1, ""),
+                "xpu-smi": (0, xpu_csv),
+            }
+        ),
     )
-    monkeypatch.setattr(subprocess, "run", _fake_run({
-        "nvidia-smi": (-1, ""), "amd-smi": (-1, ""), "rocm-smi": (-1, ""),
-        "xpu-smi": (0, xpu_csv),
-    }))
     vendor, torch_device, vram_gb, count = H.detect_accelerator()
     assert vendor == "intel", f"expected intel, got {vendor}"
     assert torch_device == "xpu", (
@@ -483,9 +542,15 @@ def test_intel_arc_is_detected_and_uses_its_own_torch_device(monkeypatch):
 def test_intel_is_probed_after_the_discrete_vendors_but_before_cpu_fallback(monkeypatch):
     """Ordering matters only in that a real accelerator must beat the CPU fallback. An Arc box with no
     NVIDIA/AMD tooling must not report CPU-only, which is the whole class of bug here."""
-    monkeypatch.setattr(subprocess, "run", _fake_run({
-        "xpu-smi": (0, "Device ID,Memory Physical Size\n0,16384\n"),
-    }))
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        _fake_run(
+            {
+                "xpu-smi": (0, "Device ID,Memory Physical Size\n0,16384\n"),
+            }
+        ),
+    )
     monkeypatch.setattr(H.ThermalProfile, "measure", staticmethod(lambda: H.ThermalProfile()))
     profile = H.profile_hardware()
     assert profile.accelerator == "intel"

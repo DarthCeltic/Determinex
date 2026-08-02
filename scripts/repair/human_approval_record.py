@@ -11,12 +11,12 @@ repo — the IDE/CLI layer that *consumes* a SOURCE_MUTATION_APPROVAL_
 ACCEPTED_FIXTURE decision still has to do that as a separate, audited
 step.
 """
+
 from __future__ import annotations
 
 import hashlib
 import json
 from dataclasses import asdict, dataclass, field
-
 
 HUMAN_APPROVAL_STATUS_TOKENS = (
     "SOURCE_MUTATION_APPROVAL_REQUIRED",
@@ -43,6 +43,7 @@ class ApprovalPacket:
     the trace being approved bit-for-bit. ``verifier_status`` must
     indicate the verifier passed on the temp workspace.
     """
+
     trace_id: str
     workspace_identity: str
     diff_sha256: str

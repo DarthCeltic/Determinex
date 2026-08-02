@@ -28,6 +28,7 @@ matching the wrapper's own `*args` parameter (`target.args.vararg`), treating
 everything before it as the base -- scoped to the vararg being the list's final
 element only, mirroring fix 29's own-param-tail conservatism.
 """
+
 from __future__ import annotations
 
 import sys
@@ -38,7 +39,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_extract_wrapper_base_argv_resolves_starred_vararg():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 from pathlib import Path
 
@@ -47,12 +48,15 @@ EXECUTABLE = str(WORKSPACE_ROOT / "executable")
 
 def run(*args, stdin=None, timeout=5.0):
     return subprocess.run([EXECUTABLE, *args], capture_output=True, timeout=timeout)
-''')
-    func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef)
-                and n.name == "run")
+""")
+    func = next(
+        n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef) and n.name == "run"
+    )
     module_path_exprs = {
-        stmt.targets[0].id: stmt.value for stmt in tree.body
-        if isinstance(stmt, iox.ast.Assign) and len(stmt.targets) == 1
+        stmt.targets[0].id: stmt.value
+        for stmt in tree.body
+        if isinstance(stmt, iox.ast.Assign)
+        and len(stmt.targets) == 1
         and isinstance(stmt.targets[0], iox.ast.Name)
     }
     base, suffix = iox._extract_wrapper_base_argv(func, {}, module_path_exprs, set())
@@ -65,12 +69,12 @@ def test_extract_wrapper_base_argv_declines_starred_of_unrelated_name():
     parameter must never be treated as the passthrough slot. No other list literal
     exists in this function body, so a wrongly-permissive match would be the ONLY
     way `base` comes back non-None here."""
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 
 def run(*args):
     return subprocess.run(["executable", *other_name], capture_output=True)
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     base, suffix = iox._extract_wrapper_base_argv(func, {}, {}, set())
     assert base is None
@@ -81,7 +85,8 @@ def test_extract_file_resolves_capslog_shaped_direct_import_call(tmp_path):
     """caps-log's real idiom: `run` imported directly (no fixture parameter at all)
     and called bare in the test body."""
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import os
 from pathlib import Path
@@ -98,14 +103,16 @@ def run(*args, stdin=None, env=None, cwd=None, timeout=5.0):
         input=stdin.encode() if isinstance(stdin, str) else stdin,
         capture_output=True, timeout=timeout, env=full_env, cwd=cwd,
     )
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 from conftest import run
 
 def test_help_flag_short():
     result = run("-h")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

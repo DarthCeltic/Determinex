@@ -34,7 +34,6 @@ import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -44,46 +43,47 @@ if hasattr(sys.stdout, "reconfigure"):
 # DATA STRUCTURES
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class GPUInfo:
-    vendor:            str   = "unknown"   # "nvidia", "amd", "apple", "intel", "none"
-    name:              str   = ""
-    vram_gb:           float = 0.0
-    cuda_version:      str   = ""          # e.g. "12.1" — empty if no CUDA
-    compute_capability: str  = ""          # e.g. "8.6" for RTX 30xx
-    driver_version:    str   = ""
-    metal_supported:   bool  = False       # macOS Apple Silicon / AMD
-    vulkan_supported:  bool  = False       # AMD / Intel on Linux/Windows
+    vendor: str = "unknown"  # "nvidia", "amd", "apple", "intel", "none"
+    name: str = ""
+    vram_gb: float = 0.0
+    cuda_version: str = ""  # e.g. "12.1" — empty if no CUDA
+    compute_capability: str = ""  # e.g. "8.6" for RTX 30xx
+    driver_version: str = ""
+    metal_supported: bool = False  # macOS Apple Silicon / AMD
+    vulkan_supported: bool = False  # AMD / Intel on Linux/Windows
 
 
 @dataclass
 class CPUInfo:
-    name:     str  = ""
-    cores:    int  = 1
-    avx2:     bool = False
-    avx512:   bool = False
-    arch:     str  = ""   # "x86_64", "arm64"
+    name: str = ""
+    cores: int = 1
+    avx2: bool = False
+    avx512: bool = False
+    arch: str = ""  # "x86_64", "arm64"
 
 
 @dataclass
 class OSInfo:
-    platform:        str = ""   # "windows", "linux", "darwin"
-    version:         str = ""
-    arch:            str = ""
-    python_version:  str = ""
+    platform: str = ""  # "windows", "linux", "darwin"
+    version: str = ""
+    arch: str = ""
+    python_version: str = ""
 
 
 @dataclass
 class SystemProfile:
-    gpu:  GPUInfo  = field(default_factory=GPUInfo)
-    cpu:  CPUInfo  = field(default_factory=CPUInfo)
-    os:   OSInfo   = field(default_factory=OSInfo)
+    gpu: GPUInfo = field(default_factory=GPUInfo)
+    cpu: CPUInfo = field(default_factory=CPUInfo)
+    os: OSInfo = field(default_factory=OSInfo)
 
     def to_dict(self) -> dict:
         return {
             "gpu": self.gpu.__dict__,
             "cpu": self.cpu.__dict__,
-            "os":  self.os.__dict__,
+            "os": self.os.__dict__,
         }
 
     def to_json(self) -> str:
@@ -105,39 +105,40 @@ _CUDA_WHEEL_INDEX = {
     "11.8": "https://abetlen.github.io/llama-cpp-python/whl/cu118",
     "11.7": "https://abetlen.github.io/llama-cpp-python/whl/cu117",
 }
-_METAL_WHEEL_INDEX  = "https://abetlen.github.io/llama-cpp-python/whl/metal"
+_METAL_WHEEL_INDEX = "https://abetlen.github.io/llama-cpp-python/whl/metal"
 _VULKAN_WHEEL_INDEX = "https://abetlen.github.io/llama-cpp-python/whl/vulkan"
-_CPU_WHEEL_INDEX    = "https://abetlen.github.io/llama-cpp-python/whl/cpu"
+_CPU_WHEEL_INDEX = "https://abetlen.github.io/llama-cpp-python/whl/cpu"
 
-_LLAMA_CPP_PACKAGE_VERSION = "0.3.4"   # update on new stable release
+_LLAMA_CPP_PACKAGE_VERSION = "0.3.4"  # update on new stable release
 
 
 # ---------------------------------------------------------------------------
 # MODEL SPECS
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class ModelSpec:
-    name:     str    # e.g. "determinex-7-large-v1.1"
-    size_gb:  float
-    hf_id:    str    # HuggingFace model ID for GGUF download
-    n_gpu_layers: int = -1   # -1 = all layers on GPU
+    name: str  # e.g. "determinex-7-large-v1.1"
+    size_gb: float
+    hf_id: str  # HuggingFace model ID for GGUF download
+    n_gpu_layers: int = -1  # -1 = all layers on GPU
 
 
 @dataclass
 class TierProfile:
-    tier:             int
-    label:            str
+    tier: int
+    label: str
     vram_gb_detected: float
-    gpu_vendor:       str
-    models:           list[ModelSpec]
-    wheel_index_url:  str
-    n_gpu_layers:     int     # recommended GPU offload layers
-    api_fallback:     bool    # whether to offer API fallback for heavy tasks
+    gpu_vendor: str
+    models: list[ModelSpec]
+    wheel_index_url: str
+    n_gpu_layers: int  # recommended GPU offload layers
+    api_fallback: bool  # whether to offer API fallback for heavy tasks
 
     def summary(self) -> str:
         lines = [
-            f"Determinex Hardware Profile",
+            "Determinex Hardware Profile",
             f"  Tier:        {self.tier} — {self.label}",
             f"  GPU:         {self.gpu_vendor} ({self.vram_gb_detected:.1f} GB VRAM)",
             f"  Models:      {', '.join(m.name for m in self.models)}",
@@ -187,11 +188,11 @@ class TierProfile:
 
     @classmethod
     def from_system_profile(cls, profile: "SystemProfile") -> "TierProfile":
-        vram    = profile.gpu.vram_gb
-        vendor  = profile.gpu.vendor
-        cuda_v  = profile.gpu.cuda_version
-        metal   = profile.gpu.metal_supported
-        vulkan  = profile.gpu.vulkan_supported
+        vram = profile.gpu.vram_gb
+        vendor = profile.gpu.vendor
+        cuda_v = profile.gpu.cuda_version
+        metal = profile.gpu.metal_supported
+        vulkan = profile.gpu.vulkan_supported
 
         # Select wheel index
         if vendor == "nvidia" and cuda_v:
@@ -215,45 +216,82 @@ class TierProfile:
         # Tier classification by VRAM
         if vram >= 24.0:
             return cls(
-                tier=3, label="High-End",
-                vram_gb_detected=vram, gpu_vendor=vendor,
+                tier=3,
+                label="High-End",
+                vram_gb_detected=vram,
+                gpu_vendor=vendor,
                 models=[
-                    ModelSpec("determinex-7-large-v1.1",  7.7, "determinex-ai/determinex-7-large-v1.1-gguf",  -1),
+                    ModelSpec(
+                        "determinex-7-large-v1.1",
+                        7.7,
+                        "determinex-ai/determinex-7-large-v1.1-gguf",
+                        -1,
+                    ),
                 ],
-                wheel_index_url=wheel_url, n_gpu_layers=-1, api_fallback=False,
+                wheel_index_url=wheel_url,
+                n_gpu_layers=-1,
+                api_fallback=False,
             )
         elif vram >= 8.0:
             return cls(
-                tier=2, label="Mid-Range",
-                vram_gb_detected=vram, gpu_vendor=vendor,
+                tier=2,
+                label="Mid-Range",
+                vram_gb_detected=vram,
+                gpu_vendor=vendor,
                 models=[
-                    ModelSpec("determinex-7-large-v1.1",  7.7, "determinex-ai/determinex-7-large-v1.1-gguf",  -1),
+                    ModelSpec(
+                        "determinex-7-large-v1.1",
+                        7.7,
+                        "determinex-ai/determinex-7-large-v1.1-gguf",
+                        -1,
+                    ),
                 ],
-                wheel_index_url=wheel_url, n_gpu_layers=-1, api_fallback=False,
+                wheel_index_url=wheel_url,
+                n_gpu_layers=-1,
+                api_fallback=False,
             )
         elif vram >= 4.0:
             return cls(
-                tier=1, label="Entry",
-                vram_gb_detected=vram, gpu_vendor=vendor,
+                tier=1,
+                label="Entry",
+                vram_gb_detected=vram,
+                gpu_vendor=vendor,
                 models=[
-                    ModelSpec("determinex-3-medium-v1.1", 3.3, "determinex-ai/determinex-3-medium-v1.1-gguf", 20),
+                    ModelSpec(
+                        "determinex-3-medium-v1.1",
+                        3.3,
+                        "determinex-ai/determinex-3-medium-v1.1-gguf",
+                        20,
+                    ),
                 ],
-                wheel_index_url=wheel_url, n_gpu_layers=20, api_fallback=True,
+                wheel_index_url=wheel_url,
+                n_gpu_layers=20,
+                api_fallback=True,
             )
         else:
             return cls(
-                tier=0, label="Minimal (CPU/API)",
-                vram_gb_detected=vram, gpu_vendor="none" if vram == 0.0 else vendor,
+                tier=0,
+                label="Minimal (CPU/API)",
+                vram_gb_detected=vram,
+                gpu_vendor="none" if vram == 0.0 else vendor,
                 models=[
-                    ModelSpec("determinex-1-tiny-v1.1",   1.6, "determinex-ai/determinex-1-tiny-v1.1-gguf",    0),
+                    ModelSpec(
+                        "determinex-1-tiny-v1.1",
+                        1.6,
+                        "determinex-ai/determinex-1-tiny-v1.1-gguf",
+                        0,
+                    ),
                 ],
-                wheel_index_url=_CPU_WHEEL_INDEX, n_gpu_layers=0, api_fallback=True,
+                wheel_index_url=_CPU_WHEEL_INDEX,
+                n_gpu_layers=0,
+                api_fallback=True,
             )
 
 
 # ---------------------------------------------------------------------------
 # PROFILER
 # ---------------------------------------------------------------------------
+
 
 class HardwareProfiler:
     """
@@ -263,7 +301,7 @@ class HardwareProfiler:
 
     def profile(self) -> SystemProfile:
         sp = SystemProfile()
-        sp.os  = self._detect_os()
+        sp.os = self._detect_os()
         sp.cpu = self._detect_cpu()
         sp.gpu = self._detect_gpu()
         return sp
@@ -280,25 +318,26 @@ class HardwareProfiler:
             platform_name = "linux"
 
         return OSInfo(
-            platform       = platform_name,
-            version        = platform.version(),
-            arch           = platform.machine().lower(),
-            python_version = sys.version.split()[0],
+            platform=platform_name,
+            version=platform.version(),
+            arch=platform.machine().lower(),
+            python_version=sys.version.split()[0],
         )
 
     # ── CPU ───────────────────────────────────────────────────────────────────
 
     def _detect_cpu(self) -> CPUInfo:
-        name  = ""
-        avx2  = False
+        name = ""
+        avx2 = False
         avx512 = False
 
         try:
             import cpuinfo  # py-cpuinfo library
-            info  = cpuinfo.get_cpu_info()
-            name  = info.get("brand_raw", "")
+
+            info = cpuinfo.get_cpu_info()
+            name = info.get("brand_raw", "")
             flags = info.get("flags", [])
-            avx2   = "avx2" in flags
+            avx2 = "avx2" in flags
             avx512 = any(f.startswith("avx512") for f in flags)
         except ImportError:
             # Fallback: parse /proc/cpuinfo on Linux, use platform on Windows
@@ -306,18 +345,20 @@ class HardwareProfiler:
             if sys.platform == "linux":
                 try:
                     cpuinfo_txt = Path("/proc/cpuinfo").read_text()
-                    flags_line  = next((l for l in cpuinfo_txt.splitlines() if l.startswith("flags")), "")
-                    avx2   = "avx2" in flags_line
+                    flags_line = next(
+                        (l for l in cpuinfo_txt.splitlines() if l.startswith("flags")), ""
+                    )
+                    avx2 = "avx2" in flags_line
                     avx512 = "avx512" in flags_line
                 except Exception:
                     pass
 
         return CPUInfo(
-            name  = name,
-            cores = os.cpu_count() or 1,
-            avx2  = avx2,
-            avx512 = avx512,
-            arch  = platform.machine().lower(),
+            name=name,
+            cores=os.cpu_count() or 1,
+            avx2=avx2,
+            avx512=avx512,
+            arch=platform.machine().lower(),
         )
 
     # ── GPU ───────────────────────────────────────────────────────────────────
@@ -328,11 +369,12 @@ class HardwareProfiler:
         # 1. Try PyTorch CUDA (fastest path, already installed)
         try:
             import torch
+
             if torch.cuda.is_available():
                 gpu.vendor = "nvidia"
-                gpu.name   = torch.cuda.get_device_name(0)
-                props      = torch.cuda.get_device_properties(0)
-                gpu.vram_gb = props.total_memory / (1024 ** 3)
+                gpu.name = torch.cuda.get_device_name(0)
+                props = torch.cuda.get_device_properties(0)
+                gpu.vram_gb = props.total_memory / (1024**3)
                 gpu.cuda_version = torch.version.cuda or ""
                 gpu.compute_capability = f"{props.major}.{props.minor}"
                 return gpu
@@ -341,17 +383,24 @@ class HardwareProfiler:
 
         # 2. Try nvidia-smi (works even without PyTorch)
         try:
-            out = subprocess.check_output(
-                ["nvidia-smi",
-                 "--query-gpu=name,memory.total,driver_version",
-                 "--format=csv,noheader,nounits"],
-                timeout=5, stderr=subprocess.DEVNULL,
-            ).decode().strip()
+            out = (
+                subprocess.check_output(
+                    [
+                        "nvidia-smi",
+                        "--query-gpu=name,memory.total,driver_version",
+                        "--format=csv,noheader,nounits",
+                    ],
+                    timeout=5,
+                    stderr=subprocess.DEVNULL,
+                )
+                .decode()
+                .strip()
+            )
             if out:
-                parts          = [p.strip() for p in out.split(",")]
-                gpu.vendor     = "nvidia"
-                gpu.name       = parts[0] if len(parts) > 0 else ""
-                gpu.vram_gb    = float(parts[1]) / 1024 if len(parts) > 1 else 0.0
+                parts = [p.strip() for p in out.split(",")]
+                gpu.vendor = "nvidia"
+                gpu.name = parts[0] if len(parts) > 0 else ""
+                gpu.vram_gb = float(parts[1]) / 1024 if len(parts) > 1 else 0.0
                 gpu.driver_version = parts[2] if len(parts) > 2 else ""
                 # Detect CUDA version from nvcc or nvidia-smi output
                 gpu.cuda_version = self._detect_cuda_version()
@@ -364,7 +413,8 @@ class HardwareProfiler:
             try:
                 out = subprocess.check_output(
                     ["system_profiler", "SPDisplaysDataType"],
-                    timeout=10, stderr=subprocess.DEVNULL,
+                    timeout=10,
+                    stderr=subprocess.DEVNULL,
                 ).decode()
                 if "Metal" in out or "Apple M" in out:
                     gpu.vendor = "apple"
@@ -383,7 +433,8 @@ class HardwareProfiler:
         try:
             out = subprocess.check_output(
                 ["vulkaninfo", "--summary"],
-                timeout=5, stderr=subprocess.DEVNULL,
+                timeout=5,
+                stderr=subprocess.DEVNULL,
             ).decode()
             if "Radeon" in out or "AMD" in out:
                 gpu.vendor = "amd"
@@ -412,7 +463,9 @@ class HardwareProfiler:
         # Try nvcc first (most accurate)
         try:
             out = subprocess.check_output(
-                ["nvcc", "--version"], timeout=5, stderr=subprocess.DEVNULL,
+                ["nvcc", "--version"],
+                timeout=5,
+                stderr=subprocess.DEVNULL,
             ).decode()
             match = re.search(r"release (\d+\.\d+)", out)
             return match.group(1) if match else ""
@@ -421,7 +474,9 @@ class HardwareProfiler:
         # Try nvidia-smi CUDA version
         try:
             out = subprocess.check_output(
-                ["nvidia-smi"], timeout=5, stderr=subprocess.DEVNULL,
+                ["nvidia-smi"],
+                timeout=5,
+                stderr=subprocess.DEVNULL,
             ).decode()
             match = re.search(r"CUDA Version:\s*(\d+\.\d+)", out)
             return match.group(1) if match else ""
@@ -433,11 +488,12 @@ class HardwareProfiler:
         try:
             out = subprocess.check_output(
                 ["rocm-smi", "--showmeminfo", "vram", "--csv"],
-                timeout=5, stderr=subprocess.DEVNULL,
+                timeout=5,
+                stderr=subprocess.DEVNULL,
             ).decode()
             match = re.search(r"(\d+)", out)
             if match:
-                return int(match.group(1)) / (1024 ** 3)
+                return int(match.group(1)) / (1024**3)
         except (subprocess.SubprocessError, FileNotFoundError):
             pass
         return 0.0
@@ -450,16 +506,16 @@ class HardwareProfiler:
 _CACHE_PATH = Path("determinex_hardware_profile.json")
 
 
-def load_cached_profile() -> Optional[TierProfile]:
+def load_cached_profile() -> TierProfile | None:
     """Load a previously detected profile from disk. Returns None if not cached."""
     if not _CACHE_PATH.exists():
         return None
     try:
-        data   = json.loads(_CACHE_PATH.read_text())
-        gpu    = GPUInfo(**data["gpu"])
-        cpu    = CPUInfo(**data["cpu"])
+        data = json.loads(_CACHE_PATH.read_text())
+        gpu = GPUInfo(**data["gpu"])
+        cpu = CPUInfo(**data["cpu"])
         osinfo = OSInfo(**data["os"])
-        sp     = SystemProfile(gpu=gpu, cpu=cpu, os=osinfo)
+        sp = SystemProfile(gpu=gpu, cpu=cpu, os=osinfo)
         return TierProfile.from_system_profile(sp)
     except Exception:
         return None
@@ -484,8 +540,8 @@ def detect_and_cache(force: bool = False) -> TierProfile:
 
     print("[HardwareProfiler] Detecting hardware...", flush=True)
     profiler = HardwareProfiler()
-    profile  = profiler.profile()
-    tier     = TierProfile.from_system_profile(profile)
+    profile = profiler.profile()
+    tier = TierProfile.from_system_profile(profile)
 
     # Cache to disk
     try:
@@ -505,9 +561,13 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Determinex hardware profiler")
-    parser.add_argument("--force",   action="store_true", help="Re-detect, ignore cache")
-    parser.add_argument("--install", action="store_true", help="Install llama-cpp-python for this hardware")
-    parser.add_argument("--dry-run", action="store_true", help="Print install command without running it")
+    parser.add_argument("--force", action="store_true", help="Re-detect, ignore cache")
+    parser.add_argument(
+        "--install", action="store_true", help="Install llama-cpp-python for this hardware"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Print install command without running it"
+    )
     args = parser.parse_args()
 
     tier = detect_and_cache(force=args.force)

@@ -6,15 +6,15 @@ routing table that workers can follow without guessing language or priority.
 The audit is the source of truth for whether an override is already native,
 needs native rewrite, is a legitimate Python tool, or is missing coverage.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 BOARD_JSON = ROOT / "logs" / "programbench_lock_board.json"
@@ -39,19 +39,31 @@ def _score_band(score: float) -> str:
     return "0"
 
 
-def _effective_route(row: dict[str, Any], audit: dict[str, Any] | None) -> tuple[str, str, str, str]:
+def _effective_route(
+    row: dict[str, Any], audit: dict[str, Any] | None
+) -> tuple[str, str, str, str]:
     score = float(row.get("best_score") or 0)
     if score >= 100 or row.get("locked_dir"):
         return "locked", "locked", "done", "archive/verify only"
     if audit is None:
-        return "missing-override", "unknown", "create override", "create/restore override, then rerun language audit"
+        return (
+            "missing-override",
+            "unknown",
+            "create override",
+            "create/restore override, then rerun language audit",
+        )
 
     action = audit.get("action") or "unknown"
     source = audit.get("source_language") or "unknown"
     if action == "keep-python":
         return "source:python", action, source, "finish exact behavior in Python source"
     if action == "keep-thin":
-        return f"thin:{source}", action, source, "verify wrapper stays transparent over bundled binary"
+        return (
+            f"thin:{source}",
+            action,
+            source,
+            "verify wrapper stays transparent over bundled binary",
+        )
     if action == "already-native":
         return f"native:{source}", action, source, "push remaining failures in native source"
     if action in {"rewrite-native", "scaffold-stub"}:
@@ -102,31 +114,35 @@ def _status_note(row: dict[str, Any], audit: dict[str, Any] | None, route: str) 
     return str(note)
 
 
-def build_rows(board: list[dict[str, Any]], audit_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def build_rows(
+    board: list[dict[str, Any]], audit_rows: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
     audit_index = {c.get("base_slug"): c for c in audit_rows}
     rows: list[dict[str, Any]] = []
     for row in board:
         audit = audit_index.get(row.get("base_slug"))
         route, action, source, recommended = _effective_route(row, audit)
         score = float(row.get("best_score") or 0)
-        rows.append({
-            "rank_key": _priority(row, audit),
-            "base_slug": row.get("base_slug"),
-            "slug": row.get("slug") or row.get("base_slug"),
-            "score": score,
-            "passed": int(row.get("best_passed") or 0),
-            "runnable": int(row.get("best_runnable_total") or 0),
-            "band": _score_band(score),
-            "audit_action": action,
-            "source_language": source,
-            "route": route,
-            "next_action": row.get("next_action") or "",
-            "locked": bool(row.get("locked_dir") or score >= 100),
-            "best_eval_path": row.get("best_eval_path") or "",
-            "reason": _status_note(row, audit, route),
-            "recommended_action": recommended,
-            "override_audited": audit is not None,
-        })
+        rows.append(
+            {
+                "rank_key": _priority(row, audit),
+                "base_slug": row.get("base_slug"),
+                "slug": row.get("slug") or row.get("base_slug"),
+                "score": score,
+                "passed": int(row.get("best_passed") or 0),
+                "runnable": int(row.get("best_runnable_total") or 0),
+                "band": _score_band(score),
+                "audit_action": action,
+                "source_language": source,
+                "route": route,
+                "next_action": row.get("next_action") or "",
+                "locked": bool(row.get("locked_dir") or score >= 100),
+                "best_eval_path": row.get("best_eval_path") or "",
+                "reason": _status_note(row, audit, route),
+                "recommended_action": recommended,
+                "override_audited": audit is not None,
+            }
+        )
     rows.sort(key=lambda r: r["rank_key"])
     for idx, row in enumerate(rows, 1):
         row["priority"] = idx
@@ -135,7 +151,7 @@ def build_rows(board: list[dict[str, Any]], audit_rows: list[dict[str, Any]]) ->
 
 
 def write_markdown(rows: list[dict[str, Any]], out: Path) -> None:
-    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    now = datetime.now(UTC).isoformat(timespec="seconds")
     band_counts = Counter(r["band"] for r in rows)
     route_counts = Counter(r["route"] for r in rows)
     action_counts = Counter(r["audit_action"] for r in rows)
@@ -156,12 +172,25 @@ def write_markdown(rows: list[dict[str, Any]], out: Path) -> None:
     lines.append(f"- Locked/100 band: `{locked}`\n")
     lines.append(f"- Missing override directories: `{missing_override}`\n")
     lines.append(f"- Aggregate runnable: `{total_passed}/{total_runnable}`\n")
-    lines.append("- Bands: " + ", ".join(f"`{k}={band_counts.get(k, 0)}`" for k in ("100", "90-99", "70-89", "50-69", "25-49", "0-24", "0")) + "\n")
-    lines.append("- Audit actions: " + ", ".join(f"`{k}={v}`" for k, v in action_counts.most_common()) + "\n")
-    lines.append("- Routes: " + ", ".join(f"`{k}={v}`" for k, v in route_counts.most_common()) + "\n\n")
+    lines.append(
+        "- Bands: "
+        + ", ".join(
+            f"`{k}={band_counts.get(k, 0)}`"
+            for k in ("100", "90-99", "70-89", "50-69", "25-49", "0-24", "0")
+        )
+        + "\n"
+    )
+    lines.append(
+        "- Audit actions: " + ", ".join(f"`{k}={v}`" for k, v in action_counts.most_common()) + "\n"
+    )
+    lines.append(
+        "- Routes: " + ", ".join(f"`{k}={v}`" for k, v in route_counts.most_common()) + "\n\n"
+    )
 
     lines.append("## Immediate Queue\n\n")
-    lines.append("| priority | score | passed/runnable | audit | source | route | slug | action |\n")
+    lines.append(
+        "| priority | score | passed/runnable | audit | source | route | slug | action |\n"
+    )
     lines.append("|---:|---:|---:|---|---|---|---|---|\n")
     for r in rows:
         if r["locked"]:
@@ -175,7 +204,9 @@ def write_markdown(rows: list[dict[str, Any]], out: Path) -> None:
     lines.append("\n")
 
     lines.append("## Full 200-Tool Map\n\n")
-    lines.append("| priority | band | score | passed/runnable | audit | source | route | slug | reason |\n")
+    lines.append(
+        "| priority | band | score | passed/runnable | audit | source | route | slug | reason |\n"
+    )
     lines.append("|---:|---|---:|---:|---|---|---|---|---|\n")
     for r in rows:
         reason = str(r["reason"]).replace("|", "/")

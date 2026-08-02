@@ -40,13 +40,24 @@ _REAL_SCAN = {
     "blocked": True,
     "vulnerability_count": 5,
     "vulnerabilities": [
-        {"id": "PYSEC-2026-2335", "package": "aider-chat", "version": "0.86.2",
-         "fixed": "", "severity": "HIGH", "waived": False}
+        {
+            "id": "PYSEC-2026-2335",
+            "package": "aider-chat",
+            "version": "0.86.2",
+            "fixed": "",
+            "severity": "HIGH",
+            "waived": False,
+        }
     ],
 }
 
-_CLEAN_SCAN = {**_REAL_SCAN, "high_count": 0, "blocked": False,
-               "vulnerability_count": 0, "vulnerabilities": []}
+_CLEAN_SCAN = {
+    **_REAL_SCAN,
+    "high_count": 0,
+    "blocked": False,
+    "vulnerability_count": 0,
+    "vulnerabilities": [],
+}
 
 
 def _failed_attempt() -> dict:
@@ -147,8 +158,7 @@ def test_findings_survive_a_SECOND_consecutive_failed_scan(tmp_path):
     )
     assert twice["blocked"] is True and twice["stale"] is True
     assert twice["timestamp"] == _REAL_SCAN["timestamp"], (
-        "the observation date drifted; it must keep naming when the findings were "
-        "actually seen"
+        "the observation date drifted; it must keep naming when the findings were actually seen"
     )
 
 
@@ -181,11 +191,19 @@ def test_scan_error_is_serialised_so_zero_counts_are_explainable():
     assert "scan_error" in d and d["scan_error"]
 
     real = ScanReport(
-        scanner="pip-audit", timestamp="t", total_packages=1,
-        vulnerabilities=[Vulnerability(
-            vuln_id="X", package="p", installed_version="1",
-            fixed_version="2", severity="HIGH", description="d",
-        )],
+        scanner="pip-audit",
+        timestamp="t",
+        total_packages=1,
+        vulnerabilities=[
+            Vulnerability(
+                vuln_id="X",
+                package="p",
+                installed_version="1",
+                fixed_version="2",
+                severity="HIGH",
+                description="d",
+            )
+        ],
     ).to_dict()
     assert real["scan_error"] is None
     assert real["blocked"] is True and real["high_count"] == 1

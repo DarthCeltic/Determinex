@@ -19,6 +19,7 @@ a proposal from discarding the user's own edit, all-or-nothing multi-file applic
 refusal of a path that leaves the workspace. Approving a diff approves that change, not write
 access to the disk.
 """
+
 from __future__ import annotations
 
 import json
@@ -59,12 +60,26 @@ def proposal_block(files: list[dict]) -> str:
 
 
 def record_proposal(turn_id: str, files: list[dict], prose: str = "on it") -> None:
-    chat.append_turn(chat.ChatTurn(
-        turn_id=turn_id, session_id="s1", seq=1, speaker="local-ollama", speaker_kind="agent",
-        addressed_to=[], mode="broadcast", task_prompt="change it",
-        raw_output=f"{prose}\n{proposal_block(files)}", returncode=0, verified=True, oracle="",
-        n_failures=0, note="", started_at="2026-07-31T00:00:00Z",
-        finished_at="2026-07-31T00:00:01Z"))
+    chat.append_turn(
+        chat.ChatTurn(
+            turn_id=turn_id,
+            session_id="s1",
+            seq=1,
+            speaker="local-ollama",
+            speaker_kind="agent",
+            addressed_to=[],
+            mode="broadcast",
+            task_prompt="change it",
+            raw_output=f"{prose}\n{proposal_block(files)}",
+            returncode=0,
+            verified=True,
+            oracle="",
+            n_failures=0,
+            note="",
+            started_at="2026-07-31T00:00:00Z",
+            finished_at="2026-07-31T00:00:01Z",
+        )
+    )
 
 
 class TestProposalExtraction:
@@ -82,25 +97,30 @@ class TestProposalExtraction:
 
     def test_malformed_json_is_skipped_not_raised(self):
         """One junk block must not make a whole transcript unreadable."""
-        assert chat.extract_proposals(
-            f"{chat.PROPOSAL_BEGIN}\n{{ not json\n{chat.PROPOSAL_END}") == []
+        assert (
+            chat.extract_proposals(f"{chat.PROPOSAL_BEGIN}\n{{ not json\n{chat.PROPOSAL_END}") == []
+        )
 
     def test_an_unknown_schema_is_ignored(self):
-        payload = json.dumps({"schema": "something-else",
-                              "files": [{"path": "a", "before": "", "after": "x"}]})
-        assert chat.extract_proposals(
-            f"{chat.PROPOSAL_BEGIN}\n{payload}\n{chat.PROPOSAL_END}") == []
+        payload = json.dumps(
+            {"schema": "something-else", "files": [{"path": "a", "before": "", "after": "x"}]}
+        )
+        assert (
+            chat.extract_proposals(f"{chat.PROPOSAL_BEGIN}\n{payload}\n{chat.PROPOSAL_END}") == []
+        )
 
     def test_an_unterminated_block_is_ignored(self):
         payload = json.dumps({"schema": chat.PROPOSAL_SCHEMA, "files": []})
         assert chat.extract_proposals(f"{chat.PROPOSAL_BEGIN}\n{payload}") == []
 
     def test_entries_missing_fields_are_dropped(self):
-        raw = proposal_block([
-            {"path": "good.rs", "before": "b", "after": "a"},
-            {"path": "no-after.rs", "before": "b"},
-            {"before": "b", "after": "a"},
-        ])
+        raw = proposal_block(
+            [
+                {"path": "good.rs", "before": "b", "after": "a"},
+                {"path": "no-after.rs", "before": "b"},
+                {"before": "b", "after": "a"},
+            ]
+        )
         assert [p["path"] for p in chat.extract_proposals(raw)] == ["good.rs"]
 
 
@@ -153,10 +173,13 @@ class TestApplyingAnApprovedProposal:
     def test_a_multi_file_proposal_is_all_or_nothing(self, chatroom):
         """A half-applied proposal is a worse state than a refused one."""
         (chatroom / "other.rs").write_text("original\n", encoding="utf-8")
-        record_proposal("t1", [
-            {"path": "main.rs", "before": BEFORE, "after": AFTER},
-            {"path": "other.rs", "before": "STALE -- not what is on disk\n", "after": "new\n"},
-        ])
+        record_proposal(
+            "t1",
+            [
+                {"path": "main.rs", "before": BEFORE, "after": AFTER},
+                {"path": "other.rs", "before": "STALE -- not what is on disk\n", "after": "new\n"},
+            ],
+        )
 
         with pytest.raises(ValueError, match="has changed since this was proposed"):
             chat.apply_proposal("s1", "t1", chatroom)
@@ -172,10 +195,26 @@ class TestApplyingAnApprovedProposal:
         assert (chatroom / "src" / "new.rs").read_text(encoding="utf-8") == "fn new() {}\n"
 
     def test_a_turn_with_no_proposal_is_an_error(self, chatroom):
-        chat.append_turn(chat.ChatTurn(
-            turn_id="t1", session_id="s1", seq=1, speaker="local-ollama", speaker_kind="agent",
-            addressed_to=[], mode="broadcast", task_prompt="q", raw_output="Paris.", returncode=0,
-            verified=True, oracle="", n_failures=0, note="", started_at="x", finished_at="y"))
+        chat.append_turn(
+            chat.ChatTurn(
+                turn_id="t1",
+                session_id="s1",
+                seq=1,
+                speaker="local-ollama",
+                speaker_kind="agent",
+                addressed_to=[],
+                mode="broadcast",
+                task_prompt="q",
+                raw_output="Paris.",
+                returncode=0,
+                verified=True,
+                oracle="",
+                n_failures=0,
+                note="",
+                started_at="x",
+                finished_at="y",
+            )
+        )
         with pytest.raises(ValueError, match="no proposed edits"):
             chat.apply_proposal("s1", "t1", chatroom)
 
@@ -193,11 +232,14 @@ class TestTheLocalAgentProposesInsteadOfWriting:
         ws = tmp_path / "ws"
         ws.mkdir()
         (ws / "main.rs").write_text(BEFORE, encoding="utf-8")
-        by_file = {"main.rs": f'<<<SEARCH\n    println!("hi");\n===\n    println!("hello world");\n>>>REPLACE\n'}
+        by_file = {
+            "main.rs": '<<<SEARCH\n    println!("hi");\n===\n    println!("hello world");\n>>>REPLACE\n'
+        }
         proposals: list = []
 
         applied, attempted, failures, notes = agent._apply_edits(
-            by_file, ws, propose_only=True, proposals=proposals)
+            by_file, ws, propose_only=True, proposals=proposals
+        )
 
         assert attempted is True
         assert not failures
@@ -212,7 +254,9 @@ class TestTheLocalAgentProposesInsteadOfWriting:
         ws = tmp_path / "ws"
         ws.mkdir()
         (ws / "main.rs").write_text(BEFORE, encoding="utf-8")
-        by_file = {"main.rs": f'<<<SEARCH\n    println!("hi");\n===\n    println!("hello world");\n>>>REPLACE\n'}
+        by_file = {
+            "main.rs": '<<<SEARCH\n    println!("hi");\n===\n    println!("hello world");\n>>>REPLACE\n'
+        }
 
         applied, _attempted, failures, _notes = agent._apply_edits(by_file, ws)
 
@@ -227,11 +271,14 @@ class TestTheLocalAgentProposesInsteadOfWriting:
         ws = tmp_path / "ws"
         ws.mkdir()
         (ws / "main.rs").write_text(BEFORE, encoding="utf-8")
-        by_file = {"main.rs": "<<<SEARCH\nthis text is not in the file\n===\nreplacement\n>>>REPLACE\n"}
+        by_file = {
+            "main.rs": "<<<SEARCH\nthis text is not in the file\n===\nreplacement\n>>>REPLACE\n"
+        }
         proposals: list = []
 
         _applied, attempted, failures, _notes = agent._apply_edits(
-            by_file, ws, propose_only=True, proposals=proposals)
+            by_file, ws, propose_only=True, proposals=proposals
+        )
 
         assert attempted is True
         assert failures, "an unmatched SEARCH must feed the retry escalation, not become a proposal"

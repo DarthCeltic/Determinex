@@ -3,6 +3,7 @@
 The script updates evidence for what can be proven on this host. It does not
 install the app, sign artifacts, publish binaries, or grant release authority.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -10,7 +11,7 @@ import hashlib
 import json
 import subprocess
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -21,7 +22,7 @@ PREFLIGHT_SCHEMA_VERSION = "determinex-clean-host-runner-preflight-v1"
 
 
 def _utc_now() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _date_stamp(now: str) -> str:
@@ -93,7 +94,10 @@ def verify_download_bundle(root: Path) -> dict[str, Any]:
 
     checks: dict[str, Any] = {
         "manifest_exists": True,
-        "setup_ready_for_local_operator_testing": manifest.get("setup_ready_for_local_operator_testing") is True,
+        "setup_ready_for_local_operator_testing": manifest.get(
+            "setup_ready_for_local_operator_testing"
+        )
+        is True,
         "release_ready": manifest.get("release_ready") is True,
         "public_distribution_ready": manifest.get("public_distribution_ready") is True,
         "source_commit_current": manifest.get("source_commit") == _git_head(root),
@@ -106,7 +110,9 @@ def verify_download_bundle(root: Path) -> dict[str, Any]:
     else:
         checks["bundle_zip_exists"] = True
         expected_zip_hash = str(manifest.get("bundle_zip_sha256") or "")
-        checks["bundle_zip_sha256_matches"] = bool(expected_zip_hash) and _sha256(zip_path) == expected_zip_hash
+        checks["bundle_zip_sha256_matches"] = (
+            bool(expected_zip_hash) and _sha256(zip_path) == expected_zip_hash
+        )
         if not checks["bundle_zip_sha256_matches"]:
             blockers.append("download_bundle_zip_sha256_mismatch")
 
@@ -209,16 +215,22 @@ def probe_clean_runner(root: Path, now: str | None = None) -> dict[str, Any]:
             selected = attempt
             break
     if selected is None:
-        selected = attempts[-1] if attempts else {"command": ["docker", "info"], "exit_code": -1, "stdout_tail": "", "stderr_tail": "not run"}
+        selected = (
+            attempts[-1]
+            if attempts
+            else {
+                "command": ["docker", "info"],
+                "exit_code": -1,
+                "stdout_tail": "",
+                "stderr_tail": "not run",
+            }
+        )
 
     available = selected["exit_code"] == 0
     combined_errors = "\n".join(str(attempt.get("stderr_tail") or "") for attempt in attempts)
-    sandbox_denied = (
-        not available
-        and (
-            "Access is denied" in combined_errors
-            or "permission denied while trying to connect to the docker API" in combined_errors
-        )
+    sandbox_denied = not available and (
+        "Access is denied" in combined_errors
+        or "permission denied while trying to connect to the docker API" in combined_errors
     )
     exact_blocker = (
         "Clean runner is available, but clean-host installer install/launch/uninstall proof has not been executed."
@@ -276,7 +288,11 @@ def build_report(root: Path, *, run_clean_runner_probe: bool = True) -> dict[str
     legal_public_distribution_passed = "legal_public_distribution" not in blocked
     first_e2e_next_action = "Create or reset the first E2E user workflow session with sufficient budget and rerun it from a quiet model runtime."
     for gate in gate_payload.get("gates", []):
-        if isinstance(gate, dict) and gate.get("gate_id") == "first_e2e" and gate.get("next_action"):
+        if (
+            isinstance(gate, dict)
+            and gate.get("gate_id") == "first_e2e"
+            and gate.get("next_action")
+        ):
             first_e2e_next_action = str(gate["next_action"])
             break
 
@@ -297,7 +313,9 @@ def build_report(root: Path, *, run_clean_runner_probe: bool = True) -> dict[str
     if "linux_packages" in blocked:
         protected_external_blockers.append("linux_package_distribution_not_built")
     if "clean_host" in blocked:
-        protected_external_blockers.append("clean_host_install_launch_uninstall_transcript_not_executed")
+        protected_external_blockers.append(
+            "clean_host_install_launch_uninstall_transcript_not_executed"
+        )
     if "first_e2e" in blocked:
         protected_external_blockers.append("first_end_to_end_user_workflow_not_passed")
 
@@ -330,7 +348,9 @@ def build_report(root: Path, *, run_clean_runner_probe: bool = True) -> dict[str
         )
     bundle_checks = bundle.get("checks") if isinstance(bundle.get("checks"), dict) else {}
     if bundle_checks.get("source_commit_current") is not True:
-        next_executable_actions.insert(0, "Rebuild the download bundle after the final release commit.")
+        next_executable_actions.insert(
+            0, "Rebuild the download bundle after the final release commit."
+        )
 
     return {
         "schema_version": SCHEMA_VERSION,
@@ -359,7 +379,9 @@ def build_report(root: Path, *, run_clean_runner_probe: bool = True) -> dict[str
     }
 
 
-def write_report(output_path: Path, root: Path | str | None = None, *, run_clean_runner_probe: bool = True) -> dict[str, Any]:
+def write_report(
+    output_path: Path, root: Path | str | None = None, *, run_clean_runner_probe: bool = True
+) -> dict[str, Any]:
     repo_root = Path(root) if root is not None else _repo_root()
     report = build_report(repo_root, run_clean_runner_probe=run_clean_runner_probe)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -370,11 +392,17 @@ def write_report(output_path: Path, root: Path | str | None = None, *, run_clean
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=None)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/full_release_closure/run_20260707.json"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("assurance/evidence/full_release_closure/run_20260707.json"),
+    )
     parser.add_argument("--skip-clean-runner-probe", action="store_true")
     args = parser.parse_args()
 
-    report = write_report(args.output, args.root, run_clean_runner_probe=not args.skip_clean_runner_probe)
+    report = write_report(
+        args.output, args.root, run_clean_runner_probe=not args.skip_clean_runner_probe
+    )
     print(json.dumps(report, indent=2))
     return 0
 

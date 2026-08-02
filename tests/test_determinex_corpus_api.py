@@ -3,6 +3,7 @@
 Uses a small synthetic corpus fixture (not the real 2.5MB build_knowledge.json) so these tests
 stay fast and don't silently pass/fail based on the live corpus's current contents.
 """
+
 from __future__ import annotations
 
 import sys
@@ -26,6 +27,7 @@ def _no_live_ollama(monkeypatch):
     embeddings layer (that has its own tests in test_corpus_embeddings.py)."""
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts" / "corpus"))
     import corpus_embeddings
+
     monkeypatch.setattr(corpus_embeddings, "semantic_search", lambda *a, **k: [])
 
 
@@ -50,16 +52,25 @@ def _fixture() -> dict:
         },
         "learned_classes": {
             "learned_abc123": {
-                "detect": "rust cargo build fails offline", "fix": "vendor deps with cargo vendor",
-                "source_tool": "some_tool", "verified": True, "learned": "2026-07-16", "uses": 0,
+                "detect": "rust cargo build fails offline",
+                "fix": "vendor deps with cargo vendor",
+                "source_tool": "some_tool",
+                "verified": True,
+                "learned": "2026-07-16",
+                "uses": 0,
             },
             "learned_unverified_should_never_exist": {
-                "detect": "something", "fix": "something", "verified": False,
-                "learned": "2026-07-16", "uses": 0,
+                "detect": "something",
+                "fix": "something",
+                "verified": False,
+                "learned": "2026-07-16",
+                "uses": 0,
             },
         },
         "learned_classes_quarantine_20260716": {
-            "_doc": "quarantined batch", "count": 2, "entries": {"absorbed_x": {}, "absorbed_y": {}},
+            "_doc": "quarantined batch",
+            "count": 2,
+            "entries": {"absorbed_x": {}, "absorbed_y": {}},
         },
         "no_summary_entry": "a plain string top-level entry about rc=127 build failures",
         "some_other_entry": {"_doc": "unrelated entry about locale timezone fixes"},
@@ -130,8 +141,10 @@ def test_search_ranks_by_token_overlap_and_covers_all_sections():
 
 def test_search_never_surfaces_quarantined_or_unverified_entries():
     hits = api.search("something absorbed", corpus=_fixture())
-    assert all(h.key not in ("absorbed_x", "absorbed_y", "learned_unverified_should_never_exist")
-               for h in hits)
+    assert all(
+        h.key not in ("absorbed_x", "absorbed_y", "learned_unverified_should_never_exist")
+        for h in hits
+    )
 
 
 def test_search_empty_query_returns_nothing():
@@ -184,6 +197,7 @@ def test_maturity_report_never_scans_quarantine_or_learned_classes_raw():
 
 def test_maturity_report_to_dict_is_json_serializable():
     import json
+
     blob = json.dumps(api.maturity_report(corpus=_fixture()).to_dict())
     assert "open_items" in blob
 
@@ -251,6 +265,7 @@ def test_ask_empty_query_returns_no_hits_no_crash():
 
 def test_ask_to_dict_is_json_serializable():
     import json
+
     blob = json.dumps(api.ask("go toolchain", _fixture()).to_dict())
     assert "warnings" in blob
 
@@ -482,6 +497,7 @@ def test_live_wiring_census_guard_passes():
     import re
     import sys as _sys
     from pathlib import Path as _P
+
     root = _P(api.__file__).resolve().parents[1]
     _sys.path.insert(0, str(root / "scripts" / "corpus"))
     census_mod = importlib.import_module("corpus_wiring_census")
@@ -516,9 +532,12 @@ def test_hybrid_search_with_explicit_corpus_never_leaks_global_index_hits():
     """
     fixture = _fixture()
     hits = api.hybrid_search("corrected wrong demoted claim", corpus=fixture)
-    fixture_keys = set(fixture) | {
-        k for rows in fixture["_topic_index"].values() for k in (r["key"] for r in rows)
-    } | set(fixture["class_patterns"]) | set(fixture["learned_classes"])
+    fixture_keys = (
+        set(fixture)
+        | {k for rows in fixture["_topic_index"].values() for k in (r["key"] for r in rows)}
+        | set(fixture["class_patterns"])
+        | set(fixture["learned_classes"])
+    )
     leaked = [h.key for h in hits if h.key not in fixture_keys]
     assert not leaked, f"hits from outside the supplied corpus: {leaked}"
 

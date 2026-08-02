@@ -4,10 +4,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -47,7 +48,9 @@ ImagePuller = Callable[[str], bool]
 @dataclass(slots=True)
 class ImageHydrationConfig:
     image_roots: list[Path]
-    output_path: Path = Path("assurance/evidence/programbench_replay_batch_001_image_hydration_report.json")
+    output_path: Path = Path(
+        "assurance/evidence/programbench_replay_batch_001_image_hydration_report.json"
+    )
     disambiguation_report: Path | None = None
     allow_pull: bool = False
     docker_image_lister: DockerImageLister | None = None
@@ -88,8 +91,11 @@ class ProgramBenchImageHydrator:
             "image_local_ready": counts.get(ImageHydrationStatus.IMAGE_LOCAL_READY.value, 0),
             "image_hydrated": counts.get(ImageHydrationStatus.IMAGE_HYDRATED_FROM_CACHE.value, 0),
             "image_pull_ready": counts.get(ImageHydrationStatus.IMAGE_PULL_READY.value, 0),
-            "local_no_image_ready": counts.get(ImageHydrationStatus.LOCAL_NO_IMAGE_VERIFIER_READY.value, 0),
-            "missing": counts.get(ImageHydrationStatus.IMAGE_MISSING.value, 0) + counts.get(ImageHydrationStatus.IMAGE_METADATA_MISSING.value, 0),
+            "local_no_image_ready": counts.get(
+                ImageHydrationStatus.LOCAL_NO_IMAGE_VERIFIER_READY.value, 0
+            ),
+            "missing": counts.get(ImageHydrationStatus.IMAGE_MISSING.value, 0)
+            + counts.get(ImageHydrationStatus.IMAGE_METADATA_MISSING.value, 0),
             "ambiguous": counts.get(ImageHydrationStatus.IMAGE_NAME_AMBIGUOUS.value, 0),
             "pull_failed": counts.get(ImageHydrationStatus.IMAGE_PULL_FAILED.value, 0),
             "status_counts": counts,
@@ -97,13 +103,22 @@ class ProgramBenchImageHydrator:
             "policy": "Image hydration does not run verifier or promote rows. Local no-image mode uses verifier_scope=local_replay, never official_programbench.",
         }
         self.config.output_path.parent.mkdir(parents=True, exist_ok=True)
-        self.config.output_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        self.config.output_path.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         return report
 
     def hydrate_candidate(self, candidate: dict[str, Any]) -> ImageHydrationResult:
         tool = str(candidate.get("tool") or "")
-        root = Path(self.selected_roots.get(tool) or candidate.get("selected_root") or candidate.get("task_root") or "")
-        result = ImageHydrationResult(tool=tool, selected_root=str(root) if str(root) != "." else "")
+        root = Path(
+            self.selected_roots.get(tool)
+            or candidate.get("selected_root")
+            or candidate.get("task_root")
+            or ""
+        )
+        result = ImageHydrationResult(
+            tool=tool, selected_root=str(root) if str(root) != "." else ""
+        )
         local = evaluate_local_verifier(candidate, root) if root and root.exists() else None
         if local and local.allowed:
             result.status = ImageHydrationStatus.LOCAL_NO_IMAGE_VERIFIER_READY.value
@@ -133,7 +148,9 @@ class ProgramBenchImageHydrator:
             result.reason = "image_name_ambiguous"
             return result
 
-        local_images = set(self.config.docker_image_lister() if self.config.docker_image_lister else [])
+        local_images = set(
+            self.config.docker_image_lister() if self.config.docker_image_lister else []
+        )
         if image in local_images:
             result.status = ImageHydrationStatus.IMAGE_LOCAL_READY.value
             result.reason = "docker_image_list_match"
@@ -186,7 +203,9 @@ def _explicit_image(candidate: dict[str, Any], root: Path) -> tuple[str, str]:
 def _metadata_paths(root: Path) -> list[Path]:
     if not root or not root.exists():
         return []
-    return [root / name for name in ("manifest.json", "task.json", "metadata.json", "programbench.json")]
+    return [
+        root / name for name in ("manifest.json", "task.json", "metadata.json", "programbench.json")
+    ]
 
 
 def _cached_image(image: str, roots: list[Path]) -> str:
@@ -238,11 +257,28 @@ def _counts(values) -> dict[str, int]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Resolve ProgramBench task images or explicit local no-image verifier mode.")
+    parser = argparse.ArgumentParser(
+        description="Resolve ProgramBench task images or explicit local no-image verifier mode."
+    )
     parser.add_argument("batch_artifact", type=Path)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/programbench_replay_batch_001_image_hydration_report.json"))
-    parser.add_argument("--disambiguation-report", type=Path, default=Path("assurance/evidence/programbench_root_disambiguation_batch_001.json"))
-    parser.add_argument("--image-root", action="append", type=Path, default=[Path("assurance/evidence/programbench_images"), Path("T:/programbench-images")])
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path(
+            "assurance/evidence/programbench_replay_batch_001_image_hydration_report.json"
+        ),
+    )
+    parser.add_argument(
+        "--disambiguation-report",
+        type=Path,
+        default=Path("assurance/evidence/programbench_root_disambiguation_batch_001.json"),
+    )
+    parser.add_argument(
+        "--image-root",
+        action="append",
+        type=Path,
+        default=[Path("assurance/evidence/programbench_images"), Path("T:/programbench-images")],
+    )
     parser.add_argument("--allow-pull", action="store_true")
     args = parser.parse_args()
 

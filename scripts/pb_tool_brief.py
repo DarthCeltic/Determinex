@@ -9,7 +9,6 @@ import re
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 BEST_INDEX = ROOT / "corpus" / "programbench" / "best_known_state.json"
 PATTERNS = ROOT / "corpus" / "programbench" / "cross_tool_patterns.md"
@@ -64,7 +63,9 @@ def matching_sections(text: str, needles: list[str], *, max_sections: int = 4) -
     return hits
 
 
-def tail_matching_lines(path: Path, needles: list[str], *, max_lines: int = 8, bytes_to_read: int = 3_000_000) -> list[str]:
+def tail_matching_lines(
+    path: Path, needles: list[str], *, max_lines: int = 8, bytes_to_read: int = 3_000_000
+) -> list[str]:
     if not path.exists():
         return []
     with path.open("rb") as f:
@@ -123,7 +124,9 @@ def collect_path_hints(row: dict[str, Any]) -> list[str]:
     return paths
 
 
-def nearest_locked(tool: str, row: dict[str, Any], index: dict[str, Any], limit: int = 3) -> list[dict[str, Any]]:
+def nearest_locked(
+    tool: str, row: dict[str, Any], index: dict[str, Any], limit: int = 3
+) -> list[dict[str, Any]]:
     lang = infer_language(collect_path_hints(row))
     candidates = []
     for slug, other in index.get("tools", {}).items():
@@ -189,7 +192,9 @@ def brief(tool: str, index: dict[str, Any]) -> str:
     for test_id in failure_ids[:20]:
         lines.append(f"- `{test_id}`")
     if len(failure_ids) > 20:
-        lines.append(f"- ... {len(failure_ids) - 20} more failing/nonpassing ids in best_known_state")
+        lines.append(
+            f"- ... {len(failure_ids) - 20} more failing/nonpassing ids in best_known_state"
+        )
     if not failure_ids:
         lines.append("- none listed")
 

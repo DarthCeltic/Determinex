@@ -14,6 +14,7 @@ because their reimplementation-vs-upstream-copy status couldn't be
 confirmed. Auto-promoting them would have silently re-introduced the
 exact overclaiming that audit corrected.
 """
+
 from __future__ import annotations
 
 import sys
@@ -24,18 +25,22 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 from pb_tier_classify import reconcile_from_archive
 
 
-def _perfect_archive(passed: int = 100, report_path: str = "corpus/programbench/locked/foo/eval_report.json"):
+def _perfect_archive(
+    passed: int = 100, report_path: str = "corpus/programbench/locked/foo/eval_report.json"
+):
     return (passed, passed, 0, 0, 0), report_path
 
 
 def test_needs_reverify_is_never_auto_promoted_even_with_perfect_archive():
-    entries = [{
-        "slug": "chmln__handlr",
-        "status": "needs_reverify",
-        "reconcile_note": "not positively confirmed as upstream, but also not "
-                           "verified as a genuine native reimplementation -- "
-                           "needs manual reverify before being counted again.",
-    }]
+    entries = [
+        {
+            "slug": "chmln__handlr",
+            "status": "needs_reverify",
+            "reconcile_note": "not positively confirmed as upstream, but also not "
+            "verified as a genuine native reimplementation -- "
+            "needs manual reverify before being counted again.",
+        }
+    ]
     verified_short = {"handlr"}
     archive_best = {"handlr": _perfect_archive(1812)}
 
@@ -50,14 +55,20 @@ def test_stale_board_cache_status_still_promotes_perfect_archive():
     """The original brotli-fix case this rule was built for: a stale board
     cache score sitting on a row whose real archive is already perfect.
     This must keep working — the fix only excludes needs_reverify."""
-    entries = [{
-        "slug": "google__brotli",
-        "status": "board_cache_only",
-        "official_passed": 42,
-        "official_total": 955,
-    }]
+    entries = [
+        {
+            "slug": "google__brotli",
+            "status": "board_cache_only",
+            "official_passed": 42,
+            "official_total": 955,
+        }
+    ]
     verified_short = {"brotli"}
-    archive_best = {"brotli": _perfect_archive(1212, "corpus/programbench/locked/google__brotli/eval_report.json")}
+    archive_best = {
+        "brotli": _perfect_archive(
+            1212, "corpus/programbench/locked/google__brotli/eval_report.json"
+        )
+    }
 
     changes = reconcile_from_archive(entries, verified_short, archive_best)
 
@@ -109,11 +120,13 @@ def test_verified_strict_lock_is_not_demoted():
 
 
 def test_alias_rows_are_skipped_entirely():
-    entries = [{
-        "slug": "some_alias",
-        "status": "needs_reverify",
-        "alias_of": "canonical_tool",
-    }]
+    entries = [
+        {
+            "slug": "some_alias",
+            "status": "needs_reverify",
+            "alias_of": "canonical_tool",
+        }
+    ]
     verified_short = {"alias"}
     archive_best = {"alias": _perfect_archive(10)}
 
@@ -126,9 +139,16 @@ def test_alias_rows_are_skipped_entirely():
 def test_backfill_missing_eval_report_path_on_verified_strict_lock():
     entries = [{"slug": "google__brotli", "status": "strict_lock", "eval_report_path": ""}]
     verified_short = {"brotli"}
-    archive_best = {"brotli": _perfect_archive(1212, "corpus/programbench/locked/google__brotli/eval_report.json")}
+    archive_best = {
+        "brotli": _perfect_archive(
+            1212, "corpus/programbench/locked/google__brotli/eval_report.json"
+        )
+    }
 
     changes = reconcile_from_archive(entries, verified_short, archive_best)
 
     assert any("BACKFILL eval_report_path" in c[1] for c in changes)
-    assert entries[0]["eval_report_path"] == "corpus/programbench/locked/google__brotli/eval_report.json"
+    assert (
+        entries[0]["eval_report_path"]
+        == "corpus/programbench/locked/google__brotli/eval_report.json"
+    )

@@ -31,7 +31,6 @@ from corpus.programbench.rebuild_provenance_quarantine_decision_record import ( 
     verify_rebuild_provenance_quarantine_decision_record,
 )
 
-
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
 
@@ -84,7 +83,10 @@ def _gap(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST) -> Path:
             target_image=image,
             target_digest=digest,
         )
-    ).write_gap(_plan(tmp_path, image=image, digest=digest), _build_recipe_recovery(tmp_path, image=image, digest=digest))
+    ).write_gap(
+        _plan(tmp_path, image=image, digest=digest),
+        _build_recipe_recovery(tmp_path, image=image, digest=digest),
+    )
     return Path(result["record_path"])
 
 
@@ -116,9 +118,15 @@ def _recipe_provenance_recovery(
         decision=decision,
         image_reference=image,
         image_digest=digest,
-        provenance_gap=gap_ref if gap_ref is not None else gap_path.relative_to(tmp_path).as_posix(),
-        remediation_plan=plan_ref if plan_ref is not None else plan_path.relative_to(tmp_path).as_posix(),
-        recipe_recovery=recipe_ref if recipe_ref is not None else recipe_path.relative_to(tmp_path).as_posix(),
+        provenance_gap=gap_ref
+        if gap_ref is not None
+        else gap_path.relative_to(tmp_path).as_posix(),
+        remediation_plan=plan_ref
+        if plan_ref is not None
+        else plan_path.relative_to(tmp_path).as_posix(),
+        recipe_recovery=recipe_ref
+        if recipe_ref is not None
+        else recipe_path.relative_to(tmp_path).as_posix(),
         gap_closure={
             "original_cleanroom_build_recipe_closed": original_closed,
             "pinned_base_image_digest_closed": base_closed,
@@ -161,20 +169,36 @@ def _decider(tmp_path: Path, target_image: str = IMAGE, target_digest: str = DIG
 def test_missing_recovery_blocks(tmp_path):
     result = _decider(tmp_path).decide(tmp_path / "missing.json")
 
-    assert result["record"]["status"] == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED_NO_RECOVERY.value
-    assert result["record"]["decision"] == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED.value
+    assert (
+        result["record"]["status"]
+        == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED_NO_RECOVERY.value
+    )
+    assert (
+        result["record"]["decision"]
+        == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED.value
+    )
 
 
 def test_image_mismatch_blocks(tmp_path):
-    result = _decider(tmp_path, target_image="programbench/other:task_cleanroom").decide(_recipe_provenance_recovery(tmp_path))
+    result = _decider(tmp_path, target_image="programbench/other:task_cleanroom").decide(
+        _recipe_provenance_recovery(tmp_path)
+    )
 
-    assert result["record"]["status"] == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED_IMAGE_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED_IMAGE_MISMATCH.value
+    )
 
 
 def test_digest_mismatch_blocks(tmp_path):
-    result = _decider(tmp_path, target_digest="sha256:bad").decide(_recipe_provenance_recovery(tmp_path))
+    result = _decider(tmp_path, target_digest="sha256:bad").decide(
+        _recipe_provenance_recovery(tmp_path)
+    )
 
-    assert result["record"]["status"] == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED_DIGEST_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED_DIGEST_MISMATCH.value
+    )
 
 
 def test_invalid_referenced_chain_blocks(tmp_path):
@@ -182,23 +206,37 @@ def test_invalid_referenced_chain_blocks(tmp_path):
 
     result = _decider(tmp_path).decide(recovery)
 
-    assert result["record"]["status"] == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED_CHAIN_INVALID.value
-    assert result["record"]["decision"] == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED.value
+    assert (
+        result["record"]["status"]
+        == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED_CHAIN_INVALID.value
+    )
+    assert (
+        result["record"]["decision"]
+        == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED.value
+    )
 
 
 def test_partial_recovery_becomes_partial_only_decision(tmp_path):
     result = _decider(tmp_path).decide(_recipe_provenance_recovery(tmp_path))
 
-    assert result["record"]["status"] == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.value
+    assert (
+        result["record"]["status"]
+        == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.value
+    )
     assert result["record"]["findings"]["rebuild_provenance_authorized"] is False
 
 
 def test_blocked_recovery_becomes_blocked_decision(tmp_path):
-    recovery = _recipe_provenance_recovery(tmp_path, decision="REBUILD_PROVENANCE_BLOCKED", go_available=False)
+    recovery = _recipe_provenance_recovery(
+        tmp_path, decision="REBUILD_PROVENANCE_BLOCKED", go_available=False
+    )
 
     result = _decider(tmp_path).decide(recovery)
 
-    assert result["record"]["status"] == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED.value
+    assert (
+        result["record"]["status"]
+        == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED.value
+    )
 
 
 def test_ready_recovery_becomes_ready_decision_without_execution(tmp_path):
@@ -211,7 +249,10 @@ def test_ready_recovery_becomes_ready_decision_without_execution(tmp_path):
 
     result = _decider(tmp_path).decide(recovery)
 
-    assert result["record"]["status"] == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_READY.value
+    assert (
+        result["record"]["status"]
+        == RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_READY.value
+    )
     assert result["record"]["authorization"]["rebuild_provenance_ready"] is True
     assert result["record"]["authorization"]["image_rebuild_authorized"] is False
 
@@ -228,14 +269,20 @@ def test_original_recipe_gap_remains_open(tmp_path):
     result = _decider(tmp_path).decide(_recipe_provenance_recovery(tmp_path))
 
     assert result["record"]["findings"]["original_recipe_gap_open"] is True
-    assert RebuildProvenanceQuarantineDecisionStatus.ORIGINAL_RECIPE_GAP_OPEN.value in result["record"]["decision_statuses"]
+    assert (
+        RebuildProvenanceQuarantineDecisionStatus.ORIGINAL_RECIPE_GAP_OPEN.value
+        in result["record"]["decision_statuses"]
+    )
 
 
 def test_base_digest_gap_remains_open(tmp_path):
     result = _decider(tmp_path).decide(_recipe_provenance_recovery(tmp_path))
 
     assert result["record"]["findings"]["pinned_base_image_digest_gap_open"] is True
-    assert RebuildProvenanceQuarantineDecisionStatus.PINNED_BASE_IMAGE_DIGEST_GAP_OPEN.value in result["record"]["decision_statuses"]
+    assert (
+        RebuildProvenanceQuarantineDecisionStatus.PINNED_BASE_IMAGE_DIGEST_GAP_OPEN.value
+        in result["record"]["decision_statuses"]
+    )
 
 
 def test_material_fidelity_change_candidate_recorded(tmp_path):

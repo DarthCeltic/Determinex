@@ -13,7 +13,7 @@ from pathlib import Path
 log = logging.getLogger("oracle.provider.openai_api")
 
 _DEFAULT_MODEL = "gpt-4o"
-_MAX_TOKENS    = 2048
+_MAX_TOKENS = 2048
 
 
 def _load_api_key() -> str | None:
@@ -55,7 +55,7 @@ def generate(
         return None
 
     try:
-        from openai import OpenAI, AuthenticationError, RateLimitError, APIError
+        from openai import APIError, AuthenticationError, OpenAI, RateLimitError
     except ImportError:
         log.error("openai package not installed. Run: pip install openai")
         return None
@@ -74,7 +74,7 @@ def generate(
             model=model,
             messages=[
                 {"role": "system", "content": system},
-                {"role": "user",   "content": prompt_text},
+                {"role": "user", "content": prompt_text},
             ],
             max_tokens=_MAX_TOKENS,
             temperature=0.3,

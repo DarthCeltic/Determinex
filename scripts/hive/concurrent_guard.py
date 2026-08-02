@@ -11,14 +11,15 @@ Implements mitigations for six verified Determinex blindspots:
   #36  asyncio event loop isolation — prevent cross-thread loop reuse
 
 All primitives are optional-import safe:
-  - asyncio / multiprocessing are stdlib  
+  - asyncio / multiprocessing are stdlib
   - fcntl is POSIX only; Windows falls back to a lockfile-based mutex
   - No additional pip dependencies required
 """
+
 from __future__ import annotations
 
-import atexit
 import asyncio
+import atexit
 import ctypes
 import logging
 import multiprocessing
@@ -30,7 +31,6 @@ import threading
 import time
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Callable, Optional
 
 log = logging.getLogger("hive.guard")
 
@@ -40,10 +40,10 @@ log = logging.getLogger("hive.guard")
 # One semaphore per role, keyed by role name string.
 # Default concurrency per role — tunable at runtime via configure_concurrency().
 _DEFAULT_CONCURRENCY: dict[str, int] = {
-    "builder":   1,   # local Ollama: serialize to prevent VRAM thrash
-    "monitor":   1,   # local Ollama: same
-    "oracle":    2,   # cloud API: two in-flight at once is safe
-    "architect": 1,   # cloud API: single high-value call
+    "builder": 1,  # local Ollama: serialize to prevent VRAM thrash
+    "monitor": 1,  # local Ollama: same
+    "oracle": 2,  # cloud API: two in-flight at once is safe
+    "architect": 1,  # cloud API: single high-value call
 }
 
 _semaphores: dict[str, asyncio.Semaphore] = {}
@@ -114,6 +114,7 @@ def _get_thread_semaphore(role: str, limit: int) -> threading.Semaphore:
 
 # ── #28 Hardware workspace file lock ─────────────────────────────────────────
 
+
 class WorkspaceLockError(RuntimeError):
     """Raised when the workspace lock cannot be acquired within the timeout."""
 
@@ -131,7 +132,7 @@ class WorkspaceLock:
         self._session_id = session_id
         self._lock_path = workspace_root / f".determinex_{session_id}.lock"
         self._timeout = timeout
-        self._fd: Optional[int] = None
+        self._fd: int | None = None
         self._lock_file = None
 
     def acquire(self) -> None:
@@ -146,6 +147,7 @@ class WorkspaceLock:
 
     def _acquire_posix(self, deadline: float) -> None:
         import fcntl
+
         self._fd = os.open(str(self._lock_path), os.O_CREAT | os.O_WRONLY, 0o600)
         while True:
             try:
@@ -189,7 +191,8 @@ class WorkspaceLock:
                             # Process exited but handle still openable — stale
                             log.warning(
                                 "[#28-L13B] Stale lock: PID %d exited — removing %s",
-                                owner_pid, self._lock_path,
+                                owner_pid,
+                                self._lock_path,
                             )
                             self._lock_path.unlink(missing_ok=True)
                             continue
@@ -197,7 +200,8 @@ class WorkspaceLock:
                         # OpenProcess failed — PID does not exist
                         log.warning(
                             "[#28-L13B] Stale lock: PID %d not found — removing %s",
-                            owner_pid, self._lock_path,
+                            owner_pid,
+                            self._lock_path,
                         )
                         self._lock_path.unlink(missing_ok=True)
                         continue
@@ -215,6 +219,7 @@ class WorkspaceLock:
             try:
                 if sys.platform != "win32":
                     import fcntl
+
                     fcntl.flock(self._fd, fcntl.LOCK_UN)
                 os.close(self._fd)
                 self._fd = None
@@ -226,7 +231,7 @@ class WorkspaceLock:
             pass
         log.info("[#28] Workspace lock released: %s", self._lock_path)
 
-    def __enter__(self) -> "WorkspaceLock":
+    def __enter__(self) -> WorkspaceLock:
         self.acquire()
         return self
 
@@ -236,6 +241,7 @@ class WorkspaceLock:
 
 # ── #30 multiprocessing.Pool for CPU-bound validation ────────────────────────
 
+
 def _mp_validate_worker(args: tuple[str, str]) -> tuple[bool, str]:
     """
     Worker function for validate_project in a subprocess.
@@ -244,7 +250,9 @@ def _mp_validate_worker(args: tuple[str, str]) -> tuple[bool, str]:
     """
     workspace_str, lang = args
     from pathlib import Path as _Path
+
     from hive.compiler import validate_project as _validate
+
     return _validate(_Path(workspace_str), lang)
 
 
@@ -264,7 +272,7 @@ class CompilerPool:
 
     def __init__(self, workers: int = 1) -> None:
         self._workers = workers
-        self._pool: Optional[multiprocessing.Pool] = None
+        self._pool: multiprocessing.Pool | None = None
 
     def _ensure_pool(self) -> multiprocessing.Pool:
         if self._pool is None:
@@ -284,11 +292,15 @@ class CompilerPool:
             result = pool.apply_async(_mp_validate_worker, ((str(workspace), lang),))
             return result.get(timeout=timeout)
         except multiprocessing.TimeoutError:
-            log.warning("[#30] CompilerPool.validate timed out after %.0fs — falling back in-process", timeout)
+            log.warning(
+                "[#30] CompilerPool.validate timed out after %.0fs — falling back in-process",
+                timeout,
+            )
         except Exception as e:
             log.warning("[#30] CompilerPool.validate failed (%s) — falling back in-process", e)
         # Fallback: run in-process (GIL holds, but at least we don't crash)
         from hive.compiler import validate_project
+
         return validate_project(workspace, lang)
 
     def shutdown(self) -> None:
@@ -301,6 +313,7 @@ class CompilerPool:
 
 # ── #32 SIGKILL-capable subprocess timeout ────────────────────────────────────
 
+
 class SubprocessTimeoutError(RuntimeError):
     """Raised when a subprocess is killed due to timeout."""
 
@@ -308,8 +321,8 @@ class SubprocessTimeoutError(RuntimeError):
 def run_with_timeout(
     cmd: list[str],
     timeout: float,
-    cwd: Optional[Path] = None,
-    env: Optional[dict] = None,
+    cwd: Path | None = None,
+    env: dict | None = None,
     capture_output: bool = True,
 ) -> tuple[int, str, str]:
     """
@@ -340,7 +353,9 @@ def run_with_timeout(
             proc.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
             killed.set()
-            log.warning("[#32] Subprocess timeout (%.0fs) — sending SIGTERM to PID %d", timeout, proc.pid)
+            log.warning(
+                "[#32] Subprocess timeout (%.0fs) — sending SIGTERM to PID %d", timeout, proc.pid
+            )
             if sys.platform != "win32":
                 try:
                     os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
@@ -364,14 +379,13 @@ def run_with_timeout(
     watcher.join()
 
     if killed.is_set():
-        raise SubprocessTimeoutError(
-            f"Subprocess killed after {timeout:.0f}s: {' '.join(cmd[:3])}"
-        )
+        raise SubprocessTimeoutError(f"Subprocess killed after {timeout:.0f}s: {' '.join(cmd[:3])}")
 
     return proc.returncode, stdout or "", stderr or ""
 
 
 # ── #34 Stale-state temporal desync guard ────────────────────────────────────
+
 
 class EpochTaggedState:
     """
@@ -419,7 +433,8 @@ class EpochTaggedState:
             if self._epoch != expected_epoch:
                 log.warning(
                     "[#34] Stale write rejected: expected epoch=%d, current=%d",
-                    expected_epoch, self._epoch,
+                    expected_epoch,
+                    self._epoch,
                 )
                 return False
             self._epoch += 1
@@ -437,7 +452,7 @@ _session_states: dict[str, EpochTaggedState] = {}
 _session_states_lock = threading.Lock()
 
 
-def get_session_state(session_id: str, initial: Optional[dict] = None) -> EpochTaggedState:
+def get_session_state(session_id: str, initial: dict | None = None) -> EpochTaggedState:
     """Get (or create) the EpochTaggedState for a session."""
     with _session_states_lock:
         if session_id not in _session_states:
@@ -486,7 +501,7 @@ def close_isolated_event_loop() -> None:
         log.debug("[#36] Closed isolated event loop for thread %d", tid)
 
 
-def run_async_in_thread(coro, timeout: Optional[float] = None):
+def run_async_in_thread(coro, timeout: float | None = None):
     """
     Run an asyncio coroutine in the calling thread's isolated event loop.
     Safe to call from any thread, including ThreadPoolExecutor workers.
@@ -496,7 +511,9 @@ def run_async_in_thread(coro, timeout: Optional[float] = None):
     loop = get_isolated_event_loop()
     future = asyncio.ensure_future(coro, loop=loop)
     try:
-        return loop.run_until_complete(asyncio.wait_for(future, timeout=timeout) if timeout else future)
+        return loop.run_until_complete(
+            asyncio.wait_for(future, timeout=timeout) if timeout else future
+        )
     finally:
         # Always clean up dangling tasks to prevent ResourceWarning noise.
         pending = asyncio.all_tasks(loop)

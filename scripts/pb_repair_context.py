@@ -9,6 +9,7 @@ Usage:
   python scripts/pb_repair_context.py --tool trdsql --failing-categories "test_sql_query,test_output_format,test_flags"
   python scripts/pb_repair_context.py --tool grex --top 2
 """
+
 import argparse
 import json
 import subprocess
@@ -26,8 +27,10 @@ def get_top_similar(tool: str, failing_cats: list[str], top: int = 3) -> list[di
     cmd = [
         sys.executable,
         "scripts/pb_corpus_router.py",
-        "--tool", tool,
-        "--top", str(top),
+        "--tool",
+        tool,
+        "--top",
+        str(top),
         "--json",
     ]
     if failing_cats:
@@ -53,6 +56,7 @@ def extract_executable_block(tarball_path: Path) -> str:
                 return ""
             content = tf.extractfile(sh_name).read().decode("utf-8", errors="replace")
         import re
+
         m = re.search(r"(cat\s*>\s*\S*executable\s*<<'EXEC_EOF'.*?EXEC_EOF)", content, re.DOTALL)
         return m.group(1) if m else ""
     except Exception:

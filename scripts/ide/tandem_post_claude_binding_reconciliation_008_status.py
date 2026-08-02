@@ -32,6 +32,7 @@ Hard rules enforced by load():
     BLOCKED_MALFORMED
   * forbidden broad-claim phrase as current claim -> BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -48,7 +49,6 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
 
-
 _REPO_ROOT = _HERE.parent.parent.parent
 
 _DEFAULT_EVIDENCE_DIR = (
@@ -59,16 +59,18 @@ EXPECTED_STATUS = "TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_008_PASSED"
 EXPECTED_CLAUDE_DISPLAY_CHECKPOINT = 395
 EXPECTED_PRIOR_CODEX_CHECKPOINT = 387
 EXPECTED_FINAL_SPINE_MIN = 396
-EXPECTED_ABSORBED_LOCKS = frozenset({
-    "DETERMINEX_REACT_UNIVERSAL_100_TOP_LEVEL_SECTOR_COMPLETION_CAMPAIGN_BINDING_LOCK_001",
-    "DETERMINEX_REACT_TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_007_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_011_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_011_VISUAL_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_012_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_012_VISUAL_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_013_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_013_VISUAL_BINDING_LOCK_001",
-})
+EXPECTED_ABSORBED_LOCKS = frozenset(
+    {
+        "DETERMINEX_REACT_UNIVERSAL_100_TOP_LEVEL_SECTOR_COMPLETION_CAMPAIGN_BINDING_LOCK_001",
+        "DETERMINEX_REACT_TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_007_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_011_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_011_VISUAL_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_012_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_012_VISUAL_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_013_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_013_VISUAL_BINDING_LOCK_001",
+    }
+)
 
 REQUIRED_PANEL_CAPTIONS = (
     "This panel displays evidence; it does not grant authority.",
@@ -273,7 +275,13 @@ def load(evidence_dir: Path | str | None = None) -> Reconciliation008Status:
     cp_drift_actual = int(claude_cp.get("count_drift_actual", 0))
     cp_drift_expected = int(claude_cp.get("count_drift_expected", 0))
     cp_ledger = int(claude_cp.get("ledger_entry_count", 0))
-    if not (cp_count == cp_drift_actual == cp_drift_expected == cp_ledger == EXPECTED_CLAUDE_DISPLAY_CHECKPOINT):
+    if not (
+        cp_count
+        == cp_drift_actual
+        == cp_drift_expected
+        == cp_ledger
+        == EXPECTED_CLAUDE_DISPLAY_CHECKPOINT
+    ):
         return _block(
             "REACT_TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_008_BINDING_BLOCKED_CHECKPOINT_MISMATCH",
             f"claude display checkpoint counts {cp_count}/{cp_drift_actual}/{cp_drift_expected}/{cp_ledger} != {EXPECTED_CLAUDE_DISPLAY_CHECKPOINT}",
@@ -345,14 +353,18 @@ def load(evidence_dir: Path | str | None = None) -> Reconciliation008Status:
         claude_display_checkpoint_count_drift_status=str(claude_cp.get("count_drift_status")),
         claude_display_checkpoint_count_drift_actual=cp_drift_actual,
         claude_display_checkpoint_count_drift_expected=cp_drift_expected,
-        claude_display_checkpoint_stored_index_entry_count=int(claude_cp.get("stored_index_entry_count", 0)),
+        claude_display_checkpoint_stored_index_entry_count=int(
+            claude_cp.get("stored_index_entry_count", 0)
+        ),
         claude_display_checkpoint_ledger_chain_valid=True,
         claude_display_checkpoint_mutation_detected=False,
         claude_display_checkpoint_evidence_index_validation_errors=tuple(str(x) for x in cp_errs),
         prior_codex_source_truth_evidence_index_count=prior_count,
         prior_codex_source_truth_ledger_entry_count=int(prior_cp.get("ledger_entry_count", 0)),
         final_expected_evidence_count_after_this_lock=final_expected,
-        source_truth_locks_preserved=tuple(str(x) for x in (blob.get("source_truth_locks_preserved") or [])),
+        source_truth_locks_preserved=tuple(
+            str(x) for x in (blob.get("source_truth_locks_preserved") or [])
+        ),
         claim_boundary=tuple(str(x) for x in (blob.get("claim_boundary") or [])),
         forbidden_claims=tuple(str(x) for x in (blob.get("forbidden_claims") or [])),
         source_mutation_authorized=False,

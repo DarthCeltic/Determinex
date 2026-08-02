@@ -14,7 +14,9 @@ Usage in other scripts:
         # ... do work ...
         span.set_attribute("passed", 49)
 """
+
 from __future__ import annotations
+
 import os
 import sys
 from contextlib import contextmanager
@@ -27,10 +29,10 @@ def _setup():
     """Lazy setup — only imports OpenTelemetry if a script calls into instrumentation."""
     try:
         from opentelemetry import trace
+        from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
         from opentelemetry.sdk.resources import Resource
         from opentelemetry.sdk.trace import TracerProvider
         from opentelemetry.sdk.trace.export import BatchSpanProcessor
-        from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
     except ImportError:
         sys.stderr.write("OpenTelemetry not installed; tracing disabled\n")
         sys.stderr.write("  pip install opentelemetry-sdk opentelemetry-exporter-otlp-proto-grpc\n")
@@ -60,8 +62,12 @@ def eval_span(instance_id: str, iteration: int | None = None, **attrs):
     if tracer is None:
         # No-op span
         class _Null:
-            def set_attribute(self, *a, **k): pass
-            def add_event(self, *a, **k): pass
+            def set_attribute(self, *a, **k):
+                pass
+
+            def add_event(self, *a, **k):
+                pass
+
         yield _Null()
         return
 
@@ -79,9 +85,14 @@ def phase_span(phase: str, **attrs):
     """Use for sub-phases: 'compile', 'pytest', 'score-parse', etc."""
     tracer = get_tracer()
     if tracer is None:
+
         class _Null:
-            def set_attribute(self, *a, **k): pass
-            def add_event(self, *a, **k): pass
+            def set_attribute(self, *a, **k):
+                pass
+
+            def add_event(self, *a, **k):
+                pass
+
         yield _Null()
         return
     with tracer.start_as_current_span(f"phase.{phase}") as span:

@@ -16,11 +16,11 @@ across:
   * canonical patch body mismatch
   * verifier/snapshot ref mismatch
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 APPROVAL_REPLAY_AND_STALENESS_STATUS_TOKENS = (
     "APPROVAL_REPLAY_STALENESS_PASSED",
@@ -43,6 +43,7 @@ class ApprovalPacket:
     packet was issued; it is compared against the verifier's
     ``now_epoch_s`` against a policy window.
     """
+
     approval_id: str
     timestamp_epoch_s: int
     trace_id: str

@@ -22,7 +22,9 @@ converts ~80% of equality_mismatch + assert_substr failures into passes.
 
 Output: logs/mass_run_v2/oracle_memos.json
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -131,7 +133,7 @@ def mine_file(text: str, entry: dict[str, Any]) -> None:
     aliases["stdout"] = ""  # bare stdout = nearest prior run's var
 
     for start, var, argv in runs:
-        window = text[start:start + 2500]
+        window = text[start : start + 2500]
         memo: dict[str, Any] = {"argv": argv}
         wrote = False
 
@@ -182,7 +184,11 @@ def mine_branch_tar(tar_path: Path, entry: dict[str, Any]) -> int:
                 name = member.name.lower()
                 if not name.endswith(".py"):
                     continue
-                if "eval/tests" not in name and "eval\\tests" not in name and not name.endswith("conftest.py"):
+                if (
+                    "eval/tests" not in name
+                    and "eval\\tests" not in name
+                    and not name.endswith("conftest.py")
+                ):
                     continue
                 try:
                     f = tf.extractfile(member)
@@ -250,7 +256,9 @@ def main() -> int:
         entry = mine_tool(snap, inst)
         results[inst] = entry
         if i % 20 == 0 or i == len(insts):
-            print(f"  [{i}/{len(insts)}] {inst}: memos={len(entry['memos'])} branches={entry['branches']}")
+            print(
+                f"  [{i}/{len(insts)}] {inst}: memos={len(entry['memos'])} branches={entry['branches']}"
+            )
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(results, indent=1), encoding="utf-8")
@@ -258,7 +266,7 @@ def main() -> int:
 
     total_memos = sum(len(r["memos"]) for r in results.values())
     tools_with_memos = sum(1 for r in results.values() if r["memos"])
-    print(f"\n=== summary ===")
+    print("\n=== summary ===")
     print(f"  total memos: {total_memos}")
     print(f"  tools with at least 1 memo: {tools_with_memos}/{len(results)}")
     by_count = sorted(((len(r["memos"]), t) for t, r in results.items()), reverse=True)[:10]

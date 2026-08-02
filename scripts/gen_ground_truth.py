@@ -3,8 +3,9 @@ Generate GROUND_TRUTH.md from eval_index.json — the single source of truth.
 Run this script every time a lock is certified (it's the Driver's write step).
 Never edit GROUND_TRUTH.md by hand.
 """
-import json
+
 import datetime
+import json
 import pathlib
 from collections import Counter
 
@@ -48,7 +49,7 @@ assert tier_total == total_tools, (
     "Run pb_tier_classify.py to reclassify."
 )
 
-now_utc = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+now_utc = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 lines = [
     "# ProgramBench Ground Truth",
@@ -127,12 +128,14 @@ with open(OUT_PATH, "w", encoding="utf-8", newline="\n") as f:
     f.write(content)
 
 print(f"Written: {OUT_PATH} ({len(content):,} bytes)")
-print(f"Strict locks (T1): {total_strict}/200 = {total_strict/200*100:.1f}%")
+print(f"Strict locks (T1): {total_strict}/200 = {total_strict / 200 * 100:.1f}%")
 print(f"Ceiling certified (T2): {tier_counter['ceiling_certified']}")
-print(f"T3 open: {tier_counter['open']} "
-      f"(near_miss={bucket_counter['near_miss']}, "
-      f"impossible_ceiling={bucket_counter['impossible_ceiling']}, "
-      f"tui_wall={bucket_counter['tui_wall']}, "
-      f"rebaseline_needed={bucket_counter['rebaseline_needed']}, "
-      f"behavioral_deep={bucket_counter['behavioral_deep']})")
+print(
+    f"T3 open: {tier_counter['open']} "
+    f"(near_miss={bucket_counter['near_miss']}, "
+    f"impossible_ceiling={bucket_counter['impossible_ceiling']}, "
+    f"tui_wall={bucket_counter['tui_wall']}, "
+    f"rebaseline_needed={bucket_counter['rebaseline_needed']}, "
+    f"behavioral_deep={bucket_counter['behavioral_deep']})"
+)
 print(f"Aliases demoted: {len(aliases)}")

@@ -34,6 +34,7 @@ CLI
 
 <slug> is the per_tool_overrides directory name (e.g. naggie__dstask.ff57396).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -95,6 +96,7 @@ def _cc_build_deps(tool_dir: Path) -> list[str]:
     pkgs = sorted({lib2apt[l] for l in libs if l in lib2apt})
     return pkgs
 
+
 def diagnose_build_err(text: str) -> tuple[list[str], list[str]]:
     """The 'NEVER blind' build fixer. Read the ACTUAL build.err/configure.err (not a static
     configure.ac scan) and map the concrete first-errors to apt -dev packages. Catches what
@@ -105,7 +107,9 @@ def diagnose_build_err(text: str) -> tuple[list[str], list[str]]:
     sigs: list[str] = []
     # Errors from a tool's OWN test fixtures (parse inputs) are NOT build deps -- a blind
     # g++ `find . -name '*.cpp'` wrongly compiles them (ctags Units/, the blind-gpp enemy).
-    _FIXTURE = re.compile(r"(^|/)(test|tests|testdata|fixtures?|units?|examples?|samples?)[./]", re.I)
+    _FIXTURE = re.compile(
+        r"(^|/)(test|tests|testdata|fixtures?|units?|examples?|samples?)[./]", re.I
+    )
 
     def _map_lib(name: str) -> bool:
         """Map a header/lib/pkg name to an apt -dev pkg ONLY if it's a KNOWN system lib.
@@ -115,7 +119,8 @@ def diagnose_build_err(text: str) -> tuple[list[str], list[str]]:
         n = re.sub(r"^lib", "", n)
         for cand in (name.lower(), n, n.rstrip("0123456789"), n.replace("-", "")):
             if cand in lib2apt:
-                pkgs.add(lib2apt[cand]); return True
+                pkgs.add(lib2apt[cand])
+                return True
         return False
 
     for rx, kind in [
@@ -128,24 +133,30 @@ def diagnose_build_err(text: str) -> tuple[list[str], list[str]]:
     ]:
         for m in re.finditer(rx, text, re.I):
             name = m.group(1)
-            if _FIXTURE.search(name):       # error in a test fixture -> not a build dep
+            if _FIXTURE.search(name):  # error in a test fixture -> not a build dep
                 continue
             # For a `<libdir>/Header.h` include (tclap/CmdLine.h, boost/x.hpp) the LIB is the
             # path PREFIX, not the header basename -- try both (prefix first).
             cands = []
             if "/" in name:
-                cands.append(name.split("/", 1)[0])     # tclap
-            cands.append(name.rsplit("/", 1)[-1])       # CmdLine.h
-            if any(_map_lib(c) for c in cands):         # only record KNOWN system libs
+                cands.append(name.split("/", 1)[0])  # tclap
+            cands.append(name.rsplit("/", 1)[-1])  # CmdLine.h
+            if any(_map_lib(c) for c in cands):  # only record KNOWN system libs
                 sigs.append(f"{kind}: {name}")
 
     # generic toolchain absence
-    if re.search(r"(autoreconf|automake|libtool|aclocal):?\s*(not found|command not found)", text, re.I):
-        pkgs.update(["autoconf", "automake", "libtool"]); sigs.append("autotools-missing")
-    if re.search(r"\b(cmake|nasm|yasm|bison|flex|re2c|gperf):?\s*(not found|command not found)", text, re.I):
+    if re.search(
+        r"(autoreconf|automake|libtool|aclocal):?\s*(not found|command not found)", text, re.I
+    ):
+        pkgs.update(["autoconf", "automake", "libtool"])
+        sigs.append("autotools-missing")
+    if re.search(
+        r"\b(cmake|nasm|yasm|bison|flex|re2c|gperf):?\s*(not found|command not found)", text, re.I
+    ):
         for tool in ("cmake", "nasm", "yasm", "bison", "flex", "re2c", "gperf"):
             if re.search(rf"\b{tool}\b.*not found", text, re.I):
-                pkgs.add(tool); sigs.append(f"buildtool-missing: {tool}")
+                pkgs.add(tool)
+                sigs.append(f"buildtool-missing: {tool}")
     return sorted(pkgs), sigs[:12]
 
 
@@ -154,15 +165,22 @@ def inject_apt_deps(compile_sh_text: str, pkgs: list[str]) -> tuple[str, bool]:
     configure step, so the next eval has them. Idempotent (skips already-listed pkgs)."""
     if not pkgs:
         return compile_sh_text, False
-    new_pkgs = [p for p in pkgs if re.search(rf"(^|\s){re.escape(p)}(\s|$)",
-                                             compile_sh_text) is None]
+    new_pkgs = [
+        p for p in pkgs if re.search(rf"(^|\s){re.escape(p)}(\s|$)", compile_sh_text) is None
+    ]
     if not new_pkgs:
         return compile_sh_text, False
-    line = ("apt-get install -y --no-install-recommends " + " ".join(new_pkgs)
-            + " 2>/dev/null || true  # [determinex] build.err-diagnosed deps\n")
+    line = (
+        "apt-get install -y --no-install-recommends "
+        + " ".join(new_pkgs)
+        + " 2>/dev/null || true  # [determinex] build.err-diagnosed deps\n"
+    )
     # insert before the first configure/cmake/make/buildconf invocation
-    m = re.search(r"^[ \t]*(\./configure|\./buildconf|cmake |autoreconf|make |sh \./configure)",
-                  compile_sh_text, re.M)
+    m = re.search(
+        r"^[ \t]*(\./configure|\./buildconf|cmake |autoreconf|make |sh \./configure)",
+        compile_sh_text,
+        re.M,
+    )
     if m:
         i = m.start()
         return compile_sh_text[:i] + line + compile_sh_text[i:], True
@@ -174,11 +192,17 @@ def inject_apt_deps(compile_sh_text: str, pkgs: list[str]) -> tuple[str, bool]:
 
 
 # verdict.strategy values this module knows how to apply mechanically
-AUTO_STRATEGIES = {"fix-build-target", "remove-collection-cap", "strip-literal-n",
-                   "clock-freeze", "restore-bidir", "fix-charit-filter"}
+AUTO_STRATEGIES = {
+    "fix-build-target",
+    "remove-collection-cap",
+    "strip-literal-n",
+    "clock-freeze",
+    "restore-bidir",
+    "fix-charit-filter",
+}
 
 
-def _bidir_candidate(eval_report: "Path | None", compile_text: str) -> tuple[bool, str]:
+def _bidir_candidate(eval_report: Path | None, compile_text: str) -> tuple[bool, str]:
     """The 5th-failure-mode fix, with the fzf guard. bidir is correct ONLY when the report's
     not_run are (nearly all) PREFIX-DUPES of passing tests (eval.tests.X vs tests.X), AND the
     compile.sh does not already route prefixes (a nodeid-route tool would be OVER-mirrored ->
@@ -189,12 +213,14 @@ def _bidir_candidate(eval_report: "Path | None", compile_text: str) -> tuple[boo
         return False, "no report (cannot confirm prefix-dupe shape)"
     try:
         import json as _json
+
         tr = _json.loads(eval_report.read_text(encoding="utf-8")).get("test_results") or []
     except Exception:
         return False, "report unreadable"
 
     def _ident(n: str) -> str:
         return n.split("::")[-1] if "::" in n else n.split(".")[-1]
+
     nr = {_ident(x.get("name", "")) for x in tr if x.get("status") == "not_run"}
     # The REAL discriminator (corrected after sd/rhit/tailspin): apply iff there ARE prefix-dupe
     # not_run to FILL. fzf over-mirrored because it had nr=0 (its nodeid-route already doubles
@@ -202,12 +228,21 @@ def _bidir_candidate(eval_report: "Path | None", compile_text: str) -> tuple[boo
     # that DOES have prefix-dupe not_run needs the missing prefix regardless of nodeid-route,
     # and bidir is idempotent (skips mirrors that already exist), so it only fills the gap.
     if not nr:
-        return False, "no not_run (nothing to fill; e.g. fzf route already doubles -> bidir would over-mirror)"
+        return (
+            False,
+            "no not_run (nothing to fill; e.g. fzf route already doubles -> bidir would over-mirror)",
+        )
     passed = {_ident(x.get("name", "")) for x in tr if x.get("status") == "passed"}
     dupe = nr & passed
     if len(dupe) >= 0.9 * len(nr):
-        return True, f"{len(dupe)}/{len(nr)} not_run are prefix-dupes of passing -> bidir fills the missing prefix"
-    return False, f"only {len(dupe)}/{len(nr)} not_run are prefix-dupes (genuinely missing, not a bidir case)"
+        return (
+            True,
+            f"{len(dupe)}/{len(nr)} not_run are prefix-dupes of passing -> bidir fills the missing prefix",
+        )
+    return (
+        False,
+        f"only {len(dupe)}/{len(nr)} not_run are prefix-dupes (genuinely missing, not a bidir case)",
+    )
 
 
 @dataclass
@@ -256,10 +291,18 @@ def _go_main_pkgs(tool_dir: Path) -> list[str]:
 # definitive signal is `import "C"` in any .go file; this list catches the common
 # transitive case where the cgo import lives inside a dependency, not our own source.
 _CGO_PKGS = (
-    "mattn/go-sqlite3", "mattn/go-oniguruma", "mattn/go-tflite",
-    "go-sql-driver", "confluentinc/confluent-kafka-go", "go-gl/",
-    "rjeczalik/notify", "karalabe/usb", "ebitengine/purego",
-    "mutecomm/go-sqlcipher", "gen2brain/go-fitz", "veandco/go-sdl2",
+    "mattn/go-sqlite3",
+    "mattn/go-oniguruma",
+    "mattn/go-tflite",
+    "go-sql-driver",
+    "confluentinc/confluent-kafka-go",
+    "go-gl/",
+    "rjeczalik/notify",
+    "karalabe/usb",
+    "ebitengine/purego",
+    "mutecomm/go-sqlcipher",
+    "gen2brain/go-fitz",
+    "veandco/go-sdl2",
 )
 
 
@@ -280,8 +323,17 @@ def _go_cgo_deps(tool_dir: Path) -> list[str]:
     # definitive: our own source does `import "C"` -- but EXCLUDE test fixtures / examples /
     # vendored corpora (go-critic ships checkers/testdata/_integration/cgo/main.go that is NOT
     # part of its build -> a false cgo flag). Only real build paths count.
-    _skip = ("testdata", "_integration", "/test/", "examples", "example", "_scripts",
-             "/vendor/", "_fixtures", "fixtures")
+    _skip = (
+        "testdata",
+        "_integration",
+        "/test/",
+        "examples",
+        "example",
+        "_scripts",
+        "/vendor/",
+        "_fixtures",
+        "fixtures",
+    )
     for go in tool_dir.glob("**/*.go"):
         rel = go.relative_to(tool_dir).as_posix()
         if any(s.strip("/") in rel.split("/") or s in "/" + rel for s in _skip):
@@ -315,8 +367,18 @@ def _go_forced_toolchain(tool_dir: Path) -> str | None:
     # The golang.org/x/* modules bumped their min-Go to 1.24 in early-2025 releases. Any of
     # them at that vintage forces go 1.24 even if go.mod's directive is older (GOTOOLCHAIN=auto
     # would stay too low). Per-module minor thresholds for the v0.X line that needs 1.24:
-    _X124 = {"tools": 36, "term": 34, "sys": 31, "net": 36, "crypto": 33, "text": 24,
-             "telemetry": 0, "sync": 12, "mod": 24, "exp": 0}
+    _X124 = {
+        "tools": 36,
+        "term": 34,
+        "sys": 31,
+        "net": 36,
+        "crypto": 33,
+        "text": 24,
+        "telemetry": 0,
+        "sync": 12,
+        "mod": 24,
+        "exp": 0,
+    }
     for mod, thr in _X124.items():
         mm = re.search(rf"golang\.org/x/{mod} v0\.(\d+)\.", g)
         if mm and int(mm.group(1)) >= thr:
@@ -339,12 +401,12 @@ def check_go_source_complete(tool_dir: Path) -> tuple[bool, list[str]]:
     m = re.search(r"^module\s+(\S+)", gomod.read_text(encoding="utf-8", errors="replace"), re.M)
     if not m:
         return True, []
-    module = m.group(1)                       # e.g. github.com/naggie/dstask
+    module = m.group(1)  # e.g. github.com/naggie/dstask
     # Only `testdata` (and underscore-prefixed dirs) are RELIABLY non-packages.
     # Do NOT skip `build`/`test` -- gdu imports a REAL `build/` package (version info);
     # skipping it missed gdu's source-completion and left it on a stale binary. When a
     # name is genuinely a non-package, the upstream fetch simply 404s, harmlessly.
-    _SKIP = re.compile(r'(^|/)(testdata|_\w+)(/|$)')
+    _SKIP = re.compile(r"(^|/)(testdata|_\w+)(/|$)")
     missing: list[str] = []
     for go in tool_dir.glob("**/*.go"):
         # only consider real source files, not _test.go or testdata fixtures
@@ -352,26 +414,28 @@ def check_go_source_complete(tool_dir: Path) -> tuple[bool, list[str]]:
             continue
         txt = go.read_text(encoding="utf-8", errors="replace")
         for imp in re.findall(rf'"{re.escape(module)}/([\w./-]+)"', txt):
-            sub = (tool_dir / imp)
+            sub = tool_dir / imp
             if not sub.is_dir() and imp not in missing and not _SKIP.search(imp):
                 missing.append(imp)
     return (len(missing) == 0), missing
 
 
-def fetch_missing_go_subpackages(tool_dir: Path, slug: str,
-                                 missing: list[str]) -> tuple[list[str], list[str]]:
+def fetch_missing_go_subpackages(
+    tool_dir: Path, slug: str, missing: list[str]
+) -> tuple[list[str], list[str]]:
     """Complete an incomplete Go source tree by fetching the missing module
     subpackages from upstream at the pinned commit (the slug's hash). Proven on
     dstask (fetched completions/). Flat dirs only; nested noted as a limitation."""
     import urllib.request
+
     fetched: list[str] = []
     errs: list[str] = []
-    gomod = (tool_dir / "go.mod")
+    gomod = tool_dir / "go.mod"
     m = re.search(r"^module\s+(\S+)", gomod.read_text(encoding="utf-8", errors="replace"), re.M)
     module = m.group(1) if m else ""
     if not module.startswith("github.com/"):
         return [], [f"non-github module '{module}' -- fetch manually"]
-    repo = module[len("github.com/"):]
+    repo = module[len("github.com/") :]
     commit = slug.split(".")[-1] if "." in slug else "HEAD"
     for sub in missing:
         api = f"https://api.github.com/repos/{repo}/contents/{sub}?ref={commit}"
@@ -379,7 +443,8 @@ def fetch_missing_go_subpackages(tool_dir: Path, slug: str,
             with urllib.request.urlopen(api, timeout=25) as r:
                 items = json.load(r)
         except Exception as e:
-            errs.append(f"{sub}: list failed ({e})"); continue
+            errs.append(f"{sub}: list failed ({e})")
+            continue
         (tool_dir / sub).mkdir(parents=True, exist_ok=True)
         for it in items if isinstance(items, list) else []:
             if it.get("type") == "file" and it.get("download_url"):
@@ -399,9 +464,12 @@ def _load_fetch_targets() -> dict:
     This is the corpus-recorded list the loop self-applies (ask corpus always)."""
     try:
         kb = load_knowledge()
-        return (kb.get("class_patterns", {}).get("source_gap_upstream_fetch", {})
-                  .get("fetch_targets_2026_06_22", {})
-                  .get("bucket_A_fetch_missing_source", {}))
+        return (
+            kb.get("class_patterns", {})
+            .get("source_gap_upstream_fetch", {})
+            .get("fetch_targets_2026_06_22", {})
+            .get("bucket_A_fetch_missing_source", {})
+        )
     except Exception:
         return {}
 
@@ -433,9 +501,14 @@ def _detect_missing_source(tool_dir: Path) -> list[str]:
     return missing
 
 
-def source_gap_upstream_fetch(slug: str, tool_dir: Path, repo: str | None = None,
-                              commit: str | None = None, missing: list[str] | None = None,
-                              dry_run: bool = False) -> tuple[list[str], list[str]]:
+def source_gap_upstream_fetch(
+    slug: str,
+    tool_dir: Path,
+    repo: str | None = None,
+    commit: str | None = None,
+    missing: list[str] | None = None,
+    dry_run: bool = False,
+) -> tuple[list[str], list[str]]:
     """GENERAL source-gap fixer (the bucket-A unlock). Clone the upstream repo at the
     PINNED commit and restore the missing tracked paths PB stripped (manifests, workspace
     member crates, completions, data dirs) — any language, nested dirs included. Unlike
@@ -457,7 +530,8 @@ def source_gap_upstream_fetch(slug: str, tool_dir: Path, repo: str | None = None
         rec = t.get("missing")
         # recorded "missing" is prose (e.g. "crates/* workspace members"); prefer live detect.
         missing = _detect_missing_source(tool_dir) or (
-            [rec.split()[0].rstrip("(),")] if rec else [])
+            [rec.split()[0].rstrip("(),")] if rec else []
+        )
     if not repo:
         # derive from go.mod module
         gm = tool_dir / "go.mod"
@@ -465,7 +539,9 @@ def source_gap_upstream_fetch(slug: str, tool_dir: Path, repo: str | None = None
             m = re.search(r"^module\s+github\.com/(\S+)", gm.read_text(errors="replace"), re.M)
             repo = m.group(1) if m else None
     if not (repo and commit):
-        return [], [f"no repo/commit for {slug} (give --repo/--commit or add to build_knowledge fetch_targets)"]
+        return [], [
+            f"no repo/commit for {slug} (give --repo/--commit or add to build_knowledge fetch_targets)"
+        ]
     if not missing:
         return [], [f"{slug}: nothing detected missing (already complete?)"]
     if dry_run:
@@ -478,17 +554,43 @@ def source_gap_upstream_fetch(slug: str, tool_dir: Path, repo: str | None = None
         url = f"https://github.com/{repo}"
         _sp.run(["git", "init", "-q", str(work)], check=True, timeout=60)
         _sp.run(["git", "-C", str(work), "remote", "add", "origin", url], check=True, timeout=60)
-        fr = _sp.run(["git", "-C", str(work), "fetch", "--depth", "1", "--filter=blob:none",
-                      "origin", commit], capture_output=True, text=True, timeout=600)
+        fr = _sp.run(
+            [
+                "git",
+                "-C",
+                str(work),
+                "fetch",
+                "--depth",
+                "1",
+                "--filter=blob:none",
+                "origin",
+                commit,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=600,
+        )
         if fr.returncode != 0:
             # some servers reject fetch-by-sha; fall back to a full-ish fetch then checkout
-            _sp.run(["git", "-C", str(work), "fetch", "--filter=blob:none", "origin"],
-                    capture_output=True, text=True, timeout=900)
-        co = _sp.run(["git", "-C", str(work), "checkout", "-q", commit],
-                     capture_output=True, text=True, timeout=300)
+            _sp.run(
+                ["git", "-C", str(work), "fetch", "--filter=blob:none", "origin"],
+                capture_output=True,
+                text=True,
+                timeout=900,
+            )
+        co = _sp.run(
+            ["git", "-C", str(work), "checkout", "-q", commit],
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
         if co.returncode != 0:
-            _sp.run(["git", "-C", str(work), "checkout", "-q", "FETCH_HEAD"],
-                    capture_output=True, text=True, timeout=300)
+            _sp.run(
+                ["git", "-C", str(work), "checkout", "-q", "FETCH_HEAD"],
+                capture_output=True,
+                text=True,
+                timeout=300,
+            )
         for rel in missing:
             src = work / rel
             if not src.exists():
@@ -541,9 +643,13 @@ def _ensure_go_toolchain(tool_dir: Path, dry_run: bool = False) -> tuple[bool, s
         # it targets literal go.mod or a $var in a for-loop (the gdu variant). Both defeat
         # GOTOOLCHAIN=auto and force a bundled-binary fallback.
         _is_downgrade = re.search(r"\bsed\b.*-i.*s[/#].*\bgo\s*[0-9]", ln) or (
-            re.search(r"\bsed\b.*-i.*\bgo\.mod", ln) and re.search(r"\^go |s#?\^go|toolchain", ln))
+            re.search(r"\bsed\b.*-i.*\bgo\.mod", ln) and re.search(r"\^go |s#?\^go|toolchain", ln)
+        )
         if _is_downgrade:
-            lines[i] = "# [determinex] disabled go.mod-lowering (defeats from-source build): " + ln.lstrip()
+            lines[i] = (
+                "# [determinex] disabled go.mod-lowering (defeats from-source build): "
+                + ln.lstrip()
+            )
             changed = True
             notes.append("disabled go.mod-lowering hack")
     text = "\n".join(lines)
@@ -555,8 +661,14 @@ def _ensure_go_toolchain(tool_dir: Path, dry_run: bool = False) -> tuple[bool, s
     # robust retry pre-fetch: GOTOOLCHAIN downloads ~150MB per fresh container; that download
     # is flaky (gotests false-9% from a half-finished DL). Pre-fetch with retries BEFORE the
     # build so a transient network blip doesn't kill the binary. Only for a forced version.
-    prefetch = (f"for _i in 1 2 3 4 5; do GOTOOLCHAIN={forced} go version >/dev/null 2>&1 "
-                f"&& break || sleep 8; done  # [determinex] robust toolchain pre-fetch") if forced else None
+    prefetch = (
+        (
+            f"for _i in 1 2 3 4 5; do GOTOOLCHAIN={forced} go version >/dev/null 2>&1 "
+            f"&& break || sleep 8; done  # [determinex] robust toolchain pre-fetch"
+        )
+        if forced
+        else None
+    )
     if "GOTOOLCHAIN" not in text:
         lines = text.split("\n")
         ins = 1
@@ -564,7 +676,11 @@ def _ensure_go_toolchain(tool_dir: Path, dry_run: bool = False) -> tuple[bool, s
             if ln.strip().startswith("set -e") or ln.strip() == "set -e":
                 ins = i + 1
                 break
-        why = (f"dep needs newer Go -> {forced}" if forced else "build from source w/ go.mod's toolchain")
+        why = (
+            f"dep needs newer Go -> {forced}"
+            if forced
+            else "build from source w/ go.mod's toolchain"
+        )
         block = f"export GOTOOLCHAIN={want_tc}  # [determinex] {why}"
         if prefetch:
             block += "\n" + prefetch
@@ -574,9 +690,12 @@ def _ensure_go_toolchain(tool_dir: Path, dry_run: bool = False) -> tuple[bool, s
         notes.append(f"exported GOTOOLCHAIN={want_tc}" + (" + retry pre-fetch" if prefetch else ""))
     elif forced and f"GOTOOLCHAIN={forced}" not in text:
         # upgrade an existing GOTOOLCHAIN=auto to the forced version + add the pre-fetch
-        text2 = re.sub(r"export GOTOOLCHAIN=\S+.*",
-                       f"export GOTOOLCHAIN={forced}  # [determinex] dep needs newer Go\n{prefetch}",
-                       text, count=1)
+        text2 = re.sub(
+            r"export GOTOOLCHAIN=\S+.*",
+            f"export GOTOOLCHAIN={forced}  # [determinex] dep needs newer Go\n{prefetch}",
+            text,
+            count=1,
+        )
         if text2 != text:
             text = text2
             changed = True
@@ -592,8 +711,13 @@ def _ensure_go_toolchain(tool_dir: Path, dry_run: bool = False) -> tuple[bool, s
             gv = (int(gm_match.group(1)), int(gm_match.group(2)))
             tv = (int(tc_match.group(1)), int(tc_match.group(2)))
             if gv < tv:  # go.mod was lowered below its own toolchain -> restore
-                gtxt = re.sub(r"^go \d+\.\d+(?:\.\d+)?",
-                              f"go {tc_match.group(1)}.{tc_match.group(2)}", gtxt, count=1, flags=re.M)
+                gtxt = re.sub(
+                    r"^go \d+\.\d+(?:\.\d+)?",
+                    f"go {tc_match.group(1)}.{tc_match.group(2)}",
+                    gtxt,
+                    count=1,
+                    flags=re.M,
+                )
                 if not dry_run:
                     gm.write_text(gtxt, encoding="utf-8", newline="\n")
                 changed = True
@@ -609,11 +733,13 @@ def _ensure_go_toolchain(tool_dir: Path, dry_run: bool = False) -> tuple[bool, s
             if ln.strip() == "set -e" or ln.strip().startswith("set -e"):
                 ins = i + 1
                 break
-        lines.insert(ins,
+        lines.insert(
+            ins,
             "# [determinex] cgo toolchain (tool links: " + ", ".join(cgo[:3]) + ")\n"
             "export CGO_ENABLED=1\n"
             "command -v gcc >/dev/null 2>&1 || { apt-get update -qq 2>/dev/null; "
-            "apt-get install -y -qq gcc libc6-dev pkg-config 2>/dev/null; } || true")
+            "apt-get install -y -qq gcc libc6-dev pkg-config 2>/dev/null; } || true",
+        )
         text = "\n".join(lines)
         changed = True
         notes.append(f"cgo build deps detected ({cgo[0]}) -> CGO_ENABLED=1 + gcc install")
@@ -622,8 +748,9 @@ def _ensure_go_toolchain(tool_dir: Path, dry_run: bool = False) -> tuple[bool, s
     #     "no such module: fts5" (the zk class -- build is fine, the binary just lacks fts5).
     #     Inject `-tags "sqlite_fts5"` into the go build line. Idempotent.
     if any("go-sqlite3" in c for c in cgo) and "sqlite_fts5" not in text:
-        new_text = re.sub(r"(\bgo build\b)(?!\s+[^\n]*-tags)",
-                          r'\1 -tags "sqlite_fts5"', text, count=1)
+        new_text = re.sub(
+            r"(\bgo build\b)(?!\s+[^\n]*-tags)", r'\1 -tags "sqlite_fts5"', text, count=1
+        )
         if new_text != text:
             text = new_text
             changed = True
@@ -647,7 +774,9 @@ def _guard_set_e(text: str) -> tuple[str | None, str]:
     for i, ln in enumerate(lines):
         if pat.match(ln) and "|| true" not in ln and not ln.rstrip().endswith("\\"):
             # don't guard the actual build line; only env/setup installers
-            if re.search(r"\b(install|update|get)\b", ln) or ln.strip().startswith(("curl", "wget")):
+            if re.search(r"\b(install|update|get)\b", ln) or ln.strip().startswith(
+                ("curl", "wget")
+            ):
                 lines[i] = ln.rstrip() + " || true"
                 changed = True
     if not changed:
@@ -666,7 +795,8 @@ def _fix_build_target(text: str, tool_dir: Path, tool: str) -> tuple[str | None,
         want = None
         for m in mains:
             if m.endswith(f"/cmd/{tool}") or m == f"./cmd/{tool}":
-                want = m; break
+                want = m
+                break
         if not want:
             cmds = [m for m in mains if "/cmd/" in m or m.startswith("./cmd")]
             if len(cmds) == 1:
@@ -679,7 +809,9 @@ def _fix_build_target(text: str, tool_dir: Path, tool: str) -> tuple[str | None,
         new = re.sub(
             r"(go build[^\n&|]*?-o\s+\S+)\s+(?:\.|\S+)(\s*(?:2>|\|\||&&|$))",
             lambda m: f"{m.group(1)} {want}{m.group(2)}",
-            text, count=1)
+            text,
+            count=1,
+        )
         if new != text:
             return new, f"go: build target -> {want}"
         # no -o form; try generic `go build .` -> `go build want`
@@ -705,6 +837,7 @@ def _detect_generation_date(eval_report: Path | None) -> str | None:
     except Exception:
         return None
     from collections import Counter
+
     dates: Counter = Counter()
     results = data.get("test_results", data if isinstance(data, list) else [])
     for t in results:
@@ -713,16 +846,19 @@ def _detect_generation_date(eval_report: Path | None) -> str | None:
         ex = t.get("extra", {})
         txt = (ex.get("text", "") if isinstance(ex, dict) else "") or t.get("message", "")
         # prefer dates appearing in startswith()/==/golden (the EXPECTED side)
-        for m in re.findall(r"startswith\(['\"](20\d\d-\d\d)|"
-                            r"== ['\"](20\d\d-\d\d-\d\d)|"
-                            r"Format: (20\d\d-\d\d-\d\d)", txt):
+        for m in re.findall(
+            r"startswith\(['\"](20\d\d-\d\d)|"
+            r"== ['\"](20\d\d-\d\d-\d\d)|"
+            r"Format: (20\d\d-\d\d-\d\d)",
+            txt,
+        ):
             for g in m:
                 if g:
                     dates[g[:7] if len(g) == 7 else g[:7]] += 1
     if not dates:
         return None
-    ym = dates.most_common(1)[0][0]   # e.g. "2026-04"
-    return f"{ym}-12T16:32:36Z"        # mid-month midday; tomorrow/week land in range
+    ym = dates.most_common(1)[0][0]  # e.g. "2026-04"
+    return f"{ym}-12T16:32:36Z"  # mid-month midday; tomorrow/week land in range
 
 
 def _clock_freeze(text: str, tool_dir: Path, gen_date: str | None) -> tuple[str | None, str]:
@@ -732,10 +868,15 @@ def _clock_freeze(text: str, tool_dir: Path, gen_date: str | None) -> tuple[str 
     reproduces the generation-time clock (the reference environment). Proven on dstask."""
     lang = _detect_lang(tool_dir)
     if lang != "go":
-        return None, (f"clock-freeze: {lang} not yet automated (Go done; Rust=patch "
-                      "SystemTime::now / C=patch time(NULL) -- TODO)")
-    pkg_files = [p for p in tool_dir.glob("*.go")
-                 if "time.Now()" in p.read_text(encoding="utf-8", errors="replace")]
+        return None, (
+            f"clock-freeze: {lang} not yet automated (Go done; Rust=patch "
+            "SystemTime::now / C=patch time(NULL) -- TODO)"
+        )
+    pkg_files = [
+        p
+        for p in tool_dir.glob("*.go")
+        if "time.Now()" in p.read_text(encoding="utf-8", errors="replace")
+    ]
     if not pkg_files:
         return None, "clock-freeze: no time.Now() in root package files"
     if "DETERMINEX_FAKE_NOW" in text or "determinexNow" in text:
@@ -745,36 +886,68 @@ def _clock_freeze(text: str, tool_dir: Path, gen_date: str | None) -> tuple[str 
     for p in tool_dir.glob("*.go"):
         m = re.search(r"^package\s+(\w+)", p.read_text(encoding="utf-8", errors="replace"), re.M)
         if m:
-            pkg = m.group(1); break
+            pkg = m.group(1)
+            break
     gd = gen_date or "2026-04-12T16:32:36Z"
-    nl = chr(10); tab = chr(9)
+    nl = chr(10)
+    tab = chr(9)
     patch = (
-        nl + "# [determinex clock-freeze] date-relative golden -> build a fakeable clock." + nl +
-        "cat > determinex_faketime.go <<'GOEOF'" + nl +
-        f"package {pkg}" + nl + nl + "import (" + nl + f'{tab}"os"' + nl +
-        f'{tab}"time"' + nl + ")" + nl + nl +
-        "func determinexNow() time.Time {" + nl +
-        f'{tab}if v := os.Getenv("DETERMINEX_FAKE_NOW"); v != "" {{' + nl +
-        f"{tab}{tab}if t, err := time.Parse(time.RFC3339Nano, v); err == nil {{ return t }}" + nl +
-        f"{tab}{tab}if t, err := time.Parse(time.RFC3339, v); err == nil {{ return t }}" + nl +
-        f"{tab}}}" + nl + f"{tab}return time.Now()" + nl + "}" + nl +
-        "GOEOF" + nl +
-        "for _gf in *.go; do [ \"$_gf\" = \"determinex_faketime.go\" ] && continue; "
+        nl
+        + "# [determinex clock-freeze] date-relative golden -> build a fakeable clock."
+        + nl
+        + "cat > determinex_faketime.go <<'GOEOF'"
+        + nl
+        + f"package {pkg}"
+        + nl
+        + nl
+        + "import ("
+        + nl
+        + f'{tab}"os"'
+        + nl
+        + f'{tab}"time"'
+        + nl
+        + ")"
+        + nl
+        + nl
+        + "func determinexNow() time.Time {"
+        + nl
+        + f'{tab}if v := os.Getenv("DETERMINEX_FAKE_NOW"); v != "" {{'
+        + nl
+        + f"{tab}{tab}if t, err := time.Parse(time.RFC3339Nano, v); err == nil {{ return t }}"
+        + nl
+        + f"{tab}{tab}if t, err := time.Parse(time.RFC3339, v); err == nil {{ return t }}"
+        + nl
+        + f"{tab}}}"
+        + nl
+        + f"{tab}return time.Now()"
+        + nl
+        + "}"
+        + nl
+        + "GOEOF"
+        + nl
+        + 'for _gf in *.go; do [ "$_gf" = "determinex_faketime.go" ] && continue; '
         "sed -i 's/time\\.Now()/determinexNow()/g' \"$_gf\" 2>/dev/null || true; "
         # drop now-unused "time" import (time.Now() was the only time.X use in the file)
-        "if grep -q '\"time\"' \"$_gf\" && ! grep -q 'time\\.' \"$_gf\"; then "
-        "sed -i '/^[[:space:]]*\"time\"[[:space:]]*$/d' \"$_gf\" 2>/dev/null || true; fi; done" + nl
+        'if grep -q \'"time"\' "$_gf" && ! grep -q \'time\\.\' "$_gf"; then '
+        'sed -i \'/^[[:space:]]*"time"[[:space:]]*$/d\' "$_gf" 2>/dev/null || true; fi; done' + nl
     )
     # insert patch right after the `cd "$(dirname "$0")"` line
     new = re.sub(r'(cd "\$\(dirname "\$0"\)"\n)', r"\1" + patch, text, count=1)
     if new == text:
         return None, "clock-freeze: could not find insertion point (cd $(dirname))"
     # export the pinned clock in the wrapper, before the first `exec -a "$0"`
-    exports = (f'export DETERMINEX_FAKE_NOW="${{DETERMINEX_FAKE_NOW:-{gd}}}"' + nl +
-               'export TZ="${TZ:-UTC}"' + nl)
+    exports = (
+        f'export DETERMINEX_FAKE_NOW="${{DETERMINEX_FAKE_NOW:-{gd}}}"'
+        + nl
+        + 'export TZ="${TZ:-UTC}"'
+        + nl
+    )
     new2 = re.sub(r'(\n)(exec -a "\$0")', nl + exports + r"\2", new, count=1)
     if new2 == new:
-        return new, f"clock-freeze: helper injected (pkg {pkg}, date {gd}); WRAPPER export NOT added -- add DETERMINEX_FAKE_NOW manually"
+        return (
+            new,
+            f"clock-freeze: helper injected (pkg {pkg}, date {gd}); WRAPPER export NOT added -- add DETERMINEX_FAKE_NOW manually",
+        )
     return new2, f"clock-freeze: pkg {pkg}, pinned DETERMINEX_FAKE_NOW={gd}"
 
 
@@ -788,16 +961,20 @@ def _strip_literal_n(text: str) -> tuple[str | None, str]:
             m = re.search(r"<<\s*['\"]?([A-Za-z_]\w*)['\"]?", ln)
             if m:
                 in_h, delim = True, m.group(1)
-                out.append(ln); continue
+                out.append(ln)
+                continue
         else:
             if ln.strip() == delim:
-                in_h = False; delim = None
-            out.append(ln); continue
+                in_h = False
+                delim = None
+            out.append(ln)
+            continue
         if "\\n" in ln:
             # turn `cmd \n  more` into two real lines; keep && / continuation sane
             fixed = ln.replace("\\n", "\n")
             n += ln.count("\\n")
-            out.append(fixed); continue
+            out.append(fixed)
+            continue
         out.append(ln)
     if n:
         return "\n".join(out), f"replaced {n} shell-line literal \\n with real newlines"
@@ -820,12 +997,15 @@ def _remove_collection_cap(text: str) -> tuple[str | None, str]:
     new, removed = text, 0
     for p in pats:
         new2, k = p.subn("", new)
-        removed += k; new = new2
+        removed += k
+        new = new2
     if removed:
         return new, f"removed {removed} numeric collection-cap line(s)"
     if re.search(r"collect_ignore(_glob)?\s*=", text):
-        return None, ("collect_ignore present but NOT auto-removed (often a legit "
-                      "tmux/pty filter) -- review manually")
+        return None, (
+            "collect_ignore present but NOT auto-removed (often a legit "
+            "tmux/pty filter) -- review manually"
+        )
     return None, "no numeric collection cap found"
 
 
@@ -839,10 +1019,12 @@ def _fix_charit_filter(text: str) -> tuple[str | None, str]:
     .../conftest.py`) conftests. Strictly narrows an over-broad drop -> cannot regress a
     passing tool. Proven: oppiliappan__eva 1730->1906 (76 not_run -> 0)."""
     import base64 as _b64
-    bug = re.compile(r'for s in \((\"[^\"]*\")\)')
+
+    bug = re.compile(r"for s in \((\"[^\"]*\")\)")
     new, changed = text, 0
-    new2, k = bug.subn(lambda m: f'for s in ({m.group(1)},)', new)
-    changed += k; new = new2
+    new2, k = bug.subn(lambda m: f"for s in ({m.group(1)},)", new)
+    changed += k
+    new = new2
     for m in re.finditer(r"printf '([A-Za-z0-9+/=]{40,})' \| base64 -d > \S*conftest\.py", new):
         blob = m.group(1)
         try:
@@ -850,9 +1032,10 @@ def _fix_charit_filter(text: str) -> tuple[str | None, str]:
         except Exception:
             continue
         if bug.search(dec):
-            fixed = bug.sub(lambda mm: f'for s in ({mm.group(1)},)', dec)
+            fixed = bug.sub(lambda mm: f"for s in ({mm.group(1)},)", dec)
             nb = _b64.b64encode(fixed.encode()).decode("ascii")
-            new = new.replace(blob, nb, 1); changed += 1
+            new = new.replace(blob, nb, 1)
+            changed += 1
     if changed:
         return new, f"fixed {changed} char-iteration collection filter(s) (tuple comma)"
     return None, "no char-iteration filter found"
@@ -871,6 +1054,7 @@ def _verdicts_for(slug: str, eval_report: Path | None) -> list:
 
 def _strategies_present(adjs) -> dict[str, int]:
     from collections import Counter
+
     return dict(Counter(a.strategy for a in adjs))
 
 
@@ -892,15 +1076,19 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
             if apply:
                 got, ferrs = fetch_missing_go_subpackages(tool_dir, slug, missing)
                 if got:
-                    res.applied.append(f"source-completion: fetched {len(got)} file(s) "
-                                       f"for {missing} from upstream@{slug.split('.')[-1]}")
+                    res.applied.append(
+                        f"source-completion: fetched {len(got)} file(s) "
+                        f"for {missing} from upstream@{slug.split('.')[-1]}"
+                    )
                     res.changed = True
                 if ferrs:
                     res.notes.append(f"source-completion errors: {ferrs}")
             else:
-                res.notes.append(f"INCOMPLETE SOURCE: missing Go subpackages {missing} "
-                                 f"-> go build will FAIL and fall back to bundled binary "
-                                 f"(source-patches won't apply). `fix` will fetch them.")
+                res.notes.append(
+                    f"INCOMPLETE SOURCE: missing Go subpackages {missing} "
+                    f"-> go build will FAIL and fall back to bundled binary "
+                    f"(source-patches won't apply). `fix` will fetch them."
+                )
 
     adjs = _verdicts_for(slug, eval_report)
     strat = _strategies_present(adjs) if adjs else {}
@@ -922,19 +1110,25 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
 
     def _report_confirms(sig: str):
         if not _report_text:
-            return None                       # no report -> static-only (can't confirm)
+            return None  # no report -> static-only (can't confirm)
         return bool(re.search(sig, _report_text, re.I))
 
-    _BUILD_TARGET_SIG = (r"!<arch>|exec format|cannot execute binary|"
-                         r"return code 0, got 127|assert 127 ==|no.*main package|"
-                         r"not a main package|line \d+: /usr/local/bin")
+    _BUILD_TARGET_SIG = (
+        r"!<arch>|exec format|cannot execute binary|"
+        r"return code 0, got 127|assert 127 ==|no.*main package|"
+        r"not a main package|line \d+: /usr/local/bin"
+    )
     # WRONG-VERSION signature: the binary is an older build than the tests expect.
-    if _report_confirms(r"unknown (shorthand )?flag|unrecognized option|unknown option|"
-                        r"no such (option|flag|subcommand)"):
-        res.notes.append("WRONG-VERSION signal (unknown flag/option in report): the built/"
-                         "bundled binary is OLDER than the test-generation version. Fix the "
-                         "build (go-version directive too high? missing pkg? stale bundled "
-                         "binary clobbering the build?) so the CORRECT version is produced.")
+    if _report_confirms(
+        r"unknown (shorthand )?flag|unrecognized option|unknown option|"
+        r"no such (option|flag|subcommand)"
+    ):
+        res.notes.append(
+            "WRONG-VERSION signal (unknown flag/option in report): the built/"
+            "bundled binary is OLDER than the test-generation version. Fix the "
+            "build (go-version directive too high? missing pkg? stale bundled "
+            "binary clobbering the build?) so the CORRECT version is produced."
+        )
 
     # static signals from compile.sh content even without an eval report
     if re.search(r"(apt-get|cmake|make|go build|cargo|&&|gcc|g\+\+)[^\n]*\\n", text):
@@ -943,21 +1137,25 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
         candidate_strats.add("remove-collection-cap")
     # char-iteration collection filter: a bare-string `for s in ("X")` (no comma) OR any
     # base64-embedded conftest that may hide one. Self-detecting -> no-op if absent.
-    if re.search(r'for s in \(\"[^\"]*\"\)', text) or re.search(r"base64 -d > \S*conftest", text):
+    if re.search(r"for s in \(\"[^\"]*\"\)", text) or re.search(r"base64 -d > \S*conftest", text):
         candidate_strats.add("fix-charit-filter")
     # STATIC dstask-class build-target detection: Go tool whose compile.sh builds the
     # repo root `.`, root is NOT `package main`, and a `./cmd/*` main exists.
-    if (_detect_lang(tool_dir) == "go" and re.search(r"go build[^\n&|]*\s\.(\s|$|2>)", text)
-            and not re.search(r"cd\s+(\./)?cmd(/|\b)", text)):   # cd-guard (atlas)
+    if (
+        _detect_lang(tool_dir) == "go"
+        and re.search(r"go build[^\n&|]*\s\.(\s|$|2>)", text)
+        and not re.search(r"cd\s+(\./)?cmd(/|\b)", text)
+    ):  # cd-guard (atlas)
         mains = _go_main_pkgs(tool_dir)
-        if mains and "." not in mains and any(
-                m.startswith("./cmd") or "/cmd" in m for m in mains):
+        if mains and "." not in mains and any(m.startswith("./cmd") or "/cmd" in m for m in mains):
             conf = _report_confirms(_BUILD_TARGET_SIG)
             if conf is False:
-                res.notes.append("build-target static match NOT confirmed by eval report "
-                                 "(report shows different failures) -> SKIP. Re-diagnose "
-                                 "from the actual residual, do not apply blind.")
-            else:                              # confirmed, or no report (static-only)
+                res.notes.append(
+                    "build-target static match NOT confirmed by eval report "
+                    "(report shows different failures) -> SKIP. Re-diagnose "
+                    "from the actual residual, do not apply blind."
+                )
+            else:  # confirmed, or no report (static-only)
                 candidate_strats.add("fix-build-target")
     # clock-freeze: adjudicator flagged a date-relative golden (needs an eval report
     # to both detect the failure AND extract the generation date).
@@ -971,15 +1169,20 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
         if eval_report and eval_report.exists():
             try:
                 blob = eval_report.read_text(encoding="utf-8", errors="replace")
-                if re.search(r"date\.today\(\)|datetime\.date\([^)]*\)\s*==|"
-                             r"== datetime\.date|assert .*!=.*20\d\d-\d\d-\d\dT", blob):
+                if re.search(
+                    r"date\.today\(\)|datetime\.date\([^)]*\)\s*==|"
+                    r"== datetime\.date|assert .*!=.*20\d\d-\d\d-\d\dT",
+                    blob,
+                ):
                     contradictory = True
             except Exception:
                 pass
         if contradictory:
-            res.notes.append("clock-freeze DECLINED: tool has dynamic-today/uniqueness "
-                             "date tests that a frozen clock would break (net-worse, per "
-                             "dstask). Needs per-test clock routing (manual ROUTE follow-up).")
+            res.notes.append(
+                "clock-freeze DECLINED: tool has dynamic-today/uniqueness "
+                "date tests that a frozen clock would break (net-worse, per "
+                "dstask). Needs per-test clock routing (manual ROUTE follow-up)."
+            )
         else:
             gen_date = _detect_generation_date(eval_report)
             candidate_strats.add("clock-freeze")
@@ -1000,23 +1203,32 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
             # This is the DEFINITIVE build-break signal and fires even when a handful of
             # binary-free tests pass (the zk class: 24/2926 passed, 1159 rc=127).
             for x in _cnts:
-                _t = (x.get("extra", {}) or {}).get("text", "") if isinstance(x.get("extra"), dict) else ""
-                if ("No such file or directory" in _t and "/usr/local/bin/" in _t) or \
-                   ("assert 127 == 0" in _t) or ("returncode=127" in _t):
+                _t = (
+                    (x.get("extra", {}) or {}).get("text", "")
+                    if isinstance(x.get("extra"), dict)
+                    else ""
+                )
+                if (
+                    ("No such file or directory" in _t and "/usr/local/bin/" in _t)
+                    or ("assert 127 == 0" in _t)
+                    or ("returncode=127" in _t)
+                ):
                     _missing_bin += 1
             _frac_pass = (_passed / len(_cnts)) if _cnts else 0.0
             build_fail = bool(_cnts) and (
                 _passed == 0
-                or _missing_bin >= 0.10 * len(_cnts)   # binary missing on >=10% of the suite
-                or _frac_pass < 0.05                    # <5% passing = effectively build-broken
+                or _missing_bin >= 0.10 * len(_cnts)  # binary missing on >=10% of the suite
+                or _frac_pass < 0.05  # <5% passing = effectively build-broken
             )
         except Exception:
             build_fail = "compile_failed" in _report_text or "results_read_failed" in _report_text
     if build_fail:
         if _missing_bin:
             _cgo_ev = _go_cgo_deps(tool_dir) if _detect_lang(tool_dir) == "go" else []
-            _why = f" CAUSE: build produced no binary ({_missing_bin} tests hit rc=127 " \
-                   f"`/usr/local/bin/<tool>: No such file`)."
+            _why = (
+                f" CAUSE: build produced no binary ({_missing_bin} tests hit rc=127 "
+                f"`/usr/local/bin/<tool>: No such file`)."
+            )
             if _cgo_ev:
                 _why += f" Likely missing: cgo C-toolchain for {_cgo_ev[0]} (gcc + CGO_ENABLED=1)."
             else:
@@ -1030,12 +1242,15 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
             if apply:
                 ch, note = _ensure_go_toolchain(tool_dir)
                 if ch:
-                    res.applied.append(f"go-toolchain-auto: {note}"); res.changed = True
+                    res.applied.append(f"go-toolchain-auto: {note}")
+                    res.changed = True
                 else:
                     res.notes.append(f"go-toolchain-auto: {note}")
             else:
                 ch, note = _ensure_go_toolchain(tool_dir, dry_run=True)  # report intent, no write
-                res.notes.append(f"go-toolchain-auto (dry): would {note}" if ch else f"go-toolchain-auto: {note}")
+                res.notes.append(
+                    f"go-toolchain-auto (dry): would {note}" if ch else f"go-toolchain-auto: {note}"
+                )
         candidate_strats.add("guard-set-e")
 
     # restore-bidir: the 5th failure mode (stripped bidir on a dual-prefix tool). Guarded so
@@ -1047,14 +1262,16 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
         res.notes.append(f"restore-bidir not applicable: {bidir_why}")
 
     if not candidate_strats:
-        res.notes.append(f"no auto-fixable structural verdict "
-                         f"(adjudicator strategies: {strat or 'n/a'})")
+        res.notes.append(
+            f"no auto-fixable structural verdict (adjudicator strategies: {strat or 'n/a'})"
+        )
         return res
 
     # drop-privileges MATCH: root-perm skips run non-root (reuse-mapping: root-perm residual ->
     # drop-priv technique). GREEN per ceiling standard (reproduces upstream non-root CI env).
     try:
         import determinex_pb_droppriv as _DP
+
         dp_ok, dp_why = _DP.droppriv_candidate(eval_report) if eval_report else (False, "no report")
         if dp_ok:
             candidate_strats.add("drop-privileges")
@@ -1066,14 +1283,38 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
     # and stops env-bugs masquerading as ceilings. GREEN (deterministic reference env).
     try:
         import determinex_pb_fingerprint as _FP
-        _envmech = {"clock-timing", "locale-encoding", "path-assumption", "hash-seed-random",
-                    "ordering-nondet", "network-dep"}
+
+        _envmech = {
+            "clock-timing",
+            "locale-encoding",
+            "path-assumption",
+            "hash-seed-random",
+            "ordering-nondet",
+            "network-dep",
+        }
         if eval_report and eval_report.exists():
-            _tr = __import__("json").loads(eval_report.read_text(encoding="utf-8")).get("test_results", [])
-            _pa = {(x.get("name", "").split("::")[-1] if "::" in x.get("name", "") else x.get("name", "").split(".")[-1])
-                   for x in _tr if x.get("status") == "passed"}
-            if any(_FP.fingerprint_test(x, _pa).mechanism in _envmech
-                   for x in _tr if x.get("status") in ("failed", "error", "skipped")) or build_fail:
+            _tr = (
+                __import__("json")
+                .loads(eval_report.read_text(encoding="utf-8"))
+                .get("test_results", [])
+            )
+            _pa = {
+                (
+                    x.get("name", "").split("::")[-1]
+                    if "::" in x.get("name", "")
+                    else x.get("name", "").split(".")[-1]
+                )
+                for x in _tr
+                if x.get("status") == "passed"
+            }
+            if (
+                any(
+                    _FP.fingerprint_test(x, _pa).mechanism in _envmech
+                    for x in _tr
+                    if x.get("status") in ("failed", "error", "skipped")
+                )
+                or build_fail
+            ):
                 candidate_strats.add("hermetic")
     except Exception:
         pass
@@ -1085,15 +1326,25 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
     # test_tmux/test_pty/test_curses ignored). GREEN (env-MATCH, not output-faking).
     try:
         import re as _re_tui
-        _tui_re = _re_tui.compile(r"_tui|tmux|pty|curses|pexpect|libtmux|interactive|render", _re_tui.I)
+
+        _tui_re = _re_tui.compile(
+            r"_tui|tmux|pty|curses|pexpect|libtmux|interactive|render", _re_tui.I
+        )
         if eval_report and eval_report.exists():
-            _trt = __import__("json").loads(eval_report.read_text(encoding="utf-8")).get("test_results", [])
+            _trt = (
+                __import__("json")
+                .loads(eval_report.read_text(encoding="utf-8"))
+                .get("test_results", [])
+            )
             # reach for tui-unlock ONLY when TUI tests are actually FILTERED OUT
             # (skipped/not_run) -- not when they already run-and-fail. Un-filtering a
             # running suite just exposes unrelated failures (the sd/csview regression).
             # Apply when it's called for; don't blanket-apply and clutter.
-            if any(_tui_re.search(x.get("name", "")) for x in _trt
-                   if x.get("status") in ("skipped", "not_run")):
+            if any(
+                _tui_re.search(x.get("name", ""))
+                for x in _trt
+                if x.get("status") in ("skipped", "not_run")
+            ):
                 candidate_strats.add("tui-unlock")
     except Exception:
         pass
@@ -1112,10 +1363,10 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
     # Corpus: pty is OPT-IN. Validated: hexyl 0/974 -> 1946/1958 with guarded pty + droppriv.
     try:
         import determinex_pb_pty as _PTY
+
         if eval_report and eval_report.exists():
             _pty_ok, _pty_why = _PTY.pty_candidate(eval_report)
-            if (_pty_ok and "no/partial" not in _pty_why
-                    and "unreadable" not in _pty_why):
+            if _pty_ok and "no/partial" not in _pty_why and "unreadable" not in _pty_why:
                 candidate_strats.add("pty")
     except Exception:
         pass
@@ -1124,9 +1375,14 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
     if "hermetic" in candidate_strats:
         try:
             import determinex_pb_hermetic as _HZ
+
             out, ch = _HZ.inject_hermetic(new_text)
             if ch:
-                new_text = out; res.applied.append("hermetic: deterministic env layer (clock/locale/path/seed/network)"); res.changed = True
+                new_text = out
+                res.applied.append(
+                    "hermetic: deterministic env layer (clock/locale/path/seed/network)"
+                )
+                res.changed = True
             else:
                 res.skipped.append("hermetic: already present / no conftest heredoc")
         except Exception as e:
@@ -1134,9 +1390,12 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
     if "drop-privileges" in candidate_strats:
         try:
             import determinex_pb_droppriv as _DP
+
             out, ch = _DP.inject_droppriv(new_text)
             if ch:
-                new_text = out; res.applied.append(f"drop-privileges: {dp_why}"); res.changed = True
+                new_text = out
+                res.applied.append(f"drop-privileges: {dp_why}")
+                res.changed = True
             else:
                 res.skipped.append("drop-privileges: no conftest heredoc / already present")
         except Exception as e:
@@ -1144,6 +1403,7 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
     if "tui-unlock" in candidate_strats:
         try:
             import pb_tui_unlock_batch as _TUI
+
             out, st = _TUI.unlock_tui_text(new_text)
             if st == "fixed" and out:
                 new_text = out
@@ -1156,6 +1416,7 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
     if "pty" in candidate_strats:
         try:
             import determinex_pb_pty as _PTY
+
             out, ch = _PTY.inject_pty(new_text)
             if ch:
                 new_text = out
@@ -1168,12 +1429,15 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
     if "guard-set-e" in candidate_strats:
         out, note = _guard_set_e(new_text)
         if out is not None and out != new_text:
-            new_text = out; res.applied.append(f"guard-set-e: {note}"); res.changed = True
+            new_text = out
+            res.applied.append(f"guard-set-e: {note}")
+            res.changed = True
         else:
             res.skipped.append(f"guard-set-e: {note}")
     if "restore-bidir" in candidate_strats:
         try:
             import determinex_pb_bidir_restore as _B
+
             out, ch = _B.inject_bidir(new_text)
             if ch:
                 new_text = out
@@ -1183,7 +1447,13 @@ def autofix(slug: str, eval_report: Path | None, apply: bool) -> FixResult:
                 res.skipped.append("restore-bidir: no conftest heredoc to inject into")
         except Exception as e:
             res.skipped.append(f"restore-bidir: {e}")
-    for s in ("fix-build-target", "strip-literal-n", "remove-collection-cap", "clock-freeze", "fix-charit-filter"):
+    for s in (
+        "fix-build-target",
+        "strip-literal-n",
+        "remove-collection-cap",
+        "clock-freeze",
+        "fix-charit-filter",
+    ):
         if s not in candidate_strats:
             continue
         if s == "fix-build-target":
@@ -1221,8 +1491,14 @@ def _normalize_lf(tool_dir: Path) -> list[str]:
     for p in tool_dir.rglob("*"):
         if not p.is_file():
             continue
-        if p.name.endswith((".sh",)) or p.name in {"compile.sh", "go.mod", "go.sum",
-                                                    "Makefile", "CMakeLists.txt", "build.sh"}:
+        if p.name.endswith((".sh",)) or p.name in {
+            "compile.sh",
+            "go.mod",
+            "go.sum",
+            "Makefile",
+            "CMakeLists.txt",
+            "build.sh",
+        }:
             b = p.read_bytes()
             if b"\r\n" in b:
                 p.write_bytes(b.replace(b"\r\n", b"\n"))
@@ -1231,17 +1507,26 @@ def _normalize_lf(tool_dir: Path) -> list[str]:
 
 
 _SUBMISSION_EXCLUDE = {
-    "submission.tar.gz", "build.err",
+    "submission.tar.gz",
+    "build.err",
     # prebuilt binaries / symlinks: NEVER ship them -- compile.sh must rebuild from
     # source, so the eval proves build-from-source provenance (and the provenance
     # guard's ships-prebuilt-binary check stays meaningful). A test-created symlink
     # (e.g. gron's `ungron`) is recreated by the test itself.
-    "executable", "executable.real", "ungron",
+    "executable",
+    "executable.real",
+    "ungron",
 }
 _SUBMISSION_EXCLUDE_SUFFIX = (".bak", ".autofix.bak", ".eval.json", ".pyc", ".o", ".rlib")
 _SUBMISSION_EXCLUDE_NAMES = {"eval_report.json", "__pycache__", "target", ".git"}
-_BINARY_MAGIC = (b"\x7fELF", b"MZ", b"\xfe\xed\xfa\xce", b"\xfe\xed\xfa\xcf",
-                 b"\xce\xfa\xed\xfe", b"\xcf\xfa\xed\xfe")  # ELF / PE / Mach-O
+_BINARY_MAGIC = (
+    b"\x7fELF",
+    b"MZ",
+    b"\xfe\xed\xfa\xce",
+    b"\xfe\xed\xfa\xcf",
+    b"\xce\xfa\xed\xfe",
+    b"\xcf\xfa\xed\xfe",
+)  # ELF / PE / Mach-O
 
 
 def _is_compiled_binary(p: Path) -> bool:
@@ -1287,7 +1572,7 @@ def pack_submission(slug: str) -> Path:
 # the compile.sh installs, so the techniques apply at eval time. Diagnosis comes
 # from determinex_pb_behavioral; this is the application half.
 # ===========================================================================
-_BEHAVIORAL_PLUGIN = r'''import subprocess as _sp, os as _os, re as _re
+_BEHAVIORAL_PLUGIN = r"""import subprocess as _sp, os as _os, re as _re
 try:
     import pty as _pty, select as _sel, time as _t
 except Exception:
@@ -1355,7 +1640,7 @@ def run(cmd, *a, **kw):
             pass
     return _orig_run(cmd, *a, **kw)
 _sp.run = run
-'''
+"""
 
 
 def generate_behavioral_plugin(slug: str, eval_report: Path | None) -> tuple[str | None, list[str]]:
@@ -1366,8 +1651,10 @@ def generate_behavioral_plugin(slug: str, eval_report: Path | None) -> tuple[str
     if not eval_report or not eval_report.exists():
         return None, ["no eval report -> cannot classify behavioral failures"]
     import sys as _s
+
     _s.path.insert(0, str(_HERE))
     from determinex_pb_behavioral import classify_eval_report
+
     rep = classify_eval_report(eval_report)
     counts = rep.get("counts", {})
     applied = []
@@ -1376,8 +1663,7 @@ def generate_behavioral_plugin(slug: str, eval_report: Path | None) -> tuple[str
         code += _BEHAVIORAL_PLUGIN
         applied.append(f"pty-allocate ({counts['tty-render']} tty-render tests)")
     # (whitespace/path/version/output-mode codegen: next pass)
-    routed = {k: v for k, v in counts.items()
-              if k not in ("tty-render",) and v}
+    routed = {k: v for k, v in counts.items() if k not in ("tty-render",) and v}
     return (code or None), (applied + ([f"routed (codegen TODO): {routed}"] if routed else []))
 
 
@@ -1393,7 +1679,7 @@ def inject_behavioral_plugin(slug: str, plugin_code: str) -> bool:
     install = (
         "\n# [determinex] behavioral plugin (pty-allocate etc.) as a pytest11 plugin\n"
         "mkdir -p /opt/determinex_behavioral\n"
-        "cp \"$(dirname \"$0\")/determinex_behavioral.py\" /opt/determinex_behavioral/ 2>/dev/null || true\n"
+        'cp "$(dirname "$0")/determinex_behavioral.py" /opt/determinex_behavioral/ 2>/dev/null || true\n'
         "cat > /opt/determinex_behavioral/setup.py <<'CBEOF'\n"
         "from setuptools import setup\n"
         "setup(name='determinex_behavioral', version='1.0', py_modules=['determinex_behavioral'],\n"
@@ -1409,8 +1695,10 @@ def verify_binary_magic(slug: str) -> str:
     """If a bundled binary is present, report its magic (ELF good, !<arch> bad)."""
     tool_dir = OVERRIDES / slug
     tool = slug.split("__")[-1].split(".")[0]
-    for cand in (tool_dir / tool, *(p for p in tool_dir.iterdir()
-                                    if p.is_file() and p.stat().st_size > 100000)):
+    for cand in (
+        tool_dir / tool,
+        *(p for p in tool_dir.iterdir() if p.is_file() and p.stat().st_size > 100000),
+    ):
         try:
             magic = cand.read_bytes()[:8]
         except Exception:
@@ -1432,8 +1720,7 @@ def _resolve_full_slug(slug: str) -> str | None:
     if (OVERRIDES / slug).is_dir():
         return slug
     dirs = [d.name for d in OVERRIDES.iterdir() if d.is_dir()]
-    exact = [n for n in dirs
-             if n.split("__")[-1].split(".")[0] == slug or n.split(".")[0] == slug]
+    exact = [n for n in dirs if n.split("__")[-1].split(".")[0] == slug or n.split(".")[0] == slug]
     if exact:
         return sorted(exact)[0]
     sub = [n for n in dirs if slug in n]
@@ -1456,9 +1743,13 @@ def _find_eval_report(full_slug: str, row: dict | None) -> Path | None:
         cands.append(p if p.is_absolute() else REPO / p)
     cands.append(pb / "locked" / full_slug / "eval_report.json")
     tool = full_slug.split("__")[-1].split(".")[0]
-    for pat in (f"**/{full_slug}/eval_report.json", f"**/{tool}/eval_report.json",
-                f"**/{full_slug}/{full_slug}.eval.json", f"**/{full_slug}/*.eval.json",
-                f"**/{tool}/*.eval.json"):
+    for pat in (
+        f"**/{full_slug}/eval_report.json",
+        f"**/{tool}/eval_report.json",
+        f"**/{full_slug}/{full_slug}.eval.json",
+        f"**/{full_slug}/*.eval.json",
+        f"**/{tool}/*.eval.json",
+    ):
         cands += list(pb.glob(pat))
     existing = [p for p in cands if p.exists()]
     if not existing:
@@ -1466,11 +1757,20 @@ def _find_eval_report(full_slug: str, row: dict | None) -> Path | None:
     return max(existing, key=lambda p: p.stat().st_mtime)
 
 
-def _triage_verdict(res: "FixResult") -> tuple[str, str]:
+def _triage_verdict(res: FixResult) -> tuple[str, str]:
     """Collapse a read-only FixResult into (bucket, one-line what's-missing)."""
     notes = " ".join(res.notes).lower()
-    missing = next((n for n in res.notes if "CAUSE:" in n or "missing" in n.lower()
-                    or "build target" in n.lower() or "cgo" in n.lower()), "")
+    missing = next(
+        (
+            n
+            for n in res.notes
+            if "CAUSE:" in n
+            or "missing" in n.lower()
+            or "build target" in n.lower()
+            or "cgo" in n.lower()
+        ),
+        "",
+    )
     if res.applied or "would" in notes:
         if "cgo" in notes:
             return "AUTOFIX:cgo", missing or "cgo C-toolchain"
@@ -1499,6 +1799,7 @@ def cmd_triage(args) -> int:
     rows = [r for r in rows if not r.get("alias_of") and not r.get("is_alias")]
     out = []
     from collections import Counter
+
     buckets = Counter()
     total = len(rows)
     for i, r in enumerate(rows, 1):
@@ -1506,12 +1807,16 @@ def cmd_triage(args) -> int:
         print(f"[{i}/{total}] {slug}", file=sys.stderr, flush=True)
         full = _resolve_full_slug(slug)
         if not full:
-            out.append({"slug": slug, "bucket": "NO_OVERRIDE", "missing": "no per_tool_overrides dir"})
+            out.append(
+                {"slug": slug, "bucket": "NO_OVERRIDE", "missing": "no per_tool_overrides dir"}
+            )
             buckets["NO_OVERRIDE"] += 1
             continue
         report = _find_eval_report(full, r)
         if not report:
-            out.append({"slug": full, "bucket": "NO_REPORT", "missing": "no eval_report.json on disk"})
+            out.append(
+                {"slug": full, "bucket": "NO_REPORT", "missing": "no eval_report.json on disk"}
+            )
             buckets["NO_REPORT"] += 1
             continue
         try:
@@ -1528,7 +1833,7 @@ def cmd_triage(args) -> int:
     print(f"=== CORPUS TRIAGE ({len(out)} tools) ===")
     for k, n in buckets.most_common():
         print(f"  {n:4}  {k}")
-    print(f"\n--- AUTO-FIXABLE (system can remediate now) ---")
+    print("\n--- AUTO-FIXABLE (system can remediate now) ---")
     for o in out:
         if o["bucket"].startswith("AUTOFIX"):
             print(f"  [{o['bucket']:22}] {o['slug']:42} {o['missing'][:70]}")
@@ -1545,8 +1850,14 @@ def main() -> int:
         p.add_argument("--eval-report", type=Path, default=None)
         if c in ("stage", "behavioral"):
             p.add_argument("--pilot-root", type=Path, default=None)
-    pt = sub.add_parser("triage", help="corpus-wide read-only: what does each non-locked tool need?")
-    pt.add_argument("--status", default=None, help="comma-list of statuses to include (default: all non-strict_lock)")
+    pt = sub.add_parser(
+        "triage", help="corpus-wide read-only: what does each non-locked tool need?"
+    )
+    pt.add_argument(
+        "--status",
+        default=None,
+        help="comma-list of statuses to include (default: all non-strict_lock)",
+    )
     args = ap.parse_args()
 
     if args.cmd == "triage":
@@ -1562,8 +1873,10 @@ def main() -> int:
         if code:
             inject_behavioral_plugin(args.slug, code)
             sub_path = pack_submission(args.slug)
-            print(f"injected determinex_behavioral plugin + repacked: {sub_path} "
-                  f"({sub_path.stat().st_size} bytes)")
+            print(
+                f"injected determinex_behavioral plugin + repacked: {sub_path} "
+                f"({sub_path.stat().st_size} bytes)"
+            )
             if args.pilot_root:
                 dest = args.pilot_root / args.slug
                 dest.mkdir(parents=True, exist_ok=True)
@@ -1579,10 +1892,12 @@ def main() -> int:
     print("binary magic:", verify_binary_magic(args.slug))
     if res.applied:
         print("APPLIED:")
-        for a in res.applied: print("  +", a)
+        for a in res.applied:
+            print("  +", a)
     if res.skipped:
         print("skipped:")
-        for s in res.skipped: print("  -", s)
+        for s in res.skipped:
+            print("  -", s)
     for n in res.notes:
         print("note:", n)
 
@@ -1595,8 +1910,10 @@ def main() -> int:
             dest.mkdir(parents=True, exist_ok=True)
             shutil.copy2(sub_path, dest / "submission.tar.gz")
             print(f"staged: {dest / 'submission.tar.gz'}")
-            print(f"\nrun (CPU-capped):\n  PROGRAMBENCH_DOCKER_CPUS=2 programbench eval "
-                  f'"{args.pilot_root}" --filter {args.slug.split("__")[0]} --force')
+            print(
+                f"\nrun (CPU-capped):\n  PROGRAMBENCH_DOCKER_CPUS=2 programbench eval "
+                f'"{args.pilot_root}" --filter {args.slug.split("__")[0]} --force'
+            )
     return 0 if (res.changed or not apply) else 1
 
 

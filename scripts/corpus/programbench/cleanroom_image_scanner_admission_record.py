@@ -6,7 +6,7 @@ import json
 import os
 import unicodedata
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -34,7 +34,7 @@ class CleanroomImageScannerAdmissionRecord:
     def signed(self) -> dict[str, Any]:
         row = asdict(self)
         if not row["created_at"]:
-            row["created_at"] = datetime.now(timezone.utc).isoformat()
+            row["created_at"] = datetime.now(UTC).isoformat()
         row["record_signature"] = _signature(row)
         return row
 
@@ -77,7 +77,9 @@ def verify_cleanroom_image_scanner_admission_record(record: dict[str, Any]) -> b
     return hmac.compare_digest(signature, _signature(record))
 
 
-def write_cleanroom_image_scanner_admission_record(record: dict[str, Any], output_dir: Path) -> Path:
+def write_cleanroom_image_scanner_admission_record(
+    record: dict[str, Any], output_dir: Path
+) -> Path:
     if not verify_cleanroom_image_scanner_admission_record(record):
         raise ValueError("cleanroom image scanner admission record signature invalid")
     output_dir.mkdir(parents=True, exist_ok=True)

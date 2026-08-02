@@ -1,9 +1,9 @@
 """Records for HUMAN_APPROVAL_PACKET_UI_MODEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 HUMAN_APPROVAL_PACKET_UI_STATUS_TOKENS = (
     "HUMAN_APPROVAL_PACKET_WRITTEN",

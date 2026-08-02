@@ -1,12 +1,11 @@
 """Tests for IDE_FRONTEND_STATE_CONTRACT_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -41,9 +40,18 @@ def test_status_tokens_match_expected_set():
 
 def test_required_sections_present():
     required = {
-        "workspace", "adapter", "verifier", "model_route", "diagnosis",
-        "patch_plan", "temp_verifier", "human_approval", "source_apply",
-        "corpus_eligibility", "evidence", "risk_warnings",
+        "workspace",
+        "adapter",
+        "verifier",
+        "model_route",
+        "diagnosis",
+        "patch_plan",
+        "temp_verifier",
+        "human_approval",
+        "source_apply",
+        "corpus_eligibility",
+        "evidence",
+        "risk_warnings",
     }
     assert set(REQUIRED_SECTIONS) == required
 

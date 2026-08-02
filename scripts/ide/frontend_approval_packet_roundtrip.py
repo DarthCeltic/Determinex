@@ -9,6 +9,7 @@ mutation BLOCKED.
 Drives the same Python flows the visible HumanApprovalPanel and
 SourceApplyDryRunPanel ride on. No subprocess. No socket. No network.
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -16,16 +17,12 @@ import hashlib
 import sys
 import tempfile
 from pathlib import Path
-from typing import Tuple
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from .human_approval_signing_flow import IDEHumanApprovalSigningFlow
-from .human_approval_ui_model import build_packet
-from .source_apply_gate_flow import IDESourceApplyGateFlow
 from repair.source_mutation_apply_dry_run import workspace_hash  # noqa: E402
 
 from .frontend_approval_packet_roundtrip_record import (
@@ -33,6 +30,9 @@ from .frontend_approval_packet_roundtrip_record import (
     ApprovalRoundtripStage,
     FrontendApprovalPacketRoundtripTrace,
 )
+from .human_approval_signing_flow import IDEHumanApprovalSigningFlow
+from .human_approval_ui_model import build_packet
+from .source_apply_gate_flow import IDESourceApplyGateFlow
 
 
 def _sha256(s: str) -> str:
@@ -49,15 +49,13 @@ def _stage(name: str, signing, apply_gate) -> ApprovalRoundtripStage:
     )
 
 
-def _build_inputs(tmpdir: Path) -> Tuple[Path, str]:
+def _build_inputs(tmpdir: Path) -> tuple[Path, str]:
     """Build a workspace dir and a non-empty unified-diff string."""
     ws = tmpdir / "ws"
     ws.mkdir(parents=True, exist_ok=True)
     (ws / "src" / "lib.py").parent.mkdir(parents=True, exist_ok=True)
     (ws / "src" / "lib.py").write_text("x = 1\n", encoding="utf-8")
-    unified_diff = (
-        "--- a/src/lib.py\n+++ b/src/lib.py\n@@\n-x = 1\n+x = 2\n"
-    )
+    unified_diff = "--- a/src/lib.py\n+++ b/src/lib.py\n@@\n-x = 1\n+x = 2\n"
     return ws, unified_diff
 
 
@@ -89,12 +87,17 @@ def run_roundtrip(workspace: Path | None = None) -> FrontendApprovalPacketRoundt
     # 1. Approve (fixture) → apply gate should be DRY_RUN_READY but
     # source mutation remains unauthorized because fixture_only=True.
     signing_approve = signing_flow.submit(
-        packet, action="approve", operator_identity="rt-operator",
-        observed_diff=diff, observed_verifier_status=verifier_status,
+        packet,
+        action="approve",
+        operator_identity="rt-operator",
+        observed_diff=diff,
+        observed_verifier_status=verifier_status,
         fixture=True,
     )
     gate_approve = apply_gate.evaluate(
-        ws, signing=signing_approve, packet=packet,
+        ws,
+        signing=signing_approve,
+        packet=packet,
         observed_diff=diff,
         observed_source_hash_at_packet_time=src_hash,
         verifier_status=verifier_status,
@@ -103,12 +106,17 @@ def run_roundtrip(workspace: Path | None = None) -> FrontendApprovalPacketRoundt
 
     # 2. Reject path.
     signing_reject = signing_flow.submit(
-        packet, action="reject", operator_identity="rt-operator",
-        observed_diff=diff, observed_verifier_status=verifier_status,
+        packet,
+        action="reject",
+        operator_identity="rt-operator",
+        observed_diff=diff,
+        observed_verifier_status=verifier_status,
         fixture=True,
     )
     gate_reject = apply_gate.evaluate(
-        ws, signing=signing_reject, packet=packet,
+        ws,
+        signing=signing_reject,
+        packet=packet,
         observed_diff=diff,
         observed_source_hash_at_packet_time=src_hash,
         verifier_status=verifier_status,
@@ -116,17 +124,23 @@ def run_roundtrip(workspace: Path | None = None) -> FrontendApprovalPacketRoundt
     reject_stage = _stage("reject", signing_reject, gate_reject)
 
     # 3. Stale packet path. Build a stale packet, submit and check.
-    stale_now = _dt.datetime.now(_dt.timezone.utc) + _dt.timedelta(hours=48)
+    stale_now = _dt.datetime.now(_dt.UTC) + _dt.timedelta(hours=48)
     signing_stale = signing_flow.submit(
-        packet, action="approve", operator_identity="rt-operator",
-        observed_diff=diff, observed_verifier_status=verifier_status,
-        fixture=True, now=stale_now,
+        packet,
+        action="approve",
+        operator_identity="rt-operator",
+        observed_diff=diff,
+        observed_verifier_status=verifier_status,
+        fixture=True,
+        now=stale_now,
     )
     stale_stage = _stage("stale_packet", signing_stale, None)
 
     # 4. Diff mismatch path.
     signing_diff = signing_flow.submit(
-        packet, action="approve", operator_identity="rt-operator",
+        packet,
+        action="approve",
+        operator_identity="rt-operator",
         observed_diff=diff + "\n+ extra-line-not-in-packet\n",
         observed_verifier_status=verifier_status,
         fixture=True,
@@ -135,13 +149,17 @@ def run_roundtrip(workspace: Path | None = None) -> FrontendApprovalPacketRoundt
 
     # 5. Verifier failed path.
     signing_verifier_failed = signing_flow.submit(
-        packet, action="approve", operator_identity="rt-operator",
+        packet,
+        action="approve",
+        operator_identity="rt-operator",
         observed_diff=diff,
         observed_verifier_status="PATCH_VERIFIER_FAILED",
         fixture=True,
     )
     verifier_failed_stage = _stage(
-        "verifier_failed", signing_verifier_failed, None,
+        "verifier_failed",
+        signing_verifier_failed,
+        None,
     )
 
     # Roundtrip invariant: across all 5 stages, source mutation must

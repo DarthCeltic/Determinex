@@ -16,6 +16,7 @@ Usage:
   python scripts/determinex_pb_strip_conftest_mirror.py            # strip all affected tools
   python scripts/determinex_pb_strip_conftest_mirror.py --dry-run  # list only
 """
+
 from __future__ import annotations
 
 import pathlib
@@ -29,14 +30,16 @@ OV = ROOT / "corpus" / "programbench" / "per_tool_overrides"
 _B1 = re.compile(
     r"\nimport atexit, re as _re\ndef _bidir_inject_classnames\(\):.*?"
     r"atexit\.register\(_bidir_inject_classnames\)\n",
-    re.DOTALL)
+    re.DOTALL,
+)
 # Block 2: the "determinex bidir JUnit mirror (restored)" ET-based mirror
 _B2 = re.compile(
     r"\n# --- determinex bidir JUnit mirror \(restored\).*?# --- end determinex bidir mirror[^\n]*\n",
-    re.DOTALL)
+    re.DOTALL,
+)
 
 
-def strip_mirror(text: str) -> "tuple[str, bool]":
+def strip_mirror(text: str) -> tuple[str, bool]:
     new, n1 = _B1.subn("\n", text)
     new, n2 = _B2.subn("\n", new)
     return new, bool(n1 or n2)
@@ -59,7 +62,7 @@ def main() -> int:
     for c in changed[:12]:
         print(f"  {c}")
     if len(changed) > 12:
-        print(f"  ... +{len(changed)-12} more")
+        print(f"  ... +{len(changed) - 12} more")
     return 0
 
 

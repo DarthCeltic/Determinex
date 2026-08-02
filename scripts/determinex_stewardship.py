@@ -25,6 +25,7 @@ CLI
     python scripts/determinex_stewardship.py resolve <workspace> [--json]
     python scripts/determinex_stewardship.py generate <workspace>
 """
+
 from __future__ import annotations
 
 import sys
@@ -43,11 +44,21 @@ _MANIFEST_LANGUAGE_MAP = {
     "Gemfile": "Ruby",
     "composer.json": "PHP",
 }
-_SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv", "target",
-             "dist", "build", ".next", ".pytest_cache"}
+_SKIP_DIRS = {
+    ".git",
+    "node_modules",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "target",
+    "dist",
+    "build",
+    ".next",
+    ".pytest_cache",
+}
 
 
-def find_runtime_doc(workspace: Path) -> "Path | None":
+def find_runtime_doc(workspace: Path) -> Path | None:
     """Walk UP from workspace looking for an ancestor CLAUDE.md -- the
     'overall runtime md' that can govern several projects (e.g.
     <repo-parent>/CLAUDE.md). Never returns the workspace's OWN CLAUDE.md; that's
@@ -78,7 +89,9 @@ def is_adequate(path: Path) -> bool:
     """Documented heuristic, not a quality judgment: exists and isn't just a
     stub/placeholder. Catches the obvious "near-empty file" case only."""
     try:
-        return len(path.read_text(encoding="utf-8", errors="replace").strip()) >= _ADEQUATE_MIN_CHARS
+        return (
+            len(path.read_text(encoding="utf-8", errors="replace").strip()) >= _ADEQUATE_MIN_CHARS
+        )
     except OSError:
         return False
 
@@ -111,9 +124,13 @@ def generate_stewardship_doc(workspace: Path) -> str:
     review) + a Positions board for the multi-agent chat room to use."""
     stack = _detect_stack(workspace)
     structure = _top_level_structure(workspace)
-    stack_block = ("- " + "\n- ".join(stack)) if stack else (
-        "_No recognized manifest file found (package.json, pyproject.toml, "
-        "Cargo.toml, go.mod, ...)._"
+    stack_block = (
+        ("- " + "\n- ".join(stack))
+        if stack
+        else (
+            "_No recognized manifest file found (package.json, pyproject.toml, "
+            "Cargo.toml, go.mod, ...)._"
+        )
     )
     structure_block = "\n".join(structure) if structure else "(empty or unreadable workspace)"
     return (
@@ -140,14 +157,17 @@ def resolve_stewardship_content(workspace: Path) -> str:
 
     runtime_doc = find_runtime_doc(workspace)
     if runtime_doc and is_adequate(runtime_doc):
-        parts.append(f"<!-- runtime doc: {runtime_doc} -->\n\n"
-                     + runtime_doc.read_text(encoding="utf-8", errors="replace"))
+        parts.append(
+            f"<!-- runtime doc: {runtime_doc} -->\n\n"
+            + runtime_doc.read_text(encoding="utf-8", errors="replace")
+        )
 
     project_docs = [p for p in find_project_docs(workspace) if is_adequate(p)]
     if project_docs:
         for p in project_docs:
-            parts.append(f"<!-- project doc: {p} -->\n\n"
-                         + p.read_text(encoding="utf-8", errors="replace"))
+            parts.append(
+                f"<!-- project doc: {p} -->\n\n" + p.read_text(encoding="utf-8", errors="replace")
+            )
     else:
         generated = generate_stewardship_doc(workspace)
         out_path = workspace / "PROJECT.md"
@@ -212,7 +232,9 @@ def main() -> int:
     import argparse
     import json
 
-    parser = argparse.ArgumentParser(description="Determinex project stewardship doc discovery/generation")
+    parser = argparse.ArgumentParser(
+        description="Determinex project stewardship doc discovery/generation"
+    )
     sub = parser.add_subparsers(dest="cmd")
 
     p_resolve = sub.add_parser("resolve")

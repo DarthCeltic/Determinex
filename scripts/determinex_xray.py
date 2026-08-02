@@ -18,9 +18,15 @@ Usage:
   python scripts/determinex_xray.py --report <eval.json>
   python scripts/determinex_xray.py --all <dir-of-*.eval.json> [--json out.json]
 """
+
 from __future__ import annotations
-import argparse, json, re, glob, os
-from collections import defaultdict, Counter
+
+import argparse
+import glob
+import json
+import os
+import re
+from collections import Counter, defaultdict
 from pathlib import Path
 
 PREFIX = re.compile(r"^(eval\.tests\.|tests\.)")
@@ -45,14 +51,20 @@ def strip(n: str) -> str:
 
 # Failure categories — the cause buckets the prelook recognizes.
 _CATS = [
-    ("no_binary",     re.compile(r"returncode=127|: not found|no such file or directory.*executable", re.I)),
-    ("broken_stub",   re.compile(r"errno 2|failed to process|interactive tui|driven by tmux", re.I)),
-    ("arg_validation",re.compile(r"a value is required|unexpected argument|usage:|error: unrecognized", re.I)),
-    ("byte_format",   re.compile(r"\b\d+(\.\d+)?\s*(B|KiB|MiB|GiB|b)\b", re.I)),
-    ("version",       re.compile(r"version|\bv?\d+\.\d+\.\d+\b", re.I)),
-    ("tui_ceiling",   re.compile(r"tmux|pexpect|libtmux|tui|interactive|curses", re.I)),
-    ("regex_edge",    re.compile(r"AssertionError.*(extract|match|portion)", re.I)),
-    ("golden_exact",  re.compile(r"\.golden|stdout ==|read_text\(\)", re.I)),
+    (
+        "no_binary",
+        re.compile(r"returncode=127|: not found|no such file or directory.*executable", re.I),
+    ),
+    ("broken_stub", re.compile(r"errno 2|failed to process|interactive tui|driven by tmux", re.I)),
+    (
+        "arg_validation",
+        re.compile(r"a value is required|unexpected argument|usage:|error: unrecognized", re.I),
+    ),
+    ("byte_format", re.compile(r"\b\d+(\.\d+)?\s*(B|KiB|MiB|GiB|b)\b", re.I)),
+    ("version", re.compile(r"version|\bv?\d+\.\d+\.\d+\b", re.I)),
+    ("tui_ceiling", re.compile(r"tmux|pexpect|libtmux|tui|interactive|curses", re.I)),
+    ("regex_edge", re.compile(r"AssertionError.*(extract|match|portion)", re.I)),
+    ("golden_exact", re.compile(r"\.golden|stdout ==|read_text\(\)", re.I)),
 ]
 
 
@@ -68,14 +80,16 @@ def categorize(text: str) -> str:
 
 def failure_mode(tr: list) -> str:
     c = Counter(x.get("status", "?") for x in tr)
-    total = len(tr); nr = c.get("not_run", 0)
+    total = len(tr)
+    nr = c.get("not_run", 0)
     fail = c.get("failure", 0) + c.get("failed", 0) + c.get("error", 0)
     passed = c.get("passed", 0)
     pct = passed / total if total else 0
     # sample failing text
     blob = " ".join(
         ((x.get("extra", {}) or {}).get("text", "") if isinstance(x.get("extra"), dict) else "")
-        for x in tr if x.get("status") in ("failure", "failed", "error")
+        for x in tr
+        if x.get("status") in ("failure", "failed", "error")
     )[:4000].lower()
     if "returncode=127" in blob or (": not found" in blob):
         return "NO_BINARY"
@@ -133,7 +147,7 @@ def cross_check(tr: list, branches: dict) -> dict:
         else:
             expected |= ts
     emitted = {x.get("name", "") for x in tr}
-    extra = emitted - expected - ignored_tests    # emitted but not in spec -> prefix/mismatch
+    extra = emitted - expected - ignored_tests  # emitted but not in spec -> prefix/mismatch
 
     # Per-construct status buckets (prefix-stripped). skipped, not_run, and executed
     # are THREE different worlds and must never be conflated:
@@ -174,7 +188,9 @@ def cross_check(tr: list, branches: dict) -> dict:
     elif len(sk_rows) > thr:
         primary = f"SKIP_CEILING_OR_MATCH ({len(sk_rows)} skipped rows — verify vs upstream: unprovisionable skip = ceiling; provisionable = MATCH the env to un-skip)"
     else:
-        primary = "NEAR_LOCK (behavioral≈100%, ~0 not_run/skip → official ~100%; residual = finicky tail)"
+        primary = (
+            "NEAR_LOCK (behavioral≈100%, ~0 not_run/skip → official ~100%; residual = finicky tail)"
+        )
 
     return {
         "expected_non_ignored": len(expected),
@@ -193,8 +209,11 @@ def cross_check(tr: list, branches: dict) -> dict:
 def xray(report_path: str, tasks_dir: str | None = None) -> dict:
     d = json.load(open(report_path, encoding="utf-8"))
     tr = d.get("test_results") or []
-    slug = os.path.basename(report_path)[:-len(".eval.json")] if report_path.endswith(".eval.json") \
+    slug = (
+        os.path.basename(report_path)[: -len(".eval.json")]
+        if report_path.endswith(".eval.json")
         else os.path.basename(os.path.dirname(report_path))
+    )
     url, commit = slug_to_upstream(slug)
     # unique pass/total
     by = defaultdict(list)
@@ -210,14 +229,19 @@ def xray(report_path: str, tasks_dir: str | None = None) -> dict:
         fn = strip(x.get("name", "")).split("[")[0].split(".")[-1]
         funcs[fn][0] += 1
         if not funcs[fn][1]:
-            t = (x.get("extra", {}) or {}).get("text", "") if isinstance(x.get("extra"), dict) else ""
+            t = (
+                (x.get("extra", {}) or {}).get("text", "")
+                if isinstance(x.get("extra"), dict)
+                else ""
+            )
             ls = [l for l in t.splitlines() if l.strip()]
             funcs[fn][1] = ls[-1][:80] if ls else ""
             funcs[fn][2] = categorize(t)
     cat_counts = Counter(v[2] for v in funcs.values())
     out: dict[str, object] = {
         "slug": slug,
-        "upstream": url, "commit": commit,
+        "upstream": url,
+        "commit": commit,
         "mode": failure_mode(tr),
         "unique": f"{up}/{ut}",
         "pct": round(100 * up / ut, 1) if ut else 0,
@@ -242,8 +266,12 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--report", type=str)
     ap.add_argument("--all", type=str, help="dir of *.eval.json")
-    ap.add_argument("--tasks-dir", type=str, default=os.environ.get("PB_TASKS_DIR", ""),
-                    help="dir of <slug>/tests.json canonical specs (enables spec cross-check)")
+    ap.add_argument(
+        "--tasks-dir",
+        type=str,
+        default=os.environ.get("PB_TASKS_DIR", ""),
+        help="dir of <slug>/tests.json canonical specs (enables spec cross-check)",
+    )
     ap.add_argument("--json", type=str)
     args = ap.parse_args()
     td = args.tasks_dir or None
@@ -267,17 +295,22 @@ def main() -> int:
         modes = Counter(r.get("mode") for r in index if "mode" in r)
         flags = Counter(
             (r.get("spec_crosscheck") or {}).get("harness_flag", "no-spec")
-            for r in index if "mode" in r)
+            for r in index
+            if "mode" in r
+        )
         print(f"X-RAYED {len(index)} tools.  modes: {dict(modes)}")
         if td:
             print(f"  harness flags (from tests.json cross-check): {dict(flags)}")
         for r in index:
-            if "error" in r: continue
+            if "error" in r:
+                continue
             xc = r.get("spec_crosscheck") or {}
             hf = xc.get("harness_flag", "")
             tag = f"  <<{hf}>>" if hf and hf != "ok" else ""
-            print(f"  {r['pct']:5}%  {r['mode']:18} {r['slug'][:40]:40} "
-                  f"fix:{r['to_fix_by_category']}{tag}")
+            print(
+                f"  {r['pct']:5}%  {r['mode']:18} {r['slug'][:40]:40} "
+                f"fix:{r['to_fix_by_category']}{tag}"
+            )
         if args.json:
             Path(args.json).write_text(json.dumps(index, indent=2), encoding="utf-8")
             print(f"\nfull diagnosis -> {args.json}")

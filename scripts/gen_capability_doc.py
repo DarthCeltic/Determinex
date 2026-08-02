@@ -7,6 +7,7 @@ registry; this doc is a rendering.
 
 Usage:  python scripts/gen_capability_doc.py
 """
+
 from __future__ import annotations
 
 import json
@@ -31,14 +32,18 @@ def main() -> int:
     proven, claimed = status_set("PROVEN"), status_set("CLAIMED")
     working, gap = status_set("UNLOCKED_WORKING"), status_set("GAP")
 
-    L = ["# Determinex — ProgramBench Full-Capability Map\n",
-         f"_Generated {date.today().isoformat()} from `capability_map.json` (schema {cap['schema']}). "
-         "Single source of truth for lock status: `verified_locks.json`._\n",
-         "> **What this is:** every ProgramBench task, the capability it exercises (language / "
-         "eval-reconciliation technique / behavioral surface), and its verification status. A "
-         "capability is **PROVEN** only when the tool is a sha-verified clean lock; everything else "
-         "is in progress.\n",
-         "## Status (the honest count)\n", "| Status | Count | Meaning |", "|---|---:|---|"]
+    L = [
+        "# Determinex — ProgramBench Full-Capability Map\n",
+        f"_Generated {date.today().isoformat()} from `capability_map.json` (schema {cap['schema']}). "
+        "Single source of truth for lock status: `verified_locks.json`._\n",
+        "> **What this is:** every ProgramBench task, the capability it exercises (language / "
+        "eval-reconciliation technique / behavioral surface), and its verification status. A "
+        "capability is **PROVEN** only when the tool is a sha-verified clean lock; everything else "
+        "is in progress.\n",
+        "## Status (the honest count)\n",
+        "| Status | Count | Meaning |",
+        "|---|---:|---|",
+    ]
     sb = s["status_breakdown"]
     meanings = {
         "PROVEN": "sha-verified clean lock (passed==total, 0 not_run/skipped/failed)",
@@ -51,25 +56,34 @@ def main() -> int:
             L.append(f"| {st} | {sb[st]} | {meanings[st]} |")
     L.append(f"| **TOTAL** | **{s['total_tasks']}** | full ProgramBench task universe |\n")
 
-    L += ["## Coverage breadth\n",
-          f"- **Languages ({len(s['languages_covered'])}):** {', '.join(s['languages_covered'])}",
-          f"- **Eval/build techniques ({len(s['techniques_covered'])}):** {', '.join(s['techniques_covered'])}",
-          f"- **Behavioral surfaces ({len(s['behaviors_covered'])}):** {', '.join(s['behaviors_covered'])}\n"]
+    L += [
+        "## Coverage breadth\n",
+        f"- **Languages ({len(s['languages_covered'])}):** {', '.join(s['languages_covered'])}",
+        f"- **Eval/build techniques ({len(s['techniques_covered'])}):** {', '.join(s['techniques_covered'])}",
+        f"- **Behavioral surfaces ({len(s['behaviors_covered'])}):** {', '.join(s['behaviors_covered'])}\n",
+    ]
 
     L.append("## PROVEN locks (canonical, sha-pinned)\n")
     if proven:
-        L += ["| Tool | Passed/Total | Verified | Languages | Techniques |", "|---|---:|---|---|---|"]
+        L += [
+            "| Tool | Passed/Total | Verified | Languages | Techniques |",
+            "|---|---:|---|---|---|",
+        ]
         for t in proven:
             e, v = reg["locks"].get(t, {}), tools[t]
-            L.append(f"| `{t}` | {e.get('passed','?')}/{e.get('total','?')} | {e.get('verified_date','?')} | "
-                     f"{', '.join(v['languages'])} | {', '.join(v['techniques']) or '—'} |")
+            L.append(
+                f"| `{t}` | {e.get('passed', '?')}/{e.get('total', '?')} | {e.get('verified_date', '?')} | "
+                f"{', '.join(v['languages'])} | {', '.join(v['techniques']) or '—'} |"
+            )
         L.append("")
     else:
         L.append("_(none yet)_\n")
 
-    for title, idx in (("Technique coverage (tasks exercising each)", "by_technique"),
-                       ("Language coverage", "by_language"),
-                       ("Behavioral surface coverage", "by_behavior")):
+    for title, idx in (
+        ("Technique coverage (tasks exercising each)", "by_technique"),
+        ("Language coverage", "by_language"),
+        ("Behavioral surface coverage", "by_behavior"),
+    ):
         L += [f"## {title}\n", "| Item | # tasks |", "|---|---:|"]
         for k, v in sorted(cap[idx].items(), key=lambda x: -len(x[1])):
             L.append(f"| {k} | {len(v)} |")
@@ -83,9 +97,11 @@ def main() -> int:
     if gap:
         L.append(f"**GAP ({len(gap)})** — no artifact: " + ", ".join(f"`{t}`" for t in gap) + "\n")
 
-    L.append("---\n*Regenerate: `python scripts/determinex_pb_capability_map.py build` then "
-             "`python scripts/gen_capability_doc.py`. Lock status is authoritative in "
-             "`verified_locks.json`; this doc is a rendering.*")
+    L.append(
+        "---\n*Regenerate: `python scripts/determinex_pb_capability_map.py build` then "
+        "`python scripts/gen_capability_doc.py`. Lock status is authoritative in "
+        "`verified_locks.json`; this doc is a rendering.*"
+    )
     OUT.write_text("\n".join(L), encoding="utf-8")
     print(f"wrote {OUT}")
     return 0

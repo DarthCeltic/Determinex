@@ -1,4 +1,5 @@
 """Tests for FRONTEND_COMMAND_INVOKE_CLIENT_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -11,11 +12,13 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_COMMAND_INVOKE_CLIENT_
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_command_invoke_client"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-STATUS_TOKENS = frozenset({
-    "FRONTEND_COMMAND_INVOKE_CLIENT_READY",
-    "FRONTEND_COMMAND_INVOKE_CLIENT_BLOCKED_TAURI_UNAVAILABLE",
-    "FRONTEND_COMMAND_ERROR_VISIBLE",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "FRONTEND_COMMAND_INVOKE_CLIENT_READY",
+        "FRONTEND_COMMAND_INVOKE_CLIENT_BLOCKED_TAURI_UNAVAILABLE",
+        "FRONTEND_COMMAND_ERROR_VISIBLE",
+    }
+)
 
 
 def test_client_exists():

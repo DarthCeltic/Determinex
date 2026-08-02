@@ -13,9 +13,9 @@ Usage:
   python bundler/ensure_vc_redist.py              # fetch only if missing
   python bundler/ensure_vc_redist.py --verify      # check only, don't fetch
 """
+
 import argparse
 import platform
-import sys
 import urllib.request
 from pathlib import Path
 
@@ -59,7 +59,9 @@ def main() -> int:
         return 1
 
     if not _looks_valid(DST):
-        _log(f"FAIL: downloaded file looks truncated/invalid ({DST.stat().st_size if DST.exists() else 0} bytes)")
+        _log(
+            f"FAIL: downloaded file looks truncated/invalid ({DST.stat().st_size if DST.exists() else 0} bytes)"
+        )
         return 1
 
     _log(f"OK: fetched {DST.stat().st_size:,} bytes")

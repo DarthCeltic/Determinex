@@ -22,9 +22,11 @@ Usage:
   python scripts/determinex_pb_provenance_guard.py            # report
   python scripts/determinex_pb_provenance_guard.py --guard    # exit 1 if any UNJUSTIFIED hit on a lock
 """
+
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 import tarfile
@@ -62,17 +64,33 @@ def record_proof(slug: str, info: dict) -> None:
     data["from_source"][slug] = info
     PROOFS.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
+
 GAMING = [
-    ("reads-test-identity", re.compile(
-        r"PYTEST_CURRENT_TEST|PYTEST_XDIST|getenv\([\"']PYTEST|"
-        r"argv.*test_|inspect\.stack\(\).*test|__name__.*test_", re.I)),
-    ("embeds-golden", re.compile(
-        r"include_bytes!\s*\(\s*[\"'][^\"']*(golden|expected|snapshot|fixture|\.out)|"
-        r"include_str!\s*\(\s*[\"'][^\"']*(golden|expected|snapshot|fixture)|"
-        r"embed_file.*(golden|expected|snapshot)", re.I)),
-    ("branch-on-test-name", re.compile(
-        r"(match|switch|if|case)[^\n]{0,40}(test_[a-z0-9_]+)[^\n]{0,20}(=>|:|then|\{)|"
-        r"==\s*[\"']test_[a-z0-9_]+[\"']", re.I)),
+    (
+        "reads-test-identity",
+        re.compile(
+            r"PYTEST_CURRENT_TEST|PYTEST_XDIST|getenv\([\"']PYTEST|"
+            r"argv.*test_|inspect\.stack\(\).*test|__name__.*test_",
+            re.I,
+        ),
+    ),
+    (
+        "embeds-golden",
+        re.compile(
+            r"include_bytes!\s*\(\s*[\"'][^\"']*(golden|expected|snapshot|fixture|\.out)|"
+            r"include_str!\s*\(\s*[\"'][^\"']*(golden|expected|snapshot|fixture)|"
+            r"embed_file.*(golden|expected|snapshot)",
+            re.I,
+        ),
+    ),
+    (
+        "branch-on-test-name",
+        re.compile(
+            r"(match|switch|if|case)[^\n]{0,40}(test_[a-z0-9_]+)[^\n]{0,20}(=>|:|then|\{)|"
+            r"==\s*[\"']test_[a-z0-9_]+[\"']",
+            re.I,
+        ),
+    ),
 ]
 _SRC_EXT = (".rs", ".go", ".c", ".cpp", ".h", ".hpp", ".py", ".js", ".ts")
 
@@ -110,8 +128,11 @@ def near_matches(tool: str) -> list[str]:
         return []
     stem = tool.split(".")[0]
     return sorted(
-        d.name for d in LOCKED.iterdir()
-        if d.is_dir() and d.name != tool and not d.name.startswith("_")
+        d.name
+        for d in LOCKED.iterdir()
+        if d.is_dir()
+        and d.name != tool
+        and not d.name.startswith("_")
         and (d.name.startswith(stem) or stem.startswith(d.name))
     )[:3]
 
@@ -129,9 +150,13 @@ def scan_tool(tool: str) -> list[dict]:
                 if p.is_file() and p.stat().st_size > 2_000_000:
                     with open(p, "rb") as fh:
                         if fh.read(4) == b"\x7fELF":
-                            hits.append({"file": f"source/{p.relative_to(src_dir).as_posix()}",
-                                         "kind": "ships-prebuilt-binary",
-                                         "snippet": f"{p.stat().st_size // 1024 // 1024}MB ELF in tracked source/"})
+                            hits.append(
+                                {
+                                    "file": f"source/{p.relative_to(src_dir).as_posix()}",
+                                    "kind": "ships-prebuilt-binary",
+                                    "snippet": f"{p.stat().st_size // 1024 // 1024}MB ELF in tracked source/",
+                                }
+                            )
             except Exception:
                 continue
     tarp = LOCKED / tool / "submission.tar.gz"
@@ -155,11 +180,21 @@ def scan_tool(tool: str) -> list[dict]:
                     except Exception:
                         magic = b""
                     if magic == b"\x7fELF":
-                        hits.append({"file": n, "kind": "ships-prebuilt-binary",
-                                     "snippet": f"{m.size // 1024 // 1024}MB ELF shipped in submission"})
+                        hits.append(
+                            {
+                                "file": n,
+                                "kind": "ships-prebuilt-binary",
+                                "snippet": f"{m.size // 1024 // 1024}MB ELF shipped in submission",
+                            }
+                        )
                         continue
                 # SOURCE only (skip the shipped test files themselves)
-                if not n.endswith(_SRC_EXT) or "/test" in low or low.startswith("test") or "conftest" in low:
+                if (
+                    not n.endswith(_SRC_EXT)
+                    or "/test" in low
+                    or low.startswith("test")
+                    or "conftest" in low
+                ):
                     continue
                 try:
                     txt = t.extractfile(n).read().decode("utf-8", "replace")
@@ -189,6 +224,7 @@ def audit() -> dict:
         hits = scan_tool(tool)
         if not hits:
             continue
+
         # a hit clears if (a) recorded justified, OR (b) for ships-prebuilt-binary, a
         # from-source proof exists (the source build was verified without the answer key).
         def _cleared(h):
@@ -197,9 +233,13 @@ def audit() -> dict:
             if h["kind"] == "ships-prebuilt-binary" and tool in proofs:
                 return True
             return False
+
         unjust = [h for h in hits if not _cleared(h)]
-        flagged[tool] = {"hits": hits, "unjustified": unjust,
-                         "status": "JUSTIFIED" if not unjust else "NEEDS-REVIEW"}
+        flagged[tool] = {
+            "hits": hits,
+            "unjustified": unjust,
+            "status": "JUSTIFIED" if not unjust else "NEEDS-REVIEW",
+        }
     return {
         "registry_present": REG.exists(),
         "scanned": len(reg) - len(unscannable),
@@ -212,7 +252,19 @@ def audit() -> dict:
 def main() -> int:
     r = audit()
     guard = "--guard" in sys.argv
-    print(f"provenance/anti-gaming scan: {r['scanned']} of {r['registered']} registered locks examined")
+    # Opt-in abstention for a checkout that deliberately ships no locked archives (the public
+    # mirror filters those vendored trees). Deliberately a flag, not an inference: see the
+    # long note at the unscannable branch below.
+    # Env var as well as flag: the pre-commit config is shared between the dev repo and the
+    # public mirror, so the declaration has to live where the filtered checkout actually is
+    # (the CI workflow), not in a config both of them read.
+    allow_filtered = (
+        "--allow-filtered-checkout" in sys.argv
+        or os.environ.get("DETERMINEX_FILTERED_CHECKOUT") == "1"
+    )
+    print(
+        f"provenance/anti-gaming scan: {r['scanned']} of {r['registered']} registered locks examined"
+    )
     needs = {t: v for t, v in r["flagged"].items() if v["status"] == "NEEDS-REVIEW"}
     just = {t: v for t, v in r["flagged"].items() if v["status"] == "JUSTIFIED"}
     print(f"  JUSTIFIED (audited, recorded): {len(just)} {sorted(just)}")
@@ -228,9 +280,11 @@ def main() -> int:
             print(f"    {tool}: no source/ and no submission.tar.gz{hint}")
 
     if guard and needs:
-        print("\nPROVENANCE GUARD FAILED: unjustified test-gaming signatures on locked tools. "
-              "Audit each: justify (genuinely-distinct context, independently-correct output) "
-              "or fix the tool to implement the behavior. Record in provenance_justifications.json.")
+        print(
+            "\nPROVENANCE GUARD FAILED: unjustified test-gaming signatures on locked tools. "
+            "Audit each: justify (genuinely-distinct context, independently-correct output) "
+            "or fix the tool to implement the behavior. Record in provenance_justifications.json."
+        )
         return 1
 
     # A verdict requires having looked. CLAUDE.md records what the alternative cost:
@@ -239,38 +293,57 @@ def main() -> int:
     # input is absent or short does not complain about what is missing from it, so the
     # absence has to be the failure -- otherwise "PASSED" silently means "examined none".
     if guard and not r["registry_present"]:
-        print(f"\nPROVENANCE GUARD FAILED: no registry at {REG}. Nothing was examined, so "
-              "no lock can be certified. Regenerate verified_locks.json (see "
-              "determinex_pb_lock_registry.py) and re-run.")
+        print(
+            f"\nPROVENANCE GUARD FAILED: no registry at {REG}. Nothing was examined, so "
+            "no lock can be certified. Regenerate verified_locks.json (see "
+            "determinex_pb_lock_registry.py) and re-run."
+        )
         return 1
     if guard and not r["registered"]:
-        print("\nPROVENANCE GUARD FAILED: the registry lists zero locks. Nothing was "
-              "examined, so this is not a pass -- regenerate verified_locks.json.")
+        print(
+            "\nPROVENANCE GUARD FAILED: the registry lists zero locks. Nothing was "
+            "examined, so this is not a pass -- regenerate verified_locks.json."
+        )
         return 1
     if guard and r["unscannable"]:
-        # FILTERED vs BROKEN. corpus/programbench/locked/ holds vendored upstream trees that
-        # filter_corpus deliberately does not publish, so in the public mirror EVERY archive
-        # is absent by design. A checkout where SOME are present and some are not is a
-        # different thing entirely -- that is drift, or a registry naming something disk
-        # does not have, and it stays a hard failure.
+        # FILTERED vs BROKEN, and the difference must be DECLARED, never inferred.
         #
-        # The guard's own principle is unchanged: absence is never reported as clean. It is
-        # reported as absence, out loud, with the exit code that fits which kind it is.
-        if r["scanned"] == 0 and len(r["unscannable"]) == r["registered"]:
-            print(f"\nPROVENANCE GUARD CANNOT VERIFY: all {r['registered']} registered "
-                  "lock(s) have no artifact here, and none are present. This is a checkout "
-                  "that does not ship corpus/programbench/locked/ -- the public mirror "
-                  "filters those vendored trees on purpose. Nothing was gamed; nothing was "
-                  "examined either. NOT a pass.")
+        # corpus/programbench/locked/ holds vendored upstream trees that filter_corpus does
+        # not publish, so in the public mirror every archive is absent by design and this
+        # guard would fail forever. The obvious shortcut is to infer "filtered" whenever
+        # nothing is scannable -- and that is exactly wrong, because it is indistinguishable
+        # from a registry naming a tool whose archive vanished. Counts cannot tell those
+        # apart, so a guard that decides from counts is guessing that absence is benign.
+        # That is the failure mode this whole module exists to refuse, and
+        # tests/test_guards_never_pass_on_nothing.py is the thing that caught me doing it.
+        #
+        # So: unscannable is a HARD FAILURE by default. A filtered checkout says so out loud
+        # with --allow-filtered-checkout, which still refuses to call the result a pass and
+        # still fails the moment even one archive IS present (a partial tree is drift, not a
+        # filter).
+        if allow_filtered and r["scanned"] == 0 and len(r["unscannable"]) == r["registered"]:
+            print(
+                f"\nPROVENANCE GUARD CANNOT VERIFY: all {r['registered']} registered "
+                "lock(s) have no artifact here, and --allow-filtered-checkout was passed, "
+                "so this is declared to be a checkout that does not ship "
+                "corpus/programbench/locked/. Nothing was gamed; nothing was examined "
+                "either. NOT a pass -- an abstention."
+            )
             return 0
-        print("\nPROVENANCE GUARD FAILED: a registered lock has no artifact to examine "
-              "while others DO -- so this checkout is partial rather than filtered. Its "
-              "provenance is unverified, which is not the same as clean. Restore the "
-              "archive, correct the registry entry, or drop the lock.")
+        print(
+            "\nPROVENANCE GUARD FAILED: a registered lock has no artifact to examine, so "
+            "its provenance is unverified -- which is not the same as clean. Restore the "
+            "archive, correct the registry entry, or drop the lock. If this checkout "
+            "deliberately does not ship corpus/programbench/locked/ (the public mirror "
+            "filters those vendored trees), pass --allow-filtered-checkout to abstain "
+            "explicitly instead of having the guard assume it."
+        )
         return 1
     if guard:
-        print(f"\nPROVENANCE GUARD PASSED: {r['scanned']} lock(s) examined, "
-              "no unjustified test-gaming.")
+        print(
+            f"\nPROVENANCE GUARD PASSED: {r['scanned']} lock(s) examined, "
+            "no unjustified test-gaming."
+        )
     return 0
 
 

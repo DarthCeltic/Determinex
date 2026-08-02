@@ -26,10 +26,10 @@ Rules:
 Even when every check passes, ``execution_authorized=False``. Live
 execution requires a *separate* admission step in a later rung.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Mapping
 
 from .local_model_admission_record import (
     LOCAL_MODEL_ADMISSION_STATUS_TOKENS,
@@ -38,7 +38,6 @@ from .local_model_admission_record import (
     ModelProvider,
 )
 from .model_router import CURRENT_MODEL_IDS, STALE_MODEL_IDS, TaskClass
-
 
 _DEFAULT_ALLOWED_TASK_CLASSES: frozenset[str] = frozenset(
     t.value for t in TaskClass if t is not TaskClass.UNKNOWN
@@ -151,8 +150,7 @@ class LocalModelAdmissionPolicy:
             metadata_admitted=True,
             execution_authorized=False,
             training_eligible=False,
-            notes=("metadata-only admission; live admission requires a "
-                   "follow-up rung",),
+            notes=("metadata-only admission; live admission requires a follow-up rung",),
         )
 
     @staticmethod

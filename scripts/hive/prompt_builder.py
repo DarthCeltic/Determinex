@@ -4,23 +4,24 @@ scripts/hive/prompt_builder.py — Builder and Monitor message assembly
 Extracted from executor.py. Builds the chat message lists consumed by
 api_call() and parses Monitor verdict responses.
 """
+
 from __future__ import annotations
 
 import json
 import re
 from pathlib import Path
 
-from hive.manifest import ManifestSession, StepRecord
-from hive.workspace import assemble_builder_context
-from hive.constants import MAX_RETRIES_PER_STEP, MAX_LINES_BEFORE_FORCE_REPLACE
 from hive.code_utils import (
+    _extract_missing_derives,
+    _extract_serde_inference_fix,
+    _extract_trait_scope_fix,
+    _extract_type_mismatch_fix,
     _instruction_requires_concurrency,
     _parse_cargo_deps,
-    _extract_missing_derives,
-    _extract_type_mismatch_fix,
-    _extract_trait_scope_fix,
-    _extract_serde_inference_fix,
 )
+from hive.constants import MAX_LINES_BEFORE_FORCE_REPLACE, MAX_RETRIES_PER_STEP
+from hive.manifest import ManifestSession, StepRecord
+from hive.workspace import assemble_builder_context
 
 
 def _build_builder_messages(
@@ -42,7 +43,9 @@ def _build_builder_messages(
     if session.correctness_test_harness:
         setattr(step, "_session_correctness_test_harness", session.correctness_test_harness)
     builder_ctx = assemble_builder_context(
-        workspace, step, session.lang,
+        workspace,
+        step,
+        session.lang,
         # #7: On pruned retries, strip out the last compiler error from context
         # assembly too — we inject the clean latest error explicitly below.
         last_compiler_error="" if prune_context else compiler_error,
@@ -64,7 +67,9 @@ def _build_builder_messages(
     )
     if session.lang == "rust":
         if _available_crates:
-            system_msg += f"\nAVAILABLE CRATES (only these may be imported): {', '.join(_available_crates)}."
+            system_msg += (
+                f"\nAVAILABLE CRATES (only these may be imported): {', '.join(_available_crates)}."
+            )
         else:
             system_msg += "\nAVAILABLE CRATES: NONE — use only std:: (stdlib). Do NOT import serde, serde_json, or any crate not in std."
     # Rust-specific guardrails
@@ -74,13 +79,13 @@ def _build_builder_messages(
             "\n- ERROR TYPE RULE: if any function uses `?` on BOTH io::Error AND other errors (ParseIntError, serde_json::Error), the return type MUST be `Result<T, Box<dyn std::error::Error>>`, NOT `io::Result<T>`."
             "\n- LAST EXPRESSION RULE: a bare `serde_json::from_reader(x)` or `serde_json::from_str(&s)` as the last expression of a `Box<dyn Error>` function does NOT auto-coerce. Write `Ok(serde_json::from_reader(x)?)` instead."
             "\n- MATCH ON STRING RULE: use `match args[1].as_str()` with string literals. Do NOT use `match &args[1]`."
-            "\n- PATH EXISTS RULE: use `std::path::Path::new(\"file.json\").exists()`. Do NOT call `.exists()` on `&str`."
+            '\n- PATH EXISTS RULE: use `std::path::Path::new("file.json").exists()`. Do NOT call `.exists()` on `&str`.'
             "\n- MUTABILITY RULE: declare `let mut x` if you will modify x."
             "\n- SCOPE RULE: helper functions CANNOT access variables from main() unless passed as parameters."
             "\n- ARGS ITERATOR RULE: `args().next()` returns the PROGRAM NAME. Use `args().nth(1)` or collect to Vec."
-            "\n- ARGS UNWRAP RULE: `args.get(n)` returns `Option<&String>`. Do NOT use `.unwrap_or(\"\")` — "
+            '\n- ARGS UNWRAP RULE: `args.get(n)` returns `Option<&String>`. Do NOT use `.unwrap_or("")` — '
             "that expects `&String` not `&str` and causes E0308. "
-            "Use `.map(|s| s.as_str()).unwrap_or(\"\")` to get `&str`, "
+            'Use `.map(|s| s.as_str()).unwrap_or("")` to get `&str`, '
             "or `.cloned().unwrap_or_default()` to get `String`."
             "\n- SERDE DESERIALIZE RULE: `serde_json::from_str()` and `serde_json::from_reader()` need a type. "
             "Rust cannot infer it — E0282 will fire. ALWAYS write `let config: Config = serde_json::from_str(&content)?;`. "
@@ -111,7 +116,7 @@ def _build_builder_messages(
             "  Writing `impl Display for` (without `fmt::`) causes E0405 — it WILL NOT compile."
             "\n- DERIVES RULE: Custom structs need the right derives. "
             "If you use `.contains()` on Vec<T> where T is a custom struct, T needs `#[derive(PartialEq)]`. "
-            "If you use `println!(\"{:?}\", ...)` or `{:?}` on a custom type, it needs `#[derive(Debug)]`. "
+            'If you use `println!("{:?}", ...)` or `{:?}` on a custom type, it needs `#[derive(Debug)]`. '
             "For most structs use `#[derive(Debug, Clone, PartialEq)]`. "
             "NEVER add Serialize or Deserialize unless serde is listed in AVAILABLE CRATES."
             "\n- EXACT RETURN TYPES RULE: Follow the EXACT return type specified in the step instruction. "
@@ -164,7 +169,7 @@ def _build_builder_messages(
                 "    for h in handles {\n"
                 "        h.join().unwrap();  // NEVER h.join()? — not std::error::Error\n"
                 "    }\n"
-                "    println!(\"{}\", *counter.lock().unwrap());\n"
+                '    println!("{}", *counter.lock().unwrap());\n'
                 "}\n"
                 "```\n"
                 "CRITICAL RULES:\n"
@@ -179,10 +184,23 @@ def _build_builder_messages(
                 "— this step does not require concurrency. Do not import or use them."
             )
         if step.target_file and "main.rs" in step.target_file:
-            system_msg += "\n- CRITICAL: output MUST include fn main(). Without fn main(), rustc emits E0601."
+            system_msg += (
+                "\n- CRITICAL: output MUST include fn main(). Without fn main(), rustc emits E0601."
+            )
             # Only inject JSON boilerplate when the step actually needs it.
-            _needs_json = any(kw in (step.instruction + " " + (step.dsl_context or "")).lower()
-                              for kw in ("json", "serde", "persist", "save", "load", "file", "read_to_string", "write("))
+            _needs_json = any(
+                kw in (step.instruction + " " + (step.dsl_context or "")).lower()
+                for kw in (
+                    "json",
+                    "serde",
+                    "persist",
+                    "save",
+                    "load",
+                    "file",
+                    "read_to_string",
+                    "write(",
+                )
+            )
             if _needs_json and _serde_available:
                 system_msg += (
                     "\n\nRUST SERDE JSON PATTERN — for reading JSON from a file:\n"
@@ -192,11 +210,11 @@ def _build_builder_messages(
                     "struct Config { field1: String, field2: u32 }\n"
                     "fn main() -> Result<(), Box<dyn std::error::Error>> {\n"
                     "    let args: Vec<String> = std::env::args().collect();\n"
-                    "    if args.len() < 2 { eprintln!(\"Usage: ... <file.json>\"); std::process::exit(1); }\n"
+                    '    if args.len() < 2 { eprintln!("Usage: ... <file.json>"); std::process::exit(1); }\n'
                     "    let content = std::fs::read_to_string(&args[1])?;\n"
                     "    let config: Config = serde_json::from_str(&content)?;  // typed binding REQUIRED\n"
-                    "    println!(\"field1: {}\", config.field1);\n"
-                    "    println!(\"field2: {}\", config.field2);\n"
+                    '    println!("field1: {}", config.field1);\n'
+                    '    println!("field2: {}", config.field2);\n'
                     "    Ok(())\n"
                     "}\n"
                     "```\n"
@@ -212,13 +230,13 @@ def _build_builder_messages(
                     "```rust\n"
                     "fn main() -> Result<(), Box<dyn std::error::Error>> {\n"
                     "    let args: Vec<String> = std::env::args().collect();\n"
-                    "    if args.len() < 2 { eprintln!(\"Usage: ... <file>\"); std::process::exit(1); }\n"
+                    '    if args.len() < 2 { eprintln!("Usage: ... <file>"); std::process::exit(1); }\n'
                     "    let content = std::fs::read_to_string(&args[1])?;\n"
                     "    let line_count = content.lines().count();\n"
                     "    let word_count = content.split_whitespace().count();\n"
                     "    let char_count = content.chars().count();\n"
                     "    // Manual JSON — no serde needed:\n"
-                    "    println!(\"{{{}}}\", format!(\"\\\"line_count\\\": {}, \\\"word_count\\\": {}, \\\"char_count\\\": {}\", line_count, word_count, char_count));\n"
+                    '    println!("{{{}}}", format!("\\"line_count\\": {}, \\"word_count\\": {}, \\"char_count\\": {}", line_count, word_count, char_count));\n'
                     "    Ok(())\n"
                     "}\n"
                     "```\n"
@@ -278,7 +296,11 @@ def _build_builder_messages(
         _serde_fix = _extract_serde_inference_fix(compiler_error)
         if _serde_fix:
             system_msg += _serde_fix
-        if not _serde_available and ("E0432" in compiler_error or "unresolved import" in compiler_error) and "serde" in compiler_error:
+        if (
+            not _serde_available
+            and ("E0432" in compiler_error or "unresolved import" in compiler_error)
+            and "serde" in compiler_error
+        ):
             system_msg += (
                 "\n\nCRITICAL FIX: serde and serde_json are NOT in Cargo.toml — they cannot be used. "
                 "Remove ALL `use serde::...`, `use serde_json::...`, `#[derive(Serialize)]`, and `#[derive(Deserialize)]` lines. "
@@ -307,17 +329,23 @@ def _build_monitor_messages(
 ) -> list[dict]:
     """Assemble chat messages for Monitor verdict."""
     return [
-        {"role": "system", "content": (
-            f"You are a code review monitor for {session.lang.capitalize()} projects. "
-            "Score the builder's output 0.0-1.0 on correctness, safety, and adherence "
-            "to the step instruction. Reply with ONLY a JSON object: "
-            '{"score": 0.0-1.0, "verdict": "one sentence", "issues": ["..."]}.'
-        )},
-        {"role": "user", "content": (
-            f"Step instruction: {step.instruction}\n\n"
-            f"Builder output:\n```\n{builder_output[:3000]}\n```\n\n"
-            f"Compiler result: {'PASS' if compiler_passed else 'FAIL'}"
-        )},
+        {
+            "role": "system",
+            "content": (
+                f"You are a code review monitor for {session.lang.capitalize()} projects. "
+                "Score the builder's output 0.0-1.0 on correctness, safety, and adherence "
+                "to the step instruction. Reply with ONLY a JSON object: "
+                '{"score": 0.0-1.0, "verdict": "one sentence", "issues": ["..."]}.'
+            ),
+        },
+        {
+            "role": "user",
+            "content": (
+                f"Step instruction: {step.instruction}\n\n"
+                f"Builder output:\n```\n{builder_output[:3000]}\n```\n\n"
+                f"Compiler result: {'PASS' if compiler_passed else 'FAIL'}"
+            ),
+        },
     ]
 
 
@@ -384,4 +412,3 @@ def _parse_monitor_verdict(response_text: str) -> tuple[float, str]:
     if text.strip():
         return 0.5, text[:200]
     return 0.5, "no verdict"
-

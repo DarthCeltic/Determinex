@@ -22,6 +22,7 @@ SWE-bench integration note:
   this pipeline, converting predictions into signed corpus records even when
   the repair attempt fails (verdict="fail" records are still training signal).
 """
+
 from __future__ import annotations
 
 import sys
@@ -29,12 +30,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
-from corpus.code_ingest.python_project_indexer import index_python_project, PythonProject
-from corpus.code_ingest.python_task_extractor import PythonTaskExtractor, PythonRepairTask
-from repair.python_repair_pipeline import PythonRepairPipeline
-from corpus.corpus_manager import CorpusManager
 from agents.base_agent import CorpusType
-
+from corpus.code_ingest.python_project_indexer import index_python_project
+from corpus.code_ingest.python_task_extractor import PythonTaskExtractor
+from corpus.corpus_manager import CorpusManager
+from repair.python_repair_pipeline import PythonRepairPipeline
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -163,8 +163,8 @@ def _always_fail_executor():
 # TestPythonProjectIndexer
 # ---------------------------------------------------------------------------
 
-class TestPythonProjectIndexer:
 
+class TestPythonProjectIndexer:
     def test_pyproject_toml_detected(self, tmp_path):
         repo = _make_python_repo(tmp_path)
         project = index_python_project(repo)
@@ -222,13 +222,12 @@ class TestPythonProjectIndexer:
 # TestPythonSetupFileSafetyGate
 # ---------------------------------------------------------------------------
 
-class TestPythonSetupFileSafetyGate:
 
+class TestPythonSetupFileSafetyGate:
     def test_malicious_setup_py_rejected(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         pipeline = PythonRepairPipeline(corpus_manager=cm)
-        repo = _make_python_repo(tmp_path, license_text="MIT License",
-                                  setup_py=_SETUP_PY_MALICIOUS)
+        repo = _make_python_repo(tmp_path, license_text="MIT License", setup_py=_SETUP_PY_MALICIOUS)
         result = pipeline.process_repo(repo, "test_corpus")
         assert not result.accepted, "setup.py with curl|bash must be rejected"
         assert "malicious_setup_file" in result.rejected_reason
@@ -236,8 +235,9 @@ class TestPythonSetupFileSafetyGate:
     def test_malicious_pyproject_rejected(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         pipeline = PythonRepairPipeline(corpus_manager=cm)
-        repo = _make_python_repo(tmp_path, license_text="MIT License",
-                                  pyproject=_PYPROJECT_MALICIOUS)
+        repo = _make_python_repo(
+            tmp_path, license_text="MIT License", pyproject=_PYPROJECT_MALICIOUS
+        )
         result = pipeline.process_repo(repo, "test_corpus")
         assert not result.accepted, "pyproject.toml with forget-instructions must be rejected"
         assert "malicious_setup_file" in result.rejected_reason
@@ -246,15 +246,12 @@ class TestPythonSetupFileSafetyGate:
         cm = CorpusManager(root=tmp_path / "corpus")
         executor = _always_pass_executor()
         pipeline = PythonRepairPipeline(corpus_manager=cm, executor=executor)
-        repo = _make_python_repo(tmp_path, license_text="MIT License",
-                                  setup_py=_SETUP_PY_SAFE)
+        repo = _make_python_repo(tmp_path, license_text="MIT License", setup_py=_SETUP_PY_SAFE)
         result = pipeline.process_repo(repo, "test_corpus")
         assert result.accepted, f"Safe setup.py must pass; got: {result.rejected_reason}"
 
     def test_setup_file_result_has_reason_field(self, tmp_path):
-        pipeline = PythonRepairPipeline(
-            corpus_manager=CorpusManager(root=tmp_path / "corpus")
-        )
+        pipeline = PythonRepairPipeline(corpus_manager=CorpusManager(root=tmp_path / "corpus"))
         repo = _make_python_repo(tmp_path, setup_py=_SETUP_PY_MALICIOUS)
         safety = pipeline._check_setup_file_safety(repo)
         assert not safety.safe
@@ -262,9 +259,7 @@ class TestPythonSetupFileSafetyGate:
         assert "injection_risk" in safety.reason
 
     def test_safe_setup_file_result_is_safe(self, tmp_path):
-        pipeline = PythonRepairPipeline(
-            corpus_manager=CorpusManager(root=tmp_path / "corpus")
-        )
+        pipeline = PythonRepairPipeline(corpus_manager=CorpusManager(root=tmp_path / "corpus"))
         repo = _make_python_repo(tmp_path, setup_py=_SETUP_PY_SAFE)
         safety = pipeline._check_setup_file_safety(repo)
         assert safety.safe
@@ -272,8 +267,7 @@ class TestPythonSetupFileSafetyGate:
     def test_rejected_setup_file_has_zero_tasks(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         pipeline = PythonRepairPipeline(corpus_manager=cm)
-        repo = _make_python_repo(tmp_path, license_text="MIT License",
-                                  setup_py=_SETUP_PY_MALICIOUS)
+        repo = _make_python_repo(tmp_path, license_text="MIT License", setup_py=_SETUP_PY_MALICIOUS)
         result = pipeline.process_repo(repo, "test_corpus")
         assert result.tasks_extracted == 0
         assert result.tasks_written == 0
@@ -284,8 +278,8 @@ class TestPythonSetupFileSafetyGate:
 # TestPythonLicenseGate
 # ---------------------------------------------------------------------------
 
-class TestPythonLicenseGate:
 
+class TestPythonLicenseGate:
     def test_no_license_file_rejected(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         pipeline = PythonRepairPipeline(corpus_manager=cm)
@@ -297,8 +291,7 @@ class TestPythonLicenseGate:
     def test_gpl_license_rejected(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         pipeline = PythonRepairPipeline(corpus_manager=cm)
-        repo = _make_python_repo(tmp_path,
-                                  license_text="GNU GENERAL PUBLIC LICENSE\nVersion 3")
+        repo = _make_python_repo(tmp_path, license_text="GNU GENERAL PUBLIC LICENSE\nVersion 3")
         result = pipeline.process_repo(repo, "test_corpus")
         assert not result.accepted
         assert "license_not_green" in result.rejected_reason
@@ -316,8 +309,7 @@ class TestPythonLicenseGate:
         cm = CorpusManager(root=tmp_path / "corpus")
         executor = _always_pass_executor()
         pipeline = PythonRepairPipeline(corpus_manager=cm, executor=executor)
-        repo = _make_python_repo(tmp_path,
-                                  license_text="Apache License\nVersion 2.0")
+        repo = _make_python_repo(tmp_path, license_text="Apache License\nVersion 2.0")
         result = pipeline.process_repo(repo, "test_corpus")
         assert result.accepted
         assert result.license_bucket == "green"
@@ -335,8 +327,8 @@ class TestPythonLicenseGate:
 # TestPythonBaselineEnforcement
 # ---------------------------------------------------------------------------
 
-class TestPythonBaselineEnforcement:
 
+class TestPythonBaselineEnforcement:
     def test_extractor_returns_empty_when_baseline_fails(self, tmp_path):
         repo = _make_python_repo(tmp_path, source=_SOURCE_WITH_NONE_GUARD)
         extractor = PythonTaskExtractor(repo)
@@ -377,8 +369,9 @@ class TestPythonBaselineEnforcement:
 
     def test_pipeline_extracts_tasks_on_baseline_pass(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
-        repo = _make_python_repo(tmp_path, license_text="MIT License",
-                                  source=_SOURCE_WITH_NONE_GUARD)
+        repo = _make_python_repo(
+            tmp_path, license_text="MIT License", source=_SOURCE_WITH_NONE_GUARD
+        )
         executor = _baseline_pass_mutation_fail_executor()
         pipeline = PythonRepairPipeline(corpus_manager=cm, executor=executor)
         result = pipeline.process_repo(repo, "test_corpus")
@@ -390,8 +383,8 @@ class TestPythonBaselineEnforcement:
 # TestPythonNoneGuardExtraction
 # ---------------------------------------------------------------------------
 
-class TestPythonNoneGuardExtraction:
 
+class TestPythonNoneGuardExtraction:
     def test_none_guard_sites_found(self, tmp_path):
         repo = _make_python_repo(tmp_path, source=_SOURCE_WITH_NONE_GUARD)
         extractor = PythonTaskExtractor(repo)
@@ -443,22 +436,23 @@ class TestPythonNoneGuardExtraction:
             call_n["n"] += 1
             if call_n["n"] == 1:
                 return (0, "4 passed", "")
-            return (0, "still passing", "")   # mutation had no effect
+            return (0, "still passing", "")  # mutation had no effect
 
         extractor._run = fake_run
         py_file = repo / "mymodule.py"
         original_content = py_file.read_text(encoding="utf-8")
         extractor.extract_tasks(max_tasks=5)
-        assert py_file.read_text(encoding="utf-8") == original_content, \
+        assert py_file.read_text(encoding="utf-8") == original_content, (
             "File must be restored after mutation attempt"
+        )
 
 
 # ---------------------------------------------------------------------------
 # TestPythonCorpusSigning
 # ---------------------------------------------------------------------------
 
-class TestPythonCorpusSigning:
 
+class TestPythonCorpusSigning:
     def test_corpus_record_is_signed(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         task = PythonRepairPipeline.make_test_task(task_id="py-sign-001")
@@ -512,14 +506,20 @@ class TestPythonCorpusSigning:
             source_benchmark="test_corpus",
             payload=task.to_corpus_payload(),
         )
-        for f in ("schema_version", "corpus_type", "task_id", "_sig",
-                  "language", "build_system", "mutation_type", "failure_type"):
+        for f in (
+            "schema_version",
+            "corpus_type",
+            "task_id",
+            "_sig",
+            "language",
+            "build_system",
+            "mutation_type",
+            "failure_type",
+        ):
             assert f in record, f"Missing required field: {f}"
 
     def test_failure_output_truncated_to_500(self, tmp_path):
-        task = PythonRepairPipeline.make_test_task(
-            failure_output="AttributeError: " + "x" * 1000
-        )
+        task = PythonRepairPipeline.make_test_task(failure_output="AttributeError: " + "x" * 1000)
         payload = task.to_corpus_payload()
         assert len(payload["failure_output"]) <= 500
 
@@ -530,14 +530,20 @@ class TestPythonCorpusSigning:
             task_id="py-sig-b", failure_output="different error"
         )
         rec_a = cm._normalize_record(
-            corpus_type=CorpusType.CODE_VERDICT, task_id=task_a.task_id,
-            input_hash="a1" * 8, output_hash="a2" * 8,
-            source_benchmark="test_corpus", payload=task_a.to_corpus_payload(),
+            corpus_type=CorpusType.CODE_VERDICT,
+            task_id=task_a.task_id,
+            input_hash="a1" * 8,
+            output_hash="a2" * 8,
+            source_benchmark="test_corpus",
+            payload=task_a.to_corpus_payload(),
         )
         rec_b = cm._normalize_record(
-            corpus_type=CorpusType.CODE_VERDICT, task_id=task_b.task_id,
-            input_hash="b1" * 8, output_hash="b2" * 8,
-            source_benchmark="test_corpus", payload=task_b.to_corpus_payload(),
+            corpus_type=CorpusType.CODE_VERDICT,
+            task_id=task_b.task_id,
+            input_hash="b1" * 8,
+            output_hash="b2" * 8,
+            source_benchmark="test_corpus",
+            payload=task_b.to_corpus_payload(),
         )
         assert rec_a["_sig"] != rec_b["_sig"]
 
@@ -553,8 +559,8 @@ class TestPythonCorpusSigning:
 # TestPythonMutationTypes
 # ---------------------------------------------------------------------------
 
-class TestPythonMutationTypes:
 
+class TestPythonMutationTypes:
     def test_none_guard_removal_task_signed(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         task = PythonRepairPipeline.make_test_task(
@@ -589,12 +595,17 @@ class TestPythonMutationTypes:
         ]
         for task_id, mut_type, fail_type in cases:
             task = PythonRepairPipeline.make_test_task(
-                task_id=task_id, mutation_type=mut_type, failure_type=fail_type,
+                task_id=task_id,
+                mutation_type=mut_type,
+                failure_type=fail_type,
             )
             record = cm._normalize_record(
-                corpus_type=CorpusType.CODE_VERDICT, task_id=task.task_id,
-                input_hash="77" * 8, output_hash="88" * 8,
-                source_benchmark="python_corpus", payload=task.to_corpus_payload(),
+                corpus_type=CorpusType.CODE_VERDICT,
+                task_id=task.task_id,
+                input_hash="77" * 8,
+                output_hash="88" * 8,
+                source_benchmark="python_corpus",
+                payload=task.to_corpus_payload(),
             )
             assert cm.verify(record) is True, f"Signature invalid for {task_id}"
 

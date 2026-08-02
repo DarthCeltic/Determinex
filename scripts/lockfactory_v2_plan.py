@@ -8,16 +8,15 @@ This script reads logs/ledger/lockfactory_*_v1.jsonl and emits a compact
 v2 queue based on current score, v1 lift, remaining headroom, and known
 structural blockers.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
-import math
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_LEDGER = ROOT / "logs" / "ledger"
@@ -146,35 +145,41 @@ def score_candidate(c: Candidate) -> tuple[float, dict[str, float], list[str]]:
     if c.blocker:
         reasons.append(c.blocker)
 
-    return p_v2, {
-        "lift_signal": round(lift_signal, 3),
-        "score_signal": round(score_signal, 3),
-        "headroom_signal": round(headroom_signal, 3),
-        "family_focus": round(focus_signal, 3),
-        "blocker_penalty": round(blocker_penalty, 3),
-    }, reasons
+    return (
+        p_v2,
+        {
+            "lift_signal": round(lift_signal, 3),
+            "score_signal": round(score_signal, 3),
+            "headroom_signal": round(headroom_signal, 3),
+            "family_focus": round(focus_signal, 3),
+            "blocker_penalty": round(blocker_penalty, 3),
+        },
+        reasons,
+    )
 
 
 def build_report(candidates: list[Candidate], top: int) -> dict[str, Any]:
     rows: list[dict[str, Any]] = []
     for c in candidates:
         p_v2, signals, reasons = score_candidate(c)
-        rows.append({
-            "tool": c.tool,
-            "instance_id": c.instance_id,
-            "base_score": c.base_score,
-            "v1_score": c.v1_score,
-            "delta_vs_base": c.delta,
-            "p_v2": p_v2,
-            "signals": signals,
-            "remaining_top_families": c.remaining_top_families,
-            "blocker": c.blocker,
-            "output_root": c.output_root,
-            "reasons": reasons,
-        })
+        rows.append(
+            {
+                "tool": c.tool,
+                "instance_id": c.instance_id,
+                "base_score": c.base_score,
+                "v1_score": c.v1_score,
+                "delta_vs_base": c.delta,
+                "p_v2": p_v2,
+                "signals": signals,
+                "remaining_top_families": c.remaining_top_families,
+                "blocker": c.blocker,
+                "output_root": c.output_root,
+                "reasons": reasons,
+            }
+        )
     rows.sort(key=lambda row: (-row["p_v2"], -row["delta_vs_base"], -row["v1_score"]))
     return {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "generated_at": datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
         "candidates_total": len(rows),
         "top_n": top,
         "queue": rows[:top],

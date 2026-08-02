@@ -26,23 +26,29 @@ Backwards compatibility:
     The dataclass remains the canonical runtime representation; Pydantic is
     the validation gate at: JSON parse, LLM output extraction, WAL read-back.
 """
+
 from __future__ import annotations
 
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 try:
     from pydantic import BaseModel, Field, field_validator, model_validator
+
     _PYDANTIC_AVAILABLE = True
 except ImportError:
     _PYDANTIC_AVAILABLE = False
+
     # Stub: makes `from hive.models import X` safe even without pydantic
     class BaseModel:  # type: ignore[no-redef]
         def __init_subclass__(cls, **kwargs: Any) -> None:
             pass
+
     def Field(*a: Any, **kw: Any) -> Any:  # type: ignore[misc]
         return None
+
     def field_validator(*a: Any, **kw: Any):  # type: ignore[misc]
         return lambda f: f
+
     def model_validator(*a: Any, **kw: Any):  # type: ignore[misc]
         return lambda f: f
 
@@ -52,16 +58,17 @@ if _PYDANTIC_AVAILABLE:
 
     class FailureModel(BaseModel):
         """Normalized failing unit of ground truth. Oracle-agnostic."""
+
         test_id: str = Field(min_length=0)  # discriminating context key
         name: str
         text: str = ""
-        expected: Optional[str] = None
-        actual: Optional[str] = None
+        expected: str | None = None
+        actual: str | None = None
         status: Literal["failed", "skipped", "not_run", "error"] = "failed"
-
 
     class OracleResultModel(BaseModel):
         """Validated oracle result. The `passed` invariant is enforced."""
+
         passed: bool
         failures: list[FailureModel] = Field(default_factory=list)
         raw: str = ""
@@ -70,7 +77,7 @@ if _PYDANTIC_AVAILABLE:
         n_passed: int = 0
 
         @model_validator(mode="after")
-        def check_passed_consistency(self) -> "OracleResultModel":
+        def check_passed_consistency(self) -> OracleResultModel:
             """passed=True must not coexist with hard failures (status='failed' or 'error').
             This catches the most common seam bug: an oracle wrapper that returns
             passed=True with a non-empty failure list."""
@@ -91,26 +98,22 @@ if _PYDANTIC_AVAILABLE:
                 raise ValueError(f"n_passed ({v}) > total ({total})")
             return v
 
-
     # ── StepRecord ───────────────────────────────────────────────────────────────
 
-    _STEP_STATUS = Literal[
-        "pending", "in_progress", "complete", "failed", "stale_instruction"
-    ]
-    _WRITE_MODE = Literal[
-        "new_file", "replace_file", "append_to_file", "replace_function"
-    ]
+    _STEP_STATUS = Literal["pending", "in_progress", "complete", "failed", "stale_instruction"]
+    _WRITE_MODE = Literal["new_file", "replace_file", "append_to_file", "replace_function"]
     _QUALITY = Literal["training_ready", "inconclusive", "compile_hacked", ""]
     _CORRECTNESS = Literal["pass", "fail", "compile_hacked", "skipped", ""]
 
     class StepRecordModel(BaseModel):
         """Validated StepRecord — wraps hive.manifest.StepRecord for boundary checks."""
+
         id: int = Field(ge=0)
         instruction: str
         depends_on: list[int] = Field(default_factory=list)
         target_file: str = ""
         write_mode: _WRITE_MODE = "append_to_file"
-        target_region: Optional[str] = None
+        target_region: str | None = None
         dsl_context: str = ""
         status: _STEP_STATUS = "pending"
         builder_output_path: str = ""
@@ -125,24 +128,25 @@ if _PYDANTIC_AVAILABLE:
         correctness_result: _CORRECTNESS = ""
         offline_observation_pending: bool = False
         offline_observation_result: str = ""
-        public_api_snapshot: Optional[dict] = None
+        public_api_snapshot: dict | None = None
         compiler_error_hashes: list[str] = Field(default_factory=list)
 
         @classmethod
-        def from_step_record(cls, step: Any) -> "StepRecordModel":
+        def from_step_record(cls, step: Any) -> StepRecordModel:
             """Bridge from hive.manifest.StepRecord dataclass."""
             import dataclasses
+
             d = dataclasses.asdict(step) if dataclasses.is_dataclass(step) else dict(step)
             return cls.model_validate(d)
 
         def to_dict(self) -> dict[str, Any]:
             return self.model_dump()
 
-
     # ── ManifestSession ──────────────────────────────────────────────────────────
 
     class ManifestSessionModel(BaseModel):
         """Validated ManifestSession — enforces budget and cost invariants."""
+
         session_id: str = Field(min_length=1)
         lang: str = Field(min_length=1)
         md_spec_path: str
@@ -161,7 +165,7 @@ if _PYDANTIC_AVAILABLE:
         updated_at: str = ""
 
         @model_validator(mode="after")
-        def budget_consistency(self) -> "ManifestSessionModel":
+        def budget_consistency(self) -> ManifestSessionModel:
             if self.api_cost_usd > self.session_budget_usd * 1.05:  # 5% over-run grace
                 raise ValueError(
                     f"api_cost_usd ({self.api_cost_usd:.4f}) exceeds "
@@ -171,17 +175,20 @@ if _PYDANTIC_AVAILABLE:
             return self
 
         @classmethod
-        def from_manifest(cls, session: Any) -> "ManifestSessionModel":
+        def from_manifest(cls, session: Any) -> ManifestSessionModel:
             """Bridge from hive.manifest.ManifestSession dataclass."""
-            import dataclasses, json as _json
-            raw = dataclasses.asdict(session) if dataclasses.is_dataclass(session) else dict(session)
-            return cls.model_validate(raw)
+            import dataclasses
 
+            raw = (
+                dataclasses.asdict(session) if dataclasses.is_dataclass(session) else dict(session)
+            )
+            return cls.model_validate(raw)
 
     # ── AdjudicationModel ────────────────────────────────────────────────────────
 
     class AdjudicationModel(BaseModel):
         """Validated Adjudication verdict from determinex_adjudicator."""
+
         verdict: Literal["ROUTE", "MATCH", "UNBLOCK", "NEEDS_WORK", "IMPOSSIBLE"]
         rationale: str
         remediation: str = ""
@@ -202,24 +209,28 @@ else:
     # Stubs when pydantic not installed — preserve importability
     class FailureModel:  # type: ignore[no-redef]
         pass
+
     class OracleResultModel:  # type: ignore[no-redef]
         pass
+
     class StepRecordModel:  # type: ignore[no-redef]
         pass
+
     class ManifestSessionModel:  # type: ignore[no-redef]
         pass
+
     class AdjudicationModel:  # type: ignore[no-redef]
         pass
 
 
-def validate_oracle_result(d: dict) -> "OracleResultModel | None":
+def validate_oracle_result(d: dict) -> OracleResultModel | None:
     """Convenience: validate a raw oracle result dict. Returns None if pydantic unavailable."""
     if not _PYDANTIC_AVAILABLE:
         return None
     return OracleResultModel.model_validate(d)
 
 
-def validate_adjudication_verdict(d: dict) -> "AdjudicationModel | None":
+def validate_adjudication_verdict(d: dict) -> AdjudicationModel | None:
     """Convenience: validate an adjudicator verdict dict. Returns None if pydantic unavailable."""
     if not _PYDANTIC_AVAILABLE:
         return None

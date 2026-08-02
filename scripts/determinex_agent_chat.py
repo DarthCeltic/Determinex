@@ -57,6 +57,7 @@ CLI
     python scripts/determinex_agent_chat.py cloak-prepare <id> --workspace W [--language L]
     python scripts/determinex_agent_chat.py cloak-sync <id> --workspace W
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -75,12 +76,12 @@ ROOT = Path(__file__).resolve().parent.parent
 SESSIONS_DIR = ROOT / "logs" / "agent_chat_sessions"
 INDEX_PATH = SESSIONS_DIR / "_index.json"
 
-_RAW_OUTPUT_CAP = 20_000     # chars; chat turns are read live, not archived -- keep it light
+_RAW_OUTPUT_CAP = 20_000  # chars; chat turns are read live, not archived -- keep it light
 _MAX_CONTEXT_TURNS_DEFAULT = 12
 
 
 def _now_iso() -> str:
-    return _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")
+    return _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds")
 
 
 @dataclass
@@ -88,14 +89,14 @@ class ChatTurn:
     turn_id: str
     session_id: str
     seq: int
-    speaker: str                        # "user" | agent name (e.g. "claude-code")
-    speaker_kind: str                   # "user" | "agent"
-    addressed_to: list[str]             # @mentions this turn was addressed to, [] if none/broadcast
-    mode: str                           # "mention" | "broadcast"
-    task_prompt: str                    # what was actually sent to the CLI (context-built)
-    raw_output: str                     # captured stdout+stderr, capped
+    speaker: str  # "user" | agent name (e.g. "claude-code")
+    speaker_kind: str  # "user" | "agent"
+    addressed_to: list[str]  # @mentions this turn was addressed to, [] if none/broadcast
+    mode: str  # "mention" | "broadcast"
+    task_prompt: str  # what was actually sent to the CLI (context-built)
+    raw_output: str  # captured stdout+stderr, capped
     returncode: int
-    verified: bool                      # oracle passed after this turn (True for user turns: n/a)
+    verified: bool  # oracle passed after this turn (True for user turns: n/a)
     oracle: str
     n_failures: int
     note: str
@@ -127,7 +128,7 @@ def read_transcript(session_id: str) -> list[dict]:
     if not path.exists():
         return []
     out: list[dict] = []
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line:
@@ -160,8 +161,9 @@ def update_index(session_id: str, **fields) -> None:
     _write_index(index)
 
 
-def create_session(session_id: str, workspace: str, participants: list[str],
-                    turn_mode: str) -> dict:
+def create_session(
+    session_id: str, workspace: str, participants: list[str], turn_mode: str
+) -> dict:
     if turn_mode not in ("mention", "broadcast"):
         raise ValueError(f"turn_mode must be 'mention' or 'broadcast', got {turn_mode!r}")
     now = _now_iso()
@@ -191,7 +193,7 @@ def create_session(session_id: str, workspace: str, participants: list[str],
     return {"session_id": session_id, **entry}
 
 
-def list_sessions(workspace: "str | None" = None) -> list[dict]:
+def list_sessions(workspace: str | None = None) -> list[dict]:
     index = _read_index()
     out = [{"session_id": sid, **fields} for sid, fields in index.items()]
     if workspace is not None:
@@ -216,7 +218,7 @@ def _same_path(raw: str, target: Path) -> bool:
         return False
 
 
-def get_session(session_id: str) -> "dict | None":
+def get_session(session_id: str) -> dict | None:
     return _read_index().get(session_id)
 
 
@@ -255,11 +257,15 @@ def extract_proposals(text: str) -> list[dict]:
         if not isinstance(files, list):
             continue
         for entry in files:
-            if (isinstance(entry, dict) and isinstance(entry.get("path"), str)
-                    and isinstance(entry.get("before"), str)
-                    and isinstance(entry.get("after"), str)):
-                out.append({"path": entry["path"], "before": entry["before"],
-                            "after": entry["after"]})
+            if (
+                isinstance(entry, dict)
+                and isinstance(entry.get("path"), str)
+                and isinstance(entry.get("before"), str)
+                and isinstance(entry.get("after"), str)
+            ):
+                out.append(
+                    {"path": entry["path"], "before": entry["before"], "after": entry["after"]}
+                )
 
 
 def _resolve_inside(workspace: Path, rel_path: str) -> Path:
@@ -275,7 +281,7 @@ def _resolve_inside(workspace: Path, rel_path: str) -> Path:
     return candidate
 
 
-def apply_proposal(session_id: str, turn_id: str, workspace: "str | Path") -> dict:
+def apply_proposal(session_id: str, turn_id: str, workspace: str | Path) -> dict:
     """Apply an approved turn's proposed edits, refusing if the files have moved since.
 
     The staleness check is the point. A proposal carries the exact bytes it was computed against, so
@@ -362,8 +368,10 @@ def parse_mentions(text: str, known_agents: list[str]) -> list[str]:
     for raw in _MENTION_RE.findall(text):
         candidate = raw.lower()
         agent = _agents._AGENTS.get(candidate)  # resolves aliases too
-        canonical = agent.name if (agent and agent.name.lower() in known_lower) else (
-            candidate if candidate in known_lower else None
+        canonical = (
+            agent.name
+            if (agent and agent.name.lower() in known_lower)
+            else (candidate if candidate in known_lower else None)
         )
         if canonical and canonical not in seen:
             seen.add(canonical)
@@ -378,8 +386,18 @@ def parse_mentions(text: str, known_agents: list[str]) -> list[str]:
 # always sees the real workspace directly.
 # ---------------------------------------------------------------------------
 _LOCAL_AGENT_NAMES = {"local-ollama", "aider-local", "ollama"}
-_CLOAK_SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv",
-                    "target", "dist", "build", ".next", ".pytest_cache"}
+_CLOAK_SKIP_DIRS = {
+    ".git",
+    "node_modules",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "target",
+    "dist",
+    "build",
+    ".next",
+    ".pytest_cache",
+}
 
 # session_id -> CloakContext | None (None cached deliberately -- a failed
 # build shouldn't retry the expensive whole-repo scan on every single turn).
@@ -395,6 +413,7 @@ def is_cloud_participant(agent: str) -> bool:
 
 def cloak_enabled() -> bool:
     import os
+
     return bool(os.environ.get("DETERMINEX_CLOAK", "").strip())
 
 
@@ -404,15 +423,25 @@ def _detect_repo_language(workspace: Path) -> str:
     codebase_explorer.py, etc.) rather than a shared canonical detector,
     since this one call site doesn't need SWE-bench's fuller machinery."""
     globs = [
-        ("python", "*.py"), ("rust", "*.rs"), ("go", "*.go"),
-        ("typescript", "*.ts"), ("javascript", "*.js"), ("java", "*.java"),
-        ("ruby", "*.rb"), ("cpp", "*.cpp"), ("c", "*.c"), ("php", "*.php"),
+        ("python", "*.py"),
+        ("rust", "*.rs"),
+        ("go", "*.go"),
+        ("typescript", "*.ts"),
+        ("javascript", "*.js"),
+        ("java", "*.java"),
+        ("ruby", "*.rb"),
+        ("cpp", "*.cpp"),
+        ("c", "*.c"),
+        ("php", "*.php"),
     ]
     counts: dict[str, int] = {}
     for lang, pattern in globs:
         try:
-            counts[lang] = sum(1 for p in workspace.rglob(pattern)
-                               if not any(part in _CLOAK_SKIP_DIRS for part in p.parts))
+            counts[lang] = sum(
+                1
+                for p in workspace.rglob(pattern)
+                if not any(part in _CLOAK_SKIP_DIRS for part in p.parts)
+            )
         except OSError:
             counts[lang] = 0
     if not any(counts.values()):
@@ -420,7 +449,7 @@ def _detect_repo_language(workspace: Path) -> str:
     return max(counts.keys(), key=lambda k: counts[k])
 
 
-def get_cloak_context(session_id: str, workspace: Path, language: "str | None" = None):
+def get_cloak_context(session_id: str, workspace: Path, language: str | None = None):
     """Lazily build (once per session -- a whole-repo AST scan) and cache a
     Cloak symbol map. Returns None if Cloak is unavailable/fails to build --
     callers MUST treat None as a refusal to send anything to a cloud agent,
@@ -443,6 +472,7 @@ def get_cloak_context(session_id: str, workspace: Path, language: "str | None" =
     if cache_path.exists():
         try:
             from determinex_cloak import CloakContext, SymbolMap
+
             data = json.loads(cache_path.read_text(encoding="utf-8"))
             ctx = CloakContext(
                 instance_id=session_id,
@@ -452,20 +482,36 @@ def get_cloak_context(session_id: str, workspace: Path, language: "str | None" =
             _CLOAK_CONTEXTS[session_id] = ctx
             return ctx
         except Exception as e:
-            print(f"[agent_chat] Cloak map cache reload failed for {session_id}, rebuilding: {e}", file=sys.stderr)
+            print(
+                f"[agent_chat] Cloak map cache reload failed for {session_id}, rebuilding: {e}",
+                file=sys.stderr,
+            )
 
     try:
         from determinex_cloak import build_cloak_context
-        ctx = build_cloak_context(session_id, workspace, language or _detect_repo_language(workspace))
+
+        ctx = build_cloak_context(
+            session_id, workspace, language or _detect_repo_language(workspace)
+        )
         _CLOAK_CONTEXTS[session_id] = ctx
         _ensure_dir()
-        cache_path.write_text(json.dumps({
-            "symbol_map": ctx.symbol_map.to_dict(),
-            "star_import_warnings": ctx.star_import_warnings,
-        }, indent=1, ensure_ascii=False), encoding="utf-8")
+        cache_path.write_text(
+            json.dumps(
+                {
+                    "symbol_map": ctx.symbol_map.to_dict(),
+                    "star_import_warnings": ctx.star_import_warnings,
+                },
+                indent=1,
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
         return ctx
     except Exception as e:
-        print(f"[agent_chat] Cloak context build FAILED for session {session_id}: {e}", file=sys.stderr)
+        print(
+            f"[agent_chat] Cloak context build FAILED for session {session_id}: {e}",
+            file=sys.stderr,
+        )
         _CLOAK_CONTEXTS[session_id] = None
         return None
 
@@ -474,8 +520,9 @@ def _shadow_workspace_dir(session_id: str) -> Path:
     return SESSIONS_DIR / f"{session_id}.cloak_shadow"
 
 
-def prepare_cloaked_workspace(session_id: str, workspace: Path,
-                              language: "str | None" = None) -> "Path | None":
+def prepare_cloaked_workspace(
+    session_id: str, workspace: Path, language: str | None = None
+) -> Path | None:
     """Build (once per session, then reused across every cloud-agent turn so
     edits accumulate the same way they would in a real shared workspace) an
     obfuscated mirror of `workspace` for cloud CLI agents to operate against
@@ -545,10 +592,17 @@ def sync_cloaked_edits_to_real_workspace(session_id: str, workspace: Path) -> li
         try:
             restored = ctx.restore_content(obfuscated_now)
         except Exception as e:
-            print(f"[agent_chat] Cloak restore FAILED for {rel} in session {session_id}: {e}", file=sys.stderr)
+            print(
+                f"[agent_chat] Cloak restore FAILED for {rel} in session {session_id}: {e}",
+                file=sys.stderr,
+            )
             continue
         try:
-            existing = real_file.read_text(encoding="utf-8", errors="replace") if real_file.exists() else None
+            existing = (
+                real_file.read_text(encoding="utf-8", errors="replace")
+                if real_file.exists()
+                else None
+            )
         except OSError:
             existing = None
         if restored != existing:
@@ -558,7 +612,7 @@ def sync_cloaked_edits_to_real_workspace(session_id: str, workspace: Path) -> li
     return synced
 
 
-def restore_text(session_id: str, text: str, workspace: "Path | None" = None) -> str:
+def restore_text(session_id: str, text: str, workspace: Path | None = None) -> str:
     """De-obfuscate a cloud agent's own captured stdout/stderr before it's
     stored in the transcript -- otherwise a human (or the local participant)
     reading the chat would see raw x_NNNN tokens instead of real names.
@@ -573,7 +627,9 @@ def restore_text(session_id: str, text: str, workspace: "Path | None" = None) ->
     try:
         return ctx.restore_content(text)
     except Exception as e:
-        print(f"[agent_chat] Cloak restore_text FAILED for session {session_id}: {e}", file=sys.stderr)
+        print(
+            f"[agent_chat] Cloak restore_text FAILED for session {session_id}: {e}", file=sys.stderr
+        )
         return text
 
 
@@ -642,10 +698,13 @@ def seed_plan_from_stewardship(session_id: str, workspace: Path) -> str:
     back to the plain template rather than blocking session creation."""
     try:
         import determinex_stewardship as _steward
+
         content = _steward.resolve_stewardship_reference(workspace)
         seeded = f"# Mission Plan\n\n{content}" + _POSITIONS_SECTION
     except Exception as e:
-        print(f"[agent_chat] stewardship seed failed for session {session_id}: {e}", file=sys.stderr)
+        print(
+            f"[agent_chat] stewardship seed failed for session {session_id}: {e}", file=sys.stderr
+        )
         seeded = _DEFAULT_PLAN_TEMPLATE + _POSITIONS_SECTION
     write_plan(session_id, seeded)
     return seeded
@@ -684,8 +743,15 @@ CORPUS_SPEAKER = "corpus"
 _ORACLE_OUTCOMES_PATH = ROOT / "corpus" / "chat_sessions" / "oracle_outcomes.jsonl"
 
 
-def _record_oracle_outcome(session_id: str, agent: str, workspace: "Path | str",
-                            oracle: str, verified: bool, n_failures: int, note: str) -> None:
+def _record_oracle_outcome(
+    session_id: str,
+    agent: str,
+    workspace: Path | str,
+    oracle: str,
+    verified: bool,
+    n_failures: int,
+    note: str,
+) -> None:
     """The write side of the oracle feedback loop. Best-effort: a corpus
     write failure must never break the chat turn it's recording (same
     posture as corpus_context_for/stewardship seeding elsewhere in this
@@ -694,9 +760,14 @@ def _record_oracle_outcome(session_id: str, agent: str, workspace: "Path | str",
     try:
         _ORACLE_OUTCOMES_PATH.parent.mkdir(parents=True, exist_ok=True)
         record = {
-            "session_id": session_id, "agent": agent, "workspace": str(workspace),
-            "oracle": oracle, "verified": verified, "n_failures": n_failures,
-            "note": note, "timestamp": _now_iso(),
+            "session_id": session_id,
+            "agent": agent,
+            "workspace": str(workspace),
+            "oracle": oracle,
+            "verified": verified,
+            "n_failures": n_failures,
+            "note": note,
+            "timestamp": _now_iso(),
         }
         with open(_ORACLE_OUTCOMES_PATH, "a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
@@ -713,7 +784,7 @@ def session_oracle_digest(session_id: str, max_lines: int = 5) -> str:
         return ""
     records: list[dict] = []
     try:
-        with open(_ORACLE_OUTCOMES_PATH, "r", encoding="utf-8") as f:
+        with open(_ORACLE_OUTCOMES_PATH, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if not line:
@@ -732,8 +803,10 @@ def session_oracle_digest(session_id: str, max_lines: int = 5) -> str:
     lines = [f"{n_verified}/{len(records)} agent turns verified against a real oracle so far."]
     for r in records[-max_lines:]:
         status = "PASS" if r.get("verified") else "FAIL"
-        lines.append(f"- [{status}] {r.get('agent')} via {r.get('oracle') or '?'}: "
-                     f"{str(r.get('note', ''))[:120]}")
+        lines.append(
+            f"- [{status}] {r.get('agent')} via {r.get('oracle') or '?'}: "
+            f"{str(r.get('note', ''))[:120]}"
+        )
     return "\n".join(lines)
 
 
@@ -759,6 +832,7 @@ def answer_as_corpus(session_id: str) -> str:
     if query:
         try:
             import determinex_corpus_api as _corpus
+
             result = _corpus.ask(query)
         except Exception as e:
             print(f"[agent_chat] answer_as_corpus corpus.ask failed: {e}", file=sys.stderr)
@@ -772,7 +846,7 @@ def answer_as_corpus(session_id: str) -> str:
         if result.warnings:
             lines.append(f"- _note: {result.warnings[0]}_")
     elif query:
-        lines.append(f"**From the corpus:** no hits for the current topic.")
+        lines.append("**From the corpus:** no hits for the current topic.")
     digest = session_oracle_digest(session_id)
     if digest:
         lines.append("")
@@ -797,6 +871,7 @@ def corpus_context_for(query: str, max_hits: int = _CORPUS_MAX_HITS) -> str:
         return ""
     try:
         import determinex_corpus_api as _corpus
+
         result = _corpus.ask(query)
     except Exception as e:
         print(f"[agent_chat] corpus query failed (non-fatal): {e}", file=sys.stderr)
@@ -827,6 +902,7 @@ def resync_plan_from_stewardship(session_id: str, workspace: Path) -> str:
     overwrite of the WHOLE plan would clobber, so only the resync section
     itself is replaced."""
     import determinex_stewardship as _steward
+
     fresh = _steward.resolve_stewardship_reference(workspace)
     current = read_plan(session_id)
     # Drop any previous resync section (from the marker to the next "---"
@@ -835,10 +911,7 @@ def resync_plan_from_stewardship(session_id: str, workspace: Path) -> str:
     if marker_idx != -1:
         divider_idx = current.rfind("\n\n---\n\n", 0, marker_idx)
         current = current[:divider_idx] if divider_idx != -1 else current[:marker_idx].rstrip()
-    updated = (
-        f"{current.rstrip()}\n\n---\n\n"
-        f"{_RESYNC_MARKER} ({_now_iso()})\n\n{fresh}\n"
-    )
+    updated = f"{current.rstrip()}\n\n---\n\n{_RESYNC_MARKER} ({_now_iso()})\n\n{fresh}\n"
     write_plan(session_id, updated)
     return updated
 
@@ -848,8 +921,9 @@ def resync_plan_from_stewardship(session_id: str, workspace: Path) -> str:
 # turn re-serializes the shared plan + recent transcript as context. The
 # plan is NOT windowed like the transcript -- it's the point of it.
 # ---------------------------------------------------------------------------
-def build_context_prompt(session_id: str, speaker: str, *,
-                          max_turns: int = _MAX_CONTEXT_TURNS_DEFAULT) -> str:
+def build_context_prompt(
+    session_id: str, speaker: str, *, max_turns: int = _MAX_CONTEXT_TURNS_DEFAULT
+) -> str:
     session = get_session(session_id)
     workspace_str = session.get("workspace", "") if session else ""
     turns = read_transcript(session_id)[-max_turns:]
@@ -859,14 +933,18 @@ def build_context_prompt(session_id: str, speaker: str, *,
     ctx = None
     if cloud and cloak_enabled():
         if not workspace_str:
-            return (f"[CLOAK ERROR] Cloak is enabled but session {session_id} has no workspace "
-                     f"set; refusing to build a prompt for cloud agent '{speaker}'.")
+            return (
+                f"[CLOAK ERROR] Cloak is enabled but session {session_id} has no workspace "
+                f"set; refusing to build a prompt for cloud agent '{speaker}'."
+            )
         ctx = get_cloak_context(session_id, Path(workspace_str))
         if ctx is None:
-            return (f"[CLOAK ERROR] Cloak is enabled but the privacy context could not be built "
-                     f"for {workspace_str}; refusing to send raw content to cloud agent "
-                     f"'{speaker}'. See stderr for the underlying error, or disable "
-                     f"DETERMINEX_CLOAK for this session.")
+            return (
+                f"[CLOAK ERROR] Cloak is enabled but the privacy context could not be built "
+                f"for {workspace_str}; refusing to send raw content to cloud agent "
+                f"'{speaker}'. See stderr for the underlying error, or disable "
+                f"DETERMINEX_CLOAK for this session."
+            )
 
     def _maybe_obfuscate(text: str) -> str:
         if ctx is None:
@@ -881,20 +959,18 @@ def build_context_prompt(session_id: str, speaker: str, *,
 
     privacy_note = ""
     if cloak_enabled():
-        privacy_note = (
-            "\n\n[PRIVACY] Project Cloak is ON for this session. " + (
-                "You are in the CLOAKED room and are working against an obfuscated MIRROR of "
-                "the workspace -- every identifier you see (x_NNNN tokens) stands in for a real "
-                "name; work with them exactly as given, never guess or invent real names. Edits "
-                "you make here get restored and synced back to the real workspace afterward. The "
-                "on-device local participant can see real names and translates what you need into "
-                "this room's vocabulary."
-                if cloud else
-                "You have full raw access as the on-device LOCAL participant -- cloud "
-                "participants in this room only ever see a Cloak-obfuscated mirror, never your "
-                "raw content. Anything you post here gets auto-obfuscated before a cloud agent "
-                "reads it."
-            )
+        privacy_note = "\n\n[PRIVACY] Project Cloak is ON for this session. " + (
+            "You are in the CLOAKED room and are working against an obfuscated MIRROR of "
+            "the workspace -- every identifier you see (x_NNNN tokens) stands in for a real "
+            "name; work with them exactly as given, never guess or invent real names. Edits "
+            "you make here get restored and synced back to the real workspace afterward. The "
+            "on-device local participant can see real names and translates what you need into "
+            "this room's vocabulary."
+            if cloud
+            else "You have full raw access as the on-device LOCAL participant -- cloud "
+            "participants in this room only ever see a Cloak-obfuscated mirror, never your "
+            "raw content. Anything you post here gets auto-obfuscated before a cloud agent "
+            "reads it."
         )
 
     # Query Determinex's own corpus of hard-won lessons for anything
@@ -902,7 +978,9 @@ def build_context_prompt(session_id: str, speaker: str, *,
     # plan is avoiding duplicated/contradicted work, and the corpus is this
     # project's own record of past mistakes and fixes. Best-effort: never
     # blocks prompt building (see corpus_context_for's docstring).
-    corpus_query = (turns[-1].get("raw_output") or turns[-1].get("task_prompt") or "") if turns else ""
+    corpus_query = (
+        (turns[-1].get("raw_output") or turns[-1].get("task_prompt") or "") if turns else ""
+    )
     corpus_block = corpus_context_for(corpus_query)
 
     # This framing said "respond and/or make the edits that best move the task forward", and then
@@ -965,12 +1043,20 @@ def build_context_prompt(session_id: str, speaker: str, *,
 # record_turn -- the oracle-verification step. Reuses determinex_repair, does
 # not reimplement it.
 # ---------------------------------------------------------------------------
-def record_turn(session_id: str, agent: str, workspace: Path, raw: str,
-                 returncode: int, turn_id: str, task_prompt: str, *,
-                 speaker_kind: str = "agent",
-                 addressed_to: "list[str] | None" = None,
-                 mode: str = "broadcast",
-                 dispatch_failed: bool = False) -> ChatTurn:
+def record_turn(
+    session_id: str,
+    agent: str,
+    workspace: Path,
+    raw: str,
+    returncode: int,
+    turn_id: str,
+    task_prompt: str,
+    *,
+    speaker_kind: str = "agent",
+    addressed_to: list[str] | None = None,
+    mode: str = "broadcast",
+    dispatch_failed: bool = False,
+) -> ChatTurn:
     started_at = _now_iso()
     capped_raw = raw if len(raw) <= _RAW_OUTPUT_CAP else raw[:_RAW_OUTPUT_CAP] + "\n…[truncated]"
 
@@ -978,7 +1064,11 @@ def record_turn(session_id: str, agent: str, workspace: Path, raw: str,
         # Neither a user message nor a corpus response touches the
         # workspace -- nothing to oracle-check.
         verified, oracle, n_failures, note = (
-            True, "", 0, "user message" if speaker_kind == "user" else "corpus response")
+            True,
+            "",
+            0,
+            "user message" if speaker_kind == "user" else "corpus response",
+        )
     elif dispatch_failed:
         # The agent CLI never ran (not installed, bad argv, Cloak refused the
         # turn, etc.) -- re-running the oracle here would just report the
@@ -991,10 +1081,15 @@ def record_turn(session_id: str, agent: str, workspace: Path, raw: str,
         verified, oracle, n_failures, note = False, "", 0, raw
     else:
         import determinex_repair as _r
+
         try:
             diag = _r.repair_workspace(workspace)
             verified, oracle, n_failures = diag.healthy, diag.oracle, diag.n_failures
-            note = "oracle PASSES after agent edits" if verified else "oracle still failing after agent edits"
+            note = (
+                "oracle PASSES after agent edits"
+                if verified
+                else "oracle still failing after agent edits"
+            )
         except Exception as e:
             verified, oracle, n_failures, note = False, "", 0, f"verify error: {e}"
         # Oracle feedback loop (write side): every REAL oracle-verify outcome
@@ -1004,16 +1099,25 @@ def record_turn(session_id: str, agent: str, workspace: Path, raw: str,
 
     turns_so_far = read_transcript(session_id)
     turn = ChatTurn(
-        turn_id=turn_id, session_id=session_id, seq=len(turns_so_far),
-        speaker=agent, speaker_kind=speaker_kind,
-        addressed_to=addressed_to or [], mode=mode,
-        task_prompt=task_prompt, raw_output=capped_raw, returncode=returncode,
-        verified=verified, oracle=oracle, n_failures=n_failures, note=note,
-        started_at=started_at, finished_at=_now_iso(),
+        turn_id=turn_id,
+        session_id=session_id,
+        seq=len(turns_so_far),
+        speaker=agent,
+        speaker_kind=speaker_kind,
+        addressed_to=addressed_to or [],
+        mode=mode,
+        task_prompt=task_prompt,
+        raw_output=capped_raw,
+        returncode=returncode,
+        verified=verified,
+        oracle=oracle,
+        n_failures=n_failures,
+        note=note,
+        started_at=started_at,
+        finished_at=_now_iso(),
     )
     append_turn(turn)
-    update_index(session_id, last_active=turn.finished_at,
-                 turn_count=len(turns_so_far) + 1)
+    update_index(session_id, last_active=turn.finished_at, turn_count=len(turns_so_far) + 1)
     return turn
 
 
@@ -1038,29 +1142,37 @@ def main() -> int:
 
     p_list = sub.add_parser("list-sessions")
     p_list.add_argument("--json", action="store_true")
-    p_list.add_argument("--workspace", default=None,
-                         help="only return sessions for this workspace (omit for every session on this machine)")
+    p_list.add_argument(
+        "--workspace",
+        default=None,
+        help="only return sessions for this workspace (omit for every session on this machine)",
+    )
 
-    p_get = sub.add_parser("get-session",
-                            help="print one session's persisted metadata (workspace/participants/mode), "
-                                 "or null -- used to rehydrate in-memory session state after an app restart")
+    p_get = sub.add_parser(
+        "get-session",
+        help="print one session's persisted metadata (workspace/participants/mode), "
+        "or null -- used to rehydrate in-memory session state after an app restart",
+    )
     p_get.add_argument("session_id")
 
-    p_apply = sub.add_parser("apply-proposal",
-                             help="apply one turn's proposed edits after the user approves them; "
-                                  "refuses if the files changed since the proposal was made")
+    p_apply = sub.add_parser(
+        "apply-proposal",
+        help="apply one turn's proposed edits after the user approves them; "
+        "refuses if the files changed since the proposal was made",
+    )
     p_apply.add_argument("session_id")
     p_apply.add_argument("turn_id")
     p_apply.add_argument("--workspace", required=True)
 
-    p_proposals = sub.add_parser("proposals",
-                                 help="list turns carrying unapplied proposed edits")
+    p_proposals = sub.add_parser("proposals", help="list turns carrying unapplied proposed edits")
     p_proposals.add_argument("session_id")
     p_proposals.add_argument("turn_id", nargs="?", default="")
 
-    p_set_model = sub.add_parser("set-model",
-                                 help="persist one participant's model override on the session "
-                                      "record; an empty model clears it")
+    p_set_model = sub.add_parser(
+        "set-model",
+        help="persist one participant's model override on the session "
+        "record; an empty model clears it",
+    )
     p_set_model.add_argument("session_id")
     p_set_model.add_argument("agent")
     p_set_model.add_argument("model", nargs="?", default="")
@@ -1084,34 +1196,44 @@ def main() -> int:
 
     p_plan_write = sub.add_parser("plan-write", help="overwrite the session's shared mission plan")
     p_plan_write.add_argument("session_id")
-    p_plan_write.add_argument("--content-file", required=True,
-                              help="path to the new plan content (avoids CLI arg-length limits)")
+    p_plan_write.add_argument(
+        "--content-file",
+        required=True,
+        help="path to the new plan content (avoids CLI arg-length limits)",
+    )
 
-    p_cloak_prepare = sub.add_parser("cloak-prepare",
-                                     help="build (or reuse) the obfuscated shadow workspace for cloud agents")
+    p_cloak_prepare = sub.add_parser(
+        "cloak-prepare", help="build (or reuse) the obfuscated shadow workspace for cloud agents"
+    )
     p_cloak_prepare.add_argument("session_id")
     p_cloak_prepare.add_argument("--workspace", required=True)
     p_cloak_prepare.add_argument("--language", default=None)
 
-    p_cloak_sync = sub.add_parser("cloak-sync",
-                                  help="restore+sync a cloud agent's shadow-workspace edits into the real workspace")
+    p_cloak_sync = sub.add_parser(
+        "cloak-sync",
+        help="restore+sync a cloud agent's shadow-workspace edits into the real workspace",
+    )
     p_cloak_sync.add_argument("session_id")
     p_cloak_sync.add_argument("--workspace", required=True)
 
-    p_restore_text = sub.add_parser("restore-text",
-                                    help="de-obfuscate a cloud agent's captured stdout before it's stored")
+    p_restore_text = sub.add_parser(
+        "restore-text", help="de-obfuscate a cloud agent's captured stdout before it's stored"
+    )
     p_restore_text.add_argument("session_id")
     p_restore_text.add_argument("--text-file", required=True)
     p_restore_text.add_argument("--workspace", default=None)
 
-    p_resync = sub.add_parser("resync-plan",
-                              help="pull fresh project-doc content into an existing session's plan")
+    p_resync = sub.add_parser(
+        "resync-plan", help="pull fresh project-doc content into an existing session's plan"
+    )
     p_resync.add_argument("session_id")
     p_resync.add_argument("--workspace", required=True)
 
-    p_ask_corpus = sub.add_parser("ask-corpus",
-                                  help="query the corpus as an addressable chat participant "
-                                       "(@corpus) and record the response as a turn")
+    p_ask_corpus = sub.add_parser(
+        "ask-corpus",
+        help="query the corpus as an addressable chat participant "
+        "(@corpus) and record the response as a turn",
+    )
     p_ask_corpus.add_argument("session_id")
     p_ask_corpus.add_argument("--workspace", default="")
     p_ask_corpus.add_argument("--turn-id", required=True)
@@ -1142,16 +1264,31 @@ def main() -> int:
         return 0
 
     if args.cmd == "proposals":
-        turns = [t for t in read_transcript(args.session_id)
-                 if not args.turn_id or t.get("turn_id") == args.turn_id]
-        print(json.dumps([
-            {"turn_id": t.get("turn_id"), "speaker": t.get("speaker"),
-             "files": [{"path": p["path"],
-                        "before_lines": len(p["before"].splitlines()),
-                        "after_lines": len(p["after"].splitlines())}
-                       for p in extract_proposals(t.get("raw_output") or "")]}
-            for t in turns if extract_proposals(t.get("raw_output") or "")
-        ]))
+        turns = [
+            t
+            for t in read_transcript(args.session_id)
+            if not args.turn_id or t.get("turn_id") == args.turn_id
+        ]
+        print(
+            json.dumps(
+                [
+                    {
+                        "turn_id": t.get("turn_id"),
+                        "speaker": t.get("speaker"),
+                        "files": [
+                            {
+                                "path": p["path"],
+                                "before_lines": len(p["before"].splitlines()),
+                                "after_lines": len(p["after"].splitlines()),
+                            }
+                            for p in extract_proposals(t.get("raw_output") or "")
+                        ],
+                    }
+                    for t in turns
+                    if extract_proposals(t.get("raw_output") or "")
+                ]
+            )
+        )
         return 0
 
     if args.cmd == "set-model":
@@ -1188,16 +1325,27 @@ def main() -> int:
 
     if args.cmd == "cloak-prepare":
         shadow = prepare_cloaked_workspace(args.session_id, Path(args.workspace), args.language)
-        print(json.dumps({
-            "shadow_workspace": str(shadow) if shadow else None,
-            "cloak_available": shadow is not None,
-        }))
+        print(
+            json.dumps(
+                {
+                    "shadow_workspace": str(shadow) if shadow else None,
+                    "cloak_available": shadow is not None,
+                }
+            )
+        )
         return 0
 
     if args.cmd == "cloak-sync":
         synced = sync_cloaked_edits_to_real_workspace(args.session_id, Path(args.workspace))
-        print(json.dumps({"synced_files": synced, "cloak_active": args.session_id in _CLOAK_CONTEXTS
-                           and _CLOAK_CONTEXTS[args.session_id] is not None}))
+        print(
+            json.dumps(
+                {
+                    "synced_files": synced,
+                    "cloak_active": args.session_id in _CLOAK_CONTEXTS
+                    and _CLOAK_CONTEXTS[args.session_id] is not None,
+                }
+            )
+        )
         return 0
 
     if args.cmd == "restore-text":
@@ -1215,8 +1363,15 @@ def main() -> int:
         query = _last_query_for_session(args.session_id)
         answer = answer_as_corpus(args.session_id)
         turn = record_turn(
-            args.session_id, CORPUS_SPEAKER, Path(args.workspace or "."), answer, 0,
-            args.turn_id, query, speaker_kind="corpus", mode=args.mode,
+            args.session_id,
+            CORPUS_SPEAKER,
+            Path(args.workspace or "."),
+            answer,
+            0,
+            args.turn_id,
+            query,
+            speaker_kind="corpus",
+            mode=args.mode,
         )
         print(json.dumps(asdict(turn)))
         return 0

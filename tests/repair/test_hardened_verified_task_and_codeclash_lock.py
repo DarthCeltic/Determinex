@@ -19,6 +19,7 @@ Closes the lock with parallel-audit invariants restored to:
     UNKNOWN_REQUIRES_REVIEW = 0
     PROGRAMBENCH_OUT_OF_SCOPE >= 56
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -43,23 +44,25 @@ LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-STATUS_TOKENS = frozenset({
-    "VERIFIED_TASK_RUNNER_MIGRATED",
-    "CODECLASH_AGENT_MIGRATED",
-    "COMMAND_RUNNER_NO_SHELL_TRUE",
-    "COMMAND_RUNNER_RUN_ARGV_AVAILABLE",
-    "COMMAND_RUNNER_RESULT_SHAPE_PRESERVED",
-    "RC_BLOCKED_126",
-    "RC_TIMEOUT_124",
-    "RC_TOOL_MISSING_127",
-    "BLOCKED_UNSAFE_RETURNED_TO_ZERO",
-    "MUST_MIGRATE_RETURNED_TO_ZERO",
-    "PROGRAMBENCH_PRESERVED",
-    "WORKSPACE_BOUNDING_INHERITED",
-    "ENVIRONMENT_SCRUBBED_INHERITED",
-    "DOCKER_BLOCKED_INHERITED",
-    "SAFETY_DEFAULTS_RESPECTED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "VERIFIED_TASK_RUNNER_MIGRATED",
+        "CODECLASH_AGENT_MIGRATED",
+        "COMMAND_RUNNER_NO_SHELL_TRUE",
+        "COMMAND_RUNNER_RUN_ARGV_AVAILABLE",
+        "COMMAND_RUNNER_RESULT_SHAPE_PRESERVED",
+        "RC_BLOCKED_126",
+        "RC_TIMEOUT_124",
+        "RC_TOOL_MISSING_127",
+        "BLOCKED_UNSAFE_RETURNED_TO_ZERO",
+        "MUST_MIGRATE_RETURNED_TO_ZERO",
+        "PROGRAMBENCH_PRESERVED",
+        "WORKSPACE_BOUNDING_INHERITED",
+        "ENVIRONMENT_SCRUBBED_INHERITED",
+        "DOCKER_BLOCKED_INHERITED",
+        "SAFETY_DEFAULTS_RESPECTED",
+    }
+)
 
 
 def _sha256(p: Path) -> str | None:
@@ -86,6 +89,7 @@ def _hash_signed_evidence() -> dict[str, str]:
 # Status tokens
 # ---------------------------------------------------------------------------
 
+
 def test_status_tokens_match_expected_set():
     expected = {
         "VERIFIED_TASK_RUNNER_MIGRATED",
@@ -111,13 +115,18 @@ def test_status_tokens_match_expected_set():
 # Source-level migration assertions
 # ---------------------------------------------------------------------------
 
+
 def test_command_runner_imports_hardened_runner():
-    src = (_REPO_ROOT / "scripts" / "verified_task" / "command_runner.py").read_text(encoding="utf-8")
+    src = (_REPO_ROOT / "scripts" / "verified_task" / "command_runner.py").read_text(
+        encoding="utf-8"
+    )
     assert "from intake.hardened_runner import" in src
 
 
 def test_command_runner_no_shell_true_in_source():
-    src = (_REPO_ROOT / "scripts" / "verified_task" / "command_runner.py").read_text(encoding="utf-8")
+    src = (_REPO_ROOT / "scripts" / "verified_task" / "command_runner.py").read_text(
+        encoding="utf-8"
+    )
     # No literal shell=True remains. Allow the word 'shell' in module
     # docstrings/comments by checking only for the kwarg form.
     assert "shell=True" not in src
@@ -139,6 +148,7 @@ def test_codeclash_imports_hardened_runner():
 # ---------------------------------------------------------------------------
 # CommandRunner behavioral contract — preserved + new
 # ---------------------------------------------------------------------------
+
 
 def test_command_runner_run_returns_result_shape(tmp_path: Path):
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
@@ -169,7 +179,8 @@ def test_command_runner_run_argv_method_exists(tmp_path: Path):
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
     res = runner.run_argv(
         [sys.executable, "--version"],
-        cwd=tmp_path, timeout_seconds=10,
+        cwd=tmp_path,
+        timeout_seconds=10,
     )
     assert res.ok, f"run_argv failed: rc={res.returncode}, stderr={res.stderr!r}"
 
@@ -178,7 +189,8 @@ def test_command_runner_timeout_returns_124(tmp_path: Path):
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
     res = runner.run_argv(
         [sys.executable, "-c", "import time; time.sleep(10)"],
-        cwd=tmp_path, timeout_seconds=1,
+        cwd=tmp_path,
+        timeout_seconds=1,
     )
     assert res.timed_out is True
     assert res.returncode == 124
@@ -189,7 +201,8 @@ def test_command_runner_tool_missing_returns_127(tmp_path: Path):
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
     res = runner.run_argv(
         ["__definitely_not_a_real_binary_xyz_verifiedtask__"],
-        cwd=tmp_path, timeout_seconds=5,
+        cwd=tmp_path,
+        timeout_seconds=5,
     )
     assert res.returncode == 127
     assert "not found" in res.stderr.lower()
@@ -207,8 +220,7 @@ def test_command_runner_blocked_returns_126_for_docker(tmp_path: Path):
 
 def test_command_runner_blocked_returns_126_for_curl(tmp_path: Path):
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
-    res = runner.run_argv(["curl", "https://example.com"],
-                          cwd=tmp_path, timeout_seconds=5)
+    res = runner.run_argv(["curl", "https://example.com"], cwd=tmp_path, timeout_seconds=5)
     assert res.returncode == 126
     assert "BLOCKED" in res.stderr
 
@@ -221,7 +233,8 @@ def test_command_runner_blocked_on_cwd_outside_workspace(tmp_path: Path):
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
     res = runner.run_argv(
         [sys.executable, "--version"],
-        cwd=outside, timeout_seconds=5,
+        cwd=outside,
+        timeout_seconds=5,
     )
     # Note: run_argv passes cwd as workspace AND cwd to hardened_runner;
     # since workspace == outside, _is_inside check is trivially true.
@@ -244,9 +257,7 @@ def test_command_runner_never_invokes_shell_true(monkeypatch, tmp_path: Path):
     runner.run(f'"{sys.executable}" --version', cwd=tmp_path, timeout_seconds=10)
     runner.run_argv([sys.executable, "--version"], cwd=tmp_path, timeout_seconds=10)
     for kw in captured:
-        assert kw.get("shell", False) is False, (
-            f"CommandRunner caused shell=True: {kw}"
-        )
+        assert kw.get("shell", False) is False, f"CommandRunner caused shell=True: {kw}"
 
 
 def test_command_runner_inherits_env_scrub(monkeypatch, tmp_path: Path):
@@ -255,9 +266,9 @@ def test_command_runner_inherits_env_scrub(monkeypatch, tmp_path: Path):
     monkeypatch.setenv("LD_PRELOAD", "/this/should/be/stripped.so")
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
     res = runner.run_argv(
-        [sys.executable, "-c",
-         "import os; print(os.environ.get('LD_PRELOAD', '__ABSENT__'))"],
-        cwd=tmp_path, timeout_seconds=10,
+        [sys.executable, "-c", "import os; print(os.environ.get('LD_PRELOAD', '__ABSENT__'))"],
+        cwd=tmp_path,
+        timeout_seconds=10,
     )
     assert res.returncode == 0
     assert "__ABSENT__" in res.stdout
@@ -268,10 +279,13 @@ def test_command_runner_temp_dir_env_vars_propagated(tmp_path: Path):
     must still reach the child process."""
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
     res = runner.run_argv(
-        [sys.executable, "-c",
-         "import os; "
-         "print(os.environ.get('DETERMINEX_TASK_TMP', '__ABSENT__'))"],
-        cwd=tmp_path, timeout_seconds=10,
+        [
+            sys.executable,
+            "-c",
+            "import os; print(os.environ.get('DETERMINEX_TASK_TMP', '__ABSENT__'))",
+        ],
+        cwd=tmp_path,
+        timeout_seconds=10,
     )
     assert res.returncode == 0
     assert str(tmp_path / "tmp") in res.stdout or "__ABSENT__" not in res.stdout
@@ -280,6 +294,7 @@ def test_command_runner_temp_dir_env_vars_propagated(tmp_path: Path):
 # ---------------------------------------------------------------------------
 # Audit-state invariants
 # ---------------------------------------------------------------------------
+
 
 def test_audit_blocked_unsafe_is_zero():
     audit = importlib.import_module("scripts.dev.parallel_execution_layer_audit")
@@ -294,11 +309,9 @@ def test_audit_blocked_unsafe_is_zero():
 def test_audit_must_migrate_is_zero():
     audit = importlib.import_module("scripts.dev.parallel_execution_layer_audit")
     rpt = audit.run_audit()
-    must_migrate = [s for s in rpt.sites
-                    if s.classification == "MUST_MIGRATE_TO_HARDENED_RUNNER"]
+    must_migrate = [s for s in rpt.sites if s.classification == "MUST_MIGRATE_TO_HARDENED_RUNNER"]
     assert must_migrate == [], (
-        f"MUST_MIGRATE residue: "
-        f"{[(s.file_path, s.line, s.kind) for s in must_migrate]}"
+        f"MUST_MIGRATE residue: {[(s.file_path, s.line, s.kind) for s in must_migrate]}"
     )
 
 
@@ -336,10 +349,13 @@ def test_audit_codeclash_now_legacy_exempt():
 # Cross-cutting safety
 # ---------------------------------------------------------------------------
 
+
 def test_corpus_write_guard_active():
     from corpus.corpus_manager import (  # type: ignore[attr-defined]
-        _assert_writes_allowed, CorpusWriteBlockedError,
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
     )
+
     os.environ["DETERMINEX_NO_CORPUS_WRITE"] = "1"
     try:
         with pytest.raises(CorpusWriteBlockedError):
@@ -350,6 +366,7 @@ def test_corpus_write_guard_active():
 
 def test_safety_defaults_remain_fail_closed():
     from determinex_settings import DeterminexSettings, reset_settings
+
     reset_settings()
     s = DeterminexSettings()
     assert s.assert_safety_defaults() == []
@@ -360,16 +377,14 @@ def test_no_drive_letter_required(monkeypatch, tmp_path: Path):
         if k.startswith(("DETERMINEX_", "HF_HOME", "OLLAMA_")):
             monkeypatch.delenv(k, raising=False)
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
-    res = runner.run_argv([sys.executable, "--version"],
-                          cwd=tmp_path, timeout_seconds=10)
+    res = runner.run_argv([sys.executable, "--version"], cwd=tmp_path, timeout_seconds=10)
     assert res.returncode == 0
 
 
 def test_migration_does_not_mutate_signed_evidence(tmp_path: Path):
     before = _hash_signed_evidence()
     runner = cr_mod.CommandRunner(temp_dir=tmp_path / "tmp")
-    runner.run_argv([sys.executable, "--version"],
-                    cwd=tmp_path, timeout_seconds=10)
+    runner.run_argv([sys.executable, "--version"], cwd=tmp_path, timeout_seconds=10)
     after = _hash_signed_evidence()
     diffs = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
     assert diffs == []
@@ -380,6 +395,7 @@ def test_migration_does_not_mutate_signed_evidence(tmp_path: Path):
 # PROGRAMBENCH_OUT_OF_SCOPE must continue to fire for pb_factory_worker_loop)
 # ---------------------------------------------------------------------------
 
+
 def test_programbench_shell_true_still_carved_out():
     """scripts/pb_factory_worker_loop.py:953 contains shell=True. It MUST
     remain classified PROGRAMBENCH_OUT_OF_SCOPE — not escalated to
@@ -387,8 +403,7 @@ def test_programbench_shell_true_still_carved_out():
     audit = importlib.import_module("scripts.dev.parallel_execution_layer_audit")
     rpt = audit.run_audit()
     pb_shell_sites = [
-        s for s in rpt.sites
-        if s.kind == "shell=True" and s.file_path.startswith("scripts/pb_")
+        s for s in rpt.sites if s.kind == "shell=True" and s.file_path.startswith("scripts/pb_")
     ]
     for s in pb_shell_sites:
         assert s.classification == "PROGRAMBENCH_OUT_OF_SCOPE"
@@ -399,8 +414,7 @@ def test_programbench_shell_true_still_carved_out():
 # ---------------------------------------------------------------------------
 
 _LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "HARDENED_VERIFIED_TASK_AND_CODECLASH_LOCK_001.json"
+    _REPO_ROOT / "locks" / "sentinel" / "HARDENED_VERIFIED_TASK_AND_CODECLASH_LOCK_001.json"
 )
 
 

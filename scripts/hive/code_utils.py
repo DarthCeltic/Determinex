@@ -4,10 +4,10 @@ scripts/hive/code_utils.py — Code extraction and error analysis utilities
 Extracted from executor.py. Pure functions — no I/O, no imports from other
 hive modules. Safe to import from prompt_builder.py without circular deps.
 """
+
 from __future__ import annotations
 
 import re
-
 
 # ── Chat-template noise stripping ────────────────────────────────────────────
 
@@ -19,12 +19,29 @@ _CHAT_TEMPLATE_TOKENS = re.compile(
 
 # DSL metadata prefixes that DSL-fine-tuned Builders wrap code output in.
 _DSL_META_PREFIXES = (
-    "###", "obj[", "INTENT:", "CONFIDENCE:", "ENTROPY_CAL:",
-    "RESULT:", "FOCUS:", "CONSTRAINT:", "CONTEXT:", "LANG:",
-    "PATTERN:", "VERDICT:", "ISSUE:", "DSL ",
+    "###",
+    "obj[",
+    "INTENT:",
+    "CONFIDENCE:",
+    "ENTROPY_CAL:",
+    "RESULT:",
+    "FOCUS:",
+    "CONSTRAINT:",
+    "CONTEXT:",
+    "LANG:",
+    "PATTERN:",
+    "VERDICT:",
+    "ISSUE:",
+    "DSL ",
     # Instruction-echo patterns (model repeating back user message instead of code)
-    "CONSTRAINTS:", "GOAL:", "STEP ", "DSL CONTEXT:", "TARGET FILE:",
-    "CURRENT FILE", "LAST COMPILER", "•",  # bullet point •
+    "CONSTRAINTS:",
+    "GOAL:",
+    "STEP ",
+    "DSL CONTEXT:",
+    "TARGET FILE:",
+    "CURRENT FILE",
+    "LAST COMPILER",
+    "•",  # bullet point •
 )
 
 
@@ -88,11 +105,27 @@ def _extract_code_block(response_text: str) -> str:
 
 # ── Concurrency keyword detection ────────────────────────────────────────────
 
-_CONCURRENCY_KEYWORDS = frozenset((
-    "arc", "mutex", "rwlock", "thread", "spawn", "concurrent", "concurr",
-    "channel", "tokio", "async", "await", "mpsc", "lock", "sync", "atomic",
-    "std::sync", "std::thread",
-))
+_CONCURRENCY_KEYWORDS = frozenset(
+    (
+        "arc",
+        "mutex",
+        "rwlock",
+        "thread",
+        "spawn",
+        "concurrent",
+        "concurr",
+        "channel",
+        "tokio",
+        "async",
+        "await",
+        "mpsc",
+        "lock",
+        "sync",
+        "atomic",
+        "std::sync",
+        "std::thread",
+    )
+)
 
 
 def _instruction_requires_concurrency(text: str) -> bool:
@@ -103,16 +136,29 @@ def _instruction_requires_concurrency(text: str) -> bool:
 
 # ── Compiler error analysis ───────────────────────────────────────────────────
 
+
 def _extract_missing_derives(compiler_error: str) -> str:
     """
     Parse E0277 compiler errors and return a targeted CRITICAL directive if structs
     are missing derives. This gives the model surgical guidance on retries instead of
     relying on the general DERIVES RULE in the system prompt.
     """
-    _derivable = frozenset((
-        "Debug", "PartialEq", "Clone", "Hash", "Eq", "Copy", "Display",
-        "Serialize", "Deserialize", "Default", "Ord", "PartialOrd",
-    ))
+    _derivable = frozenset(
+        (
+            "Debug",
+            "PartialEq",
+            "Clone",
+            "Hash",
+            "Eq",
+            "Copy",
+            "Display",
+            "Serialize",
+            "Deserialize",
+            "Default",
+            "Ord",
+            "PartialOrd",
+        )
+    )
     missing: dict[str, set[str]] = {}
 
     # e.g. `Task` doesn't implement `Debug`
@@ -138,9 +184,8 @@ def _extract_missing_derives(compiler_error: str) -> str:
         f"  • `{struct}` needs `#[derive({', '.join(sorted(traits))})]`"
         for struct, traits in missing.items()
     ]
-    return (
-        "\n\nCRITICAL — DERIVE FIX REQUIRED (add these before any other changes):\n"
-        + "\n".join(parts)
+    return "\n\nCRITICAL — DERIVE FIX REQUIRED (add these before any other changes):\n" + "\n".join(
+        parts
     )
 
 
@@ -193,8 +238,22 @@ def _extract_type_mismatch_fix(compiler_error: str) -> str:
     # e.g. expected `u32`, found `usize`
     for m in re.finditer(r"expected `([a-z0-9]+)`, found `([a-z0-9]+)`", compiler_error):
         expected, found = m.group(1), m.group(2)
-        numeric = {"u8", "u16", "u32", "u64", "u128", "i8", "i16", "i32", "i64", "i128",
-                   "usize", "isize", "f32", "f64"}
+        numeric = {
+            "u8",
+            "u16",
+            "u32",
+            "u64",
+            "u128",
+            "i8",
+            "i16",
+            "i32",
+            "i64",
+            "i128",
+            "usize",
+            "isize",
+            "f32",
+            "f64",
+        }
         if expected in numeric and found in numeric:
             fixes.append(
                 f"  • Type mismatch: got `{found}`, need `{expected}`. "

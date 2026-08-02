@@ -20,8 +20,16 @@ CLI:
       --change "stty raw -> cbreak (-echo -icanon) on os.Stdin: keys reach the tty" \
       [--class tty_render_reimpl_rawmode] [--generalizes-to "go,rust tui reimpls"]
 """
+
 from __future__ import annotations
-import argparse, datetime, json, os, re, sys, tempfile
+
+import argparse
+import datetime
+import json
+import os
+import re
+import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -41,13 +49,20 @@ def _prescription(slug: str) -> dict:
     """Read the corpus's current view of this tool (class + per_tool + prescription terms)."""
     try:
         from determinex_pb_ask_corpus import ask_corpus
+
         return ask_corpus(slug)
     except Exception as e:  # corpus read must never crash the verify step
         return {"slug": slug, "per_tool": None, "prescription": [], "_read_error": str(e)}
 
 
-def verify(slug: str, before: str, after: str, change: str | None,
-           klass: str | None, generalizes_to: str | None) -> dict:
+def verify(
+    slug: str,
+    before: str,
+    after: str,
+    change: str | None,
+    klass: str | None,
+    generalizes_to: str | None,
+) -> dict:
     kb = json.loads(KB_PATH.read_text(encoding="utf-8"))
     bp, bt = _parse_frac(before)
     ap, at = _parse_frac(after)
@@ -61,35 +76,45 @@ def verify(slug: str, before: str, after: str, change: str | None,
     change_l = (change or "").lower()
     known_specific = bool(change_l) and any(
         tok in json.dumps(presc.get("per_tool") or {}).lower()
-        for tok in change_l.split() if len(tok) > 4
+        for tok in change_l.split()
+        if len(tok) > 4
     )
 
-    report = {"slug": slug, "before": f"{bp}/{bt}", "after": f"{ap}/{at}",
-              "delta": delta, "direction": direction,
-              "points_out": [], "corrected": [], "inserted": []}
+    report = {
+        "slug": slug,
+        "before": f"{bp}/{bt}",
+        "after": f"{ap}/{at}",
+        "delta": delta,
+        "direction": direction,
+        "points_out": [],
+        "corrected": [],
+        "inserted": [],
+    }
 
     # --- POINTS OUT ----------------------------------------------------------
     if presc_terms:
-        report["points_out"].append(
-            f"corpus prescription was: {presc.get('prescription')[:4]}")
+        report["points_out"].append(f"corpus prescription was: {presc.get('prescription')[:4]}")
     else:
         report["points_out"].append("corpus had NO prescription for this tool")
     if known_specific:
         report["points_out"].append(
-            "corpus ALREADY had this specific fix in per_tool -> rediscovered (avoidable next time)")
+            "corpus ALREADY had this specific fix in per_tool -> rediscovered (avoidable next time)"
+        )
     elif had_per_tool:
         report["points_out"].append(
-            "corpus had a per_tool note but not THIS specific fix -> partial knowledge")
+            "corpus had a per_tool note but not THIS specific fix -> partial knowledge"
+        )
     else:
         report["points_out"].append(
-            "corpus had only class-level signal (or none) -> this fix is NEW knowledge")
+            "corpus had only class-level signal (or none) -> this fix is NEW knowledge"
+        )
 
     now = datetime.date.today().isoformat()
     log = kb.setdefault("verification_log", [])
 
     # --- CORRECT (regression after following a prescription) -----------------
     if direction == "REGRESSED" and presc_terms:
-        key = f"correction_{slug.split('.')[0].replace('__','_')}_{now.replace('-','_')}"
+        key = f"correction_{slug.split('.')[0].replace('__', '_')}_{now.replace('-', '_')}"
         kb[key] = {
             "type": "CORRECTION",
             "tool": slug,
@@ -105,7 +130,7 @@ def verify(slug: str, before: str, after: str, change: str | None,
     if change and (direction == "IMPROVED" or not known_specific):
         per = kb.setdefault("per_tool", {})
         entry = per.get(slug)
-        note = (f"VERIFIED-FIX ({now}): {change} | {bp}/{bt} -> {ap}/{at} ({direction})")
+        note = f"VERIFIED-FIX ({now}): {change} | {bp}/{bt} -> {ap}/{at} ({direction})"
         if isinstance(entry, dict):
             prior = entry.get("note", "")
             entry["note"] = (prior + " || " + note) if prior else note
@@ -118,17 +143,27 @@ def verify(slug: str, before: str, after: str, change: str | None,
         if klass:  # reusable class pattern so SIBLING tools benefit
             ck = f"class_{klass}"
             kb.setdefault(ck, {})
-            kb[ck].update({
-                "pattern": change,
-                "first_proven_on": slug,
-                "delta": f"{bp}->{ap}",
-                "generalizes_to": generalizes_to or "",
-                "recorded": now,
-            })
+            kb[ck].update(
+                {
+                    "pattern": change,
+                    "first_proven_on": slug,
+                    "delta": f"{bp}->{ap}",
+                    "generalizes_to": generalizes_to or "",
+                    "recorded": now,
+                }
+            )
             report["inserted"].append(ck)
 
-    log.append({"slug": slug, "delta": delta, "direction": direction,
-                "change": change, "known_specific": known_specific, "at": now})
+    log.append(
+        {
+            "slug": slug,
+            "delta": delta,
+            "direction": direction,
+            "change": change,
+            "known_specific": known_specific,
+            "at": now,
+        }
+    )
     kb["_updated"] = datetime.datetime.now().isoformat(timespec="seconds")
     # atomic write: concurrent evals (campaign + manual) must never corrupt build_knowledge.json
     fd, tmp = tempfile.mkstemp(dir=str(KB_PATH.parent), suffix=".json.tmp")

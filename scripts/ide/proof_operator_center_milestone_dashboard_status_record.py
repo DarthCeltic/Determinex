@@ -12,11 +12,11 @@ Roadmap items (Cathedral Index, Columbia House Tracker, Scale-to-
 claims ledger, release scrub, fresh install / demo workflow) are
 not converted into product truth.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REACT_PROOF_OPERATOR_CENTER_MILESTONE_DASHBOARD_BINDING_STATUS_TOKENS = (
     "REACT_PROOF_OPERATOR_CENTER_MILESTONE_DASHBOARD_BINDING_PASSED",
@@ -67,6 +67,7 @@ FORBIDDEN_BROAD_CLAIM_PHRASES = (
 @dataclass(frozen=True)
 class SurfaceStatus:
     """One row in the five-room dashboard."""
+
     surface: str
     verified: bool
     react_bound: bool
@@ -80,6 +81,7 @@ class SurfaceStatus:
 class ProofOperatorCenterMilestoneDashboardStatus:
     """Render-safe view-model the React Proof / Operator Center
     milestone dashboard consumes."""
+
     decision: str
     target_surface: str
     target_workflow: str
@@ -164,9 +166,7 @@ class ProofOperatorCenterMilestoneDashboardStatus:
 
     @property
     def is_passed(self) -> bool:
-        return self.decision == (
-            "REACT_PROOF_OPERATOR_CENTER_MILESTONE_DASHBOARD_BINDING_PASSED"
-        )
+        return self.decision == ("REACT_PROOF_OPERATOR_CENTER_MILESTONE_DASHBOARD_BINDING_PASSED")
 
     @property
     def is_awaiting(self) -> bool:

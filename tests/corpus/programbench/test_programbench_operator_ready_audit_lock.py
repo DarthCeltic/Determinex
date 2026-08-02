@@ -10,8 +10,12 @@ from corpus.programbench.operator_ready_platform import (
 from corpus.programbench.programbench_platform_record import verify_platform_record
 
 
-def _platform(*, write_records: bool = False, write_outbox: bool = False) -> ProgramBenchOperatorReadyPlatform:
-    return ProgramBenchOperatorReadyPlatform(OperatorReadyConfig(write_records=write_records, write_outbox=write_outbox))
+def _platform(
+    *, write_records: bool = False, write_outbox: bool = False
+) -> ProgramBenchOperatorReadyPlatform:
+    return ProgramBenchOperatorReadyPlatform(
+        OperatorReadyConfig(write_records=write_records, write_outbox=write_outbox)
+    )
 
 
 def test_operator_ready_audit_passes_with_closed_authority() -> None:
@@ -28,7 +32,9 @@ def test_operator_ready_audit_passes_with_closed_authority() -> None:
 
 
 def test_audit_regenerates_outbox_readme_with_validation_command(tmp_path: Path) -> None:
-    platform = ProgramBenchOperatorReadyPlatform(OperatorReadyConfig(write_records=False, write_outbox=True))
+    platform = ProgramBenchOperatorReadyPlatform(
+        OperatorReadyConfig(write_records=False, write_outbox=True)
+    )
     platform.operator_outbox(tmp_path / "outbox")
     readme = (tmp_path / "outbox" / "README.md").read_text(encoding="utf-8")
 
@@ -39,10 +45,18 @@ def test_audit_regenerates_outbox_readme_with_validation_command(tmp_path: Path)
 
 
 def test_evidence_graph_integrity_catches_required_bad_edges() -> None:
-    template_exec = check_evidence_graph_integrity({"nodes": [{"template_only": True, "executable": True}]})
-    fixture_live = check_evidence_graph_integrity({"nodes": [{"fixture_packet": True, "status": "GENERIC_POLICY_ADMISSION_ACCEPTED"}]})
-    metadata_exec = check_evidence_graph_integrity({"nodes": [{"authority": "metadata_only", "executable": True}]})
-    blocked_training = check_evidence_graph_integrity({"nodes": [{"status": "SKIPPED_WITH_PROVENANCE_REASON", "training_eligible": True}]})
+    template_exec = check_evidence_graph_integrity(
+        {"nodes": [{"template_only": True, "executable": True}]}
+    )
+    fixture_live = check_evidence_graph_integrity(
+        {"nodes": [{"fixture_packet": True, "status": "GENERIC_POLICY_ADMISSION_ACCEPTED"}]}
+    )
+    metadata_exec = check_evidence_graph_integrity(
+        {"nodes": [{"authority": "metadata_only", "executable": True}]}
+    )
+    blocked_training = check_evidence_graph_integrity(
+        {"nodes": [{"status": "SKIPPED_WITH_PROVENANCE_REASON", "training_eligible": True}]}
+    )
 
     assert template_exec["no_template_authorizes_run"] is False
     assert fixture_live["no_policy_admission_from_fixture"] is False

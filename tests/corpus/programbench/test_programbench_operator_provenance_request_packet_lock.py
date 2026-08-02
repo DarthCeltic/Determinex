@@ -35,7 +35,6 @@ from corpus.programbench.rebuild_provenance_quarantine_decision_record import ( 
     write_rebuild_provenance_quarantine_decision_record,
 )
 
-
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
 
@@ -80,7 +79,9 @@ def _recipe_recovery(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST
     return write_cleanroom_build_recipe_recovery_record(record, tmp_path / "recipe_recovery")
 
 
-def _gap(tmp_path: Path, plan_path: Path, recipe_path: Path, *, image: str = IMAGE, digest: str = DIGEST) -> Path:
+def _gap(
+    tmp_path: Path, plan_path: Path, recipe_path: Path, *, image: str = IMAGE, digest: str = DIGEST
+) -> Path:
     record = make_cleanroom_build_recipe_provenance_gap_record(
         status="BUILD_RECIPE_PROVENANCE_GAP_WRITTEN",
         image_reference=image,
@@ -153,25 +154,36 @@ def _recipe_provenance_recovery(
             "compatible_with_recovered_recipe": True,
         },
         fidelity_assessment={"fidelity_risk": "material", "material_change_requires_review": True},
-        authorization={"rebuild_authorized": False, "cache_ready": False, "executable": False, "training_eligible": False},
+        authorization={
+            "rebuild_authorized": False,
+            "cache_ready": False,
+            "executable": False,
+            "training_eligible": False,
+        },
         cache_ready=False,
         executable=False,
     )
     return write_cleanroom_recipe_provenance_recovery_record(record, tmp_path / "recipe_provenance")
 
 
-def _decision(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, plan_ref: str | None = None) -> Path:
+def _decision(
+    tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, plan_ref: str | None = None
+) -> Path:
     plan_path = _plan(tmp_path, image=image, digest=digest)
     recipe_path = _recipe_recovery(tmp_path, image=image, digest=digest)
     gap_path = _gap(tmp_path, plan_path, recipe_path, image=image, digest=digest)
-    recovery_path = _recipe_provenance_recovery(tmp_path, plan_path, recipe_path, gap_path, image=image, digest=digest)
+    recovery_path = _recipe_provenance_recovery(
+        tmp_path, plan_path, recipe_path, gap_path, image=image, digest=digest
+    )
     record = make_rebuild_provenance_quarantine_decision_record(
         status="REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY",
         decision="REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY",
         image_reference=image,
         image_digest=digest,
         recipe_provenance_recovery=recovery_path.relative_to(tmp_path).as_posix(),
-        remediation_plan=plan_ref if plan_ref is not None else plan_path.relative_to(tmp_path).as_posix(),
+        remediation_plan=plan_ref
+        if plan_ref is not None
+        else plan_path.relative_to(tmp_path).as_posix(),
         recipe_recovery=recipe_path.relative_to(tmp_path).as_posix(),
         provenance_gap=gap_path.relative_to(tmp_path).as_posix(),
         decision_statuses=[
@@ -222,31 +234,48 @@ def _requester(tmp_path: Path, target_image: str = IMAGE, target_digest: str = D
 def test_missing_decision_blocks_request(tmp_path):
     result = _requester(tmp_path).write_packet(tmp_path / "missing.json")
 
-    assert result["record"]["status"] == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_BLOCKED_NO_DECISION.value
+    assert (
+        result["record"]["status"]
+        == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_BLOCKED_NO_DECISION.value
+    )
 
 
 def test_wrong_image_reference_blocks(tmp_path):
-    result = _requester(tmp_path, target_image="programbench/other:task_cleanroom").write_packet(_decision(tmp_path))
+    result = _requester(tmp_path, target_image="programbench/other:task_cleanroom").write_packet(
+        _decision(tmp_path)
+    )
 
-    assert result["record"]["status"] == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_BLOCKED_IMAGE_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_BLOCKED_IMAGE_MISMATCH.value
+    )
 
 
 def test_wrong_digest_blocks(tmp_path):
     result = _requester(tmp_path, target_digest="sha256:bad").write_packet(_decision(tmp_path))
 
-    assert result["record"]["status"] == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_BLOCKED_DIGEST_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_BLOCKED_DIGEST_MISMATCH.value
+    )
 
 
 def test_invalid_upstream_chain_blocks(tmp_path):
     result = _requester(tmp_path).write_packet(_decision(tmp_path, plan_ref="missing-plan.json"))
 
-    assert result["record"]["status"] == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_BLOCKED_CHAIN_INVALID.value
+    assert (
+        result["record"]["status"]
+        == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_BLOCKED_CHAIN_INVALID.value
+    )
 
 
 def test_valid_partial_decision_writes_request_packet(tmp_path):
     result = _requester(tmp_path).write_packet(_decision(tmp_path))
 
-    assert result["record"]["status"] == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.value
+    assert (
+        result["record"]["status"]
+        == OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.value
+    )
     assert result["record"]["current_decision"] == "REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY"
 
 
@@ -276,14 +305,22 @@ def test_packet_discloses_benchmark_fidelity_impact(tmp_path):
     result = _requester(tmp_path).write_packet(_decision(tmp_path))
 
     assert result["record"]["benchmark_fidelity_impact"]["fidelity_risk"] == "material"
-    assert result["record"]["benchmark_fidelity_impact"]["packet_itself_authorizes_rebuild"] is False
+    assert (
+        result["record"]["benchmark_fidelity_impact"]["packet_itself_authorizes_rebuild"] is False
+    )
 
 
 def test_acceptable_forms_are_machine_visible(tmp_path):
     result = _requester(tmp_path).write_packet(_decision(tmp_path))
 
-    assert "original Dockerfile/build recipe with provenance" in result["record"]["acceptable_provenance_forms"]
-    assert "operator-signed provenance packet tying source, base digest, recipe, and target image together" in result["record"]["acceptable_provenance_forms"]
+    assert (
+        "original Dockerfile/build recipe with provenance"
+        in result["record"]["acceptable_provenance_forms"]
+    )
+    assert (
+        "operator-signed provenance packet tying source, base digest, recipe, and target image together"
+        in result["record"]["acceptable_provenance_forms"]
+    )
 
 
 def test_unacceptable_forms_reject_history_and_latest_only(tmp_path):
@@ -291,13 +328,19 @@ def test_unacceptable_forms_reject_history_and_latest_only(tmp_path):
 
     assert "latest tags" in result["record"]["unacceptable_provenance_forms"]
     assert "OCI history alone" in result["record"]["unacceptable_provenance_forms"]
-    assert "reconstructed Dockerfile-style steps alone" in result["record"]["unacceptable_provenance_forms"]
+    assert (
+        "reconstructed Dockerfile-style steps alone"
+        in result["record"]["unacceptable_provenance_forms"]
+    )
 
 
 def test_operator_admission_checklist_is_present(tmp_path):
     result = _requester(tmp_path).write_packet(_decision(tmp_path))
 
-    assert any("pinned base image digest" in item for item in result["record"]["operator_admission_checklist"])
+    assert any(
+        "pinned base image digest" in item
+        for item in result["record"]["operator_admission_checklist"]
+    )
 
 
 def test_request_packet_blocks_rebuild(tmp_path):

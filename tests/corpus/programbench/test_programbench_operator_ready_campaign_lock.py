@@ -19,8 +19,12 @@ from corpus.programbench.operator_ready_platform import (
 from corpus.programbench.programbench_platform_record import verify_platform_record
 
 
-def _platform(*, write_records: bool = False, write_outbox: bool = False) -> ProgramBenchOperatorReadyPlatform:
-    return ProgramBenchOperatorReadyPlatform(OperatorReadyConfig(write_records=write_records, write_outbox=write_outbox))
+def _platform(
+    *, write_records: bool = False, write_outbox: bool = False
+) -> ProgramBenchOperatorReadyPlatform:
+    return ProgramBenchOperatorReadyPlatform(
+        OperatorReadyConfig(write_records=write_records, write_outbox=write_outbox)
+    )
 
 
 def test_operator_packet_templates_are_templates_not_approvals() -> None:
@@ -44,7 +48,10 @@ def test_operator_packet_validator_covers_types_and_blocks_fixture_live() -> Non
     assert record["status"] == "OPERATOR_PACKET_VALIDATOR_WRITTEN"
     assert set(record["packet_types"]) == PACKET_TYPES
     assert record["validation_results"]["valid_fixture"]["status"] == "OPERATOR_PACKET_VALID"
-    assert record["validation_results"]["fixture_not_live"]["status"] == "OPERATOR_PACKET_BLOCKED_FIXTURE_NOT_LIVE"
+    assert (
+        record["validation_results"]["fixture_not_live"]["status"]
+        == "OPERATOR_PACKET_BLOCKED_FIXTURE_NOT_LIVE"
+    )
     assert record["live_approval_created"] is False
 
 
@@ -52,10 +59,28 @@ def test_validator_rejects_missing_signature_stale_overbroad_and_mismatch() -> N
     template = _platform().operator_packet_templates()["doxygen_security_template"]
     packet = _fill_fixture_packet(template)
 
-    assert validate_operator_packet({**packet, "operator_signature": ""}, allow_fixture=True)["status"] == "OPERATOR_PACKET_BLOCKED_MISSING_SIGNATURE"
-    assert validate_operator_packet({**packet, "timestamp": "2020-01-01T00:00:00+00:00"}, allow_fixture=True)["status"] == "OPERATOR_PACKET_BLOCKED_STALE"
-    assert validate_operator_packet({**packet, "training_eligible": True}, allow_fixture=True)["status"] == "OPERATOR_PACKET_BLOCKED_OVERBROAD_AUTHORITY"
-    assert validate_operator_packet({**packet, "image_digest": "sha256:" + "0" * 64}, allow_fixture=True)["status"] == "OPERATOR_PACKET_BLOCKED_DIGEST_MISMATCH"
+    assert (
+        validate_operator_packet({**packet, "operator_signature": ""}, allow_fixture=True)["status"]
+        == "OPERATOR_PACKET_BLOCKED_MISSING_SIGNATURE"
+    )
+    assert (
+        validate_operator_packet(
+            {**packet, "timestamp": "2020-01-01T00:00:00+00:00"}, allow_fixture=True
+        )["status"]
+        == "OPERATOR_PACKET_BLOCKED_STALE"
+    )
+    assert (
+        validate_operator_packet({**packet, "training_eligible": True}, allow_fixture=True)[
+            "status"
+        ]
+        == "OPERATOR_PACKET_BLOCKED_OVERBROAD_AUTHORITY"
+    )
+    assert (
+        validate_operator_packet(
+            {**packet, "image_digest": "sha256:" + "0" * 64}, allow_fixture=True
+        )["status"]
+        == "OPERATOR_PACKET_BLOCKED_DIGEST_MISMATCH"
+    )
 
 
 def test_metadata_recovery_queue_classifies_doxygen_and_missing_images() -> None:
@@ -88,7 +113,10 @@ def test_batch001_operator_packet_bundle_contains_doxygen_and_missing_metadata_p
     assert record["all_packets_template_only"] is True
     assert record["summary"]["security_policy_admission"] == 1
     assert record["summary"]["image_metadata_submission"] == 10
-    assert all(packet["approval_status"] == "TEMPLATE_NOT_APPROVAL" for packet in record["packet_templates"])
+    assert all(
+        packet["approval_status"] == "TEMPLATE_NOT_APPROVAL"
+        for packet in record["packet_templates"]
+    )
 
 
 def test_operator_inbox_scanner_empty_and_fixture_validation(tmp_path: Path) -> None:
@@ -97,7 +125,9 @@ def test_operator_inbox_scanner_empty_and_fixture_validation(tmp_path: Path) -> 
 
     inbox = tmp_path / "inbox"
     inbox.mkdir()
-    packet = _fill_fixture_packet(_platform().operator_packet_templates()["doxygen_security_template"])
+    packet = _fill_fixture_packet(
+        _platform().operator_packet_templates()["doxygen_security_template"]
+    )
     (inbox / "packet.json").write_text(json.dumps(packet), encoding="utf-8")
     scanned = _platform().operator_inbox_scanner(inbox, allow_fixture=True)
     assert scanned["status"] == "OPERATOR_INBOX_PACKETS_VALIDATED"
@@ -105,10 +135,18 @@ def test_operator_inbox_scanner_empty_and_fixture_validation(tmp_path: Path) -> 
 
 
 def test_operator_packet_router_routes_only_valid_packets(tmp_path: Path) -> None:
-    packet = _fill_fixture_packet(_platform().operator_packet_templates()["doxygen_security_template"])
+    packet = _fill_fixture_packet(
+        _platform().operator_packet_templates()["doxygen_security_template"]
+    )
     inbox_scan = {
         "status": "OPERATOR_INBOX_PACKETS_VALIDATED",
-        "packets": [{"path": "fixture.json", "packet_type": packet["packet_type"], **validate_operator_packet(packet, allow_fixture=True)}],
+        "packets": [
+            {
+                "path": "fixture.json",
+                "packet_type": packet["packet_type"],
+                **validate_operator_packet(packet, allow_fixture=True),
+            }
+        ],
     }
 
     blocked = _platform().packet_admission_router(inbox_scan)
@@ -125,7 +163,11 @@ def test_unblock_simulation_never_executes_or_trains() -> None:
     assert record["status"] == "UNBLOCK_SIMULATION_WRITTEN"
     assert record["execution_performed"] is False
     assert record["training_rows_written"] is False
-    doxygen = next(s for s in record["scenarios"] if s["scenario"] == "doxygen_security_policy_admission_supplied")
+    doxygen = next(
+        s
+        for s in record["scenarios"]
+        if s["scenario"] == "doxygen_security_policy_admission_supplied"
+    )
     assert doxygen["execution_preflight_would_be_ready"] is True
     assert doxygen["requires_explicit_bounded_authorization"] is True
 
@@ -135,7 +177,10 @@ def test_evidence_graph_integrity_guard_passes_live_and_fails_bad_fixture() -> N
     assert record["status"] == "EVIDENCE_GRAPH_INTEGRITY_PASSED"
     assert all(record["checks"].values())
 
-    bad_graph = {"nodes": [{"training_eligible": True, "model_failure": True}], "template_authorizes_execution": True}
+    bad_graph = {
+        "nodes": [{"training_eligible": True, "model_failure": True}],
+        "template_authorizes_execution": True,
+    }
     checks = check_evidence_graph_integrity(bad_graph)
     assert checks["no_training_true_from_blocked"] is False
     assert checks["no_model_failure_for_security_skip"] is False
@@ -151,7 +196,9 @@ def test_operator_cli_evidence_and_read_only_commands() -> None:
 
 def test_operator_outbox_writes_templates_with_placeholder_signatures(tmp_path: Path) -> None:
     outbox = tmp_path / "outbox"
-    record = ProgramBenchOperatorReadyPlatform(OperatorReadyConfig(write_records=False, write_outbox=True)).operator_outbox(outbox)
+    record = ProgramBenchOperatorReadyPlatform(
+        OperatorReadyConfig(write_records=False, write_outbox=True)
+    ).operator_outbox(outbox)
 
     assert record["status"] == "OPERATOR_OUTBOX_WRITTEN"
     assert record["templates_are_not_approvals"] is True
@@ -183,7 +230,9 @@ def test_final_state_is_operator_ready_but_non_executing() -> None:
 
 
 def test_run_all_writes_expected_operator_ready_records() -> None:
-    platform = ProgramBenchOperatorReadyPlatform(OperatorReadyConfig(write_records=True, write_outbox=True))
+    platform = ProgramBenchOperatorReadyPlatform(
+        OperatorReadyConfig(write_records=True, write_outbox=True)
+    )
     records = platform.run_all()
 
     assert set(records) == {

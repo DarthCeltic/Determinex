@@ -21,16 +21,14 @@ Determinex's handling:
 All cloud-bound screenshots are passed through visual_cloak regardless of
 whether DETERMINEX_CLOAK is set — visual privacy is unconditional.
 """
+
 from __future__ import annotations
 
 import hashlib
-import json
 import logging
-import os
 import sys
 import tempfile
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -41,11 +39,6 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from agents.base_agent import (
-    SCHEMA_VERSION,
-    ActionType,
-    AgentAction,
-    AgentObservation,
-    AgentTrace,
     CorpusType,
     EnvType,
     OracleType,
@@ -54,14 +47,20 @@ from agents.base_agent import (
 )
 
 try:
-    from vision.visual_cloak import redact as _cloak_redact, RedactionResult
+    from vision.visual_cloak import RedactionResult
+    from vision.visual_cloak import redact as _cloak_redact
+
     _CLOAK_AVAILABLE = True
 except ImportError:
     _CLOAK_AVAILABLE = False
-    log.warning("[swebench_multimodal] visual_cloak not available — screenshots will NOT be redacted")
+    log.warning(
+        "[swebench_multimodal] visual_cloak not available — screenshots will NOT be redacted"
+    )
 
 try:
-    from vision.visual_diff import diff as _visual_diff, VisualDiffResult
+    from vision.visual_diff import VisualDiffResult
+    from vision.visual_diff import diff as _visual_diff
+
     _DIFF_AVAILABLE = True
 except ImportError:
     _DIFF_AVAILABLE = False
@@ -69,12 +68,14 @@ except ImportError:
 
 try:
     from vision.ocr_scanner import extract_text as _ocr_text
+
     _OCR_AVAILABLE = True
 except ImportError:
     _OCR_AVAILABLE = False
 
 try:
     from corpus.corpus_manager import get_manager as _get_corpus_manager
+
     _CORPUS_AVAILABLE = True
 except ImportError:
     _CORPUS_AVAILABLE = False
@@ -85,15 +86,17 @@ except ImportError:
 # Task format
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class SWEBenchMultimodalTask:
     """One task from the SWE-bench Multimodal dataset."""
+
     instance_id: str
-    repo: str                           # e.g. "django/django"
+    repo: str  # e.g. "django/django"
     issue_text: str
     base_commit: str
     screenshots: list[Path] = field(default_factory=list)
-    patch: str = ""                     # ground-truth patch (eval only, never shown to agent)
+    patch: str = ""  # ground-truth patch (eval only, never shown to agent)
     test_patch: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -101,10 +104,11 @@ class SWEBenchMultimodalTask:
 @dataclass
 class VisualRepairResult:
     """End-to-end result from the visual repair pipeline."""
+
     instance_id: str
     success: bool
     patch: str
-    cloak_results: list[dict]           # one per screenshot
+    cloak_results: list[dict]  # one per screenshot
     before_screenshot: Path | None
     after_screenshot: Path | None
     diff_result: dict | None
@@ -116,6 +120,7 @@ class VisualRepairResult:
 # ---------------------------------------------------------------------------
 # Adapter
 # ---------------------------------------------------------------------------
+
 
 class SWEBenchMultimodalAdapter:
     """
@@ -207,12 +212,16 @@ class SWEBenchMultimodalAdapter:
         after_screenshot: Path | None = None
 
         if capture_browser:
-            before_screenshot = self._capture_browser_screenshot(repo_path, task.instance_id, "before")
+            before_screenshot = self._capture_browser_screenshot(
+                repo_path, task.instance_id, "before"
+            )
 
         patch = self._run_solver(cloaked_task, repo_path, task_spec)
 
         if capture_browser and patch:
-            after_screenshot = self._capture_browser_screenshot(repo_path, task.instance_id, "after")
+            after_screenshot = self._capture_browser_screenshot(
+                repo_path, task.instance_id, "after"
+            )
 
         # Step 4: visual diff
         diff_result: dict | None = None
@@ -220,9 +229,7 @@ class SWEBenchMultimodalAdapter:
             diff_result = self._compute_visual_diff(before_screenshot, after_screenshot)
 
         # Step 5: build oracle verdict
-        oracle = self._build_oracle_verdict(
-            task, patch, cloak_results, diff_result, repo_path
-        )
+        oracle = self._build_oracle_verdict(task, patch, cloak_results, diff_result, repo_path)
 
         # Step 6: write corpus
         record_id = self._write_corpus(
@@ -254,7 +261,9 @@ class SWEBenchMultimodalAdapter:
 
     def _cloak_screenshot(self, path: Path, instance_id: str, index: int) -> dict:
         if not _CLOAK_AVAILABLE:
-            log.error("[swebench_multimodal] visual_cloak unavailable — REFUSING to send screenshot uncloaked")
+            log.error(
+                "[swebench_multimodal] visual_cloak unavailable — REFUSING to send screenshot uncloaked"
+            )
             return {"error": "visual_cloak unavailable — screenshot blocked", "cloak_active": False}
 
         if not path.exists():
@@ -291,7 +300,7 @@ class SWEBenchMultimodalAdapter:
             try:
                 text = _ocr_text(ss)
                 if text.strip():
-                    texts.append(f"[Screenshot {i+1}]: {text.strip()[:800]}")
+                    texts.append(f"[Screenshot {i + 1}]: {text.strip()[:800]}")
             except Exception:
                 pass
         return "\n".join(texts)
@@ -309,6 +318,7 @@ class SWEBenchMultimodalAdapter:
         """Invoke the existing SWE-bench solver, enriched with visual context."""
         try:
             from determinex_swebench_agent import DeterminexSWEAgent
+
             agent = DeterminexSWEAgent()
             # Build a synthetic instance dict matching SWE-bench harness format
             instance = {
@@ -329,7 +339,9 @@ class SWEBenchMultimodalAdapter:
     # Internal: browser screenshot capture
     # ------------------------------------------------------------------
 
-    def _capture_browser_screenshot(self, repo_path: Path, instance_id: str, stage: str) -> Path | None:
+    def _capture_browser_screenshot(
+        self, repo_path: Path, instance_id: str, stage: str
+    ) -> Path | None:
         """Attempt to capture a browser screenshot of the running app in the repo."""
         out_dir = self._work_dir / "browser_caps" / instance_id
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -337,6 +349,7 @@ class SWEBenchMultimodalAdapter:
         try:
             # Delegate to browser_verifier which handles Playwright internally
             from browser.browser_verifier import capture_screenshot
+
             capture_screenshot(repo_path=repo_path, output_path=out_path)
             if out_path.exists():
                 return out_path
@@ -383,7 +396,9 @@ class SWEBenchMultimodalAdapter:
         if task.screenshots and not cloak_ok:
             reason_parts.append("visual cloak failed — screenshot blocked from cloud")
         if visual_evidence:
-            reason_parts.append(f"visual diff detected (score={diff_result['pixel_diff_score']:.3f})")
+            reason_parts.append(
+                f"visual diff detected (score={diff_result['pixel_diff_score']:.3f})"
+            )
 
         return OracleVerdict(
             oracle_type=OracleType.VISUAL,

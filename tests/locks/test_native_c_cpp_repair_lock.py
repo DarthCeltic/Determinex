@@ -4,6 +4,7 @@ NATIVE_C_CPP_REPAIR_LOCK_001 acceptance tests.
 Combined C/C++ lock because Make/CMake/autotools detection, source safety, and
 native oracle handling share the same machinery.
 """
+
 from __future__ import annotations
 
 import sys
@@ -16,7 +17,6 @@ from corpus.code_ingest.native_c_cpp_project_indexer import index_native_project
 from corpus.code_ingest.native_c_cpp_task_extractor import NativeTaskExtractor
 from corpus.corpus_manager import CorpusManager
 from repair.native_c_cpp_repair_pipeline import NativeCxxRepairPipeline
-
 
 _MAKEFILE = """\
 test:
@@ -162,13 +162,17 @@ class TestNativeSafetyGate:
         assert "malicious_native_source" in result.rejected_reason
 
     def test_cmake_execute_process_network_rejected(self, tmp_path):
-        repo = _make_native_repo(tmp_path, build_file=_MALICIOUS_CMAKE_EXEC, build_name="CMakeLists.txt")
+        repo = _make_native_repo(
+            tmp_path, build_file=_MALICIOUS_CMAKE_EXEC, build_name="CMakeLists.txt"
+        )
         result = NativeCxxRepairPipeline(CorpusManager(root=tmp_path / "corpus")).process_repo(repo)
         assert not result.accepted
         assert "cmake_execute_process_network" in result.rejected_reason
 
     def test_cmake_custom_command_network_rejected(self, tmp_path):
-        repo = _make_native_repo(tmp_path, build_file=_MALICIOUS_CMAKE_CUSTOM, build_name="CMakeLists.txt")
+        repo = _make_native_repo(
+            tmp_path, build_file=_MALICIOUS_CMAKE_CUSTOM, build_name="CMakeLists.txt"
+        )
         result = NativeCxxRepairPipeline(CorpusManager(root=tmp_path / "corpus")).process_repo(repo)
         assert not result.accepted
         assert "cmake_custom_command_network" in result.rejected_reason
@@ -311,7 +315,9 @@ class TestNativeCorpusSigning:
     def test_pipeline_writes_task_to_corpus(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         task = NativeCxxRepairPipeline.make_test_task(task_id="native-write-001")
-        task_id = NativeCxxRepairPipeline(corpus_manager=cm)._write_corpus_record(task, "test_corpus")
+        task_id = NativeCxxRepairPipeline(corpus_manager=cm)._write_corpus_record(
+            task, "test_corpus"
+        )
         assert task_id == "native-write-001"
 
     def test_multiple_native_mutation_types_sign(self, tmp_path):
@@ -324,7 +330,9 @@ class TestNativeCorpusSigning:
             ("native-m-005", "cmake_config_failure", "test_failure"),
         ]
         for task_id, mutation, failure in cases:
-            task = NativeCxxRepairPipeline.make_test_task(task_id=task_id, mutation_type=mutation, failure_type=failure)
+            task = NativeCxxRepairPipeline.make_test_task(
+                task_id=task_id, mutation_type=mutation, failure_type=failure
+            )
             record = cm._normalize_record(
                 corpus_type=CorpusType.CODE_VERDICT,
                 task_id=task.task_id,

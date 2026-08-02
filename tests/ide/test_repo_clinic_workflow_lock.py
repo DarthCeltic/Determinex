@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_REPO_CLINIC_WORKFLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -49,12 +50,19 @@ def test_status_tokens_exact():
 
 def test_states_inventory():
     expected = {
-        "REPO_OPENED", "REPO_ANALYZED", "TOOLCHAIN_MISSING",
-        "VERIFIER_MISSING", "ISSUE_DIAGNOSED_UNVERIFIED",
-        "PATCH_PROPOSED_QUARANTINED", "TEMP_VERIFIER_PASSED",
-        "APPROVAL_REQUIRED", "SOURCE_MUTATION_AUTHORIZED",
-        "SOURCE_MUTATION_APPLIED", "POST_APPLY_VERIFIER_PASSED",
-        "REPAIR_VERIFIED", "REPAIR_FAILED_HONESTLY",
+        "REPO_OPENED",
+        "REPO_ANALYZED",
+        "TOOLCHAIN_MISSING",
+        "VERIFIER_MISSING",
+        "ISSUE_DIAGNOSED_UNVERIFIED",
+        "PATCH_PROPOSED_QUARANTINED",
+        "TEMP_VERIFIER_PASSED",
+        "APPROVAL_REQUIRED",
+        "SOURCE_MUTATION_AUTHORIZED",
+        "SOURCE_MUTATION_APPLIED",
+        "POST_APPLY_VERIFIER_PASSED",
+        "REPAIR_VERIFIED",
+        "REPAIR_FAILED_HONESTLY",
     }
     assert set(rc.canonical_states()) == expected
 
@@ -79,14 +87,16 @@ def test_idle_state_is_written():
 
 
 def test_full_repair_path_is_written():
-    rec = rc.evaluate(**_state(
-        temp_verifier_passed=True,
-        approval_present=True,
-        source_mutation_attempted=True,
-        source_mutation_authorized_by_gate=True,
-        post_apply_verifier_passed=True,
-        fixed_label_enabled=True,
-    ))
+    rec = rc.evaluate(
+        **_state(
+            temp_verifier_passed=True,
+            approval_present=True,
+            source_mutation_attempted=True,
+            source_mutation_authorized_by_gate=True,
+            post_apply_verifier_passed=True,
+            fixed_label_enabled=True,
+        )
+    )
     assert rec.is_written
 
 
@@ -94,18 +104,22 @@ def test_full_repair_path_is_written():
 # Verifier missing
 # ---------------------------------------------------------------------------
 def test_no_verifier_with_source_mutation_attempt_blocks():
-    rec = rc.evaluate(**_state(
-        verifier_command_present=False,
-        source_mutation_attempted=True,
-    ))
+    rec = rc.evaluate(
+        **_state(
+            verifier_command_present=False,
+            source_mutation_attempted=True,
+        )
+    )
     assert rec.decision == "REPO_CLINIC_WORKFLOW_BLOCKED_VERIFIER_MISSING"
 
 
 def test_no_verifier_with_fixed_label_blocks():
-    rec = rc.evaluate(**_state(
-        verifier_command_present=False,
-        fixed_label_enabled=True,
-    ))
+    rec = rc.evaluate(
+        **_state(
+            verifier_command_present=False,
+            fixed_label_enabled=True,
+        )
+    )
     assert rec.decision == "REPO_CLINIC_WORKFLOW_BLOCKED_VERIFIER_MISSING"
 
 
@@ -124,27 +138,33 @@ def test_diagnosis_as_authorization_blocks():
 
 
 def test_local_model_admission_as_authorization_blocks():
-    rec = rc.evaluate(**_state(
-        local_model_admission_treated_as_source_authorization=True,
-    ))
+    rec = rc.evaluate(
+        **_state(
+            local_model_admission_treated_as_source_authorization=True,
+        )
+    )
     assert rec.decision == "REPO_CLINIC_WORKFLOW_BLOCKED_SOURCE_MUTATION_CONFUSION"
 
 
 def test_gate_authorized_without_temp_verifier_blocks():
-    rec = rc.evaluate(**_state(
-        source_mutation_authorized_by_gate=True,
-        approval_present=True,
-        # temp_verifier_passed=False
-    ))
+    rec = rc.evaluate(
+        **_state(
+            source_mutation_authorized_by_gate=True,
+            approval_present=True,
+            # temp_verifier_passed=False
+        )
+    )
     assert rec.decision == "REPO_CLINIC_WORKFLOW_BLOCKED_SOURCE_MUTATION_CONFUSION"
 
 
 def test_gate_authorized_without_approval_blocks():
-    rec = rc.evaluate(**_state(
-        source_mutation_authorized_by_gate=True,
-        temp_verifier_passed=True,
-        # approval_present=False
-    ))
+    rec = rc.evaluate(
+        **_state(
+            source_mutation_authorized_by_gate=True,
+            temp_verifier_passed=True,
+            # approval_present=False
+        )
+    )
     assert rec.decision == "REPO_CLINIC_WORKFLOW_BLOCKED_SOURCE_MUTATION_CONFUSION"
 
 
@@ -152,15 +172,17 @@ def test_gate_authorized_without_approval_blocks():
 # False fixed label
 # ---------------------------------------------------------------------------
 def test_fixed_label_without_post_apply_verifier_blocks():
-    rec = rc.evaluate(**_state(
-        verifier_command_present=True,
-        temp_verifier_passed=True,
-        approval_present=True,
-        source_mutation_authorized_by_gate=True,
-        source_mutation_attempted=True,
-        fixed_label_enabled=True,
-        # post_apply_verifier_passed=False
-    ))
+    rec = rc.evaluate(
+        **_state(
+            verifier_command_present=True,
+            temp_verifier_passed=True,
+            approval_present=True,
+            source_mutation_authorized_by_gate=True,
+            source_mutation_attempted=True,
+            fixed_label_enabled=True,
+            # post_apply_verifier_passed=False
+        )
+    )
     assert rec.decision == "REPO_CLINIC_WORKFLOW_BLOCKED_FALSE_FIXED_LABEL"
 
 
@@ -168,11 +190,15 @@ def test_fixed_label_without_post_apply_verifier_blocks():
 # Invariants
 # ---------------------------------------------------------------------------
 def test_record_never_authorizes_source_or_training():
-    rec = rc.evaluate(**_state(
-        temp_verifier_passed=True, approval_present=True,
-        source_mutation_authorized_by_gate=True,
-        post_apply_verifier_passed=True, fixed_label_enabled=True,
-    ))
+    rec = rc.evaluate(
+        **_state(
+            temp_verifier_passed=True,
+            approval_present=True,
+            source_mutation_authorized_by_gate=True,
+            post_apply_verifier_passed=True,
+            fixed_label_enabled=True,
+        )
+    )
     assert rec.is_written
     assert rec.source_mutation_authorized is False
     assert rec.training_eligible is False

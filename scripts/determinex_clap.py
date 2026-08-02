@@ -14,10 +14,10 @@ behavior for: unknown flag, missing value, invalid value, possible-values.
 Not a full clap clone -- just the high-frequency, exactly-specified surface.
 Tools with bespoke help/usage still print their own help text.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-
 
 TRY_HELP = "\n\nFor more information, try '--help'.\n"
 
@@ -33,16 +33,14 @@ def err_value_required(flag: str, metavar: str) -> str:
     return f"error: a value is required for '{flag} <{metavar}>'{TRY_HELP}"
 
 
-def err_invalid_value(val: str, flag: str, metavar: str,
-                      possible: list[str] | None = None) -> str:
+def err_invalid_value(val: str, flag: str, metavar: str, possible: list[str] | None = None) -> str:
     s = f"error: invalid value '{val}' for '{flag} <{metavar}>'"
     if possible:
         s += f"\n  [possible values: {', '.join(possible)}]"
     return s + TRY_HELP
 
 
-def err_invalid_value_pos(val: str, argname: str,
-                          possible: list[str] | None = None) -> str:
+def err_invalid_value_pos(val: str, argname: str, possible: list[str] | None = None) -> str:
     """Invalid value for a positional <ARG>."""
     s = f"error: invalid value '{val}' for '<{argname}>'"
     if possible:
@@ -52,9 +50,9 @@ def err_invalid_value_pos(val: str, argname: str,
 
 @dataclass
 class Opt:
-    short: str | None          # e.g. "c"
-    long: str | None           # e.g. "cols"
-    metavar: str | None        # e.g. "columns"; None => boolean flag
+    short: str | None  # e.g. "c"
+    long: str | None  # e.g. "cols"
+    metavar: str | None  # e.g. "columns"; None => boolean flag
     possible: list[str] | None = None
     is_int: bool = False
     is_float: bool = False
@@ -85,8 +83,16 @@ class Parser:
     _by_long: dict = field(default_factory=dict, init=False)
     _by_short: dict = field(default_factory=dict, init=False)
 
-    def add(self, short=None, long=None, metavar=None, possible=None,
-            is_int=False, is_float=False, dest=None):
+    def add(
+        self,
+        short=None,
+        long=None,
+        metavar=None,
+        possible=None,
+        is_int=False,
+        is_float=False,
+        dest=None,
+    ):
         o = Opt(short, long, metavar, possible, is_int, is_float, dest)
         self.opts.append(o)
         if long:
@@ -119,9 +125,13 @@ class Parser:
         while i < len(argv):
             a = argv[i]
             if end:
-                positionals.append(a); i += 1; continue
+                positionals.append(a)
+                i += 1
+                continue
             if a == "--":
-                end = True; i += 1; continue
+                end = True
+                i += 1
+                continue
             if a.startswith("--"):
                 key, eq, inline = a[2:].partition("=")
                 o = self._by_long.get(key)
@@ -134,7 +144,8 @@ class Parser:
                 else:
                     if i + 1 >= len(argv):
                         raise ClapError(err_value_required(o.display(), o.metavar))
-                    values[o.name] = self._coerce(o, argv[i + 1]); i += 1
+                    values[o.name] = self._coerce(o, argv[i + 1])
+                    i += 1
             elif a.startswith("-") and len(a) > 1:
                 chars = a[1:]
                 j = 0
@@ -144,14 +155,17 @@ class Parser:
                     if o is None:
                         raise ClapError(err_unexpected(a if len(chars) == 1 else f"-{ch}"))
                     if not o.takes_value:
-                        values[o.name] = True; j += 1; continue
-                    rest = chars[j + 1:]
+                        values[o.name] = True
+                        j += 1
+                        continue
+                    rest = chars[j + 1 :]
                     if rest:
                         values[o.name] = self._coerce(o, rest)
                     else:
                         if i + 1 >= len(argv):
                             raise ClapError(err_value_required(o.display(), o.metavar))
-                        values[o.name] = self._coerce(o, argv[i + 1]); i += 1
+                        values[o.name] = self._coerce(o, argv[i + 1])
+                        i += 1
                     break
             else:
                 positionals.append(a)
@@ -167,7 +181,7 @@ def from_terms(terms: dict) -> Parser:
     p = Parser()
     seen = set()
     for item in terms.get("value_required_templates", []):
-        tmpl = item["term"]            # e.g. "--cols <columns>"
+        tmpl = item["term"]  # e.g. "--cols <columns>"
         if " <" in tmpl and tmpl.endswith(">"):
             flag, meta = tmpl.split(" <", 1)
             meta = meta[:-1]

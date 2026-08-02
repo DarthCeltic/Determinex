@@ -14,7 +14,9 @@ from corpus.programbench.programbench_platform_record import verify_platform_rec
 
 
 def _platform(*, write_records: bool = False) -> ProgramBenchOperatorReadyPlatform:
-    return ProgramBenchOperatorReadyPlatform(OperatorReadyConfig(write_records=write_records, write_outbox=False))
+    return ProgramBenchOperatorReadyPlatform(
+        OperatorReadyConfig(write_records=write_records, write_outbox=False)
+    )
 
 
 def test_live_packet_review_empty_inbox_writes_no_live_packets(tmp_path: Path) -> None:
@@ -69,7 +71,12 @@ def test_live_packet_review_routes_valid_live_packet_to_review_only(tmp_path: Pa
 
 def test_live_packet_review_cli_smoke() -> None:
     result = subprocess.run(
-        [sys.executable, "scripts/corpus/programbench/programbench_operator_cli.py", "review-live-packets", "--json"],
+        [
+            sys.executable,
+            "scripts/corpus/programbench/programbench_operator_cli.py",
+            "review-live-packets",
+            "--json",
+        ],
         check=True,
         capture_output=True,
         text=True,

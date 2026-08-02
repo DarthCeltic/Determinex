@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -10,8 +11,17 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-PANEL_PATH = _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "UserLevelTeachingMode.tsx"
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001.json"
+PANEL_PATH = (
+    _REPO_ROOT
+    / "frontend"
+    / "src"
+    / "components"
+    / "ide-product-shell"
+    / "UserLevelTeachingMode.tsx"
+)
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_REACT_USER_LEVEL_TEACHING_MODE_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_react_user_level_teaching_mode"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -56,7 +66,7 @@ def test_all_eight_levels_present():
 def test_panel_renders_option_per_level():
     src = _src()
     for level in REQUIRED_LEVELS:
-        assert f"user-level-option-${{l}}" in src or f"user-level-option-{level}" in src, level
+        assert "user-level-option-${l}" in src or f"user-level-option-{level}" in src, level
 
 
 def test_invariants_are_constants_not_per_level():
@@ -94,8 +104,11 @@ def test_no_per_level_authority_override():
     src = _src()
     # Forbidden patterns that would tie authority to level.
     forbidden = (
-        "if (level ===", "level === 'power_user' &&",
-        "loosenGates", "disableGate", "bypassProof",
+        "if (level ===",
+        "level === 'power_user' &&",
+        "loosenGates",
+        "disableGate",
+        "bypassProof",
     )
     for f in forbidden:
         assert f not in src, f

@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_UNIFIED_PRODUCT_SPLASH_DEMO_SPEC_LOCK_001."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -15,7 +16,9 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 ds = importlib.import_module("repair.unified_product_splash_demo_spec")
 ds_rec = importlib.import_module("repair.unified_product_splash_demo_spec_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_UNIFIED_PRODUCT_SPLASH_DEMO_SPEC_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_UNIFIED_PRODUCT_SPLASH_DEMO_SPEC_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_unified_product_splash_demo_spec"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -36,8 +39,11 @@ def test_sequence_five_steps_one_per_surface():
     seq = ds.canonical_sequence()
     assert len(seq) == 5
     assert [s.surface for s in seq] == [
-        "idea_lab", "repo_clinic", "maintenance_bay",
-        "learning_studio", "proof_operator_center",
+        "idea_lab",
+        "repo_clinic",
+        "maintenance_bay",
+        "learning_studio",
+        "proof_operator_center",
     ]
 
 
@@ -145,7 +151,9 @@ def test_synthetic_docker_run_blocks(monkeypatch):
 
 def test_synthetic_programbench_run_blocks(monkeypatch):
     bad = list(ds._CANONICAL_SEQUENCE)
-    bad[2] = dataclasses.replace(bad[2], description=bad[2].description + " programbench eval the tool")
+    bad[2] = dataclasses.replace(
+        bad[2], description=bad[2].description + " programbench eval the tool"
+    )
     monkeypatch.setattr(ds, "_CANONICAL_SEQUENCE", tuple(bad))
     rec = ds.build_record()
     assert rec.decision == "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_FALSE_UNIVERSALITY"
@@ -153,7 +161,9 @@ def test_synthetic_programbench_run_blocks(monkeypatch):
 
 def test_synthetic_real_user_repo_blocks(monkeypatch):
     bad = list(ds._CANONICAL_SEQUENCE)
-    bad[1] = dataclasses.replace(bad[1], description=bad[1].description + " mutate the user's real repo")
+    bad[1] = dataclasses.replace(
+        bad[1], description=bad[1].description + " mutate the user's real repo"
+    )
     monkeypatch.setattr(ds, "_CANONICAL_SEQUENCE", tuple(bad))
     rec = ds.build_record()
     assert rec.decision == "UNIFIED_PRODUCT_SPLASH_DEMO_BLOCKED_FALSE_UNIVERSALITY"

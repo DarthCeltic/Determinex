@@ -1,7 +1,7 @@
 """Tests for CLAUDE_APPROVAL_REPLAY_AND_STALENESS_LOCK_001."""
+
 from __future__ import annotations
 
-import dataclasses
 import importlib
 import json
 import sys
@@ -15,12 +15,10 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 ars = importlib.import_module("repair.approval_replay_and_staleness")
 ars_rec = importlib.import_module("repair.approval_replay_and_staleness_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_APPROVAL_REPLAY_AND_STALENESS_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / ("CLAUDE_APPROVAL_REPLAY_AND_STALENESS_LOCK_001.json")
 )
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_approval_replay_and_staleness"
-)
+EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / ("claude_approval_replay_and_staleness")
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
@@ -130,7 +128,8 @@ def test_replay_on_different_patch_still_blocks():
 def test_commit_on_pass_false_does_not_record_nonce():
     v = _verifier()
     first = _verify(
-        v, _packet(approval_id="nonce-PROBE"),
+        v,
+        _packet(approval_id="nonce-PROBE"),
     )
     assert first.is_passed
     # The nonce IS recorded on default behaviour. Now verify
@@ -244,7 +243,9 @@ def test_full_replay_attack_scenario_blocked():
 
     # Same nonce, later in time.
     v2 = ars.ApprovalReplayAndStalenessVerifier(
-        ledger=v.ledger, max_age_seconds=60, now_fn=lambda: 1_700_000_020,
+        ledger=v.ledger,
+        max_age_seconds=60,
+        now_fn=lambda: 1_700_000_020,
     )
     r1 = _verify(v2, _packet(approval_id="captured"))
     assert r1.decision == "APPROVAL_REPLAY_BLOCKED_REUSED_NONCE"

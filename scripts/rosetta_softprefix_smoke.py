@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """scripts/rosetta_softprefix_smoke.py — Layer 2B soft-prefix injection smoke test.
 
 This is NOT a quality test. It only verifies that the plumbing for soft-prefix
@@ -26,6 +26,7 @@ Conditions tested per pass:
 The smoke test runs at low max_tokens (32) with greedy decoding so per-condition
 output is deterministic — that's what makes A==B and A!=C meaningful signals.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -33,8 +34,6 @@ import json
 import sys
 import time
 from pathlib import Path
-from typing import Optional
-
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
@@ -44,14 +43,15 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 
-ACTIVE   = "ACTIVE"
-UNAVAIL  = "UNAVAILABLE WITH REASON"
+ACTIVE = "ACTIVE"
+UNAVAIL = "UNAVAILABLE WITH REASON"
 
 
-def _pick_target_model_path() -> tuple[Optional[Path], str]:
+def _pick_target_model_path() -> tuple[Path | None, str]:
     """Return (gguf_path, model_name) for the first registered model whose GGUF resolves.
     Returns (None, '') if none do."""
     from rosetta.model_registry import current_family
+
     for role, m in current_family().items():
         if m.gguf_path and Path(m.gguf_path).is_file():
             return Path(m.gguf_path), m.name
@@ -59,7 +59,7 @@ def _pick_target_model_path() -> tuple[Optional[Path], str]:
 
 
 def run_smoke(
-    model_path: Optional[Path] = None,
+    model_path: Path | None = None,
     prompt: str = "The capital of France is",
     max_tokens: int = 32,
     seed: int = 1337,
@@ -157,6 +157,7 @@ def run_smoke(
         # the C side via llama_get_logits_ith(ctx, -1) and do argmax in numpy —
         # bit-identical to top_p=1.0 / temp=0.0 greedy sampling.
         import numpy as np
+
         n_vocab = llm._model.n_vocab()
         ctx_ptr = llm._ctx.ctx
         get_logits = llama_cpp.llama_get_logits_ith
@@ -171,7 +172,7 @@ def run_smoke(
             out_tokens: list[int] = []
             eos = llm.token_eos()
             for _ in range(max_tokens):
-                p = get_logits(ctx_ptr, -1)        # ptr to last-position logits
+                p = get_logits(ctx_ptr, -1)  # ptr to last-position logits
                 logits = np.ctypeslib.as_array(p, shape=(n_vocab,))
                 tok = int(np.argmax(logits))
                 if tok == eos:
@@ -185,7 +186,6 @@ def run_smoke(
         # prompts ("def fib(n):" → "\n") keep argmax pinned even when the prefix
         # has clearly steered attention. The byte-honest check is: does the full
         # logit distribution shift away from the no-prefix baseline?
-        import numpy as np
         def last_logits():
             p = get_logits(ctx_ptr, -1)
             return np.ctypeslib.as_array(p, shape=(n_vocab,)).copy()
@@ -214,7 +214,8 @@ def run_smoke(
         ac_mean_diff = float(np.abs(logits_a - logits_c).mean())
 
         report["conditions"]["C_random_prefix"] = {
-            "output": text_c, "tokens": n_c,
+            "output": text_c,
+            "tokens": n_c,
             "differs_from_A_output": text_c != text_a,
             "logit_diff_max_vs_A": ac_max_diff,
             "logit_diff_mean_vs_A": ac_mean_diff,
@@ -230,12 +231,12 @@ def run_smoke(
         # its positional slot) is reaching attention.
         ratio = ac_max_diff / max(ab_max_diff, 1e-6)
         report["checks"] = {
-            "zero_prefix_positional_shift":  ab_max_diff,
-            "random_prefix_logit_diff":      ac_max_diff,
-            "content_to_positional_ratio":   ratio,
-            "ratio_threshold":               5.0,
-            "ratio_pass":                    ratio >= 5.0,
-            "random_changes_argmax":         text_c != text_a,
+            "zero_prefix_positional_shift": ab_max_diff,
+            "random_prefix_logit_diff": ac_max_diff,
+            "content_to_positional_ratio": ratio,
+            "ratio_threshold": 5.0,
+            "ratio_pass": ratio >= 5.0,
+            "random_changes_argmax": text_c != text_a,
         }
 
         # Layer 2B is real when content-vs-positional logit ratio passes AND
@@ -256,7 +257,9 @@ def run_smoke(
 
         # D: Rosetta-projected (best-effort, only if rosetta_v1.pt + a second model)
         report["conditions"]["D_rosetta_prefix"] = _try_rosetta_projection(
-            llm=llm, n_embd=n_embd, complete=complete,
+            llm=llm,
+            n_embd=n_embd,
+            complete=complete,
         )
     finally:
         try:
@@ -275,6 +278,7 @@ def _eval_embedding_prefix(llm, llama_cpp, prefix_floats, n_embd: int, report: d
     expose what we need (no silent fallback).
     """
     import numpy as np
+
     arr = np.asarray(prefix_floats, dtype=np.float32)
     if arr.ndim == 1:
         arr = arr[None, :]
@@ -330,7 +334,8 @@ def _try_rosetta_projection(llm, n_embd: int, complete) -> dict:
     """Best-effort: project a stub hidden state through RosettaStone into target dim
     and feed as prefix. Reports status either way."""
     try:
-        from rosetta.model_registry import current_family, BridgeStatus
+        from rosetta.model_registry import BridgeStatus, current_family
+
         try:
             sys.path.insert(0, str(REPO_ROOT / "scripts"))
             from determinex_rosetta import RosettaStone
@@ -343,7 +348,10 @@ def _try_rosetta_projection(llm, n_embd: int, complete) -> dict:
                 target = m
                 break
         if target is None:
-            return {"status": UNAVAIL, "reason": f"no registered target model with hidden_dim={n_embd}"}
+            return {
+                "status": UNAVAIL,
+                "reason": f"no registered target model with hidden_dim={n_embd}",
+            }
         # Pick any non-target model as source. Best is one whose hidden_dim != n_embd.
         source = None
         for m in family.values():
@@ -351,9 +359,13 @@ def _try_rosetta_projection(llm, n_embd: int, complete) -> dict:
                 source = m
                 break
         if source is None:
-            return {"status": UNAVAIL, "reason": "no registered source model with hidden_dim != target"}
+            return {
+                "status": UNAVAIL,
+                "reason": "no registered source model with hidden_dim != target",
+            }
 
         import torch
+
         # Try common stone-weight locations
         candidates = [
             Path.home() / ".determinex" / "rosetta" / "rosetta_v1.pt",
@@ -371,7 +383,10 @@ def _try_rosetta_projection(llm, n_embd: int, complete) -> dict:
             if stone is None:
                 return {"status": UNAVAIL, "reason": "RosettaStone has no .load() classmethod"}
         except Exception as e:
-            return {"status": UNAVAIL, "reason": f"RosettaStone.load failed: {type(e).__name__}: {e}"}
+            return {
+                "status": UNAVAIL,
+                "reason": f"RosettaStone.load failed: {type(e).__name__}: {e}",
+            }
 
         # Generate a fake source hidden, project via stone if its API allows
         src_hidden = torch.randn(source.hidden_dim)
@@ -417,18 +432,23 @@ def _try_rosetta_projection(llm, n_embd: int, complete) -> dict:
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Layer 2B soft-prefix smoke test")
     ap.add_argument("--model", type=Path, default=None, help="override GGUF path")
-    ap.add_argument("--prompt", default="The capital of France is",
-                    help="text prompt used for all four conditions")
+    ap.add_argument(
+        "--prompt",
+        default="The capital of France is",
+        help="text prompt used for all four conditions",
+    )
     ap.add_argument("--max-tokens", type=int, default=32)
     ap.add_argument("--seed", type=int, default=1337)
     ap.add_argument("--json", type=Path, default=None, help="write JSON report here")
     args = ap.parse_args()
 
-    report = run_smoke(model_path=args.model, prompt=args.prompt,
-                       max_tokens=args.max_tokens, seed=args.seed)
+    report = run_smoke(
+        model_path=args.model, prompt=args.prompt, max_tokens=args.max_tokens, seed=args.seed
+    )
     print(json.dumps(report, indent=2, default=str))
 
     if args.json:

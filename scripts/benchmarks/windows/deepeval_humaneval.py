@@ -17,8 +17,8 @@ Usage:
 """
 
 from __future__ import annotations
+
 import argparse
-import ast
 import json
 import os
 import re
@@ -96,10 +96,15 @@ def check_windows_portability(code: str) -> tuple[float, list[dict]]:
     for pattern, required, description in WINDOWS_PORTABILITY_CHECKS:
         matched = bool(re.search(pattern, code, re.IGNORECASE))
         passed = matched if required else not matched
-        results.append({
-            "pattern": pattern, "required": required,
-            "description": description, "matched": matched, "passed": passed,
-        })
+        results.append(
+            {
+                "pattern": pattern,
+                "required": required,
+                "description": description,
+                "matched": matched,
+                "passed": passed,
+            }
+        )
     # Also count Linux-isms as automatic deductions
     isms = detect_linux_isms(code)
     linux_ism_count = len(isms)
@@ -126,24 +131,30 @@ pathlib for any path construction. Write only the requested function — no main
 
 def _gen_deepseek(prompt: str) -> str:
     import openai
+
     client = openai.OpenAI(
         api_key=os.environ["DEEPSEEK_API_KEY"],
         base_url="https://api.deepseek.com",
     )
     resp = client.chat.completions.create(
         model="deepseek-chat",
-        messages=[{"role": "system", "content": SYSTEM_PROMPT},
-                  {"role": "user", "content": prompt}],
-        max_tokens=1024, temperature=0.2,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=1024,
+        temperature=0.2,
     )
     return resp.choices[0].message.content or ""
 
 
 def _gen_claude(prompt: str) -> str:
     import anthropic
+
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     msg = client.messages.create(
-        model="claude-sonnet-4-6", max_tokens=1024,
+        model="claude-sonnet-4-6",
+        max_tokens=1024,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": prompt}],
     )
@@ -152,22 +163,29 @@ def _gen_claude(prompt: str) -> str:
 
 def _gen_gpt(prompt: str) -> str:
     import openai
+
     client = openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     resp = client.chat.completions.create(
         model="gpt-4o",
-        messages=[{"role": "system", "content": SYSTEM_PROMPT},
-                  {"role": "user", "content": prompt}],
-        max_tokens=1024, temperature=0.2,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=1024,
+        temperature=0.2,
     )
     return resp.choices[0].message.content or ""
 
 
 def _gen_local(prompt: str, model_tag: str) -> str:
     import requests
+
     payload = {
         "model": model_tag,
-        "messages": [{"role": "system", "content": SYSTEM_PROMPT},
-                     {"role": "user", "content": prompt}],
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": prompt},
+        ],
         "stream": False,
     }
     r = requests.post("http://localhost:11434/api/chat", json=payload, timeout=120)
@@ -191,6 +209,7 @@ def generate(prompt: str, model: str, local_model: str = "") -> tuple[str, float
 
 
 # ── Code extraction ───────────────────────────────────────────────────────────
+
 
 def extract_code(raw: str, entry_point: str) -> str:
     """Extract the function definition from raw model output."""
@@ -219,6 +238,7 @@ def extract_code(raw: str, entry_point: str) -> str:
 
 # ── Functional evaluation (run HumanEval tests) ───────────────────────────────
 
+
 def run_functional_tests(problem: dict, code: str, timeout: int = 10) -> tuple[bool, str]:
     """
     Run the HumanEval test suite for one problem.
@@ -236,7 +256,9 @@ def run_functional_tests(problem: dict, code: str, timeout: int = 10) -> tuple[b
         tmp.write_text(full_script, encoding="utf-8")
         result = subprocess.run(
             [sys.executable, str(tmp)],
-            capture_output=True, text=True, timeout=timeout,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
             env={**os.environ, "PYTHONUTF8": "1"},
         )
         if result.returncode == 0:
@@ -252,12 +274,13 @@ def run_functional_tests(problem: dict, code: str, timeout: int = 10) -> tuple[b
 
 # ── HumanEval dataset loader ──────────────────────────────────────────────────
 
+
 def load_humaneval(limit: int, filter_str: str) -> list[dict]:
     """Load HumanEval problems from HuggingFace datasets."""
     try:
         import datasets
-        ds = datasets.load_dataset("openai/openai_humaneval", split="test",
-                                   trust_remote_code=True)
+
+        ds = datasets.load_dataset("openai/openai_humaneval", split="test", trust_remote_code=True)
         problems = []
         for ex in ds:
             if filter_str and filter_str.lower() not in str(ex).lower():
@@ -277,8 +300,10 @@ def load_humaneval(limit: int, filter_str: str) -> list[dict]:
 
 # ── Main eval loop ────────────────────────────────────────────────────────────
 
-def run_eval(model: str, local_model: str, limit: int, filter_str: str,
-             skip_functional: bool) -> None:
+
+def run_eval(
+    model: str, local_model: str, limit: int, filter_str: str, skip_functional: bool
+) -> None:
     problems = load_humaneval(limit, filter_str)
     if not problems:
         print("No problems loaded. Exiting.")
@@ -288,7 +313,7 @@ def run_eval(model: str, local_model: str, limit: int, filter_str: str,
     model_label = model if model != "local" else f"local_{local_model.split(':')[0]}"
     out_path = LOGS_DIR / f"{ts}_humaneval_{model_label}.json"
 
-    print(f"\nDeterminex Windows HumanEval")
+    print("\nDeterminex Windows HumanEval")
     print(f"Model: {model_label}  Problems: {len(problems)}")
     print("=" * 60)
 
@@ -306,8 +331,15 @@ def run_eval(model: str, local_model: str, limit: int, filter_str: str,
             response, latency = generate(prob["prompt"], model, local_model)
         except Exception as e:
             print(f"  ERROR: {e}")
-            results.append({"task_id": task_id, "error": str(e), "functional": False,
-                            "portability_score": 0.0, "linux_ism_count": 0})
+            results.append(
+                {
+                    "task_id": task_id,
+                    "error": str(e),
+                    "functional": False,
+                    "portability_score": 0.0,
+                    "linux_ism_count": 0,
+                }
+            )
             continue
 
         code = extract_code(response, entry_point)
@@ -334,18 +366,20 @@ def run_eval(model: str, local_model: str, limit: int, filter_str: str,
         if isms:
             print(f"    isms: {', '.join(l for _, l in isms)}")
 
-        results.append({
-            "task_id": task_id,
-            "entry_point": entry_point,
-            "model": model_label,
-            "functional": func_passed,
-            "portability_score": port_score,
-            "portability_checks": port_checks,
-            "linux_ism_count": len(isms),
-            "linux_isms": [l for _, l in isms],
-            "latency_s": latency,
-            "func_error": func_error[:500] if func_error else "",
-        })
+        results.append(
+            {
+                "task_id": task_id,
+                "entry_point": entry_point,
+                "model": model_label,
+                "functional": func_passed,
+                "portability_score": port_score,
+                "portability_checks": port_checks,
+                "linux_ism_count": len(isms),
+                "linux_isms": [l for _, l in isms],
+                "latency_s": latency,
+                "func_error": func_error[:500] if func_error else "",
+            }
+        )
 
     n = len(results)
     func_rate = functional_pass / n if n else 0.0
@@ -376,13 +410,17 @@ def run_eval(model: str, local_model: str, limit: int, filter_str: str,
 
 def main() -> None:
     ap = argparse.ArgumentParser(description="Determinex Windows HumanEval")
-    ap.add_argument("--model", choices=["deepseek", "claude", "gpt", "local", "all"],
-                    default="deepseek")
+    ap.add_argument(
+        "--model", choices=["deepseek", "claude", "gpt", "local", "all"], default="deepseek"
+    )
     ap.add_argument("--local-model", default="qwen2.5-coder:14b-instruct-q4_K_M")
     ap.add_argument("--limit", type=int, default=164, help="Max problems (HumanEval has 164)")
     ap.add_argument("--filter", default="", help="Filter problems by keyword")
-    ap.add_argument("--skip-functional", action="store_true",
-                    help="Skip functional test execution (portability check only)")
+    ap.add_argument(
+        "--skip-functional",
+        action="store_true",
+        help="Skip functional test execution (portability check only)",
+    )
     args = ap.parse_args()
 
     models = ["deepseek", "claude", "gpt", "local"] if args.model == "all" else [args.model]

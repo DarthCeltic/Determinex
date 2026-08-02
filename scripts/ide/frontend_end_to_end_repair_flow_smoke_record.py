@@ -1,9 +1,9 @@
 """Records for FRONTEND_END_TO_END_REPAIR_FLOW_SMOKE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 FRONTEND_END_TO_END_REPAIR_FLOW_SMOKE_TOKENS = (
     "FRONTEND_E2E_SMOKE_TRACE_WRITTEN",

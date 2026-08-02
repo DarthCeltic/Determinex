@@ -27,21 +27,24 @@ Built because a live test hit a real Gemini 429. Two behaviors, per the ask:
 
 Wires into determinex_providers.get_rotating_generator(...) and the amplifier/router.
 """
+
 from __future__ import annotations
 
 import json
 import re
 import threading
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable
 
 GenerateFn = Callable[[str, float], str]
 
 _RATE_LIMIT_RE = re.compile(
     r"\b429\b|rate.?limit|too many requests|quota|RESOURCE_EXHAUSTED|overloaded|"
-    r"throttl|capacity", re.I)
+    r"throttl|capacity",
+    re.I,
+)
 
 
 def is_rate_limit_error(exc: BaseException) -> bool:
@@ -50,9 +53,9 @@ def is_rate_limit_error(exc: BaseException) -> bool:
 
 @dataclass
 class _ModelState:
-    min_interval: float = 0.0       # learned min seconds between calls
+    min_interval: float = 0.0  # learned min seconds between calls
     last_call: float = 0.0
-    cooldown_until: float = 0.0     # hard pause after a 429
+    cooldown_until: float = 0.0  # hard pause after a 429
     successes: int = 0
     rate_limits: int = 0
 
@@ -60,12 +63,13 @@ class _ModelState:
 @dataclass
 class AdaptiveLimiter:
     """Per-model adaptive throttle that learns each model's limit from 429s."""
-    floor: float = 0.0              # min interval we relax toward
-    ceiling: float = 30.0           # max interval we back off to
-    backoff: float = 2.0            # multiply interval on a 429
-    relax_after: int = 5            # successes before relaxing
+
+    floor: float = 0.0  # min interval we relax toward
+    ceiling: float = 30.0  # max interval we back off to
+    backoff: float = 2.0  # multiply interval on a 429
+    relax_after: int = 5  # successes before relaxing
     cooldown_seconds: float = 20.0  # hard pause after a 429
-    persist_path: "Path | None" = None
+    persist_path: Path | None = None
     _states: dict = field(default_factory=dict)
     _lock: threading.Lock = field(default_factory=threading.Lock)
 
@@ -129,9 +133,11 @@ class AdaptiveLimiter:
             return
         try:
             Path(self.persist_path).write_text(
-                json.dumps({k: {"min_interval": v.min_interval}
-                            for k, v in self._states.items()}, indent=2),
-                encoding="utf-8")
+                json.dumps(
+                    {k: {"min_interval": v.min_interval} for k, v in self._states.items()}, indent=2
+                ),
+                encoding="utf-8",
+            )
         except Exception:
             pass
 
@@ -140,8 +146,12 @@ class RotatingGenerator:
     """A generate(prompt, temperature) that auto-throttles per model and rotates
     to the next available model on a 429 -- so work continues through limits."""
 
-    def __init__(self, providers: "list[tuple[str, GenerateFn]]",
-                 limiter: "AdaptiveLimiter | None" = None, max_rotations: int = 0):
+    def __init__(
+        self,
+        providers: list[tuple[str, GenerateFn]],
+        limiter: AdaptiveLimiter | None = None,
+        max_rotations: int = 0,
+    ):
         if not providers:
             raise ValueError("RotatingGenerator needs at least one provider")
         self.providers = providers
@@ -154,19 +164,19 @@ class RotatingGenerator:
         for attempt in range(self.max_rotations):
             name, fn = self.providers[attempt % n]
             if self.limiter.cooling(name):
-                continue                      # skip a model that's cooling down
+                continue  # skip a model that's cooling down
             if not self.limiter.acquire(name, max_wait=8.0):
-                continue                      # would wait too long -> rotate
+                continue  # would wait too long -> rotate
             try:
                 out = fn(prompt, temperature)
                 self.limiter.on_success(name)
                 return out
-            except Exception as e:            # noqa: BLE001
+            except Exception as e:  # noqa: BLE001
                 last_err = e
                 if is_rate_limit_error(e):
                     self.limiter.on_rate_limit(name)  # learn + cool down, rotate
                     continue
-                continue                      # other error -> try the next model
+                continue  # other error -> try the next model
         raise RuntimeError(f"all models exhausted/rate-limited: {last_err}")
 
 
@@ -194,4 +204,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

@@ -5,6 +5,7 @@ Composes:
   temp patch verify → human approval packet → source apply dry-run →
   final IDE state.
 """
+
 from __future__ import annotations
 
 import sys
@@ -16,31 +17,30 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from intake.build_adapter_registry import BuildAdapterRegistry  # noqa: E402
-from models.live_model_compat_harness import DeterministicProvider  # noqa: E402
-from models.local_model_config_record import LocalModelConfigRecord  # noqa: E402
-from repair.live_diagnose_trace import LiveDiagnoseTraceRunner  # noqa: E402
-from repair.live_patch_plan_quarantine import LivePatchPlanQuarantine  # noqa: E402
-from repair.live_temp_patch_verifier_gate import LiveTempPatchVerifierGate  # noqa: E402
-from repair.opt_in_live_diagnose_command import OptInLiveDiagnoseCommand  # noqa: E402
-from repair.source_mutation_apply_dry_run import (  # noqa: E402
-    SourceMutationApplyDryRun,
-    workspace_hash,
-)
 from models.live_model_admission import (  # noqa: E402
     LiveAdmissionMode,
     LiveModelAdmissionConfig,
     LiveModelAdmissionGate,
 )
+from models.live_model_compat_harness import DeterministicProvider  # noqa: E402
 from models.local_model_admission_policy import (  # noqa: E402
     LocalModelCandidate,
     ModelProvider,
 )
+from models.local_model_config_record import LocalModelConfigRecord  # noqa: E402
 from models.model_inventory import LocalModelInventory  # noqa: E402
 from models.model_router import (  # noqa: E402
     CURRENT_MODEL_IDS,
     ModelRouter,
     RouterMode,
     TaskClass,
+)
+from repair.live_patch_plan_quarantine import LivePatchPlanQuarantine  # noqa: E402
+from repair.live_temp_patch_verifier_gate import LiveTempPatchVerifierGate  # noqa: E402
+from repair.opt_in_live_diagnose_command import OptInLiveDiagnoseCommand  # noqa: E402
+from repair.source_mutation_apply_dry_run import (  # noqa: E402
+    SourceMutationApplyDryRun,
+    workspace_hash,
 )
 
 from .human_approval_ui_model import build_packet
@@ -68,10 +68,13 @@ def build_consumer_flow_trace(
     # 1. Inspect workspace.
     reg = BuildAdapterRegistry()
     sel = reg.select(ws)
-    stages.append(IDEConsumerFlowStage(
-        name="inspect_workspace", status="IDE_COMMAND_OK",
-        evidence_ref=sel.primary.name,
-    ))
+    stages.append(
+        IDEConsumerFlowStage(
+            name="inspect_workspace",
+            status="IDE_COMMAND_OK",
+            evidence_ref=sel.primary.name,
+        )
+    )
 
     # 2. Route.
     inv = LocalModelInventory.of(sorted(CURRENT_MODEL_IDS))
@@ -79,17 +82,25 @@ def build_consumer_flow_trace(
     stages.append(IDEConsumerFlowStage(name="route_model", status=route.decision))
 
     # 3. Diagnose (opt-in).
-    diag_provider = diagnose_provider or DeterministicProvider(canned={"summary": "fixture diagnose"})
+    diag_provider = diagnose_provider or DeterministicProvider(
+        canned={"summary": "fixture diagnose"}
+    )
     diag = OptInLiveDiagnoseCommand().run(
-        ws, task_class="BUILD_DIAGNOSIS", config=config,
-        provider=diag_provider, opt_in=True,
+        ws,
+        task_class="BUILD_DIAGNOSIS",
+        config=config,
+        provider=diag_provider,
+        opt_in=True,
     )
     stages.append(IDEConsumerFlowStage(name="diagnose", status=diag.decision))
 
     # 4. Patch plan quarantine.
-    gate = LiveModelAdmissionGate(config=LiveModelAdmissionConfig(
-        mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=True,
-    ))
+    gate = LiveModelAdmissionGate(
+        config=LiveModelAdmissionConfig(
+            mode=LiveAdmissionMode.OPT_IN_LIVE,
+            opt_in_live=True,
+        )
+    )
     candidate = LocalModelCandidate(
         model_id=config.model_id,
         provider=config.provider or ModelProvider.OLLAMA.value,
@@ -98,7 +109,9 @@ def build_consumer_flow_trace(
     )
     admission = gate.evaluate(candidate, TaskClass.PATCH_GENERATION, inv, route)
     plan = LivePatchPlanQuarantine().quarantine(
-        list(plan_entries), admission=admission, workspace=ws,
+        list(plan_entries),
+        admission=admission,
+        workspace=ws,
     )
     stages.append(IDEConsumerFlowStage(name="patch_plan", status=plan.decision))
 
@@ -107,8 +120,12 @@ def build_consumer_flow_trace(
     diff = ""
     if plan.is_quarantined:
         from repair.safe_patch_workspace import stub_verifier_pass
+
         vr = LiveTempPatchVerifierGate().apply_and_verify(
-            plan, temp_root=temp, verifier=stub_verifier_pass, workspace_id="cflow",
+            plan,
+            temp_root=temp,
+            verifier=stub_verifier_pass,
+            workspace_id="cflow",
         )
         verifier_status = vr.verifier_status
         diff = vr.unified_diff
@@ -128,7 +145,9 @@ def build_consumer_flow_trace(
 
     # 7. Source apply dry-run.
     dry = SourceMutationApplyDryRun().run(
-        ws, approval=packet, observed_diff=diff,
+        ws,
+        approval=packet,
+        observed_diff=diff,
         observed_source_hash_at_packet_time=workspace_hash(ws),
         verifier_status=verifier_status or "PATCH_VERIFIER_PASSED_TEMP_ONLY",
     )

@@ -6,7 +6,6 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Literal
 
-
 ScorerKind = Literal[
     "all_commands_pass",
     "programbench_passed_total",
@@ -49,7 +48,7 @@ class TaskSpec:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "TaskSpec":
+    def from_dict(cls, data: dict[str, Any]) -> TaskSpec:
         payload = dict(data)
         limits = payload.get("resource_limits") or {}
         if isinstance(limits, ResourceLimits):

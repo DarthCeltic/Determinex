@@ -30,6 +30,7 @@ from logs/retrain_queue.jsonl (different schema/granularity; the Hive
 step-level queue's consumers expect its exact shape, this must not corrupt
 that contract).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -37,7 +38,7 @@ import json
 import re
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_fixed
@@ -54,14 +55,14 @@ _PASS_EVIDENCE_RE = re.compile(
     # prose puts descriptive words between the count and the verb, not
     # just whitespace, so allow up to ~6 words in between.
     r"\b(\d+)\s*/\s*\1\b(?:\s+\w+){0,6}?\s+(?:passing|passed|pass)\b"
-    r"|\ball\s+\d+\s+tests?\s+pass"                        # "all 20 tests pass"
+    r"|\ball\s+\d+\s+tests?\s+pass"  # "all 20 tests pass"
     # "1165 passed, 0 failed" / "0 failed, 1165 passed" -- comma-separated
     # pass/fail counts where the fail side is exactly 0.
     r"|\b\d+\s+passed,\s*0\s+failed\b"
     r"|\b0\s+failed,\s*\d+\s+passed\b"
-    r"|\b0\s+violations?\b"                                # "0 violations"
-    r"|\bguard\s+passed\b"                                 # "GUARD PASSED"
-    r"|\ball\s+invariants\s+satisfied\b",                  # "All invariants satisfied"
+    r"|\b0\s+violations?\b"  # "0 violations"
+    r"|\bguard\s+passed\b"  # "GUARD PASSED"
+    r"|\ball\s+invariants\s+satisfied\b",  # "All invariants satisfied"
     re.IGNORECASE,
 )
 _FAIL_EVIDENCE_RE = re.compile(
@@ -87,8 +88,13 @@ def _run(cmd: list[str]) -> str:
     # Retry past a transient failure rather than let one abort a
     # multi-thousand-commit run this far in.
     return subprocess.run(
-        cmd, cwd=str(ROOT), capture_output=True, text=True, encoding="utf-8",
-        errors="replace", check=True,
+        cmd,
+        cwd=str(ROOT),
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=True,
     ).stdout
 
 
@@ -108,8 +114,11 @@ def _safe_diff(sha: str) -> tuple[str, bool]:
         return _run(["git", "show", "--format=", sha]), False
     except subprocess.CalledProcessError as e:
         stderr = (e.stderr or "").strip()
-        print(f"  {sha[:12]}: diff capture failed ({stderr[:200]}) -- "
-              f"keeping message+stat, diff omitted", file=sys.stderr)
+        print(
+            f"  {sha[:12]}: diff capture failed ({stderr[:200]}) -- "
+            f"keeping message+stat, diff omitted",
+            file=sys.stderr,
+        )
         return "", True
 
 
@@ -136,7 +145,7 @@ def capture_commit(sha: str = "HEAD") -> dict:
 
     quality = classify_quality(message)
     entry = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "sha": full_sha,
         "author_date": author_date,
         "message": message.strip(),
@@ -211,8 +220,9 @@ def backfill_all(ref: str = "HEAD", progress_every: int = 100) -> dict:
         for i, sha in enumerate(all_shas, start=1):
             if not _SHA_RE.match(sha):
                 malformed += 1
-                print(f"  backfill: skipping malformed sha at position {i}: {sha!r}",
-                      file=sys.stderr)
+                print(
+                    f"  backfill: skipping malformed sha at position {i}: {sha!r}", file=sys.stderr
+                )
                 continue
             if sha in already:
                 skipped += 1
@@ -228,8 +238,9 @@ def backfill_all(ref: str = "HEAD", progress_every: int = 100) -> dict:
                 # (see _safe_diff), there's no known legitimate reason for
                 # these specific lightweight calls to fail deterministically.
                 errored += 1
-                print(f"  backfill: {sha[:12]} failed after retries, skipping: {e}",
-                      file=sys.stderr)
+                print(
+                    f"  backfill: {sha[:12]} failed after retries, skipping: {e}", file=sys.stderr
+                )
                 continue
             diff, diff_failed = _safe_diff(sha)
 
@@ -237,7 +248,7 @@ def backfill_all(ref: str = "HEAD", progress_every: int = 100) -> dict:
             quality_counts[quality] = quality_counts.get(quality, 0) + 1
 
             entry = {
-                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "timestamp": datetime.now(UTC).isoformat(),
                 "sha": sha,
                 "author_date": author_date,
                 "message": message.strip(),
@@ -254,12 +265,20 @@ def backfill_all(ref: str = "HEAD", progress_every: int = 100) -> dict:
             added += 1
 
             if progress_every and added % progress_every == 0:
-                print(f"  backfill: {added} added, {skipped} already-captured "
-                      f"({i}/{len(all_shas)} scanned)", file=sys.stderr)
+                print(
+                    f"  backfill: {added} added, {skipped} already-captured "
+                    f"({i}/{len(all_shas)} scanned)",
+                    file=sys.stderr,
+                )
 
-    return {"total_in_history": len(all_shas), "added": added,
-            "already_captured_skipped": skipped, "malformed_sha_skipped": malformed,
-            "errored_after_retries": errored, "by_quality": quality_counts}
+    return {
+        "total_in_history": len(all_shas),
+        "added": added,
+        "already_captured_skipped": skipped,
+        "malformed_sha_skipped": malformed,
+        "errored_after_retries": errored,
+        "by_quality": quality_counts,
+    }
 
 
 def stats() -> dict:

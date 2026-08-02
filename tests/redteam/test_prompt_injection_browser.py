@@ -13,6 +13,7 @@ Attack vectors tested:
 
 SUPPLY_CHAIN_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -22,8 +23,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
-from agents.prompt_injection_detector import scan, InjectionRisk, is_safe, wrap_as_data
-
+from agents.prompt_injection_detector import InjectionRisk, is_safe, scan, wrap_as_data
 
 # ---------------------------------------------------------------------------
 # Attack payloads embedded in simulated browser content
@@ -126,15 +126,17 @@ BENIGN_BROWSER_CONTENT = [
 
 
 class TestBrowserInjectionDetection:
-
     @pytest.mark.parametrize("name,content,expected_risk", BROWSER_INJECTION_CASES)
     def test_injection_detected(self, name, content, expected_risk):
         result = scan(content, source=f"browser:{name}")
-        assert result.risk != InjectionRisk.CLEAN, (
-            f"[{name}] injection must be detected, got CLEAN"
-        )
+        assert result.risk != InjectionRisk.CLEAN, f"[{name}] injection must be detected, got CLEAN"
         # Risk level should be at least as severe as expected
-        risk_order = [InjectionRisk.CLEAN, InjectionRisk.SUSPICIOUS, InjectionRisk.HIGH, InjectionRisk.CRITICAL]
+        risk_order = [
+            InjectionRisk.CLEAN,
+            InjectionRisk.SUSPICIOUS,
+            InjectionRisk.HIGH,
+            InjectionRisk.CRITICAL,
+        ]
         actual_idx = risk_order.index(result.risk)
         expected_idx = risk_order.index(expected_risk)
         assert actual_idx >= expected_idx - 1, (

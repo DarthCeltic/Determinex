@@ -15,6 +15,7 @@ exactly that commit.
 The tests here are offline: network fetching is exercised separately and deliberately not in the
 suite, because a unit test that clones 200 repositories is not a unit test.
 """
+
 from __future__ import annotations
 
 import json
@@ -176,9 +177,15 @@ def test_canonical_tasks_ships_in_the_public_repo():
     import subprocess
 
     tracked = subprocess.run(
-        ["git", "ls-files", "--error-unmatch",
-         CF.CANONICAL_TASKS.relative_to(REPO_ROOT).as_posix()],
-        cwd=REPO_ROOT, capture_output=True, timeout=120,
+        [
+            "git",
+            "ls-files",
+            "--error-unmatch",
+            CF.CANONICAL_TASKS.relative_to(REPO_ROOT).as_posix(),
+        ],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        timeout=120,
     )
     assert tracked.returncode == 0, "canonical_tasks.json is not tracked by git"
 

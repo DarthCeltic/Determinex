@@ -36,6 +36,7 @@ Exit codes:
     2 = infrastructure error (missing sidecar entry, missing override, etc.)
     3 = bad arguments
 """
+
 from __future__ import annotations
 
 import argparse
@@ -43,7 +44,6 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 SIDECAR = ROOT / "logs" / "programbench_factory" / "rule_b_promotions.jsonl"
@@ -110,7 +110,9 @@ def promote(slug: str, new_run_root: Path, py: str) -> int:
         return 2
 
     print(f"[promote] slug={slug}")
-    print(f"[promote] Rule B eval baseline: {rule_b_eval}  (passed={rule_b_passed} runnable={rule_b_runnable})")
+    print(
+        f"[promote] Rule B eval baseline: {rule_b_eval}  (passed={rule_b_passed} runnable={rule_b_runnable})"
+    )
     print(f"[promote] second-run root: {new_run_root}")
 
     if new_run_root.resolve() == Path(rule_b_run_root).resolve():
@@ -129,14 +131,21 @@ def promote(slug: str, new_run_root: Path, py: str) -> int:
     # 3) gate the new run against the first Rule B eval as the new measurement
     # surface. Certification mode allows delta.passed == 0 while still requiring
     # runnable stability and zero regressions.
-    rc = _run([
-        py, str(SCRIPTS / "pb_candidate_gate.py"),
-        slug, str(new_run_root),
-        "--baseline-eval", str(rule_b_eval),
-        "--min-baseline-passed", str(rule_b_passed),
-        "--allow-stable-certification",
-        "--python", py,
-    ])
+    rc = _run(
+        [
+            py,
+            str(SCRIPTS / "pb_candidate_gate.py"),
+            slug,
+            str(new_run_root),
+            "--baseline-eval",
+            str(rule_b_eval),
+            "--min-baseline-passed",
+            str(rule_b_passed),
+            "--allow-stable-certification",
+            "--python",
+            py,
+        ]
+    )
     if rc != 0:
         sys.stderr.write(
             f"[promote] second eval did not gate clean against the Rule B baseline "
@@ -161,13 +170,19 @@ def promote(slug: str, new_run_root: Path, py: str) -> int:
         return 1
 
     # 5) apply through the official Rule A chain
-    rc = _run([
-        py, str(SCRIPTS / "pb_apply_gate_decision.py"),
-        slug, str(gate_path),
-        "--run-root", str(new_run_root),
-        "--refresh-board",
-        "--python", py,
-    ])
+    rc = _run(
+        [
+            py,
+            str(SCRIPTS / "pb_apply_gate_decision.py"),
+            slug,
+            str(gate_path),
+            "--run-root",
+            str(new_run_root),
+            "--refresh-board",
+            "--python",
+            py,
+        ]
+    )
     if rc != 0:
         sys.stderr.write(f"[promote] Rule A apply failed (rc={rc})\n")
         return 2
@@ -179,8 +194,12 @@ def promote(slug: str, new_run_root: Path, py: str) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", help="slug from rule_b_promotions.jsonl")
-    ap.add_argument("--new-run-root", type=Path, required=True,
-                    help="distinct run root for the second eval (must not collide with Rule B run root)")
+    ap.add_argument(
+        "--new-run-root",
+        type=Path,
+        required=True,
+        help="distinct run root for the second eval (must not collide with Rule B run root)",
+    )
     ap.add_argument("--python", default=sys.executable, help="Python interpreter for sub-scripts")
     args = ap.parse_args()
     return promote(args.slug, args.new_run_root.resolve(), args.python)

@@ -14,9 +14,10 @@ Usage:
 Requires: pip install wandb
 ENV: WANDB_API_KEY, WANDB_PROJECT (default: determinex-programbench)
 """
+
 from __future__ import annotations
+
 import argparse
-import json
 import os
 import sqlite3
 import sys
@@ -44,11 +45,14 @@ def cmd_log_iteration(args):
         print(f"no DB at {DB}; run determinex_db.py init first")
         sys.exit(1)
 
-    wandb, run = _wandb_init(args.label, {
-        "scaffold_sha": args.scaffold_sha,
-        "iteration": args.label,
-        "timestamp": datetime.utcnow().isoformat(),
-    })
+    wandb, run = _wandb_init(
+        args.label,
+        {
+            "scaffold_sha": args.scaffold_sha,
+            "iteration": args.label,
+            "timestamp": datetime.utcnow().isoformat(),
+        },
+    )
 
     c = sqlite3.connect(DB)
     cur = c.cursor()
@@ -72,13 +76,15 @@ def cmd_log_iteration(args):
     agg = 100 * total_pass / total_tests
     avg = sum(r[1] for r in rows) / n
 
-    wandb.log({
-        "n_scored": n,
-        "weighted_aggregate": agg,
-        "per_tool_average": avg,
-        "total_passed": total_pass,
-        "total_tests": total_tests,
-    })
+    wandb.log(
+        {
+            "n_scored": n,
+            "weighted_aggregate": agg,
+            "per_tool_average": avg,
+            "total_passed": total_pass,
+            "total_tests": total_tests,
+        }
+    )
 
     # Per-tool
     bucket_counts = {"95-100": 0, "70-94": 0, "40-69": 0, "10-39": 0, "0-9": 0}
@@ -86,11 +92,16 @@ def cmd_log_iteration(args):
     for inst, pct, p, t, d in rows:
         table.add_data(inst, pct, p, t, d or 0)
         wandb.log({f"score/{inst}": pct})
-        if pct >= 95: bucket_counts["95-100"] += 1
-        elif pct >= 70: bucket_counts["70-94"] += 1
-        elif pct >= 40: bucket_counts["40-69"] += 1
-        elif pct >= 10: bucket_counts["10-39"] += 1
-        else: bucket_counts["0-9"] += 1
+        if pct >= 95:
+            bucket_counts["95-100"] += 1
+        elif pct >= 70:
+            bucket_counts["70-94"] += 1
+        elif pct >= 40:
+            bucket_counts["40-69"] += 1
+        elif pct >= 10:
+            bucket_counts["10-39"] += 1
+        else:
+            bucket_counts["0-9"] += 1
     for b, n in bucket_counts.items():
         wandb.log({f"bucket/{b}": n})
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Batch gate + apply for the prebuilt _pending_apply.json list."""
+
 from __future__ import annotations
 
 import json
@@ -15,9 +16,15 @@ PENDING = ROOT / "logs" / "programbench_factory" / "_pending_apply.json"
 
 def run(cmd, check=False):
     print("+", " ".join(str(x) for x in cmd))
-    r = subprocess.run([str(x) for x in cmd], cwd=str(ROOT), text=True,
-                       stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                       encoding="utf-8", errors="replace")
+    r = subprocess.run(
+        [str(x) for x in cmd],
+        cwd=str(ROOT),
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        encoding="utf-8",
+        errors="replace",
+    )
     print(r.stdout)
     if check and r.returncode != 0:
         raise SystemExit(f"command failed: {r.returncode}")
@@ -38,21 +45,27 @@ def main():
             summary.append((base, "skip_no_baseline", item["score"]))
             continue
 
-        print(f"\n=== [{i}/{len(items)}] {base} {item['score']:.2f}% ({item['passed']}/{item['runnable']}) ===")
+        print(
+            f"\n=== [{i}/{len(items)}] {base} {item['score']:.2f}% ({item['passed']}/{item['runnable']}) ==="
+        )
         gate_json = Path(run_root) / "gate_result.json"
 
         # 1. gate
         gate_cmd = [
-            PY, ROOT / "scripts" / "pb_candidate_gate.py",
-            slug, run_root,
-            "--baseline-eval", baseline,
-            "--min-baseline-passed", "1",
+            PY,
+            ROOT / "scripts" / "pb_candidate_gate.py",
+            slug,
+            run_root,
+            "--baseline-eval",
+            baseline,
+            "--min-baseline-passed",
+            "1",
             "--skip-eval",
         ]
         rc = run(gate_cmd)
 
         if not gate_json.is_file():
-            print(f"  gate did not produce result, skipping apply")
+            print("  gate did not produce result, skipping apply")
             summary.append((base, f"gate_failed_rc{rc}", item["score"]))
             continue
 
@@ -66,9 +79,12 @@ def main():
 
         # 2. apply
         apply_cmd = [
-            PY, ROOT / "scripts" / "pb_apply_gate_decision.py",
-            slug, str(gate_json),
-            "--run-root", run_root,
+            PY,
+            ROOT / "scripts" / "pb_apply_gate_decision.py",
+            slug,
+            str(gate_json),
+            "--run-root",
+            run_root,
             "--refresh-board",
         ]
         rc2 = run(apply_cmd)

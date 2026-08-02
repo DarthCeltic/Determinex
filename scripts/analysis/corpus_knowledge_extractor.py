@@ -20,7 +20,9 @@ Inputs:
 
 Run: python scripts/analysis/corpus_knowledge_extractor.py
 """
+
 from __future__ import annotations
+
 import glob
 import json
 import re
@@ -183,13 +185,15 @@ def main():
             # Each handler the tool has is "transferable knowledge" if score is good
             if score >= 30 or len(handlers) > 0:
                 for hname, hsnippet in handlers.items():
-                    extracted_by_bucket[hname].append({
-                        "tool": tool,
-                        "slug": slug,
-                        "lang": record["lang"],
-                        "our_pct": score,
-                        "snippet": hsnippet,
-                    })
+                    extracted_by_bucket[hname].append(
+                        {
+                            "tool": tool,
+                            "slug": slug,
+                            "lang": record["lang"],
+                            "our_pct": score,
+                            "snippet": hsnippet,
+                        }
+                    )
 
     # Tier 2: high-scoring tools without overrides — also worth mining
     # (we don't have access to their full source code unless it's in a scaffold,
@@ -198,19 +202,23 @@ def main():
     for tool, pct in sorted(scores.items(), key=lambda kv: -kv[1]):
         if pct >= 50:
             slug = tool.rsplit(".", 1)[0] if "." in tool else tool
-            high_scoring.append({
-                "tool": tool,
-                "slug": slug,
-                "our_pct": pct,
-                "lang": meta.get(slug, {}).get("lang", "?"),
-                "frontier_pct": meta.get(slug, {}).get("frontier_pct"),
-            })
+            high_scoring.append(
+                {
+                    "tool": tool,
+                    "slug": slug,
+                    "our_pct": pct,
+                    "lang": meta.get(slug, {}).get("lang", "?"),
+                    "frontier_pct": meta.get(slug, {}).get("frontier_pct"),
+                }
+            )
 
     # Write per-bucket snippet files
     for bucket, items in extracted_by_bucket.items():
         out_path = OUT_DIR / f"{bucket}.md"
         lines = [f"# Snippet bucket: `{bucket}`", ""]
-        lines.append(f"Extracted from {len(items)} tool override(s). Higher-scoring tools' versions are preferred for reuse.")
+        lines.append(
+            f"Extracted from {len(items)} tool override(s). Higher-scoring tools' versions are preferred for reuse."
+        )
         lines.append("")
         for r in sorted(items, key=lambda x: -x["our_pct"]):
             lines.append(f"## {r['tool']}  ({r['lang']}, {r['our_pct']}%)")
@@ -223,8 +231,10 @@ def main():
     # Write registry.json
     registry = {
         "buckets": {
-            b: [{"tool": r["tool"], "slug": r["slug"], "lang": r["lang"],
-                 "our_pct": r["our_pct"]} for r in items]
+            b: [
+                {"tool": r["tool"], "slug": r["slug"], "lang": r["lang"], "our_pct": r["our_pct"]}
+                for r in items
+            ]
             for b, items in extracted_by_bucket.items()
         },
         "override_records": override_records,
@@ -263,16 +273,22 @@ def main():
     md.append("| tool | lang | our % | handlers extracted |")
     md.append("|------|------|------:|--------------------|")
     for r in sorted(override_records, key=lambda x: -x["our_pct"]):
-        md.append(f"| {r['tool']} | {r['lang']} | {r['our_pct']} | {', '.join(r['handlers']) or '-'} |")
+        md.append(
+            f"| {r['tool']} | {r['lang']} | {r['our_pct']} | {', '.join(r['handlers']) or '-'} |"
+        )
 
     md.append("")
     md.append("## How to use these snippets when generating a new scaffold")
     md.append("")
-    md.append("1. Predict failure buckets the new tool will hit (by family + language + test count).")
+    md.append(
+        "1. Predict failure buckets the new tool will hit (by family + language + test count)."
+    )
     md.append("2. Look up `_snippets/<bucket>.md` for prior winning snippets.")
     md.append("3. Prefer snippets from the highest-scoring same-language tool.")
     md.append("4. Compose into new scaffold's `main.py`.")
-    md.append("5. After eval, run `corpus_knowledge_extractor.py` again to add the new tool's contributions.")
+    md.append(
+        "5. After eval, run `corpus_knowledge_extractor.py` again to add the new tool's contributions."
+    )
 
     (OUT_DIR / "transferable_patterns.md").write_text("\n".join(md), encoding="utf-8")
 

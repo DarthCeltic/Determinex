@@ -20,19 +20,23 @@ Usage (testing):
 
     pipeline = JavaRepairPipeline(corpus_manager=cm, executor=fake_exec)
 """
+
 from __future__ import annotations
 
 import hashlib
 import logging
 import subprocess
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
+
+from agents.prompt_injection_detector import InjectionRisk
+from agents.prompt_injection_detector import scan as injection_scan
 
 from corpus.code_ingest.java_task_extractor import JavaRepairTask, JavaTaskExtractor
 from corpus.code_ingest.license_detector import detect
 from corpus.code_ingest.secret_scanner import is_clean as secrets_clean
-from agents.prompt_injection_detector import scan as injection_scan, InjectionRisk
 
 log = logging.getLogger(__name__)
 
@@ -55,7 +59,7 @@ class PipelineResult:
     repo_path: str
     tasks_extracted: int
     tasks_written: int
-    rejected_reason: str = ""          # non-empty if repo was rejected before extraction
+    rejected_reason: str = ""  # non-empty if repo was rejected before extraction
     license_spdx: str = ""
     license_bucket: str = ""
     task_ids: list[str] = field(default_factory=list)
@@ -116,7 +120,9 @@ class JavaRepairPipeline:
         result.license_spdx = license_result.spdx_id or "unknown"
         result.license_bucket = license_result.bucket
         if not license_result.ingest_allowed:
-            result.rejected_reason = f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            result.rejected_reason = (
+                f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            )
             log.info("[java_pipeline] rejected %s — %s", repo_path, result.rejected_reason)
             return result
 
@@ -190,13 +196,15 @@ class JavaRepairPipeline:
         """Write a JavaRepairTask to corpus. Returns task_id or None on error."""
         try:
             from agents.base_agent import CorpusType
+
             payload = task.to_corpus_payload()
             input_hash = hashlib.blake2b(
                 task.mutated_snippet.encode() + task.error_message.encode(),
                 digest_size=16,
             ).hexdigest()
             output_hash = hashlib.blake2b(
-                task.repair_patch.encode(), digest_size=16,
+                task.repair_patch.encode(),
+                digest_size=16,
             ).hexdigest()
             record = self._cm._normalize_record(
                 corpus_type=CorpusType.CODE_VERDICT,

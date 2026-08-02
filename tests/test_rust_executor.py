@@ -4,6 +4,7 @@ Doesn't run `cargo build` — that's 90-180s cold and would hammer parallel CI.
 The scaffold output is byte-checked: Cargo.toml + src/main.rs + compile.sh +
 README, with the right tool/crate name and the clap-4 wiring.
 """
+
 from __future__ import annotations
 
 import json
@@ -16,8 +17,7 @@ _REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_REPO))
 sys.path.insert(0, str(_REPO / "scripts"))
 
-from executors import RustExecutor, ExecutorError                  # noqa: E402
-from executors.base import ProbeResult                              # noqa: E402
+from executors import RustExecutor  # noqa: E402
 
 _FAKE_INSTANCE = "burntsushi__ripgrep.3b7fd44"
 
@@ -96,7 +96,8 @@ def test_crate_name_sanitized_for_unusual_tool_names(synthetic_tasks_dir, tmp_pa
     weird = "author__Tool.Name.Test.abc1234"
     (synthetic_tasks_dir / weird).mkdir()
     (synthetic_tasks_dir / weird / "task.yaml").write_text(
-        "language: rs\n", encoding="utf-8",
+        "language: rs\n",
+        encoding="utf-8",
     )
     ex = RustExecutor(tasks_dir=synthetic_tasks_dir)
     probe = ex.probe(weird)
@@ -104,6 +105,7 @@ def test_crate_name_sanitized_for_unusual_tool_names(synthetic_tasks_dir, tmp_pa
     cargo = (sc.work_dir / "source" / "Cargo.toml").read_text(encoding="utf-8")
     # All-lowercase, alnum + _-
     import re
+
     m = re.search(r'name = "([^"]+)"', cargo)
     assert m, "Cargo.toml missing name"
     name = m.group(1)
@@ -116,14 +118,23 @@ def test_classify_routes_through_central_taxonomy(tmp_path):
     PythonExecutor test — proves base.Executor's classify is language-neutral."""
     ex = RustExecutor()
     eval_json = tmp_path / "fake.eval.json"
-    eval_json.write_text(json.dumps({
-        "test_results": [
-            {"status": "passed",  "name": "t1"},
-            {"status": "failure", "name": "t2",
-             "extra": {"message": "tool: unknown option: --bogus"}},
-        ],
-    }), encoding="utf-8")
+    eval_json.write_text(
+        json.dumps(
+            {
+                "test_results": [
+                    {"status": "passed", "name": "t1"},
+                    {
+                        "status": "failure",
+                        "name": "t2",
+                        "extra": {"message": "tool: unknown option: --bogus"},
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
     from executors.base import EvalResult
+
     er = EvalResult(instance_id="x", score=50.0, passed=1, total=2, eval_json_path=eval_json)
     cr = ex.classify(er)
     assert cr.families.get("rc_2_unknown_option") == 1
@@ -134,6 +145,7 @@ def test_probe_inherits_python_implementation(synthetic_tasks_dir):
     is language-neutral). Same fixture should give the same ProbeResult."""
     rust_ex = RustExecutor(tasks_dir=synthetic_tasks_dir)
     from executors import PythonExecutor
+
     py_ex = PythonExecutor(tasks_dir=synthetic_tasks_dir)
     rprobe = rust_ex.probe(_FAKE_INSTANCE)
     pprobe = py_ex.probe(_FAKE_INSTANCE)

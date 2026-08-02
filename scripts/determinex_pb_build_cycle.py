@@ -15,8 +15,15 @@ The END shot's inserts land in build_knowledge.json, so the NEXT START shot is a
 No duplication: START = ask_corpus (read), END = corpus_verify (write); both share
 build_knowledge.json. State is one tiny json per slug under .cycle_state/.
 """
+
 from __future__ import annotations
-import argparse, collections, glob, json, os, sys
+
+import argparse
+import collections
+import glob
+import json
+import os
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -40,6 +47,7 @@ def _latest_score(slug: str) -> tuple[int, int]:
 def cmd_start(slug: str) -> None:
     STATE.mkdir(exist_ok=True)
     from determinex_pb_ask_corpus import ask_corpus
+
     shot = ask_corpus(slug)
     p, tot = _latest_score(slug)
     (STATE / f"{slug}.json").write_text(json.dumps({"before": f"{p}/{tot}"}), encoding="utf-8")
@@ -53,12 +61,15 @@ def cmd_start(slug: str) -> None:
     print("CORPUS prescription (what to do, ordered):")
     for line in shot.get("prescription", [])[:8]:
         print("  -", line)
-    print("---> BUILD now using the above, re-eval, then run: build_cycle end "
-          f"{slug} --change \"<what you changed>\" [--class <key>]")
+    print(
+        "---> BUILD now using the above, re-eval, then run: build_cycle end "
+        f'{slug} --change "<what you changed>" [--class <key>]'
+    )
 
 
 def cmd_end(slug: str, change: str | None, klass: str | None, gen: str | None) -> None:
     from determinex_pb_corpus_verify import verify
+
     st = STATE / f"{slug}.json"
     before = json.loads(st.read_text(encoding="utf-8"))["before"] if st.exists() else "0/0"
     p, tot = _latest_score(slug)
@@ -76,16 +87,21 @@ def cmd_end(slug: str, change: str | None, klass: str | None, gen: str | None) -
         print(f"==> DONE: {slug} at {after} (100%). Cycle complete.")
     else:
         miss = tot - p if tot else "?"
-        print(f"==> LOOP-AGAIN: {miss} not-yet-passing. Run: build_cycle start {slug}  "
-              "(next START shot now includes what this END shot inserted).")
+        print(
+            f"==> LOOP-AGAIN: {miss} not-yet-passing. Run: build_cycle start {slug}  "
+            "(next START shot now includes what this END shot inserted)."
+        )
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
-    s = sub.add_parser("start"); s.add_argument("slug")
-    e = sub.add_parser("end"); e.add_argument("slug")
-    e.add_argument("--change"); e.add_argument("--class", dest="klass")
+    s = sub.add_parser("start")
+    s.add_argument("slug")
+    e = sub.add_parser("end")
+    e.add_argument("slug")
+    e.add_argument("--change")
+    e.add_argument("--class", dest="klass")
     e.add_argument("--generalizes-to", dest="gen")
     a = ap.parse_args()
     if a.cmd == "start":

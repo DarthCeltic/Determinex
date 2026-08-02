@@ -13,6 +13,7 @@ Three mechanisms that make kills/restarts cheap and long local runs observable:
      ollama left queued requests burning their own timeout (observed: 11.7 min
      queued then dead).
 """
+
 from __future__ import annotations
 
 import json
@@ -30,8 +31,9 @@ import determinex_pb_reimpl as reimpl  # noqa: E402
 def _fake_obs():
     return [
         OBS.Observation(OBS.Probe("p1", ["-h"], None, {}, {}), "out", "err", 0),
-        OBS.Observation(OBS.Probe("p2", [], "stdin", {"f.txt": "x"}, {},
-                                  env={"NO_COLOR": "1"}), "o2", "", 1),
+        OBS.Observation(
+            OBS.Probe("p2", [], "stdin", {"f.txt": "x"}, {}, env={"NO_COLOR": "1"}), "o2", "", 1
+        ),
     ]
 
 
@@ -72,8 +74,7 @@ def test_checkpoint_write_shape_and_atomicity(tmp_path):
     ck = tmp_path / "x_stations.ckpt.json"
     reimpl._save_ckpt(ck, "sig123", "int main(){}", {"b", "a"}, 2)
     d = json.loads(ck.read_text(encoding="utf-8"))
-    assert d == {"obs_sig": "sig123", "current": "int main(){}",
-                 "done": ["a", "b"], "stations": 2}
+    assert d == {"obs_sig": "sig123", "current": "int main(){}", "done": ["a", "b"], "stations": 2}
     assert not ck.with_suffix(".tmp").exists()  # atomic replace, no tmp left behind
 
 

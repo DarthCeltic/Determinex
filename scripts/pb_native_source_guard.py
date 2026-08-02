@@ -5,14 +5,13 @@ This guard is for corpus quality, not orchestration code. Python queue/gate
 scripts are fine; native ProgramBench tool implementations must ship real
 native source when the upstream tool is Go/Rust/C/C++.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
-import sys
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 OVERRIDES = ROOT / "corpus" / "programbench" / "per_tool_overrides"
@@ -77,9 +76,7 @@ def _main_py_substantive(src: Path) -> tuple[bool, int, bool]:
         return False, 0, False
     text = main_py.read_text(encoding="utf-8", errors="replace")
     lines = [
-        ln.strip()
-        for ln in text.splitlines()
-        if ln.strip() and not ln.strip().startswith("#")
+        ln.strip() for ln in text.splitlines() if ln.strip() and not ln.strip().startswith("#")
     ]
     wrapper_tokens = ("os.execv(", "os.execvp(", "subprocess.run(", "exec(")
     thin = len(lines) <= 8 and any(tok in text for tok in wrapper_tokens)
@@ -248,9 +245,9 @@ def main() -> int:
         for r in results:
             status = "OK" if r["ok"] else "FAIL"
             print(
-                f"{status} {r.get('slug','?')}: {r['reason']} "
+                f"{status} {r.get('slug', '?')}: {r['reason']} "
                 f"(audit={r.get('audit_language') or '?'}, detected={r.get('detected_language') or '?'}, "
-                f"main_py_lines={r.get('main_py_lines',0)})"
+                f"main_py_lines={r.get('main_py_lines', 0)})"
             )
     return 0 if all(r["ok"] for r in results) else 1
 

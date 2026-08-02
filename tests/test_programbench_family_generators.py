@@ -5,7 +5,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 GEN_ROOT = ROOT / "corpus" / "programbench" / "families" / "wave1"
 
@@ -21,7 +20,9 @@ FAMILIES = [
 ]
 
 
-def _run(args: list[str], cwd: Path | None = None, input_text: str | None = None) -> subprocess.CompletedProcess[str]:
+def _run(
+    args: list[str], cwd: Path | None = None, input_text: str | None = None
+) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         args,
         cwd=str(cwd) if cwd else None,
@@ -35,37 +36,43 @@ def _run(args: list[str], cwd: Path | None = None, input_text: str | None = None
 def test_all_wave1_generators_emit_compilable_scaffold(tmp_path: Path) -> None:
     probe = tmp_path / "probe.eval.json"
     probe.write_text(
-        json.dumps({
-            "test_results": [
-                {
-                    "name": "tests.test_cli.test_unknown_flag",
-                    "status": "failure",
-                    "extra": {"message": "error: unexpected argument '--made-up' found"},
-                },
-                {
-                    "name": "tests.test_cli.test_invalid_sort",
-                    "status": "failure",
-                    "extra": {"message": "error: invalid value 'bad' for '--sort <SORT>'\n  [possible values: path, modified, created, accessed]"},
-                },
-            ]
-        }),
+        json.dumps(
+            {
+                "test_results": [
+                    {
+                        "name": "tests.test_cli.test_unknown_flag",
+                        "status": "failure",
+                        "extra": {"message": "error: unexpected argument '--made-up' found"},
+                    },
+                    {
+                        "name": "tests.test_cli.test_invalid_sort",
+                        "status": "failure",
+                        "extra": {
+                            "message": "error: invalid value 'bad' for '--sort <SORT>'\n  [possible values: path, modified, created, accessed]"
+                        },
+                    },
+                ]
+            }
+        ),
         encoding="utf-8",
     )
 
     for family in FAMILIES:
         out = tmp_path / family
         gen = GEN_ROOT / family / "scaffold_generator.py"
-        result = _run([
-            sys.executable,
-            str(gen),
-            "--instance",
-            f"example__{family}.abc123",
-            "--probe-from",
-            str(probe),
-            "--out",
-            str(out),
-            "--pack",
-        ])
+        result = _run(
+            [
+                sys.executable,
+                str(gen),
+                "--instance",
+                f"example__{family}.abc123",
+                "--probe-from",
+                str(probe),
+                "--out",
+                str(out),
+                "--pack",
+            ]
+        )
         assert result.returncode == 0, result.stderr
         root = out / f"example__{family}.abc123"
         main_py = root / "source" / "main.py"
@@ -110,7 +117,9 @@ def test_file_renamer_generated_scaffold_dry_run_table(tmp_path: Path) -> None:
     work.mkdir()
     (work / "file1.txt").write_text("x", encoding="utf-8")
 
-    result = _run([sys.executable, str(main_py), "-t", "-d", str(work), "-r", "file(\\d+)", "renamed_{1}"])
+    result = _run(
+        [sys.executable, str(main_py), "-t", "-d", str(work), "-r", "file(\\d+)", "renamed_{1}"]
+    )
     assert result.returncode == 0
     assert "+-------+--------+" in result.stdout
     assert "renamed_1.txt" in result.stdout

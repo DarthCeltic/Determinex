@@ -17,7 +17,9 @@ def test_download_bundle_manifest_includes_installers_checksums_and_boundary(tmp
     root = tmp_path / "repo"
     tauri = root / "frontend/src-tauri/tauri.conf.json"
     tauri.parent.mkdir(parents=True)
-    tauri.write_text(json.dumps({"productName": "Determinex", "version": "0.1.0"}), encoding="utf-8")
+    tauri.write_text(
+        json.dumps({"productName": "Determinex", "version": "0.1.0"}), encoding="utf-8"
+    )
     installer_dir = tmp_path / "bundle"
     exe = installer_dir / "nsis/Determinex_0.1.0_x64-setup.exe"
     msi = installer_dir / "msi/Determinex_0.1.0_x64_en-US.msi"
@@ -55,7 +57,9 @@ def test_download_bundle_manifest_includes_installers_checksums_and_boundary(tmp
     assert manifest["package_matrix"]["linux_appimage"] is True
     assert manifest["package_matrix"]["linux_deb"] is True
     assert manifest["package_matrix"]["linux_rpm"] is True
-    assert hashlib.sha256(exe.read_bytes()).hexdigest() in (root / "assurance/evidence/determinex_download_bundle_20260707/CHECKSUMS.sha256").read_text(encoding="utf-8")
+    assert hashlib.sha256(exe.read_bytes()).hexdigest() in (
+        root / "assurance/evidence/determinex_download_bundle_20260707/CHECKSUMS.sha256"
+    ).read_text(encoding="utf-8")
 
     zip_path = Path(manifest["bundle_zip_path"])
     assert zip_path.is_file()
@@ -115,7 +119,9 @@ def test_download_bundle_records_msi_absence_for_nsis_only_package(tmp_path: Pat
     root = tmp_path / "repo"
     tauri = root / "frontend/src-tauri/tauri.conf.json"
     tauri.parent.mkdir(parents=True)
-    tauri.write_text(json.dumps({"productName": "Determinex", "version": "0.1.0"}), encoding="utf-8")
+    tauri.write_text(
+        json.dumps({"productName": "Determinex", "version": "0.1.0"}), encoding="utf-8"
+    )
     installer_dir = tmp_path / "bundle"
     exe = installer_dir / "nsis/Determinex_0.1.0_x64-setup.exe"
     _write(exe, b"fake nsis installer")
@@ -143,7 +149,9 @@ def test_download_bundle_records_each_missing_linux_package_type(tmp_path: Path)
     root = tmp_path / "repo"
     tauri = root / "frontend/src-tauri/tauri.conf.json"
     tauri.parent.mkdir(parents=True)
-    tauri.write_text(json.dumps({"productName": "Determinex", "version": "0.1.0"}), encoding="utf-8")
+    tauri.write_text(
+        json.dumps({"productName": "Determinex", "version": "0.1.0"}), encoding="utf-8"
+    )
     installer_dir = tmp_path / "bundle"
     exe = installer_dir / "nsis/Determinex_0.1.0_x64-setup.exe"
     msi = installer_dir / "msi/Determinex_0.1.0_x64_en-US.msi"
@@ -172,7 +180,9 @@ def test_download_bundle_drops_legal_blocker_when_public_distribution_packet_pas
     root = tmp_path / "repo"
     tauri = root / "frontend/src-tauri/tauri.conf.json"
     tauri.parent.mkdir(parents=True)
-    tauri.write_text(json.dumps({"productName": "Determinex", "version": "0.1.0"}), encoding="utf-8")
+    tauri.write_text(
+        json.dumps({"productName": "Determinex", "version": "0.1.0"}), encoding="utf-8"
+    )
     _write(
         root / "assurance/evidence/public_distribution/legal_public_distribution_20260712.json",
         json.dumps(

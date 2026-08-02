@@ -56,6 +56,7 @@ Usage:
     python scripts/determinex_doctor.py --json logs/determinex_doctor_latest.json
     python scripts/determinex_doctor.py --strict   # exit 1 if any UNAVAILABLE
 """
+
 from __future__ import annotations
 
 import argparse
@@ -66,10 +67,8 @@ import shutil
 import subprocess
 import sys
 import time
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Optional
-
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
@@ -85,30 +84,32 @@ def _get_settings():
     if _SETTINGS is None:
         try:
             import sys as _sys
+
             _scripts = str(REPO_ROOT / "scripts")
             if _scripts not in _sys.path:
                 _sys.path.insert(0, _scripts)
             from determinex_settings import get_settings
+
             _SETTINGS = get_settings()
         except Exception:
             _SETTINGS = None
     return _SETTINGS
 
 
-ACTIVE      = "ACTIVE"
-UNAVAIL     = "UNAVAILABLE WITH REASON"
+ACTIVE = "ACTIVE"
+UNAVAIL = "UNAVAILABLE WITH REASON"
 DESIGN_ONLY = "NOT IMPLEMENTED BY DESIGN"
-PARTIAL     = "PARTIAL"          # works but with caveats
+PARTIAL = "PARTIAL"  # works but with caveats
 
 
 @dataclass
 class Check:
     name: str
-    category: str                 # "core" | "ai" | "compilers" | "models" | "hardware" | "data" | "cockpit"
-    status: str                   # ACTIVE | UNAVAILABLE WITH REASON | PARTIAL | NOT IMPLEMENTED BY DESIGN
+    category: str  # "core" | "ai" | "compilers" | "models" | "hardware" | "data" | "cockpit"
+    status: str  # ACTIVE | UNAVAILABLE WITH REASON | PARTIAL | NOT IMPLEMENTED BY DESIGN
     detail: str = ""
     extra: dict = field(default_factory=dict)
-    fix: str = ""                 # one-line recovery hint when status != ACTIVE
+    fix: str = ""  # one-line recovery hint when status != ACTIVE
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -118,7 +119,8 @@ class Check:
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _which(cmd: str) -> Optional[str]:
+
+def _which(cmd: str) -> str | None:
     return shutil.which(cmd)
 
 
@@ -139,16 +141,21 @@ def _try(cmd: list[str], timeout: float = 5.0) -> tuple[int, str, str]:
 # Individual checks
 # ---------------------------------------------------------------------------
 
+
 def check_python_version() -> Check:
     major, minor = sys.version_info[:2]
     if (major, minor) >= (3, 11):
         return Check(
-            "python_version", "core", ACTIVE,
+            "python_version",
+            "core",
+            ACTIVE,
             detail=f"{platform.python_version()}",
             extra={"version": platform.python_version()},
         )
     return Check(
-        "python_version", "core", UNAVAIL,
+        "python_version",
+        "core",
+        UNAVAIL,
         detail=f"Python {major}.{minor} — Determinex requires ≥3.11",
         fix="install Python 3.11 or 3.12",
     )
@@ -157,11 +164,18 @@ def check_python_version() -> Check:
 def check_git() -> Check:
     rc, out, err = _try(["git", "--version"])
     if rc != 0:
-        return Check("git", "core", UNAVAIL, detail=err or "git not on PATH",
-                     fix="install git from https://git-scm.com/")
+        return Check(
+            "git",
+            "core",
+            UNAVAIL,
+            detail=err or "git not on PATH",
+            fix="install git from https://git-scm.com/",
+        )
     rc2, head, _ = _try(["git", "-C", str(REPO_ROOT), "rev-parse", "--short", "HEAD"])
     return Check(
-        "git", "core", ACTIVE,
+        "git",
+        "core",
+        ACTIVE,
         detail=f"{out}  head={head if rc2 == 0 else 'unknown'}",
         extra={"head": head if rc2 == 0 else None},
     )
@@ -171,30 +185,45 @@ def check_docker() -> Check:
     # 30s timeout: under benchmark load Docker Desktop can take >10s to respond
     rc, out, err = _try(["docker", "version", "--format", "{{.Server.Version}}"], timeout=30.0)
     if rc != 0:
-        return Check("docker_daemon", "core", UNAVAIL,
-                     detail=err[:160] or "docker daemon not reachable",
-                     fix="install Docker Desktop and start it")
+        return Check(
+            "docker_daemon",
+            "core",
+            UNAVAIL,
+            detail=err[:160] or "docker daemon not reachable",
+            fix="install Docker Desktop and start it",
+        )
     return Check("docker_daemon", "core", ACTIVE, detail=f"server v{out}")
 
 
 def check_bash() -> Check:
     sh = _which("bash")
     if not sh:
-        return Check("bash", "core", UNAVAIL, detail="bash not on PATH",
-                     fix="install Git Bash (Windows) or WSL")
+        return Check(
+            "bash",
+            "core",
+            UNAVAIL,
+            detail="bash not on PATH",
+            fix="install Git Bash (Windows) or WSL",
+        )
     return Check("bash", "core", ACTIVE, detail=sh)
 
 
 def check_ollama() -> Check:
     rc, out, _ = _try(["ollama", "list"], timeout=5.0)
     if rc != 0:
-        return Check("ollama", "ai", UNAVAIL,
-                     detail="ollama not on PATH or daemon not running",
-                     fix="install Ollama from https://ollama.com/ and run `ollama serve`")
+        return Check(
+            "ollama",
+            "ai",
+            UNAVAIL,
+            detail="ollama not on PATH or daemon not running",
+            fix="install Ollama from https://ollama.com/ and run `ollama serve`",
+        )
     # Count models from list output
     lines = [ln for ln in out.splitlines() if ln.strip() and not ln.startswith("NAME")]
     return Check(
-        "ollama", "ai", ACTIVE,
+        "ollama",
+        "ai",
+        ACTIVE,
         detail=f"{len(lines)} model(s) installed",
         extra={"models": [ln.split()[0] for ln in lines if ln.split()][:20]},
     )
@@ -202,74 +231,107 @@ def check_ollama() -> Check:
 
 def check_api_keys() -> Check:
     keys = {
-        "ANTHROPIC_API_KEY":   bool(os.environ.get("ANTHROPIC_API_KEY")),
-        "DEEPSEEK_API_KEY":    bool(os.environ.get("DEEPSEEK_API_KEY")),
-        "OPENROUTER_API_KEY":  bool(os.environ.get("OPENROUTER_API_KEY")),
-        "OPENAI_API_KEY":      bool(os.environ.get("OPENAI_API_KEY")),
+        "ANTHROPIC_API_KEY": bool(os.environ.get("ANTHROPIC_API_KEY")),
+        "DEEPSEEK_API_KEY": bool(os.environ.get("DEEPSEEK_API_KEY")),
+        "OPENROUTER_API_KEY": bool(os.environ.get("OPENROUTER_API_KEY")),
+        "OPENAI_API_KEY": bool(os.environ.get("OPENAI_API_KEY")),
     }
     set_keys = [k for k, v in keys.items() if v]
     if not set_keys:
         return Check(
-            "api_keys", "ai", UNAVAIL,
+            "api_keys",
+            "ai",
+            UNAVAIL,
             detail="no cloud LLM API key set",
             fix="set ANTHROPIC_API_KEY or DEEPSEEK_API_KEY in .env (local-only mode works without)",
             extra={"checked": list(keys.keys())},
         )
     return Check(
-        "api_keys", "ai", ACTIVE,
+        "api_keys",
+        "ai",
+        ACTIVE,
         detail=f"{len(set_keys)} key(s) present: {set_keys}",
         # NEVER include the key value — only presence
         extra={"present": set_keys, "absent": [k for k, v in keys.items() if not v]},
     )
 
 
-def _compiler_check(name: str, exe_candidates: list[str], version_args: list[str],
-                    category: str, fix_hint: str) -> Check:
+def _compiler_check(
+    name: str, exe_candidates: list[str], version_args: list[str], category: str, fix_hint: str
+) -> Check:
     for cand in exe_candidates:
         if _which(cand):
             rc, out, _ = _try([cand, *version_args])
             if rc == 0:
                 return Check(name, category, ACTIVE, detail=out.splitlines()[0][:120])
-    return Check(name, category, UNAVAIL, detail=f"none of {exe_candidates} on PATH",
-                 fix=fix_hint)
+    return Check(name, category, UNAVAIL, detail=f"none of {exe_candidates} on PATH", fix=fix_hint)
 
 
 def check_rust() -> Check:
     rc, out, _ = _try(["rustc", "--version"])
     if rc != 0:
-        return Check("rust_toolchain", "compilers", UNAVAIL, detail="rustc not on PATH",
-                     fix="install Rust via https://rustup.rs/")
+        return Check(
+            "rust_toolchain",
+            "compilers",
+            UNAVAIL,
+            detail="rustc not on PATH",
+            fix="install Rust via https://rustup.rs/",
+        )
     rc2, cargo, _ = _try(["cargo", "--version"])
     if rc2 != 0:
-        return Check("rust_toolchain", "compilers", PARTIAL,
-                     detail=f"rustc={out} but cargo missing",
-                     fix="cargo should come with rustup; rerun rustup-init")
+        return Check(
+            "rust_toolchain",
+            "compilers",
+            PARTIAL,
+            detail=f"rustc={out} but cargo missing",
+            fix="cargo should come with rustup; rerun rustup-init",
+        )
     return Check("rust_toolchain", "compilers", ACTIVE, detail=f"{out} / {cargo}")
 
 
 def check_go() -> Check:
     rc, out, _ = _try(["go", "version"])
     if rc != 0:
-        return Check("go_toolchain", "compilers", UNAVAIL, detail="go not on PATH",
-                     fix="install Go from https://go.dev/")
+        return Check(
+            "go_toolchain",
+            "compilers",
+            UNAVAIL,
+            detail="go not on PATH",
+            fix="install Go from https://go.dev/",
+        )
     return Check("go_toolchain", "compilers", ACTIVE, detail=out)
 
 
 def check_c() -> Check:
-    return _compiler_check("c_compiler", ["cc", "gcc", "clang"], ["--version"],
-                           "compilers", "install gcc, clang, or MSVC")
+    return _compiler_check(
+        "c_compiler",
+        ["cc", "gcc", "clang"],
+        ["--version"],
+        "compilers",
+        "install gcc, clang, or MSVC",
+    )
 
 
 def check_cpp() -> Check:
-    return _compiler_check("cpp_compiler", ["c++", "g++", "clang++"], ["--version"],
-                           "compilers", "install g++, clang++, or MSVC")
+    return _compiler_check(
+        "cpp_compiler",
+        ["c++", "g++", "clang++"],
+        ["--version"],
+        "compilers",
+        "install g++, clang++, or MSVC",
+    )
 
 
 def check_node() -> Check:
     rc, out, _ = _try(["node", "--version"])
     if rc != 0:
-        return Check("node", "compilers", UNAVAIL, detail="node not on PATH",
-                     fix="install Node.js LTS from https://nodejs.org/")
+        return Check(
+            "node",
+            "compilers",
+            UNAVAIL,
+            detail="node not on PATH",
+            fix="install Node.js LTS from https://nodejs.org/",
+        )
     return Check("node", "compilers", ACTIVE, detail=f"node {out}")
 
 
@@ -277,31 +339,57 @@ def check_java() -> Check:
     rc1, _, jerr = _try(["java", "-version"])
     rc2, _, _ = _try(["javac", "-version"])
     if rc1 != 0:
-        return Check("java", "compilers", UNAVAIL, detail="java not on PATH",
-                     fix="install a JDK (Adoptium Temurin recommended)")
+        return Check(
+            "java",
+            "compilers",
+            UNAVAIL,
+            detail="java not on PATH",
+            fix="install a JDK (Adoptium Temurin recommended)",
+        )
     line = (jerr.splitlines() or [""])[0][:120]
     if rc2 != 0:
-        return Check("java", "compilers", PARTIAL, detail=f"{line} (JRE only — javac missing)",
-                     fix="install a full JDK")
+        return Check(
+            "java",
+            "compilers",
+            PARTIAL,
+            detail=f"{line} (JRE only — javac missing)",
+            fix="install a full JDK",
+        )
     return Check("java", "compilers", ACTIVE, detail=line)
 
 
 def check_determinex_models_dir() -> Check:
     s = _get_settings()
-    p = s.models_dir if s is not None else Path(os.environ.get("DETERMINEX_MODELS_DIR", "T:/determinex-models"))
+    p = (
+        s.models_dir
+        if s is not None
+        else Path(os.environ.get("DETERMINEX_MODELS_DIR", "T:/determinex-models"))
+    )
     if not p.is_dir():
-        return Check("determinex_models_dir", "models", UNAVAIL,
-                     detail=f"{p} not found",
-                     fix="set DETERMINEX_MODELS_DIR env var to your models dir")
+        return Check(
+            "determinex_models_dir",
+            "models",
+            UNAVAIL,
+            detail=f"{p} not found",
+            fix="set DETERMINEX_MODELS_DIR env var to your models dir",
+        )
     ggufs = list(p.glob("*.gguf"))
-    return Check("determinex_models_dir", "models", ACTIVE,
-                 detail=f"{p}  ({len(ggufs)} *.gguf files)",
-                 extra={"path": str(p), "n_ggufs": len(ggufs)})
+    return Check(
+        "determinex_models_dir",
+        "models",
+        ACTIVE,
+        detail=f"{p}  ({len(ggufs)} *.gguf files)",
+        extra={"path": str(p), "n_ggufs": len(ggufs)},
+    )
 
 
 def check_rosetta_v1_pt() -> Check:
     s = _get_settings()
-    models_dir = s.models_dir if s is not None else Path(os.environ.get("DETERMINEX_MODELS_DIR", "T:/determinex-models"))
+    models_dir = (
+        s.models_dir
+        if s is not None
+        else Path(os.environ.get("DETERMINEX_MODELS_DIR", "T:/determinex-models"))
+    )
     candidates = [
         Path.home() / ".determinex" / "rosetta" / "rosetta_v1.pt",
         models_dir / "rosetta_v1.pt",
@@ -309,38 +397,58 @@ def check_rosetta_v1_pt() -> Check:
     ]
     found = next((p for p in candidates if p.is_file()), None)
     if found is None:
-        return Check("rosetta_v1_pt", "models", UNAVAIL,
-                     detail="rosetta_v1.pt not found",
-                     fix="train via rosetta/train_rosetta.py or fetch from registry",
-                     extra={"checked": [str(p) for p in candidates]})
-    return Check("rosetta_v1_pt", "models", ACTIVE,
-                 detail=f"found at {found}",
-                 extra={"path": str(found), "size": found.stat().st_size})
+        return Check(
+            "rosetta_v1_pt",
+            "models",
+            UNAVAIL,
+            detail="rosetta_v1.pt not found",
+            fix="train via rosetta/train_rosetta.py or fetch from registry",
+            extra={"checked": [str(p) for p in candidates]},
+        )
+    return Check(
+        "rosetta_v1_pt",
+        "models",
+        ACTIVE,
+        detail=f"found at {found}",
+        extra={"path": str(found), "size": found.stat().st_size},
+    )
 
 
 def check_gpu() -> Check:
-    rc, out, _ = _try(["nvidia-smi", "--query-gpu=name,memory.total,memory.free",
-                       "--format=csv,noheader"], timeout=5.0)
+    rc, out, _ = _try(
+        ["nvidia-smi", "--query-gpu=name,memory.total,memory.free", "--format=csv,noheader"],
+        timeout=5.0,
+    )
     if rc == 0 and out:
         first = out.splitlines()[0]
         return Check("gpu", "hardware", ACTIVE, detail=first)
     # torch fallback
     try:
         import torch
+
         if torch.cuda.is_available():
             name = torch.cuda.get_device_name(0)
             free, total = torch.cuda.mem_get_info()
             return Check(
-                "gpu", "hardware", ACTIVE,
-                detail=f"{name}  vram={free/1e9:.1f}/{total/1e9:.1f} GB free",
-                extra={"name": name, "free_gb": round(free/1e9, 2),
-                       "total_gb": round(total/1e9, 2)},
+                "gpu",
+                "hardware",
+                ACTIVE,
+                detail=f"{name}  vram={free / 1e9:.1f}/{total / 1e9:.1f} GB free",
+                extra={
+                    "name": name,
+                    "free_gb": round(free / 1e9, 2),
+                    "total_gb": round(total / 1e9, 2),
+                },
             )
     except ImportError:
         pass
-    return Check("gpu", "hardware", UNAVAIL,
-                 detail="no NVIDIA GPU detected (or driver missing)",
-                 fix="install NVIDIA driver + CUDA runtime; CPU-only mode works but slower")
+    return Check(
+        "gpu",
+        "hardware",
+        UNAVAIL,
+        detail="no NVIDIA GPU detected (or driver missing)",
+        fix="install NVIDIA driver + CUDA runtime; CPU-only mode works but slower",
+    )
 
 
 def check_disk_space() -> Check:
@@ -353,24 +461,32 @@ def check_disk_space() -> Check:
                 if not Path(variant).exists():
                     continue
                 usage = shutil.disk_usage(variant)
-                drives_info.append({
-                    "drive": variant.rstrip("/"),
-                    "free_gb":  round(usage.free  / 1e9, 1),
-                    "total_gb": round(usage.total / 1e9, 1),
-                })
+                drives_info.append(
+                    {
+                        "drive": variant.rstrip("/"),
+                        "free_gb": round(usage.free / 1e9, 1),
+                        "total_gb": round(usage.total / 1e9, 1),
+                    }
+                )
                 break  # one variant per drive is enough
             except OSError:
                 continue
     if not drives_info:
-        return Check("disk_space", "hardware", UNAVAIL,
-                     detail="no recognized data drives found",
-                     fix="ensure C: and/or T: are mounted")
-    detail = "  ".join(f"{d['drive']}: {d['free_gb']:.0f}/{d['total_gb']:.0f}GB free"
-                       for d in drives_info)
+        return Check(
+            "disk_space",
+            "hardware",
+            UNAVAIL,
+            detail="no recognized data drives found",
+            fix="ensure C: and/or T: are mounted",
+        )
+    detail = "  ".join(
+        f"{d['drive']}: {d['free_gb']:.0f}/{d['total_gb']:.0f}GB free" for d in drives_info
+    )
     # Warn if any drive has <50GB free (ProgramBench + SWE-bench images need it)
     tight = any(d["free_gb"] < 50 for d in drives_info)
     return Check(
-        "disk_space", "hardware",
+        "disk_space",
+        "hardware",
         PARTIAL if tight else ACTIVE,
         detail=detail + ("  ⚠️ <50GB free" if tight else ""),
         extra={"drives": drives_info},
@@ -381,10 +497,8 @@ def check_disk_space() -> Check:
 def check_cpu_count() -> Check:
     n = os.cpu_count() or 0
     if n == 0:
-        return Check("cpu_count", "hardware", UNAVAIL, detail="cpu_count unknown",
-                     fix="")
-    return Check("cpu_count", "hardware", ACTIVE, detail=f"{n} logical CPUs",
-                 extra={"count": n})
+        return Check("cpu_count", "hardware", UNAVAIL, detail="cpu_count unknown", fix="")
+    return Check("cpu_count", "hardware", ACTIVE, detail=f"{n} logical CPUs", extra={"count": n})
 
 
 def check_huggingface_cache() -> Check:
@@ -398,49 +512,83 @@ def check_huggingface_cache() -> Check:
     candidates = [c for c in candidates if c is not None]
     found = next((c for c in candidates if c.is_dir()), None)
     if found is None:
-        return Check("huggingface_cache", "data", UNAVAIL,
-                     detail="no HF cache dir found",
-                     fix="set HF_HOME or run any `huggingface-cli download`",
-                     extra={"checked": [str(c) for c in candidates]})
+        return Check(
+            "huggingface_cache",
+            "data",
+            UNAVAIL,
+            detail="no HF cache dir found",
+            fix="set HF_HOME or run any `huggingface-cli download`",
+            extra={"checked": [str(c) for c in candidates]},
+        )
     return Check("huggingface_cache", "data", ACTIVE, detail=str(found))
 
 
 def check_programbench_dir() -> Check:
     s = _get_settings()
-    p = s.programbench_dir if s is not None else Path(os.environ.get("PROGRAMBENCH_DIR", "T:/Dev/ProgramBench"))
+    p = (
+        s.programbench_dir
+        if s is not None
+        else Path(os.environ.get("PROGRAMBENCH_DIR", "T:/Dev/ProgramBench"))
+    )
     if not (p / "src" / "programbench").is_dir():
-        return Check("programbench_dir", "data", UNAVAIL,
-                     detail=f"{p} doesn't look like a programbench checkout",
-                     fix="clone https://github.com/programbench/programbench and set PROGRAMBENCH_DIR")
+        return Check(
+            "programbench_dir",
+            "data",
+            UNAVAIL,
+            detail=f"{p} doesn't look like a programbench checkout",
+            fix="clone https://github.com/programbench/programbench and set PROGRAMBENCH_DIR",
+        )
     return Check("programbench_dir", "data", ACTIVE, detail=str(p))
 
 
 def check_pre_cloned_tasks() -> Check:
     s = _get_settings()
-    p = s.pb_tasks_root if s is not None else Path(os.environ.get("DETERMINEX_PB_TASKS_ROOT", "T:/determinex-programbench"))
+    p = (
+        s.pb_tasks_root
+        if s is not None
+        else Path(os.environ.get("DETERMINEX_PB_TASKS_ROOT", "T:/determinex-programbench"))
+    )
     if not p.is_dir():
-        return Check("pre_cloned_tasks", "data", UNAVAIL,
-                     detail=f"{p} not found",
-                     fix="optional — speeds up first runs by ~4-6 min per tool")
+        return Check(
+            "pre_cloned_tasks",
+            "data",
+            UNAVAIL,
+            detail=f"{p} not found",
+            fix="optional — speeds up first runs by ~4-6 min per tool",
+        )
     subs = [s for s in p.iterdir() if s.is_dir()]
-    return Check("pre_cloned_tasks", "data", ACTIVE,
-                 detail=f"{p}  ({len(subs)} task dirs)",
-                 extra={"count": len(subs)})
+    return Check(
+        "pre_cloned_tasks",
+        "data",
+        ACTIVE,
+        detail=f"{p}  ({len(subs)} task dirs)",
+        extra={"count": len(subs)},
+    )
 
 
 def check_ledger() -> Check:
     db = REPO_ROOT / "logs" / "determinex_ledger.db"
     if not db.is_file():
-        return Check("ledger", "cockpit", UNAVAIL,
-                     detail="no ledger yet (fresh install or empty cache)",
-                     fix="run any eval — the cockpit will populate it automatically")
-    return Check("ledger", "cockpit", ACTIVE, detail=str(db),
-                 extra={"size_kb": round(db.stat().st_size / 1024, 1)})
+        return Check(
+            "ledger",
+            "cockpit",
+            UNAVAIL,
+            detail="no ledger yet (fresh install or empty cache)",
+            fix="run any eval — the cockpit will populate it automatically",
+        )
+    return Check(
+        "ledger",
+        "cockpit",
+        ACTIVE,
+        detail=str(db),
+        extra={"size_kb": round(db.stat().st_size / 1024, 1)},
+    )
 
 
 # ---------------------------------------------------------------------------
 # Security & Observability checks
 # ---------------------------------------------------------------------------
+
 
 def check_settings_spine() -> Check:
     """Verify determinex_settings.py is importable and safety defaults are closed."""
@@ -450,30 +598,39 @@ def check_settings_spine() -> Check:
         if scripts_dir not in sys.path:
             sys.path.insert(0, scripts_dir)
         from determinex_settings import DeterminexSettings
+
         s = DeterminexSettings()
         violations = s.assert_safety_defaults()
         summary = s.resolved_summary()
         if violations:
             return Check(
-                "settings_spine", "security", PARTIAL,
+                "settings_spine",
+                "security",
+                PARTIAL,
                 detail=f"importable but {len(violations)} safety flag(s) open: {violations[0]}",
                 fix="review open safety flags before production use",
                 extra={"violations": violations},
             )
         return Check(
-            "settings_spine", "security", ACTIVE,
+            "settings_spine",
+            "security",
+            ACTIVE,
             detail=f"importable; all safety defaults closed; {len(summary)} settings resolved",
             extra={"n_settings": len(summary)},
         )
     except ImportError as e:
         return Check(
-            "settings_spine", "security", UNAVAIL,
+            "settings_spine",
+            "security",
+            UNAVAIL,
             detail=f"determinex_settings not importable: {e}",
             fix="ensure scripts/determinex_settings.py exists and scripts/ is on PYTHONPATH",
         )
     except Exception as e:
         return Check(
-            "settings_spine", "security", UNAVAIL,
+            "settings_spine",
+            "security",
+            UNAVAIL,
             detail=f"settings_spine error: {type(e).__name__}: {e}",
             fix="check scripts/determinex_settings.py",
         )
@@ -522,10 +679,12 @@ def check_hmac_key() -> Check:
 
     if not key:
         return Check(
-            "hmac_key", "security", UNAVAIL,
+            "hmac_key",
+            "security",
+            UNAVAIL,
             detail=f"{primary} not set — corpus rows will not be signed",
             fix=f"set {primary}=<64 hex chars> in .env "
-                "(generate: python -c \"import secrets; print(secrets.token_hex(32))\")",
+            '(generate: python -c "import secrets; print(secrets.token_hex(32))")',
         )
 
     # The alias is honoured by the SETTINGS SPINE only. determinex_safety, hive/workspace and
@@ -534,9 +693,11 @@ def check_hmac_key() -> Check:
     # ACTIVE is the exact overclaim this check existed to prevent.
     if found_name != primary:
         return Check(
-            "hmac_key", "security", PARTIAL,
+            "hmac_key",
+            "security",
+            PARTIAL,
             detail=f"only {alias} is set — the signing code reads {primary}, so corpus rows "
-                   "are still signed with an ephemeral key",
+            "are still signed with an ephemeral key",
             fix=f"rename it to {primary} in .env",
         )
 
@@ -544,20 +705,26 @@ def check_hmac_key() -> Check:
         raw = bytes.fromhex(key)
     except ValueError:
         return Check(
-            "hmac_key", "security", PARTIAL,
+            "hmac_key",
+            "security",
+            PARTIAL,
             detail=f"{primary} is not valid hex — the signing code will fall back to an "
-                   "ephemeral key",
-            fix="regenerate with: python -c \"import secrets; print(secrets.token_hex(32))\"",
+            "ephemeral key",
+            fix='regenerate with: python -c "import secrets; print(secrets.token_hex(32))"',
         )
     if len(raw) < _HMAC_KEY_MIN_BYTES:
         return Check(
-            "hmac_key", "security", PARTIAL,
+            "hmac_key",
+            "security",
+            PARTIAL,
             detail=f"{primary} decodes to {len(raw)} bytes; the signing code requires "
-                   f"≥{_HMAC_KEY_MIN_BYTES} and falls back to an ephemeral key below that",
-            fix="regenerate with: python -c \"import secrets; print(secrets.token_hex(32))\"",
+            f"≥{_HMAC_KEY_MIN_BYTES} and falls back to an ephemeral key below that",
+            fix='regenerate with: python -c "import secrets; print(secrets.token_hex(32))"',
         )
     return Check(
-        "hmac_key", "security", ACTIVE,
+        "hmac_key",
+        "security",
+        ACTIVE,
         detail=f"{primary} set ({len(raw)} bytes)",
     )
 
@@ -575,18 +742,24 @@ def check_corpus_writable() -> Check:
                 test_file.write_text("probe", encoding="utf-8")
                 test_file.unlink()
                 return Check(
-                    "corpus_writable", "security", ACTIVE,
+                    "corpus_writable",
+                    "security",
+                    ACTIVE,
                     detail=f"corpus dir writable: {p}",
                     extra={"path": str(p)},
                 )
             except OSError as e:
                 return Check(
-                    "corpus_writable", "security", UNAVAIL,
+                    "corpus_writable",
+                    "security",
+                    UNAVAIL,
                     detail=f"corpus dir not writable: {p} — {e}",
                     fix="check directory permissions",
                 )
     return Check(
-        "corpus_writable", "security", UNAVAIL,
+        "corpus_writable",
+        "security",
+        UNAVAIL,
         detail="no corpus directory found under repo root",
         fix="create corpus/ directory or run any factory task",
     )
@@ -600,13 +773,18 @@ def check_workspace_guard() -> Check:
         if scripts_dir not in sys.path:
             sys.path.insert(0, scripts_dir)
         from hive.workspace import assert_inside_workspace  # noqa: F401
+
         return Check(
-            "workspace_guard", "security", ACTIVE,
+            "workspace_guard",
+            "security",
+            ACTIVE,
             detail="hive.workspace.assert_inside_workspace importable — escape guard active",
         )
     except ImportError as e:
         return Check(
-            "workspace_guard", "security", UNAVAIL,
+            "workspace_guard",
+            "security",
+            UNAVAIL,
             detail=f"hive.workspace not importable: {e}",
             fix="ensure scripts/ is on PYTHONPATH and hive/workspace.py exists",
         )
@@ -617,7 +795,11 @@ def check_workspace_guard() -> Check:
 def check_event_log_dir() -> Check:
     """Event log directory (DETERMINEX_AUDIT_DIR or T:/determinex_audit/events) must be writable."""
     s = _get_settings()
-    primary = s.audit_dir if s is not None else Path(os.environ.get("DETERMINEX_AUDIT_DIR", "T:/determinex_audit/events"))
+    primary = (
+        s.audit_dir
+        if s is not None
+        else Path(os.environ.get("DETERMINEX_AUDIT_DIR", "T:/determinex_audit/events"))
+    )
     fallback = REPO_ROOT / "logs" / "events"
 
     for candidate in (primary, fallback):
@@ -632,15 +814,19 @@ def check_event_log_dir() -> Check:
             # Count existing event log files
             n_logs = len(list(candidate.glob("*.jsonl")))
             return Check(
-                "event_log_dir", "security", ACTIVE,
+                "event_log_dir",
+                "security",
+                ACTIVE,
                 detail=f"writable: {candidate}  ({n_logs} daily log(s))",
                 extra={"path": str(candidate), "n_logs": n_logs},
             )
-        except OSError as e:
+        except OSError:
             continue
 
     return Check(
-        "event_log_dir", "security", UNAVAIL,
+        "event_log_dir",
+        "security",
+        UNAVAIL,
         detail="no writable event log directory found",
         fix="set DETERMINEX_AUDIT_DIR to a writable path in .env",
     )
@@ -653,24 +839,31 @@ def check_schema_registry() -> Check:
         scripts_dir = str(REPO_ROOT / "scripts")
         if scripts_dir not in sys.path:
             sys.path.insert(0, scripts_dir)
-        from corpus.schema_registry import get_registry, CURRENT_VERSION
+        from corpus.schema_registry import CURRENT_VERSION, get_registry
+
         registry = get_registry()
         registry.validate_version(CURRENT_VERSION)
         history = registry.version_history()
         return Check(
-            "schema_registry", "security", ACTIVE,
+            "schema_registry",
+            "security",
+            ACTIVE,
             detail=f"current={CURRENT_VERSION}  history={history}",
             extra={"current_version": CURRENT_VERSION, "history": history},
         )
     except ImportError as e:
         return Check(
-            "schema_registry", "security", UNAVAIL,
+            "schema_registry",
+            "security",
+            UNAVAIL,
             detail=f"corpus.schema_registry not importable: {e}",
             fix="ensure scripts/ is on PYTHONPATH",
         )
     except Exception as e:
         return Check(
-            "schema_registry", "security", UNAVAIL,
+            "schema_registry",
+            "security",
+            UNAVAIL,
             detail=f"schema registry error: {type(e).__name__}: {e}",
             fix="check scripts/corpus/schema_registry.py",
         )
@@ -681,6 +874,7 @@ def check_schema_registry() -> Check:
 # ---------------------------------------------------------------------------
 # Demo-mode verdict
 # ---------------------------------------------------------------------------
+
 
 def deterministic_demo_verdict(checks: list[Check]) -> dict:
     """Can Determinex produce a useful first impression on this machine WITHOUT
@@ -696,18 +890,18 @@ def deterministic_demo_verdict(checks: list[Check]) -> dict:
         and by["git"].status == ACTIVE
     )
     missing_for_full = [
-        c.name for c in checks
+        c.name
+        for c in checks
         if c.status == UNAVAIL and c.category in ("ai", "compilers", "models")
     ]
     return {
-        "can_run_demo_without_models":  can_demo,
-        "can_run_local_inference":      by["ollama"].status == ACTIVE,
-        "can_run_cloud_inference":      by["api_keys"].status == ACTIVE,
-        "can_run_full_benchmarks":      (
-            by["docker_daemon"].status == ACTIVE
-            and by["programbench_dir"].status == ACTIVE
+        "can_run_demo_without_models": can_demo,
+        "can_run_local_inference": by["ollama"].status == ACTIVE,
+        "can_run_cloud_inference": by["api_keys"].status == ACTIVE,
+        "can_run_full_benchmarks": (
+            by["docker_daemon"].status == ACTIVE and by["programbench_dir"].status == ACTIVE
         ),
-        "missing_for_full_capability":  missing_for_full,
+        "missing_for_full_capability": missing_for_full,
     }
 
 
@@ -716,15 +910,33 @@ def deterministic_demo_verdict(checks: list[Check]) -> dict:
 # ---------------------------------------------------------------------------
 
 ALL_CHECKS = [
-    check_python_version, check_git, check_docker, check_bash,
-    check_ollama, check_api_keys,
-    check_rust, check_go, check_c, check_cpp, check_node, check_java,
-    check_determinex_models_dir, check_rosetta_v1_pt,
-    check_gpu, check_disk_space, check_cpu_count,
-    check_huggingface_cache, check_programbench_dir, check_pre_cloned_tasks,
+    check_python_version,
+    check_git,
+    check_docker,
+    check_bash,
+    check_ollama,
+    check_api_keys,
+    check_rust,
+    check_go,
+    check_c,
+    check_cpp,
+    check_node,
+    check_java,
+    check_determinex_models_dir,
+    check_rosetta_v1_pt,
+    check_gpu,
+    check_disk_space,
+    check_cpu_count,
+    check_huggingface_cache,
+    check_programbench_dir,
+    check_pre_cloned_tasks,
     check_ledger,
-    check_settings_spine, check_hmac_key, check_corpus_writable, check_workspace_guard,
-    check_event_log_dir, check_schema_registry,
+    check_settings_spine,
+    check_hmac_key,
+    check_corpus_writable,
+    check_workspace_guard,
+    check_event_log_dir,
+    check_schema_registry,
 ]
 
 
@@ -736,8 +948,9 @@ def run_all() -> list[Check]:
             r = fn()
             r.extra.setdefault("elapsed_ms", int(1000 * (time.time() - t0)))
         except Exception as e:
-            r = Check(fn.__name__, "core", UNAVAIL,
-                      detail=f"check crashed: {type(e).__name__}: {e}")
+            r = Check(
+                fn.__name__, "core", UNAVAIL, detail=f"check crashed: {type(e).__name__}: {e}"
+            )
         out.append(r)
     return out
 
@@ -763,10 +976,10 @@ def render_table(checks: list[Check]) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Determinex first-run setup detector")
-    ap.add_argument("--json", type=Path, default=None,
-                    help="write a JSON report to this path")
-    ap.add_argument("--strict", action="store_true",
-                    help="exit nonzero if any check is UNAVAILABLE")
+    ap.add_argument("--json", type=Path, default=None, help="write a JSON report to this path")
+    ap.add_argument(
+        "--strict", action="store_true", help="exit nonzero if any check is UNAVAILABLE"
+    )
     args = ap.parse_args()
 
     checks = run_all()
@@ -775,26 +988,34 @@ def main() -> int:
     print(render_table(checks))
     print()
     print("== DEMO MODE ==")
-    print(f"  can run demo without models / API keys: "
-          f"{'YES' if demo['can_run_demo_without_models'] else 'no'}")
-    print(f"  can run local inference (Ollama):       "
-          f"{'YES' if demo['can_run_local_inference'] else 'no'}")
-    print(f"  can run cloud inference (API key):      "
-          f"{'YES' if demo['can_run_cloud_inference'] else 'no'}")
-    print(f"  can run full benchmarks (Docker + PB):  "
-          f"{'YES' if demo['can_run_full_benchmarks'] else 'no'}")
+    print(
+        f"  can run demo without models / API keys: "
+        f"{'YES' if demo['can_run_demo_without_models'] else 'no'}"
+    )
+    print(
+        f"  can run local inference (Ollama):       "
+        f"{'YES' if demo['can_run_local_inference'] else 'no'}"
+    )
+    print(
+        f"  can run cloud inference (API key):      "
+        f"{'YES' if demo['can_run_cloud_inference'] else 'no'}"
+    )
+    print(
+        f"  can run full benchmarks (Docker + PB):  "
+        f"{'YES' if demo['can_run_full_benchmarks'] else 'no'}"
+    )
 
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)
         report = {
             "generated_at": time.time(),
-            "checks":       [c.to_dict() for c in checks],
+            "checks": [c.to_dict() for c in checks],
             "demo_verdict": demo,
             "summary": {
-                "active":     sum(1 for c in checks if c.status == ACTIVE),
-                "partial":    sum(1 for c in checks if c.status == PARTIAL),
-                "unavailable":sum(1 for c in checks if c.status == UNAVAIL),
-                "total":      len(checks),
+                "active": sum(1 for c in checks if c.status == ACTIVE),
+                "partial": sum(1 for c in checks if c.status == PARTIAL),
+                "unavailable": sum(1 for c in checks if c.status == UNAVAIL),
+                "total": len(checks),
             },
         }
         args.json.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")

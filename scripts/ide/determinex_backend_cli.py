@@ -18,6 +18,7 @@ surface, which delegates to the canonical engine). Nothing new is implemented
 here -- it is the thinnest possible adapter so the editor layer never reaches
 into Python internals.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -33,9 +34,11 @@ for p in (str(_SCRIPTS), str(_HERE)):
 
 
 def _result_to_dict(res) -> dict:
-    return {"status": getattr(res, "status", ""),
-            "payload": getattr(res, "payload", {}) or {},
-            "notes": list(getattr(res, "notes", ()) or ())}
+    return {
+        "status": getattr(res, "status", ""),
+        "payload": getattr(res, "payload", {}) or {},
+        "notes": list(getattr(res, "notes", ()) or ()),
+    }
 
 
 # Commands that invoke a model -- they need a LOCAL model config or the surface
@@ -54,9 +57,12 @@ def _build_local_config(model_id: str):
         return None
     root = Path.home() / ".determinex" / "local_models"
     rec = LocalModelConfigWizard(WizardConfig(config_root=root)).write_config(
-        provider="ollama", model_id=model_id or _DEFAULT_LOCAL_MODEL,
-        capabilities=("code",), task_classes_allowed=("BUILD_DIAGNOSIS",),
-        enabled=True)
+        provider="ollama",
+        model_id=model_id or _DEFAULT_LOCAL_MODEL,
+        capabilities=("code",),
+        task_classes_allowed=("BUILD_DIAGNOSIS",),
+        enabled=True,
+    )
     return rec if getattr(rec, "is_written", False) else None
 
 

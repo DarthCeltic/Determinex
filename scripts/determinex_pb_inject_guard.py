@@ -12,6 +12,7 @@ Idempotent (skips if already present). Usage:
   determinex_pb_inject_guard.py <tool>     # one tool (substring match ok)
   determinex_pb_inject_guard.py --all      # every per_tool_overrides tool
 """
+
 from __future__ import annotations
 
 import pathlib
@@ -27,8 +28,8 @@ BLOCK = (
     "(pytest-timeout signal-method can't kill a hung child -- the lz4 hang) ---\n"
     "mkdir -p /opt/determinex_subproc_guard\n"
     "cat > /opt/determinex_subproc_guard/determinex_subprocess_guard.py <<'DETERMINEX_GUARD_EOF'\n"
-    + GUARD.rstrip("\n") +
-    "\nDETERMINEX_GUARD_EOF\n"
+    + GUARD.rstrip("\n")
+    + "\nDETERMINEX_GUARD_EOF\n"
     "cat > /opt/determinex_subproc_guard/setup.py <<'DETERMINEX_GUARD_SETUP'\n"
     "from setuptools import setup\n"
     "setup(name='determinex_subprocess_guard', version='1.0', py_modules=['determinex_subprocess_guard'],\n"

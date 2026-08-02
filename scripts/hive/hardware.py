@@ -3,6 +3,7 @@ scripts/hive/hardware.py — Hardware profiler, communication layer, adjudicatio
 ================================================================================
 Moved from determinex_hive.py (lines ~370-516).
 """
+
 from __future__ import annotations
 
 import logging
@@ -24,10 +25,10 @@ log = logging.getLogger("hive")
 # Conclusion: semantic similarity (beta) is unreliable for Rust/Go architectural choices.
 # Global default reduces beta from 0.25 → 0.15 to reflect this finding.
 ADJUDICATION_WEIGHTS = {
-    "alpha": 0.70,   # compile_pass_rate — Compiler Oracle is ground truth
-    "beta":  0.15,   # semantic_similarity — reduced: nomic coarse on arch choices
-    "gamma": 0.10,   # test_pass_rate — when tests exist
-    "delta": 0.05,   # complexity_penalty — tiebreaker
+    "alpha": 0.70,  # compile_pass_rate — Compiler Oracle is ground truth
+    "beta": 0.15,  # semantic_similarity — reduced: nomic coarse on arch choices
+    "gamma": 0.10,  # test_pass_rate — when tests exist
+    "delta": 0.05,  # complexity_penalty — tiebreaker
 }
 
 # Language-calibrated defaults.
@@ -36,15 +37,14 @@ ADJUDICATION_WEIGHTS = {
 #   Python:  py_compile checks syntax only — cannot catch ImportError, missing methods.
 # When the compiler is weak (Python), semantic similarity carries more weight.
 ADJUDICATION_WEIGHTS_BY_LANG: dict[str, dict] = {
-    "rust":       {"alpha": 0.80, "beta": 0.15, "gamma": 0.00, "delta": 0.05},
-    "go":         {"alpha": 0.80, "beta": 0.15, "gamma": 0.00, "delta": 0.05},
+    "rust": {"alpha": 0.80, "beta": 0.15, "gamma": 0.00, "delta": 0.05},
+    "go": {"alpha": 0.80, "beta": 0.15, "gamma": 0.00, "delta": 0.05},
     "typescript": {"alpha": 0.75, "beta": 0.20, "gamma": 0.00, "delta": 0.05},
-    "python":     {"alpha": 0.45, "beta": 0.45, "gamma": 0.00, "delta": 0.10},
+    "python": {"alpha": 0.45, "beta": 0.45, "gamma": 0.00, "delta": 0.10},
 }
 
 
-def effective_adjudication_weights(tests_exist: bool = False,
-                                   lang: str = "") -> dict:
+def effective_adjudication_weights(tests_exist: bool = False, lang: str = "") -> dict:
     """
     Return effective adjudication weights.
 
@@ -60,7 +60,7 @@ def effective_adjudication_weights(tests_exist: bool = False,
         redistributable = w["gamma"]
         non_gamma_sum = w["alpha"] + w["beta"]
         w["alpha"] += redistributable * (w["alpha"] / non_gamma_sum)
-        w["beta"]  += redistributable * (w["beta"]  / non_gamma_sum)
+        w["beta"] += redistributable * (w["beta"] / non_gamma_sum)
         w["gamma"] = 0.0
     return w
 
@@ -79,10 +79,13 @@ def get_adjudication_embedder():
     if _nomic_model is None:
         try:
             from fastembed import TextEmbedding
+
             _nomic_model = TextEmbedding(model_name="nomic-ai/nomic-embed-text-v1.5")
         except ImportError:
-            log.warning("fastembed not installed — adjudication scoring unavailable. "
-                        "Install with: pip install fastembed")
+            log.warning(
+                "fastembed not installed — adjudication scoring unavailable. "
+                "Install with: pip install fastembed"
+            )
             return None
         except Exception as exc:
             log.warning("adjudication embedder unavailable: %s", exc)
@@ -110,6 +113,7 @@ def adjudication_cosine(text_a: str, text_b: str) -> float:
 
 # ── Rosetta dispatch guard (Gap 1 — locked 2026-04-14) ──────────────────────
 
+
 def select_communication_layer(
     sender_is_local: bool,
     receiver_is_local: bool,
@@ -124,13 +128,15 @@ def select_communication_layer(
     return 1
 
 
-
 @dataclass
 class ModelLifecyclePolicy:
     """Explicit VRAM model lifecycle policy — config-as-code."""
-    keep_hot: list[str]     = field(default_factory=list)  # role names that must never be unloaded mid-session
-    max_loaded: int         = 0                            # max simultaneous models in VRAM (tier-derived)
-    swap_strategy: str      = "role_priority"               # "lru" | "role_priority"
+
+    keep_hot: list[str] = field(
+        default_factory=list
+    )  # role names that must never be unloaded mid-session
+    max_loaded: int = 0  # max simultaneous models in VRAM (tier-derived)
+    swap_strategy: str = "role_priority"  # "lru" | "role_priority"
 
 
 def _lifecycle_for_tier(tier: int) -> ModelLifecyclePolicy:
@@ -153,24 +159,28 @@ def _lifecycle_for_tier(tier: int) -> ModelLifecyclePolicy:
     """
     return {
         -1: ModelLifecyclePolicy(keep_hot=[], max_loaded=0, swap_strategy="role_priority"),
-         0: ModelLifecyclePolicy(keep_hot=["builder"], max_loaded=1, swap_strategy="role_priority"),
-         1: ModelLifecyclePolicy(keep_hot=["builder", "monitor"], max_loaded=4, swap_strategy="lru"),
-         2: ModelLifecyclePolicy(keep_hot=["builder", "monitor", "oracle", "architect"],
-                                 max_loaded=5, swap_strategy="lru"),
+        0: ModelLifecyclePolicy(keep_hot=["builder"], max_loaded=1, swap_strategy="role_priority"),
+        1: ModelLifecyclePolicy(keep_hot=["builder", "monitor"], max_loaded=4, swap_strategy="lru"),
+        2: ModelLifecyclePolicy(
+            keep_hot=["builder", "monitor", "oracle", "architect"],
+            max_loaded=5,
+            swap_strategy="lru",
+        ),
     }.get(tier, ModelLifecyclePolicy(keep_hot=[], max_loaded=0, swap_strategy="role_priority"))
 
 
 @dataclass
 class ThermalProfile:
     """Idle-time thermal baseline captured once at profile_hardware() call."""
-    idle_gpu_c: float | None = None   # °C idle GPU temp (None = not readable)
-    idle_cpu_c: float | None = None   # °C idle CPU temp (None = not readable)
-    source: str = "none"              # which reader produced the data
-    gpu_layer_factor: float = 1.0     # multiplier applied to num_gpu (1.0 = full, 0.7 = conservative)
-    recommendation: str = ""          # human-readable note for install flow
+
+    idle_gpu_c: float | None = None  # °C idle GPU temp (None = not readable)
+    idle_cpu_c: float | None = None  # °C idle CPU temp (None = not readable)
+    source: str = "none"  # which reader produced the data
+    gpu_layer_factor: float = 1.0  # multiplier applied to num_gpu (1.0 = full, 0.7 = conservative)
+    recommendation: str = ""  # human-readable note for install flow
 
     @classmethod
-    def measure(cls) -> "ThermalProfile":
+    def measure(cls) -> ThermalProfile:
         """
         Take one thermal snapshot at idle.  Used during hardware profiling and
         install-time calibration to decide how aggressively to push the GPU.
@@ -178,12 +188,13 @@ class ThermalProfile:
         """
         try:
             from hive.thermal import read_temps
+
             snap = read_temps()
         except Exception:
             return cls()
 
-        gpu_c  = snap.max_gpu
-        cpu_c  = snap.max_cpu
+        gpu_c = snap.max_gpu
+        cpu_c = snap.max_cpu
         source = ",".join(snap.sources_ok) or "none"
 
         # Derive GPU layer factor from idle temperature
@@ -205,8 +216,7 @@ class ThermalProfile:
             elif gpu_c >= 55:
                 factor = 0.90
                 note = (
-                    f"GPU idle at {gpu_c:.0f}°C — slightly elevated. "
-                    f"num_gpu set to 90%% capacity."
+                    f"GPU idle at {gpu_c:.0f}°C — slightly elevated. num_gpu set to 90%% capacity."
                 )
             else:
                 factor = 1.0
@@ -226,9 +236,9 @@ class ThermalProfile:
 
 @dataclass
 class HardwareProfile:
-    tier:    int      # -1, 0, 1, 2
+    tier: int  # -1, 0, 1, 2
     vram_gb: float
-    ram_gb:  float
+    ram_gb: float
     gpu_count: int
     lifecycle: ModelLifecyclePolicy = field(default_factory=ModelLifecyclePolicy)
     thermal: ThermalProfile = field(default_factory=ThermalProfile)
@@ -249,13 +259,20 @@ class HardwareProfile:
 
     @property
     def tier_label(self) -> str:
-        return {-1: "CPU-only", 0: "Constrained (~6GB)", 1: "Mid-range", 2: "Full rig"}.get(self.tier, "Unknown")
+        return {-1: "CPU-only", 0: "Constrained (~6GB)", 1: "Mid-range", 2: "Full rig"}.get(
+            self.tier, "Unknown"
+        )
 
     @property
     def accelerator_label(self) -> str:
         """Human-readable, for the status surface."""
-        names = {"nvidia": "NVIDIA (CUDA)", "amd": "AMD (ROCm)", "intel": "Intel Arc (XPU)",
-                 "apple": "Apple Silicon (Metal)", "cpu": "CPU only"}
+        names = {
+            "nvidia": "NVIDIA (CUDA)",
+            "amd": "AMD (ROCm)",
+            "intel": "Intel Arc (XPU)",
+            "apple": "Apple Silicon (Metal)",
+            "cpu": "CPU only",
+        }
         base = names.get(self.accelerator, self.accelerator)
         if self.accelerator == "cpu":
             if self.platform_note:
@@ -269,9 +286,12 @@ class HardwareProfile:
         return f"{base} — {self.vram_gb:.1f} GB {unit}, {self.gpu_count} device(s)"
 
     def max_local_models(self) -> int:
-        if self.tier == -1: return 0
-        if self.tier ==  0: return 2
-        if self.tier ==  1: return 4
+        if self.tier == -1:
+            return 0
+        if self.tier == 0:
+            return 2
+        if self.tier == 1:
+            return 4
         return 5
 
     @property
@@ -309,6 +329,7 @@ class HardwareProfile:
 # so "the tool is absent" and "the tool ran and found nothing" both mean the same thing here: try the
 # next vendor. Order is by how definitive the answer is, not by preference.
 
+
 def _csv_column_values(text: str, header_names: tuple[str, ...]) -> list[int]:
     """Integer values from the first CSV column whose header matches one of `header_names`.
 
@@ -339,7 +360,10 @@ def _csv_column_values(text: str, header_names: tuple[str, ...]) -> list[int]:
 def _probe_nvidia() -> tuple[float, int]:
     r = subprocess.run(
         ["nvidia-smi", "--query-gpu=memory.total", "--format=csv,noheader,nounits"],
-        capture_output=True, text=True, timeout=5)
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
     if r.returncode != 0:
         return 0.0, 0
     values = [int(l.strip()) for l in r.stdout.strip().splitlines() if l.strip().isdigit()]
@@ -354,7 +378,9 @@ def _probe_amd() -> tuple[float, int]:
     than through one regex that would silently mis-scale by 1024x and land a 24 GB card in tier 0.
     """
     try:
-        r = subprocess.run(["amd-smi", "static", "--csv"], capture_output=True, text=True, timeout=8)
+        r = subprocess.run(
+            ["amd-smi", "static", "--csv"], capture_output=True, text=True, timeout=8
+        )
         if r.returncode == 0:
             mb = _csv_column_values(r.stdout, ("vram_size", "vram_total", "size"))
             if mb:
@@ -362,13 +388,14 @@ def _probe_amd() -> tuple[float, int]:
     except Exception:
         pass
     r = subprocess.run(
-        ["rocm-smi", "--showmeminfo", "vram", "--csv"], capture_output=True, text=True, timeout=8)
+        ["rocm-smi", "--showmeminfo", "vram", "--csv"], capture_output=True, text=True, timeout=8
+    )
     if r.returncode != 0:
         return 0.0, 0
     # "VRAM Total Memory (B)" column, one row per card.
     byte_values = [int(m) for m in re.findall(r",\s*(\d{9,})", r.stdout)]
     if byte_values:
-        return max(byte_values) / (1024 ** 3), len(byte_values)
+        return max(byte_values) / (1024**3), len(byte_values)
     return 0.0, 0
 
 
@@ -379,8 +406,9 @@ def _probe_intel() -> tuple[float, int]:
     ("xpu"), not a CUDA alias the way ROCm is -- handing "cuda" to a caller on Arc would fail, which
     is why the device string is carried per-vendor rather than inferred.
     """
-    r = subprocess.run(["xpu-smi", "discovery", "--dump", "-1"],
-                       capture_output=True, text=True, timeout=8)
+    r = subprocess.run(
+        ["xpu-smi", "discovery", "--dump", "-1"], capture_output=True, text=True, timeout=8
+    )
     if r.returncode != 0:
         return 0.0, 0
     mib = _csv_column_values(r.stdout, ("memory physical size", "memory_physical_size", "memory"))
@@ -400,15 +428,15 @@ def _probe_apple() -> tuple[float, int]:
     r = subprocess.run(["sysctl", "-n", "hw.memsize"], capture_output=True, text=True, timeout=5)
     if r.returncode != 0 or not r.stdout.strip().isdigit():
         return 0.0, 0
-    return (int(r.stdout.strip()) / (1024 ** 3)) * 0.75, 1
+    return (int(r.stdout.strip()) / (1024**3)) * 0.75, 1
 
 
 #: (vendor, torch_device, probe). `torch_device` is what a caller hands to PyTorch / a ROCm build.
 _ACCELERATORS: tuple[tuple[str, str, Callable[[], tuple[float, int]]], ...] = (
     ("nvidia", "cuda", _probe_nvidia),
-    ("amd",    "cuda", _probe_amd),     # ROCm builds of torch deliberately expose AMD as "cuda"
-    ("intel",  "xpu",  _probe_intel),   # Intel is its OWN device, not a cuda alias
-    ("apple",  "mps",  _probe_apple),
+    ("amd", "cuda", _probe_amd),  # ROCm builds of torch deliberately expose AMD as "cuda"
+    ("intel", "xpu", _probe_intel),  # Intel is its OWN device, not a cuda alias
+    ("apple", "mps", _probe_apple),
 )
 
 
@@ -456,18 +484,19 @@ def _detect_ram_gb() -> float:
             status = _MemoryStatusEx()
             status.dwLength = ctypes.sizeof(_MemoryStatusEx)
             if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):  # type: ignore[attr-defined]
-                return status.ullTotalPhys / (1024 ** 3)
+                return status.ullTotalPhys / (1024**3)
             return 0.0
         if system == "Darwin":
-            r = subprocess.run(["sysctl", "-n", "hw.memsize"],
-                               capture_output=True, text=True, timeout=5)
+            r = subprocess.run(
+                ["sysctl", "-n", "hw.memsize"], capture_output=True, text=True, timeout=5
+            )
             if r.returncode == 0 and r.stdout.strip().isdigit():
-                return int(r.stdout.strip()) / (1024 ** 3)
+                return int(r.stdout.strip()) / (1024**3)
             return 0.0
         with open("/proc/meminfo") as fh:
             for line in fh:
                 if line.startswith("MemTotal:"):
-                    return int(line.split()[1]) / (1024 ** 2)
+                    return int(line.split()[1]) / (1024**2)
     except Exception as exc:
         log.debug("[hardware] RAM detection failed: %s", exc)
     return 0.0
@@ -503,7 +532,7 @@ def _platform_note() -> str:
     machine = (platform.machine() or "").upper()
     if machine not in ("ARM64", "AARCH64"):
         return ""
-    processor = (platform.processor() or "")
+    processor = platform.processor() or ""
     if re.search(r"snapdragon|qualcomm", processor, re.IGNORECASE):
         return "Qualcomm Snapdragon, ARM64"
     return "ARM64"
@@ -513,8 +542,13 @@ def profile_hardware() -> HardwareProfile:
     """Detect the accelerator across vendors. Falls back to system-RAM capacity when there is none."""
     vendor, torch_device, vram_gb, gpu_count = detect_accelerator()
     if vendor != "cpu":
-        log.info("[hardware] accelerator: %s (%.1f GB, %d device(s), torch device '%s')",
-                 vendor, vram_gb, gpu_count, torch_device)
+        log.info(
+            "[hardware] accelerator: %s (%.1f GB, %d device(s), torch device '%s')",
+            vendor,
+            vram_gb,
+            gpu_count,
+            torch_device,
+        )
 
     ram_gb = _detect_ram_gb()
 
@@ -548,9 +582,14 @@ def profile_hardware() -> HardwareProfile:
         # it just takes RAM that cargo and Docker want during the same session.
         tier = min(1, _tier_for_memory(usable))
         capacity_basis = "system_ram" if ram_gb > 0 else "none"
-        log.info("[hardware] no accelerator; capacity from system RAM: %.1f GB total, "
-                 "%.1f GB usable after %.1f GB reserve -> tier %d",
-                 ram_gb, usable, _CPU_RESERVE_GB, tier)
+        log.info(
+            "[hardware] no accelerator; capacity from system RAM: %.1f GB total, "
+            "%.1f GB usable after %.1f GB reserve -> tier %d",
+            ram_gb,
+            usable,
+            _CPU_RESERVE_GB,
+            tier,
+        )
 
     lifecycle = _lifecycle_for_tier(tier)
 
@@ -559,9 +598,14 @@ def profile_hardware() -> HardwareProfile:
         log.info("[thermal] %s", thermal.recommendation)
 
     return HardwareProfile(
-        tier=tier, vram_gb=vram_gb, ram_gb=ram_gb,
-        gpu_count=gpu_count, lifecycle=lifecycle, thermal=thermal,
-        accelerator=vendor, torch_device=torch_device,
+        tier=tier,
+        vram_gb=vram_gb,
+        ram_gb=ram_gb,
+        gpu_count=gpu_count,
+        lifecycle=lifecycle,
+        thermal=thermal,
+        accelerator=vendor,
+        torch_device=torch_device,
         capacity_basis=capacity_basis,
         platform_note=_platform_note() if vendor == "cpu" else "",
     )
@@ -569,13 +613,14 @@ def profile_hardware() -> HardwareProfile:
 
 _HW_PROFILE: HardwareProfile | None = None
 _HW_PROFILE_TS: float = 0.0
-_HW_PROFILE_TTL: float = 300.0   # G6: re-probe hardware every 5 min (GPU hotplug, suspend/resume)
+_HW_PROFILE_TTL: float = 300.0  # G6: re-probe hardware every 5 min (GPU hotplug, suspend/resume)
 
 
 def get_hw_profile() -> HardwareProfile:
     """Lazy singleton with TTL — reprofile after 5 minutes to catch GPU hotplug / VRAM changes."""
     global _HW_PROFILE, _HW_PROFILE_TS
     import time as _time_hw
+
     now = _time_hw.monotonic()
     if _HW_PROFILE is None or (now - _HW_PROFILE_TS) > _HW_PROFILE_TTL:
         _HW_PROFILE = profile_hardware()
@@ -594,7 +639,9 @@ def get_free_vram_gb() -> float:
     try:
         r = subprocess.run(
             ["nvidia-smi", "--query-gpu=memory.free", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         if r.returncode == 0:
             values = [
@@ -603,7 +650,7 @@ def get_free_vram_gb() -> float:
                 if line.strip().isdigit()
             ]
             if values:
-                return max(values) / 1024   # MiB → GB, report headroom on best GPU
+                return max(values) / 1024  # MiB → GB, report headroom on best GPU
     except Exception:
         pass
     return 0.0
@@ -631,13 +678,13 @@ def get_free_vram_gb() -> float:
 # Used only when the model doesn't fit in VRAM and we need to compute a layer
 # fraction.  Close enough for Modelfile generation; not used in scoring.
 _APPROX_LAYERS_BY_SIZE: list[tuple[float, int]] = [
-    (1.0,  22),   # <1 GB   — tiny (e.g. 0.5B)
-    (2.0,  28),   # 1–2 GB  — 1.5B class (Qwen2.5-Coder-1.5B)
-    (4.0,  36),   # 2–4 GB  — 3B class (Qwen2.5-3B)
-    (9.0,  32),   # 4–9 GB  — 7B class (Mistral-7B, Llama-3-8B)
-    (17.0, 40),   # 9–17 GB — 13B class
-    (35.0, 62),   # 17–35 GB — 34B class
-    (99.0, 80),   # 35+ GB  — 70B class
+    (1.0, 22),  # <1 GB   — tiny (e.g. 0.5B)
+    (2.0, 28),  # 1–2 GB  — 1.5B class (Qwen2.5-Coder-1.5B)
+    (4.0, 36),  # 2–4 GB  — 3B class (Qwen2.5-3B)
+    (9.0, 32),  # 4–9 GB  — 7B class (Mistral-7B, Llama-3-8B)
+    (17.0, 40),  # 9–17 GB — 13B class
+    (35.0, 62),  # 17–35 GB — 34B class
+    (99.0, 80),  # 35+ GB  — 70B class
 ]
 
 # VRAM headroom to reserve for the OS display stack.
@@ -645,19 +692,19 @@ _APPROX_LAYERS_BY_SIZE: list[tuple[float, int]] = [
 # while still leaving as much VRAM as possible for the model.
 _VRAM_HEADROOM_GB: dict[str, float] = {
     "Windows": 0.6,
-    "Linux":   0.3,
-    "Darwin":  0.3,
+    "Linux": 0.3,
+    "Darwin": 0.3,
 }
 
 # KV cache overhead (GB) per 1024 tokens of context, by model size class.
 # KV = 2 × n_heads × head_dim × seq_len × bytes × n_layers.
 # These are empirical approximations per 1024 context tokens.
 _KV_CACHE_PER_1K_CTX_BY_SIZE: list[tuple[float, float]] = [
-    (2.0,  0.10),   # <2 GB  — 1.5B class
-    (4.0,  0.25),   # 2–4 GB — 3B class
-    (9.0,  0.50),   # 4–9 GB — 7B class
-    (17.0, 0.85),   # 9–17 GB — 13B class
-    (99.0, 1.50),   # 17+ GB
+    (2.0, 0.10),  # <2 GB  — 1.5B class
+    (4.0, 0.25),  # 2–4 GB — 3B class
+    (9.0, 0.50),  # 4–9 GB — 7B class
+    (17.0, 0.85),  # 9–17 GB — 13B class
+    (99.0, 1.50),  # 17+ GB
 ]
 
 
@@ -670,13 +717,21 @@ def _cpu_physical_cores() -> int:
     Fallback: os.cpu_count() // 2 (assumes hyperthreading, safe underestimate).
     """
     import os
+
     try:
         if platform.system() == "Windows":
             # PowerShell is available on all supported Windows versions.
             r = subprocess.run(
-                ["powershell", "-NoProfile", "-Command",
-                 "(Get-CimInstance Win32_Processor | Measure-Object NumberOfCores -Sum).Sum"],
-                capture_output=True, text=True, timeout=8)
+                [
+                    "powershell",
+                    "-NoProfile",
+                    "-Command",
+                    "(Get-CimInstance Win32_Processor | Measure-Object NumberOfCores -Sum).Sum",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=8,
+            )
             val = r.stdout.strip()
             if val.isdigit():
                 return int(val)
@@ -684,7 +739,10 @@ def _cpu_physical_cores() -> int:
             # Count unique (physical id, core id) pairs in /proc/cpuinfo
             r = subprocess.run(
                 ["grep", "-E", "^core id|^physical id", "/proc/cpuinfo"],
-                capture_output=True, text=True, timeout=5)
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
             if r.returncode == 0:
                 lines = r.stdout.strip().splitlines()
                 pairs: set[tuple[str, str]] = set()
@@ -730,14 +788,22 @@ def _disk_type_for_path(path: Path) -> str:
         if platform.system() == "Windows":
             drive_letter = Path(path).resolve().drive.rstrip(":\\")
             r = subprocess.run(
-                ["powershell", "-Command",
-                 f"$p=Get-Partition | Where-Object {{$_.DriveLetter -eq '{drive_letter}'}};"
-                 "$d=Get-PhysicalDisk | Where-Object {$_.DeviceId -eq (Get-Disk -Number $p.DiskNumber).Number};"
-                 "if ($d) {{ $d.MediaType }} else {{ 'Unknown' }}"],
-                capture_output=True, text=True, timeout=8)
+                [
+                    "powershell",
+                    "-Command",
+                    f"$p=Get-Partition | Where-Object {{$_.DriveLetter -eq '{drive_letter}'}};"
+                    "$d=Get-PhysicalDisk | Where-Object {$_.DeviceId -eq (Get-Disk -Number $p.DiskNumber).Number};"
+                    "if ($d) {{ $d.MediaType }} else {{ 'Unknown' }}",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=8,
+            )
             t = r.stdout.strip()
-            if "SSD" in t: return "SSD"
-            if "HDD" in t: return "HDD"
+            if "SSD" in t:
+                return "SSD"
+            if "HDD" in t:
+                return "HDD"
     except Exception:
         pass
     return "Unknown"
@@ -763,12 +829,12 @@ def get_vram_warnings(model_path: str | Path, num_ctx: int = 2048) -> list[str]:
     warnings: list[str] = []
     hw = get_hw_profile()
     model_path = Path(model_path)
-    model_size_gb = model_path.stat().st_size / (1024 ** 3)
-    headroom_gb   = _VRAM_HEADROOM_GB.get(platform.system(), 0.6)
-    kv_gb         = _kv_cache_gb(model_size_gb, num_ctx)
-    available_gb  = max(0.0, hw.vram_gb - headroom_gb - kv_gb)
-    disk_type     = _disk_type_for_path(model_path)
-    load_secs     = _estimated_load_seconds(model_size_gb, disk_type)
+    model_size_gb = model_path.stat().st_size / (1024**3)
+    headroom_gb = _VRAM_HEADROOM_GB.get(platform.system(), 0.6)
+    kv_gb = _kv_cache_gb(model_size_gb, num_ctx)
+    available_gb = max(0.0, hw.vram_gb - headroom_gb - kv_gb)
+    disk_type = _disk_type_for_path(model_path)
+    load_secs = _estimated_load_seconds(model_size_gb, disk_type)
 
     # 1. Model larger than VRAM (partial offload → GPU saturation → compositor lag)
     if hw.vram_gb > 0 and model_size_gb > hw.vram_gb:
@@ -786,7 +852,7 @@ def get_vram_warnings(model_path: str | Path, num_ctx: int = 2048) -> list[str]:
     vram_remaining = hw.vram_gb - headroom_gb - kv_gb - min(model_size_gb, available_gb)
     if 0 < vram_remaining < 0.4:
         warnings.append(
-            f"LOW VRAM HEADROOM: Only {vram_remaining*1024:.0f} MB free after model load. "
+            f"LOW VRAM HEADROOM: Only {vram_remaining * 1024:.0f} MB free after model load. "
             f"UI (DWM/compositor) may stutter or lag during inference. "
             f"If you experience mouse lag or window slowness, this is why."
         )
@@ -795,7 +861,7 @@ def get_vram_warnings(model_path: str | Path, num_ctx: int = 2048) -> list[str]:
     if disk_type == "HDD" and load_secs > 30:
         warnings.append(
             f"SLOW STORAGE: Model is on an HDD ({model_path.drive}). "
-            f"Estimated cold-load time: {load_secs:.0f}s (~{load_secs/60:.1f} min). "
+            f"Estimated cold-load time: {load_secs:.0f}s (~{load_secs / 60:.1f} min). "
             f"After the first load, the model stays in RAM and is fast. "
             f"Consider moving models to an SSD for instant cold starts."
         )
@@ -832,21 +898,21 @@ def compute_ollama_params(
     hw = get_hw_profile()
     vram_gb = vram_gb if vram_gb is not None else hw.vram_gb
 
-    model_path    = Path(model_path)
-    model_size_gb = model_path.stat().st_size / (1024 ** 3)
-    headroom_gb   = _VRAM_HEADROOM_GB.get(platform.system(), 0.6)
-    kv_gb         = _kv_cache_gb(model_size_gb, num_ctx)
-    available_gb  = max(0.0, vram_gb - headroom_gb - kv_gb)
+    model_path = Path(model_path)
+    model_size_gb = model_path.stat().st_size / (1024**3)
+    headroom_gb = _VRAM_HEADROOM_GB.get(platform.system(), 0.6)
+    kv_gb = _kv_cache_gb(model_size_gb, num_ctx)
+    available_gb = max(0.0, vram_gb - headroom_gb - kv_gb)
 
     # Thermal factor: if the GPU is already warm at idle, reduce layer count
     # to leave thermal headroom during inference.
     thermal_factor = hw.thermal.gpu_layer_factor if hw is not None else 1.0
 
     if vram_gb == 0.0:
-        num_gpu = 0                          # CPU-only
+        num_gpu = 0  # CPU-only
     elif model_size_gb <= available_gb:
         if thermal_factor >= 1.0:
-            num_gpu = 99                     # full GPU offload, healthy temps
+            num_gpu = 99  # full GPU offload, healthy temps
         else:
             # Model fits in VRAM but thermals say to back off: compute a layer count
             approx_layers = _approx_layer_count(model_size_gb)
@@ -854,15 +920,16 @@ def compute_ollama_params(
     else:
         approx_layers = _approx_layer_count(model_size_gb)
         fraction = max(0.0, available_gb / model_size_gb) * thermal_factor
-        num_gpu  = max(1, int(fraction * approx_layers))
+        num_gpu = max(1, int(fraction * approx_layers))
 
     # num_thread: logical_cores minus reserved logical cores for OS.
     # Reserve 2 physical cores = 2 × hyperthreading_factor logical cores.
     import os
-    logical_cores  = os.cpu_count() or 4
+
+    logical_cores = os.cpu_count() or 4
     physical_cores = _cpu_physical_cores()
-    ht_factor      = max(1, logical_cores // max(1, physical_cores))  # 2 if HT, 1 if not
-    reserved_logical = 2 * ht_factor                                  # keep 2 physical cores for OS
+    ht_factor = max(1, logical_cores // max(1, physical_cores))  # 2 if HT, 1 if not
+    reserved_logical = 2 * ht_factor  # keep 2 physical cores for OS
     num_thread = max(2, logical_cores - reserved_logical)
 
     # num_batch: tokens processed per GPU pass.
@@ -878,12 +945,16 @@ def compute_ollama_params(
     # get the fast 512 batch automatically.  A 6 GB user running sentinel gets
     # 128 to keep the system responsive.
     if num_gpu != 99:
-        num_batch = 128   # partial offload → GPU near saturation → throttle batches
+        num_batch = 128  # partial offload → GPU near saturation → throttle batches
     else:
-        num_batch = 512   # full VRAM fit → GPU has headroom → full speed
+        num_batch = 512  # full VRAM fit → GPU has headroom → full speed
 
-    return {"num_gpu": num_gpu, "num_thread": num_thread, "num_ctx": num_ctx,
-            "num_batch": num_batch}
+    return {
+        "num_gpu": num_gpu,
+        "num_thread": num_thread,
+        "num_ctx": num_ctx,
+        "num_batch": num_batch,
+    }
 
 
 def generate_modelfile(
@@ -919,15 +990,20 @@ def generate_modelfile(
 
 if __name__ == "__main__":
     import sys
+
     hw = profile_hardware()
     print(f"Tier: {hw.tier} ({hw.tier_label})")
     print(f"VRAM: {hw.vram_gb:.1f} GB  |  RAM: {hw.ram_gb:.1f} GB  |  GPUs: {hw.gpu_count}")
     print(f"Keep hot: {hw.lifecycle.keep_hot}")
     print(f"Max loaded: {hw.lifecycle.max_loaded}")
     print(f"Swap strategy: {hw.lifecycle.swap_strategy}")
-    print(f"CPU physical cores: {_cpu_physical_cores()}  →  num_thread: {max(2, _cpu_physical_cores() - 2)}")
+    print(
+        f"CPU physical cores: {_cpu_physical_cores()}  →  num_thread: {max(2, _cpu_physical_cores() - 2)}"
+    )
     headroom = _VRAM_HEADROOM_GB.get(platform.system(), 1.0)
-    print(f"VRAM headroom reserved for OS: {headroom:.1f} GB  →  available for models: {max(0.0, hw.vram_gb - headroom):.1f} GB")
+    print(
+        f"VRAM headroom reserved for OS: {headroom:.1f} GB  →  available for models: {max(0.0, hw.vram_gb - headroom):.1f} GB"
+    )
     if len(sys.argv) > 1:
         gguf = sys.argv[1]
         params = compute_ollama_params(gguf, vram_gb=hw.vram_gb)

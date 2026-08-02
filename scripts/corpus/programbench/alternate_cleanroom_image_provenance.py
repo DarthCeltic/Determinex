@@ -20,8 +20,12 @@ from corpus.programbench.alternate_cleanroom_image_provenance_record import (
 from corpus.programbench.cleanroom_build_recipe_provenance_gap_record import (
     verify_cleanroom_build_recipe_provenance_gap_record,
 )
-from corpus.programbench.cleanroom_build_recipe_recovery_record import verify_cleanroom_build_recipe_recovery_record
-from corpus.programbench.cleanroom_image_remediation_plan_record import verify_cleanroom_image_remediation_plan_record
+from corpus.programbench.cleanroom_build_recipe_recovery_record import (
+    verify_cleanroom_build_recipe_recovery_record,
+)
+from corpus.programbench.cleanroom_image_remediation_plan_record import (
+    verify_cleanroom_image_remediation_plan_record,
+)
 from corpus.programbench.cleanroom_recipe_provenance_recovery_record import (
     verify_cleanroom_recipe_provenance_recovery_record,
 )
@@ -76,7 +80,9 @@ class ProgramBenchAlternateCleanroomImageProvenance:
     def discover(self, operator_request_path: Path) -> dict[str, Any]:
         request_path = self._resolve(operator_request_path)
         request = _read_json(request_path) if request_path.is_file() else {}
-        if not request_path.is_file() or not verify_operator_provenance_request_packet_record(request):
+        if not request_path.is_file() or not verify_operator_provenance_request_packet_record(
+            request
+        ):
             return self._write_blocked(
                 status=AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_BLOCKED_NO_REQUEST.value,
                 decision=AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_BLOCKED.value,
@@ -122,14 +128,33 @@ class ProgramBenchAlternateCleanroomImageProvenance:
                 reasons=chain_errors,
             )
 
-        searched, candidates = self._search_allowed_sources(original_image=image, original_digest=digest)
-        exact = [c for c in candidates if c["classification"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT.value]
-        partial = [c for c in candidates if c["classification"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_PARTIAL.value]
-        blocked = [c for c in candidates if c["classification"] == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_BLOCKED.value]
+        searched, candidates = self._search_allowed_sources(
+            original_image=image, original_digest=digest
+        )
+        exact = [
+            c
+            for c in candidates
+            if c["classification"]
+            == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT.value
+        ]
+        partial = [
+            c
+            for c in candidates
+            if c["classification"]
+            == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_PARTIAL.value
+        ]
+        blocked = [
+            c
+            for c in candidates
+            if c["classification"]
+            == AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_BLOCKED.value
+        ]
 
         if exact:
             status = AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT.value
-            decision = AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_ADMISSIBLE.value
+            decision = (
+                AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_ADMISSIBLE.value
+            )
             selected = exact[0]
             reasons = ["exact_digest_source_recipe_and_fidelity_provenance_found"]
         elif partial:
@@ -138,19 +163,32 @@ class ProgramBenchAlternateCleanroomImageProvenance:
             selected = partial[0]
             reasons = ["alternate_provenance_partial_only"]
         elif blocked:
-            status = AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_BLOCKED.value
-            decision = AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_BLOCKED.value
+            status = (
+                AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_BLOCKED.value
+            )
+            decision = (
+                AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_BLOCKED.value
+            )
             selected = blocked[0]
             reasons = ["only_blocked_alternate_candidates_found"]
         else:
             status = AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.value
-            decision = AlternateCleanroomImageProvenanceStatus.NO_ALTERNATE_IMAGE_CANDIDATE_FOUND.value
+            decision = (
+                AlternateCleanroomImageProvenanceStatus.NO_ALTERNATE_IMAGE_CANDIDATE_FOUND.value
+            )
             selected = {}
             reasons = ["no_explicit_alternate_cleanroom_candidate_found_in_allowed_sources"]
 
         fidelity_impact = _fidelity_impact(selected, bool(exact or partial))
-        if fidelity_impact["fidelity_change_required"] and status != AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.value:
-            provenance_status = [status, AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_FIDELITY_CHANGE_REQUIRED.value]
+        if (
+            fidelity_impact["fidelity_change_required"]
+            and status
+            != AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.value
+        ):
+            provenance_status = [
+                status,
+                AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_FIDELITY_CHANGE_REQUIRED.value,
+            ]
         else:
             provenance_status = [status]
         record = make_alternate_cleanroom_image_provenance_record(
@@ -168,16 +206,24 @@ class ProgramBenchAlternateCleanroomImageProvenance:
                 "partial_candidates": len(partial),
                 "blocked_candidates": len(blocked),
                 "requires_exact_digest_source_provenance": True,
-                "latest_or_name_only_rejected": any("latest_or_name_only_reference" in c.get("reasons", []) for c in blocked),
-                "inferred_officialness_rejected": any("inferred_officialness_only" in c.get("reasons", []) for c in blocked),
+                "latest_or_name_only_rejected": any(
+                    "latest_or_name_only_reference" in c.get("reasons", []) for c in blocked
+                ),
+                "inferred_officialness_rejected": any(
+                    "inferred_officialness_only" in c.get("reasons", []) for c in blocked
+                ),
             },
             benchmark_fidelity_impact=fidelity_impact,
-            authorization=_authorization(candidate_found=bool(exact or partial), candidate_admitted=False),
+            authorization=_authorization(
+                candidate_found=bool(exact or partial), candidate_admitted=False
+            ),
             reasons=reasons,
             cache_ready=False,
             executable=False,
         )
-        path = write_alternate_cleanroom_image_provenance_record(record, self._resolve(self.config.output_dir))
+        path = write_alternate_cleanroom_image_provenance_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _validate_request_chain(self, request: dict[str, Any]) -> list[str]:
@@ -196,7 +242,9 @@ class ProgramBenchAlternateCleanroomImageProvenance:
             "remediation_plan": Path(str(decision.get("remediation_plan") or "")),
             "recipe_recovery": Path(str(decision.get("recipe_recovery") or "")),
             "provenance_gap": Path(str(decision.get("provenance_gap") or "")),
-            "recipe_provenance_recovery": Path(str(decision.get("recipe_provenance_recovery") or "")),
+            "recipe_provenance_recovery": Path(
+                str(decision.get("recipe_provenance_recovery") or "")
+            ),
         }
         validators = {
             "remediation_plan": verify_cleanroom_image_remediation_plan_record,
@@ -216,7 +264,9 @@ class ProgramBenchAlternateCleanroomImageProvenance:
                 errors.append(f"{name}_digest_mismatch")
         return errors
 
-    def _search_allowed_sources(self, *, original_image: str, original_digest: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    def _search_allowed_sources(
+        self, *, original_image: str, original_digest: str
+    ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
         roots = self.config.search_roots or _default_search_roots()
         searched: list[dict[str, Any]] = []
         candidates: list[dict[str, Any]] = []
@@ -232,10 +282,16 @@ class ProgramBenchAlternateCleanroomImageProvenance:
             if not resolved.exists():
                 searched.append(entry)
                 continue
-            files = [resolved] if resolved.is_file() else sorted(p for p in resolved.rglob("*.json") if p.is_file())
+            files = (
+                [resolved]
+                if resolved.is_file()
+                else sorted(p for p in resolved.rglob("*.json") if p.is_file())
+            )
             for path in files[: self.config.max_files_per_root]:
                 entry["files_examined"] += 1
-                candidate = _candidate_from_file(path, self.config.root, original_image, original_digest)
+                candidate = _candidate_from_file(
+                    path, self.config.root, original_image, original_digest
+                )
                 if candidate:
                     entry["matches"] += 1
                     candidates.append(candidate)
@@ -259,7 +315,9 @@ class ProgramBenchAlternateCleanroomImageProvenance:
         record = make_alternate_cleanroom_image_provenance_record(
             status=status,
             decision=decision,
-            original_image_reference=str(request.get("image_reference") or self.config.target_image),
+            original_image_reference=str(
+                request.get("image_reference") or self.config.target_image
+            ),
             original_image_digest=str(request.get("image_digest") or self.config.target_digest),
             operator_provenance_request=_rel(self.config.root, request_path),
             searched_sources=searched,
@@ -274,38 +332,64 @@ class ProgramBenchAlternateCleanroomImageProvenance:
             cache_ready=False,
             executable=False,
         )
-        path = write_alternate_cleanroom_image_provenance_record(record, self._resolve(self.config.output_dir))
+        path = write_alternate_cleanroom_image_provenance_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _resolve(self, path: Path) -> Path:
         return path if path.is_absolute() else self.config.root / path
 
 
-def _candidate_from_file(path: Path, root: Path, original_image: str, original_digest: str) -> dict[str, Any] | None:
+def _candidate_from_file(
+    path: Path, root: Path, original_image: str, original_digest: str
+) -> dict[str, Any] | None:
     data = _read_json(path)
     if not data:
         return None
     if not bool(data.get("alternate_cleanroom_candidate")):
         return None
-    image = str(data.get("alternate_image_reference") or data.get("image_reference") or data.get("image") or "")
-    digest = str(data.get("alternate_image_digest") or data.get("image_digest") or data.get("manifest_digest") or data.get("digest") or "")
+    image = str(
+        data.get("alternate_image_reference")
+        or data.get("image_reference")
+        or data.get("image")
+        or ""
+    )
+    digest = str(
+        data.get("alternate_image_digest")
+        or data.get("image_digest")
+        or data.get("manifest_digest")
+        or data.get("digest")
+        or ""
+    )
     if not image or image == original_image:
         return None
     if digest == original_digest:
         return None
     tag = str(data.get("tag") or "")
-    source = str(data.get("source_registry") or data.get("source_url_or_registry") or data.get("registry") or "")
+    source = str(
+        data.get("source_registry")
+        or data.get("source_url_or_registry")
+        or data.get("registry")
+        or ""
+    )
     provenance = data.get("provenance") if isinstance(data.get("provenance"), dict) else {}
-    fidelity = data.get("benchmark_fidelity") if isinstance(data.get("benchmark_fidelity"), dict) else {}
+    fidelity = (
+        data.get("benchmark_fidelity") if isinstance(data.get("benchmark_fidelity"), dict) else {}
+    )
 
     has_digest = digest.startswith("sha256:")
     has_source = bool(source)
-    has_recipe = bool(provenance.get("original_recipe") or provenance.get("recipe_digest") or provenance.get("reproducible_build_recipe"))
+    has_recipe = bool(
+        provenance.get("original_recipe")
+        or provenance.get("recipe_digest")
+        or provenance.get("reproducible_build_recipe")
+    )
     has_base = bool(provenance.get("base_image_digest"))
     has_toolchain = bool(provenance.get("toolchain_provenance"))
     fidelity_declared = bool(fidelity.get("impact") or fidelity.get("fidelity_risk"))
     inferred_only = bool(data.get("inferred_officialness"))
-    latest_or_name_only = (tag == "latest" or not has_digest)
+    latest_or_name_only = tag == "latest" or not has_digest
 
     reasons: list[str] = []
     if latest_or_name_only:
@@ -323,18 +407,34 @@ def _candidate_from_file(path: Path, root: Path, original_image: str, original_d
     if not has_toolchain:
         reasons.append("missing_toolchain_provenance")
 
-    exact = has_digest and has_source and has_recipe and has_base and has_toolchain and fidelity_declared and not inferred_only
+    exact = (
+        has_digest
+        and has_source
+        and has_recipe
+        and has_base
+        and has_toolchain
+        and fidelity_declared
+        and not inferred_only
+    )
     partial = has_digest and has_source and not inferred_only and not exact
     if exact:
-        classification = AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT.value
-        decision = AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_ADMISSIBLE.value
+        classification = (
+            AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT.value
+        )
+        decision = (
+            AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_ADMISSIBLE.value
+        )
         rank = 0
     elif partial:
         classification = AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_PARTIAL.value
-        decision = AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_QUARANTINE_ONLY.value
+        decision = (
+            AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_QUARANTINE_ONLY.value
+        )
         rank = 10
     else:
-        classification = AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_BLOCKED.value
+        classification = (
+            AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_BLOCKED.value
+        )
         decision = AlternateCleanroomImageProvenanceStatus.ALTERNATE_IMAGE_CANDIDATE_BLOCKED.value
         rank = 20
 
@@ -359,7 +459,8 @@ def _candidate_from_file(path: Path, root: Path, original_image: str, original_d
         "reasons": reasons,
         "rank": rank,
         "execution_allowed": False,
-        "quarantine_only": classification != AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT.value,
+        "quarantine_only": classification
+        != AlternateCleanroomImageProvenanceStatus.ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT.value,
     }
 
 
@@ -370,7 +471,11 @@ def _fidelity_impact(candidate: dict[str, Any], found_candidate: bool) -> dict[s
             "impact": "no_alternate_candidate_found",
             "benchmark_equivalence_proven": False,
         }
-    fidelity = candidate.get("benchmark_fidelity") if isinstance(candidate.get("benchmark_fidelity"), dict) else {}
+    fidelity = (
+        candidate.get("benchmark_fidelity")
+        if isinstance(candidate.get("benchmark_fidelity"), dict)
+        else {}
+    )
     impact = str(fidelity.get("impact") or fidelity.get("fidelity_risk") or "material")
     return {
         "fidelity_change_required": impact not in {"none", "equivalent"},
@@ -436,10 +541,16 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Discover alternate ProgramBench cleanroom image provenance candidates.")
+    parser = argparse.ArgumentParser(
+        description="Discover alternate ProgramBench cleanroom image provenance candidates."
+    )
     parser.add_argument("operator_provenance_request", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_alternate_cleanroom_image_provenance"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_alternate_cleanroom_image_provenance"),
+    )
     parser.add_argument("--search-root", action="append", type=Path, default=[])
     parser.add_argument("--target-image", default="")
     parser.add_argument("--target-digest", default="")

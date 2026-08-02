@@ -22,20 +22,20 @@ Validator modules:
     llm_critic_validator — Sends output to a secondary model for pass/fail critique
 """
 
-from .rust_validator import validate as rust_validate
-from .python_validator import validate as python_validate
-from .json_validator import validate as json_validate
-from .regex_validator import validate as regex_validate
-from .llm_critic_validator import validate as llm_critic_validate
-from .go_validator import validate as go_validate
 from .bash_validator import validate as bash_validate
-from .powershell_validator import validate as powershell_validate
-from .dockerfile_validator import validate as dockerfile_validate
-from .yaml_validator import validate as yaml_validate
-from .xdist_validator import validate as xdist_validate
-from .sql_validator import validate as sql_validate
-from .java_validator import validate as java_validate
 from .cpp_validator import validate as cpp_validate
+from .dockerfile_validator import validate as dockerfile_validate
+from .go_validator import validate as go_validate
+from .java_validator import validate as java_validate
+from .json_validator import validate as json_validate
+from .llm_critic_validator import validate as llm_critic_validate
+from .powershell_validator import validate as powershell_validate
+from .python_validator import validate as python_validate
+from .regex_validator import validate as regex_validate
+from .rust_validator import validate as rust_validate
+from .sql_validator import validate as sql_validate
+from .xdist_validator import validate as xdist_validate
+from .yaml_validator import validate as yaml_validate
 
 VALIDATOR_MAP = {
     "rustc": rust_validate,

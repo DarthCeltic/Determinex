@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Render a transparent ProgramBench local/Hetzner drain-pool status report."""
+
 from __future__ import annotations
 
 import json
@@ -11,10 +12,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from determinex_atomic_io import (  # noqa: E402
     load_json_with_retry as load,
+)
+from determinex_atomic_io import (
     write_json_atomic,
     write_text_atomic,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 BOARD = ROOT / "logs" / "programbench_lock_board.json"
@@ -28,8 +30,12 @@ PY = Path(sys.executable)
 def capture(cmd: list[str]) -> str:
     try:
         return subprocess.run(
-            cmd, cwd=str(ROOT), text=True, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, timeout=45
+            cmd,
+            cwd=str(ROOT),
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=45,
         ).stdout
     except Exception as exc:
         return f"ERROR: {exc}"
@@ -47,7 +53,11 @@ def active_local() -> list[dict[str, str]]:
 
 def main() -> int:
     # Refresh queue first so statuses/reservations are current.
-    subprocess.run([str(PY), str(ROOT / "scripts" / "pb_native_eval_queue.py"), "--top", "1"], cwd=str(ROOT), stdout=subprocess.DEVNULL)
+    subprocess.run(
+        [str(PY), str(ROOT / "scripts" / "pb_native_eval_queue.py"), "--top", "1"],
+        cwd=str(ROOT),
+        stdout=subprocess.DEVNULL,
+    )
 
     board = load(BOARD, [])
     queue = load(QUEUE, [])
@@ -59,7 +69,8 @@ def main() -> int:
     board_bases = {r["base_slug"] for r in board if r.get("base_slug")}
     queue_bases = {r["base_slug"] for r in queue}
     missing = [
-        r for r in board
+        r
+        for r in board
         if float(r.get("best_score") or 0) < 100 and r.get("base_slug") not in queue_bases
     ]
 
@@ -109,12 +120,31 @@ def main() -> int:
     lines += ["", "## Local Active", ""]
     for row in local:
         lines.append(f"- {row['image']} ({row['status']})")
-    lines += ["", "## Missing / Not Pooled Top 40", "", "| score | passed/total | tool |", "|---:|---:|---|"]
+    lines += [
+        "",
+        "## Missing / Not Pooled Top 40",
+        "",
+        "| score | passed/total | tool |",
+        "|---:|---:|---|",
+    ]
     for r in report["missing_top"]:
         lines.append(f"| {r['score']:.2f} | {r['passed']}/{r['total']} | {r['base_slug']} |")
     write_text_atomic(OUT_MD, "\n".join(lines) + "\n")
     print(OUT_MD)
-    print(json.dumps({k: report[k] for k in ("locked_100", "remaining_to_200", "queue_counts", "missing_not_pooled_count")}, indent=2))
+    print(
+        json.dumps(
+            {
+                k: report[k]
+                for k in (
+                    "locked_100",
+                    "remaining_to_200",
+                    "queue_counts",
+                    "missing_not_pooled_count",
+                )
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

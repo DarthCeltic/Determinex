@@ -39,7 +39,6 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
-from typing import Literal
 
 log = logging.getLogger("determinex.vision")
 
@@ -49,19 +48,20 @@ _parsed = urllib.parse.urlparse(_OLLAMA_URL)
 if (_parsed.hostname or "") not in {"localhost", "127.0.0.1", "::1"}:
     raise ValueError(f"DETERMINEX_OLLAMA_URL host '{_parsed.hostname}' not allowed (SSRF guard)")
 
-VISION_MODEL    = os.getenv("DETERMINEX_VISION_MODEL", "qwen2.5-vl:7b")
-VISION_TIMEOUT  = int(os.getenv("DETERMINEX_VISION_TIMEOUT", "120"))
-VISION_NUM_CTX  = int(os.getenv("DETERMINEX_VISION_NUM_CTX", "4096"))
-VISION_MAX_TOK  = int(os.getenv("DETERMINEX_VISION_MAX_TOKENS", "512"))
+VISION_MODEL = os.getenv("DETERMINEX_VISION_MODEL", "qwen2.5-vl:7b")
+VISION_TIMEOUT = int(os.getenv("DETERMINEX_VISION_TIMEOUT", "120"))
+VISION_NUM_CTX = int(os.getenv("DETERMINEX_VISION_NUM_CTX", "4096"))
+VISION_MAX_TOK = int(os.getenv("DETERMINEX_VISION_MAX_TOKENS", "512"))
 
-CLOUD_FALLBACK  = os.getenv("DETERMINEX_ANTHROPIC_VISION", "0") == "1"
-CLOAK_ENABLED   = os.getenv("DETERMINEX_CLOAK", "0") == "1"
+CLOUD_FALLBACK = os.getenv("DETERMINEX_ANTHROPIC_VISION", "0") == "1"
+CLOAK_ENABLED = os.getenv("DETERMINEX_CLOAK", "0") == "1"
 
 _SUPPORTED_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"}
-_MAX_IMAGE_MB   = int(os.getenv("DETERMINEX_VISION_MAX_MB", "8"))
+_MAX_IMAGE_MB = int(os.getenv("DETERMINEX_VISION_MAX_MB", "8"))
 
 
 # --- Helpers ------------------------------------------------------------------
+
 
 def _read_image_b64(path: Path) -> str:
     if not path.exists():
@@ -78,19 +78,21 @@ def _read_image_b64(path: Path) -> str:
 
 def _ollama_vision_chat(image_b64: str, prompt: str, system: str) -> str:
     """POST a multimodal /api/chat request. Returns content or '' on failure."""
-    body = json.dumps({
-        "model": VISION_MODEL,
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user",   "content": prompt, "images": [image_b64]},
-        ],
-        "stream": False,
-        "options": {
-            "num_ctx":     VISION_NUM_CTX,
-            "num_predict": VISION_MAX_TOK,
-            "temperature": 0.1,
-        },
-    }).encode("utf-8")
+    body = json.dumps(
+        {
+            "model": VISION_MODEL,
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": prompt, "images": [image_b64]},
+            ],
+            "stream": False,
+            "options": {
+                "num_ctx": VISION_NUM_CTX,
+                "num_predict": VISION_MAX_TOK,
+                "temperature": 0.1,
+            },
+        }
+    ).encode("utf-8")
     req = urllib.request.Request(
         f"{_OLLAMA_URL.rstrip('/')}/api/chat",
         data=body,
@@ -109,7 +111,8 @@ def _ollama_vision_chat(image_b64: str, prompt: str, system: str) -> str:
                 "ollama pull %s   (this Sprint 2 deliverable assumes the operator "
                 "pulls the model before first use; not auto-pulled to avoid "
                 "consuming bandwidth on unattended runs).",
-                VISION_MODEL, VISION_MODEL,
+                VISION_MODEL,
+                VISION_MODEL,
             )
         return ""
     except urllib.error.URLError as e:
@@ -134,34 +137,51 @@ def _cloud_vision_fallback(image_b64: str, prompt: str, ext: str) -> str:
         try:
             sys.path.insert(0, str(Path(__file__).resolve().parent))
             from determinex_cloak import obfuscate_text  # type: ignore
+
             cleaned_prompt = obfuscate_text(prompt)
         except (ImportError, AttributeError):
-            log.warning("DETERMINEX_CLOAK=1 but cloak text-obfuscator not exposed; "
-                        "sending prompt verbatim")
+            log.warning(
+                "DETERMINEX_CLOAK=1 but cloak text-obfuscator not exposed; sending prompt verbatim"
+            )
 
-    media_type = {"png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg",
-                  "webp": "image/webp", "gif": "image/gif", "bmp": "image/bmp"}.get(ext.lower().lstrip("."), "image/png")
+    media_type = {
+        "png": "image/png",
+        "jpg": "image/jpeg",
+        "jpeg": "image/jpeg",
+        "webp": "image/webp",
+        "gif": "image/gif",
+        "bmp": "image/bmp",
+    }.get(ext.lower().lstrip("."), "image/png")
 
-    body = json.dumps({
-        "model": os.getenv("DETERMINEX_ANTHROPIC_VISION_MODEL", "claude-sonnet-4-6"),
-        "max_tokens": VISION_MAX_TOK,
-        "messages": [{
-            "role": "user",
-            "content": [
-                {"type": "image", "source": {"type": "base64",
-                                              "media_type": media_type,
-                                              "data": image_b64}},
-                {"type": "text",  "text": cleaned_prompt},
+    body = json.dumps(
+        {
+            "model": os.getenv("DETERMINEX_ANTHROPIC_VISION_MODEL", "claude-sonnet-4-6"),
+            "max_tokens": VISION_MAX_TOK,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image",
+                            "source": {
+                                "type": "base64",
+                                "media_type": media_type,
+                                "data": image_b64,
+                            },
+                        },
+                        {"type": "text", "text": cleaned_prompt},
+                    ],
+                }
             ],
-        }],
-    }).encode("utf-8")
+        }
+    ).encode("utf-8")
 
     req = urllib.request.Request(
         "https://api.anthropic.com/v1/messages",
         data=body,
         headers={
-            "Content-Type":      "application/json",
-            "x-api-key":         api_key,
+            "Content-Type": "application/json",
+            "x-api-key": api_key,
             "anthropic-version": "2023-06-01",
         },
     )
@@ -248,9 +268,12 @@ def classify_screenshot(path: str | Path) -> dict:
     if not raw and CLOUD_FALLBACK:
         raw = _cloud_vision_fallback(image_b64, prompt, p.suffix)
     if not raw:
-        return {"kind": "unavailable", "key_observations": [],
-                "suggested_action": "pull vision model: ollama pull " + VISION_MODEL,
-                "raw": ""}
+        return {
+            "kind": "unavailable",
+            "key_observations": [],
+            "suggested_action": "pull vision model: ollama pull " + VISION_MODEL,
+            "raw": "",
+        }
     # Best-effort JSON extraction (models often wrap in fences)
     cleaned = raw.strip()
     if cleaned.startswith("```"):
@@ -265,15 +288,21 @@ def classify_screenshot(path: str | Path) -> dict:
             return parsed
     except json.JSONDecodeError:
         pass
-    return {"kind": "other", "key_observations": [],
-            "suggested_action": "(non-JSON response; see raw)", "raw": raw}
+    return {
+        "kind": "other",
+        "key_observations": [],
+        "suggested_action": "(non-JSON response; see raw)",
+        "raw": raw,
+    }
 
 
 # --- CLI ----------------------------------------------------------------------
 
+
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="determinex-vision",
-                                     description="Sprint 2 - multimodal eyes for Determinex")
+    parser = argparse.ArgumentParser(
+        prog="determinex-vision", description="Sprint 2 - multimodal eyes for Determinex"
+    )
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_d = sub.add_parser("describe", help="Structured description")
@@ -293,12 +322,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "report":
         report = {
-            "vision_model":    VISION_MODEL,
-            "ollama_url":      _OLLAMA_URL,
-            "cloud_fallback":  CLOUD_FALLBACK,
-            "cloak_enabled":   CLOAK_ENABLED,
-            "max_image_mb":    _MAX_IMAGE_MB,
-            "supported_exts":  sorted(_SUPPORTED_EXTS),
+            "vision_model": VISION_MODEL,
+            "ollama_url": _OLLAMA_URL,
+            "cloud_fallback": CLOUD_FALLBACK,
+            "cloak_enabled": CLOAK_ENABLED,
+            "max_image_mb": _MAX_IMAGE_MB,
+            "supported_exts": sorted(_SUPPORTED_EXTS),
         }
         print(json.dumps(report, indent=2))
         return 0
@@ -306,8 +335,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "describe":
         result = describe_image(args.image)
         if not result:
-            print(f"ERROR: vision model '{VISION_MODEL}' unavailable; pull with `ollama pull {VISION_MODEL}`",
-                  file=sys.stderr)
+            print(
+                f"ERROR: vision model '{VISION_MODEL}' unavailable; pull with `ollama pull {VISION_MODEL}`",
+                file=sys.stderr,
+            )
             return 1
         if args.json_out:
             print(json.dumps({"image": str(args.image), "description": result}, ensure_ascii=False))

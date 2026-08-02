@@ -10,14 +10,15 @@ It is deliberately conservative. It flags missing manifests, eval JSONs without
 gate/corpus status nearby, orphan logs, and shard manifests without terminal
 state.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
-
+from typing import Any
 
 TERMINAL_STATES = {"cleaned", "failed", "ignored", "pulled", "gated", "accepted", "rejected"}
 ALLOWED_TRACE_STATUSES = {
@@ -50,7 +51,9 @@ class ReconcileReport:
         return asdict(self)
 
 
-def reconcile_roots(roots: Iterable[Path], *, active_manifest: Path | None = None) -> ReconcileReport:
+def reconcile_roots(
+    roots: Iterable[Path], *, active_manifest: Path | None = None
+) -> ReconcileReport:
     root_list = [Path(r) for r in roots]
     report = ReconcileReport(roots=[str(r) for r in root_list])
     corpus_trace_roots = _corpus_trace_roots(root_list)
@@ -61,7 +64,12 @@ def reconcile_roots(roots: Iterable[Path], *, active_manifest: Path | None = Non
         for eval_json in root.rglob("*.eval.json"):
             report.eval_json_count += 1
             if not _has_nearby_status(eval_json):
-                _issue(report, "eval_without_status", eval_json, "missing gate_result.json or corpus trace near eval")
+                _issue(
+                    report,
+                    "eval_without_status",
+                    eval_json,
+                    "missing gate_result.json or corpus trace near eval",
+                )
         for manifest in root.rglob("manifest.json"):
             report.manifest_count += 1
             _check_manifest(report, manifest)
@@ -73,7 +81,9 @@ def reconcile_roots(roots: Iterable[Path], *, active_manifest: Path | None = Non
     for trace in corpus_trace_roots:
         report.corpus_trace_count += 1
         if trace.get("status") not in ALLOWED_TRACE_STATUSES:
-            _issue(report, "trace_bad_status", Path(trace.get("path", "")), str(trace.get("status")))
+            _issue(
+                report, "trace_bad_status", Path(trace.get("path", "")), str(trace.get("status"))
+            )
 
     if active_manifest and active_manifest.is_file():
         _check_active_manifest(report, active_manifest)
@@ -91,7 +101,11 @@ def _check_manifest(report: ReconcileReport, manifest: Path) -> None:
     if isinstance(data, dict) and data.get("items") is not None:
         # Shard manifests should eventually have pulled/gated state in active manifest.
         return
-    if isinstance(data, dict) and data.get("corpus_trace") and not Path(str(data["corpus_trace"])).exists():
+    if (
+        isinstance(data, dict)
+        and data.get("corpus_trace")
+        and not Path(str(data["corpus_trace"])).exists()
+    ):
         _issue(report, "manifest_missing_corpus_trace", manifest, str(data["corpus_trace"]))
 
 
@@ -114,7 +128,9 @@ def _corpus_trace_roots(roots: list[Path]) -> list[dict[str, Any]]:
     for root in roots:
         for path in root.rglob("*.jsonl") if root.exists() else []:
             try:
-                for line_no, line in enumerate(path.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+                for line_no, line in enumerate(
+                    path.read_text(encoding="utf-8", errors="replace").splitlines(), 1
+                ):
                     if not line.strip():
                         continue
                     row = json.loads(line)

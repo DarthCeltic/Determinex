@@ -1,9 +1,9 @@
 """Records for FRONTEND_REAL_FLOW_E2E_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 FRONTEND_REAL_FLOW_E2E_TOKENS = (
     "FRONTEND_REAL_FLOW_E2E_PASSED",

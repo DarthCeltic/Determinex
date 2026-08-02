@@ -10,7 +10,9 @@ from corpus.programbench.programbench_platform_record import (
 )
 
 
-def make_programbench_next_unblock_decision_record(*, status: str, payload: dict[str, Any]) -> dict[str, Any]:
+def make_programbench_next_unblock_decision_record(
+    *, status: str, payload: dict[str, Any]
+) -> dict[str, Any]:
     return make_platform_record(
         record_type="programbench_next_unblock_decision",
         schema_version="programbench-next-unblock-decision-v1",
@@ -19,7 +21,9 @@ def make_programbench_next_unblock_decision_record(*, status: str, payload: dict
     )
 
 
-def write_programbench_next_unblock_decision_record(record: dict[str, Any], output_dir: Path) -> Path:
+def write_programbench_next_unblock_decision_record(
+    record: dict[str, Any], output_dir: Path
+) -> Path:
     return write_platform_record(record, output_dir, name_key="record_id")
 
 

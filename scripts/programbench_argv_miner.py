@@ -14,7 +14,9 @@ each file. Output written to logs/mass_run_v2/argv_miner.json.
 This is the load-bearing piece: it lets each scaffold know EXACTLY what the
 tests want without having to guess from family heuristics.
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -49,33 +51,73 @@ RX_JSON_GET = re.compile(r"\[[\"']([A-Za-z_][A-Za-z0-9_-]{0,40})[\"']\]")  # dat
 RX_GIT_INIT = re.compile(r"git[ _]init|\.git/?", re.I)
 RX_MKFIFO = re.compile(r"mkfifo", re.I)
 RX_TMP_PATH = re.compile(r"tmp_path|tmpdir|TemporaryDirectory")
-RX_WORKSPACE_FILE = re.compile(r"(?:open|write_text|with open)\s*\(\s*(?:tmp_path\s*/\s*)?[\"']([\w./_-]+\.[a-z]{1,5})[\"']")
+RX_WORKSPACE_FILE = re.compile(
+    r"(?:open|write_text|with open)\s*\(\s*(?:tmp_path\s*/\s*)?[\"']([\w./_-]+\.[a-z]{1,5})[\"']"
+)
 RX_FIXTURE_FILE = re.compile(r"(?:fixture|fixtures)/([\w./_-]+)")
-RX_NETWORK_PORT = re.compile(r"(?:bind|listen|connect)\s*\(\s*\(?\s*[\"']?(?:127\.0\.0\.1|localhost|0\.0\.0\.0)[\"']?\s*,\s*(\d{2,5})")
+RX_NETWORK_PORT = re.compile(
+    r"(?:bind|listen|connect)\s*\(\s*\(?\s*[\"']?(?:127\.0\.0\.1|localhost|0\.0\.0\.0)[\"']?\s*,\s*(\d{2,5})"
+)
 
 
 # Flags we will NEVER auto-promote to value-flag even if heuristics say so.
 # These are counter-style boolean flags whose "next token" is just a positional.
 NEVER_VALUE_FLAGS = {
-    "--", "-v", "-vv", "-vvv", "-vvvv", "-vvvvv", "-q", "-qq", "-qqq",
-    "--verbose", "--quiet", "--silent", "-h", "--help", "-V", "--version",
-    "--debug", "--no-color", "--color", "--pretty", "--compact", "--json",
-    "-r", "--recursive", "-a", "--all", "-f", "--force", "-n", "--dry-run",
-    "-y", "--yes", "-i", "--ignore-case", "--no-confirm", "--confirm",
-    "--check", "--list", "-l", "--long", "-s", "--short",
+    "--",
+    "-v",
+    "-vv",
+    "-vvv",
+    "-vvvv",
+    "-vvvvv",
+    "-q",
+    "-qq",
+    "-qqq",
+    "--verbose",
+    "--quiet",
+    "--silent",
+    "-h",
+    "--help",
+    "-V",
+    "--version",
+    "--debug",
+    "--no-color",
+    "--color",
+    "--pretty",
+    "--compact",
+    "--json",
+    "-r",
+    "--recursive",
+    "-a",
+    "--all",
+    "-f",
+    "--force",
+    "-n",
+    "--dry-run",
+    "-y",
+    "--yes",
+    "-i",
+    "--ignore-case",
+    "--no-confirm",
+    "--confirm",
+    "--check",
+    "--list",
+    "-l",
+    "--long",
+    "-s",
+    "--short",
 }
 
 
 # ── data class ─────────────────────────────────────────────────────────────
 def _new_entry() -> dict[str, Any]:
     return {
-        "value_flags": set(),       # flags that take a following arg
-        "value_flag_counts": {},    # flag -> {"value": n, "standalone": n}
-        "positional_shapes": [],    # ordered argv samples
+        "value_flags": set(),  # flags that take a following arg
+        "value_flag_counts": {},  # flag -> {"value": n, "standalone": n}
+        "positional_shapes": [],  # ordered argv samples
         "expected_strings": set(),  # wait_for / assert ... in stdout
         "expected_keypresses": set(),
         "expected_rc": set(),
-        "workspace_files": set(),   # files tests write/expect in workspace
+        "workspace_files": set(),  # files tests write/expect in workspace
         "fixture_paths": set(),
         "needs_git_init": False,
         "needs_mkfifo": False,
@@ -129,6 +171,7 @@ def mine_py(text: str, entry: dict[str, Any]) -> None:
                 buf += ch
         if buf.strip():
             items.append(buf.strip())
+
         # Identify which items are flag string literals
         def _flag_of(item: str) -> str | None:
             m2 = re.match(r"^[fr]?[\"']([^\"']+)[\"']$", item)
@@ -138,6 +181,7 @@ def mine_py(text: str, entry: dict[str, Any]) -> None:
             if v.startswith("-") and not v.startswith("---") and len(v) > 1:
                 return v
             return None
+
         flag_toks: list[str | None] = [_flag_of(it) for it in items]
         literal_strs: list[str] = []
         for it in items:
@@ -242,7 +286,11 @@ def mine_branch_tar(tar_path: Path, entry: dict[str, Any]) -> int:
                 name = member.name.lower()
                 if not name.endswith(".py"):
                     continue
-                if "eval/tests" not in name and "eval\\tests" not in name and not name.endswith("conftest.py"):
+                if (
+                    "eval/tests" not in name
+                    and "eval\\tests" not in name
+                    and not name.endswith("conftest.py")
+                ):
                     continue
                 try:
                     f = tf.extractfile(member)
@@ -308,11 +356,13 @@ def main() -> int:
         entry = mine_tool(snap, inst)
         results[inst] = entry
         if i % 10 == 0 or i == len(insts):
-            print(f"  [{i}/{len(insts)}] {inst}: "
-                  f"branches={entry['branches_scanned']} "
-                  f"vflags={len(entry['value_flags'])} "
-                  f"strings={len(entry['expected_strings'])} "
-                  f"keys={len(entry['expected_keypresses'])}")
+            print(
+                f"  [{i}/{len(insts)}] {inst}: "
+                f"branches={entry['branches_scanned']} "
+                f"vflags={len(entry['value_flags'])} "
+                f"strings={len(entry['expected_strings'])} "
+                f"keys={len(entry['expected_keypresses'])}"
+            )
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(results, indent=2), encoding="utf-8")

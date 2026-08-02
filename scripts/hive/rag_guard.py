@@ -25,38 +25,37 @@ pipeline from catastrophic failures and credential leaks.
     guard for callers that operate outside the workspace hash path (e.g. a
     standalone RAG ingestor CLI).
 """
+
 from __future__ import annotations
 
 import hashlib
 import logging
-import math
-import re
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator, Optional
 
 log = logging.getLogger("hive.rag_guard")
 
 # ── #14 File ingestion limits ─────────────────────────────────────────────────
-MAX_INGEST_BYTES = 1_048_576   # 1 MB — above this the file is silently skipped
+MAX_INGEST_BYTES = 1_048_576  # 1 MB — above this the file is silently skipped
 
 # Magic byte signatures for binary formats that must never be embedded.
 # fastembed treats binary blobs as text and tokenises them into massive garbage
 # tensors that exhaust RAM instantly.
 _BINARY_MAGIC: list[bytes] = [
-    b"\x7fELF",            # Linux ELF binary
-    b"MZ",                 # Windows PE binary (EXE/DLL)
+    b"\x7fELF",  # Linux ELF binary
+    b"MZ",  # Windows PE binary (EXE/DLL)
     b"\xcf\xfa\xed\xfe",  # Mach-O 64-bit (macOS)
     b"\xce\xfa\xed\xfe",  # Mach-O 32-bit
     b"\xca\xfe\xba\xbe",  # Mach-O fat binary
-    b"PK\x03\x04",        # ZIP (JAR, APKG, WASM container)
-    b"\x1f\x8b",          # gzip
-    b"BZh",               # bzip2
-    b"\xfd7zXZ\x00",      # XZ
-    b"\x89PNG",            # PNG image
-    b"\xff\xd8\xff",      # JPEG image
-    b"GIF8",               # GIF image
-    b"RIFF",               # WAV / AVI
-    b"ftyp",               # MP4 (offset 4)
+    b"PK\x03\x04",  # ZIP (JAR, APKG, WASM container)
+    b"\x1f\x8b",  # gzip
+    b"BZh",  # bzip2
+    b"\xfd7zXZ\x00",  # XZ
+    b"\x89PNG",  # PNG image
+    b"\xff\xd8\xff",  # JPEG image
+    b"GIF8",  # GIF image
+    b"RIFF",  # WAV / AVI
+    b"ftyp",  # MP4 (offset 4)
     b"\x00\x00\x00\x00",  # null-padded binary (compiled .rmeta, .o, .a)
 ]
 
@@ -71,7 +70,7 @@ def is_binary_file(path: Path) -> bool:
     causing an extra syscall and a TOCTOU window if the file changed between reads.
     """
     try:
-        header = path.read_bytes()[:512]   # covers both magic check and null heuristic
+        header = path.read_bytes()[:512]  # covers both magic check and null heuristic
         for magic in _BINARY_MAGIC:
             if header.startswith(magic):
                 return True
@@ -89,7 +88,9 @@ def is_oversized_file(path: Path, max_bytes: int = MAX_INGEST_BYTES) -> bool:
         if size > max_bytes:
             log.warning(
                 "RAG guard: skipping oversized file '%s' (%d bytes > %d byte limit)",
-                path, size, max_bytes,
+                path,
+                size,
+                max_bytes,
             )
             return True
         return False
@@ -107,6 +108,7 @@ def is_safe_to_ingest(path: Path) -> bool:
     # Import the denylist from workspace to avoid duplication
     try:
         from hive.workspace import _is_sensitive_file
+
         if _is_sensitive_file(path):
             return False
     except ImportError:
@@ -124,14 +126,14 @@ def is_safe_to_ingest(path: Path) -> bool:
 
 def iter_safe_workspace_files(
     workspace: Path,
-    extensions: Optional[list[str]] = None,
+    extensions: list[str] | None = None,
 ) -> Iterator[Path]:
     """Yield files that are safe to ingest into the vector DB.
 
     Applies all guards: exclusion dirs (#11), binary detection (#14),
     secret denylist (#27).
     """
-    from hive.workspace import _is_excluded_path, _is_sensitive_file
+    from hive.workspace import _is_excluded_path
 
     if extensions is None:
         extensions = [".rs", ".go", ".py", ".ts", ".js", ".md", ".toml", ".yaml", ".yml"]
@@ -150,6 +152,7 @@ def iter_safe_workspace_files(
 
 # ── #24 Ghost Vector Sync ─────────────────────────────────────────────────────
 
+
 def hash_file(path: Path) -> str:
     """Return a short SHA256 hex digest of the file contents."""
     try:
@@ -161,7 +164,7 @@ def hash_file(path: Path) -> str:
 def sync_vector_index(
     workspace: Path,
     index: dict[str, str],
-    extensions: Optional[list[str]] = None,
+    extensions: list[str] | None = None,
 ) -> tuple[list[str], list[str]]:
     """#24: Diff live filesystem against the vector index; return stale/new keys.
 
@@ -202,7 +205,9 @@ def sync_vector_index(
         elif live[rel] != stored_hash:
             log.debug(
                 "Ghost vector: '%s' hash changed (%s \u2192 %s) — marking stale",
-                rel, stored_hash, live[rel],
+                rel,
+                stored_hash,
+                live[rel],
             )
             stale.append(rel)
 
@@ -214,7 +219,8 @@ def sync_vector_index(
     if stale:
         log.info(
             "#24 Vector sync: %d stale embedding(s) detected \u2014 caller must DELETE before query: %s",
-            len(stale), stale[:5],
+            len(stale),
+            stale[:5],
         )
     if new:
         log.info("#24 Vector sync: %d new file(s) to embed: %s", len(new), new[:5])

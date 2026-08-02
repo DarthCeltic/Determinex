@@ -10,6 +10,7 @@ For each run_root under <shard_dir>/runs/* that has an eval.json:
 Usage:
     python scripts/pb_gate_shard.py .determinex_staging/hetzner_returns/hetzner_native_002
 """
+
 from __future__ import annotations
 
 import json
@@ -68,14 +69,17 @@ def main() -> int:
 
         # Run gate
         cmd = [
-            sys.executable, str(ROOT / "scripts" / "pb_candidate_gate.py"),
-            slug, str(run_root),
-            "--baseline-eval", baseline,
-            "--min-baseline-passed", "1",
+            sys.executable,
+            str(ROOT / "scripts" / "pb_candidate_gate.py"),
+            slug,
+            str(run_root),
+            "--baseline-eval",
+            baseline,
+            "--min-baseline-passed",
+            "1",
             "--skip-eval",
         ]
-        p = subprocess.run(cmd, capture_output=True, text=True,
-                           encoding="utf-8", errors="replace")
+        p = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
         gate_json = run_root / "gate_result.json"
         if not gate_json.is_file():
             errors.append((slug, "gate produced no gate_result.json"))
@@ -88,9 +92,9 @@ def main() -> int:
 
         # Always ingest verdicts
         subprocess.run(
-            [sys.executable, str(ROOT / "scripts" / "pb_verdict_corpus.py"),
-             str(gate_json)],
-            capture_output=True, text=True,
+            [sys.executable, str(ROOT / "scripts" / "pb_verdict_corpus.py"), str(gate_json)],
+            capture_output=True,
+            text=True,
         )
 
         decision = g.get("decision")
@@ -100,17 +104,23 @@ def main() -> int:
         if decision == "accept":
             # Apply
             apply_cmd = [
-                sys.executable, str(ROOT / "scripts" / "pb_apply_gate_decision.py"),
-                slug, str(gate_json),
-                "--run-root", str(run_root),
+                sys.executable,
+                str(ROOT / "scripts" / "pb_apply_gate_decision.py"),
+                slug,
+                str(gate_json),
+                "--run-root",
+                str(run_root),
                 "--refresh-board",
             ]
-            ap = subprocess.run(apply_cmd, capture_output=True, text=True,
-                                encoding="utf-8", errors="replace")
+            ap = subprocess.run(
+                apply_cmd, capture_output=True, text=True, encoding="utf-8", errors="replace"
+            )
             if ap.returncode != 0:
                 errors.append((slug, f"apply rc={ap.returncode}: {ap.stderr[:200]}"))
                 continue
-            accepts.append(f"{slug}: +{cand_passed - base_passed} ({cand_passed}/{e.get('best_runnable_total')})")
+            accepts.append(
+                f"{slug}: +{cand_passed - base_passed} ({cand_passed}/{e.get('best_runnable_total')})"
+            )
 
             # Check 100% archive eligibility
             ev = json.loads(eval_path.read_text(encoding="utf-8", errors="replace"))
@@ -121,12 +131,17 @@ def main() -> int:
             runnable = counts.get("passed", 0) + counts.get("failure", 0) + counts.get("error", 0)
             if counts.get("passed", 0) == runnable and runnable > 0:
                 archive_cmd = [
-                    sys.executable, str(ROOT / "scripts" / "pb_lock_archiver.py"),
-                    slug, str(eval_path), str(run_root),
-                    "--confirm-100", "--execute",
+                    sys.executable,
+                    str(ROOT / "scripts" / "pb_lock_archiver.py"),
+                    slug,
+                    str(eval_path),
+                    str(run_root),
+                    "--confirm-100",
+                    "--execute",
                 ]
-                ar = subprocess.run(archive_cmd, capture_output=True, text=True,
-                                    encoding="utf-8", errors="replace")
+                ar = subprocess.run(
+                    archive_cmd, capture_output=True, text=True, encoding="utf-8", errors="replace"
+                )
                 if ar.returncode == 0:
                     archived.append(slug)
                 else:
@@ -137,14 +152,18 @@ def main() -> int:
 
     print("\n=== shard gate summary ===")
     print(f"accepts: {len(accepts)}")
-    for a in accepts: print(f"  ACCEPT {a}")
+    for a in accepts:
+        print(f"  ACCEPT {a}")
     print(f"archived 100%: {len(archived)}")
-    for a in archived: print(f"  ARCHIVE {a}")
+    for a in archived:
+        print(f"  ARCHIVE {a}")
     print(f"rejects: {len(rejects)}")
-    for s, r in rejects: print(f"  REJECT {s}: {r}")
+    for s, r in rejects:
+        print(f"  REJECT {s}: {r}")
     if errors:
         print(f"errors: {len(errors)}")
-        for s, r in errors: print(f"  ERR {s}: {r}")
+        for s, r in errors:
+            print(f"  ERR {s}: {r}")
     return 0
 
 

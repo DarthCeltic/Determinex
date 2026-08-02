@@ -38,6 +38,7 @@ Usage::
     python scripts/dev/gitignore_audit.py --json out.json
     python scripts/dev/gitignore_audit.py --guard      # exit 1 on an oversized negation
 """
+
 from __future__ import annotations
 
 import argparse
@@ -56,21 +57,65 @@ NEGATION_SIZE_CEILING = 5 * 1024 * 1024
 # At or under this size, ignoring a file is more likely an accident than a decision.
 SUSPICIOUS_MAX_BYTES = 2 * 1024 * 1024
 
-AUTHORED_SUFFIXES = frozenset({
-    ".py", ".rs", ".ts", ".tsx", ".mjs", ".sh", ".ps1",
-    ".md", ".toml", ".yaml", ".yml", ".json", ".jsonl", ".csv", ".tsv", ".txt",
-})
+AUTHORED_SUFFIXES = frozenset(
+    {
+        ".py",
+        ".rs",
+        ".ts",
+        ".tsx",
+        ".mjs",
+        ".sh",
+        ".ps1",
+        ".md",
+        ".toml",
+        ".yaml",
+        ".yml",
+        ".json",
+        ".jsonl",
+        ".csv",
+        ".tsv",
+        ".txt",
+    }
+)
 
 # Deliberately not the whole repo: scanning 10 GB is slow enough to discourage running
 # the audit at all, which is worse than a narrower scan that actually gets run.
-SCAN_ROOTS = ("scripts", "tests", "docs", "assurance", "locks", "corpus", "data",
-              "bundler", "frontend/src", "frontend/src-tauri/src", "logs")
+SCAN_ROOTS = (
+    "scripts",
+    "tests",
+    "docs",
+    "assurance",
+    "locks",
+    "corpus",
+    "data",
+    "bundler",
+    "frontend/src",
+    "frontend/src-tauri/src",
+    "logs",
+)
 
-SKIP_PARTS = frozenset({
-    "node_modules", ".venv", "venv", "target", ".next", "out", "__pycache__",
-    "site-packages", ".git", ".pytest_cache", "_pyinstaller_work", "dist", "build",
-    "demo_workspaces", ".mypy_cache", ".ruff_cache", "repos", "locked",
-})
+SKIP_PARTS = frozenset(
+    {
+        "node_modules",
+        ".venv",
+        "venv",
+        "target",
+        ".next",
+        "out",
+        "__pycache__",
+        "site-packages",
+        ".git",
+        ".pytest_cache",
+        "_pyinstaller_work",
+        "dist",
+        "build",
+        "demo_workspaces",
+        ".mypy_cache",
+        ".ruff_cache",
+        "repos",
+        "locked",
+    }
+)
 
 
 @dataclass
@@ -102,8 +147,11 @@ class AuditResult:
             "suspicious_count": len(self.suspicious),
             "oversized_negation_count": len(self.oversized_negations),
             "by_pattern": {
-                pat: {"files": len(items), "bytes": sum(i.bytes for i in items),
-                      "sample": [i.path for i in items[:5]]}
+                pat: {
+                    "files": len(items),
+                    "bytes": sum(i.bytes for i in items),
+                    "sample": [i.path for i in items[:5]],
+                }
                 for pat, items in sorted(self.by_pattern().items(), key=lambda kv: -len(kv[1]))
             },
             "oversized_negations": [f.__dict__ for f in self.oversized_negations],
@@ -153,10 +201,15 @@ def _ignored_with_pattern(paths: list[Path]) -> dict[str, str]:
     out: dict[str, str] = {}
     rels = [str(p.relative_to(_ROOT)).replace("\\", "/") for p in paths]
     for i in range(0, len(rels), 300):
-        chunk = "\n".join(rels[i:i + 300])
+        chunk = "\n".join(rels[i : i + 300])
         try:
-            r = subprocess.run(["git", "check-ignore", "-v", "--stdin"], cwd=str(_ROOT),
-                               input=chunk.encode("utf-8"), capture_output=True, timeout=180)
+            r = subprocess.run(
+                ["git", "check-ignore", "-v", "--stdin"],
+                cwd=str(_ROOT),
+                input=chunk.encode("utf-8"),
+                capture_output=True,
+                timeout=180,
+            )
         except (OSError, subprocess.TimeoutExpired):
             continue
         for line in r.stdout.decode("utf-8", "replace").splitlines():
@@ -215,12 +268,16 @@ def _is_dir_scope(pattern: str) -> bool:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--json", type=Path)
-    ap.add_argument("--guard", action="store_true",
-                    help="exit 1 if a negated (un-ignored) file exceeds the size ceiling. "
-                         "Fast: skips the advisory scan unless --json is also given.")
+    ap.add_argument(
+        "--guard",
+        action="store_true",
+        help="exit 1 if a negated (un-ignored) file exceeds the size ceiling. "
+        "Fast: skips the advisory scan unless --json is also given.",
+    )
     ap.add_argument("--samples", type=int, default=3)
     args = ap.parse_args()
 
@@ -244,7 +301,7 @@ def main() -> int:
         for pat, items in sorted(ext.items(), key=lambda kv: -len(kv[1])):
             tops = sorted({i.path.split("/")[0] for i in items})
             print(f"    {pat:<26} {len(items):>6} file(s)  under: {', '.join(tops[:5])}")
-            for i in items[:args.samples]:
+            for i in items[: args.samples]:
                 print(f"        {i.bytes:>10,}  {i.path}")
     if dirs:
         print("\n  directory-scoped patterns (deliberate 'this tree is output'):")

@@ -14,6 +14,7 @@ Usage:
     python scripts/pb_failure_cluster.py --json
     python scripts/pb_failure_cluster.py --near-locks   # board score>=95, not locked
 """
+
 from __future__ import annotations
 
 import argparse
@@ -113,14 +114,16 @@ def main() -> int:
         else:
             print(f"=== board near-locks (score>=95, not locked): {len(near)} ===")
             for r in near:
-                print(f"  {r['score']:6.2f}  {r['slug']:48s} gate={r['gate_decision']}  {r['cluster']}")
+                print(
+                    f"  {r['score']:6.2f}  {r['slug']:48s} gate={r['gate_decision']}  {r['cluster']}"
+                )
         return 0
 
     if args.json:
         print(json.dumps({k: v for k, v in clusters.items()}, indent=2))
         return 0
 
-    print(f"Non-locked tools clustered by dominant regression class (board-authoritative)\n")
+    print("Non-locked tools clustered by dominant regression class (board-authoritative)\n")
     for cls in sorted(clusters, key=lambda k: -len(clusters[k])):
         rows = sorted(clusters[cls], key=lambda r: -(r["score"] or 0))
         print(f"=== {cls} ({len(rows)}) ===")

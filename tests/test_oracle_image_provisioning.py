@@ -65,13 +65,16 @@ class _Recorder:
     def __call__(self, argv, **kwargs):
         self.calls.append(list(argv))
         verb = argv[1] if len(argv) > 1 else ""
-        if verb == "image":            # docker image inspect
+        if verb == "image":  # docker image inspect
             return subprocess.CompletedProcess(argv, self.inspect_rc, b"", b"")
         if verb == "pull":
             if self.pull_raises:
                 raise subprocess.TimeoutExpired(argv, kwargs.get("timeout", 0))
             return subprocess.CompletedProcess(
-                argv, self.pull_rc, "", "" if self.pull_rc == 0 else "manifest unknown",
+                argv,
+                self.pull_rc,
+                "",
+                "" if self.pull_rc == 0 else "manifest unknown",
             )
         return subprocess.CompletedProcess(argv, 0, "", "")
 
@@ -81,7 +84,7 @@ class _Recorder:
 
 def test_a_missing_registry_image_is_pulled_before_the_timed_compile(monkeypatch):
     """The pull must happen, and must happen as its own step rather than implicitly."""
-    rec = _Recorder(inspect_rc=1)          # not present locally
+    rec = _Recorder(inspect_rc=1)  # not present locally
     monkeypatch.setattr(C.subprocess, "run", rec)
 
     C._ensure_oracle_image("rust:1.82-slim", "rust")
@@ -156,7 +159,7 @@ def test_a_pull_that_times_out_raises_with_the_image_named(monkeypatch):
 def test_a_present_image_is_neither_pulled_nor_re_inspected(monkeypatch):
     """The oracle runs once per step per attempt; re-inspecting every time adds latency to
     every compile in a session for no information."""
-    rec = _Recorder(inspect_rc=0)          # already local
+    rec = _Recorder(inspect_rc=0)  # already local
     monkeypatch.setattr(C.subprocess, "run", rec)
 
     C._ensure_oracle_image("python:3.12-slim", "python")

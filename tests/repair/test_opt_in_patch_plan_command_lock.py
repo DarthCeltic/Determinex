@@ -1,4 +1,5 @@
 """Tests for OPT_IN_PATCH_PLAN_COMMAND_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -49,7 +48,8 @@ def _hash_tree(root: Path) -> dict[str, str]:
 def _cfg(tmp_path: Path):
     w = LocalModelConfigWizard(WizardConfig(config_root=tmp_path))
     return w.write_config(
-        provider="ollama", model_id="determinex-engineer-v11-dsl",
+        provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
         capabilities=("code_generation",),
         task_classes_allowed=("PATCH_GENERATION",),
         enabled=True,
@@ -71,7 +71,8 @@ def test_status_tokens_match_expected_set():
 def test_no_opt_in_blocks(tmp_path):
     cfg = _cfg(tmp_path)
     rec = OptInPatchPlanCommand().run(
-        FIXTURES / "python_broken", config=cfg,
+        FIXTURES / "python_broken",
+        config=cfg,
         plan_entries=[{"operation": "replace_file", "path": "src/x.py", "new_content": "ok\n"}],
         opt_in=False,
     )
@@ -80,7 +81,8 @@ def test_no_opt_in_blocks(tmp_path):
 
 def test_no_model_blocks():
     rec = OptInPatchPlanCommand().run(
-        FIXTURES / "python_broken", config=None,
+        FIXTURES / "python_broken",
+        config=None,
         plan_entries=[{"operation": "replace_file", "path": "x", "new_content": "x"}],
         opt_in=True,
     )
@@ -90,7 +92,8 @@ def test_no_model_blocks():
 def test_happy_path_quarantines(tmp_path):
     cfg = _cfg(tmp_path)
     rec = OptInPatchPlanCommand().run(
-        FIXTURES / "python_broken", config=cfg,
+        FIXTURES / "python_broken",
+        config=cfg,
         plan_entries=[{"operation": "replace_file", "path": "src/x.py", "new_content": "ok\n"}],
         opt_in=True,
     )
@@ -104,7 +107,8 @@ def test_happy_path_quarantines(tmp_path):
 def test_path_escape_blocks(tmp_path):
     cfg = _cfg(tmp_path)
     rec = OptInPatchPlanCommand().run(
-        FIXTURES / "python_broken", config=cfg,
+        FIXTURES / "python_broken",
+        config=cfg,
         plan_entries=[{"operation": "replace_file", "path": "../etc/passwd", "new_content": "x"}],
         opt_in=True,
     )
@@ -114,7 +118,8 @@ def test_path_escape_blocks(tmp_path):
 def test_unsupported_op_blocks_schema_invalid(tmp_path):
     cfg = _cfg(tmp_path)
     rec = OptInPatchPlanCommand().run(
-        FIXTURES / "python_broken", config=cfg,
+        FIXTURES / "python_broken",
+        config=cfg,
         plan_entries=[{"operation": "delete_file", "path": "x", "new_content": ""}],
         opt_in=True,
     )
@@ -126,7 +131,8 @@ def test_command_does_not_mutate_workspace(tmp_path):
     ws = FIXTURES / "python_broken"
     before = _hash_tree(ws)
     OptInPatchPlanCommand().run(
-        ws, config=cfg,
+        ws,
+        config=cfg,
         plan_entries=[{"operation": "replace_file", "path": "src/x.py", "new_content": "ok\n"}],
         opt_in=True,
     )

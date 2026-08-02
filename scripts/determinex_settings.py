@@ -31,13 +31,13 @@ All security and isolation flags fail **closed**:
 
 These can be opened only by explicit env-var assignment.
 """
+
 from __future__ import annotations
 
 import os
 import sys
 import threading
 from pathlib import Path
-from typing import Optional
 
 from pydantic import AliasChoices, Field, field_validator
 from pydantic_core import PydanticUseDefault
@@ -74,7 +74,7 @@ def _warn_dead_override(env_var: str, p: Path) -> None:
 def _resolve_path(
     env_var: str,
     t_default: str,
-    local_fallback: Optional[str | Path] = None,
+    local_fallback: str | Path | None = None,
 ) -> Path:
     """Resolve a path with portability-safe fallback.
 
@@ -115,7 +115,11 @@ def _resolve_path(
         if drive:
             drive_root = Path(drive + "/")
             if not drive_root.exists():
-                return _REPO_ROOT / local_fallback if not Path(str(local_fallback)).is_absolute() else Path(str(local_fallback))
+                return (
+                    _REPO_ROOT / local_fallback
+                    if not Path(str(local_fallback)).is_absolute()
+                    else Path(str(local_fallback))
+                )
 
     return t_path
 
@@ -123,6 +127,7 @@ def _resolve_path(
 # ---------------------------------------------------------------------------
 # Settings class
 # ---------------------------------------------------------------------------
+
 
 class DeterminexSettings(BaseSettings):
     """Centralized Determinex configuration resolved from environment variables.
@@ -153,12 +158,23 @@ class DeterminexSettings(BaseSettings):
     # (reproduced in isolation, not a fluke) -- scoping to only the
     # non-string field names sidesteps that entirely.
     _EMPTY_STRING_FALLBACK_FIELDS = (
-        "online_discovery", "allow_cloud_fallback", "allow_unsandboxed",
-        "require_docker", "require_cloak", "offline_observer",
-        "flywheel_auto", "cloak_enabled", "cloak_audit",
-        "budget_usd", "budget_calls", "budget_per_task",
-        "max_retries", "observer_timeout", "test_timeout",
-        "rosetta_layer2", "no_rosetta",
+        "online_discovery",
+        "allow_cloud_fallback",
+        "allow_unsandboxed",
+        "require_docker",
+        "require_cloak",
+        "offline_observer",
+        "flywheel_auto",
+        "cloak_enabled",
+        "cloak_audit",
+        "budget_usd",
+        "budget_calls",
+        "budget_per_task",
+        "max_retries",
+        "observer_timeout",
+        "test_timeout",
+        "rosetta_layer2",
+        "no_rosetta",
     )
 
     @field_validator(*_EMPTY_STRING_FALLBACK_FIELDS, mode="before")
@@ -174,7 +190,9 @@ class DeterminexSettings(BaseSettings):
 
     safety_mode: str = Field(default="strict", validation_alias="DETERMINEX_SAFETY_MODE")
     online_discovery: bool = Field(default=False, validation_alias="DETERMINEX_ONLINE_DISCOVERY")
-    allow_cloud_fallback: bool = Field(default=False, validation_alias="DETERMINEX_ALLOW_CLOUD_FALLBACK")
+    allow_cloud_fallback: bool = Field(
+        default=False, validation_alias="DETERMINEX_ALLOW_CLOUD_FALLBACK"
+    )
     # 2026-07-26: finalized to DETERMINEX_* as part of the Citadel->Determinex rename.
     # The REAL enforcement point (hive/compiler.py's SEC-2 gate) must read the same
     # name this Field validates, or assert_safety_defaults() below could report "no
@@ -201,7 +219,9 @@ class DeterminexSettings(BaseSettings):
     architect_model: str = Field(
         default="determinex-sentinel-v5-dsl", validation_alias="DETERMINEX_ARCHITECT_MODEL"
     )
-    deepseek_model: str = Field(default="deepseek-chat", validation_alias="DETERMINEX_DEEPSEEK_MODEL")
+    deepseek_model: str = Field(
+        default="deepseek-chat", validation_alias="DETERMINEX_DEEPSEEK_MODEL"
+    )
     anthropic_model: str = Field(
         default="claude-sonnet-4-6", validation_alias="DETERMINEX_ANTHROPIC_MODEL"
     )
@@ -209,11 +229,15 @@ class DeterminexSettings(BaseSettings):
         default="http://localhost:11434",
         validation_alias=AliasChoices("DETERMINEX_OLLAMA_URL", "OLLAMA_HOST"),
     )
-    vllm_url: str = Field(default="http://localhost:8000/v1", validation_alias="DETERMINEX_VLLM_URL")
+    vllm_url: str = Field(
+        default="http://localhost:8000/v1", validation_alias="DETERMINEX_VLLM_URL"
+    )
     vllm_model: str = Field(
         default="Qwen/Qwen2.5-Coder-7B-Instruct", validation_alias="DETERMINEX_VLLM_MODEL"
     )
-    inference_backend: str = Field(default="ollama", validation_alias="DETERMINEX_INFERENCE_BACKEND")
+    inference_backend: str = Field(
+        default="ollama", validation_alias="DETERMINEX_INFERENCE_BACKEND"
+    )
 
     # ------------------------------------------------------------------
     # API keys — no defaults; callers must handle empty string
@@ -237,7 +261,8 @@ class DeterminexSettings(BaseSettings):
     # DETERMINEX_HMAC_KEY/DETERMINEX_CORPUS_HMAC_KEY first, names nothing else honors,
     # so DETERMINEX_CORPUS_HMAC_KEY must be the primary alias, not the fallback.
     hmac_key: str = Field(
-        default="", validation_alias=AliasChoices("DETERMINEX_CORPUS_HMAC_KEY", "DETERMINEX_HMAC_KEY")
+        default="",
+        validation_alias=AliasChoices("DETERMINEX_CORPUS_HMAC_KEY", "DETERMINEX_HMAC_KEY"),
     )
 
     # ------------------------------------------------------------------
@@ -360,55 +385,55 @@ class DeterminexSettings(BaseSettings):
         """Return a flat dict of all resolved values — used by determinex doctor."""
         return {
             # paths
-            "repo_root":         str(self.repo_root),
-            "models_dir":        str(self.models_dir),
-            "audit_dir":         str(self.audit_dir),
-            "corpus_root":       str(self.corpus_root),
-            "swebench_repos":    str(self.swebench_repos),
-            "programbench_dir":  str(self.programbench_dir),
-            "pb_tasks_root":     str(self.pb_tasks_root),
-            "pb_staging_root":   str(self.pb_staging_root),
-            "rosetta_pt_path":   str(self.rosetta_pt_path),
-            "hf_home":           str(self.hf_home),
+            "repo_root": str(self.repo_root),
+            "models_dir": str(self.models_dir),
+            "audit_dir": str(self.audit_dir),
+            "corpus_root": str(self.corpus_root),
+            "swebench_repos": str(self.swebench_repos),
+            "programbench_dir": str(self.programbench_dir),
+            "pb_tasks_root": str(self.pb_tasks_root),
+            "pb_staging_root": str(self.pb_staging_root),
+            "rosetta_pt_path": str(self.rosetta_pt_path),
+            "hf_home": str(self.hf_home),
             "artifact_quarantine": str(self.artifact_quarantine),
-            "artifact_cache":    str(self.artifact_cache),
+            "artifact_cache": str(self.artifact_cache),
             # safety
-            "safety_mode":          self.safety_mode,
-            "online_discovery":     self.online_discovery,
+            "safety_mode": self.safety_mode,
+            "online_discovery": self.online_discovery,
             "allow_cloud_fallback": self.allow_cloud_fallback,
-            "allow_unsandboxed":    self.allow_unsandboxed,
-            "require_docker":       self.require_docker,
-            "require_cloak":        self.require_cloak,
-            "offline_observer":     self.offline_observer,
-            "flywheel_auto":        self.flywheel_auto,
-            "cloak_enabled":        self.cloak_enabled,
+            "allow_unsandboxed": self.allow_unsandboxed,
+            "require_docker": self.require_docker,
+            "require_cloak": self.require_cloak,
+            "offline_observer": self.offline_observer,
+            "flywheel_auto": self.flywheel_auto,
+            "cloak_enabled": self.cloak_enabled,
             # models
-            "builder_model":    self.builder_model,
-            "observer_model":   self.observer_model,
-            "architect_model":  self.architect_model,
-            "ollama_url":       self.ollama_url,
+            "builder_model": self.builder_model,
+            "observer_model": self.observer_model,
+            "architect_model": self.architect_model,
+            "ollama_url": self.ollama_url,
             "inference_backend": self.inference_backend,
             # api keys (masked)
-            "anthropic_api_key":  "***" if self.anthropic_api_key else "(unset)",
-            "deepseek_api_key":   "***" if self.deepseek_api_key else "(unset)",
+            "anthropic_api_key": "***" if self.anthropic_api_key else "(unset)",
+            "deepseek_api_key": "***" if self.deepseek_api_key else "(unset)",
             "openrouter_api_key": "***" if self.openrouter_api_key else "(unset)",
-            "openai_api_key":     "***" if self.openai_api_key else "(unset)",
-            "hmac_key":           f"***({len(self.hmac_key)} chars)" if self.hmac_key else "(unset)",
+            "openai_api_key": "***" if self.openai_api_key else "(unset)",
+            "hmac_key": f"***({len(self.hmac_key)} chars)" if self.hmac_key else "(unset)",
         }
 
     def check_path_availability(self) -> dict[str, bool]:
         """Return which paths currently exist on disk (for doctor pass/warn/fail)."""
         return {
-            "repo_root":        self.repo_root.exists(),
-            "models_dir":       self.models_dir.exists(),
-            "audit_dir":        self.audit_dir.exists(),
-            "corpus_root":      self.corpus_root.exists(),
-            "swebench_repos":   self.swebench_repos.exists(),
+            "repo_root": self.repo_root.exists(),
+            "models_dir": self.models_dir.exists(),
+            "audit_dir": self.audit_dir.exists(),
+            "corpus_root": self.corpus_root.exists(),
+            "swebench_repos": self.swebench_repos.exists(),
             "programbench_dir": self.programbench_dir.exists(),
-            "pb_tasks_root":    self.pb_tasks_root.exists(),
-            "pb_staging_root":  self.pb_staging_root.exists(),
-            "rosetta_pt_path":  self.rosetta_pt_path.exists(),
-            "hf_home":          self.hf_home.exists(),
+            "pb_tasks_root": self.pb_tasks_root.exists(),
+            "pb_staging_root": self.pb_staging_root.exists(),
+            "rosetta_pt_path": self.rosetta_pt_path.exists(),
+            "hf_home": self.hf_home.exists(),
         }
 
     def assert_safety_defaults(self) -> list[str]:
@@ -419,11 +444,15 @@ class DeterminexSettings(BaseSettings):
         """
         violations: list[str] = []
         if self.online_discovery:
-            violations.append("DETERMINEX_ONLINE_DISCOVERY=1 (unsafe: online artifact discovery enabled)")
+            violations.append(
+                "DETERMINEX_ONLINE_DISCOVERY=1 (unsafe: online artifact discovery enabled)"
+            )
         if self.allow_cloud_fallback:
             violations.append("DETERMINEX_ALLOW_CLOUD_FALLBACK=1 (unsafe: cloud fallback enabled)")
         if self.allow_unsandboxed:
-            violations.append("DETERMINEX_ALLOW_UNSANDBOXED=1 (unsafe: unsandboxed execution enabled)")
+            violations.append(
+                "DETERMINEX_ALLOW_UNSANDBOXED=1 (unsafe: unsandboxed execution enabled)"
+            )
         return violations
 
 
@@ -431,7 +460,7 @@ class DeterminexSettings(BaseSettings):
 # Singleton
 # ---------------------------------------------------------------------------
 
-_singleton: Optional[DeterminexSettings] = None
+_singleton: DeterminexSettings | None = None
 _lock = threading.Lock()
 
 
@@ -460,8 +489,8 @@ settings = DeterminexSettings()
 # CLI: python -m scripts.determinex_settings  (or python scripts/determinex_settings.py)
 # ---------------------------------------------------------------------------
 
+
 def _main() -> int:
-    import json
     s = get_settings()
     summary = s.resolved_summary()
     availability = s.check_path_availability()

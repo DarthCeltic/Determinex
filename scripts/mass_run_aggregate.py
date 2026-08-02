@@ -16,6 +16,7 @@ Usage:
   python scripts/mass_run_aggregate.py --run-dir T:/determinex-programbench/mass_run_v1
   python scripts/mass_run_aggregate.py --watch  (re-aggregates every 30s while a run is live)
 """
+
 import argparse
 import json
 import sys
@@ -31,12 +32,13 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 # ── Default scan roots ──────────────────────────────────────────────────────
-PB_RUNS_BASE  = Path("T:/determinex-programbench")
-SB_RUNS_BASE  = Path("T:/determinex-swebench")
+PB_RUNS_BASE = Path("T:/determinex-programbench")
+SB_RUNS_BASE = Path("T:/determinex-swebench")
 import os as _os
-DETERMINEX_ROOT  = Path(_os.environ.get("DETERMINEX_ROOT", Path(__file__).resolve().parents[1]))
+
+DETERMINEX_ROOT = Path(_os.environ.get("DETERMINEX_ROOT", Path(__file__).resolve().parents[1]))
 PB_CORPUS_BASE = DETERMINEX_ROOT / "corpus" / "programbench"
-OUT_DIR       = DETERMINEX_ROOT / "logs" / "mass_run_aggregates"
+OUT_DIR = DETERMINEX_ROOT / "logs" / "mass_run_aggregates"
 
 
 def _score_from_pb_eval_json(p: Path) -> tuple[int, int] | None:
@@ -55,11 +57,11 @@ def _score_from_pb_eval_json(p: Path) -> tuple[int, int] | None:
     if isinstance(results, list) and results:
         passed = sum(1 for r in results if r.get("status") == "passed")
         failed = sum(1 for r in results if r.get("status") == "failure")
-        total  = passed + failed
+        total = passed + failed
         return (passed, total) if total > 0 else None
     # Fallback to legacy shape (unlikely)
     passed = d.get("passed", d.get("tests_passed", 0))
-    total  = d.get("total",  d.get("tests_total", 0))
+    total = d.get("total", d.get("tests_total", 0))
     if isinstance(passed, int) and isinstance(total, int) and total > 0:
         return (passed, total)
     return None
@@ -86,12 +88,14 @@ def find_pb_evals(roots: list[Path]) -> list[dict]:
     Uses bounded depth (2 levels: root/<run>/<instance>) — NOT rglob, which is too slow."""
     out = []
     for root in roots:
-        if not root.is_dir(): continue
+        if not root.is_dir():
+            continue
         # Iterate run dirs first (1 level deep), then instance dirs (2 levels)
         candidates: list[Path] = []
         try:
             for inst_dir in root.iterdir():
-                if not inst_dir.is_dir(): continue
+                if not inst_dir.is_dir():
+                    continue
                 if "__" in inst_dir.name and "." in inst_dir.name:
                     candidates.append(inst_dir)
                 else:
@@ -126,24 +130,34 @@ def find_pb_evals(roots: list[Path]) -> list[dict]:
             if best is None:
                 # No scorable eval JSON yet (maybe attempted but never compiled)
                 if shipped or verified_locked:
-                    out.append({
-                        "kind": "programbench", "tool": tool, "run": inst_dir.parent.name,
-                        "passed": 0, "total": 0, "pct": 0.0, "eval_path": "",
-                        "verified_locked": verified_locked, "shipped": shipped,
-                    })
+                    out.append(
+                        {
+                            "kind": "programbench",
+                            "tool": tool,
+                            "run": inst_dir.parent.name,
+                            "passed": 0,
+                            "total": 0,
+                            "pct": 0.0,
+                            "eval_path": "",
+                            "verified_locked": verified_locked,
+                            "shipped": shipped,
+                        }
+                    )
                 continue
             passed, total = best
-            out.append({
-                "kind": "programbench",
-                "tool": tool,
-                "run":  inst_dir.parent.name,
-                "passed": passed,
-                "total":  total,
-                "pct":    100.0 * passed / total,
-                "eval_path": best_path,
-                "verified_locked": verified_locked or (passed == total),
-                "shipped": shipped or True,  # if eval JSON exists, a submission was scored
-            })
+            out.append(
+                {
+                    "kind": "programbench",
+                    "tool": tool,
+                    "run": inst_dir.parent.name,
+                    "passed": passed,
+                    "total": total,
+                    "pct": 100.0 * passed / total,
+                    "eval_path": best_path,
+                    "verified_locked": verified_locked or (passed == total),
+                    "shipped": shipped or True,  # if eval JSON exists, a submission was scored
+                }
+            )
     return out
 
 
@@ -174,17 +188,19 @@ def find_pb_corpus_evals(root: Path = PB_CORPUS_BASE) -> list[dict]:
             if score is None:
                 continue
             passed, total = score
-            out.append({
-                "kind": "programbench",
-                "tool": tool_dir.name,
-                "run": f"corpus/{section}",
-                "passed": passed,
-                "total": total,
-                "pct": 100.0 * passed / total,
-                "eval_path": str(report),
-                "verified_locked": passed == total,
-                "shipped": True,
-            })
+            out.append(
+                {
+                    "kind": "programbench",
+                    "tool": tool_dir.name,
+                    "run": f"corpus/{section}",
+                    "passed": passed,
+                    "total": total,
+                    "pct": 100.0 * passed / total,
+                    "eval_path": str(report),
+                    "verified_locked": passed == total,
+                    "shipped": True,
+                }
+            )
     return out
 
 
@@ -210,11 +226,13 @@ def find_sb_predictions(roots: list[Path]) -> list[dict]:
     Bounded depth: roots/<run>/predictions.jsonl OR roots/<run>/<subdir>/predictions.jsonl."""
     out = []
     for root in roots:
-        if not root.is_dir(): continue
+        if not root.is_dir():
+            continue
         candidates: list[Path] = []
         try:
             for run_dir in root.iterdir():
-                if not run_dir.is_dir(): continue
+                if not run_dir.is_dir():
+                    continue
                 p = run_dir / "predictions.jsonl"
                 if p.exists():
                     candidates.append(p)
@@ -231,7 +249,8 @@ def find_sb_predictions(roots: list[Path]) -> list[dict]:
                 with pred.open("r", encoding="utf-8") as f:
                     for line in f:
                         line = line.strip()
-                        if not line: continue
+                        if not line:
+                            continue
                         try:
                             r = json.loads(line)
                         except json.JSONDecodeError:
@@ -247,14 +266,16 @@ def find_sb_predictions(roots: list[Path]) -> list[dict]:
                                 resolved = ev.get("resolved", ev.get("passed"))
                             except (OSError, json.JSONDecodeError):
                                 pass
-                        out.append({
-                            "kind": "swebench",
-                            "instance_id": iid,
-                            "run": run_dir.name,
-                            "resolved": resolved,
-                            "has_patch": bool(r.get("model_patch", "").strip()),
-                            "pred_path": str(pred),
-                        })
+                        out.append(
+                            {
+                                "kind": "swebench",
+                                "instance_id": iid,
+                                "run": run_dir.name,
+                                "resolved": resolved,
+                                "has_patch": bool(r.get("model_patch", "").strip()),
+                                "pred_path": str(pred),
+                            }
+                        )
             except Exception:
                 continue
     return out
@@ -275,22 +296,36 @@ def render_scoreboard(pb: list[dict], sb: list[dict]) -> str:
         # Tiers by official-eval pct (only counts tools that have an eval JSON)
         scored = [r for r in pb if r["total"] > 0]
         shipped_unscored = [r for r in pb if r["total"] == 0 and r.get("shipped")]
-        tiers = {"locked_100": [], "almost_95+": [], "tier_a_80_95": [],
-                 "tier_b_60_80": [], "tier_c_30_60": [], "failed_lt_30": []}
+        tiers = {
+            "locked_100": [],
+            "almost_95+": [],
+            "tier_a_80_95": [],
+            "tier_b_60_80": [],
+            "tier_c_30_60": [],
+            "failed_lt_30": [],
+        }
         for r in scored:
             pct = r["pct"]
-            if pct >= 100: tiers["locked_100"].append(r)
-            elif pct >= 95: tiers["almost_95+"].append(r)
-            elif pct >= 80: tiers["tier_a_80_95"].append(r)
-            elif pct >= 60: tiers["tier_b_60_80"].append(r)
-            elif pct >= 30: tiers["tier_c_30_60"].append(r)
-            else: tiers["failed_lt_30"].append(r)
-        n_scored  = len(scored)
+            if pct >= 100:
+                tiers["locked_100"].append(r)
+            elif pct >= 95:
+                tiers["almost_95+"].append(r)
+            elif pct >= 80:
+                tiers["tier_a_80_95"].append(r)
+            elif pct >= 60:
+                tiers["tier_b_60_80"].append(r)
+            elif pct >= 30:
+                tiers["tier_c_30_60"].append(r)
+            else:
+                tiers["failed_lt_30"].append(r)
+        n_scored = len(scored)
         n_shipped = len(shipped_unscored)
-        n_locked  = len(tiers["locked_100"])
+        n_locked = len(tiers["locked_100"])
         lines.append(f"│  Officially scored:  {n_scored}")
         lines.append(f"│  Shipped (eval pending): {n_shipped}")
-        lines.append(f"│  VERIFIED LOCKED:    {n_locked}  ({100*n_locked/max(n_scored,1):.1f}% of scored)")
+        lines.append(
+            f"│  VERIFIED LOCKED:    {n_locked}  ({100 * n_locked / max(n_scored, 1):.1f}% of scored)"
+        )
         lines.append(f"│  ≥95% (almost):     {len(tiers['almost_95+'])}")
         lines.append(f"│  80-95% (Tier A):   {len(tiers['tier_a_80_95'])}")
         lines.append(f"│  60-80% (Tier B):   {len(tiers['tier_b_60_80'])}")
@@ -320,7 +355,9 @@ def render_scoreboard(pb: list[dict], sb: list[dict]) -> str:
         n_unscored = sum(1 for r in sb if r["resolved"] is None)
         lines.append(f"│  Instances attempted:  {n_attempted}")
         lines.append(f"│  With non-empty patch: {n_with_patch}")
-        lines.append(f"│  RESOLVED:             {n_resolved}  ({100*n_resolved/max(n_attempted,1):.1f}%)")
+        lines.append(
+            f"│  RESOLVED:             {n_resolved}  ({100 * n_resolved / max(n_attempted, 1):.1f}%)"
+        )
         lines.append(f"│  Unresolved (failed):  {n_unresolved}")
         lines.append(f"│  Pending eval:         {n_unscored}")
         # By run
@@ -339,7 +376,9 @@ def render_scoreboard(pb: list[dict], sb: list[dict]) -> str:
     sb_resolved = sum(1 for r in sb if r["resolved"] is True)
     total_locks = pb_locked + sb_resolved
     bench_total = 200 + 5274  # PB + SWE-bench-family ceiling
-    lines.append(f"│  Total locks:           {total_locks} of {bench_total} bench-units = {100*total_locks/bench_total:.2f}%")
+    lines.append(
+        f"│  Total locks:           {total_locks} of {bench_total} bench-units = {100 * total_locks / bench_total:.2f}%"
+    )
     lines.append("│  Frontier comparison:   not loaded in this local aggregate")
     lines.append("└─")
 
@@ -355,9 +394,14 @@ def aggregate(runs: list[Path], out_dir: Path) -> str:
     board = render_scoreboard(pb, sb)
     (out_dir / "scoreboard.txt").write_text(board, encoding="utf-8")
     (out_dir / "scoreboard.json").write_text(
-        json.dumps({"generated_at": datetime.now().isoformat(),
-                    "pb": pb, "sb": sb}, indent=2), encoding="utf-8")
-    locks = [f"PB  {r['tool']}  {r['passed']}/{r['total']}" for r in pb if r["total"] > 0 and r["pct"] >= 100]
+        json.dumps({"generated_at": datetime.now().isoformat(), "pb": pb, "sb": sb}, indent=2),
+        encoding="utf-8",
+    )
+    locks = [
+        f"PB  {r['tool']}  {r['passed']}/{r['total']}"
+        for r in pb
+        if r["total"] > 0 and r["pct"] >= 100
+    ]
     locks += [f"SB  {r['instance_id']}" for r in sb if r["resolved"] is True]
     (out_dir / "locks_so_far.txt").write_text("\n".join(sorted(locks)) + "\n", encoding="utf-8")
     return board
@@ -365,12 +409,18 @@ def aggregate(runs: list[Path], out_dir: Path) -> str:
 
 def main():
     ap = argparse.ArgumentParser(description="Mass-run result aggregator")
-    ap.add_argument("--run-dir", action="append", default=[],
-                    help="Specific run directory (can repeat). Default: scan T:/determinex-{programbench,swebench}/")
-    ap.add_argument("--watch", type=int, default=0,
-                    help="Re-aggregate every N seconds (0 = single shot)")
-    ap.add_argument("--out", type=Path, default=OUT_DIR,
-                    help=f"Output directory (default {OUT_DIR})")
+    ap.add_argument(
+        "--run-dir",
+        action="append",
+        default=[],
+        help="Specific run directory (can repeat). Default: scan T:/determinex-{programbench,swebench}/",
+    )
+    ap.add_argument(
+        "--watch", type=int, default=0, help="Re-aggregate every N seconds (0 = single shot)"
+    )
+    ap.add_argument(
+        "--out", type=Path, default=OUT_DIR, help=f"Output directory (default {OUT_DIR})"
+    )
     args = ap.parse_args()
     runs = [Path(r) for r in args.run_dir]
     if args.watch:

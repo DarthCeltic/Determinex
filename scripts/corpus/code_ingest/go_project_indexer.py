@@ -4,6 +4,7 @@ Go project indexer.
 Detects module-based Go projects and records the structure needed by the
 repair factory. This is intentionally static: it does not require Go on PATH.
 """
+
 from __future__ import annotations
 
 import re
@@ -49,7 +50,9 @@ def _rel_dirs(root: Path, name: str) -> list[str]:
     base = root / name
     if not base.is_dir():
         return []
-    return [str(p.relative_to(root)).replace("\\", "/") + "/" for p in base.rglob("*") if p.is_dir()] or [name + "/"]
+    return [
+        str(p.relative_to(root)).replace("\\", "/") + "/" for p in base.rglob("*") if p.is_dir()
+    ] or [name + "/"]
 
 
 def _license_hint(root: Path) -> str:

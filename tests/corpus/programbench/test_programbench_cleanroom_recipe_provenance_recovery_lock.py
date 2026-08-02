@@ -28,7 +28,6 @@ from corpus.programbench.cleanroom_recipe_provenance_recovery_record import (  #
     verify_cleanroom_recipe_provenance_recovery_record,
 )
 
-
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
 BASE_DIGEST = "sha256:" + ("a" * 64)
@@ -68,7 +67,11 @@ def _recovery(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST) -> Pa
             "image_config_history_present": True,
             "go_runtime_version_detected": "1.21.0",
         },
-        image_config_metadata={"history": [{"created_by": "RUN wget https://dl.google.com/go/go1.21.0.linux-amd64.tar.gz"}]},
+        image_config_metadata={
+            "history": [
+                {"created_by": "RUN wget https://dl.google.com/go/go1.21.0.linux-amd64.tar.gz"}
+            ]
+        },
         go_update={
             "current_version_detected": "1.21.0",
             "target_version": "1.24.13",
@@ -90,11 +93,15 @@ def _gap(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST) -> Path:
             target_image=image,
             target_digest=digest,
         )
-    ).write_gap(_plan(tmp_path, image=image, digest=digest), _recovery(tmp_path, image=image, digest=digest))
+    ).write_gap(
+        _plan(tmp_path, image=image, digest=digest), _recovery(tmp_path, image=image, digest=digest)
+    )
     return Path(result["record_path"])
 
 
-def _recoverer(tmp_path: Path, *search_roots: Path, target_image: str = IMAGE, target_digest: str = DIGEST):
+def _recoverer(
+    tmp_path: Path, *search_roots: Path, target_image: str = IMAGE, target_digest: str = DIGEST
+):
     return ProgramBenchCleanroomRecipeProvenanceRecovery(
         RecipeProvenanceRecoveryConfig(
             root=tmp_path,
@@ -109,30 +116,59 @@ def _recoverer(tmp_path: Path, *search_roots: Path, target_image: str = IMAGE, t
 def test_missing_gap_blocks(tmp_path):
     result = _recoverer(tmp_path).recover(tmp_path / "missing.json")
 
-    assert result["record"]["status"] == RecipeProvenanceRecoveryStatus.PROVENANCE_RECOVERY_BLOCKED.value
-    assert RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_BLOCKED_NO_GAP.value in result["record"]["provenance_statuses"]
+    assert (
+        result["record"]["status"]
+        == RecipeProvenanceRecoveryStatus.PROVENANCE_RECOVERY_BLOCKED.value
+    )
+    assert (
+        RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_BLOCKED_NO_GAP.value
+        in result["record"]["provenance_statuses"]
+    )
 
 
 def test_image_mismatch_blocks(tmp_path):
-    result = _recoverer(tmp_path, target_image="programbench/other:task_cleanroom").recover(_gap(tmp_path))
+    result = _recoverer(tmp_path, target_image="programbench/other:task_cleanroom").recover(
+        _gap(tmp_path)
+    )
 
-    assert RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_BLOCKED_IMAGE_MISMATCH.value in result["record"]["provenance_statuses"]
-    assert result["record"]["decision"] == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_BLOCKED.value
+    assert (
+        RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_BLOCKED_IMAGE_MISMATCH.value
+        in result["record"]["provenance_statuses"]
+    )
+    assert (
+        result["record"]["decision"]
+        == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_BLOCKED.value
+    )
 
 
 def test_digest_mismatch_blocks(tmp_path):
     result = _recoverer(tmp_path, target_digest="sha256:bad").recover(_gap(tmp_path))
 
-    assert RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_BLOCKED_DIGEST_MISMATCH.value in result["record"]["provenance_statuses"]
+    assert (
+        RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_BLOCKED_DIGEST_MISMATCH.value
+        in result["record"]["provenance_statuses"]
+    )
 
 
 def test_exhausted_when_no_allowed_sources_close_gaps(tmp_path):
     result = _recoverer(tmp_path, tmp_path / "empty").recover(_gap(tmp_path))
 
-    assert result["record"]["status"] == RecipeProvenanceRecoveryStatus.PROVENANCE_RECOVERY_EXHAUSTED.value
-    assert result["record"]["decision"] == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_BLOCKED.value
-    assert RecipeProvenanceRecoveryStatus.ORIGINAL_RECIPE_STILL_MISSING.value in result["record"]["provenance_statuses"]
-    assert RecipeProvenanceRecoveryStatus.BASE_IMAGE_DIGEST_STILL_MISSING.value in result["record"]["provenance_statuses"]
+    assert (
+        result["record"]["status"]
+        == RecipeProvenanceRecoveryStatus.PROVENANCE_RECOVERY_EXHAUSTED.value
+    )
+    assert (
+        result["record"]["decision"]
+        == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_BLOCKED.value
+    )
+    assert (
+        RecipeProvenanceRecoveryStatus.ORIGINAL_RECIPE_STILL_MISSING.value
+        in result["record"]["provenance_statuses"]
+    )
+    assert (
+        RecipeProvenanceRecoveryStatus.BASE_IMAGE_DIGEST_STILL_MISSING.value
+        in result["record"]["provenance_statuses"]
+    )
 
 
 def test_records_each_searched_location(tmp_path):
@@ -149,24 +185,41 @@ def test_records_each_searched_location(tmp_path):
 def test_task_metadata_is_partial_quarantine_only(tmp_path):
     root = tmp_path / "task"
     root.mkdir()
-    (root / "task.yaml").write_text("repository: doxygen/doxygen\ncommit: 966d98e\n", encoding="utf-8")
+    (root / "task.yaml").write_text(
+        "repository: doxygen/doxygen\ncommit: 966d98e\n", encoding="utf-8"
+    )
 
     result = _recoverer(tmp_path, root).recover(_gap(tmp_path))
 
-    assert result["record"]["decision"] == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_PARTIAL_QUARANTINE_ONLY.value
-    assert RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_RECOVERED_PARTIAL.value in result["record"]["provenance_statuses"]
+    assert (
+        result["record"]["decision"]
+        == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_PARTIAL_QUARANTINE_ONLY.value
+    )
+    assert (
+        RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_RECOVERED_PARTIAL.value
+        in result["record"]["provenance_statuses"]
+    )
     assert result["record"]["recovered_provenance"][0]["quarantine_only"] is True
 
 
 def test_dockerfile_without_base_digest_is_partial(tmp_path):
     root = tmp_path / "recipe"
     root.mkdir()
-    (root / "Dockerfile").write_text("FROM ubuntu:22.04\nRUN wget https://dl.google.com/go/go1.21.0.linux-amd64.tar.gz\n", encoding="utf-8")
+    (root / "Dockerfile").write_text(
+        "FROM ubuntu:22.04\nRUN wget https://dl.google.com/go/go1.21.0.linux-amd64.tar.gz\n",
+        encoding="utf-8",
+    )
 
     result = _recoverer(tmp_path, root).recover(_gap(tmp_path))
 
-    assert result["record"]["decision"] == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_PARTIAL_QUARANTINE_ONLY.value
-    assert RecipeProvenanceRecoveryStatus.BASE_IMAGE_DIGEST_STILL_MISSING.value in result["record"]["provenance_statuses"]
+    assert (
+        result["record"]["decision"]
+        == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_PARTIAL_QUARANTINE_ONLY.value
+    )
+    assert (
+        RecipeProvenanceRecoveryStatus.BASE_IMAGE_DIGEST_STILL_MISSING.value
+        in result["record"]["provenance_statuses"]
+    )
 
 
 def test_digest_pinned_dockerfile_recovers_exact_recipe_and_base(tmp_path):
@@ -179,9 +232,18 @@ def test_digest_pinned_dockerfile_recovers_exact_recipe_and_base(tmp_path):
 
     result = _recoverer(tmp_path, root).recover(_gap(tmp_path))
 
-    assert result["record"]["status"] == RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_RECOVERED_EXACT.value
-    assert result["record"]["decision"] == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_READY.value
-    assert RecipeProvenanceRecoveryStatus.BASE_IMAGE_PROVENANCE_RECOVERED_EXACT.value in result["record"]["provenance_statuses"]
+    assert (
+        result["record"]["status"]
+        == RecipeProvenanceRecoveryStatus.RECIPE_PROVENANCE_RECOVERED_EXACT.value
+    )
+    assert (
+        result["record"]["decision"]
+        == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_READY.value
+    )
+    assert (
+        RecipeProvenanceRecoveryStatus.BASE_IMAGE_PROVENANCE_RECOVERED_EXACT.value
+        in result["record"]["provenance_statuses"]
+    )
     assert result["record"]["gap_closure"]["all_required_provenance_closed"] is True
 
 
@@ -202,7 +264,10 @@ def test_operator_provenance_json_can_close_exact_gaps(tmp_path):
 
     result = _recoverer(tmp_path, root).recover(_gap(tmp_path))
 
-    assert result["record"]["decision"] == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_READY.value
+    assert (
+        result["record"]["decision"]
+        == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_READY.value
+    )
 
 
 def test_operator_json_wrong_image_is_ignored(tmp_path):
@@ -222,13 +287,19 @@ def test_operator_json_wrong_image_is_ignored(tmp_path):
 
     result = _recoverer(tmp_path, root).recover(_gap(tmp_path))
 
-    assert result["record"]["decision"] == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_BLOCKED.value
+    assert (
+        result["record"]["decision"]
+        == RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_BLOCKED.value
+    )
 
 
 def test_material_fidelity_risk_is_recorded(tmp_path):
     result = _recoverer(tmp_path, tmp_path / "empty").recover(_gap(tmp_path))
 
-    assert RecipeProvenanceRecoveryStatus.MATERIAL_FIDELITY_RISK_REMAINS.value in result["record"]["provenance_statuses"]
+    assert (
+        RecipeProvenanceRecoveryStatus.MATERIAL_FIDELITY_RISK_REMAINS.value
+        in result["record"]["provenance_statuses"]
+    )
     assert result["record"]["fidelity_assessment"]["material_change_requires_review"] is True
 
 
@@ -236,7 +307,10 @@ def test_rebuild_blocked_unless_exact_recipe_and_base_digest(tmp_path):
     result = _recoverer(tmp_path, tmp_path / "empty").recover(_gap(tmp_path))
 
     assert result["record"]["authorization"]["rebuild_authorized"] is False
-    assert RecipeProvenanceRecoveryStatus.REBUILD_NOT_AUTHORIZED.value in result["record"]["provenance_statuses"]
+    assert (
+        RecipeProvenanceRecoveryStatus.REBUILD_NOT_AUTHORIZED.value
+        in result["record"]["provenance_statuses"]
+    )
 
 
 def test_docker_pull_is_not_authorized(tmp_path):

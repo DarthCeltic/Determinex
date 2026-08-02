@@ -16,7 +16,7 @@ log = logging.getLogger("oracle.provider.anthropic_api")
 
 # Default model -- Oracle will pass the session-specific model string
 _DEFAULT_MODEL = "claude-sonnet-4-5"
-_MAX_TOKENS    = 2048
+_MAX_TOKENS = 2048
 
 
 def _load_api_key() -> str | None:

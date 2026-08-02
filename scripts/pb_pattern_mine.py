@@ -12,6 +12,7 @@ Usage:
     python scripts/pb_pattern_mine.py
     python scripts/pb_pattern_mine.py --json
 """
+
 from __future__ import annotations
 
 import argparse

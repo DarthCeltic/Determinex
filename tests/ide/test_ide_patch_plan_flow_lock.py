@@ -1,4 +1,5 @@
 """Tests for IDE_PATCH_PLAN_FLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -49,8 +48,10 @@ def _hash_tree(root: Path) -> dict[str, str]:
 def _cfg(tmp_path):
     w = LocalModelConfigWizard(WizardConfig(config_root=tmp_path))
     return w.write_config(
-        provider="ollama", model_id="determinex-engineer-v11-dsl",
-        capabilities=("code_generation",), task_classes_allowed=("PATCH_GENERATION",),
+        provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
+        capabilities=("code_generation",),
+        task_classes_allowed=("PATCH_GENERATION",),
         enabled=True,
     )
 
@@ -70,7 +71,9 @@ def test_status_tokens_match_expected_set():
 def test_quarantine_happy(tmp_path):
     cfg = _cfg(tmp_path)
     rec = IDEPatchPlanFlow().run(
-        FIXTURES / "python_broken", config=cfg, opt_in=True,
+        FIXTURES / "python_broken",
+        config=cfg,
+        opt_in=True,
         plan_entries=[{"operation": "replace_file", "path": "src/x.py", "new_content": "ok\n"}],
     )
     assert rec.decision == "IDE_PATCH_PLAN_QUARANTINED"
@@ -84,7 +87,9 @@ def test_quarantine_happy(tmp_path):
 def test_no_opt_in_blocks(tmp_path):
     cfg = _cfg(tmp_path)
     rec = IDEPatchPlanFlow().run(
-        FIXTURES / "python_broken", config=cfg, opt_in=False,
+        FIXTURES / "python_broken",
+        config=cfg,
+        opt_in=False,
         plan_entries=[{"operation": "replace_file", "path": "x", "new_content": "y"}],
     )
     assert rec.decision == "IDE_PATCH_PLAN_BLOCKED_NOT_OPTED_IN"
@@ -92,7 +97,9 @@ def test_no_opt_in_blocks(tmp_path):
 
 def test_no_model_blocks(tmp_path):
     rec = IDEPatchPlanFlow().run(
-        FIXTURES / "python_broken", config=None, opt_in=True,
+        FIXTURES / "python_broken",
+        config=None,
+        opt_in=True,
         plan_entries=[{"operation": "replace_file", "path": "x", "new_content": "y"}],
     )
     assert rec.decision == "IDE_PATCH_PLAN_BLOCKED_NO_MODEL"
@@ -101,7 +108,9 @@ def test_no_model_blocks(tmp_path):
 def test_path_escape_blocks(tmp_path):
     cfg = _cfg(tmp_path)
     rec = IDEPatchPlanFlow().run(
-        FIXTURES / "python_broken", config=cfg, opt_in=True,
+        FIXTURES / "python_broken",
+        config=cfg,
+        opt_in=True,
         plan_entries=[{"operation": "replace_file", "path": "../etc/passwd", "new_content": "x"}],
     )
     assert rec.decision == "IDE_PATCH_PLAN_BLOCKED_PATH_ESCAPE"
@@ -110,7 +119,9 @@ def test_path_escape_blocks(tmp_path):
 def test_schema_invalid_blocks(tmp_path):
     cfg = _cfg(tmp_path)
     rec = IDEPatchPlanFlow().run(
-        FIXTURES / "python_broken", config=cfg, opt_in=True,
+        FIXTURES / "python_broken",
+        config=cfg,
+        opt_in=True,
         plan_entries=[{"operation": "delete_file", "path": "x", "new_content": ""}],
     )
     assert rec.decision == "IDE_PATCH_PLAN_BLOCKED_SCHEMA_INVALID"
@@ -121,7 +132,9 @@ def test_flow_does_not_mutate_workspace(tmp_path):
     ws = FIXTURES / "python_broken"
     before = _hash_tree(ws)
     IDEPatchPlanFlow().run(
-        ws, config=cfg, opt_in=True,
+        ws,
+        config=cfg,
+        opt_in=True,
         plan_entries=[{"operation": "replace_file", "path": "src/x.py", "new_content": "ok\n"}],
     )
     assert _hash_tree(ws) == before

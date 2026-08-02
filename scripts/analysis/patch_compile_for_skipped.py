@@ -19,7 +19,9 @@ Patches the source/compile.sh in-place, then re-packs submission.tar.gz.
 
 Run: python scripts/analysis/patch_compile_for_skipped.py
 """
+
 from __future__ import annotations
+
 import io
 import stat
 import tarfile

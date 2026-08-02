@@ -1,9 +1,9 @@
 """Records for DETERMINEX_IDE_TAURI_INTEGRATED_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 DETERMINEX_IDE_TAURI_INTEGRATED_FINAL_STATE_TOKENS = (
     "DETERMINEX_IDE_TAURI_INTEGRATED_FINAL_STATE_WRITTEN",

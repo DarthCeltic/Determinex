@@ -6,6 +6,7 @@ subprocesses; the bulk of its assertions are the runtime checks in
 the gauntlet's *machinery* — status-token closure, mutation detection,
 report shape — and pin the lock manifest against the live module.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -30,6 +31,7 @@ gauntlet = importlib.import_module("scripts.dev.architecture_regression_gauntlet
 # ---------------------------------------------------------------------------
 # Module-level invariants
 # ---------------------------------------------------------------------------
+
 
 def test_gauntlet_module_imports():
     assert gauntlet.run_gauntlet is not None
@@ -68,6 +70,7 @@ def test_repo_root_resolution_points_at_repo():
 # Hash helpers — mutation-detection foundation
 # ---------------------------------------------------------------------------
 
+
 def test_hash_path_returns_none_for_missing(tmp_path: Path):
     assert gauntlet._hash_path(tmp_path / "does_not_exist") is None
 
@@ -90,6 +93,7 @@ def test_hash_path_matches_sha256(tmp_path: Path):
 # ---------------------------------------------------------------------------
 # Individual checks — fast, isolated
 # ---------------------------------------------------------------------------
+
 
 def test_check_cli_version_returns_known_token():
     status, detail = gauntlet.check_cli_version()
@@ -137,6 +141,7 @@ def test_unsafe_defaults_blocked_under_clean_env():
 # Mutation detection — synthetic test
 # ---------------------------------------------------------------------------
 
+
 def test_hash_tree_detects_mutation(tmp_path: Path):
     """If a watched file is rewritten, _hash_tree must show a different
     digest. This proves the gauntlet's mutation detector is sensitive enough
@@ -155,23 +160,28 @@ def test_hash_tree_detects_mutation(tmp_path: Path):
 # Full gauntlet — end-to-end (slow-ish, ~30s; runs subprocess fleet)
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.slow
 def test_full_gauntlet_passes_against_live_repo(tmp_path: Path):
     """The single end-to-end assertion: the gauntlet rolls up to PASSED
     against the live repo on the developer's machine and in CI."""
     report = gauntlet.run_gauntlet(tmp_root=tmp_path)
     assert report["rollup_status"] == "ARCH_GAUNTLET_PASSED", (
-        f"Gauntlet failed; details:\n"
+        "Gauntlet failed; details:\n"
         + json.dumps(
-            [r for r in report["results"]
-             if r["status"] in {
-                "CLI_COMMAND_FAILED",
-                "LEGACY_SCRIPT_BROKEN",
-                "READ_ONLY_COMMAND_MUTATED_EVIDENCE",
-                "PATH_PORTABILITY_FAILED",
-                "UNSAFE_DEFAULT_OPEN",
-                "ARCH_GAUNTLET_FAILED",
-             }],
+            [
+                r
+                for r in report["results"]
+                if r["status"]
+                in {
+                    "CLI_COMMAND_FAILED",
+                    "LEGACY_SCRIPT_BROKEN",
+                    "READ_ONLY_COMMAND_MUTATED_EVIDENCE",
+                    "PATH_PORTABILITY_FAILED",
+                    "UNSAFE_DEFAULT_OPEN",
+                    "ARCH_GAUNTLET_FAILED",
+                }
+            ],
             indent=2,
         )
     )
@@ -186,8 +196,7 @@ def test_full_gauntlet_passes_against_live_repo(tmp_path: Path):
 # ---------------------------------------------------------------------------
 
 _LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001.json"
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001.json"
 )
 
 

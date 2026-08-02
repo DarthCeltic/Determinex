@@ -11,6 +11,7 @@ Flip an anchor to True ONLY when it is genuinely, provably earned -- and then th
 meta-bench's test_authority_closed will tell you the moment a claim outruns its
 proof.
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -108,7 +109,8 @@ def assert_authority_closed() -> None:
     violations = [k for k, v in AUTHORITY_FALSE.items() if v is not False]
     if violations:
         raise AssertionError(
-            "AUTHORITY OVERCLAIM: anchors flipped True without proof: " + ", ".join(violations))
+            "AUTHORITY OVERCLAIM: anchors flipped True without proof: " + ", ".join(violations)
+        )
 
 
 def scan_text_for_anchor_true(text: str) -> list[str]:
@@ -121,6 +123,7 @@ def scan_text_for_anchor_true(text: str) -> list[str]:
     how the guard RULES describe what to block, not actual assertions. Precise by
     design -- a guard that false-alarms is its own slop."""
     import re
+
     hits = []
     for key in AUTHORITY_FALSE:
         # double-quoted JSON key, colon, bare lowercase true / 1 (json bool)

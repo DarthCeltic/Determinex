@@ -6,6 +6,7 @@ goes to a remote anyone else can see (operator mandate 2026-06-29). Run by a sch
 already does the best-eval merge). Pairs with determinex_pb_autodrive._persist_best (the box keeps its
 own best) -- this brings that best down to the durable repo.
 """
+
 from __future__ import annotations
 
 import subprocess
@@ -35,9 +36,17 @@ def main() -> int:
     try:
         kn = REPO / "corpus" / "programbench" / "build_knowledge.json"
         if kn.exists():
-            subprocess.run(["scp", "-i", pb_sync.KEY, str(kn),
-                            f"{pb_sync.BOX}:{pb_sync.BOX_ROOT}/corpus/programbench/build_knowledge.json"],
-                           check=False, timeout=90)
+            subprocess.run(
+                [
+                    "scp",
+                    "-i",
+                    pb_sync.KEY,
+                    str(kn),
+                    f"{pb_sync.BOX}:{pb_sync.BOX_ROOT}/corpus/programbench/build_knowledge.json",
+                ],
+                check=False,
+                timeout=90,
+            )
             print("deployed build_knowledge (absorbed+learned) -> box (box7 fixer applies it)")
     except Exception as e:
         print(f"knowledge deploy skipped: {e}")

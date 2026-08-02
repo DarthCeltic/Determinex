@@ -4,7 +4,9 @@ from pathlib import Path
 from scripts.release import windows_trust_packet
 
 
-def test_windows_trust_packet_records_unsigned_artifact_without_granting_authority(tmp_path: Path, monkeypatch):
+def test_windows_trust_packet_records_unsigned_artifact_without_granting_authority(
+    tmp_path: Path, monkeypatch
+):
     artifact_dir = tmp_path / "dist"
     artifact_dir.mkdir()
     installer = artifact_dir / "Determinex_0.1.0_x64_en-US.msi"
@@ -49,7 +51,9 @@ def test_windows_trust_packet_records_unsigned_artifact_without_granting_authori
     assert packet["artifacts"][0]["sha256_verified"] is True
 
 
-def test_windows_trust_packet_can_record_valid_signed_smartscreen_packet(tmp_path: Path, monkeypatch):
+def test_windows_trust_packet_can_record_valid_signed_smartscreen_packet(
+    tmp_path: Path, monkeypatch
+):
     artifact_dir = tmp_path / "dist"
     artifact_dir.mkdir()
     installer = artifact_dir / "Determinex_0.1.0_x64-setup.exe"

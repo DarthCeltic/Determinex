@@ -32,6 +32,7 @@ USAGE
 
     python scripts/determinex_platform_screen.py [path ...]   # CI sweep
 """
+
 from __future__ import annotations
 
 import os
@@ -40,8 +41,14 @@ import sys
 from pathlib import Path
 
 __all__ = [
-    "PlatformHazard", "screen_posix_script", "screen_container_argv", "screen_env_names",
-    "screen_output_text", "screen_executable", "screen_repo_files", "main",
+    "PlatformHazard",
+    "screen_posix_script",
+    "screen_container_argv",
+    "screen_env_names",
+    "screen_output_text",
+    "screen_executable",
+    "screen_repo_files",
+    "main",
 ]
 
 # A drive-letter path or a backslash path -- meaningless inside a Linux container.
@@ -49,8 +56,20 @@ _WINPATH = re.compile(r"(?:^|[\s\"'=])[A-Za-z]:[\\/]|\\\\[^\\]|(?<![:\w])\\[A-Za
 # Git LFS pointer files masquerade as content: small text where a binary is expected.
 _LFS_POINTER = b"version https://git-lfs.github.com/spec/"
 # Names Windows already owns; exporting these silently rewrites something else.
-_RESERVED_ENV = {"TEMP", "TMP", "PATH", "COMSPEC", "SYSTEMROOT", "WINDIR",
-                 "PROGRAMFILES", "USERPROFILE", "HOMEDRIVE", "HOMEPATH", "OS", "PATHEXT"}
+_RESERVED_ENV = {
+    "TEMP",
+    "TMP",
+    "PATH",
+    "COMSPEC",
+    "SYSTEMROOT",
+    "WINDIR",
+    "PROGRAMFILES",
+    "USERPROFILE",
+    "HOMEDRIVE",
+    "HOMEPATH",
+    "OS",
+    "PATHEXT",
+}
 
 
 class PlatformHazard(RuntimeError):
@@ -80,10 +99,10 @@ def screen_container_argv(argv: list[str]) -> None:
     skip_next = False
     for a in argv:
         if skip_next:
-            skip_next = False   # this is a bind-mount SPEC; a host path here is correct
+            skip_next = False  # this is a bind-mount SPEC; a host path here is correct
             continue
         if a in ("-v", "--volume", "--mount"):
-            skip_next = True    # the host path is the NEXT argument, not this one
+            skip_next = True  # the host path is the NEXT argument, not this one
             continue
         if a.startswith(("--volume=", "--mount=")):
             continue
@@ -156,7 +175,8 @@ def main(argv: list[str] | None = None) -> int:
             except PlatformHazard as e:
                 problems.append(str(e))
     lfs = screen_repo_files(
-        [p for r in roots if r.exists() and r.is_dir() for p in r.rglob("*") if p.is_file()][:4000])
+        [p for r in roots if r.exists() and r.is_dir() for p in r.rglob("*") if p.is_file()][:4000]
+    )
     for p in lfs:
         problems.append(f"{p}: Git LFS pointer, not content")
     print(f"platform screen: {checked} script(s) checked")

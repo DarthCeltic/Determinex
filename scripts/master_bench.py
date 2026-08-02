@@ -1,8 +1,10 @@
+import argparse
+import json
 import os
 import re
-import json
+import sys
+
 import requests
-import argparse
 from tqdm import tqdm
 
 try:
@@ -18,6 +20,7 @@ except ImportError:
 
 OLLAMA_API_URL = os.getenv("OLLAMA_HOST", "http://localhost:11434") + "/api/generate"
 
+
 def extract_code_block(text, language="python"):
     """
     Extracts purely the first compilable code block from a response,
@@ -27,14 +30,14 @@ def extract_code_block(text, language="python"):
     matches = re.findall(pattern, text, flags=re.DOTALL | re.IGNORECASE)
     if matches:
         return matches[0].strip()
-    
+
     # Fallback to any generic code block if language wasn't specified
     pattern_generic = r"```\n(.*?)```"
     matches_generic = re.findall(pattern_generic, text, flags=re.DOTALL)
     if matches_generic:
         return matches_generic[0].strip()
-        
-    return text.strip() # If all else fails, return raw
+
+    return text.strip()  # If all else fails, return raw
 
 
 def query_ollama(model, prompt):
@@ -42,7 +45,7 @@ def query_ollama(model, prompt):
         "model": model,
         "prompt": prompt,
         "stream": False,
-        "options": {"temperature": 0.0} # Absolute deterministic benchmarking
+        "options": {"temperature": 0.0},  # Absolute deterministic benchmarking
     }
     try:
         response = requests.post(OLLAMA_API_URL, json=payload, timeout=120)
@@ -52,19 +55,20 @@ def query_ollama(model, prompt):
         print(f"Ollama API Error: {e}")
         return ""
 
+
 def run_evalplus(suite="humaneval", model="determinex-engineer-v10-dsl"):
     print(f"--- Running {suite.upper()} on {model} ---")
     if suite == "humaneval":
         problems = get_human_eval_plus()
     else:
         problems = get_mbpp_plus()
-        
+
     output_file = f"eval_results_{suite}_{model.replace(':', '_')}.jsonl"
-    
+
     # Check what's already done in case of resume
     completed = set()
     if os.path.exists(output_file):
-        with open(output_file, "r", encoding="utf-8") as f:
+        with open(output_file, encoding="utf-8") as f:
             for line in f:
                 try:
                     completed.add(json.loads(line)["task_id"])
@@ -75,25 +79,22 @@ def run_evalplus(suite="humaneval", model="determinex-engineer-v10-dsl"):
         for task_id, problem in tqdm(problems.items(), total=len(problems)):
             if task_id in completed:
                 continue
-                
+
             prompt = problem["prompt"]
             if suite == "humaneval":
                 # Ensure the model knows it needs to return the completed function
                 full_prompt = f"Please complete the following Python function. Return ONLY the code in a ```python block.\n\n```python\n{prompt}\n```"
             else:
                 full_prompt = f"Please solve the following Python programming task. Return ONLY the code in a ```python block.\n\n{prompt}"
-                
+
             raw_res = query_ollama(model, full_prompt)
             solution = extract_code_block(raw_res, language="python")
-            
+
             # Write to evalplus expected format
-            json.dump({
-                "task_id": task_id,
-                "solution": solution
-            }, f)
+            json.dump({"task_id": task_id, "solution": solution}, f)
             f.write("\n")
             f.flush()
-            
+
     print(f"Saved generations to {output_file}.")
     print(f"Run scoring via: python -m evalplus.evaluate --dataset {suite} --samples {output_file}")
 
@@ -102,31 +103,27 @@ def run_bigcodebench(model="determinex-engineer-v10-dsl"):
     print(f"--- Running BigCodeBench on {model} ---")
     problems = get_bigcodebench()
     output_file = f"eval_results_bcb_{model.replace(':', '_')}.json"
-    
+
     # BCB expects a list of objects in JSON format for the new CLI
     results = []
-    
+
     for task_id, problem in tqdm(problems.items(), total=len(problems)):
         prompt = problem["complete_prompt"]
         full_prompt = f"Please complete the following Python snippet. Make sure to import any libraries you need. Return ONLY the code in a ```python block.\n\n```python\n{prompt}\n```"
-            
+
         raw_res = query_ollama(model, full_prompt)
         solution = extract_code_block(raw_res, language="python")
-        
-        results.append({
-            "task_id": task_id,
-            "solution": solution
-        })
-            
+
+        results.append({"task_id": task_id, "solution": solution})
+
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
-        
+
     print(f"Saved generations to {output_file}.")
     print(f"Run scoring via: bigcodebench.evaluate --samples {output_file}")
 
 
-def run_swebench_lite(model="determinex-engineer:latest", data_dir=None,
-                      observer_model=None):
+def run_swebench_lite(model="determinex-engineer:latest", data_dir=None, observer_model=None):
     """
     SWE-bench Lite evaluation using the Enterprise Codebase Explorer.
 
@@ -142,7 +139,7 @@ def run_swebench_lite(model="determinex-engineer:latest", data_dir=None,
     Reports overall resolution rate.
     """
     obs = observer_model or model
-    print(f"--- Running SWE-bench Lite ---")
+    print("--- Running SWE-bench Lite ---")
     print(f"  Builder:  {model}")
     print(f"  Observer: {obs}")
 
@@ -163,6 +160,7 @@ def run_swebench_lite(model="determinex-engineer:latest", data_dir=None,
         try:
             sys.path.insert(0, os.path.join(os.path.dirname(__file__), "hive"))
             from hardware import get_hw_profile
+
             hw = get_hw_profile()
 
             # 1. Check for existing data on any drive
@@ -214,7 +212,7 @@ def run_swebench_lite(model="determinex-engineer:latest", data_dir=None,
 
     with open(output_file, "a", encoding="utf-8") as f:
         for i, (instance_id, repo_dir, issue_file) in enumerate(instances):
-            print(f"\n[{i+1}/{total}] {instance_id}")
+            print(f"\n[{i + 1}/{total}] {instance_id}")
 
             try:
                 issue_text = open(issue_file, encoding="utf-8").read().strip()
@@ -237,12 +235,12 @@ def run_swebench_lite(model="determinex-engineer:latest", data_dir=None,
 
                 if result.success:
                     resolved += 1
-                    print(f"  ✓ RESOLVED ({result.attempts} attempts, "
-                          f"{len(result.files_modified)} files)")
-                    # Save patch
-                    patch_file = os.path.join(
-                        os.path.dirname(repo_dir), "determinex_patch.diff"
+                    print(
+                        f"  ✓ RESOLVED ({result.attempts} attempts, "
+                        f"{len(result.files_modified)} files)"
                     )
+                    # Save patch
+                    patch_file = os.path.join(os.path.dirname(repo_dir), "determinex_patch.diff")
                     with open(patch_file, "w", encoding="utf-8") as pf:
                         pf.write(result.patch_diff)
                 else:
@@ -254,35 +252,52 @@ def run_swebench_lite(model="determinex-engineer:latest", data_dir=None,
 
             except Exception as e:
                 print(f"  ✗ ERROR: {e}")
-                json.dump({
-                    "instance_id": instance_id,
-                    "model": model,
-                    "resolved": False,
-                    "error": str(e),
-                }, f)
+                json.dump(
+                    {
+                        "instance_id": instance_id,
+                        "model": model,
+                        "resolved": False,
+                        "error": str(e),
+                    },
+                    f,
+                )
                 f.write("\n")
                 f.flush()
 
     rate = (resolved / total * 100) if total > 0 else 0
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"SWE-bench Lite Results: {resolved}/{total} resolved ({rate:.1f}%)")
     print(f"Results saved to: {output_file}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Determinex Master API Benchmark Runner")
-    parser.add_argument("--model", type=str, default="determinex-engineer:latest", help="Ollama model string")
-    parser.add_argument("--suite", type=str,
-                        choices=["humaneval", "mbpp", "bigcodebench", "swebench", "all"],
-                        default="all", help="Suite to run")
-    parser.add_argument("--swebench-dir", type=str, default=None,
-                        help="Path to SWE-bench instances (default: swebench/)")
-    parser.add_argument("--observer-model", type=str, default=None,
-                        help="Observer model for SWE-bench (default: same as --model)")
-    
+    parser.add_argument(
+        "--model", type=str, default="determinex-engineer:latest", help="Ollama model string"
+    )
+    parser.add_argument(
+        "--suite",
+        type=str,
+        choices=["humaneval", "mbpp", "bigcodebench", "swebench", "all"],
+        default="all",
+        help="Suite to run",
+    )
+    parser.add_argument(
+        "--swebench-dir",
+        type=str,
+        default=None,
+        help="Path to SWE-bench instances (default: swebench/)",
+    )
+    parser.add_argument(
+        "--observer-model",
+        type=str,
+        default=None,
+        help="Observer model for SWE-bench (default: same as --model)",
+    )
+
     args = parser.parse_args()
-    
+
     if args.suite in ["humaneval", "all"]:
         run_evalplus("humaneval", args.model)
     if args.suite in ["mbpp", "all"]:
@@ -291,4 +306,3 @@ if __name__ == "__main__":
         run_bigcodebench(args.model)
     if args.suite in ["swebench", "all"]:
         run_swebench_lite(args.model, args.swebench_dir, args.observer_model)
-

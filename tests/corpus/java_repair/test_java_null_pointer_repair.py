@@ -9,6 +9,7 @@ Verifies that the JavaTaskExtractor correctly:
 
 JAVA_REPAIR_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -17,7 +18,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / "scripts"))
 
 from corpus.code_ingest.java_task_extractor import JavaTaskExtractor
-
 
 _NULL_CHECK_SOURCE = """\
 public class UserService {
@@ -49,7 +49,6 @@ public class Calculator {
 
 
 class TestNullPointerRepair:
-
     def test_null_check_candidates_found(self, tmp_path):
         java_file = tmp_path / "UserService.java"
         java_file.write_text(_NULL_CHECK_SOURCE, encoding="utf-8")

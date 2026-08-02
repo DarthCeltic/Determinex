@@ -7,9 +7,10 @@ import re
 import subprocess
 import sys
 from collections import defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -20,7 +21,6 @@ from corpus.programbench.commit_provenance_repair_audit_record import (
     write_commit_provenance_audit_record,
 )
 from corpus.programbench.programbench_platform_record import verify_platform_record
-
 
 AUDITED_COMMIT = "bc86cb57e"
 AUDITED_COMMIT_SUBJECT = "FRONTEND_REPAIR_PANEL_SHELL_LOCK_001: 9-section shell"
@@ -36,13 +36,27 @@ PROGRAMBENCH_LOCKS = [
 ]
 
 PROGRAMBENCH_EVIDENCE = [
-    Path("assurance/evidence/programbench_batch001_artifact_import_requests/programbench_batch001_artifact_import_request_packet_run_20260528.ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN.json"),
-    Path("assurance/evidence/programbench_batch001_artifact_import_preflight/programbench_batch001_artifact_import_preflight_run_20260528.ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD.json"),
-    Path("assurance/evidence/programbench_batch001_operator_artifact_import_packet_bundle/programbench_batch001_operator_artifact_import_packet_bundle_run_20260528.OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_WRITTEN.json"),
-    Path("assurance/evidence/programbench_batch001_exact_artifact_import_gate/programbench_batch001_exact_artifact_import_gate_run_20260528.EXACT_ARTIFACT_IMPORT_REQUIRED.json"),
-    Path("assurance/evidence/programbench_batch001_scan_queue/programbench_batch001_scan_queue_run_20260528.BATCH001_SCAN_QUEUE_WRITTEN.json"),
-    Path("assurance/evidence/programbench_batch001_scan_policy_precheck/programbench_batch001_scan_policy_precheck_run_20260528.SCAN_POLICY_PRECHECK_WRITTEN.json"),
-    Path("assurance/evidence/programbench_batch001_import_scan_campaign_final_state/programbench_batch001_import_scan_campaign_final_state_run_20260528.BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_WRITTEN.json"),
+    Path(
+        "assurance/evidence/programbench_batch001_artifact_import_requests/programbench_batch001_artifact_import_request_packet_run_20260528.ARTIFACT_IMPORT_REQUEST_PACKET_WRITTEN.json"
+    ),
+    Path(
+        "assurance/evidence/programbench_batch001_artifact_import_preflight/programbench_batch001_artifact_import_preflight_run_20260528.ARTIFACT_IMPORT_PREFLIGHT_BLOCKED_NO_SAFE_IMPORT_METHOD.json"
+    ),
+    Path(
+        "assurance/evidence/programbench_batch001_operator_artifact_import_packet_bundle/programbench_batch001_operator_artifact_import_packet_bundle_run_20260528.OPERATOR_ARTIFACT_IMPORT_PACKET_BUNDLE_WRITTEN.json"
+    ),
+    Path(
+        "assurance/evidence/programbench_batch001_exact_artifact_import_gate/programbench_batch001_exact_artifact_import_gate_run_20260528.EXACT_ARTIFACT_IMPORT_REQUIRED.json"
+    ),
+    Path(
+        "assurance/evidence/programbench_batch001_scan_queue/programbench_batch001_scan_queue_run_20260528.BATCH001_SCAN_QUEUE_WRITTEN.json"
+    ),
+    Path(
+        "assurance/evidence/programbench_batch001_scan_policy_precheck/programbench_batch001_scan_policy_precheck_run_20260528.SCAN_POLICY_PRECHECK_WRITTEN.json"
+    ),
+    Path(
+        "assurance/evidence/programbench_batch001_import_scan_campaign_final_state/programbench_batch001_import_scan_campaign_final_state_run_20260528.BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_WRITTEN.json"
+    ),
 ]
 
 PROGRAMBENCH_CODE_PATHS = [
@@ -109,29 +123,46 @@ class ProgramBenchCommitProvenanceRepairAudit:
         self.config = config or CommitProvenanceAuditConfig()
         self.root = self.config.root
 
-    def run(self, commit_files: list[str] | None = None, commit_subject: str | None = None) -> dict[str, Any]:
-        commit_files = commit_files if commit_files is not None else self._commit_files(self.config.commit)
-        commit_subject = commit_subject if commit_subject is not None else self._commit_subject(self.config.commit)
+    def run(
+        self, commit_files: list[str] | None = None, commit_subject: str | None = None
+    ) -> dict[str, Any]:
+        commit_files = (
+            commit_files if commit_files is not None else self._commit_files(self.config.commit)
+        )
+        commit_subject = (
+            commit_subject
+            if commit_subject is not None
+            else self._commit_subject(self.config.commit)
+        )
         classified = classify_paths(commit_files)
         evidence_check = self._verify_programbench_evidence()
         lock_check = self._verify_programbench_locks()
         index_check = self._verify_evidence_index()
-        programbench_imports = self._scan_forbidden_imports(PROGRAMBENCH_CODE_PATHS, (r"\bfrom\s+frontend\b", r"\bimport\s+frontend\b", r"ide-repair"))
-        frontend_imports = self._scan_forbidden_imports(FRONTEND_CODE_PATHS, (r"corpus\.programbench", r"programbench_"))
+        programbench_imports = self._scan_forbidden_imports(
+            PROGRAMBENCH_CODE_PATHS,
+            (r"\bfrom\s+frontend\b", r"\bimport\s+frontend\b", r"ide-repair"),
+        )
+        frontend_imports = self._scan_forbidden_imports(
+            FRONTEND_CODE_PATHS, (r"corpus\.programbench", r"programbench_")
+        )
         operation_check = self._verify_no_forbidden_operations()
         dirty_state = self._git_status()
 
         programbench_files = classified["CODEX_PROGRAMBENCH"]
         frontend_files = classified["CLAUDE_FRONTEND"]
         has_label_warning = commit_subject.startswith("FRONTEND_") and bool(programbench_files)
-        cross_lane_imports_found = bool(programbench_imports["matches"] or frontend_imports["matches"])
+        cross_lane_imports_found = bool(
+            programbench_imports["matches"] or frontend_imports["matches"]
+        )
         evidence_ok = evidence_check["valid"] and lock_check["valid"] and index_check["valid"]
         forbidden_ops_ok = operation_check["valid"]
         needs_review = bool(classified["NEEDS_REVIEW"])
 
         if not evidence_ok or cross_lane_imports_found or needs_review or not forbidden_ops_ok:
             status = "PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_FINDINGS_WRITTEN"
-            repair_required = bool(cross_lane_imports_found or not evidence_ok or not forbidden_ops_ok)
+            repair_required = bool(
+                cross_lane_imports_found or not evidence_ok or not forbidden_ops_ok
+            )
         elif has_label_warning:
             status = "PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED_WITH_LABEL_WARNING"
             repair_required = False
@@ -168,7 +199,9 @@ class ProgramBenchCommitProvenanceRepairAudit:
         }
         record = make_commit_provenance_audit_record(status=status, payload=payload)
         if self.config.write_record:
-            write_commit_provenance_audit_record(record, self.root / "assurance/evidence/programbench_commit_provenance_repair_audit")
+            write_commit_provenance_audit_record(
+                record, self.root / "assurance/evidence/programbench_commit_provenance_repair_audit"
+            )
         return record
 
     def _verify_programbench_evidence(self) -> dict[str, Any]:
@@ -190,7 +223,15 @@ class ProgramBenchCommitProvenanceRepairAudit:
                     pass
             row_valid = exists and parsed and signature_valid
             valid = valid and row_valid
-            rows.append({"path": str(rel).replace("\\", "/"), "exists": exists, "parsed": parsed, "signature_valid": signature_valid, "status": status})
+            rows.append(
+                {
+                    "path": str(rel).replace("\\", "/"),
+                    "exists": exists,
+                    "parsed": parsed,
+                    "signature_valid": signature_valid,
+                    "status": status,
+                }
+            )
         return {"valid": valid, "rows": rows}
 
     def _verify_programbench_locks(self) -> dict[str, Any]:
@@ -213,7 +254,15 @@ class ProgramBenchCommitProvenanceRepairAudit:
                     pass
             row_valid = exists and parsed and declared_lock == lock_id
             valid = valid and row_valid
-            rows.append({"path": str(rel).replace("\\", "/"), "exists": exists, "parsed": parsed, "lock_id": declared_lock, "record": record})
+            rows.append(
+                {
+                    "path": str(rel).replace("\\", "/"),
+                    "exists": exists,
+                    "parsed": parsed,
+                    "lock_id": declared_lock,
+                    "record": record,
+                }
+            )
         return {"valid": valid, "rows": rows}
 
     def _verify_evidence_index(self) -> dict[str, Any]:
@@ -265,7 +314,9 @@ class ProgramBenchCommitProvenanceRepairAudit:
             },
         }
 
-    def _scan_forbidden_imports(self, paths: Iterable[Path], patterns: Iterable[str]) -> dict[str, Any]:
+    def _scan_forbidden_imports(
+        self, paths: Iterable[Path], patterns: Iterable[str]
+    ) -> dict[str, Any]:
         compiled = [re.compile(pattern) for pattern in patterns]
         matches: list[dict[str, Any]] = []
         checked: list[str] = []
@@ -277,7 +328,13 @@ class ProgramBenchCommitProvenanceRepairAudit:
             text = path.read_text(encoding="utf-8", errors="replace")
             for lineno, line in enumerate(text.splitlines(), start=1):
                 if any(pattern.search(line) for pattern in compiled):
-                    matches.append({"path": str(rel).replace("\\", "/"), "line": lineno, "text": line.strip()[:160]})
+                    matches.append(
+                        {
+                            "path": str(rel).replace("\\", "/"),
+                            "line": lineno,
+                            "text": line.strip()[:160],
+                        }
+                    )
         return {"checked": checked, "matches": matches}
 
     def _commit_files(self, commit: str) -> list[str]:
@@ -315,7 +372,13 @@ def classify_paths(paths: Iterable[str]) -> dict[str, list[str]]:
     classified: dict[str, list[str]] = defaultdict(list)
     for path in paths:
         classified[classify_commit_path(path)].append(path.replace("\\", "/"))
-    for key in ("CODEX_PROGRAMBENCH", "CLAUDE_FRONTEND", "SHARED_EVIDENCE_INDEX", "UNRELATED", "NEEDS_REVIEW"):
+    for key in (
+        "CODEX_PROGRAMBENCH",
+        "CLAUDE_FRONTEND",
+        "SHARED_EVIDENCE_INDEX",
+        "UNRELATED",
+        "NEEDS_REVIEW",
+    ):
         classified.setdefault(key, [])
     return {key: sorted(value) for key, value in classified.items()}
 
@@ -335,7 +398,15 @@ def main() -> int:
         print(json.dumps(record, indent=2, sort_keys=True))
     else:
         print(record["status"])
-    return 0 if record["status"] in {"PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED", "PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED_WITH_LABEL_WARNING"} else 1
+    return (
+        0
+        if record["status"]
+        in {
+            "PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED",
+            "PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED_WITH_LABEL_WARNING",
+        }
+        else 1
+    )
 
 
 if __name__ == "__main__":

@@ -6,19 +6,34 @@ Run after pod_training_launch.sh completes, or manually:
 """
 
 from __future__ import annotations
+
 import argparse
 import json
+import os as _os
 import subprocess
 import sys
 from pathlib import Path
 
+# The rename inserted a *shell* expansion into plain Python strings; Python does
+# not expand those, so these silently became a literal directory named
+# "${DETERMINEX_MODELS_DIR:-~/determinex-models}". Resolve it the way sh would.
+_MODELS_DIR = _os.path.expanduser(_os.environ.get("DETERMINEX_MODELS_DIR", "~/determinex-models"))
+
 DETERMINEX_DIR = Path(__file__).parent.parent
-REGISTRY    = DETERMINEX_DIR / "determinex_model_registry.json"
+REGISTRY = DETERMINEX_DIR / "determinex_model_registry.json"
 
 _GGUF_MAP = {
-    "engineer": {"c_name": "C1", "full_name": "Determinex-1-Tiny",   "tag": "determinex-1-tiny-v1.1"},
-    "observer": {"c_name": "C3", "full_name": "Determinex-3-Medium", "tag": "determinex-3-medium-v1.1"},
-    "sentinel": {"c_name": "C7", "full_name": "Determinex-7-Large",  "tag": "determinex-7-large-v1.1"},
+    "engineer": {"c_name": "C1", "full_name": "Determinex-1-Tiny", "tag": "determinex-1-tiny-v1.1"},
+    "observer": {
+        "c_name": "C3",
+        "full_name": "Determinex-3-Medium",
+        "tag": "determinex-3-medium-v1.1",
+    },
+    "sentinel": {
+        "c_name": "C7",
+        "full_name": "Determinex-7-Large",
+        "tag": "determinex-7-large-v1.1",
+    },
 }
 
 _SYSTEM_PROMPTS = {
@@ -49,7 +64,11 @@ _PARAMS = {
 
 def find_gguf(gguf_dir: Path, model: str) -> Path | None:
     for pattern in [f"*{model}*v1.1*.gguf", f"*{model}*.gguf"]:
-        hits = sorted((gguf_dir / model / "v1.1").glob(pattern)) if (gguf_dir / model / "v1.1").exists() else []
+        hits = (
+            sorted((gguf_dir / model / "v1.1").glob(pattern))
+            if (gguf_dir / model / "v1.1").exists()
+            else []
+        )
         if not hits:
             hits = sorted(gguf_dir.rglob(f"*{model}*.gguf"))
         if hits:
@@ -58,13 +77,13 @@ def find_gguf(gguf_dir: Path, model: str) -> Path | None:
 
 
 def register(model: str, gguf_path: Path, dry_run: bool = False) -> bool:
-    info    = _GGUF_MAP[model]
-    tag     = info["tag"]
+    info = _GGUF_MAP[model]
+    tag = info["tag"]
     mf_path = DETERMINEX_DIR / "modelfiles" / f"Modelfile.{info['c_name'].lower()}_v1_1"
 
     modelfile = (
         f"FROM {gguf_path.as_posix()}\n\n"
-        f"SYSTEM \"\"\"{_SYSTEM_PROMPTS[model]}\"\"\"\n\n"
+        f'SYSTEM """{_SYSTEM_PROMPTS[model]}"""\n\n'
         f"{_PARAMS[model]}\n"
     )
 
@@ -78,8 +97,7 @@ def register(model: str, gguf_path: Path, dry_run: bool = False) -> bool:
     print(f"[{info['c_name']}] Creating {tag} from {gguf_path.name}...")
 
     result = subprocess.run(
-        ["ollama", "create", tag, "-f", str(mf_path)],
-        capture_output=True, text=True
+        ["ollama", "create", tag, "-f", str(mf_path)], capture_output=True, text=True
     )
     if result.returncode == 0:
         print(f"[{info['c_name']}] {tag} registered OK")
@@ -103,13 +121,15 @@ def update_registry(results: dict):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--gguf-dir", default="${DETERMINEX_MODELS_DIR:-~/determinex-models}/versions")
-    parser.add_argument("--dry-run",  action="store_true")
-    parser.add_argument("--model",    choices=["engineer", "observer", "sentinel", "all"], default="all")
+    parser.add_argument("--gguf-dir", default="" + _MODELS_DIR + "/versions")
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--model", choices=["engineer", "observer", "sentinel", "all"], default="all"
+    )
     args = parser.parse_args()
 
     gguf_dir = Path(args.gguf_dir)
-    targets  = list(_GGUF_MAP.keys()) if args.model == "all" else [args.model]
+    targets = list(_GGUF_MAP.keys()) if args.model == "all" else [args.model]
 
     results = {}
     for model in targets:
@@ -123,7 +143,7 @@ def main():
     if not args.dry_run:
         update_registry(results)
 
-    ok  = sum(v for v in results.values())
+    ok = sum(v for v in results.values())
     tot = len(results)
     print(f"\nRegistered {ok}/{tot} models")
     print("\nNext steps:")

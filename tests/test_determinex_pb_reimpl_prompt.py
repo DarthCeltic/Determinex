@@ -11,6 +11,7 @@ These tests exist so that regression is structurally impossible: test_your_task_
 python_for_native_languages is the direct regression guard, and would have failed against the
 pre-fix code.
 """
+
 from __future__ import annotations
 
 import sys
@@ -52,8 +53,13 @@ def test_your_task_names_the_correct_language_and_fence():
 
 
 def test_your_task_uses_the_correct_native_filename():
-    expected = {"rust": "main.rs", "go": "main.go", "c": "main.c", "cpp": "main.cpp",
-                "haskell": "main.hs"}
+    expected = {
+        "rust": "main.rs",
+        "go": "main.go",
+        "c": "main.c",
+        "cpp": "main.cpp",
+        "haskell": "main.hs",
+    }
     for lang, fname in expected.items():
         R._LANG = lang
         prompt = R.build_prompt("some__tool.abc1234", "docs", "help text", [])
@@ -161,15 +167,23 @@ def test_fname_by_lang_is_the_single_shared_source_for_both_prompt_builders():
     SAME dict -- two independently-maintained copies is exactly the drift mechanism that let
     the Python-hardcoding bug survive undetected."""
     assert R._FNAME_BY_LANG == {
-        "python": "main.py", "rust": "main.rs", "go": "main.go",
-        "c": "main.c", "cpp": "main.cpp", "haskell": "main.hs",
+        "python": "main.py",
+        "rust": "main.rs",
+        "go": "main.go",
+        "c": "main.c",
+        "cpp": "main.cpp",
+        "haskell": "main.hs",
     }
 
 
 def test_build_incremental_prompt_still_correct_after_fname_dedup():
     R._LANG = "rust"
     prompt = R.build_incremental_prompt(
-        current="fn main() {}", new_obs=_fake_observation(), accepted=[], helptext="help", short="dirble",
+        current="fn main() {}",
+        new_obs=_fake_observation(),
+        accepted=[],
+        helptext="help",
+        short="dirble",
     )
     assert "main.rs" in prompt
     assert "the COMPILED binary" in prompt
@@ -222,13 +236,24 @@ def test_sibling_same_flag_error_examples_are_surfaced_in_full():
     must now surface full stderr for prior observations sharing the current one's first argv
     token (same flag)."""
     R._LANG = "go"
-    prior = _Obs(["--ungron", "-m", "obj_arr.json"], {"obj_arr.json": '{"a":1}'},
-                 5, "ungron failed for ``: invalid statement\n")
-    target = _Obs(["--ungron", "-m", "top_array.json"], {"top_array.json": "[1,2,3]"},
-                  5, "ungron failed for `[1`: invalid statement\n")
+    prior = _Obs(
+        ["--ungron", "-m", "obj_arr.json"],
+        {"obj_arr.json": '{"a":1}'},
+        5,
+        "ungron failed for ``: invalid statement\n",
+    )
+    target = _Obs(
+        ["--ungron", "-m", "top_array.json"],
+        {"top_array.json": "[1,2,3]"},
+        5,
+        "ungron failed for `[1`: invalid statement\n",
+    )
     prompt = R.build_incremental_prompt(
-        current="package main", new_obs=target, accepted=[prior, target],
-        helptext="help", short="gron",
+        current="package main",
+        new_obs=target,
+        accepted=[prior, target],
+        helptext="help",
+        short="gron",
     )
     assert "RELATED --ungron EXAMPLES" in prompt
     # the sibling's FULL stderr text must appear verbatim, not just a "+exact stderr" flag
@@ -238,11 +263,18 @@ def test_sibling_same_flag_error_examples_are_surfaced_in_full():
 def test_sibling_examples_omitted_for_different_flags():
     R._LANG = "go"
     prior = _Obs(["--values"], {}, 0, "")  # different flag, not an error case either
-    target = _Obs(["--ungron", "-m", "x.json"], {"x.json": "[1]"},
-                  5, "ungron failed for `[1`: invalid statement\n")
+    target = _Obs(
+        ["--ungron", "-m", "x.json"],
+        {"x.json": "[1]"},
+        5,
+        "ungron failed for `[1`: invalid statement\n",
+    )
     prompt = R.build_incremental_prompt(
-        current="package main", new_obs=target, accepted=[prior, target],
-        helptext="help", short="gron",
+        current="package main",
+        new_obs=target,
+        accepted=[prior, target],
+        helptext="help",
+        short="gron",
     )
     assert "RELATED --ungron EXAMPLES" not in prompt
 
@@ -250,15 +282,26 @@ def test_sibling_examples_omitted_for_different_flags():
 def test_sibling_examples_capped_at_three():
     R._LANG = "go"
     siblings = [
-        _Obs(["--ungron", "-m", f"f{i}.json"], {f"f{i}.json": "[1]"},
-             5, f"ungron failed for `sib{i}`: invalid statement\n")
+        _Obs(
+            ["--ungron", "-m", f"f{i}.json"],
+            {f"f{i}.json": "[1]"},
+            5,
+            f"ungron failed for `sib{i}`: invalid statement\n",
+        )
         for i in range(5)
     ]
-    target = _Obs(["--ungron", "-m", "last.json"], {"last.json": "[1]"},
-                  5, "ungron failed for `last`: invalid statement\n")
+    target = _Obs(
+        ["--ungron", "-m", "last.json"],
+        {"last.json": "[1]"},
+        5,
+        "ungron failed for `last`: invalid statement\n",
+    )
     prompt = R.build_incremental_prompt(
-        current="package main", new_obs=target, accepted=siblings + [target],
-        helptext="help", short="gron",
+        current="package main",
+        new_obs=target,
+        accepted=siblings + [target],
+        helptext="help",
+        short="gron",
     )
     # only the most recent 3 siblings are shown, not all 5
     assert "sib0" not in prompt and "sib1" not in prompt

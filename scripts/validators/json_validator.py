@@ -53,9 +53,12 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
     if schema:
         try:
             import jsonschema
+
             jsonschema.validate(instance=parsed, schema=schema)
         except ImportError:
-            log.warning("jsonschema not installed -- skipping schema validation. pip install jsonschema")
+            log.warning(
+                "jsonschema not installed -- skipping schema validation. pip install jsonschema"
+            )
         except jsonschema.ValidationError as e:
             log.debug("JSON Schema fail: %s", e.message)
             return False, f"Schema validation failed: {e.message}"

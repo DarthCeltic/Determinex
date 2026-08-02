@@ -21,21 +21,22 @@ phases that differ (e.g. RustExecutor.build runs cargo; PythonExecutor.build
 just chmod+cp). The shared scaffolds + pack + eval + classify + report logic
 lives here in the base class.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional, Protocol
-
+from typing import Protocol
 
 # ---------------------------------------------------------------------------
 # Result types — one per phase
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class ProbeResult:
     instance_id: str
-    upstream_language: Optional[str] = None
+    upstream_language: str | None = None
     declared_flags: list[str] = field(default_factory=list)
     declared_subcommands: list[str] = field(default_factory=list)
     deps: list[str] = field(default_factory=list)
@@ -52,7 +53,7 @@ class ScaffoldResult:
 @dataclass
 class BuildResult:
     work_dir: Path
-    executable_path: Optional[Path]
+    executable_path: Path | None
     elapsed_seconds: float = 0.0
     stdout: str = ""
     stderr: str = ""
@@ -62,17 +63,17 @@ class BuildResult:
 @dataclass
 class PackResult:
     submission_path: Path
-    sha256: Optional[str] = None
+    sha256: str | None = None
     n_files: int = 0
 
 
 @dataclass
 class EvalResult:
     instance_id: str
-    score: float = 0.0          # 0..100
+    score: float = 0.0  # 0..100
     passed: int = 0
     total: int = 0
-    eval_json_path: Optional[Path] = None
+    eval_json_path: Path | None = None
     error: str = ""
 
 
@@ -98,10 +99,12 @@ class ExecutorError(Exception):
 # Protocol — what every language executor MUST implement
 # ---------------------------------------------------------------------------
 
+
 class ExecutorContract(Protocol):
     """Type protocol — duck-checked, not inherited from."""
-    family: str          # e.g. "python", "rust", "go", "c"
-    file_ext: str        # primary source extension, e.g. ".py", ".rs", ".go"
+
+    family: str  # e.g. "python", "rust", "go", "c"
+    file_ext: str  # primary source extension, e.g. ".py", ".rs", ".go"
     executable_name: str  # always "executable" — programbench contract
 
     def probe(self, instance_id: str) -> ProbeResult: ...
@@ -117,6 +120,7 @@ class ExecutorContract(Protocol):
 # Base class — default implementations the language profiles inherit
 # ---------------------------------------------------------------------------
 
+
 class Executor:
     """Default executor with the shared lifecycle wiring.
 
@@ -129,6 +133,7 @@ class Executor:
         - ShellExecutor.build          -> shebang + chmod
         - JavaExecutor.build           -> javac + jar + launcher script
     """
+
     family: str = "base"
     file_ext: str = ""
     executable_name: str = "executable"
@@ -159,14 +164,18 @@ class Executor:
         # Allow the Python-side pack helper to do the work; subclasses can
         # replace this if they need different archive layout.
         import sys as _sys
+
         _scripts = Path(__file__).resolve().parent.parent / "scripts"
         if str(_scripts) not in _sys.path:
             _sys.path.insert(0, str(_scripts))
         from mass_run_v2_pack import pack_one  # type: ignore[import-not-found]
+
         sub = pack_one(work_dir)
         if sub is None:
             raise ExecutorError(f"pack: no source dir in {work_dir}")
-        return PackResult(submission_path=sub, n_files=sum(1 for _ in (work_dir / "source").rglob("*")))
+        return PackResult(
+            submission_path=sub, n_files=sum(1 for _ in (work_dir / "source").rglob("*"))
+        )
 
     # ── eval ──────────────────────────────────────────────────────────────
     def eval(self, work_dir: Path, instance_id: str) -> EvalResult:
@@ -178,6 +187,7 @@ class Executor:
         """Default: route through scripts/failure_classifier.py central taxonomy."""
         import json
         import sys as _sys
+
         _scripts = Path(__file__).resolve().parent.parent / "scripts"
         if str(_scripts) not in _sys.path:
             _sys.path.insert(0, str(_scripts))

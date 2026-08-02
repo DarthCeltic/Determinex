@@ -6,13 +6,13 @@ output scanner, corpus HMAC) already has live callers wired in
 scripts/hive/*.py and is exercised indirectly here; this file focuses on
 what's new.
 """
+
 from __future__ import annotations
 
 import json
 
-import pytest
-
 import determinex_safety as safety
+import pytest
 
 
 @pytest.fixture(autouse=True)
@@ -29,6 +29,7 @@ def _isolated_state(tmp_path, monkeypatch):
 
 
 # ── WAL: hash-chained, fsync'd, tamper-evident ─────────────────────────────
+
 
 def test_wal_append_creates_genesis_chain(_isolated_state):
     rec = safety.wal_append({"subject_id": "s1", "category": "TEST"}, path=_isolated_state["wal"])
@@ -72,9 +73,7 @@ def test_wal_detects_record_missing_required_fields(_isolated_state):
     (not just tampered-but-present) must fail with a clear, specific error
     rather than silently defaulting to "" and producing an opaque
     downstream hash-mismatch message."""
-    _isolated_state["wal"].write_text(
-        json.dumps({"category": "A"}) + "\n", encoding="utf-8"
-    )
+    _isolated_state["wal"].write_text(json.dumps({"category": "A"}) + "\n", encoding="utf-8")
     ok, detail = safety.verify_wal_integrity(_isolated_state["wal"])
     assert not ok
     assert "line 1" in detail
@@ -82,6 +81,7 @@ def test_wal_detects_record_missing_required_fields(_isolated_state):
 
 
 # ── Escalation tiers ────────────────────────────────────────────────────────
+
 
 def test_escalation_tiers_progress_correctly():
     counts_to_tiers = {
@@ -98,7 +98,9 @@ def test_escalation_tiers_progress_correctly():
 
 
 def test_record_violation_persists_and_escalates(_isolated_state):
-    verdict = safety.SafetyVerdict(safe=False, layer="L0_CONTENT_POLICY", category="TEST_CAT", reason="test")
+    verdict = safety.SafetyVerdict(
+        safe=False, layer="L0_CONTENT_POLICY", category="TEST_CAT", reason="test"
+    )
     for i in range(1, 4):
         state = safety.record_violation("subj-a", verdict)
         assert state.violation_count == i
@@ -150,6 +152,7 @@ def test_clean_spec_never_touches_escalation_state(_isolated_state):
 
 # ── Layer 5: License scan ───────────────────────────────────────────────────
 
+
 def test_license_scan_clean_code_passes():
     v = safety.check_license("def foo():\n    return 1\n")
     assert v.safe
@@ -198,6 +201,7 @@ def test_sign_corpus_entry_signs_clean_sample(_isolated_state):
 
 # ── Layer 6: Runtime integrity ──────────────────────────────────────────────
 
+
 def test_integrity_check_fails_closed_when_manifest_missing(_isolated_state):
     v = safety.check_runtime_integrity()
     assert not v.safe
@@ -228,6 +232,7 @@ def test_integrity_check_detects_modified_file(_isolated_state, tmp_path, monkey
 
 
 # ── Corpus tamper detection feeds the WAL (Layer 4 + Layer 6 crossover) ─────
+
 
 def test_corpus_tamper_is_wal_logged_as_tos_circumvention(_isolated_state):
     engine = safety.SafetyEngine(mode="strict", subject_id="subj-h")

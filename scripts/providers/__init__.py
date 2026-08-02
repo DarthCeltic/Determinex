@@ -21,10 +21,10 @@ Provider modules:
     openai_api     — OpenAI API (requires DETERMINEX_API_OPENAI_ENABLED=true)
 """
 
-from .local_ollama import generate as local_ollama_generate
 from .anthropic_api import generate as anthropic_generate
-from .google_api import generate as google_generate
 from .deepseek_api import generate as deepseek_generate
+from .google_api import generate as google_generate
+from .local_ollama import generate as local_ollama_generate
 from .openai_api import generate as openai_generate
 
 PROVIDER_MAP = {

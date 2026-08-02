@@ -13,11 +13,11 @@ This rung defines a bounded allowlist and a normalizer that:
     /Windows, C:\\Windows, C:\\Program Files, ...)
   * refuses untrusted config (root not inside any allowlisted parent)
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 CONFIG_ROOT_ALLOWLIST_STATUS_TOKENS = (
     "CONFIG_ROOT_ALLOWLIST_PASSED",

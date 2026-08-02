@@ -5,6 +5,7 @@ Initial mutation class: null-guard removal. The extractor proves the baseline,
 mutates one `if (ptr == NULL)` / `if (ptr == nullptr)` guard to `if (0)`,
 confirms the native test oracle fails, and restores the original file.
 """
+
 from __future__ import annotations
 
 import difflib
@@ -59,14 +60,18 @@ class NativeRepairTask:
 
 
 class NativeTaskExtractor:
-    def __init__(self, project_root: Path, test_command: list[str] | None = None, timeout: int = 120):
+    def __init__(
+        self, project_root: Path, test_command: list[str] | None = None, timeout: int = 120
+    ):
         self._root = project_root
         self._timeout = timeout
         self._test_command = test_command or _default_test_command(project_root)
 
     def _run(self, cmd: list[str], cwd: Path | None = None) -> tuple[int, str, str]:
         try:
-            r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd or self._root, timeout=self._timeout)
+            r = subprocess.run(
+                cmd, capture_output=True, text=True, cwd=cwd or self._root, timeout=self._timeout
+            )
             return r.returncode, r.stdout, r.stderr
         except subprocess.TimeoutExpired:
             return -1, "", "TIMEOUT"
@@ -102,13 +107,15 @@ class NativeTaskExtractor:
             line = m.group(0)
             if line.lstrip().startswith("//"):
                 continue
-            sites.append({
-                "file": source_file,
-                "line_number": line_no,
-                "original": line,
-                "indent": m.group("indent"),
-                "relative_path": _safe_relative(source_file, self._root),
-            })
+            sites.append(
+                {
+                    "file": source_file,
+                    "line_number": line_no,
+                    "original": line,
+                    "indent": m.group("indent"),
+                    "relative_path": _safe_relative(source_file, self._root),
+                }
+            )
         return sites
 
     def _mutate_null_guard(self, text: str, site: dict) -> str:
@@ -192,10 +199,12 @@ def _make_task_id(rel_path: str, line_number: int) -> str:
 
 
 def _unified_diff(path: str, original: str, mutated: str) -> str:
-    return "".join(difflib.unified_diff(
-        mutated.splitlines(keepends=True),
-        original.splitlines(keepends=True),
-        fromfile=f"a/{path}",
-        tofile=f"b/{path}",
-        lineterm="",
-    ))
+    return "".join(
+        difflib.unified_diff(
+            mutated.splitlines(keepends=True),
+            original.splitlines(keepends=True),
+            fromfile=f"a/{path}",
+            tofile=f"b/{path}",
+            lineterm="",
+        )
+    )

@@ -27,6 +27,7 @@ Two separate defects, and both are guarded here:
 
 After the fix the same command solves on sample 1.
 """
+
 from __future__ import annotations
 
 import sys
@@ -69,6 +70,7 @@ class _Failure:
 def _always_raises(msg: str = "LLM Provider NOT provided"):
     def gen(_prompt: str, _temp: float) -> str:
         raise ValueError(msg)
+
     return gen
 
 
@@ -94,7 +96,8 @@ class TestABrokenGeneratorIsNotAModelVerdict:
 
     def test_the_proof_says_not_attempted_and_carries_the_real_error(self):
         res = VerifiedSearch(verify=_Oracle(), k=2, rounds=1).solve(
-            _always_raises("LLM Provider NOT provided"), "p")
+            _always_raises("LLM Provider NOT provided"), "p"
+        )
         assert "NOT ATTEMPTED" in res.proof
         assert "LLM Provider NOT provided" in res.proof, (
             "a misconfiguration must be diagnosable from the result, not by re-running with logs"
@@ -155,8 +158,7 @@ class TestPartialGenerationFailureIsStillVisible:
         assert "failed to generate" in res.proof, res.proof
 
     def test_a_healthy_run_reports_zero_generation_errors(self):
-        res = VerifiedSearch(verify=_Oracle(), k=2, rounds=1).solve(
-            lambda _p, _t: "GOOD", "p")
+        res = VerifiedSearch(verify=_Oracle(), k=2, rounds=1).solve(lambda _p, _t: "GOOD", "p")
         assert res.solved is True
         assert res.generation_errors == 0
         assert res.generation_error_sample == ""
@@ -168,6 +170,7 @@ class TestPartialGenerationFailureIsStillVisible:
         assert res.total_samples > 0
         # And the property is guarded against a zero-sample division-style trap:
         from determinex_verified_search import SearchResult
+
         empty = SearchResult(solved=False, best=None, rounds_used=0, total_samples=0, proof="")
         assert empty.generator_never_answered is False
 
@@ -250,8 +253,10 @@ class TestTheDistinctionSurvivesToTheIdeBoundary:
     def _broken(_prompt, _temp):
         raise ValueError("LLM Provider NOT provided (simulated)")
 
-    IDEA = ('Write a function double(x: int) -> int that returns x*2.\n'
-            'Examples:\n- double(2) == 4\n- double(0) == 0\n- double(-3) == -6\n')
+    IDEA = (
+        "Write a function double(x: int) -> int that returns x*2.\n"
+        "Examples:\n- double(2) == 4\n- double(0) == 0\n- double(-3) == -6\n"
+    )
 
     def test_build_result_carries_the_generation_error_counts(self):
         import determinex_build_from_idea as G
@@ -289,7 +294,8 @@ class TestTheDistinctionSurvivesToTheIdeBoundary:
     def test_the_ide_payload_exposes_both_fields(self):
         """The gate is the payload, not the dataclass: the UI only sees what is serialised."""
         surface = (REPO_ROOT / "scripts" / "ide" / "backend_command_surface.py").read_text(
-            encoding="utf-8")
+            encoding="utf-8"
+        )
         assert '"generation_errors"' in surface
         assert '"generator_never_answered"' in surface
 
@@ -298,9 +304,11 @@ class TestTheDistinctionSurvivesToTheIdeBoundary:
         command with `idea` and got `n_checks: 0, note: "empty idea"` for a full idea. The backend
         reads `idea_text`. The shipped extension gets it right; assert it stays right."""
         ext = (REPO_ROOT / "frontend" / "vscode-extension" / "src" / "extension.ts").read_text(
-            encoding="utf-8")
+            encoding="utf-8"
+        )
         surface = (REPO_ROOT / "scripts" / "ide" / "backend_command_surface.py").read_text(
-            encoding="utf-8")
+            encoding="utf-8"
+        )
         assert "idea_text" in ext, "the extension must send idea_text"
         assert "idea_text" in surface, "the backend must read idea_text"
 
@@ -327,8 +335,10 @@ class TestADegenerateSamplerIsNotAModelVerdict:
 
     def _search(self, gen, k=8, rounds=2):
         from determinex_verified_search import VerifiedSearch
-        return VerifiedSearch(verify=lambda _t: self._R(), k=k, rounds=rounds,
-                              adjudicate=False).solve(gen, "p")
+
+        return VerifiedSearch(
+            verify=lambda _t: self._R(), k=k, rounds=rounds, adjudicate=False
+        ).solve(gen, "p")
 
     def test_a_temperature_ignoring_provider_is_named_as_such(self):
         res = self._search(lambda _p, _t: "IDENTICAL OUTPUT")
@@ -371,8 +381,9 @@ class TestADegenerateSamplerIsNotAModelVerdict:
             failures: list = []
             score = 1.0
 
-        res = VerifiedSearch(verify=lambda _t: _Pass(), k=8, rounds=2,
-                             adjudicate=False).solve(lambda _p, _t: "IDENTICAL", "p")
+        res = VerifiedSearch(verify=lambda _t: _Pass(), k=8, rounds=2, adjudicate=False).solve(
+            lambda _p, _t: "IDENTICAL", "p"
+        )
         assert res.solved is True
 
 
@@ -396,8 +407,10 @@ class TestAFencedCandidateIsNotAModelVerdict:
     That is why a green suite carried this. These tests assert the outcome instead.
     """
 
-    IDEA = ('Write a function double(x: int) -> int that returns x*2.\n'
-            'Examples:\n- double(2) == 4\n- double(0) == 0\n- double(-3) == -6\n')
+    IDEA = (
+        "Write a function double(x: int) -> int that returns x*2.\n"
+        "Examples:\n- double(2) == 4\n- double(0) == 0\n- double(-3) == -6\n"
+    )
     GOOD = "def double(x: int) -> int:\n    return x * 2\n"
 
     def test_a_fenced_correct_candidate_solves(self):
@@ -425,7 +438,9 @@ class TestAFencedCandidateIsNotAModelVerdict:
         """Models narrate. "Here's the code:" is not Python."""
         import determinex_build_from_idea as G
 
-        chatty = f"Sure! Here's the implementation:\n\n```python\n{self.GOOD}```\n\nHope that helps!"
+        chatty = (
+            f"Sure! Here's the implementation:\n\n```python\n{self.GOOD}```\n\nHope that helps!"
+        )
         res = G.build_from_idea(self.IDEA, lambda _p, _t: chatty, k=2)
         assert res.solved is True, res.proof
 

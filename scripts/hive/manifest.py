@@ -3,6 +3,7 @@ scripts/hive/manifest.py — Manifest data structures, session storage, and WAL
 ==============================================================================
 Moved from determinex_hive.py (lines ~518-701).
 """
+
 from __future__ import annotations
 
 import json
@@ -11,13 +12,13 @@ import os
 import re
 import sys
 import threading
-from dataclasses import dataclass, field, asdict
-from datetime import datetime, timezone
+from dataclasses import asdict, dataclass, field
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 try:
     from hive._log import get_logger as _get_logger  # noqa: F401
+
     log = _get_logger("hive.manifest")
 except ImportError:
     log = logging.getLogger("hive")
@@ -77,39 +78,41 @@ DEFAULT_SESSION_BUDGET_USD = 2.00
 
 # ── Manifest data structures ───────────────────────────────────────────────────
 
+
 @dataclass
 class PublicApiSnapshot:
     """Public API surface snapshot — used for DAG invalidation detection."""
-    structs:      list[str] = field(default_factory=list)
-    functions:    list[str] = field(default_factory=list)
-    fields:       dict      = field(default_factory=dict)   # struct_name → [field_sig, ...]
-    return_types: dict      = field(default_factory=dict)   # fn_name → return_type_str
+
+    structs: list[str] = field(default_factory=list)
+    functions: list[str] = field(default_factory=list)
+    fields: dict = field(default_factory=dict)  # struct_name → [field_sig, ...]
+    return_types: dict = field(default_factory=dict)  # fn_name → return_type_str
 
 
 @dataclass
 class StepRecord:
-    id:               int
-    instruction:      str
-    depends_on:       list[int] = field(default_factory=list)
-    target_file:      str = ""
-    write_mode:       str = "append_to_file"   # new_file|replace_file|append_to_file|replace_function
-    target_region:    Optional[str] = None
-    dsl_context:      str = ""
-    status:           str = "pending"           # pending|in_progress|complete|failed|stale_instruction
+    id: int
+    instruction: str
+    depends_on: list[int] = field(default_factory=list)
+    target_file: str = ""
+    write_mode: str = "append_to_file"  # new_file|replace_file|append_to_file|replace_function
+    target_region: str | None = None
+    dsl_context: str = ""
+    status: str = "pending"  # pending|in_progress|complete|failed|stale_instruction
     builder_output_path: str = ""
-    monitor_verdict:  str = ""
-    compiler_result:  str = ""
-    compiler_output:  str = ""
+    monitor_verdict: str = ""
+    compiler_result: str = ""
+    compiler_output: str = ""
     adjudication_score: float = 0.0
-    retries:          int = 0
-    escalations:      int = 0
-    challenges:       int = 0
-    quality:          str = ""                  # training_ready|inconclusive|compile_hacked|""
-    correctness_result: str = ""               # pass|fail|compile_hacked|skipped|""
+    retries: int = 0
+    escalations: int = 0
+    challenges: int = 0
+    quality: str = ""  # training_ready|inconclusive|compile_hacked|""
+    correctness_result: str = ""  # pass|fail|compile_hacked|skipped|""
     # Plan B: set True when fast_mode skips live Monitor; offline observer evaluates later.
     offline_observation_pending: bool = False
-    offline_observation_result:  str = ""      # pending|pass|fail|skipped
-    public_api_snapshot: Optional[dict] = None
+    offline_observation_result: str = ""  # pending|pass|fail|skipped
+    public_api_snapshot: dict | None = None
     compiler_error_hashes: list[str] = field(default_factory=list)  # for quality gate
     # Model Router provenance (DETERMINEX_ROUTE=1): which rung of the ladder actually
     # produced the code the oracle accepted -- {model, tier, escalations, est_cost,
@@ -125,35 +128,38 @@ class StepRecord:
 
 @dataclass
 class ManifestSession:
-    session_id:            str
-    lang:                  str
-    md_spec_path:          str
-    project_root:          str
+    session_id: str
+    lang: str
+    md_spec_path: str
+    project_root: str
     workspace_file_hashes: dict = field(default_factory=dict)
-    cargo_toml:            str = ""
+    cargo_toml: str = ""
     scaffolding_validated: bool = False
-    steps:                 list[StepRecord] = field(default_factory=list)
-    pending_escalations:   list[dict] = field(default_factory=list)
-    api_cost_usd:          float = 0.0
-    session_budget_usd:    float = DEFAULT_SESSION_BUDGET_USD
-    budget_exhausted:      bool = False
+    steps: list[StepRecord] = field(default_factory=list)
+    pending_escalations: list[dict] = field(default_factory=list)
+    api_cost_usd: float = 0.0
+    session_budget_usd: float = DEFAULT_SESSION_BUDGET_USD
+    budget_exhausted: bool = False
     # Plan A: Architect-generated correctness test harness path (relative to project_root).
     # If set, run after every Compiler PASS. compile PASS + tests FAIL → "compile_hacked" DPO label.
     correctness_test_harness: str = ""
     # Plan B: fast mode skips live Monitor to reduce build latency.
     # Steps are queued for offline Monitor evaluation when GPU is idle.
     fast_mode: bool = False
-    created_at:            str = ""
-    updated_at:            str = ""
+    created_at: str = ""
+    updated_at: str = ""
 
 
 # ── Session storage ────────────────────────────────────────────────────────────
 
+
 def _session_dir(session_id: str) -> Path:
     return _SESSIONS_DIR / session_id
 
+
 def _manifest_path(session_id: str) -> Path:
     return _session_dir(session_id) / "manifest.json"
+
 
 def _steps_dir(session_id: str) -> Path:
     return _session_dir(session_id) / "steps"
@@ -166,7 +172,7 @@ def save_manifest(session: ManifestSession) -> None:
     processes (e.g. offline observer + live session) never clobber each other's
     temp file before the final rename.
     """
-    session.updated_at = datetime.now(timezone.utc).isoformat()
+    session.updated_at = datetime.now(UTC).isoformat()
     mpath = _manifest_path(session.session_id)
     mpath.parent.mkdir(parents=True, exist_ok=True)
 
@@ -210,21 +216,24 @@ def list_sessions() -> list[dict]:
             try:
                 data = json.loads(mp.read_text(encoding="utf-8"))
                 completed = sum(1 for s in data.get("steps", []) if s.get("status") == "complete")
-                total     = len(data.get("steps", []))
-                results.append({
-                    "session_id": data["session_id"],
-                    "lang":       data["lang"],
-                    "md_spec":    data["md_spec_path"],
-                    "steps":      f"{completed}/{total}",
-                    "updated_at": data.get("updated_at", ""),
-                    "budget_usd": data.get("api_cost_usd", 0.0),
-                })
+                total = len(data.get("steps", []))
+                results.append(
+                    {
+                        "session_id": data["session_id"],
+                        "lang": data["lang"],
+                        "md_spec": data["md_spec_path"],
+                        "steps": f"{completed}/{total}",
+                        "updated_at": data.get("updated_at", ""),
+                        "budget_usd": data.get("api_cost_usd", 0.0),
+                    }
+                )
             except (json.JSONDecodeError, KeyError):
                 pass
     return results
 
 
 # ── Write-Ahead Log (WAL) ──────────────────────────────────────────────────────
+
 
 def wal_write_pending(session_id: str, step: StepRecord) -> Path:
     """Write the step's intended state to step_N.pending. Returns the path."""
@@ -239,8 +248,8 @@ def wal_write_pending(session_id: str, step: StepRecord) -> Path:
 def wal_complete(session_id: str, step_id: int) -> Path:
     """Atomically rename .pending → .complete. Returns new path."""
     sdir = _steps_dir(session_id)
-    src  = sdir / f"step_{step_id:04d}.pending"
-    dst  = sdir / f"step_{step_id:04d}.complete"
+    src = sdir / f"step_{step_id:04d}.pending"
+    dst = sdir / f"step_{step_id:04d}.complete"
     if src.exists():
         src.replace(dst)
         log.debug("WAL complete → %s", dst.name)
@@ -250,8 +259,8 @@ def wal_complete(session_id: str, step_id: int) -> Path:
 def wal_fail(session_id: str, step_id: int, error_state: dict) -> Path:
     """Atomically rename .pending → .failed, embedding the error state. Returns new path."""
     sdir = _steps_dir(session_id)
-    src  = sdir / f"step_{step_id:04d}.pending"
-    dst  = sdir / f"step_{step_id:04d}.failed"
+    src = sdir / f"step_{step_id:04d}.pending"
+    dst = sdir / f"step_{step_id:04d}.failed"
     if src.exists():
         # Merge error state into the pending content before rename
         try:
@@ -298,7 +307,7 @@ def wal_complete_offline(session_id: str, step_id: int, result: str) -> Path:
     return dst
 
 
-def find_offline_pending(sessions_root: Optional[Path] = None) -> list[tuple[str, int]]:
+def find_offline_pending(sessions_root: Path | None = None) -> list[tuple[str, int]]:
     """
     Scan all sessions for steps with .offline_pending markers.
     Returns list of (session_id, step_id) tuples sorted by session modification time.
@@ -338,7 +347,10 @@ def wal_recover_pending(session_id: str) -> list[int]:
             json.loads(f.read_text(encoding="utf-8"))
             log.warning("WAL recovery: step %d is incomplete (.pending) → will retry", step_id)
         except (json.JSONDecodeError, OSError):
-            log.warning("WAL recovery: step %d has corrupted .pending (crash during write) → will retry", step_id)
+            log.warning(
+                "WAL recovery: step %d has corrupted .pending (crash during write) → will retry",
+                step_id,
+            )
         incomplete.append(step_id)
     return sorted(incomplete)
 
@@ -363,6 +375,7 @@ def _pid_alive(pid: int) -> bool:
     """
     try:
         import psutil
+
         return psutil.pid_exists(pid)
     except ImportError:
         pass
@@ -375,7 +388,7 @@ def _pid_alive(pid: int) -> bool:
     except ProcessLookupError:
         return False
     except (PermissionError, OSError, ValueError):
-        return True   # alive but inaccessible, or Windows without psutil
+        return True  # alive but inaccessible, or Windows without psutil
 
 
 class SessionWAL:
@@ -401,19 +414,19 @@ class SessionWAL:
             # offer resume to user
     """
 
-    def __init__(self, session: "ManifestSession", operation: str, **context):
-        self._session   = session
+    def __init__(self, session: ManifestSession, operation: str, **context):
+        self._session = session
         self._operation = operation
-        self._context   = context
-        self._path      = _session_dir(session.session_id) / "session.wal"
-        self._pid       = os.getpid()
+        self._context = context
+        self._path = _session_dir(session.session_id) / "session.wal"
+        self._pid = os.getpid()
 
-    def __enter__(self) -> "SessionWAL":
+    def __enter__(self) -> SessionWAL:
         record = {
-            "operation":  self._operation,
-            "pid":        self._pid,
-            "started_at": datetime.now(timezone.utc).isoformat(),
-            "context":    self._context,
+            "operation": self._operation,
+            "pid": self._pid,
+            "started_at": datetime.now(UTC).isoformat(),
+            "context": self._context,
         }
         self._path.parent.mkdir(parents=True, exist_ok=True)
         # Use a PID-prefixed temp name so concurrent __enter__ calls on the same
@@ -421,8 +434,12 @@ class SessionWAL:
         _tmp = self._path.with_name(f"session.wal.{os.getpid()}.tmp")
         _tmp.write_text(json.dumps(record, indent=2), encoding="utf-8")
         _tmp.replace(self._path)
-        log.debug("[SessionWAL] opened: session=%s op=%s pid=%d",
-                  self._session.session_id, self._operation, self._pid)
+        log.debug(
+            "[SessionWAL] opened: session=%s op=%s pid=%d",
+            self._session.session_id,
+            self._operation,
+            self._pid,
+        )
         return self
 
     def checkpoint(self, **state) -> None:
@@ -434,7 +451,7 @@ class SessionWAL:
             with _session_wal_lock:
                 data = json.loads(self._path.read_text(encoding="utf-8"))
                 data["last_checkpoint"] = {
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "timestamp": datetime.now(UTC).isoformat(),
                     **state,
                 }
                 _tmp = self._path.with_suffix(".wal.tmp")
@@ -456,19 +473,22 @@ class SessionWAL:
         else:
             try:
                 data = json.loads(self._path.read_text(encoding="utf-8"))
-                data["failed_at"] = datetime.now(timezone.utc).isoformat()
-                data["error"]     = str(exc_val)
+                data["failed_at"] = datetime.now(UTC).isoformat()
+                data["error"] = str(exc_val)
                 _tmp = self._path.with_suffix(".wal.tmp")
                 _tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
                 _tmp.replace(self._path)
-                log.debug("[SessionWAL] failure recorded: session=%s err=%s",
-                          self._session.session_id, exc_val)
+                log.debug(
+                    "[SessionWAL] failure recorded: session=%s err=%s",
+                    self._session.session_id,
+                    exc_val,
+                )
             except Exception:
                 pass
-        return False   # never suppress the exception
+        return False  # never suppress the exception
 
     @classmethod
-    def recover_stale(cls, sessions_root: Optional[Path] = None) -> list[str]:
+    def recover_stale(cls, sessions_root: Path | None = None) -> list[str]:
         """
         Scan all session directories for orphaned WALs (session.wal with a dead PID).
         For each orphan: reset in-progress steps → pending, save manifest, remove WAL.
@@ -492,11 +512,11 @@ class SessionWAL:
             try:
                 wal_path.replace(claiming)
             except (FileNotFoundError, OSError):
-                continue   # another process claimed it first
+                continue  # another process claimed it first
 
             try:
-                data    = json.loads(claiming.read_text(encoding="utf-8"))
-                pid     = int(data.get("pid", 0))
+                data = json.loads(claiming.read_text(encoding="utf-8"))
+                pid = int(data.get("pid", 0))
                 session_id = session_dir.name
 
                 if pid and _pid_alive(pid):
@@ -519,11 +539,14 @@ class SessionWAL:
                             log.warning(
                                 "[SessionWAL] Recovered orphaned session %s "
                                 "(PID %d dead, %d steps reset to pending)",
-                                session_id, pid, reset_count,
+                                session_id,
+                                pid,
+                                reset_count,
                             )
                     except Exception as _me:
-                        log.warning("[SessionWAL] Could not reset steps for %s: %s",
-                                    session_id, _me)
+                        log.warning(
+                            "[SessionWAL] Could not reset steps for %s: %s", session_id, _me
+                        )
 
                 claiming.unlink(missing_ok=True)
                 recovered.append(session_id)

@@ -51,14 +51,15 @@ def test_the_timeout_guard_uses_the_canonical_locality_helper():
     """THE regression. A bare `startswith("ollama/")` here cannot see an alias."""
     src = API_CLIENT.read_text(encoding="utf-8")
     guard_at = src.index("OOM guard")
-    window = src[guard_at:guard_at + 2200]
+    window = src[guard_at : guard_at + 2200]
     assert "is_local_model(" in window, (
         "the OOM timeout guard no longer uses budget.is_local_model, so it cannot recognise a "
         "configured alias like 'determinex/engineer' and local calls will hang with no timeout"
     )
     # A hand-rolled prefix test in the guard is what broke it; a comment quoting the old code is fine.
     live = [
-        line for line in window.splitlines()
+        line
+        for line in window.splitlines()
         if not line.lstrip().startswith("#") and re.search(r'startswith\(\s*["\']ollama/', line)
     ]
     assert not live, f"the guard has gone back to a hand-rolled prefix check: {live}"
@@ -71,9 +72,16 @@ def test_every_role_alias_this_project_assigns_is_recognised_as_local():
     defaults, and are what broke the pricing path in the same way.
     """
     for alias in (
-        "determinex/engineer", "determinex/observer", "determinex/sentinel", "determinex/qwen7b",
-        "determinex-engineer-v11-dsl", "determinex-observer-v6-dsl", "determinex-sentinel-v5-dsl",
-        "ollama/determinex-engineer-v11-dsl", "ollama_chat/qwen2.5-coder", "local/fast",
+        "determinex/engineer",
+        "determinex/observer",
+        "determinex/sentinel",
+        "determinex/qwen7b",
+        "determinex-engineer-v11-dsl",
+        "determinex-observer-v6-dsl",
+        "determinex-sentinel-v5-dsl",
+        "ollama/determinex-engineer-v11-dsl",
+        "ollama_chat/qwen2.5-coder",
+        "local/fast",
     ):
         assert is_local_model(alias), (
             f"{alias!r} is served locally but is_local_model says otherwise, so it would get no "
@@ -85,7 +93,9 @@ def test_cloud_models_are_not_treated_as_local():
     """The opposite failure: forcing the local ceiling onto a cloud call would cut off legitimate
     long completions, and would also mis-price them as free."""
     for model in (
-        "anthropic/claude-opus-4-8", "openrouter/deepseek/deepseek-chat", "gpt-5.5-pro",
+        "anthropic/claude-opus-4-8",
+        "openrouter/deepseek/deepseek-chat",
+        "gpt-5.5-pro",
     ):
         assert not is_local_model(model), f"{model!r} is a cloud model but reads as local"
 
@@ -104,7 +114,7 @@ def test_an_explicit_caller_timeout_still_wins():
     model is looping"). The guard must not overwrite a caller's tighter budget with 300."""
     src = API_CLIENT.read_text(encoding="utf-8")
     guard_at = src.index("OOM guard")
-    window = src[guard_at:guard_at + 2200]
+    window = src[guard_at : guard_at + 2200]
     assert 'kwargs.get("timeout"' in window, (
         "the guard no longer defers to an explicit caller timeout, so a deliberate 45s cap would be "
         "replaced by the 300s ceiling"
@@ -112,6 +122,7 @@ def test_an_explicit_caller_timeout_still_wins():
 
 
 # ── The same locality question, in the safety gate ───────────────────────────────────────────────
+
 
 def test_a_local_model_is_not_blocked_as_a_cloud_call_on_a_fresh_install():
     """This blocked EVERY local call on a fresh install (found 2026-07-30).
@@ -139,11 +150,14 @@ def test_a_local_model_is_not_blocked_as_a_cloud_call_on_a_fresh_install():
         sg = importlib.reload(importlib.import_module("hive.safety_gate"))
         messages = [{"role": "user", "content": "write a rust function"}]
         for model in (
-            "determinex/engineer", "determinex-engineer-v11-dsl",
-            "ollama/determinex-engineer-v11-dsl", "ollama_chat/qwen2.5-coder", "local/fast",
+            "determinex/engineer",
+            "determinex-engineer-v11-dsl",
+            "ollama/determinex-engineer-v11-dsl",
+            "ollama_chat/qwen2.5-coder",
+            "local/fast",
         ):
             assert not sg._is_cloud_model(model), f"{model!r} is local but reads as cloud"
-            sg.pre_api_gate(messages, model, cloak_active=False)   # must not raise
+            sg.pre_api_gate(messages, model, cloak_active=False)  # must not raise
     finally:
         for key, value in saved.items():
             if value is None:
@@ -166,8 +180,10 @@ def test_a_cloud_model_is_still_blocked_without_cloak():
         sg = importlib.reload(importlib.import_module("hive.safety_gate"))
         messages = [{"role": "user", "content": "hello"}]
         for model in (
-            "anthropic/claude-opus-4-8", "openrouter/deepseek/deepseek-chat", "gpt-5.5-pro",
-            "groq/llama3",   # not in _CLOUD_PROVIDERS -- must still be treated as cloud
+            "anthropic/claude-opus-4-8",
+            "openrouter/deepseek/deepseek-chat",
+            "gpt-5.5-pro",
+            "groq/llama3",  # not in _CLOUD_PROVIDERS -- must still be treated as cloud
         ):
             assert sg._is_cloud_model(model), f"{model!r} is a cloud model but reads as local"
             try:

@@ -18,14 +18,15 @@ rejected and resampled, never counted as a real attempt.
 
 Contracts are `Callable[[str], tuple[bool, str]]` -> (well_formed, reason).
 """
+
 from __future__ import annotations
 
 import ast
 import json
 import re
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 Contract = Callable[[str], "tuple[bool, str]"]
 GenerateFn = Callable[[str, float], str]
@@ -40,11 +41,27 @@ def patch_contract(text: str) -> tuple[bool, str]:
         return False, "no diff header (--- / +++ / @@ / diff --git)"
     # every hunk line should start with a valid prefix
     for ln in text.splitlines():
-        if ln and ln[0] not in " +-@\\d" and not ln.startswith(("diff ", "index ",
-                "--- ", "+++ ", "new file", "deleted file", "similarity",
-                "rename ", "old mode", "new mode", "Binary ")):
+        if (
+            ln
+            and ln[0] not in " +-@\\d"
+            and not ln.startswith(
+                (
+                    "diff ",
+                    "index ",
+                    "--- ",
+                    "+++ ",
+                    "new file",
+                    "deleted file",
+                    "similarity",
+                    "rename ",
+                    "old mode",
+                    "new mode",
+                    "Binary ",
+                )
+            )
+        ):
             # tolerate context but flag obviously prose lines mid-patch
-            if "@@" in text[:text.find(ln)] and not ln.startswith(("+", "-", " ")):
+            if "@@" in text[: text.find(ln)] and not ln.startswith(("+", "-", " ")):
                 return False, f"stray non-hunk line in patch body: {ln[:40]!r}"
     return True, "valid unified diff shape"
 
@@ -101,9 +118,15 @@ def native_code_contract(text: str) -> tuple[bool, str]:
 
 def regex_contract(pattern: str) -> Contract:
     pat = re.compile(pattern, re.S)
+
     def _c(text: str) -> tuple[bool, str]:
-        return (bool(pat.search(text)), f"matches /{pattern[:30]}/" if pat.search(text)
-                else f"missing required pattern /{pattern[:30]}/")
+        return (
+            bool(pat.search(text)),
+            f"matches /{pattern[:30]}/"
+            if pat.search(text)
+            else f"missing required pattern /{pattern[:30]}/",
+        )
+
     return _c
 
 
@@ -114,6 +137,7 @@ def all_of(*contracts: Contract) -> Contract:
             if not ok:
                 return False, reason
         return True, "all contracts satisfied"
+
     return _c
 
 
@@ -124,9 +148,11 @@ def _strip_fence(text: str) -> str:
 
 # language -> contract, so the Ingester's detected language picks the floor
 LANGUAGE_CONTRACT: dict[str, Contract] = {
-    "python": py_contract, "py": py_contract,
+    "python": py_contract,
+    "py": py_contract,
     "json": json_contract,
-    "patch": patch_contract, "diff": patch_contract,
+    "patch": patch_contract,
+    "diff": patch_contract,
 }
 
 
@@ -138,6 +164,7 @@ def guard(generate, contract: Contract, max_retries: int = 5):
     """Wrap a generate(prompt,temp)->str so it only returns contract-valid output,
     resampling on malformed candidates (widening temperature). The wrapper raises
     after max_retries so a broken model cannot loop forever."""
+
     def _wrapped(prompt: str, temperature: float) -> str:
         last = ""
         for i in range(max_retries):
@@ -148,6 +175,7 @@ def guard(generate, contract: Contract, max_retries: int = 5):
                 return last
         # return the last (malformed) -> the oracle will reject; never silently pass
         return last
+
     return _wrapped
 
 
@@ -176,40 +204,65 @@ class TrapHit:
     line: int
 
 
-_KNOWN_TRAPS: dict[str, list[tuple[str, "re.Pattern[str]", str]]] = {
+_KNOWN_TRAPS: dict[str, list[tuple[str, re.Pattern[str], str]]] = {
     "rust": [
-        ("rust_unwrap_expect", re.compile(r"\.(?:unwrap|expect)\s*\("),
-         "unwrap()/expect() turns a clean rc=1 error into a rc=101 panic backtrace -- handle "
-         "the Result/Option explicitly near user input or file I/O instead."),
-        ("rust_debug_error_print",
-         re.compile(r"(?:eprintln|println|print|format)!\([^)]*\{:\?\}[^)]*,\s*(?:e|err|error)\s*\)"),
-         "printing an error with {:?} (Debug) instead of {} (Display) looks nothing like a "
-         "real CLI's error wording -- tests check exact stderr text."),
+        (
+            "rust_unwrap_expect",
+            re.compile(r"\.(?:unwrap|expect)\s*\("),
+            "unwrap()/expect() turns a clean rc=1 error into a rc=101 panic backtrace -- handle "
+            "the Result/Option explicitly near user input or file I/O instead.",
+        ),
+        (
+            "rust_debug_error_print",
+            re.compile(
+                r"(?:eprintln|println|print|format)!\([^)]*\{:\?\}[^)]*,\s*(?:e|err|error)\s*\)"
+            ),
+            "printing an error with {:?} (Debug) instead of {} (Display) looks nothing like a "
+            "real CLI's error wording -- tests check exact stderr text.",
+        ),
     ],
     "go": [
-        ("go_ignored_error", re.compile(r"^\s*[A-Za-z_][A-Za-z0-9_.]*\s*,\s*_\s*:?=\s*[\w.]+\(", re.M),
-         "assigning an error result to _ discards it -- an unchecked error that later causes a "
-         "nil-pointer dereference panics with a raw Go stack trace, not the tool's real message."),
-        ("go_len_on_string", re.compile(r"\blen\((?:s|str|input|text|line)\)"),
-         "len() on a Go string counts UTF-8 BYTES, not characters -- wrong for any test with "
-         "multi-byte Unicode input; range over the string for rune-correct iteration."),
+        (
+            "go_ignored_error",
+            re.compile(r"^\s*[A-Za-z_][A-Za-z0-9_.]*\s*,\s*_\s*:?=\s*[\w.]+\(", re.M),
+            "assigning an error result to _ discards it -- an unchecked error that later causes a "
+            "nil-pointer dereference panics with a raw Go stack trace, not the tool's real message.",
+        ),
+        (
+            "go_len_on_string",
+            re.compile(r"\blen\((?:s|str|input|text|line)\)"),
+            "len() on a Go string counts UTF-8 BYTES, not characters -- wrong for any test with "
+            "multi-byte Unicode input; range over the string for rune-correct iteration.",
+        ),
     ],
     "c": [
-        ("c_unbounded_strcpy", re.compile(r"\b(?:strcpy|strcat|gets)\s*\("),
-         "strcpy/strcat/gets on unbounded input is the classic buffer overflow -- use "
-         "snprintf or a length-checked copy with an explicit size limit."),
-        ("c_unchecked_malloc", re.compile(r"=\s*malloc\([^)]*\)\s*;(?!\s*(?:if|assert))"),
-         "malloc's return isn't checked for NULL before use -- a failed allocation followed "
-         "by a write through the pointer is undefined behavior."),
+        (
+            "c_unbounded_strcpy",
+            re.compile(r"\b(?:strcpy|strcat|gets)\s*\("),
+            "strcpy/strcat/gets on unbounded input is the classic buffer overflow -- use "
+            "snprintf or a length-checked copy with an explicit size limit.",
+        ),
+        (
+            "c_unchecked_malloc",
+            re.compile(r"=\s*malloc\([^)]*\)\s*;(?!\s*(?:if|assert))"),
+            "malloc's return isn't checked for NULL before use -- a failed allocation followed "
+            "by a write through the pointer is undefined behavior.",
+        ),
     ],
     "cpp": [
-        ("cpp_uncaught_stoi", re.compile(r"\bstd::sto[id]\s*\("),
-         "std::stoi/std::stod throws on bad input (std::invalid_argument/out_of_range) -- "
-         "uncaught, this calls std::terminate and prints an implementation-defined message, "
-         "not the tool's real error text. Wrap it in try/catch."),
-        ("cpp_raw_new_no_raii", re.compile(r"\bnew\s+[A-Za-z_]"),
-         "a raw `new` without RAII (std::unique_ptr/std::vector/std::string) leaks on any "
-         "early-return or exception path -- prefer an owning standard container."),
+        (
+            "cpp_uncaught_stoi",
+            re.compile(r"\bstd::sto[id]\s*\("),
+            "std::stoi/std::stod throws on bad input (std::invalid_argument/out_of_range) -- "
+            "uncaught, this calls std::terminate and prints an implementation-defined message, "
+            "not the tool's real error text. Wrap it in try/catch.",
+        ),
+        (
+            "cpp_raw_new_no_raii",
+            re.compile(r"\bnew\s+[A-Za-z_]"),
+            "a raw `new` without RAII (std::unique_ptr/std::vector/std::string) leaks on any "
+            "early-return or exception path -- prefer an owning standard container.",
+        ),
     ],
 }
 
@@ -255,21 +308,33 @@ def trap_guard(generate: GenerateFn, lang: str, max_retries: int = 3) -> Generat
             if not repeated:
                 return last
             note = "\n".join(f"- {h.message}" for h in hits if h.trap_id in repeated)
-            p = (f"{prompt}\n\nYou were already warned about this exact issue and submitted "
-                 f"it again anyway. Fix it this time, before anything else:\n{note}")
+            p = (
+                f"{prompt}\n\nYou were already warned about this exact issue and submitted "
+                f"it again anyway. Fix it this time, before anything else:\n{note}"
+            )
         return last  # exhausted retries -- return the last candidate; the oracle still judges it
+
     return _wrapped
 
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex Output Contract Enforcer")
     ap.add_argument("kind", choices=["patch", "json", "python", "nonempty"])
     ap.add_argument("file", nargs="?", help="file to check (else stdin)")
     args = ap.parse_args()
-    text = open(args.file, encoding="utf-8", errors="replace").read() if args.file else sys.stdin.read()
-    contract = {"patch": patch_contract, "json": json_contract,
-                "python": py_contract, "nonempty": nonempty_contract}[args.kind]
+    text = (
+        open(args.file, encoding="utf-8", errors="replace").read()
+        if args.file
+        else sys.stdin.read()
+    )
+    contract = {
+        "patch": patch_contract,
+        "json": json_contract,
+        "python": py_contract,
+        "nonempty": nonempty_contract,
+    }[args.kind]
     ok, reason = contract(text)
     print(f"{'OK' if ok else 'REJECT'}: {reason}")
     return 0 if ok else 1

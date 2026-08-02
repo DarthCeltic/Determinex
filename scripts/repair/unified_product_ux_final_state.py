@@ -14,6 +14,7 @@ manifests on disk and asserts:
 
 Read-only on disk. Never re-runs runtime gates.
 """
+
 from __future__ import annotations
 
 import json
@@ -23,7 +24,6 @@ from .unified_product_ux_final_state_record import (
     UNIFIED_PRODUCT_UX_FINAL_STATE_STATUS_TOKENS,
     UnifiedProductUxFinalStateRecord,
 )
-
 
 # Dimension -> lock_id
 _RUNG_LOCKS: dict[str, str] = {
@@ -125,9 +125,7 @@ def evaluate(repo_root: Path | str) -> UnifiedProductUxFinalStateRecord:
         next_rung = "complete_missing_rung"
     elif not claims_clean:
         decision = "UNIFIED_PRODUCT_UX_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
-        notes = (
-            f"unsupported claim keys set to True: {claim_violations!r}",
-        )
+        notes = (f"unsupported claim keys set to True: {claim_violations!r}",)
         next_rung = "scrub_unsupported_claims"
     else:
         decision = "UNIFIED_PRODUCT_UX_FINAL_STATE_PASSED"

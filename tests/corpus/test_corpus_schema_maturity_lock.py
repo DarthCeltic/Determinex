@@ -7,8 +7,8 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
-from corpus.corpus_manager import resign_record, verify_signature  # noqa: E402
 from corpus.corpus_coverage_report import generate_report  # noqa: E402
+from corpus.corpus_manager import resign_record, verify_signature  # noqa: E402
 from corpus.corpus_schema_maturity import (  # noqa: E402
     backfill_file,
     classify_record,
@@ -19,17 +19,19 @@ from corpus.corpus_schema_maturity import (  # noqa: E402
 
 
 def _legacy_programbench_row() -> dict:
-    return resign_record({
-        "schema_version": "determinex-agent-trace-v1",
-        "corpus_type": "code_verdict",
-        "task_id": "pb_richgo_001",
-        "lang": "go",
-        "source_benchmark": "programbench",
-        "input_hash": "input-001",
-        "output_hash": "output-001",
-        "test_result": "pass",
-        "compile_result": "pass",
-    })
+    return resign_record(
+        {
+            "schema_version": "determinex-agent-trace-v1",
+            "corpus_type": "code_verdict",
+            "task_id": "pb_richgo_001",
+            "lang": "go",
+            "source_benchmark": "programbench",
+            "input_hash": "input-001",
+            "output_hash": "output-001",
+            "test_result": "pass",
+            "compile_result": "pass",
+        }
+    )
 
 
 def test_mature_record_backfills_legacy_programbench_verdict():
@@ -67,23 +69,27 @@ def test_trace_hash_uses_canonical_content_not_only_task_tuple():
 
 
 def test_unsigned_record_is_quarantined():
-    status, reasons = classify_record({
-        "schema_version": "determinex-agent-trace-v1",
-        "corpus_type": "code_verdict",
-        "task_id": "raw",
-        "language": "python",
-    })
+    status, reasons = classify_record(
+        {
+            "schema_version": "determinex-agent-trace-v1",
+            "corpus_type": "code_verdict",
+            "task_id": "raw",
+            "language": "python",
+        }
+    )
 
     assert status == "quarantined"
     assert "unsigned" in reasons
 
 
 def test_incomplete_signed_row_requires_backfill():
-    row = resign_record({
-        "schema_version": "determinex-agent-trace-v1",
-        "corpus_type": "code_verdict",
-        "task_id": "legacy",
-    })
+    row = resign_record(
+        {
+            "schema_version": "determinex-agent-trace-v1",
+            "corpus_type": "code_verdict",
+            "task_id": "legacy",
+        }
+    )
 
     status, reasons = classify_record(row)
 

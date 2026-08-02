@@ -7,6 +7,7 @@ is byte-identical to the matrix's ``to_markdown()`` output, and that
 runtime use of the lookup table mutates neither source, corpus, nor
 signed evidence.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -32,23 +33,26 @@ EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 DOC_PATH = _REPO_ROOT / "docs" / "VERIFIER_COVERAGE_MATRIX.md"
 
 
-STATUS_TOKENS = frozenset({
-    "VERIFIER_COVERAGE_MATRIX_READY",
-    "VERIFIER_COVERAGE_BACKED",
-    "VERIFIER_COVERAGE_PARTIAL",
-    "VERIFIER_COVERAGE_MISSING",
-    "VERIFIER_COVERAGE_UNKNOWN",
-    "UNSUPPORTED_COMBINATION_FAILS_CLOSED",
-    "COVERAGE_DOCS_GENERATED",
-    "COVERAGE_DOCS_MATCH_MATRIX",
-    "ADAPTER_OUTPUTS_MAPPED",
-    "CLAIMS_GUARD_READY",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "VERIFIER_COVERAGE_MATRIX_READY",
+        "VERIFIER_COVERAGE_BACKED",
+        "VERIFIER_COVERAGE_PARTIAL",
+        "VERIFIER_COVERAGE_MISSING",
+        "VERIFIER_COVERAGE_UNKNOWN",
+        "UNSUPPORTED_COMBINATION_FAILS_CLOSED",
+        "COVERAGE_DOCS_GENERATED",
+        "COVERAGE_DOCS_MATCH_MATRIX",
+        "ADAPTER_OUTPUTS_MAPPED",
+        "CLAIMS_GUARD_READY",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _sha256(p: Path) -> str | None:
     if not p.is_file():
@@ -73,6 +77,7 @@ def _hash_signed_evidence() -> dict[str, str]:
 # ---------------------------------------------------------------------------
 # Module sanity / status tokens
 # ---------------------------------------------------------------------------
+
 
 def test_status_tokens_match_expected_set():
     expected = {
@@ -112,14 +117,15 @@ def test_matrix_entries_have_required_fields():
         # backed rows MUST mention a wiring point (defensive — no empty claims)
         if e.status == vcm.CoverageStatus.BACKED:
             assert any(
-                token in e.oracle_path for token in
-                ("run_shadow_build", "run_tests", "RepairPipeline", "ShadowCompiler")
+                token in e.oracle_path
+                for token in ("run_shadow_build", "run_tests", "RepairPipeline", "ShadowCompiler")
             ), f"BACKED row lacks wiring evidence in oracle_path: {e}"
 
 
 # ---------------------------------------------------------------------------
 # Per-row classification — backed
 # ---------------------------------------------------------------------------
+
 
 def test_python_pip_pytest_is_backed():
     e = vcm.lookup("Python", "pip", "pytest")
@@ -150,6 +156,7 @@ def test_java_gradle_is_backed():
 # Per-row classification — partial (honest about weak links)
 # ---------------------------------------------------------------------------
 
+
 def test_typescript_jest_is_partial():
     e = vcm.lookup("TypeScript", "npm", "jest")
     assert e.status == vcm.CoverageStatus.PARTIAL
@@ -171,17 +178,21 @@ def test_kotlin_gradle_junit_is_partial():
 # Per-row classification — missing
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("build,test", [
-    ("cmake", "ctest"),
-    ("make", "make test"),
-    ("mix", "exunit"),
-    ("dotnet", "xunit"),
-    ("composer", "phpunit"),
-    ("bundler", "rspec"),
-    ("sbt", "scalatest"),
-    ("swiftpm", "XCTest"),
-    ("npm", "mocha"),
-])
+
+@pytest.mark.parametrize(
+    "build,test",
+    [
+        ("cmake", "ctest"),
+        ("make", "make test"),
+        ("mix", "exunit"),
+        ("dotnet", "xunit"),
+        ("composer", "phpunit"),
+        ("bundler", "rspec"),
+        ("sbt", "scalatest"),
+        ("swiftpm", "XCTest"),
+        ("npm", "mocha"),
+    ],
+)
 def test_missing_combinations_classified_missing(build, test):
     e = vcm.lookup("", build, test)
     assert e.status == vcm.CoverageStatus.MISSING, (
@@ -192,6 +203,7 @@ def test_missing_combinations_classified_missing(build, test):
 # ---------------------------------------------------------------------------
 # Per-row classification — unknown + fail-closed guarantee
 # ---------------------------------------------------------------------------
+
 
 def test_unknown_combination_is_unknown():
     e = vcm.lookup("(any)", "unknown", "unknown")
@@ -211,15 +223,13 @@ def test_unsupported_combination_fails_closed_to_unknown():
 
 def test_classify_for_build_test_shortcut_agrees_with_lookup():
     for e in vcm.COVERAGE_MATRIX:
-        assert (
-            vcm.classify_for_build_test(e.build_system_id, e.test_framework_id)
-            == e.status
-        )
+        assert vcm.classify_for_build_test(e.build_system_id, e.test_framework_id) == e.status
 
 
 # ---------------------------------------------------------------------------
 # Every adapter registry output maps to a coverage entry
 # ---------------------------------------------------------------------------
+
 
 def test_every_adapter_static_output_is_covered():
     """For each builtin adapter, the canonical (build_system_id,
@@ -251,6 +261,7 @@ def test_node_adapter_refinements_are_covered():
 # Summary counts
 # ---------------------------------------------------------------------------
 
+
 def test_summary_counts_are_non_zero_in_each_meaningful_tier():
     """We expect at least one entry in each of backed, partial, missing,
     unknown — otherwise the matrix isn't meaningful as a coverage map."""
@@ -276,6 +287,7 @@ def test_entries_by_status_round_trips():
 # Docs and matrix agree byte-for-byte
 # ---------------------------------------------------------------------------
 
+
 def test_doc_file_exists():
     assert DOC_PATH.is_file(), f"missing: {DOC_PATH}"
 
@@ -289,11 +301,16 @@ def test_doc_matches_matrix_to_markdown_output():
     if on_disk != generated:
         # Surface a useful diff in the failure message
         from difflib import unified_diff
-        diff = "\n".join(unified_diff(
-            generated.splitlines(), on_disk.splitlines(),
-            fromfile="<to_markdown()>", tofile=str(DOC_PATH),
-            lineterm="",
-        )[:60])
+
+        diff = "\n".join(
+            unified_diff(
+                generated.splitlines(),
+                on_disk.splitlines(),
+                fromfile="<to_markdown()>",
+                tofile=str(DOC_PATH),
+                lineterm="",
+            )[:60]
+        )
         pytest.fail(f"doc drift detected:\n{diff}")
 
 
@@ -309,6 +326,7 @@ def test_doc_lists_every_matrix_entry():
 # ---------------------------------------------------------------------------
 # Cross-cutting safety
 # ---------------------------------------------------------------------------
+
 
 def test_no_drive_letter_required(monkeypatch):
     """Strip DETERMINEX_*/HF_HOME/OLLAMA_* env vars, confirm lookup still works."""
@@ -334,8 +352,10 @@ def test_lookup_does_not_mutate_signed_evidence():
 
 def test_corpus_write_guard_active():
     from corpus.corpus_manager import (  # type: ignore[attr-defined]
-        _assert_writes_allowed, CorpusWriteBlockedError,
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
     )
+
     os.environ["DETERMINEX_NO_CORPUS_WRITE"] = "1"
     try:
         with pytest.raises(CorpusWriteBlockedError):
@@ -346,6 +366,7 @@ def test_corpus_write_guard_active():
 
 def test_safety_defaults_remain_fail_closed():
     from determinex_settings import DeterminexSettings, reset_settings
+
     reset_settings()
     s = DeterminexSettings()
     assert s.assert_safety_defaults() == []
@@ -355,10 +376,7 @@ def test_safety_defaults_remain_fail_closed():
 # Lock manifest alignment
 # ---------------------------------------------------------------------------
 
-_LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "VERIFIER_COVERAGE_MATRIX_LOCK_001.json"
-)
+_LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "VERIFIER_COVERAGE_MATRIX_LOCK_001.json"
 
 
 def test_lock_manifest_exists():
@@ -379,9 +397,7 @@ def test_lock_manifest_counts_match_runtime_summary():
     data = json.loads(_LOCK_PATH.read_text(encoding="utf-8"))
     pinned = data["counts"]
     actual = vcm.summary()
-    assert pinned == actual, (
-        f"counts drift: lock={pinned} vs module={actual}"
-    )
+    assert pinned == actual, f"counts drift: lock={pinned} vs module={actual}"
 
 
 def test_lock_manifest_pins_entry_count():

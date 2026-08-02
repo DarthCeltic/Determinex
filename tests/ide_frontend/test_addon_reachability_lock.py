@@ -28,6 +28,7 @@ Static text-based (matches this repo's existing tests/ide_frontend/*.py
 convention, e.g. test_frontend_panel_command_wiring_lock.py) -- no build
 step, no runtime, just page.tsx's own source.
 """
+
 from __future__ import annotations
 
 import re
@@ -54,10 +55,19 @@ PAGE_TSX = _REPO_ROOT / "frontend" / "src" / "app" / "page.tsx"
 # that array now carries `satisfies [string, WorkspaceAddon, LucideIcon, string][]`
 # and the cast is gone, so a retired id is a COMPILE error rather than something a
 # regex test has to notice. Verified by re-adding the id and watching tsc reject it.
-_PREVIOUSLY_BURIED_IDS = frozenset({
-    "learning", "repoclinic", "maintenancebay",
-    "flywheel", "execution", "mission", "roadmap", "merge", "review",
-})
+_PREVIOUSLY_BURIED_IDS = frozenset(
+    {
+        "learning",
+        "repoclinic",
+        "maintenancebay",
+        "flywheel",
+        "execution",
+        "mission",
+        "roadmap",
+        "merge",
+        "review",
+    }
+)
 
 
 def _extract_bracketed_ids(src: str, start_marker: str) -> set[str]:
@@ -66,13 +76,13 @@ def _extract_bracketed_ids(src: str, start_marker: str) -> set[str]:
     formatting (one array literal, one id per line or per tuple)."""
     start = src.index(start_marker)
     end = src.index("];", start)
-    body = src[start + len(start_marker):end]
+    body = src[start + len(start_marker) : end]
     return set(re.findall(r'"([a-z][a-z0-9-]*)"', body))
 
 
 def _addon_ids() -> set[str]:
     src = PAGE_TSX.read_text(encoding="utf-8")
-    start = src.index('const addonItems: AddonItem[] = [')
+    start = src.index("const addonItems: AddonItem[] = [")
     end = src.index("const selectedAddon = addonItems.find", start)
     body = src[start:end]
     return set(re.findall(r'id:\s*"([a-z][a-z0-9-]*)"', body))

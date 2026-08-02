@@ -7,6 +7,7 @@ would be captured correctly but silently ignored -- a candidate satisfying none 
 alternatives would still be reported as passing, exactly the "corpus knows but doesn't act on
 it" gap this whole session has been closing.
 """
+
 from __future__ import annotations
 
 import sys

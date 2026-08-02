@@ -12,6 +12,7 @@ Catches templated specs that look fine but fail at run-time injection.
 
 Exit code 0 = all specs valid. Non-zero = at least one broken spec found.
 """
+
 import os
 import re
 import sys
@@ -118,7 +119,9 @@ def main():
     pb_anchor = list(PB_ANCHORS.glob("*/06_behavioral_spec.md")) if PB_ANCHORS.exists() else []
     sb = list(SB_DIR.glob("*/06_repo_spec.md")) if SB_DIR.exists() else []
 
-    print(f"Validating {len(pb)} PB in-progress specs + {len(pb_anchor)} PB anchor packs + {len(sb)} SWE-bench repo specs...")
+    print(
+        f"Validating {len(pb)} PB in-progress specs + {len(pb_anchor)} PB anchor packs + {len(sb)} SWE-bench repo specs..."
+    )
     for p in pb + pb_anchor:
         validate_pb_spec(p)
     for p in sb:
@@ -132,7 +135,7 @@ def main():
         for path, _, msg in fails[:20]:
             print(f"  {path.parent.name}/{path.name}: {msg}")
         if len(fails) > 20:
-            print(f"  ... and {len(fails)-20} more")
+            print(f"  ... and {len(fails) - 20} more")
 
     if warns:
         # Only show warning summary
@@ -145,7 +148,9 @@ def main():
 
     total = len(pb) + len(pb_anchor) + len(sb)
     clean = total - len(set(r[0] for r in results))
-    print(f"\nSummary: {total} specs scanned, {clean} clean, {len(warns)} warnings, {len(fails)} fails")
+    print(
+        f"\nSummary: {total} specs scanned, {clean} clean, {len(warns)} warnings, {len(fails)} fails"
+    )
     if fails:
         sys.exit(1)
     if warns:

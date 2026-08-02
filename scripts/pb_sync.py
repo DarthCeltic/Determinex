@@ -13,7 +13,9 @@ and the score became unreproducible. Never again:
 `capture` enforces commit-after-edit (the rule that prevents lost builds). `audit` is the
 box<->repo reconciliation (uncommitted = lost-build risk; diverged = box drifted from canon).
 """
+
 from __future__ import annotations
+
 import argparse
 import hashlib
 import subprocess
@@ -29,17 +31,43 @@ BOX_ROOT = "/root/Citadel"
 # Per-tool CODE = anything the build consumes. We track ALL source (not just *_reimpl.*: the
 # walk/bat native builds were `reimpl.go`/`gron_claude.go` and the old glob missed them entirely).
 # Denylist the rest: compiled binaries (no extension), eval artifacts, tarballs, logs, backups.
-_SRC_EXT = {".go", ".rs", ".c", ".cpp", ".cc", ".h", ".hpp", ".py", ".sh",
-            ".txt", ".mod", ".sum", ".toml", ".md", ".rb", ".java"}
-_DENY_SUFFIX = (".bak", ".regressed", ".json", ".xml", ".log", ".err", ".pyc",
-                ".tar.gz", ".tgz", ".orig")
+_SRC_EXT = {
+    ".go",
+    ".rs",
+    ".c",
+    ".cpp",
+    ".cc",
+    ".h",
+    ".hpp",
+    ".py",
+    ".sh",
+    ".txt",
+    ".mod",
+    ".sum",
+    ".toml",
+    ".md",
+    ".rb",
+    ".java",
+}
+_DENY_SUFFIX = (
+    ".bak",
+    ".regressed",
+    ".json",
+    ".xml",
+    ".log",
+    ".err",
+    ".pyc",
+    ".tar.gz",
+    ".tgz",
+    ".orig",
+)
 
 
 def _is_source(name: str) -> bool:
     """True if `name` is a build input we should track (not an artifact/binary)."""
     if name.endswith(_DENY_SUFFIX):
         return False
-    ext = name[name.rfind("."):] if "." in name else ""
+    ext = name[name.rfind(".") :] if "." in name else ""
     return ext in _SRC_EXT  # no-extension files are compiled binaries -> excluded
 
 
@@ -60,11 +88,12 @@ def _box_manifest() -> dict[str, str]:
     Hashes line-ending-normalized content (tr -d '\\r') so CRLF/LF differences don't masquerade
     as drift. Uses a scp'd hasher script -- inline grep/hash over ssh dies on quoting."""
     import tempfile
+
     names = " -o ".join(f'-name "*{e}"' for e in sorted(_SRC_EXT))
     hasher = (
         "#!/bin/sh\n"
         'cd "$1" || exit 1\n'
-        f'find . -maxdepth 2 -type f \\( {names} -o -name go.mod -o -name go.sum \\) '
+        f"find . -maxdepth 2 -type f \\( {names} -o -name go.mod -o -name go.sum \\) "
         "| while IFS= read -r f; do\n"
         '  h=$(tr -d "\\r" < "$f" | sha256sum | cut -d" " -f1)\n'
         '  printf "%s %s\\n" "$h" "${f#./}"\n'
@@ -72,8 +101,7 @@ def _box_manifest() -> dict[str, str]:
     )
     tf = Path(tempfile.gettempdir()) / "_pbsync_hash.sh"
     tf.write_text(hasher, newline="\n")
-    subprocess.run(["scp", "-i", KEY, str(tf), f"{BOX}:/tmp/_pbsync_hash.sh"],
-                   capture_output=True)
+    subprocess.run(["scp", "-i", KEY, str(tf), f"{BOX}:/tmp/_pbsync_hash.sh"], capture_output=True)
     out = _ssh(f"sh /tmp/_pbsync_hash.sh {BOX_ROOT}/{OVR_REL}")
     m = {}
     for line in out.splitlines():
@@ -85,16 +113,16 @@ def _box_manifest() -> dict[str, str]:
 
 def _repo_head_sha(rel: str) -> str | None:
     path = f"{OVR_REL}/{rel}"
-    r = subprocess.run(["git", "-C", str(REPO), "show", f"HEAD:{path}"],
-                       capture_output=True)
+    r = subprocess.run(["git", "-C", str(REPO), "show", f"HEAD:{path}"], capture_output=True)
     return _sha(r.stdout) if r.returncode == 0 else None
 
 
 def _is_gitignored(rel: str) -> bool:
     """A box-only file that the repo deliberately ignores (conftest.c autoconf temp, etc.)
     is NOT a lost-build risk -- it's excluded on purpose. Don't false-flag it."""
-    r = subprocess.run(["git", "-C", str(REPO), "check-ignore", "-q", f"{OVR_REL}/{rel}"],
-                       capture_output=True)
+    r = subprocess.run(
+        ["git", "-C", str(REPO), "check-ignore", "-q", f"{OVR_REL}/{rel}"], capture_output=True
+    )
     return r.returncode == 0
 
 
@@ -108,11 +136,13 @@ def audit() -> int:
             if _is_gitignored(rel):
                 ignored += 1
             else:
-                uncommitted += 1; unc.append(rel)
+                uncommitted += 1
+                unc.append(rel)
         elif rsha == bsha:
             synced += 1
         else:
-            diverged += 1; div.append(rel)
+            diverged += 1
+            div.append(rel)
     print(f"pb_sync audit  ({len(box)} box per-tool source files)")
     print(f"  SYNCED:      {synced}")
     print(f"  DIVERGED:    {diverged}   (box drifted from canon repo)")
@@ -126,14 +156,15 @@ def audit() -> int:
 
 
 def _tool_files(tool: str) -> list[str]:
-    out = _ssh(f'cd {BOX_ROOT} && ls {OVR_REL}/{tool}/ 2>/dev/null')
+    out = _ssh(f"cd {BOX_ROOT} && ls {OVR_REL}/{tool}/ 2>/dev/null")
     return [f for f in out.split() if _is_source(f)]
 
 
 def capture(tool: str) -> int:
     files = _tool_files(tool)
     if not files:
-        print(f"no code files for {tool} on box"); return 1
+        print(f"no code files for {tool} on box")
+        return 1
     for f in files:
         src = f"{BOX}:{BOX_ROOT}/{OVR_REL}/{tool}/{f}"
         dst = REPO / OVR_REL / tool / f
@@ -141,16 +172,19 @@ def capture(tool: str) -> int:
         subprocess.run(["scp", "-i", KEY, src, str(dst)], check=False)
         subprocess.run(["git", "-C", str(REPO), "add", f"{OVR_REL}/{tool}/{f}"], check=False)
     print(f"captured {tool}: {files} -> repo (staged). Now COMMIT (commit-after-edit rule).")
-    subprocess.run(["git", "-C", str(REPO), "diff", "--cached", "--stat",
-                    f"{OVR_REL}/{tool}"], check=False)
+    subprocess.run(
+        ["git", "-C", str(REPO), "diff", "--cached", "--stat", f"{OVR_REL}/{tool}"], check=False
+    )
     return 0
 
 
 def deploy(tool: str) -> int:
     d = REPO / OVR_REL / tool
     if not d.is_dir():
-        print(f"{tool} not in repo"); return 1
+        print(f"{tool} not in repo")
+        return 1
     import tempfile
+
     for f in d.iterdir():
         if f.is_file() and _is_source(f.name):
             # Strip CR so the box always receives LF -- a CRLF compile.sh breaks dash (`set -e\r`)
@@ -158,8 +192,10 @@ def deploy(tool: str) -> int:
             data = f.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
             tmp = Path(tempfile.gettempdir()) / f".pbsync_{f.name}"
             tmp.write_bytes(data)
-            subprocess.run(["scp", "-i", KEY, str(tmp),
-                            f"{BOX}:{BOX_ROOT}/{OVR_REL}/{tool}/{f.name}"], check=False)
+            subprocess.run(
+                ["scp", "-i", KEY, str(tmp), f"{BOX}:{BOX_ROOT}/{OVR_REL}/{tool}/{f.name}"],
+                check=False,
+            )
             tmp.unlink(missing_ok=True)
     print(f"deployed repo/{tool} -> box runner")
     return 0
@@ -172,6 +208,7 @@ def _passed(path: Path) -> int:
     try:
         import json
         from collections import Counter
+
         d = json.loads(path.read_text(encoding="utf-8"))
         return Counter(x.get("status") for x in (d.get("test_results") or [])).get("passed", 0)
     except Exception:
@@ -184,15 +221,22 @@ def capture_scores() -> int:
     lose a good score and a worse box result can't regress the repo. pb_sync's code-capture EXCLUDES
     .json (scores), so WITHOUT this the box's near-locks are never committed: the lost-build failure,
     but for SCORES. One tar+scp (not 222 scps); git-adds the changed files (then COMMIT)."""
-    import tarfile, tempfile, shutil
+    import shutil
+    import tarfile
+    import tempfile
+
     tmp = Path(tempfile.mkdtemp(prefix="pbscores_"))
     tar = tmp / "scores.tar.gz"
-    _ssh(f"cd {BOX_ROOT} && tar czf /tmp/_pbscores.tar.gz {OVR_REL}/*/eval_report.json "
-         f"corpus/programbench/autodrive_results.json corpus/programbench/build_knowledge.json 2>/dev/null")
+    _ssh(
+        f"cd {BOX_ROOT} && tar czf /tmp/_pbscores.tar.gz {OVR_REL}/*/eval_report.json "
+        f"corpus/programbench/autodrive_results.json corpus/programbench/build_knowledge.json 2>/dev/null"
+    )
     subprocess.run(["scp", "-i", KEY, f"{BOX}:/tmp/_pbscores.tar.gz", str(tar)], check=False)
     _ssh("rm -f /tmp/_pbscores.tar.gz")
     if not tar.exists():
-        print("capture-scores: no scores tar from box"); shutil.rmtree(tmp, ignore_errors=True); return 1
+        print("capture-scores: no scores tar from box")
+        shutil.rmtree(tmp, ignore_errors=True)
+        return 1
     with tarfile.open(tar, "r:gz") as t:
         t.extractall(tmp)
     captured, kept, total = [], 0, 0
@@ -201,23 +245,29 @@ def capture_scores() -> int:
         slug = boxf.parent.name
         repof = REPO / OVR_REL / slug / "eval_report.json"
         bp, rp = _passed(boxf), _passed(repof)
-        if bp > rp:                       # box has a strictly BETTER eval -> capture it
+        if bp > rp:  # box has a strictly BETTER eval -> capture it
             repof.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(boxf, repof)
-            subprocess.run(["git", "-C", str(REPO), "add", f"{OVR_REL}/{slug}/eval_report.json"], check=False)
+            subprocess.run(
+                ["git", "-C", str(REPO), "add", f"{OVR_REL}/{slug}/eval_report.json"], check=False
+            )
             captured.append(f"{slug} {rp}->{bp}")
         else:
-            kept += 1                     # repo's >= box's -> keep repo (never regress the best)
+            kept += 1  # repo's >= box's -> keep repo (never regress the best)
     boxlog = tmp / "corpus/programbench/autodrive_results.json"
-    if boxlog.exists():                   # the run log: box is authoritative (its run history)
+    if boxlog.exists():  # the run log: box is authoritative (its run history)
         shutil.copy2(boxlog, REPO / "corpus/programbench/autodrive_results.json")
-        subprocess.run(["git", "-C", str(REPO), "add", "corpus/programbench/autodrive_results.json"], check=False)
+        subprocess.run(
+            ["git", "-C", str(REPO), "add", "corpus/programbench/autodrive_results.json"],
+            check=False,
+        )
     # FLYWHEEL durability: merge the box's LEARNED classes (distilled from its own verified solves)
     # into the repo's build_knowledge, UNION by key -- never touch the hand-curated class_patterns.
     boxkn = tmp / "corpus/programbench/build_knowledge.json"
     if boxkn.exists():
         try:
             import json as _j
+
             bkn = _j.loads(boxkn.read_text(encoding="utf-8"))
             rkn_path = REPO / "corpus/programbench/build_knowledge.json"
             rkn = _j.loads(rkn_path.read_text(encoding="utf-8"))
@@ -227,13 +277,20 @@ def capture_scores() -> int:
             for k, v in box_lc.items():
                 rlc.setdefault(k, v)
             if added:
-                rkn_path.write_text(_j.dumps(rkn, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
-                subprocess.run(["git", "-C", str(REPO), "add", "corpus/programbench/build_knowledge.json"], check=False)
+                rkn_path.write_text(
+                    _j.dumps(rkn, indent=1, ensure_ascii=False) + "\n", encoding="utf-8"
+                )
+                subprocess.run(
+                    ["git", "-C", str(REPO), "add", "corpus/programbench/build_knowledge.json"],
+                    check=False,
+                )
                 print(f"  + merged {added} flywheel-learned class(es) from box")
         except Exception as e:
             print(f"  learned-class merge skipped: {e}")
     shutil.rmtree(tmp, ignore_errors=True)
-    print(f"capture-scores: {len(captured)} better from box, {kept} repo kept, {total} tools scanned")
+    print(
+        f"capture-scores: {len(captured)} better from box, {kept} repo kept, {total} tools scanned"
+    )
     for c in captured[:50]:
         print(f"  + {c}")
     print("staged -> COMMIT now (commit-after rule).")
@@ -241,12 +298,15 @@ def capture_scores() -> int:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("audit")
-    c = sub.add_parser("capture"); c.add_argument("tool")
-    d = sub.add_parser("deploy"); d.add_argument("tool")
+    c = sub.add_parser("capture")
+    c.add_argument("tool")
+    d = sub.add_parser("deploy")
+    d.add_argument("tool")
     sub.add_parser("capture-scores")
     a = ap.parse_args()
     if a.cmd == "audit":

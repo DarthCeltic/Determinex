@@ -46,10 +46,9 @@ import subprocess
 import sys
 import tempfile
 import time
-from dataclasses import dataclass, field, asdict
-from datetime import datetime, timezone
+from dataclasses import asdict, dataclass, field
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -64,10 +63,10 @@ logging.basicConfig(
 log = logging.getLogger("eval")
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-_ROOT       = Path(__file__).resolve().parent.parent
-_RESULTS    = _ROOT / "logs" / "ab_eval"
-_SHADOW_DB  = _ROOT / "logs" / "shadow_eval_state.json"
-_RETRAIN_Q  = _ROOT / "logs" / "retrain_queue.jsonl"
+_ROOT = Path(__file__).resolve().parent.parent
+_RESULTS = _ROOT / "logs" / "ab_eval"
+_SHADOW_DB = _ROOT / "logs" / "shadow_eval_state.json"
+_RETRAIN_Q = _ROOT / "logs" / "retrain_queue.jsonl"
 
 COMPILE_TIMEOUT = 30
 
@@ -76,15 +75,18 @@ COMPILE_TIMEOUT = 30
 # decisions are identical across repeated runs on the same hardware.
 # CPU-pinned: torch CUDA seed is set separately if GPU is available.
 import random as _rng_mod
-_EVAL_RNG_SEED = 0xC17ADE1   # "Determinex" — memorable, non-zero
+
+_EVAL_RNG_SEED = 0xC17ADE1  # "Determinex" — memorable, non-zero
 _rng_mod.seed(_EVAL_RNG_SEED)
 try:
     import numpy as _np_rng
+
     _np_rng.random.seed(_EVAL_RNG_SEED & 0x7FFFFFFF)  # numpy requires uint32
 except ImportError:
     pass
 try:
     import torch as _torch_rng
+
     _torch_rng.manual_seed(_EVAL_RNG_SEED)
     if _torch_rng.cuda.is_available():
         _torch_rng.cuda.manual_seed_all(_EVAL_RNG_SEED)
@@ -96,24 +98,26 @@ except ImportError:
 # determinex_inference / determinex_rosetta modules. Phase 1 (DSL text prepend) runs
 # without any of these.
 try:
-    import numpy as _np_phase3
-    import torch as _torch_phase3
     import sys as _sys_phase3
+
     _sys_phase3.path.insert(0, str(Path(__file__).resolve().parent))
     from determinex_inference import DeterminexInference as _DeterminexInference
     from determinex_rosetta import RosettaStone as _RosettaStone
+
     _PHASE3_AVAILABLE = True
 except Exception as _p3_err:
     _PHASE3_AVAILABLE = False
     _DeterminexInference = None  # type: ignore
-    _RosettaStone = None      # type: ignore
+    _RosettaStone = None  # type: ignore
     log.debug("Phase 3 not available (%s) — eval runs Phase 1 DSL text mode", _p3_err)
+
 
 # ── #5 VRAM-aware parallelism ─────────────────────────────────────────────────
 def _available_vram_gb() -> float:
     """Free GPU VRAM in GB, or 0.0 if no GPU / torch not installed."""
     try:
         import torch
+
         if torch.cuda.is_available():
             free, _total = torch.cuda.mem_get_info()
             return free / 1e9
@@ -121,11 +125,17 @@ def _available_vram_gb() -> float:
         pass
     return 0.0
 
-_VRAM_GB    = _available_vram_gb()
+
+_VRAM_GB = _available_vram_gb()
 # Both Rosetta and text pipelines load a model each. Running them in parallel
 # on <8GB free VRAM causes OOM on Tier 0 rigs. Sequential is the safe default.
 _PARALLEL_OK = _VRAM_GB >= 8.0
-log.info("VRAM available: %.1f GB  → parallel eval: %s", _VRAM_GB, "YES" if _PARALLEL_OK else "NO (sequential)")
+log.info(
+    "VRAM available: %.1f GB  → parallel eval: %s",
+    _VRAM_GB,
+    "YES" if _PARALLEL_OK else "NO (sequential)",
+)
+
 
 # ── #12 Hardware-calibrated ceiling threshold ─────────────────────────────────
 def _calibrated_ceiling_threshold() -> float:
@@ -148,79 +158,86 @@ def _calibrated_ceiling_threshold() -> float:
     adjusted = max(0.05, base - min(drift, 0.05))
     return adjusted
 
+
 # ── Thresholds ─────────────────────────────────────────────────────────────────
 CEILING_CHECK_MIN_SEPARATION = _calibrated_ceiling_threshold()
-DILUTION_CONTEXT_BREAKPOINT  = 512    # tokens — if Rosetta advantage vanishes above this, prefix is diluted
-SHADOW_STEPS_PER_TYPE        = 5      # run both pipelines for first N steps of new task type
-SHADOW_REENABLE_THRESHOLD    = 20     # task completions before re-enabling a fallen-back type
+DILUTION_CONTEXT_BREAKPOINT = (
+    512  # tokens — if Rosetta advantage vanishes above this, prefix is diluted
+)
+SHADOW_STEPS_PER_TYPE = 5  # run both pipelines for first N steps of new task type
+SHADOW_REENABLE_THRESHOLD = 20  # task completions before re-enabling a fallen-back type
 log.info("Ceiling threshold (hardware-calibrated): %.2f", CEILING_CHECK_MIN_SEPARATION)
 
 
 # ── Result data structures ─────────────────────────────────────────────────────
 
+
 @dataclass
 class StepResult:
-    step_id:           int
-    pipeline:          str            # "rosetta" | "text"
-    task_type:         str
-    lang:              str
-    context_tokens:    int            # real token count in Builder's context (not counting prefix)
-    compiled:          bool
-    retries:           int
-    wall_clock_secs:   float
-    semantic_sim:      float          # cosine(nomic(output), nomic(md_spec))
-    compiler_output:   str
-    builder_output:    str
-    bridge_status:     str = "text_fallback"
+    step_id: int
+    pipeline: str  # "rosetta" | "text"
+    task_type: str
+    lang: str
+    context_tokens: int  # real token count in Builder's context (not counting prefix)
+    compiled: bool
+    retries: int
+    wall_clock_secs: float
+    semantic_sim: float  # cosine(nomic(output), nomic(md_spec))
+    compiler_output: str
+    builder_output: str
+    bridge_status: str = "text_fallback"
 
 
 @dataclass
 class TaskResult:
-    task_id:      str
-    task_type:    str
-    lang:         str
-    md_spec:      str
+    task_id: str
+    task_type: str
+    lang: str
+    md_spec: str
     rosetta_steps: list[StepResult] = field(default_factory=list)
-    text_steps:    list[StepResult] = field(default_factory=list)
+    text_steps: list[StepResult] = field(default_factory=list)
 
     # Aggregates (computed after all steps)
-    rosetta_compile_rate:  float = 0.0
-    text_compile_rate:     float = 0.0
-    rosetta_avg_retries:   float = 0.0
-    text_avg_retries:      float = 0.0
+    rosetta_compile_rate: float = 0.0
+    text_compile_rate: float = 0.0
+    rosetta_avg_retries: float = 0.0
+    text_avg_retries: float = 0.0
     rosetta_avg_wall_secs: float = 0.0
-    text_avg_wall_secs:    float = 0.0
-    rosetta_avg_sem_sim:   float = 0.0
-    text_avg_sem_sim:      float = 0.0
+    text_avg_wall_secs: float = 0.0
+    rosetta_avg_sem_sim: float = 0.0
+    text_avg_sem_sim: float = 0.0
 
     def compute_aggregates(self) -> None:
         for attr, steps in [("rosetta", self.rosetta_steps), ("text", self.text_steps)]:
             if not steps:
                 continue
-            setattr(self, f"{attr}_compile_rate",  sum(s.compiled for s in steps) / len(steps))
-            setattr(self, f"{attr}_avg_retries",   sum(s.retries for s in steps) / len(steps))
-            setattr(self, f"{attr}_avg_wall_secs", sum(s.wall_clock_secs for s in steps) / len(steps))
-            setattr(self, f"{attr}_avg_sem_sim",   sum(s.semantic_sim for s in steps) / len(steps))
+            setattr(self, f"{attr}_compile_rate", sum(s.compiled for s in steps) / len(steps))
+            setattr(self, f"{attr}_avg_retries", sum(s.retries for s in steps) / len(steps))
+            setattr(
+                self, f"{attr}_avg_wall_secs", sum(s.wall_clock_secs for s in steps) / len(steps)
+            )
+            setattr(self, f"{attr}_avg_sem_sim", sum(s.semantic_sim for s in steps) / len(steps))
 
 
 @dataclass
 class EvalReport:
-    timestamp:            str
-    mode:                 str
-    tasks_evaluated:      int
-    bridge:               str = "none"
+    timestamp: str
+    mode: str
+    tasks_evaluated: int
+    bridge: str = "none"
     initial_bridge_status: str = "text_fallback"
     overall_rosetta_compile_rate: float = 0.0
-    overall_text_compile_rate:    float = 0.0
-    dilution_detected:    bool = False
-    dilution_breakpoint_tokens: Optional[int] = None
-    ceiling_check_passed: bool = True   # Can nomic separate intentionally different approaches?
-    ceiling_separation:   Optional[float] = None
-    task_results:         list[dict] = field(default_factory=list)
-    shadow_fallbacks:     list[str] = field(default_factory=list)
+    overall_text_compile_rate: float = 0.0
+    dilution_detected: bool = False
+    dilution_breakpoint_tokens: int | None = None
+    ceiling_check_passed: bool = True  # Can nomic separate intentionally different approaches?
+    ceiling_separation: float | None = None
+    task_results: list[dict] = field(default_factory=list)
+    shadow_fallbacks: list[str] = field(default_factory=list)
 
 
 # ── Compiler validators ───────────────────────────────────────────────────────
+
 
 def compile_rust(code: str) -> tuple[bool, str]:
     with tempfile.TemporaryDirectory() as d:
@@ -228,9 +245,22 @@ def compile_rust(code: str) -> tuple[bool, str]:
         src.write_text(code, encoding="utf-8")
         try:
             r = subprocess.run(
-                ["rustc", "--crate-type", "lib", "--edition", "2021",
-                 str(src), "--out-dir", d, "--error-format", "short"],
-                capture_output=True, text=True, timeout=COMPILE_TIMEOUT)
+                [
+                    "rustc",
+                    "--crate-type",
+                    "lib",
+                    "--edition",
+                    "2021",
+                    str(src),
+                    "--out-dir",
+                    d,
+                    "--error-format",
+                    "short",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=COMPILE_TIMEOUT,
+            )
             return (r.returncode == 0), (r.stderr or r.stdout)[:500]
         except Exception as e:
             return False, str(e)
@@ -241,8 +271,13 @@ def compile_go(code: str) -> tuple[bool, str]:
         Path(d, "go.mod").write_text("module eval_check\ngo 1.21\n", encoding="utf-8")
         Path(d, "main.go").write_text(code, encoding="utf-8")
         try:
-            r = subprocess.run(["go", "build", "./..."],
-                capture_output=True, text=True, timeout=COMPILE_TIMEOUT, cwd=d)
+            r = subprocess.run(
+                ["go", "build", "./..."],
+                capture_output=True,
+                text=True,
+                timeout=COMPILE_TIMEOUT,
+                cwd=d,
+            )
             return (r.returncode == 0), (r.stderr or r.stdout)[:500]
         except Exception as e:
             return False, str(e)
@@ -258,19 +293,24 @@ def compile_python(code: str) -> tuple[bool, str]:
 
 def validate(lang: str, code: str) -> tuple[bool, str]:
     lang = lang.lower()
-    if "rust" in lang:   return compile_rust(code)
-    if "go" in lang:     return compile_go(code)
-    if "python" in lang: return compile_python(code)
+    if "rust" in lang:
+        return compile_rust(code)
+    if "go" in lang:
+        return compile_go(code)
+    if "python" in lang:
+        return compile_python(code)
     return True, "(lenient — unsupported language)"
 
 
 # ── Embedding / semantic similarity ──────────────────────────────────────────
 
+
 def _cosine(a: list[float], b: list[float]) -> float:
     import math
+
     dot = sum(x * y for x, y in zip(a, b))
-    na  = math.sqrt(sum(x * x for x in a))
-    nb  = math.sqrt(sum(x * x for x in b))
+    na = math.sqrt(sum(x * x for x in a))
+    nb = math.sqrt(sum(x * x for x in b))
     if na == 0 or nb == 0:
         return 0.0
     return dot / (na * nb)
@@ -283,6 +323,7 @@ def embed_nomic(text: str) -> list[float]:
     """
     try:
         import urllib.request
+
         payload = json.dumps({"model": "nomic-embed-text", "input": text}).encode()
         req = urllib.request.Request(
             "http://localhost:11434/api/embed",
@@ -300,7 +341,7 @@ def embed_nomic(text: str) -> list[float]:
 
 
 def semantic_similarity(output: str, md_spec: str) -> float:
-    v_out  = embed_nomic(output)
+    v_out = embed_nomic(output)
     v_spec = embed_nomic(md_spec)
     if not v_out or not v_spec:
         return 0.0
@@ -311,11 +352,13 @@ def semantic_similarity(output: str, md_spec: str) -> float:
 
 _arch_cache: dict[str, str] = {}
 
+
 def _get_arch(model: str) -> str:
     if model in _arch_cache:
         return _arch_cache[model]
     try:
         import urllib.request
+
         req = urllib.request.Request(
             "http://localhost:11434/api/show",
             data=json.dumps({"name": model}).encode(),
@@ -329,6 +372,7 @@ def _get_arch(model: str) -> str:
         arch = "qwen2"
     _arch_cache[model] = arch
     return arch
+
 
 def _build_prompt(arch: str, system: str, user: str) -> str:
     if arch in ("qwen2", "qwen3", "mistral", "gemma", "phi3"):
@@ -344,15 +388,18 @@ def _build_prompt(arch: str, system: str, user: str) -> str:
         f"<|start_header_id|>assistant<|end_header_id|>\n\n"
     )
 
+
 def _strip_fences(text: str) -> str:
     """Remove markdown code fences that models sometimes emit despite instructions."""
     text = re.sub(r"^```[a-zA-Z]*\n?", "", text.strip())
     text = re.sub(r"\n?```$", "", text)
     return text.strip()
 
+
 def ollama_generate(model: str, prompt: str, system: str = "") -> str:
     """Call Ollama generate with correct ChatML template for the model architecture."""
     import urllib.request
+
     arch = _get_arch(model)
     full_prompt = _build_prompt(arch, system or "You are an expert programmer.", prompt)
     payload = {
@@ -392,6 +439,7 @@ def count_tokens_approx(text: str) -> int:
     """
     try:
         import tiktoken
+
         enc = tiktoken.get_encoding("cl100k_base")
         return max(1, len(enc.encode(text)))
     except (ImportError, Exception):
@@ -403,6 +451,7 @@ def count_tokens_approx(text: str) -> int:
 
 # ── Pipelines ─────────────────────────────────────────────────────────────────
 
+
 def run_text_pipeline_step(
     task: dict, step: dict, builder_model: str, md_spec: str, max_retries: int = 3
 ) -> StepResult:
@@ -411,8 +460,8 @@ def run_text_pipeline_step(
     Builder receives the step instruction as a text prompt, generates code,
     Compiler Oracle validates, retry on failure.
     """
-    lang       = task["lang"]
-    system     = (
+    lang = task["lang"]
+    system = (
         f"You are an expert {lang} programmer. "
         "Output ONLY correct compilable code, no explanations, no markdown fences."
     )
@@ -437,19 +486,31 @@ def run_text_pipeline_step(
         retries += 1
 
     wall = time.perf_counter() - start
-    sim  = semantic_similarity(code, md_spec)
+    sim = semantic_similarity(code, md_spec)
 
     return StepResult(
-        step_id=step["id"], pipeline="text", task_type=task.get("task_type", "unknown"),
-        lang=lang, context_tokens=context_tokens, compiled=compiled, retries=retries,
-        wall_clock_secs=wall, semantic_sim=sim, compiler_output=last_error, builder_output=code,
+        step_id=step["id"],
+        pipeline="text",
+        task_type=task.get("task_type", "unknown"),
+        lang=lang,
+        context_tokens=context_tokens,
+        compiled=compiled,
+        retries=retries,
+        wall_clock_secs=wall,
+        semantic_sim=sim,
+        compiler_output=last_error,
+        builder_output=code,
         bridge_status="text_fallback",
     )
 
 
 def run_rosetta_pipeline_step(
-    task: dict, step: dict, builder_model: str, md_spec: str, max_retries: int = 3,
-    phase3: Optional[dict] = None,
+    task: dict,
+    step: dict,
+    builder_model: str,
+    md_spec: str,
+    max_retries: int = 3,
+    phase3: dict | None = None,
     bridge_mode: str = "none",
 ) -> StepResult:
     """
@@ -469,7 +530,7 @@ def run_rosetta_pipeline_step(
     if phase3 is not None:
         return _run_rosetta_phase3(task, step, md_spec, max_retries, phase3)
 
-    lang        = task["lang"]
+    lang = task["lang"]
     instruction = step["instruction"]
     dsl_context = step.get("dsl_context", _generate_dsl_context(step, lang))
 
@@ -485,9 +546,9 @@ def run_rosetta_pipeline_step(
     )
     context_tokens = count_tokens_approx(context_prompt)
 
-    retries    = 0
+    retries = 0
     last_error = ""
-    start      = time.perf_counter()
+    start = time.perf_counter()
 
     for attempt in range(max_retries):
         prompt = context_prompt
@@ -502,18 +563,30 @@ def run_rosetta_pipeline_step(
         retries += 1
 
     wall = time.perf_counter() - start
-    sim  = semantic_similarity(code, md_spec)
+    sim = semantic_similarity(code, md_spec)
 
     return StepResult(
-        step_id=step["id"], pipeline="rosetta_text_space_scaffold", task_type=task.get("task_type", "unknown"),
-        lang=lang, context_tokens=context_tokens, compiled=compiled, retries=retries,
-        wall_clock_secs=wall, semantic_sim=sim, compiler_output=last_error, builder_output=code,
+        step_id=step["id"],
+        pipeline="rosetta_text_space_scaffold",
+        task_type=task.get("task_type", "unknown"),
+        lang=lang,
+        context_tokens=context_tokens,
+        compiled=compiled,
+        retries=retries,
+        wall_clock_secs=wall,
+        semantic_sim=sim,
+        compiler_output=last_error,
+        builder_output=code,
         bridge_status="text_fallback",
     )
 
 
 def _run_rosetta_phase3(
-    task: dict, step: dict, md_spec: str, max_retries: int, phase3: dict,
+    task: dict,
+    step: dict,
+    md_spec: str,
+    max_retries: int,
+    phase3: dict,
 ) -> StepResult:
     """
     Phase 3: real Rosetta embedding injection via DeterminexInference + RosettaStone.
@@ -534,17 +607,17 @@ def _run_rosetta_phase3(
     import torch
 
     inference: _DeterminexInference = phase3["inference"]
-    stone: _RosettaStone         = phase3["stone"]
-    arch: str                    = phase3["arch"]
-    lang: str                    = task["lang"]
-    instruction: str             = step["instruction"]
+    stone: _RosettaStone = phase3["stone"]
+    arch: str = phase3["arch"]
+    lang: str = task["lang"]
+    instruction: str = step["instruction"]
 
     # ── Get source embedding from instruction text ────────────────────────────
     try:
         raw_emb = inference.model.embed(instruction)
         arr = np.array(raw_emb, dtype=np.float32)
         if arr.ndim == 2:
-            arr = arr.mean(axis=0)   # [n_tokens, dim] → [dim]
+            arr = arr.mean(axis=0)  # [n_tokens, dim] → [dim]
         source_h = torch.from_numpy(arr)  # [hidden_dim]
     except Exception as exc:
         log.warning("Phase 3 embed() failed (%s) — using zero probe vector", exc)
@@ -567,11 +640,11 @@ def _run_rosetta_phase3(
 
     # ── Retry loop: semantic prefix stays constant, text carries error feedback ──
     context_tokens = count_tokens_approx(instruction)
-    retries    = 0
+    retries = 0
     last_error = ""
-    start      = time.perf_counter()
-    code       = ""
-    compiled   = False
+    start = time.perf_counter()
+    code = ""
+    compiled = False
 
     for attempt in range(max_retries):
         # Build ChatML-formatted text prompt (Qwen2 template)
@@ -588,9 +661,7 @@ def _run_rosetta_phase3(
         )
 
         try:
-            text_tokens = inference.model.tokenize(
-                chat_prompt.encode("utf-8"), special=True
-            )
+            text_tokens = inference.model.tokenize(chat_prompt.encode("utf-8"), special=True)
             out_tokens = inference.inject_soft_prompt(text_tokens, projected_h)
             code = _strip_fences(
                 inference.model.detokenize(out_tokens).decode("utf-8", errors="ignore")
@@ -608,23 +679,30 @@ def _run_rosetta_phase3(
         retries += 1
 
     wall = time.perf_counter() - start
-    sim  = semantic_similarity(code, md_spec)
+    sim = semantic_similarity(code, md_spec)
 
     return StepResult(
-        step_id=step["id"], pipeline=f"rosetta_phase3_{mode}",
+        step_id=step["id"],
+        pipeline=f"rosetta_phase3_{mode}",
         task_type=task.get("task_type", "unknown"),
-        lang=lang, context_tokens=context_tokens, compiled=compiled, retries=retries,
-        wall_clock_secs=wall, semantic_sim=sim, compiler_output=last_error, builder_output=code,
+        lang=lang,
+        context_tokens=context_tokens,
+        compiled=compiled,
+        retries=retries,
+        wall_clock_secs=wall,
+        semantic_sim=sim,
+        compiler_output=last_error,
+        builder_output=code,
         bridge_status=("rosetta_projected" if mode == "rosetta" else "direct_self_injection"),
     )
 
 
 def _generate_dsl_context(step: dict, lang: str) -> str:
     """Generate a DSL context string from step metadata if not provided."""
-    lang_token    = lang.upper()
-    intent        = step.get("intent", "implement")
-    pattern       = step.get("pattern", "general")
-    constraints   = step.get("constraints", ["correct"])
+    lang_token = lang.upper()
+    intent = step.get("intent", "implement")
+    pattern = step.get("pattern", "general")
+    constraints = step.get("constraints", ["correct"])
     constraint_str = " ".join(f"CONSTRAINT:{c}" for c in constraints)
     return (
         f"INTENT:{intent} LANG:{lang_token} PATTERN:{pattern}\n"
@@ -636,7 +714,8 @@ def _generate_dsl_context(step: dict, lang: str) -> str:
 
 # ── Dilution detection ────────────────────────────────────────────────────────
 
-def detect_dilution(task_results: list[TaskResult]) -> tuple[bool, Optional[int]]:
+
+def detect_dilution(task_results: list[TaskResult]) -> tuple[bool, int | None]:
     """
     Check if Rosetta advantage disappears above ~512 real context tokens.
     Groups steps by context_tokens bucket, computes Rosetta - text compile rate delta.
@@ -655,9 +734,7 @@ def detect_dilution(task_results: list[TaskResult]) -> tuple[bool, Optional[int]
             if "rosetta" not in pair or "text" not in pair:
                 continue
             bucket = (pair["rosetta"].context_tokens // 128) * 128  # 128-token bucket width
-            buckets.setdefault(bucket, []).append(
-                (pair["rosetta"].compiled, pair["text"].compiled)
-            )
+            buckets.setdefault(bucket, []).append((pair["rosetta"].compiled, pair["text"].compiled))
 
     if len(buckets) < 2:
         return False, None
@@ -692,12 +769,12 @@ CEILING_CHECK_PAIRS = [
     {
         "name": "result_vs_panic",
         "a": "fn divide(a: f64, b: f64) -> Option<f64> {\n    if b == 0.0 { None } else { Some(a / b) }\n}",
-        "b": "fn divide(a: f64, b: f64) -> f64 {\n    if b == 0.0 { panic!(\"division by zero\"); }\n    a / b\n}",
+        "b": 'fn divide(a: f64, b: f64) -> f64 {\n    if b == 0.0 { panic!("division by zero"); }\n    a / b\n}',
     },
     {
         "name": "sync_vs_async",
-        "a": "fn fetch_data() -> String {\n    std::thread::sleep(std::time::Duration::from_millis(10));\n    String::from(\"data\")\n}",
-        "b": "async fn fetch_data() -> String {\n    tokio::time::sleep(tokio::time::Duration::from_millis(10)).await;\n    String::from(\"data\")\n}",
+        "a": 'fn fetch_data() -> String {\n    std::thread::sleep(std::time::Duration::from_millis(10));\n    String::from("data")\n}',
+        "b": 'async fn fetch_data() -> String {\n    tokio::time::sleep(tokio::time::Duration::from_millis(10)).await;\n    String::from("data")\n}',
     },
 ]
 
@@ -717,22 +794,22 @@ def run_ceiling_check() -> tuple[bool, float]:
             log.warning("  [%s] embeddings unavailable — skipping", pair["name"])
             continue
         sim = _cosine(va, vb)
-        separation = 1.0 - sim   # lower cosine = higher separation
+        separation = 1.0 - sim  # lower cosine = higher separation
         separations.append(separation)
         status = "OK" if separation >= CEILING_CHECK_MIN_SEPARATION else "FAIL"
-        log.info("  [%s] cosine=%.3f separation=%.3f → %s",
-                 pair["name"], sim, separation, status)
+        log.info("  [%s] cosine=%.3f separation=%.3f → %s", pair["name"], sim, separation, status)
 
     if not separations:
         return False, 0.0
 
     min_sep = min(separations)
-    passed  = min_sep >= CEILING_CHECK_MIN_SEPARATION
+    passed = min_sep >= CEILING_CHECK_MIN_SEPARATION
     if not passed:
         log.warning(
             "Ceiling check FAILED (min separation=%.3f < %.2f). "
             "Adjudication will run in COARSE MODE — compile rate is primary differentiator.",
-            min_sep, CEILING_CHECK_MIN_SEPARATION
+            min_sep,
+            CEILING_CHECK_MIN_SEPARATION,
         )
     else:
         log.info("Ceiling check PASSED (min separation=%.3f)", min_sep)
@@ -740,6 +817,7 @@ def run_ceiling_check() -> tuple[bool, float]:
 
 
 # ── Shadow evaluator / runtime state ──────────────────────────────────────────
+
 
 class ShadowEvaluator:
     """
@@ -764,11 +842,16 @@ class ShadowEvaluator:
 
     def should_run_shadow(self, task_type: str) -> bool:
         """Returns True if this task type needs shadow evaluation."""
-        state = self._db.get(task_type, {"shadow_count": 0, "fallback": False, "completions_since_fallback": 0})
-        if state.get("fallback") and state.get("completions_since_fallback", 0) < SHADOW_REENABLE_THRESHOLD:
-            return False   # in fallback, not yet time to re-enable
+        state = self._db.get(
+            task_type, {"shadow_count": 0, "fallback": False, "completions_since_fallback": 0}
+        )
+        if (
+            state.get("fallback")
+            and state.get("completions_since_fallback", 0) < SHADOW_REENABLE_THRESHOLD
+        ):
+            return False  # in fallback, not yet time to re-enable
         if state.get("shadow_count", 0) < SHADOW_STEPS_PER_TYPE:
-            return True    # still in shadow window
+            return True  # still in shadow window
         return False
 
     def record_shadow_result(
@@ -782,43 +865,66 @@ class ShadowEvaluator:
         Record one shadow step result. Returns True if auto-fallback triggered.
         Appends to retrain queue on fallback.
         """
-        state = self._db.setdefault(task_type, {
-            "shadow_count": 0, "rosetta_pass": 0, "text_pass": 0,
-            "fallback": False, "completions_since_fallback": 0,
-        })
+        state = self._db.setdefault(
+            task_type,
+            {
+                "shadow_count": 0,
+                "rosetta_pass": 0,
+                "text_pass": 0,
+                "fallback": False,
+                "completions_since_fallback": 0,
+            },
+        )
 
-        if state.get("fallback") and state.get("completions_since_fallback", 0) >= SHADOW_REENABLE_THRESHOLD:
+        if (
+            state.get("fallback")
+            and state.get("completions_since_fallback", 0) >= SHADOW_REENABLE_THRESHOLD
+        ):
             # Re-enable: reset shadow window
-            log.info("[SHADOW] Re-enabling Rosetta for task_type=%s after %d completions",
-                     task_type, SHADOW_REENABLE_THRESHOLD)
-            state.update({"shadow_count": 0, "rosetta_pass": 0, "text_pass": 0,
-                          "fallback": False, "completions_since_fallback": 0})
+            log.info(
+                "[SHADOW] Re-enabling Rosetta for task_type=%s after %d completions",
+                task_type,
+                SHADOW_REENABLE_THRESHOLD,
+            )
+            state.update(
+                {
+                    "shadow_count": 0,
+                    "rosetta_pass": 0,
+                    "text_pass": 0,
+                    "fallback": False,
+                    "completions_since_fallback": 0,
+                }
+            )
 
         state["shadow_count"] += 1
-        if rosetta_compiled: state["rosetta_pass"] += 1
-        if text_compiled:    state["text_pass"]    += 1
+        if rosetta_compiled:
+            state["rosetta_pass"] += 1
+        if text_compiled:
+            state["text_pass"] += 1
 
         # Check for auto-fallback after collecting SHADOW_STEPS_PER_TYPE steps
         triggered = False
         if state["shadow_count"] >= SHADOW_STEPS_PER_TYPE:
             r_rate = state["rosetta_pass"] / state["shadow_count"]
-            t_rate = state["text_pass"]    / state["shadow_count"]
+            t_rate = state["text_pass"] / state["shadow_count"]
             if r_rate < t_rate:
                 log.warning(
                     "[SHADOW] AUTO-FALLBACK for task_type=%s (rosetta=%.0f%% < text=%.0f%%)",
-                    task_type, r_rate * 100, t_rate * 100
+                    task_type,
+                    r_rate * 100,
+                    t_rate * 100,
                 )
                 state["fallback"] = True
                 state["completions_since_fallback"] = 0
                 triggered = True
                 # Write to retrain queue
                 entry = {
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "type":      "rosetta_fallback",
+                    "timestamp": datetime.now(UTC).isoformat(),
+                    "type": "rosetta_fallback",
                     "task_type": task_type,
                     "rosetta_compile_rate": r_rate,
-                    "text_compile_rate":    t_rate,
-                    "shadow_steps":         state["shadow_count"],
+                    "text_compile_rate": t_rate,
+                    "shadow_steps": state["shadow_count"],
                 }
                 _RETRAIN_Q.parent.mkdir(parents=True, exist_ok=True)
                 with _RETRAIN_Q.open("a", encoding="utf-8") as fh:
@@ -837,90 +943,116 @@ class ShadowEvaluator:
 
     def is_fallback(self, task_type: str) -> bool:
         state = self._db.get(task_type, {})
-        return bool(state.get("fallback")) and \
-               state.get("completions_since_fallback", 0) < SHADOW_REENABLE_THRESHOLD
+        return (
+            bool(state.get("fallback"))
+            and state.get("completions_since_fallback", 0) < SHADOW_REENABLE_THRESHOLD
+        )
 
 
 # ── Offline evaluation set ────────────────────────────────────────────────────
 
 EVAL_TASKS = [
     {
-        "task_id":   "rust_mutex_basic",
+        "task_id": "rust_mutex_basic",
         "task_type": "rust_mutex",
-        "lang":      "rust",
-        "md_spec":   "Implement a thread-safe counter using Arc<Mutex<usize>>. Expose increment() and get() methods.",
+        "lang": "rust",
+        "md_spec": "Implement a thread-safe counter using Arc<Mutex<usize>>. Expose increment() and get() methods.",
         "steps": [
             {
-                "id": 1, "instruction": "define Counter struct with Arc<Mutex<usize>> field",
+                "id": 1,
+                "instruction": "define Counter struct with Arc<Mutex<usize>> field",
                 "dsl_context": "INTENT:define LANG:RUST PATTERN:shared-state\nCONSTRAINT:thread-safe\nCONTEXT:step=1 FOCUS:struct-definition",
-                "intent": "define", "pattern": "shared-state", "constraints": ["thread-safe"],
+                "intent": "define",
+                "pattern": "shared-state",
+                "constraints": ["thread-safe"],
             },
             {
-                "id": 2, "instruction": "implement increment() and get() methods on Counter",
+                "id": 2,
+                "instruction": "implement increment() and get() methods on Counter",
                 "dsl_context": "INTENT:implement LANG:RUST PATTERN:mutex-raii\nCONSTRAINT:no-deadlock CONSTRAINT:memory-safe\nCONTEXT:step=2 prev_status=COMPILER_PASS",
-                "intent": "implement", "pattern": "mutex-raii", "constraints": ["no-deadlock", "memory-safe"],
+                "intent": "implement",
+                "pattern": "mutex-raii",
+                "constraints": ["no-deadlock", "memory-safe"],
             },
         ],
     },
     {
-        "task_id":   "go_error_wrap",
+        "task_id": "go_error_wrap",
         "task_type": "go_error_handling",
-        "lang":      "go",
-        "md_spec":   "Implement WrapError using fmt.Errorf with %w verb and verify errors.Is works on wrapped errors.",
+        "lang": "go",
+        "md_spec": "Implement WrapError using fmt.Errorf with %w verb and verify errors.Is works on wrapped errors.",
         "steps": [
             {
-                "id": 1, "instruction": "implement WrapError(msg string, err error) error using fmt.Errorf %w",
+                "id": 1,
+                "instruction": "implement WrapError(msg string, err error) error using fmt.Errorf %w",
                 "dsl_context": "INTENT:implement LANG:GO PATTERN:error-wrapping\nCONSTRAINT:errors-is-compatible\nCONTEXT:step=1",
-                "intent": "implement", "pattern": "error-wrapping", "constraints": ["errors-is-compatible"],
+                "intent": "implement",
+                "pattern": "error-wrapping",
+                "constraints": ["errors-is-compatible"],
             },
             {
-                "id": 2, "instruction": "implement CheckWrap() that verifies errors.Is works on the wrapped error",
+                "id": 2,
+                "instruction": "implement CheckWrap() that verifies errors.Is works on the wrapped error",
                 "dsl_context": "INTENT:implement LANG:GO PATTERN:error-verification\nCONSTRAINT:errors-is-compatible\nCONTEXT:step=2 prev_status=COMPILER_PASS",
-                "intent": "implement", "pattern": "error-verification", "constraints": ["errors-is-compatible"],
+                "intent": "implement",
+                "pattern": "error-verification",
+                "constraints": ["errors-is-compatible"],
             },
         ],
     },
     {
-        "task_id":   "python_thread_safe",
+        "task_id": "python_thread_safe",
         "task_type": "python_concurrency",
-        "lang":      "python",
-        "md_spec":   "Implement a thread-safe session tracker with add_session(user_id, duration) and get_total(user_id).",
+        "lang": "python",
+        "md_spec": "Implement a thread-safe session tracker with add_session(user_id, duration) and get_total(user_id).",
         "steps": [
             {
-                "id": 1, "instruction": "define SessionTracker class with threading.Lock and defaultdict",
+                "id": 1,
+                "instruction": "define SessionTracker class with threading.Lock and defaultdict",
                 "dsl_context": "INTENT:define LANG:PYTHON PATTERN:thread-safe-state\nCONSTRAINT:thread-safe\nCONTEXT:step=1",
-                "intent": "define", "pattern": "thread-safe-state", "constraints": ["thread-safe"],
+                "intent": "define",
+                "pattern": "thread-safe-state",
+                "constraints": ["thread-safe"],
             },
             {
-                "id": 2, "instruction": "implement add_session(user_id, duration) and get_total(user_id) methods",
+                "id": 2,
+                "instruction": "implement add_session(user_id, duration) and get_total(user_id) methods",
                 "dsl_context": "INTENT:implement LANG:PYTHON PATTERN:thread-safe-accumulator\nCONSTRAINT:thread-safe CONSTRAINT:correct-default\nCONTEXT:step=2 prev_status=COMPILER_PASS",
-                "intent": "implement", "pattern": "thread-safe-accumulator", "constraints": ["thread-safe"],
+                "intent": "implement",
+                "pattern": "thread-safe-accumulator",
+                "constraints": ["thread-safe"],
             },
         ],
     },
     {
-        "task_id":   "rust_result_handling",
+        "task_id": "rust_result_handling",
         "task_type": "rust_error_handling",
-        "lang":      "rust",
-        "md_spec":   "Implement safe_divide returning Option<f64>, returning None for zero divisor.",
+        "lang": "rust",
+        "md_spec": "Implement safe_divide returning Option<f64>, returning None for zero divisor.",
         "steps": [
             {
-                "id": 1, "instruction": "implement fn safe_divide(a: f64, b: f64) -> Option<f64>",
+                "id": 1,
+                "instruction": "implement fn safe_divide(a: f64, b: f64) -> Option<f64>",
                 "dsl_context": "INTENT:implement LANG:RUST PATTERN:option-return\nCONSTRAINT:no-panic CONSTRAINT:zero-safe\nCONTEXT:step=1",
-                "intent": "implement", "pattern": "option-return", "constraints": ["no-panic", "zero-safe"],
+                "intent": "implement",
+                "pattern": "option-return",
+                "constraints": ["no-panic", "zero-safe"],
             },
         ],
     },
     {
-        "task_id":   "go_context_cancel",
+        "task_id": "go_context_cancel",
         "task_type": "go_concurrency",
-        "lang":      "go",
-        "md_spec":   "Implement ProcessData(ctx context.Context, inputs []int) that processes inputs in goroutines, respecting ctx.Done().",
+        "lang": "go",
+        "md_spec": "Implement ProcessData(ctx context.Context, inputs []int) that processes inputs in goroutines, respecting ctx.Done().",
         "steps": [
             {
-                "id": 1, "instruction": "implement ProcessData with goroutines and ctx.Done() select case",
+                "id": 1,
+                "instruction": "implement ProcessData with goroutines and ctx.Done() select case",
                 "dsl_context": "INTENT:implement LANG:GO PATTERN:context-cancellation\nCONSTRAINT:goroutine-safe CONSTRAINT:ctx-respecting\nCONTEXT:step=1",
-                "intent": "implement", "pattern": "context-cancellation", "constraints": ["goroutine-safe"],
+                "intent": "implement",
+                "pattern": "context-cancellation",
+                "constraints": ["goroutine-safe"],
             },
         ],
     },
@@ -929,18 +1061,20 @@ EVAL_TASKS = [
 
 # ── Run one task through both pipelines ──────────────────────────────────────
 
+
 def run_task_comparison(
     task: dict,
     builder_model: str,
     shadow: ShadowEvaluator,
     fallback_queue: list[str],
     max_retries: int = 3,
-    phase3_ctx: Optional[dict] = None,
+    phase3_ctx: dict | None = None,
     bridge_mode: str = "none",
 ) -> TaskResult:
     task_type = task.get("task_type", "unknown")
-    result    = TaskResult(task_id=task["task_id"], task_type=task_type,
-                           lang=task["lang"], md_spec=task["md_spec"])
+    result = TaskResult(
+        task_id=task["task_id"], task_type=task_type, lang=task["lang"], md_spec=task["md_spec"]
+    )
 
     if shadow.is_fallback(task_type):
         log.info("[%s] In text-only fallback for task_type=%s", task["task_id"], task_type)
@@ -951,8 +1085,19 @@ def run_task_comparison(
 
     for step in task["steps"]:
         # Run both pipelines — parallel on I/O-bound tasks
-        def _rosetta(s=step): return run_rosetta_pipeline_step(task, s, builder_model, task["md_spec"], max_retries, phase3=phase3_ctx, bridge_mode=bridge_mode)
-        def _text(s=step):    return run_text_pipeline_step(task, s, builder_model, task["md_spec"], max_retries)
+        def _rosetta(s=step):
+            return run_rosetta_pipeline_step(
+                task,
+                s,
+                builder_model,
+                task["md_spec"],
+                max_retries,
+                phase3=phase3_ctx,
+                bridge_mode=bridge_mode,
+            )
+
+        def _text(s=step):
+            return run_text_pipeline_step(task, s, builder_model, task["md_spec"], max_retries)
 
         # ── #5 VRAM-aware parallel execution ─────────────────────────────────
         # On constrained hardware (<8GB free VRAM), running both pipelines in
@@ -983,8 +1128,12 @@ def run_task_comparison(
         log.info(
             "  Step %d → Rosetta: %s (%ds, %d retries) | Text: %s (%ds, %d retries)",
             step["id"],
-            "PASS" if r_step.compiled else "FAIL", int(r_step.wall_clock_secs), r_step.retries,
-            "PASS" if t_step.compiled else "FAIL", int(t_step.wall_clock_secs), t_step.retries,
+            "PASS" if r_step.compiled else "FAIL",
+            int(r_step.wall_clock_secs),
+            r_step.retries,
+            "PASS" if t_step.compiled else "FAIL",
+            int(t_step.wall_clock_secs),
+            t_step.retries,
         )
         log.info("    BridgeStatus: %s", r_step.bridge_status)
 
@@ -993,6 +1142,7 @@ def run_task_comparison(
 
 
 # ── Report formatting ─────────────────────────────────────────────────────────
+
 
 def print_report(report: EvalReport, task_results: list[TaskResult]) -> None:
     bar = "=" * 70
@@ -1007,7 +1157,9 @@ def print_report(report: EvalReport, task_results: list[TaskResult]) -> None:
     print(f"  Rosetta compile rate : {report.overall_rosetta_compile_rate:.1%}")
     print(f"  Text    compile rate : {report.overall_text_compile_rate:.1%}")
     delta = report.overall_rosetta_compile_rate - report.overall_text_compile_rate
-    print(f"  Delta                : {delta:+.1%}  ({'Rosetta wins' if delta > 0 else 'Text wins' if delta < 0 else 'Tied'})")
+    print(
+        f"  Delta                : {delta:+.1%}  ({'Rosetta wins' if delta > 0 else 'Text wins' if delta < 0 else 'Tied'})"
+    )
 
     print(f"\n{'DILUTION CHECK':}")
     if report.dilution_detected:
@@ -1021,7 +1173,9 @@ def print_report(report: EvalReport, task_results: list[TaskResult]) -> None:
     if report.ceiling_check_passed:
         print(f"  ✓ Ceiling check PASSED (min separation={report.ceiling_separation:.3f})")
     else:
-        print(f"  ⚠ Ceiling check FAILED (min separation={report.ceiling_separation:.3f} < {CEILING_CHECK_MIN_SEPARATION})")
+        print(
+            f"  ⚠ Ceiling check FAILED (min separation={report.ceiling_separation:.3f} < {CEILING_CHECK_MIN_SEPARATION})"
+        )
         print("    Adjudication running in COARSE MODE — compile rate is primary differentiator.")
 
     if report.shadow_fallbacks:
@@ -1030,8 +1184,10 @@ def print_report(report: EvalReport, task_results: list[TaskResult]) -> None:
             print(f"  ⚠ AUTO-FALLBACK to text-only: task_type={t}")
 
     print(f"\n{'TASK BREAKDOWN':}")
-    print(f"  {'Task ID':<30} {'R.Compile':>10} {'T.Compile':>10} {'R.Retries':>10} {'T.Retries':>10} {'R.Wall':>8} {'T.Wall':>8}")
-    print(f"  {'-'*88}")
+    print(
+        f"  {'Task ID':<30} {'R.Compile':>10} {'T.Compile':>10} {'R.Retries':>10} {'T.Retries':>10} {'R.Wall':>8} {'T.Wall':>8}"
+    )
+    print(f"  {'-' * 88}")
     for tr in task_results:
         print(
             f"  {tr.task_id:<30} {tr.rosetta_compile_rate:>10.1%} {tr.text_compile_rate:>10.1%}"
@@ -1056,31 +1212,51 @@ def load_and_print_report(path: Path) -> None:
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Rosetta vs Text A/B Evaluator")
-    parser.add_argument("--mode", choices=["offline", "shadow", "ceiling-check", "report"],
-                        default="offline")
-    parser.add_argument("--builder-model", default="determinex-engineer:latest",
-                        help="Ollama model tag to use as Builder")
-    parser.add_argument("--max-retries",   type=int, default=3)
-    parser.add_argument("--task-type",     default=None,
-                        help="For shadow mode: task type to evaluate")
-    parser.add_argument("--report",        type=Path, default=None,
-                        help="For report mode: path to saved JSON report")
-    parser.add_argument("--out",           type=Path, default=None,
-                        help="Where to save the JSON report (offline mode)")
-    parser.add_argument("--gguf-path",    type=Path, default=None,
-                        help="GGUF model path for Phase 3 embedding injection")
-    parser.add_argument("--rosetta-path", type=Path, default=None,
-                        help="rosetta_v1.pt path for Phase 3 (default: ~/.determinex/rosetta/rosetta_v1.pt)")
-    parser.add_argument("--arch-name",    default="qwen2_7b",
-                        help="Rosetta arch key for projection (SIZE-SPECIFIC, e.g. qwen2_7b not qwen2)")
-    parser.add_argument("--bridge", choices=["none", "text-space", "soft-prefix"],
-                        default="none",
-                        help="Which Rosetta bridge to engage. 'none' = pure text baseline. "
-                             "'text-space' = Layer 2A approximation. 'soft-prefix' = Layer 2B injection. "
-                             "Every result must report a BridgeStatus so fallbacks cannot be silently "
-                             "counted as Rosetta successes.")
+    parser.add_argument(
+        "--mode", choices=["offline", "shadow", "ceiling-check", "report"], default="offline"
+    )
+    parser.add_argument(
+        "--builder-model",
+        default="determinex-engineer:latest",
+        help="Ollama model tag to use as Builder",
+    )
+    parser.add_argument("--max-retries", type=int, default=3)
+    parser.add_argument("--task-type", default=None, help="For shadow mode: task type to evaluate")
+    parser.add_argument(
+        "--report", type=Path, default=None, help="For report mode: path to saved JSON report"
+    )
+    parser.add_argument(
+        "--out", type=Path, default=None, help="Where to save the JSON report (offline mode)"
+    )
+    parser.add_argument(
+        "--gguf-path",
+        type=Path,
+        default=None,
+        help="GGUF model path for Phase 3 embedding injection",
+    )
+    parser.add_argument(
+        "--rosetta-path",
+        type=Path,
+        default=None,
+        help="rosetta_v1.pt path for Phase 3 (default: ~/.determinex/rosetta/rosetta_v1.pt)",
+    )
+    parser.add_argument(
+        "--arch-name",
+        default="qwen2_7b",
+        help="Rosetta arch key for projection (SIZE-SPECIFIC, e.g. qwen2_7b not qwen2)",
+    )
+    parser.add_argument(
+        "--bridge",
+        choices=["none", "text-space", "soft-prefix"],
+        default="none",
+        help="Which Rosetta bridge to engage. 'none' = pure text baseline. "
+        "'text-space' = Layer 2A approximation. 'soft-prefix' = Layer 2B injection. "
+        "Every result must report a BridgeStatus so fallbacks cannot be silently "
+        "counted as Rosetta successes.",
+    )
     args = parser.parse_args()
 
     # ── BRIDGE PRE-FLIGHT — report status BEFORE running so user knows what we ran ──
@@ -1089,15 +1265,20 @@ def main():
     # can refuse to label text-only results as Rosetta.
     try:
         from rosetta.model_registry import BridgeStatus
+
         _bridge_status_initial = {
-            "none":        BridgeStatus.TEXT_FALLBACK.value,
-            "text-space":  BridgeStatus.TEXT_FALLBACK.value,    # 2A approximates via text — explicit
-            "soft-prefix": BridgeStatus.FAILED_BRIDGE.value,    # promoted to ROSETTA_PROJECTED on success
+            "none": BridgeStatus.TEXT_FALLBACK.value,
+            "text-space": BridgeStatus.TEXT_FALLBACK.value,  # 2A approximates via text — explicit
+            "soft-prefix": BridgeStatus.FAILED_BRIDGE.value,  # promoted to ROSETTA_PROJECTED on success
         }[args.bridge]
     except ImportError:
         _bridge_status_initial = "failed_bridge"
-    log.info("[Bridge] --bridge=%s  initial_status=%s  arch=%s",
-             args.bridge, _bridge_status_initial, args.arch_name)
+    log.info(
+        "[Bridge] --bridge=%s  initial_status=%s  arch=%s",
+        args.bridge,
+        _bridge_status_initial,
+        args.arch_name,
+    )
 
     # ── REPORT MODE ───────────────────────────────────────────────────────────
     if args.mode == "report":
@@ -1113,10 +1294,12 @@ def main():
         sys.exit(0 if passed else 1)
 
     # ── Phase 3 setup ─────────────────────────────────────────────────────────
-    phase3_ctx: Optional[dict] = None
+    phase3_ctx: dict | None = None
     if args.gguf_path:
         if not _PHASE3_AVAILABLE:
-            log.error("Phase 3 requires determinex_inference + determinex_rosetta + llama-cpp-python")
+            log.error(
+                "Phase 3 requires determinex_inference + determinex_rosetta + llama-cpp-python"
+            )
             sys.exit(1)
         rosetta_path = args.rosetta_path or (
             Path.home() / ".determinex" / "rosetta" / "rosetta_v1.pt"
@@ -1128,13 +1311,13 @@ def main():
             log.error("rosetta_v1.pt not found: %s", rosetta_path)
             sys.exit(1)
         log.info("Phase 3 mode: loading DeterminexInference from %s", args.gguf_path)
-        _p3_inf   = _DeterminexInference(str(args.gguf_path), args.arch_name)
+        _p3_inf = _DeterminexInference(str(args.gguf_path), args.arch_name)
         _p3_stone = _RosettaStone.load(rosetta_path)
         phase3_ctx = {"inference": _p3_inf, "stone": _p3_stone, "arch": args.arch_name}
         log.info("Phase 3 ready — arch=%s hidden_dim=%d", args.arch_name, _p3_inf.hidden_dim)
 
     # ── OFFLINE / SHADOW ──────────────────────────────────────────────────────
-    shadow         = ShadowEvaluator()
+    shadow = ShadowEvaluator()
     fallback_queue: list[str] = []
 
     if args.mode == "shadow":
@@ -1148,12 +1331,20 @@ def main():
 
     task_results: list[TaskResult] = []
     for task in tasks:
-        tr = run_task_comparison(task, args.builder_model, shadow, fallback_queue, args.max_retries, phase3_ctx, args.bridge)
+        tr = run_task_comparison(
+            task,
+            args.builder_model,
+            shadow,
+            fallback_queue,
+            args.max_retries,
+            phase3_ctx,
+            args.bridge,
+        )
         task_results.append(tr)
 
     # ── Aggregate metrics ─────────────────────────────────────────────────────
-    all_r_compile  = [s.compiled for tr in task_results for s in tr.rosetta_steps]
-    all_t_compile  = [s.compiled for tr in task_results for s in tr.text_steps]
+    all_r_compile = [s.compiled for tr in task_results for s in tr.rosetta_steps]
+    all_t_compile = [s.compiled for tr in task_results for s in tr.text_steps]
     overall_r_rate = sum(all_r_compile) / max(len(all_r_compile), 1)
     overall_t_rate = sum(all_t_compile) / max(len(all_t_compile), 1)
 
@@ -1161,7 +1352,7 @@ def main():
     ceiling_ok, min_sep = run_ceiling_check()
 
     report = EvalReport(
-        timestamp=datetime.now(timezone.utc).isoformat(),
+        timestamp=datetime.now(UTC).isoformat(),
         mode=args.mode,
         tasks_evaluated=len(task_results),
         bridge=args.bridge,
@@ -1177,7 +1368,7 @@ def main():
 
     print_report(report, task_results)
 
-    out = args.out or (_RESULTS / f"eval_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json")
+    out = args.out or (_RESULTS / f"eval_{datetime.now(UTC).strftime('%Y%m%d_%H%M%S')}.json")
     save_report(report, task_results, out)
 
     # Exit non-zero if Rosetta isn't winning (or tied) — for CI integration

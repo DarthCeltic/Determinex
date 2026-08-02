@@ -11,9 +11,9 @@ The final-state assembly is the campaign-end roll-up. Tests:
   * The next_unblocker is declared.
   * Assembly performs no I/O beyond lock-file presence checks.
 """
+
 from __future__ import annotations
 
-import hashlib
 import importlib
 import json
 import sys
@@ -70,9 +70,7 @@ def test_status_tokens_match_expected_set():
 @pytest.mark.parametrize("lock_name", upstream_locks())
 def test_every_upstream_lock_is_present(lock_name):
     """All locks the final state references must exist on disk."""
-    assert (LOCKS_DIR / f"{lock_name}.json").is_file(), (
-        f"Missing upstream lock: {lock_name}"
-    )
+    assert (LOCKS_DIR / f"{lock_name}.json").is_file(), f"Missing upstream lock: {lock_name}"
 
 
 def test_assembly_reports_no_missing_locks():
@@ -136,7 +134,10 @@ def test_state_json_round_trip():
 
 
 def test_modules_do_not_import_subprocess_or_urllib():
-    for fname in ("determinex_ide_backend_final_state.py", "determinex_ide_backend_final_state_record.py"):
+    for fname in (
+        "determinex_ide_backend_final_state.py",
+        "determinex_ide_backend_final_state_record.py",
+    ):
         src = (_REPO_ROOT / "scripts" / "dev" / fname).read_text(encoding="utf-8")
         assert "import subprocess" not in src
         assert "from subprocess" not in src
@@ -148,11 +149,14 @@ def test_modules_do_not_import_subprocess_or_urllib():
 
 def test_assembly_does_not_run_subprocess(monkeypatch):
     import subprocess as _sp
+
     called = {"count": 0}
     original_run = _sp.run
+
     def _spy(*args, **kwargs):  # pragma: no cover — should never fire
         called["count"] += 1
         return original_run(*args, **kwargs)
+
     monkeypatch.setattr(_sp, "run", _spy)
     assemble_final_state()
     assert called["count"] == 0

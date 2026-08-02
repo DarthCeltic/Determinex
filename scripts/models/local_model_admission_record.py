@@ -10,12 +10,12 @@ This rung admits METADATA only — it does not call any model. The
 metadata satisfies the policy; future rungs may proceed to live
 admission."
 """
+
 from __future__ import annotations
 
 import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 LOCAL_MODEL_ADMISSION_STATUS_TOKENS = (
     "LOCAL_MODEL_ADMISSION_POLICY_WRITTEN",
@@ -45,8 +45,9 @@ class LocalModelCandidate:
     populate this from on-disk config or an opt-in ``ollama list``
     invocation routed through ``intake.hardened_runner``.
     """
+
     model_id: str
-    provider: str                       # one of ModelProvider values
+    provider: str  # one of ModelProvider values
     capability_tags: tuple[str, ...] = field(default_factory=tuple)
     supported_task_classes: tuple[str, ...] = field(default_factory=tuple)
     requires_network: bool = False

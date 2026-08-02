@@ -12,7 +12,7 @@ import hashlib
 import json
 import sys
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +24,7 @@ if str(SCRIPTS) not in sys.path:
 from agents.base_agent import CorpusType  # noqa: E402
 from corpus.corpus_manager import CorpusManager  # noqa: E402
 from swe_run.dataset import load_dataset_split  # noqa: E402
+
 from verified_task.bench_to_corpus_eligibility import complete_benchmark_payload  # noqa: E402
 from verified_task.verdict_recorder import atomic_write_json  # noqa: E402
 
@@ -149,11 +150,15 @@ def _make_record(
     repo = str((instance or {}).get("repo") or instance_id.split("__", 1)[0])
     repo_bucket = _repo_bucket(instance_id, instance)
     language = _language_for(split, instance)
-    failure_class = "none" if status == "resolved" else _classify_failure(
-        status=status,
-        repo_bucket=repo_bucket,
-        patch=patch,
-        instance=instance,
+    failure_class = (
+        "none"
+        if status == "resolved"
+        else _classify_failure(
+            status=status,
+            repo_bucket=repo_bucket,
+            patch=patch,
+            instance=instance,
+        )
     )
     verdict = "pass" if status == "resolved" else ("error" if status == "error" else "fail")
     problem = str((instance or {}).get("problem_statement") or "")
@@ -166,69 +171,81 @@ def _make_record(
         "--dataset_name princeton-nlp/SWE-bench_Lite --split test "
         f"--run_id {source_run_label}"
     )
-    payload = complete_benchmark_payload({
-        "benchmark": "SWE-bench_Lite",
-        "task_id": instance_id,
-        "language": language,
-        "source_kind": "benchmark_verdict",
-        "initial_prompt": problem,
-        "workspace": repo,
-        "attempt_index": 1,
-        "attempt_code_or_patch": patch,
-        "validator_results": [{
-            "validator": "swebench.harness.run_evaluation",
+    payload = complete_benchmark_payload(
+        {
+            "benchmark": "SWE-bench_Lite",
+            "task_id": instance_id,
+            "language": language,
+            "source_kind": "benchmark_verdict",
+            "initial_prompt": problem,
+            "workspace": repo,
+            "attempt_index": 1,
+            "attempt_code_or_patch": patch,
+            "validator_results": [
+                {
+                    "validator": "swebench.harness.run_evaluation",
+                    "status": status,
+                    "resolved": status == "resolved",
+                    "report_path": str(report_path),
+                    "prediction_path": str(predictions_path),
+                    "source_run": source_run_label,
+                }
+            ],
+            "verdict": verdict,
+            "repair_outcome": verdict,
+            "failure_class": failure_class,
+            "failure_type": failure_class,
+            "repair_prompt": _repair_prompt(status, failure_class, instance),
+            "final_patch": patch if status == "resolved" else "",
+            "privacy_policy": "public_benchmark_uncloaked",
+            "cloak_mode": "off",
+            "license_gate": "benchmark_dataset",
+            "safety_gate": "passed",
+            "supply_chain_gate": "swebench_dataset",
+            "model_router": (manifest.get("models") or {}).get("backend", "unknown"),
+            "router_used": model_name,
+            "validator": [validator_command],
+            "source_benchmark": "SWE-bench_Lite",
+            "license_provenance": "SWE-bench benchmark dataset",
+            "verifier_command": [validator_command],
+            "verifier_result": verdict,
+            "corpus_type": CorpusType.CODE_VERDICT.value,
+            "trace_kind": "swebench_official_harness_verdict",
+            "repo": repo,
+            "repo_bucket": repo_bucket,
+            "base_commit": (instance or {}).get("base_commit"),
+            "fail_to_pass": fail_to_pass,
+            "pass_to_pass": pass_to_pass,
+            "source_prediction_run": source_run_label,
+            "source_manifest": manifest,
+            "source_report_schema_version": report_path.name,
+            "gold_patch_imported": False,
+            "benchmark_contamination_note": (
+                "This row stores the model attempt and official verdict only. "
+                "Gold benchmark patches are not imported."
+            ),
+        }
+    )
+    input_hash_src = json.dumps(
+        {
+            "instance_id": instance_id,
+            "repo": repo,
+            "base_commit": (instance or {}).get("base_commit"),
+            "problem": problem,
+            "fail_to_pass": fail_to_pass,
+        },
+        sort_keys=True,
+        ensure_ascii=True,
+    )
+    output_hash_src = json.dumps(
+        {
+            "instance_id": instance_id,
             "status": status,
-            "resolved": status == "resolved",
-            "report_path": str(report_path),
-            "prediction_path": str(predictions_path),
-            "source_run": source_run_label,
-        }],
-        "verdict": verdict,
-        "repair_outcome": verdict,
-        "failure_class": failure_class,
-        "failure_type": failure_class,
-        "repair_prompt": _repair_prompt(status, failure_class, instance),
-        "final_patch": patch if status == "resolved" else "",
-        "privacy_policy": "public_benchmark_uncloaked",
-        "cloak_mode": "off",
-        "license_gate": "benchmark_dataset",
-        "safety_gate": "passed",
-        "supply_chain_gate": "swebench_dataset",
-        "model_router": (manifest.get("models") or {}).get("backend", "unknown"),
-        "router_used": model_name,
-        "validator": [validator_command],
-        "source_benchmark": "SWE-bench_Lite",
-        "license_provenance": "SWE-bench benchmark dataset",
-        "verifier_command": [validator_command],
-        "verifier_result": verdict,
-        "corpus_type": CorpusType.CODE_VERDICT.value,
-        "trace_kind": "swebench_official_harness_verdict",
-        "repo": repo,
-        "repo_bucket": repo_bucket,
-        "base_commit": (instance or {}).get("base_commit"),
-        "fail_to_pass": fail_to_pass,
-        "pass_to_pass": pass_to_pass,
-        "source_prediction_run": source_run_label,
-        "source_manifest": manifest,
-        "source_report_schema_version": report_path.name,
-        "gold_patch_imported": False,
-        "benchmark_contamination_note": (
-            "This row stores the model attempt and official verdict only. "
-            "Gold benchmark patches are not imported."
-        ),
-    })
-    input_hash_src = json.dumps({
-        "instance_id": instance_id,
-        "repo": repo,
-        "base_commit": (instance or {}).get("base_commit"),
-        "problem": problem,
-        "fail_to_pass": fail_to_pass,
-    }, sort_keys=True, ensure_ascii=True)
-    output_hash_src = json.dumps({
-        "instance_id": instance_id,
-        "status": status,
-        "patch_sha256": hashlib.sha256(patch.encode("utf-8", "replace")).hexdigest(),
-    }, sort_keys=True, ensure_ascii=True)
+            "patch_sha256": hashlib.sha256(patch.encode("utf-8", "replace")).hexdigest(),
+        },
+        sort_keys=True,
+        ensure_ascii=True,
+    )
     manager = CorpusManager()
     return manager._normalize_record(
         corpus_type=CorpusType.CODE_VERDICT,
@@ -248,7 +265,7 @@ def build_records(args: argparse.Namespace) -> tuple[list[dict[str, Any]], dict[
     include_status = set(args.include_status.split(","))
     selected = _iter_selected_ids(status_sets, include_status)
     if args.max_records:
-        selected = selected[:args.max_records]
+        selected = selected[: args.max_records]
     instance_ids = [instance_id for _, instance_id in selected]
     dataset_rows = load_dataset_split(args.split, instance_ids=instance_ids)
     dataset_by_id = {row["instance_id"]: row for row in dataset_rows}
@@ -269,22 +286,24 @@ def build_records(args: argparse.Namespace) -> tuple[list[dict[str, Any]], dict[
             missing_predictions += 1
         if instance is None:
             missing_dataset += 1
-        records.append(_make_record(
-            status=status,
-            instance_id=instance_id,
-            prediction=prediction,
-            instance=instance,
-            manifest=manifest,
-            report_path=args.report,
-            predictions_path=args.predictions,
-            split=args.split,
-            source_run_label=source_run_label,
-        ))
+        records.append(
+            _make_record(
+                status=status,
+                instance_id=instance_id,
+                prediction=prediction,
+                instance=instance,
+                manifest=manifest,
+                report_path=args.report,
+                predictions_path=args.predictions,
+                split=args.split,
+                source_run_label=source_run_label,
+            )
+        )
 
     status_counts = Counter(record.get("verdict", "unknown") for record in records)
     failure_counts = Counter(record.get("failure_class", "unknown") for record in records)
     summary = {
-        "created_utc": datetime.now(timezone.utc).isoformat(),
+        "created_utc": datetime.now(UTC).isoformat(),
         "report": str(args.report),
         "predictions": str(args.predictions),
         "manifest": str(args.manifest) if args.manifest else "",
@@ -303,7 +322,9 @@ def build_records(args: argparse.Namespace) -> tuple[list[dict[str, Any]], dict[
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Ingest SWE-bench report outcomes into signed corpus.")
+    parser = argparse.ArgumentParser(
+        description="Ingest SWE-bench report outcomes into signed corpus."
+    )
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--predictions", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, default=None)
@@ -321,7 +342,9 @@ def main() -> int:
         type=Path,
         default=Path("logs/swebench/corpus_ingest/swebench_ingest_summary.json"),
     )
-    parser.add_argument("--execute", action="store_true", help="Write records to the signed corpus.")
+    parser.add_argument(
+        "--execute", action="store_true", help="Write records to the signed corpus."
+    )
     args = parser.parse_args()
 
     for path in [args.report, args.predictions]:

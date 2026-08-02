@@ -1,5 +1,4 @@
 """SentinelBench: cloud vision API calls require Visual Cloak to be active."""
-from agents.safety_governor import ActionSafetyGovernor
 
 
 def test_cloud_vision_blocked_without_cloak(governor):

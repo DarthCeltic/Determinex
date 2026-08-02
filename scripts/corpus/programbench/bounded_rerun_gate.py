@@ -4,10 +4,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -48,12 +49,18 @@ class BoundedRerunDecision:
 
 
 class BoundedRerunGate:
-    def __init__(self, root: Path = Path("."), output_dir: Path = Path("assurance/evidence/programbench_bounded_reruns")) -> None:
+    def __init__(
+        self,
+        root: Path = Path("."),
+        output_dir: Path = Path("assurance/evidence/programbench_bounded_reruns"),
+    ) -> None:
         self.root = root
         self.output_dir = output_dir
         self.packet_gate = RootCausePacketGate(root=root)
 
-    def authorize(self, packet_path: Path | None, target: dict[str, Any], *, attempt_index: int = 1) -> BoundedRerunDecision:
+    def authorize(
+        self, packet_path: Path | None, target: dict[str, Any], *, attempt_index: int = 1
+    ) -> BoundedRerunDecision:
         packet_status = self.packet_gate.authorize_rerun(packet_path)
         if packet_status.status == RootCausePacketStatus.RERUN_BLOCKED_STALE_PACKET.value:
             return self._decision(
@@ -65,12 +72,27 @@ class BoundedRerunGate:
             )
         if packet_status.status != RootCausePacketStatus.RERUN_AUTHORIZED.value:
             status = BoundedRerunStatus.BOUNDED_RERUN_BLOCKED_NO_PACKET.value
-            if packet_status.packet_status == RootCausePacketStatus.ROOT_CAUSE_PACKET_CONFLICT.value:
+            if (
+                packet_status.packet_status
+                == RootCausePacketStatus.ROOT_CAUSE_PACKET_CONFLICT.value
+            ):
                 status = BoundedRerunStatus.BOUNDED_RERUN_BLOCKED_CONFLICT.value
-            if packet_status.packet_status == RootCausePacketStatus.ROOT_CAUSE_PACKET_REJECTED.value:
-                if "quarantine_only_replay_manifest_cannot_authorize_rerun" in packet_status.reasons:
+            if (
+                packet_status.packet_status
+                == RootCausePacketStatus.ROOT_CAUSE_PACKET_REJECTED.value
+            ):
+                if (
+                    "quarantine_only_replay_manifest_cannot_authorize_rerun"
+                    in packet_status.reasons
+                ):
                     status = BoundedRerunStatus.BOUNDED_RERUN_BLOCKED_QUARANTINE_ONLY.value
-            return self._decision(status, packet_status.packet_id, target, packet_status.rerun_scope, packet_status.reasons)
+            return self._decision(
+                status,
+                packet_status.packet_id,
+                target,
+                packet_status.rerun_scope,
+                packet_status.reasons,
+            )
 
         scope = packet_status.rerun_scope
         mismatch = _scope_mismatch(scope, target)
@@ -101,16 +123,25 @@ class BoundedRerunGate:
             [],
         )
 
-    def execute_with_mock(self, packet_path: Path, target: dict[str, Any], executor: RerunExecutor, *, attempt_index: int = 1) -> BoundedRerunDecision:
+    def execute_with_mock(
+        self,
+        packet_path: Path,
+        target: dict[str, Any],
+        executor: RerunExecutor,
+        *,
+        attempt_index: int = 1,
+    ) -> BoundedRerunDecision:
         authorization = self.authorize(packet_path, target, attempt_index=attempt_index)
         if authorization.status != BoundedRerunStatus.BOUNDED_RERUN_AUTHORIZED.value:
             return authorization
-        outcome = executor({
-            "target": target,
-            "rerun_scope": authorization.rerun_scope,
-            "packet_id": authorization.packet_id,
-            "attempt_index": attempt_index,
-        })
+        outcome = executor(
+            {
+                "target": target,
+                "rerun_scope": authorization.rerun_scope,
+                "packet_id": authorization.packet_id,
+                "attempt_index": attempt_index,
+            }
+        )
         record = make_outcome_record(
             packet_id=authorization.packet_id,
             target=target,
@@ -142,7 +173,14 @@ class BoundedRerunGate:
             reasons=reasons,
         )
         path = write_bounded_rerun_record(record, self.output_dir)
-        return BoundedRerunDecision(status, packet_id=packet_id, target=target, rerun_scope=rerun_scope, reasons=reasons, record_path=str(path))
+        return BoundedRerunDecision(
+            status,
+            packet_id=packet_id,
+            target=target,
+            rerun_scope=rerun_scope,
+            reasons=reasons,
+            record_path=str(path),
+        )
 
 
 def _scope_mismatch(scope: dict[str, Any], target: dict[str, Any]) -> list[str]:
@@ -161,13 +199,17 @@ def _normalize_outcome(outcome: dict[str, Any]) -> dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Authorize bounded ProgramBench rerun execution from a root-cause packet.")
+    parser = argparse.ArgumentParser(
+        description="Authorize bounded ProgramBench rerun execution from a root-cause packet."
+    )
     parser.add_argument("packet", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--tool", required=True)
     parser.add_argument("--candidate-id", required=True)
     parser.add_argument("--attempt-index", type=int, default=1)
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_bounded_reruns"))
+    parser.add_argument(
+        "--output-dir", type=Path, default=Path("assurance/evidence/programbench_bounded_reruns")
+    )
     args = parser.parse_args()
     target = {"tool": args.tool, "candidate_id": args.candidate_id}
     decision = BoundedRerunGate(root=args.root, output_dir=args.output_dir).authorize(

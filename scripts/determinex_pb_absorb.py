@@ -13,6 +13,7 @@ extraction. One-time seed; the flywheel continues from verified solves.
 
 Usage:  python3 determinex_pb_absorb.py [--max-chunks N] [--dry-run]
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -41,7 +42,9 @@ JSON:"""
 
 _GAMING = re.compile(
     r"pytest_current_test|current.test.routing|embed.*golden|golden.*bytes|del items\[|"
-    r"collect_ignore|prebuilt binary|answer.key|hardcode.*expected", re.I)
+    r"collect_ignore|prebuilt binary|answer.key|hardcode.*expected",
+    re.I,
+)
 
 # A real (symptom->fix) class: the DETECT looks like a FAILURE and the FIX is an ACTION -- this
 # rejects strategy/meta prose the model sometimes returns ("X is the bottleneck -> move toward 100").
@@ -49,35 +52,47 @@ _SYMPTOM = re.compile(
     r"error|fail|not found|missing|cannot|can't|undefined|mismatch|exit|\brc\b|compil|build|panic|"
     r"exception|timeout|no such|expected|assert|unresolved|--|/workspace|stderr|stdout|segfault|"
     r"crash|wrong|incorrect|differ|unexpected|invalid|broke|broken|\bhang|stuck|version|skip|"
-    r"not_run|rc=127|linker|header|cargo|go\.mod|configure", re.I)
+    r"not_run|rc=127|linker|header|cargo|go\.mod|configure",
+    re.I,
+)
 _ACTION = re.compile(
     r"\b(install|build|export|set|add|convert|run|use|replace|remove|pin|enable|disable|apt|cargo|"
     r"make|cmake|sed|chmod|dos2unix|vendor|fetch|download|patch|inject|rename|link|copy|symlink|"
     r"create|generate|normalize|strip|wrap|redirect|mount|provision|ensure|check|verify|point|"
     r"target|expect|require|provide|specify|configure|update|delete|drop|prefer|switch|apply|"
-    r"rebuild|recompile|adjust|correct|match|map|extract|validate|pass|disable)\b|--|=| -[a-zA-Z]", re.I)
+    r"rebuild|recompile|adjust|correct|match|map|extract|validate|pass|disable)\b|--|=| -[a-zA-Z]",
+    re.I,
+)
 # A raw CODE statement (not a failure description) -- the absorber sometimes pulls a code diff out of
 # a source file ("if a in (...) -> if arg in (...)"); reject those as classes (refactors, not fixes).
 _CODE = re.compile(
     r"^\s*(if |for |while |def |return |import |from |let |fn |func |var |const |pub |public |private |"
-    r"class |struct |elif |else|try|except|match |switch |case |#include|//|/\*|\}|\{)", re.I)
+    r"class |struct |elif |else|try|except|match |switch |case |#include|//|/\*|\}|\{)",
+    re.I,
+)
 # REQUIREMENT prose, not an observed failure: "X should support Y" / "ensure X handles Y". This was
 # the dominant junk shape in the 2026-07-16 quarantine (behavioral-spec paraphrase loops). A detect
 # in requirement voice is only kept if it ALSO carries a hard failure signature (a real observation).
 _REQUIREMENT = re.compile(
     r"\b(should|must|shall|needs? to|is required to|ensure[sd]?|make sure|supports?|allows?|"
-    r"handles?|accepts?|provides?)\b", re.I)
+    r"handles?|accepts?|provides?)\b",
+    re.I,
+)
 _HARD_FAIL = re.compile(
     r"error|fail|rc=\d|exit (code|status)|traceback|panic|segfault|not found|no such|missing|"
     r"mismatch|crash|\bhang|broken|undefined|timeout|cannot|can't|unresolved|assert|stderr|"
-    r"not_run|linker|exception", re.I)
+    r"not_run|linker|exception",
+    re.I,
+)
 # A usable fix names a concrete ARTIFACT (a flag, package, command, file, version, env var) --
 # "Ensure the tool supports both sort directions" names none and is unactionable requirement prose.
 _CONCRETE = re.compile(
     r"--[a-z]|=|/[a-z]|\binstall\b|\bapt(-get)?\b|\bcargo\b|\bgo (mod|build)\b|\bsed\b|\bexport\b|"
     r"\bchmod\b|\bln -|\bmake\b|\bcmake\b|\bpatch\b|\bdos2unix\b|\bpip\b|\bnpm\b|\bgit \b|"
     r"\.(sh|toml|json|lock|mod|ac|mk|py|rs|go|c|h|cfg|ini|yaml|yml)\b|\bversion \d|(?-i:\b[A-Z_]{4,}\b)|"
-    r"\bconftest\b|\bcompile\.sh\b|\btimeout \d|\b-[a-zA-Z] |\bsymlink\b|\bvendor\b|\blocale\b", re.I)
+    r"\bconftest\b|\bcompile\.sh\b|\btimeout \d|\b-[a-zA-Z] |\bsymlink\b|\bvendor\b|\blocale\b",
+    re.I,
+)
 
 
 def _is_paraphrase_loop(det: str, fix: str) -> bool:
@@ -88,7 +103,7 @@ def _is_paraphrase_loop(det: str, fix: str) -> bool:
     ft = set(re.findall(r"[a-z0-9_.\-]{3,}", fix.lower()))
     if not dt or not ft:
         return True
-    novel = ft - dt                       # what the fix ADDS beyond restating the symptom
+    novel = ft - dt  # what the fix ADDS beyond restating the symptom
     return len(novel) < 3 or len(ft & dt) / len(ft) > 0.75
 
 
@@ -151,9 +166,9 @@ def _sources() -> list[Path]:
     up, so online material flows through the same distiller."""
     srcs: list[Path] = []
     for base, pat in (
-        (ROOT / "corpus" / "programbench", "*.md"),            # top corpus docs (NOT source READMEs)
+        (ROOT / "corpus" / "programbench", "*.md"),  # top corpus docs (NOT source READMEs)
         (ROOT / "corpus" / "programbench" / "_strategy", "*.md"),
-        (ROOT / "docs", "**/*.md"),                            # the docs tree (no source trees in it)
+        (ROOT / "docs", "**/*.md"),  # the docs tree (no source trees in it)
         (ROOT / "specs", "*.md"),
         (ROOT / "corpus" / "programbench" / "ingest", "**/*.txt"),  # web-fetched pages land here
         (Path.home() / ".claude" / "projects" / "c--Dev-Determinex" / "memory", "*.md"),
@@ -180,13 +195,25 @@ def _sources() -> list[Path]:
             pass
     # CODEBASES: build configs (how tools/projects build -- the fix-relevant code) across the tool
     # overrides + T: tool source. The model extracts build patterns; the quality gate filters noise.
-    cfg = ("compile.sh", "Cargo.toml", "go.mod", "Makefile", "CMakeLists.txt", "package.json",
-           "pyproject.toml", "setup.py", "build.sh", "configure.ac")
-    cbase = ROOT / "corpus" / "programbench" / "per_tool_overrides"   # top-level config per tool only
+    cfg = (
+        "compile.sh",
+        "Cargo.toml",
+        "go.mod",
+        "Makefile",
+        "CMakeLists.txt",
+        "package.json",
+        "pyproject.toml",
+        "setup.py",
+        "build.sh",
+        "configure.ac",
+    )
+    cbase = (
+        ROOT / "corpus" / "programbench" / "per_tool_overrides"
+    )  # top-level config per tool only
     for name in cfg:
         try:
             if cbase.exists():
-                srcs += sorted(cbase.glob("*/" + name))[:250]   # */name (top), not **/ (source tree)
+                srcs += sorted(cbase.glob("*/" + name))[:250]  # */name (top), not **/ (source tree)
         except Exception:
             continue
     # NOTE: the T: tool-source tree (determinex-programbench) is a HUGE recursive glob -- too slow for
@@ -195,8 +222,18 @@ def _sources() -> list[Path]:
     # SKIP behavioral_spec files: they describe INTENDED behavior (requirements), not observed
     # failures+fixes -- feeding them through the symptom->fix extractor produced 1165 tautological
     # paraphrase-loop "classes" (quarantined 2026-07-16, see learned_classes_quarantine_20260716).
-    _SKIP = ("node_modules", "/.git/", "/target/", "/dist/", "/build/", "/vendor/",
-             "site-packages", "/.venv", "/_superseded/", "behavioral_spec")
+    _SKIP = (
+        "node_modules",
+        "/.git/",
+        "/target/",
+        "/dist/",
+        "/build/",
+        "/vendor/",
+        "site-packages",
+        "/.venv",
+        "/_superseded/",
+        "behavioral_spec",
+    )
     seen: set = set()
     out: list[Path] = []
     for s in srcs:
@@ -227,9 +264,11 @@ def _bound_and_write(kn: dict, lc: dict, dry_run: bool) -> None:
     run's own fields (learned_classes, absorbed_sources, and this run's in-memory kn's OTHER keys
     only if the disk copy doesn't already have a newer version of them) -- never blind-dump the
     stale in-memory snapshot over concurrent external edits."""
-    if len(lc) > _CAP:                    # keep verified (flywheel) over prose-absorbed, then recent
-        drop = sorted(lc, key=lambda x: (bool(lc[x].get("verified")), str(lc[x].get("learned", ""))))
-        for k in drop[:len(lc) - _CAP]:
+    if len(lc) > _CAP:  # keep verified (flywheel) over prose-absorbed, then recent
+        drop = sorted(
+            lc, key=lambda x: (bool(lc[x].get("verified")), str(lc[x].get("learned", "")))
+        )
+        for k in drop[: len(lc) - _CAP]:
             lc.pop(k, None)
     if dry_run:
         return
@@ -259,11 +298,15 @@ def absorb(generate, max_chunks: int = 400, dry_run: bool = False) -> dict:
     lc = kn.setdefault("learned_classes", {})
     if not isinstance(lc, dict):
         lc, kn["learned_classes"] = {}, {}
-    done = set(kn.setdefault("absorbed_sources", []) if isinstance(kn.get("absorbed_sources"), list) else [])
+    done = set(
+        kn.setdefault("absorbed_sources", [])
+        if isinstance(kn.get("absorbed_sources"), list)
+        else []
+    )
     added = scanned = skipped_gaming = srcs_done = 0
     for src in _sources():
         sid = str(src.resolve())
-        if sid in done:                   # RESUME: already absorbed this file
+        if sid in done:  # RESUME: already absorbed this file
             continue
         if scanned >= max_chunks:
             break
@@ -292,20 +335,35 @@ def absorb(generate, max_chunks: int = 400, dry_run: bool = False) -> dict:
                     skipped_gaming += 1
                 if why:
                     continue
-                key = "absorbed_" + hashlib.sha256((det + "||" + fix).encode("utf-8")).hexdigest()[:10]
+                key = (
+                    "absorbed_"
+                    + hashlib.sha256((det + "||" + fix).encode("utf-8")).hexdigest()[:10]
+                )
                 if key in lc:
                     continue
-                lc[key] = {"detect": det, "symptom": det, "fix": fix,
-                           "source_tool": (str(it.get("source_tool") or "") or src.stem)[:40],
-                           "source": "prose:" + src.name, "verified": False,
-                           "learned": time.strftime("%Y-%m-%d"), "uses": 0}
+                lc[key] = {
+                    "detect": det,
+                    "symptom": det,
+                    "fix": fix,
+                    "source_tool": (str(it.get("source_tool") or "") or src.stem)[:40],
+                    "source": "prose:" + src.name,
+                    "verified": False,
+                    "learned": time.strftime("%Y-%m-%d"),
+                    "uses": 0,
+                }
                 added += 1
         done.add(sid)
         srcs_done += 1
         kn["absorbed_sources"] = sorted(done)
-        _bound_and_write(kn, lc, dry_run)   # incremental checkpoint after each source
-    return {"added": added, "scanned": scanned, "skipped_gaming": skipped_gaming, "srcs_done": srcs_done,
-            "total_learned": len(lc), "remaining_sources": len(_sources()) - len(done)}
+        _bound_and_write(kn, lc, dry_run)  # incremental checkpoint after each source
+    return {
+        "added": added,
+        "scanned": scanned,
+        "skipped_gaming": skipped_gaming,
+        "srcs_done": srcs_done,
+        "total_learned": len(lc),
+        "remaining_sources": len(_sources()) - len(done),
+    }
 
 
 def scan_drive(max_files: int = 6000) -> dict:
@@ -314,13 +372,32 @@ def scan_drive(max_files: int = 6000) -> dict:
     pruning (node_modules/.git/target/...) + a hard file cap, so it's bounded (the recursive globs
     were unbounded -> too slow). Includes code (.rs/.go/.c/.py) so the CODEBASES get ingested too."""
     import os
+
     # T:/determinex-archive is a 2.4MB post-rename skeleton; the real 29GB archive lives at
     # T:/determinex-archive (same split-brain pattern as corpus_root_split_brain_healed_2026_07_18
     # -- found + fixed 2026-07-19, this scan_drive() call had been silently reading ~nothing).
-    roots = [Path("T:/determinex-archive"), ROOT.parent]   # T: archive + <repo-parent> (all 8 projects)
-    SKIP = {"node_modules", ".git", "target", "dist", "build", "vendor", "site-packages", ".venv",
-            "__pycache__", ".next", ".cargo", "determinex-models", "_superseded", ".pytest_cache",
-            "backups", "dist-windows"}
+    roots = [
+        Path("T:/determinex-archive"),
+        ROOT.parent,
+    ]  # T: archive + <repo-parent> (all 8 projects)
+    SKIP = {
+        "node_modules",
+        ".git",
+        "target",
+        "dist",
+        "build",
+        "vendor",
+        "site-packages",
+        ".venv",
+        "__pycache__",
+        ".next",
+        ".cargo",
+        "determinex-models",
+        "_superseded",
+        ".pytest_cache",
+        "backups",
+        "dist-windows",
+    }
     # prose + BUILD CONFIGS only. Raw .rs/.go/.c/.py source produces code-DIFF noise for a
     # symptom->fix distiller (gets purged); raw source belongs in a future code-RAG for the BUILDER.
     exts = {".md", ".txt", ".toml", ".mod", ".sh", ".cfg", ".ini", ".cmake"}
@@ -376,13 +453,16 @@ def _fetch_clean(u: str) -> str:
     Credit: Crawl4AI (unclecode/crawl4ai)."""
     try:
         from crawl4ai import WebCrawler  # type: ignore  # optional dep; clean JS-rendered markdown
-        c = WebCrawler(); c.warmup()
+
+        c = WebCrawler()
+        c.warmup()
         md = (getattr(c.run(url=u), "markdown", "") or "").strip()
         if md:
             return md
     except Exception:
-        pass                                     # not installed / API drift -> urllib fallback
+        pass  # not installed / API drift -> urllib fallback
     import urllib.request
+
     req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0 (determinex-ingest)"})
     html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace")
     html = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", html, flags=re.DOTALL | re.I)
@@ -426,7 +506,7 @@ def purge() -> dict:
         if not isinstance(v, dict):
             drop.append(k)
             continue
-        if v.get("verified"):                     # flywheel-proven -> keep
+        if v.get("verified"):  # flywheel-proven -> keep
             continue
         det, fix = str(v.get("detect", "")), str(v.get("fix", ""))
         if _quality_gate(det, fix) is not None:
@@ -467,10 +547,16 @@ def salvage_quarantine(apply: bool = False) -> dict:
         reasons[why] = reasons.get(why, 0) + 1
         if why == "PASS":
             survivors[k] = v
-    res = {"quarantined": len(entries), "survivors": len(survivors), "by_reason": dict(sorted(
-        reasons.items(), key=lambda kv: -kv[1])), "applied": False,
-        "sample_survivors": [{"detect": v["detect"][:100], "fix": v["fix"][:120]}
-                             for v in list(survivors.values())[:5]]}
+    res = {
+        "quarantined": len(entries),
+        "survivors": len(survivors),
+        "by_reason": dict(sorted(reasons.items(), key=lambda kv: -kv[1])),
+        "applied": False,
+        "sample_survivors": [
+            {"detect": v["detect"][:100], "fix": v["fix"][:120]}
+            for v in list(survivors.values())[:5]
+        ],
+    }
     if apply and survivors:
         lc = kn.setdefault("learned_classes", {})
         readmitted = 0
@@ -481,11 +567,13 @@ def salvage_quarantine(apply: bool = False) -> dict:
             nv["verified"] = False
             nv["salvaged"] = time.strftime("%Y-%m-%d")
             lc[k] = nv
-            entries.pop(k, None)          # moved out of quarantine, not duplicated
+            entries.pop(k, None)  # moved out of quarantine, not duplicated
             readmitted += 1
         q["salvage_" + time.strftime("%Y%m%d")] = {
-            "readmitted": readmitted, "gate": "requirement/vague-fix/paraphrase-aware _quality_gate",
-            "note": "survivors moved to learned_classes as unverified hints; next use is oracle-gated"}
+            "readmitted": readmitted,
+            "gate": "requirement/vague-fix/paraphrase-aware _quality_gate",
+            "note": "survivors moved to learned_classes as unverified hints; next use is oracle-gated",
+        }
         q["count"] = len(entries)
         _bound_and_write(kn, lc, dry_run=False)
         res["applied"], res["readmitted"] = True, readmitted
@@ -514,6 +602,7 @@ def main() -> int:
     allow_paid = "--allow-paid" in sys.argv
     sys.path.insert(0, str(ROOT / "scripts"))
     import determinex_providers as PV
+
     # FREE/LOCAL ONLY by default (operator: do not spend on paid APIs for bulk ingest). Only the
     # local model (Ollama) is used unless --allow-paid is passed.
     PAID = {"deepseek", "claude", "gemini", "codex", "groq", "openai", "openrouter", "anthropic"}
@@ -521,7 +610,9 @@ def main() -> int:
     if not avail:
         print("absorb: no FREE/local provider available (pass --allow-paid to permit paid APIs)")
         return 1
-    print(f"absorb: providers={avail} (free/local only) sources={len(_sources())} max_chunks={max_chunks}")
+    print(
+        f"absorb: providers={avail} (free/local only) sources={len(_sources())} max_chunks={max_chunks}"
+    )
     gen = PV.get_rotating_generator(avail)
     res = absorb(gen, max_chunks=max_chunks, dry_run=dry)
     print(f"absorb done: {res}")

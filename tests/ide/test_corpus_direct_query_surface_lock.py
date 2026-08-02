@@ -4,6 +4,7 @@ Direct read-only query surface over the ONE canonical corpus API
 (scripts/determinex_corpus_api.py). No new search/ranking/maturity logic was
 written here -- this rung is wiring, not invention.
 """
+
 from __future__ import annotations
 
 import importlib
@@ -19,10 +20,14 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 bcs = importlib.import_module("ide.backend_command_surface")
 td = importlib.import_module("ide._tauri_driver")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_CORPUS_DIRECT_QUERY_SURFACE_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_CORPUS_DIRECT_QUERY_SURFACE_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_corpus_direct_query_surface"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
-PANEL_PATH = _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "LearningStudioPanel.tsx"
+PANEL_PATH = (
+    _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "LearningStudioPanel.tsx"
+)
 BRIDGE_RS = _REPO_ROOT / "frontend" / "src-tauri" / "src" / "ide_repair_bridge.rs"
 LIB_RS = _REPO_ROOT / "frontend" / "src-tauri" / "src" / "lib.rs"
 API_TS = _REPO_ROOT / "frontend" / "src" / "lib" / "ide-product-shell-api.ts"
@@ -40,7 +45,9 @@ def test_ask_mode_returns_real_corpus_hits():
     """A REAL correctness check, not shape-only: a query known to hit a real
     corpus entry (the ProgramBench provenance invalidation) must surface it."""
     surface = bcs.IDEBackendCommandSurface()
-    r = surface.call("query_corpus", corpus_query="programbench 65 locks strict count", corpus_mode="ask")
+    r = surface.call(
+        "query_corpus", corpus_query="programbench 65 locks strict count", corpus_mode="ask"
+    )
     assert r.status == "IDE_COMMAND_OK"
     assert r.source_mutation_authorized is False
     assert r.training_eligible is False
@@ -50,7 +57,9 @@ def test_ask_mode_returns_real_corpus_hits():
 
 def test_ask_mode_surfaces_supersession_warnings():
     surface = bcs.IDEBackendCommandSurface()
-    r = surface.call("query_corpus", corpus_query="programbench 65 locks strict count", corpus_mode="ask")
+    r = surface.call(
+        "query_corpus", corpus_query="programbench 65 locks strict count", corpus_mode="ask"
+    )
     assert isinstance(r.payload["warnings"], list)
 
 
@@ -92,8 +101,11 @@ def test_rust_command_declared_and_registered():
 
 def test_rust_command_excluded_from_frozen_unified_product_list():
     import re
+
     src = BRIDGE_RS.read_text(encoding="utf-8")
-    m = re.search(r"UNIFIED_PRODUCT_READ_ONLY_COMMANDS\s*:\s*&\[&str\]\s*=\s*&\[(.+?)\];", src, re.DOTALL)
+    m = re.search(
+        r"UNIFIED_PRODUCT_READ_ONLY_COMMANDS\s*:\s*&\[&str\]\s*=\s*&\[(.+?)\];", src, re.DOTALL
+    )
     assert m
     declared = re.findall(r'"([^"]+)"', m.group(1))
     assert "query_corpus" not in declared

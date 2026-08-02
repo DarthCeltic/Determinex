@@ -140,7 +140,9 @@ def _diff_traces(ref_lines: list[str], cand_lines: list[str]) -> dict[str, Any]:
 
     if first_diff is None and len(ref_lines) != len(cand_lines):
         diff_len = abs(len(ref_lines) - len(cand_lines))
-        first_diff = f"length divergence: ref={len(ref_lines)} cand={len(cand_lines)} (delta={diff_len})"
+        first_diff = (
+            f"length divergence: ref={len(ref_lines)} cand={len(cand_lines)} (delta={diff_len})"
+        )
 
     # File-access order: extract openat/open calls
     ref_opens = [ln for ln in ref_lines if "openat(" in ln or "open(" in ln]
@@ -202,7 +204,9 @@ async def run_syscall_diff(
             return DiagnosticSection(
                 kind="syscall_diff",
                 rank=3,
-                content=[{"first_diff": "strace_not_found", "summary": "strace binary not in PATH"}],
+                content=[
+                    {"first_diff": "strace_not_found", "summary": "strace binary not in PATH"}
+                ],
             )
     except Exception:
         pass

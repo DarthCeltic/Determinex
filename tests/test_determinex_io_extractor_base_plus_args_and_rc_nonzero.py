@@ -61,6 +61,7 @@ Hand-verified real recovered examples for both tools (test_annotate_single_file_
 coverage, test_file_execution_simple) before trusting any of these counts -- confirmed full
 correct argv, staged file content, and golden stdout, not just a nonzero recovery count.
 """
+
 from __future__ import annotations
 
 import ast
@@ -77,7 +78,7 @@ def _tree(src: str) -> ast.Module:
 
 # ---------- fix 15(a): base+args BinOp-Add shape ----------
 
-_GOMPLATE_CONFTEST = '''
+_GOMPLATE_CONFTEST = """
 import subprocess
 import os
 from pathlib import Path
@@ -98,7 +99,7 @@ def run_gomplate():
                                  stderr=subprocess.PIPE, env=run_env, cwd=cwd, timeout=timeout)
         return result.returncode, result.stdout.decode(), result.stderr.decode()
     return _run
-'''
+"""
 
 
 def test_discovers_base_for_binop_add_prefix_plus_args_shape():
@@ -111,12 +112,12 @@ def test_discovers_base_for_binop_add_prefix_plus_args_shape():
 def test_extract_file_resolves_stdin_only_call_via_binop_base(tmp_path):
     conf = tmp_path / "conftest.py"
     conf.write_text(_GOMPLATE_CONFTEST, encoding="utf-8")
-    src = '''
+    src = """
 def test_index_first(run_gomplate):
     returncode, stdout, stderr = run_gomplate(stdin='{{ 1 }}')
     assert returncode == 0, stderr
     assert stdout == "1"
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -129,7 +130,7 @@ def test_index_first(run_gomplate):
 
 # ---------- fix 15(a-variant): `[prefix] + list(*args)` (quickjs's *args shape) ----------
 
-_QUICKJS_CONFTEST = '''
+_QUICKJS_CONFTEST = """
 import subprocess
 from pathlib import Path
 
@@ -142,7 +143,7 @@ def run_qjs():
         return subprocess.run(cmd, input=input, capture_output=True, text=True,
                                timeout=timeout, check=check, **kwargs)
     return _run
-'''
+"""
 
 
 def test_discovers_base_for_list_star_args_shape():
@@ -158,11 +159,11 @@ def test_discovers_base_for_list_star_args_shape():
 def test_extract_file_resolves_multi_positional_star_args_call(tmp_path):
     conf = tmp_path / "conftest.py"
     conf.write_text(_QUICKJS_CONFTEST, encoding="utf-8")
-    src = '''
+    src = """
 def test_eval_simple(run_qjs):
     result = run_qjs("--eval", "1+1")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -171,6 +172,7 @@ def test_eval_simple(run_qjs):
 
 
 # ---------- fix 15(b): module-level executable placeholder ----------
+
 
 def test_extract_wrapper_base_argv_resolves_module_level_executable_ref():
     tree = _tree(_GOMPLATE_CONFTEST)
@@ -181,7 +183,8 @@ def test_extract_wrapper_base_argv_resolves_module_level_executable_ref():
             module_path_exprs = {
                 stmt.targets[0].id: stmt.value
                 for stmt in tree.body
-                if isinstance(stmt, ast.Assign) and len(stmt.targets) == 1
+                if isinstance(stmt, ast.Assign)
+                and len(stmt.targets) == 1
                 and isinstance(stmt.targets[0], ast.Name)
             }
             base, _suffix = iox._extract_wrapper_base_argv(target, {}, module_path_exprs)
@@ -195,7 +198,7 @@ def test_extract_wrapper_base_argv_resolves_module_level_executable_ref():
 
 # ---------- fix 15(c)+(d): positional-list base-merge + unresolvable-list abort ----------
 
-_BEDTOOLS_CONFTEST = '''
+_BEDTOOLS_CONFTEST = """
 import subprocess
 from pathlib import Path
 
@@ -207,17 +210,17 @@ def run_bedtools():
         result = subprocess.run(cmd, capture_output=True, input=stdin, cwd=None)
         return result
     return _run
-'''
+"""
 
 
 def test_positional_list_arg_prepends_base_not_replaces(tmp_path):
     conf = tmp_path / "conftest.py"
     conf.write_text(_BEDTOOLS_CONFTEST, encoding="utf-8")
-    src = '''
+    src = """
 def test_annotate_basic(run_bedtools):
     result = run_bedtools(["annotate", "-i", "a.bed"])
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -232,11 +235,11 @@ def test_unresolvable_positional_list_element_aborts_not_falls_to_base_only(tmp_
     fall through to argv=[the wrapper's base only] with every real argument dropped."""
     conf = tmp_path / "conftest.py"
     conf.write_text(_BEDTOOLS_CONFTEST, encoding="utf-8")
-    src = '''
+    src = """
 def test_annotate_with_unresolvable_arg(run_bedtools, some_completely_unresolvable_var):
     result = run_bedtools(["annotate", "-i", some_completely_unresolvable_var])
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -246,6 +249,7 @@ def test_annotate_with_unresolvable_arg(run_bedtools, some_completely_unresolvab
 
 # ---------- fix 16: RESOURCES-path-as-CLI-arg file staging ----------
 
+
 def test_resolve_file_arg_reads_real_file_from_disk(tmp_path):
     resources = tmp_path / "test_resources" / "test_annotate"
     resources.mkdir(parents=True)
@@ -253,7 +257,7 @@ def test_resolve_file_arg_reads_real_file_from_disk(tmp_path):
     test_file = tmp_path / "eval" / "tests" / "test_annotate.py"
     test_file.parent.mkdir(parents=True)
     src = (
-        'from pathlib import Path\n'
+        "from pathlib import Path\n"
         'RESOURCES = Path(__file__).parent.parent.parent / "test_resources" / "test_annotate"\n'
     )
     test_file.write_text(src, encoding="utf-8")
@@ -284,14 +288,14 @@ def test_extract_file_stages_real_resources_file_used_directly_as_argv(tmp_path)
     tests_dir = tmp_path / "eval" / "tests"
     tests_dir.mkdir(parents=True)
     (tests_dir / "conftest.py").write_text(_BEDTOOLS_CONFTEST, encoding="utf-8")
-    src = '''
+    src = """
 from pathlib import Path
 RESOURCES = Path(__file__).parent.parent.parent / "test_resources" / "test_annotate"
 
 def test_annotate_reads_real_file(run_bedtools):
     result = run_bedtools(["annotate", "-i", str(RESOURCES / "intervals.bed")])
     assert result.returncode == 0
-'''
+"""
     f = tests_dir / "test_annotate.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -303,16 +307,22 @@ def test_annotate_reads_real_file(run_bedtools):
 
 # ---------- fix 17: expect_rc_nonzero ----------
 
+
 def test_find_expectations_recognizes_rc_not_equal_zero():
-    tree = _tree('''
+    tree = _tree("""
 def test_fails_on_bad_input(run_x):
     result = run_x(["--bad"])
     assert result.returncode != 0
-''')
-    func = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)
-                and n.name == "test_fails_on_bad_input")
+""")
+    func = next(
+        n
+        for n in ast.walk(tree)
+        if isinstance(n, ast.FunctionDef) and n.name == "test_fails_on_bad_input"
+    )
     resolver = iox._PathResolver(Path("test_x.py"))
-    rc, exact, contains, ci, in_any, not_in, rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert rc is None
     assert rc_nonzero is True
 
@@ -320,20 +330,25 @@ def test_fails_on_bad_input(run_x):
 def test_find_expectations_ignores_rc_not_equal_nonzero_literal():
     """`!= 1` (or any nonzero N) is a DIFFERENT, rarer claim -- the test never says WHICH
     nonzero code is expected, so this must NOT be conflated with expect_rc_nonzero."""
-    tree = _tree('''
+    tree = _tree("""
 def test_specific_nonzero(run_x):
     result = run_x(["--bad"])
     assert result.returncode != 1
-''')
-    func = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)
-                and n.name == "test_specific_nonzero")
+""")
+    func = next(
+        n
+        for n in ast.walk(tree)
+        if isinstance(n, ast.FunctionDef) and n.name == "test_specific_nonzero"
+    )
     resolver = iox._PathResolver(Path("test_x.py"))
-    rc, exact, contains, ci, in_any, not_in, rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert rc_nonzero is False
 
 
 def test_extract_file_emits_example_for_rc_nonzero_only_assertion(tmp_path):
-    src = '''
+    src = """
 def run_x(args=None):
     import subprocess
     return subprocess.run(["./executable"] + (args or []), capture_output=True)
@@ -341,7 +356,7 @@ def run_x(args=None):
 def test_sort_order_violation():
     result = run_x(["closest", "-a", "bad.bed"])
     assert result.returncode != 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -353,6 +368,7 @@ def test_sort_order_violation():
 
 def test_local_oracle_check_enforces_rc_nonzero():
     import determinex_local_oracle as loracle
+
     ex = iox.Example(test="t", argv=["x"], expect_rc_nonzero=True)
     ok, reason, detail = loracle._check(ex, rc=0, out="", err="")
     assert ok is False

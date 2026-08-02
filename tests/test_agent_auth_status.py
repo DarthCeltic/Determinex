@@ -1,4 +1,4 @@
-""""Logged in" must mean the agent can actually answer, not that a file exists.
+""" "Logged in" must mean the agent can actually answer, not that a file exists.
 
 FOUND BY RUNNING THEM 2026-07-31. All three cloud agents were probed through the same path the chat
 room uses -- `determinex_agents.py resolve <agent> --chat`, then spawn. claude-code answered "OK" in
@@ -19,6 +19,7 @@ established. This is the narrow, honest boundary -- a selected auth method plus 
 is checkable for free; whether the account is *entitled* to the product is not, and only the live
 probe can find that (it is what surfaced Google's IneligibleTierError afterwards).
 """
+
 from __future__ import annotations
 
 import json
@@ -78,8 +79,11 @@ class TestGeminiAuthState:
         )
 
     def test_credentials_plus_a_selected_method_is_logged_in(self, fake_home):
-        _write(fake_home, creds=True,
-               settings={"security": {"auth": {"selectedType": "oauth-personal"}}})
+        _write(
+            fake_home,
+            creds=True,
+            settings={"security": {"auth": {"selectedType": "oauth-personal"}}},
+        )
 
         ok, method, detail = agents._gemini_auth_state()
 
@@ -106,8 +110,9 @@ class TestGeminiAuthState:
         assert (ok, method) == (False, "")
         assert detail
 
-    @pytest.mark.parametrize("var", ["GEMINI_API_KEY", "GOOGLE_GENAI_USE_VERTEXAI",
-                                    "GOOGLE_GENAI_USE_GCA"])
+    @pytest.mark.parametrize(
+        "var", ["GEMINI_API_KEY", "GOOGLE_GENAI_USE_VERTEXAI", "GOOGLE_GENAI_USE_GCA"]
+    )
     def test_an_env_var_is_both_method_and_credential(self, fake_home, monkeypatch, var):
         """No settings.json and no creds file needed -- the env var carries both halves."""
         monkeypatch.setenv(var, "value")
@@ -145,8 +150,8 @@ class TestGeminiAuthState:
         g.mkdir(parents=True)
         (g / "oauth_creds.json").write_text("", encoding="utf-8")
         (g / "settings.json").write_text(
-            json.dumps({"security": {"auth": {"selectedType": "oauth-personal"}}}),
-            encoding="utf-8")
+            json.dumps({"security": {"auth": {"selectedType": "oauth-personal"}}}), encoding="utf-8"
+        )
 
         ok, _method, detail = agents._gemini_auth_state()
 
@@ -166,8 +171,11 @@ class TestTheRosterUsesIt:
         assert "no auth method selected" in row["detail"]
 
     def test_a_configured_gemini_reports_logged_in(self, fake_home):
-        _write(fake_home, creds=True,
-               settings={"security": {"auth": {"selectedType": "oauth-personal"}}})
+        _write(
+            fake_home,
+            creds=True,
+            settings={"security": {"auth": {"selectedType": "oauth-personal"}}},
+        )
 
         row = agents._cheap_status(agents._AGENTS["gemini-cli"])
 

@@ -22,12 +22,13 @@ Import contract (called from determinex_cloak.py):
         resolve_python_star_imports,      # (py_files, repo_root, safe, collector)
     )
 """
+
 from __future__ import annotations
 
 import logging
 import re
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from tree_sitter import Language, Parser, Query
@@ -42,10 +43,19 @@ log = logging.getLogger("determinex_cloak")
 # declares only 4 grammars (rust, go, python, javascript). A 2026-07-26 audit "verified
 # tree-sitter live" by printing THIS CONSTANT, which proved nothing -- 6 of the 9 had no
 # grammar installed. See tests/test_cloak_language_coverage.py.
-TS_SUPPORTED_LANGUAGES: frozenset[str] = frozenset([
-    "rust", "java", "ruby", "php", "c", "cpp",
-    "go", "typescript", "javascript",
-])
+TS_SUPPORTED_LANGUAGES: frozenset[str] = frozenset(
+    [
+        "rust",
+        "java",
+        "ruby",
+        "php",
+        "c",
+        "cpp",
+        "go",
+        "typescript",
+        "javascript",
+    ]
+)
 
 
 def loadable_languages() -> frozenset[str]:
@@ -56,33 +66,54 @@ def loadable_languages() -> frozenset[str]:
     _load_language_obj and _get_query already memoise.
     """
     return frozenset(
-        lang for lang in TS_SUPPORTED_LANGUAGES
+        lang
+        for lang in TS_SUPPORTED_LANGUAGES
         if _load_language_obj(lang) is not None and _get_query(lang) is not None
     )
 
+
 # ── grammar language object loaders ───────────────────────────────────────────
+
 
 def _load_language_obj(language: str):
     """Return the raw tree-sitter language binding object, or None."""
     try:
         if language == "rust":
-            import tree_sitter_rust as m; return m.language()
+            import tree_sitter_rust as m
+
+            return m.language()
         if language == "java":
-            import tree_sitter_java as m; return m.language()
+            import tree_sitter_java as m
+
+            return m.language()
         if language == "ruby":
-            import tree_sitter_ruby as m; return m.language()
+            import tree_sitter_ruby as m
+
+            return m.language()
         if language == "php":
-            import tree_sitter_php as m; return m.language_php()
+            import tree_sitter_php as m
+
+            return m.language_php()
         if language == "c":
-            import tree_sitter_c as m; return m.language()
+            import tree_sitter_c as m
+
+            return m.language()
         if language in ("cpp", "c++"):
-            import tree_sitter_cpp as m; return m.language()
+            import tree_sitter_cpp as m
+
+            return m.language()
         if language == "go":
-            import tree_sitter_go as m; return m.language()
+            import tree_sitter_go as m
+
+            return m.language()
         if language in ("typescript", "ts"):
-            import tree_sitter_typescript as m; return m.language_typescript()
+            import tree_sitter_typescript as m
+
+            return m.language_typescript()
         if language in ("javascript", "js"):
-            import tree_sitter_javascript as m; return m.language()
+            import tree_sitter_javascript as m
+
+            return m.language()
     except Exception as e:
         log.debug("tree-sitter grammar not available for %s: %s", language, e)
     return None
@@ -109,7 +140,6 @@ _QUERIES: dict[str, str] = {
         (let_declaration pattern: (identifier) @n)
         (parameter pattern: (identifier) @n)
     """,
-
     "java": """
         (class_declaration name: (identifier) @n)
         (interface_declaration name: (identifier) @n)
@@ -122,7 +152,6 @@ _QUERIES: dict[str, str] = {
         (formal_parameter name: (identifier) @n)
         (field_declaration declarator: (variable_declarator name: (identifier) @n))
     """,
-
     "ruby": """
         (method name: (identifier) @n)
         (singleton_method name: (identifier) @n)
@@ -139,7 +168,6 @@ _QUERIES: dict[str, str] = {
         ; never match -- an inert entry that still leaked.
         (assignment left: (instance_variable) @n)
     """,
-
     "php": """
         (function_definition name: (name) @n)
         (method_declaration name: (name) @n)
@@ -161,7 +189,6 @@ _QUERIES: dict[str, str] = {
                   name: (name) @n)
           (#eq? @_obj "this"))
     """,
-
     "c": """
         (function_definition
           declarator: (function_declarator
@@ -183,7 +210,6 @@ _QUERIES: dict[str, str] = {
         (init_declarator
           declarator: (pointer_declarator declarator: (identifier) @n))
     """,
-
     "cpp": """
         (function_definition
           declarator: (function_declarator
@@ -219,7 +245,6 @@ _QUERIES: dict[str, str] = {
         (init_declarator
           declarator: (pointer_declarator declarator: (identifier) @n))
     """,
-
     "go": """
         (function_declaration name: (identifier) @n)
         (method_declaration name: (field_identifier) @n)
@@ -231,7 +256,6 @@ _QUERIES: dict[str, str] = {
         (parameter_declaration name: (identifier) @n)
         (field_declaration name: (field_identifier) @n)
     """,
-
     "typescript": """
         (function_declaration name: (identifier) @n)
         (class_declaration name: (type_identifier) @n)
@@ -254,7 +278,6 @@ _QUERIES: dict[str, str] = {
         (assignment_expression
           left: (member_expression object: (this) property: (property_identifier) @n))
     """,
-
     "javascript": """
         (function_declaration name: (identifier) @n)
         (generator_function_declaration name: (identifier) @n)
@@ -290,18 +313,38 @@ _LANG_OBJECTS: dict[str, Language | None] = {}
 _PARSERS: dict[str, Parser | None] = {}
 _COMPILED_QUERIES: dict[str, Query | None] = {}
 
-_SINGLE_CHAR = re.compile(r'^[a-zA-Z_]$')
-_DUNDER = re.compile(r'^__[a-zA-Z_][a-zA-Z0-9_]*__$')
+_SINGLE_CHAR = re.compile(r"^[a-zA-Z_]$")
+_DUNDER = re.compile(r"^__[a-zA-Z_][a-zA-Z0-9_]*__$")
 
 # Ruby names the runtime calls for you. Renaming any of these changes behaviour:
 # `initialize` stops being the constructor, `each` breaks Enumerable, `<=>` breaks
 # Comparable, `hash`/`eql?` break Hash keys. Deliberately conservative -- only
 # names with a language or core-protocol contract, not every convention.
-_RUBY_HOOKS: frozenset[str] = frozenset({
-    "initialize", "initialize_copy", "method_missing", "respond_to_missing?",
-    "to_s", "to_str", "to_a", "to_ary", "to_h", "to_hash", "to_i", "to_proc",
-    "inspect", "hash", "eql?", "coerce", "each", "call", "<=>", "==", "===",
-})
+_RUBY_HOOKS: frozenset[str] = frozenset(
+    {
+        "initialize",
+        "initialize_copy",
+        "method_missing",
+        "respond_to_missing?",
+        "to_s",
+        "to_str",
+        "to_a",
+        "to_ary",
+        "to_h",
+        "to_hash",
+        "to_i",
+        "to_proc",
+        "inspect",
+        "hash",
+        "eql?",
+        "coerce",
+        "each",
+        "call",
+        "<=>",
+        "==",
+        "===",
+    }
+)
 
 
 def _get_lang_and_parser(language: str):
@@ -309,6 +352,7 @@ def _get_lang_and_parser(language: str):
     if language not in _PARSERS:
         try:
             from tree_sitter import Language, Parser  # type: ignore[import]
+
             raw = _load_language_obj(language)
             if raw is None:
                 _PARSERS[language] = None
@@ -338,6 +382,7 @@ def _get_query(language: str):
         return None
     try:
         from tree_sitter import Query  # type: ignore[import]
+
         q = Query(lang_obj, query_src)
         _COMPILED_QUERIES[language] = q
         return q
@@ -348,6 +393,7 @@ def _get_query(language: str):
 
 
 # ── main extraction function ──────────────────────────────────────────────────
+
 
 def extract_treesitter_identifiers(
     source: str | bytes,
@@ -382,6 +428,7 @@ def extract_treesitter_identifiers(
 
     try:
         from tree_sitter import QueryCursor  # type: ignore[import]
+
         matches = list(QueryCursor(query).matches(tree.root_node))
     except Exception as e:
         log.debug("tree-sitter query exec failed (%s): %s", language, e)
@@ -398,7 +445,7 @@ def extract_treesitter_identifiers(
             if cap_name.startswith("_"):
                 continue
             for node in nodes:
-                name = raw[node.start_byte:node.end_byte].decode("utf-8", errors="replace")
+                name = raw[node.start_byte : node.end_byte].decode("utf-8", errors="replace")
                 _filter_add(name, safe, language, found)
 
     return frozenset(found)
@@ -447,11 +494,12 @@ def _filter_add(name: str, safe: frozenset[str], language: str, found: set[str])
 
 # ── Python star-import resolution ─────────────────────────────────────────────
 
+
 def resolve_python_star_imports(
     py_files: list[Path],
     repo_path: Path,
     safe_names: frozenset[str],
-    collector,   # _IdentifierCollector instance from determinex_cloak
+    collector,  # _IdentifierCollector instance from determinex_cloak
 ) -> list[str]:
     """
     Fix the star-import privacy hole:
@@ -467,6 +515,7 @@ def resolve_python_star_imports(
     (still external / third-party).
     """
     import ast as _ast
+
     resolved_modules: set[Path] = set()  # avoid double-parsing
     unresolved: list[str] = []
 
@@ -486,13 +535,15 @@ def resolve_python_star_imports(
             module_name = node.module or ""
             level = node.level  # 0=absolute, 1+=relative
 
-            resolved = _resolve_module_path(
-                module_name, level, py_file.parent, repo_path
-            )
+            resolved = _resolve_module_path(module_name, level, py_file.parent, repo_path)
 
             if resolved is None or resolved in resolved_modules:
                 if resolved is None:
-                    rel = py_file.relative_to(repo_path) if py_file.is_relative_to(repo_path) else py_file
+                    rel = (
+                        py_file.relative_to(repo_path)
+                        if py_file.is_relative_to(repo_path)
+                        else py_file
+                    )
                     unresolved.append(f"{rel}: from {module_name} import *")
                 continue
 
@@ -518,8 +569,9 @@ def resolve_python_star_imports(
                     for name in sub.found:
                         collector._add(name)
 
-                log.debug("Star-import: resolved %s → %d names added",
-                          resolved.name, len(all_names or []))
+                log.debug(
+                    "Star-import: resolved %s → %d names added", resolved.name, len(all_names or [])
+                )
             except Exception as e:
                 log.debug("Star-import: failed to parse %s: %s", resolved, e)
 
@@ -531,7 +583,7 @@ def _resolve_module_path(
     level: int,
     file_dir: Path,
     repo_root: Path,
-) -> Optional[Path]:
+) -> Path | None:
     """
     Attempt to resolve a Python module reference to a .py file within repo_root.
     Returns None if external or cannot be found.
@@ -562,16 +614,18 @@ def _resolve_module_path(
     return None
 
 
-def _extract_dunder_all(tree) -> Optional[list[str]]:
+def _extract_dunder_all(tree) -> list[str] | None:
     """Return __all__ contents as list[str], or None if not defined / not literal."""
     import ast as _ast
+
     for node in _ast.walk(tree):
         if not isinstance(node, _ast.Assign):
             continue
         if any(isinstance(t, _ast.Name) and t.id == "__all__" for t in node.targets):
             if isinstance(node.value, (_ast.List, _ast.Tuple)):
                 return [
-                    elt.value for elt in node.value.elts
+                    elt.value
+                    for elt in node.value.elts
                     if isinstance(elt, _ast.Constant) and isinstance(elt.value, str)
                 ]
     return None

@@ -1,4 +1,5 @@
 """Tests for CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -15,12 +16,10 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 ds = importlib.import_module("repair.proof_before_mutation_demo_script")
 ds_rec = importlib.import_module("repair.proof_before_mutation_demo_script_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / ("CLAUDE_PROOF_BEFORE_MUTATION_DEMO_SCRIPT_LOCK_001.json")
 )
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_proof_before_mutation_demo_script"
-)
+EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / ("claude_proof_before_mutation_demo_script")
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
@@ -110,10 +109,17 @@ def test_record_marks_no_network_no_docker_no_pb_no_training():
 def test_happy_path_step_titles_include_key_concepts():
     titles = " ".join(s.title.lower() for s in ds.canonical_happy_path())
     for kw in (
-        "fixture", "detect issue", "diagnose", "quarantine",
-        "temp verifier", "user approval", "body hash",
-        "source mutation", "post-apply verifier",
-        "evidence", "training",
+        "fixture",
+        "detect issue",
+        "diagnose",
+        "quarantine",
+        "temp verifier",
+        "user approval",
+        "body hash",
+        "source mutation",
+        "post-apply verifier",
+        "evidence",
+        "training",
     ):
         assert kw in titles, f"happy-path titles missing concept: {kw!r}"
 
@@ -134,7 +140,8 @@ def test_blocked_path_covers_three_scenarios():
 def test_synthetic_network_call_triggers_block(monkeypatch):
     bad = list(ds.canonical_happy_path())
     bad[2] = dataclasses.replace(
-        bad[2], description="call openai for diagnosis instead of local model",
+        bad[2],
+        description="call openai for diagnosis instead of local model",
     )
     monkeypatch.setattr(ds, "_HAPPY_PATH", tuple(bad))
     rec = ds.build_record()
@@ -144,7 +151,8 @@ def test_synthetic_network_call_triggers_block(monkeypatch):
 def test_synthetic_docker_call_triggers_block(monkeypatch):
     bad = list(ds.canonical_happy_path())
     bad[4] = dataclasses.replace(
-        bad[4], description="docker run determinex-verifier on temp workspace",
+        bad[4],
+        description="docker run determinex-verifier on temp workspace",
     )
     monkeypatch.setattr(ds, "_HAPPY_PATH", tuple(bad))
     rec = ds.build_record()
@@ -154,7 +162,8 @@ def test_synthetic_docker_call_triggers_block(monkeypatch):
 def test_synthetic_programbench_call_triggers_block(monkeypatch):
     bad = list(ds.canonical_happy_path())
     bad[1] = dataclasses.replace(
-        bad[1], description="programbench eval against the fixture",
+        bad[1],
+        description="programbench eval against the fixture",
     )
     monkeypatch.setattr(ds, "_HAPPY_PATH", tuple(bad))
     rec = ds.build_record()
@@ -164,7 +173,8 @@ def test_synthetic_programbench_call_triggers_block(monkeypatch):
 def test_synthetic_training_write_triggers_block(monkeypatch):
     bad = list(ds.canonical_happy_path())
     bad[10] = dataclasses.replace(
-        bad[10], description="write training row to corpus on success",
+        bad[10],
+        description="write training row to corpus on success",
     )
     monkeypatch.setattr(ds, "_HAPPY_PATH", tuple(bad))
     rec = ds.build_record()
@@ -174,7 +184,8 @@ def test_synthetic_training_write_triggers_block(monkeypatch):
 def test_synthetic_real_user_repo_triggers_block(monkeypatch):
     bad = list(ds.canonical_happy_path())
     bad[0] = dataclasses.replace(
-        bad[0], description="open real user repo and mutate live source",
+        bad[0],
+        description="open real user repo and mutate live source",
     )
     monkeypatch.setattr(ds, "_HAPPY_PATH", tuple(bad))
     rec = ds.build_record()
@@ -191,12 +202,10 @@ def test_synthetic_blocked_step_not_marked(monkeypatch):
 
 def test_synthetic_missing_phrase_triggers_block(monkeypatch):
     bad_h = tuple(
-        dataclasses.replace(s, title="X", description="Y")
-        for s in ds.canonical_happy_path()
+        dataclasses.replace(s, title="X", description="Y") for s in ds.canonical_happy_path()
     )
     bad_b = tuple(
-        dataclasses.replace(s, title="X", description="Y")
-        for s in ds.canonical_blocked_path()
+        dataclasses.replace(s, title="X", description="Y") for s in ds.canonical_blocked_path()
     )
     monkeypatch.setattr(ds, "_HAPPY_PATH", bad_h)
     monkeypatch.setattr(ds, "_BLOCKED_PATH", bad_b)

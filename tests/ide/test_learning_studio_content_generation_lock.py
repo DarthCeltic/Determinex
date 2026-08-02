@@ -5,6 +5,7 @@ actually GENERATES content (rung 6 / DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_00
 supplied output). Every assertion below either proves real corpus grounding (not shape-only) or
 proves the non-authorizing invariants still hold on generated, not just static, content.
 """
+
 from __future__ import annotations
 
 import importlib
@@ -22,20 +23,40 @@ workflow = importlib.import_module("ide.learning_studio_workflow")
 bcs = importlib.import_module("ide.backend_command_surface")
 td = importlib.import_module("ide._tauri_driver")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_LEARNING_STUDIO_CONTENT_GENERATION_LOCK_001.json"
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_learning_studio_content_generation"
+LOCK_PATH = (
+    _REPO_ROOT
+    / "locks"
+    / "sentinel"
+    / "DETERMINEX_LEARNING_STUDIO_CONTENT_GENERATION_LOCK_001.json"
+)
+EVIDENCE_DIR = (
+    _REPO_ROOT / "assurance" / "evidence" / "determinex_learning_studio_content_generation"
+)
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
-PANEL_PATH = _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "LearningStudioPanel.tsx"
+PANEL_PATH = (
+    _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "LearningStudioPanel.tsx"
+)
 BRIDGE_RS = _REPO_ROOT / "frontend" / "src-tauri" / "src" / "ide_repair_bridge.rs"
 LIB_RS = _REPO_ROOT / "frontend" / "src-tauri" / "src" / "lib.rs"
 
 LEARNING_MODES = (
-    "explain_this_repo", "explain_this_file", "explain_this_error", "explain_this_test_failure",
-    "teach_me_the_concept", "compare_possible_fixes", "walk_me_through_the_patch",
-    "show_beginner_vs_professional_version", "generate_learning_checklist",
+    "explain_this_repo",
+    "explain_this_file",
+    "explain_this_error",
+    "explain_this_test_failure",
+    "teach_me_the_concept",
+    "compare_possible_fixes",
+    "walk_me_through_the_patch",
+    "show_beginner_vs_professional_version",
+    "generate_learning_checklist",
 )
 
-FORBIDDEN_PHRASES = ("patch applied", "now fixed", "source mutation authorized", "training row written")
+FORBIDDEN_PHRASES = (
+    "patch applied",
+    "now fixed",
+    "source mutation authorized",
+    "training row written",
+)
 
 # Representative, realistic inputs per mode (some empty, to exercise the honest "no input" path).
 SAMPLE_INPUTS: dict[str, dict] = {
@@ -84,21 +105,29 @@ def test_sample_battery_always_passes_the_non_authorizing_gate():
     for mode, ctx in SAMPLE_INPUTS.items():
         out = content.generate(mode, ctx)
         record = workflow.evaluate(out)
-        assert record.decision == "LEARNING_STUDIO_NON_AUTHORIZING_PASSED", (mode, record.decision, out.text)
+        assert record.decision == "LEARNING_STUDIO_NON_AUTHORIZING_PASSED", (
+            mode,
+            record.decision,
+            out.text,
+        )
 
 
 def test_explain_this_error_is_grounded_in_the_real_corpus_not_fabricated():
     """A REAL correctness check, not shape-only: this exact symptom matches the corpus's
     go_x_toolchain class_pattern (verified in determinex_corpus_api tests), so the generator
     must surface the actual known fix text, not generic filler."""
-    out = content.generate("explain_this_error", {"text": "go.mod requires go >= 1.24.0 running go 1.21"})
+    out = content.generate(
+        "explain_this_error", {"text": "go.mod requires go >= 1.24.0 running go 1.21"}
+    )
     assert out.suggests_fix is True
     assert out.routes_to == "repo_clinic"
     assert "GOTOOLCHAIN" in out.text, "expected the real corpus fix, not a fabricated explanation"
 
 
 def test_unmatched_error_admits_no_match_instead_of_fabricating():
-    out = content.generate("explain_this_error", {"text": "xyzzy_completely_made_up_nonsense_symptom_qqq"})
+    out = content.generate(
+        "explain_this_error", {"text": "xyzzy_completely_made_up_nonsense_symptom_qqq"}
+    )
     assert out.suggests_fix is False
     assert "no corpus match" in out.text.lower() or "no exact known-fix" in out.text.lower()
 
@@ -106,7 +135,9 @@ def test_unmatched_error_admits_no_match_instead_of_fabricating():
 def test_compare_fixes_only_suggests_fix_when_something_was_found():
     empty = content.generate("compare_possible_fixes", {"text": ""})
     assert empty.suggests_fix is False
-    found = content.generate("compare_possible_fixes", {"text": "rc=127 executable not found go build"})
+    found = content.generate(
+        "compare_possible_fixes", {"text": "rc=127 executable not found go build"}
+    )
     # either it found something (suggests_fix True) or it honestly found nothing -- never crashes
     assert isinstance(found.text, str) and found.text
 
@@ -138,8 +169,11 @@ def test_command_deliberately_excluded_from_frozen_read_only_set():
 
 def test_command_surface_dispatches_and_stays_non_authorizing():
     surface = bcs.IDEBackendCommandSurface()
-    r = surface.call("generate_learning_studio_content",
-                     learning_mode="teach_me_the_concept", learning_context="go build target")
+    r = surface.call(
+        "generate_learning_studio_content",
+        learning_mode="teach_me_the_concept",
+        learning_context="go build target",
+    )
     assert r.status == "IDE_COMMAND_OK"
     assert r.source_mutation_authorized is False
     assert r.training_eligible is False
@@ -147,8 +181,10 @@ def test_command_surface_dispatches_and_stays_non_authorizing():
 
 
 def test_tauri_driver_dispatches_new_command():
-    res = td._dispatch("generate_learning_studio_content",
-                       {"mode": "teach_me_the_concept", "context": "go build target"})
+    res = td._dispatch(
+        "generate_learning_studio_content",
+        {"mode": "teach_me_the_concept", "context": "go build target"},
+    )
     assert res["status"] == "TAURI_COMMAND_OK"
     assert res["source_mutation_authorized"] is False
     assert res["training_eligible"] is False
@@ -175,7 +211,10 @@ def test_rust_command_registered_in_generate_handler():
 def test_rust_command_excluded_from_frozen_unified_product_list():
     src = BRIDGE_RS.read_text(encoding="utf-8")
     import re
-    m = re.search(r"UNIFIED_PRODUCT_READ_ONLY_COMMANDS\s*:\s*&\[&str\]\s*=\s*&\[(.+?)\];", src, re.DOTALL)
+
+    m = re.search(
+        r"UNIFIED_PRODUCT_READ_ONLY_COMMANDS\s*:\s*&\[&str\]\s*=\s*&\[(.+?)\];", src, re.DOTALL
+    )
     assert m
     declared = re.findall(r'"([^"]+)"', m.group(1))
     assert "generate_learning_studio_content" not in declared

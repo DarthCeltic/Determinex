@@ -12,15 +12,13 @@ The readiness matrix is machine-readable. Tests verify:
     network.
   * Lock + evidence + index entries are present and valid.
 """
+
 from __future__ import annotations
 
-import hashlib
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -44,9 +42,17 @@ EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 STATUS_TOKENS = frozenset(READINESS_MATRIX_STATUS_TOKENS)
 
 
-REQUIRED_BUILD_SYSTEMS = frozenset({
-    "pip", "cargo", "go", "npm", "maven", "gradle", "unknown",
-})
+REQUIRED_BUILD_SYSTEMS = frozenset(
+    {
+        "pip",
+        "cargo",
+        "go",
+        "npm",
+        "maven",
+        "gradle",
+        "unknown",
+    }
+)
 
 
 def test_status_tokens_match_expected_set():
@@ -133,11 +139,14 @@ def test_build_matrix_does_not_run_subprocess(monkeypatch):
     """Defensive sentinel: any subprocess.run / subprocess.Popen call
     during matrix construction should be detected by this monkeypatch."""
     import subprocess as _sp
+
     called = {"count": 0}
     original_run = _sp.run
+
     def _spy(*args, **kwargs):  # pragma: no cover — should never fire
         called["count"] += 1
         return original_run(*args, **kwargs)
+
     monkeypatch.setattr(_sp, "run", _spy)
     build_readiness_matrix()
     assert called["count"] == 0, "build_readiness_matrix called subprocess.run"

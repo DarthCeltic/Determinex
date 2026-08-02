@@ -17,22 +17,26 @@ Surfaces (what the directive asked for):
 The JSON output IS the API contract for the future "Benchmark Lab" tab. Stable
 keys, stable types. Add fields by extension only.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from run_ledger import (  # type: ignore[import-not-found]
-    SQLITE_PATH, _open_db, rebuild_index, query_run_meta,
+    SQLITE_PATH,
+    _open_db,
+    query_run_meta,
+    rebuild_index,
 )
 
 LOCK_BOARD_PATH = Path(__file__).resolve().parents[1] / "logs" / "programbench_lock_board.json"
@@ -42,6 +46,7 @@ LOCK_BOARD_PATH = Path(__file__).resolve().parents[1] / "logs" / "programbench_l
 # Locked-tool drilldown — real per-tool evidence for the cockpit
 # ---------------------------------------------------------------------------
 
+
 def _repo_rel(path_str: str, repo_root: Path) -> str:
     """Normalize an absolute board path to a forward-slash repo-relative path."""
     if not path_str:
@@ -49,7 +54,7 @@ def _repo_rel(path_str: str, repo_root: Path) -> str:
     p = path_str.replace("\\", "/")
     root = str(repo_root).replace("\\", "/").rstrip("/") + "/"
     if p.lower().startswith(root.lower()):  # case-insensitive (Windows drive letters)
-        p = p[len(root):]
+        p = p[len(root) :]
     return p
 
 
@@ -82,13 +87,15 @@ def load_locked_tools(board_path: Path = LOCK_BOARD_PATH) -> list[dict]:
         runnable = r.get("locked_runnable_total", r.get("best_runnable_total"))
         score = r.get("locked_score", r.get("best_score"))
         evidence = _repo_rel(r.get("locked_eval_path") or r.get("best_eval_path") or "", repo_root)
-        out.append({
-            "name": name,
-            "score": score,
-            "passed": passed,
-            "runnable_total": runnable,
-            "evidence_path": evidence,
-        })
+        out.append(
+            {
+                "name": name,
+                "score": score,
+                "passed": passed,
+                "runnable_total": runnable,
+                "evidence_path": evidence,
+            }
+        )
     out.sort(key=lambda t: str(t["name"]).lower())
     return out
 
@@ -97,9 +104,10 @@ def load_locked_tools(board_path: Path = LOCK_BOARD_PATH) -> list[dict]:
 # Snapshot — the unit the frontend subscribes to
 # ---------------------------------------------------------------------------
 
+
 def snapshot(
     run_id: str,
-    expected_total: Optional[int] = None,
+    expected_total: int | None = None,
     sqlite_path: Path = SQLITE_PATH,
 ) -> dict:
     """Return a complete snapshot of one run as of right now.
@@ -144,24 +152,27 @@ def snapshot(
             scores.append(score)
         total_passed += extra.get("passed", 0)
         total_tests += extra.get("total", 0)
-        tasks.append({
-            "task_id": task_id,
-            "score": score,
-            "passed": extra.get("passed"),
-            "total": extra.get("total"),
-            "top_family": max(families.items(), key=lambda kv: kv[1])[0] if families else None,
-            "artifact": artifact,
-            "timestamp": ts,
-        })
+        tasks.append(
+            {
+                "task_id": task_id,
+                "score": score,
+                "passed": extra.get("passed"),
+                "total": extra.get("total"),
+                "top_family": max(families.items(), key=lambda kv: kv[1])[0] if families else None,
+                "artifact": artifact,
+                "timestamp": ts,
+            }
+        )
 
     n_completed = len(tasks)
     rolling_avg = round(sum(scores) / len(scores), 1) if scores else 0.0
     pct_tests = round(100 * total_passed / max(total_tests, 1), 1)
 
     families_ranked = sorted(
-        ({"family": fam, "failures": cnt,
-          "tools_affected": len(family_tool_set.get(fam, set()))}
-         for fam, cnt in family_totals.items()),
+        (
+            {"family": fam, "failures": cnt, "tools_affected": len(family_tool_set.get(fam, set()))}
+            for fam, cnt in family_totals.items()
+        ),
         key=lambda d: -d["failures"],
     )
 
@@ -181,7 +192,7 @@ def snapshot(
 
     return {
         "run_id": run_id,
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "generated_at": datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
         "started_at": run_row[0] if run_row else None,
         "last_seen_at": run_row[1] if run_row else None,
         "n_events": run_row[2] if run_row else 0,
@@ -196,7 +207,7 @@ def snapshot(
         "zero_scores": sum(1 for t in tasks if (t.get("score") or 0) == 0),
         "top_families": families_ranked[:15],
         "tasks_top": sorted(tasks, key=lambda t: -(t.get("score") or 0))[:10],
-        "tasks_bottom": sorted(tasks, key=lambda t: (t.get("score") or 0))[:10],
+        "tasks_bottom": sorted(tasks, key=lambda t: t.get("score") or 0)[:10],
         "locked_tools": locked_tools,
         "locked_count": len(locked_tools),
     }
@@ -205,6 +216,7 @@ def snapshot(
 # ---------------------------------------------------------------------------
 # Table renderer
 # ---------------------------------------------------------------------------
+
 
 def render_table(snap: dict) -> str:
     lines: list[str] = []
@@ -222,11 +234,15 @@ def render_table(snap: dict) -> str:
         bar_w = 30
         filled = int(bar_w * p["pct_done"] / 100)
         bar = "█" * filled + "·" * (bar_w - filled)
-        lines.append(f"  Progress       [{bar}]  {snap['n_completed_tasks']}/{p['expected_total']} ({p['pct_done']}%)")
+        lines.append(
+            f"  Progress       [{bar}]  {snap['n_completed_tasks']}/{p['expected_total']} ({p['pct_done']}%)"
+        )
     else:
         lines.append(f"  Completed tasks: {snap['n_completed_tasks']}")
     lines.append(f"  Rolling avg    {snap['rolling_avg_score']:>5}/100")
-    lines.append(f"  Tests passing  {snap['total_passed']:,} / {snap['total_tests']:,}  ({snap['pct_tests_passing']}%)")
+    lines.append(
+        f"  Tests passing  {snap['total_passed']:,} / {snap['total_tests']:,}  ({snap['pct_tests_passing']}%)"
+    )
     lines.append(f"  Perfect scores {snap['perfect_scores']:>5}")
     lines.append(f"  Zero scores    {snap['zero_scores']:>5}")
     lines.append("")
@@ -238,11 +254,15 @@ def render_table(snap: dict) -> str:
     if snap.get("tasks_top"):
         lines.append("  Top 5 tools by score:")
         for t in snap["tasks_top"][:5]:
-            lines.append(f"  {t.get('score',0):>5}  {t.get('passed',0):>4}/{t.get('total',0):<5}  {t['task_id'][:60]}")
+            lines.append(
+                f"  {t.get('score', 0):>5}  {t.get('passed', 0):>4}/{t.get('total', 0):<5}  {t['task_id'][:60]}"
+            )
         lines.append("")
         lines.append("  Bottom 5 tools by score:")
         for t in snap["tasks_bottom"][:5]:
-            lines.append(f"  {t.get('score',0):>5}  {t.get('passed',0):>4}/{t.get('total',0):<5}  {t['task_id'][:60]}")
+            lines.append(
+                f"  {t.get('score', 0):>5}  {t.get('passed', 0):>4}/{t.get('total', 0):<5}  {t['task_id'][:60]}"
+            )
     return "\n".join(lines)
 
 
@@ -250,18 +270,30 @@ def render_table(snap: dict) -> str:
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def _cli():
     ap = argparse.ArgumentParser(description="ProgramBench live cockpit monitor")
     ap.add_argument("--run-id", default="mass_run_v2_base")
-    ap.add_argument("--expected-total", type=int, default=115,
-                    help="known target task count (drives progress bar)")
+    ap.add_argument(
+        "--expected-total",
+        type=int,
+        default=115,
+        help="known target task count (drives progress bar)",
+    )
     ap.add_argument("--json", action="store_true", help="emit JSON instead of table")
     ap.add_argument("--watch", action="store_true", help="refresh every --interval seconds")
     ap.add_argument("--interval", type=float, default=30.0)
-    ap.add_argument("--quiet-secs", type=float, default=600.0,
-                    help="exit after this many seconds with no change (watch only)")
-    ap.add_argument("--advise", action="store_true",
-                    help="also run scripts/programbench_patch_advisor.py and surface its top patch")
+    ap.add_argument(
+        "--quiet-secs",
+        type=float,
+        default=600.0,
+        help="exit after this many seconds with no change (watch only)",
+    )
+    ap.add_argument(
+        "--advise",
+        action="store_true",
+        help="also run scripts/programbench_patch_advisor.py and surface its top patch",
+    )
     args = ap.parse_args()
 
     def render_once() -> tuple[dict, str]:
@@ -269,6 +301,7 @@ def _cli():
         if args.advise:
             try:
                 from programbench_patch_advisor import propose_top_patch  # type: ignore
+
                 snap["recommended_patch"] = propose_top_patch(snap)
             except ImportError:
                 snap["recommended_patch"] = {"status": "advisor_unavailable"}

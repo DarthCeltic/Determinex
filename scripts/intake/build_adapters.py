@@ -26,21 +26,23 @@ extend it):
 The adapters are class-method based — no instance state — so they compose
 cleanly with the registry and are trivial to mock in tests.
 """
+
 from __future__ import annotations
 
 import json
 import re
 import sys
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import ClassVar, Protocol, Sequence
+from typing import ClassVar, Protocol
 
 from intake.hardened_runner import run as _hardened_run
-
 
 # ---------------------------------------------------------------------------
 # Dataclasses returned by adapter methods
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class DetectionResult:
@@ -52,17 +54,17 @@ class DetectionResult:
 
 @dataclass
 class ShadowBuildResult:
-    ran: bool          # did we actually invoke the toolchain?
-    success: bool      # exit code 0?
-    output: str        # captured stdout+stderr, trimmed to 4000 chars
+    ran: bool  # did we actually invoke the toolchain?
+    success: bool  # exit code 0?
+    output: str  # captured stdout+stderr, trimmed to 4000 chars
     tool_missing: bool = False
     timed_out: bool = False
 
 
 @dataclass
 class ParsedFinding:
-    severity: str   # "error" | "warning"
-    category: str   # "compilation" | "test_failure"
+    severity: str  # "error" | "warning"
+    category: str  # "compilation" | "test_failure"
     message: str
     file: str = ""
     line: int = 0
@@ -75,28 +77,32 @@ class ParsedFinding:
 # scoped cwd, scrubbed env, no Docker, no shell=True, structured failure.
 # ---------------------------------------------------------------------------
 
+
 def _run(cmd: list[str], cwd: Path, timeout: int) -> ShadowBuildResult:
     result = _hardened_run(cmd, workspace=cwd, timeout=timeout)
     if result.blocked:
         return ShadowBuildResult(
-            ran=False, success=False,
+            ran=False,
+            success=False,
             output=result.reason or result.stderr,
         )
     if result.tool_missing:
         return ShadowBuildResult(
-            ran=False, success=False,
+            ran=False,
+            success=False,
             output=result.stderr or f"tool not found on PATH: {cmd[0]}",
             tool_missing=True,
         )
     if result.timed_out:
         return ShadowBuildResult(
-            ran=False, success=False,
+            ran=False,
+            success=False,
             output=result.stderr or f"timed out after {timeout}s",
             timed_out=True,
         )
-    out = (result.stdout
-           + ("\n" if result.stdout and result.stderr else "")
-           + result.stderr).strip()
+    out = (
+        result.stdout + ("\n" if result.stdout and result.stderr else "") + result.stderr
+    ).strip()
     return ShadowBuildResult(
         ran=True,
         success=(result.exit_code == 0),
@@ -108,8 +114,10 @@ def _run(cmd: list[str], cwd: Path, timeout: int) -> ShadowBuildResult:
 # Adapter protocol
 # ---------------------------------------------------------------------------
 
+
 class BuildAdapter(Protocol):
     """Adapter contract. Class-method based: no instance state."""
+
     name: ClassVar[str]
     build_system_id: ClassVar[str]
     test_framework_id: ClassVar[str]
@@ -131,6 +139,7 @@ class BuildAdapter(Protocol):
 # ---------------------------------------------------------------------------
 # Concrete adapters
 # ---------------------------------------------------------------------------
+
 
 class RustAdapter:
     name: ClassVar[str] = "Rust"
@@ -164,10 +173,13 @@ class RustAdapter:
         for raw in output.splitlines():
             line = raw.strip()
             if line.startswith(("error[", "error:")):
-                findings.append(ParsedFinding(
-                    severity="error", category="compilation",
-                    message=line,
-                ))
+                findings.append(
+                    ParsedFinding(
+                        severity="error",
+                        category="compilation",
+                        message=line,
+                    )
+                )
                 continue
             m = loc_pat.search(line)
             if m and findings and not findings[-1].file:
@@ -204,10 +216,15 @@ class GoAdapter:
             line = raw.strip()
             m = pat.match(line)
             if m:
-                findings.append(ParsedFinding(
-                    severity="error", category="compilation",
-                    message=m.group(3), file=m.group(1), line=int(m.group(2)),
-                ))
+                findings.append(
+                    ParsedFinding(
+                        severity="error",
+                        category="compilation",
+                        message=m.group(3),
+                        file=m.group(1),
+                        line=int(m.group(2)),
+                    )
+                )
         return findings
 
 
@@ -244,15 +261,19 @@ class PythonAdapter:
         errors: list[str] = []
         # Cap at 200 files to bound execution; mirrors codebase_explorer behavior.
         py_files = [
-            p for p in workspace.rglob("*.py")
-            if not any(skip in p.parts for skip in
-                       ("__pycache__", ".venv", "venv", "site-packages", "build", "dist"))
+            p
+            for p in workspace.rglob("*.py")
+            if not any(
+                skip in p.parts
+                for skip in ("__pycache__", ".venv", "venv", "site-packages", "build", "dist")
+            )
         ][:200]
         for f in py_files:
             # Per-file py_compile, routed through the hardened runner.
             r = _hardened_run(
                 [sys.executable, "-m", "py_compile", str(f)],
-                workspace=workspace, timeout=10,
+                workspace=workspace,
+                timeout=10,
             )
             if r.blocked:
                 errors.append(f"{f.name}: blocked by hardened runner: {r.reason}")
@@ -275,13 +296,21 @@ class PythonAdapter:
         for raw in output.splitlines():
             line = raw.strip()
             if "FAILED" in line:
-                findings.append(ParsedFinding(
-                    severity="error", category="test_failure", message=line,
-                ))
+                findings.append(
+                    ParsedFinding(
+                        severity="error",
+                        category="test_failure",
+                        message=line,
+                    )
+                )
             elif "SyntaxError" in line or "IndentationError" in line:
-                findings.append(ParsedFinding(
-                    severity="error", category="compilation", message=line,
-                ))
+                findings.append(
+                    ParsedFinding(
+                        severity="error",
+                        category="compilation",
+                        message=line,
+                    )
+                )
         return findings
 
 
@@ -322,8 +351,7 @@ class NodeAdapter:
         return value. Encapsulates the original detect_build_system npm refinement."""
         pkg = workspace / "package.json"
         try:
-            dev = (json.loads(pkg.read_text(encoding="utf-8"))
-                   .get("devDependencies", {}) or {})
+            dev = json.loads(pkg.read_text(encoding="utf-8")).get("devDependencies", {}) or {}
         except (OSError, json.JSONDecodeError):
             return cls.test_framework_id
         if "vitest" in dev:
@@ -346,15 +374,24 @@ class NodeAdapter:
             # TypeScript-style: file.ts(L,C): error TS####:
             tsc = re.match(r"^(.+?)\((\d+),\d+\):\s*error\s+TS\d+:\s*(.+)$", line)
             if tsc:
-                findings.append(ParsedFinding(
-                    severity="error", category="compilation",
-                    message=tsc.group(3), file=tsc.group(1), line=int(tsc.group(2)),
-                ))
+                findings.append(
+                    ParsedFinding(
+                        severity="error",
+                        category="compilation",
+                        message=tsc.group(3),
+                        file=tsc.group(1),
+                        line=int(tsc.group(2)),
+                    )
+                )
                 continue
             if "Error:" in line or line.startswith("ERROR"):
-                findings.append(ParsedFinding(
-                    severity="error", category="compilation", message=line,
-                ))
+                findings.append(
+                    ParsedFinding(
+                        severity="error",
+                        category="compilation",
+                        message=line,
+                    )
+                )
         return findings
 
 
@@ -384,9 +421,13 @@ class JavaMavenAdapter:
         for raw in output.splitlines():
             line = raw.strip()
             if line.startswith("[ERROR]") or "BUILD FAILURE" in line:
-                findings.append(ParsedFinding(
-                    severity="error", category="compilation", message=line,
-                ))
+                findings.append(
+                    ParsedFinding(
+                        severity="error",
+                        category="compilation",
+                        message=line,
+                    )
+                )
         return findings
 
 
@@ -398,10 +439,7 @@ class JavaGradleAdapter:
 
     @classmethod
     def detect(cls, workspace: Path) -> DetectionResult:
-        evidence = [
-            m for m in ("build.gradle", "build.gradle.kts")
-            if (workspace / m).is_file()
-        ]
+        evidence = [m for m in ("build.gradle", "build.gradle.kts") if (workspace / m).is_file()]
         if evidence:
             return DetectionResult(matched=True, confidence=1.0, evidence_files=evidence)
         return DetectionResult(matched=False, confidence=0.0)
@@ -420,14 +458,19 @@ class JavaGradleAdapter:
         for raw in output.splitlines():
             line = raw.strip()
             if "error:" in line.lower() or "FAILED" in line:
-                findings.append(ParsedFinding(
-                    severity="error", category="compilation", message=line,
-                ))
+                findings.append(
+                    ParsedFinding(
+                        severity="error",
+                        category="compilation",
+                        message=line,
+                    )
+                )
         return findings
 
 
 class UnknownAdapter:
     """Fallback. Only selected by the registry when nothing else matches."""
+
     name: ClassVar[str] = "Unknown"
     build_system_id: ClassVar[str] = "unknown"
     test_framework_id: ClassVar[str] = "unknown"
@@ -438,8 +481,7 @@ class UnknownAdapter:
         # detect() returns NOT MATCHED so the registry knows to fall back
         # explicitly. The registry constructs an UnknownAdapter selection
         # itself when nothing else matched.
-        return DetectionResult(matched=False, confidence=0.0,
-                               notes="no build manifest detected")
+        return DetectionResult(matched=False, confidence=0.0, notes="no build manifest detected")
 
     @classmethod
     def discover_tests(cls, workspace: Path) -> list[str]:
@@ -448,7 +490,8 @@ class UnknownAdapter:
     @classmethod
     def run_shadow_build(cls, workspace: Path, timeout: int = 60) -> ShadowBuildResult:
         return ShadowBuildResult(
-            ran=False, success=True,
+            ran=False,
+            success=True,
             output="no shadow build for unknown project type",
         )
 

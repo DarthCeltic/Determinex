@@ -40,7 +40,9 @@ def classify_raw_line(raw: str, *, path: Path, line_number: int) -> LegacyScanIt
         bucket=bucket,
         tool=extract_tool(record, text),
         language_guess=infer_language(record, text),
-        verdict=extract_metadata(record, "verdict") or extract_metadata(record, "test_result") or "unknown",
+        verdict=extract_metadata(record, "verdict")
+        or extract_metadata(record, "test_result")
+        or "unknown",
         test_id=extract_metadata(record, "test_id") or extract_metadata(record, "test_name"),
         eval_json=extract_metadata(record, "eval_json"),
         gate_result_path=extract_metadata(record, "gate_result_path"),

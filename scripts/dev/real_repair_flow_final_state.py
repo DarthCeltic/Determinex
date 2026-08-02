@@ -1,14 +1,14 @@
 """Final-state assembly for the real repair flow campaign."""
+
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .real_repair_flow_final_state_record import (
     REAL_REPAIR_FLOW_FINAL_STATE_TOKENS,
     RealRepairFlowFinalState,
 )
-
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
@@ -47,7 +47,7 @@ def assemble_real_repair_flow_final_state() -> RealRepairFlowFinalState:
     )
 
     return RealRepairFlowFinalState(
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=datetime.now(UTC).isoformat(),
         real_local_model_provider="READY_OR_BLOCKED_WITH_REASON",
         real_model_admission="READY_OPT_IN",
         live_diagnose="READY_ADVISORY_ONLY",

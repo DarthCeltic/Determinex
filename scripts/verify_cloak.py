@@ -34,7 +34,7 @@ if hasattr(sys.stdout, "reconfigure"):
 if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-_X_TOKEN_RE = re.compile(r'\bx_\d{4}\b')
+_X_TOKEN_RE = re.compile(r"\bx_\d{4}\b")
 
 
 def load_cloak_map(map_path: Path) -> dict[str, str]:
@@ -65,9 +65,7 @@ def check_instance(
         return leaks
 
     # Build a single pattern for efficiency
-    pattern = re.compile(
-        r'\b(?:' + '|'.join(re.escape(n) for n in private_names) + r')\b'
-    )
+    pattern = re.compile(r"\b(?:" + "|".join(re.escape(n) for n in private_names) + r")\b")
 
     with api_requests_path.open(encoding="utf-8") as f:
         for line_no, raw in enumerate(f, 1):
@@ -104,12 +102,14 @@ def verify_run(run_dir: Path, strict: bool = False) -> int:
     api_log = audit_dir / "api_requests.jsonl"
     failure_log = audit_dir / "cloak_failures.jsonl"
 
-    print(f"\n{'='*70}")
-    print(f"  Project Cloak — Verification Report")
+    print(f"\n{'=' * 70}")
+    print("  Project Cloak — Verification Report")
     print(f"  Run dir : {run_dir}")
     print(f"  Maps    : {len(map_files)} instance(s)")
-    print(f"  API log : {'present' if api_log.exists() else 'absent (DETERMINEX_CLOAK_AUDIT not set)'}")
-    print(f"{'='*70}\n")
+    print(
+        f"  API log : {'present' if api_log.exists() else 'absent (DETERMINEX_CLOAK_AUDIT not set)'}"
+    )
+    print(f"{'=' * 70}\n")
 
     total_instances = len(map_files)
     total_identifiers = 0
@@ -134,7 +134,9 @@ def verify_run(run_dir: Path, strict: bool = False) -> int:
 
         if not api_log.exists():
             instances_with_no_audit.append(iid)
-            print(f"  [{iid}] {n_ids} identifiers mapped, {star_holes} star-hole(s) — no API log to verify")
+            print(
+                f"  [{iid}] {n_ids} identifiers mapped, {star_holes} star-hole(s) — no API log to verify"
+            )
             continue
 
         leaks = check_instance(iid, forward, api_log)
@@ -155,9 +157,9 @@ def verify_run(run_dir: Path, strict: bool = False) -> int:
         except Exception:
             pass
 
-    print(f"\n{'='*70}")
-    print(f"  SUMMARY")
-    print(f"{'='*70}")
+    print(f"\n{'=' * 70}")
+    print("  SUMMARY")
+    print(f"{'=' * 70}")
     print(f"  Instances verified    : {total_instances}")
     print(f"  Total identifiers     : {total_identifiers}")
     print(f"  Total star-import holes: {total_star_holes} (known, documented)")
@@ -166,10 +168,10 @@ def verify_run(run_dir: Path, strict: bool = False) -> int:
 
     if instances_with_no_audit:
         print(f"\n  Note: {len(instances_with_no_audit)} instance(s) could not be verified")
-        print(f"  (re-run with DETERMINEX_CLOAK_AUDIT=1 for full API request logging)")
+        print("  (re-run with DETERMINEX_CLOAK_AUDIT=1 for full API request logging)")
 
     if total_leaks == 0 and api_log.exists():
-        print(f"\n  VERDICT: CLEAN — zero proprietary identifiers reached cloud APIs")
+        print("\n  VERDICT: CLEAN — zero proprietary identifiers reached cloud APIs")
         claim_line = (
             f"  CLAIM  : Determinex resolved these instances while the cloud AI was\n"
             f"           blind to all {total_identifiers} proprietary identifier tokens\n"
@@ -179,9 +181,9 @@ def verify_run(run_dir: Path, strict: bool = False) -> int:
     elif total_leaks > 0:
         print(f"\n  VERDICT: {total_leaks} LEAK(S) FOUND — review above before publishing")
     else:
-        print(f"\n  VERDICT: UNVERIFIED — run with DETERMINEX_CLOAK_AUDIT=1 for proof")
+        print("\n  VERDICT: UNVERIFIED — run with DETERMINEX_CLOAK_AUDIT=1 for proof")
 
-    print(f"{'='*70}\n")
+    print(f"{'=' * 70}\n")
 
     # Write JSON report
     report = {
@@ -194,9 +196,11 @@ def verify_run(run_dir: Path, strict: bool = False) -> int:
         "leaks": all_leaks,
         "api_audit_present": api_log.exists(),
         "verdict": (
-            "clean" if (total_leaks == 0 and api_log.exists()) else
-            "leaked" if total_leaks > 0 else
-            "unverified"
+            "clean"
+            if (total_leaks == 0 and api_log.exists())
+            else "leaked"
+            if total_leaks > 0
+            else "unverified"
         ),
     }
     report_path = audit_dir / "verify_report.json"
@@ -217,12 +221,13 @@ def main() -> None:
         description="Verify Project Cloak — confirm no private identifiers reached cloud APIs"
     )
     parser.add_argument(
-        "--run-dir", type=Path, required=True,
-        help="Path to the run directory (e.g. logs/swebench/determinex_lite_B-Cloaked_...)"
+        "--run-dir",
+        type=Path,
+        required=True,
+        help="Path to the run directory (e.g. logs/swebench/determinex_lite_B-Cloaked_...)",
     )
     parser.add_argument(
-        "--strict", action="store_true",
-        help="Exit 1 if any leak is found (for CI integration)"
+        "--strict", action="store_true", help="Exit 1 if any leak is found (for CI integration)"
     )
     args = parser.parse_args()
 

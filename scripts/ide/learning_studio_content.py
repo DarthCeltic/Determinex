@@ -13,12 +13,13 @@ generate() returns a LearningStudioOutput. The CALLER (backend_command_surface) 
 it through learning_studio_workflow.evaluate() before it reaches the frontend -- this module
 never claims non-authorizing compliance for itself.
 """
+
 from __future__ import annotations
 
 import re
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 _SCRIPTS = Path(__file__).resolve().parent.parent
 if str(_SCRIPTS) not in sys.path:
@@ -60,35 +61,42 @@ def _explain_error(context: dict) -> LearningStudioOutput:
         return LearningStudioOutput(
             mode="explain_this_error",
             text="No error text provided. Paste the error/traceback to search the verified "
-                 "corpus for a known cause and fix.",
+            "corpus for a known cause and fix.",
         )
     asked = corpus.ask(text)
     hits = asked.hits[:MAX_HITS]
     class_hits = [h for h in hits if h.source in ("class_pattern", "learned_class")]
     if class_hits:
         top = class_hits[0]
-        body = (f"Matched known failure class '{top.title}' (source: {top.source}).\n"
-                f"  likely fix: {top.snippet}\n\nOther corpus matches:\n{_hits_block(hits)}"
-                f"{_warnings_block(asked.warnings)}")
-        return LearningStudioOutput(mode="explain_this_error", text=body,
-                                    suggests_fix=True, routes_to="repo_clinic")
+        body = (
+            f"Matched known failure class '{top.title}' (source: {top.source}).\n"
+            f"  likely fix: {top.snippet}\n\nOther corpus matches:\n{_hits_block(hits)}"
+            f"{_warnings_block(asked.warnings)}"
+        )
+        return LearningStudioOutput(
+            mode="explain_this_error", text=body, suggests_fix=True, routes_to="repo_clinic"
+        )
     if hits:
         return LearningStudioOutput(
             mode="explain_this_error",
             text=f"No exact known-fix class matched, but related corpus context was found:\n"
-                 f"{_hits_block(hits)}{_warnings_block(asked.warnings)}",
+            f"{_hits_block(hits)}{_warnings_block(asked.warnings)}",
         )
     return LearningStudioOutput(
         mode="explain_this_error",
         text="No corpus match for this error. This system does not fabricate an explanation it "
-             "cannot ground -- try Repo Clinic's diagnose flow for a live, oracle-backed diagnosis.",
+        "cannot ground -- try Repo Clinic's diagnose flow for a live, oracle-backed diagnosis.",
     )
 
 
 def _explain_test_failure(context: dict) -> LearningStudioOutput:
     inner = _explain_error({**context, "text": _input_text(context, "text", "failure_text")})
-    return LearningStudioOutput(mode="explain_this_test_failure", text=inner.text,
-                                suggests_fix=inner.suggests_fix, routes_to=inner.routes_to)
+    return LearningStudioOutput(
+        mode="explain_this_test_failure",
+        text=inner.text,
+        suggests_fix=inner.suggests_fix,
+        routes_to=inner.routes_to,
+    )
 
 
 def _teach_concept(context: dict) -> LearningStudioOutput:
@@ -97,7 +105,7 @@ def _teach_concept(context: dict) -> LearningStudioOutput:
         return LearningStudioOutput(
             mode="teach_me_the_concept",
             text="Name a concept (e.g. 'go build target', 'cgo sqlite', 'oracle verification') "
-                 "to pull its corpus lesson.",
+            "to pull its corpus lesson.",
         )
     asked = corpus.ask(concept)
     hits = asked.hits[:MAX_HITS]
@@ -105,7 +113,7 @@ def _teach_concept(context: dict) -> LearningStudioOutput:
         return LearningStudioOutput(
             mode="teach_me_the_concept",
             text=f"No corpus entry teaches '{concept}' yet. Nothing fabricated -- this concept "
-                 "isn't in the verified corpus.",
+            "isn't in the verified corpus.",
         )
     related = asked.top_hit_related
     related_block = ""
@@ -119,16 +127,20 @@ def _teach_concept(context: dict) -> LearningStudioOutput:
     return LearningStudioOutput(
         mode="teach_me_the_concept",
         text=f"What the verified corpus knows about '{concept}':\n{_hits_block(hits)}"
-             f"{related_block}{_warnings_block(asked.warnings)}",
+        f"{related_block}{_warnings_block(asked.warnings)}",
     )
 
 
 def _compare_fixes(context: dict) -> LearningStudioOutput:
     symptom = _input_text(context, "text", "symptom")
     if not symptom:
-        return LearningStudioOutput(mode="compare_possible_fixes",
-                                    text="Describe the symptom to compare known fixes for it.")
-    hits = [h for h in corpus.search(symptom, limit=8) if h.source in ("class_pattern", "learned_class")]
+        return LearningStudioOutput(
+            mode="compare_possible_fixes",
+            text="Describe the symptom to compare known fixes for it.",
+        )
+    hits = [
+        h for h in corpus.search(symptom, limit=8) if h.source in ("class_pattern", "learned_class")
+    ]
     if not hits:
         return LearningStudioOutput(
             mode="compare_possible_fixes",
@@ -138,7 +150,8 @@ def _compare_fixes(context: dict) -> LearningStudioOutput:
     return LearningStudioOutput(
         mode="compare_possible_fixes",
         text="Known fixes for comparison, ranked by relevance:\n" + "\n".join(lines),
-        suggests_fix=True, routes_to="repo_clinic",
+        suggests_fix=True,
+        routes_to="repo_clinic",
     )
 
 
@@ -148,8 +161,10 @@ _HUNK_RE = re.compile(r"^@@ -\d+(?:,\d+)? \+\d+(?:,\d+)? @@")
 def _walk_patch(context: dict) -> LearningStudioOutput:
     diff = _input_text(context, "text", "diff", "patch")
     if not diff:
-        return LearningStudioOutput(mode="walk_me_through_the_patch",
-                                    text="Paste a unified diff to get a per-hunk walkthrough.")
+        return LearningStudioOutput(
+            mode="walk_me_through_the_patch",
+            text="Paste a unified diff to get a per-hunk walkthrough.",
+        )
     added = removed = 0
     walk_lines: list[str] = []
     for ln in diff.splitlines():
@@ -170,7 +185,8 @@ def _walk_patch(context: dict) -> LearningStudioOutput:
     return LearningStudioOutput(
         mode="walk_me_through_the_patch",
         text="Structural walkthrough (mechanical, from the diff itself -- not a semantic review):\n"
-             + "\n".join(walk_lines) + f"\n\n{summary}",
+        + "\n".join(walk_lines)
+        + f"\n\n{summary}",
     )
 
 
@@ -216,7 +232,7 @@ def _checklist(context: dict) -> LearningStudioOutput:
     return LearningStudioOutput(
         mode="generate_learning_checklist",
         text=f"Name a topic ({', '.join(corpus.topics())}) or a keyword to generate a checklist "
-             "from the verified corpus.",
+        "from the verified corpus.",
     )
 
 
@@ -237,9 +253,11 @@ def _explain_file(context: dict) -> LearningStudioOutput:
         return LearningStudioOutput(mode="explain_this_file", text=f"Could not read file: {e}")
     n_lines = text.count("\n") + 1
     defs = _DEF_RE.findall(text)
-    body = (f"{p.name}: {n_lines} lines, {len(defs)} top-level def/class/fn found.\n"
-            "Structural summary only (not a semantic walkthrough): "
-            + (", ".join(defs[:20]) if defs else "no def/class/fn pattern matched"))
+    body = (
+        f"{p.name}: {n_lines} lines, {len(defs)} top-level def/class/fn found.\n"
+        "Structural summary only (not a semantic walkthrough): "
+        + (", ".join(defs[:20]) if defs else "no def/class/fn pattern matched")
+    )
     return LearningStudioOutput(mode="explain_this_file", text=body)
 
 

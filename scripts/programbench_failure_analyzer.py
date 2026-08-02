@@ -14,11 +14,13 @@ For each tool's most recent eval.json:
 
 Output: logs/mass_run_v2/failure_analysis.json
 """
+
 from __future__ import annotations
+
 import argparse
+import glob
 import json
 import re
-import glob
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
@@ -87,17 +89,19 @@ def analyze_tool(eval_path: Path) -> dict[str, Any]:
         if r.get("status") == "passed":
             continue
         name = r.get("name", "")
-        msg = ((r.get("extra") or {}).get("message") or "")
+        msg = (r.get("extra") or {}).get("message") or ""
         bucket, info = classify_failure(msg)
         buckets[bucket].append({"name": name[:120], **info})
         if bucket == "rc_mismatch" and info.get("got_rc") is not None:
             rc_counts[info["got_rc"]] += 1
-        elif bucket in ("assert_substr", "assert_substr_empty_stdout") and "expected_substr" in info:
+        elif (
+            bucket in ("assert_substr", "assert_substr_empty_stdout") and "expected_substr" in info
+        ):
             missing_substrs[info["expected_substr"][:80]] += 1
         elif bucket == "no_such_file":
-            missing_files[info.get("path","")[:120]] += 1
+            missing_files[info.get("path", "")[:120]] += 1
         elif bucket == "py_runtime_err":
-            runtime_errs[info.get("exc","")] += 1
+            runtime_errs[info.get("exc", "")] += 1
 
     # Patch suggestions
     suggestions: list[str] = []
@@ -107,15 +111,17 @@ def analyze_tool(eval_path: Path) -> dict[str, Any]:
             suggestions.append(f"err_clap should return rc={top_rc} (most-asserted rc, seen {n}x)")
     if missing_substrs:
         top = missing_substrs.most_common(10)
-        suggestions.append(f"add to EXPECTED_STRINGS: {[s for s,_ in top[:5]]}")
+        suggestions.append(f"add to EXPECTED_STRINGS: {[s for s, _ in top[:5]]}")
     if missing_files:
         top = missing_files.most_common(5)
-        suggestions.append(f"workspace pre-stage these paths: {[p for p,_ in top]}")
+        suggestions.append(f"workspace pre-stage these paths: {[p for p, _ in top]}")
     if runtime_errs:
         for exc, n in runtime_errs.most_common(3):
             suggestions.append(f"scaffold Python runtime error ({n}x): {exc} — review per-tool")
     if buckets.get("timeout"):
-        suggestions.append(f"tests timing out ({len(buckets['timeout'])}); scaffold likely hanging on specific argv pattern")
+        suggestions.append(
+            f"tests timing out ({len(buckets['timeout'])}); scaffold likely hanging on specific argv pattern"
+        )
 
     return {
         "score": round(pct, 2),
@@ -133,8 +139,12 @@ def analyze_tool(eval_path: Path) -> dict[str, Any]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=OUT)
-    ap.add_argument("--max-score", type=float, default=99.0,
-                    help="only analyze tools below this pct (skip locked)")
+    ap.add_argument(
+        "--max-score",
+        type=float,
+        default=99.0,
+        help="only analyze tools below this pct (skip locked)",
+    )
     args = ap.parse_args()
 
     eval_files = sorted(glob.glob("T:/determinex-programbench/determinex_pb_*_v*/*/*.eval.json"))

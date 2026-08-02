@@ -4,6 +4,7 @@ This collector turns scattered release evidence into one conservative status
 model. It never grants release authority; it only reports what the current
 checkout can prove from local files.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -12,7 +13,7 @@ import json
 import re
 from collections import Counter
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -112,7 +113,9 @@ def _is_sha256(value: str) -> bool:
     return all(ch in "0123456789abcdefABCDEF" for ch in value)
 
 
-def _download_artifacts(download: dict[str, Any] | None, artifact_type: str) -> list[dict[str, Any]]:
+def _download_artifacts(
+    download: dict[str, Any] | None, artifact_type: str
+) -> list[dict[str, Any]]:
     if not isinstance(download, dict):
         return []
     return [
@@ -203,7 +206,9 @@ def _download_artifact_hashes(root: Path, download: dict[str, Any] | None) -> se
 def _clean_host_transcript_candidates(root: Path) -> list[Path]:
     return sorted(
         [
-            *(root / "assurance/evidence/full_release_closure").glob("clean_host_install_transcript_*.json"),
+            *(root / "assurance/evidence/full_release_closure").glob(
+                "clean_host_install_transcript_*.json"
+            ),
             *(root / "assurance/evidence/clean_host_fresh_install_runner_execution").glob(
                 "clean_host_install_transcript_*.json"
             ),
@@ -272,7 +277,9 @@ def _clean_host_transcript_errors(data: Any) -> list[str]:
     return errors
 
 
-def _latest_clean_host_transcript(root: Path) -> tuple[Path | None, dict[str, Any] | None, list[str]]:
+def _latest_clean_host_transcript(
+    root: Path,
+) -> tuple[Path | None, dict[str, Any] | None, list[str]]:
     download_manifest_path = newest_download_manifest_path(root)
     manifest = _read_json(download_manifest_path) if download_manifest_path is not None else None
     valid_hashes = _download_artifact_hashes(root, manifest)
@@ -284,7 +291,9 @@ def _latest_clean_host_transcript(root: Path) -> tuple[Path | None, dict[str, An
         if not errors and isinstance(data, dict):
             bundle_hash = str((data.get("bundle") or {}).get("installer_sha256") or "").lower()
             if bundle_hash not in valid_hashes:
-                errors.append("bundle.installer_sha256 does not match any known artifact in the current download bundle manifest")
+                errors.append(
+                    "bundle.installer_sha256 does not match any known artifact in the current download bundle manifest"
+                )
         if not errors and isinstance(data, dict):
             return candidate, data, []
         if first_invalid is None:
@@ -395,7 +404,7 @@ def _cyclonedx_component_ids(document: Any) -> set[str]:
 
 
 def _normalize_python_requirement(spec: str) -> str:
-    """"fastembed>=0.4.0" -> "fastembed"; PEP 503 normalised."""
+    """ "fastembed>=0.4.0" -> "fastembed"; PEP 503 normalised."""
     name = spec.strip()
     for separator in ("[", ";", "<", ">", "=", "!", "~", " "):
         name = name.split(separator, 1)[0]
@@ -419,7 +428,7 @@ def _sbom_missing_direct_dependencies(
     package_json = _read_json(root / "frontend" / "package.json")
     if isinstance(package_json, dict) and npm_ids:
         # Runtime dependencies only. devDependencies are not shipped in the bundle.
-        for dep in (package_json.get("dependencies") or {}):
+        for dep in package_json.get("dependencies") or {}:
             needle = str(dep).strip().lower()
             if not needle:
                 continue
@@ -443,7 +452,7 @@ def _sbom_missing_direct_dependencies(
             data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
         except (OSError, ValueError, ImportError):
             data = {}
-        for spec in ((data.get("project") or {}).get("dependencies") or []):
+        for spec in (data.get("project") or {}).get("dependencies") or []:
             needle = _normalize_python_requirement(str(spec))
             if not needle or needle in python_ids:
                 continue
@@ -499,7 +508,10 @@ def _sbom_gate(root: Path) -> ReleaseGate:
         component = metadata.get("component") if isinstance(metadata, dict) else {}
         python_cdx_name = str((component or {}).get("name", ""))
     npm_bom_format = str(npm_cdx.get("bomFormat", "")) if isinstance(npm_cdx, dict) else ""
-    if not python_spdx_name.startswith("determinex-python") or python_cdx_name != "determinex-python":
+    if (
+        not python_spdx_name.startswith("determinex-python")
+        or python_cdx_name != "determinex-python"
+    ):
         return _gate(
             "sbom",
             "SBOM coverage",
@@ -576,14 +588,20 @@ def _clean_host_gate(root: Path) -> ReleaseGate:
     transcript_path, transcript_data, transcript_errors = _latest_clean_host_transcript(root)
     preflights = sorted(
         [
-            *(root / "assurance/evidence/clean_host_fresh_install_runner_execution").glob("runner_preflight_*.json"),
-            *(root / "assurance/evidence/full_release_closure").glob("clean_host_runner_preflight_*.json"),
+            *(root / "assurance/evidence/clean_host_fresh_install_runner_execution").glob(
+                "runner_preflight_*.json"
+            ),
+            *(root / "assurance/evidence/full_release_closure").glob(
+                "clean_host_runner_preflight_*.json"
+            ),
         ],
         key=lambda p: p.stat().st_mtime,
         reverse=True,
     )
     preflight = preflights[0] if preflights else None
-    evidence = [_rel(root, p) for p in (transcript_path, path, preflight) if p is not None and p.is_file()]
+    evidence = [
+        _rel(root, p) for p in (transcript_path, path, preflight) if p is not None and p.is_file()
+    ]
     data = _read_json(path) if path.is_file() else None
     preflight_data = _read_json(preflight) if preflight and preflight.is_file() else None
     if transcript_data is not None:
@@ -651,13 +669,16 @@ def _clean_host_gate(root: Path) -> ReleaseGate:
     )
     blocker = (
         preflight_blocker
-        or ((data.get("artifact_payloads") or {}).get("clean_run_transcript_or_blocker") or {}).get("blocker")
+        or ((data.get("artifact_payloads") or {}).get("clean_run_transcript_or_blocker") or {}).get(
+            "blocker"
+        )
         or data.get("status")
         or "Clean-host proof did not pass."
     )
     next_action = (
         "Rerun the clean-host probe outside the sandbox, then execute the install/launch/uninstall transcript."
-        if isinstance(preflight_data, dict) and preflight_data.get("docker_probe_blocked_by_sandbox") is True
+        if isinstance(preflight_data, dict)
+        and preflight_data.get("docker_probe_blocked_by_sandbox") is True
         else "Provision or repair a clean runner, then rerun install/build/smoke proof."
     )
     return _gate(
@@ -743,7 +764,7 @@ def _release_artifacts_built_at(root: Path, manifest: dict[str, Any] | None) -> 
     if newest <= 0:
         return ""
     return (
-        datetime.fromtimestamp(newest, tz=timezone.utc)
+        datetime.fromtimestamp(newest, tz=UTC)
         .replace(microsecond=0)
         .isoformat()
         .replace("+00:00", "Z")
@@ -772,9 +793,24 @@ def _is_passing_status(status: str) -> bool:
     # lenient-oracle path tags its results with a literal "UNVERIFIED:" prefix, and a qualified
     # pass is exactly the kind of claim this collector exists not to make.
     disqualifying = (
-        "NOT", "UNPASSED", "FAIL", "BLOCK", "TIMEOUT", "ERROR", "BYPASS",
-        "UNVERIFIED", "PARTIAL", "MOCK", "SIMULAT", "STUB", "SKIP", "LENIENT",
-        "PENDING", "DEFERRED", "ASSUMED", "EXPECTED",
+        "NOT",
+        "UNPASSED",
+        "FAIL",
+        "BLOCK",
+        "TIMEOUT",
+        "ERROR",
+        "BYPASS",
+        "UNVERIFIED",
+        "PARTIAL",
+        "MOCK",
+        "SIMULAT",
+        "STUB",
+        "SKIP",
+        "LENIENT",
+        "PENDING",
+        "DEFERRED",
+        "ASSUMED",
+        "EXPECTED",
     )
     if any(marker in upper for marker in disqualifying):
         return False
@@ -783,8 +819,13 @@ def _is_passing_status(status: str) -> bool:
 
 def _first_e2e_gate(root: Path) -> ReleaseGate:
     path = root / "assurance/evidence/first_end_to_end_user_workflow/result.json"
-    probe = root / "assurance/evidence/first_end_to_end_user_workflow/builder_health_probe_latest.json"
-    rerun = root / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json"
+    probe = (
+        root / "assurance/evidence/first_end_to_end_user_workflow/builder_health_probe_latest.json"
+    )
+    rerun = (
+        root
+        / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json"
+    )
     evidence = [_rel(root, p) for p in (path, probe, rerun) if p.is_file()]
     data = _read_json(path) if path.is_file() else None
     probe_data = _read_json(probe) if probe.is_file() else None
@@ -848,9 +889,15 @@ def _first_e2e_gate(root: Path) -> ReleaseGate:
         )
 
     rerun_observed = rerun_data.get("observed_result") if isinstance(rerun_data, dict) else {}
-    rerun_steps_complete = int(rerun_observed.get("steps_complete", -1)) if isinstance(rerun_observed, dict) else -1
-    rerun_steps_total = int(rerun_observed.get("steps_total", -2)) if isinstance(rerun_observed, dict) else -2
-    rerun_steps_failed = int(rerun_observed.get("steps_failed", 1)) if isinstance(rerun_observed, dict) else 1
+    rerun_steps_complete = (
+        int(rerun_observed.get("steps_complete", -1)) if isinstance(rerun_observed, dict) else -1
+    )
+    rerun_steps_total = (
+        int(rerun_observed.get("steps_total", -2)) if isinstance(rerun_observed, dict) else -2
+    )
+    rerun_steps_failed = (
+        int(rerun_observed.get("steps_failed", 1)) if isinstance(rerun_observed, dict) else 1
+    )
     if (
         isinstance(rerun_data, dict)
         and _is_passing_status(rerun_status)
@@ -890,18 +937,19 @@ def _first_e2e_gate(root: Path) -> ReleaseGate:
         (
             str(rerun_data.get("exact_blocker"))
             if isinstance(rerun_data, dict) and rerun_data.get("exact_blocker")
-            else
-            "First E2E transcript has not been rerun after Builder health passed."
+            else "First E2E transcript has not been rerun after Builder health passed."
             if isinstance(probe_data, dict) and probe_data.get("status") == "passed"
             else status or "First E2E did not pass."
         ),
         (
             str(rerun_data.get("next_required_action"))
             if isinstance(rerun_data, dict) and rerun_data.get("next_required_action")
-            else
-            "Rerun session 99d31f71-a25a-4849-8b12-44131c586699 with the existing correctness harness."
+            else "Rerun session 99d31f71-a25a-4849-8b12-44131c586699 with the existing correctness harness."
             if isinstance(probe_data, dict) and probe_data.get("status") == "passed"
-            else str(data.get("next_required_action") or "Restore workflow health and rerun the transcript.")
+            else str(
+                data.get("next_required_action")
+                or "Restore workflow health and rerun the transcript."
+            )
         ),
         [
             r".venv\Scripts\python.exe scripts\hive\builder_health_probe.py --model determinex/engineer --output assurance\evidence\first_end_to_end_user_workflow\builder_health_probe_latest.json",
@@ -935,11 +983,15 @@ def _installer_gate(root: Path) -> ReleaseGate:
         "run_20260629.INSTALLER_RELEASE_PACKET_HARDENED_UNSIGNED.json"
     )
     download_manifest = newest_download_manifest_path(root)
-    evidence_paths = [p for p in (go_no_go, hardening, download_manifest) if p is not None and p.is_file()]
+    evidence_paths = [
+        p for p in (go_no_go, hardening, download_manifest) if p is not None and p.is_file()
+    ]
     evidence = [_rel(root, p) for p in evidence_paths]
     go = _read_json(go_no_go) if go_no_go.is_file() else None
     hard = _read_json(hardening) if hardening.is_file() else None
-    download = _read_json(download_manifest) if download_manifest and download_manifest.is_file() else None
+    download = (
+        _read_json(download_manifest) if download_manifest and download_manifest.is_file() else None
+    )
     if not isinstance(go, dict) and not isinstance(hard, dict) and not isinstance(download, dict):
         return _gate(
             "installer",
@@ -952,7 +1004,11 @@ def _installer_gate(root: Path) -> ReleaseGate:
                 r".venv\Scripts\python.exe scripts\release\determinex_release_gates.py --output assurance\evidence\determinex_release_gate_status\release_gates_20260707.json",
             ],
         )
-    if isinstance(go, dict) and go.get("release_ready") is True and go.get("go_no_go") == "GO_PUBLIC_DISTRIBUTION":
+    if (
+        isinstance(go, dict)
+        and go.get("release_ready") is True
+        and go.get("go_no_go") == "GO_PUBLIC_DISTRIBUTION"
+    ):
         return _gate(
             "installer",
             "Installer/signing/public distribution",
@@ -970,14 +1026,21 @@ def _installer_gate(root: Path) -> ReleaseGate:
     if isinstance(hard, dict) and hard.get("status"):
         blockers.append(str(hard["status"]))
     artifact_types = _download_artifact_types(download)
-    setup_ready = isinstance(download, dict) and download.get("setup_ready_for_local_operator_testing") is True
+    setup_ready = (
+        isinstance(download, dict)
+        and download.get("setup_ready_for_local_operator_testing") is True
+    )
     package_blockers: list[str] = []
     if setup_ready:
         if "windows_nsis_setup" not in artifact_types:
             package_blockers.append("windows_nsis_setup_not_bundled")
         if "windows_msi" not in artifact_types:
             package_blockers.append("windows_msi_not_bundled")
-        missing_linux = [package_type for package_type in REQUIRED_LINUX_PACKAGE_TYPES if package_type not in artifact_types]
+        missing_linux = [
+            package_type
+            for package_type in REQUIRED_LINUX_PACKAGE_TYPES
+            if package_type not in artifact_types
+        ]
         if missing_linux:
             package_blockers.append("linux_packages_not_bundled")
             package_blockers.extend(f"{package_type}_not_bundled" for package_type in missing_linux)
@@ -1010,7 +1073,8 @@ def _installer_gate(root: Path) -> ReleaseGate:
         "Installer/package artifact matrix",
         "partial",
         evidence,
-        "; ".join(package_blockers or blockers) or "Installer packet exists but final package artifact matrix is incomplete.",
+        "; ".join(package_blockers or blockers)
+        or "Installer packet exists but final package artifact matrix is incomplete.",
         "Build the full package matrix: Windows NSIS, Windows MSI, and Linux package artifact(s), then refresh the download bundle.",
         [
             r"powershell -ExecutionPolicy Bypass -File scripts\release\build_release_package.ps1 -SkipDependencyRestore -SkipSbom -SkipSidecar -CargoTargetDir .tmp\determinex-cargo-target -PackageDownloadBundle -TauriBundleTarget all -DownloadBundleOutputDir .tmp\determinex-download-bundles",
@@ -1192,8 +1256,8 @@ def _legal_public_distribution_gate(root: Path) -> ReleaseGate:
             (
                 "AGPLv3 source license evidence is present, but the legal public distribution "
                 "packet is incomplete: " + "; ".join(errors)
-                if errors else
-                "AGPLv3 source license evidence is present, but no legal public distribution "
+                if errors
+                else "AGPLv3 source license evidence is present, but no legal public distribution "
                 "packet has been recorded."
             ),
             "Complete the public distribution packet after source license, notices, model inventory, secret scan, and repo scrub review.",
@@ -1288,7 +1352,11 @@ def _linux_packages_gate(root: Path) -> ReleaseGate:
     download = _read_json(download_manifest) if download_manifest is not None else None
     evidence = [_rel(root, download_manifest)] if download_manifest else []
     artifact_types = _valid_download_artifact_types(root, download)
-    missing_linux = [package_type for package_type in REQUIRED_LINUX_PACKAGE_TYPES if package_type not in artifact_types]
+    missing_linux = [
+        package_type
+        for package_type in REQUIRED_LINUX_PACKAGE_TYPES
+        if package_type not in artifact_types
+    ]
     linux_blockers = _download_artifact_type_blockers(root, download, REQUIRED_LINUX_PACKAGE_TYPES)
 
     if not missing_linux and not linux_blockers:
@@ -1404,7 +1472,7 @@ def _internal_rename_gate(root: Path) -> ReleaseGate:
             "Legacy determinex_* and DETERMINEX_* implementation identifiers remain by project contract.",
             "Execute the internal rename migration with compatibility aliases and migration tests.",
             [
-                "rg \"determinex_|DETERMINEX_\"",
+                'rg "determinex_|DETERMINEX_"',
                 r".venv\Scripts\python.exe scripts\release\determinex_release_gates.py --output assurance\evidence\determinex_release_gate_status\release_gates_20260707.json",
             ],
         )
@@ -1454,7 +1522,9 @@ def _programbench_200_gate(root: Path) -> ReleaseGate:
     canonical = [row for row in rows if not row.get("alias_of") and not row.get("canonical_slug")]
     strict_count = sum(1 for row in canonical if row.get("official_full_suite_resolved") is True)
     status_counts = Counter(str(row.get("status")) for row in canonical)
-    status_summary = ", ".join(f"{status}={count}" for status, count in status_counts.most_common(6))
+    status_summary = ", ".join(
+        f"{status}={count}" for status, count in status_counts.most_common(6)
+    )
     if len(canonical) == PROGRAMBENCH_DENOMINATOR and strict_count == PROGRAMBENCH_DENOMINATOR:
         return _gate(
             "programbench_200",
@@ -1507,8 +1577,12 @@ def _swebench_packet_errors(data: Any) -> list[str]:
     if data.get("authority_granted") is not False:
         errors.append("authority_granted must be false")
     modes = data.get("privacy_modes_completed")
-    if not isinstance(modes, list) or not SWEBENCH_REQUIRED_PRIVACY_MODES.issubset({str(m) for m in modes}):
-        errors.append("privacy_modes_completed must include B-Uncloaked, RegionControl, and Cloaked")
+    if not isinstance(modes, list) or not SWEBENCH_REQUIRED_PRIVACY_MODES.issubset(
+        {str(m) for m in modes}
+    ):
+        errors.append(
+            "privacy_modes_completed must include B-Uncloaked, RegionControl, and Cloaked"
+        )
     reports = data.get("reports")
     if not isinstance(reports, list) or not reports:
         errors.append("reports must list the official rerun report paths")
@@ -1517,7 +1591,9 @@ def _swebench_packet_errors(data: Any) -> list[str]:
 
 def _swebench_fresh_gate(root: Path) -> ReleaseGate:
     candidates = sorted(
-        (root / "assurance/evidence/swebench_fresh_publication").glob("swebench_fresh_publication_*.json"),
+        (root / "assurance/evidence/swebench_fresh_publication").glob(
+            "swebench_fresh_publication_*.json"
+        ),
         key=lambda p: p.stat().st_mtime,
         reverse=True,
     )
@@ -1580,7 +1656,10 @@ def collect(root: Path | str | None = None) -> ReleaseGateReport:
     release_ready = all(g.status in {"passed", "deferred"} for g in gates)
     return ReleaseGateReport(
         schema_version=SCHEMA_VERSION,
-        generated_at_utc=datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        generated_at_utc=datetime.now(UTC)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
         product_name="Determinex",
         release_ready=release_ready,
         authority_granted=False,

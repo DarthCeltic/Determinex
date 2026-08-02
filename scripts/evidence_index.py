@@ -5,6 +5,7 @@ The evidence index is the preview/release proof table. Every named lock or
 drain result must point to a manifest, test counts, a reproduction command, and
 plain-language claim boundaries.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -13,7 +14,6 @@ import os
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "assurance" / "evidence" / "evidence_index.json"
@@ -111,8 +111,8 @@ def _lock_entry(root: Path, path: Path, data: dict[str, Any], evidence_id: str) 
     test_modules = _test_modules(data)
     command = (
         f".\\.venv\\Scripts\\python.exe -m pytest {' '.join(test_modules)} -q --tb=short"
-        if test_modules else
-        f".\\.venv\\Scripts\\python.exe -m pytest tests -q --tb=short"
+        if test_modules
+        else ".\\.venv\\Scripts\\python.exe -m pytest tests -q --tb=short"
     )
     return EvidenceEntry(
         evidence_id=evidence_id,
@@ -131,12 +131,14 @@ def _drain_entry(root: Path, path: Path, data: dict[str, Any], evidence_id: str)
     gate = str(data.get("gate_result") or "")
     command = (
         f".\\.venv\\Scripts\\python.exe scripts\\pb_candidate_gate.py {data.get('slug')} {data.get('run_root')} --baseline-eval <baseline> --skip-eval"
-        if gate else
-        ".\\.venv\\Scripts\\python.exe scripts\\pb_native_eval_queue.py --top 20"
+        if gate
+        else ".\\.venv\\Scripts\\python.exe scripts\\pb_native_eval_queue.py --top 20"
     )
     candidate = data.get("candidate") or {}
     baseline = data.get("baseline") or {}
-    test_count = int(candidate.get("runnable") or candidate.get("total") or baseline.get("runnable") or 1)
+    test_count = int(
+        candidate.get("runnable") or candidate.get("total") or baseline.get("runnable") or 1
+    )
     return EvidenceEntry(
         evidence_id=evidence_id,
         kind="drain_result",
@@ -187,14 +189,14 @@ def _full_suite_count(data: dict[str, Any]) -> int:
 
 def _lock_boundary(evidence_id: str) -> str:
     _BOUNDARIES: dict[str, str] = {
-        "ACTION_GOVERNOR_LOCK_001":   "Does not prove the governor is wired into every agent controller. The lock proves the gate logic is correct; call-site coverage must be verified separately.",
-        "WORKSPACE_ESCAPE_LOCK_001":  "Symlink creation tests skip on Windows without Developer Mode. Junction escape coverage is OS-dependent. The path traversal and absolute path tests run everywhere.",
-        "CI_LOCK_001":                "Does not prove all test paths run in CI. Only the paths listed in test.yml trigger; the filter may miss novel file locations.",
-        "CORPUS_MIGRATION_LOCK_001":  "Does not prove v2/v3 migrations are correct (they are not yet written). Proves the registry rejects unknown versions and the v1 schema is stable.",
-        "CLOAK_LOCK_001":             "Does not prove zero leakage across all 10 languages — smoke tests cover Python only. Full multi-language privacy audit requires the B-Uncloaked clean rerun.",
-        "HIVE_LOCK_001":              "Does not prove end-to-end session correctness at scale. Tests cover DAG, WAL, and workspace isolation primitives. Full session tests require live compilers.",
-        "ROSETTA_LOCK_001":           "Smoke tests cover the pure-Python layer only (no PyTorch). Projection accuracy and semantic preservation tests require rosetta_v1.pt and GPU.",
-        "OBSERVABILITY_LOCK_001":     "Does not prove event consumers exist. Proves the emitter works correctly and is fail-silent. UI / tail tooling is a future surface.",
+        "ACTION_GOVERNOR_LOCK_001": "Does not prove the governor is wired into every agent controller. The lock proves the gate logic is correct; call-site coverage must be verified separately.",
+        "WORKSPACE_ESCAPE_LOCK_001": "Symlink creation tests skip on Windows without Developer Mode. Junction escape coverage is OS-dependent. The path traversal and absolute path tests run everywhere.",
+        "CI_LOCK_001": "Does not prove all test paths run in CI. Only the paths listed in test.yml trigger; the filter may miss novel file locations.",
+        "CORPUS_MIGRATION_LOCK_001": "Does not prove v2/v3 migrations are correct (they are not yet written). Proves the registry rejects unknown versions and the v1 schema is stable.",
+        "CLOAK_LOCK_001": "Does not prove zero leakage across all 10 languages — smoke tests cover Python only. Full multi-language privacy audit requires the B-Uncloaked clean rerun.",
+        "HIVE_LOCK_001": "Does not prove end-to-end session correctness at scale. Tests cover DAG, WAL, and workspace isolation primitives. Full session tests require live compilers.",
+        "ROSETTA_LOCK_001": "Smoke tests cover the pure-Python layer only (no PyTorch). Projection accuracy and semantic preservation tests require rosetta_v1.pt and GPU.",
+        "OBSERVABILITY_LOCK_001": "Does not prove event consumers exist. Proves the emitter works correctly and is fail-silent. UI / tail tooling is a future surface.",
     }
     if evidence_id in _BOUNDARIES:
         return _BOUNDARIES[evidence_id]
@@ -203,7 +205,9 @@ def _lock_boundary(evidence_id: str) -> str:
     if "REPAIR_LOCK" in evidence_id or "ORACLE" in evidence_id:
         return "Does not prove broad real-world repair coverage beyond the locked acceptance tests."
     if "DISTILLATION" in evidence_id:
-        return "Does not prove a deployed specialist model beats baseline without a later eval card."
+        return (
+            "Does not prove a deployed specialist model beats baseline without a later eval card."
+        )
     return "Does not prove claims outside the manifest's tested control surface."
 
 
@@ -236,13 +240,13 @@ def _indexed_manifest_paths(root: Path, rel_dir: str) -> list[Path]:
         entry_start = offset
         if offset + 62 > len(data):
             return []
-        flags = int.from_bytes(data[offset + 60:offset + 62], "big")
+        flags = int.from_bytes(data[offset + 60 : offset + 62], "big")
         offset += 62
         if version >= 3 and flags & 0x4000:
             offset += 2
         name_length = flags & 0x0FFF
         if name_length < 0x0FFF:
-            raw_name = data[offset:offset + name_length]
+            raw_name = data[offset : offset + name_length]
             offset += name_length
             if offset < len(data) and data[offset] == 0:
                 offset += 1
@@ -276,8 +280,7 @@ def generate_markdown(
         "> Machine-generated from `locks/sentinel/` and `locks/drain/` manifests.",
         "> Regenerate with: `python scripts/evidence_index.py --md docs/EVIDENCE_INDEX.md`",
         "",
-        f"**{index['entry_count']} entries** | "
-        f"Schema: `{index['schema_version']}`",
+        f"**{index['entry_count']} entries** | Schema: `{index['schema_version']}`",
         "",
     ]
 
@@ -359,8 +362,12 @@ def _markdown_manifest_link(root: Path, manifest_path: str, markdown_path: Path 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
-    ap.add_argument("--md", type=Path, default=None,
-                    help="Also write a Markdown version (e.g. docs/EVIDENCE_INDEX.md)")
+    ap.add_argument(
+        "--md",
+        type=Path,
+        default=None,
+        help="Also write a Markdown version (e.g. docs/EVIDENCE_INDEX.md)",
+    )
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
 

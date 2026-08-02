@@ -4,6 +4,7 @@ Same synthetic-fixture style as test_corpus_embeddings.py: no live corpus, no Ol
 network. The index is built into a tmp_path so nothing here touches the real
 corpus/programbench/fts_index.sqlite3.
 """
+
 from __future__ import annotations
 
 import sys

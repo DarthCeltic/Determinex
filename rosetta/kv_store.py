@@ -20,7 +20,6 @@ import sqlite3
 import sys
 import time
 from pathlib import Path
-from typing import Optional
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -29,7 +28,9 @@ if hasattr(sys.stdout, "reconfigure"):
 try:
     from kv_compress import CompressedState
 except ImportError:
-    import sys, os
+    import os
+    import sys
+
     sys.path.insert(0, str(Path(__file__).parent))
     from kv_compress import CompressedState
 
@@ -61,6 +62,7 @@ CREATE INDEX IF NOT EXISTS idx_kv_family       ON kv_states(source_family);
 # STORE
 # ---------------------------------------------------------------------------
 
+
 class KVStore:
     """
     sqlite-backed store for compressed mid-layer hidden states.
@@ -75,7 +77,7 @@ class KVStore:
         self._conn = sqlite3.connect(
             str(self.db_path),
             check_same_thread=False,
-            isolation_level=None,   # autocommit
+            isolation_level=None,  # autocommit
         )
         self._conn.execute("PRAGMA journal_mode=WAL")
         self._conn.execute("PRAGMA synchronous=NORMAL")
@@ -115,36 +117,41 @@ class KVStore:
             sqlite row id
         """
         context_hash = hashlib.sha256(context_text.encode("utf-8")).hexdigest()
-        preview      = context_text[:200].replace("\n", " ")
-        blob         = cs.to_blob()
-        now          = time.time()
+        preview = context_text[:200].replace("\n", " ")
+        blob = cs.to_blob()
+        now = time.time()
 
         if overwrite:
-            self._conn.execute(
-                "DELETE FROM kv_states WHERE context_hash = ?",
-                (context_hash,)
-            )
+            self._conn.execute("DELETE FROM kv_states WHERE context_hash = ?", (context_hash,))
 
         cur = self._conn.execute(
             """INSERT INTO kv_states
                (context_hash, source_family, layer_idx, hidden_dim,
                 compressed_blob, created_at, context_preview, seq_len)
                VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-            (context_hash, source_family, cs.layer_idx, cs.hidden_dim,
-             blob, now, preview, cs.seq_len)
+            (
+                context_hash,
+                source_family,
+                cs.layer_idx,
+                cs.hidden_dim,
+                blob,
+                now,
+                preview,
+                cs.seq_len,
+            ),
         )
         row_id = cur.lastrowid
         print(
             f"[KVStore] Stored: hash={context_hash[:12]}…  "
             f"family={source_family}  dim={cs.hidden_dim}  "
             f"layer={cs.layer_idx}  blob={len(blob):,}B  id={row_id}",
-            flush=True
+            flush=True,
         )
         return row_id
 
     # ── Read ─────────────────────────────────────────────────────────────────
 
-    def retrieve_by_hash(self, context_hash: str) -> Optional[CompressedState]:
+    def retrieve_by_hash(self, context_hash: str) -> CompressedState | None:
         """
         Retrieve the compressed state for an exact context hash.
 
@@ -152,19 +159,17 @@ class KVStore:
         """
         row = self._conn.execute(
             "SELECT compressed_blob FROM kv_states WHERE context_hash = ? ORDER BY created_at DESC LIMIT 1",
-            (context_hash,)
+            (context_hash,),
         ).fetchone()
         if row is None:
             return None
         return CompressedState.from_blob(row[0])
 
-    def retrieve_by_text(self, context_text: str) -> Optional[CompressedState]:
+    def retrieve_by_text(self, context_text: str) -> CompressedState | None:
         """Convenience wrapper: hash the text and retrieve."""
-        return self.retrieve_by_hash(
-            hashlib.sha256(context_text.encode("utf-8")).hexdigest()
-        )
+        return self.retrieve_by_hash(hashlib.sha256(context_text.encode("utf-8")).hexdigest())
 
-    def retrieve_recent(self, n: int = 5, family: Optional[str] = None) -> list[dict]:
+    def retrieve_recent(self, n: int = 5, family: str | None = None) -> list[dict]:
         """
         Retrieve the n most recently stored states as dicts with metadata.
 
@@ -178,33 +183,35 @@ class KVStore:
                           created_at, context_preview, compressed_blob
                    FROM kv_states WHERE source_family = ?
                    ORDER BY created_at DESC LIMIT ?""",
-                (family, n)
+                (family, n),
             ).fetchall()
         else:
             rows = self._conn.execute(
                 """SELECT id, context_hash, source_family, layer_idx, hidden_dim,
                           created_at, context_preview, compressed_blob
                    FROM kv_states ORDER BY created_at DESC LIMIT ?""",
-                (n,)
+                (n,),
             ).fetchall()
 
         results = []
         for row in rows:
-            results.append({
-                "id":               row[0],
-                "context_hash":     row[1],
-                "source_family":    row[2],
-                "layer_idx":        row[3],
-                "hidden_dim":       row[4],
-                "created_at":       row[5],
-                "context_preview":  row[6],
-                "compressed_state": CompressedState.from_blob(row[7]),
-            })
+            results.append(
+                {
+                    "id": row[0],
+                    "context_hash": row[1],
+                    "source_family": row[2],
+                    "layer_idx": row[3],
+                    "hidden_dim": row[4],
+                    "created_at": row[5],
+                    "context_preview": row[6],
+                    "compressed_state": CompressedState.from_blob(row[7]),
+                }
+            )
         return results
 
     # ── Maintenance ───────────────────────────────────────────────────────────
 
-    def count(self, family: Optional[str] = None) -> int:
+    def count(self, family: str | None = None) -> int:
         """Return number of stored states."""
         if family:
             return self._conn.execute(
@@ -215,9 +222,7 @@ class KVStore:
     def purge_older_than(self, seconds: float) -> int:
         """Delete states older than `seconds`. Returns number of rows deleted."""
         cutoff = time.time() - seconds
-        cur = self._conn.execute(
-            "DELETE FROM kv_states WHERE created_at < ?", (cutoff,)
-        )
+        cur = self._conn.execute("DELETE FROM kv_states WHERE created_at < ?", (cutoff,))
         deleted = cur.rowcount
         if deleted:
             print(f"[KVStore] Purged {deleted} old states.", flush=True)
@@ -231,17 +236,16 @@ class KVStore:
                FROM kv_states"""
         ).fetchone()
         families = [
-            r[0] for r in self._conn.execute(
-                "SELECT DISTINCT source_family FROM kv_states"
-            ).fetchall()
+            r[0]
+            for r in self._conn.execute("SELECT DISTINCT source_family FROM kv_states").fetchall()
         ]
         return {
-            "total_states":   row[0] or 0,
-            "total_bytes":    row[1] or 0,
+            "total_states": row[0] or 0,
+            "total_bytes": row[1] or 0,
             "min_hidden_dim": row[2],
             "max_hidden_dim": row[3],
-            "families":       families,
-            "db_path":        str(self.db_path),
+            "families": families,
+            "db_path": str(self.db_path),
         }
 
 
@@ -251,7 +255,9 @@ class KVStore:
 
 if __name__ == "__main__":
     import tempfile
+
     import torch
+
     sys.path.insert(0, str(Path(__file__).parent))
     from kv_compress import KVCompressor
 
@@ -270,8 +276,8 @@ if __name__ == "__main__":
         hashes = []
         for ctx in contexts:
             state = torch.randn(3072)  # mistral hidden dim
-            cs    = compressor.compress(state, family="mistral", layer_idx=16, context_text=ctx)
-            h     = hashlib.sha256(ctx.encode()).hexdigest()
+            cs = compressor.compress(state, family="mistral", layer_idx=16, context_text=ctx)
+            h = hashlib.sha256(ctx.encode()).hexdigest()
             store.store(ctx, "mistral", cs)
             hashes.append(h)
 
@@ -284,7 +290,7 @@ if __name__ == "__main__":
         # Retrieve by text
         cs_back2 = store.retrieve_by_text(contexts[1])
         assert cs_back2 is not None, "retrieve_by_text failed"
-        print(f"  retrieve_by_text: ok")
+        print("  retrieve_by_text: ok")
 
         # Recent
         recent = store.retrieve_recent(2)
@@ -297,5 +303,6 @@ if __name__ == "__main__":
         assert s["total_states"] == 3
 
     import os
+
     os.unlink(db_path)
     print("[KVStore] All tests passed.", flush=True)

@@ -3,7 +3,6 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
 from verified_task.adapters import ide_repair_task_spec, swebench_pro_task_spec, swelancer_task_spec
@@ -32,7 +31,9 @@ def test_ide_repair_adapter_preserves_java_language(tmp_path: Path) -> None:
     assert spec.language == "java"
     assert spec.benchmark == "IDE-Repair"
     assert spec.privacy_policy == "cloak"
-    assert any("mvn" in cmd or "gradle" in cmd or "javac" in cmd for cmd in spec.validation_commands)
+    assert any(
+        "mvn" in cmd or "gradle" in cmd or "javac" in cmd for cmd in spec.validation_commands
+    )
 
 
 def test_swebench_and_swelancer_emit_cloaked_repo_tasks(tmp_path: Path) -> None:

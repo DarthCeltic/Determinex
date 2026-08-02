@@ -1,9 +1,9 @@
 """Records for POST_APPLY_VERIFIER_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 POST_APPLY_VERIFIER_STATUS_TOKENS = (
     "POST_APPLY_VERIFIER_PASSED",

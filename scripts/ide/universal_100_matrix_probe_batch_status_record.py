@@ -13,11 +13,11 @@ Fixture-local executable proof is not production readiness. Promoted
 cells are smoke / repair / maintain-supported scoped to the Codex
 fixture demo workspace.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REACT_UNIVERSAL_100_MATRIX_PROBE_EXECUTION_BATCH_BINDING_STATUS_TOKENS = (
     "REACT_UNIVERSAL_100_MATRIX_PROBE_EXECUTION_BATCH_BINDING_PASSED",
@@ -69,6 +69,7 @@ REQUIRED_FIXTURE_CAVEATS = (
 @dataclass(frozen=True)
 class ProbeCellRow:
     """One row in the Matrix Probe batch table."""
+
     cell_id: str
     claim_state: str
     support_state: str
@@ -85,6 +86,7 @@ class ProbeCellRow:
 @dataclass(frozen=True)
 class Universal100MatrixProbeBatchStatus:
     """Render-safe view-model the React Universal 100 Matrix Probe panel consumes."""
+
     decision: str
     target_surface: str
     target_workflow: str
@@ -174,9 +176,7 @@ class Universal100MatrixProbeBatchStatus:
 
     @property
     def is_passed(self) -> bool:
-        return self.decision == (
-            "REACT_UNIVERSAL_100_MATRIX_PROBE_EXECUTION_BATCH_BINDING_PASSED"
-        )
+        return self.decision == ("REACT_UNIVERSAL_100_MATRIX_PROBE_EXECUTION_BATCH_BINDING_PASSED")
 
     @property
     def is_awaiting(self) -> bool:

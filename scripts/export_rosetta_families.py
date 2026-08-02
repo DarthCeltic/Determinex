@@ -18,6 +18,7 @@ Prints, for each family, the exact "sha256" line to paste into registry/registry
 (the plain whole-FILE byte hash the registry CLIENT verifies -- a different, additional
 check from the embedded tensor-content hash inside the file).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -47,9 +48,14 @@ def file_sha256(path: Path) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", required=True, help="Path to the combined rosetta_vN.pt")
-    parser.add_argument("--output-dir", required=True, help="Directory to write family_<arch>.pt files into")
-    parser.add_argument("--families", default=",".join(EXPORTABLE_FAMILIES),
-                        help="Comma-separated arch keys to export (must exist in the source checkpoint)")
+    parser.add_argument(
+        "--output-dir", required=True, help="Directory to write family_<arch>.pt files into"
+    )
+    parser.add_argument(
+        "--families",
+        default=",".join(EXPORTABLE_FAMILIES),
+        help="Comma-separated arch keys to export (must exist in the source checkpoint)",
+    )
     args = parser.parse_args()
 
     import torch
@@ -95,7 +101,9 @@ def main() -> int:
         print(f"wrote {dest} ({size_kb} KB)")
 
     print()
-    print("# Paste into registry/registry.json (whole-FILE sha256, verified by the registry client):")
+    print(
+        "# Paste into registry/registry.json (whole-FILE sha256, verified by the registry client):"
+    )
     for arch, sha, size_kb in results:
         print(f'  "{arch}": sha256={sha}  size_kb={size_kb}')
 

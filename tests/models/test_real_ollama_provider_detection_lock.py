@@ -1,4 +1,5 @@
 """Tests for REAL_OLLAMA_PROVIDER_DETECTION_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -22,13 +23,15 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "REAL_OLLAMA_PROVIDER_DETECTION_
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "real_ollama_provider_detection"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "REAL_OLLAMA_PROVIDER_DETECTED",
-    "REAL_OLLAMA_PROVIDER_BLOCKED_NOT_INSTALLED",
-    "REAL_OLLAMA_PROVIDER_BLOCKED_NOT_RUNNING",
-    "REAL_OLLAMA_PROVIDER_BLOCKED_TIMEOUT",
-    "REAL_OLLAMA_PROVIDER_BLOCKED_NETWORK_PROVIDER",
-})
+EXPECTED = frozenset(
+    {
+        "REAL_OLLAMA_PROVIDER_DETECTED",
+        "REAL_OLLAMA_PROVIDER_BLOCKED_NOT_INSTALLED",
+        "REAL_OLLAMA_PROVIDER_BLOCKED_NOT_RUNNING",
+        "REAL_OLLAMA_PROVIDER_BLOCKED_TIMEOUT",
+        "REAL_OLLAMA_PROVIDER_BLOCKED_NETWORK_PROVIDER",
+    }
+)
 
 
 def _no_binary():
@@ -41,17 +44,21 @@ def _has_binary():
 
 def _tags_ok(endpoint, timeout):
     from models.real_ollama_provider_detection import _TagsResult
-    return _TagsResult(ok=True, timed_out=False, not_running=False,
-                       models=("llama3:8b", "qwen2.5-coder:7b"))
+
+    return _TagsResult(
+        ok=True, timed_out=False, not_running=False, models=("llama3:8b", "qwen2.5-coder:7b")
+    )
 
 
 def _tags_not_running(endpoint, timeout):
     from models.real_ollama_provider_detection import _TagsResult
+
     return _TagsResult(ok=False, timed_out=False, not_running=True, error="refused")
 
 
 def _tags_timeout(endpoint, timeout):
     from models.real_ollama_provider_detection import _TagsResult
+
     return _TagsResult(ok=False, timed_out=True, not_running=False, error="timed out")
 
 
@@ -61,8 +68,9 @@ def test_status_tokens_exact():
 
 def test_network_endpoint_refused_before_anything_else():
     # Even when binary present and tags would pass — host check first.
-    r = detect(endpoint="http://example.com:11434",
-               binary_locator=_has_binary, tags_transport=_tags_ok)
+    r = detect(
+        endpoint="http://example.com:11434", binary_locator=_has_binary, tags_transport=_tags_ok
+    )
     assert r.decision == "REAL_OLLAMA_PROVIDER_BLOCKED_NETWORK_PROVIDER"
     assert r.elapsed_ms == 0, "must not have probed"
     assert r.network_provider_admitted is False
@@ -98,9 +106,14 @@ def test_module_does_not_import_requests_or_httpx():
         assert forbidden not in src
     # Must not call any ollama subcommand or pull / run a model.
     for forbidden in (
-        '"pull"', "'pull'", "ollama.pull",
-        '"run"', "'run'", "ollama.run",
-        "subprocess.Popen", "subprocess.run",
+        '"pull"',
+        "'pull'",
+        "ollama.pull",
+        '"run"',
+        "'run'",
+        "ollama.run",
+        "subprocess.Popen",
+        "subprocess.run",
     ):
         assert forbidden not in src, f"forbidden live-inference path: {forbidden}"
 

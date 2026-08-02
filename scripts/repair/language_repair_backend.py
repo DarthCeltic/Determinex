@@ -14,6 +14,7 @@ Every language backend implements this protocol. The pipeline contract is:
 
 Language expansion is factory work, not invention.
 """
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
@@ -26,11 +27,11 @@ from typing import Any
 class ProjectProfile:
     language: str
     root: Path
-    build_system: str                       # "cargo", "maven", "go_modules", "cmake", etc.
+    build_system: str  # "cargo", "maven", "go_modules", "cmake", etc.
     license_spdx: str
-    license_bucket: str                     # "green" | "yellow" | "red" | "unknown"
-    has_build_script: bool                  # build.rs, build.py, CMakeLists.txt, etc.
-    has_unsafe_patterns: bool               # injection / supply chain flags
+    license_bucket: str  # "green" | "yellow" | "red" | "unknown"
+    has_build_script: bool  # build.rs, build.py, CMakeLists.txt, etc.
+    has_unsafe_patterns: bool  # injection / supply chain flags
     metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
@@ -64,7 +65,7 @@ class RepairTask:
 
 @dataclass
 class MutationResult:
-    succeeded: bool                         # True if mutation caused a verifiable failure
+    succeeded: bool  # True if mutation caused a verifiable failure
     failure_output: str
     mutation_type: str
     mutated_file: str = ""

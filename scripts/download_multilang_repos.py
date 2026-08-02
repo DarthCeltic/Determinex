@@ -34,7 +34,7 @@ logging.basicConfig(
 # repo_field is the column that holds the GitHub slug (org/repo)
 DATASETS: list[tuple[str, str, str]] = [
     ("SWE-bench/SWE-bench_Multilingual", "test", "repo"),
-    ("ByteDance-Seed/Multi-SWE-bench",   "test", "repo"),
+    ("ByteDance-Seed/Multi-SWE-bench", "test", "repo"),
 ]
 
 # Subsets of Multi-SWE-bench by language (each is a separate config)
@@ -85,8 +85,9 @@ def clone_repo(
             return repo, "already-exists"
 
         log.info("Cloning %s ...", repo)
-        rc, out = run(["git", "clone", "-c", "core.longpaths=true",
-                       "--depth=500", repo_url, str(dest)])
+        rc, out = run(
+            ["git", "clone", "-c", "core.longpaths=true", "--depth=500", repo_url, str(dest)]
+        )
         if rc != 0:
             log.error("Clone FAILED %s:\n%s", repo, out[-600:])
             return repo, f"FAILED: {out[-200:]}"
@@ -102,6 +103,7 @@ def clone_repo(
 
 def load_repos_from_dataset(dataset_id: str, split: str, repo_field: str) -> set[str]:
     from datasets import load_dataset  # type: ignore[import-untyped]
+
     repos: set[str] = set()
     try:
         ds = load_dataset(dataset_id, split=split)
@@ -118,13 +120,16 @@ def load_repos_from_dataset(dataset_id: str, split: str, repo_field: str) -> set
 def load_multi_swe_bench_configs() -> set[str]:
     """Multi-SWE-bench organises instances by language config."""
     from datasets import load_dataset  # type: ignore[import-untyped]
+
     repos: set[str] = set()
     for lang in MULTI_SWE_CONFIGS:
         try:
             ds = load_dataset("ByteDance-Seed/Multi-SWE-bench", lang, split="test")
             before = len(repos)
             for row in ds:
-                val = row.get("repo", "") or row.get("instance_id", "").split("__")[0].replace("__", "/", 1)
+                val = row.get("repo", "") or row.get("instance_id", "").split("__")[0].replace(
+                    "__", "/", 1
+                )
                 if val and "/" in val:
                     repos.add(val)
             log.info("  Multi-SWE-bench lang=%s: %d new repos", lang, len(repos) - before)
@@ -161,15 +166,21 @@ def load_all_repos() -> set[str]:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dest", default=r"T:\determinex-swebench-ml",
-                        help="Destination root for multilingual repos")
-    parser.add_argument("--skip-roots", nargs="*",
-                        default=[r"T:\determinex-swebench", r"T:\determinex-swebench-full"],
-                        help="Existing repo roots to skip (already cloned)")
-    parser.add_argument("--workers", type=int, default=8,
-                        help="Parallel clone workers (more = faster, watch RAM)")
-    parser.add_argument("--force", action="store_true",
-                        help="Re-clone even if dest exists")
+    parser.add_argument(
+        "--dest",
+        default=r"T:\determinex-swebench-ml",
+        help="Destination root for multilingual repos",
+    )
+    parser.add_argument(
+        "--skip-roots",
+        nargs="*",
+        default=[r"T:\determinex-swebench", r"T:\determinex-swebench-full"],
+        help="Existing repo roots to skip (already cloned)",
+    )
+    parser.add_argument(
+        "--workers", type=int, default=8, help="Parallel clone workers (more = faster, watch RAM)"
+    )
+    parser.add_argument("--force", action="store_true", help="Re-clone even if dest exists")
     args = parser.parse_args()
 
     dest_root = Path(args.dest)
@@ -184,11 +195,16 @@ def main() -> None:
         log.error("No repos found — check dataset loading above")
         sys.exit(1)
 
-    need_clone = sorted(repos) if args.force else [
-        r for r in sorted(repos)
-        if not (dest_root / r.replace("/", "__")).exists()
-        and all(not (sk / r.replace("/", "__")).exists() for sk in skip_roots)
-    ]
+    need_clone = (
+        sorted(repos)
+        if args.force
+        else [
+            r
+            for r in sorted(repos)
+            if not (dest_root / r.replace("/", "__")).exists()
+            and all(not (sk / r.replace("/", "__")).exists() for sk in skip_roots)
+        ]
+    )
     already = len(repos) - len(need_clone)
     log.info("Repos to clone: %d (skipping %d already present)", len(need_clone), already)
 
@@ -201,8 +217,7 @@ def main() -> None:
 
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = {
-            pool.submit(clone_repo, repo, dest_root, skip_roots): repo
-            for repo in need_clone
+            pool.submit(clone_repo, repo, dest_root, skip_roots): repo for repo in need_clone
         }
         for fut in as_completed(futures):
             repo, status = fut.result()
@@ -214,8 +229,12 @@ def main() -> None:
                 log.info("[%d/%d] %-10s  %s", done, len(need_clone), status, repo)
 
     log.info("=" * 60)
-    log.info("Done.  Cloned: %d  |  Skipped: %d  |  Failed: %d",
-             len(need_clone) - len(failed), already, len(failed))
+    log.info(
+        "Done.  Cloned: %d  |  Skipped: %d  |  Failed: %d",
+        len(need_clone) - len(failed),
+        already,
+        len(failed),
+    )
     if failed:
         log.error("Failed repos:\n  %s", "\n  ".join(failed))
         sys.exit(1)

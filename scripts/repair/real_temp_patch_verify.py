@@ -16,12 +16,13 @@ Pass/fail invariants:
   - FAILED      → block, no further action
   - BLOCKED_*   → quarantine record missing / apply rejected
 """
+
 from __future__ import annotations
 
 import hashlib
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable, Optional
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -66,7 +67,7 @@ def verify(
     workspace: Path,
     temp_root: Path,
     workspace_id: str = "real_temp_verify",
-    verifier: Optional[Callable[[Path], "VerifierResult"]] = None,
+    verifier: Callable[[Path], VerifierResult] | None = None,
 ) -> RealTempPatchVerifyRecord:
     ws = Path(workspace).resolve()
     troot = Path(temp_root).resolve()
@@ -74,7 +75,8 @@ def verify(
     if plan is None or not plan.is_quarantined:
         return _blocked(
             "REAL_TEMP_PATCH_BLOCKED_NOT_QUARANTINED",
-            workspace=str(ws), temp_workspace="",
+            workspace=str(ws),
+            temp_workspace="",
             reason="plan missing or not quarantined",
         )
 
@@ -100,7 +102,8 @@ def verify(
     if not patches:
         return _blocked(
             "REAL_TEMP_PATCH_BLOCKED_APPLY_REJECTED",
-            workspace=str(ws), temp_workspace="",
+            workspace=str(ws),
+            temp_workspace="",
             reason="no patches resolved from plan_entries",
         )
 
@@ -117,9 +120,11 @@ def verify(
     if res.is_blocked:
         return _blocked(
             "REAL_TEMP_PATCH_BLOCKED_APPLY_REJECTED",
-            workspace=str(ws), temp_workspace=res.temp_workspace,
+            workspace=str(ws),
+            temp_workspace=res.temp_workspace,
             reason=f"safe-patch apply blocked: {res.status}",
-            src_before=src_before, src_after=src_after,
+            src_before=src_before,
+            src_after=src_after,
             original_unchanged=original_unchanged,
         )
 

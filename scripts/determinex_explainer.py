@@ -30,6 +30,7 @@ CLI
     python scripts/determinex_explainer.py <eval_report.json> [--tests-dir DIR]
                                         [--conftest C --compile-sh S] [--json]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -43,29 +44,35 @@ _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
 from determinex_adjudicator import (  # noqa: E402
-    Verdict, _base_nodeid, _failures_from_eval_report, classify_failure,
+    Verdict,
+    _base_nodeid,
+    _failures_from_eval_report,
+    classify_failure,
 )
 from determinex_test_validator import (  # noqa: E402
-    TestVerdict, validate_eval_report,
+    TestVerdict,
+    validate_eval_report,
 )
 
 
 @dataclass
 class Explanation:
     test_id: str
-    responsible: str           # CODE | TEST | ENVIRONMENT
-    why: str                   # the adjudicator's plain-language cause
+    responsible: str  # CODE | TEST | ENVIRONMENT
+    why: str  # the adjudicator's plain-language cause
     expected: str | None
     actual: str | None
-    delta: str                 # the concrete change to be right
-    proof: str                 # deterministic evidence (TEST/ENVIRONMENT only)
+    delta: str  # the concrete change to be right
+    proof: str  # deterministic evidence (TEST/ENVIRONMENT only)
     confidence: float
 
     def render(self) -> str:
-        head = {"CODE": "FIX THE CODE", "TEST": "THE TEST IS WRONG (proven)",
-                "ENVIRONMENT": "MATCH THE ENVIRONMENT"}[self.responsible]
-        lines = [f"[{self.responsible}] {head}  ({self.test_id})",
-                 f"  why     : {self.why}"]
+        head = {
+            "CODE": "FIX THE CODE",
+            "TEST": "THE TEST IS WRONG (proven)",
+            "ENVIRONMENT": "MATCH THE ENVIRONMENT",
+        }[self.responsible]
+        lines = [f"[{self.responsible}] {head}  ({self.test_id})", f"  why     : {self.why}"]
         if self.expected is not None:
             lines.append(f"  expected: {self.expected[:100]}")
         if self.actual is not None:
@@ -77,13 +84,16 @@ class Explanation:
         return "\n".join(lines)
 
 
-def explain_eval_report(eval_report: Path,
-                        test_sources: dict[str, str] | None = None,
-                        conftest_text: str = "",
-                        compile_sh_text: str = "") -> list[Explanation]:
+def explain_eval_report(
+    eval_report: Path,
+    test_sources: dict[str, str] | None = None,
+    conftest_text: str = "",
+    compile_sh_text: str = "",
+) -> list[Explanation]:
     failures = _failures_from_eval_report(eval_report)
     # peers for routing/contradiction signals
     from collections import defaultdict
+
     peers = defaultdict(list)
     for f in failures:
         peers[_base_nodeid(f.test_id)].append(f)
@@ -98,13 +108,16 @@ def explain_eval_report(eval_report: Path,
         # Decide the responsible party honestly.
         if jv and jv.verdict == TestVerdict.SLOP:
             responsible = "ENVIRONMENT" if jv.check == "environment-baked" else "TEST"
-            why = adj.remediation if responsible == "ENVIRONMENT" else \
-                "The test does not describe correct behavior."
-            delta = (jv.recommended_action or adj.remediation)
+            why = (
+                adj.remediation
+                if responsible == "ENVIRONMENT"
+                else "The test does not describe correct behavior."
+            )
+            delta = jv.recommended_action or adj.remediation
             proof = jv.proof
             conf = 0.8
         elif adj.verdict == Verdict.UNBLOCK:
-            responsible = "CODE"   # our own blocker, but the move is on our side
+            responsible = "CODE"  # our own blocker, but the move is on our side
             why = adj.remediation
             delta = adj.remediation
             proof = ""
@@ -116,7 +129,7 @@ def explain_eval_report(eval_report: Path,
             proof = ""
             conf = adj.confidence
         elif adj.verdict == Verdict.ROUTE:
-            responsible = "CODE"   # the binary must learn to route
+            responsible = "CODE"  # the binary must learn to route
             why = adj.remediation
             delta = adj.remediation
             proof = ""
@@ -134,10 +147,18 @@ def explain_eval_report(eval_report: Path,
             proof = ""
             conf = adj.confidence
 
-        out.append(Explanation(
-            test_id=f.test_id, responsible=responsible, why=why,
-            expected=f.expected, actual=f.actual, delta=delta, proof=proof,
-            confidence=conf))
+        out.append(
+            Explanation(
+                test_id=f.test_id,
+                responsible=responsible,
+                why=why,
+                expected=f.expected,
+                actual=f.actual,
+                delta=delta,
+                proof=proof,
+                confidence=conf,
+            )
+        )
     return out
 
 
@@ -180,8 +201,16 @@ def main() -> int:
     if args.tests_dir and args.tests_dir.is_dir():
         for p in args.tests_dir.rglob("test_*.py"):
             sources[p.stem] = p.read_text(encoding="utf-8", errors="replace")
-    conf = args.conftest.read_text(encoding="utf-8", errors="replace") if args.conftest and args.conftest.exists() else ""
-    cs = args.compile_sh.read_text(encoding="utf-8", errors="replace") if args.compile_sh and args.compile_sh.exists() else ""
+    conf = (
+        args.conftest.read_text(encoding="utf-8", errors="replace")
+        if args.conftest and args.conftest.exists()
+        else ""
+    )
+    cs = (
+        args.compile_sh.read_text(encoding="utf-8", errors="replace")
+        if args.compile_sh and args.compile_sh.exists()
+        else ""
+    )
     exps = explain_eval_report(args.eval_report, sources, conf, cs)
     return _summary(args.eval_report, exps, args.json)
 

@@ -18,9 +18,7 @@ import os
 import re
 import shutil
 import subprocess
-import sys
 import tempfile
-from pathlib import Path
 
 log = logging.getLogger("oracle.validator.bash")
 
@@ -62,7 +60,9 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
     try:
         result = subprocess.run(
             [bash, "-n", script_path],
-            capture_output=True, text=True, timeout=10,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         if result.returncode != 0:
             err = (result.stderr or "").strip().splitlines()
@@ -80,7 +80,9 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
         strict = bool(task_meta.get("shellcheck_strict", False))
         sc_result = subprocess.run(
             [sc, "--format=json1", "--severity=warning", script_path],
-            capture_output=True, text=True, timeout=15,
+            capture_output=True,
+            text=True,
+            timeout=15,
         )
         if sc_result.returncode == 0:
             return True, "bash -n + shellcheck clean"

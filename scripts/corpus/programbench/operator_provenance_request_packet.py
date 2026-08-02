@@ -16,8 +16,12 @@ if str(_SCRIPTS) not in sys.path:
 from corpus.programbench.cleanroom_build_recipe_provenance_gap_record import (
     verify_cleanroom_build_recipe_provenance_gap_record,
 )
-from corpus.programbench.cleanroom_build_recipe_recovery_record import verify_cleanroom_build_recipe_recovery_record
-from corpus.programbench.cleanroom_image_remediation_plan_record import verify_cleanroom_image_remediation_plan_record
+from corpus.programbench.cleanroom_build_recipe_recovery_record import (
+    verify_cleanroom_build_recipe_recovery_record,
+)
+from corpus.programbench.cleanroom_image_remediation_plan_record import (
+    verify_cleanroom_image_remediation_plan_record,
+)
 from corpus.programbench.cleanroom_recipe_provenance_recovery_record import (
     verify_cleanroom_recipe_provenance_recovery_record,
 )
@@ -33,10 +37,18 @@ from corpus.programbench.rebuild_provenance_quarantine_decision_record import (
 class OperatorProvenanceRequestPacketStatus(str, Enum):
     OPERATOR_PROVENANCE_REQUEST_PACKET_READY = "OPERATOR_PROVENANCE_REQUEST_PACKET_READY"
     OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN = "OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN"
-    OPERATOR_PROVENANCE_REQUEST_BLOCKED_NO_DECISION = "OPERATOR_PROVENANCE_REQUEST_BLOCKED_NO_DECISION"
-    OPERATOR_PROVENANCE_REQUEST_BLOCKED_IMAGE_MISMATCH = "OPERATOR_PROVENANCE_REQUEST_BLOCKED_IMAGE_MISMATCH"
-    OPERATOR_PROVENANCE_REQUEST_BLOCKED_DIGEST_MISMATCH = "OPERATOR_PROVENANCE_REQUEST_BLOCKED_DIGEST_MISMATCH"
-    OPERATOR_PROVENANCE_REQUEST_BLOCKED_CHAIN_INVALID = "OPERATOR_PROVENANCE_REQUEST_BLOCKED_CHAIN_INVALID"
+    OPERATOR_PROVENANCE_REQUEST_BLOCKED_NO_DECISION = (
+        "OPERATOR_PROVENANCE_REQUEST_BLOCKED_NO_DECISION"
+    )
+    OPERATOR_PROVENANCE_REQUEST_BLOCKED_IMAGE_MISMATCH = (
+        "OPERATOR_PROVENANCE_REQUEST_BLOCKED_IMAGE_MISMATCH"
+    )
+    OPERATOR_PROVENANCE_REQUEST_BLOCKED_DIGEST_MISMATCH = (
+        "OPERATOR_PROVENANCE_REQUEST_BLOCKED_DIGEST_MISMATCH"
+    )
+    OPERATOR_PROVENANCE_REQUEST_BLOCKED_CHAIN_INVALID = (
+        "OPERATOR_PROVENANCE_REQUEST_BLOCKED_CHAIN_INVALID"
+    )
     ORIGINAL_RECIPE_PROVENANCE_REQUIRED = "ORIGINAL_RECIPE_PROVENANCE_REQUIRED"
     PINNED_BASE_IMAGE_DIGEST_REQUIRED = "PINNED_BASE_IMAGE_DIGEST_REQUIRED"
     ORIGINAL_BUILD_CONTEXT_REQUIRED = "ORIGINAL_BUILD_CONTEXT_REQUIRED"
@@ -69,7 +81,9 @@ class ProgramBenchOperatorProvenanceRequestPacket:
     def write_packet(self, rebuild_quarantine_decision_path: Path) -> dict[str, Any]:
         decision_path = self._resolve(rebuild_quarantine_decision_path)
         decision = _read_json(decision_path) if decision_path.is_file() else {}
-        if not decision_path.is_file() or not verify_rebuild_provenance_quarantine_decision_record(decision):
+        if not decision_path.is_file() or not verify_rebuild_provenance_quarantine_decision_record(
+            decision
+        ):
             return self._write_blocked(
                 status=OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_BLOCKED_NO_DECISION.value,
                 decision_path=decision_path,
@@ -110,7 +124,9 @@ class ProgramBenchOperatorProvenanceRequestPacket:
         base_gap_open = bool(findings.get("pinned_base_image_digest_gap_open", True))
         material_risk = bool(findings.get("material_fidelity_change_candidate", True))
 
-        missing = _missing_evidence(original_gap_open=original_gap_open, base_gap_open=base_gap_open)
+        missing = _missing_evidence(
+            original_gap_open=original_gap_open, base_gap_open=base_gap_open
+        )
         record = make_operator_provenance_request_packet_record(
             status=OperatorProvenanceRequestPacketStatus.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.value,
             image_reference=image,
@@ -161,16 +177,22 @@ class ProgramBenchOperatorProvenanceRequestPacket:
             cache_ready=False,
             executable=False,
         )
-        path = write_operator_provenance_request_packet_record(record, self._resolve(self.config.output_dir))
+        path = write_operator_provenance_request_packet_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
-    def _load_and_validate_chain(self, decision: dict[str, Any]) -> tuple[dict[str, dict[str, Any]], list[str]]:
+    def _load_and_validate_chain(
+        self, decision: dict[str, Any]
+    ) -> tuple[dict[str, dict[str, Any]], list[str]]:
         errors: list[str] = []
         paths = {
             "remediation_plan": Path(str(decision.get("remediation_plan") or "")),
             "recipe_recovery": Path(str(decision.get("recipe_recovery") or "")),
             "provenance_gap": Path(str(decision.get("provenance_gap") or "")),
-            "recipe_provenance_recovery": Path(str(decision.get("recipe_provenance_recovery") or "")),
+            "recipe_provenance_recovery": Path(
+                str(decision.get("recipe_provenance_recovery") or "")
+            ),
         }
         records: dict[str, dict[str, Any]] = {}
         validators = {
@@ -225,7 +247,9 @@ class ProgramBenchOperatorProvenanceRequestPacket:
             cache_ready=False,
             executable=False,
         )
-        path = write_operator_provenance_request_packet_record(record, self._resolve(self.config.output_dir))
+        path = write_operator_provenance_request_packet_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _resolve(self, path: Path) -> Path:
@@ -238,25 +262,45 @@ def _required_evidence(*, current_go: str, target_go: str) -> list[dict[str, Any
             "id": "original_cleanroom_build_recipe",
             "requirement": "Exact original Dockerfile, Containerfile, build script, or reproducible build recipe used for the target cleanroom image.",
             "closes_gap": "ORIGINAL_RECIPE_MISSING",
-            "must_include": ["content hash", "source path or repository reference", "operator/source provenance", "build arguments if used"],
+            "must_include": [
+                "content hash",
+                "source path or repository reference",
+                "operator/source provenance",
+                "build arguments if used",
+            ],
         },
         {
             "id": "pinned_base_image_digest",
             "requirement": "Exact base image reference pinned by digest with source registry metadata.",
             "closes_gap": "BASE_IMAGE_DIGEST_MISSING",
-            "must_include": ["registry", "repository", "tag if any", "sha256 digest", "manifest lookup/provenance record"],
+            "must_include": [
+                "registry",
+                "repository",
+                "tag if any",
+                "sha256 digest",
+                "manifest lookup/provenance record",
+            ],
         },
         {
             "id": "original_build_context",
             "requirement": "Original build context or explicit statement that no external context was used.",
             "closes_gap": "ORIGINAL_BUILD_CONTEXT_UNKNOWN",
-            "must_include": ["source archive/hash or repository commit", "included files list", "exclusions if relevant"],
+            "must_include": [
+                "source archive/hash or repository commit",
+                "included files list",
+                "exclusions if relevant",
+            ],
         },
         {
             "id": "toolchain_version_provenance",
             "requirement": "Toolchain source/version provenance for original and remediated Go runtime.",
             "closes_gap": "TOOLCHAIN_PROVENANCE_MISSING",
-            "must_include": [f"original Go runtime confirmation: {current_go}", f"remediation target confirmation: {target_go}", "download URL or package source", "checksum/digest"],
+            "must_include": [
+                f"original Go runtime confirmation: {current_go}",
+                f"remediation target confirmation: {target_go}",
+                "download URL or package source",
+                "checksum/digest",
+            ],
         },
     ]
 
@@ -385,10 +429,16 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Write a ProgramBench operator provenance request packet.")
+    parser = argparse.ArgumentParser(
+        description="Write a ProgramBench operator provenance request packet."
+    )
     parser.add_argument("rebuild_quarantine_decision", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_operator_provenance_requests"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_operator_provenance_requests"),
+    )
     parser.add_argument("--target-image", default="")
     parser.add_argument("--target-digest", default="")
     args = parser.parse_args()

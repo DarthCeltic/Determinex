@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import re
 
-
 TOOL_ALIASES: dict[str, list[str]] = {
     "7zip": ["7z", "p7zip", "mcmilk__7-zip", "ip7z__7zip"],
     "angle": ["angle-grinder", "angle_grinder", "ag", "rcoh__angle-grinder"],
@@ -27,7 +26,11 @@ def aliases_for_tool(tool: str) -> list[str]:
     for canonical, values in TOOL_ALIASES.items():
         normalized_values = {normalized_tool_name(value) for value in values}
         normalized_values.update(normalized_slug(value) for value in values)
-        if key == canonical or key in normalized_values or normalized_repo_name(tool) in normalized_values:
+        if (
+            key == canonical
+            or key in normalized_values
+            or normalized_repo_name(tool) in normalized_values
+        ):
             aliases.add(canonical)
             aliases.update(normalized_values)
     return sorted(alias for alias in aliases if alias)

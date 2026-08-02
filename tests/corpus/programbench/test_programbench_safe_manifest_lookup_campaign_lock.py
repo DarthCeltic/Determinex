@@ -7,7 +7,9 @@ from corpus.programbench.batch001_live_manifest_metadata_lookup import (
     Batch001LiveManifestLookupConfig,
     ProgramBenchBatch001LiveManifestLookupCampaign,
 )
-from corpus.programbench.batch001_live_manifest_metadata_record import verify_live_manifest_metadata_record
+from corpus.programbench.batch001_live_manifest_metadata_record import (
+    verify_live_manifest_metadata_record,
+)
 from corpus.programbench.safe_registry_manifest_client import (
     SafeRegistryManifestClient,
     is_broad_search_request,
@@ -17,34 +19,57 @@ from corpus.programbench.safe_registry_manifest_record import verify_safe_regist
 
 
 class FixtureTransport:
-    def __init__(self, manifest_status: int = 200, *, digest: str = "sha256:" + "a" * 64, manifest: dict[str, Any] | None = None) -> None:
+    def __init__(
+        self,
+        manifest_status: int = 200,
+        *,
+        digest: str = "sha256:" + "a" * 64,
+        manifest: dict[str, Any] | None = None,
+    ) -> None:
         self.manifest_status = manifest_status
         self.digest = digest
-        self.manifest = manifest or {"schemaVersion": 2, "mediaType": "application/vnd.docker.distribution.manifest.v2+json"}
+        self.manifest = manifest or {
+            "schemaVersion": 2,
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+        }
         self.urls: list[str] = []
 
-    def get_json(self, url: str, headers: dict[str, str], timeout: float) -> tuple[int, dict[str, str], dict[str, Any]]:
+    def get_json(
+        self, url: str, headers: dict[str, str], timeout: float
+    ) -> tuple[int, dict[str, str], dict[str, Any]]:
         self.urls.append(url)
         return 200, {}, {"token": "fixture-token"}
 
-    def get_bytes(self, url: str, headers: dict[str, str], timeout: float) -> tuple[int, dict[str, str], bytes]:
+    def get_bytes(
+        self, url: str, headers: dict[str, str], timeout: float
+    ) -> tuple[int, dict[str, str], bytes]:
         self.urls.append(url)
         if self.manifest_status == 429:
             return 429, {}, b'{"errors":[{"code":"TOOMANYREQUESTS"}]}'
         if self.manifest_status == 404:
             return 404, {}, b'{"errors":[{"code":"MANIFEST_UNKNOWN"}]}'
-        return self.manifest_status, {"Docker-Content-Digest": self.digest}, json.dumps(self.manifest).encode("utf-8")
+        return (
+            self.manifest_status,
+            {"Docker-Content-Digest": self.digest},
+            json.dumps(self.manifest).encode("utf-8"),
+        )
 
 
-def _campaign(client: SafeRegistryManifestClient | None = None, *, live_lookup: bool = True) -> ProgramBenchBatch001LiveManifestLookupCampaign:
+def _campaign(
+    client: SafeRegistryManifestClient | None = None, *, live_lookup: bool = True
+) -> ProgramBenchBatch001LiveManifestLookupCampaign:
     return ProgramBenchBatch001LiveManifestLookupCampaign(
-        Batch001LiveManifestLookupConfig(write_records=False, live_lookup=live_lookup, client=client)
+        Batch001LiveManifestLookupConfig(
+            write_records=False, live_lookup=live_lookup, client=client
+        )
     )
 
 
 def test_safe_registry_client_fixture_success_with_digest_header() -> None:
     transport = FixtureTransport()
-    result = SafeRegistryManifestClient(transport=transport).lookup("programbench/example_1776_tool.1234567:task_cleanroom")
+    result = SafeRegistryManifestClient(transport=transport).lookup(
+        "programbench/example_1776_tool.1234567:task_cleanroom"
+    )
 
     assert result["status"] == "REGISTRY_MANIFEST_METADATA_FOUND"
     assert result["digest"] == "sha256:" + "a" * 64
@@ -94,14 +119,19 @@ def test_safe_registry_client_blocks_latest_missing_tag_search_and_unadmitted_pr
     latest = SafeRegistryManifestClient().lookup("programbench/example_1776_tool.1234567:latest")
     missing_tag = SafeRegistryManifestClient().lookup("programbench/example_1776_tool.1234567")
     broad = SafeRegistryManifestClient().lookup("programbench/*:task_cleanroom")
-    unadmitted = SafeRegistryManifestClient(provider="unknown").lookup("programbench/example_1776_tool.1234567:task_cleanroom")
+    unadmitted = SafeRegistryManifestClient(provider="unknown").lookup(
+        "programbench/example_1776_tool.1234567:task_cleanroom"
+    )
 
     assert latest["status"] == "REGISTRY_MANIFEST_LOOKUP_BLOCKED_LATEST_TAG"
     assert missing_tag["status"] == "REGISTRY_MANIFEST_LOOKUP_BLOCKED_BROAD_SEARCH"
     assert broad["status"] == "REGISTRY_MANIFEST_LOOKUP_BLOCKED_BROAD_SEARCH"
     assert unadmitted["status"] == "REGISTRY_MANIFEST_LOOKUP_BLOCKED_UNADMITTED_PROVIDER"
     assert is_broad_search_request("programbench/*:task_cleanroom") is True
-    assert parse_image_reference("programbench/example_1776_tool.1234567:task_cleanroom")["tag"] == "task_cleanroom"
+    assert (
+        parse_image_reference("programbench/example_1776_tool.1234567:task_cleanroom")["tag"]
+        == "task_cleanroom"
+    )
 
 
 def test_safe_registry_manifest_client_lock_record_is_closed() -> None:
@@ -128,7 +158,10 @@ def test_batch001_live_manifest_lookup_with_found_fixture_admits_metadata_only()
     assert lookup["summary"]["targets_attempted"] == 10
     assert lookup["summary"]["manifests_found"] == 10
     assert admission["summary"]["digests_admitted_metadata_only"] == 10
-    assert all(row["cache_ready"] is False and row["executable"] is False for row in admission["admissions"])
+    assert all(
+        row["cache_ready"] is False and row["executable"] is False
+        for row in admission["admissions"]
+    )
     assert state["summary"]["artifact_import_and_scan_required"] == 10
     assert import_plan["summary"]["plans_written"] == 10
     assert records["final"]["summary"]["training_rows_written"] is False
@@ -143,8 +176,13 @@ def test_batch001_live_manifest_lookup_with_not_found_keeps_operator_metadata_re
     assert records["admission"]["status"] == "BATCH001_METADATA_DIGEST_ADMISSION_NONE"
     assert records["state"]["summary"]["operator_metadata_still_required"] == 10
     assert records["metadata_requests"]["summary"]["packets_written"] == 10
-    assert all(packet["template_only"] is True for packet in records["metadata_requests"]["packets"])
-    assert all(packet["authorizes_execution"] is False for packet in records["metadata_requests"]["packets"])
+    assert all(
+        packet["template_only"] is True for packet in records["metadata_requests"]["packets"]
+    )
+    assert all(
+        packet["authorizes_execution"] is False
+        for packet in records["metadata_requests"]["packets"]
+    )
 
 
 def test_batch001_live_manifest_lookup_disabled_blocks_without_network_or_digest() -> None:

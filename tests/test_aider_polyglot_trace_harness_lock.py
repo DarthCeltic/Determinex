@@ -7,8 +7,6 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
-from corpus.corpus_manager import verify_signature  # noqa: E402
-from verified_task.bench_to_corpus_eligibility import signed_training_eligible  # noqa: E402
 from bench_adapters.aider_polyglot_trace_harness import (  # noqa: E402
     AIDER_BENCHMARK_NAME,
     AiderPolyglotCase,
@@ -17,6 +15,8 @@ from bench_adapters.aider_polyglot_trace_harness import (  # noqa: E402
     summarize_records,
     write_case_result,
 )
+from corpus.corpus_manager import verify_signature  # noqa: E402
+from verified_task.bench_to_corpus_eligibility import signed_training_eligible  # noqa: E402
 
 
 def _case(language: str = "python", task_id: str = "aider-py-001") -> AiderPolyglotCase:
@@ -44,9 +44,13 @@ def test_case_becomes_task_spec_with_training_gates():
 
 def test_manifest_loader_accepts_json_and_jsonl(tmp_path):
     json_path = tmp_path / "aider.json"
-    json_path.write_text(json.dumps({"cases": [case_to_row(_case("rust", "aider-rs-001"))]}), encoding="utf-8")
+    json_path.write_text(
+        json.dumps({"cases": [case_to_row(_case("rust", "aider-rs-001"))]}), encoding="utf-8"
+    )
     jsonl_path = tmp_path / "aider.jsonl"
-    jsonl_path.write_text(json.dumps(case_to_row(_case("java", "aider-java-001"))) + "\n", encoding="utf-8")
+    jsonl_path.write_text(
+        json.dumps(case_to_row(_case("java", "aider-java-001"))) + "\n", encoding="utf-8"
+    )
 
     assert load_cases(json_path)[0].language == "rust"
     assert load_cases(jsonl_path)[0].language == "java"
@@ -54,7 +58,9 @@ def test_manifest_loader_accepts_json_and_jsonl(tmp_path):
 
 def test_pass_result_writes_signed_training_eligible_row(tmp_path):
     out = tmp_path / "aider_traces.jsonl"
-    record = write_case_result(_case("python"), {"outcome": "pass", "passed": True, "failure_class": "none"}, out)
+    record = write_case_result(
+        _case("python"), {"outcome": "pass", "passed": True, "failure_class": "none"}, out
+    )
 
     ok, reasons = signed_training_eligible(record)
 
@@ -84,7 +90,11 @@ def test_reject_result_is_schema_complete_training_signal(tmp_path):
     out = tmp_path / "aider_traces.jsonl"
     record = write_case_result(
         _case("cpp", "aider-cpp-001"),
-        {"outcome": "reject", "reject_reason": "license_not_green", "failure_class": "license_not_green"},
+        {
+            "outcome": "reject",
+            "reject_reason": "license_not_green",
+            "failure_class": "license_not_green",
+        },
         out,
     )
 
@@ -115,9 +125,15 @@ def test_infra_failure_is_signed_eval_evidence_not_training_row(tmp_path):
 def test_summary_tracks_language_balance(tmp_path):
     out = tmp_path / "aider_traces.jsonl"
     records = [
-        write_case_result(_case("python", "aider-py-001"), {"outcome": "pass", "passed": True}, out),
-        write_case_result(_case("rust", "aider-rs-001"), {"outcome": "fail", "failure_class": "borrow_error"}, out),
-        write_case_result(_case("go", "aider-go-001"), {"outcome": "fail", "failure_class": "nil_pointer"}, out),
+        write_case_result(
+            _case("python", "aider-py-001"), {"outcome": "pass", "passed": True}, out
+        ),
+        write_case_result(
+            _case("rust", "aider-rs-001"), {"outcome": "fail", "failure_class": "borrow_error"}, out
+        ),
+        write_case_result(
+            _case("go", "aider-go-001"), {"outcome": "fail", "failure_class": "nil_pointer"}, out
+        ),
     ]
 
     summary = summarize_records(records)

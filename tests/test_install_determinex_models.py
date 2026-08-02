@@ -80,7 +80,9 @@ def test_the_installer_covers_the_roles_ctx_config_assigns():
     mod = _installer()
     installed = {m.tag for m in mod.MODELS}
     for role, tag in _MODEL_TAGS.items():
-        assert tag in installed, f"ctx_config assigns {role}={tag}, which the installer cannot install"
+        assert tag in installed, (
+            f"ctx_config assigns {role}={tag}, which the installer cannot install"
+        )
 
 
 def test_no_installed_tag_is_a_superseded_model():
@@ -180,7 +182,7 @@ def test_checksum_lookup_queries_the_endpoint_that_actually_carries_lfs_data():
     src = _INSTALLER.read_text(encoding="utf-8")
     assert "blobs=true" in src, "checksum lookup must query the endpoint that returns lfs data"
     assert "X-Linked-ETag" in src, "header fallback must use X-Linked-ETag"
-    body = src[src.index("def remote_sha256"):src.index("def download")]
+    body = src[src.index("def remote_sha256") : src.index("def download")]
     assert '"etag"' not in body.lower().replace("x-linked-etag", ""), (
         "must not fall back to the plain etag header, which is the xetHash"
     )
@@ -193,7 +195,7 @@ def test_subprocess_output_is_decoded_as_utf8():
     the command had SUCCEEDED and the crash was purely in reading its output. Worst possible
     place to drop a user: mid-install, after the download."""
     src = _INSTALLER.read_text(encoding="utf-8")
-    run_body = src[src.index("def _run"):src.index("def ollama_available")]
+    run_body = src[src.index("def _run") : src.index("def ollama_available")]
     assert 'encoding="utf-8"' in run_body
     assert 'errors="replace"' in run_body
 

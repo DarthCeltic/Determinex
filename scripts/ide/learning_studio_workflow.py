@@ -11,6 +11,7 @@ refuses any LearningStudioOutput that:
     appropriate gated workflow (repo_clinic / idea_lab)
     -> BLOCKED_MUTATION_CONFUSION
 """
+
 from __future__ import annotations
 
 from .learning_studio_workflow_record import (
@@ -60,8 +61,11 @@ def evaluate(output: LearningStudioOutput | None) -> LearningStudioWorkflowRecor
     # Hard rule: forbidden phrasing in body.
     text_l = output.text.lower()
     forbidden = (
-        "patch applied", "now fixed", "source mutation authorized",
-        "approved", "this fix has been applied",
+        "patch applied",
+        "now fixed",
+        "source mutation authorized",
+        "approved",
+        "this fix has been applied",
         "training row written",
     )
     for phrase in forbidden:
@@ -114,7 +118,8 @@ def evaluate(output: LearningStudioOutput | None) -> LearningStudioWorkflowRecor
 
 
 def _block(
-    decision: str, *,
+    decision: str,
+    *,
     output: LearningStudioOutput,
     note: str,
 ) -> LearningStudioWorkflowRecord:

@@ -58,6 +58,7 @@ CLI
     python scripts/corpus/corpus_tree_index.py search "<query>" [--k 5]
     python scripts/corpus/corpus_tree_index.py navigate "<query>" [--model TAG]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -65,9 +66,10 @@ import json
 import os
 import re
 import sys
-from dataclasses import dataclass, field, asdict
+from collections.abc import Iterable
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 _HERE = Path(__file__).resolve().parent
 _SCRIPTS = _HERE.parent
@@ -79,15 +81,18 @@ ROOT = _SCRIPTS.parent
 INDEX_PATH = ROOT / "corpus" / "programbench" / "tree_index.json"
 
 # Only local Ollama tags are acceptable navigators -- see the Cloak note above.
-DEFAULT_NAVIGATOR = os.environ.get(
-    "DETERMINEX_TREE_NAVIGATOR", "qwen2.5-coder:7b-instruct"
-)
+DEFAULT_NAVIGATOR = os.environ.get("DETERMINEX_TREE_NAVIGATOR", "qwen2.5-coder:7b-instruct")
 OLLAMA_URL = os.environ.get("DETERMINEX_OLLAMA_URL", "http://localhost:11434")
 
 _DEFAULT_ROOTS = ("docs", "corpus")
 _SKIP_PARTS = {
-    ".git", "node_modules", "__pycache__", ".next", "target",
-    "_superseded", "locked",          # archived/duplicated PB artifacts
+    ".git",
+    "node_modules",
+    "__pycache__",
+    ".next",
+    "target",
+    "_superseded",
+    "locked",  # archived/duplicated PB artifacts
 }
 _HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*#*$")
 _MAX_PREVIEW = 400
@@ -97,15 +102,17 @@ _MAX_PREVIEW = 400
 # Tree model
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class TreeNode:
     """One heading (or a whole file, for the synthetic root of each document)."""
+
     title: str
-    level: int                    # 0 = file root, 1..6 = markdown heading depth
-    path: str                     # repo-relative file path
-    line: int                     # 1-indexed line where this section starts
-    preview: str                  # first non-empty prose under the heading
-    children: list["TreeNode"] = field(default_factory=list)
+    level: int  # 0 = file root, 1..6 = markdown heading depth
+    path: str  # repo-relative file path
+    line: int  # 1-indexed line where this section starts
+    preview: str  # first non-empty prose under the heading
+    children: list[TreeNode] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         d = asdict(self)
@@ -113,15 +120,18 @@ class TreeNode:
         return d
 
     @staticmethod
-    def from_dict(d: dict[str, Any]) -> "TreeNode":
+    def from_dict(d: dict[str, Any]) -> TreeNode:
         node = TreeNode(
-            title=d["title"], level=d["level"], path=d["path"],
-            line=d["line"], preview=d.get("preview", ""),
+            title=d["title"],
+            level=d["level"],
+            path=d["path"],
+            line=d["line"],
+            preview=d.get("preview", ""),
         )
         node.children = [TreeNode.from_dict(c) for c in d.get("children", [])]
         return node
 
-    def walk(self) -> Iterable["TreeNode"]:
+    def walk(self) -> Iterable[TreeNode]:
         yield self
         for c in self.children:
             yield from c.walk()
@@ -167,8 +177,9 @@ def build_document_tree(path: Path) -> TreeNode:
         m = _HEADING_RE.match(raw)
         if m:
             level = len(m.group(1))
-            node = TreeNode(title=m.group(2).strip() or "(untitled)",
-                            level=level, path=rel, line=i, preview="")
+            node = TreeNode(
+                title=m.group(2).strip() or "(untitled)", level=level, path=rel, line=i, preview=""
+            )
             while len(stack) > 1 and stack[-1].level >= level:
                 stack.pop()
             stack[-1].children.append(node)
@@ -196,7 +207,7 @@ def build_index(roots: Iterable[str] = _DEFAULT_ROOTS) -> dict[str, Any]:
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(index, f, ensure_ascii=False)
         f.flush()
-        os.fsync(f.fileno())          # WAL convention: no write-cache races
+        os.fsync(f.fileno())  # WAL convention: no write-cache races
     tmp.replace(INDEX_PATH)
     return index
 
@@ -230,6 +241,7 @@ def index_stats(index: dict[str, Any] | None = None) -> dict[str, Any]:
 # Retrieval
 # ---------------------------------------------------------------------------
 
+
 def _tokens(s: str) -> set[str]:
     return {t for t in re.split(r"[^a-z0-9_]+", s.lower()) if len(t) > 2}
 
@@ -261,14 +273,19 @@ def shortlist(query: str, k: int = 12, index: dict[str, Any] | None = None) -> l
             path_hits = len(q & _tokens(node.path))
             score = (3.0 * title_hits) + (1.5 * trail_hits) + prev_hits + (0.5 * path_hits)
             if score > 0:
-                scored.append((score, {
-                    "title": node.title,
-                    "breadcrumb": " > ".join(crumb),
-                    "path": node.path,
-                    "line": node.line,
-                    "preview": node.preview,
-                    "score": round(score, 2),
-                }))
+                scored.append(
+                    (
+                        score,
+                        {
+                            "title": node.title,
+                            "breadcrumb": " > ".join(crumb),
+                            "path": node.path,
+                            "line": node.line,
+                            "preview": node.preview,
+                            "score": round(score, 2),
+                        },
+                    )
+                )
             for c in node.children:
                 visit(c, crumb)
 
@@ -284,8 +301,9 @@ def _is_local_navigator(model: str) -> bool:
     return "/" not in model or model.startswith(("ollama/", "local/"))
 
 
-def navigate(query: str, k: int = 5, model: str | None = None,
-             index: dict[str, Any] | None = None) -> dict[str, Any]:
+def navigate(
+    query: str, k: int = 5, model: str | None = None, index: dict[str, Any] | None = None
+) -> dict[str, Any]:
     """Shortlist structurally, then let a LOCAL model choose which sections answer the query.
 
     Raises RuntimeError if asked to use a non-local navigator -- see the Cloak
@@ -301,8 +319,13 @@ def navigate(query: str, k: int = 5, model: str | None = None,
 
     cands = shortlist(query, k=max(k * 3, 12), index=index)
     if not cands:
-        return {"query": query, "navigator": nav, "selected": [], "candidates": 0,
-                "note": "no structural candidates -- index may not be built (run `build`)"}
+        return {
+            "query": query,
+            "navigator": nav,
+            "selected": [],
+            "candidates": 0,
+            "note": "no structural candidates -- index may not be built (run `build`)",
+        }
 
     listing = "\n".join(
         f"[{i}] {c['breadcrumb']}  ({c['path']}:{c['line']})\n     {c['preview'][:200]}"
@@ -318,13 +341,23 @@ def navigate(query: str, k: int = 5, model: str | None = None,
 
     try:
         from swe_agent.inference import _ollama  # canonical helper; do not duplicate
-        raw = _ollama(nav, prompt,
-                      system="You select relevant documentation sections. Reply with JSON only.",
-                      temperature=0.0, timeout=120)
+
+        raw = _ollama(
+            nav,
+            prompt,
+            system="You select relevant documentation sections. Reply with JSON only.",
+            temperature=0.0,
+            timeout=120,
+        )
     except Exception as e:  # noqa: BLE001 - surface honestly, never fake a result
-        return {"query": query, "navigator": nav, "selected": [],
-                "candidates": len(cands), "error": f"navigator unavailable: {e}",
-                "fallback": cands[:k]}
+        return {
+            "query": query,
+            "navigator": nav,
+            "selected": [],
+            "candidates": len(cands),
+            "error": f"navigator unavailable: {e}",
+            "fallback": cands[:k],
+        }
 
     picked: list[int] = []
     m = re.search(r"\[[^\]]*\]", raw or "")
@@ -340,13 +373,14 @@ def navigate(query: str, k: int = 5, model: str | None = None,
         "navigator": nav,
         "candidates": len(cands),
         "selected": selected or cands[:k],
-        "model_selected": bool(selected),   # False => structural fallback, stated plainly
+        "model_selected": bool(selected),  # False => structural fallback, stated plainly
     }
 
 
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Vectorless tree retrieval over the markdown corpus")

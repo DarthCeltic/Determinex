@@ -39,30 +39,61 @@ if hasattr(sys.stderr, "reconfigure"):
 # ---------------------------------------------------------------------------
 
 parser = argparse.ArgumentParser(description="Determinex Engineer fine-tuning (standard PEFT)")
-parser.add_argument("--version",               type=int, default=4,
-                    help="Version number for the output model (e.g. 4 -> determinex-engineer:v4).")
-parser.add_argument("--output_dir",            type=str, default=None,
-                    help="Output directory. Defaults to scripts/fine_tuning/outputs/determinex-engineer-vN/")
-parser.add_argument("--epochs",                type=int, default=3,
-                    help="Training epochs (default: 3).")
-parser.add_argument("--max_seq_length",        type=int, default=2048,
-                    help="Sequence length. 2048 fits in 6 GB; drop to 1024 if OOM.")
-parser.add_argument("--per_device_batch_size", type=int, default=1,
-                    help="Batch size per GPU. 1 is safe for 6 GB VRAM.")
-parser.add_argument("--grad_accum",            type=int, default=8,
-                    help="Gradient accumulation steps (effective batch = batch * grad_accum).")
+parser.add_argument(
+    "--version",
+    type=int,
+    default=4,
+    help="Version number for the output model (e.g. 4 -> determinex-engineer:v4).",
+)
+parser.add_argument(
+    "--output_dir",
+    type=str,
+    default=None,
+    help="Output directory. Defaults to scripts/fine_tuning/outputs/determinex-engineer-vN/",
+)
+parser.add_argument("--epochs", type=int, default=3, help="Training epochs (default: 3).")
+parser.add_argument(
+    "--max_seq_length",
+    type=int,
+    default=2048,
+    help="Sequence length. 2048 fits in 6 GB; drop to 1024 if OOM.",
+)
+parser.add_argument(
+    "--per_device_batch_size",
+    type=int,
+    default=1,
+    help="Batch size per GPU. 1 is safe for 6 GB VRAM.",
+)
+parser.add_argument(
+    "--grad_accum",
+    type=int,
+    default=8,
+    help="Gradient accumulation steps (effective batch = batch * grad_accum).",
+)
 # Catastrophic forgetting mitigation: blend general instruction data alongside curriculum data.
-parser.add_argument("--mix-general",           action="store_true", default=False,
-                    help="Mix general instruction data (alpaca-cleaned) alongside curriculum JSONL "
-                         "to reduce catastrophic forgetting. Default: off.")
-parser.add_argument("--curriculum-ratio",      type=float, default=0.8,
-                    help="Fraction of curriculum data vs general data when --mix-general is on. "
-                         "E.g., 0.8 = 80%% curriculum, 20%% general. Default: 0.8.")
-parser.add_argument("--throttle",              type=float, default=0.15,
-                    help="Seconds to sleep after each gradient step (default: 0.15). "
-                         "Gives the Windows display compositor GPU time between updates "
-                         "and prevents the system from hanging during training. "
-                         "Set 0 to disable. Increase to 0.3-0.5 for heavier throttling.")
+parser.add_argument(
+    "--mix-general",
+    action="store_true",
+    default=False,
+    help="Mix general instruction data (alpaca-cleaned) alongside curriculum JSONL "
+    "to reduce catastrophic forgetting. Default: off.",
+)
+parser.add_argument(
+    "--curriculum-ratio",
+    type=float,
+    default=0.8,
+    help="Fraction of curriculum data vs general data when --mix-general is on. "
+    "E.g., 0.8 = 80%% curriculum, 20%% general. Default: 0.8.",
+)
+parser.add_argument(
+    "--throttle",
+    type=float,
+    default=0.15,
+    help="Seconds to sleep after each gradient step (default: 0.15). "
+    "Gives the Windows display compositor GPU time between updates "
+    "and prevents the system from hanging during training. "
+    "Set 0 to disable. Increase to 0.3-0.5 for heavier throttling.",
+)
 args = parser.parse_args()
 
 # ---------------------------------------------------------------------------
@@ -70,7 +101,7 @@ args = parser.parse_args()
 # ---------------------------------------------------------------------------
 
 _DETERMINEX_ROOT = Path(__file__).resolve().parent
-_SRC_TAURI    = _DETERMINEX_ROOT / "frontend" / "src-tauri"
+_SRC_TAURI = _DETERMINEX_ROOT / "frontend" / "src-tauri"
 
 DATA_PATHS = [
     _SRC_TAURI / "determinex_v1_distilled_claude.jsonl",
@@ -93,7 +124,13 @@ DATA_PATHS = [
 ]
 
 if args.output_dir is None:
-    output_dir = _DETERMINEX_ROOT / "scripts" / "fine_tuning" / "outputs" / f"determinex-engineer-v{args.version}"
+    output_dir = (
+        _DETERMINEX_ROOT
+        / "scripts"
+        / "fine_tuning"
+        / "outputs"
+        / f"determinex-engineer-v{args.version}"
+    )
 else:
     output_dir = (_DETERMINEX_ROOT / args.output_dir).resolve()
 
@@ -111,9 +148,9 @@ available = [p for p in DATA_PATHS if p.exists()]
 if not available:
     sys.exit(
         "[FORGE] FATAL: No distillation data found.\n"
-        "  Looked for:\n" +
-        "\n".join(f"    {p}" for p in DATA_PATHS) +
-        "\n  Run ignite_forge.ps1 first to generate training data."
+        "  Looked for:\n"
+        + "\n".join(f"    {p}" for p in DATA_PATHS)
+        + "\n  Run ignite_forge.ps1 first to generate training data."
     )
 
 total_samples = sum(sum(1 for ln in p.open(encoding="utf-8") if ln.strip()) for p in available)
@@ -136,17 +173,17 @@ print("[FORGE] Importing training stack (standard PEFT — no Unsloth)...", flus
 
 try:
     import torch
+    from datasets import concatenate_datasets, load_dataset
+    from peft import LoraConfig, TaskType, get_peft_model
     from transformers import (
         AutoModelForCausalLM,
         AutoTokenizer,
         BitsAndBytesConfig,
         TrainerCallback,
-        TrainerState,
         TrainerControl,
+        TrainerState,
     )
-    from peft import LoraConfig, get_peft_model, TaskType
-    from datasets import load_dataset, concatenate_datasets
-    from trl import SFTTrainer, SFTConfig
+    from trl import SFTConfig, SFTTrainer
 except ImportError as e:
     sys.exit(
         f"[FORGE] FATAL: Missing dependency — {e}\n"
@@ -160,7 +197,7 @@ if not torch.cuda.is_available():
         "  Turing/Ampere GPU requires CUDA 11.8+ driver and torch+cu12x."
     )
 
-vram_mb = torch.cuda.get_device_properties(0).total_memory // 1024 ** 2
+vram_mb = torch.cuda.get_device_properties(0).total_memory // 1024**2
 print(f"[FORGE] GPU: {torch.cuda.get_device_name(0)}  VRAM: {vram_mb} MB", flush=True)
 
 # ---------------------------------------------------------------------------
@@ -170,7 +207,9 @@ print(f"[FORGE] GPU: {torch.cuda.get_device_name(0)}  VRAM: {vram_mb} MB", flush
 # double_quant: nested quantization saves an extra ~0.4 GB.
 # compute_dtype float16: Turing-class GPUs do not support bfloat16.
 
-BASE_MODEL     = "unsloth/Llama-3.2-3B-Instruct-bnb-4bit"  # pre-quantized, ~2GB download, no VRAM thrash
+BASE_MODEL = (
+    "unsloth/Llama-3.2-3B-Instruct-bnb-4bit"  # pre-quantized, ~2GB download, no VRAM thrash
+)
 MAX_SEQ_LENGTH = args.max_seq_length
 
 print(f"\n[FORGE] Loading base model: {BASE_MODEL} (4-bit NF4)...", flush=True)
@@ -185,7 +224,7 @@ bnb_config = BitsAndBytesConfig(
 tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, trust_remote_code=True)
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token  # Phi-3 has no dedicated pad token
-tokenizer.padding_side = "right"               # left-padding causes training instability
+tokenizer.padding_side = "right"  # left-padding causes training instability
 
 model = AutoModelForCausalLM.from_pretrained(
     BASE_MODEL,
@@ -193,8 +232,8 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto",
     trust_remote_code=True,
 )
-model.config.use_cache = False          # must be False for gradient checkpointing
-model.enable_input_require_grads()      # required for PEFT + gradient checkpointing
+model.config.use_cache = False  # must be False for gradient checkpointing
+model.enable_input_require_grads()  # required for PEFT + gradient checkpointing
 print("[FORGE] Base model loaded.", flush=True)
 
 # ---------------------------------------------------------------------------
@@ -225,7 +264,7 @@ print("[FORGE] LoRA adapter injected.", flush=True)
 
 print("[FORGE] Loading distillation datasets...", flush=True)
 raw_datasets = [load_dataset("json", data_files=str(p), split="train") for p in available]
-raw_dataset  = concatenate_datasets(raw_datasets) if len(raw_datasets) > 1 else raw_datasets[0]
+raw_dataset = concatenate_datasets(raw_datasets) if len(raw_datasets) > 1 else raw_datasets[0]
 
 # ---------------------------------------------------------------------------
 # ADAPTIVE CURRICULUM FILTER
@@ -235,37 +274,41 @@ raw_dataset  = concatenate_datasets(raw_datasets) if len(raw_datasets) > 1 else 
 # ---------------------------------------------------------------------------
 _BASELINE_PATH = _DETERMINEX_ROOT / "logs" / "eval_results" / "baseline.json"
 _CATEGORY_TO_CONCEPT = {
-    "rust_concurrency":      "arc_mutex",
-    "rust_concurrency_adv":  "arc_mutex",
-    "rust_interior_mut":     "refcell_borrow",
+    "rust_concurrency": "arc_mutex",
+    "rust_concurrency_adv": "arc_mutex",
+    "rust_interior_mut": "refcell_borrow",
     "rust_interior_mut_adv": "refcell_borrow",
-    "go_concurrency":        "go_fmt_errorf",
-    "go_concurrency_adv":    "go_fmt_errorf",
-    "go_panic_recover":      "go_panic_recover",
-    "go_panic_recover_adv":  "go_panic_recover",
-    "go_fmt_errorf":         "go_fmt_errorf",
-    "python_threading":      "safe_divide",
-    "python_threading_adv":  "safe_divide",
-    "first_even_zero":       "first_even_zero",
-    "targeted_wrap_error":   "go_fmt_errorf",
-    "targeted_go_panic":     "go_panic_recover",
-    "targeted_first_even":   "first_even_zero",
+    "go_concurrency": "go_fmt_errorf",
+    "go_concurrency_adv": "go_fmt_errorf",
+    "go_panic_recover": "go_panic_recover",
+    "go_panic_recover_adv": "go_panic_recover",
+    "go_fmt_errorf": "go_fmt_errorf",
+    "python_threading": "safe_divide",
+    "python_threading_adv": "safe_divide",
+    "first_even_zero": "first_even_zero",
+    "targeted_wrap_error": "go_fmt_errorf",
+    "targeted_go_panic": "go_panic_recover",
+    "targeted_first_even": "first_even_zero",
 }
 _MASTERY_THRESHOLD = 90
 
 if _BASELINE_PATH.exists():
     try:
         import json as _json
+
         _baseline = _json.loads(_BASELINE_PATH.read_text(encoding="utf-8"))
         _scores = {
             k: v["score_pct"]
             for k, v in _baseline.get("concepts", _baseline.get("results", {})).items()
         }
+
         def _is_mastered(sample) -> bool:
             meta = sample.get("_meta") or {}
             if isinstance(meta, str):
-                try: meta = _json.loads(meta)
-                except: return False
+                try:
+                    meta = _json.loads(meta)
+                except:
+                    return False
             cat = meta.get("category") or meta.get("source", "")
             concept = _CATEGORY_TO_CONCEPT.get(cat)
             return bool(concept and _scores.get(concept, 0) >= _MASTERY_THRESHOLD)
@@ -284,7 +327,10 @@ if _BASELINE_PATH.exists():
     except Exception as _ae:
         print(f"[FORGE] WARNING: adaptive filter failed ({_ae}), using full corpus.", flush=True)
 else:
-    print("[FORGE] No baseline found — training full corpus. Run micro_eval --save-baseline first.", flush=True)
+    print(
+        "[FORGE] No baseline found — training full corpus. Run micro_eval --save-baseline first.",
+        flush=True,
+    )
 
 curriculum_len = len(raw_dataset)
 print(f"[FORGE] Curriculum samples: {curriculum_len}", flush=True)
@@ -294,7 +340,9 @@ print(f"[FORGE] Curriculum samples: {curriculum_len}", flush=True)
 # ---------------------------------------------------------------------------
 
 if args.mix_general:
-    general_target = int(curriculum_len * (1.0 - args.curriculum_ratio) / max(args.curriculum_ratio, 0.01))
+    general_target = int(
+        curriculum_len * (1.0 - args.curriculum_ratio) / max(args.curriculum_ratio, 0.01)
+    )
     print(
         f"[FORGE] --mix-general active: curriculum ratio={args.curriculum_ratio:.0%}  "
         f"target general samples={general_target}",
@@ -305,28 +353,28 @@ if args.mix_general:
             "yahma/alpaca-cleaned",
             split=f"train[:{general_target}]",
         )
+
         # Alpaca format: instruction + input + output -> remap to system/user/assistant
         def remap_alpaca(ex):
             user_ = ex["instruction"]
             if ex.get("input", "").strip():
                 user_ = user_ + "\n\n" + ex["input"]
             return {
-                "system":    "You are a helpful, accurate, and thoughtful AI assistant.",
-                "user":      user_,
+                "system": "You are a helpful, accurate, and thoughtful AI assistant.",
+                "user": user_,
                 "assistant": ex.get("output", ""),
             }
+
         general_ds = general_ds.map(remap_alpaca)
         general_ds = general_ds.select_columns(["system", "user", "assistant"])
         raw_dataset = concatenate_datasets([raw_dataset, general_ds])
         print(
-            f"[FORGE] Mixed in {len(general_ds)} general samples. "
-            f"Total: {len(raw_dataset)}",
+            f"[FORGE] Mixed in {len(general_ds)} general samples. Total: {len(raw_dataset)}",
             flush=True,
         )
     except Exception as e:
         print(
-            f"[FORGE] WARNING: --mix-general failed ({e}). "
-            "Training on curriculum data only.",
+            f"[FORGE] WARNING: --mix-general failed ({e}). Training on curriculum data only.",
             flush=True,
         )
 else:
@@ -336,6 +384,7 @@ else:
 # TOKEN PRE-CHECK — discard samples that exceed MAX_SEQ_LENGTH when formatted
 # Prevents silent truncation mid-training which corrupts loss computation.
 # ---------------------------------------------------------------------------
+
 
 def _estimate_token_count(sys_p: str, user_p: str, asst_p: str, max_len: int) -> bool:
     """Return True if the formatted sample would fit within max_len tokens."""
@@ -348,10 +397,13 @@ def _estimate_token_count(sys_p: str, user_p: str, asst_p: str, max_len: int) ->
     )
     return len(formatted) // 4 <= max_len
 
+
 pre_check_len = len(raw_dataset)
 raw_dataset = raw_dataset.filter(
     lambda ex: _estimate_token_count(
-        ex.get("system", ""), ex.get("user", ""), ex.get("assistant", ""),
+        ex.get("system", ""),
+        ex.get("user", ""),
+        ex.get("assistant", ""),
         MAX_SEQ_LENGTH,
     ),
     desc="Token pre-check",
@@ -377,6 +429,7 @@ if len(raw_dataset) < 5:
 # Llama-3.2-Instruct uses special role header tokens.
 # This matches what Ollama uses for `llama3.2:3b` inference.
 
+
 def format_prompts(examples):
     texts = []
     for sys_p, user_p, asst_p in zip(examples["system"], examples["user"], examples["assistant"]):
@@ -388,6 +441,7 @@ def format_prompts(examples):
         )
         texts.append(text)
     return {"text": texts}
+
 
 print("[FORGE] Applying Llama-3.2 instruction format...", flush=True)
 dataset = raw_dataset.map(format_prompts, batched=True)
@@ -402,6 +456,7 @@ print("[FORGE] Format applied.", flush=True)
 # starves the Windows compositor of GPU time and causes the display to hang.
 # A short sleep per step gives the OS regular windows to push frames.
 # Default 0.15s adds ~45s to a 300-step run — an acceptable tradeoff.
+
 
 class GpuThrottleCallback(TrainerCallback):
     def __init__(self, sleep_secs: float):
@@ -419,9 +474,7 @@ class GpuThrottleCallback(TrainerCallback):
         return control
 
 
-_throttle_callbacks = (
-    [GpuThrottleCallback(args.throttle)] if args.throttle > 0 else []
-)
+_throttle_callbacks = [GpuThrottleCallback(args.throttle)] if args.throttle > 0 else []
 
 if args.throttle > 0:
     print(
@@ -458,11 +511,11 @@ sft_config = SFTConfig(
     lr_scheduler_type="cosine",
     warmup_ratio=0.05,
     weight_decay=0.01,
-    fp16=True,          # Turing-class GPUs use float16, not bfloat16
+    fp16=True,  # Turing-class GPUs use float16, not bfloat16
     bf16=False,
     logging_steps=10,
     save_strategy="epoch",
-    optim="adamw_8bit", # 8-bit Adam from bitsandbytes — saves ~1 GB vs standard Adam
+    optim="adamw_8bit",  # 8-bit Adam from bitsandbytes — saves ~1 GB vs standard Adam
     seed=42,
     report_to="none",
     dataloader_pin_memory=False,  # reduces peak VRAM spike on Windows
@@ -529,6 +582,7 @@ try:
     print("[FORGE] (CPU-only, ~3–5 min — GPU is free during this step)", flush=True)
 
     from peft import PeftModel as _PeftModel
+
     merge_base = AutoModelForCausalLM.from_pretrained(
         MERGE_BASE,
         torch_dtype=torch.float16,
@@ -573,22 +627,28 @@ LLAMA_CPP_CANDIDATES = [
 ]
 
 gguf_produced = False
-model_tag     = f"determinex-engineer:v{args.version}"
+model_tag = f"determinex-engineer:v{args.version}"
 
 if merged_dir and merged_dir.exists():
-
     # --- Attempt A: llama.cpp ---
-    llama_root    = next((p for p in LLAMA_CPP_CANDIDATES if p.exists()), None)
+    llama_root = next((p for p in LLAMA_CPP_CANDIDATES if p.exists()), None)
     convert_script = (llama_root / "convert_hf_to_gguf.py") if llama_root else None
 
     if convert_script and convert_script.exists():
         f16_gguf = output_dir / "model-f16.gguf"
-        q4_gguf  = output_dir / "model.gguf"
+        q4_gguf = output_dir / "model.gguf"
         print("\n[FORGE] Running llama.cpp convert_hf_to_gguf.py...", flush=True)
 
         r = subprocess.run(
-            [sys.executable, str(convert_script),
-             str(merged_dir), "--outfile", str(f16_gguf), "--outtype", "f16"],
+            [
+                sys.executable,
+                str(convert_script),
+                str(merged_dir),
+                "--outfile",
+                str(f16_gguf),
+                "--outtype",
+                "f16",
+            ],
         )
         if r.returncode == 0:
             quantize_candidates = [
@@ -625,10 +685,11 @@ if merged_dir and merged_dir.exists():
             f"PARAMETER temperature 0\n",
             encoding="utf-8",
         )
-        print(f"\n[FORGE] Attempting Ollama import from HF directory...", flush=True)
+        print("\n[FORGE] Attempting Ollama import from HF directory...", flush=True)
         r = subprocess.run(
             ["ollama", "create", model_tag, "-f", str(modelfile_path)],
-            capture_output=True, text=True,
+            capture_output=True,
+            text=True,
         )
         if r.returncode == 0:
             print(f"[FORGE] Ollama imported successfully: {model_tag}", flush=True)

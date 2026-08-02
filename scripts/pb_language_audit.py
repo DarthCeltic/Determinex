@@ -16,6 +16,7 @@ Output:
 Run:
     python scripts/pb_language_audit.py
 """
+
 from __future__ import annotations
 
 import json
@@ -62,7 +63,12 @@ def _is_native_binary(p: Path) -> str | None:
         return "ELF"
     if head[:2] == b"MZ":
         return "PE"
-    if head[:4] in (b"\xfe\xed\xfa\xce", b"\xfe\xed\xfa\xcf", b"\xce\xfa\xed\xfe", b"\xcf\xfa\xed\xfe"):
+    if head[:4] in (
+        b"\xfe\xed\xfa\xce",
+        b"\xfe\xed\xfa\xcf",
+        b"\xce\xfa\xed\xfe",
+        b"\xcf\xfa\xed\xfe",
+    ):
         return "Mach-O"
     return None
 
@@ -213,9 +219,16 @@ def _read_compile_sh(d: Path) -> str:
         return ""
 
 
-def _route_action(*, language: str, main_py: dict[str, Any],
-                  native_sources: list[Path], bundled_binary: dict[str, Any] | None,
-                  classification: str, score: float, locked: bool) -> tuple[str, str]:
+def _route_action(
+    *,
+    language: str,
+    main_py: dict[str, Any],
+    native_sources: list[Path],
+    bundled_binary: dict[str, Any] | None,
+    classification: str,
+    score: float,
+    locked: bool,
+) -> tuple[str, str]:
     """Decide the action: rewrite-native / keep-thin / keep-python / locked / no-source."""
     if locked:
         return "locked", "already in locked/, no action"
@@ -236,7 +249,10 @@ def _route_action(*, language: str, main_py: dict[str, Any],
             f"({bundled_binary['name']})"
         )
     if main_py.get("is_scaffold") and not bundled_binary:
-        return "scaffold-stub", "scaffold main.py with no bundled binary - low yield, needs native rewrite"
+        return (
+            "scaffold-stub",
+            "scaffold main.py with no bundled binary - low yield, needs native rewrite",
+        )
     # main.py has substantive logic but should be native
     return "rewrite-native", (
         f"substantive Python ({main_py.get('lines_substantive')} lines, "
@@ -244,7 +260,9 @@ def _route_action(*, language: str, main_py: dict[str, Any],
     )
 
 
-def audit_one(slug_dir: Path, board_by_slug: dict[str, Any], lang_by_slug: dict[str, Any]) -> dict[str, Any]:
+def audit_one(
+    slug_dir: Path, board_by_slug: dict[str, Any], lang_by_slug: dict[str, Any]
+) -> dict[str, Any]:
     slug = slug_dir.name
     base = slug.split(".", 1)[0]
     board = board_by_slug.get(base) or {}
@@ -260,9 +278,13 @@ def audit_one(slug_dir: Path, board_by_slug: dict[str, Any], lang_by_slug: dict[
     runnable = int(board.get("best_runnable_total") or 0)
     locked = bool(board.get("locked_dir"))
     action, reason = _route_action(
-        language=source_lang, main_py=main_py, native_sources=native_sources,
-        bundled_binary=bundled_binary, classification=classification,
-        score=score, locked=locked,
+        language=source_lang,
+        main_py=main_py,
+        native_sources=native_sources,
+        bundled_binary=bundled_binary,
+        classification=classification,
+        score=score,
+        locked=locked,
     )
     return {
         "slug": slug,
@@ -277,8 +299,9 @@ def audit_one(slug_dir: Path, board_by_slug: dict[str, Any], lang_by_slug: dict[
         "native_sources_present": [str(p.relative_to(slug_dir)) for p in native_sources],
         "bundled_binary": bundled_binary,
         "uses_bundled_in_compile": "/usr/local/bin/" in compile_sh
-                                    or "cp ./" in compile_sh
-                                    or "exec " in compile_sh and ("$bin" in compile_sh or bundled_binary is not None),
+        or "cp ./" in compile_sh
+        or "exec " in compile_sh
+        and ("$bin" in compile_sh or bundled_binary is not None),
         "action": action,
         "reason": reason,
     }
@@ -304,6 +327,7 @@ def main() -> int:
 
     # Summaries
     from collections import Counter, defaultdict
+
     by_action = Counter(r["action"] for r in rows)
     by_action_lang: dict[str, Counter] = defaultdict(Counter)
     for r in rows:
@@ -333,7 +357,15 @@ def main() -> int:
         "locked": "Already archived in `corpus/programbench/locked/`. No action.",
         "investigate": "main.py missing. Needs manual triage.",
     }
-    for action in ("rewrite-native", "scaffold-stub", "already-native", "keep-thin", "keep-python", "locked", "investigate"):
+    for action in (
+        "rewrite-native",
+        "scaffold-stub",
+        "already-native",
+        "keep-thin",
+        "keep-python",
+        "locked",
+        "investigate",
+    ):
         n = by_action.get(action, 0)
         if n == 0:
             continue
@@ -346,8 +378,10 @@ def main() -> int:
         for lang, n in c.most_common():
             lines.append(f"- **{lang}**: {n}\n")
         lines.append("\n")
-        lines.append(f"### rewrite-native tools (sorted by current score)\n\n")
-        lines.append("| score | passed/runnable | lang | class | py_lines | py_defs | bundled_binary | slug |\n")
+        lines.append("### rewrite-native tools (sorted by current score)\n\n")
+        lines.append(
+            "| score | passed/runnable | lang | class | py_lines | py_defs | bundled_binary | slug |\n"
+        )
         lines.append("|---:|---:|---|---|---:|---:|---|---|\n")
         for r in rewrite_rows:
             bb = r["bundled_binary"]
@@ -400,7 +434,15 @@ def main() -> int:
     print("ProgramBench language-routing audit")
     print("=" * 60)
     print(f"tools audited:  {len(rows)}")
-    for action in ("rewrite-native", "scaffold-stub", "already-native", "keep-thin", "keep-python", "locked", "investigate"):
+    for action in (
+        "rewrite-native",
+        "scaffold-stub",
+        "already-native",
+        "keep-thin",
+        "keep-python",
+        "locked",
+        "investigate",
+    ):
         n = by_action.get(action, 0)
         if n:
             print(f"  {action:18s} {n}")

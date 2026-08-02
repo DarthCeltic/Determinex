@@ -4,6 +4,7 @@ Pure decision surface. Consumes a signing record + observed source
 state. Returns whether source application is blocked, dry-run-ready, or
 fixture-only. NEVER mutates the original repo.
 """
+
 from __future__ import annotations
 
 import sys
@@ -44,26 +45,30 @@ class IDESourceApplyGateFlow:
 
         # 1. Signing must be present.
         if signing is None or packet is None:
-            return self._blocked(ws, "IDE_SOURCE_APPLY_BLOCKED_NO_APPROVAL",
-                                 "signing or packet missing")
+            return self._blocked(
+                ws, "IDE_SOURCE_APPLY_BLOCKED_NO_APPROVAL", "signing or packet missing"
+            )
 
         # 2. Signing must have produced a signature (FIXTURE_ONLY or PACKET_READY).
         if signing.decision in ("IDE_APPROVAL_REJECTED",) or not signing.operator_signature:
-            return self._blocked(ws, "IDE_SOURCE_APPLY_BLOCKED_NOT_SIGNED",
-                                 f"signing decision={signing.decision}")
+            return self._blocked(
+                ws, "IDE_SOURCE_APPLY_BLOCKED_NOT_SIGNED", f"signing decision={signing.decision}"
+            )
 
         # 3. Compose the dry-run check.
         dry = SourceMutationApplyDryRun().run(
-            ws, approval=packet, observed_diff=observed_diff,
+            ws,
+            approval=packet,
+            observed_diff=observed_diff,
             observed_source_hash_at_packet_time=observed_source_hash_at_packet_time,
             verifier_status=verifier_status,
         )
 
         mapping = {
-            "SOURCE_APPLY_DRY_RUN_READY":                       "IDE_SOURCE_APPLY_DRY_RUN_READY",
-            "SOURCE_APPLY_DRY_RUN_BLOCKED_NO_APPROVAL":         "IDE_SOURCE_APPLY_BLOCKED_NO_APPROVAL",
-            "SOURCE_APPLY_DRY_RUN_BLOCKED_STALE_SOURCE":        "IDE_SOURCE_APPLY_BLOCKED_STALE_SOURCE",
-            "SOURCE_APPLY_DRY_RUN_BLOCKED_DIFF_MISMATCH":       "IDE_SOURCE_APPLY_BLOCKED_DIFF_MISMATCH",
+            "SOURCE_APPLY_DRY_RUN_READY": "IDE_SOURCE_APPLY_DRY_RUN_READY",
+            "SOURCE_APPLY_DRY_RUN_BLOCKED_NO_APPROVAL": "IDE_SOURCE_APPLY_BLOCKED_NO_APPROVAL",
+            "SOURCE_APPLY_DRY_RUN_BLOCKED_STALE_SOURCE": "IDE_SOURCE_APPLY_BLOCKED_STALE_SOURCE",
+            "SOURCE_APPLY_DRY_RUN_BLOCKED_DIFF_MISMATCH": "IDE_SOURCE_APPLY_BLOCKED_DIFF_MISMATCH",
             "SOURCE_APPLY_DRY_RUN_BLOCKED_VERIFIER_NOT_PASSED": "IDE_SOURCE_APPLY_BLOCKED_VERIFIER_NOT_PASSED",
         }
         decision = mapping.get(dry.decision, "IDE_SOURCE_APPLY_BLOCKED_NO_APPROVAL")
@@ -89,7 +94,9 @@ class IDESourceApplyGateFlow:
 
     @staticmethod
     def _blocked(
-        ws: Path, decision: str, note: str,
+        ws: Path,
+        decision: str,
+        note: str,
     ) -> IDESourceApplyGateRecord:
         return IDESourceApplyGateRecord(
             decision=decision,

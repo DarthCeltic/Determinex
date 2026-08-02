@@ -19,6 +19,7 @@ guarantee requires 100% coverage of declared private identifiers.
 To use Cloak with regex fallback (e.g. in a test environment without tree-sitter):
     export DETERMINEX_CLOAK_ALLOW_DEGRADED=1
 """
+
 from __future__ import annotations
 
 import logging
@@ -26,7 +27,7 @@ import os
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    pass
 
 log = logging.getLogger("determinex_cloak")
 
@@ -34,10 +35,11 @@ _ALLOW_DEGRADED = os.environ.get("DETERMINEX_CLOAK_ALLOW_DEGRADED", "").strip() 
 
 try:
     from determinex_cloak_treesitter import (  # type: ignore[import]
+        TS_SUPPORTED_LANGUAGES,
         extract_treesitter_identifiers,
         resolve_python_star_imports,
-        TS_SUPPORTED_LANGUAGES,
     )
+
     _TS_AVAILABLE = True
 except ImportError:
     _TS_AVAILABLE = False
@@ -71,4 +73,3 @@ except ImportError:
             "export DETERMINEX_CLOAK_ALLOW_DEGRADED=1\n\n"
             "The 'determinex[cloak]' extra is required for production Cloak deployments."
         )
-

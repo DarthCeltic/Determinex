@@ -6,10 +6,10 @@ Writes:
   docs/PROGRAMBENCH_AUDIT.md  (the human-readable report)
   logs/programbench_factory/audit_data.json  (raw data for downstream tools)
 """
+
 from __future__ import annotations
 
 import json
-import os
 import re
 import time
 from collections import Counter, defaultdict
@@ -32,8 +32,12 @@ PATTERNS = {
     "address_in_use": re.compile(r"Address already in use|Errno 98"),
     "timeout": re.compile(r"TimeoutExpired|timed out after"),
     "serve_signal": re.compile(r"serve.*sigterm|255 is None|signal.*server", re.I),
-    "mime_xdg": re.compile(r"could not figure out.*mime|xdg-open|desktop entry|No such file or directory"),
-    "dns_lookup": re.compile(r"(Name or service not known|no such host|getaddrinfo|associated with hostname)"),
+    "mime_xdg": re.compile(
+        r"could not figure out.*mime|xdg-open|desktop entry|No such file or directory"
+    ),
+    "dns_lookup": re.compile(
+        r"(Name or service not known|no such host|getaddrinfo|associated with hostname)"
+    ),
     "go_env": re.compile(r"GOROOT not set|GOPATH|no required module"),
     "py_nameerror": re.compile(r"NameError: name|undefined"),
     "py_typeerror_none": re.compile(r"'NoneType' object is not iterable|NoneType.*subscriptable"),
@@ -96,17 +100,21 @@ def classify_failures(eval_data: dict) -> tuple[dict[str, list], int, int, int]:
         matched = False
         for pname, pat in PATTERNS.items():
             if pat.search(haystack):
-                bucket[pname].append({
-                    "name": t.get("name", ""),
-                    "msg_excerpt": msg[:300],
-                })
+                bucket[pname].append(
+                    {
+                        "name": t.get("name", ""),
+                        "msg_excerpt": msg[:300],
+                    }
+                )
                 matched = True
                 break
         if not matched:
-            bucket["other"].append({
-                "name": t.get("name", ""),
-                "msg_excerpt": msg[:300],
-            })
+            bucket["other"].append(
+                {
+                    "name": t.get("name", ""),
+                    "msg_excerpt": msg[:300],
+                }
+            )
     return dict(bucket), passed, runnable, not_run + skipped
 
 
@@ -188,20 +196,22 @@ def build_audit():
             pattern_summary = {}
 
         gap = runnable - passed
-        audit_rows.append({
-            "base_slug": base,
-            "slug": slug,
-            "locked": locked,
-            "score": round(score, 2),
-            "passed": passed,
-            "runnable": runnable,
-            "gap": gap,
-            "language": language,
-            "pattern_summary": pattern_summary,
-            "patterns": patterns,
-            "eval_path": str(eval_path) if eval_path else None,
-            "has_override": override_dir is not None,
-        })
+        audit_rows.append(
+            {
+                "base_slug": base,
+                "slug": slug,
+                "locked": locked,
+                "score": round(score, 2),
+                "passed": passed,
+                "runnable": runnable,
+                "gap": gap,
+                "language": language,
+                "pattern_summary": pattern_summary,
+                "patterns": patterns,
+                "eval_path": str(eval_path) if eval_path else None,
+                "has_override": override_dir is not None,
+            }
+        )
     return audit_rows
 
 
@@ -218,7 +228,7 @@ def write_audit_md(rows: list[dict]):
         ("80-95%", lambda r: r["score"] >= 80 and r["score"] < 95),
         ("50-80%", lambda r: r["score"] >= 50 and r["score"] < 80),
         ("20-50%", lambda r: r["score"] >= 20 and r["score"] < 50),
-        ("1-20%",  lambda r: r["score"] >= 1 and r["score"] < 20),
+        ("1-20%", lambda r: r["score"] >= 1 and r["score"] < 20),
         ("0% (build broken / no signal)", lambda r: r["score"] == 0),
     ]
 
@@ -230,12 +240,15 @@ def write_audit_md(rows: list[dict]):
             pattern_totals[p] += count
             pattern_tools[p].add(r["base_slug"])
 
-    md = ["# ProgramBench Full Corpus Audit",
-          f"_Generated: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime())}_\n",
-          "## Summary",
-          f"- Total tools: **{len(rows)}**",
-          f"- LOCKED 100%: **{len(locked)}**",
-          f"- Remaining: **{len(unlocked)}**", ""]
+    md = [
+        "# ProgramBench Full Corpus Audit",
+        f"_Generated: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime())}_\n",
+        "## Summary",
+        f"- Total tools: **{len(rows)}**",
+        f"- LOCKED 100%: **{len(locked)}**",
+        f"- Remaining: **{len(unlocked)}**",
+        "",
+    ]
 
     md.append("## Pattern Distribution (failures across unlocked tools)")
     md.append("| Pattern | Total failures | # tools affected |")
@@ -254,8 +267,12 @@ def write_audit_md(rows: list[dict]):
         md.append("| Tool | Score | Passed/Runnable | Gap | Lang | Top failure patterns |")
         md.append("|---|---:|---:|---:|---|---|")
         for r in tools:
-            ps = ", ".join(f"{p}={c}" for p, c in sorted(r["pattern_summary"].items(), key=lambda x: -x[1])[:3])
-            md.append(f"| {r['base_slug']} | {r['score']:.2f}% | {r['passed']}/{r['runnable']} | {r['gap']} | {r['language']} | {ps} |")
+            ps = ", ".join(
+                f"{p}={c}" for p, c in sorted(r["pattern_summary"].items(), key=lambda x: -x[1])[:3]
+            )
+            md.append(
+                f"| {r['base_slug']} | {r['score']:.2f}% | {r['passed']}/{r['runnable']} | {r['gap']} | {r['language']} | {ps} |"
+            )
         md.append("")
 
     md.append("## Tools grouped by dominant failure pattern (unlocked, top 5 per pattern)")

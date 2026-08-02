@@ -1,4 +1,5 @@
 """Tests for FRONTEND_APPROVAL_PACKET_ROUNDTRIP_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -15,15 +16,17 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_APPROVAL_PACKET_ROUNDT
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_approval_packet_roundtrip"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "APPROVAL_PACKET_ROUNDTRIP_READY",
-    "APPROVAL_REJECT_PATH_READY",
-    "APPROVAL_FIXTURE_ONLY",
-    "APPROVAL_SOURCE_MUTATION_BLOCKED",
-    "APPROVAL_STALE_VISIBLE",
-    "APPROVAL_DIFF_MISMATCH_VISIBLE",
-    "APPROVAL_VERIFIER_FAILED_VISIBLE",
-})
+EXPECTED = frozenset(
+    {
+        "APPROVAL_PACKET_ROUNDTRIP_READY",
+        "APPROVAL_REJECT_PATH_READY",
+        "APPROVAL_FIXTURE_ONLY",
+        "APPROVAL_SOURCE_MUTATION_BLOCKED",
+        "APPROVAL_STALE_VISIBLE",
+        "APPROVAL_DIFF_MISMATCH_VISIBLE",
+        "APPROVAL_VERIFIER_FAILED_VISIBLE",
+    }
+)
 
 
 def test_status_tokens_exact():
@@ -77,10 +80,15 @@ def test_trace_invariant_shape():
 
 def test_module_does_not_spawn_subprocess_or_open_network():
     import scripts.ide.frontend_approval_packet_roundtrip as mod
+
     src = Path(mod.__file__).read_text(encoding="utf-8")
     for forbidden in (
-        "requests", "httpx", "urllib.request",
-        "socket.connect", "subprocess.Popen", "subprocess.run",
+        "requests",
+        "httpx",
+        "urllib.request",
+        "socket.connect",
+        "subprocess.Popen",
+        "subprocess.run",
     ):
         assert forbidden not in src
 

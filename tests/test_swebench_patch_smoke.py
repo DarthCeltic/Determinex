@@ -7,10 +7,10 @@ cascade. The 2026-05-05 hardening sprint fixed 8 bugs here (CRLF normalization,
 paren-stripped anchors, line-number prefix stripping, etc.). These tests
 keep those fixes wedged in place.
 """
+
 from __future__ import annotations
 
 import pytest
-
 from swe_agent.patch import (
     _apply_search_replace_blocks,
     _normalize_for_match,
@@ -41,25 +41,13 @@ def test_parse_strict_block():
 
 def test_parse_lenient_handles_marker_decoration():
     """DeepSeek and Anthropic sometimes append a filename or extra separators."""
-    raw = (
-        "<<<SEARCH: app.py\n"
-        "x = 1\n"
-        "====\n"
-        "x = 2\n"
-        ">>>REPLACE done\n"
-    )
+    raw = "<<<SEARCH: app.py\nx = 1\n====\nx = 2\n>>>REPLACE done\n"
     blocks = _parse_search_replace_blocks(raw)
     assert blocks == [("x = 1", "x = 2")]
 
 
 def test_parse_rejects_no_op_blocks():
-    raw = (
-        "<<<SEARCH\n"
-        "same line\n"
-        "===\n"
-        "same line\n"
-        ">>>REPLACE\n"
-    )
+    raw = "<<<SEARCH\nsame line\n===\nsame line\n>>>REPLACE\n"
     assert _parse_search_replace_blocks(raw) == []
 
 
@@ -116,7 +104,7 @@ def test_make_targeted_patch_creates_unified_diff(monkeypatch):
         pytest.skip(f"determinex_swebench_agent not importable in this env: {e}")
 
     original = "x = 1\ny = 2\n"
-    fixed    = "x = 1\ny = 99\n"
+    fixed = "x = 1\ny = 99\n"
     patch = make_targeted_patch("src/app.py", original, fixed)
     assert patch.startswith("diff --git a/src/app.py b/src/app.py")
     assert "--- a/src/app.py" in patch

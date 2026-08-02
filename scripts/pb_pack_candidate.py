@@ -8,6 +8,7 @@ Usage:
     python scripts/pb_pack_candidate.py anordal__shellharden.6a6ffd4
     python scripts/pb_pack_candidate.py anordal__shellharden.6a6ffd4 --run-root .determinex_staging/pb_shellharden
 """
+
 from __future__ import annotations
 
 import argparse
@@ -16,15 +17,25 @@ import shutil
 import tarfile
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 OVERRIDES = ROOT / "corpus" / "programbench" / "per_tool_overrides"
 PB_STAGING_ROOT = Path(os.environ.get("DETERMINEX_PB_STAGING_ROOT", "T:/determinex-staging"))
 DEFAULT_RUN_ROOT = PB_STAGING_ROOT / "programbench_candidate"
 
 
-_LF_NORMALIZE_EXTS = (".sh", ".py", ".bash", ".conf", ".cfg", ".ini",
-                       ".toml", ".yaml", ".yml", ".txt", ".json")
+_LF_NORMALIZE_EXTS = (
+    ".sh",
+    ".py",
+    ".bash",
+    ".conf",
+    ".cfg",
+    ".ini",
+    ".toml",
+    ".yaml",
+    ".yml",
+    ".txt",
+    ".json",
+)
 
 
 def _strip_crlf_inplace(path: Path) -> bool:
@@ -74,10 +85,18 @@ def _add_dir(tar: tarfile.TarFile, path: Path, arcname: str, mode: int = 0o755) 
     tar.addfile(info)
 
 
-_SKIP_NAMES = {"__pycache__", ".git", "target", "node_modules", ".cargo",
-               ".rustup", "build", "dist", "eval"}
-_SKIP_SUFFIXES = (".bak", ".backup", ".regressed_pre_recovery", ".pre_bundle",
-                  ".pyc", ".pyo")
+_SKIP_NAMES = {
+    "__pycache__",
+    ".git",
+    "target",
+    "node_modules",
+    ".cargo",
+    ".rustup",
+    "build",
+    "dist",
+    "eval",
+}
+_SKIP_SUFFIXES = (".bak", ".backup", ".regressed_pre_recovery", ".pre_bundle", ".pyc", ".pyo")
 
 
 def _gather_sources(override_dir: Path) -> list[tuple[Path, str]]:
@@ -157,9 +176,21 @@ def pack_candidate(slug: str, run_root: Path) -> Path:
     for staged in source_dir.rglob("*"):
         if not staged.is_file():
             continue
-        if staged.suffix in (".go", ".rs", ".c", ".cpp", ".h", ".py",
-                             ".sh", ".toml", ".mod", ".sum", ".lock",
-                             ".md", ".txt"):
+        if staged.suffix in (
+            ".go",
+            ".rs",
+            ".c",
+            ".cpp",
+            ".h",
+            ".py",
+            ".sh",
+            ".toml",
+            ".mod",
+            ".sum",
+            ".lock",
+            ".md",
+            ".txt",
+        ):
             if _strip_crlf_inplace(staged):
                 crlf_fixed.append(str(staged.relative_to(source_dir)))
     if crlf_fixed:
@@ -196,8 +227,12 @@ def _is_native_binary(path: Path) -> bool:
         return True
     if head[:2] == b"MZ":
         return True
-    if head[:4] in (b"\xfe\xed\xfa\xce", b"\xfe\xed\xfa\xcf",
-                    b"\xce\xfa\xed\xfe", b"\xcf\xfa\xed\xfe"):
+    if head[:4] in (
+        b"\xfe\xed\xfa\xce",
+        b"\xfe\xed\xfa\xcf",
+        b"\xce\xfa\xed\xfe",
+        b"\xcf\xfa\xed\xfe",
+    ):
         return True
     return False
 

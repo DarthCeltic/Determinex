@@ -10,6 +10,7 @@ dependencies is not flagged as malicious.
 
 JAVA_REPAIR_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -18,10 +19,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / "scripts"))
 
 from agents.base_agent import CorpusType
-from corpus.corpus_manager import CorpusManager
-from corpus.code_ingest.java_repair_pipeline import JavaRepairPipeline
 from agents.prompt_injection_detector import is_safe
-
+from corpus.code_ingest.java_repair_pipeline import JavaRepairPipeline
+from corpus.corpus_manager import CorpusManager
 
 _SPRING_ERRORS = [
     (
@@ -68,7 +68,6 @@ _SPRING_POM = """\
 
 
 class TestSpringConfigRepair:
-
     def test_spring_pom_not_flagged_as_malicious(self):
         """Legitimate Spring Boot pom.xml must pass injection scan."""
         assert is_safe(_SPRING_POM, source="pom.xml:spring-boot"), (
@@ -152,6 +151,13 @@ class TestSpringConfigRepair:
             source_benchmark="java_corpus",
             payload=task.to_corpus_payload(),
         )
-        for field in ("schema_version", "corpus_type", "task_id", "_sig",
-                      "language", "build_system", "failure_type"):
+        for field in (
+            "schema_version",
+            "corpus_type",
+            "task_id",
+            "_sig",
+            "language",
+            "build_system",
+            "failure_type",
+        ):
             assert field in record, f"Missing field: {field}"

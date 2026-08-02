@@ -7,7 +7,9 @@ from corpus.programbench.artifact_import_operator_guide import (
     ProgramBenchArtifactImportOperatorGuide,
     render_markdown,
 )
-from corpus.programbench.artifact_import_operator_guide_record import verify_artifact_import_operator_guide_record
+from corpus.programbench.artifact_import_operator_guide_record import (
+    verify_artifact_import_operator_guide_record,
+)
 
 
 def _guide() -> dict[str, object]:
@@ -23,7 +25,9 @@ def test_operator_guide_is_written_for_all_metadata_admitted_targets() -> None:
     assert verify_artifact_import_operator_guide_record(record)
     assert len(record["targets"]) == 10
     assert record["current_state"]["exact_manifest_digests_admitted_metadata_only"] == 10
-    assert all(row["required_packet_type"] == "artifact_import_provenance" for row in record["targets"])
+    assert all(
+        row["required_packet_type"] == "artifact_import_provenance" for row in record["targets"]
+    )
     assert all(row["digest"].startswith("sha256:") for row in record["targets"])
 
 
@@ -70,8 +74,14 @@ def test_operator_guide_excludes_doxygen_from_batch001_import_targets() -> None:
 def test_operator_guide_documents_inbox_outbox_flow_and_commands() -> None:
     record = _guide()
 
-    assert record["operator_flow"]["templates_live_at"] == "assurance/operator_outbox/programbench/batch001_import_scan"
-    assert record["operator_flow"]["completed_packets_go_to"] == "assurance/operator_inbox/programbench"
+    assert (
+        record["operator_flow"]["templates_live_at"]
+        == "assurance/operator_outbox/programbench/batch001_import_scan"
+    )
+    assert (
+        record["operator_flow"]["completed_packets_go_to"]
+        == "assurance/operator_inbox/programbench"
+    )
     assert record["operator_flow"]["only_if_real_packets_exist"] is True
     assert "inbox-scan --json" in record["cli_commands"]["scan_inbox"]
     assert "review-live-packets --json" in record["cli_commands"]["review_live_packets"]

@@ -16,11 +16,11 @@ either a dict-like payload or raises :class:`ProviderUnavailable` /
 :class:`LiveModelResponse`; the record is always marked
 ``trusted=False`` — downstream rungs apply trust gates.
 """
+
 from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
-from typing import Iterable
 
 from .live_model_response_record import (
     LIVE_MODEL_RESPONSE_STATUS_TOKENS,
@@ -28,12 +28,11 @@ from .live_model_response_record import (
     ResponseKind,
 )
 
-
 _MAX_RESPONSE_CHARS = 64_000  # 64 kB across encoded JSON
 _REQUIRED_KEYS_BY_SCHEMA: dict[str, frozenset[str]] = {
-    "diagnose_v1":   frozenset({"summary"}),
+    "diagnose_v1": frozenset({"summary"}),
     "patch_plan_v1": frozenset({"kind", "steps"}),
-    "verifier_v1":   frozenset({"status"}),
+    "verifier_v1": frozenset({"status"}),
 }
 
 
@@ -52,6 +51,7 @@ class FixtureProvider:
     call and applies the safety checks; the subclass focuses only on
     returning the canned payload.
     """
+
     name: str = "fixture"
     model_id: str = "fixture-model"
     available: bool = True
@@ -143,7 +143,9 @@ class LiveModelCompatHarness:
         # 0. Availability.
         if not provider.available:
             return self._block(
-                provider, task_class, schema_id,
+                provider,
+                task_class,
+                schema_id,
                 ResponseKind.PROVIDER_UNAVAILABLE,
                 "provider.available is False",
             )
@@ -155,20 +157,31 @@ class LiveModelCompatHarness:
         except ProviderTimeout as exc:
             elapsed_ms = int((time.perf_counter() - start) * 1000)
             return self._block(
-                provider, task_class, schema_id,
-                ResponseKind.TIMEOUT, str(exc), elapsed_ms=elapsed_ms,
+                provider,
+                task_class,
+                schema_id,
+                ResponseKind.TIMEOUT,
+                str(exc),
+                elapsed_ms=elapsed_ms,
             )
         except ProviderUnavailable as exc:
             elapsed_ms = int((time.perf_counter() - start) * 1000)
             return self._block(
-                provider, task_class, schema_id,
-                ResponseKind.PROVIDER_UNAVAILABLE, str(exc), elapsed_ms=elapsed_ms,
+                provider,
+                task_class,
+                schema_id,
+                ResponseKind.PROVIDER_UNAVAILABLE,
+                str(exc),
+                elapsed_ms=elapsed_ms,
             )
         except Exception as exc:  # noqa: BLE001 — non-dict-emitting provider
             elapsed_ms = int((time.perf_counter() - start) * 1000)
             return self._block(
-                provider, task_class, schema_id,
-                ResponseKind.BAD_RESPONSE, f"{type(exc).__name__}: {exc}",
+                provider,
+                task_class,
+                schema_id,
+                ResponseKind.BAD_RESPONSE,
+                f"{type(exc).__name__}: {exc}",
                 elapsed_ms=elapsed_ms,
             )
         elapsed_ms = int((time.perf_counter() - start) * 1000)
@@ -176,7 +189,9 @@ class LiveModelCompatHarness:
         # 2. Type check: must be a dict.
         if not isinstance(raw, dict):
             return self._block(
-                provider, task_class, schema_id,
+                provider,
+                task_class,
+                schema_id,
                 ResponseKind.BAD_RESPONSE,
                 f"provider returned {type(raw).__name__}, expected dict",
                 elapsed_ms=elapsed_ms,
@@ -185,17 +200,23 @@ class LiveModelCompatHarness:
         # 3. Encode and size check.
         try:
             import json as _json
+
             encoded = _json.dumps(raw, sort_keys=True)
         except (TypeError, ValueError) as exc:
             return self._block(
-                provider, task_class, schema_id,
-                ResponseKind.BAD_RESPONSE, f"json encode failed: {exc}",
+                provider,
+                task_class,
+                schema_id,
+                ResponseKind.BAD_RESPONSE,
+                f"json encode failed: {exc}",
                 elapsed_ms=elapsed_ms,
             )
         response_chars = len(encoded)
         if response_chars > self._max:
             return self._block(
-                provider, task_class, schema_id,
+                provider,
+                task_class,
+                schema_id,
                 ResponseKind.OVERSIZED,
                 f"response {response_chars} > cap {self._max}",
                 elapsed_ms=elapsed_ms,
@@ -205,8 +226,11 @@ class LiveModelCompatHarness:
         # 4. Empty check.
         if not raw:
             return self._block(
-                provider, task_class, schema_id,
-                ResponseKind.EMPTY, "provider returned empty dict",
+                provider,
+                task_class,
+                schema_id,
+                ResponseKind.EMPTY,
+                "provider returned empty dict",
                 elapsed_ms=elapsed_ms,
                 response_chars=response_chars,
             )
@@ -217,7 +241,9 @@ class LiveModelCompatHarness:
             missing = sorted(required - set(raw.keys()))
             if missing:
                 return self._block(
-                    provider, task_class, schema_id,
+                    provider,
+                    task_class,
+                    schema_id,
                     ResponseKind.SCHEMA_INVALID,
                     f"missing required keys for schema {schema_id!r}: {missing}",
                     elapsed_ms=elapsed_ms,

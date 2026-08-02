@@ -11,12 +11,11 @@ It is safe to run generated code through this validator.
 """
 
 import ast
+import contextlib
+import io
 import logging
 import re
 import sys
-import io
-import contextlib
-from types import ModuleType
 
 log = logging.getLogger("oracle.validator.python")
 
@@ -38,10 +37,8 @@ def _make_safe_namespace() -> dict:
     Blocks file I/O, subprocess, and import of dangerous modules.
     """
     import builtins
-    safe_builtins = {
-        k: v for k, v in vars(builtins).items()
-        if k not in _BLOCKED_BUILTINS
-    }
+
+    safe_builtins = {k: v for k, v in vars(builtins).items() if k not in _BLOCKED_BUILTINS}
     # Provide common stdlib modules that generated code commonly imports
     safe_ns = {
         "__builtins__": safe_builtins,
@@ -88,9 +85,13 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
         return False, f"Parse error: {e}"
 
     # Basic sanity: must define at least one function, class, or import
-    top_level = [type(node).__name__ for node in ast.walk(tree)
-                 if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef,
-                                      ast.ClassDef, ast.Import, ast.ImportFrom))]
+    top_level = [
+        type(node).__name__
+        for node in ast.walk(tree)
+        if isinstance(
+            node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Import, ast.ImportFrom)
+        )
+    ]
     if not top_level:
         return False, "No functions, classes, or imports found — likely not valid code"
 
@@ -99,8 +100,10 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
         stdout_capture = io.StringIO()
         stderr_capture = io.StringIO()
         try:
-            with contextlib.redirect_stdout(stdout_capture), \
-                 contextlib.redirect_stderr(stderr_capture):
+            with (
+                contextlib.redirect_stdout(stdout_capture),
+                contextlib.redirect_stderr(stderr_capture),
+            ):
                 exec(compile(tree, "<validated>", "exec"), _make_safe_namespace())  # noqa: S102
         except SystemExit:
             pass  # sys.exit() in code is fine, not a bug
@@ -111,8 +114,12 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
             # Ignore errors caused by missing external resources (these are expected
             # in generated code that calls APIs, reads files, etc.)
             ignorable = (
-                "FileNotFoundError", "ModuleNotFoundError", "ImportError",
-                "ConnectionError", "TimeoutError", "OSError",
+                "FileNotFoundError",
+                "ModuleNotFoundError",
+                "ImportError",
+                "ConnectionError",
+                "TimeoutError",
+                "OSError",
             )
             if err_type not in ignorable:
                 log.debug("Sandbox exec fail: %s: %s", err_type, e)

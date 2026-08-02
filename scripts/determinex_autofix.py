@@ -30,6 +30,7 @@ The `report` mode is the workhorse: it turns a wall of red into a structured,
 honest verdict -- what to fix, what to match, what to unblock, and what is
 genuinely impossible (with the proof) -- and, with --apply, writes the fixes.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -40,17 +41,22 @@ from pathlib import Path
 _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
+import determinex_term_extractor as _term  # noqa: E402
 from determinex_adjudicator import (  # noqa: E402
-    Verdict, _base_nodeid, adjudicate_eval_report,
+    Verdict,
+    _base_nodeid,
+    adjudicate_eval_report,
 )
 from determinex_explainer import explain_eval_report  # noqa: E402
 from determinex_remediation import apply_to_submission, remediations_for  # noqa: E402
-from determinex_test_validator import TestVerdict, auto_reference_check, validate_eval_report  # noqa: E402
-import determinex_term_extractor as _term  # noqa: E402
+from determinex_test_validator import (  # noqa: E402
+    TestVerdict,
+    auto_reference_check,
+    validate_eval_report,
+)
 
 
-def run_local_precheck(reimpl: Path, tests_dir: Path | None,
-                        sources: dict) -> None:
+def run_local_precheck(reimpl: Path, tests_dir: Path | None, sources: dict) -> None:
     """Cheap, free, no-Docker pre-eval check. The SYSTEM does the work:
       - proper verbiage the reimpl lacks, mined from the test SOURCES (authoritative;
         never from a stale eval traceback) -> MECHANICAL, apply verbatim.
@@ -69,19 +75,28 @@ def run_local_precheck(reimpl: Path, tests_dir: Path | None,
     # local oracle run
     if tests_dir and tests_dir.is_dir() and reimpl.exists():
         from determinex_local_oracle import run_oracle
+
         passed, total, reasons = run_oracle(reimpl, tests_dir, show_fail=12)
         if passed == total and total:
             print("\n   >> LOCAL-GREEN: worth spending a Docker eval now.")
         else:
-            print(f"\n   >> {total-passed} local examples failing "
-                  f"{dict(reasons)} -- fix locally first (free), don't eval yet.")
-            print("      rc/contains = MECHANICAL; exact = one SEMANTIC formula "
-                  "(EXPECTED shown above).")
+            print(
+                f"\n   >> {total - passed} local examples failing "
+                f"{dict(reasons)} -- fix locally first (free), don't eval yet."
+            )
+            print(
+                "      rc/contains = MECHANICAL; exact = one SEMANTIC formula "
+                "(EXPECTED shown above)."
+            )
 
 
-def run_report(eval_report: Path, submission: Path | None,
-               tests_dir: Path | None, apply: bool,
-               reimpl: Path | None = None) -> int:
+def run_report(
+    eval_report: Path,
+    submission: Path | None,
+    tests_dir: Path | None,
+    apply: bool,
+    reimpl: Path | None = None,
+) -> int:
     conftest = compile_sh = ""
     if submission:
         cf = submission / "conftest.py"
@@ -120,9 +135,9 @@ def run_report(eval_report: Path, submission: Path | None,
 
     print(f"\nUnique failing units: {n}")
     print("\n-- WHOSE FAULT (Explainer) --")
-    print(f"   CODE        {blame.get('CODE',0):4}   fix the implementation")
-    print(f"   ENVIRONMENT {blame.get('ENVIRONMENT',0):4}   match the reference env")
-    print(f"   TEST        {blame.get('TEST',0):4}   proven slop / genuine ceiling")
+    print(f"   CODE        {blame.get('CODE', 0):4}   fix the implementation")
+    print(f"   ENVIRONMENT {blame.get('ENVIRONMENT', 0):4}   match the reference env")
+    print(f"   TEST        {blame.get('TEST', 0):4}   proven slop / genuine ceiling")
 
     print("\n-- THE MOVE (Adjudicator) --")
     for v, cnt in verdicts.most_common():
@@ -158,8 +173,12 @@ def run_report(eval_report: Path, submission: Path | None,
     return 0
 
 
-def triage(eval_report: Path, submission: Path | None = None,
-           tests_dir: Path | None = None, reference_check: bool = False) -> dict:
+def triage(
+    eval_report: Path,
+    submission: Path | None = None,
+    tests_dir: Path | None = None,
+    reference_check: bool = False,
+) -> dict:
     """The routing BRAIN (programmatic; same engine as run_report's print). Classify a tool's
     failures so the autodrive can ROUTE: reopenable (winnable -> close it) vs genuine ceiling
     (Adjudicator IMPOSSIBLE *with proof* -> certify) vs slop (broken test -> flag). SOUND by
@@ -204,28 +223,52 @@ def triage(eval_report: Path, submission: Path | None = None,
     genuine = verdicts.get(Verdict.IMPOSSIBLE.value, 0)
     reopen = max(0, n - genuine)
     slop = sum(1 for j in ujud.values() if j.verdict == TestVerdict.SLOP)
-    proofs = [getattr(a, "proof", "") or "" for a in uadj.values()
-              if a.verdict == Verdict.IMPOSSIBLE and getattr(a, "proof", "")][:10]
-    proofs += [getattr(j, "proof", "") or "" for j in ujud.values()        # reference-fail slop proofs
-               if j.verdict == TestVerdict.SLOP and getattr(j, "proof", "")][:10]
+    proofs = [
+        getattr(a, "proof", "") or ""
+        for a in uadj.values()
+        if a.verdict == Verdict.IMPOSSIBLE and getattr(a, "proof", "")
+    ][:10]
+    proofs += [
+        getattr(j, "proof", "") or ""
+        for j in ujud.values()  # reference-fail slop proofs
+        if j.verdict == TestVerdict.SLOP and getattr(j, "proof", "")
+    ][:10]
     rems = remediations_for(list(uadj.values()))
-    return {"n": n, "code": blame.get("CODE", 0), "env": blame.get("ENVIRONMENT", 0),
-            "test": blame.get("TEST", 0), "genuine": genuine, "reopen": reopen, "slop": slop,
-            "proofs": proofs,
-            "remediations": [{"strategy": r.strategy, "rationale": (r.rationale or "")[:160],
-                              "manual": (r.manual_followup or "")[:160]} for r in rems][:10]}
+    return {
+        "n": n,
+        "code": blame.get("CODE", 0),
+        "env": blame.get("ENVIRONMENT", 0),
+        "test": blame.get("TEST", 0),
+        "genuine": genuine,
+        "reopen": reopen,
+        "slop": slop,
+        "proofs": proofs,
+        "remediations": [
+            {
+                "strategy": r.strategy,
+                "rationale": (r.rationale or "")[:160],
+                "manual": (r.manual_followup or "")[:160],
+            }
+            for r in rems
+        ][:10],
+    }
 
 
 def run_ingest(repo: Path) -> int:
     from determinex_ingest import ingest
+
     u = ingest(repo)
     print(f"========== DETERMINEX INGEST: {u.root} ==========")
-    print(f"  language={u.language} build={u.build_system} harness={u.harness} "
-          f"oracle={u.oracle} available={u.oracle_available}")
+    print(
+        f"  language={u.language} build={u.build_system} harness={u.harness} "
+        f"oracle={u.oracle} available={u.oracle_available}"
+    )
     print(f"  {u.spec.summary}")
     if u.oracle == "SYNTHESIZE":
-        print("  >> no shipped tests: run synthesize_oracle() to manufacture ground "
-              "truth before solving.")
+        print(
+            "  >> no shipped tests: run synthesize_oracle() to manufacture ground "
+            "truth before solving."
+        )
     for note in u.notes:
         print(f"  ! {note}")
     return 0
@@ -238,15 +281,20 @@ def main() -> int:
     r.add_argument("eval_report", type=Path)
     r.add_argument("--submission", type=Path, default=None)
     r.add_argument("--tests-dir", type=Path, default=None)
-    r.add_argument("--reimpl", type=Path, default=None,
-                   help="run the cheap local pre-check against this reimplementation")
+    r.add_argument(
+        "--reimpl",
+        type=Path,
+        default=None,
+        help="run the cheap local pre-check against this reimplementation",
+    )
     r.add_argument("--apply", action="store_true")
     i = sub.add_parser("ingest", help="understand a raw repo/task")
     i.add_argument("repo", type=Path)
     args = ap.parse_args()
     if args.cmd == "report":
-        return run_report(args.eval_report, args.submission, args.tests_dir,
-                          args.apply, args.reimpl)
+        return run_report(
+            args.eval_report, args.submission, args.tests_dir, args.apply, args.reimpl
+        )
     if args.cmd == "ingest":
         return run_ingest(args.repo)
     return 1

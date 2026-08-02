@@ -25,11 +25,28 @@ log = logging.getLogger("oracle.validator.dockerfile")
 
 _FENCE_RE = re.compile(r"^```(?:dockerfile|docker)?\s*\n|\n```\s*$", flags=re.MULTILINE)
 
-_DOCKERFILE_INSTRUCTIONS = frozenset({
-    "FROM", "RUN", "CMD", "LABEL", "MAINTAINER", "EXPOSE", "ENV",
-    "ADD", "COPY", "ENTRYPOINT", "VOLUME", "USER", "WORKDIR", "ARG",
-    "ONBUILD", "STOPSIGNAL", "HEALTHCHECK", "SHELL",
-})
+_DOCKERFILE_INSTRUCTIONS = frozenset(
+    {
+        "FROM",
+        "RUN",
+        "CMD",
+        "LABEL",
+        "MAINTAINER",
+        "EXPOSE",
+        "ENV",
+        "ADD",
+        "COPY",
+        "ENTRYPOINT",
+        "VOLUME",
+        "USER",
+        "WORKDIR",
+        "ARG",
+        "ONBUILD",
+        "STOPSIGNAL",
+        "HEALTHCHECK",
+        "SHELL",
+    }
+)
 
 _HEREDOC_RE = re.compile(r"<<-?\s*['\"]?([A-Za-z_][A-Za-z0-9_]*)['\"]?")
 
@@ -102,13 +119,17 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
     if not hadolint:
         return True, f"{reason}; hadolint unavailable"
 
-    with tempfile.NamedTemporaryFile("w", suffix=".dockerfile", delete=False, encoding="utf-8") as fh:
+    with tempfile.NamedTemporaryFile(
+        "w", suffix=".dockerfile", delete=False, encoding="utf-8"
+    ) as fh:
         fh.write(code)
         path = fh.name
     try:
         result = subprocess.run(
             [hadolint, "--format", "json", path],
-            capture_output=True, text=True, timeout=15,
+            capture_output=True,
+            text=True,
+            timeout=15,
         )
         if result.returncode == 0:
             return True, f"{reason}; hadolint clean"
@@ -120,7 +141,10 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
         warnings = [f for f in findings if f.get("level") == "warning"]
         if errors:
             first = errors[0]
-            return False, f"hadolint {first.get('code')}: {first.get('message')} @ L{first.get('line')}"
+            return (
+                False,
+                f"hadolint {first.get('code')}: {first.get('message')} @ L{first.get('line')}",
+            )
         if task_meta.get("hadolint_strict") and warnings:
             first = warnings[0]
             return False, f"hadolint strict {first.get('code')}: {first.get('message')}"

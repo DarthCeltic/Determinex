@@ -15,12 +15,13 @@ Decisions:
   - BLOCKED_HARDENED_RUNNER  — hardened runner import failed
   - BLOCKED_APPLY_REJECTED   — safe-patch apply blocked
 """
+
 from __future__ import annotations
 
 import importlib
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -39,7 +40,6 @@ from .real_model_patch_plan_with_verifier_context_record import (
 )
 from .real_temp_patch_verify import verify as _verify
 from .safe_patch_workspace import VerifierResult  # noqa: E402
-
 
 _OUTPUT_CAP = 2048
 _PYTEST_COMMANDS = frozenset({"pytest", "pytest.exe"})
@@ -68,28 +68,27 @@ def _build_verifier_callable(
 
     def verifier(temp_workspace: Path) -> VerifierResult:
         if hr is None:
-            return VerifierResult(passed=False,
-                                  output="HARDENED_RUNNER_UNAVAILABLE")
-        res = hr.run(_portable_hardened_runner_argv(verifier_argv), workspace=Path(temp_workspace),
-                     timeout=timeout_seconds)
+            return VerifierResult(passed=False, output="HARDENED_RUNNER_UNAVAILABLE")
+        res = hr.run(
+            _portable_hardened_runner_argv(verifier_argv),
+            workspace=Path(temp_workspace),
+            timeout=timeout_seconds,
+        )
         if getattr(res, "blocked", False):
             return VerifierResult(
                 passed=False,
-                output=(
-                    f"HARDENED_RUNNER_BLOCKED: {getattr(res, 'reason', '')}"
-                )[:_OUTPUT_CAP],
+                output=(f"HARDENED_RUNNER_BLOCKED: {getattr(res, 'reason', '')}")[:_OUTPUT_CAP],
             )
         if getattr(res, "timed_out", False):
             return VerifierResult(
                 passed=False,
-                output=(
-                    f"VERIFIER_TIMED_OUT after {timeout_seconds}s"
-                )[:_OUTPUT_CAP],
+                output=(f"VERIFIER_TIMED_OUT after {timeout_seconds}s")[:_OUTPUT_CAP],
             )
         passed = bool(getattr(res, "success", False))
         out = (getattr(res, "stdout", "") or "") + (
             "\n--- stderr ---\n" + (getattr(res, "stderr", "") or "")
-            if getattr(res, "stderr", "") else ""
+            if getattr(res, "stderr", "")
+            else ""
         )
         return VerifierResult(passed=passed, output=out[:_OUTPUT_CAP])
 
@@ -110,8 +109,12 @@ def trace(
         return _blocked(
             "REAL_BUILD_ADAPTER_TEMP_VERIFY_BLOCKED_NOT_QUARANTINED",
             workspace=str(Path(workspace).resolve()),
-            verifier_argv=tuple(getattr(verifier_selection, "verifier_command", ())) if verifier_selection else (),
-            build_system_id=getattr(verifier_selection, "build_system_id", "") if verifier_selection else "",
+            verifier_argv=tuple(getattr(verifier_selection, "verifier_command", ()))
+            if verifier_selection
+            else (),
+            build_system_id=getattr(verifier_selection, "build_system_id", "")
+            if verifier_selection
+            else "",
             note="plan missing or not quarantined",
         )
 
@@ -119,7 +122,8 @@ def trace(
         return _blocked(
             "REAL_BUILD_ADAPTER_TEMP_VERIFY_BLOCKED_NO_VERIFIER",
             workspace=str(Path(workspace).resolve()),
-            verifier_argv=(), build_system_id="",
+            verifier_argv=(),
+            build_system_id="",
             note="verifier selection missing or not selected",
         )
 
@@ -224,6 +228,7 @@ def trace(
 # shape that real_temp_patch_verify expects.
 # ---------------------------------------------------------------------------
 
+
 def _to_inner_plan(
     plan: RealModelPatchPlanWithVerifierContextRecord,
     workspace: str,
@@ -235,7 +240,8 @@ def _to_inner_plan(
 
     accepted = tuple(
         RealQuarantinedPatchEntry(
-            operation=e.operation, path=e.path,
+            operation=e.operation,
+            path=e.path,
             new_content_chars=e.new_content_chars,
         )
         for e in plan.accepted
@@ -247,8 +253,11 @@ def _to_inner_plan(
         provider=plan.provider,
         accepted=accepted,
         rejected=tuple(),
-        quarantined=True, output_trusted=False, patch_applied=False,
-        source_mutation_authorized=False, training_eligible=False,
+        quarantined=True,
+        output_trusted=False,
+        patch_applied=False,
+        source_mutation_authorized=False,
+        training_eligible=False,
         notes=("derived from REAL_PATCH_PLAN_CONTEXT_QUARANTINED record",),
     )
 
@@ -273,9 +282,11 @@ def _blocked(
         temp_workspace=temp_workspace,
         build_system_id=build_system_id,
         verifier_command=verifier_argv,
-        verifier_exit_code=0, verifier_stdout_preview="",
+        verifier_exit_code=0,
+        verifier_stdout_preview="",
         verifier_stderr_preview="",
-        verifier_timed_out=False, verifier_blocked=False,
+        verifier_timed_out=False,
+        verifier_blocked=False,
         unified_diff=unified_diff,
         applied_paths=applied_paths,
         original_unchanged=original_unchanged,

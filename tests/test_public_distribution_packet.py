@@ -8,16 +8,28 @@ from scripts.release import public_distribution_packet
 
 
 def _write_release_files(root: Path) -> None:
-    (root / "LICENSE").write_text("GNU AFFERO GENERAL PUBLIC LICENSE\nVersion 3\n", encoding="utf-8")
-    (root / "pyproject.toml").write_text('license = { text = "AGPL-3.0-or-later" }\n', encoding="utf-8")
+    (root / "LICENSE").write_text(
+        "GNU AFFERO GENERAL PUBLIC LICENSE\nVersion 3\n", encoding="utf-8"
+    )
+    (root / "pyproject.toml").write_text(
+        'license = { text = "AGPL-3.0-or-later" }\n', encoding="utf-8"
+    )
     (root / "frontend/package.json").parent.mkdir(parents=True)
-    (root / "frontend/package.json").write_text('{"license":"AGPL-3.0-or-later"}\n', encoding="utf-8")
+    (root / "frontend/package.json").write_text(
+        '{"license":"AGPL-3.0-or-later"}\n', encoding="utf-8"
+    )
     (root / "frontend/src-tauri/Cargo.toml").parent.mkdir(parents=True)
-    (root / "frontend/src-tauri/Cargo.toml").write_text('license = "AGPL-3.0-or-later"\n', encoding="utf-8")
+    (root / "frontend/src-tauri/Cargo.toml").write_text(
+        'license = "AGPL-3.0-or-later"\n', encoding="utf-8"
+    )
     (root / "frontend/vscode-extension/package.json").parent.mkdir(parents=True)
-    (root / "frontend/vscode-extension/package.json").write_text('{"license":"AGPL-3.0-or-later"}\n', encoding="utf-8")
+    (root / "frontend/vscode-extension/package.json").write_text(
+        '{"license":"AGPL-3.0-or-later"}\n', encoding="utf-8"
+    )
     (root / "docs/release").mkdir(parents=True)
-    (root / "docs/release/MODEL_NOTICES.md").write_text("# Model Notices\n\nNo bundled model weights.\n", encoding="utf-8")
+    (root / "docs/release/MODEL_NOTICES.md").write_text(
+        "# Model Notices\n\nNo bundled model weights.\n", encoding="utf-8"
+    )
     (root / "docs/release/THIRD_PARTY_NOTICES.md").write_text(
         "# Third Party Notices\n\nSee SBOMs.\n\n"
         "Corpus inventory: `corpus/THIRD_PARTY_NOTICES.md` and "
@@ -31,18 +43,30 @@ def _write_corpus_notices(root: Path, *, publishable: int = 359, withheld: int =
     """The corpus is redistributed, so its notices are part of the distribution obligation."""
     (root / "corpus").mkdir(parents=True, exist_ok=True)
     (root / "corpus/THIRD_PARTY_NOTICES.md").write_text(
-        "# Corpus Third-Party Notices\n\n## some-project\n\nMIT\n", encoding="utf-8")
-    (root / "corpus/REDISTRIBUTION_BOUNDARY.json").write_text(json.dumps({
-        "schema_version": "determinex-corpus-redistribution-boundary-v1",
-        "rule": "a vendored tree is published only if it carries its own license text",
-        "publishable_count": publishable, "withheld_count": withheld,
-        "publishable": [], "withheld": [],
-    }), encoding="utf-8")
+        "# Corpus Third-Party Notices\n\n## some-project\n\nMIT\n", encoding="utf-8"
+    )
+    (root / "corpus/REDISTRIBUTION_BOUNDARY.json").write_text(
+        json.dumps(
+            {
+                "schema_version": "determinex-corpus-redistribution-boundary-v1",
+                "rule": "a vendored tree is published only if it carries its own license text",
+                "publishable_count": publishable,
+                "withheld_count": withheld,
+                "publishable": [],
+                "withheld": [],
+            }
+        ),
+        encoding="utf-8",
+    )
 
 
-def test_public_distribution_packet_requires_operator_review_for_legal_and_scrub(tmp_path: Path, monkeypatch):
+def test_public_distribution_packet_requires_operator_review_for_legal_and_scrub(
+    tmp_path: Path, monkeypatch
+):
     _write_release_files(tmp_path)
-    monkeypatch.setattr(public_distribution_packet, "_secret_scan_clean", lambda pushed: (True, "clean"))
+    monkeypatch.setattr(
+        public_distribution_packet, "_secret_scan_clean", lambda pushed: (True, "clean")
+    )
 
     packet = public_distribution_packet.build_packet(tmp_path, operator_reviewed=False)
 
@@ -56,9 +80,13 @@ def test_public_distribution_packet_requires_operator_review_for_legal_and_scrub
     assert packet["authority_granted"] is False
 
 
-def test_public_distribution_packet_can_record_operator_reviewed_release_packet(tmp_path: Path, monkeypatch):
+def test_public_distribution_packet_can_record_operator_reviewed_release_packet(
+    tmp_path: Path, monkeypatch
+):
     _write_release_files(tmp_path)
-    monkeypatch.setattr(public_distribution_packet, "_secret_scan_clean", lambda pushed: (True, "clean"))
+    monkeypatch.setattr(
+        public_distribution_packet, "_secret_scan_clean", lambda pushed: (True, "clean")
+    )
 
     packet = public_distribution_packet.build_packet(tmp_path, operator_reviewed=True)
 
@@ -69,7 +97,9 @@ def test_public_distribution_packet_can_record_operator_reviewed_release_packet(
 
 def test_public_distribution_packet_writes_json(tmp_path: Path, monkeypatch):
     _write_release_files(tmp_path)
-    monkeypatch.setattr(public_distribution_packet, "_secret_scan_clean", lambda pushed: (True, "clean"))
+    monkeypatch.setattr(
+        public_distribution_packet, "_secret_scan_clean", lambda pushed: (True, "clean")
+    )
     output = tmp_path / "assurance/evidence/public_distribution/legal_public_distribution_test.json"
 
     public_distribution_packet.write_packet(tmp_path, output, operator_reviewed=True)
@@ -81,7 +111,9 @@ def test_public_distribution_packet_writes_json(tmp_path: Path, monkeypatch):
 
 def test_public_distribution_packet_records_secret_scan_timeout_as_blocker(monkeypatch):
     def timeout(*args, **kwargs):
-        raise subprocess.TimeoutExpired(["python", "scripts/security/secret_scan.py", "--pushed"], 240)
+        raise subprocess.TimeoutExpired(
+            ["python", "scripts/security/secret_scan.py", "--pushed"], 240
+        )
 
     monkeypatch.setattr(public_distribution_packet.subprocess, "run", timeout)
 
@@ -119,7 +151,8 @@ class TestCorpusNoticesArePartOfTheObligation:
         never points at them. File-exists alone would have called this covered."""
         _write_release_files(tmp_path)
         (tmp_path / "docs/release/THIRD_PARTY_NOTICES.md").write_text(
-            "# Third Party Notices\n\nSee SBOMs.\n", encoding="utf-8")
+            "# Third Party Notices\n\nSee SBOMs.\n", encoding="utf-8"
+        )
 
         ok, _ = public_distribution_packet._notices_present(tmp_path)
         assert ok is False, (
@@ -136,7 +169,9 @@ class TestCorpusNoticesArePartOfTheObligation:
 
     def test_an_unparseable_boundary_is_not_coverage(self, tmp_path: Path):
         _write_release_files(tmp_path)
-        (tmp_path / "corpus/REDISTRIBUTION_BOUNDARY.json").write_text("{ not json", encoding="utf-8")
+        (tmp_path / "corpus/REDISTRIBUTION_BOUNDARY.json").write_text(
+            "{ not json", encoding="utf-8"
+        )
 
         ok, _ = public_distribution_packet._notices_present(tmp_path)
         assert ok is False
@@ -151,12 +186,15 @@ class TestCorpusNoticesArePartOfTheObligation:
             "the packet must name the corpus notices it relied on"
         )
 
-    def test_a_notices_gap_blocks_the_attestation_not_just_a_flag(self, tmp_path: Path, monkeypatch):
+    def test_a_notices_gap_blocks_the_attestation_not_just_a_flag(
+        self, tmp_path: Path, monkeypatch
+    ):
         """Coverage feeds legal_review_completed, so a gap cannot be attested past."""
         _write_release_files(tmp_path)
         (tmp_path / "corpus/THIRD_PARTY_NOTICES.md").unlink()
-        monkeypatch.setattr(public_distribution_packet, "_secret_scan_clean",
-                            lambda pushed: (True, "clean"))
+        monkeypatch.setattr(
+            public_distribution_packet, "_secret_scan_clean", lambda pushed: (True, "clean")
+        )
 
         packet = public_distribution_packet.build_packet(tmp_path, operator_reviewed=True)
         assert packet["third_party_notices_present"] is False

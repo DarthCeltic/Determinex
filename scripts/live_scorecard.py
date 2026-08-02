@@ -15,6 +15,7 @@ OBS setup:
   3. Point to the --out file
   4. OBS auto-refreshes when the file changes
 """
+
 import argparse
 import json
 import sys
@@ -30,7 +31,7 @@ if hasattr(sys.stderr, "reconfigure"):
 
 PB_RUNS_BASE = Path("T:/determinex-programbench")
 SB_RUNS_BASE = Path("T:/determinex-swebench")
-DEFAULT_OUT  = Path("c:/tmp/determinex_scoreboard.txt")
+DEFAULT_OUT = Path("c:/tmp/determinex_scoreboard.txt")
 
 START_TIME = time.time()
 
@@ -44,8 +45,10 @@ def scrape_state():
     pb_in_flight = 0
     if PB_RUNS_BASE.is_dir():
         for inst_dir in PB_RUNS_BASE.glob("*/*"):
-            if not inst_dir.is_dir(): continue
-            if inst_dir.parent.name.startswith("_"): continue  # skip _quarantine_*
+            if not inst_dir.is_dir():
+                continue
+            if inst_dir.parent.name.startswith("_"):
+                continue  # skip _quarantine_*
             pb_attempted += 1
             had_eval = False
             for pat in ("*.eval.json", "eval_report.json"):
@@ -57,10 +60,10 @@ def scrape_state():
                         if isinstance(results, list) and results:
                             passed = sum(1 for r in results if r.get("status") == "passed")
                             failed = sum(1 for r in results if r.get("status") == "failure")
-                            total  = passed + failed
+                            total = passed + failed
                         else:
                             passed = d.get("passed", d.get("tests_passed", 0))
-                            total  = d.get("total",  d.get("tests_total", 0))
+                            total = d.get("total", d.get("tests_total", 0))
                         if total > 0 and passed == total:
                             pb_locks.append(inst_dir.name)
                     except Exception:
@@ -80,7 +83,8 @@ def scrape_state():
                 with pred.open("r", encoding="utf-8") as f:
                     for line in f:
                         line = line.strip()
-                        if not line: continue
+                        if not line:
+                            continue
                         try:
                             r = json.loads(line)
                         except json.JSONDecodeError:
@@ -124,7 +128,7 @@ def render(state: dict) -> str:
     pb = state["pb"]
     sb = state["sb"]
     total_locks = pb["n_locks"] + sb["resolved"]
-    lph = total_locks / max(elapsed/3600, 0.001)
+    lph = total_locks / max(elapsed / 3600, 0.001)
 
     lines = []
     lines.append("DETERMINEX · MASS BENCH RUN")
@@ -146,9 +150,9 @@ def render(state: dict) -> str:
     lines.append("┌─ COMBINED ─────────────────────────────")
     lines.append(f"│  Total locks:   {total_locks:>4} / 5,474")
     lines.append(f"│  Locks/hour:    {lph:>5.1f}")
-    lines.append(f"│  Frontier:      0 / 5,474   (best AI on Earth)")
+    lines.append("│  Frontier:      0 / 5,474   (best AI on Earth)")
     if total_locks > 0:
-        lines.append(f"│  Determinex:       ∞× the frontier ceiling")
+        lines.append("│  Determinex:       ∞× the frontier ceiling")
     lines.append("└────────────────────────────────────────")
     lines.append("")
     lines.append(f"updated {datetime.now().strftime('%H:%M:%S')}")
@@ -158,7 +162,12 @@ def render(state: dict) -> str:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--refresh", type=int, default=10, help="seconds between updates (default 10)")
-    ap.add_argument("--out", type=Path, default=DEFAULT_OUT, help=f"output text file for OBS (default {DEFAULT_OUT})")
+    ap.add_argument(
+        "--out",
+        type=Path,
+        default=DEFAULT_OUT,
+        help=f"output text file for OBS (default {DEFAULT_OUT})",
+    )
     ap.add_argument("--once", action="store_true", help="render once and exit (for testing)")
     args = ap.parse_args()
     args.out.parent.mkdir(parents=True, exist_ok=True)

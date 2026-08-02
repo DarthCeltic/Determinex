@@ -1,13 +1,16 @@
 """Tests for patch_body_hash (binding helper for the apply gate)."""
+
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
-from scripts.repair.patch_body_hash import CanonicalPatchBodyHash, compute
+from scripts.repair.patch_body_hash import compute
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "REAL_APPROVAL_DIFF_BODY_CONTENT_BINDING_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "REAL_APPROVAL_DIFF_BODY_CONTENT_BINDING_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "real_approval_diff_body_content_binding"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 

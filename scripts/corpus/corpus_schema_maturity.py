@@ -9,6 +9,7 @@ ProgramBench verdict rows can be backfilled into `active_eval_evidence`, while
 rows that still lack required fields remain `legacy_backfill_needed` or
 `quarantined`.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -18,7 +19,7 @@ import shutil
 import sys
 from collections import Counter
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -27,7 +28,6 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from corpus.corpus_manager import hmac_key_scope, resign_record, verify_signature
-
 
 REQUIRED_ACTIVE_FIELDS = (
     "schema_version",
@@ -116,7 +116,9 @@ def mature_record(record: dict[str, Any], *, migrated_at: str) -> dict[str, Any]
         row["source_kind"] = "programbench_legacy_verdict"
 
     if not row.get("verifier_command"):
-        row["verifier_command"] = row.get("validator") or row.get("final_command") or _infer_verifier(row)
+        row["verifier_command"] = (
+            row.get("validator") or row.get("final_command") or _infer_verifier(row)
+        )
     if not row.get("validator") and row.get("verifier_command"):
         row["validator"] = row["verifier_command"]
 
@@ -155,7 +157,9 @@ def mature_record(record: dict[str, Any], *, migrated_at: str) -> dict[str, Any]
     return resign_record(row)
 
 
-def generate_maturity_report(roots: list[Path], *, verify_signatures: bool = False, max_parse_errors: int = 50) -> MaturityReport:
+def generate_maturity_report(
+    roots: list[Path], *, verify_signatures: bool = False, max_parse_errors: int = 50
+) -> MaturityReport:
     report = MaturityReport(roots=[str(r) for r in roots])
     status_counts: Counter[str] = Counter()
     reason_counts: Counter[str] = Counter()
@@ -193,7 +197,7 @@ def generate_maturity_report(roots: list[Path], *, verify_signatures: bool = Fal
 
 
 def backfill_file(path: Path, *, dry_run: bool = False) -> dict[str, Any]:
-    migrated_at = datetime.now(timezone.utc).isoformat()
+    migrated_at = datetime.now(UTC).isoformat()
     rows = list(_read_jsonl(path, MaturityReport(roots=[str(path)]), max_parse_errors=0))
     matured = [mature_record(row, migrated_at=migrated_at) for row in rows]
     changed = sum(1 for before, after in zip(rows, matured) if before != after)
@@ -217,7 +221,9 @@ def backfill_file(path: Path, *, dry_run: bool = False) -> dict[str, Any]:
 
 
 def _infer_verifier(row: dict[str, Any]) -> str:
-    if row.get("source_benchmark") == "programbench" or str(row.get("task_id", "")).startswith("pb_"):
+    if row.get("source_benchmark") == "programbench" or str(row.get("task_id", "")).startswith(
+        "pb_"
+    ):
         return "programbench eval"
     return "unknown"
 
@@ -284,7 +290,11 @@ def main() -> int:
     args = ap.parse_args()
 
     if args.backfill:
-        results = [backfill_file(path, dry_run=args.dry_run) for root in args.roots for path in _iter_jsonl([root])]
+        results = [
+            backfill_file(path, dry_run=args.dry_run)
+            for root in args.roots
+            for path in _iter_jsonl([root])
+        ]
         print(json.dumps({"backfill": results}, indent=2))
 
     report = generate_maturity_report(

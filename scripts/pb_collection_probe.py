@@ -16,10 +16,10 @@ import html
 import json
 import re
 from collections import Counter, defaultdict
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Iterable
-
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 PB_TASKS = Path("T:/Dev/ProgramBench/src/programbench/data/tasks")
@@ -107,7 +107,9 @@ def row_text(row: dict[str, Any]) -> str:
 
 def parse_collected_ids(rows: Iterable[dict[str, Any]]) -> set[str]:
     found: set[str] = set()
-    line_pat = re.compile(r"^([A-Za-z0-9_./\\-]+\.py(?:::[^\s]+)+)\s+(" + "|".join(STATUS_WORDS) + r")\b")
+    line_pat = re.compile(
+        r"^([A-Za-z0-9_./\\-]+\.py(?:::[^\s]+)+)\s+(" + "|".join(STATUS_WORDS) + r")\b"
+    )
     for row in rows:
         for line in row_text(row).splitlines():
             match = line_pat.match(line.strip())
@@ -125,7 +127,9 @@ def parse_collection_summary(row: dict[str, Any]) -> tuple[int, int] | None:
 
 def parse_xml_testcases(rows: Iterable[dict[str, Any]]) -> set[str]:
     found: set[str] = set()
-    case_pat = re.compile(r"<testcase\b[^>]*\bclassname=\"([^\"]+)\"[^>]*\bname=\"([^\"]+)\"", re.IGNORECASE)
+    case_pat = re.compile(
+        r"<testcase\b[^>]*\bclassname=\"([^\"]+)\"[^>]*\bname=\"([^\"]+)\"", re.IGNORECASE
+    )
     for row in rows:
         text = row_text(row)
         if "<testcase" not in text:
@@ -140,7 +144,9 @@ def emitted_ids(rows: Iterable[dict[str, Any]]) -> set[str]:
     xml_ids = parse_xml_testcases(row_list)
     if xml_ids:
         return xml_ids
-    return {str(row.get("name")) for row in row_list if row_status(row) != "not_run" and row.get("name")}
+    return {
+        str(row.get("name")) for row in row_list if row_status(row) != "not_run" and row.get("name")
+    }
 
 
 def failed_ids(rows: Iterable[dict[str, Any]]) -> set[str]:
@@ -230,7 +236,9 @@ def emitted_by_branch(rows: list[dict[str, Any]]) -> dict[str, set[str]]:
     return {branch: emitted_ids(branch_rows) for branch, branch_rows in grouped.items()}
 
 
-def collected_by_branch(logs: list[dict[str, Any]], rows: list[dict[str, Any]]) -> dict[str, set[str]]:
+def collected_by_branch(
+    logs: list[dict[str, Any]], rows: list[dict[str, Any]]
+) -> dict[str, set[str]]:
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for index, row in enumerate(logs):
         branch = str(row.get("branch") or "")
@@ -289,16 +297,24 @@ def probe_tool(task_id: str, report_path: Path) -> dict[str, Any]:
         totals["collected_not_emitted"] += len(result.collected_not_emitted)
         totals["collected_failed"] += len(result.collected_failed)
         if result.collected_reconstructable:
-            reconstructable_not_run += sum(1 for row in rows_by_branch.get(result.branch, []) if row_status(row) == "not_run")
+            reconstructable_not_run += sum(
+                1 for row in rows_by_branch.get(result.branch, []) if row_status(row) == "not_run"
+            )
     denominator = (
         totals["expected_not_collected"]
         + totals["collected_not_emitted"]
         + totals["collected_failed"]
     )
     pct = {
-        "true_collection_wall_pct": round(totals["expected_not_collected"] / denominator * 100, 1) if denominator else None,
-        "emission_loss_pct": round(totals["collected_not_emitted"] / denominator * 100, 1) if denominator else None,
-        "behavioral_pct": round(totals["collected_failed"] / denominator * 100, 1) if denominator else None,
+        "true_collection_wall_pct": round(totals["expected_not_collected"] / denominator * 100, 1)
+        if denominator
+        else None,
+        "emission_loss_pct": round(totals["collected_not_emitted"] / denominator * 100, 1)
+        if denominator
+        else None,
+        "behavioral_pct": round(totals["collected_failed"] / denominator * 100, 1)
+        if denominator
+        else None,
     }
     report_counts = Counter(row_status(row) for row in rows)
     return {
@@ -373,10 +389,14 @@ def render_markdown(results: list[dict[str, Any]]) -> str:
     for result in results:
         lines.append(f"### {result['task_id']}")
         lines.append("")
-        lines.append("| branch | A expected | B collected | C emitted | A-B | B-C | failed collected | class |")
+        lines.append(
+            "| branch | A expected | B collected | C emitted | A-B | B-C | failed collected | class |"
+        )
         lines.append("|---|---:|---:|---:|---:|---:|---:|---|")
         for branch in result["branch_results"]:
-            b_count = "unknown" if branch["collected_count"] is None else str(branch["collected_count"])
+            b_count = (
+                "unknown" if branch["collected_count"] is None else str(branch["collected_count"])
+            )
             lines.append(
                 f"| `{branch['branch']}` | {branch['expected_count']} | {b_count} | {branch['emitted_count']} | "
                 f"{len(branch['expected_not_collected'])} | {len(branch['collected_not_emitted'])} | "
@@ -398,8 +418,12 @@ def main() -> int:
         task_id, report = load_best_report(tool)
         result = probe_tool(task_id, report)
         all_results.append(result)
-        (out_dir / f"{tool}_collection_probe.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    (out_dir / "collection_probe_summary.md").write_text(render_markdown(all_results), encoding="utf-8")
+        (out_dir / f"{tool}_collection_probe.json").write_text(
+            json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    (out_dir / "collection_probe_summary.md").write_text(
+        render_markdown(all_results), encoding="utf-8"
+    )
     print(out_dir / "collection_probe_summary.md")
     return 0
 

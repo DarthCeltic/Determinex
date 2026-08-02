@@ -1,4 +1,5 @@
 """Tests for FRONTEND_PANEL_COMMAND_WIRING_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -12,12 +13,14 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_PANEL_COMMAND_WIRING_L
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_panel_command_wiring"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-STATUS_TOKENS = frozenset({
-    "FRONTEND_PANEL_COMMAND_WIRING_READY",
-    "FRONTEND_DRY_RUN_DEFAULT_CONFIRMED",
-    "FRONTEND_LIVE_OPT_IN_REQUIRED",
-    "FRONTEND_SOURCE_MUTATION_BLOCKED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "FRONTEND_PANEL_COMMAND_WIRING_READY",
+        "FRONTEND_DRY_RUN_DEFAULT_CONFIRMED",
+        "FRONTEND_LIVE_OPT_IN_REQUIRED",
+        "FRONTEND_SOURCE_MUTATION_BLOCKED",
+    }
+)
 
 # Panel name -> (expected commands, default mode)
 EXPECTED_BINDINGS = {
@@ -25,12 +28,12 @@ EXPECTED_BINDINGS = {
         {"diagnose_dry_run", "diagnose_live_opt_in", "generate_patch_plan"},
         "DRY_RUN",
     ),
-    "EvidenceViewerPanel":      ({"get_repair_flow_state"},      "READ_ONLY"),
-    "HumanApprovalPanel":       ({"get_human_approval_packet"},  "FIXTURE_ONLY"),
-    "ModelRoutePanel":          ({"get_model_route_status"},     "READ_ONLY"),
-    "SourceApplyDryRunPanel":   ({"source_apply_dry_run"},       "DRY_RUN"),
-    "TempVerifyPanel":          ({"verify_temp_patch"},          "FIXTURE_ONLY"),
-    "WorkspaceStatusPanel":     ({"get_workspace_status"},       "READ_ONLY"),
+    "EvidenceViewerPanel": ({"get_repair_flow_state"}, "READ_ONLY"),
+    "HumanApprovalPanel": ({"get_human_approval_packet"}, "FIXTURE_ONLY"),
+    "ModelRoutePanel": ({"get_model_route_status"}, "READ_ONLY"),
+    "SourceApplyDryRunPanel": ({"source_apply_dry_run"}, "DRY_RUN"),
+    "TempVerifyPanel": ({"verify_temp_patch"}, "FIXTURE_ONLY"),
+    "WorkspaceStatusPanel": ({"get_workspace_status"}, "READ_ONLY"),
 }
 
 

@@ -20,7 +20,9 @@ from corpus.programbench.artifact_source_escalation_record import (
 from corpus.programbench.infra_failure_triage import InfraFailureTriageStatus
 from corpus.programbench.infra_failure_triage_record import verify_infra_failure_triage_record
 from corpus.programbench.operator_artifact_admission import OperatorArtifactAdmissionStatus
-from corpus.programbench.operator_artifact_admission_record import verify_operator_artifact_admission_record
+from corpus.programbench.operator_artifact_admission_record import (
+    verify_operator_artifact_admission_record,
+)
 
 
 class ArtifactSourceEscalationStatus(str, Enum):
@@ -74,7 +76,11 @@ REJECTED_FORMS = [
 class ArtifactSourceEscalationConfig:
     root: Path = Path(".")
     output_dir: Path = Path("assurance/evidence/programbench_artifact_source_escalations")
-    admission_roots: list[Path] = field(default_factory=lambda: [Path("assurance/evidence/programbench_operator_artifact_admissions")])
+    admission_roots: list[Path] = field(
+        default_factory=lambda: [
+            Path("assurance/evidence/programbench_operator_artifact_admissions")
+        ]
+    )
 
 
 class ProgramBenchArtifactSourceEscalation:
@@ -84,7 +90,11 @@ class ProgramBenchArtifactSourceEscalation:
     def escalate(self, triage_record_path: Path) -> dict[str, Any]:
         triage_path = self._resolve(triage_record_path)
         if not triage_path.is_file():
-            return self._write_blocked(triage_path, {}, [ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE.value])
+            return self._write_blocked(
+                triage_path,
+                {},
+                [ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE.value],
+            )
         triage = _read_json(triage_path)
         if not verify_infra_failure_triage_record(triage):
             return self._write_blocked(
@@ -93,18 +103,26 @@ class ProgramBenchArtifactSourceEscalation:
                 [ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE.value],
                 ["triage_record_signature_invalid"],
             )
-        if str(triage.get("failure_type") or "") != InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value:
+        if (
+            str(triage.get("failure_type") or "")
+            != InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value
+        ):
             return self._write_blocked(
                 triage_path,
                 triage,
                 [ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE.value],
                 ["triage_failure_type_not_missing_cleanroom_image"],
             )
-        if str(triage.get("source_status") or "") != InfraFailureTriageStatus.IMAGE_RECOVERY_REQUIRES_OPERATOR.value:
+        if (
+            str(triage.get("source_status") or "")
+            != InfraFailureTriageStatus.IMAGE_RECOVERY_REQUIRES_OPERATOR.value
+        ):
             return self._write_blocked(
                 triage_path,
                 triage,
-                [ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NOT_OPERATOR_RECOVERY.value],
+                [
+                    ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_BLOCKED_NOT_OPERATOR_RECOVERY.value
+                ],
                 ["triage_source_status_does_not_require_operator_recovery"],
             )
 
@@ -118,7 +136,9 @@ class ProgramBenchArtifactSourceEscalation:
         ]
         reasons: list[str] = []
         if real_admissions:
-            statuses.append(ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_NOT_REQUIRED_REAL_ADMISSION_EXISTS.value)
+            statuses.append(
+                ArtifactSourceEscalationStatus.ARTIFACT_SOURCE_ESCALATION_NOT_REQUIRED_REAL_ADMISSION_EXISTS.value
+            )
             reasons.append("real_operator_admission_exists_use_hydration_gate_next")
         else:
             statuses.append(ArtifactSourceEscalationStatus.MISSING_REAL_PROVENANCE.value)
@@ -142,7 +162,9 @@ class ProgramBenchArtifactSourceEscalation:
             hydration_authorized=False,
             executable=False,
         )
-        path = write_artifact_source_escalation_record(record, self._resolve(self.config.output_dir))
+        path = write_artifact_source_escalation_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _write_blocked(
@@ -157,7 +179,8 @@ class ProgramBenchArtifactSourceEscalation:
             triage_record=_rel(self.config.root, triage_path),
             missing_image=str(triage.get("missing_image") or ""),
             target=dict(triage.get("target") or {}),
-            escalation_statuses=statuses + [
+            escalation_statuses=statuses
+            + [
                 ArtifactSourceEscalationStatus.NO_HYDRATION_AUTHORIZED.value,
                 ArtifactSourceEscalationStatus.NO_EXECUTION_AUTHORIZED.value,
             ],
@@ -165,7 +188,9 @@ class ProgramBenchArtifactSourceEscalation:
             hydration_authorized=False,
             executable=False,
         )
-        path = write_artifact_source_escalation_record(record, self._resolve(self.config.output_dir))
+        path = write_artifact_source_escalation_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _find_admissions(self, image: str) -> list[dict[str, Any]]:
@@ -182,7 +207,10 @@ class ProgramBenchArtifactSourceEscalation:
                     continue
                 if str(data.get("image_reference") or "") != image:
                     continue
-                if str(data.get("status") or "") != OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.value:
+                if (
+                    str(data.get("status") or "")
+                    != OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.value
+                ):
                     continue
                 if verify_operator_artifact_admission_record(data):
                     out.append(data)
@@ -213,7 +241,12 @@ def _is_fixture_admission(record: dict[str, Any]) -> bool:
     source = str(claim.get("source_url_or_registry") or "")
     reason = str(claim.get("admission_reason") or "").lower()
     notes = str(claim.get("license_provenance_notes") or "").lower()
-    return operator_id == "lock_fixture" or source.startswith("fixture://") or "fixture" in reason or "fixture" in notes
+    return (
+        operator_id == "lock_fixture"
+        or source.startswith("fixture://")
+        or "fixture" in reason
+        or "fixture" in notes
+    )
 
 
 def _compact_admission(record: dict[str, Any]) -> dict[str, Any]:
@@ -251,10 +284,16 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Generate a ProgramBench artifact source escalation checklist.")
+    parser = argparse.ArgumentParser(
+        description="Generate a ProgramBench artifact source escalation checklist."
+    )
     parser.add_argument("triage_record", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_artifact_source_escalations"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_artifact_source_escalations"),
+    )
     args = parser.parse_args()
     result = ProgramBenchArtifactSourceEscalation(
         ArtifactSourceEscalationConfig(root=args.root, output_dir=args.output_dir)

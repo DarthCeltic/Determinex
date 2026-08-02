@@ -8,12 +8,14 @@ sys.path.insert(0, str(ROOT / "scripts"))
 def test_upstream_source_is_native_reimpl_only():
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "noborus__ov.b96c2ba",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
-        "spec": {"path": "corpus/programbench/specs/noborus__ov.b96c2ba.json"},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "noborus__ov.b96c2ba",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
+            "spec": {"path": "corpus/programbench/specs/noborus__ov.b96c2ba.json"},
+        }
+    )
 
     assert route.verdict == "needs-native-reimpl"
     assert route.official_eval_allowed is False
@@ -30,12 +32,15 @@ def test_upstream_source_is_native_reimpl_only():
 def test_upstream_source_with_green_local_oracle_can_reach_official_gate():
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "yoav-lavi__melody.f4af9b4",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
-        "spec": {"path": "corpus/programbench/specs/yoav-lavi__melody.f4af9b4.json"},
-    }, oracle_result={"passed": 12, "total": 12})
+    route = route_from_corpus(
+        {
+            "slug": "yoav-lavi__melody.f4af9b4",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
+            "spec": {"path": "corpus/programbench/specs/yoav-lavi__melody.f4af9b4.json"},
+        },
+        oracle_result={"passed": 12, "total": 12},
+    )
 
     assert route.verdict == "oracle-green-ready-for-official"
     assert route.official_eval_allowed is True
@@ -45,13 +50,16 @@ def test_upstream_source_with_green_local_oracle_can_reach_official_gate():
 def test_reimpl_skill_requires_local_oracle_before_official_eval():
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "wfxr__csview.8ac4de0",
-        "engine": "reimpl-skill-oracle",
-        "source_shape": {"class": "reimpl-candidate", "source_files": 2},
-        "spec": {"path": "corpus/programbench/specs/wfxr__csview.8ac4de0.json"},
-        "reimpl_skill": {"path": "corpus/programbench/reimpl_skills/csview.json"},
-    }, current_verdict="near-lock")
+    route = route_from_corpus(
+        {
+            "slug": "wfxr__csview.8ac4de0",
+            "engine": "reimpl-skill-oracle",
+            "source_shape": {"class": "reimpl-candidate", "source_files": 2},
+            "spec": {"path": "corpus/programbench/specs/wfxr__csview.8ac4de0.json"},
+            "reimpl_skill": {"path": "corpus/programbench/reimpl_skills/csview.json"},
+        },
+        current_verdict="near-lock",
+    )
 
     assert route.verdict == "needs-local-oracle-tail"
     assert route.official_eval_allowed is False
@@ -63,12 +71,15 @@ def test_reimpl_skill_requires_local_oracle_before_official_eval():
 def test_oracle_green_candidate_is_allowed_to_reach_official_eval():
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "ducaale__xh.4a6e44f",
-        "engine": "spec-local-oracle",
-        "source_shape": {"class": "reimpl-candidate", "source_files": 3},
-        "spec": {"path": "corpus/programbench/specs/ducaale__xh.4a6e44f.json"},
-    }, oracle_result={"passed": 335, "total": 335})
+    route = route_from_corpus(
+        {
+            "slug": "ducaale__xh.4a6e44f",
+            "engine": "spec-local-oracle",
+            "source_shape": {"class": "reimpl-candidate", "source_files": 3},
+            "spec": {"path": "corpus/programbench/specs/ducaale__xh.4a6e44f.json"},
+        },
+        oracle_result={"passed": 335, "total": 335},
+    )
 
     assert route.verdict == "oracle-green-ready-for-official"
     assert route.official_eval_allowed is True
@@ -79,11 +90,13 @@ def test_oracle_green_candidate_is_allowed_to_reach_official_eval():
 def test_missing_spec_routes_to_extraction_first():
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "somebody__newtool.1234567",
-        "engine": "extract-spec-first",
-        "source_shape": {"class": "reimpl-candidate", "source_files": 1},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "somebody__newtool.1234567",
+            "engine": "extract-spec-first",
+            "source_shape": {"class": "reimpl-candidate", "source_files": 1},
+        }
+    )
 
     assert route.verdict == "needs-spec-extraction"
     assert route.official_eval_allowed is False
@@ -92,9 +105,9 @@ def test_missing_spec_routes_to_extraction_first():
 
 def test_autodrive_routes_before_repack_or_eval():
     src = (ROOT / "scripts" / "determinex_pb_autodrive.py").read_text(encoding="utf-8")
-    body = src[src.index("def drive_one("):]
+    body = src[src.index("def drive_one(") :]
 
-    route_idx = body.index("route_from_corpus({**consult0, \"slug\": slug})")
+    route_idx = body.index('route_from_corpus({**consult0, "slug": slug})')
     repack_idx = body.index("tarball = _repack(slug)")
     fresh_idx = body.index("data, c, v = _fresh_eval(slug, tarball)")
 

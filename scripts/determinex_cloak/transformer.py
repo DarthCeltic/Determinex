@@ -4,12 +4,12 @@ determinex_cloak/transformer.py — Components 4 & 5: ASTTransformer + IssueText
 Python AST-based identifier substitution (forward map).
 Also handles comment stripping and docstring token substitution (Option D).
 """
+
 from __future__ import annotations
 
 import ast
 import logging
 import re
-from typing import Optional
 
 from .symbol_map import SymbolMap
 
@@ -57,13 +57,13 @@ class _CloakTransformer(ast.NodeTransformer):
 
 def _strip_inline_comment(line: str) -> str:
     """Strip trailing # comment, respecting string literals."""
-    in_str: Optional[str] = None
+    in_str: str | None = None
     i = 0
     while i < len(line):
         c = line[i]
         if in_str == "triple":
             for delim in ('"""', "'''"):
-                if line[i:i+3] == delim:
+                if line[i : i + 3] == delim:
                     in_str = None
                     i += 3
                     break
@@ -77,7 +77,7 @@ def _strip_inline_comment(line: str) -> str:
                 in_str = None
         else:
             for delim in ('"""', "'''"):
-                if line[i:i+3] == delim:
+                if line[i : i + 3] == delim:
                     in_str = "triple"
                     i += 3
                     break
@@ -102,9 +102,11 @@ def _process_source_text(source: str, forward: dict[str, str]) -> str:
         return source
 
     sorted_keys = sorted(forward.keys(), key=len, reverse=True)
-    _pattern = re.compile(
-        r'\b(?:' + '|'.join(re.escape(k) for k in sorted_keys) + r')\b'
-    ) if sorted_keys else None
+    _pattern = (
+        re.compile(r"\b(?:" + "|".join(re.escape(k) for k in sorted_keys) + r")\b")
+        if sorted_keys
+        else None
+    )
 
     def _subst(text: str) -> str:
         if _pattern is None:
@@ -173,13 +175,13 @@ def obfuscate_source(source: str, symbol_map: SymbolMap) -> str:
         sorted_keys = sorted(symbol_map.forward.keys(), key=len, reverse=True)
         result = processed
         for key in sorted_keys:
-            result = re.sub(r'\b' + re.escape(key) + r'\b',
-                            symbol_map.forward[key], result)
+            result = re.sub(r"\b" + re.escape(key) + r"\b", symbol_map.forward[key], result)
         return result
     except Exception as e:
         # Import here to avoid a top-level cycle (determinex_cloak/__init__.py
         # imports from transformer).
         from . import CloakObfuscationError
+
         log.error("Cloak: obfuscation FAILED — refusing to return plaintext: %s", e)
         raise CloakObfuscationError(
             path="",
@@ -198,5 +200,5 @@ def obfuscate_issue_text(issue_text: str, symbol_map: SymbolMap) -> str:
     sorted_keys = sorted(symbol_map.forward.keys(), key=len, reverse=True)
     result = issue_text
     for key in sorted_keys:
-        result = re.sub(r'\b' + re.escape(key) + r'\b', symbol_map.forward[key], result)
+        result = re.sub(r"\b" + re.escape(key) + r"\b", symbol_map.forward[key], result)
     return result

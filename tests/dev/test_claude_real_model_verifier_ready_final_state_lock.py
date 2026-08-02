@@ -1,4 +1,5 @@
 """Tests for CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -20,8 +21,12 @@ assemble = final_mod.assemble_real_model_verifier_ready_final_state
 upstream_locks = final_mod.upstream_locks
 TOKENS = rec_mod.CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_TOKENS
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_LOCK_001.json"
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "claude_real_model_verifier_ready_final_state"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "CLAUDE_REAL_MODEL_VERIFIER_READY_FINAL_STATE_LOCK_001.json"
+)
+EVIDENCE_DIR = (
+    _REPO_ROOT / "assurance" / "evidence" / "claude_real_model_verifier_ready_final_state"
+)
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 

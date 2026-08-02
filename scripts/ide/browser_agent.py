@@ -15,15 +15,18 @@ import argparse
 import hashlib
 import json
 import sys
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 
 def _ensure_playwright() -> None:
     try:
         from playwright.sync_api import sync_playwright  # noqa: F401
     except ImportError:
-        print("ERROR: playwright not installed. Run: pip install playwright && playwright install chromium", file=sys.stderr)
+        print(
+            "ERROR: playwright not installed. Run: pip install playwright && playwright install chromium",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
 
@@ -54,7 +57,11 @@ def cmd_navigate(url: str, screenshot_path: str | None, extract_text: bool) -> d
 def cmd_click(url: str, selector: str, screenshot_path: str | None) -> dict:
     from playwright.sync_api import sync_playwright
 
-    result: dict = {"url": url, "selector": selector, "timestamp": datetime.utcnow().isoformat() + "Z"}
+    result: dict = {
+        "url": url,
+        "selector": selector,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+    }
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page(viewport={"width": 1280, "height": 900})

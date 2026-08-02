@@ -10,7 +10,9 @@ This makes that whole class IMPOSSIBLE to commit. Rejects, in tracked text files
   * classic mojibake sequences (UTF-8 mis-decoded as Latin-1: Ã©, â€™, â€œ, Ã¢, ...)
 Run as a pre-commit hook over staged files, or `--all` to scan the tree.
 """
+
 from __future__ import annotations
+
 import subprocess
 import sys
 from pathlib import Path
@@ -18,17 +20,37 @@ from pathlib import Path
 _SCRIPT_EXT = (".sh", ".bash", ".zsh")
 # Line endings these may legitimately keep -- never flag CRLF here.
 _CRLF_OK_EXT = (".bat", ".cmd", ".ps1", ".sln", ".vcxproj")
-_TEXT_EXT = (".sh", ".bash", ".py", ".go", ".rs", ".c", ".h", ".cpp", ".js", ".ts",
-             ".md", ".json", ".yaml", ".yml", ".toml", ".cfg", ".txt")
-_MOJIBAKE = ("Ã©", "â€™", "â€œ", "â€",
-             "Ã¨", "Ã ", "Ã¼", "Â ", "â€“")
+_TEXT_EXT = (
+    ".sh",
+    ".bash",
+    ".py",
+    ".go",
+    ".rs",
+    ".c",
+    ".h",
+    ".cpp",
+    ".js",
+    ".ts",
+    ".md",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".toml",
+    ".cfg",
+    ".txt",
+)
+_MOJIBAKE = ("Ã©", "â€™", "â€œ", "â€", "Ã¨", "Ã ", "Ã¼", "Â ", "â€“")
 
 
 def _git_eol_rows() -> list[tuple[str, str, str, str]]:
     """(index_eol, worktree_eol, attr, path) for every tracked file. Empty if not a git repo."""
     try:
-        out = subprocess.run(["git", "ls-files", "--eol"], capture_output=True, text=True,
-                             cwd=Path(__file__).resolve().parent.parent).stdout
+        out = subprocess.run(
+            ["git", "ls-files", "--eol"],
+            capture_output=True,
+            text=True,
+            cwd=Path(__file__).resolve().parent.parent,
+        ).stdout
     except Exception:
         return []
     rows = []
@@ -51,7 +73,7 @@ def committed_crlf_violations() -> list[str]:
             continue
         if path.lower().endswith(_CRLF_OK_EXT):
             continue
-        if "-text" in attr:          # binary / explicitly un-normalized (sbom hashes etc.)
+        if "-text" in attr:  # binary / explicitly un-normalized (sbom hashes etc.)
             continue
         bad.append(path)
     return bad
@@ -70,8 +92,10 @@ def crlf_report() -> int:
     print(f"  worktree CRLF (autocrlf checkout, i/lf)  : {wt_crlf}   (normal on Windows, harmless)")
     if viol:
         from collections import Counter
-        by_ext = Counter(p[p.rfind("."):] if "." in p.rsplit("/", 1)[-1] else "(noext)"
-                         for p in viol)
+
+        by_ext = Counter(
+            p[p.rfind(".") :] if "." in p.rsplit("/", 1)[-1] else "(noext)" for p in viol
+        )
         print("  committed-CRLF violations by type:")
         for e, c in by_ext.most_common():
             print(f"     {e:10} {c}")
@@ -90,8 +114,9 @@ def fix_crlf() -> int:
     subprocess.run(["git", "add", "--renormalize", "."], cwd=root, check=False)
     after = committed_crlf_violations()
     print(f"after `git add --renormalize .`: {len(after)} remaining")
-    staged = subprocess.run(["git", "diff", "--cached", "--name-only"], cwd=root,
-                            capture_output=True, text=True).stdout.split()
+    staged = subprocess.run(
+        ["git", "diff", "--cached", "--name-only"], cwd=root, capture_output=True, text=True
+    ).stdout.split()
     print(f"renormalized (staged) files: {len(staged)}")
     for f in staged[:40]:
         print(f"   staged  {f}")
@@ -122,13 +147,37 @@ def check_file(p: Path) -> list[str]:
 
 
 # ML/model artifacts have legitimate byte-level tokens that LOOK like mojibake; skip them.
-_SKIP = ("fine_tuning", "outputs", "checkpoint", "tokenizer", "vocab", "merges",
-         "node_modules", ".venv", "__pycache__", "/models/", "rosetta", "mojibake", "fix_mojibake",
-         "/units/", "fixtures", "test_resources", "action_sheets", "/results/",
-         ".d/", "input.", "expected.", "/golden")
+_SKIP = (
+    "fine_tuning",
+    "outputs",
+    "checkpoint",
+    "tokenizer",
+    "vocab",
+    "merges",
+    "node_modules",
+    ".venv",
+    "__pycache__",
+    "/models/",
+    "rosetta",
+    "mojibake",
+    "fix_mojibake",
+    "/units/",
+    "fixtures",
+    "test_resources",
+    "action_sheets",
+    "/results/",
+    ".d/",
+    "input.",
+    "expected.",
+    "/golden",
+)
+
+
 def _skip(p):
     s = str(p).replace("\\", "/").lower()
     return any(k in s for k in _SKIP)
+
+
 def main() -> int:
     if "--crlf-report" in sys.argv:
         return crlf_report()
@@ -139,8 +188,9 @@ def main() -> int:
         files = [p for p in Path("scripts").rglob("*") if p.suffix in _TEXT_EXT and not _skip(p)]
         # tool-level Determinex-authored .sh only (compile.sh/reimpl_compile.sh/build*.sh) --
         # NOT nested vendor trees (source/, t/ test suites have legit non-UTF-8/CRLF fixtures).
-        files += [p for p in Path("corpus/programbench/per_tool_overrides").glob("*/*.sh")
-                  if not _skip(p)]
+        files += [
+            p for p in Path("corpus/programbench/per_tool_overrides").glob("*/*.sh") if not _skip(p)
+        ]
     else:
         files = [Path(a) for a in args if Path(a).suffix in _TEXT_EXT and not _skip(Path(a))]
     bad = {}

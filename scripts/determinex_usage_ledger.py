@@ -26,6 +26,7 @@ CLI
     python scripts/determinex_usage_ledger.py summary [--window-hours 24]
     python scripts/determinex_usage_ledger.py cli-status
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -37,7 +38,7 @@ ROOT = Path(__file__).resolve().parent.parent
 LEDGER_PATH = ROOT / "logs" / "api_ledger" / "providers.jsonl"
 
 
-def summarize_ledger(window_hours: "float | None" = 24.0) -> dict:
+def summarize_ledger(window_hours: float | None = 24.0) -> dict:
     """Aggregate real spend from the ledger, optionally windowed to the last
     N hours (None = all-time). Streams the file rather than loading it whole."""
     if not LEDGER_PATH.exists():
@@ -45,14 +46,14 @@ def summarize_ledger(window_hours: "float | None" = 24.0) -> dict:
 
     cutoff = None
     if window_hours is not None:
-        cutoff = _dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=window_hours)
+        cutoff = _dt.datetime.now(_dt.UTC) - _dt.timedelta(hours=window_hours)
 
     providers: dict = {}
     total_usd = 0.0
     total_calls = 0
     malformed = 0
 
-    with open(LEDGER_PATH, "r", encoding="utf-8") as f:
+    with open(LEDGER_PATH, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line:
@@ -71,9 +72,16 @@ def summarize_ledger(window_hours: "float | None" = 24.0) -> dict:
                     continue
             model = row.get("model", "unknown")
             provider = model.split("/", 1)[0] if "/" in model else model
-            entry = providers.setdefault(provider, {
-                "calls": 0, "tokens_in": 0, "tokens_out": 0, "est_usd": 0.0, "models": set(),
-            })
+            entry = providers.setdefault(
+                provider,
+                {
+                    "calls": 0,
+                    "tokens_in": 0,
+                    "tokens_out": 0,
+                    "est_usd": 0.0,
+                    "models": set(),
+                },
+            )
             entry["calls"] += 1
             entry["tokens_in"] += int(row.get("tokens_in", 0) or 0)
             entry["tokens_out"] += int(row.get("tokens_out", 0) or 0)
@@ -106,8 +114,10 @@ def cli_subscription_status() -> dict:
         "session credentials already on this machine -- would need a separate, "
         "explicitly-provided admin/org-scoped API key for that provider."
     )
-    return {name: {"available": False, "reason": reason}
-            for name in ("claude-code", "codex", "gemini-cli")}
+    return {
+        name: {"available": False, "reason": reason}
+        for name in ("claude-code", "codex", "gemini-cli")
+    }
 
 
 def main() -> int:
@@ -118,7 +128,9 @@ def main() -> int:
 
     p_summary = sub.add_parser("summary")
     p_summary.add_argument("--window-hours", type=float, default=24.0)
-    p_summary.add_argument("--all-time", action="store_true", help="ignore --window-hours, summarize everything")
+    p_summary.add_argument(
+        "--all-time", action="store_true", help="ignore --window-hours, summarize everything"
+    )
 
     sub.add_parser("cli-status")
 

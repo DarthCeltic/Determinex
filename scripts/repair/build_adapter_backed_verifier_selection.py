@@ -13,13 +13,13 @@ Decisions:
   - BLOCKED_HARDENED_RUNNER        — hardened runner module missing
   - BLOCKED_WORKSPACE_MISSING      — workspace path does not exist
 """
+
 from __future__ import annotations
 
 import importlib
 import shlex
 import sys
 from pathlib import Path
-from typing import Optional
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -33,7 +33,6 @@ from .build_adapter_backed_verifier_selection_record import (
     BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_STATUS_TOKENS,
     BuildAdapterBackedVerifierSelectionRecord,
 )
-
 
 _HARDENED_RUNNER_MODULE = "intake.hardened_runner"
 
@@ -49,7 +48,7 @@ def _hardened_runner_available() -> bool:
 def select_verifier(
     *,
     workspace: Path,
-    registry: Optional[BuildAdapterRegistry] = None,
+    registry: BuildAdapterRegistry | None = None,
 ) -> BuildAdapterBackedVerifierSelectionRecord:
     ws = Path(workspace).resolve()
     reg = registry or BuildAdapterRegistry()

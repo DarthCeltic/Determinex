@@ -22,11 +22,11 @@ This rung does NOT mutate any existing source. It is a
 boundary-validator a downstream rung (e.g. the apply gate) can
 require.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 OPERATOR_IDENTITY_BOUNDING_STATUS_TOKENS = (
     "OPERATOR_IDENTITY_BOUNDING_PASSED",
@@ -48,6 +48,7 @@ _MAX_DISPLAY_NAME_LEN = 256
 @dataclass(frozen=True)
 class BoundedOperatorIdentity:
     """The fields a Claude-source-mutation approval is bound to."""
+
     operator_id: str
     display_name: str
     signing_key_ref: str  # hex sha256 of the per-host secret file path
@@ -79,7 +80,10 @@ class BoundedOperatorIdentity:
             return False
         if not isinstance(self.timestamp, str) or not self.timestamp:
             return False
-        if not isinstance(self.workspace_identity_hash, str) or len(self.workspace_identity_hash) != 64:
+        if (
+            not isinstance(self.workspace_identity_hash, str)
+            or len(self.workspace_identity_hash) != 64
+        ):
             return False
         try:
             int(self.workspace_identity_hash, 16)

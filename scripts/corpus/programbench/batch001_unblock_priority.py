@@ -12,7 +12,11 @@ _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from corpus.programbench.batch001_unblock_priority_record import make_priority_record, write_priority_record
+from corpus.programbench.batch001_unblock_priority_record import (
+    make_priority_record,
+    write_priority_record,
+)
+from corpus.programbench.operator_ready_platform import DOXYGEN_FINAL_STATE
 from corpus.programbench.programbench_campaign_platform import (
     ACTION_QUEUE,
     CAMPAIGN_STATUS_BOARD,
@@ -20,8 +24,6 @@ from corpus.programbench.programbench_campaign_platform import (
     EVIDENCE_GRAPH,
     RERUN_READINESS_MATRIX,
 )
-from corpus.programbench.operator_ready_platform import DOXYGEN_FINAL_STATE
-
 
 BATCH_STATE = Path(
     "assurance/evidence/programbench_batch001_state/"
@@ -83,7 +85,9 @@ class ProgramBenchBatch001UnblockPriority:
             )
             for state in states
         ]
-        ranked.sort(key=lambda row: (DIFFICULTY_ORDER[row["estimated_difficulty"]], row["rank_tiebreaker"]))
+        ranked.sort(
+            key=lambda row: (DIFFICULTY_ORDER[row["estimated_difficulty"]], row["rank_tiebreaker"])
+        )
         for index, row in enumerate(ranked, start=1):
             row["rank"] = index
             row.pop("rank_tiebreaker", None)
@@ -137,7 +141,13 @@ class ProgramBenchBatch001UnblockPriority:
             },
         )
         if self.config.write_records:
-            write_priority_record(record, self.config.root / "assurance" / "evidence" / "programbench_batch001_unblock_priority")
+            write_priority_record(
+                record,
+                self.config.root
+                / "assurance"
+                / "evidence"
+                / "programbench_batch001_unblock_priority",
+            )
         return record
 
     def _read(self, path: Path) -> dict[str, Any]:
@@ -155,14 +165,21 @@ def _priority_row(
 ) -> dict[str, Any]:
     instance_id = state.get("instance_id", "")
     is_doxygen = instance_id == DOXYGEN_INSTANCE
-    image_metadata_status = "PRESENT" if state.get("image_name") and state.get("image_digest") else "MISSING"
+    image_metadata_status = (
+        "PRESENT" if state.get("image_name") and state.get("image_digest") else "MISSING"
+    )
     provider_manifest_status = _provider_manifest_status(probe)
     scan_status = state.get("scan_status", "SCAN_NOT_EVALUATED")
     required_action = recovery_item.get("required_action") or _required_action_from_state(state)
     current_blocker = _current_blocker(state, required_action)
     estimated_difficulty = _estimate_difficulty(state, required_action, probe)
-    exact_operator_packet = ACTION_TO_PACKET.get(action.get("action_type", ""), _packet_for_required_action(required_action))
-    can_proceed_without_policy = exact_operator_packet in {"image_metadata_submission", "operator_provenance_submission"} and not is_doxygen
+    exact_operator_packet = ACTION_TO_PACKET.get(
+        action.get("action_type", ""), _packet_for_required_action(required_action)
+    )
+    can_proceed_without_policy = (
+        exact_operator_packet in {"image_metadata_submission", "operator_provenance_submission"}
+        and not is_doxygen
+    )
     lower_burden = not is_doxygen and scan_status == "SCAN_NOT_EVALUATED"
     return {
         "instance_id": instance_id,
@@ -170,7 +187,9 @@ def _priority_row(
         "image_name": state.get("image_name", ""),
         "image_digest": state.get("image_digest", ""),
         "current_blocker": current_blocker,
-        "artifact_authority_status": state.get("artifact_authority", "ARTIFACT_AUTHORITY_INCONCLUSIVE"),
+        "artifact_authority_status": state.get(
+            "artifact_authority", "ARTIFACT_AUTHORITY_INCONCLUSIVE"
+        ),
         "image_metadata_status": image_metadata_status,
         "provider_manifest_status": provider_manifest_status,
         "scan_status": scan_status,
@@ -181,7 +200,9 @@ def _priority_row(
         "estimated_difficulty": estimated_difficulty,
         "exact_operator_packet_needed": exact_operator_packet,
         "operator_action_type": action.get("action_type", ""),
-        "why_easier_or_harder_than_doxygen": _relative_to_doxygen(is_doxygen, estimated_difficulty, provider_manifest_status),
+        "why_easier_or_harder_than_doxygen": _relative_to_doxygen(
+            is_doxygen, estimated_difficulty, provider_manifest_status
+        ),
         "can_proceed_without_security_policy_admission_for_next_step": can_proceed_without_policy,
         "lower_scan_security_burden_than_doxygen": lower_burden,
         "execution_authorized": False,
@@ -306,11 +327,15 @@ def _rel(path: Path) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Write the ProgramBench Batch001 unblock priority record.")
+    parser = argparse.ArgumentParser(
+        description="Write the ProgramBench Batch001 unblock priority record."
+    )
     parser.add_argument("--json", action="store_true", help="Print the priority record JSON.")
     parser.add_argument("--no-write", action="store_true", help="Do not write signed evidence.")
     args = parser.parse_args(argv)
-    record = ProgramBenchBatch001UnblockPriority(PriorityConfig(write_records=not args.no_write)).build()
+    record = ProgramBenchBatch001UnblockPriority(
+        PriorityConfig(write_records=not args.no_write)
+    ).build()
     if args.json:
         print(json.dumps(record, indent=2, sort_keys=True))
     return 0

@@ -16,6 +16,7 @@ Public API:
 The cache lives at `c:/Dev/Determinex/logs/eval_cache/<sha>.json`.
 Key = sha256 of the submission tarball.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -32,12 +33,13 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 import os as _os
+
 PROGRAMBENCH_DIR = Path(_os.environ.get("PROGRAMBENCH_DIR", "T:/Dev/ProgramBench"))
-DETERMINEX_ROOT     = Path(_os.environ.get("DETERMINEX_ROOT", Path(__file__).resolve().parents[1]))
-PB_STAGING_ROOT  = Path(_os.environ.get("DETERMINEX_PB_STAGING_ROOT", "T:/determinex-staging"))
+DETERMINEX_ROOT = Path(_os.environ.get("DETERMINEX_ROOT", Path(__file__).resolve().parents[1]))
+PB_STAGING_ROOT = Path(_os.environ.get("DETERMINEX_PB_STAGING_ROOT", "T:/determinex-staging"))
 DOCKER_CONFIG_FALLBACK = PB_STAGING_ROOT / "docker-config"
-EVAL_CACHE_DIR   = DETERMINEX_ROOT / "logs" / "eval_cache"
-EVAL_TIMEOUT     = 1200  # 20 min per instance — generous for cold HF pulls
+EVAL_CACHE_DIR = DETERMINEX_ROOT / "logs" / "eval_cache"
+EVAL_TIMEOUT = 1200  # 20 min per instance — generous for cold HF pulls
 MAX_FAILURES_FED_BACK = 40  # was 12; DeepSeek 64K can hold the breadth signal
 
 from programbench_resource_guard import build_eval_cmd, describe_policy  # noqa: E402
@@ -56,10 +58,10 @@ def _eval_env() -> dict[str, str]:
 
 @dataclass
 class EvalResult:
-    score: int = 0          # 0-100
+    score: int = 0  # 0-100
     passed: int = 0
-    total: int = 0          # passed + failed (excludes not_run)
-    not_run: int = 0        # tests missing from JUnit XML — invisible to score but block lock
+    total: int = 0  # passed + failed (excludes not_run)
+    not_run: int = 0  # tests missing from JUnit XML — invisible to score but block lock
     failures: list[dict] = field(default_factory=list)
     cached: bool = False
     error: str = ""
@@ -94,8 +96,12 @@ class EvalResult:
         ]
         # ── PRESERVATION DIRECTIVE — always first so model sees it before anything else ──
         if self.passed > 0:
-            lines.append(f"⚠ PRESERVE {self.passed} PASSING TESTS: Your code currently passes {self.passed}/{self.total} tests.")
-            lines.append(  "  Do NOT regress them. Fix only what is explicitly listed as failing below.")
+            lines.append(
+                f"⚠ PRESERVE {self.passed} PASSING TESTS: Your code currently passes {self.passed}/{self.total} tests."
+            )
+            lines.append(
+                "  Do NOT regress them. Fix only what is explicitly listed as failing below."
+            )
             lines.append("")
         # ── NOT_RUN / JUNIT PACKAGING ANALYSIS — second priority after preservation.
         # not_run means the test exists in tests.json but your binary produced no JUnit XML
@@ -103,38 +109,63 @@ class EvalResult:
         if self.not_run > 0 and self.branch_breakdown:
             silent_branches = [b for b, c in self.branch_breakdown.items() if c.get("silent")]
             partial_branches = [
-                (b, c) for b, c in self.branch_breakdown.items()
+                (b, c)
+                for b, c in self.branch_breakdown.items()
                 if c.get("not_run", 0) > 0 and not c.get("silent")
             ]
-            lines.append(f"🔇 NOT_RUN WARNING: {self.not_run} tests are missing from your JUnit XML output.")
-            lines.append( "   These tests exist in ProgramBench's test suite but your binary produced NO result for them.")
-            lines.append( "   The gate CANNOT lock with any not_run tests — they count as unresolved.")
+            lines.append(
+                f"🔇 NOT_RUN WARNING: {self.not_run} tests are missing from your JUnit XML output."
+            )
+            lines.append(
+                "   These tests exist in ProgramBench's test suite but your binary produced NO result for them."
+            )
+            lines.append(
+                "   The gate CANNOT lock with any not_run tests — they count as unresolved."
+            )
             lines.append("")
             if silent_branches:
-                lines.append(f"   SILENT BRANCHES ({len(silent_branches)}) — binary runs but emits NO JUnit XML at all:")
+                lines.append(
+                    f"   SILENT BRANCHES ({len(silent_branches)}) — binary runs but emits NO JUnit XML at all:"
+                )
                 for b in silent_branches[:8]:
                     c = self.branch_breakdown[b]
                     lines.append(f"     branch {b}: 0 passed, 0 failed, {c['not_run']} not_run")
-                lines.append( "   FIX: These branches likely have a different invocation pattern (different flags,")
-                lines.append( "        stdin format, or env vars) that your binary doesn't handle. The binary exits")
-                lines.append( "        cleanly but produces no parseable output. Check compile.sh exec wrapper.")
+                lines.append(
+                    "   FIX: These branches likely have a different invocation pattern (different flags,"
+                )
+                lines.append(
+                    "        stdin format, or env vars) that your binary doesn't handle. The binary exits"
+                )
+                lines.append(
+                    "        cleanly but produces no parseable output. Check compile.sh exec wrapper."
+                )
             if partial_branches:
-                lines.append(f"   PARTIAL BRANCHES ({len(partial_branches)}) — some tests run, some not_run:")
+                lines.append(
+                    f"   PARTIAL BRANCHES ({len(partial_branches)}) — some tests run, some not_run:"
+                )
                 for b, c in sorted(partial_branches, key=lambda x: -x[1]["not_run"])[:6]:
-                    lines.append(f"     branch {b}: {c['passed']} passed, {c['failed']} failed, {c['not_run']} not_run")
+                    lines.append(
+                        f"     branch {b}: {c['passed']} passed, {c['failed']} failed, {c['not_run']} not_run"
+                    )
             lines.append("")
         # ── FAILURE PATTERN ANALYSIS — shows the model that 47 'ci_flag' failures
         # ── are ONE missing implementation, not 47 separate problems. THE highest-leverage
         # ── piece of feedback for breaking score plateaus.
         if self.categories:
             lines.append(f"━━━ FAILURE SIGNATURE ANALYSIS ({n_failed} total failures) ━━━")
-            lines.append("Failures clustered by SHAPE (returncode + stderr + assertion type) — each cluster = ONE distinct bug.")
+            lines.append(
+                "Failures clustered by SHAPE (returncode + stderr + assertion type) — each cluster = ONE distinct bug."
+            )
             lines.append("")
             top_cat = self.categories[0] if self.categories else None
             top_pct = int(100 * top_cat["count"] / max(n_failed, 1)) if top_cat else 0
             if top_cat:
-                lines.append(f"⚡ YOUR SOLE OBJECTIVE THIS ATTEMPT: Fix cluster #1 ({top_cat['count']} tests, {top_pct}% of failures).")
-                lines.append( "   Only after cluster #1 is at 0 failures should you touch anything else.")
+                lines.append(
+                    f"⚡ YOUR SOLE OBJECTIVE THIS ATTEMPT: Fix cluster #1 ({top_cat['count']} tests, {top_pct}% of failures)."
+                )
+                lines.append(
+                    "   Only after cluster #1 is at 0 failures should you touch anything else."
+                )
                 lines.append("")
             for i, c in enumerate(self.categories[:8], 1):
                 pct = 100 * c["count"] / max(n_failed, 1)
@@ -142,30 +173,40 @@ class EvalResult:
                 lines.append(f"  #{i}  [{c['count']:>3} tests, {pct:>4.1f}%]  {priority}")
                 lines.append(f"        signature: {c['category']}")
                 if c.get("sample_names"):
-                    lines.append(f"        tests in this cluster: {', '.join(c['sample_names'][:3])}")
+                    lines.append(
+                        f"        tests in this cluster: {', '.join(c['sample_names'][:3])}"
+                    )
                 # Show 1-2 actual messages so model sees the failure shape, not a misleading "common" one
                 for j, m in enumerate(c.get("sample_messages", [])[:2]):
                     snippet = m[:160].replace("\n", " ")
-                    lines.append(f"        msg sample {j+1}: {snippet}")
+                    lines.append(f"        msg sample {j + 1}: {snippet}")
             lines.append("━━━ END SIGNATURE ANALYSIS ━━━")
             lines.append("")
-        lines.append(f"Top {min(len(self.failures), MAX_FAILURES_FED_BACK)} individual failing tests (sampled across files for breadth):")
+        lines.append(
+            f"Top {min(len(self.failures), MAX_FAILURES_FED_BACK)} individual failing tests (sampled across files for breadth):"
+        )
         for f in self.failures[:MAX_FAILURES_FED_BACK]:
             lines.append(f"\n--- {f['name']} ---")
             # GROUND TRUTH (fix #4): if we ran the reference binary with this test's
             # input, show its output. Model MUST match this byte-exactly.
             ref = f.get("reference_output")
             ref_inv = f.get("reference_invocation")
-            if ref and ref.get("error") == "" and (ref.get("stdout") or ref.get("stderr") or ref.get("returncode") is not None):
+            if (
+                ref
+                and ref.get("error") == ""
+                and (ref.get("stdout") or ref.get("stderr") or ref.get("returncode") is not None)
+            ):
                 args_disp = ref_inv.get("args", []) if ref_inv else []
                 stdin_disp = (ref_inv.get("stdin_preview", "") if ref_inv else "")[:120]
-                lines.append(f"  REFERENCE BINARY OUTPUT (run original tool with these args/stdin — match byte-exactly):")
+                lines.append(
+                    "  REFERENCE BINARY OUTPUT (run original tool with these args/stdin — match byte-exactly):"
+                )
                 lines.append(f"    args:   {args_disp}")
                 if stdin_disp:
                     lines.append(f"    stdin:  {stdin_disp}")
                 lines.append(f"    returncode: {ref['returncode']}")
                 if ref.get("stdout"):
-                    lines.append(f"    stdout (first 400 chars):")
+                    lines.append("    stdout (first 400 chars):")
                     for ln in ref["stdout"][:400].split("\n")[:12]:
                         lines.append(f"      | {ln}")
                 if ref.get("stderr"):
@@ -177,12 +218,14 @@ class EvalResult:
                 for ln in fix_content.split("\n")[:30]:
                     lines.append(f"    | {ln}")
                 if fix_content.count("\n") > 30:
-                    lines.append(f"    | ... [+{fix_content.count(chr(10))-30} more lines]")
+                    lines.append(f"    | ... [+{fix_content.count(chr(10)) - 30} more lines]")
             exp = f.get("expected", "")
             act = f.get("actual", "")
             if exp or act:
-                if exp: lines.append(f"  EXPECTED (inline): {exp}")
-                if act: lines.append(f"  ACTUAL:   {act}")
+                if exp:
+                    lines.append(f"  EXPECTED (inline): {exp}")
+                if act:
+                    lines.append(f"  ACTUAL:   {act}")
             msg = f.get("message", "")[:600]
             lines.append(f"  Failure detail: {msg}")
             tc = f.get("test_code", "")[:1000]
@@ -300,12 +343,18 @@ def _categorize_failures(failed_results: list[dict], top_k: int = 8) -> list[dic
 
         # Component 3: assertion shape (what was being checked)
         assertion_shape = ""
-        if "in stdout" in msg.lower():       assertion_shape = "in_stdout"
-        elif "in stderr" in msg.lower():     assertion_shape = "in_stderr"
-        elif re.search(r"returncode\s*==", msg): assertion_shape = "returncode_eq"
-        elif "stdout ==" in msg.lower():     assertion_shape = "stdout_eq"
-        elif "stderr ==" in msg.lower():     assertion_shape = "stderr_eq"
-        elif "assert" in msg.lower():        assertion_shape = "assert_other"
+        if "in stdout" in msg.lower():
+            assertion_shape = "in_stdout"
+        elif "in stderr" in msg.lower():
+            assertion_shape = "in_stderr"
+        elif re.search(r"returncode\s*==", msg):
+            assertion_shape = "returncode_eq"
+        elif "stdout ==" in msg.lower():
+            assertion_shape = "stdout_eq"
+        elif "stderr ==" in msg.lower():
+            assertion_shape = "stderr_eq"
+        elif "assert" in msg.lower():
+            assertion_shape = "assert_other"
 
         # Build signature key — combination of (returncode, assertion shape, stderr fingerprint)
         if stderr_sig:
@@ -325,13 +374,15 @@ def _categorize_failures(failed_results: list[dict], top_k: int = 8) -> list[dic
 
     cats = []
     for key, items in by_cat.items():
-        cats.append({
-            "category": key[:200],
-            "count": len(items),
-            "sample_names": [n for n, _ in items[:3]],
-            # Include sample MESSAGES (one per test) so model sees variety even within a cluster
-            "sample_messages": [m for _, m in items[:2]],
-        })
+        cats.append(
+            {
+                "category": key[:200],
+                "count": len(items),
+                "sample_names": [n for n, _ in items[:3]],
+                # Include sample MESSAGES (one per test) so model sees variety even within a cluster
+                "sample_messages": [m for _, m in items[:2]],
+            }
+        )
     cats.sort(key=lambda c: -c["count"])
     return cats[:top_k]
 
@@ -339,6 +390,7 @@ def _categorize_failures(failed_results: list[dict], top_k: int = 8) -> list[dic
 def _extract_fixture_path(test_code: str) -> str:
     """Best-effort: find a fixture filename referenced in the test code."""
     import re
+
     # Common patterns:
     #   REPO_ROOT / "eval" / "tests" / "data" / "default_table.txt"
     #   "test_resources/test_core/expected_output.txt"
@@ -354,7 +406,9 @@ def _extract_fixture_path(test_code: str) -> str:
     return Path(candidates[0]).name
 
 
-def _parse_eval_json(eval_json_path: Path, instance_id: str = "") -> tuple[int, int, int, list[dict], str, dict[str, str], list[dict], dict[str, dict]]:
+def _parse_eval_json(
+    eval_json_path: Path, instance_id: str = ""
+) -> tuple[int, int, int, list[dict], str, dict[str, str], list[dict], dict[str, dict]]:
     """Returns (passed, total, not_run, failures, error_str, per_test_status, categories, branch_breakdown)."""
     try:
         d = json.loads(eval_json_path.read_text(encoding="utf-8"))
@@ -362,7 +416,7 @@ def _parse_eval_json(eval_json_path: Path, instance_id: str = "") -> tuple[int, 
         return 0, 0, 0, [], f"failed to parse eval JSON: {e}", {}, [], {}
 
     if d.get("error_code"):
-        err = f"eval error_code={d['error_code']} details={str(d.get('error_details',''))[:200]}"
+        err = f"eval error_code={d['error_code']} details={str(d.get('error_details', ''))[:200]}"
         return 0, 0, 0, [], err, {}, [], {}
 
     results = d.get("test_results", [])
@@ -372,7 +426,9 @@ def _parse_eval_json(eval_json_path: Path, instance_id: str = "") -> tuple[int, 
     failed = len(failed_results)
     not_run = len(not_run_results)
     total = passed + failed  # exclude not_run from denominator — matches board metric
-    per_test: dict[str, str] = {r.get("name", ""): r.get("status", "") for r in results if r.get("name")}
+    per_test: dict[str, str] = {
+        r.get("name", ""): r.get("status", "") for r in results if r.get("name")
+    }
 
     # Branch breakdown: tells the model which branches are emitting JUnit XML vs. silent.
     branch_breakdown: dict[str, dict] = {}
@@ -435,15 +491,19 @@ def _parse_eval_json(eval_json_path: Path, instance_id: str = "") -> tuple[int, 
         # output to the model. This is the actual ground truth for byte-exact tests.
         fixture_name = _extract_fixture_path(text)
         fixture_content = _resolve_fixture(instance_id, fixture_name) if fixture_name else ""
-        failures.append({
-            "name": r.get("name", "<unknown>"),
-            "message": msg[:800],
-            "test_code": text[:1200],  # bumped from 600 — tests with file fixtures need more context
-            "expected": expected,
-            "actual": actual,
-            "fixture_name": fixture_name,
-            "fixture_content": fixture_content,
-        })
+        failures.append(
+            {
+                "name": r.get("name", "<unknown>"),
+                "message": msg[:800],
+                "test_code": text[
+                    :1200
+                ],  # bumped from 600 — tests with file fixtures need more context
+                "expected": expected,
+                "actual": actual,
+                "fixture_name": fixture_name,
+                "fixture_content": fixture_content,
+            }
+        )
     return passed, total, not_run, failures, "", per_test, categories, branch_breakdown
 
 
@@ -451,18 +511,22 @@ def _extract_expected_actual(test_code: str, fail_msg: str) -> tuple[str, str]:
     """Best-effort regex parse of pytest assertion + failure message.
     Returns (expected_str, actual_str). Both may be empty if extraction failed."""
     import re
+
     expected, actual = "", ""
     m = re.search(
         r"assert\s+(?:result|out|res|r)\.(stdout|stderr|returncode)\s*==\s*(.+?)\s*$",
-        test_code, re.MULTILINE,
+        test_code,
+        re.MULTILINE,
     )
     if m:
         expected = f"{m.group(1)} == {m.group(2)[:200]}"
     cp = _extract_completed_process(fail_msg)
     if cp.get("returncode") is not None:
         parts = [f"returncode={cp['returncode']}"]
-        if cp.get("stdout"): parts.append(f"stdout={cp['stdout'][:200]}")
-        if cp.get("stderr"): parts.append(f"stderr={cp['stderr'][:300]}")
+        if cp.get("stdout"):
+            parts.append(f"stdout={cp['stdout'][:200]}")
+        if cp.get("stderr"):
+            parts.append(f"stderr={cp['stderr'][:300]}")
         actual = "  ".join(parts)
     return expected[:300], actual[:500]
 
@@ -475,18 +539,22 @@ def _extract_completed_process(fail_msg: str) -> dict:
     Returns dict with optional keys: args, returncode, stdout, stderr.
     """
     import re
+
     out: dict = {}
     cp = re.search(
         r"CompletedProcess\(\s*args=(\[[^\]]*\])\s*,\s*returncode=(\-?\d+)"
         r"(?:\s*,\s*stdout=(b?(?:[\"'][^\"']*[\"']|None)))?"
         r"(?:\s*,\s*stderr=(b?(?:[\"'][^\"']*[\"']|None)))?\s*\)",
-        fail_msg, re.DOTALL,
+        fail_msg,
+        re.DOTALL,
     )
     if cp:
-        out["args"]       = cp.group(1)[:300]
+        out["args"] = cp.group(1)[:300]
         out["returncode"] = int(cp.group(2))
-        if cp.group(3): out["stdout"] = cp.group(3)
-        if cp.group(4): out["stderr"] = cp.group(4)
+        if cp.group(3):
+            out["stdout"] = cp.group(3)
+        if cp.group(4):
+            out["stderr"] = cp.group(4)
     return out
 
 
@@ -554,10 +622,14 @@ def run_eval(
 
     try:
         proc = subprocess.run(
-            cmd, cwd=str(PROGRAMBENCH_DIR),
-            capture_output=True, text=True,
-            encoding="utf-8", errors="replace",
-            timeout=policy.timeout_seconds, env=env,
+            cmd,
+            cwd=str(PROGRAMBENCH_DIR),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=policy.timeout_seconds,
+            env=env,
         )
     except subprocess.TimeoutExpired:
         return EvalResult(error=f"eval timed out after {policy.timeout_seconds}s")
@@ -583,9 +655,13 @@ def run_eval(
             log_dump.write_text(err, encoding="utf-8", errors="replace")
         except Exception:
             pass
-        return EvalResult(error=f"no eval JSON written (full output in {log_dump}); first 2000 chars:\n{err[:2000]}")
+        return EvalResult(
+            error=f"no eval JSON written (full output in {log_dump}); first 2000 chars:\n{err[:2000]}"
+        )
 
-    passed, total, not_run, failures, err, per_test, categories, branch_breakdown = _parse_eval_json(eval_json, instance_id=instance_id)
+    passed, total, not_run, failures, err, per_test, categories, branch_breakdown = (
+        _parse_eval_json(eval_json, instance_id=instance_id)
+    )
     score = round(100 * passed / total) if total > 0 else 0
 
     # GROUND-TRUTH INJECTION (fix #4): for the top failing tests, run the original
@@ -598,28 +674,49 @@ def run_eval(
             if ref_env.get("DOCKER_CONFIG"):
                 os.environ.setdefault("DOCKER_CONFIG", ref_env["DOCKER_CONFIG"])
             from reference_diff import diff_batch as _ref_diff
+
             image = f"programbench/{instance_id.replace('__', '_1776_')}:task_cleanroom"
             failures = _ref_diff(image, failures, max_n=6)
         except Exception as _e:
             print(f"  [ref-diff] skipped: {_e}")
 
     result = EvalResult(
-        score=score, passed=passed, total=total, not_run=not_run, failures=failures,
-        cached=False, error=err, eval_json_path=str(eval_json),
-        per_test=per_test, categories=categories, branch_breakdown=branch_breakdown,
+        score=score,
+        passed=passed,
+        total=total,
+        not_run=not_run,
+        failures=failures,
+        cached=False,
+        error=err,
+        eval_json_path=str(eval_json),
+        per_test=per_test,
+        categories=categories,
+        branch_breakdown=branch_breakdown,
     )
 
     # Persist to cache (failures now include fixture_name/fixture_content + categories)
     try:
-        cache_file.write_text(json.dumps({
-            "instance_id": instance_id,
-            "submission_sha": sha,
-            "score": score, "passed": passed, "total": total, "not_run": not_run,
-            "failures": failures, "error": err,
-            "eval_json_path": str(eval_json),
-            "per_test": per_test, "categories": categories,
-            "branch_breakdown": branch_breakdown,
-        }, indent=2, default=str), encoding="utf-8")
+        cache_file.write_text(
+            json.dumps(
+                {
+                    "instance_id": instance_id,
+                    "submission_sha": sha,
+                    "score": score,
+                    "passed": passed,
+                    "total": total,
+                    "not_run": not_run,
+                    "failures": failures,
+                    "error": err,
+                    "eval_json_path": str(eval_json),
+                    "per_test": per_test,
+                    "categories": categories,
+                    "branch_breakdown": branch_breakdown,
+                },
+                indent=2,
+                default=str,
+            ),
+            encoding="utf-8",
+        )
     except Exception:
         pass
 
@@ -629,6 +726,7 @@ def run_eval(
 # CLI for one-off use
 def _main():
     import argparse
+
     ap = argparse.ArgumentParser()
     ap.add_argument("instance_id")
     ap.add_argument("run_dir", type=Path)

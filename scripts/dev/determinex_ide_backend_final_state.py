@@ -8,16 +8,16 @@ This is the apparatus's "final word" record for the campaign — read by
 the audit chain, consumed by the IDE state model, and pinned by the
 focused test for :mod:`DETERMINEX_IDE_BACKEND_FINAL_STATE_LOCK_001`.
 """
+
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .determinex_ide_backend_final_state_record import (
     DETERMINEX_IDE_BACKEND_FINAL_STATE_TOKENS,
     FinalBackendState,
 )
-
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
@@ -91,7 +91,7 @@ def assemble_final_state() -> FinalBackendState:
     )
 
     return FinalBackendState(
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=datetime.now(UTC).isoformat(),
         execution_surface="CLEAN",
         model_routing="READY_DRY_RUN",
         repo_intake="READY_FIXTURES",

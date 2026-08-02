@@ -11,9 +11,13 @@ from corpus.programbench.cleanroom_image_hydration import (  # noqa: E402
     CleanroomImageHydrationStatus,
     ProgramBenchCleanroomImageHydration,
 )
-from corpus.programbench.cleanroom_image_hydration_record import verify_cleanroom_image_hydration_record  # noqa: E402
-from corpus.programbench.operator_artifact_admission_record import make_operator_artifact_admission_record, write_operator_artifact_admission_record  # noqa: E402
-
+from corpus.programbench.cleanroom_image_hydration_record import (
+    verify_cleanroom_image_hydration_record,  # noqa: E402
+)
+from corpus.programbench.operator_artifact_admission_record import (  # noqa: E402
+    make_operator_artifact_admission_record,
+    write_operator_artifact_admission_record,
+)
 
 MISSING_IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
@@ -80,7 +84,9 @@ def _admission_path(
     )
     if training_eligible:
         record["training_eligible"] = True
-        from corpus.programbench.operator_artifact_admission_record import OperatorArtifactAdmissionRecord  # noqa: PLC0415
+        from corpus.programbench.operator_artifact_admission_record import (
+            OperatorArtifactAdmissionRecord,  # noqa: PLC0415
+        )
 
         record = OperatorArtifactAdmissionRecord(
             schema_version=record["schema_version"],
@@ -131,37 +137,55 @@ def _artifact(tmp_path: Path) -> Path:
 def test_fixture_admission_is_blocked_for_real_hydration(tmp_path):
     result = _hydrator(tmp_path).hydrate(_admission_path(tmp_path, fixture=True))
 
-    assert result["record"]["status"] == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_FIXTURE_ADMISSION.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_FIXTURE_ADMISSION.value
+    )
 
 
 def test_missing_real_admission_blocks(tmp_path):
     result = _hydrator(tmp_path).hydrate(tmp_path / "missing.json")
 
-    assert result["record"]["status"] == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_REAL_ADMISSION.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_REAL_ADMISSION.value
+    )
 
 
 def test_non_hydration_candidate_blocks(tmp_path):
     result = _hydrator(tmp_path).hydrate(_admission_path(tmp_path, hydration_candidate=False))
 
-    assert result["record"]["status"] == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NON_CANDIDATE.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NON_CANDIDATE.value
+    )
 
 
 def test_missing_digest_blocks(tmp_path):
     result = _hydrator(tmp_path).hydrate(_admission_path(tmp_path, digest=""))
 
-    assert result["record"]["status"] == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_DIGEST.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_DIGEST.value
+    )
 
 
 def test_missing_provenance_blocks(tmp_path):
     result = _hydrator(tmp_path).hydrate(_admission_path(tmp_path, provenance=""))
 
-    assert result["record"]["status"] == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_PROVENANCE.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_PROVENANCE.value
+    )
 
 
 def test_missing_artifact_blocks(tmp_path):
     result = _hydrator(tmp_path).hydrate(_admission_path(tmp_path))
 
-    assert result["record"]["status"] == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_ARTIFACT.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_ARTIFACT.value
+    )
 
 
 def test_digest_mismatch_blocks(tmp_path):
@@ -172,7 +196,10 @@ def test_digest_mismatch_blocks(tmp_path):
         scan_result=_scan(),
     )
 
-    assert result["record"]["status"] == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_DIGEST_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_DIGEST_MISMATCH.value
+    )
 
 
 def test_scan_failure_blocks_policy_admission(tmp_path):
@@ -183,8 +210,14 @@ def test_scan_failure_blocks_policy_admission(tmp_path):
         scan_result=_scan(policy="fail", critical=1),
     )
 
-    assert result["record"]["status"] == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_SCAN_FAILED.value
-    assert result["record"]["policy_result"] == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_POLICY_BLOCKED.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_SCAN_FAILED.value
+    )
+    assert (
+        result["record"]["policy_result"]
+        == CleanroomImageHydrationStatus.CLEANROOM_IMAGE_POLICY_BLOCKED.value
+    )
 
 
 def test_successful_hydration_writes_signed_record(tmp_path):
@@ -225,7 +258,10 @@ def test_hydrated_image_remains_not_executable(tmp_path):
     )
 
     assert result["record"]["executable"] is False
-    assert CleanroomImageHydrationStatus.CLEANROOM_IMAGE_NOT_EXECUTABLE.value in result["record"]["hydration_statuses"]
+    assert (
+        CleanroomImageHydrationStatus.CLEANROOM_IMAGE_NOT_EXECUTABLE.value
+        in result["record"]["hydration_statuses"]
+    )
 
 
 def test_hydrated_image_remains_not_training_eligible(tmp_path):

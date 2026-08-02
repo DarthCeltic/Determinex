@@ -25,6 +25,7 @@ four can also present as "stopped, no message". Hence these tests: they assert t
 ("a poll tick cannot block a compile record") rather than any of those theories, and they run
 against a real daemon with a real poll thread, because a mocked lock cannot deadlock.
 """
+
 from __future__ import annotations
 
 import sys
@@ -44,7 +45,6 @@ import chrono_daemon  # noqa: E402
 # Long enough for a real thread to be observed, short enough not to pad the suite.
 FAST_POLL = 0.02
 CALL_BUDGET = 5.0
-
 
 
 def _focus(daemon, path: str | None = None) -> str:
@@ -140,8 +140,10 @@ class TestThePollLoopCannotBlockTheBuild:
 
         for i in range(12):
             assert _call_with_deadline(
-                daemon.record_compile_result, buffer_path=path,
-                function_signature=f"fn step_{i}()", failed=bool(i % 3),
+                daemon.record_compile_result,
+                buffer_path=path,
+                function_signature=f"fn step_{i}()",
+                failed=bool(i % 3),
                 budget=3.0,
             ), f"record_compile_result blocked on call {i}"
             time.sleep(FAST_POLL)
@@ -151,13 +153,21 @@ class TestThePollLoopCannotBlockTheBuild:
         path = _focus(daemon)
         daemon.start()
 
-        assert _call_with_deadline(daemon.record_compile_result, buffer_path=path,
-                                   function_signature="a", failed=True, budget=3.0)
-        time.sleep(FAST_POLL * 4)
-        assert _call_with_deadline(daemon.record_compile_result, buffer_path=path,
-                                   function_signature="a", failed=False, budget=3.0), (
-            "the second record blocked -- a poll tick had taken the lock and not given it back"
+        assert _call_with_deadline(
+            daemon.record_compile_result,
+            buffer_path=path,
+            function_signature="a",
+            failed=True,
+            budget=3.0,
         )
+        time.sleep(FAST_POLL * 4)
+        assert _call_with_deadline(
+            daemon.record_compile_result,
+            buffer_path=path,
+            function_signature="a",
+            failed=False,
+            budget=3.0,
+        ), "the second record blocked -- a poll tick had taken the lock and not given it back"
 
     def test_the_daemon_stops_cleanly_after_all_that(self, daemon):
         """A deadlocked poll thread never observes _running=False, so stop() hangs on join."""
@@ -165,7 +175,9 @@ class TestThePollLoopCannotBlockTheBuild:
         daemon.start()
         time.sleep(FAST_POLL * 4)
 
-        assert _call_with_deadline(daemon.stop, budget=8.0), "stop() blocked joining the poll thread"
+        assert _call_with_deadline(daemon.stop, budget=8.0), (
+            "stop() blocked joining the poll thread"
+        )
 
 
 class TestThePollLoopDoesNotHoldTheLockAcrossTheWrite:
@@ -191,7 +203,7 @@ class TestThePollLoopDoesNotHoldTheLockAcrossTheWrite:
         # sits inside a following `if`, which is deeper than the `with` while being outside it.
         indent = lambda ln: len(ln) - len(ln.lstrip())  # noqa: E731
         lock_indent = indent(raw[lock_idx])
-        dedented = any(indent(ln) <= lock_indent for ln in raw[lock_idx + 1:write_idx + 1])
+        dedented = any(indent(ln) <= lock_indent for ln in raw[lock_idx + 1 : write_idx + 1])
         assert dedented, (
             "_write_snapshot() is still inside `with self._lock:` -- that is the original deadlock, "
             "and with an RLock it degrades to holding the lock across a disk write instead"

@@ -16,6 +16,7 @@ Outputs:
   logs/programbench_factory/BATCH_CONVERT_REPORT.json
   console summary
 """
+
 from __future__ import annotations
 
 import json
@@ -48,8 +49,9 @@ def has_upstream_source(slug: str) -> bool:
 
 def run(cmd: list[str]) -> tuple[int, str]:
     try:
-        p = subprocess.run(cmd, capture_output=True, text=True,
-                           encoding="utf-8", errors="replace", timeout=300)
+        p = subprocess.run(
+            cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300
+        )
         return p.returncode, (p.stdout + p.stderr)[-500:]
     except subprocess.TimeoutExpired:
         return 124, "TIMEOUT"
@@ -83,9 +85,11 @@ def main() -> int:
         # Wipe stale
         if rundir.exists():
             import shutil
+
             shutil.rmtree(rundir, ignore_errors=True)
-        rc2, out2 = run([py, str(ROOT / "scripts" / "pb_pack_candidate.py"),
-                         slug, "--run-root", str(rundir)])
+        rc2, out2 = run(
+            [py, str(ROOT / "scripts" / "pb_pack_candidate.py"), slug, "--run-root", str(rundir)]
+        )
         if rc2 != 0:
             results.append({"slug": slug, "stage": "pack", "rc": rc2, "tail": out2})
             tqdm.write(f"  {slug}: PACK FAIL ({rc2})")
@@ -95,13 +99,14 @@ def main() -> int:
         if tar.is_file():
             try:
                 import tarfile as tf
+
                 with tf.open(tar) as tarobj:
                     n_files = sum(1 for _ in tarobj)
-                results.append({"slug": slug, "stage": "ok", "files": n_files,
-                                "rundir": str(rundir)})
+                results.append(
+                    {"slug": slug, "stage": "ok", "files": n_files, "rundir": str(rundir)}
+                )
             except Exception as e:
-                results.append({"slug": slug, "stage": "tar_inspect_fail",
-                                "rc": 1, "tail": str(e)})
+                results.append({"slug": slug, "stage": "tar_inspect_fail", "rc": 1, "tail": str(e)})
         else:
             results.append({"slug": slug, "stage": "tar_missing", "rc": 1})
 

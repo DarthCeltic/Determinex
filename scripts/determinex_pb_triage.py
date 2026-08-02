@@ -14,6 +14,7 @@ climbing. A tool whose residual is all upstream-skips is DONE-as-ceiling, not a 
 with f=0 + only MECH residual is a cheap autofix. Only the genuine SAMPLE/SOLVE tail gets the
 expensive compute. This routes effort to where p>0 and parks where p≈0.
 """
+
 from __future__ import annotations
 
 import json
@@ -24,12 +25,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import determinex_pb_fingerprint as FP  # noqa: E402
-import determinex_pb_router as RT       # noqa: E402
 
 # techniques with a fixer BUILT today (vs mapped-but-unbuilt)
-BUILT = {"bidir-mirror", "crlf-normalize", "build-fail-routing", "drop-privileges",
-         "hermetic-clock", "hermetic-locale", "hermetic-path-canon", "hermetic-seed",
-         "canonical-sort-compare", "hermetic-no-network"}
+BUILT = {
+    "bidir-mirror",
+    "crlf-normalize",
+    "build-fail-routing",
+    "drop-privileges",
+    "hermetic-clock",
+    "hermetic-locale",
+    "hermetic-path-canon",
+    "hermetic-seed",
+    "canonical-sort-compare",
+    "hermetic-no-network",
+}
 CEILING_TECH = {"ceiling-cert"}
 
 
@@ -38,13 +47,19 @@ def triage_tool(report_path: Path) -> dict:
         tr = json.loads(report_path.read_text(encoding="utf-8")).get("test_results", [])
     except Exception:
         return {"route": "NODATA"}
-    def _ident(n): return n.split("::")[-1] if "::" in n else n.split(".")[-1]
+
+    def _ident(n):
+        return n.split("::")[-1] if "::" in n else n.split(".")[-1]
+
     passed = {_ident(x.get("name", "")) for x in tr if x.get("status") == "passed"}
     resid = [x for x in tr if x.get("status") != "passed"]
     if not resid:
         return {"route": "LOCK", "residual": 0}
     n_fail = sum(1 for x in resid if x.get("status") in ("failed", "error"))
-    mechs = Counter(); built = 0; ceiling = 0; sample = 0
+    mechs = Counter()
+    built = 0
+    ceiling = 0
+    sample = 0
     for x in resid:
         fp = FP.fingerprint_test(x, passed)
         mechs[fp.mechanism] += 1
@@ -57,20 +72,28 @@ def triage_tool(report_path: Path) -> dict:
     total = len(resid)
     # decision: dominant disposition
     if built / total >= 0.6:
-        route = "AUTOFIX"          # cheap, do now
+        route = "AUTOFIX"  # cheap, do now
     elif ceiling / total >= 0.6:
-        route = "CEILING"          # certify, stop grinding
+        route = "CEILING"  # certify, stop grinding
     elif n_fail > 0 and sample / total >= 0.4:
-        route = "AMPLIFY"          # real failures w/ p>0 -> pour compute
+        route = "AMPLIFY"  # real failures w/ p>0 -> pour compute
     else:
-        route = "OPUS"             # genuine-missing/semantic -> hand-loop
-    return {"route": route, "residual": total, "built": built, "ceiling": ceiling,
-            "sample": sample, "failures": n_fail, "top_mech": mechs.most_common(3)}
+        route = "OPUS"  # genuine-missing/semantic -> hand-loop
+    return {
+        "route": route,
+        "residual": total,
+        "built": built,
+        "ceiling": ceiling,
+        "sample": sample,
+        "failures": n_fail,
+        "top_mech": mechs.most_common(3),
+    }
 
 
 def main() -> int:
     roots = sys.argv[1:] or ["C:/tmp/all_reports"]
-    buckets = Counter(); detail = {}
+    buckets = Counter()
+    detail = {}
     for root in roots:
         for jf in Path(root).glob("*.eval.json"):
             if jf.name.startswith("LOCKED_"):

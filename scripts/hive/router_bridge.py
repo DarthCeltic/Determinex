@@ -39,6 +39,7 @@ is recorded independently: every cloud call through the litellm lane already app
 real token counts and est_usd to logs/api_ledger/providers.jsonl, so a route-on vs
 route-off comparison is measured from the ledger, not from this number.
 """
+
 from __future__ import annotations
 
 import os
@@ -63,7 +64,7 @@ ApplyValidate = Callable[[str], "tuple[bool, str]"]
 # module docstring. Longest prefix wins so `determinex/` is not shadowed by a
 # shorter match.
 _TIER_BY_PREFIX: tuple[tuple[str, int, bool], ...] = (
-    ("determinex/", 1, False),   # local Ollama, DSL fine-tuned
+    ("determinex/", 1, False),  # local Ollama, DSL fine-tuned
     # The SAME models under their bare Ollama tag, which is how hive/ctx_config.py
     # actually assigns the roles by default: `determinex-engineer-v11-dsl`. Without this
     # row those three names missed every prefix and fell to _UNKNOWN_TIER, so the router
@@ -72,18 +73,18 @@ _TIER_BY_PREFIX: tuple[tuple[str, int, bool], ...] = (
     # measures. Same root cause as the budget mispricing fixed in hive/budget.py: a bare
     # tag has no slash, so every prefix test silently misses it.
     ("determinex-", 1, False),
-    ("local/", 1, False),        # local Ollama, base models
-    ("free/", 2, False),         # free OpenRouter endpoints: no spend, real latency
-    ("cloud/", 3, True),         # paid APIs
+    ("local/", 1, False),  # local Ollama, base models
+    ("free/", 2, False),  # free OpenRouter endpoints: no spend, real latency
+    ("cloud/", 3, True),  # paid APIs
 )
-_UNKNOWN_TIER = 3               # an unrecognised name is assumed paid, never free
+_UNKNOWN_TIER = 3  # an unrecognised name is assumed paid, never free
 
 
 @dataclass
 class RoutedBuildResult:
     passed: bool
     code: str
-    output: str                  # last compiler output (proof on pass, diagnosis on miss)
+    output: str  # last compiler output (proof on pass, diagnosis on miss)
     model_used: str
     tier_used: int
     escalations: int
@@ -102,8 +103,9 @@ class _OracleResult:
     def __init__(self, passed: bool, output: str):
         self.passed = passed
         self.output = output
-        self.failures = [] if passed else [
-            Failure(test_id="compile", name="compile", text=output[:1500])]
+        self.failures = (
+            [] if passed else [Failure(test_id="compile", name="compile", text=output[:1500])]
+        )
 
 
 def tier_and_cost(model: str) -> tuple[int, float]:
@@ -156,23 +158,30 @@ def load_ladder(config_path: Path | None = None) -> list[str]:
         return []
 
 
-def build_entries(generate_for_model: GenerateForModel,
-                  ladder: list[str]) -> list[ModelEntry]:
+def build_entries(generate_for_model: GenerateForModel, ladder: list[str]) -> list[ModelEntry]:
     """Turn configured model names into router entries, tier/cost derived."""
     entries: list[ModelEntry] = []
     for model in ladder:
         tier, cost = tier_and_cost(model)
-        entries.append(ModelEntry(name=model, tier=tier, cost=cost,
-                                  generate=generate_for_model(model),
-                                  capability_hint=model))
+        entries.append(
+            ModelEntry(
+                name=model,
+                tier=tier,
+                cost=cost,
+                generate=generate_for_model(model),
+                capability_hint=model,
+            )
+        )
     return entries
 
 
-def routed_build(generate_for_model: GenerateForModel,
-                 apply_and_validate: ApplyValidate,
-                 ladder: list[str] | None = None,
-                 k: int | None = None,
-                 rounds: int = 2) -> RoutedBuildResult | None:
+def routed_build(
+    generate_for_model: GenerateForModel,
+    apply_and_validate: ApplyValidate,
+    ladder: list[str] | None = None,
+    k: int | None = None,
+    rounds: int = 2,
+) -> RoutedBuildResult | None:
     """Route one build step up the ladder. Returns None when routing is not
     usable (no ladder configured), so the caller can fall through to its normal
     single-model path instead of silently doing nothing."""
@@ -200,13 +209,27 @@ def routed_build(generate_for_model: GenerateForModel,
     if res.solved and best is not None:
         # Re-apply the winner so the workspace ends in the state the oracle passed.
         apply_and_validate(best.text)
-        return RoutedBuildResult(True, best.text, last_output, res.model_used,
-                                 res.tier_used, res.escalations, res.total_cost,
-                                 samples)
-    return RoutedBuildResult(False, best.text if best else "", last_output,
-                             res.model_used, res.tier_used, res.escalations,
-                             res.total_cost, samples,
-                             list(getattr(search, "next_moves", []) or []))
+        return RoutedBuildResult(
+            True,
+            best.text,
+            last_output,
+            res.model_used,
+            res.tier_used,
+            res.escalations,
+            res.total_cost,
+            samples,
+        )
+    return RoutedBuildResult(
+        False,
+        best.text if best else "",
+        last_output,
+        res.model_used,
+        res.tier_used,
+        res.escalations,
+        res.total_cost,
+        samples,
+        list(getattr(search, "next_moves", []) or []),
+    )
 
 
 _TRUTHY = ("1", "true", "yes", "on")
@@ -257,8 +280,10 @@ def route_decision() -> tuple[bool, str]:
     except Exception as exc:
         return False, f"ladder locality could not be determined ({type(exc).__name__})"
     if paid:
-        return False, (f"ladder contains paid rung(s) {', '.join(paid)}; "
-                       "set DETERMINEX_ROUTE=1 to opt in to spending")
+        return False, (
+            f"ladder contains paid rung(s) {', '.join(paid)}; "
+            "set DETERMINEX_ROUTE=1 to opt in to spending"
+        )
 
     try:
         from hive.hardware import get_hw_profile
@@ -267,11 +292,15 @@ def route_decision() -> tuple[bool, str]:
     except Exception as exc:
         return False, f"hardware tier could not be read ({type(exc).__name__})"
     if hw.tier < 1:
-        return False, (f"tier {hw.tier} ({hw.tier_label}) cannot hold both rungs without "
-                       "offloading to CPU, which times the builder out")
+        return False, (
+            f"tier {hw.tier} ({hw.tier_label}) cannot hold both rungs without "
+            "offloading to CPU, which times the builder out"
+        )
 
-    return True, (f"all-local ladder ({' -> '.join(ladder)}) on tier {hw.tier} "
-                  f"({hw.tier_label}) -- free and it fits")
+    return True, (
+        f"all-local ladder ({' -> '.join(ladder)}) on tier {hw.tier} "
+        f"({hw.tier_label}) -- free and it fits"
+    )
 
 
 def route_enabled() -> bool:
@@ -285,9 +314,9 @@ def env_k(default: int = 6) -> int:
         return default
 
 
-def record_route_decision(session_id: str, step_id: int,
-                          result: RoutedBuildResult,
-                          calls: list[dict] | None = None) -> None:
+def record_route_decision(
+    session_id: str, step_id: int, result: RoutedBuildResult, calls: list[dict] | None = None
+) -> None:
     """Append one route decision to the ledger directory. NEVER raises.
 
     A side channel next to the spend rows rather than the only record: the same
@@ -310,20 +339,25 @@ def record_route_decision(session_id: str, step_id: int,
         ledger_dir = _ROOT / "logs" / "api_ledger"
         ledger_dir.mkdir(parents=True, exist_ok=True)
         with open(ledger_dir / "route_decisions.jsonl", "a", encoding="utf-8") as f:
-            f.write(_json.dumps({
-                "ts": _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds"),
-                "session_id": session_id,
-                "step_id": step_id,
-                "passed": bool(result.passed),
-                "model_used": result.model_used,
-                "tier_used": result.tier_used,
-                "escalations": result.escalations,
-                "samples": result.samples,
-                "est_cost": round(float(result.est_cost), 6),
-                # per-call latency and tokens, so a later cost comparison can
-                # attribute spend to a RUNG instead of inferring it from a session total
-                "telemetry": summarise_calls(calls),
-            }) + "\n")
+            f.write(
+                _json.dumps(
+                    {
+                        "ts": _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds"),
+                        "session_id": session_id,
+                        "step_id": step_id,
+                        "passed": bool(result.passed),
+                        "model_used": result.model_used,
+                        "tier_used": result.tier_used,
+                        "escalations": result.escalations,
+                        "samples": result.samples,
+                        "est_cost": round(float(result.est_cost), 6),
+                        # per-call latency and tokens, so a later cost comparison can
+                        # attribute spend to a RUNG instead of inferring it from a session total
+                        "telemetry": summarise_calls(calls),
+                    }
+                )
+                + "\n"
+            )
     except Exception:
         pass
 
@@ -341,8 +375,7 @@ def summarise_calls(calls: list[dict] | None) -> dict:
     out: dict = {"calls": len(calls or []), "ms_total": 0, "by_model": {}}
     for c in calls or []:
         m = str(c.get("model", "?"))
-        slot = out["by_model"].setdefault(
-            m, {"calls": 0, "ms": 0, "tokens_in": 0, "tokens_out": 0})
+        slot = out["by_model"].setdefault(m, {"calls": 0, "ms": 0, "tokens_in": 0, "tokens_out": 0})
         slot["calls"] += 1
         slot["ms"] += int(c.get("ms", 0) or 0)
         slot["tokens_in"] += int(c.get("tokens_in", 0) or 0)
@@ -351,8 +384,7 @@ def summarise_calls(calls: list[dict] | None) -> dict:
     return out
 
 
-def provenance_dict(result: RoutedBuildResult,
-                    calls: list[dict] | None = None) -> dict:
+def provenance_dict(result: RoutedBuildResult, calls: list[dict] | None = None) -> dict:
     """The subset of a route result worth persisting on the step record."""
     d = {
         "model": result.model_used,

@@ -32,16 +32,26 @@ from validators import VALIDATOR_MAP
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Determinex Universal Oracle Pack — standalone validator CLI")
-    parser.add_argument("kind", choices=sorted(VALIDATOR_MAP.keys()),
-                        help="Validator to run (Sprint 3 adds: bash, powershell, dockerfile, yaml, xdist, sql)")
+    parser = argparse.ArgumentParser(
+        description="Determinex Universal Oracle Pack — standalone validator CLI"
+    )
+    parser.add_argument(
+        "kind",
+        choices=sorted(VALIDATOR_MAP.keys()),
+        help="Validator to run (Sprint 3 adds: bash, powershell, dockerfile, yaml, xdist, sql)",
+    )
     src = parser.add_mutually_exclusive_group(required=True)
     src.add_argument("--file", type=Path, help="Path to file to validate")
     src.add_argument("--stdin", action="store_true", help="Read content from stdin")
-    parser.add_argument("--meta", type=str, default="{}",
-                        help="JSON dict of task_meta options (see each validator's docstring)")
-    parser.add_argument("--json", dest="json_out", action="store_true",
-                        help="Emit JSON result instead of text")
+    parser.add_argument(
+        "--meta",
+        type=str,
+        default="{}",
+        help="JSON dict of task_meta options (see each validator's docstring)",
+    )
+    parser.add_argument(
+        "--json", dest="json_out", action="store_true", help="Emit JSON result instead of text"
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -66,7 +76,9 @@ def main(argv: list[str] | None = None) -> int:
     passed, reason = validator(content, task_meta)
 
     if args.json_out:
-        print(json.dumps({"kind": args.kind, "passed": passed, "reason": reason}, ensure_ascii=False))
+        print(
+            json.dumps({"kind": args.kind, "passed": passed, "reason": reason}, ensure_ascii=False)
+        )
     else:
         status = "PASS" if passed else "FAIL"
         print(f"[{args.kind}] {status}: {reason}")

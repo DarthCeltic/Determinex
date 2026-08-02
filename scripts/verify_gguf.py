@@ -13,12 +13,10 @@ Usage:
   python3 /workspace/verify_gguf.py sentinel
 """
 
-import sys
-import os
 import subprocess
-import time
+import sys
+from datetime import datetime
 from pathlib import Path
-from datetime import datetime, timezone
 
 # ── Model specs ──────────────────────────────────────────────────────────────
 MODELS = {
@@ -32,7 +30,7 @@ MODELS = {
         "gguf": Path("/workspace/outputs/determinex-observer-v4/determinex-observer-v4.gguf"),
         "min_gb": 2.5,
         "max_gb": 4.0,
-        "prompt": "Is this code safe? fn main() { let x = vec![1,2,3]; println!(\"{}\", x[10]); }",
+        "prompt": 'Is this code safe? fn main() { let x = vec![1,2,3]; println!("{}", x[10]); }',
     },
     "sentinel": {
         "gguf": Path("/workspace/outputs/determinex-sentinel-v3/determinex-sentinel-v3.gguf"),
@@ -46,6 +44,7 @@ LLAMA_CLI = Path("/workspace/llama.cpp/llama-cli")
 # Retrain started after whitelist patch at approximately this time
 RETRAIN_CUTOFF_TS = 1744596900  # 2026-04-14 04:15 UTC (after patch applied)
 
+
 def check(label, ok, detail=""):
     icon = "PASS" if ok else "FAIL"
     print(f"  [{icon}] {label}" + (f" -- {detail}" if detail else ""))
@@ -57,9 +56,9 @@ def verify(model_name):
     gguf = spec["gguf"]
     passed = True
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"  VERIFYING: {gguf.name}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # ── CHECK 1: File exists ──────────────────────────────────────
     exists = gguf.exists()
@@ -73,20 +72,18 @@ def verify(model_name):
     is_fresh = mtime > RETRAIN_CUTOFF_TS
     age = datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M:%S")
     passed &= check(
-        "Timestamp is post-patch",
-        is_fresh,
-        f"File time: {age} | Cutoff: 2026-04-14 04:15:00"
+        "Timestamp is post-patch", is_fresh, f"File time: {age} | Cutoff: 2026-04-14 04:15:00"
     )
     if not is_fresh:
-        print("  [WARN] This GGUF predates the whitelist patch -- it's the BAD contaminated version!")
+        print(
+            "  [WARN] This GGUF predates the whitelist patch -- it's the BAD contaminated version!"
+        )
 
     # ── CHECK 3: File size in expected range ──────────────────────
     size_gb = gguf.stat().st_size / 1e9
     in_range = spec["min_gb"] <= size_gb <= spec["max_gb"]
     passed &= check(
-        f"Size in range [{spec['min_gb']}-{spec['max_gb']}] GB",
-        in_range,
-        f"{size_gb:.2f} GB"
+        f"Size in range [{spec['min_gb']}-{spec['max_gb']}] GB", in_range, f"{size_gb:.2f} GB"
     )
 
     # ── CHECK 4: GGUF header parse ────────────────────────────────
@@ -94,35 +91,48 @@ def verify(model_name):
     dump_bin = Path("/workspace/llama.cpp/gguf-dump")
     if dump_bin.exists():
         result = subprocess.run(
-            [str(dump_bin), str(gguf)],
-            capture_output=True, text=True, timeout=30
+            [str(dump_bin), str(gguf)], capture_output=True, text=True, timeout=30
         )
         header_ok = result.returncode == 0 and "general.architecture" in result.stdout
-        passed &= check("GGUF headers parse cleanly", header_ok,
-                        result.stderr[:120] if not header_ok else "architecture field present")
+        passed &= check(
+            "GGUF headers parse cleanly",
+            header_ok,
+            result.stderr[:120] if not header_ok else "architecture field present",
+        )
     else:
         # Fallback: llama-cli will error fast if GGUF is corrupt
         result = subprocess.run(
             [str(LLAMA_CLI), "-m", str(gguf), "-n", "1", "--prompt", "hi", "--n-gpu-layers", "0"],
-            capture_output=True, text=True, timeout=60
+            capture_output=True,
+            text=True,
+            timeout=60,
         )
         # llama-cli exits non-zero if GGUF is unreadable
         header_ok = "error" not in result.stderr.lower()[:200] or result.returncode == 0
-        passed &= check("llama-cli loads GGUF", result.returncode == 0,
-                        result.stderr[:120] if result.returncode != 0 else "OK")
+        passed &= check(
+            "llama-cli loads GGUF",
+            result.returncode == 0,
+            result.stderr[:120] if result.returncode != 0 else "OK",
+        )
 
     # ── CHECK 5: Smoke test — first coherent token ────────────────
     if LLAMA_CLI.exists():
         result = subprocess.run(
             [
                 str(LLAMA_CLI),
-                "-m", str(gguf),
-                "-n", "32",
-                "--prompt", spec["prompt"],
-                "--n-gpu-layers", "0",   # CPU only for verification (no VRAM allocation)
+                "-m",
+                str(gguf),
+                "-n",
+                "32",
+                "--prompt",
+                spec["prompt"],
+                "--n-gpu-layers",
+                "0",  # CPU only for verification (no VRAM allocation)
                 "--log-disable",
             ],
-            capture_output=True, text=True, timeout=120
+            capture_output=True,
+            text=True,
+            timeout=120,
         )
         output = (result.stdout + result.stderr).strip()
         has_output = len(output) > 20 and result.returncode == 0
@@ -132,12 +142,14 @@ def verify(model_name):
         print("  [SKIP] llama-cli not found -- skipping smoke test")
 
     # ── VERDICT ───────────────────────────────────────────────────
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     if passed:
-        print(f"  VERDICT: PASS -- safe to SCP {model_name} to ${DETERMINEX_MODELS_DIR:-~/determinex-models}/")
+        print(
+            f"  VERDICT: PASS -- safe to SCP {model_name} to ${{DETERMINEX_MODELS_DIR:-~/determinex-models}}/"
+        )
     else:
-        print(f"  VERDICT: FAIL -- DO NOT DOWNLOAD. Investigate before overwriting.")
-    print(f"{'='*60}\n")
+        print("  VERDICT: FAIL -- DO NOT DOWNLOAD. Investigate before overwriting.")
+    print(f"{'=' * 60}\n")
     return passed
 
 

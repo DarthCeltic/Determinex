@@ -43,6 +43,7 @@ CLI
     python scripts/determinex_test_validator.py reference \
         --binary ./ov --cmd "--plain -n test.txt" --golden-rc 0 --golden-out-file g.txt
 """
+
 from __future__ import annotations
 
 import argparse
@@ -59,23 +60,26 @@ _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
 from determinex_adjudicator import (  # noqa: E402
-    Failure, _base_nodeid, _extract_golden, _failures_from_eval_report,
+    Failure,
+    _base_nodeid,
+    _extract_golden,
+    _failures_from_eval_report,
 )
 
 
 class TestVerdict(str, Enum):
-    __test__ = False           # not a pytest test class despite the name
-    CORRECT = "CORRECT"        # no slop signature -> fix the code, not the test
-    SLOP = "SLOP"              # proven wrong test -> do not chase it
-    UNKNOWN = "UNKNOWN"        # needs a reference binary to decide
+    __test__ = False  # not a pytest test class despite the name
+    CORRECT = "CORRECT"  # no slop signature -> fix the code, not the test
+    SLOP = "SLOP"  # proven wrong test -> do not chase it
+    UNKNOWN = "UNKNOWN"  # needs a reference binary to decide
 
 
 @dataclass
 class Judgement:
     test_id: str
     verdict: TestVerdict
-    check: str                 # which of the 4 checks fired
-    proof: str                 # the deterministic evidence
+    check: str  # which of the 4 checks fired
+    proof: str  # the deterministic evidence
     recommended_action: str = ""
     extra: dict = field(default_factory=dict)
 
@@ -84,11 +88,22 @@ class Judgement:
 # Check 2 -- environment-baked golden signatures (the test tests the machine)
 # ---------------------------------------------------------------------------
 _ENV_BAKED = [
-    ("tty-rendered", re.compile(
-        r"line numbers|caption|--force-screen|screen render|columns?=\d+|"
-        r"len\(result\.stdout\)\s*[<>]\s*\d", re.I)),
-    ("locale-baked", re.compile(r"invalid_?utf-?8|LC_ALL|locale-specific|0x[0-9a-f]{2}.*decode", re.I)),
-    ("simd-baked", re.compile(r"AVX2|SIMD|symbols_output|character (art|map)|render.*symbol", re.I)),
+    (
+        "tty-rendered",
+        re.compile(
+            r"line numbers|caption|--force-screen|screen render|columns?=\d+|"
+            r"len\(result\.stdout\)\s*[<>]\s*\d",
+            re.I,
+        ),
+    ),
+    (
+        "locale-baked",
+        re.compile(r"invalid_?utf-?8|LC_ALL|locale-specific|0x[0-9a-f]{2}.*decode", re.I),
+    ),
+    (
+        "simd-baked",
+        re.compile(r"AVX2|SIMD|symbols_output|character (art|map)|render.*symbol", re.I),
+    ),
     ("host-path-baked", re.compile(r"/home/\w+/|/Users/\w+/|C:\\\\Users", re.I)),
     ("timestamp-baked", re.compile(r"\b20\d\d-\d\d-\d\d\b|\b\d{10}\b.*epoch", re.I)),
 ]
@@ -100,7 +115,10 @@ _TAUTOLOGY = [
     ("assert-true", re.compile(r"assert\s+True\b")),
     ("assert-constant", re.compile(r"assert\s+\d+\s*(==|!=)\s*\d+")),
     ("assert-or-not", re.compile(r"assert\s+(\w+)\s+or\s+not\s+\1\b")),
-    ("rc-in-everything", re.compile(r"returncode\s+in\s+[\[(][^)\]]{0,4}0[^)\]]*1[^)\]]*2[^)\]]*[\])]")),
+    (
+        "rc-in-everything",
+        re.compile(r"returncode\s+in\s+[\[(][^)\]]{0,4}0[^)\]]*1[^)\]]*2[^)\]]*[\])]"),
+    ),
     ("always-in", re.compile(r"assert\s+(''|b''|\"\")\s+in\s+")),
 ]
 
@@ -159,14 +177,24 @@ def reference_cross_check(rc: ReferenceCheck) -> Judgement:
     """Run the REAL upstream binary against a test's invocation. If the reference
     fails the golden, the TEST is slop (it does not describe correct behavior)."""
     if not rc.binary.exists():
-        return Judgement("reference", TestVerdict.UNKNOWN, "reference-fail",
-                         f"reference binary {rc.binary} not present")
+        return Judgement(
+            "reference",
+            TestVerdict.UNKNOWN,
+            "reference-fail",
+            f"reference binary {rc.binary} not present",
+        )
     try:
-        cp = subprocess.run([str(rc.binary), *rc.argv], capture_output=True,
-                            text=True, timeout=rc.timeout, errors="replace")
+        cp = subprocess.run(
+            [str(rc.binary), *rc.argv],
+            capture_output=True,
+            text=True,
+            timeout=rc.timeout,
+            errors="replace",
+        )
     except Exception as e:
-        return Judgement("reference", TestVerdict.UNKNOWN, "reference-fail",
-                         f"reference run error: {e}")
+        return Judgement(
+            "reference", TestVerdict.UNKNOWN, "reference-fail", f"reference run error: {e}"
+        )
     mismatches = []
     if rc.golden_rc is not None and cp.returncode != rc.golden_rc:
         mismatches.append(f"rc {cp.returncode} != golden {rc.golden_rc}")
@@ -174,14 +202,20 @@ def reference_cross_check(rc: ReferenceCheck) -> Judgement:
         mismatches.append(f"stdout {cp.stdout[:40]!r} != golden {rc.golden_stdout[:40]!r}")
     if mismatches:
         return Judgement(
-            "reference", TestVerdict.SLOP, "reference-fail",
-            "REFERENCE BINARY ALSO FAILS THIS TEST -> the test is wrong: "
-            + "; ".join(mismatches),
+            "reference",
+            TestVerdict.SLOP,
+            "reference-fail",
+            "REFERENCE BINARY ALSO FAILS THIS TEST -> the test is wrong: " + "; ".join(mismatches),
             recommended_action="Do not chase this test. It does not describe the "
-                               "reference implementation's actual behavior. Flag the "
-                               "fixture as provably broken (ceiling with proof).")
-    return Judgement("reference", TestVerdict.CORRECT, "reference-fail",
-                     "reference binary passes -> test is correct; fix the code.")
+            "reference implementation's actual behavior. Flag the "
+            "fixture as provably broken (ceiling with proof).",
+        )
+    return Judgement(
+        "reference",
+        TestVerdict.CORRECT,
+        "reference-fail",
+        "reference binary passes -> test is correct; fix the code.",
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -232,42 +266,64 @@ def _find_executable(root: Path, prefer: str = "") -> Path | None:
     cands = []
     for p in root.rglob("*"):
         sp = str(p).replace("\\", "/")
-        if (p.is_file() and os.access(p, os.X_OK) and p.suffix not in bad
-                and p.name not in _HELPER_NAMES and not p.name.startswith(".")
-                and "helper" not in p.name and "plugin" not in p.name
-                and "/deps/" not in sp and "/build/" not in sp and "/.fingerprint/" not in sp):
+        if (
+            p.is_file()
+            and os.access(p, os.X_OK)
+            and p.suffix not in bad
+            and p.name not in _HELPER_NAMES
+            and not p.name.startswith(".")
+            and "helper" not in p.name
+            and "plugin" not in p.name
+            and "/deps/" not in sp
+            and "/build/" not in sp
+            and "/.fingerprint/" not in sp
+        ):
             cands.append(p)
     if not cands:
         return None
     cands.sort(key=lambda p: p.stat().st_mtime, reverse=True)
-    if prefer:                                  # the real tool binary is named after the tool
+    if prefer:  # the real tool binary is named after the tool
         exact = [c for c in cands if c.name == prefer]
         if exact:
             return exact[0]
         partial = [c for c in cands if prefer in c.name or c.name in prefer]
         if partial:
             return partial[0]
-        return None        # a tool-named binary was expected but none found -> don't trust a stray exe
+        return None  # a tool-named binary was expected but none found -> don't trust a stray exe
     return cands[0]
 
 
 def build_reference(tool_dir: Path, timeout: int = 900) -> Path | None:
     """Build the tool from its canonical source -> a clean reference binary (or None when we
     cannot build it here -> defer, never a false slop). Rust/Go/C(flat)/Make covered."""
-    d = Path(tool_dir).resolve()   # absolute: gcc -o / cargo target paths must not depend on cwd
-    name = d.name.split("__")[-1].split(".")[0]   # tool binary is named after the tool (jarun__nnn -> nnn)
+    d = Path(tool_dir).resolve()  # absolute: gcc -o / cargo target paths must not depend on cwd
+    name = d.name.split("__")[-1].split(".")[
+        0
+    ]  # tool binary is named after the tool (jarun__nnn -> nnn)
     try:
         if (d / "Cargo.toml").exists():
-            r = subprocess.run(["cargo", "build", "--release", "--offline"], cwd=str(d),
-                               capture_output=True, timeout=timeout)
+            r = subprocess.run(
+                ["cargo", "build", "--release", "--offline"],
+                cwd=str(d),
+                capture_output=True,
+                timeout=timeout,
+            )
             if r.returncode != 0:
-                subprocess.run(["cargo", "build", "--release"], cwd=str(d),
-                               capture_output=True, timeout=timeout)
+                subprocess.run(
+                    ["cargo", "build", "--release"],
+                    cwd=str(d),
+                    capture_output=True,
+                    timeout=timeout,
+                )
             return _find_executable(d / "target" / "release", prefer=name)
         if (d / "go.mod").exists():
             out = d / "_determinex_ref"
-            subprocess.run(["go", "build", "-o", str(out), "."], cwd=str(d),
-                           capture_output=True, timeout=timeout)
+            subprocess.run(
+                ["go", "build", "-o", str(out), "."],
+                cwd=str(d),
+                capture_output=True,
+                timeout=timeout,
+            )
             return out if out.exists() else _find_executable(d, prefer=name)
         # Makefile = the tool's OWN build (general C/C++). Try it BEFORE the lua-specific flat-C path.
         if (d / "Makefile").exists() or (d / "makefile").exists():
@@ -275,15 +331,21 @@ def build_reference(tool_dir: Path, timeout: int = 900) -> Path | None:
             ref = _find_executable(d, prefer=name)
             if ref:
                 return ref
-        cfiles = [p.name for p in d.glob("*.c")]   # flat single-dir C (lua-like), no Makefile
+        cfiles = [p.name for p in d.glob("*.c")]  # flat single-dir C (lua-like), no Makefile
         if cfiles:
             out = d / "_determinex_ref"
             srcs = [c for c in cfiles if c not in ("onelua.c", "luac.c")]
-            for flags, libs in ((["-DLUA_USE_LINUX"], ["-lm", "-lreadline", "-ldl"]),
-                                (["-DLUA_USE_POSIX"], ["-lm", "-ldl"]),
-                                ([], ["-lm"])):
-                r = subprocess.run(["gcc", "-O2", *flags, "-o", str(out), *srcs, *libs],
-                                   cwd=str(d), capture_output=True, timeout=timeout)
+            for flags, libs in (
+                (["-DLUA_USE_LINUX"], ["-lm", "-lreadline", "-ldl"]),
+                (["-DLUA_USE_POSIX"], ["-lm", "-ldl"]),
+                ([], ["-lm"]),
+            ):
+                r = subprocess.run(
+                    ["gcc", "-O2", *flags, "-o", str(out), *srcs, *libs],
+                    cwd=str(d),
+                    capture_output=True,
+                    timeout=timeout,
+                )
                 if r.returncode == 0 and out.exists():
                     return out
     except Exception:
@@ -297,8 +359,9 @@ def _smoke_ok(binary: Path) -> bool:
     This is the guard that unmasks false positives (the nnn tui2cli / .nnn-plugin-helper case)."""
     for probe in (["--help"], ["--version"], ["-h"], ["-V"], ["--usage"]):
         try:
-            cp = subprocess.run([str(binary), *probe], input="", capture_output=True,
-                                text=True, timeout=8)
+            cp = subprocess.run(
+                [str(binary), *probe], input="", capture_output=True, text=True, timeout=8
+            )
         except Exception:
             continue
         if cp.stdout.strip() or cp.stderr.strip():
@@ -306,8 +369,9 @@ def _smoke_ok(binary: Path) -> bool:
     return False
 
 
-def auto_reference_check(tool_dir: Path, eval_report: Path,
-                         reuse_binary: Path | None = None) -> list[Judgement]:
+def auto_reference_check(
+    tool_dir: Path, eval_report: Path, reuse_binary: Path | None = None
+) -> list[Judgement]:
     """Build a clean reference (or reuse one) + run each failing test's recovered invocation against
     it. SLOP when a correct binary ALSO fails the assertion. The reference must pass a functional
     smoke test first -- a broken/wrong binary must NEVER manufacture false slop (soundness)."""
@@ -334,8 +398,14 @@ def auto_reference_check(tool_dir: Path, eval_report: Path,
         if any("/" in a and a != str(ref) and not os.path.exists(a) for a in argv[1:]):
             continue
         try:
-            cp = subprocess.run(argv, input=inv["stdin"], capture_output=True,
-                                text=True, timeout=20, errors="replace")
+            cp = subprocess.run(
+                argv,
+                input=inv["stdin"],
+                capture_output=True,
+                text=True,
+                timeout=20,
+                errors="replace",
+            )
         except Exception:
             continue
         kind = inv["expect"][0]
@@ -349,23 +419,36 @@ def auto_reference_check(tool_dir: Path, eval_report: Path,
             ref_fails = cp.returncode != inv["expect"][1]
             detail = "reference rc=%d != golden %d" % (cp.returncode, inv["expect"][1])
         if ref_fails:
-            out.append(Judgement(base, TestVerdict.SLOP, "reference-fail",
-                                 "CLEAN REFERENCE BUILD ALSO FAILS -> " + detail,
-                                 recommended_action="Proven slop/ceiling: a correct binary fails "
-                                 "this test too. Do not chase the code; flag the fixture as broken.",
-                                 extra={"reference": str(ref)}))
+            out.append(
+                Judgement(
+                    base,
+                    TestVerdict.SLOP,
+                    "reference-fail",
+                    "CLEAN REFERENCE BUILD ALSO FAILS -> " + detail,
+                    recommended_action="Proven slop/ceiling: a correct binary fails "
+                    "this test too. Do not chase the code; flag the fixture as broken.",
+                    extra={"reference": str(ref)},
+                )
+            )
         else:
-            out.append(Judgement(base, TestVerdict.CORRECT, "reference-pass",
-                                 "clean reference PASSES -> the code/build is what to fix: " + detail,
-                                 extra={"reference": str(ref)}))
+            out.append(
+                Judgement(
+                    base,
+                    TestVerdict.CORRECT,
+                    "reference-pass",
+                    "clean reference PASSES -> the code/build is what to fix: " + detail,
+                    extra={"reference": str(ref)},
+                )
+            )
     return out
 
 
 # ---------------------------------------------------------------------------
 # Top-level: validate every non-passing test in an eval report
 # ---------------------------------------------------------------------------
-def validate_eval_report(eval_report: Path,
-                         test_sources: dict[str, str] | None = None) -> list[Judgement]:
+def validate_eval_report(
+    eval_report: Path, test_sources: dict[str, str] | None = None
+) -> list[Judgement]:
     failures = _failures_from_eval_report(eval_report)
     contradictions = _find_contradictions(failures)
     test_sources = test_sources or {}
@@ -375,35 +458,57 @@ def validate_eval_report(eval_report: Path,
             continue  # skips are the Adjudicator's domain, not slop
         # Check 1 -- contradiction
         if f.test_id in contradictions:
-            out.append(Judgement(f.test_id, TestVerdict.SLOP, "contradiction",
-                                 contradictions[f.test_id],
-                                 recommended_action="Genuine ceiling WITH PROOF. Report "
-                                 "the conflicting fixtures; do not chase either."))
+            out.append(
+                Judgement(
+                    f.test_id,
+                    TestVerdict.SLOP,
+                    "contradiction",
+                    contradictions[f.test_id],
+                    recommended_action="Genuine ceiling WITH PROOF. Report "
+                    "the conflicting fixtures; do not chase either.",
+                )
+            )
             continue
         # Check 2 -- environment-baked golden
         eb = _detect_env_baked(f.text or "")
         if eb:
-            out.append(Judgement(f.test_id, TestVerdict.SLOP, "environment-baked",
-                                 f"golden encodes {eb[0]}: {eb[1]}",
-                                 recommended_action="Either match the environment "
-                                 "(see Adjudicator MATCH) or, if unreproducible, flag "
-                                 "the fixture as env-baked with proof."))
+            out.append(
+                Judgement(
+                    f.test_id,
+                    TestVerdict.SLOP,
+                    "environment-baked",
+                    f"golden encodes {eb[0]}: {eb[1]}",
+                    recommended_action="Either match the environment "
+                    "(see Adjudicator MATCH) or, if unreproducible, flag "
+                    "the fixture as env-baked with proof.",
+                )
+            )
             continue
         # Check 3 -- tautology (needs test source)
         src = _lookup_source(f, test_sources)
         if src:
             ta = _detect_tautology(src)
             if ta:
-                out.append(Judgement(f.test_id, TestVerdict.SLOP, "tautology",
-                                     f"non-falsifiable assertion ({ta[0]}): {ta[1]}",
-                                     recommended_action="Test certifies nothing; ignore "
-                                     "for scoring purposes."))
+                out.append(
+                    Judgement(
+                        f.test_id,
+                        TestVerdict.SLOP,
+                        "tautology",
+                        f"non-falsifiable assertion ({ta[0]}): {ta[1]}",
+                        recommended_action="Test certifies nothing; ignore for scoring purposes.",
+                    )
+                )
                 continue
         # Check 4 deferred to explicit reference run -> default CORRECT
-        out.append(Judgement(f.test_id, TestVerdict.CORRECT, "no-slop-signature",
-                             "no contradiction/env-baking/tautology found",
-                             recommended_action="Fix the code (run reference-cross-check "
-                             "to be certain)."))
+        out.append(
+            Judgement(
+                f.test_id,
+                TestVerdict.CORRECT,
+                "no-slop-signature",
+                "no contradiction/env-baking/tautology found",
+                recommended_action="Fix the code (run reference-cross-check to be certain).",
+            )
+        )
     return out
 
 
@@ -418,6 +523,7 @@ def _lookup_source(f: Failure, sources: dict[str, str]) -> str:
 
 def _summarize(eval_report: Path, judgements: list[Judgement]) -> int:
     from collections import Counter
+
     seen: dict[str, Judgement] = {}
     for j in judgements:
         seen.setdefault(_base_nodeid(j.test_id), j)
@@ -446,15 +552,20 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("check", help="validate the tests behind an eval report")
     c.add_argument("eval_report", type=Path)
-    c.add_argument("--tests-dir", type=Path, default=None,
-                   help="dir of test_*.py sources for tautology detection")
+    c.add_argument(
+        "--tests-dir",
+        type=Path,
+        default=None,
+        help="dir of test_*.py sources for tautology detection",
+    )
     r = sub.add_parser("reference", help="reference cross-check one invocation")
     r.add_argument("--binary", type=Path, required=True)
     r.add_argument("--cmd", required=True, help="space-separated argv")
     r.add_argument("--golden-rc", type=int, default=None)
     r.add_argument("--golden-out-file", type=Path, default=None)
-    ra = sub.add_parser("reference-auto",
-                        help="build a clean reference + auto-check ALL failures for slop")
+    ra = sub.add_parser(
+        "reference-auto", help="build a clean reference + auto-check ALL failures for slop"
+    )
     ra.add_argument("tool_dir", type=Path, help="dir with the tool's canonical source + build")
     ra.add_argument("eval_report", type=Path)
     args = ap.parse_args()
@@ -468,10 +579,19 @@ def main() -> int:
         return _summarize(args.eval_report, js)
 
     if args.cmd == "reference":
-        golden_out = args.golden_out_file.read_text(encoding="utf-8", errors="replace") if args.golden_out_file else None
-        j = reference_cross_check(ReferenceCheck(
-            binary=args.binary, argv=args.cmd.split(),
-            golden_rc=args.golden_rc, golden_stdout=golden_out))
+        golden_out = (
+            args.golden_out_file.read_text(encoding="utf-8", errors="replace")
+            if args.golden_out_file
+            else None
+        )
+        j = reference_cross_check(
+            ReferenceCheck(
+                binary=args.binary,
+                argv=args.cmd.split(),
+                golden_rc=args.golden_rc,
+                golden_stdout=golden_out,
+            )
+        )
         print(f"[{j.verdict.value}] {j.check}: {j.proof}")
         if j.recommended_action:
             print(f"  -> {j.recommended_action}")
@@ -479,6 +599,7 @@ def main() -> int:
 
     if args.cmd == "reference-auto":
         from collections import Counter
+
         js = auto_reference_check(args.tool_dir, args.eval_report)
         c = Counter(j.verdict.value for j in js)
         print(f"=== AUTO REFERENCE-FAIL: {args.tool_dir.name} ===")

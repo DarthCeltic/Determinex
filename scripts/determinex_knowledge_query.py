@@ -21,6 +21,7 @@ Usage:
   python scripts/determinex_knowledge_query.py --key luajit_vmdef_wall_2026_06_23
   python scripts/determinex_knowledge_query.py --status                   # live PB score snapshot
 """
+
 from __future__ import annotations
 
 import argparse
@@ -81,7 +82,9 @@ def cmd_search(query: str) -> int:
         blob = (key + " " + json.dumps(val, ensure_ascii=False)).lower()
         score = sum(blob.count(t) for t in terms)
         if score:
-            doc = val.get("_doc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
+            doc = (
+                val.get("_doc") if isinstance(val, dict) else (val if isinstance(val, str) else "")
+            )
             hits.append((score, key, (doc or "")[:200]))
     hits.sort(reverse=True)
     if not hits:
@@ -98,8 +101,12 @@ def cmd_search(query: str) -> int:
 def cmd_status() -> int:
     ei = _load(EVAL_INDEX)
     locked = [r for r in ei if r.get("official_full_suite_resolved") and not r.get("alias_for")]
-    ceilings = [r for r in ei if r.get("status") in ("ceiling_certified", "ceiling_confirmed") and not r.get("alias_for")]
-    print(f"ProgramBench official locks: {len(locked)}/200 = {len(locked)/200*100:.1f}%")
+    ceilings = [
+        r
+        for r in ei
+        if r.get("status") in ("ceiling_certified", "ceiling_confirmed") and not r.get("alias_for")
+    ]
+    print(f"ProgramBench official locks: {len(locked)}/200 = {len(locked) / 200 * 100:.1f}%")
     print(f"Ceiling-certified: {len(ceilings)}")
     if BOARD.exists():
         board = _load(BOARD)
@@ -109,7 +116,9 @@ def cmd_status() -> int:
 
 
 def main(argv=None) -> int:
-    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     p.add_argument("query", nargs="?", help="keyword search terms")
     p.add_argument("--topics", action="store_true", help="list all topic buckets")
     p.add_argument("--topic", help="list findings under one topic bucket")

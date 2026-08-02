@@ -24,6 +24,7 @@ Hard rules enforced by load():
   * any sector that names a release_supported promotion_target without
     naming packaging/fresh-install evidence -> BLOCKED_RELEASE_OVERCLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -40,12 +41,9 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
 
-
 _REPO_ROOT = _HERE.parent.parent.parent
 
-_DEFAULT_EVIDENCE_DIR = (
-    _REPO_ROOT / "assurance" / "evidence" / "universal_100_sector_state_ladder"
-)
+_DEFAULT_EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "universal_100_sector_state_ladder"
 
 EXPECTED_STATUS = "UNIVERSAL_100_SECTOR_STATE_AND_INGESTION_LADDER_PASSED"
 
@@ -187,7 +185,9 @@ def _shell(*, decision: str, note: str) -> Universal100SectorStateLadderStatus:
 
 
 def _awaiting(note: str) -> Universal100SectorStateLadderStatus:
-    return _shell(decision="REACT_UNIVERSAL_100_SECTOR_STATE_LADDER_BINDING_AWAITING_EVIDENCE", note=note)
+    return _shell(
+        decision="REACT_UNIVERSAL_100_SECTOR_STATE_LADDER_BINDING_AWAITING_EVIDENCE", note=note
+    )
 
 
 def _block(decision: str, note: str) -> Universal100SectorStateLadderStatus:
@@ -295,7 +295,11 @@ def load(evidence_dir: Path | str | None = None) -> Universal100SectorStateLadde
     for s in sectors:
         if "RELEASE_SUPPORTED" in s.promotion_targets:
             text = " ".join(s.release_boundary + s.missing_rungs).lower()
-            if "packaging" not in text and "fresh install" not in text and "release gate" not in text:
+            if (
+                "packaging" not in text
+                and "fresh install" not in text
+                and "release gate" not in text
+            ):
                 return _block(
                     "REACT_UNIVERSAL_100_SECTOR_STATE_LADDER_BINDING_BLOCKED_RELEASE_OVERCLAIM",
                     f"sector {s.sector_id} targets RELEASE_SUPPORTED without naming packaging/fresh-install/release-gate rung",

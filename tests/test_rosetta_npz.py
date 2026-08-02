@@ -118,7 +118,14 @@ def _write_shard(tmp: Path, arch: str, dim: int, d_rosetta: int, corrupt: bool =
                 "d_rosetta": d_rosetta,
                 "storage_dtype": "float16",
                 "dims": {arch: dim},
-                "shards": {arch: {"file": shard.name, "bytes": shard.stat().st_size, "sha256": digest, "dim": dim}},
+                "shards": {
+                    arch: {
+                        "file": shard.name,
+                        "bytes": shard.stat().st_size,
+                        "sha256": digest,
+                        "dim": dim,
+                    }
+                },
             }
         ),
         encoding="utf-8",

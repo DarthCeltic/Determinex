@@ -21,7 +21,9 @@ def test_binary_fairness_audit_reports_group_metrics_and_fairness_gaps():
         {"group": "B", "y_true": 0, "y_pred": 0},
     ]
 
-    report = audit_decisions(rows, group_field="group", truth_field="y_true", prediction_field="y_pred")
+    report = audit_decisions(
+        rows, group_field="group", truth_field="y_true", prediction_field="y_pred"
+    )
 
     assert report["status"] == "FAIRNESS_AUDIT_COMPLETE"
     assert report["scope"]["supported_metrics"] == [
@@ -67,7 +69,9 @@ def test_binary_fairness_audit_flags_missing_denominators_without_inventing_rate
         {"group": "B", "y_true": 0, "y_pred": 0},
     ]
 
-    report = audit_decisions(rows, group_field="group", truth_field="y_true", prediction_field="y_pred")
+    report = audit_decisions(
+        rows, group_field="group", truth_field="y_true", prediction_field="y_pred"
+    )
 
     assert report["groups"]["A"]["false_positive_rate"] is None
     assert report["groups"]["B"]["true_positive_rate"] is None
@@ -81,11 +85,7 @@ def test_fairness_audit_cli_reads_csv_and_writes_json():
     input_path = scratch / f"decisions_{uuid.uuid4().hex}.csv"
     try:
         input_path.write_text(
-            "group,y_true,y_pred\n"
-            "A,1,1\n"
-            "A,0,1\n"
-            "B,1,0\n"
-            "B,0,1\n",
+            "group,y_true,y_pred\nA,1,1\nA,0,1\nB,1,0\nB,0,1\n",
             encoding="utf-8",
         )
 

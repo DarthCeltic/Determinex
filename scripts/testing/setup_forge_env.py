@@ -31,12 +31,15 @@ DETERMINEX_ROOT = Path(__file__).resolve().parent
 # ENVIRONMENT CHECK
 # ---------------------------------------------------------------------------
 
+
 def check_nvidia() -> tuple[bool, str]:
     """Returns (gpu_found, driver_version)."""
     try:
         r = subprocess.run(
             ["nvidia-smi", "--query-gpu=name,driver_version", "--format=csv,noheader"],
-            capture_output=True, text=True, timeout=10,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         if r.returncode == 0 and r.stdout.strip():
             return True, r.stdout.strip()
@@ -44,12 +47,15 @@ def check_nvidia() -> tuple[bool, str]:
         pass
     return False, ""
 
+
 def check_package(name: str) -> tuple[bool, str]:
     """Returns (installed, version_string)."""
     try:
         r = subprocess.run(
             [sys.executable, "-c", f"import {name}; print(getattr({name}, '__version__', 'ok'))"],
-            capture_output=True, text=True, timeout=30,
+            capture_output=True,
+            text=True,
+            timeout=30,
         )
         if r.returncode == 0:
             return True, r.stdout.strip()
@@ -57,9 +63,11 @@ def check_package(name: str) -> tuple[bool, str]:
         pass
     return False, ""
 
+
 # ---------------------------------------------------------------------------
 # INSTALL HELPERS
 # ---------------------------------------------------------------------------
+
 
 def run_pip(*pip_args: str) -> bool:
     """Run pip with the given arguments. Returns True on success."""
@@ -68,6 +76,7 @@ def run_pip(*pip_args: str) -> bool:
     result = subprocess.run(cmd)
     return result.returncode == 0
 
+
 def install_pytorch() -> bool:
     """
     Install PyTorch with CUDA 12.1 wheels.
@@ -75,10 +84,15 @@ def install_pytorch() -> bool:
     """
     print("\n[SETUP] Installing PyTorch 2.x (CUDA 12.1)...", flush=True)
     return run_pip(
-        "install", "--upgrade",
-        "torch", "torchvision", "torchaudio",
-        "--index-url", "https://download.pytorch.org/whl/cu121",
+        "install",
+        "--upgrade",
+        "torch",
+        "torchvision",
+        "torchaudio",
+        "--index-url",
+        "https://download.pytorch.org/whl/cu121",
     )
+
 
 def install_unsloth() -> bool:
     """
@@ -91,20 +105,26 @@ def install_unsloth() -> bool:
     if not ok:
         print("[SETUP] PyPI install failed — trying GitHub edge build...", flush=True)
         ok = run_pip(
-            "install", "--upgrade",
+            "install",
+            "--upgrade",
             "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git",
         )
     return ok
 
+
 def install_training_stack() -> bool:
     """Install TRL, PEFT, Transformers, Accelerate, Datasets."""
-    print("\n[SETUP] Installing training stack (trl, peft, transformers, accelerate, datasets)...", flush=True)
+    print(
+        "\n[SETUP] Installing training stack (trl, peft, transformers, accelerate, datasets)...",
+        flush=True,
+    )
     reqs = DETERMINEX_ROOT / "scripts" / "fine_tuning" / "requirements.txt"
     if reqs.exists():
         return run_pip("install", "--upgrade", "-r", str(reqs))
     # Fallback: install individually
     return run_pip(
-        "install", "--upgrade",
+        "install",
+        "--upgrade",
         "trl>=0.11.0",
         "peft>=0.13.0",
         "transformers>=4.44.0",
@@ -113,19 +133,21 @@ def install_training_stack() -> bool:
         "bitsandbytes>=0.43.0",
     )
 
+
 # ---------------------------------------------------------------------------
 # VERIFICATION
 # ---------------------------------------------------------------------------
+
 
 def verify_install() -> bool:
     """Run a quick smoke-test of the installed stack. Returns True if all good."""
     print("\n[SETUP] Verifying install...", flush=True)
 
     checks = [
-        ("torch",        "torch.cuda.is_available()"),
-        ("unsloth",      "'ok'"),
-        ("datasets",     "'ok'"),
-        ("trl",          "'ok'"),
+        ("torch", "torch.cuda.is_available()"),
+        ("unsloth", "'ok'"),
+        ("datasets", "'ok'"),
+        ("trl", "'ok'"),
         ("transformers", "'ok'"),
     ]
 
@@ -139,17 +161,25 @@ def verify_install() -> bool:
 
     # Check CUDA reachable through torch
     cuda_check = subprocess.run(
-        [sys.executable, "-c",
-         "import torch; print('CUDA:', torch.cuda.is_available(), '|', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'no GPU')"],
-        capture_output=True, text=True,
+        [
+            sys.executable,
+            "-c",
+            "import torch; print('CUDA:', torch.cuda.is_available(), '|', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'no GPU')",
+        ],
+        capture_output=True,
+        text=True,
     )
-    print(f"  {'cuda check':<15} {cuda_check.stdout.strip() or cuda_check.stderr.strip()}", flush=True)
+    print(
+        f"  {'cuda check':<15} {cuda_check.stdout.strip() or cuda_check.stderr.strip()}", flush=True
+    )
 
     return all_ok
+
 
 # ---------------------------------------------------------------------------
 # MAIN
 # ---------------------------------------------------------------------------
+
 
 def main():
     print("═" * 60)
@@ -164,50 +194,58 @@ def main():
     else:
         print("[SETUP] WARNING: nvidia-smi not found or no GPU detected.", flush=True)
         print("[SETUP] Training requires an NVIDIA GPU with CUDA support.", flush=True)
-        print("[SETUP] Continuing install — PyTorch CPU wheels will be installed instead.", flush=True)
+        print(
+            "[SETUP] Continuing install — PyTorch CPU wheels will be installed instead.", flush=True
+        )
 
     if args.check:
         ok = verify_install()
         if ok:
             print("\n[SETUP] All dependencies installed and verified.", flush=True)
         else:
-            print("\n[SETUP] Missing packages — run setup_forge_env.py (without --check) to install.", flush=True)
+            print(
+                "\n[SETUP] Missing packages — run setup_forge_env.py (without --check) to install.",
+                flush=True,
+            )
         return
 
     # Install sequence
     steps = [
         ("PyTorch (CUDA 12.1)", install_pytorch),
-        ("Unsloth",             install_unsloth),
-        ("Training stack",      install_training_stack),
+        ("Unsloth", install_unsloth),
+        ("Training stack", install_training_stack),
     ]
 
     for name, fn in steps:
-        print(f"\n{'─'*40}", flush=True)
+        print(f"\n{'─' * 40}", flush=True)
         print(f"[SETUP] Step: {name}", flush=True)
         ok = fn()
         if not ok:
             print(f"[SETUP] ERROR: {name} installation failed. Check the error above.", flush=True)
-            print("[SETUP] You can retry just this step by re-running setup_forge_env.py", flush=True)
+            print(
+                "[SETUP] You can retry just this step by re-running setup_forge_env.py", flush=True
+            )
             sys.exit(1)
 
     # Final verification
-    print(f"\n{'─'*40}", flush=True)
+    print(f"\n{'─' * 40}", flush=True)
     all_ok = verify_install()
 
     if all_ok:
         print(
-            f"\n{'═'*60}\n"
+            f"\n{'═' * 60}\n"
             f"  SETUP COMPLETE\n"
             f"\n"
             f"  Run a single forge:     python ignite_loop.py --forge-only\n"
             f"  Run the full loop:      python ignite_loop.py\n"
             f"  Train on current data:  python ignite_loop.py --train-only\n"
-            f"{'═'*60}\n",
+            f"{'═' * 60}\n",
             flush=True,
         )
     else:
         print("\n[SETUP] Some packages failed to install. Check errors above.", flush=True)
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

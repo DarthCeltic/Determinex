@@ -12,6 +12,7 @@ signatures. A free-string-only operator_identity (without a
 signing key/ref binding and without a payload hash binding) is
 refused.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -24,8 +25,8 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from .operator_identity_bounding_record import (
-    BoundedOperatorIdentity,
     OPERATOR_IDENTITY_BOUNDING_STATUS_TOKENS,
+    BoundedOperatorIdentity,
     OperatorIdentityBoundingRecord,
 )
 from .real_human_approval_admission_record import (
@@ -124,21 +125,24 @@ def check(
     if admission is None or not admission.is_accepted:
         return _block(
             "OPERATOR_IDENTITY_BLOCKED_MALFORMED_IDENTITY",
-            admission=admission, bound=bound,
+            admission=admission,
+            bound=bound,
             note="admission missing or not accepted",
         )
 
     if getattr(admission, "is_fixture", False):
         return _block(
             "OPERATOR_IDENTITY_BLOCKED_MALFORMED_IDENTITY",
-            admission=admission, bound=bound,
+            admission=admission,
+            bound=bound,
             note="fixture admissions cannot be bound to a real operator identity",
         )
 
     if admission.signature_kind != "real_local_hmac":
         return _block(
             "OPERATOR_IDENTITY_BLOCKED_MISSING_SIGNING_REF",
-            admission=admission, bound=bound,
+            admission=admission,
+            bound=bound,
             note=(
                 f"admission.signature_kind={admission.signature_kind!r}; "
                 "operator identity binding requires real_local_hmac"
@@ -148,7 +152,8 @@ def check(
     if bound is None:
         return _block(
             "OPERATOR_IDENTITY_BLOCKED_FREE_STRING_ONLY",
-            admission=admission, bound=bound,
+            admission=admission,
+            bound=bound,
             note=(
                 "no BoundedOperatorIdentity supplied; admission has "
                 f"free-string operator_identity={admission.operator_identity!r}"
@@ -158,21 +163,24 @@ def check(
     if not bound.is_well_formed:
         return _block(
             "OPERATOR_IDENTITY_BLOCKED_MALFORMED_IDENTITY",
-            admission=admission, bound=bound,
+            admission=admission,
+            bound=bound,
             note="BoundedOperatorIdentity is not well-formed",
         )
 
     if not bound.signing_key_ref:
         return _block(
             "OPERATOR_IDENTITY_BLOCKED_MISSING_SIGNING_REF",
-            admission=admission, bound=bound,
+            admission=admission,
+            bound=bound,
             note="bound.signing_key_ref is empty",
         )
 
     if bound.operator_id != admission.operator_identity:
         return _block(
             "OPERATOR_IDENTITY_BLOCKED_PAYLOAD_MISMATCH",
-            admission=admission, bound=bound,
+            admission=admission,
+            bound=bound,
             note=(
                 f"bound.operator_id={bound.operator_id!r} != "
                 f"admission.operator_identity={admission.operator_identity!r}"
@@ -185,7 +193,8 @@ def check(
     if bound.workspace_identity_hash != expected_ws_hash:
         return _block(
             "OPERATOR_IDENTITY_BLOCKED_WORKSPACE_MISMATCH",
-            admission=admission, bound=bound,
+            admission=admission,
+            bound=bound,
             note="bound.workspace_identity_hash does not match admission.workspace_identity",
         )
 
@@ -202,7 +211,8 @@ def check(
     if bound.approval_payload_hash != expected_payload_hash:
         return _block(
             "OPERATOR_IDENTITY_BLOCKED_PAYLOAD_MISMATCH",
-            admission=admission, bound=bound,
+            admission=admission,
+            bound=bound,
             note="bound.approval_payload_hash != recomputed canonical payload hash",
         )
 
@@ -231,9 +241,9 @@ def _block(
 ) -> OperatorIdentityBoundingRecord:
     return OperatorIdentityBoundingRecord(
         decision=decision,
-        operator_id=getattr(bound, "operator_id", "") if bound else (
-            getattr(admission, "operator_identity", "") if admission else ""
-        ),
+        operator_id=getattr(bound, "operator_id", "")
+        if bound
+        else (getattr(admission, "operator_identity", "") if admission else ""),
         workspace_identity_hash=getattr(bound, "workspace_identity_hash", "") if bound else "",
         approval_payload_hash=getattr(bound, "approval_payload_hash", "") if bound else "",
         signing_key_ref=getattr(bound, "signing_key_ref", "") if bound else "",

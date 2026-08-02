@@ -7,6 +7,7 @@ The 15Gi box starves evals into all-not_run garbage below ~1.5G available
 (see memory: box-memory-constraint), and HF cloud spend was previously
 untracked — this is the single place both become observable.
 """
+
 from __future__ import annotations
 
 import datetime as dt
@@ -24,7 +25,7 @@ SPEND_WARN_USD_DAY = 5.0
 
 
 def main() -> None:
-    now = dt.datetime.now(dt.timezone.utc)
+    now = dt.datetime.now(dt.UTC)
     today = now.date().isoformat()
     lines = [f"=== pb_watch {now.isoformat(timespec='seconds')} ==="]
 
@@ -35,8 +36,9 @@ def main() -> None:
     avail = mem.get("MemAvailable", 0)
     lines.append(f"mem: avail={avail}MB total={mem.get('MemTotal', 0)}MB")
     if avail < MEM_WARN_MB:
-        top = subprocess.run(["ps", "-eo", "rss,comm", "--sort=-rss"],
-                             capture_output=True, text=True).stdout.splitlines()[1:4]
+        top = subprocess.run(
+            ["ps", "-eo", "rss,comm", "--sort=-rss"], capture_output=True, text=True
+        ).stdout.splitlines()[1:4]
         joined = "; ".join(t.strip() for t in top)
         lines.append(f"WARN low-memory avail={avail}MB top={joined}")
 
@@ -80,7 +82,7 @@ def main() -> None:
     if os.path.isdir(REIMPL):
         for f in os.listdir(REIMPL):
             p = os.path.join(REIMPL, f)
-            m = dt.datetime.fromtimestamp(os.path.getmtime(p), dt.timezone.utc)
+            m = dt.datetime.fromtimestamp(os.path.getmtime(p), dt.UTC)
             if m.date().isoformat() == today:
                 fresh.append(f"{f}({os.path.getsize(p)}B)")
     lines.append(f"candidates today: {', '.join(fresh) or 'none'}")

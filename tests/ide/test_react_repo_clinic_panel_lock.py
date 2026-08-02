@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -10,7 +11,9 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-PANEL_PATH = _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "RepoClinicPanel.tsx"
+PANEL_PATH = (
+    _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "RepoClinicPanel.tsx"
+)
 LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001.json"
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_react_repo_clinic_panel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"

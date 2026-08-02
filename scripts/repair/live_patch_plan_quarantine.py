@@ -13,11 +13,12 @@ Only ``replace_file`` is supported. Path traversal, symlink-friendly
 paths, binary content, and oversized entries are rejected with
 specific status tokens.
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Iterable, Sequence
 from pathlib import Path
-from typing import Iterable, Sequence
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -34,8 +35,7 @@ from .live_patch_plan_record import (
     supported_operations,
 )
 
-
-_MAX_ENTRY_BYTES = 2_000_000   # 2 MB per file
+_MAX_ENTRY_BYTES = 2_000_000  # 2 MB per file
 _MAX_TOTAL_BYTES = 16_000_000  # 16 MB across all entries
 
 
@@ -86,7 +86,7 @@ class LivePatchPlanQuarantine:
                 model_id=model_id,
                 workspace=str(ws),
                 note=f"admission decision={admission.decision} "
-                     f"live_call_authorized={admission.live_call_authorized}",
+                f"live_call_authorized={admission.live_call_authorized}",
             )
 
         # 2. Validate each entry.
@@ -96,12 +96,15 @@ class LivePatchPlanQuarantine:
 
         for raw in plan_entries:
             if not isinstance(raw, dict):
-                rejected.append(QuarantinedPatchEntry(
-                    operation="?", path="?",
-                    new_content_chars=0,
-                    new_content_preview="",
-                    rejected_reason="entry is not a dict",
-                ))
+                rejected.append(
+                    QuarantinedPatchEntry(
+                        operation="?",
+                        path="?",
+                        new_content_chars=0,
+                        new_content_preview="",
+                        rejected_reason="entry is not a dict",
+                    )
+                )
                 return self._blocked(
                     "PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
                     admission_ref=admission_ref,
@@ -120,12 +123,15 @@ class LivePatchPlanQuarantine:
 
             # 2a. Unsupported operation.
             if op not in supported_operations():
-                rejected.append(QuarantinedPatchEntry(
-                    operation=op, path=path,
-                    new_content_chars=entry_chars,
-                    new_content_preview=entry_preview,
-                    rejected_reason=f"unsupported operation {op!r}",
-                ))
+                rejected.append(
+                    QuarantinedPatchEntry(
+                        operation=op,
+                        path=path,
+                        new_content_chars=entry_chars,
+                        new_content_preview=entry_preview,
+                        rejected_reason=f"unsupported operation {op!r}",
+                    )
+                )
                 return self._blocked(
                     "PATCH_PLAN_BLOCKED_UNSUPPORTED_OPERATION",
                     admission_ref=admission_ref,
@@ -139,12 +145,15 @@ class LivePatchPlanQuarantine:
             # 2b. Path validation.
             cleaned, reason = _normalize_rel(path)
             if reason:
-                rejected.append(QuarantinedPatchEntry(
-                    operation=op, path=path,
-                    new_content_chars=entry_chars,
-                    new_content_preview=entry_preview,
-                    rejected_reason=f"path escape: {reason}",
-                ))
+                rejected.append(
+                    QuarantinedPatchEntry(
+                        operation=op,
+                        path=path,
+                        new_content_chars=entry_chars,
+                        new_content_preview=entry_preview,
+                        rejected_reason=f"path escape: {reason}",
+                    )
+                )
                 return self._blocked(
                     "PATCH_PLAN_BLOCKED_PATH_ESCAPE",
                     admission_ref=admission_ref,
@@ -157,12 +166,15 @@ class LivePatchPlanQuarantine:
 
             # 2c. Binary content.
             if _is_binary_text(new_content):
-                rejected.append(QuarantinedPatchEntry(
-                    operation=op, path=cleaned,
-                    new_content_chars=entry_chars,
-                    new_content_preview=entry_preview,
-                    rejected_reason="NUL byte in content",
-                ))
+                rejected.append(
+                    QuarantinedPatchEntry(
+                        operation=op,
+                        path=cleaned,
+                        new_content_chars=entry_chars,
+                        new_content_preview=entry_preview,
+                        rejected_reason="NUL byte in content",
+                    )
+                )
                 return self._blocked(
                     "PATCH_PLAN_BLOCKED_BINARY_CONTENT",
                     admission_ref=admission_ref,
@@ -176,12 +188,15 @@ class LivePatchPlanQuarantine:
             # 2d. Per-entry size.
             entry_bytes = len(new_content.encode("utf-8"))
             if entry_bytes > _MAX_ENTRY_BYTES:
-                rejected.append(QuarantinedPatchEntry(
-                    operation=op, path=cleaned,
-                    new_content_chars=entry_chars,
-                    new_content_preview=entry_preview,
-                    rejected_reason=f"entry > {_MAX_ENTRY_BYTES} bytes",
-                ))
+                rejected.append(
+                    QuarantinedPatchEntry(
+                        operation=op,
+                        path=cleaned,
+                        new_content_chars=entry_chars,
+                        new_content_preview=entry_preview,
+                        rejected_reason=f"entry > {_MAX_ENTRY_BYTES} bytes",
+                    )
+                )
                 return self._blocked(
                     "PATCH_PLAN_BLOCKED_OVERSIZED",
                     admission_ref=admission_ref,
@@ -189,17 +204,20 @@ class LivePatchPlanQuarantine:
                     model_id=model_id,
                     workspace=str(ws),
                     rejected=rejected,
-                    note=f"entry oversized",
+                    note="entry oversized",
                 )
 
             total_bytes += entry_bytes
             if total_bytes > _MAX_TOTAL_BYTES:
-                rejected.append(QuarantinedPatchEntry(
-                    operation=op, path=cleaned,
-                    new_content_chars=entry_chars,
-                    new_content_preview=entry_preview,
-                    rejected_reason=f"total > {_MAX_TOTAL_BYTES} bytes",
-                ))
+                rejected.append(
+                    QuarantinedPatchEntry(
+                        operation=op,
+                        path=cleaned,
+                        new_content_chars=entry_chars,
+                        new_content_preview=entry_preview,
+                        rejected_reason=f"total > {_MAX_TOTAL_BYTES} bytes",
+                    )
+                )
                 return self._blocked(
                     "PATCH_PLAN_BLOCKED_OVERSIZED",
                     admission_ref=admission_ref,
@@ -210,11 +228,14 @@ class LivePatchPlanQuarantine:
                     note="cumulative oversized",
                 )
 
-            accepted.append(QuarantinedPatchEntry(
-                operation=op, path=cleaned,
-                new_content_chars=entry_chars,
-                new_content_preview=entry_preview,
-            ))
+            accepted.append(
+                QuarantinedPatchEntry(
+                    operation=op,
+                    path=cleaned,
+                    new_content_chars=entry_chars,
+                    new_content_preview=entry_preview,
+                )
+            )
 
         if not accepted:
             return self._blocked(

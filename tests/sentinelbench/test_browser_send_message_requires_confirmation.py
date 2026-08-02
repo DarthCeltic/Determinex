@@ -1,6 +1,8 @@
 """SentinelBench action gate: SEND_MESSAGE always requires confirmation."""
-from tests.sentinelbench.helpers import make_action
+
 from agents.base_agent import ActionType
+
+from tests.sentinelbench.helpers import make_action
 
 
 def test_send_message_requires_confirmation(governor, benign_task, browser_observation):

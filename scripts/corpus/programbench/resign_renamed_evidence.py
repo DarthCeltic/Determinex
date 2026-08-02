@@ -22,6 +22,7 @@ Records that fail step 2b are left untouched and reported -- never blind-resigne
 Usage:  python scripts/corpus/programbench/resign_renamed_evidence.py [--apply]
         (default is dry-run report)
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -71,8 +72,12 @@ def _modules_for(record_type: str) -> list:
 
 def _git_show(path: Path) -> dict | None:
     rel = path.relative_to(ROOT).as_posix()
-    r = subprocess.run(["git", "-C", str(ROOT), "show", f"{RENAME_COMMIT}^:{rel}"],
-                       capture_output=True, text=True, encoding="utf-8")
+    r = subprocess.run(
+        ["git", "-C", str(ROOT), "show", f"{RENAME_COMMIT}^:{rel}"],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
     if r.returncode != 0:
         return None
     try:
@@ -89,8 +94,15 @@ def _verify_with(mod, record: dict, key: bytes) -> bool:
 
 def run(apply: bool = False) -> dict:
     from typing import Any
-    results: dict[str, Any] = {"scanned": 0, "already_valid": 0, "healed": [], "unprovable": [],
-                               "no_module": [], "no_git_history": []}
+
+    results: dict[str, Any] = {
+        "scanned": 0,
+        "already_valid": 0,
+        "healed": [],
+        "unprovable": [],
+        "no_module": [],
+        "no_git_history": [],
+    }
     for p in sorted(EVIDENCE.rglob("*.json")):
         if p.name == LEDGER.name:
             continue
@@ -120,15 +132,22 @@ def run(apply: bool = False) -> dict:
                 proven = m
                 break
         if proven is None:
-            results["unprovable"].append(str(p))    # NOT authentic pre-rename -> never resign
+            results["unprovable"].append(str(p))  # NOT authentic pre-rename -> never resign
             continue
         new_key = proven._record_key()
         payload = {k: v for k, v in rec.items() if k != "record_signature"}
-        new_sig = hmac_mod.new(new_key, proven._canonical_json(payload), hashlib.blake2b).hexdigest()
-        entry = {"path": str(p.relative_to(ROOT)), "record_type": rt,
-                 "old_signature": rec["record_signature"], "new_signature": new_sig,
-                 "pre_rename_commit": RENAME_COMMIT + "^", "signer": proven.__name__,
-                 "continuity_proven": True}
+        new_sig = hmac_mod.new(
+            new_key, proven._canonical_json(payload), hashlib.blake2b
+        ).hexdigest()
+        entry = {
+            "path": str(p.relative_to(ROOT)),
+            "record_type": rt,
+            "old_signature": rec["record_signature"],
+            "new_signature": new_sig,
+            "pre_rename_commit": RENAME_COMMIT + "^",
+            "signer": proven.__name__,
+            "continuity_proven": True,
+        }
         if apply:
             rec["record_signature"] = new_sig
             p.write_text(json.dumps(rec, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -142,12 +161,14 @@ def run(apply: bool = False) -> dict:
                 prior = []
         known = {e.get("path") for e in prior}
         merged = prior + [e for e in results["healed"] if e["path"] not in known]
-        ledger = {"_doc": "Signature migration after the mechanical Citadel->Determinex rename "
-                          "(commit 804a115ff) broke pre-rename evidence signatures. Each entry's "
-                          "continuity was PROVEN (pre-rename content verified under pre-rename "
-                          "key) before re-signing current content under the current key.",
-                  "migrated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                  "entries": merged}
+        ledger = {
+            "_doc": "Signature migration after the mechanical Citadel->Determinex rename "
+            "(commit 804a115ff) broke pre-rename evidence signatures. Each entry's "
+            "continuity was PROVEN (pre-rename content verified under pre-rename "
+            "key) before re-signing current content under the current key.",
+            "migrated_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "entries": merged,
+        }
         LEDGER.write_text(json.dumps(ledger, indent=2) + "\n", encoding="utf-8")
     return results
 
@@ -155,8 +176,11 @@ def run(apply: bool = False) -> dict:
 def main() -> int:
     apply = "--apply" in sys.argv
     res = run(apply=apply)
-    print(json.dumps({**res, "applied": apply,
-                      "healed_count": len(res["healed"])}, indent=1, default=str))
+    print(
+        json.dumps(
+            {**res, "applied": apply, "healed_count": len(res["healed"])}, indent=1, default=str
+        )
+    )
     return 0
 
 

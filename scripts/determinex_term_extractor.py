@@ -23,6 +23,7 @@ Usage:
     python scripts/determinex_term_extractor.py <eval.json> --out terms/<tool>.json
     python scripts/determinex_term_extractor.py <eval.json> --quiet   # JSON only
 """
+
 from __future__ import annotations
 
 import argparse
@@ -69,17 +70,41 @@ RE_ASSERT_EQ_LHS = re.compile(r"assert\s+(b?(['\"]).*?\2)\s*==")
 # Python-traceback pseudo-metavars: these appear in `<...>` inside tracebacks
 # (frame names, comprehension scopes) and are NOT tool metavars. Never emit them.
 PSEUDO_METAVARS = {
-    "module", "locals", "genexpr", "listcomp", "dictcomp", "setcomp",
-    "lambda", "string", "stdin", "stdout", "stderr", "frozen", "anonymous",
+    "module",
+    "locals",
+    "genexpr",
+    "listcomp",
+    "dictcomp",
+    "setcomp",
+    "lambda",
+    "string",
+    "stdin",
+    "stdout",
+    "stderr",
+    "frozen",
+    "anonymous",
 }
 
 # Flag names that only ever appear as *rejection* test inputs ("unexpected
 # argument '--bogus'"); they are deliberately fake and must not be treated as
 # real terms the reimpl is missing.
 NOISE_FLAG_SUBSTRINGS = (
-    "unknown", "nonexistent", "non-existent", "bogus", "no-such", "nosuch",
-    "not-a", "notreal", "not-real", "definitely", "fake", "invalid-flag",
-    "made-up", "madeup", "doesnotexist", "does-not-exist",
+    "unknown",
+    "nonexistent",
+    "non-existent",
+    "bogus",
+    "no-such",
+    "nosuch",
+    "not-a",
+    "notreal",
+    "not-real",
+    "definitely",
+    "fake",
+    "invalid-flag",
+    "made-up",
+    "madeup",
+    "doesnotexist",
+    "does-not-exist",
 )
 
 
@@ -91,9 +116,29 @@ def _is_noise_flag(flag: str) -> bool:
 # Words that look like language / format / font identifiers (lowercase tokens
 # that appear inside possible-value lists or array/format contexts).
 LANG_HINTS = {
-    "rust", "go", "golang", "python", "c", "cpp", "kotlin", "java", "swift",
-    "fsharp", "ruby", "php", "javascript", "typescript", "bash", "zsh", "fish",
-    "elvish", "powershell", "haskell", "scala", "perl", "lua",
+    "rust",
+    "go",
+    "golang",
+    "python",
+    "c",
+    "cpp",
+    "kotlin",
+    "java",
+    "swift",
+    "fsharp",
+    "ruby",
+    "php",
+    "javascript",
+    "typescript",
+    "bash",
+    "zsh",
+    "fish",
+    "elvish",
+    "powershell",
+    "haskell",
+    "scala",
+    "perl",
+    "lua",
 }
 
 
@@ -172,14 +217,14 @@ def extract(data) -> dict:
     """Return a term dictionary for one eval JSON."""
     status_counts = Counter()
     metavars = Counter()
-    value_required = Counter()      # exact `--flag <metavar>` templates
+    value_required = Counter()  # exact `--flag <metavar>` templates
     possible_values = defaultdict(set)  # context-option -> set(values)
     long_flags = Counter()
     short_flags = Counter()
     unexpected_args = Counter()
-    expected_snippets = Counter()   # literal EXPECTED strings from assertions
+    expected_snippets = Counter()  # literal EXPECTED strings from assertions
     lang_terms = Counter()
-    param_expected = Counter()      # expected text carried in parametrize ids
+    param_expected = Counter()  # expected text carried in parametrize ids
 
     n_total = 0
     n_fail = 0
@@ -273,26 +318,34 @@ def normalize(terms: dict, source_path: Path | None) -> list[dict]:
     for item in terms["value_required_templates"]:
         tmpl = item["term"]
         if tmpl not in src:
-            mismatches.append({"kind": "value_required", "expected": tmpl,
-                               "present_in_source": False, "n": item["n"]})
+            mismatches.append(
+                {
+                    "kind": "value_required",
+                    "expected": tmpl,
+                    "present_in_source": False,
+                    "n": item["n"],
+                }
+            )
     for item in terms["long_flags"]:
         flag = item["term"]
         if flag not in src and item["n"] >= 1:
-            mismatches.append({"kind": "long_flag", "expected": flag,
-                               "present_in_source": False, "n": item["n"]})
+            mismatches.append(
+                {"kind": "long_flag", "expected": flag, "present_in_source": False, "n": item["n"]}
+            )
     for item in terms["metavars"]:
         mv = item["term"]
         token = f"<{mv}>"
         if token not in src:
-            mismatches.append({"kind": "metavar", "expected": token,
-                               "present_in_source": False, "n": item["n"]})
+            mismatches.append(
+                {"kind": "metavar", "expected": token, "present_in_source": False, "n": item["n"]}
+            )
     # rank by frequency (how many tests demand it)
     mismatches.sort(key=lambda d: -d["n"])
     return mismatches
 
 
 def _print_report(tool: str, terms: dict, mismatches: list[dict]):
-    print(f"\n{'='*70}\n  {tool}\n{'='*70}")
+    print(f"\n{'=' * 70}\n  {tool}\n{'=' * 70}")
     print(f"  status keywords (PROPER, from data): {terms['status_values']}")
     if terms["value_required_templates"]:
         print("  value-required templates (exact verbiage):")
@@ -313,8 +366,11 @@ def _print_report(tool: str, terms: dict, mismatches: list[dict]):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Determinex universal term extractor")
     ap.add_argument("eval_jsons", nargs="+", help="programbench eval JSON file(s)")
-    ap.add_argument("--source", help="reimpl source .py to diff for normalization "
-                    "(only meaningful with a single eval json)")
+    ap.add_argument(
+        "--source",
+        help="reimpl source .py to diff for normalization "
+        "(only meaningful with a single eval json)",
+    )
     ap.add_argument("--source-dir", help="dir holding <tool>.py reimpls to auto-pair")
     ap.add_argument("--out", help="write term dict JSON here (single input)")
     ap.add_argument("--out-dir", help="write <tool>.terms.json per input here")
@@ -356,8 +412,7 @@ def main(argv=None):
         if args.out_dir:
             od = Path(args.out_dir)
             od.mkdir(parents=True, exist_ok=True)
-            (od / f"{short}.terms.json").write_text(
-                json.dumps(terms, indent=2), encoding="utf-8")
+            (od / f"{short}.terms.json").write_text(json.dumps(terms, indent=2), encoding="utf-8")
 
     if args.quiet:
         json.dump(all_out, sys.stdout, indent=2)

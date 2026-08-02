@@ -1,4 +1,5 @@
 """tests/test_go_executor.py — GoExecutor scaffold + classify smoke."""
+
 from __future__ import annotations
 
 import json
@@ -12,7 +13,6 @@ sys.path.insert(0, str(_REPO))
 sys.path.insert(0, str(_REPO / "scripts"))
 
 from executors import GoExecutor  # noqa: E402
-
 
 _FAKE_INSTANCE = "psampaz__go-mod-outdated.bb79367"
 
@@ -80,13 +80,16 @@ def test_compile_sh_stdlib_only(synthetic_tasks_dir, tmp_path):
     assert "go build" in compile_sh
     # No actual `go mod download` / `go get` invocation — stdlib only.
     # Check that those commands aren't INVOKED (not just mentioned in comments).
-    code_lines = [ln for ln in compile_sh.splitlines()
-                  if ln.strip() and not ln.strip().startswith("#")]
+    code_lines = [
+        ln for ln in compile_sh.splitlines() if ln.strip() and not ln.strip().startswith("#")
+    ]
     code_blob = "\n".join(code_lines)
-    assert "go mod download" not in code_blob, \
+    assert "go mod download" not in code_blob, (
         f"stdlib-only build must not call `go mod download`; found in: {code_blob}"
-    assert "go get " not in code_blob, \
+    )
+    assert "go get " not in code_blob, (
         f"stdlib-only build must not call `go get`; found in: {code_blob}"
+    )
     # Per-instance GOPATH / GOCACHE isolation
     assert "GOPATH" in compile_sh
     assert "GOCACHE" in compile_sh
@@ -95,13 +98,22 @@ def test_compile_sh_stdlib_only(synthetic_tasks_dir, tmp_path):
 def test_classify_routes_through_central_taxonomy(tmp_path):
     ex = GoExecutor()
     eval_json = tmp_path / "fake.eval.json"
-    eval_json.write_text(json.dumps({
-        "test_results": [
-            {"status": "failure", "name": "t",
-             "extra": {"message": "tool: unknown option: --bogus"}},
-        ],
-    }), encoding="utf-8")
+    eval_json.write_text(
+        json.dumps(
+            {
+                "test_results": [
+                    {
+                        "status": "failure",
+                        "name": "t",
+                        "extra": {"message": "tool: unknown option: --bogus"},
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
     from executors.base import EvalResult
+
     er = EvalResult(instance_id="x", score=0.0, passed=0, total=1, eval_json_path=eval_json)
     cr = ex.classify(er)
     assert cr.families.get("rc_2_unknown_option") == 1

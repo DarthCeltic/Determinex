@@ -18,6 +18,7 @@ list of OR-groups, each group a list of alternatives where at least one must be 
 `assert A and B` (a different BoolOp) is exactly equivalent to two separate asserts and
 flattens safely into the existing AND-semantics `contains` -- no new field needed there.
 """
+
 from __future__ import annotations
 
 import ast
@@ -34,6 +35,7 @@ def _func(src: str) -> ast.FunctionDef:
 
 
 # ---------- _resolve_in_snippet(): the shared single-comparison resolver ----------
+
 
 def test_resolve_in_snippet_literal():
     compare = ast.parse('"needle" in haystack').body[0].value
@@ -56,18 +58,19 @@ def test_resolve_in_snippet_bytes_literal():
 
 
 def test_resolve_in_snippet_not_an_in_compare_returns_empty():
-    compare = ast.parse('x == y').body[0].value
+    compare = ast.parse("x == y").body[0].value
     items, ci = iox._resolve_in_snippet(compare, {}, {})
     assert items == []
 
 
 def test_resolve_in_snippet_unresolvable_returns_empty():
-    compare = ast.parse('some_var in haystack').body[0].value
+    compare = ast.parse("some_var in haystack").body[0].value
     items, ci = iox._resolve_in_snippet(compare, {}, {})
     assert items == []
 
 
 # ---------- BoolOp(Or): the real, sized pattern ----------
+
 
 def test_find_expectations_or_of_two_in_checks_becomes_one_group():
     func = _func(
@@ -77,7 +80,9 @@ def test_find_expectations_or_of_two_in_checks_becomes_one_group():
         "    assert b'squash' in r.stdout.lower() or b'patch' in r.stdout.lower()\n"
     )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert rc == 0
     assert contains == []
     assert in_any == [["squash", "patch"]]
@@ -91,7 +96,9 @@ def test_find_expectations_or_of_three_in_checks():
         "    assert 'a' in r.stdout or 'b' in r.stdout or 'c' in r.stdout\n"
     )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert in_any == [["a", "b", "c"]]
 
 
@@ -104,7 +111,9 @@ def test_find_expectations_or_with_one_unresolvable_branch_adds_nothing():
         "    assert some_dynamic_value in r.stdout or 'b' in r.stdout\n"
     )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert in_any == []
     assert contains == []
 
@@ -113,12 +122,12 @@ def test_find_expectations_or_with_non_in_branch_adds_nothing():
     """A branch that isn't itself a simple `snippet in stream` Compare (e.g. an Eq) means
     the whole OR-group shape wasn't the one this fix targets -- skip it, don't guess."""
     func = _func(
-        "def test_x():\n"
-        "    r = run(['x'])\n"
-        "    assert r.returncode == 1 or 'b' in r.stdout\n"
+        "def test_x():\n    r = run(['x'])\n    assert r.returncode == 1 or 'b' in r.stdout\n"
     )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert in_any == []
 
 
@@ -130,25 +139,29 @@ def test_find_expectations_multiple_or_groups_in_one_function():
         "    assert 'c' in r.stdout or 'd' in r.stdout\n"
     )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert in_any == [["a", "b"], ["c", "d"]]
 
 
 # ---------- BoolOp(And): flattens safely into the existing AND-semantics contains ----------
 
+
 def test_find_expectations_and_of_two_in_checks_flattens_to_contains():
     func = _func(
-        "def test_x():\n"
-        "    r = run(['x'])\n"
-        "    assert 'a' in r.stdout and 'b' in r.stdout\n"
+        "def test_x():\n    r = run(['x'])\n    assert 'a' in r.stdout and 'b' in r.stdout\n"
     )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert sorted(contains) == ["a", "b"]
     assert in_any == []
 
 
 # ---------- Example dataclass: the new field ----------
+
 
 def test_example_has_expect_in_any_field_defaulting_empty():
     ex = iox.Example(test="t")
@@ -156,6 +169,7 @@ def test_example_has_expect_in_any_field_defaulting_empty():
 
 
 # ---------- end-to-end: extract_file() recovers the real stgit-shaped pattern ----------
+
 
 def test_extract_file_recovers_boolop_or_pattern(tmp_path):
     test_file = tmp_path / "test_stgit.py"

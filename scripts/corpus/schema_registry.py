@@ -19,10 +19,12 @@ Usage:
     registry.validate_version(record.get("schema_version"))   # raises on mismatch
     upgraded = registry.migrate(record)                        # returns upgraded copy
 """
+
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 log = logging.getLogger(__name__)
 
@@ -62,6 +64,7 @@ _MIGRATIONS: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {
 # Exceptions
 # ---------------------------------------------------------------------------
 
+
 class SchemaVersionError(ValueError):
     """Raised when a record carries an unknown or incompatible schema version."""
 
@@ -69,6 +72,7 @@ class SchemaVersionError(ValueError):
 # ---------------------------------------------------------------------------
 # SchemaRegistry
 # ---------------------------------------------------------------------------
+
 
 class SchemaRegistry:
     """
@@ -86,8 +90,7 @@ class SchemaRegistry:
         """
         if not version:
             raise SchemaVersionError(
-                f"Record is missing schema_version. "
-                f"Expected one of: {sorted(_KNOWN_VERSIONS)}"
+                f"Record is missing schema_version. Expected one of: {sorted(_KNOWN_VERSIONS)}"
             )
         if version not in _KNOWN_VERSIONS:
             raise SchemaVersionError(

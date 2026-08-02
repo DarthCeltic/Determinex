@@ -36,11 +36,11 @@ if hasattr(sys.stdout, "reconfigure"):
 # PATHS
 # ---------------------------------------------------------------------------
 
-ROOT        = Path(__file__).parent.parent          # repo root
+ROOT = Path(__file__).parent.parent  # repo root
 SCRIPTS_DIR = ROOT / "scripts"
 HIVE_SCRIPT = SCRIPTS_DIR / "determinex_hive.py"
 BIN_OUT_DIR = ROOT / "frontend" / "src-tauri" / "bin"
-BUILD_TEMP  = ROOT / "bundler" / "_pyinstaller_work"
+BUILD_TEMP = ROOT / "bundler" / "_pyinstaller_work"
 SIDECAR_BASENAME = "determinex-hive"
 
 
@@ -52,9 +52,10 @@ def _log(msg: str):
 # TARGET TRIPLE DETECTION
 # ---------------------------------------------------------------------------
 
+
 def current_target_triple() -> str:
     """Return the Rust target triple for the current machine."""
-    system  = platform.system()
+    system = platform.system()
     machine = platform.machine().lower()
 
     if system == "Windows":
@@ -82,10 +83,12 @@ def sidecar_binary_name(triple: str) -> str:
 # BUILD
 # ---------------------------------------------------------------------------
 
+
 def check_pyinstaller() -> bool:
     """Return True if PyInstaller is importable."""
     try:
         import PyInstaller  # noqa: F401
+
         return True
     except ImportError:
         return False
@@ -115,8 +118,7 @@ def build_sidecar(triple: str, dry_run: bool = False) -> Path:
     """
     if not HIVE_SCRIPT.exists():
         raise FileNotFoundError(
-            f"determinex_hive.py not found at {HIVE_SCRIPT}. "
-            "Ensure the repo is fully checked out."
+            f"determinex_hive.py not found at {HIVE_SCRIPT}. Ensure the repo is fully checked out."
         )
 
     BIN_OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -129,53 +131,77 @@ def build_sidecar(triple: str, dry_run: bool = False) -> Path:
     spec_dir = BUILD_TEMP / "spec"
 
     cmd = [
-        sys.executable, "-m", "PyInstaller",
+        sys.executable,
+        "-m",
+        "PyInstaller",
         str(HIVE_SCRIPT),
         "--onefile",
-        "--name",          pyinstaller_name,
-        "--distpath",      str(dist_dir),
-        "--workpath",      str(work_dir),
-        "--specpath",      str(spec_dir),
+        "--name",
+        pyinstaller_name,
+        "--distpath",
+        str(dist_dir),
+        "--workpath",
+        str(work_dir),
+        "--specpath",
+        str(spec_dir),
         "--noconfirm",
         "--clean",
         # Add the repo root and scripts dir to the Python path so determinex_hive.py
         # can import any local modules it depends on
-        "--paths",         str(ROOT),
-        "--paths",         str(SCRIPTS_DIR),
+        "--paths",
+        str(ROOT),
+        "--paths",
+        str(SCRIPTS_DIR),
         # Hidden imports that PyInstaller's static analysis may miss
         # The helper-dispatch modules (determinex_hive.cmd_helper). These are reached
         # via importlib.import_module, which PyInstaller's static analysis cannot see,
         # so without these the sidecar would expose `helper` and then fail at import --
         # and the desktop backend would silently fall back to the repo scripts that do
         # not exist in an installed copy, which is the whole reason `helper` was added.
-        "--hidden-import", "determinex_agents",
-        "--hidden-import", "determinex_agent_chat",
-        "--hidden-import", "determinex_local_model_bench",
-        "--hidden-import", "determinex_usage_ledger",
-        "--hidden-import", "determinex_toolchain_installer",
-        "--hidden-import", "determinex_corpus_api",
+        "--hidden-import",
+        "determinex_agents",
+        "--hidden-import",
+        "determinex_agent_chat",
+        "--hidden-import",
+        "determinex_local_model_bench",
+        "--hidden-import",
+        "determinex_usage_ledger",
+        "--hidden-import",
+        "determinex_toolchain_installer",
+        "--hidden-import",
+        "determinex_corpus_api",
         # The provider registry, behind list_ai_providers. Added 2026-07-31 in the same pass as the
         # command itself -- and only because tests/test_router_bridge.py's allowlist guard caught it.
         # Without this the packaged app would list its 17 AI providers in a dev checkout and show an
         # empty picker once installed, which is precisely the dev-only-panel failure the `helper`
         # subcommand exists to prevent.
-        "--hidden-import", "determinex_providers",
-        "--hidden-import", "ide._tauri_driver",
+        "--hidden-import",
+        "determinex_providers",
+        "--hidden-import",
+        "ide._tauri_driver",
         # cmd_helper reaches this via importlib, which PyInstaller cannot trace. Without the
         # hidden import the packaged sidecar would advertise the model installer and then
         # fail at import -- which matters more than usual here, since this is the command a
         # fresh install needs to become usable at all.
-        "--hidden-import", "setup.install_determinex_models",
+        "--hidden-import",
+        "setup.install_determinex_models",
         # determinex_agents spawns determinex_local_agent as a separate process, so it
         # is not an import of anything above -- but the sidecar must still be able to
         # reach it, and swe_agent.* is what it imports.
-        "--hidden-import", "determinex_local_agent",
-        "--hidden-import", "litellm",
-        "--hidden-import", "rich",
-        "--hidden-import", "dotenv",
-        "--hidden-import", "tiktoken_ext",
-        "--hidden-import", "tiktoken_ext.openai_public",
-        "--collect-data", "litellm",
+        "--hidden-import",
+        "determinex_local_agent",
+        "--hidden-import",
+        "litellm",
+        "--hidden-import",
+        "rich",
+        "--hidden-import",
+        "dotenv",
+        "--hidden-import",
+        "tiktoken_ext",
+        "--hidden-import",
+        "tiktoken_ext.openai_public",
+        "--collect-data",
+        "litellm",
         # OUR litellm_config.yaml, which is a different thing from litellm's own package data above.
         # It is the alias map: without it `determinex/engineer` resolves to ITSELF, and `determinex/`
         # is not a provider litellm knows -- so on a shipped build the hive loop could not call any
@@ -184,7 +210,8 @@ def build_sidecar(triple: str, dry_run: bool = False) -> Path:
         # loader checked never held it. Measured 2026-07-30: 0 alias entries, every role alias
         # unusable. `hive.api_client._alias_config_candidates` now searches sys._MEIPASS too, which
         # is where this lands.
-        "--add-data", f"{ROOT / 'litellm_config.yaml'}{os.pathsep}.",
+        "--add-data",
+        f"{ROOT / 'litellm_config.yaml'}{os.pathsep}.",
         # Exclude the heavyweight ML stack — the sidecar calls Ollama via HTTP,
         # not torch directly. Excluding these reduces binary size by ~2GB.
         # determinex_rosetta / determinex_inference import torch but they are optional
@@ -196,21 +223,36 @@ def build_sidecar(triple: str, dry_run: bool = False) -> Path:
         # FileNotFoundError before printing a single line -- the shipped engine
         # could not start at all. Local GGUF inference is a separate concern,
         # served by the embedded sidecar in src-tauri/src/sidecar.rs.
-        "--exclude-module", "llama_cpp",
-        "--exclude-module", "torch",
-        "--exclude-module", "torchvision",
-        "--exclude-module", "torchaudio",
-        "--exclude-module", "tensorflow",
-        "--exclude-module", "bitsandbytes",
-        "--exclude-module", "transformers",
-        "--exclude-module", "fastembed",
-        "--exclude-module", "onnxruntime",
-        "--exclude-module", "scipy",
-        "--exclude-module", "sklearn",
-        "--exclude-module", "matplotlib",
-        "--exclude-module", "PIL",
-        "--exclude-module", "cv2",
-        "--exclude-module", "pandas",
+        "--exclude-module",
+        "llama_cpp",
+        "--exclude-module",
+        "torch",
+        "--exclude-module",
+        "torchvision",
+        "--exclude-module",
+        "torchaudio",
+        "--exclude-module",
+        "tensorflow",
+        "--exclude-module",
+        "bitsandbytes",
+        "--exclude-module",
+        "transformers",
+        "--exclude-module",
+        "fastembed",
+        "--exclude-module",
+        "onnxruntime",
+        "--exclude-module",
+        "scipy",
+        "--exclude-module",
+        "sklearn",
+        "--exclude-module",
+        "matplotlib",
+        "--exclude-module",
+        "PIL",
+        "--exclude-module",
+        "cv2",
+        "--exclude-module",
+        "pandas",
     ]
 
     _log(f"Building sidecar binary for {triple}...")
@@ -247,6 +289,7 @@ def build_sidecar(triple: str, dry_run: bool = False) -> Path:
 # ---------------------------------------------------------------------------
 # VERIFY
 # ---------------------------------------------------------------------------
+
 
 def verify_sidecar(triple: str) -> bool:
     """Smoke-test the sidecar binary by running it with --help."""
@@ -323,11 +366,12 @@ def verify_sidecar(triple: str) -> bool:
 # MAIN
 # ---------------------------------------------------------------------------
 
+
 def main():
     parser = argparse.ArgumentParser(description="Build the Determinex Hive sidecar binary")
     parser.add_argument("--dry-run", action="store_true", help="Print plan, don't build")
-    parser.add_argument("--verify",  action="store_true", help="Verify existing binary only")
-    parser.add_argument("--triple",  default=None,        help="Override target triple")
+    parser.add_argument("--verify", action="store_true", help="Verify existing binary only")
+    parser.add_argument("--triple", default=None, help="Override target triple")
     args = parser.parse_args()
 
     triple = args.triple or current_target_triple()

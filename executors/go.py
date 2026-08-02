@@ -10,6 +10,7 @@ CLI patterns are baked in with iter-1's clap-style wording and rc=1 on unknown
 arguments so cross-language test goldens stay aligned with the Python + Rust
 scaffolds.
 """
+
 from __future__ import annotations
 
 import os
@@ -19,11 +20,14 @@ import time
 from pathlib import Path
 
 from .base import (
-    Executor, ExecutorError,
-    ProbeResult, ScaffoldResult, BuildResult, EvalResult,
+    BuildResult,
+    EvalResult,
+    Executor,
+    ExecutorError,
+    ProbeResult,
+    ScaffoldResult,
 )
 from .python import PythonExecutor, _derive_tool_name
-
 
 # ---------------------------------------------------------------------------
 # go.mod template
@@ -42,7 +46,7 @@ go 1.21
 # step, which keeps the cold build under ~3 seconds.
 # ---------------------------------------------------------------------------
 
-_MAIN_GO = '''// {tool_name} — Determinex mass-run Go scaffold.
+_MAIN_GO = """// {tool_name} — Determinex mass-run Go scaffold.
 //
 // Bakes in the 8 universal CLI patterns: invalid, multiple, help, empty,
 // no-*, unknown, version, missing. Tool-specific behavior is the iteration
@@ -193,7 +197,7 @@ func writeOut(outputFile string, data []byte) int {{
 \tos.Stdout.Write(data)
 \treturn 0
 }}
-'''
+"""
 
 
 # ---------------------------------------------------------------------------
@@ -219,8 +223,10 @@ chmod +x ./executable
 # Executor
 # ---------------------------------------------------------------------------
 
+
 class GoExecutor(Executor):
     """Concrete Go language executor."""
+
     family: str = "go"
     file_ext: str = ".go"
     executable_name: str = "executable"
@@ -252,10 +258,12 @@ class GoExecutor(Executor):
         if not module_name:
             module_name = "tool"
 
-        (source / "go.mod").write_text(_GO_MOD.format(module_name=module_name),
-                                       encoding="utf-8", newline="\n")
-        (source / "main.go").write_text(_MAIN_GO.format(tool_name=tool_name),
-                                        encoding="utf-8", newline="\n")
+        (source / "go.mod").write_text(
+            _GO_MOD.format(module_name=module_name), encoding="utf-8", newline="\n"
+        )
+        (source / "main.go").write_text(
+            _MAIN_GO.format(tool_name=tool_name), encoding="utf-8", newline="\n"
+        )
         (source / "compile.sh").write_text(_COMPILE_SH, encoding="utf-8", newline="\n")
         try:
             os.chmod(source / "compile.sh", 0o755)
@@ -283,8 +291,12 @@ class GoExecutor(Executor):
 
         return ScaffoldResult(
             work_dir=work_dir,
-            files_written=[source / "go.mod", source / "main.go",
-                           source / "compile.sh", source / "README_DETERMINEX.md"],
+            files_written=[
+                source / "go.mod",
+                source / "main.go",
+                source / "compile.sh",
+                source / "README_DETERMINEX.md",
+            ],
         )
 
     def build(self, work_dir: Path) -> BuildResult:
@@ -302,15 +314,13 @@ class GoExecutor(Executor):
         proc = subprocess.run(
             ["bash", "./compile.sh"],
             cwd=str(source),
-            capture_output=True, text=True, timeout=120,
+            capture_output=True,
+            text=True,
+            timeout=120,
         )
         elapsed = time.time() - t0
         executable = source / self.executable_name
-        ok = (
-            proc.returncode == 0
-            and executable.is_file()
-            and not executable.is_symlink()
-        )
+        ok = proc.returncode == 0 and executable.is_file() and not executable.is_symlink()
         if not ok and executable.is_symlink():
             raise ExecutorError(
                 f"build: {executable} is a symlink — programbench moves it to /opt "
@@ -331,6 +341,7 @@ class GoExecutor(Executor):
 
 def _cli() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Go executor — run one tool through all 7 phases")
     ap.add_argument("instance_id")
     ap.add_argument("--work-dir", type=Path, default=None)
@@ -355,21 +366,21 @@ def _cli() -> int:
     if args.skip_build:
         return 0
 
-    print(f"=== build ===")
+    print("=== build ===")
     b = ex.build(work_dir)
     print(f"  ok={b.ok}  elapsed={b.elapsed_seconds}s  exec={b.executable_path}")
     if not b.ok:
         print(f"  stderr: {b.stderr[:400]}")
         return 1
 
-    print(f"=== pack ===")
+    print("=== pack ===")
     p = ex.pack(work_dir)
     print(f"  submission: {p.submission_path}  ({p.n_files} files)")
 
     if args.skip_eval:
         return 0
 
-    print(f"=== eval ===")
+    print("=== eval ===")
     e = ex.eval(work_dir, args.instance_id)
     if e.error:
         print(f"  ERROR: {e.error}")

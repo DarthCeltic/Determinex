@@ -7,6 +7,7 @@ describing the project's structure, build targets, and metadata.
 No external dependencies — uses stdlib re + string parsing only.
 Requires no Cargo on PATH; purely static analysis of the manifest.
 """
+
 from __future__ import annotations
 
 import re
@@ -16,7 +17,7 @@ from pathlib import Path
 
 @dataclass
 class RustTarget:
-    kind: str       # "bin" | "lib" | "test" | "bench" | "example"
+    kind: str  # "bin" | "lib" | "test" | "bench" | "example"
     name: str
     path: str = ""
 
@@ -26,14 +27,14 @@ class RustProject:
     root: Path
     manifest_path: Path
     package_name: str
-    edition: str                            # "2015" | "2018" | "2021" | "2024"
+    edition: str  # "2015" | "2018" | "2021" | "2024"
     is_workspace: bool
     workspace_members: list[str] = field(default_factory=list)
     targets: list[RustTarget] = field(default_factory=list)
-    has_build_script: bool = False          # build.rs present
+    has_build_script: bool = False  # build.rs present
     features: list[str] = field(default_factory=list)
     test_dirs: list[str] = field(default_factory=list)
-    license_expression: str = ""           # from Cargo.toml [package].license
+    license_expression: str = ""  # from Cargo.toml [package].license
 
 
 # ---------------------------------------------------------------------------
@@ -41,7 +42,7 @@ class RustProject:
 # ---------------------------------------------------------------------------
 
 _MEMBER_RE = re.compile(r'"([^"]+)"', re.M)
-_FEATURE_RE = re.compile(r'^(\w[\w-]*)\s*=', re.M)
+_FEATURE_RE = re.compile(r"^(\w[\w-]*)\s*=", re.M)
 
 
 def _find_toml_key(content: str, key: str) -> str:
@@ -52,21 +53,23 @@ def _find_toml_key(content: str, key: str) -> str:
 
 def _extract_section(content: str, header: str) -> str:
     """Return the text of a TOML section, stopping at the next section header."""
-    m = re.search(rf'^\[{re.escape(header)}\](.*)$', content, re.M | re.S)
+    m = re.search(rf"^\[{re.escape(header)}\](.*)$", content, re.M | re.S)
     if not m:
         return ""
     after = m.group(1)
     # Stop at next [section]
-    stop = re.search(r'^\[', after, re.M)
+    stop = re.search(r"^\[", after, re.M)
     return after[: stop.start()] if stop else after
 
 
 def _parse_workspace_members(content: str) -> list[str]:
     ws_section = _extract_section(content, "workspace")
-    members_block = re.search(r'members\s*=\s*\[([^\]]*)\]', ws_section, re.S)
+    members_block = re.search(r"members\s*=\s*\[([^\]]*)\]", ws_section, re.S)
     if not members_block:
         return []
-    return [m.strip().strip('"\'') for m in members_block.group(1).split(',') if m.strip().strip('"\'')]
+    return [
+        m.strip().strip("\"'") for m in members_block.group(1).split(",") if m.strip().strip("\"'")
+    ]
 
 
 def _parse_targets(root: Path, package_name: str, content: str) -> list[RustTarget]:
@@ -105,6 +108,7 @@ def _parse_test_dirs(root: Path) -> list[str]:
 # Public API
 # ---------------------------------------------------------------------------
 
+
 def index_rust_project(path: Path) -> RustProject | None:
     """
     Locate and parse the Cargo.toml at *path*.
@@ -119,7 +123,7 @@ def index_rust_project(path: Path) -> RustProject | None:
     except OSError:
         return None
 
-    is_workspace = bool(re.search(r'^\[workspace\]', content, re.M))
+    is_workspace = bool(re.search(r"^\[workspace\]", content, re.M))
     workspace_members = _parse_workspace_members(content) if is_workspace else []
 
     # For workspaces, package_name comes from [workspace] or stays empty

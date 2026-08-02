@@ -1,10 +1,9 @@
 """DOM snapshot reader — extracts structured content using injected Playwright page objects."""
+
 from __future__ import annotations
 
 import hashlib
-import json
 import logging
-import re
 from typing import Any
 
 log = logging.getLogger(__name__)
@@ -63,11 +62,13 @@ def get_all_forms(page: Any) -> list[dict[str, Any]]:
             method = form.get_attribute("method") or "get"
             inputs = []
             for inp in form.locator("input, textarea, select").all():
-                inputs.append({
-                    "name": inp.get_attribute("name") or "",
-                    "type": inp.get_attribute("type") or "text",
-                    "value": "",
-                })
+                inputs.append(
+                    {
+                        "name": inp.get_attribute("name") or "",
+                        "type": inp.get_attribute("type") or "text",
+                        "value": "",
+                    }
+                )
             forms.append({"action": action, "method": method.upper(), "inputs": inputs})
         return forms
     except Exception as exc:

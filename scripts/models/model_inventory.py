@@ -15,11 +15,12 @@ performs **no subprocess calls and no network I/O**:
 Failure mode: an empty inventory is a legitimate state — the router
 treats it as "no local model available" and falls back along its chain.
 """
+
 from __future__ import annotations
 
 import os
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Iterable
 
 
 def _split_env(name: str) -> set[str]:
@@ -43,16 +44,16 @@ class LocalModelInventory:
     # ------------------------------------------------------------------
 
     @classmethod
-    def empty(cls) -> "LocalModelInventory":
+    def empty(cls) -> LocalModelInventory:
         return cls(available_ids=frozenset(), source="empty")
 
     @classmethod
-    def of(cls, ids: Iterable[str]) -> "LocalModelInventory":
+    def of(cls, ids: Iterable[str]) -> LocalModelInventory:
         cleaned = {x.strip() for x in ids if x and x.strip()}
         return cls(available_ids=frozenset(cleaned), source="explicit")
 
     @classmethod
-    def from_env(cls) -> "LocalModelInventory":
+    def from_env(cls) -> LocalModelInventory:
         """Build an inventory from the env-var spine.
 
         Reads:

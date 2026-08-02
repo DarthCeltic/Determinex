@@ -22,6 +22,7 @@ Usage:
     python scripts/determinex_swelancer_feature_agent.py \\
         --split feature --instances 50 --workers 2
 """
+
 from __future__ import annotations
 
 import argparse
@@ -34,7 +35,6 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Optional
 
 _SCRIPTS_DIR = Path(__file__).resolve().parent
 if str(_SCRIPTS_DIR) not in sys.path:
@@ -47,21 +47,22 @@ logging.basicConfig(
 )
 log = logging.getLogger("determinex_swelancer")
 
-_ANTHROPIC_KEY   = os.getenv("DETERMINEX_ANTHROPIC_KEY", os.getenv("ANTHROPIC_API_KEY", ""))
+_ANTHROPIC_KEY = os.getenv("DETERMINEX_ANTHROPIC_KEY", os.getenv("ANTHROPIC_API_KEY", ""))
 _ANTHROPIC_MODEL = os.getenv("DETERMINEX_ANTHROPIC_MODEL", "claude-sonnet-4-6")
-_ANTHROPIC_URL   = "https://api.anthropic.com/v1/messages"
+_ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 
 _REPOS_BASE = Path(os.getenv("DETERMINEX_SWEBENCH_REPOS", "T:/determinex-swebench"))
-_LOGS_BASE  = Path("logs/swelancer")
+_LOGS_BASE = Path("logs/swelancer")
 
 
 # ── Hive integration helpers ───────────────────────────────────────────────────
 
+
 def _spec_from_instance(instance: dict, repo_language: str = "python") -> str:
     """Convert a SWE-lancer feature task instance to a Determinex spec."""
-    problem  = instance.get("problem_statement", "")
-    repo     = instance.get("repo", "unknown/repo")
-    tests    = instance.get("FAIL_TO_PASS", [])
+    problem = instance.get("problem_statement", "")
+    repo = instance.get("repo", "unknown/repo")
+    tests = instance.get("FAIL_TO_PASS", [])
 
     test_section = ""
     if tests:
@@ -81,19 +82,25 @@ def _spec_from_instance(instance: dict, repo_language: str = "python") -> str:
     )
 
 
-def _run_hive_session(spec: str, repo_path: Path, instance_id: str, repo_language: str = "python") -> Optional[str]:
+def _run_hive_session(
+    spec: str, repo_path: Path, instance_id: str, repo_language: str = "python"
+) -> str | None:
     """
     Run a Hive new-session for a feature task. Returns the unified diff or None.
 
     For feature tasks we use the Hive's write-from-scratch pipeline:
       new-session → generate-dag → run-session → collect patch
     """
-    spec_path: Optional[str] = None
+    spec_path: str | None = None
     try:
         import tempfile as _tf
+
         with _tf.NamedTemporaryFile(
-            suffix=".md", mode="w", delete=False,
-            prefix="swelancer_spec_", encoding="utf-8",
+            suffix=".md",
+            mode="w",
+            delete=False,
+            prefix="swelancer_spec_",
+            encoding="utf-8",
         ) as f:
             f.write(spec)
             spec_path = f.name
@@ -105,12 +112,22 @@ def _run_hive_session(spec: str, repo_path: Path, instance_id: str, repo_languag
 
         # new-session
         r1 = subprocess.run(
-            [sys.executable, str(hive), "new-session",
-             "--spec", spec_path, "--lang", repo_language,
-             "--repo", str(repo_path)],
-            capture_output=True, text=True, timeout=60,
+            [
+                sys.executable,
+                str(hive),
+                "new-session",
+                "--spec",
+                spec_path,
+                "--lang",
+                repo_language,
+                "--repo",
+                str(repo_path),
+            ],
+            capture_output=True,
+            text=True,
+            timeout=60,
         )
-        session_id_m = re.search(r'session[:\s]+([a-f0-9\-]{8,})', r1.stdout + r1.stderr, re.I)
+        session_id_m = re.search(r"session[:\s]+([a-f0-9\-]{8,})", r1.stdout + r1.stderr, re.I)
         if not session_id_m:
             log.warning("[%s] new-session: could not extract session ID", instance_id)
             log.debug("stdout: %s", r1.stdout[:300])
@@ -121,18 +138,21 @@ def _run_hive_session(spec: str, repo_path: Path, instance_id: str, repo_languag
         # generate-dag
         subprocess.run(
             [sys.executable, str(hive), "generate-dag", "--session", session_id],
-            capture_output=True, text=True, timeout=120,
+            capture_output=True,
+            text=True,
+            timeout=120,
         )
 
         # run-session
         r3 = subprocess.run(
-            [sys.executable, str(hive), "run-session", "--session", session_id,
-             "--export-patch"],
-            capture_output=True, text=True, timeout=600,
+            [sys.executable, str(hive), "run-session", "--session", session_id, "--export-patch"],
+            capture_output=True,
+            text=True,
+            timeout=600,
         )
 
         # Extract patch from output
-        patch_m = re.search(r'diff --git.*', r3.stdout + r3.stderr, re.DOTALL)
+        patch_m = re.search(r"diff --git.*", r3.stdout + r3.stderr, re.DOTALL)
         if patch_m:
             return patch_m.group(0)
 
@@ -162,7 +182,10 @@ def _run_hive_session(spec: str, repo_path: Path, instance_id: str, repo_languag
 
 # ── Direct fallback (no Hive) ─────────────────────────────────────────────────
 
-def _direct_feature_fallback(instance: dict, repo_path: Path, repo_language: str = "python") -> Optional[str]:
+
+def _direct_feature_fallback(
+    instance: dict, repo_path: Path, repo_language: str = "python"
+) -> str | None:
     """
     Bypass Hive entirely. Ask Claude to implement the feature directly as a diff.
     Used when Hive is unavailable or returns nothing.
@@ -173,18 +196,35 @@ def _direct_feature_fallback(instance: dict, repo_path: Path, repo_language: str
         log.warning("ANTHROPIC_API_KEY not set — cannot use direct fallback")
         return None
 
-    problem  = instance.get("problem_statement", "")
-    tests    = instance.get("FAIL_TO_PASS", [])
+    problem = instance.get("problem_statement", "")
+    tests = instance.get("FAIL_TO_PASS", [])
 
     # Language → file extension map for source file discovery
     _lang_globs = {
-        "python": ["*.py"], "go": ["*.go"], "rust": ["*.rs"],
-        "java": ["*.java"], "javascript": ["*.js"], "typescript": ["*.ts"],
-        "ruby": ["*.rb"], "php": ["*.php"], "c": ["*.c", "*.h"],
+        "python": ["*.py"],
+        "go": ["*.go"],
+        "rust": ["*.rs"],
+        "java": ["*.java"],
+        "javascript": ["*.js"],
+        "typescript": ["*.ts"],
+        "ruby": ["*.rb"],
+        "php": ["*.php"],
+        "c": ["*.c", "*.h"],
         "cpp": ["*.cpp", "*.cc", "*.hpp", "*.h"],
     }
-    _skip = {"test", "tests", "__tests__", "spec", "specs", "vendor",
-             "node_modules", "site-packages", "__pycache__", "target", "build"}
+    _skip = {
+        "test",
+        "tests",
+        "__tests__",
+        "spec",
+        "specs",
+        "vendor",
+        "node_modules",
+        "site-packages",
+        "__pycache__",
+        "target",
+        "build",
+    }
     globs = _lang_globs.get(repo_language, ["*.py"])
     src_files: list[Path] = []
     for pattern in globs:
@@ -246,7 +286,7 @@ def _direct_feature_fallback(instance: dict, repo_path: Path, repo_language: str
             response = data["content"][0]["text"].strip()
 
         # Extract diff
-        m = re.search(r'```diff\s*(.*?)```', response, re.DOTALL)
+        m = re.search(r"```diff\s*(.*?)```", response, re.DOTALL)
         if m:
             patch = m.group(1).strip()
             if patch.startswith("diff --git"):
@@ -266,19 +306,40 @@ def _direct_feature_fallback(instance: dict, repo_path: Path, repo_language: str
 # ── Single instance solver ────────────────────────────────────────────────────
 
 _LANG_EXT_MAP: dict[str, str] = {
-    ".py": "python", ".go": "go", ".rs": "rust",
-    ".java": "java", ".js": "javascript", ".ts": "typescript",
-    ".rb": "ruby", ".php": "php", ".c": "c",
-    ".cpp": "cpp", ".cc": "cpp", ".cxx": "cpp",
+    ".py": "python",
+    ".go": "go",
+    ".rs": "rust",
+    ".java": "java",
+    ".js": "javascript",
+    ".ts": "typescript",
+    ".rb": "ruby",
+    ".php": "php",
+    ".c": "c",
+    ".cpp": "cpp",
+    ".cc": "cpp",
+    ".cxx": "cpp",
 }
 _LANG_PRIMARY_FILES: dict[str, list[str]] = {
-    "go": ["go.mod"], "rust": ["Cargo.toml"], "java": ["pom.xml", "build.gradle"],
-    "javascript": ["package.json"], "typescript": ["tsconfig.json", "package.json"],
-    "ruby": ["Gemfile"], "php": ["composer.json"], "c": ["Makefile", "CMakeLists.txt"],
+    "go": ["go.mod"],
+    "rust": ["Cargo.toml"],
+    "java": ["pom.xml", "build.gradle"],
+    "javascript": ["package.json"],
+    "typescript": ["tsconfig.json", "package.json"],
+    "ruby": ["Gemfile"],
+    "php": ["composer.json"],
+    "c": ["Makefile", "CMakeLists.txt"],
     "cpp": ["CMakeLists.txt", "Makefile"],
 }
-_LANG_SKIP_DIRS = {"node_modules", "vendor", "target", "build", ".gradle",
-                   "__pycache__", "site-packages", ".git"}
+_LANG_SKIP_DIRS = {
+    "node_modules",
+    "vendor",
+    "target",
+    "build",
+    ".gradle",
+    "__pycache__",
+    "site-packages",
+    ".git",
+}
 
 
 def _detect_instance_language(instance: dict, repo_path: Path) -> str:
@@ -314,7 +375,7 @@ def solve_feature_instance(
 ) -> dict:
     """Solve a single SWE-lancer feature task."""
     instance_id = instance.get("instance_id", "unknown")
-    repo_name   = instance.get("repo", "").replace("/", "__")
+    repo_name = instance.get("repo", "").replace("/", "__")
 
     # Locate repo
     repo_path = repos_base / repo_name
@@ -342,11 +403,16 @@ def solve_feature_instance(
     if base_commit:
         r = subprocess.run(
             ["git", "checkout", base_commit, "--", "."],
-            cwd=repo_path, capture_output=True,
+            cwd=repo_path,
+            capture_output=True,
         )
         if r.returncode != 0:
-            log.warning("[%s] git checkout %s failed: %s",
-                        instance_id, base_commit[:8], r.stderr.decode(errors="replace")[:200])
+            log.warning(
+                "[%s] git checkout %s failed: %s",
+                instance_id,
+                base_commit[:8],
+                r.stderr.decode(errors="replace")[:200],
+            )
 
     spec = _spec_from_instance(instance, repo_language)
     patch = _run_hive_session(spec, repo_path, instance_id, repo_language)
@@ -368,16 +434,17 @@ def solve_feature_instance(
 
 # ── Dataset loader ────────────────────────────────────────────────────────────
 
+
 def _load_feature_tasks(n: int) -> list[dict]:
     """Load SWE-lancer feature tasks."""
     try:
         from datasets import load_dataset  # type: ignore[import]
+
         ds = load_dataset("princeton-nlp/SWE-lancer", split="test", trust_remote_code=True)
         instances = [dict(row) for row in ds]
         # Filter to feature tasks only
         feature_instances = [
-            inst for inst in instances
-            if inst.get("task_type", "").lower() == "feature"
+            inst for inst in instances if inst.get("task_type", "").lower() == "feature"
         ]
         if not feature_instances:
             log.warning("No 'feature' task_type found — using all instances")
@@ -391,6 +458,7 @@ def _load_feature_tasks(n: int) -> list[dict]:
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+
 def main() -> None:
     p = argparse.ArgumentParser(description="Determinex SWE-lancer feature task agent")
     p.add_argument("--n", type=int, default=20)
@@ -400,7 +468,7 @@ def main() -> None:
     args = p.parse_args()
 
     repos_base = Path(args.repos_dir)
-    instances  = _load_feature_tasks(args.n)
+    instances = _load_feature_tasks(args.n)
 
     if not instances:
         log.error("No instances loaded — exiting")
@@ -412,35 +480,38 @@ def main() -> None:
 
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = {
-            pool.submit(solve_feature_instance, inst, repos_base): inst
-            for inst in instances
+            pool.submit(solve_feature_instance, inst, repos_base): inst for inst in instances
         }
         for future in as_completed(futures):
             try:
                 result = future.result(timeout=900)
                 results.append(result)
                 has_patch = bool(result.get("model_patch"))
-                log.info("[%d/%d] %s → %s",
-                         len(results), len(instances),
-                         result["instance_id"],
-                         "patch" if has_patch else "empty")
+                log.info(
+                    "[%d/%d] %s → %s",
+                    len(results),
+                    len(instances),
+                    result["instance_id"],
+                    "patch" if has_patch else "empty",
+                )
             except Exception as e:
                 inst = futures[future]
                 log.warning("Instance %s raised: %s", inst.get("instance_id"), e)
-                results.append({
-                    "instance_id": inst.get("instance_id", "unknown"),
-                    "model_patch": "",
-                    "model_name_or_path": "determinex_swelancer_feature",
-                    "error": str(e),
-                })
+                results.append(
+                    {
+                        "instance_id": inst.get("instance_id", "unknown"),
+                        "model_patch": "",
+                        "model_name_or_path": "determinex_swelancer_feature",
+                        "error": str(e),
+                    }
+                )
 
     with open(args.out, "w", encoding="utf-8") as f:
         for r in results:
             f.write(json.dumps(r) + "\n")
 
     patched = sum(1 for r in results if r.get("model_patch"))
-    log.info("Done: %d/%d have patches (%.0fs)",
-             patched, len(results), time.time() - start)
+    log.info("Done: %d/%d have patches (%.0fs)", patched, len(results), time.time() - start)
     log.info("Predictions: %s", args.out)
 
 

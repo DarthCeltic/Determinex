@@ -12,6 +12,7 @@ traces that defeat all of them.
 
 The guard performs no I/O. It does not write to the corpus.
 """
+
 from __future__ import annotations
 
 import sys
@@ -104,8 +105,10 @@ class RepairTraceEligibilityGuard:
         # may flip ``policy_default_allow`` to True.
         if not self._policy["policy_default_allow"]:
             reasons.append(CorpusEligibilityBlockReason.POLICY.value)
-            notes.append("Default policy blocks corpus admission for every trace "
-                         "produced by the current campaign. This is intentional.")
+            notes.append(
+                "Default policy blocks corpus admission for every trace "
+                "produced by the current campaign. This is intentional."
+            )
 
         # Deduplicate while preserving order.
         seen: set[str] = set()
@@ -125,8 +128,10 @@ class RepairTraceEligibilityGuard:
                 workspace=trace.workspace,
                 training_eligible=False,
                 evidence_recorded=True,
-                notes=("All policy flags allow; eligibility still requires a "
-                       "future rung's positive admission step.",),
+                notes=(
+                    "All policy flags allow; eligibility still requires a "
+                    "future rung's positive admission step.",
+                ),
             )
 
         return CorpusEligibilityDecision(

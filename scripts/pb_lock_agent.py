@@ -18,6 +18,7 @@ Native guard: every command rejects Python-wrapper submissions. compile.sh MUST
 build from native source (Rust/Go/C/C++). Python is allowed only for test harness
 orchestration (conftest.py, pytest.ini) — never for the compiled tool itself.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -47,6 +48,7 @@ NATIVE_MANIFESTS = {"Cargo.toml", "go.mod", "CMakeLists.txt", "Makefile", "confi
 # ---------------------------------------------------------------------------
 # Language detection
 # ---------------------------------------------------------------------------
+
 
 def detect_lang(source_dir: Path) -> str | None:
     """Detect native language from source directory contents."""
@@ -83,9 +85,11 @@ def native_guard(source_dir: Path, slug: str) -> str:
         sys.exit(f"[ERROR] {slug}: cannot detect language in {source_dir}")
     return lang
 
+
 # ---------------------------------------------------------------------------
 # Board lookup
 # ---------------------------------------------------------------------------
+
 
 def load_board() -> list[dict]:
     if BOARD_JSON.exists():
@@ -105,10 +109,10 @@ def load_board() -> list[dict]:
 
 def find_entry(board: list[dict], slug: str) -> dict | None:
     """Find board entry — accepts any of these forms:
-      - board short slug:        "nsh", "trdsql", "chamber"
-      - board base_slug:         "segmentio__chamber"
-      - override dirname:        "segmentio__chamber.5f93f5f"
-      - repo substring:          "chamber" matches "segmentio__chamber"
+    - board short slug:        "nsh", "trdsql", "chamber"
+    - board base_slug:         "segmentio__chamber"
+    - override dirname:        "segmentio__chamber.5f93f5f"
+    - repo substring:          "chamber" matches "segmentio__chamber"
     """
     slug_base = slug.split(".")[0] if "." in slug else slug
     # Pass 1: exact matches
@@ -186,6 +190,7 @@ def entry_stat(entry: dict, *keys: str, default: int = 0) -> int:
             continue
     return default
 
+
 # ---------------------------------------------------------------------------
 # Eval JSON parsing + failure clustering
 # ---------------------------------------------------------------------------
@@ -254,7 +259,7 @@ def cluster_failures(eval_path: Path) -> dict:
         ftype = classify_failure(text)
         if ftype not in samples:
             # Trim to first 400 chars of the interesting part
-            snip = text[text.find("assert") if "assert" in text else 0:][:400]
+            snip = text[text.find("assert") if "assert" in text else 0 :][:400]
             samples[ftype] = snip
 
     return {
@@ -265,8 +270,9 @@ def cluster_failures(eval_path: Path) -> dict:
         "clusters": dict(clusters),
         "cluster_counts": {k: len(v) for k, v in clusters.items()},
         "samples": samples,
-        "top_failing_tests": [r.get("name","?") for r in failed[:10]],
+        "top_failing_tests": [r.get("name", "?") for r in failed[:10]],
     }
+
 
 # ---------------------------------------------------------------------------
 # Dependency scanning (build-deps class)
@@ -326,14 +332,18 @@ def resolve_deps(source_dir: Path, lang: str) -> list[str]:
         cmake = source_dir / "CMakeLists.txt"
         if cmake.exists():
             text = cmake.read_text(encoding="utf-8", errors="replace")
-            for m in re.finditer(r'(?:find_package|pkg_check_modules|pkg_search_module)\s*\(["\s]*([A-Za-z0-9_\-\.]+)', text, re.I):
+            for m in re.finditer(
+                r'(?:find_package|pkg_check_modules|pkg_search_module)\s*\(["\s]*([A-Za-z0-9_\-\.]+)',
+                text,
+                re.I,
+            ):
                 pkg = m.group(1).lower()
                 if pkg in _PKG_TO_APT:
                     pkgs.add(_PKG_TO_APT[pkg])
         configure = source_dir / "configure.ac"
         if configure.exists():
             text = configure.read_text(encoding="utf-8", errors="replace")
-            for m in re.finditer(r'AC_CHECK_LIB\s*\(\s*([^,\)]+)', text):
+            for m in re.finditer(r"AC_CHECK_LIB\s*\(\s*([^,\)]+)", text):
                 lib = m.group(1).strip().strip('"')
                 if lib in _PKG_TO_APT:
                     pkgs.add(_PKG_TO_APT[lib])
@@ -349,9 +359,11 @@ def resolve_deps(source_dir: Path, lang: str) -> list[str]:
 
     return sorted(pkgs)
 
+
 # ---------------------------------------------------------------------------
 # Relevant locked lessons (by language, not keyword Jaccard)
 # ---------------------------------------------------------------------------
+
 
 def get_locked_by_lang(lang: str) -> list[tuple[str, str]]:
     """Return (tool_name, lessons_excerpt) for locked tools in the same language."""
@@ -378,9 +390,11 @@ def get_locked_by_lang(lang: str) -> list[tuple[str, str]]:
         results.append((tool_dir.name, text[:800]))
     return results[:4]  # top 4 by language
 
+
 # ---------------------------------------------------------------------------
 # Commands
 # ---------------------------------------------------------------------------
+
 
 def cmd_diagnose(args: argparse.Namespace) -> None:
     slug: str = args.slug
@@ -419,7 +433,9 @@ def cmd_diagnose(args: argparse.Namespace) -> None:
     print(f"Language:  {lang}")
     print(f"Score:     {passed}/{runnable} = {pct:.1f}%")
     print(f"Failed:    {report['failed']}  Not-run: {report['not_run']}")
-    print(f"Eval JSON: {eval_path if eval_path else 'not available (using eval_index aggregate only)'}")
+    print(
+        f"Eval JSON: {eval_path if eval_path else 'not available (using eval_index aggregate only)'}"
+    )
     print()
     print("Failure clusters:")
     for ftype, count in sorted(report["cluster_counts"].items(), key=lambda x: -x[1]):
@@ -457,7 +473,11 @@ def cmd_context(args: argparse.Namespace) -> None:
     )
     pct = passed / runnable * 100 if runnable else 0
 
-    compile_sh = (source_dir / "compile.sh").read_text(encoding="utf-8", errors="replace") if (source_dir / "compile.sh").exists() else "(not found)"
+    compile_sh = (
+        (source_dir / "compile.sh").read_text(encoding="utf-8", errors="replace")
+        if (source_dir / "compile.sh").exists()
+        else "(not found)"
+    )
     locked_lessons = get_locked_by_lang(lang)
 
     out = [
@@ -503,8 +523,12 @@ def cmd_context(args: argparse.Namespace) -> None:
     out.append("## Native Language Rule")
     out.append("")
     out.append(f"- Detected language: **{lang}**")
-    out.append("- compile.sh MUST build from native source (no Python wrappers for the tool binary)")
-    out.append("- conftest.py / pytest.ini in compile.sh is OK — those are test harness, not the tool")
+    out.append(
+        "- compile.sh MUST build from native source (no Python wrappers for the tool binary)"
+    )
+    out.append(
+        "- conftest.py / pytest.ini in compile.sh is OK — those are test harness, not the tool"
+    )
     out.append("")
     out.append("## Next Action")
     out.append("")
@@ -513,12 +537,17 @@ def cmd_context(args: argparse.Namespace) -> None:
         out.append("**Class: infra-path / build-deps** — binary not installed.")
         out.append("Run: `python scripts/pb_lock_agent.py fix-deps " + full_slug + "`")
         out.append("Then: `python scripts/pb_lock_agent.py fix-infra " + full_slug + "`")
-    elif sum(v for k, v in clusters.items() if "rc_mismatch" in k or "infra" in k) > report.get("failed", 1) * 0.7:
+    elif (
+        sum(v for k, v in clusters.items() if "rc_mismatch" in k or "infra" in k)
+        > report.get("failed", 1) * 0.7
+    ):
         out.append("**Class: behavioral-regression** — exit codes differ from golden.")
         out.append("Cluster the rc values, find the test branch expecting each code, patch source.")
     else:
         out.append("**Class: behavioral** — stdout/stderr content mismatch.")
-        out.append("Read the full traceback for each failing test; find common output pattern diff.")
+        out.append(
+            "Read the full traceback for each failing test; find common output pattern diff."
+        )
 
     print("\n".join(out))
 
@@ -539,8 +568,18 @@ def cmd_fix_infra(args: argparse.Namespace) -> None:
         print(f"[backup] {backup}")
 
     result = subprocess.run(
-        [sys.executable, str(TEMPLATE_PY), "--lang", lang, "--tool", tool_name, "-o", str(compile_out)],
-        capture_output=True, text=True,
+        [
+            sys.executable,
+            str(TEMPLATE_PY),
+            "--lang",
+            lang,
+            "--tool",
+            tool_name,
+            "-o",
+            str(compile_out),
+        ],
+        capture_output=True,
+        text=True,
     )
     if result.returncode != 0:
         print(f"[ERROR] Template generation failed:\n{result.stderr}")
@@ -564,7 +603,9 @@ def cmd_fix_deps(args: argparse.Namespace) -> None:
 
     pkgs = resolve_deps(source_dir, lang)
     if not pkgs:
-        print(f"[OK] No system deps detected for {full_slug} ({lang}). Build may be self-contained.")
+        print(
+            f"[OK] No system deps detected for {full_slug} ({lang}). Build may be self-contained."
+        )
         return
 
     apt_line = "apt-get update -qq && apt-get install -y -qq " + " ".join(pkgs)
@@ -594,16 +635,20 @@ def cmd_pack(args: argparse.Namespace) -> None:
         print("[lint]")
         r = subprocess.run(
             [sys.executable, str(LINT_PY), str(compile_sh)],
-            capture_output=True, text=True,
+            capture_output=True,
+            text=True,
         )
         print(r.stdout.strip())
         if "ERROR" in r.stdout:
             sys.exit("[ABORT] Lint errors — fix before deploying to Hetzner.")
 
-    staging = REPO / ".determinex_staging" / f"pb_{full_slug.replace('__','_').replace('.','_')}_agent"
+    staging = (
+        REPO / ".determinex_staging" / f"pb_{full_slug.replace('__', '_').replace('.', '_')}_agent"
+    )
     result = subprocess.run(
         [sys.executable, str(PACK_PY), full_slug, "--run-root", str(staging)],
-        capture_output=True, text=True,
+        capture_output=True,
+        text=True,
     )
     if result.returncode != 0:
         print(result.stderr)
@@ -630,9 +675,11 @@ def cmd_queue(_args: argparse.Namespace) -> None:
     for line in lines[:35]:
         print(line)
 
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def main() -> int:
     # Force UTF-8 output on Windows (avoids cp1252 encode errors for Unicode arrows etc.)

@@ -22,25 +22,29 @@ Pre-flight checklist (enforced automatically):
   - Data whitelist audit printed for inspection
 """
 
+import re
 import subprocess
 import sys
 import time
-import re
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 # ── Config ──────────────────────────────────────────────────────────────────
-_POD_HOST  = "<POD_IP>"
-_POD_PORT  = "10001"
-_SSH_KEY   = str(Path.home() / ".ssh" / "id_runpod")
-_SSH_BASE  = [
-    "ssh", "-p", _POD_PORT,
-    "-i", _SSH_KEY,
-    "-o", "StrictHostKeyChecking=no",
-    "root@<POD_IP>",        # literal — never interpolated from user input
+_POD_HOST = "<POD_IP>"
+_POD_PORT = "10001"
+_SSH_KEY = str(Path.home() / ".ssh" / "id_runpod")
+_SSH_BASE = [
+    "ssh",
+    "-p",
+    _POD_PORT,
+    "-i",
+    _SSH_KEY,
+    "-o",
+    "StrictHostKeyChecking=no",
+    "root@<POD_IP>",  # literal — never interpolated from user input
 ]
 
-_FINETUNE  = "/workspace/dsl_finetune.py"
+_FINETUNE = "/workspace/dsl_finetune.py"
 
 # ── All SSH command strings pre-built as literals (no user input flows here) ─
 # Each value is a complete, hardcoded shell command. target is only used as a
@@ -49,17 +53,17 @@ _FINETUNE  = "/workspace/dsl_finetune.py"
 MODEL_META: dict[str, dict] = {
     "engineer": {
         # identity
-        "base_model":  "Qwen/Qwen2.5-Coder-1.5B-Instruct",
-        "prev_score":  "87% (39/45)",
-        "threshold":   "-3pp → 84% (36/45)",
+        "base_model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+        "prev_score": "87% (39/45)",
+        "threshold": "-3pp → 84% (36/45)",
         # pre-built paths (literals only)
-        "gguf_path":   "/workspace/outputs/determinex-engineer-v10r4/determinex-engineer-v10r4.gguf",
-        "log_path":    "/workspace/dsl_eng_v10r4.log",
+        "gguf_path": "/workspace/outputs/determinex-engineer-v10r4/determinex-engineer-v10r4.gguf",
+        "log_path": "/workspace/dsl_eng_v10r4.log",
         # pre-built ssh commands (literals — no user-supplied data interpolated)
-        "cmd_check_gguf":   "test -f /workspace/outputs/determinex-engineer-v10r4/determinex-engineer-v10r4.gguf && echo EXISTS || echo CLEAR",
-        "cmd_launch":       "nohup python3 /workspace/dsl_finetune.py engineer > /workspace/dsl_eng_v10r4.log 2>&1 & echo $!",
-        "cmd_tail_log":     "tail -5 /workspace/dsl_eng_v10r4.log",
-        "cmd_check_proc":   "ps aux | grep dsl_finetune | grep -v grep || echo dead",
+        "cmd_check_gguf": "test -f /workspace/outputs/determinex-engineer-v10r4/determinex-engineer-v10r4.gguf && echo EXISTS || echo CLEAR",
+        "cmd_launch": "nohup python3 /workspace/dsl_finetune.py engineer > /workspace/dsl_eng_v10r4.log 2>&1 & echo $!",
+        "cmd_tail_log": "tail -5 /workspace/dsl_eng_v10r4.log",
+        "cmd_check_proc": "ps aux | grep dsl_finetune | grep -v grep || echo dead",
         # data whitelist (for display only — never passed to subprocess)
         "whitelist": [
             "determinex_v1_distilled_claude.jsonl",
@@ -82,18 +86,18 @@ MODEL_META: dict[str, dict] = {
         ],
         # sed patches for name versioning
         "cmd_patch_outname": "sed -i 's/determinex-engineer-v10/determinex-engineer-v10r4/' /workspace/dsl_finetune.py",
-        "new_name":          "determinex-engineer-v10r4",
+        "new_name": "determinex-engineer-v10r4",
     },
     "observer": {
-        "base_model":  "meta-llama/Llama-3.2-3B-Instruct",
-        "prev_score":  "78% (35/45)",
-        "threshold":   "-3pp → 75% (33/45)",
-        "gguf_path":   "/workspace/outputs/determinex-observer-v5r4/determinex-observer-v5r4.gguf",
-        "log_path":    "/workspace/dsl_obs_v5r4.log",
-        "cmd_check_gguf":   "test -f /workspace/outputs/determinex-observer-v5r4/determinex-observer-v5r4.gguf && echo EXISTS || echo CLEAR",
-        "cmd_launch":       "nohup python3 /workspace/dsl_finetune.py observer > /workspace/dsl_obs_v5r4.log 2>&1 & echo $!",
-        "cmd_tail_log":     "tail -5 /workspace/dsl_obs_v5r4.log",
-        "cmd_check_proc":   "ps aux | grep dsl_finetune | grep -v grep || echo dead",
+        "base_model": "meta-llama/Llama-3.2-3B-Instruct",
+        "prev_score": "78% (35/45)",
+        "threshold": "-3pp → 75% (33/45)",
+        "gguf_path": "/workspace/outputs/determinex-observer-v5r4/determinex-observer-v5r4.gguf",
+        "log_path": "/workspace/dsl_obs_v5r4.log",
+        "cmd_check_gguf": "test -f /workspace/outputs/determinex-observer-v5r4/determinex-observer-v5r4.gguf && echo EXISTS || echo CLEAR",
+        "cmd_launch": "nohup python3 /workspace/dsl_finetune.py observer > /workspace/dsl_obs_v5r4.log 2>&1 & echo $!",
+        "cmd_tail_log": "tail -5 /workspace/dsl_obs_v5r4.log",
+        "cmd_check_proc": "ps aux | grep dsl_finetune | grep -v grep || echo dead",
         "whitelist": [
             "determinex_v1_distilled_claude.jsonl",
             "determinex_v1_distilled_gemini.jsonl",
@@ -114,18 +118,18 @@ MODEL_META: dict[str, dict] = {
             "gap_v4_sentinel_specific.jsonl",
         ],
         "cmd_patch_outname": "sed -i 's/determinex-observer-v5/determinex-observer-v5r4/' /workspace/dsl_finetune.py",
-        "new_name":          "determinex-observer-v5r4",
+        "new_name": "determinex-observer-v5r4",
     },
     "sentinel": {
-        "base_model":  "mistralai/Mistral-7B-Instruct-v0.3",
-        "prev_score":  "87% (39/45)",
-        "threshold":   "-3pp → 84% (36/45)",
-        "gguf_path":   "/workspace/outputs/determinex-sentinel-v4r4/determinex-sentinel-v4r4.gguf",
-        "log_path":    "/workspace/dsl_sen_v4r4.log",
-        "cmd_check_gguf":   "test -f /workspace/outputs/determinex-sentinel-v4r4/determinex-sentinel-v4r4.gguf && echo EXISTS || echo CLEAR",
-        "cmd_launch":       "nohup python3 /workspace/dsl_finetune.py sentinel > /workspace/dsl_sen_v4r4.log 2>&1 & echo $!",
-        "cmd_tail_log":     "tail -5 /workspace/dsl_sen_v4r4.log",
-        "cmd_check_proc":   "ps aux | grep dsl_finetune | grep -v grep || echo dead",
+        "base_model": "mistralai/Mistral-7B-Instruct-v0.3",
+        "prev_score": "87% (39/45)",
+        "threshold": "-3pp → 84% (36/45)",
+        "gguf_path": "/workspace/outputs/determinex-sentinel-v4r4/determinex-sentinel-v4r4.gguf",
+        "log_path": "/workspace/dsl_sen_v4r4.log",
+        "cmd_check_gguf": "test -f /workspace/outputs/determinex-sentinel-v4r4/determinex-sentinel-v4r4.gguf && echo EXISTS || echo CLEAR",
+        "cmd_launch": "nohup python3 /workspace/dsl_finetune.py sentinel > /workspace/dsl_sen_v4r4.log 2>&1 & echo $!",
+        "cmd_tail_log": "tail -5 /workspace/dsl_sen_v4r4.log",
+        "cmd_check_proc": "ps aux | grep dsl_finetune | grep -v grep || echo dead",
         "whitelist": [
             "determinex_v1_distilled_claude.jsonl",
             "determinex_v1_distilled_gemini.jsonl",
@@ -146,24 +150,27 @@ MODEL_META: dict[str, dict] = {
             "gap_v4_observer_specific.jsonl",
         ],
         "cmd_patch_outname": "sed -i 's/determinex-sentinel-v4-dsl/determinex-sentinel-v4r4/' /workspace/dsl_finetune.py",
-        "new_name":          "determinex-sentinel-v4r4",
+        "new_name": "determinex-sentinel-v4r4",
     },
 }
 
 # ── Pre-built shared SSH commands (no user input, all literals) ──────────────
-_CMD_CHECK_PROC    = "pgrep -f dsl_finetune.py || echo none"
-_CMD_PATCH_RANK    = "sed -i 's/^LORA_R      = 8/LORA_R      = 4/' /workspace/dsl_finetune.py && sed -i 's/^LORA_ALPHA  = 16/LORA_ALPHA  = 8/' /workspace/dsl_finetune.py"
-_CMD_VERIFY_RANK   = "grep -E '^LORA_R|^LORA_ALPHA' /workspace/dsl_finetune.py"
-_CMD_READ_RANK     = "cat /workspace/dsl_finetune.py"
-_CMD_DISK          = "df -h / /workspace /tmp 2>/dev/null || df -h /"
-_CMD_HF_CACHE      = "du -sh ~/.cache/huggingface/hub/models--* 2>/dev/null || echo 'no HF cache'"
+_CMD_CHECK_PROC = "pgrep -f dsl_finetune.py || echo none"
+_CMD_PATCH_RANK = "sed -i 's/^LORA_R      = 8/LORA_R      = 4/' /workspace/dsl_finetune.py && sed -i 's/^LORA_ALPHA  = 16/LORA_ALPHA  = 8/' /workspace/dsl_finetune.py"
+_CMD_VERIFY_RANK = "grep -E '^LORA_R|^LORA_ALPHA' /workspace/dsl_finetune.py"
+_CMD_READ_RANK = "cat /workspace/dsl_finetune.py"
+_CMD_DISK = "df -h / /workspace /tmp 2>/dev/null || df -h /"
+_CMD_HF_CACHE = "du -sh ~/.cache/huggingface/hub/models--* 2>/dev/null || echo 'no HF cache'"
+
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 def ts() -> str:
     return datetime.now().strftime("%H:%M:%S")
 
+
 def log(msg: str) -> None:
     print(f"[{ts()}] {msg}", flush=True)
+
 
 def ssh(cmd: str, check: bool = True) -> subprocess.CompletedProcess:
     """
@@ -176,6 +183,7 @@ def ssh(cmd: str, check: bool = True) -> subprocess.CompletedProcess:
         log(f"SSH command failed (exit {r.returncode}): {r.stderr.strip()[:200]}")
         sys.exit(1)
     return r
+
 
 # ── Validate argv & resolve meta via explicit literal branches (CWE-78) ──────
 # sys.argv[1] is compared to string literals only. meta is set unconditionally
@@ -232,10 +240,10 @@ for fname in meta["excluded"]:
 log("\n[STEP 1] Patching dsl_finetune.py: LORA_R=8→4, LORA_ALPHA=16→8")
 
 r = ssh(_CMD_READ_RANK)
-rank_match  = re.search(r"LORA_R\s*=\s*(\d+)", r.stdout)
+rank_match = re.search(r"LORA_R\s*=\s*(\d+)", r.stdout)
 alpha_match = re.search(r"LORA_ALPHA\s*=\s*(\d+)", r.stdout)
-current_r   = int(rank_match.group(1))  if rank_match  else None
-current_a   = int(alpha_match.group(1)) if alpha_match else None
+current_r = int(rank_match.group(1)) if rank_match else None
+current_a = int(alpha_match.group(1)) if alpha_match else None
 log(f"  Current: LORA_R={current_r}  LORA_ALPHA={current_a}")
 
 if current_r == 4 and current_a == 8:
@@ -252,7 +260,7 @@ else:
 # ── Step 2: Patch output name in MODELS config ───────────────────────────────
 log(f"\n[STEP 2] Patching out_name to {meta['new_name']}...")
 ssh(meta["cmd_patch_outname"])
-r = ssh(_CMD_VERIFY_RANK)   # re-read to confirm script is still parseable
+r = ssh(_CMD_VERIFY_RANK)  # re-read to confirm script is still parseable
 log(f"  ✅ out_name patched to {meta['new_name']}")
 
 # ── Step 3: Disk pre-flight ──────────────────────────────────────────────────
@@ -263,7 +271,7 @@ r = ssh(_CMD_HF_CACHE)
 log(f"  HF cache: {r.stdout.strip()}")
 
 # ── Step 4: Launch retrain ───────────────────────────────────────────────────
-log(f"\n[STEP 4] Launching retrain...")
+log("\n[STEP 4] Launching retrain...")
 log(f"  Log target: {meta['log_path']}")
 log(f"  GGUF target: {meta['gguf_path']}")
 
@@ -284,16 +292,16 @@ log(f"  Initial log output:\n{r.stdout}")
 
 log(f"""
 ╔══════════════════════════════════════════════════════════════════╗
-║  Rank-4 retrain launched: {meta['new_name']:<38}  ║
+║  Rank-4 retrain launched: {meta["new_name"]:<38}  ║
 ║                                                                  ║
 ║  Monitor on pod:                                                 ║
-║    tail -f {meta['log_path']:<53}  ║
+║    tail -f {meta["log_path"]:<53}  ║
 ║                                                                  ║
 ║  When done, run from local:                                      ║
 ║    python scripts/sentinel_gguf_and_fetch.py                     ║
-║    python scripts/micro_eval.py --model {meta['new_name']:<20}  ║
+║    python scripts/micro_eval.py --model {meta["new_name"]:<20}  ║
 ║                                                                  ║
 ║  Accept: delta >= -3pp from pre-DSL baseline                     ║
-║    Pre-DSL: {meta['prev_score']:<20} Threshold: {meta['threshold']:<14}  ║
+║    Pre-DSL: {meta["prev_score"]:<20} Threshold: {meta["threshold"]:<14}  ║
 ╚══════════════════════════════════════════════════════════════════╝
 """)

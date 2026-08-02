@@ -14,11 +14,12 @@ Selection is deterministic:
     4. If multiple match, sort by (-priority, -confidence, build_system_id).
        The top entry is primary; multi_match=True flags the situation.
 """
+
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Sequence
 
 from intake.build_adapters import (
     ADAPTERS_BUILTIN,
@@ -58,9 +59,7 @@ class BuildAdapterRegistry:
 
     # -- detection / selection ---------------------------------------------
 
-    def detect_all(
-        self, workspace: Path
-    ) -> list[tuple[type[BuildAdapter], DetectionResult]]:
+    def detect_all(self, workspace: Path) -> list[tuple[type[BuildAdapter], DetectionResult]]:
         out: list[tuple[type[BuildAdapter], DetectionResult]] = []
         for a in self._adapters:
             # Skip the Unknown fallback in detection — it's never a "match",
@@ -81,10 +80,16 @@ class BuildAdapterRegistry:
         if not matches:
             return SelectionResult(
                 primary=UnknownAdapter,
-                matched=[(UnknownAdapter, DetectionResult(
-                    matched=False, confidence=0.0,
-                    notes="no build manifest detected",
-                ))],
+                matched=[
+                    (
+                        UnknownAdapter,
+                        DetectionResult(
+                            matched=False,
+                            confidence=0.0,
+                            notes="no build manifest detected",
+                        ),
+                    )
+                ],
                 multi_match=False,
                 note="no build manifest detected; UnknownAdapter selected",
             )
@@ -105,10 +110,7 @@ class BuildAdapterRegistry:
             primary=sorted_matches[0][0],
             matched=sorted_matches,
             multi_match=True,
-            note=(
-                "multi-match: " +
-                ", ".join(a.build_system_id for a, _ in sorted_matches)
-            ),
+            note=("multi-match: " + ", ".join(a.build_system_id for a, _ in sorted_matches)),
         )
 
 

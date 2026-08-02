@@ -23,29 +23,36 @@ Usage:
 """
 
 from __future__ import annotations
+
+import argparse
+import json
 import os
 import sys
-import json
 import time
-import argparse
 import traceback
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 # Add parent to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from quality_oracle import QualityOracle, OracleResult
+from quality_oracle import OracleResult, QualityOracle
 from quality_oracle.rubric_decomposer import FACTUAL_QA_RUBRIC, HUMANEVAL_RUBRIC, MT_BENCH_RUBRIC
 
 # ── Provider setup ────────────────────────────────────────────────────────────
 
-def _generate(prompt: str, system: str = "", model: str = "deepseek",
-              max_tokens: int = 2048, temperature: float = 0.7) -> str:
+
+def _generate(
+    prompt: str,
+    system: str = "",
+    model: str = "deepseek",
+    max_tokens: int = 2048,
+    temperature: float = 0.7,
+) -> str:
     """Generate a response from DeepSeek or Claude."""
     if model == "deepseek" or model.startswith("deepseek"):
         import openai
+
         client = openai.OpenAI(
             api_key=os.environ.get("DEEPSEEK_API_KEY", ""),
             base_url="https://api.deepseek.com",
@@ -64,9 +71,13 @@ def _generate(prompt: str, system: str = "", model: str = "deepseek",
 
     else:  # Claude
         import anthropic
+
         client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-        kwargs = {"model": model, "max_tokens": max_tokens,
-                  "messages": [{"role": "user", "content": prompt}]}
+        kwargs = {
+            "model": model,
+            "max_tokens": max_tokens,
+            "messages": [{"role": "user", "content": prompt}],
+        }
         if system:
             kwargs["system"] = system
         msg = client.messages.create(**kwargs)
@@ -75,23 +86,27 @@ def _generate(prompt: str, system: str = "", model: str = "deepseek",
 
 # ── Task loaders ──────────────────────────────────────────────────────────────
 
+
 def load_humaneval(limit: int = 20) -> list[dict]:
     """Load HumanEval problems. Downloads dataset if needed."""
     try:
         import datasets
+
         ds = datasets.load_dataset("openai_humaneval", split="test", trust_remote_code=True)
         tasks = []
         for i, ex in enumerate(ds):
             if i >= limit:
                 break
-            tasks.append({
-                "id": ex["task_id"],
-                "prompt": ex["prompt"],
-                "test": ex["test"],
-                "entry_point": ex["entry_point"],
-                "canonical_solution": ex.get("canonical_solution", ""),
-                "bench": "humaneval",
-            })
+            tasks.append(
+                {
+                    "id": ex["task_id"],
+                    "prompt": ex["prompt"],
+                    "test": ex["test"],
+                    "entry_point": ex["entry_point"],
+                    "canonical_solution": ex.get("canonical_solution", ""),
+                    "bench": "humaneval",
+                }
+            )
         return tasks
     except Exception as e:
         print(f"  [humaneval] load failed: {e}")
@@ -111,13 +126,16 @@ def load_triviaqa(data_path: str, limit: int = 50) -> list[dict]:
             if i >= limit:
                 break
             ex = json.loads(line)
-            tasks.append({
-                "id": f"triviaqa_{i}",
-                "question": ex.get("question", ""),
-                "answers": ex.get("answer", {}).get("aliases", []) or [ex.get("answer", {}).get("value", "")],
-                "context": ex.get("search_results", {}).get("search_context", "")[:2000],
-                "bench": "triviaqa",
-            })
+            tasks.append(
+                {
+                    "id": f"triviaqa_{i}",
+                    "question": ex.get("question", ""),
+                    "answers": ex.get("answer", {}).get("aliases", [])
+                    or [ex.get("answer", {}).get("value", "")],
+                    "context": ex.get("search_results", {}).get("search_context", "")[:2000],
+                    "bench": "triviaqa",
+                }
+            )
     return tasks
 
 
@@ -133,30 +151,32 @@ def load_mt_bench(data_path: str, limit: int = 20) -> list[dict]:
             if i >= limit:
                 break
             ex = json.loads(line)
-            tasks.append({
-                "id": f"mt_bench_{ex.get('question_id', i)}",
-                "question": ex.get("turns", [""])[0],
-                "category": ex.get("category", "general"),
-                "reference": ex.get("reference", ""),
-                "bench": "mt_bench",
-            })
+            tasks.append(
+                {
+                    "id": f"mt_bench_{ex.get('question_id', i)}",
+                    "question": ex.get("turns", [""])[0],
+                    "category": ex.get("category", "general"),
+                    "reference": ex.get("reference", ""),
+                    "bench": "mt_bench",
+                }
+            )
     return tasks
 
 
 # ── HumanEval test runner ─────────────────────────────────────────────────────
 
+
 def run_humaneval_tests(code: str, test: str, entry_point: str) -> tuple[bool, str]:
     """Execute HumanEval test cases against generated code. Returns (passed, error)."""
-    import tempfile, subprocess
+    import subprocess
+    import tempfile
+
     full_code = code + "\n\n" + test + f"\n\ncheck({entry_point})\n"
     with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False, encoding="utf-8") as f:
         f.write(full_code)
         fname = f.name
     try:
-        result = subprocess.run(
-            [sys.executable, fname],
-            capture_output=True, text=True, timeout=10
-        )
+        result = subprocess.run([sys.executable, fname], capture_output=True, text=True, timeout=10)
         passed = result.returncode == 0
         error = (result.stderr or result.stdout or "").strip()[:500]
         return passed, error
@@ -173,6 +193,7 @@ def run_humaneval_tests(code: str, test: str, entry_point: str) -> tuple[bool, s
 
 # ── Task result ───────────────────────────────────────────────────────────────
 
+
 @dataclass
 class TaskResult:
     task_id: str
@@ -187,6 +208,7 @@ class TaskResult:
 
 
 # ── Main loop ─────────────────────────────────────────────────────────────────
+
 
 def run_task(
     task: dict,
@@ -226,7 +248,7 @@ def run_task(
 
     oracle_scores: list[float] = []
     hall_counts: list[int] = []
-    best_result: Optional[OracleResult] = None
+    best_result: OracleResult | None = None
     current_prompt = base_prompt
 
     for attempt in range(1, max_attempts + 1):
@@ -234,8 +256,12 @@ def run_task(
             print(f"\n  [{task_id}] Attempt {attempt}/{max_attempts}")
 
         try:
-            response = _generate(current_prompt, system=system_prompt,
-                                  model=gen_model, temperature=0.7 if attempt == 1 else 0.3)
+            response = _generate(
+                current_prompt,
+                system=system_prompt,
+                model=gen_model,
+                temperature=0.7 if attempt == 1 else 0.3,
+            )
         except Exception as e:
             if verbose:
                 print(f"  [{task_id}] generation failed: {e}")
@@ -244,7 +270,8 @@ def run_task(
         # For HumanEval: extract code block
         if bench == "humaneval":
             import re
-            code_match = re.search(r'```python\s*(.*?)\s*```', response, re.DOTALL)
+
+            code_match = re.search(r"```python\s*(.*?)\s*```", response, re.DOTALL)
             if code_match:
                 response_code = code_match.group(1)
             else:
@@ -264,9 +291,7 @@ def run_task(
 
         # For HumanEval: also run actual tests and override solved flag
         if bench == "humaneval":
-            passed, err = run_humaneval_tests(
-                response_code, task["test"], task["entry_point"]
-            )
+            passed, err = run_humaneval_tests(response_code, task["test"], task["entry_point"])
             result.solved = passed
             if not passed and err:
                 # Inject test failure into feedback
@@ -284,9 +309,11 @@ def run_task(
                 result.solved = True
 
         if verbose:
-            print(f"  [{task_id}] oracle={result.score_pct}% "
-                  f"hallucinations={result.hallucination_count} "
-                  f"solved={result.solved}")
+            print(
+                f"  [{task_id}] oracle={result.score_pct}% "
+                f"hallucinations={result.hallucination_count} "
+                f"solved={result.solved}"
+            )
 
         if not is_regression:
             best_result = result
@@ -320,8 +347,9 @@ def run_task(
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bench", choices=["humaneval", "triviaqa", "mt_bench", "custom"],
-                    default="custom")
+    ap.add_argument(
+        "--bench", choices=["humaneval", "triviaqa", "mt_bench", "custom"], default="custom"
+    )
     ap.add_argument("--limit", type=int, default=20)
     ap.add_argument("--max-attempts", type=int, default=4)
     ap.add_argument("--model", default="deepseek")
@@ -357,62 +385,84 @@ def main():
     elif args.bench == "mt_bench":
         tasks = load_mt_bench(args.data or "data/mt_bench_questions.jsonl", args.limit)
     else:
-        tasks = [{"id": "custom_0", "prompt": args.prompt,
-                  "context": args.context, "bench": "custom"}]
+        tasks = [
+            {"id": "custom_0", "prompt": args.prompt, "context": args.context, "bench": "custom"}
+        ]
 
     if not tasks:
         print("No tasks loaded. Exiting.")
         sys.exit(1)
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Quality Oracle Benchmark - {args.bench.upper()}")
-    print(f"Tasks: {len(tasks)} | Model: {args.model} | "
-          f"Max attempts: {args.max_attempts} | RAG verify: {args.verify_claims}")
-    print(f"{'='*60}\n")
+    print(
+        f"Tasks: {len(tasks)} | Model: {args.model} | "
+        f"Max attempts: {args.max_attempts} | RAG verify: {args.verify_claims}"
+    )
+    print(f"{'=' * 60}\n")
 
     results: list[TaskResult] = []
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     for i, task in enumerate(tasks):
-        print(f"[{i+1}/{len(tasks)}] {task['id']}")
+        print(f"[{i + 1}/{len(tasks)}] {task['id']}")
         try:
             r = run_task(task, oracle, args.model, args.max_attempts, args.verbose)
         except Exception as e:
             traceback.print_exc()
-            r = TaskResult(task_id=task["id"], bench=args.bench, attempts=0,
-                           solved=False, final_score=0.0, error=str(e))
+            r = TaskResult(
+                task_id=task["id"],
+                bench=args.bench,
+                attempts=0,
+                solved=False,
+                final_score=0.0,
+                error=str(e),
+            )
         results.append(r)
 
         with open(out_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(r.__dict__) + "\n")
 
         status = "SOLVED" if r.solved else f"score={r.final_score:.0%}"
-        print(f"  -> {status} | {r.attempts} attempts | "
-              f"hall: {r.hallucination_counts} | {r.wall_time_s}s\n")
+        print(
+            f"  -> {status} | {r.attempts} attempts | "
+            f"hall: {r.hallucination_counts} | {r.wall_time_s}s\n"
+        )
 
     # ── Summary ───────────────────────────────────────────────────────────────
     n = len(results)
     solved = sum(1 for r in results if r.solved)
-    pass_at_1 = sum(1 for r in results if r.oracle_scores and r.oracle_scores[0] >= args.solve_threshold) / n
-    avg_hall_att1 = sum(r.hallucination_counts[0] if r.hallucination_counts else 0 for r in results) / n
-    avg_hall_final = sum(r.hallucination_counts[-1] if r.hallucination_counts else 0 for r in results) / n
+    pass_at_1 = (
+        sum(1 for r in results if r.oracle_scores and r.oracle_scores[0] >= args.solve_threshold)
+        / n
+    )
+    avg_hall_att1 = (
+        sum(r.hallucination_counts[0] if r.hallucination_counts else 0 for r in results) / n
+    )
+    avg_hall_final = (
+        sum(r.hallucination_counts[-1] if r.hallucination_counts else 0 for r in results) / n
+    )
     avg_score_att1 = sum(r.oracle_scores[0] if r.oracle_scores else 0 for r in results) / n
     avg_score_final = sum(r.final_score for r in results) / n
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"RESULTS — {args.bench.upper()} ({n} tasks)")
-    print(f"{'='*60}")
-    print(f"  Solved:              {solved}/{n} ({solved/n:.1%})")
+    print(f"{'=' * 60}")
+    print(f"  Solved:              {solved}/{n} ({solved / n:.1%})")
     print(f"  Pass@1 (oracle):     {pass_at_1:.1%}")
     print(f"  Avg score att 1:     {avg_score_att1:.1%}")
-    print(f"  Avg score final:     {avg_score_final:.1%}  (+{(avg_score_final-avg_score_att1):.1%} from oracle loop)")
+    print(
+        f"  Avg score final:     {avg_score_final:.1%}  (+{(avg_score_final - avg_score_att1):.1%} from oracle loop)"
+    )
     print(f"  Hallucinations att1: {avg_hall_att1:.1f} avg/task")
     direction = "down" if avg_hall_final < avg_hall_att1 else "same"
-    print(f"  Hallucinations final:{avg_hall_final:.1f} avg/task  "
-          f"({direction} {abs(avg_hall_final-avg_hall_att1):.1f})")
+    print(
+        f"  Hallucinations final:{avg_hall_final:.1f} avg/task  "
+        f"({direction} {abs(avg_hall_final - avg_hall_att1):.1f})"
+    )
     print(f"  Results saved to:    {out_path}")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
 
 if __name__ == "__main__":

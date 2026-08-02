@@ -28,14 +28,14 @@ shape later. A profile is just a list of UniversalPatch rules:
 The advisor does NOT apply patches; it only proposes them. The three-speed
 eval gate (micro → shard → full) gets the final say.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Optional
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -45,29 +45,32 @@ if hasattr(sys.stdout, "reconfigure"):
 # Generic core
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class CodeChange:
     """One concrete edit a patch needs in the scaffold template."""
+
     file: str
-    locator: str                 # "function: parse_args" or "regex: <pattern>"
-    before: str                  # what the code currently looks like (snippet)
-    after: str                   # what it should look like (snippet)
-    why: str                     # one-line rationale
+    locator: str  # "function: parse_args" or "regex: <pattern>"
+    before: str  # what the code currently looks like (snippet)
+    after: str  # what it should look like (snippet)
+    why: str  # one-line rationale
 
 
 @dataclass
 class UniversalPatch:
     """A profile rule — maps a failure family to a concrete scaffold change."""
+
     family: str
     title: str
     rationale: str
     scaffold_changes: list[CodeChange] = field(default_factory=list)
-    validation: list[str] = field(default_factory=list)   # ["micro:...", "shard:..."]
-    expected_impact_pp: float = 0.0                       # upper-bound % points lift
-    confidence: float = 0.5                               # 0..1
+    validation: list[str] = field(default_factory=list)  # ["micro:...", "shard:..."]
+    expected_impact_pp: float = 0.0  # upper-bound % points lift
+    confidence: float = 0.5  # 0..1
     tags: list[str] = field(default_factory=list)
     # Status hooks for the cockpit:
-    history: list[str] = field(default_factory=list)      # e.g. ["staged 2026-05-13"]
+    history: list[str] = field(default_factory=list)  # e.g. ["staged 2026-05-13"]
     # Literal substrings the patch's output should produce. The advisor scans
     # failing-test expected-output strings for these to compute the
     # assertion-string overlap signal — the cheap correction for the iter-1
@@ -78,19 +81,20 @@ class UniversalPatch:
 @dataclass
 class Recommendation:
     """What the advisor returns. JSON-serializable for the frontend."""
+
     rank: int
     family: str
     patch: UniversalPatch
     family_failures: int
     family_tools_affected: int
-    family_share_of_failures: float       # 0..1
-    family_share_of_tools: float          # 0..1
-    estimated_lift_pp: float              # tempered by confidence and concentration
-    confidence_label: str                 # "high" | "medium" | "low"
+    family_share_of_failures: float  # 0..1
+    family_share_of_tools: float  # 0..1
+    estimated_lift_pp: float  # tempered by confidence and concentration
+    confidence_label: str  # "high" | "medium" | "low"
     # Iter-1 lesson signals — set when eval_json_paths is supplied to propose().
-    assertion_string_overlap: Optional[float] = None  # 0..1; None = not computed
-    overlap_sample_size:      int  = 0                # how many failing tests scanned
-    confidence_adjustment:    str  = "none"           # "none" | "penalty_low_overlap"
+    assertion_string_overlap: float | None = None  # 0..1; None = not computed
+    overlap_sample_size: int = 0  # how many failing tests scanned
+    confidence_adjustment: str = "none"  # "none" | "penalty_low_overlap"
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -124,9 +128,9 @@ PROGRAMBENCH_PROFILE: dict[str, UniversalPatch] = {
                 before='eprint(f"{{TOOL_NAME}}: unknown option: {{a}}")\n                sys.exit(2)',
                 after=(
                     "eprint(f\"error: unexpected argument '{{a}}' found\")\n"
-                    "                eprint(\"\")\n"
-                    "                eprint(f\"Usage: {{TOOL_NAME}} [OPTIONS] [INPUT...]\")\n"
-                    "                eprint(\"\")\n"
+                    '                eprint("")\n'
+                    '                eprint(f"Usage: {{TOOL_NAME}} [OPTIONS] [INPUT...]")\n'
+                    '                eprint("")\n'
                     "                eprint(\"For more information, try '--help'.\")\n"
                     "                sys.exit(1)"
                 ),
@@ -149,8 +153,8 @@ PROGRAMBENCH_PROFILE: dict[str, UniversalPatch] = {
             "Mark family as low-universal-lift; future picks must factor literal assertion-string overlap.",
         ],
         literal_match_strings=[
-            "unexpected argument",   # clap-2 wording
-            "unrecognized argument", # argparse wording
+            "unexpected argument",  # clap-2 wording
+            "unrecognized argument",  # argparse wording
         ],
     ),
     "help_text_mismatch": UniversalPatch(
@@ -174,8 +178,13 @@ PROGRAMBENCH_PROFILE: dict[str, UniversalPatch] = {
         validation=["micro:help-stdout-rc0", "shard:5-tools"],
         expected_impact_pp=2.5,
         confidence=0.55,
-        tags=["help", "tier-1", "ambivalent-case",
-              "needs-better-expected-extraction", "deferred-2026-05-14"],
+        tags=[
+            "help",
+            "tier-1",
+            "ambivalent-case",
+            "needs-better-expected-extraction",
+            "deferred-2026-05-14",
+        ],
         literal_match_strings=["Usage:", "usage:"],
         history=[
             "probed 2026-05-14: of 6,702 help_text_mismatch failures, only 0.8% literally "
@@ -199,10 +208,10 @@ PROGRAMBENCH_PROFILE: dict[str, UniversalPatch] = {
             CodeChange(
                 file="scripts/mass_run_v2_scaffold.py",
                 locator="PYTHON_TEMPLATE: process_file function",
-                before='eprint(f"{{TOOL_NAME}}: cannot access \'{{path}}\': No such file or directory")',
+                before="eprint(f\"{{TOOL_NAME}}: cannot access '{{path}}': No such file or directory\")",
                 after=(
                     "eprint(f\"error: failed to read '{{path}}'\")\n"
-                    "        eprint(f\"  caused by: No such file or directory (os error 2)\")\n"
+                    '        eprint(f"  caused by: No such file or directory (os error 2)")\n'
                 ),
                 why="Rust/anyhow-style error chain wording covers more tools than POSIX-only",
             ),
@@ -210,8 +219,7 @@ PROGRAMBENCH_PROFILE: dict[str, UniversalPatch] = {
         validation=["micro:file-not-found-rc2", "shard:5-tools"],
         expected_impact_pp=1.8,
         confidence=0.45,
-        tags=["file-io", "tier-2",
-              "needs-better-expected-extraction", "deferred-2026-05-14"],
+        tags=["file-io", "tier-2", "needs-better-expected-extraction", "deferred-2026-05-14"],
         literal_match_strings=[
             "No such file or directory",
             "cannot access",
@@ -269,7 +277,7 @@ PROGRAMBENCH_PROFILE: dict[str, UniversalPatch] = {
 # target family literally expect the patch's wording, halve the confidence —
 # the patch probably won't lift those tests no matter how dominant the family.
 _OVERLAP_PENALTY_THRESHOLD = 0.30
-_OVERLAP_PENALTY_FACTOR    = 0.5
+_OVERLAP_PENALTY_FACTOR = 0.5
 
 
 def _expected_text_from_message(msg: str) -> str:
@@ -295,7 +303,7 @@ def compute_assertion_string_overlap(
     *,
     family: str,
     literal_match_strings: list[str],
-) -> tuple[Optional[float], int]:
+) -> tuple[float | None, int]:
     """Scan failing tests in the named family across eval JSONs.
 
     Returns (overlap_fraction, sample_size). overlap_fraction is the fraction
@@ -314,7 +322,7 @@ def compute_assertion_string_overlap(
     from determinex_pb_taxonomy import classify_one  # type: ignore[import-not-found]
 
     sample = 0
-    hits   = 0
+    hits = 0
     for ej in eval_json_paths:
         try:
             d = json.loads(Path(ej).read_text(encoding="utf-8"))
@@ -341,7 +349,7 @@ def propose(
     profile: dict[str, UniversalPatch] = PROGRAMBENCH_PROFILE,
     top_k: int = 3,
     *,
-    eval_json_paths: Optional[list[Path]] = None,
+    eval_json_paths: list[Path] | None = None,
 ) -> list[Recommendation]:
     """Rank patches for the snapshot's top failure families."""
     families = snapshot.get("top_families", [])
@@ -386,26 +394,30 @@ def propose(
             label = "medium"
         else:
             label = "low"
-        recs.append(Recommendation(
-            rank=rank,
-            family=fam_name,
-            patch=patch,
-            family_failures=f["failures"],
-            family_tools_affected=f["tools_affected"],
-            family_share_of_failures=round(share_fail, 3),
-            family_share_of_tools=round(share_tool, 3),
-            estimated_lift_pp=lift,
-            confidence_label=label,
-            assertion_string_overlap=overlap,
-            overlap_sample_size=n_sample,
-            confidence_adjustment=adj,
-        ))
+        recs.append(
+            Recommendation(
+                rank=rank,
+                family=fam_name,
+                patch=patch,
+                family_failures=f["failures"],
+                family_tools_affected=f["tools_affected"],
+                family_share_of_failures=round(share_fail, 3),
+                family_share_of_tools=round(share_tool, 3),
+                estimated_lift_pp=lift,
+                confidence_label=label,
+                assertion_string_overlap=overlap,
+                overlap_sample_size=n_sample,
+                confidence_adjustment=adj,
+            )
+        )
         if len(recs) >= top_k:
             break
     return recs
 
 
-def propose_top_patch(snapshot: dict, profile: dict[str, UniversalPatch] = PROGRAMBENCH_PROFILE) -> dict:
+def propose_top_patch(
+    snapshot: dict, profile: dict[str, UniversalPatch] = PROGRAMBENCH_PROFILE
+) -> dict:
     """Convenience: just the top single patch, as a dict. Used by the live monitor."""
     recs = propose(snapshot, profile=profile, top_k=1)
     return recs[0].to_dict() if recs else {"status": "no_patch_for_top_family"}
@@ -415,7 +427,8 @@ def propose_top_patch(snapshot: dict, profile: dict[str, UniversalPatch] = PROGR
 # CLI
 # ---------------------------------------------------------------------------
 
-def _discover_eval_jsons(scaffold_root: Optional[Path]) -> list[Path]:
+
+def _discover_eval_jsons(scaffold_root: Path | None) -> list[Path]:
     """Find all per-instance *.eval.json under a scaffold root for overlap scoring."""
     if scaffold_root is None or not scaffold_root.is_dir():
         return []
@@ -427,30 +440,43 @@ def _cli():
     ap.add_argument("--run-id", default="mass_run_v2_base")
     ap.add_argument("--expected-total", type=int, default=115)
     ap.add_argument("--top-k", type=int, default=3)
-    ap.add_argument("--scaffold-root", type=Path, default=None,
-                    help="output root (e.g. T:/determinex-programbench/mass_run_v2_base) "
-                         "to scan for *.eval.json — enables assertion-string overlap scoring")
+    ap.add_argument(
+        "--scaffold-root",
+        type=Path,
+        default=None,
+        help="output root (e.g. T:/determinex-programbench/mass_run_v2_base) "
+        "to scan for *.eval.json — enables assertion-string overlap scoring",
+    )
     ap.add_argument("--json", action="store_true", help="JSON output (default: human-readable)")
     args = ap.parse_args()
 
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from programbench_live_monitor import snapshot as _snapshot  # type: ignore
+
     snap = _snapshot(args.run_id, expected_total=args.expected_total)
     eval_paths = _discover_eval_jsons(args.scaffold_root)
     recs = propose(snap, top_k=args.top_k, eval_json_paths=eval_paths)
 
     if args.json:
-        print(json.dumps({
-            "run_id": args.run_id,
-            "n_completed": snap["n_completed_tasks"],
-            "rolling_avg": snap["rolling_avg_score"],
-            "eval_jsons_scanned": len(eval_paths),
-            "recommendations": [r.to_dict() for r in recs],
-        }, indent=2, default=str))
+        print(
+            json.dumps(
+                {
+                    "run_id": args.run_id,
+                    "n_completed": snap["n_completed_tasks"],
+                    "rolling_avg": snap["rolling_avg_score"],
+                    "eval_jsons_scanned": len(eval_paths),
+                    "recommendations": [r.to_dict() for r in recs],
+                },
+                indent=2,
+                default=str,
+            )
+        )
         return
 
     print(f"=== Patch advisor for {args.run_id} ===")
-    print(f"  {snap['n_completed_tasks']} tasks completed, rolling avg {snap['rolling_avg_score']}/100")
+    print(
+        f"  {snap['n_completed_tasks']} tasks completed, rolling avg {snap['rolling_avg_score']}/100"
+    )
     if eval_paths:
         print(f"  scanning {len(eval_paths)} eval JSONs for assertion-string overlap")
     print()
@@ -459,13 +485,23 @@ def _cli():
         return
     for r in recs:
         print(f"  #{r.rank}  {r.patch.title}")
-        print(f"        family:           {r.family}  ({r.family_failures:,} failures, {r.family_tools_affected} tools)")
-        print(f"        share:            {r.family_share_of_failures:.0%} of failures, {r.family_share_of_tools:.0%} of tools affected")
+        print(
+            f"        family:           {r.family}  ({r.family_failures:,} failures, {r.family_tools_affected} tools)"
+        )
+        print(
+            f"        share:            {r.family_share_of_failures:.0%} of failures, {r.family_share_of_tools:.0%} of tools affected"
+        )
         if r.assertion_string_overlap is not None:
-            print(f"        string overlap:   {r.assertion_string_overlap:.0%} of {r.overlap_sample_size:,} failing tests "
-                  f"literally expect the patch wording  [{r.confidence_adjustment}]")
-        print(f"        confidence:       {r.confidence_label}  (raw {r.patch.confidence:.2f}{', adjusted' if r.confidence_adjustment != 'none' else ''})")
-        print(f"        estimated lift:   +{r.estimated_lift_pp} pp  (upper bound {r.patch.expected_impact_pp} pp)")
+            print(
+                f"        string overlap:   {r.assertion_string_overlap:.0%} of {r.overlap_sample_size:,} failing tests "
+                f"literally expect the patch wording  [{r.confidence_adjustment}]"
+            )
+        print(
+            f"        confidence:       {r.confidence_label}  (raw {r.patch.confidence:.2f}{', adjusted' if r.confidence_adjustment != 'none' else ''})"
+        )
+        print(
+            f"        estimated lift:   +{r.estimated_lift_pp} pp  (upper bound {r.patch.expected_impact_pp} pp)"
+        )
         print(f"        rationale:        {r.patch.rationale[:120]}...")
         print(f"        validation gate:  {', '.join(r.patch.validation)}")
         if r.patch.scaffold_changes:

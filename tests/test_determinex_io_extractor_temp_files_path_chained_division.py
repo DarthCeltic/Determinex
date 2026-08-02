@@ -15,6 +15,7 @@ single division on top of it had any resolution mechanism -- and CHAINING
 a distinct sub-case, since each division has to resolve against a GROWING
 map of previously-resolved vars, not just the immediate `.path()` call.
 """
+
 from __future__ import annotations
 
 import sys
@@ -25,7 +26,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def _capslog_conftest() -> str:
-    return '''
+    return """
 import subprocess
 import tempfile
 import shutil
@@ -49,7 +50,7 @@ class TempFiles:
         return path
     def path(self, name=""):
         return Path(self.tempdir) / name if name else Path(self.tempdir)
-'''
+"""
 
 
 def test_resolve_chain_single_division_from_no_arg_path():
@@ -83,13 +84,13 @@ def test_resolve_chain_declines_unknown_base_name():
 
 
 def test_track_temp_files_path_vars_resolves_multi_level_assignment_chain():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def test_x(tf):
     log_dir = tf.path() / "logs"
     year_dir = log_dir / "y2026"
     log_file = year_dir / "d2026_03_25.md"
     config_file = tf.path() / "config.ini"
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._track_temp_files_path_vars(func, {"tf"})
     assert result == {
@@ -103,7 +104,7 @@ def test_x(tf):
 def test_extract_file_resolves_capslog_shaped_chained_division_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
     conf.write_text(_capslog_conftest(), encoding="utf-8")
-    src = '''
+    src = """
 from conftest import run, TempFiles
 
 def test_config_with_log_dir():
@@ -114,7 +115,7 @@ def test_config_with_log_dir():
         config_file.write_text("x")
         result = run("--config", str(config_file), "--log-dir-path", str(log_dir))
         assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -126,7 +127,7 @@ def test_config_with_log_dir():
 def test_extract_file_resolves_capslog_shaped_multi_level_chain_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
     conf.write_text(_capslog_conftest(), encoding="utf-8")
-    src = '''
+    src = """
 from conftest import run, TempFiles
 
 def test_encryption_marker_file_content():
@@ -138,27 +139,33 @@ def test_encryption_marker_file_content():
         log_file.write_text("Test content")
         result = run("--log-dir-path", str(log_dir), "--show-file", str(log_file))
         assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
     assert cov.n_examples == 1
     e = cov.examples[0]
-    assert e.argv == ["executable", "--log-dir-path", "logs", "--show-file", "logs/y2026/d2026_03_25.md"]
+    assert e.argv == [
+        "executable",
+        "--log-dir-path",
+        "logs",
+        "--show-file",
+        "logs/y2026/d2026_03_25.md",
+    ]
 
 
 def test_file_arg_inline_chained_division_without_intermediate_var(tmp_path):
     """The `_file_arg` inline site (no intermediate variable at all)."""
     conf = tmp_path / "conftest.py"
     conf.write_text(_capslog_conftest(), encoding="utf-8")
-    src = '''
+    src = """
 from conftest import run, TempFiles
 
 def test_inline():
     with TempFiles() as tf:
         result = run("--config", str(tf.path() / "config.ini"))
         assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

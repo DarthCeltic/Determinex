@@ -5,6 +5,7 @@ means ``AUTHORIZED``. Backend and frontend status tokens are
 classified into an 8-class disjoint vocabulary, and the lock
 fails if any token violates the precision rules.
 """
+
 from __future__ import annotations
 
 import importlib
@@ -20,12 +21,10 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 vocab = importlib.import_module("repair.ready_authorized_vocabulary")
 vocab_rec = importlib.import_module("repair.ready_authorized_vocabulary_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / ("CLAUDE_AUTH_005_READY_AUTHORIZED_LANGUAGE_LOCK_001.json")
 )
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_auth_005_ready_authorized_language"
-)
+EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / ("claude_auth_005_ready_authorized_language")
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
@@ -46,11 +45,13 @@ def test_eight_classes_exact():
 
 
 def test_authorization_classes_set():
-    assert vocab_rec.CLASSES_THAT_IMPLY_AUTHORIZATION == frozenset({
-        "execution_authorized",
-        "source_mutation_authorized",
-        "training_eligible",
-    })
+    assert vocab_rec.CLASSES_THAT_IMPLY_AUTHORIZATION == frozenset(
+        {
+            "execution_authorized",
+            "source_mutation_authorized",
+            "training_eligible",
+        }
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -115,7 +116,8 @@ def test_only_one_token_classifies_as_source_mutation_authorized():
     record emitted by the apply gate. Any expansion of this set
     requires a new lock."""
     sm = [
-        tok for tok in vocab.known_tokens()
+        tok
+        for tok in vocab.known_tokens()
         if vocab.classify(tok).vocabulary_class == "source_mutation_authorized"
     ]
     assert sm == ["SOURCE_MUTATION_APPLIED_AFTER_APPROVAL"], (
@@ -197,8 +199,11 @@ def test_apply_gate_post_fact_token_only_source_mutation_class():
     """The SOURCE_MUTATION_APPLIED_AFTER_APPROVAL token is what the
     apply gate emits AFTER all checks pass. Nothing else in the
     vocabulary may share that class."""
-    cs = [c for c in (vocab.classify(t) for t in vocab.known_tokens())
-          if c and c.vocabulary_class == "source_mutation_authorized"]
+    cs = [
+        c
+        for c in (vocab.classify(t) for t in vocab.known_tokens())
+        if c and c.vocabulary_class == "source_mutation_authorized"
+    ]
     assert len(cs) == 1
     assert cs[0].token == "SOURCE_MUTATION_APPLIED_AFTER_APPROVAL"
     assert cs[0].surface == "backend"

@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -10,8 +11,12 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-PANEL_PATH = _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "MaintenanceBayPanel.tsx"
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001.json"
+PANEL_PATH = (
+    _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "MaintenanceBayPanel.tsx"
+)
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_REACT_MAINTENANCE_BAY_PANEL_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_react_maintenance_bay_panel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -55,7 +60,10 @@ def test_updated_label_gated_on_full_chain():
     src = _src()
     # All four flags must participate in the gate (whitespace-insensitive).
     compact = " ".join(src.split())
-    assert "compatibilityVerifierPresent && compatibilityVerifierPassed && approvalPresent && postApplyVerifierPassed" in compact
+    assert (
+        "compatibilityVerifierPresent && compatibilityVerifierPassed && approvalPresent && postApplyVerifierPassed"
+        in compact
+    )
     assert "UPDATED_LABEL_DISABLED_NO_VERIFIER" in src
     assert "UPDATE_APPLIED_AFTER_APPROVAL" in src
     assert 'data-testid="maintenance-bay-updated-meaning"' in src

@@ -9,11 +9,9 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 PB_TASKS = Path("T:/Dev/ProgramBench/src/programbench/data/tasks")
@@ -145,7 +143,13 @@ def normalize_status(status: str | None) -> str:
 
 
 def classify_failure(row: dict[str, Any], status: str) -> str:
-    if status in {"strict_lock", "reference_parity", "upstream_skips", "ceiling_confirmed", "parked"}:
+    if status in {
+        "strict_lock",
+        "reference_parity",
+        "upstream_skips",
+        "ceiling_confirmed",
+        "parked",
+    }:
         return status
     failed = int(row.get("failed") or row.get("errors") or 0)
     not_run = int(row.get("not_run") or 0)
@@ -183,16 +187,32 @@ def campaign_landscape(canonical: dict[str, Any]) -> dict[str, Any]:
         if mapped:
             rows_by_task[mapped].append(row)
         elif not row.get("alias_of"):
-            extras.append({"slug": slug, "status": row.get("status"), "reason": "not in canonical task candidates"})
+            extras.append(
+                {
+                    "slug": slug,
+                    "status": row.get("status"),
+                    "reason": "not in canonical task candidates",
+                }
+            )
 
     tools: list[dict[str, Any]] = []
     buckets: Counter[str] = Counter()
-    lanes: dict[str, list[dict[str, Any]]] = {"LANE_P": [], "LANE_B": [], "LANE_M": [], "LANE_0": []}
+    lanes: dict[str, list[dict[str, Any]]] = {
+        "LANE_P": [],
+        "LANE_B": [],
+        "LANE_M": [],
+        "LANE_0": [],
+    }
     for task in canonical["tasks"]:
         task_id = task["id"]
         eval_candidates = rows_by_task.get(task_id, [])
         primary = eval_candidates[0] if eval_candidates else {}
-        status_rank = {"strict_lock": 0, "reference_parity": 1, "upstream_skips": 2, "ceiling_confirmed": 3}
+        status_rank = {
+            "strict_lock": 0,
+            "reference_parity": 1,
+            "upstream_skips": 2,
+            "ceiling_confirmed": 3,
+        }
         if eval_candidates:
             primary = sorted(
                 eval_candidates,
@@ -242,7 +262,12 @@ def campaign_landscape(canonical: dict[str, Any]) -> dict[str, Any]:
             lanes["LANE_0"].append(row)
 
     lanes["LANE_P"].sort(key=lambda r: (-(r.get("best_not_run") or 0), r["id"]))
-    lanes["LANE_B"].sort(key=lambda r: (r.get("delta_to_lock") if r.get("delta_to_lock") is not None else 10**9, r["id"]))
+    lanes["LANE_B"].sort(
+        key=lambda r: (
+            r.get("delta_to_lock") if r.get("delta_to_lock") is not None else 10**9,
+            r["id"],
+        )
+    )
     lanes["LANE_M"].sort(key=lambda r: (-(r.get("canonical_total_tests") or 0), r["id"]))
     lanes["LANE_0"].sort(key=lambda r: r["id"])
     return {
@@ -251,7 +276,15 @@ def campaign_landscape(canonical: dict[str, Any]) -> dict[str, Any]:
         "bucket_counts": dict(sorted(buckets.items())),
         "extra_eval_index_rows": extras,
         "attack_plan": {
-            lane: [{"id": r["id"], "delta_to_lock": r.get("delta_to_lock"), "best_not_run": r.get("best_not_run"), "best_report": r.get("best_report")} for r in rows[:10]]
+            lane: [
+                {
+                    "id": r["id"],
+                    "delta_to_lock": r.get("delta_to_lock"),
+                    "best_not_run": r.get("best_not_run"),
+                    "best_report": r.get("best_report"),
+                }
+                for r in rows[:10]
+            ]
             for lane, rows in lanes.items()
         },
         "lane_counts": {lane: len(rows) for lane, rows in lanes.items()},
@@ -267,12 +300,18 @@ def main() -> int:
     canonical = canonical_tasks()
     canonical_path = Path(args.canonical_out)
     canonical_path.parent.mkdir(parents=True, exist_ok=True)
-    canonical_path.write_text(json.dumps(canonical, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    canonical_path.write_text(
+        json.dumps(canonical, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     landscape = campaign_landscape(canonical)
     landscape_path = Path(args.landscape_out)
     landscape_path.parent.mkdir(parents=True, exist_ok=True)
-    landscape_path.write_text(json.dumps(landscape, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(f"canonical_tasks={canonical_path} count={canonical['official_task_count']} local_dirs={canonical['local_task_dir_count']}")
+    landscape_path.write_text(
+        json.dumps(landscape, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    print(
+        f"canonical_tasks={canonical_path} count={canonical['official_task_count']} local_dirs={canonical['local_task_dir_count']}"
+    )
     print(f"campaign_landscape={landscape_path} lanes={landscape['lane_counts']}")
     return 0
 

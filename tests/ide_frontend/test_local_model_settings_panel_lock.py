@@ -1,4 +1,5 @@
 """Tests for LOCAL_MODEL_SETTINGS_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -6,18 +7,22 @@ import re
 from pathlib import Path
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
-PANEL = _REPO_ROOT / "frontend" / "src" / "components" / "ide-repair" / "LocalModelSettingsPanel.tsx"
+PANEL = (
+    _REPO_ROOT / "frontend" / "src" / "components" / "ide-repair" / "LocalModelSettingsPanel.tsx"
+)
 LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "LOCAL_MODEL_SETTINGS_PANEL_LOCK_001.json"
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "local_model_settings_panel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-STATUS_TOKENS = frozenset({
-    "LOCAL_MODEL_SETTINGS_PANEL_READY",
-    "LOCAL_MODEL_CONFIG_DRY_RUN_DEFAULT",
-    "LOCAL_MODEL_NETWORK_PROVIDER_BLOCKED",
-    "LOCAL_MODEL_SAVE_NO_LIVE_CALL",
-    "LOCAL_MODEL_STALE_ID_WARNING_VISIBLE",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "LOCAL_MODEL_SETTINGS_PANEL_READY",
+        "LOCAL_MODEL_CONFIG_DRY_RUN_DEFAULT",
+        "LOCAL_MODEL_NETWORK_PROVIDER_BLOCKED",
+        "LOCAL_MODEL_SAVE_NO_LIVE_CALL",
+        "LOCAL_MODEL_STALE_ID_WARNING_VISIBLE",
+    }
+)
 
 
 def test_panel_exists():
@@ -62,7 +67,16 @@ def test_dry_run_default_is_true():
 
 def test_network_provider_tokens_blocked():
     src = PANEL.read_text(encoding="utf-8")
-    for token in ("anthropic", "openai", "google", "deepseek", "gemini", "openrouter", "cloud", "network"):
+    for token in (
+        "anthropic",
+        "openai",
+        "google",
+        "deepseek",
+        "gemini",
+        "openrouter",
+        "cloud",
+        "network",
+    ):
         assert f'"{token}"' in src
     assert 'data-testid="local-model-network-blocked-note"' in src
 

@@ -66,9 +66,9 @@ TAURI INTEGRATION (Rust):
 import json
 import os
 import sys
-import time
 import threading
-from typing import Optional
+import time
+
 
 # Stderr for logs (Tauri captures this separately, never mixed with the NDJSON protocol)
 def _log(msg: str):
@@ -78,6 +78,7 @@ def _log(msg: str):
 # ---------------------------------------------------------------------------
 # PROTOCOL HELPERS
 # ---------------------------------------------------------------------------
+
 
 def _send(payload: dict):
     """Write a single NDJSON line to stdout."""
@@ -105,21 +106,22 @@ def _send_token(req_id: str, token: str, done: bool, total_tokens: int = 0):
 # SIDECAR STATE
 # ---------------------------------------------------------------------------
 
+
 class SidecarState:
     def __init__(self):
-        self.model       = None   # llama_cpp.Llama instance
-        self.model_path  = ""
+        self.model = None  # llama_cpp.Llama instance
+        self.model_path = ""
         self.n_gpu_layers = 0
-        self.n_ctx       = 2048
-        self.loaded      = False
-        self.lock        = threading.Lock()
+        self.n_ctx = 2048
+        self.loaded = False
+        self.lock = threading.Lock()
 
     def status(self) -> dict:
         return {
-            "loaded":        self.loaded,
-            "model_path":    self.model_path,
-            "n_gpu_layers":  self.n_gpu_layers,
-            "n_ctx":         self.n_ctx,
+            "loaded": self.loaded,
+            "model_path": self.model_path,
+            "n_gpu_layers": self.n_gpu_layers,
+            "n_ctx": self.n_ctx,
         }
 
 
@@ -127,11 +129,12 @@ class SidecarState:
 # HANDLERS
 # ---------------------------------------------------------------------------
 
+
 def handle_load(state: SidecarState, req: dict) -> bool:
-    req_id     = req.get("id", "?")
+    req_id = req.get("id", "?")
     model_path = req.get("model_path", "")
-    n_gpu      = req.get("n_gpu_layers", state.n_gpu_layers)
-    n_ctx      = req.get("n_ctx", state.n_ctx)
+    n_gpu = req.get("n_gpu_layers", state.n_gpu_layers)
+    n_ctx = req.get("n_ctx", state.n_ctx)
 
     if not model_path:
         _send_error(req_id, "model_path is required for 'load' action")
@@ -157,19 +160,21 @@ def handle_load(state: SidecarState, req: dict) -> bool:
                 state.model = None
 
             state.model = Llama(
-                model_path    = model_path,
-                n_gpu_layers  = n_gpu,
-                n_ctx         = n_ctx,
-                verbose       = False,
+                model_path=model_path,
+                n_gpu_layers=n_gpu,
+                n_ctx=n_ctx,
+                verbose=False,
             )
-            state.model_path  = model_path
+            state.model_path = model_path
             state.n_gpu_layers = n_gpu
-            state.n_ctx       = n_ctx
-            state.loaded      = True
+            state.n_ctx = n_ctx
+            state.loaded = True
 
             elapsed = time.time() - t0
             _log(f"Model loaded in {elapsed:.2f}s")
-            _send_ok(req_id, {"loaded": True, "elapsed_sec": round(elapsed, 2), "model_path": model_path})
+            _send_ok(
+                req_id, {"loaded": True, "elapsed_sec": round(elapsed, 2), "model_path": model_path}
+            )
         except Exception as e:
             state.loaded = False
             _send_error(req_id, f"Failed to load model: {e}")
@@ -178,13 +183,13 @@ def handle_load(state: SidecarState, req: dict) -> bool:
 
 
 def handle_infer(state: SidecarState, req: dict) -> bool:
-    req_id      = req.get("id", "?")
-    prompt      = req.get("prompt", "")
-    max_tokens  = req.get("max_tokens", 512)
+    req_id = req.get("id", "?")
+    prompt = req.get("prompt", "")
+    max_tokens = req.get("max_tokens", 512)
     temperature = req.get("temperature", 0.1)
-    stop        = req.get("stop", [])
-    top_p       = req.get("top_p", 0.9)
-    top_k       = req.get("top_k", 40)
+    stop = req.get("stop", [])
+    top_p = req.get("top_p", 0.9)
+    top_k = req.get("top_k", 40)
 
     if not state.loaded or state.model is None:
         _send_error(req_id, "No model loaded — send a 'load' request first")
@@ -201,13 +206,13 @@ def handle_infer(state: SidecarState, req: dict) -> bool:
         with state.lock:
             stream = state.model(
                 prompt,
-                max_tokens  = max_tokens,
-                temperature = temperature,
-                top_p       = top_p,
-                top_k       = top_k,
-                stop        = stop if stop else None,
-                stream      = True,
-                echo        = False,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                top_p=top_p,
+                top_k=top_k,
+                stop=stop if stop else None,
+                stream=True,
+                echo=False,
             )
 
             for chunk in stream:
@@ -234,20 +239,21 @@ def handle_quit(state: SidecarState, req: dict) -> bool:
     req_id = req.get("id", "?")
     _send_ok(req_id, {"message": "Determinex sidecar shutting down."})
     _log("Quit requested — exiting.")
-    return False   # Signal to stop the main loop
+    return False  # Signal to stop the main loop
 
 
 HANDLERS = {
-    "load":   handle_load,
-    "infer":  handle_infer,
+    "load": handle_load,
+    "infer": handle_infer,
     "status": handle_status,
-    "quit":   handle_quit,
+    "quit": handle_quit,
 }
 
 
 # ---------------------------------------------------------------------------
 # MAIN LOOP
 # ---------------------------------------------------------------------------
+
 
 def main():
     _log(f"Determinex sidecar started. Python {sys.version.split()[0]}")

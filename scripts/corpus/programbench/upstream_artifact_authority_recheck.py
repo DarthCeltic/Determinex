@@ -4,10 +4,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -16,11 +17,19 @@ if str(_SCRIPTS) not in sys.path:
 from corpus.programbench.alternate_cleanroom_image_provenance_record import (
     verify_alternate_cleanroom_image_provenance_record,
 )
-from corpus.programbench.cleanroom_image_hydration_record import verify_cleanroom_image_hydration_record
+from corpus.programbench.cleanroom_image_hydration_record import (
+    verify_cleanroom_image_hydration_record,
+)
 from corpus.programbench.cleanroom_image_scan_record import verify_cleanroom_image_scan_record
-from corpus.programbench.cleanroom_image_scan_triage_record import verify_cleanroom_image_scan_triage_record
-from corpus.programbench.dockerhub_manifest_provenance_record import verify_dockerhub_manifest_provenance_record
-from corpus.programbench.operator_provenance_request_packet_record import verify_operator_provenance_request_packet_record
+from corpus.programbench.cleanroom_image_scan_triage_record import (
+    verify_cleanroom_image_scan_triage_record,
+)
+from corpus.programbench.dockerhub_manifest_provenance_record import (
+    verify_dockerhub_manifest_provenance_record,
+)
+from corpus.programbench.operator_provenance_request_packet_record import (
+    verify_operator_provenance_request_packet_record,
+)
 from corpus.programbench.rebuild_provenance_quarantine_decision_record import (
     verify_rebuild_provenance_quarantine_decision_record,
 )
@@ -28,7 +37,6 @@ from corpus.programbench.upstream_artifact_authority_recheck_record import (
     make_upstream_artifact_authority_recheck_record,
     write_upstream_artifact_authority_recheck_record,
 )
-
 
 INSTANCE_ID = "doxygen__doxygen.966d98e"
 EXPECTED_DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
@@ -55,8 +63,12 @@ class UpstreamArtifactAuthorityRecheckStatus(str, Enum):
     REBUILD_PROVENANCE_AUTHORITY_ABSENT = "REBUILD_PROVENANCE_AUTHORITY_ABSENT"
     REMEDIATION_AUTHORITY_ABSENT = "REMEDIATION_AUTHORITY_ABSENT"
     OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED = "OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED"
-    OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED = "OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED"
-    OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_POLICY_REVIEW = "OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_POLICY_REVIEW"
+    OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED = (
+        "OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED"
+    )
+    OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_POLICY_REVIEW = (
+        "OFFICIAL_ARTIFACT_EXECUTION_REQUIRES_POLICY_REVIEW"
+    )
     CACHE_READY_FALSE = "CACHE_READY_FALSE"
     EXECUTABLE_FALSE = "EXECUTABLE_FALSE"
     TRAINING_INELIGIBLE = "TRAINING_INELIGIBLE"
@@ -102,12 +114,11 @@ class ProgramBenchUpstreamArtifactAuthorityRecheck:
             paths["scan_triage_record"] = triage_record_path
 
         loaded = {name: self._load_record(path) for name, path in paths.items()}
-        validation = {
-            name: item["valid"]
-            for name, item in loaded.items()
-        }
+        validation = {name: item["valid"] for name, item in loaded.items()}
         records = {name: item["record"] for name, item in loaded.items()}
-        consumed_records = {name: _rel(self.config.root, self._resolve(path)) for name, path in paths.items()}
+        consumed_records = {
+            name: _rel(self.config.root, self._resolve(path)) for name, path in paths.items()
+        }
 
         manifest = records["manifest_record"]
         request = records["operator_provenance_request"]
@@ -176,8 +187,12 @@ class ProgramBenchUpstreamArtifactAuthorityRecheck:
             if exact_provider or local_usage["task_cleanroom_distribution_model_present"]
             else AuthorityValue.ABSENT.value
         )
-        rebuild_authority = _rebuild_authority(decision_record, validation.get("rebuild_quarantine_decision", False))
-        remediation_authority = _remediation_authority(decision_record, validation.get("rebuild_quarantine_decision", False))
+        rebuild_authority = _rebuild_authority(
+            decision_record, validation.get("rebuild_quarantine_decision", False)
+        )
+        remediation_authority = _remediation_authority(
+            decision_record, validation.get("rebuild_quarantine_decision", False)
+        )
         execution_policy = _execution_policy(scan, hydration, validation)
         decision = _decision(upstream_authority, execution_policy)
         reasons = _reasons(
@@ -204,7 +219,9 @@ class ProgramBenchUpstreamArtifactAuthorityRecheck:
             UpstreamArtifactAuthorityRecheckStatus.TRAINING_INELIGIBLE.value,
         ]
         if upstream_authority == AuthorityValue.PRESENT.value:
-            statuses.append(UpstreamArtifactAuthorityRecheckStatus.OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED.value)
+            statuses.append(
+                UpstreamArtifactAuthorityRecheckStatus.OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED.value
+            )
 
         record = make_upstream_artifact_authority_recheck_record(
             status=UpstreamArtifactAuthorityRecheckStatus.UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_COMPLETED.value,
@@ -227,7 +244,8 @@ class ProgramBenchUpstreamArtifactAuthorityRecheck:
                     "repository": manifest.get("repository"),
                     "tag": manifest.get("tag"),
                     "manifest_digest": manifest.get("manifest_digest"),
-                    "metadata_only_lookup": manifest.get("lookup_method") == "manifest/digest metadata only",
+                    "metadata_only_lookup": manifest.get("lookup_method")
+                    == "manifest/digest metadata only",
                     "pulled_layers": manifest.get("pulled_layers"),
                     "executed": manifest.get("executed"),
                 },
@@ -245,7 +263,8 @@ class ProgramBenchUpstreamArtifactAuthorityRecheck:
                 "image_mapping_expected": expected_image,
                 "image_consistency": image_consistency,
                 "digest_consistency": digest_consistency,
-                "manifest_digest_matches_expected": manifest.get("manifest_digest") == self.config.expected_digest,
+                "manifest_digest_matches_expected": manifest.get("manifest_digest")
+                == self.config.expected_digest,
                 "scan_status": scan.get("status"),
                 "hydration_policy_result": hydration.get("policy_result"),
                 "alternate_provenance_status": records["alternate_provenance_record"].get("status"),
@@ -255,7 +274,9 @@ class ProgramBenchUpstreamArtifactAuthorityRecheck:
             cache_ready=False,
             executable=False,
         )
-        path = write_upstream_artifact_authority_recheck_record(record, self._resolve(self.config.output_dir))
+        path = write_upstream_artifact_authority_recheck_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _load_record(self, path: Path) -> dict[str, Any]:
@@ -284,21 +305,37 @@ class ProgramBenchUpstreamArtifactAuthorityRecheck:
             resolved = self._resolve(path)
             text = _read_text(resolved)
             if not text:
-                evidence.append({"path": _rel(self.config.root, resolved), "exists": resolved.exists(), "matches": []})
+                evidence.append(
+                    {
+                        "path": _rel(self.config.root, resolved),
+                        "exists": resolved.exists(),
+                        "matches": [],
+                    }
+                )
                 continue
             matches: list[str] = []
             if "task_cleanroom" in text and "programbench/" in text:
                 distribution_hits += 1
                 matches.append("task_cleanroom_programbench_image_reference")
-            if "replace('__', '_1776_')" in text or "<owner>_1776_<repo>.<hash>:task_cleanroom" in text:
+            if (
+                "replace('__', '_1776_')" in text
+                or "<owner>_1776_<repo>.<hash>:task_cleanroom" in text
+            ):
                 mapping_hits += 1
                 matches.append("instance_id_to_task_cleanroom_mapping")
             if expected_image in text:
                 matches.append("exact_doxygen_image_reference")
-            evidence.append({"path": _rel(self.config.root, resolved), "exists": resolved.exists(), "matches": matches})
+            evidence.append(
+                {
+                    "path": _rel(self.config.root, resolved),
+                    "exists": resolved.exists(),
+                    "matches": matches,
+                }
+            )
         return {
             "task_cleanroom_distribution_model_present": distribution_hits > 0,
-            "doxygen_mapping_verified": image_name(self.config.instance_id) == expected_image and mapping_hits > 0,
+            "doxygen_mapping_verified": image_name(self.config.instance_id) == expected_image
+            and mapping_hits > 0,
             "distribution_evidence_count": distribution_hits,
             "mapping_evidence_count": mapping_hits,
             "evidence": evidence,
@@ -339,14 +376,8 @@ def _provider_registry_lock_valid(record: dict[str, Any]) -> bool:
     return (
         record.get("lock_id") == "PROGRAMBENCH_ONLINE_PROVIDER_REGISTRY_LOCK_001"
         and "docker_hub_official" in record.get("providers", [])
-        and (
-            "broad_search" in blocked
-            or any("broad search" in item for item in blocked_behavior)
-        )
-        and (
-            "latest_execution" in blocked
-            or any("latest" in item for item in blocked_behavior)
-        )
+        and ("broad_search" in blocked or any("broad search" in item for item in blocked_behavior))
+        and ("latest_execution" in blocked or any("latest" in item for item in blocked_behavior))
     )
 
 
@@ -354,18 +385,38 @@ def _rebuild_authority(record: dict[str, Any], valid: bool) -> str:
     if not valid:
         return AuthorityValue.INCONCLUSIVE.value
     findings = record.get("findings") if isinstance(record.get("findings"), dict) else {}
-    if record.get("rebuild_provenance_authorized") is True or record.get("image_rebuild_authorized") is True:
+    if (
+        record.get("rebuild_provenance_authorized") is True
+        or record.get("image_rebuild_authorized") is True
+    ):
         return AuthorityValue.PRESENT.value
-    if findings.get("rebuild_provenance_authorized") is True or findings.get("partial_provenance_is_sufficient_for_rebuild") is True:
+    if (
+        findings.get("rebuild_provenance_authorized") is True
+        or findings.get("partial_provenance_is_sufficient_for_rebuild") is True
+    ):
         return AuthorityValue.PRESENT.value
-    if record.get("rebuild_provenance_authorized") is False or record.get("image_rebuild_authorized") is False:
+    if (
+        record.get("rebuild_provenance_authorized") is False
+        or record.get("image_rebuild_authorized") is False
+    ):
         return AuthorityValue.ABSENT.value
-    if findings.get("rebuild_provenance_authorized") is False or findings.get("partial_provenance_is_sufficient_for_rebuild") is False:
+    if (
+        findings.get("rebuild_provenance_authorized") is False
+        or findings.get("partial_provenance_is_sufficient_for_rebuild") is False
+    ):
         return AuthorityValue.ABSENT.value
     auth = record.get("authorization") if isinstance(record.get("authorization"), dict) else {}
-    if auth.get("rebuild_authorized") is True or auth.get("image_rebuild_authorized") is True or auth.get("rebuild_provenance_ready") is True:
+    if (
+        auth.get("rebuild_authorized") is True
+        or auth.get("image_rebuild_authorized") is True
+        or auth.get("rebuild_provenance_ready") is True
+    ):
         return AuthorityValue.PRESENT.value
-    if auth.get("rebuild_authorized") is False or auth.get("image_rebuild_authorized") is False or auth.get("rebuild_provenance_ready") is False:
+    if (
+        auth.get("rebuild_authorized") is False
+        or auth.get("image_rebuild_authorized") is False
+        or auth.get("rebuild_provenance_ready") is False
+    ):
         return AuthorityValue.ABSENT.value
     return AuthorityValue.INCONCLUSIVE.value
 
@@ -387,10 +438,15 @@ def _remediation_authority(record: dict[str, Any], valid: bool) -> str:
     return AuthorityValue.INCONCLUSIVE.value
 
 
-def _execution_policy(scan: dict[str, Any], hydration: dict[str, Any], validation: dict[str, bool]) -> str:
+def _execution_policy(
+    scan: dict[str, Any], hydration: dict[str, Any], validation: dict[str, bool]
+) -> str:
     if validation.get("scan_record") and scan.get("status") == "CLEANROOM_IMAGE_SCAN_FAILED":
         return ExecutionSecurityPolicy.BLOCKED_SCAN_FAILED.value
-    if validation.get("hydration_record") and hydration.get("policy_result") == "CLEANROOM_IMAGE_POLICY_BLOCKED":
+    if (
+        validation.get("hydration_record")
+        and hydration.get("policy_result") == "CLEANROOM_IMAGE_POLICY_BLOCKED"
+    ):
         return ExecutionSecurityPolicy.BLOCKED_SCAN_FAILED.value
     if validation.get("scan_record") or validation.get("hydration_record"):
         return ExecutionSecurityPolicy.BLOCKED_POLICY_REVIEW_REQUIRED.value
@@ -437,7 +493,9 @@ def _reasons(
 ) -> list[str]:
     reasons: list[str] = []
     if upstream_authority == AuthorityValue.PRESENT.value:
-        reasons.append("programbench_task_cleanroom_distribution_model_and_exact_manifest_digest_verified")
+        reasons.append(
+            "programbench_task_cleanroom_distribution_model_and_exact_manifest_digest_verified"
+        )
     else:
         if not image_consistency:
             reasons.append("image_reference_consistency_not_verified")
@@ -508,9 +566,15 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Recheck ProgramBench upstream artifact authority for a task_cleanroom image.")
+    parser = argparse.ArgumentParser(
+        description="Recheck ProgramBench upstream artifact authority for a task_cleanroom image."
+    )
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_upstream_artifact_authority_recheck"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_upstream_artifact_authority_recheck"),
+    )
     parser.add_argument("--instance-id", default=INSTANCE_ID)
     parser.add_argument("--expected-digest", default=EXPECTED_DIGEST)
     parser.add_argument("--manifest-record", type=Path, required=True)

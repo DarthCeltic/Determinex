@@ -21,8 +21,10 @@ honoured no matter which roles a later edit adds to keep_hot -- a list edit cann
 the hang. `hive.executor` held a byte-for-byte copy of this function and now imports it, because a
 copy would have kept the old behaviour on whichever call sites resolve through the executor.
 """
+
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -40,10 +42,27 @@ from hive import hardware as H  # noqa: E402
 OLLAMA = "ollama/determinex-observer-v6-dsl"
 
 
+def _flat(text: str) -> str:
+    """Collapse whitespace runs so a source grep survives the formatter.
+
+    These guards match exact source text. `ruff format` changed the exact whitespace they
+    keyed on -- three spaces before a comment became two, two after a comma became one, a
+    one-line argument pair got split across two -- and every one of them went silently
+    vacuous, reporting "found in no files", which is also what they print when the thing they
+    guard has been DELETED. A guard whose blind mode is indistinguishable from the condition
+    it guards against is not guarding.
+
+    Comparing flattened text keeps the check identical -- same tokens, same order -- while
+    dropping a dependency on spacing that a formatter is entitled to change at any time.
+    """
+    return re.sub(r"\s+", " ", text)
+
+
 def _profile(tier: int) -> H.HardwareProfile:
     """A profile carrying the real lifecycle policy for a tier."""
-    return H.HardwareProfile(tier=tier, vram_gb=6.0, ram_gb=32.0, gpu_count=1,
-                             lifecycle=H._lifecycle_for_tier(tier))
+    return H.HardwareProfile(
+        tier=tier, vram_gb=6.0, ram_gb=32.0, gpu_count=1, lifecycle=H._lifecycle_for_tier(tier)
+    )
 
 
 class TestTheMonitorIsEvictedWhenOnlyOneModelFits:
@@ -55,9 +74,13 @@ class TestTheMonitorIsEvictedWhenOnlyOneModelFits:
         """A profile saying one-model-at-a-time must evict the monitor even if a later edit
         puts "monitor" back into keep_hot. This is the exact contradiction that caused the hang."""
         contradictory = H.HardwareProfile(
-            tier=0, vram_gb=6.0, ram_gb=32.0, gpu_count=1,
-            lifecycle=H.ModelLifecyclePolicy(keep_hot=["builder", "monitor"], max_loaded=1,
-                                             swap_strategy="role_priority"),
+            tier=0,
+            vram_gb=6.0,
+            ram_gb=32.0,
+            gpu_count=1,
+            lifecycle=H.ModelLifecyclePolicy(
+                keep_hot=["builder", "monitor"], max_loaded=1, swap_strategy="role_priority"
+            ),
         )
         assert A._ollama_extra(OLLAMA, "monitor", contradictory) == {"keep_alive": 0}, (
             "keep_hot must not be able to pin the monitor on a rig that holds one model"
@@ -103,9 +126,11 @@ class TestTierZeroStatesItsRealCapacity:
         )
 
     def test_capacity_rises_with_tier(self):
-        assert (_profile(0).lifecycle.max_loaded
-                < _profile(1).lifecycle.max_loaded
-                <= _profile(2).lifecycle.max_loaded)
+        assert (
+            _profile(0).lifecycle.max_loaded
+            < _profile(1).lifecycle.max_loaded
+            <= _profile(2).lifecycle.max_loaded
+        )
 
 
 class TestThereIsOnlyOneImplementation:
@@ -123,9 +148,12 @@ class TestThereIsOnlyOneImplementation:
 
     def test_no_second_copy_has_reappeared(self):
         """A textual guard: the body of the policy must exist in exactly one module."""
-        needle = 'keep_alive = -1   # builder: never evict'
-        hits = [p.name for p in (REPO_ROOT / "scripts" / "hive").glob("*.py")
-                if needle in p.read_text(encoding="utf-8", errors="replace")]
+        needle = _flat("keep_alive = -1   # builder: never evict")
+        hits = [
+            p.name
+            for p in (REPO_ROOT / "scripts" / "hive").glob("*.py")
+            if needle in _flat(p.read_text(encoding="utf-8", errors="replace"))
+        ]
         assert hits == ["api_client.py"], f"the keep-alive policy is duplicated in {hits}"
 
 

@@ -12,10 +12,11 @@ and re-tiers based on observed runtime:
 
 Output: /c/tmp/queue_light.txt, /c/tmp/queue_heavy.txt
 """
+
 from __future__ import annotations
+
 import glob
 import json
-import sys
 from pathlib import Path
 
 ROOT = Path("T:/determinex-programbench")
@@ -80,9 +81,11 @@ def main():
     print(f"  heavy (>500 tests OR unknown): {len(heavy)}")
     print()
     print("=== light samples ===")
-    for t in light[:10]: print(f"  {t}")
+    for t in light[:10]:
+        print(f"  {t}")
     print("=== heavy samples ===")
-    for t in heavy[:10]: print(f"  {t}")
+    for t in heavy[:10]:
+        print(f"  {t}")
 
 
 if __name__ == "__main__":

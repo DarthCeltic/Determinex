@@ -1,4 +1,5 @@
 """Tests for REAL_LOCAL_MODEL_PROVIDER_CONFIG_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -24,16 +25,18 @@ EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "real_local_model_provide
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-EXPECTED_TOKENS = frozenset({
-    "REAL_LOCAL_MODEL_CONFIG_READY",
-    "REAL_LOCAL_MODEL_CONFIG_DRY_RUN_DEFAULT",
-    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_NETWORK_PROVIDER",
-    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNPINNED_MODEL",
-    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER",
-    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_STALE_MODEL_ID",
-    "REAL_LOCAL_MODEL_CONFIG_BLOCKED_INVALID_LOCATION",
-    "REAL_LOCAL_MODEL_CONFIG_SAVE_NO_LIVE_CALL",
-})
+EXPECTED_TOKENS = frozenset(
+    {
+        "REAL_LOCAL_MODEL_CONFIG_READY",
+        "REAL_LOCAL_MODEL_CONFIG_DRY_RUN_DEFAULT",
+        "REAL_LOCAL_MODEL_CONFIG_BLOCKED_NETWORK_PROVIDER",
+        "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNPINNED_MODEL",
+        "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER",
+        "REAL_LOCAL_MODEL_CONFIG_BLOCKED_STALE_MODEL_ID",
+        "REAL_LOCAL_MODEL_CONFIG_BLOCKED_INVALID_LOCATION",
+        "REAL_LOCAL_MODEL_CONFIG_SAVE_NO_LIVE_CALL",
+    }
+)
 
 
 def test_status_tokens_exact():
@@ -89,6 +92,7 @@ def test_unpinned_model_id_blocked(tmp_path):
 
 def test_current_ollama_model_writes_save_no_live_call(tmp_path):
     from models.model_router import CURRENT_MODEL_IDS
+
     current = sorted(CURRENT_MODEL_IDS)[0]
     rec = save_config(
         provider="ollama",

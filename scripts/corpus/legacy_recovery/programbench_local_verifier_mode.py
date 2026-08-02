@@ -30,7 +30,9 @@ def evaluate_local_verifier(candidate: dict[str, Any], root: Path) -> LocalVerif
     fixtures = metadata.get("required_fixtures") or []
     missing = [fixture for fixture in fixtures if not (root / str(fixture)).exists()]
     if missing:
-        return LocalVerifierMode(False, "local_verifier_fixtures_missing:" + ",".join(map(str, missing)), declared=True)
+        return LocalVerifierMode(
+            False, "local_verifier_fixtures_missing:" + ",".join(map(str, missing)), declared=True
+        )
     return LocalVerifierMode(
         True,
         "explicit_local_verifier_metadata",

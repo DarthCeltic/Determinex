@@ -7,15 +7,24 @@ classes). This makes that IMPOSSIBLE: each canonical name may be DEFINED in exac
 (others must import it). Catches "add-on instead of adapt" at commit time. Going forward:
 add-to or adapt the owner module; never re-define.
 """
+
 from __future__ import annotations
+
 import re
-import sys
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 # canonical names that must live in exactly ONE module (the owner). assignment, not import.
-CANONICAL = ["FAMILY_PATTERNS", "MECHANISMS", "EVAL_OVERRIDE_PATTERNS", "DiffKind",
-             "GAMING", "HERMETIC_PLUGIN", "DROPPRIV_PLUGIN", "MECHANISM_PATTERNS"]
+CANONICAL = [
+    "FAMILY_PATTERNS",
+    "MECHANISMS",
+    "EVAL_OVERRIDE_PATTERNS",
+    "DiffKind",
+    "GAMING",
+    "HERMETIC_PLUGIN",
+    "DROPPRIV_PLUGIN",
+    "MECHANISM_PATTERNS",
+]
 _DEF = {n: re.compile(rf"^{n}\s*[:=]", re.M) for n in CANONICAL}
 
 
@@ -31,7 +40,9 @@ def main() -> int:
                 owners[n].append(p.name)
     dups = {n: ms for n, ms in owners.items() if len(ms) > 1}
     if dups:
-        print("DUP GUARD FAILED: canonical definition(s) live in >1 module (adapt, don't re-define):")
+        print(
+            "DUP GUARD FAILED: canonical definition(s) live in >1 module (adapt, don't re-define):"
+        )
         for n, ms in dups.items():
             print(f"  {n}: defined in {ms} -- keep ONE owner, others import it")
         return 1

@@ -12,37 +12,38 @@ Resolution order:
   Config D: DETERMINEX_ARCHITECT_BACKEND=anthropic  → Architect → Claude API
             DETERMINEX_BUILDER_BACKEND=deepseek      → Builder   → DeepSeek API
 """
+
 from __future__ import annotations
 
 import json
 import logging
 
 from .constants import (
-    BUILDER_MODEL,
-    OBSERVER_MODEL,
-    OLLAMA_URL,
-    USE_LOCAL_BUILDER,
-    LOCAL_BUILDER_MODEL,
-    _INFERENCE_BACKEND,
-    _ARCHITECT_BACKEND,
-    _BUILDER_BACKEND,
-    _VLLM_URL,
-    _VLLM_MODEL,
-    _DEEPSEEK_KEY,
-    _DEEPSEEK_MODEL,
-    _DEEPSEEK_BUILDER_MODEL,
-    _DEEPSEEK_ARCHITECT_MODEL,
-    _DEEPSEEK_URL,
     _ANTHROPIC_KEY,
     _ANTHROPIC_MODEL,
     _ANTHROPIC_URL,
-    _OPENAI_KEY,
-    _OPENAI_MODEL,
-    _OPENAI_URL,
+    _ARCHITECT_BACKEND,
+    _BUILDER_BACKEND,
+    _DEEPSEEK_ARCHITECT_MODEL,
+    _DEEPSEEK_BUILDER_MODEL,
+    _DEEPSEEK_KEY,
+    _DEEPSEEK_MODEL,
+    _DEEPSEEK_URL,
     _GEMINI_KEY,
     _GEMINI_MODEL,
     _GEMINI_URL,
+    _INFERENCE_BACKEND,
+    _OPENAI_KEY,
+    _OPENAI_MODEL,
+    _OPENAI_URL,
     _TASK_VECTOR_TO_LORA,
+    _VLLM_MODEL,
+    _VLLM_URL,
+    BUILDER_MODEL,
+    LOCAL_BUILDER_MODEL,
+    OBSERVER_MODEL,
+    OLLAMA_URL,
+    USE_LOCAL_BUILDER,
 )
 
 log = logging.getLogger("determinex_swe")
@@ -65,19 +66,19 @@ def _openai_compat(
     sends a few bytes then goes silent — a socket timeout alone won't fire
     because each partial read resets the socket timer.
     """
-    import urllib.request
     import threading
+    import urllib.request
 
     messages = [
         {"role": "system", "content": system or "You are an expert software engineer."},
-        {"role": "user",   "content": prompt},
+        {"role": "user", "content": prompt},
     ]
     body: dict = {
-        "model":       model,
-        "messages":    messages,
+        "model": model,
+        "messages": messages,
         "temperature": temperature,
-        "max_tokens":  8192,
-        "stream":      False,
+        "max_tokens": 8192,
+        "stream": False,
     }
     if extra_body:
         body.update(extra_body)
@@ -86,7 +87,10 @@ def _openai_compat(
     if api_key:
         headers["Authorization"] = f"Bearer {api_key}"
     req = urllib.request.Request(
-        f"{url}/chat/completions", data=payload, headers=headers, method="POST",
+        f"{url}/chat/completions",
+        data=payload,
+        headers=headers,
+        method="POST",
     )
 
     result: list[str] = []
@@ -126,24 +130,24 @@ def _anthropic_call(
     Same thread-based hard-timeout pattern as _openai_compat to guard against
     partial-read stalls (server sends a few bytes then goes silent).
     """
-    import urllib.request
-    import urllib.error
     import threading
+    import urllib.error
+    import urllib.request
 
     if not _ANTHROPIC_KEY:
         log.error("DETERMINEX_ANTHROPIC_KEY not set — falling back to Ollama")
         return ""
     body = {
-        "model":       _ANTHROPIC_MODEL,
-        "max_tokens":  8192,
+        "model": _ANTHROPIC_MODEL,
+        "max_tokens": 8192,
         "temperature": temperature,
-        "system":      system or "You are an expert software engineer.",
-        "messages":    [{"role": "user", "content": prompt}],
+        "system": system or "You are an expert software engineer.",
+        "messages": [{"role": "user", "content": prompt}],
     }
     payload = json.dumps(body).encode()
     headers = {
-        "Content-Type":      "application/json",
-        "x-api-key":         _ANTHROPIC_KEY,
+        "Content-Type": "application/json",
+        "x-api-key": _ANTHROPIC_KEY,
         "anthropic-version": "2023-06-01",
     }
     req = urllib.request.Request(_ANTHROPIC_URL, data=payload, headers=headers, method="POST")
@@ -188,24 +192,29 @@ def _ollama(
 ) -> str:
     """Ollama local model inference via HTTP /api/generate."""
     import urllib.request
-    payload = json.dumps({
-        "model": model,
-        "prompt": (
-            f"<|im_start|>system\n{system or 'You are an expert software engineer.'}"
-            f"<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n"
-            f"<|im_start|>assistant\n"
-        ),
-        "stream": False,
-        "keep_alive": keep_alive,
-        "options": {
-            "num_ctx": 16384,
-            "temperature": temperature,
-            "num_predict": 16384,
-        },
-    }).encode()
+
+    payload = json.dumps(
+        {
+            "model": model,
+            "prompt": (
+                f"<|im_start|>system\n{system or 'You are an expert software engineer.'}"
+                f"<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n"
+                f"<|im_start|>assistant\n"
+            ),
+            "stream": False,
+            "keep_alive": keep_alive,
+            "options": {
+                "num_ctx": 16384,
+                "temperature": temperature,
+                "num_predict": 16384,
+            },
+        }
+    ).encode()
     req = urllib.request.Request(
-        f"{OLLAMA_URL}/api/generate", data=payload,
-        headers={"Content-Type": "application/json"}, method="POST",
+        f"{OLLAMA_URL}/api/generate",
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -259,23 +268,23 @@ def _infer(
             ds_model = _DEEPSEEK_BUILDER_MODEL
         log.debug("[deepseek] role=%s model=%s", model, ds_model)
         return _openai_compat(
-            _DEEPSEEK_URL, _DEEPSEEK_KEY, ds_model,
-            prompt, system, temperature,
+            _DEEPSEEK_URL,
+            _DEEPSEEK_KEY,
+            ds_model,
+            prompt,
+            system,
+            temperature,
         )
 
     if backend == "openai":
         if not _OPENAI_KEY:
-            raise RuntimeError(
-                "OPENAI_API_KEY not set — cannot use OpenAI backend. Aborting."
-            )
+            raise RuntimeError("OPENAI_API_KEY not set — cannot use OpenAI backend. Aborting.")
         log.debug("[openai] role=%s model=%s", model, _OPENAI_MODEL)
         return _openai_compat(_OPENAI_URL, _OPENAI_KEY, _OPENAI_MODEL, prompt, system, temperature)
 
     if backend == "gemini":
         if not _GEMINI_KEY:
-            raise RuntimeError(
-                "GEMINI_API_KEY not set — cannot use Gemini backend. Aborting."
-            )
+            raise RuntimeError("GEMINI_API_KEY not set — cannot use Gemini backend. Aborting.")
         log.debug("[gemini] role=%s model=%s", model, _GEMINI_MODEL)
         return _openai_compat(_GEMINI_URL, _GEMINI_KEY, _GEMINI_MODEL, prompt, system, temperature)
 
@@ -283,7 +292,8 @@ def _infer(
         lora = _TASK_VECTOR_TO_LORA.get(task_vector, "") if task_vector else ""
         extra = (
             {"lora_request": {"lora_name": lora, "lora_int_id": abs(hash(lora)) % 1000}}
-            if lora else None
+            if lora
+            else None
         )
         return _openai_compat(_VLLM_URL, "", _VLLM_MODEL, prompt, system, temperature, extra)
 
@@ -300,8 +310,10 @@ def _warm_local_builder() -> bool:
         return False
     log.info("[LocalBuilder] Pre-warming %s ...", LOCAL_BUILDER_MODEL)
     result = _ollama(
-        LOCAL_BUILDER_MODEL, "ready",
-        system="You are ready.", temperature=0.0,
+        LOCAL_BUILDER_MODEL,
+        "ready",
+        system="You are ready.",
+        temperature=0.0,
         keep_alive=-1,
         timeout=600,
     )

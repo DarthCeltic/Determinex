@@ -5,6 +5,7 @@ The local workstation remains the source of truth for the board and gates.
 This script only packages already-packed native candidate run roots so a
 remote machine can run official ProgramBench evals and return eval JSON/logs.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -20,7 +21,6 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from determinex_atomic_io import write_text_atomic as _write_text_atomic  # noqa: E402
-
 
 ROOT = Path(__file__).resolve().parents[1]
 QUEUE = ROOT / "logs" / "programbench_factory" / "NATIVE_EVAL_QUEUE.json"
@@ -54,9 +54,7 @@ def _write_json_atomic(path: Path, data: Any) -> None:
 
 def _load_queue() -> list[dict[str, Any]]:
     if not QUEUE.is_file():
-        raise SystemExit(
-            f"{QUEUE} missing; run scripts/pb_native_eval_queue.py first"
-        )
+        raise SystemExit(f"{QUEUE} missing; run scripts/pb_native_eval_queue.py first")
     return _load_json_file(QUEUE, [])
 
 
@@ -80,25 +78,21 @@ def _parse_run_root_specs(values: list[str]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for raw in values:
         if "=" not in raw:
-            raise SystemExit(
-                "--run-root must be formatted as slug=path, "
-                f"got: {raw!r}"
-            )
+            raise SystemExit(f"--run-root must be formatted as slug=path, got: {raw!r}")
         slug, path = raw.split("=", 1)
         slug = slug.strip()
         path = path.strip()
         if not slug or not path:
-            raise SystemExit(
-                "--run-root must include both slug and path, "
-                f"got: {raw!r}"
-            )
-        rows.append({
-            "slug": slug,
-            "base_slug": _base_slug(slug),
-            "run_root": path,
-            "score": 0.0,
-            "status": "explicit:run-root",
-        })
+            raise SystemExit(f"--run-root must include both slug and path, got: {raw!r}")
+        rows.append(
+            {
+                "slug": slug,
+                "base_slug": _base_slug(slug),
+                "run_root": path,
+                "score": 0.0,
+                "status": "explicit:run-root",
+            }
+        )
     return rows
 
 
@@ -139,9 +133,7 @@ def _python_ok(src: Path, audit_row: dict[str, Any]) -> tuple[bool, str]:
         return True, "no main.py"
     text = main_py.read_text(encoding="utf-8", errors="replace")
     lines = [
-        ln.strip()
-        for ln in text.splitlines()
-        if ln.strip() and not ln.strip().startswith("#")
+        ln.strip() for ln in text.splitlines() if ln.strip() and not ln.strip().startswith("#")
     ]
     thin = len(lines) <= 8 and ("os.execv(" in text or "os.execvp(" in text)
     if thin:
@@ -149,7 +141,9 @@ def _python_ok(src: Path, audit_row: dict[str, Any]) -> tuple[bool, str]:
     return False, "substantive Python implementation in non-Python tool"
 
 
-def _candidate_ok(candidate_dir: Path, slug: str, audit: dict[str, dict[str, Any]]) -> tuple[bool, str]:
+def _candidate_ok(
+    candidate_dir: Path, slug: str, audit: dict[str, dict[str, Any]]
+) -> tuple[bool, str]:
     source = candidate_dir / "source"
     if not source.is_dir():
         return False, "missing source directory"
@@ -294,13 +288,15 @@ def main() -> int:
         ok, reason = _candidate_ok(run_root / r["slug"], r["slug"], audit)
         if not ok:
             print(f"SKIP {r['slug']}: {reason}")
-            skips.append({
-                "slug": r["slug"],
-                "base_slug": r["base_slug"],
-                "run_root": r["run_root"],
-                "score": r.get("score"),
-                "reason": reason,
-            })
+            skips.append(
+                {
+                    "slug": r["slug"],
+                    "base_slug": r["base_slug"],
+                    "run_root": r["run_root"],
+                    "score": r.get("score"),
+                    "reason": reason,
+                }
+            )
             continue
         r["native_guard"] = reason
         rows.append(r)
@@ -323,13 +319,15 @@ def main() -> int:
             ok, reason = _candidate_ok(run_root / r["slug"], r["slug"], audit)
             if not ok:
                 print(f"SKIP {r['slug']}: {reason}")
-                skips.append({
-                    "slug": r["slug"],
-                    "base_slug": r["base_slug"],
-                    "run_root": r["run_root"],
-                    "score": r.get("score"),
-                    "reason": reason,
-                })
+                skips.append(
+                    {
+                        "slug": r["slug"],
+                        "base_slug": r["base_slug"],
+                        "run_root": r["run_root"],
+                        "score": r.get("score"),
+                        "reason": reason,
+                    }
+                )
                 continue
             r = dict(r)
             r["native_guard"] = reason
@@ -362,9 +360,7 @@ def main() -> int:
         item["remote_run_root"] = f"runs/{src.name}"
         manifest["items"].append(item)
 
-    (shard / "manifest.json").write_text(
-        json.dumps(manifest, indent=2), encoding="utf-8"
-    )
+    (shard / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     shutil.copy2(ROOT / "scripts" / "pb_hetzner_eval_shard.sh", shard / "run.sh")
     _write_reservations(rows, stamp)
 

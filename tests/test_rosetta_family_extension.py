@@ -7,6 +7,7 @@ Uses small SYNTHETIC checkpoints (dim=8, d_rosetta=16) built in-memory, not the 
 suite depend on external storage). Requires torch; skipped entirely if unavailable,
 matching test_rosetta_smoke.py's existing pattern.
 """
+
 from __future__ import annotations
 
 import sys
@@ -22,7 +23,8 @@ if str(_SCRIPTS) not in sys.path:
 _IMPORT_ERROR = ""
 try:
     import torch  # noqa: F401
-    from determinex_rosetta import RosettaStone, build_mlp, _compute_weights_sha256
+    from determinex_rosetta import RosettaStone, _compute_weights_sha256, build_mlp
+
     _TORCH_AVAILABLE = True
 except ImportError as _e:
     _TORCH_AVAILABLE = False
@@ -36,7 +38,9 @@ pytestmark = pytest.mark.skipif(
 D_ROSETTA_TEST = 16
 
 
-def _make_family_ckpt(arch: str, dim: int, d_rosetta: int = D_ROSETTA_TEST, *, seed: int = 0) -> dict:
+def _make_family_ckpt(
+    arch: str, dim: int, d_rosetta: int = D_ROSETTA_TEST, *, seed: int = 0
+) -> dict:
     """Build a real, small, trained-looking family checkpoint in the exact format
     export_rosetta_families.py produces -- encoder/decoder state dicts + metadata +
     an embedded tensor-content sha256."""
@@ -55,10 +59,16 @@ def _make_family_ckpt(arch: str, dim: int, d_rosetta: int = D_ROSETTA_TEST, *, s
     return ckpt
 
 
-def _fresh_stone(d_rosetta: int = D_ROSETTA_TEST) -> "RosettaStone":
-    return RosettaStone(Path("nonexistent"), {
-        "version": "1.0.0", "anchor": "test", "d_rosetta": d_rosetta, "dims": {},
-    })
+def _fresh_stone(d_rosetta: int = D_ROSETTA_TEST) -> RosettaStone:
+    return RosettaStone(
+        Path("nonexistent"),
+        {
+            "version": "1.0.0",
+            "anchor": "test",
+            "d_rosetta": d_rosetta,
+            "dims": {},
+        },
+    )
 
 
 def test_load_family_extension_activates_the_arch():
@@ -82,9 +92,12 @@ def test_load_family_extension_encode_decode_matches_source_mlp():
     enc = build_mlp(8, D_ROSETTA_TEST)
     dec = build_mlp(D_ROSETTA_TEST, 8)
     ckpt = {
-        "arch": "testarch", "dim": 8,
-        "testarch_encoder": enc.state_dict(), "testarch_decoder": dec.state_dict(),
-        "d_rosetta": D_ROSETTA_TEST, "version": "1.0.0",
+        "arch": "testarch",
+        "dim": 8,
+        "testarch_encoder": enc.state_dict(),
+        "testarch_decoder": dec.state_dict(),
+        "d_rosetta": D_ROSETTA_TEST,
+        "version": "1.0.0",
     }
     ckpt["sha256"] = _compute_weights_sha256(ckpt)
 
@@ -99,7 +112,8 @@ def test_load_family_extension_encode_decode_matches_source_mlp():
         h_back = stone.decode(h_rosetta, "testarch")
 
         # Ground truth: run the SAME source MLPs directly.
-        enc.eval(); dec.eval()
+        enc.eval()
+        dec.eval()
         with torch.no_grad():
             expected_rosetta = enc(h)
             expected_back = dec(expected_rosetta)

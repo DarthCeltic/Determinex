@@ -15,7 +15,9 @@ class ImageLocation:
 class ProgramBenchImageLocator:
     """Resolve task image identity without pulling or building images."""
 
-    def __init__(self, image_roots: list[Path] | None = None, *, require_image: bool = True) -> None:
+    def __init__(
+        self, image_roots: list[Path] | None = None, *, require_image: bool = True
+    ) -> None:
         self.image_roots = [Path(root) for root in image_roots or []]
         self.require_image = require_image
 
@@ -35,7 +37,9 @@ class ProgramBenchImageLocator:
                 continue
             for suffix in (".tar", ".json", ".txt"):
                 if (root / f"{_safe_image_name(image)}{suffix}").is_file():
-                    return ImageLocation(image=image, available=True, reason="local_image_artifact_present")
+                    return ImageLocation(
+                        image=image, available=True, reason="local_image_artifact_present"
+                    )
         return ImageLocation(image=image, available=False, reason="missing_docker_image")
 
 

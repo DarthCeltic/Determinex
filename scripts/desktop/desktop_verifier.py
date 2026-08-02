@@ -2,6 +2,7 @@
 Desktop oracle — verifies task completion criteria for desktop agents.
 Every trace must include: screenshot hash, window title, action, verifier result, safety decision.
 """
+
 from __future__ import annotations
 
 import logging
@@ -14,6 +15,7 @@ log = logging.getLogger(__name__)
 
 def screenshot_contains_text(screenshot_path: str, expected_text: str) -> OracleVerdict:
     from vision.ocr_scanner import find_text_in_image
+
     try:
         matches = find_text_in_image(screenshot_path, expected_text)
         passed = len(matches) > 0
@@ -24,11 +26,16 @@ def screenshot_contains_text(screenshot_path: str, expected_text: str) -> Oracle
             evidence=f"text={expected_text!r} found={passed} matches={len(matches)}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.DESKTOP, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.DESKTOP, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
-def window_title_matches(screen_controller: Any, expected: str, partial: bool = True) -> OracleVerdict:
+def window_title_matches(
+    screen_controller: Any, expected: str, partial: bool = True
+) -> OracleVerdict:
     from desktop.window_manager import get_window_list
+
     try:
         windows = get_window_list(screen_controller)
         titles = [w.get("title", "") for w in windows]
@@ -43,11 +50,14 @@ def window_title_matches(screen_controller: Any, expected: str, partial: bool = 
             evidence=f"expected={expected!r} titles={titles}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.DESKTOP, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.DESKTOP, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def visual_match(path_before: str, path_after: str, threshold: float = 0.05) -> OracleVerdict:
     from vision.visual_diff import compare
+
     try:
         result = compare(path_before, path_after, threshold=threshold)
         return OracleVerdict(
@@ -57,7 +67,9 @@ def visual_match(path_before: str, path_after: str, threshold: float = 0.05) -> 
             evidence=f"pixel_diff={result.pixel_diff_score:.4f} threshold={threshold}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.VISUAL, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.VISUAL, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def file_exists_in_vm(screen_controller: Any, path: str) -> OracleVerdict:
@@ -66,7 +78,9 @@ def file_exists_in_vm(screen_controller: Any, path: str) -> OracleVerdict:
     screen_controller must support execute_command(cmd) -> str.
     """
     try:
-        cmd_result = getattr(screen_controller, "execute_command", lambda c: "")("test -f " + path + " && echo EXISTS || echo MISSING")
+        cmd_result = getattr(screen_controller, "execute_command", lambda c: "")(
+            "test -f " + path + " && echo EXISTS || echo MISSING"
+        )
         passed = "EXISTS" in (cmd_result or "")
         return OracleVerdict(
             oracle_type=OracleType.DESKTOP,
@@ -75,4 +89,6 @@ def file_exists_in_vm(screen_controller: Any, path: str) -> OracleVerdict:
             evidence=f"path={path} result={cmd_result!r}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.DESKTOP, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.DESKTOP, passed=False, score=0.0, evidence=str(exc)
+        )

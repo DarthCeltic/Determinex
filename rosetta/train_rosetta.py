@@ -37,16 +37,13 @@ Usage (on RunPod):
 
 import argparse
 import json
-import math
-import os
 import sys
-import time
 from pathlib import Path
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import Dataset
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -58,20 +55,22 @@ if hasattr(sys.stdout, "reconfigure"):
 HUB_DIM = 2048  # Universal hub dimension
 
 FAMILY_DIMS = {
-    "llama":    3072,   # Llama 3.2 3B / Phi-3-mini share this
-    "qwen":     2048,   # Qwen 2.5 3B
-    "deepseek": 2048,   # DeepSeek-Coder-V2 base
-    "mistral":  4096,   # Mistral 7B
-    "phi":      3072,   # Phi-3-mini 3.8B
-    "gemma":    2304,   # Gemma 2 2B
+    "llama": 3072,  # Llama 3.2 3B / Phi-3-mini share this
+    "qwen": 2048,  # Qwen 2.5 3B
+    "deepseek": 2048,  # DeepSeek-Coder-V2 base
+    "mistral": 4096,  # Mistral 7B
+    "phi": 3072,  # Phi-3-mini 3.8B
+    "gemma": 2304,  # Gemma 2 2B
 }
 
 # ---------------------------------------------------------------------------
 # MODEL: Encoder + Decoder pairs per family
 # ---------------------------------------------------------------------------
 
+
 class FamilyEncoder(nn.Module):
     """Projects a model family's hidden states into the universal hub space."""
+
     def __init__(self, family_dim: int, hub_dim: int = HUB_DIM):
         super().__init__()
         self.proj = nn.Linear(family_dim, hub_dim, bias=False)
@@ -83,6 +82,7 @@ class FamilyEncoder(nn.Module):
 
 class FamilyDecoder(nn.Module):
     """Projects universal hub representations back into a model family's space."""
+
     def __init__(self, hub_dim: int, family_dim: int):
         super().__init__()
         self.proj = nn.Linear(hub_dim, family_dim, bias=False)
@@ -100,20 +100,19 @@ class RosettaStone(nn.Module):
     The full Rosetta Stone — encoders and decoders for all model families.
     Any family can talk to any other family through the hub.
     """
+
     FAMILY_DIMS = FAMILY_DIMS
 
     def __init__(self, families: dict[str, int] = FAMILY_DIMS, hub_dim: int = HUB_DIM):
         super().__init__()
-        self.hub_dim  = hub_dim
+        self.hub_dim = hub_dim
         self.families = families
-        self.encoders = nn.ModuleDict({
-            name: FamilyEncoder(dim, hub_dim)
-            for name, dim in families.items()
-        })
-        self.decoders = nn.ModuleDict({
-            name: FamilyDecoder(hub_dim, dim)
-            for name, dim in families.items()
-        })
+        self.encoders = nn.ModuleDict(
+            {name: FamilyEncoder(dim, hub_dim) for name, dim in families.items()}
+        )
+        self.decoders = nn.ModuleDict(
+            {name: FamilyDecoder(hub_dim, dim) for name, dim in families.items()}
+        )
 
     def encode(self, family: str, hidden: torch.Tensor) -> torch.Tensor:
         return self.encoders[family](hidden)
@@ -141,8 +140,8 @@ class RosettaStone(nn.Module):
     @classmethod
     def load(cls, path: Path) -> "RosettaStone":
         path = Path(path)
-        meta   = json.loads((path / "rosetta_meta.json").read_text())
-        stone  = cls(families=meta["families"], hub_dim=meta["hub_dim"])
+        meta = json.loads((path / "rosetta_meta.json").read_text())
+        stone = cls(families=meta["families"], hub_dim=meta["hub_dim"])
         stone.load_state_dict(torch.load(path / "rosetta_weights.pt", map_location="cpu"))
         return stone
 
@@ -151,15 +150,17 @@ class RosettaStone(nn.Module):
 # DATASET: Paired hidden states from the same prompts run through two families
 # ---------------------------------------------------------------------------
 
+
 class PairedStateDataset(Dataset):
     """
     Loads paired hidden state tensors collected by collect_hidden_states.py.
     Each item: (family_a_name, h_a, family_b_name, h_b) for the same prompt.
     """
+
     def __init__(self, states_dir: Path):
         self.pairs = []
         states_dir = Path(states_dir)
-        families   = sorted([d.name for d in states_dir.iterdir() if d.is_dir()])
+        families = sorted([d.name for d in states_dir.iterdir() if d.is_dir()])
         print(f"[ROSETTA] Found families: {families}", flush=True)
 
         # Load all hidden states per family
@@ -204,6 +205,7 @@ def collate_pairs(batch):
 # TRAINING
 # ---------------------------------------------------------------------------
 
+
 def train_rosetta(
     states_dir: Path,
     output_dir: Path,
@@ -216,7 +218,10 @@ def train_rosetta(
 
     dataset = PairedStateDataset(states_dir)
     if len(dataset) == 0:
-        print("[ROSETTA] ERROR: No paired states found. Run collect_hidden_states.py first.", flush=True)
+        print(
+            "[ROSETTA] ERROR: No paired states found. Run collect_hidden_states.py first.",
+            flush=True,
+        )
         sys.exit(1)
 
     stone = RosettaStone().to(device)
@@ -230,7 +235,7 @@ def train_rosetta(
     for epoch in range(1, epochs + 1):
         stone.train()
         total_loss = 0.0
-        n_pairs    = 0
+        n_pairs = 0
 
         for item in dataset:
             fa, ha, fb, hb = item
@@ -247,10 +252,7 @@ def train_rosetta(
             # Reconstruction loss: decode back to original space
             recon_a = stone.decode(fa, hub_a)
             recon_b = stone.decode(fb, hub_b)
-            recon_loss = (
-                F.mse_loss(recon_a, ha) +
-                F.mse_loss(recon_b, hb)
-            ) * 0.1
+            recon_loss = (F.mse_loss(recon_a, ha) + F.mse_loss(recon_b, hb)) * 0.1
 
             loss = align_loss + recon_loss
             optimizer.zero_grad()
@@ -259,11 +261,14 @@ def train_rosetta(
             optimizer.step()
 
             total_loss += loss.item()
-            n_pairs    += 1
+            n_pairs += 1
 
         scheduler.step()
         avg_loss = total_loss / max(n_pairs, 1)
-        print(f"[ROSETTA] Epoch {epoch:3d}/{epochs}  loss={avg_loss:.4f}  lr={scheduler.get_last_lr()[0]:.2e}", flush=True)
+        print(
+            f"[ROSETTA] Epoch {epoch:3d}/{epochs}  loss={avg_loss:.4f}  lr={scheduler.get_last_lr()[0]:.2e}",
+            flush=True,
+        )
 
         if avg_loss < best_loss:
             best_loss = avg_loss
@@ -282,9 +287,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--states_dir", type=str, default="outputs/hidden_states")
     parser.add_argument("--output_dir", type=str, default="outputs/rosetta")
-    parser.add_argument("--epochs",     type=int, default=20)
-    parser.add_argument("--lr",         type=float, default=3e-4)
-    parser.add_argument("--device",     type=str, default="cuda")
+    parser.add_argument("--epochs", type=int, default=20)
+    parser.add_argument("--lr", type=float, default=3e-4)
+    parser.add_argument("--device", type=str, default="cuda")
     args = parser.parse_args()
 
     train_rosetta(

@@ -16,6 +16,7 @@ Output structure:
       pom.xml            ← minimal Maven wrapper
       trace.json         ← corpus-ready trace
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -130,8 +131,12 @@ class JUnitHarnessBuilder:
             "repair_verified": repair_verified,
             "broken_error": (err_broken + out_broken)[:500],
             "repair_output": out_fixed[:200],
-            "broken_source_hash": hashlib.blake2b(broken_source.encode(), digest_size=16).hexdigest(),
-            "repaired_source_hash": hashlib.blake2b(repaired_source.encode(), digest_size=16).hexdigest(),
+            "broken_source_hash": hashlib.blake2b(
+                broken_source.encode(), digest_size=16
+            ).hexdigest(),
+            "repaired_source_hash": hashlib.blake2b(
+                repaired_source.encode(), digest_size=16
+            ).hexdigest(),
         }
 
         # Write trace
@@ -151,8 +156,10 @@ class JUnitHarnessBuilder:
         try:
             result = subprocess.run(
                 ["mvn", "--no-transfer-progress", "-q"] + args,
-                capture_output=True, text=True,
-                cwd=cwd, timeout=self._timeout,
+                capture_output=True,
+                text=True,
+                cwd=cwd,
+                timeout=self._timeout,
             )
             return result.returncode, result.stdout, result.stderr
         except subprocess.TimeoutExpired:

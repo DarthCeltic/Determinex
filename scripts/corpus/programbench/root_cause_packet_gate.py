@@ -107,7 +107,9 @@ class RootCausePacketGate:
 
     def authorize_rerun(self, packet_path: Path | None) -> RerunGateResult:
         if packet_path is None or not packet_path.is_file():
-            return RerunGateResult(RootCausePacketStatus.RERUN_BLOCKED_NO_PACKET.value, reasons=["packet_missing"])
+            return RerunGateResult(
+                RootCausePacketStatus.RERUN_BLOCKED_NO_PACKET.value, reasons=["packet_missing"]
+            )
         packet = json.loads(packet_path.read_text(encoding="utf-8", errors="replace"))
         validation = self.validate_packet(packet)
         if validation.status == RootCausePacketStatus.ROOT_CAUSE_PACKET_STALE.value:
@@ -165,7 +167,9 @@ def _references_quarantine_manifest(packet: dict[str, Any]) -> bool:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate ProgramBench root-cause packets and authorize bounded reruns.")
+    parser = argparse.ArgumentParser(
+        description="Validate ProgramBench root-cause packets and authorize bounded reruns."
+    )
     parser.add_argument("packet", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--authorize", action="store_true")

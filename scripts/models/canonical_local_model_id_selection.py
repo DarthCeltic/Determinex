@@ -10,9 +10,10 @@ Combines:
 to classify the current host into a single canonical-selection
 decision. Never invokes a model. Never pulls. Never opens a network.
 """
+
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from collections.abc import Iterable
 
 from .canonical_local_model_id_selection_record import (
     CANONICAL_LOCAL_MODEL_ID_SELECTION_STATUS_TOKENS,
@@ -31,7 +32,7 @@ def select(
     detection: RealOllamaProviderDetectionRecord | None,
     preferred_model_id: str = "",
     provider: str = "ollama",
-    candidate_overrides: Optional[Iterable[str]] = None,
+    candidate_overrides: Iterable[str] | None = None,
 ) -> CanonicalLocalModelIdSelectionRecord:
     """Decide which canonical model id (if any) is selectable on this host.
 
@@ -41,10 +42,9 @@ def select(
     in ``CURRENT_MODEL_IDS`` — it is a way for tests to inject a
     deterministic order without weakening the gate.
     """
-    candidates = tuple(sorted(
-        candidate_overrides if candidate_overrides is not None
-        else CURRENT_MODEL_IDS
-    ))
+    candidates = tuple(
+        sorted(candidate_overrides if candidate_overrides is not None else CURRENT_MODEL_IDS)
+    )
     # Refuse if any candidate isn't in CURRENT_MODEL_IDS — defense.
     if any(c not in CURRENT_MODEL_IDS for c in candidates):
         return _blocked(
@@ -53,9 +53,7 @@ def select(
             candidates=candidates,
             daemon_models=tuple(getattr(detection, "models", ()) or ()),
             host_state="UNPINNED_CANDIDATE_SUPPLIED",
-            operator_action=(
-                "candidate_overrides included an id not in CURRENT_MODEL_IDS"
-            ),
+            operator_action=("candidate_overrides included an id not in CURRENT_MODEL_IDS"),
             note="reject unpinned override",
         )
 
@@ -68,8 +66,7 @@ def select(
             daemon_models=tuple(getattr(detection, "models", ()) or ()),
             host_state="NETWORK_PROVIDER",
             operator_action=(
-                "pick a local provider (no_model, ollama, local_hf, "
-                "executable_adapter)"
+                "pick a local provider (no_model, ollama, local_hf, executable_adapter)"
             ),
             note=f"provider {provider!r} is a network provider",
         )
@@ -83,8 +80,7 @@ def select(
             daemon_models=tuple(getattr(detection, "models", ()) or ()),
             host_state="PREFERRED_STALE",
             operator_action=(
-                f"preferred_model_id={preferred_model_id!r} is stale; "
-                "pick from CURRENT_MODEL_IDS"
+                f"preferred_model_id={preferred_model_id!r} is stale; pick from CURRENT_MODEL_IDS"
             ),
             note="preferred id stale",
         )

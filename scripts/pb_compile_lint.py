@@ -19,12 +19,12 @@ Usage:
     python scripts/pb_compile_lint.py path/to/compile.sh [--tool zoxide]
     python scripts/pb_compile_lint.py corpus/programbench/per_tool_overrides/*/compile.sh
 """
+
 from __future__ import annotations
 
 import argparse
 import glob
 import re
-import sys
 from pathlib import Path
 
 
@@ -37,8 +37,14 @@ def lint(path: Path, tool: str | None) -> tuple[list[str], list[str]]:
     # Look for a heredoc that sets #!/bin/sh and then uses exec -a.
     for m in re.finditer(r"<<'?EXEC_EOF'?\n(.*?)\nEXEC_EOF", text, re.DOTALL):
         body = m.group(1)
-        if "exec -a" in body and re.search(r"#!\s*/bin/sh\b", body) and "bash" not in body.splitlines()[0]:
-            errors.append("E1: `exec -a` under #!/bin/sh in ./executable (dash has no exec -a; use #!/usr/bin/env bash)")
+        if (
+            "exec -a" in body
+            and re.search(r"#!\s*/bin/sh\b", body)
+            and "bash" not in body.splitlines()[0]
+        ):
+            errors.append(
+                "E1: `exec -a` under #!/bin/sh in ./executable (dash has no exec -a; use #!/usr/bin/env bash)"
+            )
 
     # E2: install to /usr/local/bin/<tool>
     if "/usr/local/bin/" not in text:
@@ -47,13 +53,19 @@ def lint(path: Path, tool: str | None) -> tuple[list[str], list[str]]:
         warns.append(f"W?: /usr/local/bin/ used but not /usr/local/bin/{tool} (verify binary name)")
 
     # E3: must produce something — either a build or a bundled fallback.
-    has_build = any(k in text for k in ("cargo build", "go build", "make", "cmake", "g++", "./configure"))
+    has_build = any(
+        k in text for k in ("cargo build", "go build", "make", "cmake", "g++", "./configure")
+    )
     has_fallback = bool(re.search(r"\[ -f \./\S+ \]", text)) or "cp ./" in text
     if not has_build and not has_fallback:
         errors.append("E3: no build command and no bundled-binary fallback (nothing produced)")
 
     # E4: executable made runnable.
-    if "executable" in text and "chmod +x ./executable" not in text and "chmod +x executable" not in text:
+    if (
+        "executable" in text
+        and "chmod +x ./executable" not in text
+        and "chmod +x executable" not in text
+    ):
         errors.append("E4: ./executable created but never chmod +x")
 
     # W1: conftest to both dirs.
@@ -62,7 +74,9 @@ def lint(path: Path, tool: str | None) -> tuple[list[str], list[str]]:
             warns.append("W1: conftest not written to both /workspace and /workspace/eval")
     # E5: item cap.
     if "del items[400:]" in text or "items[:400]" in text:
-        errors.append("E5: 400-item collection cap present (removes expected_active tests from official denominator)")
+        errors.append(
+            "E5: 400-item collection cap present (removes expected_active tests from official denominator)"
+        )
 
     return errors, warns
 

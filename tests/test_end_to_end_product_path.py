@@ -27,6 +27,7 @@ vacuously -- a green tick for a check that never executed is the thing this file
 prevent. Model quality is irrelevant here: the assertion is that plumbing preserves a
 prompt, so the smallest available model is the right one.
 """
+
 from __future__ import annotations
 
 import json
@@ -41,8 +42,11 @@ sys.path.insert(0, str(REPO / "scripts"))
 
 OLLAMA = "http://127.0.0.1:11434"
 # Small on purpose: this measures the harness, not the model.
-PREFERRED = ("qwen2.5-coder:1.5b-instruct", "determinex-engineer-v11-dsl:latest",
-             "qwen2.5-coder:7b-instruct")
+PREFERRED = (
+    "qwen2.5-coder:1.5b-instruct",
+    "determinex-engineer-v11-dsl:latest",
+    "qwen2.5-coder:7b-instruct",
+)
 
 
 def _available_model() -> str | None:
@@ -61,7 +65,7 @@ MODEL = _available_model()
 needs_model = pytest.mark.skipif(
     MODEL is None,
     reason="no local Ollama model reachable; the end-to-end product path CANNOT be verified "
-           "here and is being skipped rather than assumed",
+    "here and is being skipped rather than assumed",
 )
 
 
@@ -84,9 +88,11 @@ def test_a_repair_sized_prompt_reaches_the_model_intact():
     import determinex_providers as P
 
     marker = "QX-9931-END-TO-END"
-    prompt = (f"TASK-ID {marker}: after reading the code below, reply with ONLY the TASK-ID.\n"
-              + _real_source(25_000)
-              + "\nReply with ONLY the TASK-ID given on the first line.")
+    prompt = (
+        f"TASK-ID {marker}: after reading the code below, reply with ONLY the TASK-ID.\n"
+        + _real_source(25_000)
+        + "\nReply with ONLY the TASK-ID given on the first line."
+    )
     answer = P._litellm_generator(f"ollama/{MODEL}")(prompt, 0.0)
     assert marker in answer, (
         f"the model answered {answer.strip()[:60]!r} for a prompt whose task line it "
@@ -101,9 +107,11 @@ def test_a_prompt_far_past_the_context_window_raises_instead_of_fabricating():
     failure -- not a confident answer about whatever survived."""
     import determinex_providers as P
 
-    prompt = ("TASK-ID QX-0001: reply with ONLY the TASK-ID.\n"
-              + _real_source(600_000)
-              + "\nReply with ONLY the TASK-ID given on the first line.")
+    prompt = (
+        "TASK-ID QX-0001: reply with ONLY the TASK-ID.\n"
+        + _real_source(600_000)
+        + "\nReply with ONLY the TASK-ID given on the first line."
+    )
     with pytest.raises(RuntimeError, match="PROMPT TRUNCATED"):
         P._litellm_generator(f"ollama/{MODEL}")(prompt, 0.0)
 

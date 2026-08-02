@@ -19,7 +19,9 @@ from corpus.programbench.cleanroom_build_recipe_recovery_record import (
     make_cleanroom_build_recipe_recovery_record,
     write_cleanroom_build_recipe_recovery_record,
 )
-from corpus.programbench.cleanroom_image_remediation_plan_record import verify_cleanroom_image_remediation_plan_record
+from corpus.programbench.cleanroom_image_remediation_plan_record import (
+    verify_cleanroom_image_remediation_plan_record,
+)
 from corpus.programbench.cleanroom_image_scan_record import verify_cleanroom_image_scan_record
 
 
@@ -147,7 +149,9 @@ class ProgramBenchCleanroomBuildRecipeRecovery:
 
         components = _classify_components(sources, image_metadata)
         go_update = _go_update_summary(plan, image_metadata, sources)
-        status, statuses, reasons = _classify_status(components, bool(image_metadata.get("history")))
+        status, statuses, reasons = _classify_status(
+            components, bool(image_metadata.get("history"))
+        )
         statuses = [
             BuildRecipeRecoveryStatus.BUILD_RECIPE_RECOVERY_READY.value,
             status,
@@ -169,7 +173,10 @@ class ProgramBenchCleanroomBuildRecipeRecovery:
             fidelity_assessment={
                 "fidelity_class": "material_fidelity_change",
                 "reason": "Updating Go runtime or base image changes the cleanroom execution environment.",
-                "fidelity_preserving_rebuild": bool(components.get("dockerfile_present") and components.get("base_image_digest_present")),
+                "fidelity_preserving_rebuild": bool(
+                    components.get("dockerfile_present")
+                    and components.get("base_image_digest_present")
+                ),
                 "bounded_rerun_revalidation_required": True,
             },
             recovery_statuses=list(dict.fromkeys(statuses)),
@@ -177,7 +184,9 @@ class ProgramBenchCleanroomBuildRecipeRecovery:
             cache_ready=False,
             executable=False,
         )
-        path = write_cleanroom_build_recipe_recovery_record(record, self._resolve(self.config.output_dir))
+        path = write_cleanroom_build_recipe_recovery_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _write_blocked(
@@ -218,7 +227,9 @@ class ProgramBenchCleanroomBuildRecipeRecovery:
             cache_ready=False,
             executable=False,
         )
-        path = write_cleanroom_build_recipe_recovery_record(record, self._resolve(self.config.output_dir))
+        path = write_cleanroom_build_recipe_recovery_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _load_scan_record(self, plan: dict[str, Any]) -> dict[str, Any]:
@@ -245,7 +256,11 @@ class ProgramBenchCleanroomBuildRecipeRecovery:
             if not resolved.exists():
                 searched.append(entry)
                 continue
-            files = [resolved] if resolved.is_file() else sorted(p for p in resolved.rglob("*") if p.is_file())
+            files = (
+                [resolved]
+                if resolved.is_file()
+                else sorted(p for p in resolved.rglob("*") if p.is_file())
+            )
             for path in files[: self.config.max_files_per_root]:
                 entry["files_examined"] += 1
                 source = _classify_file(path, self.config.root)
@@ -299,7 +314,9 @@ class ProgramBenchCleanroomBuildRecipeRecovery:
             "artifact_found": True,
             "index_manifest_digest": _index_digest(index),
             "config_digest": _digest_from_config_path(config_path),
-            "layer_count": len((manifest[0] or {}).get("Layers") or []) if isinstance(manifest, list) and manifest else 0,
+            "layer_count": len((manifest[0] or {}).get("Layers") or [])
+            if isinstance(manifest, list) and manifest
+            else 0,
             "history_count": len(history),
             "history": history,
             "env": env,
@@ -316,7 +333,13 @@ def _classify_file(path: Path, root: Path) -> dict[str, Any] | None:
     name = path.name.lower()
     if name not in RECIPE_FILENAMES and name != "task.yaml":
         return None
-    source_type = "task_metadata" if name == "task.yaml" else "build_script" if name.endswith(".sh") else "dockerfile"
+    source_type = (
+        "task_metadata"
+        if name == "task.yaml"
+        else "build_script"
+        if name.endswith(".sh")
+        else "dockerfile"
+    )
     text = path.read_text(encoding="utf-8", errors="replace")[:20000]
     from_line = _first_match(text, r"(?im)^\s*FROM\s+(.+)$")
     go_version = _first_match(text, r"go([0-9]+\.[0-9]+(?:\.[0-9]+)?)")
@@ -332,32 +355,46 @@ def _classify_file(path: Path, root: Path) -> dict[str, Any] | None:
     }
 
 
-def _classify_components(sources: list[dict[str, Any]], image_metadata: dict[str, Any]) -> dict[str, Any]:
+def _classify_components(
+    sources: list[dict[str, Any]], image_metadata: dict[str, Any]
+) -> dict[str, Any]:
     dockerfiles = [s for s in sources if s.get("source_type") == "dockerfile"]
     build_scripts = [s for s in sources if s.get("source_type") == "build_script"]
     metadata = [s for s in sources if s.get("source_type") == "task_metadata"]
     base_digest_present = any(bool(s.get("base_digest_present")) for s in dockerfiles)
-    history_text = "\n".join(str(h.get("created_by") or "") for h in image_metadata.get("history") or [])
+    history_text = "\n".join(
+        str(h.get("created_by") or "") for h in image_metadata.get("history") or []
+    )
     return {
         "dockerfile_present": bool(dockerfiles),
         "build_script_present": bool(build_scripts),
         "task_metadata_present": bool(metadata),
         "base_image_digest_present": base_digest_present,
         "image_config_history_present": bool(image_metadata.get("history")),
-        "go_runtime_version_detected": _first_match(history_text, r"go([0-9]+\.[0-9]+(?:\.[0-9]+)?)"),
+        "go_runtime_version_detected": _first_match(
+            history_text, r"go([0-9]+\.[0-9]+(?:\.[0-9]+)?)"
+        ),
         "ubuntu_version_detected": str(image_metadata.get("base_image_label") or ""),
         "original_recipe_file_recovered": bool(dockerfiles),
         "reconstructed_from_image_history": bool(image_metadata.get("history")),
     }
 
 
-def _go_update_summary(plan: dict[str, Any], image_metadata: dict[str, Any], sources: list[dict[str, Any]]) -> dict[str, Any]:
+def _go_update_summary(
+    plan: dict[str, Any], image_metadata: dict[str, Any], sources: list[dict[str, Any]]
+) -> dict[str, Any]:
     target = str((plan.get("required_inputs") or {}).get("go_version_target") or "1.24.13")
-    history_text = "\n".join(str(h.get("created_by") or "") for h in image_metadata.get("history") or [])
+    history_text = "\n".join(
+        str(h.get("created_by") or "") for h in image_metadata.get("history") or []
+    )
     env_text = "\n".join(str(item) for item in image_metadata.get("env") or [])
     source_text = "\n".join(str(s.get("go_version_reference") or "") for s in sources)
     detected = _first_match(history_text + "\n" + source_text, r"go([0-9]+\.[0-9]+(?:\.[0-9]+)?)")
-    compatible = bool(detected and "dl.google.com/go/go" in history_text and "/usr/local/go" in (history_text + "\n" + env_text))
+    compatible = bool(
+        detected
+        and "dl.google.com/go/go" in history_text
+        and "/usr/local/go" in (history_text + "\n" + env_text)
+    )
     return {
         "current_version_detected": detected,
         "target_version": target,
@@ -370,7 +407,9 @@ def _go_update_summary(plan: dict[str, Any], image_metadata: dict[str, Any], sou
     }
 
 
-def _classify_status(components: dict[str, Any], has_history: bool) -> tuple[str, list[str], list[str]]:
+def _classify_status(
+    components: dict[str, Any], has_history: bool
+) -> tuple[str, list[str], list[str]]:
     statuses: list[str] = []
     reasons: list[str] = []
     if components.get("dockerfile_present"):
@@ -393,9 +432,15 @@ def _classify_status(components: dict[str, Any], has_history: bool) -> tuple[str
         reasons.append("recipe_present_but_not_enough_base_provenance")
         return BuildRecipeRecoveryStatus.BUILD_RECIPE_RECOVERED_PARTIAL.value, statuses, reasons
     if has_history:
-        statuses.append(BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_INSUFFICIENT_PROVENANCE.value)
+        statuses.append(
+            BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_INSUFFICIENT_PROVENANCE.value
+        )
         reasons.append("image_history_reconstructs_steps_but_original_recipe_file_missing")
-        return BuildRecipeRecoveryStatus.BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY.value, statuses, reasons
+        return (
+            BuildRecipeRecoveryStatus.BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY.value,
+            statuses,
+            reasons,
+        )
     statuses.append(BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_INSUFFICIENT_PROVENANCE.value)
     reasons.append("no_build_recipe_or_image_history_recovered")
     return BuildRecipeRecoveryStatus.BUILD_RECIPE_MISSING.value, statuses, reasons
@@ -425,7 +470,9 @@ def _digest_from_config_path(config_path: str) -> str:
 
 
 def _redact(value: str) -> str:
-    value = re.sub(r"https://x-access-token:[^/@\s]+@", "https://x-access-token:ghp_<redacted>@", value)
+    value = re.sub(
+        r"https://x-access-token:[^/@\s]+@", "https://x-access-token:ghp_<redacted>@", value
+    )
     value = re.sub(r"https://[^/@\s]+:[^/@\s]+@", "https://<redacted>@", value)
     value = re.sub(r"ghp_[A-Za-z0-9_]+", "ghp_<redacted>", value)
     return value
@@ -457,10 +504,16 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Recover ProgramBench cleanroom image build recipe evidence.")
+    parser = argparse.ArgumentParser(
+        description="Recover ProgramBench cleanroom image build recipe evidence."
+    )
     parser.add_argument("remediation_plan", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_build_recipe_recovery"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_build_recipe_recovery"),
+    )
     parser.add_argument("--search-root", action="append", type=Path, default=[])
     parser.add_argument("--target-image", default="")
     parser.add_argument("--target-digest", default="")

@@ -16,6 +16,7 @@ earlier. evaluate() refuses:
     pass + approval present
     -> BLOCKED_SOURCE_MUTATION_CONFUSION
 """
+
 from __future__ import annotations
 
 from .repo_clinic_workflow_record import (
@@ -48,9 +49,7 @@ def evaluate(
 ) -> RepoClinicWorkflowRecord:
     # 1. Verifier discovery must succeed before anything else can run.
     if not verifier_command_present and (
-        source_mutation_attempted
-        or source_mutation_authorized_by_gate
-        or fixed_label_enabled
+        source_mutation_attempted or source_mutation_authorized_by_gate or fixed_label_enabled
     ):
         return _block(
             "REPO_CLINIC_WORKFLOW_BLOCKED_VERIFIER_MISSING",
@@ -91,9 +90,7 @@ def evaluate(
         )
 
     # 3. source_mutation_authorized_by_gate requires temp_verifier_passed AND approval_present.
-    if source_mutation_authorized_by_gate and not (
-        temp_verifier_passed and approval_present
-    ):
+    if source_mutation_authorized_by_gate and not (temp_verifier_passed and approval_present):
         return _block(
             "REPO_CLINIC_WORKFLOW_BLOCKED_SOURCE_MUTATION_CONFUSION",
             note=(
@@ -116,9 +113,7 @@ def evaluate(
     if fixed_label_enabled and not post_apply_verifier_passed:
         return _block(
             "REPO_CLINIC_WORKFLOW_BLOCKED_FALSE_FIXED_LABEL",
-            note=(
-                "'fixed' label cannot be shown without post_apply_verifier_passed"
-            ),
+            note=("'fixed' label cannot be shown without post_apply_verifier_passed"),
             fixed_label_enabled=fixed_label_enabled,
             verifier_command_present=verifier_command_present,
             temp_verifier_passed=temp_verifier_passed,
@@ -168,7 +163,9 @@ def _block(decision: str, *, note: str, **kw) -> RepoClinicWorkflowRecord:
         source_mutation_authorized_by_gate=kw["source_mutation_authorized_by_gate"],
         post_apply_verifier_passed=kw["post_apply_verifier_passed"],
         diagnosis_treated_as_authorization=kw["diagnosis_treated_as_authorization"],
-        local_model_admission_treated_as_source_authorization=kw["local_model_admission_treated_as_source_authorization"],
+        local_model_admission_treated_as_source_authorization=kw[
+            "local_model_admission_treated_as_source_authorization"
+        ],
         source_mutation_authorized=False,
         training_eligible=False,
         notes=(note,),

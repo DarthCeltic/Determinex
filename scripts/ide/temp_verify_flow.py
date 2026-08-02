@@ -3,11 +3,12 @@
 Wraps TempPatchVerifyCommand. Applies to temp only. Source unchanged.
 Human approval still required.
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -36,15 +37,16 @@ class IDETempVerifyFlow:
         workspace_id: str = "ide_tv",
     ) -> IDETempVerifyFlowRecord:
         cmd_rec = TempPatchVerifyCommand().run(
-            plan, temp_root=Path(temp_root),
+            plan,
+            temp_root=Path(temp_root),
             verifier=verifier or stub_verifier_pass,
             workspace_id=workspace_id,
         )
 
         mapping = {
             "TEMP_PATCH_VERIFY_PASSED_TEMP_ONLY": "IDE_TEMP_VERIFY_PASSED_TEMP_ONLY",
-            "TEMP_PATCH_VERIFY_FAILED":           "IDE_TEMP_VERIFY_FAILED",
-            "TEMP_PATCH_VERIFY_BLOCKED_NO_PLAN":  "IDE_TEMP_VERIFY_BLOCKED_NO_PLAN",
+            "TEMP_PATCH_VERIFY_FAILED": "IDE_TEMP_VERIFY_FAILED",
+            "TEMP_PATCH_VERIFY_BLOCKED_NO_PLAN": "IDE_TEMP_VERIFY_BLOCKED_NO_PLAN",
             "TEMP_PATCH_VERIFY_BLOCKED_PATH_ESCAPE": "IDE_TEMP_VERIFY_FAILED",
         }
         ide_decision = mapping.get(cmd_rec.decision, "IDE_TEMP_VERIFY_FAILED")
@@ -52,7 +54,8 @@ class IDETempVerifyFlow:
             "IDE_TEMP_VERIFY_RUNNING",
             ide_decision,
             "IDE_TEMP_VERIFY_SOURCE_UNCHANGED"
-            if cmd_rec.source_unchanged_confirmed else "IDE_TEMP_VERIFY_FAILED",
+            if cmd_rec.source_unchanged_confirmed
+            else "IDE_TEMP_VERIFY_FAILED",
             "IDE_TEMP_VERIFY_HUMAN_APPROVAL_REQUIRED",
         ]
         return IDETempVerifyFlowRecord(

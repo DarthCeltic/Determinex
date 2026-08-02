@@ -16,6 +16,7 @@ hold:
   * External setup caveats must be visible.
   * training_eligible must remain False everywhere.
 """
+
 from __future__ import annotations
 
 from .idea_lab_workflow_record import (
@@ -99,9 +100,7 @@ def evaluate(
         )
 
     # Hard rule: Working label enabled requires every verifier pass.
-    if working_label_enabled and not (
-        build_verifier_passed and tests_passed and smoke_passed
-    ):
+    if working_label_enabled and not (build_verifier_passed and tests_passed and smoke_passed):
         return _block(
             "IDEA_LAB_WORKFLOW_BLOCKED_FALSE_SUCCESS",
             note=(

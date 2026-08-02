@@ -3,49 +3,50 @@ scripts/hive/workspace.py — Workspace management and Builder context assembly
 ==============================================================================
 Moved from determinex_hive.py (lines ~703-789, ~1044-1229).
 """
+
 from __future__ import annotations
 
 import hashlib
 import logging
 import math
-import os
 import re
 import shutil
 import tempfile
 from pathlib import Path
-from typing import Optional
 
+from hive.compiler import get_toolchain_version  # L5-B
+from hive.concurrent_guard import WorkspaceLock  # #28
 from hive.manifest import StepRecord
-from hive.concurrent_guard import WorkspaceLock, WorkspaceLockError  # #28
-from hive.rag_guard import is_binary_file, is_oversized_file          # #14 OOM guard
-from hive.compiler import get_toolchain_version                        # L5-B
+from hive.rag_guard import is_binary_file, is_oversized_file  # #14 OOM guard
 
 log = logging.getLogger("hive")
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-WORKSPACE_BASE  = Path(tempfile.gettempdir()) / "determinex_workspaces"
+WORKSPACE_BASE = Path(tempfile.gettempdir()) / "determinex_workspaces"
 _WORKSPACE_BASE = WORKSPACE_BASE  # legacy alias
 
 # ── Signature index limits ────────────────────────────────────────────────────
-SIG_INDEX_REGION_LINES    = 60
+SIG_INDEX_REGION_LINES = 60
 MAX_FILE_LINES_BEFORE_SIG = 200
 
 # ── #11 Snapshot / hash exclusion list ───────────────────────────────────────
 # These directories contain compiler artifacts, vendored dependencies, or
 # generated build outputs. Copying them into per-step snapshots causes Inode
 # exhaustion on the host SSD (Rust target/ alone creates 40,000+ files).
-_SNAPSHOT_EXCLUDE_DIRS = frozenset([
-    "target",          # Rust/Cargo compilation artifacts
-    "node_modules",    # npm / yarn dependencies
-    "vendor",          # Go vendored packages
-    "dist",            # TypeScript/bundler output
-    ".git",            # Git object store
-    ".venv",           # Python virtual environment
-    "__pycache__",     # Python bytecode
-    ".mypy_cache",
-    ".ruff_cache",
-    ".pytest_cache",
-])
+_SNAPSHOT_EXCLUDE_DIRS = frozenset(
+    [
+        "target",  # Rust/Cargo compilation artifacts
+        "node_modules",  # npm / yarn dependencies
+        "vendor",  # Go vendored packages
+        "dist",  # TypeScript/bundler output
+        ".git",  # Git object store
+        ".venv",  # Python virtual environment
+        "__pycache__",  # Python bytecode
+        ".mypy_cache",
+        ".ruff_cache",
+        ".pytest_cache",
+    ]
+)
 
 
 def _is_excluded_path(path: Path, workspace: Path) -> bool:
@@ -58,6 +59,7 @@ def _is_excluded_path(path: Path, workspace: Path) -> bool:
 
 
 # ── Workspace path safety (symlink escape prevention) ─────────────────────────
+
 
 def resolve_workspace_path(path: Path, workspace: Path) -> Path:
     """
@@ -102,16 +104,18 @@ _SECRET_NAME_RE = re.compile(
     re.IGNORECASE,
 )
 _KEY_PREFIX_RE = re.compile(
-    r"(AKIA[0-9A-Z]{16}"             # AWS access key
-    r"|\bAIza[0-9A-Za-z\-_]{35}\b"   # GCP API key
-    r"|ghp_[A-Za-z0-9]{36}"          # GitHub personal token
-    r"|ghs_[A-Za-z0-9]{36}"          # GitHub app token
-    r"|sk-[A-Za-z0-9]{48}"           # OpenAI secret key
-    r"|xoxb-[0-9A-Za-z\-]+"          # Slack bot token
+    r"(AKIA[0-9A-Z]{16}"  # AWS access key
+    r"|\bAIza[0-9A-Za-z\-_]{35}\b"  # GCP API key
+    r"|ghp_[A-Za-z0-9]{36}"  # GitHub personal token
+    r"|ghs_[A-Za-z0-9]{36}"  # GitHub app token
+    r"|sk-[A-Za-z0-9]{48}"  # OpenAI secret key
+    r"|xoxb-[0-9A-Za-z\-]+"  # Slack bot token
     r")"
 )
-_SECRET_ENTROPY_THRESHOLD = 5.0   # G22: raised from 4.5 → 5.0 to reduce false positives on base64/binary content
-_SECRET_SCAN_BYTES        = 4096  # only scan first 4KB
+_SECRET_ENTROPY_THRESHOLD = (
+    5.0  # G22: raised from 4.5 → 5.0 to reduce false positives on base64/binary content
+)
+_SECRET_SCAN_BYTES = 4096  # only scan first 4KB
 
 
 def _shannon_entropy(data: str) -> float:
@@ -126,6 +130,7 @@ def _shannon_entropy(data: str) -> float:
 
 
 _CODE_EXTENSIONS = frozenset({".py", ".rs", ".go", ".ts", ".js", ".c", ".cpp", ".h"})
+
 
 def _is_sensitive_file(path: Path) -> bool:
     """#27: Return True if the file should be blocked from RAG/embedding.
@@ -149,10 +154,13 @@ def _is_sensitive_file(path: Path) -> bool:
         if not is_code_file:
             for line in head.splitlines():
                 stripped = line.strip()
-                if len(stripped) >= 50 and _shannon_entropy(stripped) > _SECRET_ENTROPY_THRESHOLD:  # G22: min length 40→50
+                if (
+                    len(stripped) >= 50 and _shannon_entropy(stripped) > _SECRET_ENTROPY_THRESHOLD
+                ):  # G22: min length 40→50
                     log.warning(
                         "Secret denylist: high-entropy content in '%s' — "
-                        "blocking to prevent credential leakage", path,
+                        "blocking to prevent credential leakage",
+                        path,
                     )
                     return True
     except (OSError, UnicodeDecodeError):
@@ -173,10 +181,12 @@ def _is_sensitive_file(path: Path) -> bool:
 # Key is loaded from DETERMINEX_CORPUS_HMAC_KEY env var; falls back to ephemeral
 # session key if not set (sufficient for in-process tamper detection).
 
+
 def sign_corpus_entry(entry: dict) -> None:
     """#SEC-4: HMAC-sign a corpus entry dict in-place (adds '_sig' key)."""
     try:
         from determinex_safety import sign_corpus_entry as _sign
+
         _sign(entry)
     except ImportError:
         log.warning("[SEC-4] determinex_safety unavailable — corpus entry not signed")
@@ -186,6 +196,7 @@ def verify_corpus_entry(entry: dict) -> bool:
     """#SEC-4: Verify HMAC signature on a corpus entry. Raises CorpusTamperError if invalid."""
     try:
         from determinex_safety import verify_corpus_entry as _verify
+
         return _verify(entry)
     except ImportError:
         log.warning("[SEC-4] determinex_safety unavailable — corpus entry verify skipped")
@@ -193,6 +204,7 @@ def verify_corpus_entry(entry: dict) -> bool:
 
 
 # ── Workspace management ──────────────────────────────────────────────────────
+
 
 def create_workspace(session_id: str, lang: str) -> tuple[Path, WorkspaceLock]:
     """
@@ -220,9 +232,9 @@ def release_workspace(lock: WorkspaceLock) -> None:
     lock.release()
 
 
-def scaffold_rust_project(workspace: Path, package_name: str,
-                           dependencies: Optional[dict] = None,
-                           binary: bool = True) -> str:
+def scaffold_rust_project(
+    workspace: Path, package_name: str, dependencies: dict | None = None, binary: bool = True
+) -> str:
     """Write Cargo.toml + placeholder src/main.rs to workspace. Returns Cargo.toml content.
 
     For a binary project (binary=True, the default): creates src/main.rs placeholder.
@@ -237,7 +249,7 @@ def scaffold_rust_project(workspace: Path, package_name: str,
         # Values in _RUST_KNOWN_CRATES already include correct TOML syntax:
         # simple versions as '"1"' (with quotes), inline tables as '{ version = "1", ... }'.
         # Use f'{k} = {v}' — no extra quote wrapping.
-        deps_lines = "\n".join(f'{k} = {v}' for k, v in dependencies.items())
+        deps_lines = "\n".join(f"{k} = {v}" for k, v in dependencies.items())
 
     (workspace / "src").mkdir(parents=True, exist_ok=True)
 
@@ -282,14 +294,14 @@ def scaffold_go_module(workspace: Path, module_name: str, go_version: str = "1.2
     """Write go.mod to workspace. Returns content."""
     content = f"module {module_name}\ngo {go_version}\n"
     (workspace / "go.mod").write_text(content, encoding="utf-8")
-    (workspace / "main.go").write_text(
-        f"package main\n\nfunc main() {{}}\n", encoding="utf-8")
+    (workspace / "main.go").write_text("package main\n\nfunc main() {}\n", encoding="utf-8")
     log.info("Scaffolded go.mod for module '%s'", module_name)
     return content
 
 
-def scaffold_python_project(workspace: Path, package_name: str,
-                             requirements: Optional[list] = None) -> str:
+def scaffold_python_project(
+    workspace: Path, package_name: str, requirements: list | None = None
+) -> str:
     """Write pyproject.toml and requirements.txt. Returns requirements content."""
     reqs = "\n".join(requirements or [])
     (workspace / "requirements.txt").write_text(reqs, encoding="utf-8")
@@ -307,7 +319,7 @@ version = "0.1.0"
     return reqs
 
 
-def cleanup_workspace(session_id: str, project_root: Optional[Path] = None) -> None:
+def cleanup_workspace(session_id: str, project_root: Path | None = None) -> None:
     """Remove the workspace directory for a completed session.
 
     G34: accepts explicit project_root so callers that set a non-default
@@ -321,6 +333,7 @@ def cleanup_workspace(session_id: str, project_root: Optional[Path] = None) -> N
 
 # ── Workspace file hashing ────────────────────────────────────────────────────
 
+
 def hash_workspace_files(workspace: Path, lang: str) -> dict[str, str]:
     """
     Compute SHA256 hashes for all source files in the workspace.
@@ -329,7 +342,9 @@ def hash_workspace_files(workspace: Path, lang: str) -> dict[str, str]:
     #11: Excludes snapshot-bloating directories (target/, node_modules/, etc.).
     #27: Skips files matching the secret key denylist.
     """
-    exts = {"rust": [".rs"], "go": [".go"], "python": [".py"]}.get(lang.lower(), [".rs", ".go", ".py"])
+    exts = {"rust": [".rs"], "go": [".go"], "python": [".py"]}.get(
+        lang.lower(), [".rs", ".go", ".py"]
+    )
     hashes: dict[str, str] = {}
     for ext in exts:
         for f in sorted(workspace.rglob(f"*{ext}")):
@@ -344,12 +359,13 @@ def hash_workspace_files(workspace: Path, lang: str) -> dict[str, str]:
                 log.debug("hash_workspace: skipping binary/oversized file '%s'", f)
                 continue
             rel = str(f.relative_to(workspace)).replace("\\", "/")
-            h   = hashlib.sha256(f.read_bytes()).hexdigest()[:16]
+            h = hashlib.sha256(f.read_bytes()).hexdigest()[:16]
             hashes[rel] = h
     return hashes
 
 
 # ── Signature index (Builder context for large files) ────────────────────────
+
 
 def build_signature_index(file_path: Path, lang: str) -> tuple[str, str]:
     """
@@ -369,7 +385,7 @@ def build_signature_index(file_path: Path, lang: str) -> tuple[str, str]:
     return _regex_signature_index(content, lang), "degraded"
 
 
-def _try_tree_sitter_index(file_path: Path, content: str, lang: str) -> Optional[str]:
+def _try_tree_sitter_index(file_path: Path, content: str, lang: str) -> str | None:
     """
     Attempt tree-sitter parse using the Python tree-sitter bindings.
     Returns a signature index string on success, None if tree-sitter is not
@@ -379,8 +395,8 @@ def _try_tree_sitter_index(file_path: Path, content: str, lang: str) -> Optional
     These are listed as optional in hive/requirements.txt.
     """
     lang_module_map = {
-        "rust":   "tree_sitter_rust",
-        "go":     "tree_sitter_go",
+        "rust": "tree_sitter_rust",
+        "go": "tree_sitter_go",
         "python": "tree_sitter_python",
     }
     lang_key = lang.lower()
@@ -390,7 +406,9 @@ def _try_tree_sitter_index(file_path: Path, content: str, lang: str) -> Optional
 
     try:
         import importlib
+
         from tree_sitter import Language, Parser
+
         lang_module = importlib.import_module(mod_name)
         ts_lang = Language(lang_module.language())
         parser = Parser(ts_lang)
@@ -400,7 +418,7 @@ def _try_tree_sitter_index(file_path: Path, content: str, lang: str) -> Optional
         error_count = sum(1 for node in _iter_nodes(tree.root_node) if node.type == "ERROR")
         total_count = sum(1 for _ in _iter_nodes(tree.root_node))
         if total_count > 0 and error_count / total_count > 0.20:
-            return None   # degraded AST — let caller use regex fallback
+            return None  # degraded AST — let caller use regex fallback
 
         sigs: list[str] = []
         if lang_key == "rust":
@@ -425,15 +443,21 @@ def _iter_nodes(node):
 def _node_first_line(node, content_bytes: bytes) -> str:
     """Return the first line of source for a tree-sitter node."""
     start_byte = node.start_byte
-    end_byte   = min(node.end_byte, len(content_bytes))
-    chunk      = content_bytes[start_byte:end_byte].decode("utf-8", errors="backslashreplace")
+    end_byte = min(node.end_byte, len(content_bytes))
+    chunk = content_bytes[start_byte:end_byte].decode("utf-8", errors="backslashreplace")
     return chunk.split("\n")[0].strip()
 
 
 def _extract_rust_sigs(root, content: str, sigs: list[str]) -> None:
     cb = content.encode("utf-8")
-    target_types = {"function_item", "struct_item", "enum_item",
-                    "trait_item", "impl_item", "type_item"}
+    target_types = {
+        "function_item",
+        "struct_item",
+        "enum_item",
+        "trait_item",
+        "impl_item",
+        "type_item",
+    }
     for node in _iter_nodes(root):
         if node.type in target_types:
             sigs.append(_node_first_line(node, cb))
@@ -459,7 +483,7 @@ def _regex_signature_index(content: str, lang: str) -> str:
     Language-aware patterns.
     """
     lang = lang.lower()
-    lines  = content.splitlines()
+    lines = content.splitlines()
     sigs: list[str] = []
 
     if "rust" in lang:
@@ -489,15 +513,16 @@ def _regex_signature_index(content: str, lang: str) -> str:
         stripped = line.strip()
         if combo.match(stripped):
             sig_line = stripped.rstrip("{").rstrip(":")[:120]
-            sigs.append(f"L{i+1}: {sig_line}")
+            sigs.append(f"L{i + 1}: {sig_line}")
 
     if not sigs:
         return "(no signatures found — file may be empty or unstructured)"
     return "\n".join(sigs)
 
 
-def get_target_region(file_path: Path, step: StepRecord,
-                       region_lines: int = SIG_INDEX_REGION_LINES) -> str:
+def get_target_region(
+    file_path: Path, step: StepRecord, region_lines: int = SIG_INDEX_REGION_LINES
+) -> str:
     """
     Extract the target region from the file: N lines before and after the insertion point.
     Used when a file is too large to fit in Builder's context window.
@@ -532,21 +557,23 @@ def get_target_region(file_path: Path, step: StepRecord,
             break
 
     start = max(0, center_line - region_lines)
-    end   = min(len(lines), center_line + region_lines)
+    end = min(len(lines), center_line + region_lines)
     region_content = "\n".join(lines[start:end])
 
     if start > 0:
         region_content = f"... (lines 1–{start} omitted) ...\n" + region_content
     if end < len(lines):
-        region_content += f"\n... (lines {end+1}–{len(lines)} omitted) ..."
+        region_content += f"\n... (lines {end + 1}–{len(lines)} omitted) ..."
 
     return region_content
 
 
 def assemble_builder_context(
-    workspace: Path, step: StepRecord, lang: str,
+    workspace: Path,
+    step: StepRecord,
+    lang: str,
     last_compiler_error: str = "",
-    parse_mode_override: Optional[str] = None,
+    parse_mode_override: str | None = None,
 ) -> str:
     """
     Assemble Builder's full context window for a step.
@@ -562,7 +589,9 @@ def assemble_builder_context(
     # host toolchain instead of guessing from its training cutoff.
     tc_ver = get_toolchain_version(lang)
     if tc_ver:
-        parts.append(f"\nTOOLCHAIN VERSION (host): {tc_ver}\nWrite code compatible with this version.")
+        parts.append(
+            f"\nTOOLCHAIN VERSION (host): {tc_ver}\nWrite code compatible with this version."
+        )
 
     # Inject Cargo.toml [dependencies] so the Builder knows which crates are available.
     # Without this, 1.5B models hallucinate crates not in Cargo.toml (lazy_static, etc.)
@@ -575,9 +604,13 @@ def assemble_builder_context(
             if dep_match:
                 dep_section = dep_match.group(1).strip()
                 if dep_section:
-                    parts.append(f"\nAVAILABLE CRATES (Cargo.toml [dependencies]):\n{dep_section}\nOnly use these crates. Do not import anything else.")
+                    parts.append(
+                        f"\nAVAILABLE CRATES (Cargo.toml [dependencies]):\n{dep_section}\nOnly use these crates. Do not import anything else."
+                    )
                 else:
-                    parts.append("\nAVAILABLE CRATES: NONE. No external crates are in Cargo.toml. Use ONLY std:: — no serde, no tokio, no rand, no anyhow, nothing else.")
+                    parts.append(
+                        "\nAVAILABLE CRATES: NONE. No external crates are in Cargo.toml. Use ONLY std:: — no serde, no tokio, no rand, no anyhow, nothing else."
+                    )
 
     # For main.rs steps: inject lib.rs as a library context so the model knows
     # what types are already defined and how to import them.
@@ -590,10 +623,18 @@ def assemble_builder_context(
                 pkg_name = ""
                 cargo_toml = workspace / "Cargo.toml"
                 if cargo_toml.exists():
-                    m = re.search(r'^name\s*=\s*"([^"]+)"', cargo_toml.read_text(encoding="utf-8"), re.MULTILINE)
+                    m = re.search(
+                        r'^name\s*=\s*"([^"]+)"',
+                        cargo_toml.read_text(encoding="utf-8"),
+                        re.MULTILINE,
+                    )
                     if m:
                         pkg_name = m.group(1)
-                use_hint = f"\nImport types with: `use {pkg_name}::*;` or `use {pkg_name}::{{TypeName}};`" if pkg_name else ""
+                use_hint = (
+                    f"\nImport types with: `use {pkg_name}::*;` or `use {pkg_name}::{{TypeName}};`"
+                    if pkg_name
+                    else ""
+                )
                 parts.append(
                     f"\nLIBRARY FILE (src/lib.rs — types are defined here, import them in main.rs):{use_hint}\n"
                     f"<untrusted_file_content>\n```rust\n{lib_content}\n```\n</untrusted_file_content>"
@@ -605,14 +646,26 @@ def assemble_builder_context(
             region = get_target_region(target_file, step)
             sig_index, parse_mode = build_signature_index(target_file, lang)
             actual_mode = parse_mode_override or parse_mode
-            parts.append(f"\nCURRENT FILE (target region — full file is {len(file_lines)} lines):\n<untrusted_file_content>\n```\n{region}\n```\n</untrusted_file_content>")
-            sig_note = " [DEGRADED — tree-sitter failed, may be incomplete]" if actual_mode == "degraded" else ""
-            parts.append(f"\nFILE SIGNATURE INDEX{sig_note}:\n<untrusted_file_content>\n{sig_index}\n</untrusted_file_content>")
+            parts.append(
+                f"\nCURRENT FILE (target region — full file is {len(file_lines)} lines):\n<untrusted_file_content>\n```\n{region}\n```\n</untrusted_file_content>"
+            )
+            sig_note = (
+                " [DEGRADED — tree-sitter failed, may be incomplete]"
+                if actual_mode == "degraded"
+                else ""
+            )
+            parts.append(
+                f"\nFILE SIGNATURE INDEX{sig_note}:\n<untrusted_file_content>\n{sig_index}\n</untrusted_file_content>"
+            )
         else:
             content = "\n".join(file_lines)
-            parts.append(f"\nCURRENT FILE ({step.target_file}):\n<untrusted_file_content>\n```\n{content}\n```\n</untrusted_file_content>")
+            parts.append(
+                f"\nCURRENT FILE ({step.target_file}):\n<untrusted_file_content>\n```\n{content}\n```\n</untrusted_file_content>"
+            )
     elif step.target_file:
-        parts.append(f"\nTARGET FILE: {step.target_file} (does not exist yet — use write_mode: new_file)")
+        parts.append(
+            f"\nTARGET FILE: {step.target_file} (does not exist yet — use write_mode: new_file)"
+        )
 
     harness_path = getattr(step, "_session_correctness_test_harness", "")
     if harness_path:

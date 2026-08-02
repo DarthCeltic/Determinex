@@ -18,23 +18,27 @@ Commands:
 Postgres uses SKIP LOCKED for atomic atomic claim_next.
 Redis uses BLPOP for atomic claim (simpler but no priority).
 """
+
 from __future__ import annotations
+
 import argparse
 import os
-import sys
 import time
-from urllib.parse import urlparse
 
 
 def _redis():
     import redis  # type: ignore[import-not-found]
+
     url = os.environ.get("QUEUE_URL", "redis://localhost:6379/0")
     return redis.from_url(url, decode_responses=True)
 
 
 def _pg():
     import psycopg  # type: ignore[import-not-found]
-    url = os.environ.get("QUEUE_URL", "postgresql://determinex:determinex@localhost:5432/determinex")
+
+    url = os.environ.get(
+        "QUEUE_URL", "postgresql://determinex:determinex@localhost:5432/determinex"
+    )
     return psycopg.connect(url, autocommit=True)
 
 
@@ -51,32 +55,52 @@ def redis_enqueue(insts: list[str], tier: str, priority: int):
     queue_key = f"determinex:queue:{tier}"
     for inst in insts:
         r.rpush(queue_key, inst)
-        r.hset(f"determinex:tool:{inst}", mapping={
-            "tier": tier, "priority": priority, "status": "pending",
-            "enqueued_at": time.time(),
-        })
+        r.hset(
+            f"determinex:tool:{inst}",
+            mapping={
+                "tier": tier,
+                "priority": priority,
+                "status": "pending",
+                "enqueued_at": time.time(),
+            },
+        )
     print(f"enqueued {len(insts)} into {tier}")
 
 
 def redis_claim(worker: str, tier: str) -> str | None:
     r = _redis()
-    candidates = [f"determinex:queue:{tier}"] if tier != "any" else ["determinex:queue:heavy", "determinex:queue:light"]
+    candidates = (
+        [f"determinex:queue:{tier}"]
+        if tier != "any"
+        else ["determinex:queue:heavy", "determinex:queue:light"]
+    )
     for q in candidates:
         inst = r.lpop(q)
         if inst:
-            r.hset(f"determinex:tool:{inst}", mapping={
-                "status": "claimed", "claimed_by": worker, "claimed_at": time.time(),
-            })
+            r.hset(
+                f"determinex:tool:{inst}",
+                mapping={
+                    "status": "claimed",
+                    "claimed_by": worker,
+                    "claimed_at": time.time(),
+                },
+            )
             return inst
     return None
 
 
 def redis_done(inst: str, score: str, rc: int, dur: int):
     r = _redis()
-    r.hset(f"determinex:tool:{inst}", mapping={
-        "status": "done", "score": score, "rc": rc, "duration_s": dur,
-        "done_at": time.time(),
-    })
+    r.hset(
+        f"determinex:tool:{inst}",
+        mapping={
+            "status": "done",
+            "score": score,
+            "rc": rc,
+            "duration_s": dur,
+            "done_at": time.time(),
+        },
+    )
     r.rpush("determinex:queue:done", inst)
 
 
@@ -94,17 +118,23 @@ def pg_enqueue(insts: list[str], tier: str, priority: int):
     c = _pg()
     cur = c.cursor()
     for inst in insts:
-        cur.execute("""
+        cur.execute(
+            """
             INSERT INTO tools(instance_id) VALUES (%s) ON CONFLICT DO NOTHING
-        """, (inst,))
-        cur.execute("""
+        """,
+            (inst,),
+        )
+        cur.execute(
+            """
             INSERT INTO work_queue(instance_id, tier, priority)
             VALUES (%s, %s, %s)
             ON CONFLICT (instance_id) DO UPDATE
               SET status='pending', claimed_by=NULL, claimed_at=NULL,
                   tier=EXCLUDED.tier, priority=EXCLUDED.priority,
                   enqueued_at=now()
-        """, (inst, tier, priority))
+        """,
+            (inst, tier, priority),
+        )
     c.close()
     print(f"enqueued {len(insts)} into {tier}")
 
@@ -129,14 +159,20 @@ def pg_done(inst: str, score: str, rc: int, dur: int):
             passed, total = (int(x) for x in left.split("/"))
         except ValueError:
             pass
-    cur.execute("""
+    cur.execute(
+        """
         UPDATE work_queue SET status='done' WHERE instance_id=%s
-    """, (inst,))
-    cur.execute("""
+    """,
+        (inst,),
+    )
+    cur.execute(
+        """
         INSERT INTO evals(instance_id, ran_at, passed, total, duration_s, rc)
         VALUES (%s, now(), %s, %s, %s, %s)
         ON CONFLICT (instance_id, ran_at) DO NOTHING
-    """, (inst, passed, total, dur, rc))
+    """,
+        (inst, passed, total, dur, rc),
+    )
     c.close()
 
 

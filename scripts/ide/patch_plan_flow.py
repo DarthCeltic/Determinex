@@ -3,11 +3,12 @@
 Wraps OptInPatchPlanCommand. Returns IDEPatchPlanFlowRecord with
 source_unchanged=True. Plan is quarantined, never applied.
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -36,16 +37,19 @@ class IDEPatchPlanFlow:
     ) -> IDEPatchPlanFlowRecord:
         ws = Path(workspace).resolve()
         cmd_rec = OptInPatchPlanCommand().run(
-            ws, config=config, plan_entries=plan_entries, opt_in=opt_in,
+            ws,
+            config=config,
+            plan_entries=plan_entries,
+            opt_in=opt_in,
         )
 
         mapping = {
-            "OPT_IN_PATCH_PLAN_BLOCKED_NO_MODEL":          "IDE_PATCH_PLAN_BLOCKED_NO_MODEL",
-            "OPT_IN_PATCH_PLAN_BLOCKED_NOT_OPTED_IN":      "IDE_PATCH_PLAN_BLOCKED_NOT_OPTED_IN",
-            "OPT_IN_PATCH_PLAN_BLOCKED_SCHEMA_INVALID":    "IDE_PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
-            "OPT_IN_PATCH_PLAN_BLOCKED_PATH_ESCAPE":       "IDE_PATCH_PLAN_BLOCKED_PATH_ESCAPE",
+            "OPT_IN_PATCH_PLAN_BLOCKED_NO_MODEL": "IDE_PATCH_PLAN_BLOCKED_NO_MODEL",
+            "OPT_IN_PATCH_PLAN_BLOCKED_NOT_OPTED_IN": "IDE_PATCH_PLAN_BLOCKED_NOT_OPTED_IN",
+            "OPT_IN_PATCH_PLAN_BLOCKED_SCHEMA_INVALID": "IDE_PATCH_PLAN_BLOCKED_SCHEMA_INVALID",
+            "OPT_IN_PATCH_PLAN_BLOCKED_PATH_ESCAPE": "IDE_PATCH_PLAN_BLOCKED_PATH_ESCAPE",
             "OPT_IN_PATCH_PLAN_BLOCKED_PROVIDER_UNAVAILABLE": "IDE_PATCH_PLAN_BLOCKED_NO_MODEL",
-            "OPT_IN_PATCH_PLAN_QUARANTINED":               "IDE_PATCH_PLAN_QUARANTINED",
+            "OPT_IN_PATCH_PLAN_QUARANTINED": "IDE_PATCH_PLAN_QUARANTINED",
         }
         ide_decision = mapping.get(cmd_rec.decision, "IDE_PATCH_PLAN_BLOCKED_SCHEMA_INVALID")
         statuses = [ide_decision, "IDE_PATCH_PLAN_SOURCE_UNCHANGED"]

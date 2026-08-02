@@ -47,7 +47,9 @@ class ProgramBenchDockerHubManifestProvenance:
     def __init__(self, config: DockerHubManifestProvenanceConfig | None = None) -> None:
         self.config = config or DockerHubManifestProvenanceConfig()
 
-    def convert(self, triage_record_path: Path, manifest_metadata: dict[str, Any]) -> dict[str, Any]:
+    def convert(
+        self, triage_record_path: Path, manifest_metadata: dict[str, Any]
+    ) -> dict[str, Any]:
         triage_path = self._resolve(triage_record_path)
         if not triage_path.is_file():
             return self._blocked(
@@ -66,7 +68,10 @@ class ProgramBenchDockerHubManifestProvenance:
                 manifest_metadata,
                 ["triage_record_signature_invalid"],
             )
-        if str(triage.get("failure_type") or "") != InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value:
+        if (
+            str(triage.get("failure_type") or "")
+            != InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value
+        ):
             return self._blocked(
                 DockerHubManifestProvenanceStatus.DOCKERHUB_MANIFEST_BLOCKED_NO_TRIAGE.value,
                 triage_path,
@@ -124,7 +129,16 @@ class ProgramBenchDockerHubManifestProvenance:
                 ["execution_not_allowed_for_provenance_lookup"],
             )
 
-        claim = _operator_claim(image=image, digest=digest, tag=tag, registry=registry, repository=repository, triage_path=_rel(self.config.root, triage_path), triage=triage, metadata=manifest_metadata)
+        claim = _operator_claim(
+            image=image,
+            digest=digest,
+            tag=tag,
+            registry=registry,
+            repository=repository,
+            triage_path=_rel(self.config.root, triage_path),
+            triage=triage,
+            metadata=manifest_metadata,
+        )
         claim_path = self._write_operator_claim(claim)
         record = make_dockerhub_manifest_provenance_record(
             status=DockerHubManifestProvenanceStatus.EXACT_REMOTE_MANIFEST_FOUND.value,
@@ -146,8 +160,15 @@ class ProgramBenchDockerHubManifestProvenance:
             operator_claim_path=_rel(self.config.root, claim_path),
             reasons=[],
         )
-        record_path = write_dockerhub_manifest_provenance_record(record, self._resolve(self.config.output_dir))
-        return {"record_path": str(record_path), "record": record, "operator_claim_path": str(claim_path), "operator_claim": claim}
+        record_path = write_dockerhub_manifest_provenance_record(
+            record, self._resolve(self.config.output_dir)
+        )
+        return {
+            "record_path": str(record_path),
+            "record": record,
+            "operator_claim_path": str(claim_path),
+            "operator_claim": claim,
+        }
 
     def _blocked(
         self,
@@ -177,7 +198,9 @@ class ProgramBenchDockerHubManifestProvenance:
             metadata=_compact_metadata(manifest_metadata),
             reasons=reasons,
         )
-        record_path = write_dockerhub_manifest_provenance_record(record, self._resolve(self.config.output_dir))
+        record_path = write_dockerhub_manifest_provenance_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(record_path), "record": record}
 
     def _write_operator_claim(self, claim: dict[str, Any]) -> Path:
@@ -203,7 +226,11 @@ def _operator_claim(
     metadata: dict[str, Any],
 ) -> dict[str, Any]:
     target = triage.get("target") if isinstance(triage.get("target"), dict) else {}
-    rerun_scope = triage.get("evidence", {}).get("rerun_scope") if isinstance(triage.get("evidence"), dict) else {}
+    rerun_scope = (
+        triage.get("evidence", {}).get("rerun_scope")
+        if isinstance(triage.get("evidence"), dict)
+        else {}
+    )
     intended_scope = {
         "tool": target.get("tool"),
         "candidate_id": target.get("candidate_id"),
@@ -256,7 +283,12 @@ def _compact_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
 
 
 def _extract_digest(metadata: dict[str, Any]) -> str:
-    return str(metadata.get("manifest_digest") or metadata.get("descriptor_digest") or metadata.get("digest") or "")
+    return str(
+        metadata.get("manifest_digest")
+        or metadata.get("descriptor_digest")
+        or metadata.get("digest")
+        or ""
+    )
 
 
 def _parse_image(image: str) -> dict[str, str]:
@@ -279,12 +311,22 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Convert exact Docker Hub manifest metadata into signed ProgramBench provenance.")
+    parser = argparse.ArgumentParser(
+        description="Convert exact Docker Hub manifest metadata into signed ProgramBench provenance."
+    )
     parser.add_argument("triage_record", type=Path)
     parser.add_argument("manifest_metadata", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_dockerhub_manifest_provenance"))
-    parser.add_argument("--operator-claim-dir", type=Path, default=Path("assurance/evidence/programbench_operator_artifact_admissions"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_dockerhub_manifest_provenance"),
+    )
+    parser.add_argument(
+        "--operator-claim-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_operator_artifact_admissions"),
+    )
     args = parser.parse_args()
     metadata = _read_json(args.manifest_metadata)
     result = ProgramBenchDockerHubManifestProvenance(

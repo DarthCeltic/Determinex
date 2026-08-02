@@ -30,12 +30,16 @@ def scan_legacy_roots(roots: list[Path], *, max_rows: int | None = None) -> dict
     return _summarize(items, files, truncated=False, max_rows=max_rows)
 
 
-def _summarize(items: list[LegacyScanItem], files: list[Path], *, truncated: bool, max_rows: int | None) -> dict[str, Any]:
+def _summarize(
+    items: list[LegacyScanItem], files: list[Path], *, truncated: bool, max_rows: int | None
+) -> dict[str, Any]:
     by_bucket = Counter(item.bucket for item in items)
     by_failure = Counter(label for item in items for label in item.failure_classes)
     by_tool = Counter(item.tool or "unknown" for item in items)
     replay_by_tool = Counter(item.tool or "unknown" for item in items if item.replayable)
-    replay_by_failure = Counter(label for item in items if item.replayable for label in item.failure_classes)
+    replay_by_failure = Counter(
+        label for item in items if item.replayable for label in item.failure_classes
+    )
     replay_candidates = _diverse_replay_sample(items, max_total=500, max_per_tool=10)
     return {
         "schema_version": "determinex-legacy-recovery-report-v1",
@@ -55,7 +59,9 @@ def _summarize(items: list[LegacyScanItem], files: list[Path], *, truncated: boo
     }
 
 
-def _diverse_replay_sample(items: list[LegacyScanItem], *, max_total: int, max_per_tool: int) -> list[dict[str, Any]]:
+def _diverse_replay_sample(
+    items: list[LegacyScanItem], *, max_total: int, max_per_tool: int
+) -> list[dict[str, Any]]:
     sample: list[dict[str, Any]] = []
     by_tool: Counter[str] = Counter()
     for item in items:
@@ -72,7 +78,9 @@ def _diverse_replay_sample(items: list[LegacyScanItem], *, max_total: int, max_p
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Scan quarantined legacy corpus rows and bucket recovery value.")
+    parser = argparse.ArgumentParser(
+        description="Scan quarantined legacy corpus rows and bucket recovery value."
+    )
     parser.add_argument("roots", nargs="+", type=Path)
     parser.add_argument("--max-rows", type=int, default=None)
     parser.add_argument("--output", type=Path)

@@ -39,20 +39,20 @@ Usage:
   python scripts/determinex_db.py history burntsushi__ripgrep
   python scripts/determinex_db.py migrate-from-sqlite
 """
+
 from __future__ import annotations
+
 import argparse
 import glob
-import sys
-import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 # ── Backend selection: DuckDB preferred, sqlite3 fallback ────────────────────
 try:
     import duckdb as _duckdb_mod
+
     _DUCKDB = True
 except ImportError:
-    import sqlite3 as _sqlite3_mod  # type: ignore[assignment]
     _DUCKDB = False
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -214,6 +214,7 @@ def conn():
         return c
     else:
         import sqlite3
+
         c = sqlite3.connect(DB)
         _verify_integrity_sqlite(c, DB)
         c.executescript(SCHEMA)
@@ -225,13 +226,12 @@ def conn():
 def _verify_integrity_sqlite(c, path: Path) -> None:
     """SQLite integrity check (only used in fallback mode)."""
     import sqlite3
+
     rows = c.execute("PRAGMA integrity_check").fetchall()
     problems = [str(row[0]) for row in rows if row and row[0] != "ok"]
     if problems:
         preview = "; ".join(problems[:5])
-        raise sqlite3.DatabaseError(
-            f"SQLite integrity_check failed for {path}: {preview}"
-        )
+        raise sqlite3.DatabaseError(f"SQLite integrity_check failed for {path}: {preview}")
 
 
 def migrate_from_sqlite(src: Path | None = None, dst: Path | None = None) -> None:
@@ -244,6 +244,7 @@ def migrate_from_sqlite(src: Path | None = None, dst: Path | None = None) -> Non
     The SQLite file is NOT deleted — it's kept as a read-only backup.
     """
     import sqlite3
+
     src = src or DB_SQLITE_LEGACY
     dst = dst or DB
     if not src.exists():
@@ -265,15 +266,14 @@ def migrate_from_sqlite(src: Path | None = None, dst: Path | None = None) -> Non
             col_list = ", ".join(cols)
             try:
                 duckdb_conn.executemany(
-                    f"INSERT OR IGNORE INTO {table} ({col_list}) VALUES ({placeholders})",
-                    rows
+                    f"INSERT OR IGNORE INTO {table} ({col_list}) VALUES ({placeholders})", rows
                 )
             except Exception:
                 # DuckDB uses ON CONFLICT syntax
                 try:
                     duckdb_conn.executemany(
                         f"INSERT INTO {table} ({col_list}) VALUES ({placeholders}) ON CONFLICT DO NOTHING",
-                        rows
+                        rows,
                     )
                 except Exception as e:
                     print(f"  Warning: {table} migration partial: {e}")
@@ -284,10 +284,10 @@ def migrate_from_sqlite(src: Path | None = None, dst: Path | None = None) -> Non
     print("Tip: verify with: python scripts/determinex_db.py top 10")
 
 
-
 def cmd_init(args):
     c = conn()
-    c.commit(); c.close()
+    c.commit()
+    c.close()
     print(f"OK: db at {DB}")
 
 
@@ -320,10 +320,13 @@ def cmd_import_evals(args):
         total = rep.total
         pct = round(100 * passed / total, 2)
         try:
-            cur.execute("""
+            cur.execute(
+                """
                 INSERT OR IGNORE INTO evals(instance_id, ran_at, passed, total, pct, source_path)
                 VALUES (?, ?, ?, ?, ?, ?)
-            """, (inst, mtime, passed, total, pct, ej))
+            """,
+                (inst, mtime, passed, total, pct, ej),
+            )
             if cur.rowcount > 0:
                 imported += 1
             else:
@@ -344,7 +347,8 @@ def cmd_import_evals(args):
 
 def cmd_top(args):
     c = conn()
-    rows = c.execute("""
+    rows = c.execute(
+        """
         SELECT t.instance_id,
                (SELECT pct FROM evals e WHERE e.instance_id=t.instance_id ORDER BY ran_at DESC LIMIT 1) latest_pct,
                (SELECT passed FROM evals e WHERE e.instance_id=t.instance_id ORDER BY ran_at DESC LIMIT 1) passed,
@@ -352,17 +356,21 @@ def cmd_top(args):
         FROM tools t
         ORDER BY latest_pct DESC NULLS LAST
         LIMIT ?
-    """, (args.n,)).fetchall()
+    """,
+        (args.n,),
+    ).fetchall()
     print(f"=== TOP {args.n} ===")
     for inst, pct, p, t in rows:
-        if pct is None: continue
+        if pct is None:
+            continue
         print(f"  {pct:6.2f}%  {p:>5}/{t:<5}  {inst}")
     c.close()
 
 
 def cmd_bottom(args):
     c = conn()
-    rows = c.execute("""
+    rows = c.execute(
+        """
         SELECT t.instance_id,
                (SELECT pct FROM evals e WHERE e.instance_id=t.instance_id ORDER BY ran_at DESC LIMIT 1) latest_pct,
                (SELECT passed FROM evals e WHERE e.instance_id=t.instance_id ORDER BY ran_at DESC LIMIT 1) passed,
@@ -371,7 +379,9 @@ def cmd_bottom(args):
         WHERE latest_pct IS NOT NULL
         ORDER BY latest_pct ASC
         LIMIT ?
-    """, (args.n,)).fetchall()
+    """,
+        (args.n,),
+    ).fetchall()
     print(f"=== BOTTOM {args.n} ===")
     for inst, pct, p, t in rows:
         print(f"  {pct:6.2f}%  {p:>5}/{t:<5}  {inst}")
@@ -380,16 +390,19 @@ def cmd_bottom(args):
 
 def cmd_history(args):
     c = conn()
-    rows = c.execute("""
+    rows = c.execute(
+        """
         SELECT ran_at, passed, total, pct, duration_s, rc
         FROM evals
         WHERE instance_id = ?
         ORDER BY ran_at DESC
         LIMIT 20
-    """, (args.tool,)).fetchall()
+    """,
+        (args.tool,),
+    ).fetchall()
     print(f"=== HISTORY {args.tool} ===")
     for ran_at, p, t, pct, d, rc in rows:
-        ts = datetime.fromtimestamp(ran_at, tz=timezone.utc).strftime("%Y-%m-%d %H:%M")
+        ts = datetime.fromtimestamp(ran_at, tz=UTC).strftime("%Y-%m-%d %H:%M")
         print(f"  {ts}  {pct:6.2f}%  {p}/{t}  ({d or '?'}s rc={rc or '?'})")
     c.close()
 
@@ -408,13 +421,18 @@ def cmd_stats(args):
     pcts = [r[0] for r in latest]
     buckets = {"95-100": 0, "70-94": 0, "40-69": 0, "10-39": 0, "0-9": 0}
     for p in pcts:
-        if p >= 95: buckets["95-100"] += 1
-        elif p >= 70: buckets["70-94"] += 1
-        elif p >= 40: buckets["40-69"] += 1
-        elif p >= 10: buckets["10-39"] += 1
-        else: buckets["0-9"] += 1
+        if p >= 95:
+            buckets["95-100"] += 1
+        elif p >= 70:
+            buckets["70-94"] += 1
+        elif p >= 40:
+            buckets["40-69"] += 1
+        elif p >= 10:
+            buckets["10-39"] += 1
+        else:
+            buckets["0-9"] += 1
     print(f"total evals: {n_evals}  tools: {n_tools}  scored-latest: {len(pcts)}")
-    print(f"weighted avg: {sum(pcts)/max(1,len(pcts)):.2f}%")
+    print(f"weighted avg: {sum(pcts) / max(1, len(pcts)):.2f}%")
     print("buckets:")
     for k, v in buckets.items():
         print(f"  {k}%: {v}")
@@ -426,15 +444,23 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("init")
     sub.add_parser("import-evals")
-    sp = sub.add_parser("top"); sp.add_argument("n", type=int, nargs="?", default=15)
-    sp = sub.add_parser("bottom"); sp.add_argument("n", type=int, nargs="?", default=15)
-    sp = sub.add_parser("history"); sp.add_argument("tool")
+    sp = sub.add_parser("top")
+    sp.add_argument("n", type=int, nargs="?", default=15)
+    sp = sub.add_parser("bottom")
+    sp.add_argument("n", type=int, nargs="?", default=15)
+    sp = sub.add_parser("history")
+    sp.add_argument("tool")
     sub.add_parser("stats")
     args = ap.parse_args()
 
-    cmds = {"init": cmd_init, "import-evals": cmd_import_evals,
-            "top": cmd_top, "bottom": cmd_bottom,
-            "history": cmd_history, "stats": cmd_stats}
+    cmds = {
+        "init": cmd_init,
+        "import-evals": cmd_import_evals,
+        "top": cmd_top,
+        "bottom": cmd_bottom,
+        "history": cmd_history,
+        "stats": cmd_stats,
+    }
     cmds[args.cmd](args)
 
 

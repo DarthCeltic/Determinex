@@ -5,6 +5,7 @@ Locks the compression/deployment control plane: specialist units cannot deploy
 without eval/safety/license locks, signed corpus, deduped splits, cards, and
 safety regression evidence.
 """
+
 from __future__ import annotations
 
 import sys
@@ -18,7 +19,11 @@ from units.unit_registry import UnitRegistry, UnitSpec
 
 def _locks(lock_dir: Path) -> None:
     lock_dir.mkdir(parents=True, exist_ok=True)
-    for name in ("RUST_REPAIR_LOCK_001.json", "SENTINEL_LOCK_001.json", "CORPUS_LICENSE_LOCK_001.json"):
+    for name in (
+        "RUST_REPAIR_LOCK_001.json",
+        "SENTINEL_LOCK_001.json",
+        "CORPUS_LICENSE_LOCK_001.json",
+    ):
         (lock_dir / name).write_text("{}", encoding="utf-8")
 
 

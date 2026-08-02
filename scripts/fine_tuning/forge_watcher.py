@@ -46,20 +46,21 @@ from pathlib import Path
 # PATHS
 # ─────────────────────────────────────────────────────────────────────────────
 
-_SCRIPT_DIR   = Path(__file__).resolve().parent          # scripts/fine_tuning/
+_SCRIPT_DIR = Path(__file__).resolve().parent  # scripts/fine_tuning/
 _DETERMINEX_ROOT = _SCRIPT_DIR.parent.parent
 
-_DEFAULT_OUTBOX   = Path.home() / ".determinex_staging" / "outbox"
-_DEFAULT_VAULT    = Path.home() / ".determinex_staging" / "vault" / "vault.key"
-_DEFAULT_STAGING  = _DETERMINEX_ROOT / ".determinex_staging" / "training_data" / "observer_dpo.jsonl"
-_DEFAULT_ARCHIVE  = Path.home() / ".determinex_staging" / "processed"
+_DEFAULT_OUTBOX = Path.home() / ".determinex_staging" / "outbox"
+_DEFAULT_VAULT = Path.home() / ".determinex_staging" / "vault" / "vault.key"
+_DEFAULT_STAGING = _DETERMINEX_ROOT / ".determinex_staging" / "training_data" / "observer_dpo.jsonl"
+_DEFAULT_ARCHIVE = Path.home() / ".determinex_staging" / "processed"
 
-_STATE_FILE       = _SCRIPT_DIR / "forge_state.json"
-_TRAIN_SCRIPT     = _SCRIPT_DIR / "train_observer.py"
+_STATE_FILE = _SCRIPT_DIR / "forge_state.json"
+_TRAIN_SCRIPT = _SCRIPT_DIR / "train_observer.py"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # DECRYPTION
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def load_vault_key(vault_path: Path) -> bytes:
     """Read the 32-byte AES-256-GCM key written by the Rust telemetry logger."""
@@ -98,10 +99,10 @@ def decrypt_enc_file(vault_key: bytes, enc_path: Path) -> dict:
     b64_line = enc_path.read_text(encoding="utf-8").strip()
     envelope = base64.b64decode(b64_line)
 
-    nonce              = envelope[:12]
+    nonce = envelope[:12]
     ciphertext_and_tag = envelope[12:]
 
-    aesgcm    = AESGCM(vault_key)
+    aesgcm = AESGCM(vault_key)
     plaintext = aesgcm.decrypt(nonce, ciphertext_and_tag, None)
     return json.loads(plaintext.decode("utf-8"))
 
@@ -114,12 +115,13 @@ def decrypt_enc_file(vault_key: bytes, enc_path: Path) -> dict:
 # "user"/"assistant" role names. train_observer.py and Unsloth's chat template
 # expect the "role" key with "human"/"gpt" names.
 _ROLE_MAP = {
-    "system":    "system",
-    "user":      "human",
-    "human":     "human",
+    "system": "system",
+    "user": "human",
+    "human": "human",
     "assistant": "gpt",
-    "gpt":       "gpt",
+    "gpt": "gpt",
 }
+
 
 def normalise_conversation(raw: dict) -> dict:
     """
@@ -146,6 +148,7 @@ def normalise_conversation(raw: dict) -> dict:
 # STATE MANAGEMENT
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def load_state() -> dict:
     """Load persisted watcher state, returning defaults on first run."""
     if _STATE_FILE.exists():
@@ -164,6 +167,7 @@ def save_state(state: dict) -> None:
 # SAMPLE COUNT
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def count_jsonl_lines(path: Path) -> int:
     """Count non-empty lines in a JSONL file without loading it into memory."""
     if not path.exists():
@@ -179,6 +183,7 @@ def count_jsonl_lines(path: Path) -> int:
 # ─────────────────────────────────────────────────────────────────────────────
 # OUTBOX DRAIN
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def drain_outbox(
     outbox_dir: Path,
@@ -221,7 +226,10 @@ def drain_outbox(
 
         new_samples += 1
         ts = datetime.now().strftime("%H:%M:%S")
-        print(f"[WATCHER] [{ts}] Decrypted → {enc_path.name} ({new_samples} new this drain)", flush=True)
+        print(
+            f"[WATCHER] [{ts}] Decrypted → {enc_path.name} ({new_samples} new this drain)",
+            flush=True,
+        )
 
     return new_samples
 
@@ -229,6 +237,7 @@ def drain_outbox(
 # ─────────────────────────────────────────────────────────────────────────────
 # TRAINING TRIGGER
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def trigger_training(staging_jsonl: Path, dry_run: bool) -> bool:
     """
@@ -262,15 +271,16 @@ def trigger_training(staging_jsonl: Path, dry_run: bool) -> bool:
 # MAIN LOOP
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def run(args: argparse.Namespace) -> None:
-    outbox_dir    = Path(args.outbox).expanduser().resolve()
-    vault_path    = Path(args.vault).expanduser().resolve()
+    outbox_dir = Path(args.outbox).expanduser().resolve()
+    vault_path = Path(args.vault).expanduser().resolve()
     staging_jsonl = Path(args.staging).expanduser().resolve()
-    archive_dir   = Path(args.archive).expanduser().resolve()
-    threshold     = args.threshold
-    poll_secs     = args.poll_secs
-    dry_run       = args.dry_run
-    once          = args.once
+    archive_dir = Path(args.archive).expanduser().resolve()
+    threshold = args.threshold
+    poll_secs = args.poll_secs
+    dry_run = args.dry_run
+    once = args.once
 
     print("[WATCHER] Determinex Training Flywheel Watcher", flush=True)
     print(f"[WATCHER] Outbox  : {outbox_dir}", flush=True)
@@ -278,11 +288,16 @@ def run(args: argparse.Namespace) -> None:
     print(f"[WATCHER] Archive : {archive_dir}", flush=True)
     print(f"[WATCHER] Threshold: {threshold} new samples per training run", flush=True)
     if dry_run:
-        print("[WATCHER] DRY-RUN mode — no files will be written or training triggered.", flush=True)
+        print(
+            "[WATCHER] DRY-RUN mode — no files will be written or training triggered.", flush=True
+        )
 
     if not outbox_dir.exists():
         print(f"[WATCHER] Outbox directory does not exist yet: {outbox_dir}", flush=True)
-        print("[WATCHER] Waiting for the Determinex app to create it on first training pair...", flush=True)
+        print(
+            "[WATCHER] Waiting for the Determinex app to create it on first training pair...",
+            flush=True,
+        )
 
     vault_key: bytes | None = None
     state = load_state()
@@ -303,7 +318,7 @@ def run(args: argparse.Namespace) -> None:
                     save_state(state)
 
                 total_samples = count_jsonl_lines(staging_jsonl)
-                since_last    = total_samples - state["samples_at_last_train"]
+                since_last = total_samples - state["samples_at_last_train"]
 
                 print(
                     f"[WATCHER] Dataset: {total_samples} total samples "
@@ -315,7 +330,7 @@ def run(args: argparse.Namespace) -> None:
                     success = trigger_training(staging_jsonl, dry_run)
                     if success and not dry_run:
                         state["samples_at_last_train"] = total_samples
-                        state["training_runs"]         += 1
+                        state["training_runs"] += 1
                         save_state(state)
                         print(
                             f"[WATCHER] Training run #{state['training_runs']} complete. "
@@ -333,6 +348,7 @@ def run(args: argparse.Namespace) -> None:
 # ─────────────────────────────────────────────────────────────────────────────
 # CLI
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(

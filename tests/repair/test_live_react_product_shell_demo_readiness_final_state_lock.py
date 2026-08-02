@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -12,15 +13,19 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-final = importlib.import_module(
-    "repair.live_react_product_shell_demo_readiness_final_state"
-)
+final = importlib.import_module("repair.live_react_product_shell_demo_readiness_final_state")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT
+    / "locks"
+    / "sentinel"
+    / ("DETERMINEX_LIVE_REACT_PRODUCT_SHELL_DEMO_READINESS_FINAL_STATE_LOCK_001.json")
 )
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "determinex_live_react_product_shell_demo_readiness_final_state"
+EVIDENCE_DIR = (
+    _REPO_ROOT
+    / "assurance"
+    / "evidence"
+    / ("determinex_live_react_product_shell_demo_readiness_final_state")
 )
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -89,8 +94,12 @@ def test_synthetic_skeleton_passes(tmp_path):
 
 def test_missing_browser_snapshot_rung_blocks(tmp_path):
     fake = _mirror(tmp_path)
-    (fake / "locks" / "sentinel"
-     / "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001.json").unlink()
+    (
+        fake
+        / "locks"
+        / "sentinel"
+        / "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001.json"
+    ).unlink()
     rec = final.evaluate(fake)
     assert rec.is_blocked
     assert rec.browser_snapshot_closed is False
@@ -102,8 +111,12 @@ def test_lock_with_opened_source_mutation_blocks(tmp_path):
     # surviving rung, same invariant (opening source_mutation_authorized on
     # any rung blocks the finale).
     fake = _mirror(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_LOCK_001.json")
+    target = (
+        fake
+        / "locks"
+        / "sentinel"
+        / "DETERMINEX_REACT_DEMO_NAVIGATION_HAPPY_BLOCKED_PATH_LOCK_001.json"
+    )
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["source_mutation_authorized"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -118,8 +131,12 @@ def test_lock_with_release_ready_true_blocks(tmp_path):
     # surviving rung, same invariant (an unsupported claim key set True on
     # any rung blocks the finale).
     fake = _mirror(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001.json")
+    target = (
+        fake
+        / "locks"
+        / "sentinel"
+        / "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001.json"
+    )
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["release_ready_set_true"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -133,8 +150,12 @@ def test_lock_with_broad_public_claims_granted_blocks(tmp_path):
     # (deleted 2026-07-20, see module docstring) -- retargeted to a
     # surviving rung.
     fake = _mirror(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001.json")
+    target = (
+        fake
+        / "locks"
+        / "sentinel"
+        / "DETERMINEX_REACT_PRODUCT_SHELL_BROWSER_SNAPSHOT_LOCK_001.json"
+    )
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["broad_public_claims_granted"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")

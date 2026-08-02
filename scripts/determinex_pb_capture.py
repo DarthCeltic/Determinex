@@ -15,9 +15,10 @@ test_results extra.text for offline diagnosis.
 Inject like the hermetic/bidir plugins: write to /opt/determinex_capture + pip install (pytest11).
 inject_capture(compile_sh_text) -> (new_text, changed).
 """
+
 from __future__ import annotations
 
-CAPTURE_PLUGIN = r'''# --- determinex capture: persist collection errors + full tracebacks + source ---
+CAPTURE_PLUGIN = r"""# --- determinex capture: persist collection errors + full tracebacks + source ---
 import inspect as _ci, os as _co, re as _cr
 _CAP = []  # list of (kind, name, text)
 
@@ -69,7 +70,7 @@ def pytest_sessionfinish(session, exitstatus):
 def pytest_unconfigure(config):
     _inject_into_results_xml()
 # --- end determinex capture ---
-'''
+"""
 
 
 def has_capture(text: str) -> bool:
@@ -84,8 +85,8 @@ def inject_capture(compile_sh_text: str) -> tuple[str, bool]:
         "\n# --- determinex capture plugin (collection errors + full tracebacks + source) ---\n"
         "mkdir -p /opt/determinex_capture\n"
         "cat > /opt/determinex_capture/determinex_pb_capture_plugin.py <<'DETERMINEX_CAP_EOF'\n"
-        + CAPTURE_PLUGIN +
-        "DETERMINEX_CAP_EOF\n"
+        + CAPTURE_PLUGIN
+        + "DETERMINEX_CAP_EOF\n"
         "cat > /opt/determinex_capture/setup.py <<'DETERMINEX_CAP_SETUP'\n"
         "from setuptools import setup\n"
         "setup(name='determinex_pb_capture', version='1.0', py_modules=['determinex_pb_capture_plugin'],\n"
@@ -99,6 +100,7 @@ def inject_capture(compile_sh_text: str) -> tuple[str, bool]:
 if __name__ == "__main__":
     import sys
     from pathlib import Path
+
     p = Path(sys.argv[1])
     new, ch = inject_capture(p.read_text(encoding="utf-8"))
     if ch:

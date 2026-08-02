@@ -6,26 +6,29 @@ correctly classifies licenses into green/yellow/red/unknown buckets.
 
 CORPUS_LICENSE_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
-import textwrap
 from pathlib import Path
-
-import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
-from corpus.code_ingest.spdx_normalizer import normalize, bucket, ingest_allowed, GREEN_LICENSES, RED_LICENSES
-from corpus.code_ingest.license_detector import detect, LicenseResult
-
+from corpus.code_ingest.license_detector import detect
+from corpus.code_ingest.spdx_normalizer import (
+    GREEN_LICENSES,
+    RED_LICENSES,
+    bucket,
+    ingest_allowed,
+    normalize,
+)
 
 # ---------------------------------------------------------------------------
 # SPDX normalizer unit tests
 # ---------------------------------------------------------------------------
 
-class TestSPDXNormalizer:
 
+class TestSPDXNormalizer:
     def test_mit_normalized(self):
         assert normalize("MIT License") == "MIT"
 
@@ -75,7 +78,6 @@ class TestSPDXNormalizer:
 
 
 class TestBucketClassification:
-
     def test_mit_is_green(self):
         assert bucket("MIT") == "green"
         assert ingest_allowed("MIT") is True
@@ -118,8 +120,8 @@ class TestBucketClassification:
 # License detector integration tests
 # ---------------------------------------------------------------------------
 
-class TestLicenseDetector:
 
+class TestLicenseDetector:
     def test_mit_license_file(self, tmp_path):
         (tmp_path / "LICENSE").write_text(
             "MIT License\n\nCopyright (c) 2024 Test\n\nPermission is hereby granted...",
@@ -169,6 +171,7 @@ class TestLicenseDetector:
 
     def test_package_json_license_field(self, tmp_path):
         import json
+
         (tmp_path / "package.json").write_text(
             json.dumps({"name": "mylib", "version": "1.0.0", "license": "ISC"}),
             encoding="utf-8",

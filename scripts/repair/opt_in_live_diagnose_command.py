@@ -6,6 +6,7 @@ model router, captures the response as advisory (verifier remains
 source of truth). No patch, no source mutation, no corpus, no
 training eligibility.
 """
+
 from __future__ import annotations
 
 import sys
@@ -41,11 +42,12 @@ from .opt_in_live_diagnose_record import (
     OptInLiveDiagnoseRecord,
 )
 
-
-_DIAGNOSE_TASKS = frozenset({
-    TaskClass.BUILD_DIAGNOSIS.value,
-    TaskClass.TEST_FAILURE_LOCALIZATION.value,
-})
+_DIAGNOSE_TASKS = frozenset(
+    {
+        TaskClass.BUILD_DIAGNOSIS.value,
+        TaskClass.TEST_FAILURE_LOCALIZATION.value,
+    }
+)
 
 
 class OptInLiveDiagnoseCommand:
@@ -64,11 +66,16 @@ class OptInLiveDiagnoseCommand:
         statuses_seen: list[str] = []
 
         # 1. Config must be admitted.
-        if config is None or not config.is_written and not (
-            config and config.decision == "LOCAL_MODEL_CONFIG_DRY_RUN_ONLY"
+        if (
+            config is None
+            or not config.is_written
+            and not (config and config.decision == "LOCAL_MODEL_CONFIG_DRY_RUN_ONLY")
         ):
             return self._blocked(
-                ws, task_class, config, provider,
+                ws,
+                task_class,
+                config,
+                provider,
                 "OPT_IN_LIVE_DIAGNOSE_BLOCKED_NO_MODEL_CONFIG",
                 "config missing or not written",
             )
@@ -76,7 +83,10 @@ class OptInLiveDiagnoseCommand:
         # 2. Explicit opt-in.
         if not opt_in:
             return self._blocked(
-                ws, task_class, config, provider,
+                ws,
+                task_class,
+                config,
+                provider,
                 "OPT_IN_LIVE_DIAGNOSE_BLOCKED_NOT_OPTED_IN",
                 "opt_in=False; explicit caller opt-in required",
             )
@@ -84,7 +94,10 @@ class OptInLiveDiagnoseCommand:
         # 3. Task class allowed.
         if task_class not in _DIAGNOSE_TASKS:
             return self._blocked(
-                ws, task_class, config, provider,
+                ws,
+                task_class,
+                config,
+                provider,
                 "OPT_IN_LIVE_DIAGNOSE_BLOCKED_UNSUPPORTED_TASK",
                 f"task_class {task_class!r} not in {sorted(_DIAGNOSE_TASKS)}",
             )
@@ -92,7 +105,8 @@ class OptInLiveDiagnoseCommand:
         # 4. Build admission via the existing gate.
         inv = LocalModelInventory.of(sorted(CURRENT_MODEL_IDS))
         admission_cfg = LiveModelAdmissionConfig(
-            mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=True,
+            mode=LiveAdmissionMode.OPT_IN_LIVE,
+            opt_in_live=True,
         )
         gate = LiveModelAdmissionGate(config=admission_cfg)
         candidate = LocalModelCandidate(
@@ -105,7 +119,10 @@ class OptInLiveDiagnoseCommand:
         admission = gate.evaluate(candidate, task_class, inv, route)
         if not admission.is_ready:
             return self._blocked(
-                ws, task_class, config, provider,
+                ws,
+                task_class,
+                config,
+                provider,
                 "OPT_IN_LIVE_DIAGNOSE_BLOCKED_PROVIDER_UNAVAILABLE",
                 f"live admission not ready: {admission.decision}",
             )
@@ -113,11 +130,17 @@ class OptInLiveDiagnoseCommand:
         # 5. Run diagnose trace.
         runner = LiveDiagnoseTraceRunner()
         trace = runner.run(
-            ws, task_class=task_class, admission=admission, provider=provider,
+            ws,
+            task_class=task_class,
+            admission=admission,
+            provider=provider,
         )
         if not trace.is_written:
             return self._blocked(
-                ws, task_class, config, provider,
+                ws,
+                task_class,
+                config,
+                provider,
                 "OPT_IN_LIVE_DIAGNOSE_BLOCKED_PROVIDER_UNAVAILABLE",
                 f"diagnose trace blocked: {trace.decision}",
             )

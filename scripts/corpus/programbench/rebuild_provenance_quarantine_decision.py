@@ -16,8 +16,12 @@ if str(_SCRIPTS) not in sys.path:
 from corpus.programbench.cleanroom_build_recipe_provenance_gap_record import (
     verify_cleanroom_build_recipe_provenance_gap_record,
 )
-from corpus.programbench.cleanroom_build_recipe_recovery_record import verify_cleanroom_build_recipe_recovery_record
-from corpus.programbench.cleanroom_image_remediation_plan_record import verify_cleanroom_image_remediation_plan_record
+from corpus.programbench.cleanroom_build_recipe_recovery_record import (
+    verify_cleanroom_build_recipe_recovery_record,
+)
+from corpus.programbench.cleanroom_image_remediation_plan_record import (
+    verify_cleanroom_image_remediation_plan_record,
+)
 from corpus.programbench.cleanroom_recipe_provenance_recovery_record import (
     verify_cleanroom_recipe_provenance_recovery_record,
 )
@@ -31,10 +35,18 @@ class RebuildProvenanceQuarantineDecisionStatus(str, Enum):
     REBUILD_QUARANTINE_DECISION_READY = "REBUILD_QUARANTINE_DECISION_READY"
     REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY = "REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY"
     REBUILD_QUARANTINE_DECISION_BLOCKED = "REBUILD_QUARANTINE_DECISION_BLOCKED"
-    REBUILD_QUARANTINE_DECISION_BLOCKED_NO_RECOVERY = "REBUILD_QUARANTINE_DECISION_BLOCKED_NO_RECOVERY"
-    REBUILD_QUARANTINE_DECISION_BLOCKED_IMAGE_MISMATCH = "REBUILD_QUARANTINE_DECISION_BLOCKED_IMAGE_MISMATCH"
-    REBUILD_QUARANTINE_DECISION_BLOCKED_DIGEST_MISMATCH = "REBUILD_QUARANTINE_DECISION_BLOCKED_DIGEST_MISMATCH"
-    REBUILD_QUARANTINE_DECISION_BLOCKED_CHAIN_INVALID = "REBUILD_QUARANTINE_DECISION_BLOCKED_CHAIN_INVALID"
+    REBUILD_QUARANTINE_DECISION_BLOCKED_NO_RECOVERY = (
+        "REBUILD_QUARANTINE_DECISION_BLOCKED_NO_RECOVERY"
+    )
+    REBUILD_QUARANTINE_DECISION_BLOCKED_IMAGE_MISMATCH = (
+        "REBUILD_QUARANTINE_DECISION_BLOCKED_IMAGE_MISMATCH"
+    )
+    REBUILD_QUARANTINE_DECISION_BLOCKED_DIGEST_MISMATCH = (
+        "REBUILD_QUARANTINE_DECISION_BLOCKED_DIGEST_MISMATCH"
+    )
+    REBUILD_QUARANTINE_DECISION_BLOCKED_CHAIN_INVALID = (
+        "REBUILD_QUARANTINE_DECISION_BLOCKED_CHAIN_INVALID"
+    )
     REMEDIATION_TECHNICALLY_AVAILABLE = "REMEDIATION_TECHNICALLY_AVAILABLE"
     REBUILD_PROVENANCE_AUTHORIZED = "REBUILD_PROVENANCE_AUTHORIZED"
     REBUILD_PROVENANCE_NOT_AUTHORIZED = "REBUILD_PROVENANCE_NOT_AUTHORIZED"
@@ -52,7 +64,9 @@ class RebuildProvenanceQuarantineDecisionStatus(str, Enum):
 @dataclass(slots=True)
 class RebuildProvenanceQuarantineDecisionConfig:
     root: Path = Path(".")
-    output_dir: Path = Path("assurance/evidence/programbench_rebuild_provenance_quarantine_decisions")
+    output_dir: Path = Path(
+        "assurance/evidence/programbench_rebuild_provenance_quarantine_decisions"
+    )
     target_image: str = ""
     target_digest: str = ""
 
@@ -64,7 +78,9 @@ class ProgramBenchRebuildProvenanceQuarantineDecision:
     def decide(self, recipe_provenance_recovery_path: Path) -> dict[str, Any]:
         recovery_path = self._resolve(recipe_provenance_recovery_path)
         recovery = _read_json(recovery_path) if recovery_path.is_file() else {}
-        if not recovery_path.is_file() or not verify_cleanroom_recipe_provenance_recovery_record(recovery):
+        if not recovery_path.is_file() or not verify_cleanroom_recipe_provenance_recovery_record(
+            recovery
+        ):
             return self._write_blocked(
                 status=RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED_NO_RECOVERY.value,
                 decision=RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED.value,
@@ -102,13 +118,29 @@ class ProgramBenchRebuildProvenanceQuarantineDecision:
                 reasons=chain_reasons,
             )
 
-        gap_closure = recovery.get("gap_closure") if isinstance(recovery.get("gap_closure"), dict) else {}
-        go = recovery.get("go_remediation") if isinstance(recovery.get("go_remediation"), dict) else {}
-        fidelity = recovery.get("fidelity_assessment") if isinstance(recovery.get("fidelity_assessment"), dict) else {}
+        gap_closure = (
+            recovery.get("gap_closure") if isinstance(recovery.get("gap_closure"), dict) else {}
+        )
+        go = (
+            recovery.get("go_remediation")
+            if isinstance(recovery.get("go_remediation"), dict)
+            else {}
+        )
+        fidelity = (
+            recovery.get("fidelity_assessment")
+            if isinstance(recovery.get("fidelity_assessment"), dict)
+            else {}
+        )
         original_closed = bool(gap_closure.get("original_cleanroom_build_recipe_closed"))
         base_closed = bool(gap_closure.get("pinned_base_image_digest_closed"))
-        go_available = bool(gap_closure.get("go_runtime_update_plan_available") or go.get("compatible_with_recovered_recipe"))
-        material_risk = bool(fidelity.get("material_change_requires_review") or str(fidelity.get("fidelity_risk") or "") == "material")
+        go_available = bool(
+            gap_closure.get("go_runtime_update_plan_available")
+            or go.get("compatible_with_recovered_recipe")
+        )
+        material_risk = bool(
+            fidelity.get("material_change_requires_review")
+            or str(fidelity.get("fidelity_risk") or "") == "material"
+        )
         recovery_decision = str(recovery.get("decision") or "")
 
         status = self._decision_status(original_closed, base_closed, recovery_decision)
@@ -131,9 +163,13 @@ class ProgramBenchRebuildProvenanceQuarantineDecision:
             RebuildProvenanceQuarantineDecisionStatus.TRAINING_INELIGIBLE.value,
         ]
         if not original_closed:
-            decision_statuses.append(RebuildProvenanceQuarantineDecisionStatus.ORIGINAL_RECIPE_GAP_OPEN.value)
+            decision_statuses.append(
+                RebuildProvenanceQuarantineDecisionStatus.ORIGINAL_RECIPE_GAP_OPEN.value
+            )
         if not base_closed:
-            decision_statuses.append(RebuildProvenanceQuarantineDecisionStatus.PINNED_BASE_IMAGE_DIGEST_GAP_OPEN.value)
+            decision_statuses.append(
+                RebuildProvenanceQuarantineDecisionStatus.PINNED_BASE_IMAGE_DIGEST_GAP_OPEN.value
+            )
 
         record = make_rebuild_provenance_quarantine_decision_record(
             status=status,
@@ -154,7 +190,9 @@ class ProgramBenchRebuildProvenanceQuarantineDecision:
                 "remediation_technically_possible": go_available,
                 "rebuild_provenance_authorized": bool(original_closed and base_closed),
                 "material_fidelity_change_candidate": material_risk,
-                "partial_provenance_is_sufficient_for_rebuild": False if not (original_closed and base_closed) else True,
+                "partial_provenance_is_sufficient_for_rebuild": False
+                if not (original_closed and base_closed)
+                else True,
             },
             authorization=_authorization(rebuild_provenance_ready=original_closed and base_closed),
             required_next_evidence=_required_next_evidence(original_closed, base_closed),
@@ -162,17 +200,25 @@ class ProgramBenchRebuildProvenanceQuarantineDecision:
             cache_ready=False,
             executable=False,
         )
-        path = write_rebuild_provenance_quarantine_decision_record(record, self._resolve(self.config.output_dir))
+        path = write_rebuild_provenance_quarantine_decision_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
-    def _decision_status(self, original_closed: bool, base_closed: bool, recovery_decision: str) -> str:
+    def _decision_status(
+        self, original_closed: bool, base_closed: bool, recovery_decision: str
+    ) -> str:
         if original_closed and base_closed:
             return RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_READY.value
         if recovery_decision == "REBUILD_PROVENANCE_BLOCKED":
-            return RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED.value
+            return (
+                RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_BLOCKED.value
+            )
         if original_closed or base_closed:
             return RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.value
-        return RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.value
+        return (
+            RebuildProvenanceQuarantineDecisionStatus.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.value
+        )
 
     def _validate_chain(self, recovery: dict[str, Any]) -> tuple[bool, list[str]]:
         errors: list[str] = []
@@ -190,7 +236,11 @@ class ProgramBenchRebuildProvenanceQuarantineDecision:
             errors.append("provenance_gap_missing_or_invalid")
         image = str(recovery.get("image_reference") or "")
         digest = str(recovery.get("image_digest") or "")
-        for name, record in (("remediation_plan", plan), ("build_recipe_recovery", recipe), ("provenance_gap", gap)):
+        for name, record in (
+            ("remediation_plan", plan),
+            ("build_recipe_recovery", recipe),
+            ("provenance_gap", gap),
+        ):
             if record and str(record.get("image_reference") or "") != image:
                 errors.append(f"{name}_image_mismatch")
             if record and str(record.get("image_digest") or "") != digest:
@@ -240,7 +290,9 @@ class ProgramBenchRebuildProvenanceQuarantineDecision:
             cache_ready=False,
             executable=False,
         )
-        path = write_rebuild_provenance_quarantine_decision_record(record, self._resolve(self.config.output_dir))
+        path = write_rebuild_provenance_quarantine_decision_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _resolve(self, path: Path) -> Path:
@@ -269,11 +321,15 @@ def _required_next_evidence(original_closed: bool, base_closed: bool) -> list[st
     if not base_closed:
         needed.append("pinned_base_image_digest")
     if not needed:
-        needed.extend(["image_rebuild_provenance_lock", "remediated_scan_evidence", "hydration_policy_pass"])
+        needed.extend(
+            ["image_rebuild_provenance_lock", "remediated_scan_evidence", "hydration_policy_pass"]
+        )
     return needed
 
 
-def _decision_reasons(original_closed: bool, base_closed: bool, go_available: bool, material_risk: bool) -> list[str]:
+def _decision_reasons(
+    original_closed: bool, base_closed: bool, go_available: bool, material_risk: bool
+) -> list[str]:
     reasons: list[str] = []
     if go_available:
         reasons.append("go_runtime_remediation_technically_available")
@@ -304,10 +360,16 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Write a ProgramBench rebuild provenance quarantine decision.")
+    parser = argparse.ArgumentParser(
+        description="Write a ProgramBench rebuild provenance quarantine decision."
+    )
     parser.add_argument("recipe_provenance_recovery", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_rebuild_provenance_quarantine_decisions"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_rebuild_provenance_quarantine_decisions"),
+    )
     parser.add_argument("--target-image", default="")
     parser.add_argument("--target-digest", default="")
     args = parser.parse_args()

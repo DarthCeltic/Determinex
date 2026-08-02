@@ -1,12 +1,10 @@
 """Tests for FRONTEND_HUMAN_APPROVAL_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 import re
-import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 PANEL = _REPO_ROOT / "frontend" / "src" / "components" / "ide-repair" / "HumanApprovalPanel.tsx"
@@ -14,24 +12,37 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_HUMAN_APPROVAL_PANEL_L
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_human_approval_panel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-STATUS_TOKENS = frozenset({
-    "HUMAN_APPROVAL_PANEL_READY",
-    "HUMAN_APPROVAL_RISK_COPY_VISIBLE",
-    "HUMAN_APPROVAL_REJECT_AVAILABLE",
-    "HUMAN_APPROVAL_SOURCE_MUTATION_STILL_GATED",
-    "HUMAN_APPROVAL_BLOCKERS_VISIBLE",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "HUMAN_APPROVAL_PANEL_READY",
+        "HUMAN_APPROVAL_RISK_COPY_VISIBLE",
+        "HUMAN_APPROVAL_REJECT_AVAILABLE",
+        "HUMAN_APPROVAL_SOURCE_MUTATION_STILL_GATED",
+        "HUMAN_APPROVAL_BLOCKERS_VISIBLE",
+    }
+)
 
 REQUIRED_COPY_KEYS = (
-    "diagnosis_advisory", "patch_plan_untrusted", "verifier_result_explanation",
-    "temp_workspace_explanation", "source_mutation_warning",
-    "approval_consequences", "reject_option", "evidence_trail_explanation",
-    "training_eligibility_notice", "live_model_disclaimer", "no_blind_approval",
+    "diagnosis_advisory",
+    "patch_plan_untrusted",
+    "verifier_result_explanation",
+    "temp_workspace_explanation",
+    "source_mutation_warning",
+    "approval_consequences",
+    "reject_option",
+    "evidence_trail_explanation",
+    "training_eligibility_notice",
+    "live_model_disclaimer",
+    "no_blind_approval",
 )
 
 FORBIDDEN_HYPE = (
-    "always correct", "guaranteed to work", "risk-free",
-    "trust the AI", "blindly approve", "no need to read",
+    "always correct",
+    "guaranteed to work",
+    "risk-free",
+    "trust the AI",
+    "blindly approve",
+    "no need to read",
 )
 
 

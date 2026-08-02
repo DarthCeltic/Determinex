@@ -17,6 +17,7 @@ Requires: GITHUB_TOKEN env var (optional but avoids rate limits)
 # Date: 2026-06-07
 # Do not edit manually — re-run pb_candidate_score.py to regenerate
 """
+
 from __future__ import annotations
 
 import argparse
@@ -24,9 +25,9 @@ import json
 import math
 import os
 import time
-import urllib.request
 import urllib.error
-from datetime import datetime, timezone
+import urllib.request
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -76,7 +77,7 @@ def compute_score(meta: dict) -> float:
     if updated_at:
         try:
             updated = datetime.fromisoformat(updated_at.replace("Z", "+00:00"))
-            age_days = (datetime.now(timezone.utc) - updated).days
+            age_days = (datetime.now(UTC) - updated).days
             if age_days < 730:
                 score += 1
         except Exception:
@@ -102,7 +103,7 @@ def score_candidates(candidates: list[dict], top_n: int, dry_run: bool) -> list[
     scored = []
     for i, c in enumerate(to_score):
         owner, repo = c["owner"], c["repo"]
-        print(f"  [{i+1}/{len(to_score)}] {owner}/{repo}...", end=" ", flush=True)
+        print(f"  [{i + 1}/{len(to_score)}] {owner}/{repo}...", end=" ", flush=True)
 
         if dry_run:
             print("(dry-run)")
@@ -138,26 +139,32 @@ def score_candidates(candidates: list[dict], top_n: int, dry_run: bool) -> list[
 
 def print_table(scored: list[dict], top_n: int = 20) -> None:
     rows = scored[:top_n]
-    print(f"\n{'-'*90}")
+    print(f"\n{'-' * 90}")
     print(f"{'Tool':<24} {'Language':<10} {'Stars':>6} {'Score':>6}  Description")
-    print(f"{'-'*90}")
+    print(f"{'-' * 90}")
     for c in rows:
         name = c["name"][:23]
         lang = (c["language"] or "?")[:9]
         stars = c.get("stars") or 0
-        star_str = f"{stars/1000:.0f}k" if stars >= 1000 else str(stars)
+        star_str = f"{stars / 1000:.0f}k" if stars >= 1000 else str(stars)
         score = c.get("candidate_score") or 0
         desc = (c.get("description") or "")[:45]
         print(f"{name:<24} {lang:<10} {star_str:>6} {score:>6.1f}  {desc}")
-    print(f"{'-'*90}")
+    print(f"{'-' * 90}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Score CLI tool candidates via GitHub API")
-    parser.add_argument("--input", type=Path, help="Input candidates JSON (default: tbsk_candidates.json)")
+    parser.add_argument(
+        "--input", type=Path, help="Input candidates JSON (default: tbsk_candidates.json)"
+    )
     parser.add_argument("--output", type=Path, help="Output scored JSON path")
-    parser.add_argument("--top", type=int, default=50, help="Number of candidates to score (default: 50)")
-    parser.add_argument("--print-top", type=int, default=20, help="Rows to print in table (default: 20)")
+    parser.add_argument(
+        "--top", type=int, default=50, help="Number of candidates to score (default: 50)"
+    )
+    parser.add_argument(
+        "--print-top", type=int, default=20, help="Rows to print in table (default: 20)"
+    )
     parser.add_argument("--dry-run", action="store_true", help="Skip GitHub API calls")
     args = parser.parse_args()
 
@@ -180,7 +187,7 @@ def main() -> None:
             c.update(scored_urls[key])
 
     result = {
-        "extracted_at": datetime.now(timezone.utc).isoformat(),
+        "extracted_at": datetime.now(UTC).isoformat(),
         "source": data.get("source", source.name),
         "total_extracted": data.get("total_extracted", len(candidates)),
         "already_in_pb200": data.get("already_in_pb200", 0),
@@ -196,9 +203,11 @@ def main() -> None:
     print_table(scored, top_n=args.print_top)
 
     top = scored[0] if scored else {}
-    print(f"\nTop candidate: {top.get('name', '?')} "
-          f"({top.get('stars', 0)} stars, {top.get('language', '?')}, "
-          f"score {top.get('candidate_score', 0)})")
+    print(
+        f"\nTop candidate: {top.get('name', '?')} "
+        f"({top.get('stars', 0)} stars, {top.get('language', '?')}, "
+        f"score {top.get('candidate_score', 0)})"
+    )
 
 
 if __name__ == "__main__":

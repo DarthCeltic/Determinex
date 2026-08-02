@@ -27,17 +27,15 @@ Usage:
     python scripts/rosetta_healthcheck.py
     python scripts/rosetta_healthcheck.py --json logs/rosetta_healthcheck_latest.json
 """
+
 from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Optional
-
 
 # ---------------------------------------------------------------------------
 # Path bootstrap
@@ -54,8 +52,8 @@ if hasattr(sys.stdout, "reconfigure"):
 # Status object
 # ---------------------------------------------------------------------------
 
-ACTIVE     = "ACTIVE"
-UNAVAIL    = "UNAVAILABLE WITH REASON"
+ACTIVE = "ACTIVE"
+UNAVAIL = "UNAVAILABLE WITH REASON"
 DESIGN_ONLY = "NOT IMPLEMENTED BY DESIGN"
 
 
@@ -74,13 +72,16 @@ class CheckResult:
 # Checks
 # ---------------------------------------------------------------------------
 
+
 def check_dsl_control_plane() -> CheckResult:
     """Layer 1: the DSL control plane is the text-format protocol between agents.
     Considered ACTIVE if the package and a representative module import."""
     try:
         import rosetta  # noqa: F401
+
         # scripts/hive/* houses the DSL parser; touch it
         from scripts.hive import constants as _c  # noqa: F401
+
         return CheckResult(
             name="Layer 1 — DSL control plane",
             status=ACTIVE,
@@ -102,6 +103,7 @@ def check_layer2a_text_bridge() -> CheckResult:
     try:
         # Module is at scripts/rosetta_text_bridge.py — import via its module path
         import importlib.util
+
         spec = importlib.util.spec_from_file_location(
             "rosetta_text_bridge_mod",
             str(REPO_ROOT / "scripts" / "rosetta_text_bridge.py"),
@@ -144,6 +146,7 @@ def check_layer2b_softprefix() -> CheckResult:
     # llama-cpp-python
     try:
         import llama_cpp  # noqa: F401
+
         extra["llama_cpp"] = True
     except ImportError:
         return CheckResult(
@@ -154,7 +157,8 @@ def check_layer2b_softprefix() -> CheckResult:
         )
     # At least one model in the registry has a resolvable GGUF
     try:
-        from rosetta.model_registry import ARCHES, current_family
+        from rosetta.model_registry import current_family
+
         family = current_family()
         with_gguf = {role: m.name for role, m in family.items() if m.gguf_path}
         extra["models_with_gguf"] = with_gguf
@@ -183,9 +187,11 @@ def check_layer2b_softprefix() -> CheckResult:
 def check_layer2c_latent_memory() -> CheckResult:
     """Layer 2C: latent memory / hidden-state RAG."""
     try:
-        from rosetta.latent_memory import LatentMemory
         # Use a transient db so we don't disturb anything
         import tempfile
+
+        from rosetta.latent_memory import LatentMemory
+
         with tempfile.TemporaryDirectory() as td:
             lm = LatentMemory(db_path=Path(td) / "_healthcheck.db")
             try:
@@ -210,6 +216,7 @@ def check_layer3_kv_broadcast() -> CheckResult:
     """Layer 3: KV-cache broadcast. Always reports NOT IMPLEMENTED BY DESIGN."""
     try:
         from rosetta.kv_broadcast import status
+
         st = status()
         return CheckResult(
             name="Layer 3 — KV-cache broadcast",
@@ -257,8 +264,12 @@ def check_model_arch_alignment() -> CheckResult:
     """Every registered model must map to a registered arch key with matching dim."""
     try:
         from rosetta.model_registry import (
-            ARCHES, MODELS, get_arch, supported_arches, snapshot,
+            ARCHES,
+            MODELS,
+            get_arch,
+            supported_arches,
         )
+
         problems: list[str] = []
         for name, m in MODELS.items():
             if m.rosetta_arch not in ARCHES:
@@ -298,6 +309,7 @@ def check_rosetta_stone_supported_arches() -> CheckResult:
     """
     try:
         from rosetta.model_registry import ARCHES, current_family
+
         # Don't import torch in this process unless needed
         try:
             from rosetta.train_rosetta import RosettaStone
@@ -308,15 +320,15 @@ def check_rosetta_stone_supported_arches() -> CheckResult:
                 detail=f"train_rosetta import failed: {e}",
             )
         # Some builds expose a class attribute, some a classmethod. Try both.
-        sup: Optional[set] = None
+        sup: set | None = None
         if hasattr(RosettaStone, "supported_arches"):
-            sa = getattr(RosettaStone, "supported_arches")
+            sa = RosettaStone.supported_arches
             try:
                 sup = set(sa() if callable(sa) else sa)
             except TypeError:
                 sup = None
         if sup is None and hasattr(RosettaStone, "FAMILY_DIMS"):
-            sup = set(getattr(RosettaStone, "FAMILY_DIMS").keys())
+            sup = set(RosettaStone.FAMILY_DIMS.keys())
         # If we still can't tell, report unknown
         if sup is None:
             return CheckResult(
@@ -331,7 +343,9 @@ def check_rosetta_stone_supported_arches() -> CheckResult:
         for arch in family_arches:
             arch_spec = ARCHES.get(arch)
             family = arch_spec.family if arch_spec is not None else arch.split("_", 1)[0]
-            legacy_family = {"qwen2": "qwen", "mistral": "mistral", "llama3": "llama"}.get(family, family)
+            legacy_family = {"qwen2": "qwen", "mistral": "mistral", "llama3": "llama"}.get(
+                family, family
+            )
             if arch not in sup and family not in sup and legacy_family not in sup:
                 missing.append(arch)
         if missing:
@@ -344,7 +358,7 @@ def check_rosetta_stone_supported_arches() -> CheckResult:
         return CheckResult(
             name="RosettaStone.supported_arches",
             status=ACTIVE,
-            detail=f"RosettaStone covers all current-family arches",
+            detail="RosettaStone covers all current-family arches",
             extra={"stone_arches": sorted(sup), "family_arches": sorted(family_arches)},
         )
     except Exception as e:
@@ -360,10 +374,15 @@ def check_dimension_routing_self() -> CheckResult:
     qwen2_7b expects 3584, hand it a 1536-dim tensor, RosettaDimensionMismatch fires."""
     try:
         from rosetta.model_registry import (
-            require_model, validate_hidden_dim, RosettaDimensionMismatch,
+            RosettaDimensionMismatch,
+            require_model,
+            validate_hidden_dim,
         )
+
         class _Shape:
-            def __init__(self, *shape): self.shape = shape
+            def __init__(self, *shape):
+                self.shape = shape
+
         arch = require_model("architect")  # qwen2_7b, dim=3584
         try:
             validate_hidden_dim(arch, _Shape(1, 1536), target_model="engineer")
@@ -433,10 +452,17 @@ def render_table(results: list[CheckResult]) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Determinex Rosetta subsystem healthcheck")
-    ap.add_argument("--json", type=Path, default=None,
-                    help="write JSON report to this path (e.g. logs/rosetta_healthcheck_latest.json)")
-    ap.add_argument("--strict", action="store_true",
-                    help="exit nonzero if any layer is UNAVAILABLE (default: only crash exits nonzero)")
+    ap.add_argument(
+        "--json",
+        type=Path,
+        default=None,
+        help="write JSON report to this path (e.g. logs/rosetta_healthcheck_latest.json)",
+    )
+    ap.add_argument(
+        "--strict",
+        action="store_true",
+        help="exit nonzero if any layer is UNAVAILABLE (default: only crash exits nonzero)",
+    )
     args = ap.parse_args()
 
     results = run_all()

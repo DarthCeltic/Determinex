@@ -8,11 +8,13 @@ Reads all eval.json files on disk + Hetzner-cached, produces:
   - Tools missing eval.json entirely (infra failures)
   - Aggregate avg score
 """
+
 from __future__ import annotations
+
 import glob
 import json
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 
 ROOT = Path("T:/determinex-programbench")
 
@@ -53,11 +55,16 @@ def main():
     print("Bucket distribution:")
     buckets = Counter()
     for _, (p, t, pct) in ranked:
-        if pct >= 95: buckets["95-100%"] += 1
-        elif pct >= 70: buckets["70-94%"] += 1
-        elif pct >= 40: buckets["40-69%"] += 1
-        elif pct >= 10: buckets["10-39%"] += 1
-        else: buckets["0-9%"] += 1
+        if pct >= 95:
+            buckets["95-100%"] += 1
+        elif pct >= 70:
+            buckets["70-94%"] += 1
+        elif pct >= 40:
+            buckets["40-69%"] += 1
+        elif pct >= 10:
+            buckets["10-39%"] += 1
+        else:
+            buckets["0-9%"] += 1
     for b in ("95-100%", "70-94%", "40-69%", "10-39%", "0-9%"):
         print(f"  {b}: {buckets[b]}")
 
@@ -65,7 +72,9 @@ def main():
     total_tests = sum(t for _, t, _ in tools_scored.values())
     avg_score = sum(pct for _, _, pct in tools_scored.values()) / len(tools_scored)
     print()
-    print(f"Aggregate: {total_pass}/{total_tests} = {100*total_pass/total_tests:.2f}% (weighted)")
+    print(
+        f"Aggregate: {total_pass}/{total_tests} = {100 * total_pass / total_tests:.2f}% (weighted)"
+    )
     print(f"Average per-tool: {avg_score:.2f}%")
     print()
 

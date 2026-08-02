@@ -44,9 +44,11 @@ def _format_item(kind: str, item: dict[str, Any]) -> str:
         code_str = f" [{code}]" if code else ""
         return f"  [{sev}]{code_str} {file_}:{line}: {msg}"
     if kind == "divergence":
-        return f"  divergence @ {item.get('divergence_point','?')}: {item.get('stack','')[:120]}"
+        return f"  divergence @ {item.get('divergence_point', '?')}: {item.get('stack', '')[:120]}"
     if kind == "syscall_diff":
-        return f"  first-diff syscall: {item.get('first_diff','?')} — {item.get('summary','')[:120]}"
+        return (
+            f"  first-diff syscall: {item.get('first_diff', '?')} — {item.get('summary', '')[:120]}"
+        )
     return str(item)
 
 

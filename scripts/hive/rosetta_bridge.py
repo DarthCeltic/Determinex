@@ -35,7 +35,7 @@ from __future__ import annotations
 import logging
 import threading
 from pathlib import Path
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     import torch
@@ -46,17 +46,26 @@ log = logging.getLogger("hive")
 # Keys match the Ollama model names resolved by litellm_config.yaml.
 # Paths are derived from DETERMINEX_MODELS_DIR env var; set it to override.
 import os as _os
-_MODELS_BASE = Path(_os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models")))
+
+_MODELS_BASE = Path(
+    _os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models"))
+)
 _GGUF_PATH_DEFAULTS: dict[str, str] = {
     # Current production models (April 27, 2026)
-    "determinex-engineer-v11-dsl": str(Path("T:/determinex-models/versions/engineer/v11-dsl/determinex-engineer-v11-dsl.gguf")),
-    "determinex-observer-v6-dsl":  str(Path("T:/determinex-models/versions/observer/v6-dsl/determinex-observer-v6-dsl.gguf")),
-    "determinex-sentinel-v5-dsl":  str(Path("T:/determinex-models/versions/sentinel/v5-dsl/determinex-sentinel-v5-dsl.gguf")),
+    "determinex-engineer-v11-dsl": str(
+        Path("T:/determinex-models/versions/engineer/v11-dsl/determinex-engineer-v11-dsl.gguf")
+    ),
+    "determinex-observer-v6-dsl": str(
+        Path("T:/determinex-models/versions/observer/v6-dsl/determinex-observer-v6-dsl.gguf")
+    ),
+    "determinex-sentinel-v5-dsl": str(
+        Path("T:/determinex-models/versions/sentinel/v5-dsl/determinex-sentinel-v5-dsl.gguf")
+    ),
     # Legacy fallbacks
     "determinex-3-medium-v1.1": str(_MODELS_BASE / "determinex-observer-v4.gguf"),
-    "determinex-observer-v4":   str(_MODELS_BASE / "determinex-observer-v4.gguf"),
-    "determinex-1-tiny-v1.1":   str(_MODELS_BASE / "determinex-engineer-v9.gguf"),
-    "determinex-engineer-v9":   str(_MODELS_BASE / "determinex-engineer-v9.gguf"),
+    "determinex-observer-v4": str(_MODELS_BASE / "determinex-observer-v4.gguf"),
+    "determinex-1-tiny-v1.1": str(_MODELS_BASE / "determinex-engineer-v9.gguf"),
+    "determinex-engineer-v9": str(_MODELS_BASE / "determinex-engineer-v9.gguf"),
 }
 
 # Rosetta Stone file location
@@ -73,24 +82,24 @@ _ROSETTA_PT_DEFAULT = Path.home() / ".determinex" / "rosetta" / "rosetta_v1.pt"
 _OLLAMA_TO_ARCH: dict[str, str] = {
     # Current production models — April 27, 2026
     # rosetta_v1.pt (T:/determinex-models/rosetta/rosetta_v1.pt, 1.678GB, 7 arches)
-    "determinex-engineer-v11-dsl":  "qwen2_1b5",   # Qwen2.5-Coder-1.5B, dim=1536
-    "determinex-observer-v6-dsl":   "qwen2_3b",    # Qwen2.5-Coder-3B,   dim=2048
-    "determinex-sentinel-v5-dsl":   "mistral_7b",  # Mistral-7B,         dim=4096
-    "qwen2.5-coder:7b-instruct": "qwen2_7b",    # Qwen2.5-Coder-7B,   dim=3584
+    "determinex-engineer-v11-dsl": "qwen2_1b5",  # Qwen2.5-Coder-1.5B, dim=1536
+    "determinex-observer-v6-dsl": "qwen2_3b",  # Qwen2.5-Coder-3B,   dim=2048
+    "determinex-sentinel-v5-dsl": "mistral_7b",  # Mistral-7B,         dim=4096
+    "qwen2.5-coder:7b-instruct": "qwen2_7b",  # Qwen2.5-Coder-7B,   dim=3584
     # Previous versions
-    "determinex-engineer-v10-dsl":  "qwen2_1b5",
-    "determinex-observer-v5-dsl":   "qwen2_3b",
-    "determinex-sentinel-v3":       "mistral_7b",
+    "determinex-engineer-v10-dsl": "qwen2_1b5",
+    "determinex-observer-v5-dsl": "qwen2_3b",
+    "determinex-sentinel-v3": "mistral_7b",
     # Legacy
-    "determinex-3-medium-v1.1":     "qwen2_3b",
-    "determinex-observer-v4":       "qwen2_3b",
-    "determinex-1-tiny-v1.1":       "qwen2_1b5",
-    "determinex-engineer-v9":       "qwen2_1b5",
-    "determinex-sentinel-v2":       "qwen2_7b",
+    "determinex-3-medium-v1.1": "qwen2_3b",
+    "determinex-observer-v4": "qwen2_3b",
+    "determinex-1-tiny-v1.1": "qwen2_1b5",
+    "determinex-engineer-v9": "qwen2_1b5",
+    "determinex-sentinel-v2": "qwen2_7b",
 }
 
 
-def _resolve_arch_for(ollama_name: str) -> Optional[str]:
+def _resolve_arch_for(ollama_name: str) -> str | None:
     """Resolve a Rosetta arch key for an Ollama model name.
 
     Registry wins. Hardcoded legacy map is the fallback. Returns None only when
@@ -98,6 +107,7 @@ def _resolve_arch_for(ollama_name: str) -> Optional[str]:
     """
     try:
         from rosetta.model_registry import resolve_model
+
         m = resolve_model(ollama_name)
         if m is not None:
             return m.rosetta_arch
@@ -106,7 +116,7 @@ def _resolve_arch_for(ollama_name: str) -> Optional[str]:
     return _OLLAMA_TO_ARCH.get(ollama_name)
 
 
-def _ollama_name_from_alias(litellm_model_string: str) -> Optional[str]:
+def _ollama_name_from_alias(litellm_model_string: str) -> str | None:
     """
     Extract the bare Ollama model name from a litellm model string.
     Examples:
@@ -115,14 +125,14 @@ def _ollama_name_from_alias(litellm_model_string: str) -> Optional[str]:
       "deepseek/deepseek-chat"       → None  (not a local model)
     """
     if litellm_model_string.startswith("ollama/"):
-        return litellm_model_string[len("ollama/"):]
+        return litellm_model_string[len("ollama/") :]
     # Bare Ollama names (no provider prefix) are also local
     if "/" not in litellm_model_string:
         return litellm_model_string
     return None
 
 
-def _gguf_path_for_ollama(ollama_name: str) -> Optional[Path]:
+def _gguf_path_for_ollama(ollama_name: str) -> Path | None:
     """
     Resolve GGUF path for an Ollama model name.
     Priority: Determinex registry → hard-coded fallback map → None.
@@ -130,6 +140,7 @@ def _gguf_path_for_ollama(ollama_name: str) -> Optional[Path]:
     # 1. Try the Determinex model registry
     try:
         from determinex_rosetta import get_model
+
         entry = get_model(ollama_name)
         if entry and entry.get("path") and Path(entry["path"]).exists():
             return Path(entry["path"])
@@ -147,16 +158,16 @@ def _gguf_path_for_ollama(ollama_name: str) -> Optional[Path]:
 
 
 # ── Singleton management ──────────────────────────────────────────────────────
-_bridge_lock  = threading.Lock()
+_bridge_lock = threading.Lock()
 _bridge_cache: dict[str, object] = {}  # path → DeterminexInference instance
-_stone_cache:  dict[Path, object] = {} # path → RosettaStone instance
-_unavailable:  set[str]           = set()  # keys that failed — skip silently
+_stone_cache: dict[Path, object] = {}  # path → RosettaStone instance
+_unavailable: set[str] = set()  # keys that failed — skip silently
 
 
 _ROSETTA_NPZ_DEFAULT = Path.home() / ".determinex" / "rosetta" / "npz"
 
 
-def _load_npz_stone() -> Optional[object]:
+def _load_npz_stone() -> object | None:
     """Torch-free projector over exported .npz shards, if any are present.
 
     Preferred over the 1.68 GB .pt for one decisive reason: the shipped engine
@@ -184,7 +195,8 @@ def _load_npz_stone() -> Optional[object]:
             _stone_cache[_ROSETTA_NPZ_DEFAULT] = stone
         log.info(
             "[Rosetta] npz shards loaded (torch-free): %s arches=%s",
-            _ROSETTA_NPZ_DEFAULT, stone.supported_arches(),
+            _ROSETTA_NPZ_DEFAULT,
+            stone.supported_arches(),
         )
         return stone
     except FileNotFoundError:
@@ -200,7 +212,7 @@ def _load_npz_stone() -> Optional[object]:
         return None
 
 
-def _load_stone(stone_path: Path = _ROSETTA_PT_DEFAULT) -> Optional[object]:
+def _load_stone(stone_path: Path = _ROSETTA_PT_DEFAULT) -> object | None:
     """Load and cache a projector. Returns None if none is available.
 
     Order is deliberate: npz first (works everywhere, including the packaged
@@ -219,31 +231,31 @@ def _load_stone(stone_path: Path = _ROSETTA_PT_DEFAULT) -> Optional[object]:
 
     try:
         from determinex_rosetta import RosettaStone
+
         stone = RosettaStone.load(stone_path, verify=True)
         with _bridge_lock:
             _stone_cache[stone_path] = stone
-        log.info("[Rosetta] Stone loaded: %s  arches=%s",
-                 stone_path.name, stone.supported_arches())
+        log.info("[Rosetta] Stone loaded: %s  arches=%s", stone_path.name, stone.supported_arches())
         return stone
     except FileNotFoundError:
         log.warning(
             "[Rosetta] No projector available. Neither .npz shards at %s nor a "
             "checkpoint at %s. Fetch the shards (92-134 MB per architecture, no "
             "torch needed) with:  python scripts/rosetta_hub.py pull --arch qwen2_1b5",
-            _ROSETTA_NPZ_DEFAULT, stone_path,
+            _ROSETTA_NPZ_DEFAULT,
+            stone_path,
         )
         with _bridge_lock:
             _unavailable.add(str(stone_path))
         return None
     except Exception as e:
-        log.warning("[Rosetta] Stone failed to load (%s) — bridge disabled: %s",
-                    stone_path.name, e)
+        log.warning("[Rosetta] Stone failed to load (%s) — bridge disabled: %s", stone_path.name, e)
         with _bridge_lock:
             _unavailable.add(str(stone_path))
         return None
 
 
-def _load_inference(gguf_path: Path, arch: str) -> Optional[object]:
+def _load_inference(gguf_path: Path, arch: str) -> object | None:
     """Load and cache a DeterminexInference instance. Returns None if unavailable."""
     key = str(gguf_path)
     with _bridge_lock:
@@ -254,10 +266,11 @@ def _load_inference(gguf_path: Path, arch: str) -> Optional[object]:
 
     try:
         from determinex_inference import DeterminexInference
+
         inf = DeterminexInference(
             gguf_path=gguf_path,
             arch_name=arch,
-            n_ctx=512,        # minimal context — we only need hidden states, not generation
+            n_ctx=512,  # minimal context — we only need hidden states, not generation
             n_gpu_layers=-1,  # offload everything available
         )
         with _bridge_lock:
@@ -265,20 +278,25 @@ def _load_inference(gguf_path: Path, arch: str) -> Optional[object]:
         log.info("[Rosetta] DeterminexInference loaded: %s (arch=%s)", gguf_path.name, arch)
         return inf
     except ImportError:
-        log.info("[Rosetta] llama-cpp-python not installed — "
-                 "Rosetta bridge disabled (install llama-cpp-python to enable)")
+        log.info(
+            "[Rosetta] llama-cpp-python not installed — "
+            "Rosetta bridge disabled (install llama-cpp-python to enable)"
+        )
         with _bridge_lock:
             _unavailable.add(key)
         return None
     except Exception as e:
-        log.warning("[Rosetta] DeterminexInference failed to load %s: %s — bridge disabled",
-                    gguf_path.name, e)
+        log.warning(
+            "[Rosetta] DeterminexInference failed to load %s: %s — bridge disabled",
+            gguf_path.name,
+            e,
+        )
         with _bridge_lock:
             _unavailable.add(key)
         return None
 
 
-def _load_embedding_model(gguf_path: Path) -> Optional[object]:
+def _load_embedding_model(gguf_path: Path) -> object | None:
     """
     Stratagem 3: Load a llama-cpp-python Llama instance in embedding mode.
 
@@ -300,9 +318,10 @@ def _load_embedding_model(gguf_path: Path) -> Optional[object]:
 
     try:
         from llama_cpp import Llama
+
         model = Llama(
             model_path=str(gguf_path),
-            embedding=True,      # full forward pass → pooled last-layer activation
+            embedding=True,  # full forward pass → pooled last-layer activation
             n_ctx=512,
             n_gpu_layers=-1,
             verbose=False,
@@ -332,30 +351,35 @@ class RosettaBridge:
 
     def __init__(
         self,
-        builder_model:  str,  # resolved litellm model string (e.g. "ollama/determinex-engineer-v10-dsl")
-        monitor_model:  str,  # resolved litellm model string
-        stone_path:     Path = _ROSETTA_PT_DEFAULT,
+        builder_model: str,  # resolved litellm model string (e.g. "ollama/determinex-engineer-v10-dsl")
+        monitor_model: str,  # resolved litellm model string
+        stone_path: Path = _ROSETTA_PT_DEFAULT,
     ):
-        self._available    = False
-        self._stone        = None
-        self._builder_inf  = None
-        self._monitor_inf  = None
-        self._monitor_emb  = None   # Stratagem 3: embedding-mode model for activation extraction
-        self._builder_arch: Optional[str] = None
-        self._monitor_arch: Optional[str] = None
+        self._available = False
+        self._stone = None
+        self._builder_inf = None
+        self._monitor_inf = None
+        self._monitor_emb = None  # Stratagem 3: embedding-mode model for activation extraction
+        self._builder_arch: str | None = None
+        self._monitor_arch: str | None = None
 
         # Only attempt wiring for local (Ollama) models
         builder_ollama = _ollama_name_from_alias(builder_model)
         monitor_ollama = _ollama_name_from_alias(monitor_model)
 
         if not builder_ollama or not monitor_ollama:
-            log.debug("[Rosetta] Bridge skipped: one or both models are API-backed "
-                      "(builder=%s, monitor=%s)", builder_model, monitor_model)
+            log.debug(
+                "[Rosetta] Bridge skipped: one or both models are API-backed "
+                "(builder=%s, monitor=%s)",
+                builder_model,
+                monitor_model,
+            )
             return
 
         if builder_ollama == monitor_ollama:
-            log.debug("[Rosetta] Bridge skipped: same model for builder and monitor (%s)",
-                      builder_ollama)
+            log.debug(
+                "[Rosetta] Bridge skipped: same model for builder and monitor (%s)", builder_ollama
+            )
             return
 
         # Resolve GGUF paths
@@ -363,10 +387,15 @@ class RosettaBridge:
         monitor_gguf = _gguf_path_for_ollama(monitor_ollama)
 
         if not builder_gguf or not monitor_gguf:
-            log.info("[Rosetta] Bridge skipped: could not resolve GGUF paths "
-                     "(builder=%s → %s, monitor=%s → %s). "
-                     "Register models with: python scripts/determinex_rosetta.py register",
-                     builder_ollama, builder_gguf, monitor_ollama, monitor_gguf)
+            log.info(
+                "[Rosetta] Bridge skipped: could not resolve GGUF paths "
+                "(builder=%s → %s, monitor=%s → %s). "
+                "Register models with: python scripts/determinex_rosetta.py register",
+                builder_ollama,
+                builder_gguf,
+                monitor_ollama,
+                monitor_gguf,
+            )
             return
 
         # Resolve architecture keys — registry-first, legacy map fallback.
@@ -375,9 +404,12 @@ class RosettaBridge:
         self._monitor_arch = _resolve_arch_for(monitor_ollama)
 
         if not self._builder_arch or not self._monitor_arch:
-            log.info("[Rosetta] Bridge skipped: unknown arch for builder=%s or monitor=%s. "
-                     "Register in rosetta.model_registry.MODELS or add to _OLLAMA_TO_ARCH.",
-                     builder_ollama, monitor_ollama)
+            log.info(
+                "[Rosetta] Bridge skipped: unknown arch for builder=%s or monitor=%s. "
+                "Register in rosetta.model_registry.MODELS or add to _OLLAMA_TO_ARCH.",
+                builder_ollama,
+                monitor_ollama,
+            )
             return
 
         # Load stone
@@ -388,9 +420,13 @@ class RosettaBridge:
         # Verify stone supports both arches
         supported = self._stone.supported_arches()
         if self._builder_arch not in supported or self._monitor_arch not in supported:
-            log.info("[Rosetta] Bridge skipped: stone (arches=%s) doesn't cover "
-                     "builder_arch=%s or monitor_arch=%s. Retrain with both arches.",
-                     supported, self._builder_arch, self._monitor_arch)
+            log.info(
+                "[Rosetta] Bridge skipped: stone (arches=%s) doesn't cover "
+                "builder_arch=%s or monitor_arch=%s. Retrain with both arches.",
+                supported,
+                self._builder_arch,
+                self._monitor_arch,
+            )
             return
 
         # Load inference engines (lazy, cached)
@@ -403,9 +439,13 @@ class RosettaBridge:
 
         if self._monitor_inf and self._builder_inf:
             self._available = True
-            log.info("[Rosetta] Bridge ACTIVE: monitor(%s→%s) → builder(%s→%s)",
-                     monitor_ollama, self._monitor_arch,
-                     builder_ollama, self._builder_arch)
+            log.info(
+                "[Rosetta] Bridge ACTIVE: monitor(%s→%s) → builder(%s→%s)",
+                monitor_ollama,
+                self._monitor_arch,
+                builder_ollama,
+                self._builder_arch,
+            )
         else:
             log.info("[Rosetta] Bridge inactive: inference engine(s) unavailable")
 
@@ -413,7 +453,7 @@ class RosettaBridge:
     def available(self) -> bool:
         return self._available
 
-    def extract_monitor_hidden(self, monitor_verdict_text: str) -> Optional["torch.Tensor"]:
+    def extract_monitor_hidden(self, monitor_verdict_text: str) -> torch.Tensor | None:
         """
         Extract the Monitor's final-layer hidden state for the given verdict text.
 
@@ -440,12 +480,14 @@ class RosettaBridge:
                 # llama-cpp-python embed() returns list[float] or list[list[float]]
                 h = torch.tensor(raw, dtype=torch.float32)
                 if h.dim() == 1:
-                    h = h.unsqueeze(0)          # → [1, hidden_dim]
+                    h = h.unsqueeze(0)  # → [1, hidden_dim]
                 elif h.dim() == 2:
-                    h = h.mean(dim=0, keepdim=True)   # pool sequence → [1, hidden_dim]
+                    h = h.mean(dim=0, keepdim=True)  # pool sequence → [1, hidden_dim]
                 if h.shape[-1] > 0:
-                    log.debug("[Rosetta] activation extracted via embedding forward pass, dim=%d",
-                              h.shape[-1])
+                    log.debug(
+                        "[Rosetta] activation extracted via embedding forward pass, dim=%d",
+                        h.shape[-1],
+                    )
                     return h
 
             # ── Path 2: logit-slice fallback (DeterminexInference) ──────────────
@@ -454,11 +496,13 @@ class RosettaBridge:
                     monitor_verdict_text.encode("utf-8"), special=True
                 )
                 if tokens:
-                    logits    = self._monitor_inf.extract_logits(tokens[-256:])
+                    logits = self._monitor_inf.extract_logits(tokens[-256:])
                     hidden_dim = self._monitor_inf.hidden_dim
                     h = torch.tensor(logits[:hidden_dim], dtype=torch.float32).unsqueeze(0)
-                    log.debug("[Rosetta] activation extracted via logit-slice fallback, dim=%d",
-                              h.shape[-1])
+                    log.debug(
+                        "[Rosetta] activation extracted via logit-slice fallback, dim=%d",
+                        h.shape[-1],
+                    )
                     return h
 
         except Exception as e:
@@ -467,9 +511,9 @@ class RosettaBridge:
 
     def build_soft_prefix(
         self,
-        monitor_h: "torch.Tensor",
+        monitor_h: torch.Tensor,
         builder_prompt: str,
-    ) -> Optional[list[int]]:
+    ) -> list[int] | None:
         """
         Project Monitor's hidden state to Builder's space and inject as soft prefix.
         Returns the generated output tokens on success, None on failure.
@@ -486,10 +530,15 @@ class RosettaBridge:
         _registry_ok = False
         try:
             from rosetta.model_registry import (
-                BridgeStatus as _BridgeStatus,
                 ARCHES as _ARCHES,
+            )
+            from rosetta.model_registry import (
+                BridgeStatus as _BridgeStatus,
+            )
+            from rosetta.model_registry import (
                 RosettaDimensionMismatch as _RosettaDimensionMismatch,
             )
+
             _registry_ok = True
         except ImportError:
             _BridgeStatus = None  # type: ignore[assignment]
@@ -532,7 +581,8 @@ class RosettaBridge:
                 soft_prefix = monitor_h
                 self.last_bridge_status = (
                     _BridgeStatus.DIRECT_SELF_INJECTION.value
-                    if _registry_ok and _BridgeStatus else "direct_self_injection"
+                    if _registry_ok and _BridgeStatus
+                    else "direct_self_injection"
                 )
             else:
                 # Cross-arch: project monitor's hidden state through the stone.
@@ -543,7 +593,8 @@ class RosettaBridge:
                 )  # → [1, builder_hidden_dim]
                 self.last_bridge_status = (
                     _BridgeStatus.ROSETTA_PROJECTED.value
-                    if _registry_ok and _BridgeStatus else "rosetta_projected"
+                    if _registry_ok and _BridgeStatus
+                    else "rosetta_projected"
                 )
 
             text_tokens = self._builder_inf.model.tokenize(
@@ -557,12 +608,13 @@ class RosettaBridge:
             # must be recorded as text_fallback, not as rosetta success.
             self.last_bridge_status = (
                 _BridgeStatus.FAILED_BRIDGE.value
-                if _registry_ok and _BridgeStatus else "failed_bridge"
+                if _registry_ok and _BridgeStatus
+                else "failed_bridge"
             )
             log.debug("[Rosetta] build_soft_prefix failed (recorded as failed_bridge): %s", e)
             return None
 
-    def decode_output(self, output_tokens: list[int]) -> Optional[str]:
+    def decode_output(self, output_tokens: list[int]) -> str | None:
         """Detokenize Builder output tokens to a string."""
         if not self._available or self._builder_inf is None:
             return None
@@ -575,6 +627,7 @@ class RosettaBridge:
 
 
 # ── Module-level factory ──────────────────────────────────────────────────────
+
 
 def make_bridge(
     builder_model: str,

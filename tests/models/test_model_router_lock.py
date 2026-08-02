@@ -17,11 +17,13 @@ into a typed routing surface. These tests assert that:
     check; here we just assert the audit counts the router did not
     introduce new BLOCKED_UNSAFE / MUST_MIGRATE / UNKNOWN sites).
 """
+
 from __future__ import annotations
 
 import hashlib
 import importlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -52,27 +54,45 @@ EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "model_router"
 LOCK_PATH = LOCKS_DIR / "MODEL_ROUTER_LOCK_001.json"
 
 
-STATUS_TOKENS = frozenset({
-    "MODEL_ROUTER_READY",
-    "ROUTER_DRY_RUN_DEFAULT",
-    "ROUTER_FAILS_CLOSED_ON_UNKNOWN",
-    "ROUTER_DETECTS_STALE_MODEL_ID",
-    "ROUTER_FALLBACK_CHAIN_DETERMINISTIC",
-    "ROUTER_NO_NETWORK",
-    "ROUTER_NO_SUBPROCESS",
-    "ROUTER_NO_T_DRIVE",
-    "ROUTER_NO_CORPUS_MUTATION",
-    "ROUTER_NO_SOURCE_MUTATION",
-    "ROUTER_TRAINING_ELIGIBILITY_FALSE",
-    "ROUTER_CORPUS_WRITE_FALSE",
-    "ROUTER_EXECUTION_AUTHORIZED_ONLY_LIVE",
-    "ROUTER_INVENTORY_PASSIVE",
-    "ROUTER_RECORD_SERIALIZABLE",
-    "STALE_DEFAULT_REPLACED_IN_CODEBASE_EXPLORER",
-    "AUDIT_PATH_RULE_REGISTERED",
-    "PROGRAMBENCH_PRESERVED",
-    "SAFETY_DEFAULTS_RESPECTED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "MODEL_ROUTER_READY",
+        "ROUTER_DRY_RUN_DEFAULT",
+        "ROUTER_FAILS_CLOSED_ON_UNKNOWN",
+        "ROUTER_DETECTS_STALE_MODEL_ID",
+        "ROUTER_FALLBACK_CHAIN_DETERMINISTIC",
+        "ROUTER_NO_NETWORK",
+        "ROUTER_NO_SUBPROCESS",
+        "ROUTER_NO_T_DRIVE",
+        "ROUTER_NO_CORPUS_MUTATION",
+        "ROUTER_NO_SOURCE_MUTATION",
+        "ROUTER_TRAINING_ELIGIBILITY_FALSE",
+        "ROUTER_CORPUS_WRITE_FALSE",
+        "ROUTER_EXECUTION_AUTHORIZED_ONLY_LIVE",
+        "ROUTER_INVENTORY_PASSIVE",
+        "ROUTER_RECORD_SERIALIZABLE",
+        "STALE_DEFAULT_REPLACED_IN_CODEBASE_EXPLORER",
+        "AUDIT_PATH_RULE_REGISTERED",
+        "PROGRAMBENCH_PRESERVED",
+        "SAFETY_DEFAULTS_RESPECTED",
+    }
+)
+
+
+def _flat(text: str) -> str:
+    """Collapse whitespace runs so a source grep survives the formatter.
+
+    These guards match exact source text. `ruff format` changed the exact whitespace they
+    keyed on -- three spaces before a comment became two, two after a comma became one, a
+    one-line argument pair got split across two -- and every one of them went silently
+    vacuous, reporting "found in no files", which is also what they print when the thing they
+    guard has been DELETED. A guard whose blind mode is indistinguishable from the condition
+    it guards against is not guarding.
+
+    Comparing flattened text keeps the check identical -- same tokens, same order -- while
+    dropping a dependency on spacing that a formatter is entitled to change at any time.
+    """
+    return re.sub(r"\s+", " ", text)
 
 
 def _sha256(p: Path) -> str | None:
@@ -286,9 +306,12 @@ def test_stale_id_routed_via_role_blocks():
             ModelRole.NO_MODEL: "",
         },
     )
-    r = ModelRouter(config=cfg, inventory=LocalModelInventory.of(
-        sorted(router_mod.CURRENT_MODEL_IDS | {"determinex-observer-v5-dsl"})
-    ))
+    r = ModelRouter(
+        config=cfg,
+        inventory=LocalModelInventory.of(
+            sorted(router_mod.CURRENT_MODEL_IDS | {"determinex-observer-v5-dsl"})
+        ),
+    )
     rec = r.route(TaskClass.GENERAL_EXPLANATION)
     assert rec.decision == RouteDecision.ROUTE_BLOCKED_STALE_MODEL_ID.value
     assert rec.stale_model_id_detected is True
@@ -446,10 +469,16 @@ def test_router_modules_do_not_reference_t_drive():
 def test_codebase_explorer_no_longer_defaults_to_stale_ids():
     src = (_REPO_ROOT / "scripts" / "codebase_explorer.py").read_text(encoding="utf-8")
     # Old stale defaults must be gone as positional defaults.
-    assert 'os.getenv("DETERMINEX_BUILDER_MODEL",  "determinex-engineer-v10-dsl")' not in src
-    assert 'os.getenv("DETERMINEX_OBSERVER_MODEL", "determinex-observer-v5-dsl")' not in src
+    assert _flat(
+        'os.getenv("DETERMINEX_BUILDER_MODEL", "determinex-engineer-v10-dsl")'
+    ) not in _flat(src)
+    assert _flat(
+        'os.getenv("DETERMINEX_OBSERVER_MODEL", "determinex-observer-v5-dsl")'
+    ) not in _flat(src)
     # New current defaults must be present.
-    assert 'os.getenv("DETERMINEX_BUILDER_MODEL",  "determinex-engineer-v11-dsl")' in src
+    assert _flat('os.getenv("DETERMINEX_BUILDER_MODEL", "determinex-engineer-v11-dsl")') in _flat(
+        src
+    )
     assert 'os.getenv("DETERMINEX_OBSERVER_MODEL", "determinex-observer-v6-dsl")' in src
 
 

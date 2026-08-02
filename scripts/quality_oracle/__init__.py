@@ -8,18 +8,22 @@ Core flow:
   OracleResult.feedback_block() → retry prompt (drop-in for EvalResult.feedback_block)
 """
 
-from .oracle import QualityOracle, OracleResult
-from .claim_extractor import ClaimExtractor, Claim
-from .rag_verifier import RagVerifier, ClaimVerification
+from .claim_extractor import Claim, ClaimExtractor
 from .feature_checks import FeatureChecker, FeatureResult
-from .rubric_decomposer import RubricDecomposer
 from .feedback_builder import build_feedback_block
+from .oracle import OracleResult, QualityOracle
+from .rag_verifier import ClaimVerification, RagVerifier
+from .rubric_decomposer import RubricDecomposer
 
 __all__ = [
-    "QualityOracle", "OracleResult",
-    "ClaimExtractor", "Claim",
-    "RagVerifier", "ClaimVerification",
-    "FeatureChecker", "FeatureResult",
+    "QualityOracle",
+    "OracleResult",
+    "ClaimExtractor",
+    "Claim",
+    "RagVerifier",
+    "ClaimVerification",
+    "FeatureChecker",
+    "FeatureResult",
     "RubricDecomposer",
     "build_feedback_block",
 ]

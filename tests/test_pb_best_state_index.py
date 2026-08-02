@@ -75,7 +75,12 @@ def test_tool_brief_uses_best_state_and_nearest_locked(monkeypatch) -> None:
                 "not_run": 0,
                 "delta_to_lock": 1,
                 "failing_test_ids": ["tests.test_help"],
-                "state_lineage": [{"failure_class": "targeted-behavioral", "pattern_signatures": ["help/usage formatting"]}],
+                "state_lineage": [
+                    {
+                        "failure_class": "targeted-behavioral",
+                        "pattern_signatures": ["help/usage formatting"],
+                    }
+                ],
                 "eval_index_status": "board_cache_only",
             },
             "owner__locked.def456": {
@@ -96,8 +101,14 @@ def test_tool_brief_uses_best_state_and_nearest_locked(monkeypatch) -> None:
             },
         }
     }
-    monkeypatch.setattr("scripts.pb_tool_brief.read_text", lambda *_args, **_kwargs: "## Pattern X\nhelp/usage formatting\n")
-    monkeypatch.setattr("scripts.pb_tool_brief.tail_matching_lines", lambda *_args, **_kwargs: ["prior diagnosis line"])
+    monkeypatch.setattr(
+        "scripts.pb_tool_brief.read_text",
+        lambda *_args, **_kwargs: "## Pattern X\nhelp/usage formatting\n",
+    )
+    monkeypatch.setattr(
+        "scripts.pb_tool_brief.tail_matching_lines",
+        lambda *_args, **_kwargs: ["prior diagnosis line"],
+    )
 
     text = brief("target", index)
 

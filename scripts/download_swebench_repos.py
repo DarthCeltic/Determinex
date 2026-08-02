@@ -108,7 +108,11 @@ def load_unique_repos(dataset_ids: list[tuple[str, str]]) -> set[str]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dest", default=r"T:\determinex-swebench-full", help="Destination root")
-    parser.add_argument("--lite-root", default=r"T:\determinex-swebench", help="Existing Lite repo root (skip repos already there)")
+    parser.add_argument(
+        "--lite-root",
+        default=r"T:\determinex-swebench",
+        help="Existing Lite repo root (skip repos already there)",
+    )
     parser.add_argument("--workers", type=int, default=6, help="Parallel clone workers")
     parser.add_argument("--no-skip-lite", action="store_true", help="Don't skip repos in Lite root")
     args = parser.parse_args()
@@ -129,8 +133,12 @@ def main() -> None:
     in_lite = [r for r in to_clone if lite_root and (lite_root / r.replace("/", "__")).exists()]
     need_clone = [r for r in to_clone if r not in in_lite]
 
-    log.info("Already in dest: %d | In Lite root: %d | Need clone: %d",
-             len(repos) - len(to_clone), len(in_lite), len(need_clone))
+    log.info(
+        "Already in dest: %d | In Lite root: %d | Need clone: %d",
+        len(repos) - len(to_clone),
+        len(in_lite),
+        len(need_clone),
+    )
 
     if not need_clone:
         log.info("All repos already downloaded.")

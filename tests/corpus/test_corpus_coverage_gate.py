@@ -100,13 +100,16 @@ def test_coverage_gate_fails_unsigned_rows(tmp_path):
     raw = root / "code_verdict" / "raw.jsonl"
     raw.parent.mkdir(parents=True)
     raw.write_text(
-        json.dumps({
-            "task_id": "raw-1",
-            "language": "python",
-            "failure_type": "assertion_error",
-            "source_benchmark": "raw",
-            "validator": "python -m pytest",
-        }) + "\n",
+        json.dumps(
+            {
+                "task_id": "raw-1",
+                "language": "python",
+                "failure_type": "assertion_error",
+                "source_benchmark": "raw",
+                "validator": "python -m pytest",
+            }
+        )
+        + "\n",
         encoding="utf-8",
     )
 

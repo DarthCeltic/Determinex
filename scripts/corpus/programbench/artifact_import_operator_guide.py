@@ -17,7 +17,6 @@ from corpus.programbench.artifact_import_operator_guide_record import (
     write_artifact_import_operator_guide_record,
 )
 
-
 FINAL_STATE_RECORD = Path(
     "assurance/evidence/programbench_batch001_import_scan_campaign_final_state/"
     "programbench_batch001_import_scan_campaign_final_state_run_20260528.BATCH001_IMPORT_SCAN_CAMPAIGN_FINAL_STATE_WRITTEN.json"
@@ -142,7 +141,9 @@ class ProgramBenchArtifactImportOperatorGuide:
             )
         return record
 
-    def _target_rows(self, final_state: dict[str, Any], templates: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    def _target_rows(
+        self, final_state: dict[str, Any], templates: dict[str, dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         rows: list[dict[str, Any]] = []
         for action in final_state.get("per_target_next_action", []):
             instance_id = str(action.get("instance_id") or "")
@@ -153,11 +154,15 @@ class ProgramBenchArtifactImportOperatorGuide:
                 {
                     "instance_id": instance_id,
                     "image": str(template.get("image_name") or ""),
-                    "digest": str(action.get("digest") or template.get("exact_manifest_digest") or ""),
+                    "digest": str(
+                        action.get("digest") or template.get("exact_manifest_digest") or ""
+                    ),
                     "required_packet_type": "artifact_import_provenance",
                     "current_status": "METADATA_ONLY_DIGEST_ADMITTED_IMPORT_REQUIRED",
                     "next_unblocker": "SUPPLY_OPERATOR_ARTIFACT_IMPORT_PACKET",
-                    "template_path": _rel(OUTBOX_DIR / f"{instance_id}.artifact_import_provenance.template.json"),
+                    "template_path": _rel(
+                        OUTBOX_DIR / f"{instance_id}.artifact_import_provenance.template.json"
+                    ),
                     "scan_status": str(action.get("scan_status") or "SCAN_PENDING_ARTIFACT_IMPORT"),
                     "import_status": str(action.get("import_status") or "REQUIRED"),
                     "training_eligible": False,
@@ -170,7 +175,9 @@ class ProgramBenchArtifactImportOperatorGuide:
         templates: dict[str, dict[str, Any]] = {}
         if not (self.root / OUTBOX_DIR).is_dir():
             return templates
-        for path in sorted((self.root / OUTBOX_DIR).glob("*.artifact_import_provenance.template.json")):
+        for path in sorted(
+            (self.root / OUTBOX_DIR).glob("*.artifact_import_provenance.template.json")
+        ):
             data = json.loads(path.read_text(encoding="utf-8"))
             instance_id = str(data.get("instance_id") or "")
             if instance_id:
@@ -226,7 +233,15 @@ def render_markdown(record: dict[str, Any]) -> str:
     lines.extend(f"- `{command}`" for command in CLI_COMMANDS.values())
     lines.extend(["", "## Hard Warnings", ""])
     lines.extend(f"- {item}" for item in HARD_WARNINGS)
-    lines.extend(["", "## Batch001 Targets", "", "| instance_id | image | digest | required packet | current status | next unblocker |", "| --- | --- | --- | --- | --- | --- |"])
+    lines.extend(
+        [
+            "",
+            "## Batch001 Targets",
+            "",
+            "| instance_id | image | digest | required packet | current status | next unblocker |",
+            "| --- | --- | --- | --- | --- | --- |",
+        ]
+    )
     for row in targets:
         lines.append(
             f"| `{row['instance_id']}` | `{row['image']}` | `{row['digest']}` | `{row['required_packet_type']}` | `{row['current_status']}` | `{row['next_unblocker']}` |"
@@ -269,7 +284,9 @@ def main() -> int:
     args = parser.parse_args()
 
     guide = ProgramBenchArtifactImportOperatorGuide(
-        ArtifactImportOperatorGuideConfig(write_record=not args.no_write, write_doc=not args.no_write)
+        ArtifactImportOperatorGuideConfig(
+            write_record=not args.no_write, write_doc=not args.no_write
+        )
     )
     record = guide.build()
     if args.json:

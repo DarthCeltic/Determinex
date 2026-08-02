@@ -1,4 +1,5 @@
 """Tests for LIVE_MODEL_PATCH_PLAN_QUARANTINE_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -51,9 +52,12 @@ def _stocked_inventory():
 
 
 def _admission_ready():
-    gate = LiveModelAdmissionGate(config=LiveModelAdmissionConfig(
-        mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=True,
-    ))
+    gate = LiveModelAdmissionGate(
+        config=LiveModelAdmissionConfig(
+            mode=LiveAdmissionMode.OPT_IN_LIVE,
+            opt_in_live=True,
+        )
+    )
     candidate = LocalModelCandidate(
         model_id="determinex-engineer-v11-dsl",
         provider=ModelProvider.OLLAMA.value,
@@ -61,8 +65,12 @@ def _admission_ready():
         supported_task_classes=(TaskClass.PATCH_GENERATION.value,),
     )
     return gate.evaluate(
-        candidate, TaskClass.PATCH_GENERATION, _stocked_inventory(),
-        ModelRouter(inventory=_stocked_inventory()).route(TaskClass.PATCH_GENERATION, mode=RouterMode.LIVE),
+        candidate,
+        TaskClass.PATCH_GENERATION,
+        _stocked_inventory(),
+        ModelRouter(inventory=_stocked_inventory()).route(
+            TaskClass.PATCH_GENERATION, mode=RouterMode.LIVE
+        ),
     )
 
 
@@ -75,7 +83,9 @@ def _admission_blocked():
         supported_task_classes=(TaskClass.PATCH_GENERATION.value,),
     )
     return gate.evaluate(
-        candidate, TaskClass.PATCH_GENERATION, _stocked_inventory(),
+        candidate,
+        TaskClass.PATCH_GENERATION,
+        _stocked_inventory(),
         ModelRouter(inventory=_stocked_inventory()).route(TaskClass.PATCH_GENERATION),
     )
 
@@ -173,9 +183,16 @@ def test_non_dict_entry_blocks_schema_invalid():
     assert plan.decision == "PATCH_PLAN_BLOCKED_SCHEMA_INVALID"
 
 
-@pytest.mark.parametrize("bad_path", [
-    "../etc/passwd", "..\\..\\system32", "/abs/path", "C:/abs", "foo/../bar",
-])
+@pytest.mark.parametrize(
+    "bad_path",
+    [
+        "../etc/passwd",
+        "..\\..\\system32",
+        "/abs/path",
+        "C:/abs",
+        "foo/../bar",
+    ],
+)
 def test_path_traversal_blocks(bad_path):
     q = LivePatchPlanQuarantine()
     plan = q.quarantine(

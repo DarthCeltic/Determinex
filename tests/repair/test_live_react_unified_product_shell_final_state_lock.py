@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -14,8 +15,18 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 
 final = importlib.import_module("repair.live_react_unified_product_shell_final_state")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_LOCK_001.json"
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_live_react_unified_product_shell_final_state"
+LOCK_PATH = (
+    _REPO_ROOT
+    / "locks"
+    / "sentinel"
+    / "DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_LOCK_001.json"
+)
+EVIDENCE_DIR = (
+    _REPO_ROOT
+    / "assurance"
+    / "evidence"
+    / "determinex_live_react_unified_product_shell_final_state"
+)
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
@@ -88,8 +99,12 @@ def test_synthetic_skeleton_passes(tmp_path):
 
 def test_missing_tauri_rung_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    (fake / "locks" / "sentinel"
-     / "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001.json").unlink()
+    (
+        fake
+        / "locks"
+        / "sentinel"
+        / "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001.json"
+    ).unlink()
     rec = final.evaluate(fake)
     assert rec.is_blocked
     assert rec.tauri_command_surface_closed is False
@@ -97,8 +112,7 @@ def test_missing_tauri_rung_blocks(tmp_path):
 
 def test_lock_with_opened_source_mutation_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "DETERMINEX_REACT_REPO_CLINIC_PANEL_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["source_mutation_authorized"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -109,8 +123,7 @@ def test_lock_with_opened_source_mutation_blocks(tmp_path):
 
 def test_lock_with_unsupported_claim_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "DETERMINEX_REACT_LEARNING_STUDIO_PANEL_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["all_apps_claim"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -121,8 +134,7 @@ def test_lock_with_unsupported_claim_blocks(tmp_path):
 
 def test_lock_with_readiness_as_authorization_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["readiness_treated_as_authorization"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")

@@ -10,6 +10,7 @@ Usage:
   python scripts/pb_parse_landscape.py --tool entr
   python scripts/pb_parse_landscape.py --print-summary
 """
+
 from __future__ import annotations
 
 import argparse
@@ -18,7 +19,7 @@ import json
 import math
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -34,6 +35,7 @@ REGRESSIONS_LOG = LOG_DIR / "regressions.jsonl"
 # ──────────────────────────────────────────────────────────────────
 # FAILURE CATEGORIZATION
 # ──────────────────────────────────────────────────────────────────
+
 
 def categorize_failure(message: str) -> str:
     if not message:
@@ -52,7 +54,9 @@ def categorize_failure(message: str) -> str:
         return "FILE_MISSING"
     if re.search(r"(file content|wrote.*file|file.*output|file.*mismatch)", m):
         return "FILE_OUTPUT"
-    if re.search(r"(assert\s+b?'|assert\s+b?\"|stdout.*==|==.*stdout|actual.*output|expected.*output)", m):
+    if re.search(
+        r"(assert\s+b?'|assert\s+b?\"|stdout.*==|==.*stdout|actual.*output|expected.*output)", m
+    ):
         # Check if regex vs exact
         if re.search(r"(re\.search|re\.match|re\.fullmatch|regex|pattern)", m):
             return "STDOUT_REGEX"
@@ -94,8 +98,9 @@ def extract_counts(data: dict) -> dict:
     skipped = ctr.get("skipped", 0)
     failed = ctr.get("failure", 0) + ctr.get("failed", 0)
     pct = (passed / total * 100) if total else 0.0
-    return dict(total=total, passed=passed, not_run=not_run,
-                skipped=skipped, failed=failed, pct=pct)
+    return dict(
+        total=total, passed=passed, not_run=not_run, skipped=skipped, failed=failed, pct=pct
+    )
 
 
 def extract_failures(data: dict) -> list[dict]:
@@ -114,18 +119,21 @@ def extract_failures(data: dict) -> list[dict]:
                 msg = extra
         msg_short = str(msg)[:500]
         category = categorize_failure(msg_short)
-        failures.append({
-            "test": r.get("name", "") or r.get("test_id", "") or r.get("nodeid", ""),
-            "branch": r.get("branch_id", "") or r.get("branch", ""),
-            "category": category,
-            "message": msg_short,
-        })
+        failures.append(
+            {
+                "test": r.get("name", "") or r.get("test_id", "") or r.get("nodeid", ""),
+                "branch": r.get("branch_id", "") or r.get("branch", ""),
+                "category": category,
+                "message": msg_short,
+            }
+        )
     return failures
 
 
 # ──────────────────────────────────────────────────────────────────
 # PER-TOOL LANDSCAPE
 # ──────────────────────────────────────────────────────────────────
+
 
 def find_eval_json(tool_dir: Path) -> Path | None:
     """Find PB eval JSON in hetzner_result/ or tool_dir root.
@@ -136,8 +144,7 @@ def find_eval_json(tool_dir: Path) -> Path | None:
     hetzner = tool_dir / "hetzner_result"
     if hetzner.exists():
         # {canonical}.eval.json is ProgramBench's canonical output
-        jsons = sorted(hetzner.rglob("*.eval.json"),
-                       key=lambda p: p.stat().st_mtime, reverse=True)
+        jsons = sorted(hetzner.rglob("*.eval.json"), key=lambda p: p.stat().st_mtime, reverse=True)
         if jsons:
             return jsons[0]
         # eval_report.json may have been placed here by pb_promote
@@ -227,6 +234,7 @@ def process_tool(slug: str) -> dict | None:
 # CROSS-TOOL LANDSCAPE
 # ──────────────────────────────────────────────────────────────────
 
+
 def build_campaign_landscape(landscapes: list[dict]) -> dict:
     locks = [l for l in landscapes if l["outcome"] in ("STRICT_LOCK", "UPSTREAM_SKIPS")]
     partials = [l for l in landscapes if l["outcome"] == "PARTIAL"]
@@ -253,14 +261,20 @@ def build_campaign_landscape(landscapes: list[dict]) -> dict:
     for cat, tools in sorted(cat_tools.items(), key=lambda x: -len(x[1])):
         if len(tools) < 2:
             continue
-        cross_patterns.append({
-            "pattern": cat,
-            "affected_tools": tools,
-            "tool_count": len(tools),
-            "test_count_total": cat_test_counts[cat],
-            "example_failure": cat_examples.get(cat, ""),
-            "repair_priority": "HIGH" if len(tools) >= 5 else "MEDIUM" if len(tools) >= 3 else "LOW",
-        })
+        cross_patterns.append(
+            {
+                "pattern": cat,
+                "affected_tools": tools,
+                "tool_count": len(tools),
+                "test_count_total": cat_test_counts[cat],
+                "example_failure": cat_examples.get(cat, ""),
+                "repair_priority": "HIGH"
+                if len(tools) >= 5
+                else "MEDIUM"
+                if len(tools) >= 3
+                else "LOW",
+            }
+        )
     cross_patterns.sort(key=lambda x: -x["test_count_total"])
 
     # Per-tool repair cost ranking
@@ -280,7 +294,7 @@ def build_campaign_landscape(landscapes: list[dict]) -> dict:
         clusters[dom].append(slug)
 
     return {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "summary": {
             "strict_locks": len([l for l in locks if l["outcome"] == "STRICT_LOCK"]),
             "upstream_skips": len([l for l in locks if l["outcome"] == "UPSTREAM_SKIPS"]),
@@ -299,13 +313,17 @@ def build_campaign_landscape(landscapes: list[dict]) -> dict:
                 "score_pct": l["score_pct"],
                 "repair_score": l["repair_score"],
                 "dominant_category": max(l["failure_categories"], key=l["failure_categories"].get)
-                    if l["failure_categories"] else "UNKNOWN",
+                if l["failure_categories"]
+                else "UNKNOWN",
                 "dominant_count": max(l["failure_categories"].values())
-                    if l["failure_categories"] else 0,
+                if l["failure_categories"]
+                else 0,
             }
             for l in repair_queue
         ],
-        "tool_clusters": {cat: tools for cat, tools in sorted(clusters.items(), key=lambda x: -len(x[1]))},
+        "tool_clusters": {
+            cat: tools for cat, tools in sorted(clusters.items(), key=lambda x: -len(x[1]))
+        },
         "regression_slugs": [l["slug"] for l in regressions],
         "error_slugs": [l["slug"] for l in errors],
     }
@@ -393,21 +411,25 @@ def write_repair_ticket(landscape: dict, campaign: dict) -> None:
     evidence_lines = []
     for i, f in enumerate(top5, 1):
         evidence_lines.append(
-            f"**{i}. `{f['test']}`** [{f['category']}]\n"
-            f"```\n{f['message'][:400]}\n```"
+            f"**{i}. `{f['test']}`** [{f['category']}]\n```\n{f['message'][:400]}\n```"
         )
 
     n_branches = len({f.get("branch", "") for f in landscape.get("top_failures", [])})
 
-    evidence_block = "".join(f"{e}\n\n" for e in evidence_lines) or "No failure data — re-run with verbose logging."
-    cross_refs_block = "".join(f"- {ref}\n" for ref in cross_refs) or "No cross-tool pattern identified."
+    evidence_block = (
+        "".join(f"{e}\n\n" for e in evidence_lines)
+        or "No failure data — re-run with verbose logging."
+    )
+    cross_refs_block = (
+        "".join(f"- {ref}\n" for ref in cross_refs) or "No cross-tool pattern identified."
+    )
     ticket = f"""# Repair Ticket: {slug}
 
 ## Current State
-- Score: {landscape['passed']}/{landscape['total']} ({landscape['score_pct']:.1f}%)
-- Failures: {landscape['failed']} tests across ~{n_branches} branches
+- Score: {landscape["passed"]}/{landscape["total"]} ({landscape["score_pct"]:.1f}%)
+- Failures: {landscape["failed"]} tests across ~{n_branches} branches
 - Dominant failure category: {dominant_cat} ({dominant_count} tests)
-- Repair priority score: {landscape['repair_score']} (lower = cheaper to fix)
+- Repair priority score: {landscape["repair_score"]} (lower = cheaper to fix)
 
 ## Failure Evidence
 {evidence_block}
@@ -418,16 +440,16 @@ def write_repair_ticket(landscape: dict, campaign: dict) -> None:
 ## Suggested Fix
 Based on `{dominant_cat}` failures in `{slug}`:
 - Open `corpus/programbench/pending_unlock/*/{slug}/source/compile.sh`
-- Focus on the dominant failure class first ({dominant_count} of {landscape['failed']} failures)
+- Focus on the dominant failure class first ({dominant_count} of {landscape["failed"]} failures)
 - Test with: `cd T:/Dev/ProgramBench && uv run programbench eval T:/determinex-programbench/test_{slug}/ --filter <author> --force`
 
 ## Cross-Tool Pattern
 {cross_refs_block}
 
 ## Repair Priority Score
-{landscape['repair_score']} (lower = cheaper to fix, higher = more tests unlocked)
+{landscape["repair_score"]} (lower = cheaper to fix, higher = more tests unlocked)
 
-_Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}_
+_Generated: {datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")}_
 """
     (dest / "repair_ticket.md").write_text(ticket, encoding="utf-8")
 
@@ -436,45 +458,57 @@ _Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}_
 # PRINT SUMMARY
 # ──────────────────────────────────────────────────────────────────
 
+
 def print_summary(campaign: dict) -> None:
     s = campaign["summary"]
     print()
-    print("╔" + "═"*66 + "╗")
+    print("╔" + "═" * 66 + "╗")
     print("║" + "  HETZNER BATCH RESULTS — FULL LANDSCAPE".center(66) + "║")
-    print("╠" + "═"*66 + "╣")
-    print(f"║  NEW STRICT LOCKS:   {s['strict_locks']:3d} tools  → promote immediately{' '*19}║")
-    print(f"║  NEW UPSTREAM SKIPS: {s['upstream_skips']:3d} tools  → promote to T2{' '*24}║")
-    print(f"║  PARTIAL (fixable):  {s['partial']:3d} tools  → ranked repair queue below{' '*14}║")
-    print(f"║  REGRESSIONS:        {s['regressions']:3d} tools  → investigate before touching{' '*11}║")
-    print(f"║  ERRORS:             {s['errors']:3d} tools  → check eval.log for cause{' '*16}║")
-    print("╠" + "═"*66 + "╣")
+    print("╠" + "═" * 66 + "╣")
+    print(f"║  NEW STRICT LOCKS:   {s['strict_locks']:3d} tools  → promote immediately{' ' * 19}║")
+    print(f"║  NEW UPSTREAM SKIPS: {s['upstream_skips']:3d} tools  → promote to T2{' ' * 24}║")
+    print(f"║  PARTIAL (fixable):  {s['partial']:3d} tools  → ranked repair queue below{' ' * 14}║")
+    print(
+        f"║  REGRESSIONS:        {s['regressions']:3d} tools  → investigate before touching{' ' * 11}║"
+    )
+    print(f"║  ERRORS:             {s['errors']:3d} tools  → check eval.log for cause{' ' * 16}║")
+    print("╠" + "═" * 66 + "╣")
 
     patterns = campaign.get("cross_tool_patterns", [])[:5]
     if patterns:
-        print("║  TOP CROSS-TOOL PATTERNS (fix once, unlock many):" + " "*16 + "║")
+        print("║  TOP CROSS-TOOL PATTERNS (fix once, unlock many):" + " " * 16 + "║")
         for i, p in enumerate(patterns, 1):
-            line = f"    {i}. {p['pattern']} — {p['tool_count']} tools, {p['test_count_total']} tests"
+            line = (
+                f"    {i}. {p['pattern']} — {p['tool_count']} tools, {p['test_count_total']} tests"
+            )
             print(f"║  {line:<64}║")
-    print("╠" + "═"*66 + "╣")
+    print("╠" + "═" * 66 + "╣")
 
     queue = campaign.get("repair_queue", [])[:10]
     if queue:
-        print("║  REPAIR QUEUE (cheapest first):" + " "*34 + "║")
+        print("║  REPAIR QUEUE (cheapest first):" + " " * 34 + "║")
         for i, q in enumerate(queue, 1):
-            line = (f"    {i:2d}. {q['slug']:20s} {q['failed']:4d} fail "
-                    f"dom:{q['dominant_category'][:15]}")
+            line = (
+                f"    {i:2d}. {q['slug']:20s} {q['failed']:4d} fail "
+                f"dom:{q['dominant_category'][:15]}"
+            )
             print(f"║  {line:<64}║")
-    print("╚" + "═"*66 + "╝")
+    print("╚" + "═" * 66 + "╝")
 
 
 # ──────────────────────────────────────────────────────────────────
 # MAIN
 # ──────────────────────────────────────────────────────────────────
 
+
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Parse PB eval results and build failure landscape")
+    parser = argparse.ArgumentParser(
+        description="Parse PB eval results and build failure landscape"
+    )
     parser.add_argument("--tool", help="Process a single tool slug")
-    parser.add_argument("--print-summary", action="store_true", help="Load existing campaign and print summary")
+    parser.add_argument(
+        "--print-summary", action="store_true", help="Load existing campaign and print summary"
+    )
     args = parser.parse_args()
 
     campaign_path = RESULTS_BASE / "campaign_landscape.json"
@@ -516,11 +550,18 @@ def main() -> int:
         if result.get("passed", 0) < prev:
             result["outcome"] = "REGRESSION"
 
-        icon = {"STRICT_LOCK": "🔒", "UPSTREAM_SKIPS": "⚡",
-                "PARTIAL": "🔸", "REGRESSION": "⚠️", "ERROR": "✗"}.get(outcome, "?")
+        icon = {
+            "STRICT_LOCK": "🔒",
+            "UPSTREAM_SKIPS": "⚡",
+            "PARTIAL": "🔸",
+            "REGRESSION": "⚠️",
+            "ERROR": "✗",
+        }.get(outcome, "?")
         nr = result.get("not_run", 0)
-        print(f"  {icon} {slug:30s} {result.get('passed', 0)}/{result.get('total', 0)} "
-              f"({'NR:'+str(nr) if nr else 'nr=0':8s}) {outcome}")
+        print(
+            f"  {icon} {slug:30s} {result.get('passed', 0)}/{result.get('total', 0)} "
+            f"({'NR:' + str(nr) if nr else 'nr=0':8s}) {outcome}"
+        )
 
         landscapes.append(result)
         if outcome in ("STRICT_LOCK", "UPSTREAM_SKIPS"):
@@ -544,12 +585,17 @@ def main() -> int:
         LOG_DIR.mkdir(exist_ok=True)
         with open(REGRESSIONS_LOG, "a", encoding="utf-8") as f:
             for l in regression_landscapes:
-                f.write(json.dumps({
-                    "slug": l["slug"],
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "new_passed": l.get("passed", 0),
-                    "new_total": l.get("total", 0),
-                }) + "\n")
+                f.write(
+                    json.dumps(
+                        {
+                            "slug": l["slug"],
+                            "timestamp": datetime.now(UTC).isoformat(),
+                            "new_passed": l.get("passed", 0),
+                            "new_total": l.get("total", 0),
+                        }
+                    )
+                    + "\n"
+                )
         print(f"\nWARNING: {len(regression_landscapes)} REGRESSIONS logged to {REGRESSIONS_LOG}")
         for l in regression_landscapes:
             prev = prev_bests.get(l["slug"], 0)

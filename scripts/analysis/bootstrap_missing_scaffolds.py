@@ -16,16 +16,16 @@ These won't be high-scoring but they:
 
 Run:  python scripts/analysis/bootstrap_missing_scaffolds.py [--dry-run]
 """
+
 from __future__ import annotations
+
 import argparse
 import glob
 import io
 import json
-import re
 import stat
 import tarfile
 from pathlib import Path
-from textwrap import dedent
 
 PB_TASKS = Path("c:/tmp/pb_tasks_200.tsv")
 SLUG_TO_ID = Path("c:/tmp/slug_to_instance_id.json")
@@ -120,7 +120,7 @@ if __name__ == "__main__":
 '''
 
 
-COMPILE_SH = '''#!/bin/bash
+COMPILE_SH = """#!/bin/bash
 set -e
 PYTHON="$(python3 -c 'import sys; print(sys.executable)')"
 SCRIPT="$(realpath main.py)"
@@ -159,7 +159,7 @@ CONFTEST_EOF
 done
 
 true
-'''
+"""
 
 
 def family_for_lang(lang: str) -> str:
@@ -184,14 +184,16 @@ def load_tasks():
             rank, instance_short, lang, stars, tests, frontier_pct = parts
             slug = instance_short.lower().replace("/", "__")
             tool_name = instance_short.split("/", 1)[-1].lower()
-            rows.append({
-                "rank": int(rank),
-                "instance_short": instance_short,
-                "slug": slug,
-                "tool_name": tool_name,
-                "lang": lang,
-                "tests": int(tests),
-            })
+            rows.append(
+                {
+                    "rank": int(rank),
+                    "instance_short": instance_short,
+                    "slug": slug,
+                    "tool_name": tool_name,
+                    "lang": lang,
+                    "tests": int(tests),
+                }
+            )
     return rows
 
 
@@ -224,8 +226,10 @@ def bootstrap_one(task: dict, slug_map: dict, dry_run: bool = False) -> Path | N
     src_dir.mkdir(parents=True, exist_ok=True)
 
     usage = f"usage: {tool_name} [OPTIONS] [ARGS]\\nTry '{tool_name} --help' for more information."
-    help_text = (f"{tool_name} {{version}} - bootstrap scaffold\\n\\nUsage: {tool_name} [OPTIONS] [ARGS]\\n\\n"
-                 f"Options:\\n  -h, --help     Print help\\n  -V, --version  Print version")
+    help_text = (
+        f"{tool_name} {{version}} - bootstrap scaffold\\n\\nUsage: {tool_name} [OPTIONS] [ARGS]\\n\\n"
+        f"Options:\\n  -h, --help     Print help\\n  -V, --version  Print version"
+    )
 
     main_py = UNIVERSAL_MAIN_PY.format(
         instance_id=inst_id,
@@ -242,7 +246,9 @@ def bootstrap_one(task: dict, slug_map: dict, dry_run: bool = False) -> Path | N
     compile_sh_path.write_text(COMPILE_SH, encoding="utf-8", newline="\n")
     # Make compile.sh executable
     try:
-        compile_sh_path.chmod(compile_sh_path.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+        compile_sh_path.chmod(
+            compile_sh_path.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+        )
     except Exception:
         pass
 

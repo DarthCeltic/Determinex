@@ -7,11 +7,12 @@ top of the locked REAL_PATCH_PLAN_QUARANTINE_LOCK_001 validator —
 this rung doesn't re-implement schema/path/op gates; it wraps them
 so every accepted entry is traced back to the verifier context.
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -58,8 +59,12 @@ def quarantine_with_verifier_context(
             workspace=ws,
             model_id=getattr(healthcheck, "model_id", "") if healthcheck else "",
             provider=getattr(healthcheck, "provider", "") if healthcheck else "",
-            build_system_id=getattr(verifier_selection, "build_system_id", "") if verifier_selection else "",
-            verifier_argv=tuple(getattr(verifier_selection, "verifier_command", ())) if verifier_selection else (),
+            build_system_id=getattr(verifier_selection, "build_system_id", "")
+            if verifier_selection
+            else "",
+            verifier_argv=tuple(getattr(verifier_selection, "verifier_command", ()))
+            if verifier_selection
+            else (),
             note="healthcheck missing or not passed",
         )
 
@@ -67,8 +72,10 @@ def quarantine_with_verifier_context(
         return _blocked(
             "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NO_VERIFIER",
             workspace=ws,
-            model_id=healthcheck.model_id, provider=healthcheck.provider,
-            build_system_id="", verifier_argv=(),
+            model_id=healthcheck.model_id,
+            provider=healthcheck.provider,
+            build_system_id="",
+            verifier_argv=(),
             note="verifier selection missing or not selected",
         )
 
@@ -76,7 +83,8 @@ def quarantine_with_verifier_context(
         return _blocked(
             "REAL_PATCH_PLAN_CONTEXT_BLOCKED_NOT_OPTED_IN",
             workspace=ws,
-            model_id=healthcheck.model_id, provider=healthcheck.provider,
+            model_id=healthcheck.model_id,
+            provider=healthcheck.provider,
             build_system_id=verifier_selection.build_system_id,
             verifier_argv=verifier_selection.verifier_command,
             note="explicit opt_in=True is required",
@@ -90,7 +98,8 @@ def quarantine_with_verifier_context(
         return _blocked(
             "REAL_PATCH_PLAN_CONTEXT_BLOCKED_MODEL_ADMISSION_REQUIRED",
             workspace=ws,
-            model_id=healthcheck.model_id, provider=healthcheck.provider,
+            model_id=healthcheck.model_id,
+            provider=healthcheck.provider,
             build_system_id=verifier_selection.build_system_id,
             verifier_argv=verifier_selection.verifier_command,
             note=(
@@ -104,14 +113,12 @@ def quarantine_with_verifier_context(
     # Cross-check the admission's model_id/provider against the
     # healthcheck record so the admission cannot be reused across
     # disjoint sessions.
-    if (
-        admission.model_id != healthcheck.model_id
-        or admission.provider != healthcheck.provider
-    ):
+    if admission.model_id != healthcheck.model_id or admission.provider != healthcheck.provider:
         return _blocked(
             "REAL_PATCH_PLAN_CONTEXT_BLOCKED_MODEL_ADMISSION_REQUIRED",
             workspace=ws,
-            model_id=healthcheck.model_id, provider=healthcheck.provider,
+            model_id=healthcheck.model_id,
+            provider=healthcheck.provider,
             build_system_id=verifier_selection.build_system_id,
             verifier_argv=verifier_selection.verifier_command,
             note=(
@@ -122,29 +129,35 @@ def quarantine_with_verifier_context(
         )
 
     inner = _inner_quarantine(
-        plan_entries, admission=admission, workspace=workspace, opt_in=True,
+        plan_entries,
+        admission=admission,
+        workspace=workspace,
+        opt_in=True,
     )
 
     # Map the inner decision to this rung's namespace.
     inner_to_outer = {
-        "REAL_PATCH_PLAN_QUARANTINED":           "REAL_PATCH_PLAN_CONTEXT_QUARANTINED",
+        "REAL_PATCH_PLAN_QUARANTINED": "REAL_PATCH_PLAN_CONTEXT_QUARANTINED",
         "REAL_PATCH_PLAN_BLOCKED_SCHEMA_INVALID": "REAL_PATCH_PLAN_CONTEXT_BLOCKED_SCHEMA_INVALID",
-        "REAL_PATCH_PLAN_BLOCKED_PATH_ESCAPE":    "REAL_PATCH_PLAN_CONTEXT_BLOCKED_PATH_ESCAPE",
-        "REAL_PATCH_PLAN_BLOCKED_UNSUPPORTED_OPERATION":
-            "REAL_PATCH_PLAN_CONTEXT_BLOCKED_UNSUPPORTED_OPERATION",
+        "REAL_PATCH_PLAN_BLOCKED_PATH_ESCAPE": "REAL_PATCH_PLAN_CONTEXT_BLOCKED_PATH_ESCAPE",
+        "REAL_PATCH_PLAN_BLOCKED_UNSUPPORTED_OPERATION": "REAL_PATCH_PLAN_CONTEXT_BLOCKED_UNSUPPORTED_OPERATION",
     }
-    outer_decision = inner_to_outer.get(inner.decision, "REAL_PATCH_PLAN_CONTEXT_BLOCKED_SCHEMA_INVALID")
+    outer_decision = inner_to_outer.get(
+        inner.decision, "REAL_PATCH_PLAN_CONTEXT_BLOCKED_SCHEMA_INVALID"
+    )
 
     accepted = tuple(
         RealPatchPlanContextEntry(
-            operation=e.operation, path=e.path,
+            operation=e.operation,
+            path=e.path,
             new_content_chars=e.new_content_chars,
         )
         for e in inner.accepted
     )
     rejected = tuple(
         RealPatchPlanContextEntry(
-            operation=e.operation, path=e.path,
+            operation=e.operation,
+            path=e.path,
             new_content_chars=e.new_content_chars,
             rejection_reason=e.rejection_reason,
         )
@@ -191,12 +204,17 @@ def _blocked(
     return RealModelPatchPlanWithVerifierContextRecord(
         decision=decision,
         workspace=workspace,
-        model_id=model_id, provider=provider,
+        model_id=model_id,
+        provider=provider,
         build_system_id=build_system_id,
         verifier_command=verifier_argv,
-        accepted=tuple(), rejected=tuple(),
-        quarantined=False, output_trusted=False, patch_applied=False,
-        source_mutation_authorized=False, training_eligible=False,
+        accepted=tuple(),
+        rejected=tuple(),
+        quarantined=False,
+        output_trusted=False,
+        patch_applied=False,
+        source_mutation_authorized=False,
+        training_eligible=False,
         statuses_seen=(decision, "REAL_PATCH_PLAN_CONTEXT_OUTPUT_UNTRUSTED"),
         notes=(note,),
     )

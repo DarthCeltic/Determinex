@@ -1,12 +1,11 @@
 """Tests for TAURI_BACKEND_COMMAND_BRIDGE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -33,24 +32,27 @@ EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 STATUS_TOKENS = frozenset(TAURI_BRIDGE_STATUS_TOKENS)
 
 
-REQUIRED_COMMANDS = frozenset({
-    "open_workspace",
-    "get_workspace_status",
-    "get_model_route_status",
-    "diagnose_dry_run",
-    "diagnose_live_opt_in",
-    "generate_patch_plan",
-    "verify_temp_patch",
-    "get_human_approval_packet",
-    "source_apply_dry_run",
-    "get_repair_flow_state",
-})
+REQUIRED_COMMANDS = frozenset(
+    {
+        "open_workspace",
+        "get_workspace_status",
+        "get_model_route_status",
+        "diagnose_dry_run",
+        "diagnose_live_opt_in",
+        "generate_patch_plan",
+        "verify_temp_patch",
+        "get_human_approval_packet",
+        "source_apply_dry_run",
+        "get_repair_flow_state",
+    }
+)
 
 
 def _cfg(tmp_path):
     w = LocalModelConfigWizard(WizardConfig(config_root=tmp_path))
     return w.write_config(
-        provider="ollama", model_id="determinex-engineer-v11-dsl",
+        provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
         capabilities=("code_generation",),
         task_classes_allowed=("BUILD_DIAGNOSIS", "PATCH_GENERATION"),
         enabled=True,

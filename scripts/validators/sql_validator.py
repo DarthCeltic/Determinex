@@ -25,8 +25,16 @@ log = logging.getLogger("oracle.validator.sql")
 _FENCE_RE = re.compile(r"^```(?:sql|postgres|postgresql|mysql)?\s*\n|\n```\s*$", flags=re.MULTILINE)
 
 _VALID_DIALECTS = {
-    "postgres", "mysql", "sqlite", "mssql", "oracle",
-    "bigquery", "snowflake", "ansi", "tsql", "redshift",
+    "postgres",
+    "mysql",
+    "sqlite",
+    "mssql",
+    "oracle",
+    "bigquery",
+    "snowflake",
+    "ansi",
+    "tsql",
+    "redshift",
 }
 
 
@@ -60,14 +68,16 @@ def _balance_check(sql: str) -> tuple[bool, str]:
             continue
         if in_single:
             if ch == "'" and nxt == "'":
-                i += 2; continue
+                i += 2
+                continue
             if ch == "'":
                 in_single = False
             i += 1
             continue
         if in_double:
             if ch == '"' and nxt == '"':
-                i += 2; continue
+                i += 2
+                continue
             if ch == '"':
                 in_double = False
             i += 1
@@ -79,10 +89,12 @@ def _balance_check(sql: str) -> tuple[bool, str]:
             continue
         if ch == "-" and nxt == "-":
             in_line_comment = True
-            i += 2; continue
+            i += 2
+            continue
         if ch == "/" and nxt == "*":
             in_block_comment = True
-            i += 2; continue
+            i += 2
+            continue
         if ch == "'":
             in_single = True
         elif ch == '"':
@@ -129,8 +141,11 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
     if task_meta.get("require_statement", True):
         normalized = re.sub(r"--[^\n]*", "", sql)
         normalized = re.sub(r"/\*.*?\*/", "", normalized, flags=re.DOTALL)
-        if not re.search(r"\b(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|WITH|MERGE)\b",
-                         normalized, flags=re.IGNORECASE):
+        if not re.search(
+            r"\b(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|WITH|MERGE)\b",
+            normalized,
+            flags=re.IGNORECASE,
+        ):
             return False, "no recognizable SQL statement keyword found"
 
     if task_meta.get("skip_sqlfluff"):
@@ -150,7 +165,9 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
     try:
         result = subprocess.run(
             [sqlfluff, "parse", "--dialect", dialect, "--format", "json", path],
-            capture_output=True, text=True, timeout=15,
+            capture_output=True,
+            text=True,
+            timeout=15,
         )
         if result.returncode == 0:
             return True, f"{reason} + sqlfluff/{dialect} clean"
@@ -165,7 +182,10 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
         errors = [v for v in violations if str(v.get("code", "")).startswith("PRS")]
         if errors:
             first = errors[0]
-            return False, f"sqlfluff parse error {first.get('code')}: {first.get('description')} @ L{first.get('line_no')}"
+            return (
+                False,
+                f"sqlfluff parse error {first.get('code')}: {first.get('description')} @ L{first.get('line_no')}",
+            )
         return True, f"{reason} + sqlfluff/{dialect} clean (no parse errors)"
     except subprocess.TimeoutExpired:
         return False, "sqlfluff timeout"

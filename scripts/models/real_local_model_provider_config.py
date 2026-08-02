@@ -10,22 +10,21 @@ to this module's ``save_config`` rather than the underlying wizard
 directly — this layer pins the rung's exact status tokens and records
 the real-config-path on disk.
 """
+
 from __future__ import annotations
 
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 from .live_model_admission import _LOCAL_PROVIDERS, _NETWORK_PROVIDER_TOKENS
 from .local_model_admission_policy import ModelProvider
 from .local_model_config_record import LocalModelConfigRecord
 from .local_model_config_wizard import LocalModelConfigWizard, WizardConfig
 from .model_router import CURRENT_MODEL_IDS, STALE_MODEL_IDS, TaskClass
-
 from .real_local_model_provider_config_record import (
     REAL_LOCAL_MODEL_PROVIDER_CONFIG_STATUS_TOKENS,
     RealLocalModelProviderConfigRecord,
 )
-
 
 # Stable on-disk root the IDE writes configs into. Kept inside the
 # repo so the Tauri build and tests share one location. Absolute path
@@ -65,7 +64,11 @@ def save_config(
     # 1. Network provider → hard block.
     if provider in _NETWORK_PROVIDER_TOKENS:
         return _blocked(
-            provider, model_id, digest, capabilities_t, task_classes_t,
+            provider,
+            model_id,
+            digest,
+            capabilities_t,
+            task_classes_t,
             "REAL_LOCAL_MODEL_CONFIG_BLOCKED_NETWORK_PROVIDER",
             f"provider {provider!r} is a network provider",
             network_provider_admitted=False,
@@ -74,7 +77,11 @@ def save_config(
     # 2. Unknown provider.
     if provider not in _LOCAL_PROVIDERS:
         return _blocked(
-            provider, model_id, digest, capabilities_t, task_classes_t,
+            provider,
+            model_id,
+            digest,
+            capabilities_t,
+            task_classes_t,
             "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER",
             f"provider {provider!r} not recognized",
         )
@@ -82,18 +89,23 @@ def save_config(
     # 3. Stale id.
     if model_id and model_id in STALE_MODEL_IDS:
         return _blocked(
-            provider, model_id, digest, capabilities_t, task_classes_t,
+            provider,
+            model_id,
+            digest,
+            capabilities_t,
+            task_classes_t,
             "REAL_LOCAL_MODEL_CONFIG_BLOCKED_STALE_MODEL_ID",
             f"model_id {model_id!r} is stale",
         )
 
     # 4. Unpinned id (skip for no_model — id can be empty).
-    if (
-        provider != ModelProvider.NO_MODEL.value
-        and model_id not in CURRENT_MODEL_IDS
-    ):
+    if provider != ModelProvider.NO_MODEL.value and model_id not in CURRENT_MODEL_IDS:
         return _blocked(
-            provider, model_id, digest, capabilities_t, task_classes_t,
+            provider,
+            model_id,
+            digest,
+            capabilities_t,
+            task_classes_t,
             "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNPINNED_MODEL",
             f"model_id {model_id!r} not pinned in CURRENT_MODEL_IDS",
         )
@@ -104,7 +116,11 @@ def save_config(
         root.mkdir(parents=True, exist_ok=True)
     except OSError as exc:
         return _blocked(
-            provider, model_id, digest, capabilities_t, task_classes_t,
+            provider,
+            model_id,
+            digest,
+            capabilities_t,
+            task_classes_t,
             "REAL_LOCAL_MODEL_CONFIG_BLOCKED_INVALID_LOCATION",
             f"config_root not writable: {exc}",
         )
@@ -126,19 +142,18 @@ def save_config(
     if inner.is_blocked:
         # Map the wizard's namespaced decision to ours where the shape matches.
         mapping = {
-            "LOCAL_MODEL_CONFIG_BLOCKED_NETWORK_PROVIDER":
-                "REAL_LOCAL_MODEL_CONFIG_BLOCKED_NETWORK_PROVIDER",
-            "LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER":
-                "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER",
-            "LOCAL_MODEL_CONFIG_BLOCKED_STALE_MODEL_ID":
-                "REAL_LOCAL_MODEL_CONFIG_BLOCKED_STALE_MODEL_ID",
-            "LOCAL_MODEL_CONFIG_BLOCKED_UNPINNED_MODEL":
-                "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNPINNED_MODEL",
-            "LOCAL_MODEL_CONFIG_BLOCKED_INVALID_LOCATION":
-                "REAL_LOCAL_MODEL_CONFIG_BLOCKED_INVALID_LOCATION",
+            "LOCAL_MODEL_CONFIG_BLOCKED_NETWORK_PROVIDER": "REAL_LOCAL_MODEL_CONFIG_BLOCKED_NETWORK_PROVIDER",
+            "LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER": "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER",
+            "LOCAL_MODEL_CONFIG_BLOCKED_STALE_MODEL_ID": "REAL_LOCAL_MODEL_CONFIG_BLOCKED_STALE_MODEL_ID",
+            "LOCAL_MODEL_CONFIG_BLOCKED_UNPINNED_MODEL": "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNPINNED_MODEL",
+            "LOCAL_MODEL_CONFIG_BLOCKED_INVALID_LOCATION": "REAL_LOCAL_MODEL_CONFIG_BLOCKED_INVALID_LOCATION",
         }
         return _blocked(
-            provider, model_id, digest, capabilities_t, task_classes_t,
+            provider,
+            model_id,
+            digest,
+            capabilities_t,
+            task_classes_t,
             mapping.get(inner.decision, "REAL_LOCAL_MODEL_CONFIG_BLOCKED_UNKNOWN_PROVIDER"),
             "; ".join(inner.notes) or inner.decision,
         )

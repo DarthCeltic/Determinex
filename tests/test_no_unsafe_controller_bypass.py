@@ -5,6 +5,7 @@ pyautogui, adb, or VM action APIs directly.
 This prevents action safety governor bypass by ensuring no other module
 can execute actions on a real environment without going through the controller.
 """
+
 from __future__ import annotations
 
 import re
@@ -14,34 +15,44 @@ _ROOT = Path(__file__).parent.parent
 _SCRIPTS = _ROOT / "scripts"
 
 # Modules that ARE allowed to call these APIs
-_ALLOWED_MODULES: frozenset[str] = frozenset({
-    # Browser
-    "scripts/browser/browser_controller.py",
-    "scripts/ide/browser_agent.py",
-    # Desktop
-    "scripts/desktop/screen_controller.py",
-    "scripts/desktop/vm_manager.py",
-    "scripts/desktop/clipboard_guard.py",
-    "scripts/desktop/window_manager.py",
-    # Mobile
-    "scripts/mobile/adb_controller.py",
-    "scripts/mobile/emulator_manager.py",
-    "scripts/mobile/uiautomator_reader.py",
-    "scripts/mobile/permission_guard.py",
-    "scripts/mobile/mobile_verifier.py",
-    # Tests (allowed to import/test controllers)
-    "tests/",
-})
+_ALLOWED_MODULES: frozenset[str] = frozenset(
+    {
+        # Browser
+        "scripts/browser/browser_controller.py",
+        "scripts/ide/browser_agent.py",
+        # Desktop
+        "scripts/desktop/screen_controller.py",
+        "scripts/desktop/vm_manager.py",
+        "scripts/desktop/clipboard_guard.py",
+        "scripts/desktop/window_manager.py",
+        # Mobile
+        "scripts/mobile/adb_controller.py",
+        "scripts/mobile/emulator_manager.py",
+        "scripts/mobile/uiautomator_reader.py",
+        "scripts/mobile/permission_guard.py",
+        "scripts/mobile/mobile_verifier.py",
+        # Tests (allowed to import/test controllers)
+        "tests/",
+    }
+)
 
 # Patterns for restricted APIs
 _RESTRICTED_PATTERNS: list[tuple[str, re.Pattern]] = [
-    ("playwright",     re.compile(r'\bsync_playwright\b|\basync_playwright\b|\bfrom playwright\b', re.I)),
-    ("pyautogui",      re.compile(r'\bimport pyautogui\b|\bpyautogui\.(click|type|press|scroll|moveTo|drag)\b', re.I)),
-    ("adb_direct",     re.compile(r'\bsubprocess\.(run|Popen|call)\s*\(\s*\[.*\badb\b', re.I)),
-    ("vboxmanage",     re.compile(r'\bsubprocess\.(run|Popen)\s*\(\s*\[.*\bVBoxManage\b', re.I)),
-    ("qemu",           re.compile(r'\bsubprocess\.(run|Popen)\s*\(\s*\[.*\bqemu-\w+', re.I)),
-    ("avdmanager",     re.compile(r'\bsubprocess\.(run|Popen)\s*\(\s*\[.*\bavdmanager\b', re.I)),
-    ("vncdotool",      re.compile(r'\bimport vncdotool\b|\bvncdotool\.api\b')),
+    (
+        "playwright",
+        re.compile(r"\bsync_playwright\b|\basync_playwright\b|\bfrom playwright\b", re.I),
+    ),
+    (
+        "pyautogui",
+        re.compile(
+            r"\bimport pyautogui\b|\bpyautogui\.(click|type|press|scroll|moveTo|drag)\b", re.I
+        ),
+    ),
+    ("adb_direct", re.compile(r"\bsubprocess\.(run|Popen|call)\s*\(\s*\[.*\badb\b", re.I)),
+    ("vboxmanage", re.compile(r"\bsubprocess\.(run|Popen)\s*\(\s*\[.*\bVBoxManage\b", re.I)),
+    ("qemu", re.compile(r"\bsubprocess\.(run|Popen)\s*\(\s*\[.*\bqemu-\w+", re.I)),
+    ("avdmanager", re.compile(r"\bsubprocess\.(run|Popen)\s*\(\s*\[.*\bavdmanager\b", re.I)),
+    ("vncdotool", re.compile(r"\bimport vncdotool\b|\bvncdotool\.api\b")),
 ]
 
 

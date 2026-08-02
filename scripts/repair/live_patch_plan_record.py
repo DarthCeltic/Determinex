@@ -5,12 +5,12 @@ description of file replacements a live model proposed. It is stored
 as evidence; it is NOT applied to source, and it is NOT applied to a
 temp workspace at this rung (the temp-patch verifier gate is rung 5).
 """
+
 from __future__ import annotations
 
 import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 LIVE_PATCH_PLAN_STATUS_TOKENS = (
     "PATCH_PLAN_QUARANTINED",

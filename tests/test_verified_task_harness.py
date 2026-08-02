@@ -15,11 +15,27 @@ from verified_task.adapters import (
     security_task_spec,
     sql_task_spec,
 )  # noqa: E402
-from verified_task.language_profiles import default_validation_commands, get_language_profile  # noqa: E402
+from verified_task.language_profiles import (  # noqa: E402
+    default_validation_commands,
+    get_language_profile,
+)
 
 
 def test_language_profiles_cover_core_stack():
-    for language in ["python", "bash", "go", "rust", "typescript", "javascript", "java", "c", "cpp", "sql", "ruby", "php"]:
+    for language in [
+        "python",
+        "bash",
+        "go",
+        "rust",
+        "typescript",
+        "javascript",
+        "java",
+        "c",
+        "cpp",
+        "sql",
+        "ruby",
+        "php",
+    ]:
         profile = get_language_profile(language)
         assert profile.language
         assert profile.file_globs
@@ -41,7 +57,9 @@ def test_benchmark_adapters_emit_task_specs(tmp_path):
     ws = tmp_path / "workspace"
     ws.mkdir()
     specs = [
-        aider_polyglot_task_spec(task_id="a", language="go", workspace=ws, problem_statement="solve"),
+        aider_polyglot_task_spec(
+            task_id="a", language="go", workspace=ws, problem_statement="solve"
+        ),
         bigcodebench_task_spec(task_id="b", workspace=ws, prompt="use pandas"),
         debugbench_task_spec(task_id="d", language="java", workspace=ws, bug_report="fix bug"),
         security_task_spec(task_id="s", language="python", workspace=ws, instruction="remove vuln"),

@@ -21,6 +21,7 @@ Hard rules enforced by load():
     IMPLEMENTED_WITH_CAVEATS, PARTIAL} -> BLOCKED_TAXONOMY_OVERCLAIM
   * forbidden broad-claim phrase as current claim -> BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -36,7 +37,6 @@ if str(_SCRIPTS) not in sys.path:
 from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     FORBIDDEN_BROAD_CLAIM_PHRASES,
 )
-
 
 # Taxonomy-specific refusal-context keys. Codex's all-sector taxonomy
 # carries every sector's "never_claim", "missing_rung_template",
@@ -87,16 +87,14 @@ def _walk_taxonomy_strings_for_forbidden(node: object, hits: set[str]) -> None:
 
 _REPO_ROOT = _HERE.parent.parent.parent
 
-_DEFAULT_EVIDENCE_DIR = (
-    _REPO_ROOT / "assurance" / "evidence" / "universal_100_all_sector_taxonomy"
-)
+_DEFAULT_EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "universal_100_all_sector_taxonomy"
 
 EXPECTED_STATUS = "UNIVERSAL_100_ALL_SECTOR_TAXONOMY_PASSED"
 
 REQUIRED_PANEL_CAPTIONS = (
     "This panel displays evidence; it does not grant authority.",
     "Taxonomy is routing structure, not support proof.",
-    "\"Taxonomy family present\" does not mean capability exists.",
+    '"Taxonomy family present" does not mean capability exists.',
     "Default claim state remains NOT_CLAIMED; default support state remains classified.",
     "No source mutation without authority.",
     "Universal 100 means universal intake/routing, not magic execution.",
@@ -116,16 +114,30 @@ REACT_UNIVERSAL_100_ALL_SECTOR_TAXONOMY_BINDING_STATUS_TOKENS = (
 
 # Support states that are NOT allowed as a taxonomy default (would imply
 # capability without probe evidence).
-_FORBIDDEN_DEFAULT_SUPPORT_STATES = frozenset({
-    "build_supported", "test_supported", "smoke_supported", "repair_supported",
-    "maintain_supported", "teach_supported", "user_ready_with_caveats",
-    "packaging_supported", "fresh_install_verified", "release_gate_ready",
-    "release_supported", "fully_supported_with_caveats",
-})
+_FORBIDDEN_DEFAULT_SUPPORT_STATES = frozenset(
+    {
+        "build_supported",
+        "test_supported",
+        "smoke_supported",
+        "repair_supported",
+        "maintain_supported",
+        "teach_supported",
+        "user_ready_with_caveats",
+        "packaging_supported",
+        "fresh_install_verified",
+        "release_gate_ready",
+        "release_supported",
+        "fully_supported_with_caveats",
+    }
+)
 
-_FORBIDDEN_DEFAULT_CLAIM_STATES = frozenset({
-    "IMPLEMENTED", "IMPLEMENTED_WITH_CAVEATS", "PARTIAL",
-})
+_FORBIDDEN_DEFAULT_CLAIM_STATES = frozenset(
+    {
+        "IMPLEMENTED",
+        "IMPLEMENTED_WITH_CAVEATS",
+        "PARTIAL",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -185,7 +197,13 @@ class AllSectorTaxonomyStatus:
     def to_dict(self) -> dict[str, object]:
         d = asdict(self)
         d["sectors"] = [asdict(s) for s in self.sectors]
-        for k in ("top_level_sector_families", "claim_boundary", "forbidden_claims", "captions", "notes"):
+        for k in (
+            "top_level_sector_families",
+            "claim_boundary",
+            "forbidden_claims",
+            "captions",
+            "notes",
+        ):
             d[k] = list(getattr(self, k))
         return d
 
@@ -216,7 +234,9 @@ def _sector_row(s: dict) -> TaxonomySectorRow:
         taxonomy_index=int(s.get("taxonomy_index") or 0),
         default_claim_state=str(s.get("default_claim_state") or "(unknown)"),
         default_support_state=str(s.get("default_support_state") or "(unknown)"),
-        representative_app_classes=tuple(str(x) for x in (s.get("representative_app_classes") or [])),
+        representative_app_classes=tuple(
+            str(x) for x in (s.get("representative_app_classes") or [])
+        ),
         likely_languages=tuple(str(x) for x in (s.get("likely_languages") or [])),
         likely_platforms=tuple(str(x) for x in (s.get("likely_platforms") or [])),
         likely_workflows=tuple(str(x) for x in (s.get("likely_workflows") or [])),
@@ -229,7 +249,9 @@ def _sector_row(s: dict) -> TaxonomySectorRow:
         first_probe_strategy=str(s.get("first_probe_strategy") or ""),
         claim_boundary=tuple(str(x) for x in (s.get("claim_boundary") or [])),
         release_boundary=tuple(str(x) for x in (s.get("release_boundary") or [])),
-        safety_or_authority_constraints=tuple(str(x) for x in (s.get("safety_or_authority_constraints") or [])),
+        safety_or_authority_constraints=tuple(
+            str(x) for x in (s.get("safety_or_authority_constraints") or [])
+        ),
     )
 
 
@@ -374,7 +396,9 @@ def load(evidence_dir: Path | str | None = None) -> AllSectorTaxonomyStatus:
         target_surface="Universal 100 All-Sector Taxonomy",
         target_workflow="all-sector taxonomy (routing only)",
         sector_count=declared_count,
-        top_level_sector_families=tuple(str(x) for x in (blob.get("top_level_sector_families") or [])),
+        top_level_sector_families=tuple(
+            str(x) for x in (blob.get("top_level_sector_families") or [])
+        ),
         sectors=sectors,
         routing_templates_count=_container_len(routing_templates),
         missing_rung_templates_count=_container_len(missing_rung_templates),

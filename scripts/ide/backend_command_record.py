@@ -1,9 +1,9 @@
 """Records for IDE_BACKEND_COMMAND_SURFACE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDE_BACKEND_COMMAND_STATUS_TOKENS = (
     "IDE_BACKEND_COMMAND_SURFACE_READY",

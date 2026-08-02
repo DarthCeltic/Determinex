@@ -1,5 +1,12 @@
 """Run swebench eval harness on Windows (stubs Unix-only 'resource' module)."""
-import sys, types, argparse, pathlib, locale, io, builtins
+
+import argparse
+import builtins
+import io
+import locale
+import pathlib
+import sys
+import types
 
 # ── Windows UTF-8 fix ──────────────────────────────────────────────────────
 # swebench uses open() and Path.write_text() without encoding= throughout.
@@ -11,24 +18,45 @@ locale.getpreferredencoding = lambda do_setlocale=True: "utf-8"
 
 # 2. Patch pathlib.Path.write_text (called at swebench line 199).
 _orig_write_text = pathlib.Path.write_text
+
+
 def _utf8_write_text(self, data, encoding=None, errors=None, newline=None):
-    return _orig_write_text(self, data, encoding=encoding or "utf-8",
-                            errors=errors, newline=newline)
+    return _orig_write_text(
+        self, data, encoding=encoding or "utf-8", errors=errors, newline=newline
+    )
+
+
 pathlib.Path.write_text = _utf8_write_text  # type: ignore[method-assign]
 
 # 3. Patch pathlib.Path.read_text too (symmetric, avoids decode errors).
 _orig_read_text = pathlib.Path.read_text
+
+
 def _utf8_read_text(self, encoding=None, errors=None):
     return _orig_read_text(self, encoding=encoding or "utf-8", errors=errors)
+
+
 pathlib.Path.read_text = _utf8_read_text  # type: ignore[method-assign]
 
 # 4. Patch builtins.open so f.write(test_output) at swebench line 212 works.
 _orig_open = builtins.open
-def _utf8_open(file, mode="r", buffering=-1, encoding=None, errors=None,
-               newline=None, closefd=True, opener=None):
+
+
+def _utf8_open(
+    file,
+    mode="r",
+    buffering=-1,
+    encoding=None,
+    errors=None,
+    newline=None,
+    closefd=True,
+    opener=None,
+):
     if encoding is None and "b" not in mode:
         encoding = "utf-8"
     return _orig_open(file, mode, buffering, encoding, errors, newline, closefd, opener)
+
+
 builtins.open = _utf8_open  # type: ignore[assignment]
 io.open = _utf8_open  # type: ignore[assignment]
 

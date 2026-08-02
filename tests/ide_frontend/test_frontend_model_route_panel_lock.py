@@ -1,12 +1,10 @@
 """Tests for FRONTEND_MODEL_ROUTE_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 import re
-import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -15,13 +13,15 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_MODEL_ROUTE_PANEL_LOCK
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_model_route_panel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-STATUS_TOKENS = frozenset({
-    "MODEL_ROUTE_PANEL_READY",
-    "MODEL_ROUTE_DRY_RUN_VISIBLE",
-    "MODEL_ROUTE_LIVE_OPT_IN_VISIBLE",
-    "MODEL_ROUTE_BLOCKED_NO_MODEL_VISIBLE",
-    "MODEL_ROUTE_NETWORK_BLOCKED_VISIBLE",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "MODEL_ROUTE_PANEL_READY",
+        "MODEL_ROUTE_DRY_RUN_VISIBLE",
+        "MODEL_ROUTE_LIVE_OPT_IN_VISIBLE",
+        "MODEL_ROUTE_BLOCKED_NO_MODEL_VISIBLE",
+        "MODEL_ROUTE_NETWORK_BLOCKED_VISIBLE",
+    }
+)
 
 
 def test_panel_exists():
@@ -44,23 +44,23 @@ def test_panel_calls_get_model_route_status():
 def test_panel_shows_dry_run_default():
     src = PANEL.read_text(encoding="utf-8")
     assert "Dry-run default" in src
-    assert "data-testid=\"model-route-dry-run-note\"" in src
+    assert 'data-testid="model-route-dry-run-note"' in src
 
 
 def test_panel_shows_live_opt_in_advisory():
     src = PANEL.read_text(encoding="utf-8")
-    assert "data-testid=\"model-route-live-opt-in-note\"" in src
+    assert 'data-testid="model-route-live-opt-in-note"' in src
     assert "advisory" in src.lower()
 
 
 def test_panel_shows_blocked_no_model():
     src = PANEL.read_text(encoding="utf-8")
-    assert "data-testid=\"model-route-blocked-note\"" in src
+    assert 'data-testid="model-route-blocked-note"' in src
 
 
 def test_panel_shows_network_blocked():
     src = PANEL.read_text(encoding="utf-8")
-    assert "data-testid=\"model-route-network-blocked-note\"" in src
+    assert 'data-testid="model-route-network-blocked-note"' in src
     assert "Network" in src
 
 

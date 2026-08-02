@@ -26,8 +26,15 @@ KB_PATH = REPO / "logs" / "pb_kb.json"
 PATTERN_SIGNATURES = {
     "version_string_ldflags": {
         "description": "Binary outputs 'dev'/'unknown' but golden expects pinned version string.",
-        "signals": ["version dev", "gitversion:  dev", "gitversion:  unknown", "version = \"dev\"",
-                    "version 2.", "gitversion:  2.", "version unknown"],
+        "signals": [
+            "version dev",
+            "gitversion:  dev",
+            "gitversion:  unknown",
+            'version = "dev"',
+            "version 2.",
+            "gitversion:  2.",
+            "version unknown",
+        ],
         "fix": (
             "Go ldflags: -X main.version=<expected> -X main.commit=<sha> -X main.date=<date>. "
             "Find expected values in golden files. Check main.go for var names."
@@ -36,12 +43,18 @@ PATTERN_SIGNATURES = {
     "bin_name_argv0": {
         "description": "Error messages reference wrong binary name (executable vs real name).",
         "signals": ["executable: ", "exec -a", "argv[0]", "ambr:", "bin_name"],
-        "fix": "Use exec -a \"<toolname>\" in wrapper so argv[0] matches binary name in error messages.",
+        "fix": 'Use exec -a "<toolname>" in wrapper so argv[0] matches binary name in error messages.',
     },
     "rc_code_mismatch": {
         "description": "Tool returns wrong exit code for error conditions.",
-        "signals": ["returncode == 1", "returncode == 2", "exit code 1", "exit code 2",
-                    "assert rc ==", "assert ret =="],
+        "signals": [
+            "returncode == 1",
+            "returncode == 2",
+            "exit code 1",
+            "exit code 2",
+            "assert rc ==",
+            "assert ret ==",
+        ],
         "fix": "Run real upstream binary to check rc. Probe both rc=1 and rc=2 before patching — changing universally causes regressions.",
     },
     "version_prefix_v": {
@@ -52,7 +65,7 @@ PATTERN_SIGNATURES = {
     "tty_interactive_block": {
         "description": "Tool blocks waiting for TTY/interactive input; tests time out.",
         "signals": ["timeout", "timed out", "blocking", "--no-interactive", "stdin isatty"],
-        "fix": "Detect TTY in wrapper: [ -t 0 ] && exec bin \"$@\" || exec bin --no-interactive -y \"$@\"",
+        "fix": 'Detect TTY in wrapper: [ -t 0 ] && exec bin "$@" || exec bin --no-interactive -y "$@"',
     },
     "is_a_directory": {
         "description": "Tool prints 'Is a directory' for directory args — test expects this behavior.",
@@ -66,13 +79,19 @@ PATTERN_SIGNATURES = {
     },
     "help_text_format": {
         "description": "Help text format differs from golden (spacing, capitalization, usage line).",
-        "signals": ["usage:", "Usage:", "assert out ==", "help.txt", "help_stdout.txt",
-                    "AssertionError: assert '\\nusage"],
+        "signals": [
+            "usage:",
+            "Usage:",
+            "assert out ==",
+            "help.txt",
+            "help_stdout.txt",
+            "AssertionError: assert '\\nusage",
+        ],
         "fix": "Diff actual vs golden help text. Common issues: 'Usage:' vs 'usage:', extra newlines, version in header.",
     },
     "stdout_stderr_swap": {
         "description": "Tool writes to stdout when test expects stderr (or vice versa).",
-        "signals": ["assert err ==", "assert out == \"\"", "stderr", "assert stdout"],
+        "signals": ["assert err ==", 'assert out == ""', "stderr", "assert stdout"],
         "fix": "Check if binary writes errors to stdout vs stderr. Use 2>&1 redirect or separate capture in wrapper.",
     },
 }
@@ -108,9 +127,15 @@ IMPOSSIBLE_SIGNATURES = {
         "desc": "Asserts a live cloud/HTTP response; no network in eval container.",
         # Strings that can ONLY appear if a real remote service answered.
         "test_src_signals": [
-            "AccessDeniedException", "UnauthorizedOperation", "arn:aws:",
-            "ExpiredToken", "InvalidClientTokenId", "amazonaws.com",
-            "ConnectTimeout", "could not connect to", "NoCredentialProviders",
+            "AccessDeniedException",
+            "UnauthorizedOperation",
+            "arn:aws:",
+            "ExpiredToken",
+            "InvalidClientTokenId",
+            "amazonaws.com",
+            "ConnectTimeout",
+            "could not connect to",
+            "NoCredentialProviders",
         ],
     },
     "NEEDS_VENDORED_DEP": {
@@ -126,9 +151,12 @@ IMPOSSIBLE_SIGNATURES = {
         "desc": "Asserts behavior against a placeholder mock that never serves.",
         # Fixture admits it is a stub: returns a dead URL / None placeholder.
         "test_src_signals": [
-            "For now, return None", "placeholder to show the approach",
-            "Would be real mock server", "return 'http://localhost:4000'",
-            "return \"http://localhost:4000\"", "needs actual mock server",
+            "For now, return None",
+            "placeholder to show the approach",
+            "Would be real mock server",
+            "return 'http://localhost:4000'",
+            'return "http://localhost:4000"',
+            "needs actual mock server",
             "tests will need actual mock",
         ],
     },
@@ -136,7 +164,9 @@ IMPOSSIBLE_SIGNATURES = {
 
 # Operations a real AWS/SSM binary commonly calls that thin mocks omit.
 _COMMON_OMITTED_OPS = [
-    "DescribeParameters", "GetParametersByPath", "ListTagsForResource",
+    "DescribeParameters",
+    "GetParametersByPath",
+    "ListTagsForResource",
     "GetCallerIdentity",
 ]
 
@@ -188,7 +218,7 @@ def _extract_function_body(module_src: str, test_name: str) -> str:
         if stripped.startswith(f"def {fn}(") or stripped.startswith(f"async def {fn}("):
             indent = len(ln) - len(stripped)
             body = [ln]
-            for nxt in lines[i + 1:]:
+            for nxt in lines[i + 1 :]:
                 if nxt.strip() and (len(nxt) - len(nxt.lstrip())) <= indent:
                     break
                 body.append(nxt)
@@ -205,8 +235,7 @@ def classify_failure(slug: str, fail: dict) -> tuple[str, str]:
     module_src = _read_extracted_test_source(slug, branch, name)
     fn_src = _extract_function_body(module_src, name)
     # Does THIS test depend on a mock-server fixture? (function-level, precise)
-    uses_mock = ("mock_ssm_server" in fn_src or "mock_server" in fn_src
-                 or "mock_ssm_server" in name)
+    uses_mock = "mock_ssm_server" in fn_src or "mock_server" in fn_src or "mock_ssm_server" in name
 
     # 1. Missing pip dep (collection-time import error).
     for sig in IMPOSSIBLE_SIGNATURES["NEEDS_VENDORED_DEP"]["traceback_signals"]:
@@ -223,8 +252,10 @@ def classify_failure(slug: str, fail: dict) -> tuple[str, str]:
     if uses_mock:
         for sig in IMPOSSIBLE_SIGNATURES["IMPOSSIBLE_MOCK_STUB"]["test_src_signals"]:
             if sig in module_src:
-                return ("IMPOSSIBLE_MOCK_STUB",
-                        "uses placeholder mock fixture (dead URL / returns None)")
+                return (
+                    "IMPOSSIBLE_MOCK_STUB",
+                    "uses placeholder mock fixture (dead URL / returns None)",
+                )
 
     # 3. Live-cloud assertion — match only against the FUNCTION body's asserts,
     #    not mock response templates elsewhere in the module.
@@ -233,25 +264,32 @@ def classify_failure(slug: str, fail: dict) -> tuple[str, str]:
             # If the test uses a mock fixture, an AWS token is the mock's own
             # response, not a live-service requirement -> defer to mock checks.
             if not uses_mock or sig in tb:
-                return ("IMPOSSIBLE_NETWORK",
-                        f"asserts live-service token {sig!r}; no network in eval")
+                return (
+                    "IMPOSSIBLE_NETWORK",
+                    f"asserts live-service token {sig!r}; no network in eval",
+                )
 
     # 4. Partial mock: traceback shows UnknownOperation for an op the binary
     #    must call but the mock omits.
     if "UnknownOperation" in tb or "Unknown:" in tb:
         for op in _COMMON_OMITTED_OPS:
             if op in tb:
-                return ("IMPOSSIBLE_MOCK_PARTIAL",
-                        f"mock omits {op}; real binary requires it")
+                return ("IMPOSSIBLE_MOCK_PARTIAL", f"mock omits {op}; real binary requires it")
         return ("IMPOSSIBLE_MOCK_PARTIAL", "mock returned UnknownOperation")
 
     # 5. Version/golden conflict heuristic: a 'dev'/'unknown' expectation while
     #    another branch wants a pinned version (or vice versa).
     low = tb.lower()
-    if ("version dev" in low or "gitversion:  dev" in low or
-            "buildhash:  unknown" in low or "gitversion:  unknown" in low):
-        return ("IMPOSSIBLE_CONFLICT",
-                "branch expects dev/unknown version; conflicts with pinned-version branch")
+    if (
+        "version dev" in low
+        or "gitversion:  dev" in low
+        or "buildhash:  unknown" in low
+        or "gitversion:  unknown" in low
+    ):
+        return (
+            "IMPOSSIBLE_CONFLICT",
+            "branch expects dev/unknown version; conflicts with pinned-version branch",
+        )
 
     return ("WINNABLE", "no impossibility signal; likely fixable")
 
@@ -284,14 +322,22 @@ def cmd_triage(args):
     winnable = len(buckets.get("WINNABLE", []))
     true_ceiling = passed + winnable
 
-    print(f"\n{'='*64}\n  {real_slug}")
+    print(f"\n{'=' * 64}\n  {real_slug}")
     print(f"  Current: {passed}/{total}   Failing: {len(failures)}")
     print(f"  WINNABLE failures: {winnable}")
-    print(f"  TRUE CEILING (passed + winnable): {true_ceiling}/{total}"
-          + ("   -> LOCKABLE" if true_ceiling == total else "   -> NOT lockable"))
-    print(f"{'='*64}\n")
-    order = ["WINNABLE", "IMPOSSIBLE_MOCK_STUB", "IMPOSSIBLE_MOCK_PARTIAL",
-             "IMPOSSIBLE_NETWORK", "IMPOSSIBLE_CONFLICT", "NEEDS_VENDORED_DEP"]
+    print(
+        f"  TRUE CEILING (passed + winnable): {true_ceiling}/{total}"
+        + ("   -> LOCKABLE" if true_ceiling == total else "   -> NOT lockable")
+    )
+    print(f"{'=' * 64}\n")
+    order = [
+        "WINNABLE",
+        "IMPOSSIBLE_MOCK_STUB",
+        "IMPOSSIBLE_MOCK_PARTIAL",
+        "IMPOSSIBLE_NETWORK",
+        "IMPOSSIBLE_CONFLICT",
+        "NEEDS_VENDORED_DEP",
+    ]
     for v in order:
         items = buckets.get(v, [])
         if not items:
@@ -331,8 +377,7 @@ def _get_failures_and_errors(eval_path: str) -> list[dict]:
     if not p or not p.exists():
         return []
     ev = json.loads(p.read_text(encoding="utf-8"))
-    return [t for t in ev.get("test_results", [])
-            if t.get("status") in ("failure", "error")]
+    return [t for t in ev.get("test_results", []) if t.get("status") in ("failure", "error")]
 
 
 def load_board() -> list[dict]:
@@ -391,13 +436,13 @@ def cmd_diagnose(slug: str, full: bool = False):
     left = total - passed
     locked = entry.get("locked_archive", False)
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"  {entry.get('slug', slug)}")
     print(f"  Score: {score:.2f}% ({passed}/{total}, {left} left)")
     print(f"  Locked: {locked}")
     if eval_path:
         print(f"  Eval: {eval_path}")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     if locked:
         print("Already locked. Nothing to diagnose.")
@@ -438,9 +483,9 @@ def cmd_diagnose(slug: str, full: bool = False):
     # Pattern matching
     patterns = match_patterns(all_text)
     if patterns:
-        print(f"\n{'-'*60}")
-        print(f"  PATTERN MATCHES")
-        print(f"{'-'*60}")
+        print(f"\n{'-' * 60}")
+        print("  PATTERN MATCHES")
+        print(f"{'-' * 60}")
         for p in patterns[:4]:
             print(f"\n[{p['id']}] score={p['score']} — {p['description']}")
             print(f"  FIX: {p['fix']}")
@@ -465,8 +510,7 @@ def cmd_diagnose(slug: str, full: bool = False):
 def cmd_board(_args):
     board = load_board()
     unlocked = [
-        e for e in board
-        if not e.get("locked_archive") and e.get("best_runnable_total", 0) > 0
+        e for e in board if not e.get("locked_archive") and e.get("best_runnable_total", 0) > 0
     ]
     unlocked.sort(key=lambda e: -e.get("best_score", 0))
 
@@ -501,9 +545,7 @@ def cmd_cluster(args):
         if not eval_path:
             continue
         failures = get_failures(eval_path)
-        all_text = " ".join(
-            (f.get("extra", {}) or {}).get("text", "") or "" for f in failures
-        )
+        all_text = " ".join((f.get("extra", {}) or {}).get("text", "") or "" for f in failures)
         score = sum(1 for sig in pat["signals"] if sig.lower() in all_text.lower())
         if score > 0:
             hits.append((score, e.get("slug"), e.get("best_score", 0), len(failures)))

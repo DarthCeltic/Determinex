@@ -12,6 +12,7 @@ audit:
     LEGACY_EXEMPT_TEST_FIXTURE paths
   * Every new path-rule's target file resolves correctly under the audit
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -34,21 +35,23 @@ LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-STATUS_TOKENS = frozenset({
-    "SCRIPT_HELPER_SWEEP_READY",
-    "UNKNOWN_DECREASED_MATERIALLY",
-    "UNKNOWN_REACHED_ZERO",
-    "BLOCKED_UNSAFE_SURFACED",
-    "PROGRAMBENCH_PRESERVED",
-    "NEEDS_OWNER_DECISION_DEFINED",
-    "KIND_OVERRIDE_ACTIVE",
-    "KIND_OVERRIDE_CARVES_OUT_PROGRAMBENCH",
-    "KIND_OVERRIDE_CARVES_OUT_TEST_FIXTURE",
-    "ALL_HELPERS_CLASSIFIED",
-    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
-    "CORPUS_UNMUTATED",
-    "SAFETY_DEFAULTS_RESPECTED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "SCRIPT_HELPER_SWEEP_READY",
+        "UNKNOWN_DECREASED_MATERIALLY",
+        "UNKNOWN_REACHED_ZERO",
+        "BLOCKED_UNSAFE_SURFACED",
+        "PROGRAMBENCH_PRESERVED",
+        "NEEDS_OWNER_DECISION_DEFINED",
+        "KIND_OVERRIDE_ACTIVE",
+        "KIND_OVERRIDE_CARVES_OUT_PROGRAMBENCH",
+        "KIND_OVERRIDE_CARVES_OUT_TEST_FIXTURE",
+        "ALL_HELPERS_CLASSIFIED",
+        "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+        "CORPUS_UNMUTATED",
+        "SAFETY_DEFAULTS_RESPECTED",
+    }
+)
 
 
 def _sha256(p: Path) -> str | None:
@@ -74,6 +77,7 @@ def _hash_signed_evidence() -> dict[str, str]:
 # ---------------------------------------------------------------------------
 # Status / classification token set
 # ---------------------------------------------------------------------------
+
 
 def test_status_tokens_match_expected_set():
     expected = {
@@ -111,6 +115,7 @@ def test_always_blocked_kinds_includes_shell_and_os_system():
 # ---------------------------------------------------------------------------
 # Post-sweep audit invariants
 # ---------------------------------------------------------------------------
+
 
 def test_unknown_requires_review_is_zero():
     rpt = audit.run_audit()
@@ -163,15 +168,13 @@ def test_must_migrate_sites_known_set_only():
     0. This test allows either state — invariant is 'no NEW MUST_MIGRATE
     in unexpected files'."""
     rpt = audit.run_audit()
-    sites = [s for s in rpt.sites
-             if s.classification == "MUST_MIGRATE_TO_HARDENED_RUNNER"]
+    sites = [s for s in rpt.sites if s.classification == "MUST_MIGRATE_TO_HARDENED_RUNNER"]
     allowed_files = {
         "scripts/determinex_codeclash_agent.py",  # historical baseline
     }
     unexpected = [s for s in sites if s.file_path not in allowed_files]
     assert unexpected == [], (
-        f"Unexpected MUST_MIGRATE sites: "
-        f"{[(s.file_path, s.line, s.kind) for s in unexpected]}"
+        f"Unexpected MUST_MIGRATE sites: {[(s.file_path, s.line, s.kind) for s in unexpected]}"
     )
     assert len(sites) in (0, 1)
 
@@ -180,16 +183,13 @@ def test_must_migrate_sites_known_set_only():
 # Kind-aware override behavior
 # ---------------------------------------------------------------------------
 
+
 def test_kind_override_carves_out_programbench_files(tmp_path: Path, monkeypatch):
     """A synthetic ProgramBench file containing shell=True must STAY
     PROGRAMBENCH_OUT_OF_SCOPE — the kind-override must NOT escalate it
     to BLOCKED_UNSAFE."""
     # Synthetic source containing shell=True
-    src = (
-        "import subprocess\n"
-        "def go():\n"
-        "    subprocess.run('echo hi', shell=True)\n"
-    )
+    src = "import subprocess\ndef go():\n    subprocess.run('echo hi', shell=True)\n"
     # We test the scan_file behavior by writing the file under a PB path
     # within the live repo (not actually creating new files there — instead
     # we exercise _classify_path + the override logic directly).
@@ -202,9 +202,7 @@ def test_kind_override_carves_out_programbench_files(tmp_path: Path, monkeypatch
     # PROGRAMBENCH_OUT_OF_SCOPE, not BLOCKED_UNSAFE).
     rpt = audit.run_audit()
     pb_shell_sites = [
-        s for s in rpt.sites
-        if s.kind == "shell=True"
-        and s.file_path.startswith("scripts/pb_")
+        s for s in rpt.sites if s.kind == "shell=True" and s.file_path.startswith("scripts/pb_")
     ]
     for s in pb_shell_sites:
         assert s.classification == "PROGRAMBENCH_OUT_OF_SCOPE", (
@@ -226,9 +224,7 @@ def test_kind_override_mechanism_intact():
     # (which then get carved back to PROGRAMBENCH_OUT_OF_SCOPE):
     rpt = audit.run_audit()
     pb_shell_sites = [
-        s for s in rpt.sites
-        if s.kind == "shell=True"
-        and s.file_path.startswith("scripts/pb_")
+        s for s in rpt.sites if s.kind == "shell=True" and s.file_path.startswith("scripts/pb_")
     ]
     # If PB has shell=True sites, they must remain PB (carve-out working)
     for s in pb_shell_sites:
@@ -239,84 +235,103 @@ def test_kind_override_mechanism_intact():
 # Specific reclassifications spot-checked
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("file_path,expected_classification", [
-    # Hive-sandboxed (SWE-bench)
-    ("scripts/swe_run/repo.py", "HIVE_SANDBOXED_PATH"),
-    ("scripts/setup_swebench.py", "HIVE_SANDBOXED_PATH"),
-    ("scripts/smoke_test_swebench.py", "HIVE_SANDBOXED_PATH"),
-    ("scripts/benchmarks/windows/swebench_live_windows.py", "HIVE_SANDBOXED_PATH"),
-    # Legacy exempt — repo acquisition (git clones)
-    ("scripts/download_swebench_repos.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/download_multilang_repos.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt — benchmark orchestrators
-    ("scripts/determinex_ask.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/determinex_benchmark.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/determinex_benchmark_5run.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/determinex_bigcode_run.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/determinex_fullbench.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/determinex_livecode_run.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/determinex_flywheel.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/determinex_limits_test.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/determinex_projector.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt — sprint orchestration
-    ("scripts/sprint4_preflight.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/sprint4_smoke_pass.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt — model / gguf maintenance
-    ("scripts/fix_corpus.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/fix_retrain_engineer.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/fix_retrain_observer.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/fix_retrain_sentinel.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/fix_sen_merge_gguf.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/sentinel_gguf_and_fetch.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/verify_gguf.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/gguf_sentinel_only.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt — analysis tools
-    ("scripts/analysis/iterate_to_lock.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/analysis/llm_gen_iterate.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/analysis/auto_revert_regressions.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt — security scans
-    ("scripts/security/generate_sbom.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/security/dependency_scan.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/security/container_scan.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt — hardware/health probes
-    ("scripts/hardware_profiler.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/health_monitor.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/vram_monitor.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt — bench harnesses (non-SWE)
-    ("scripts/benchmark_runner.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/benchmarks/windows/deepeval_humaneval.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/quality_benchmark_agent.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt — eval / iteration
-    ("scripts/micro_eval.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/patch_iterate.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/full_sweep_iterate.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/three_speed_gate.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/rosetta_vs_text_eval.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/tonight_launch.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/preflight_mass_run.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt - status/evidence probes
-    ("scripts/status/git_dirty_state.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/status/splash_path_reconciliation_and_prep.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/status/idea_lab_python_cli_verified_splash_demo.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/repo_clinic_fixture_repair_splash_demo.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/maintenance_bay_dry_run_update_splash_demo.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/universal_100_matrix_probe_execution_batch.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/universal_100_matrix_probe_execution_batch_003.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/typescript_node_cli_adapter_probe.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/universal_100_matrix_probe_execution_batch_004.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/universal_100_sector_gulp_batch_005.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/universal_100_sector_gulp_batch_006.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/universal_100_tandem_climb.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
-    ("scripts/status/tandem_post_claude_binding_reconciliation.py", "LEGACY_EXEMPT_READ_ONLY"),
-    # Legacy exempt — corpus tooling
-    ("scripts/deepseek_data_engine.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/convert_failures_to_sft.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/run_corpus_to_100k.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/register_v1_1.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/reference_diff.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/run_ledger.py", "LEGACY_EXEMPT_READ_ONLY"),
-    ("scripts/_batch_apply_pending.py", "LEGACY_EXEMPT_READ_ONLY"),
-])
+
+@pytest.mark.parametrize(
+    "file_path,expected_classification",
+    [
+        # Hive-sandboxed (SWE-bench)
+        ("scripts/swe_run/repo.py", "HIVE_SANDBOXED_PATH"),
+        ("scripts/setup_swebench.py", "HIVE_SANDBOXED_PATH"),
+        ("scripts/smoke_test_swebench.py", "HIVE_SANDBOXED_PATH"),
+        ("scripts/benchmarks/windows/swebench_live_windows.py", "HIVE_SANDBOXED_PATH"),
+        # Legacy exempt — repo acquisition (git clones)
+        ("scripts/download_swebench_repos.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/download_multilang_repos.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt — benchmark orchestrators
+        ("scripts/determinex_ask.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/determinex_benchmark.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/determinex_benchmark_5run.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/determinex_bigcode_run.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/determinex_fullbench.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/determinex_livecode_run.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/determinex_flywheel.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/determinex_limits_test.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/determinex_projector.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt — sprint orchestration
+        ("scripts/sprint4_preflight.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/sprint4_smoke_pass.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt — model / gguf maintenance
+        ("scripts/fix_corpus.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/fix_retrain_engineer.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/fix_retrain_observer.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/fix_retrain_sentinel.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/fix_sen_merge_gguf.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/sentinel_gguf_and_fetch.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/verify_gguf.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/gguf_sentinel_only.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt — analysis tools
+        ("scripts/analysis/iterate_to_lock.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/analysis/llm_gen_iterate.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/analysis/auto_revert_regressions.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt — security scans
+        ("scripts/security/generate_sbom.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/security/dependency_scan.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/security/container_scan.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt — hardware/health probes
+        ("scripts/hardware_profiler.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/health_monitor.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/vram_monitor.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt — bench harnesses (non-SWE)
+        ("scripts/benchmark_runner.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/benchmarks/windows/deepeval_humaneval.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/quality_benchmark_agent.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt — eval / iteration
+        ("scripts/micro_eval.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/patch_iterate.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/full_sweep_iterate.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/three_speed_gate.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/rosetta_vs_text_eval.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/tonight_launch.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/preflight_mass_run.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt - status/evidence probes
+        ("scripts/status/git_dirty_state.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/status/splash_path_reconciliation_and_prep.py", "LEGACY_EXEMPT_READ_ONLY"),
+        (
+            "scripts/status/idea_lab_python_cli_verified_splash_demo.py",
+            "LEGACY_EXEMPT_TEST_FIXTURE",
+        ),
+        ("scripts/status/repo_clinic_fixture_repair_splash_demo.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
+        (
+            "scripts/status/maintenance_bay_dry_run_update_splash_demo.py",
+            "LEGACY_EXEMPT_TEST_FIXTURE",
+        ),
+        (
+            "scripts/status/universal_100_matrix_probe_execution_batch.py",
+            "LEGACY_EXEMPT_TEST_FIXTURE",
+        ),
+        (
+            "scripts/status/universal_100_matrix_probe_execution_batch_003.py",
+            "LEGACY_EXEMPT_TEST_FIXTURE",
+        ),
+        ("scripts/status/typescript_node_cli_adapter_probe.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
+        (
+            "scripts/status/universal_100_matrix_probe_execution_batch_004.py",
+            "LEGACY_EXEMPT_TEST_FIXTURE",
+        ),
+        ("scripts/status/universal_100_sector_gulp_batch_005.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
+        ("scripts/status/universal_100_sector_gulp_batch_006.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
+        ("scripts/status/universal_100_tandem_climb.py", "LEGACY_EXEMPT_TEST_FIXTURE"),
+        ("scripts/status/tandem_post_claude_binding_reconciliation.py", "LEGACY_EXEMPT_READ_ONLY"),
+        # Legacy exempt — corpus tooling
+        ("scripts/deepseek_data_engine.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/convert_failures_to_sft.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/run_corpus_to_100k.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/register_v1_1.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/reference_diff.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/run_ledger.py", "LEGACY_EXEMPT_READ_ONLY"),
+        ("scripts/_batch_apply_pending.py", "LEGACY_EXEMPT_READ_ONLY"),
+    ],
+)
 def test_path_rule_classification(file_path: str, expected_classification: str):
     cls, _rationale = audit._classify_path(file_path)
     assert cls == expected_classification, (
@@ -328,9 +343,11 @@ def test_path_rule_classification(file_path: str, expected_classification: str):
 # Cross-cutting safety
 # ---------------------------------------------------------------------------
 
+
 def test_audit_still_read_only(monkeypatch):
     """Even with the new rules, the audit must not call subprocess."""
     import subprocess
+
     calls: list[str] = []
 
     def _no_run(*args, **kwargs):
@@ -353,8 +370,10 @@ def test_audit_does_not_mutate_signed_evidence():
 
 def test_corpus_write_guard_active():
     from corpus.corpus_manager import (  # type: ignore[attr-defined]
-        _assert_writes_allowed, CorpusWriteBlockedError,
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
     )
+
     os.environ["DETERMINEX_NO_CORPUS_WRITE"] = "1"
     try:
         with pytest.raises(CorpusWriteBlockedError):
@@ -365,6 +384,7 @@ def test_corpus_write_guard_active():
 
 def test_safety_defaults_remain_fail_closed():
     from determinex_settings import DeterminexSettings, reset_settings
+
     reset_settings()
     s = DeterminexSettings()
     assert s.assert_safety_defaults() == []
@@ -375,8 +395,7 @@ def test_safety_defaults_remain_fail_closed():
 # ---------------------------------------------------------------------------
 
 _LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001.json"
+    _REPO_ROOT / "locks" / "sentinel" / "SCRIPT_HELPER_EXECUTION_CLASSIFICATION_SWEEP_LOCK_001.json"
 )
 
 

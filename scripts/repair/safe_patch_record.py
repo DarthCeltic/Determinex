@@ -4,11 +4,11 @@ The record is the only output of ``SafePatchWorkspace.apply_and_verify``.
 It is JSON-serializable, carries the unified diff and verifier status,
 and explicitly records that the *original* source remained unchanged.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 SAFE_PATCH_STATUS_TOKENS = (
     "PATCH_APPLIED_TO_TEMP_WORKSPACE",
@@ -31,7 +31,8 @@ class FilePatch:
     ``new_content`` must be UTF-8 decodable text. Binary patches are
     rejected with ``PATCH_BLOCKED_BINARY_CONTENT``.
     """
-    path: str           # relative to workspace; no .., no absolute
+
+    path: str  # relative to workspace; no .., no absolute
     new_content: str
 
 

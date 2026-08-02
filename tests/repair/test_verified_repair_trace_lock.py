@@ -13,6 +13,7 @@ Covers:
   * Trace ids are stable / reproducible from inputs
   * Trace fingerprint is sha256-stable
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -55,17 +56,19 @@ EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "verified_repair_trace"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-STATUS_TOKENS = frozenset({
-    "VERIFIED_REPAIR_TRACE_WRITTEN",
-    "TRACE_BLOCKED_UNSUPPORTED_REPO",
-    "TRACE_BLOCKED_NO_VERIFIER",
-    "TRACE_PATCH_FAILED",
-    "TRACE_VERIFIER_FAILED",
-    "TRACE_VERIFIER_PASSED_TEMP_ONLY",
-    "TRACE_SOURCE_UNCHANGED_CONFIRMED",
-    "TRAINING_ELIGIBLE_FALSE",
-    "TRACE_BLOCKED_NO_ROUTE",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "VERIFIED_REPAIR_TRACE_WRITTEN",
+        "TRACE_BLOCKED_UNSUPPORTED_REPO",
+        "TRACE_BLOCKED_NO_VERIFIER",
+        "TRACE_PATCH_FAILED",
+        "TRACE_VERIFIER_FAILED",
+        "TRACE_VERIFIER_PASSED_TEMP_ONLY",
+        "TRACE_SOURCE_UNCHANGED_CONFIRMED",
+        "TRAINING_ELIGIBLE_FALSE",
+        "TRACE_BLOCKED_NO_ROUTE",
+    }
+)
 
 
 def _hash_tree(root: Path) -> dict[str, str]:
@@ -210,14 +213,21 @@ def test_trace_fingerprint_stable_across_runs(tmp_path):
     runner_a = VerifiedRepairTraceRunner(router=_stocked_router(), salt="pin")
     runner_b = VerifiedRepairTraceRunner(router=_stocked_router(), salt="pin")
     patches = [FilePatch("src/calc.py", "x = 1\n")]
-    trace_a = runner_a.run(ws, tmp_path / "a", patches=patches, verifier=stub_verifier_pass, workspace_id="fp")
-    trace_b = runner_b.run(ws, tmp_path / "b", patches=patches, verifier=stub_verifier_pass, workspace_id="fp")
+    trace_a = runner_a.run(
+        ws, tmp_path / "a", patches=patches, verifier=stub_verifier_pass, workspace_id="fp"
+    )
+    trace_b = runner_b.run(
+        ws, tmp_path / "b", patches=patches, verifier=stub_verifier_pass, workspace_id="fp"
+    )
     # trace_id is input-only, so must equal.
     assert trace_a.trace_id == trace_b.trace_id
     # safe_patch_result includes the temp path (varies). So the
     # trace_fingerprint changes — assert it stays sha256-stable across
     # repeated dumps of the SAME trace object.
-    assert trace_a.trace_fingerprint == hashlib.sha256(trace_a.to_json(indent=None).encode("utf-8")).hexdigest()
+    assert (
+        trace_a.trace_fingerprint
+        == hashlib.sha256(trace_a.to_json(indent=None).encode("utf-8")).hexdigest()
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -238,7 +248,8 @@ def test_every_trace_corpus_eligibility_blocked(runner, tmp_path):
     for fname, target in fixtures:
         ws = FIXTURES / fname
         trace = runner.run(
-            ws, temp_root=tmp_path / fname,
+            ws,
+            temp_root=tmp_path / fname,
             patches=[FilePatch(target, "x\n")],
             verifier=stub_verifier_pass,
             workspace_id=f"corpus_{fname}",

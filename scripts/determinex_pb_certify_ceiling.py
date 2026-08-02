@@ -23,12 +23,12 @@ Usage:
   python scripts/determinex_pb_certify_ceiling.py --all-ceilings [--apply] [--update-index]
   python scripts/determinex_pb_certify_ceiling.py --slug <full_slug> [--apply]
 """
+
 from __future__ import annotations
 
 import argparse
 import datetime
 import json
-import re
 import sys
 import tarfile
 from collections import Counter, defaultdict
@@ -39,10 +39,12 @@ sys.path.insert(0, str(ROOT / "scripts"))
 LOCKED = ROOT / "corpus" / "programbench" / "locked"
 INDEX = ROOT / "corpus" / "programbench" / "eval_index.json"
 
-from determinex_adjudicator import (  # noqa: E402
-    Verdict, adjudicate_eval_report, _base_nodeid,
-)
 import determinex_pb_autofix as AF  # noqa: E402
+from determinex_adjudicator import (  # noqa: E402
+    Verdict,
+    _base_nodeid,
+    adjudicate_eval_report,
+)
 
 
 def _resolve_inputs(slug: str) -> tuple[Path | None, str, str, str]:
@@ -52,8 +54,10 @@ def _resolve_inputs(slug: str) -> tuple[Path | None, str, str, str]:
     conftest = compile_sh = ""
     archive = LOCKED / full
     # pull compile.sh (carries the conftest heredoc) from the locked tarball or override
-    for tarp in (archive / "submission.tar.gz",
-                 ROOT / "corpus/programbench/per_tool_overrides" / full / "submission.tar.gz"):
+    for tarp in (
+        archive / "submission.tar.gz",
+        ROOT / "corpus/programbench/per_tool_overrides" / full / "submission.tar.gz",
+    ):
         if tarp.exists():
             try:
                 with tarfile.open(tarp, "r:gz") as t:
@@ -100,8 +104,8 @@ def _render_cert(slug: str, report: Path, by_v, impossible: int) -> str:
         "> non-passing unit adjudicates IMPOSSIBLE (upstream-skip or identical-context-conflict).",
         "",
         f"**Score:** {passed}/{total} passed "
-        f"({100*passed/total:.2f}% — fail={c.get('failure',0)+c.get('failed',0)+c.get('error',0)}, "
-        f"not_run={c.get('not_run',0)}, skipped={c.get('skipped',0)}).",
+        f"({100 * passed / total:.2f}% — fail={c.get('failure', 0) + c.get('failed', 0) + c.get('error', 0)}, "
+        f"not_run={c.get('not_run', 0)}, skipped={c.get('skipped', 0)}).",
         f"**Gap to 100%:** {impossible} unique non-passing unit(s), ALL proven IMPOSSIBLE. "
         "0 reopenable.",
         "",
@@ -123,9 +127,11 @@ def _render_cert(slug: str, report: Path, by_v, impossible: int) -> str:
             lines.append(ln)
         lines.append("")
     lines.append("## Verdict")
-    lines.append(f"**LOCKED AT CEILING** at {passed}/{total}. The remaining {impossible} unit(s) "
-                 "cannot be satisfied by any single from-source binary without editing the "
-                 "benchmark fixtures. This is the maximum attainable score.")
+    lines.append(
+        f"**LOCKED AT CEILING** at {passed}/{total}. The remaining {impossible} unit(s) "
+        "cannot be satisfied by any single from-source binary without editing the "
+        "benchmark fixtures. This is the maximum attainable score."
+    )
     lines.append("")
     return "\n".join(lines)
 
@@ -136,8 +142,7 @@ def certify_one(slug: str, apply: bool) -> dict:
         return {"slug": slug, "result": "no-eval-report"}
     adjs = adjudicate_eval_report(report, conftest, compile_sh)
     by_v, impossible, reopen = _partition(adjs)
-    res = {"slug": slug, "impossible": impossible, "reopen": reopen,
-           "report": str(report)}
+    res = {"slug": slug, "impossible": impossible, "reopen": reopen, "report": str(report)}
     # PROOF REQUIRED, not just a count (2026-07-30). This certified on `impossible > 0 and
     # reopen == 0` alone and then wrote a CEILING_CERT.md asserting "ALL proven IMPOSSIBLE" and
     # "This is the maximum attainable score" into the locked archive -- and with --update-index
@@ -160,7 +165,8 @@ def certify_one(slug: str, apply: bool) -> dict:
     # positionally as remediation. Reading a non-existent `rationale` here would have defaulted to
     # "" and marked every unit unproven: conservative by accident, and wrong as documentation.
     unproven = [
-        a for a in impossible_adjs
+        a
+        for a in impossible_adjs
         if not str(getattr(a, "remediation", "") or "").strip().startswith("PROOF:")
     ]
     if impossible > 0 and reopen == 0 and unproven:
@@ -182,8 +188,12 @@ def certify_one(slug: str, apply: bool) -> dict:
     else:
         res["result"] = "DEMOTE"  # reopenable units exist -> NOT a ceiling
         res["reopenable_strategies"] = dict(
-            Counter(a.strategy for v in (Verdict.UNBLOCK, Verdict.MATCH, Verdict.ROUTE,
-                                         Verdict.NEEDS_WORK) for a in by_v.get(v, [])))
+            Counter(
+                a.strategy
+                for v in (Verdict.UNBLOCK, Verdict.MATCH, Verdict.ROUTE, Verdict.NEEDS_WORK)
+                for a in by_v.get(v, [])
+            )
+        )
     return res
 
 
@@ -192,21 +202,32 @@ def _ceiling_slugs() -> list[str]:
     rows = rows if isinstance(rows, list) else list(rows.values())
     out = []
     for r in rows:
-        if isinstance(r, dict) and r.get("status") in ("ceiling_confirmed", "ceiling_certified") \
-                and not r.get("alias_of") and not r.get("canonical_slug"):
+        if (
+            isinstance(r, dict)
+            and r.get("status") in ("ceiling_confirmed", "ceiling_certified")
+            and not r.get("alias_of")
+            and not r.get("canonical_slug")
+        ):
             out.append(r.get("slug"))
     return [s for s in out if s]
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--slug", help="certify one full slug")
-    ap.add_argument("--all-ceilings", action="store_true",
-                    help="run over every ceiling_confirmed/ceiling_certified row")
+    ap.add_argument(
+        "--all-ceilings",
+        action="store_true",
+        help="run over every ceiling_confirmed/ceiling_certified row",
+    )
     ap.add_argument("--apply", action="store_true", help="write CEILING_CERT.md files")
-    ap.add_argument("--update-index", action="store_true",
-                    help="set status: CERTIFIED->ceiling_certified, DEMOTE->open (with --apply)")
+    ap.add_argument(
+        "--update-index",
+        action="store_true",
+        help="set status: CERTIFIED->ceiling_certified, DEMOTE->open (with --apply)",
+    )
     args = ap.parse_args()
 
     slugs = [args.slug] if args.slug else (_ceiling_slugs() if args.all_ceilings else [])
@@ -222,10 +243,14 @@ def main() -> int:
     print(f"\n=== CEILING CERTIFICATION ({len(results)} tools) ===")
     print(f"\nCERTIFIED ({len(cert)}) — all non-passing units proven IMPOSSIBLE:")
     for r in cert:
-        print(f"  {r['slug']:42s} {r['impossible']} ceiling unit(s){'  [cert written]' if args.apply else ''}")
+        print(
+            f"  {r['slug']:42s} {r['impossible']} ceiling unit(s){'  [cert written]' if args.apply else ''}"
+        )
     print(f"\nDEMOTE ({len(demote)}) — reopenable work, NOT a ceiling:")
     for r in demote:
-        print(f"  {r['slug']:42s} reopen={r['reopen']} impossible={r['impossible']}  {r.get('reopenable_strategies',{})}")
+        print(
+            f"  {r['slug']:42s} reopen={r['reopen']} impossible={r['impossible']}  {r.get('reopenable_strategies', {})}"
+        )
     if other:
         print(f"\nUNRESOLVED ({len(other)}):")
         for r in other:
@@ -243,13 +268,18 @@ def main() -> int:
                 continue
             sl = e.get("slug")
             if sl in cset and e.get("status") != "ceiling_certified":
-                e["status"] = "ceiling_certified"; n += 1
+                e["status"] = "ceiling_certified"
+                n += 1
             elif sl in dset and e.get("status") in ("ceiling_confirmed", "ceiling_certified"):
-                e["status"] = "open"; e["demoted_from_ceiling"] = True; n += 1
+                e["status"] = "open"
+                e["demoted_from_ceiling"] = True
+                n += 1
         INDEX.write_text(json.dumps(rows, indent=2, ensure_ascii=False), encoding="utf-8")
         print(f"\nupdated eval_index status on {n} row(s).")
 
-    print(f"\nSUMMARY: {len(cert)} certified, {len(demote)} demoted (mislabeled), {len(other)} unresolved.")
+    print(
+        f"\nSUMMARY: {len(cert)} certified, {len(demote)} demoted (mislabeled), {len(other)} unresolved."
+    )
     return 0
 
 

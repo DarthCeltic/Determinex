@@ -20,19 +20,37 @@ from corpus.programbench.upstream_artifact_authority_recheck_record import (  # 
     verify_upstream_artifact_authority_recheck_record,
 )
 
-
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
-MANIFEST = Path("assurance/evidence/programbench_dockerhub_manifest_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.EXACT_REMOTE_MANIFEST_FOUND.json")
-REQUEST = Path("assurance/evidence/programbench_operator_provenance_requests/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.json")
-DECISION = Path("assurance/evidence/programbench_rebuild_provenance_quarantine_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.json")
-SCAN = Path("assurance/evidence/programbench_cleanroom_image_scans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json")
-HYDRATION = Path("assurance/evidence/programbench_cleanroom_image_hydration/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json")
-ALTERNATE = Path("assurance/evidence/programbench_alternate_cleanroom_image_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.json")
+MANIFEST = Path(
+    "assurance/evidence/programbench_dockerhub_manifest_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.EXACT_REMOTE_MANIFEST_FOUND.json"
+)
+REQUEST = Path(
+    "assurance/evidence/programbench_operator_provenance_requests/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.json"
+)
+DECISION = Path(
+    "assurance/evidence/programbench_rebuild_provenance_quarantine_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.json"
+)
+SCAN = Path(
+    "assurance/evidence/programbench_cleanroom_image_scans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json"
+)
+HYDRATION = Path(
+    "assurance/evidence/programbench_cleanroom_image_hydration/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json"
+)
+ALTERNATE = Path(
+    "assurance/evidence/programbench_alternate_cleanroom_image_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.json"
+)
 PROVIDER_REGISTRY = Path("locks/sentinel/PROGRAMBENCH_ONLINE_PROVIDER_REGISTRY_LOCK_001.json")
-TRIAGE = Path("assurance/evidence/programbench_cleanroom_image_scan_triage/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_TRIAGED.json")
+TRIAGE = Path(
+    "assurance/evidence/programbench_cleanroom_image_scan_triage/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_TRIAGED.json"
+)
 
 
-def _runner(tmp_path: Path, *, expected_digest: str = EXPECTED_DIGEST, authority_paths: list[Path] | None = None):
+def _runner(
+    tmp_path: Path,
+    *,
+    expected_digest: str = EXPECTED_DIGEST,
+    authority_paths: list[Path] | None = None,
+):
     return ProgramBenchUpstreamArtifactAuthorityRecheck(
         UpstreamArtifactAuthorityRecheckConfig(
             root=_ROOT,
@@ -66,7 +84,10 @@ def test_doxygen_instance_maps_to_expected_task_cleanroom_image():
 def test_live_recheck_admits_upstream_artifact_authority_present_metadata_only(tmp_path):
     record = _recheck(tmp_path)["record"]
     assert record["upstream_benchmark_artifact_authority"] == AuthorityValue.PRESENT.value
-    assert record["decision"] == "OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED_EXECUTION_BLOCKED_SCAN_FAILED"
+    assert (
+        record["decision"]
+        == "OFFICIAL_ARTIFACT_METADATA_ONLY_ADMITTED_EXECUTION_BLOCKED_SCAN_FAILED"
+    )
     assert record["authority_findings"]["exact_provider_manifest"]["metadata_only_lookup"] is True
     assert record["authority_findings"]["exact_provider_manifest"]["pulled_layers"] is False
     assert record["authority_findings"]["exact_provider_manifest"]["executed"] is False
@@ -120,10 +141,17 @@ def test_training_cache_and_execution_remain_false(tmp_path):
 
 def test_record_statuses_include_expected_authority_and_policy_boundaries(tmp_path):
     statuses = _recheck(tmp_path)["record"]["authority_findings"]["authority_statuses"]
-    assert UpstreamArtifactAuthorityRecheckStatus.UPSTREAM_ARTIFACT_AUTHORITY_PRESENT.value in statuses
-    assert UpstreamArtifactAuthorityRecheckStatus.REBUILD_PROVENANCE_AUTHORITY_ABSENT.value in statuses
+    assert (
+        UpstreamArtifactAuthorityRecheckStatus.UPSTREAM_ARTIFACT_AUTHORITY_PRESENT.value in statuses
+    )
+    assert (
+        UpstreamArtifactAuthorityRecheckStatus.REBUILD_PROVENANCE_AUTHORITY_ABSENT.value in statuses
+    )
     assert UpstreamArtifactAuthorityRecheckStatus.REMEDIATION_AUTHORITY_ABSENT.value in statuses
-    assert UpstreamArtifactAuthorityRecheckStatus.OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED.value in statuses
+    assert (
+        UpstreamArtifactAuthorityRecheckStatus.OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED.value
+        in statuses
+    )
     assert UpstreamArtifactAuthorityRecheckStatus.TRAINING_INELIGIBLE.value in statuses
 
 
@@ -184,7 +212,12 @@ def test_no_policy_exception_or_rerun_authority_is_granted(tmp_path):
     assert auth["remediation_authorized"] is False
 
 
-def test_alternate_not_found_record_does_not_force_dead_end_when_official_artifact_is_present(tmp_path):
+def test_alternate_not_found_record_does_not_force_dead_end_when_official_artifact_is_present(
+    tmp_path,
+):
     record = _recheck(tmp_path)["record"]
-    assert record["verification"]["alternate_provenance_status"] == "ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND"
+    assert (
+        record["verification"]["alternate_provenance_status"]
+        == "ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND"
+    )
     assert record["upstream_benchmark_artifact_authority"] == AuthorityValue.PRESENT.value

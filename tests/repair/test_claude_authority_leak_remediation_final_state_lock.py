@@ -12,6 +12,7 @@ These tests:
     (using a synthetic repo root in a tmpdir).
   - Verify lock/evidence/index artifacts are present.
 """
+
 from __future__ import annotations
 
 import importlib
@@ -25,18 +26,17 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-final = importlib.import_module(
-    "repair.claude_authority_leak_remediation_final_state"
-)
-final_rec = importlib.import_module(
-    "repair.claude_authority_leak_remediation_final_state_record"
-)
+final = importlib.import_module("repair.claude_authority_leak_remediation_final_state")
+final_rec = importlib.import_module("repair.claude_authority_leak_remediation_final_state_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT
+    / "locks"
+    / "sentinel"
+    / ("CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_LOCK_001.json")
 )
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_authority_leak_remediation_final_state"
+EVIDENCE_DIR = (
+    _REPO_ROOT / "assurance" / "evidence" / ("claude_authority_leak_remediation_final_state")
 )
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -47,8 +47,7 @@ EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 def test_live_evaluation_passes():
     rec = final.evaluate(_REPO_ROOT)
     assert rec.is_passed, (
-        f"finale evaluator did not pass; decision={rec.decision!r}; "
-        f"notes={rec.notes!r}"
+        f"finale evaluator did not pass; decision={rec.decision!r}; notes={rec.notes!r}"
     )
 
 
@@ -117,8 +116,7 @@ def test_synthetic_repo_passes_when_complete(tmp_path):
 def test_missing_rung_lock_manifest_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
     # Remove the rung-1 lock.
-    (fake / "locks" / "sentinel"
-     / "REAL_APPROVAL_DIFF_BODY_CONTENT_BINDING_LOCK_001.json").unlink()
+    (fake / "locks" / "sentinel" / "REAL_APPROVAL_DIFF_BODY_CONTENT_BINDING_LOCK_001.json").unlink()
     rec = final.evaluate(fake)
     assert rec.is_blocked
     assert rec.decision == (
@@ -130,8 +128,7 @@ def test_missing_rung_lock_manifest_blocks(tmp_path):
 
 def test_lock_with_open_source_mutation_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "ROLLBACK_SYMLINK_SEMANTICS_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "ROLLBACK_SYMLINK_SEMANTICS_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["source_mutation_authorized"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")
@@ -143,8 +140,7 @@ def test_lock_with_open_source_mutation_blocks(tmp_path):
 
 def test_lock_with_open_training_eligibility_blocks(tmp_path):
     fake = _mirror_repo_skeleton(tmp_path)
-    target = (fake / "locks" / "sentinel"
-              / "APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001.json")
+    target = fake / "locks" / "sentinel" / "APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001.json"
     blob = json.loads(target.read_text(encoding="utf-8"))
     blob["scope_discipline"]["training_eligibility_opened"] = True
     target.write_text(json.dumps(blob, indent=2), encoding="utf-8")

@@ -34,23 +34,31 @@ import pytest
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 
 TEACHING_MODE = (
-    _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell"
+    _REPO_ROOT
+    / "frontend"
+    / "src"
+    / "components"
+    / "ide-product-shell"
     / "UserLevelTeachingMode.tsx"
 )
 PRODUCT_SHELL_API = _REPO_ROOT / "frontend" / "src" / "lib" / "ide-product-shell-api.ts"
 
-TEACHING_MODE_TOKENS = frozenset({
-    "REACT_USER_LEVEL_TEACHING_MODE_PASSED",
-    "REACT_USER_LEVEL_TEACHING_MODE_BLOCKED_PROOF_HIDDEN",
-    "REACT_USER_LEVEL_TEACHING_MODE_BLOCKED_AUTHORITY_BYPASS",
-    "REACT_USER_LEVEL_TEACHING_MODE_BLOCKED_MISSING_BLOCKED_REASON",
-})
+TEACHING_MODE_TOKENS = frozenset(
+    {
+        "REACT_USER_LEVEL_TEACHING_MODE_PASSED",
+        "REACT_USER_LEVEL_TEACHING_MODE_BLOCKED_PROOF_HIDDEN",
+        "REACT_USER_LEVEL_TEACHING_MODE_BLOCKED_AUTHORITY_BYPASS",
+        "REACT_USER_LEVEL_TEACHING_MODE_BLOCKED_MISSING_BLOCKED_REASON",
+    }
+)
 
-UNIFIED_PRODUCT_TOKENS = frozenset({
-    "TAURI_COMMAND_OK",
-    "TAURI_COMMAND_BLOCKED_UNKNOWN",
-    "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
-})
+UNIFIED_PRODUCT_TOKENS = frozenset(
+    {
+        "TAURI_COMMAND_OK",
+        "TAURI_COMMAND_BLOCKED_UNKNOWN",
+        "TAURI_RUST_COMMAND_BRIDGE_BLOCKED_BACKEND_MISSING",
+    }
+)
 
 
 def _declared(path: Path, const_name: str) -> set[str]:
@@ -116,9 +124,7 @@ def test_the_blocked_tokens_are_actually_distinguishable():
 _FRONTEND_SRC = _REPO_ROOT / "frontend" / "src"
 _TESTS_DIR = _REPO_ROOT / "tests"
 
-_TOKEN_SET_DECL = re.compile(
-    r"(?:export\s+)?const\s+([A-Z][A-Z0-9_]*STATUS_TOKENS)\s*="
-)
+_TOKEN_SET_DECL = re.compile(r"(?:export\s+)?const\s+([A-Z][A-Z0-9_]*STATUS_TOKENS)\s*=")
 
 
 def _declared_token_sets() -> dict[str, Path]:
@@ -186,39 +192,47 @@ _PRODUCT_SHELL = _FRONTEND_SRC / "components" / "ide-product-shell"
 _NEWLY_PINNED: dict[str, tuple[Path, frozenset[str]]] = {
     "REACT_LEARNING_STUDIO_PANEL_STATUS_TOKENS": (
         _PRODUCT_SHELL / "LearningStudioPanel.tsx",
-        frozenset({
-            "REACT_LEARNING_STUDIO_PANEL_PASSED",
-            "REACT_LEARNING_STUDIO_PANEL_BLOCKED_MUTATION_CONFUSION",
-            "REACT_LEARNING_STUDIO_PANEL_BLOCKED_FALSE_SUCCESS",
-            "REACT_LEARNING_STUDIO_PANEL_BLOCKED_MISSING_TEACHING_LEVELS",
-        }),
+        frozenset(
+            {
+                "REACT_LEARNING_STUDIO_PANEL_PASSED",
+                "REACT_LEARNING_STUDIO_PANEL_BLOCKED_MUTATION_CONFUSION",
+                "REACT_LEARNING_STUDIO_PANEL_BLOCKED_FALSE_SUCCESS",
+                "REACT_LEARNING_STUDIO_PANEL_BLOCKED_MISSING_TEACHING_LEVELS",
+            }
+        ),
     ),
     "REACT_MAINTENANCE_BAY_PANEL_STATUS_TOKENS": (
         _PRODUCT_SHELL / "MaintenanceBayPanel.tsx",
-        frozenset({
-            "REACT_MAINTENANCE_BAY_PANEL_PASSED",
-            "REACT_MAINTENANCE_BAY_PANEL_BLOCKED_FALSE_UPDATED_LABEL",
-            "REACT_MAINTENANCE_BAY_PANEL_BLOCKED_MISSING_COMPATIBILITY_VERIFIER",
-            "REACT_MAINTENANCE_BAY_PANEL_BLOCKED_RISK_HIDDEN",
-        }),
+        frozenset(
+            {
+                "REACT_MAINTENANCE_BAY_PANEL_PASSED",
+                "REACT_MAINTENANCE_BAY_PANEL_BLOCKED_FALSE_UPDATED_LABEL",
+                "REACT_MAINTENANCE_BAY_PANEL_BLOCKED_MISSING_COMPATIBILITY_VERIFIER",
+                "REACT_MAINTENANCE_BAY_PANEL_BLOCKED_RISK_HIDDEN",
+            }
+        ),
     ),
     "REACT_REPO_CLINIC_PANEL_STATUS_TOKENS": (
         _PRODUCT_SHELL / "RepoClinicPanel.tsx",
-        frozenset({
-            "REACT_REPO_CLINIC_PANEL_PASSED",
-            "REACT_REPO_CLINIC_PANEL_BLOCKED_FALSE_FIXED_LABEL",
-            "REACT_REPO_CLINIC_PANEL_BLOCKED_SOURCE_MUTATION_CONFUSION",
-            "REACT_REPO_CLINIC_PANEL_BLOCKED_VERIFIER_MISSING_HIDDEN",
-        }),
+        frozenset(
+            {
+                "REACT_REPO_CLINIC_PANEL_PASSED",
+                "REACT_REPO_CLINIC_PANEL_BLOCKED_FALSE_FIXED_LABEL",
+                "REACT_REPO_CLINIC_PANEL_BLOCKED_SOURCE_MUTATION_CONFUSION",
+                "REACT_REPO_CLINIC_PANEL_BLOCKED_VERIFIER_MISSING_HIDDEN",
+            }
+        ),
     ),
     "REACT_UNIFIED_NAVIGATION_PANEL_STATUS_TOKENS": (
         _PRODUCT_SHELL / "UnifiedNavigationPanel.tsx",
-        frozenset({
-            "REACT_UNIFIED_NAVIGATION_PANEL_PASSED",
-            "REACT_UNIFIED_NAVIGATION_PANEL_BLOCKED_MISSING_SURFACE",
-            "REACT_UNIFIED_NAVIGATION_PANEL_BLOCKED_AUTHORITY_CONFUSION",
-            "REACT_UNIFIED_NAVIGATION_PANEL_BLOCKED_HIDDEN_BLOCKED_STATE",
-        }),
+        frozenset(
+            {
+                "REACT_UNIFIED_NAVIGATION_PANEL_PASSED",
+                "REACT_UNIFIED_NAVIGATION_PANEL_BLOCKED_MISSING_SURFACE",
+                "REACT_UNIFIED_NAVIGATION_PANEL_BLOCKED_AUTHORITY_CONFUSION",
+                "REACT_UNIFIED_NAVIGATION_PANEL_BLOCKED_HIDDEN_BLOCKED_STATE",
+            }
+        ),
     ),
 }
 

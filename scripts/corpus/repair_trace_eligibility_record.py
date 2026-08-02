@@ -11,12 +11,12 @@ training row.
 At this rung, every trace is BLOCKED. A future rung may admit live
 traces, but only after defeating every blocked reason.
 """
+
 from __future__ import annotations
 
 import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 CORPUS_ELIGIBILITY_STATUS_TOKENS = (
     "CORPUS_ELIGIBILITY_BLOCKED",
@@ -57,6 +57,7 @@ class CorpusEligibilityDecision:
     rung. A future rung may admit traces; until then, eligibility is
     purely a policy declaration.
     """
+
     decision: str
     blocked_reasons: tuple[str, ...]
     trace_id: str

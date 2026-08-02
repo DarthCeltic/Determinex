@@ -40,6 +40,7 @@ Usage:
         [--report logs/programbench_factory/<slug>/REPORT.md] \\
         [--refresh-board] [--refresh-rag] [--dry-run] [--python <interpreter>]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -51,15 +52,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 FACTORY_DIR = ROOT / "logs" / "programbench_factory"
 
 SCRIPTS = {
-    "lesson":   ROOT / "scripts" / "pb_lesson_writer.py",
+    "lesson": ROOT / "scripts" / "pb_lesson_writer.py",
     "register": ROOT / "scripts" / "pb_register_gate_result.py",
-    "refresh":  ROOT / "scripts" / "pb_refresh_rag_after_accept.py",
-    "audit":    ROOT / "scripts" / "pb_score_audit.py",
+    "refresh": ROOT / "scripts" / "pb_refresh_rag_after_accept.py",
+    "audit": ROOT / "scripts" / "pb_score_audit.py",
     "verdict_corpus": ROOT / "scripts" / "pb_verdict_corpus.py",
     "hint_audit": ROOT / "scripts" / "pb_corpus_hint_audit.py",
 }
@@ -85,6 +85,7 @@ def _verdict_corpus_ingest(gate_path: Path, *, dry_run: bool) -> dict[str, Any]:
         # Import lazily so a missing module here can never break the rest of the chain.
         sys.path.insert(0, str(ROOT / "scripts"))
         from pb_verdict_corpus import ingest_gate_result  # type: ignore[import-not-found]
+
         summary = ingest_gate_result(gate_path)
         rec["returncode"] = 1 if summary.get("errors") else 0
         rec["summary"] = summary
@@ -98,7 +99,7 @@ def _verdict_corpus_ingest(gate_path: Path, *, dry_run: bool) -> dict[str, Any]:
 
 
 def _utc_now() -> str:
-    return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    return datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds")
 
 
 def _read_gate(gate_path: Path) -> dict[str, Any] | None:
@@ -126,7 +127,7 @@ def _safe_decision_rule(gate: dict[str, Any]) -> str | None:
         return raw
     if str(gate.get("decision", "")).lower() != "accept":
         return None
-    rd = ((gate.get("delta") or {}).get("runnable"))
+    rd = (gate.get("delta") or {}).get("runnable")
     if rd == 0:
         return "A"
     if rd is None:
@@ -209,8 +210,12 @@ def _accept_chain(
 
     # 2) register accepted gate
     register_cmd = [
-        py, str(SCRIPTS["register"]), slug, str(gate_path),
-        "--promote-run-root", str(run_root),
+        py,
+        str(SCRIPTS["register"]),
+        slug,
+        str(gate_path),
+        "--promote-run-root",
+        str(run_root),
     ]
     if refresh_board:
         register_cmd.append("--refresh-board")
@@ -275,7 +280,7 @@ def _rule_b_sidecar_chain(
     delta = gate.get("delta") or {}
     record = {
         "slug": slug,
-        "timestamp": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
+        "timestamp": _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds"),
         "decision_rule": "B",
         "baseline_path": gate.get("baseline_path"),
         "candidate_run_root": gate.get("candidate_run_root"),
@@ -306,8 +311,14 @@ def _rule_b_sidecar_chain(
                 fh.write(json.dumps(record, ensure_ascii=False) + "\n")
             cmds.append({"step": "rule_b_sidecar_write", "returncode": 0, **sidecar_record})
         except OSError as e:
-            cmds.append({"step": "rule_b_sidecar_write", "returncode": -1,
-                         "error": f"{type(e).__name__}: {e}", **sidecar_record})
+            cmds.append(
+                {
+                    "step": "rule_b_sidecar_write",
+                    "returncode": -1,
+                    "error": f"{type(e).__name__}: {e}",
+                    **sidecar_record,
+                }
+            )
             return 2, cmds
 
     # 3) annotate the lock board with rule_b_discovery (preserves the high-water
@@ -315,8 +326,14 @@ def _rule_b_sidecar_chain(
     board_path = ROOT / "logs" / "programbench_lock_board.json"
     base_slug = slug.rsplit(".", 1)[0]  # strip the .hash suffix
     if dry_run:
-        cmds.append({"step": "rule_b_board_annotate", "dry_run": True,
-                     "board_path": str(board_path), "base_slug": base_slug})
+        cmds.append(
+            {
+                "step": "rule_b_board_annotate",
+                "dry_run": True,
+                "board_path": str(board_path),
+                "base_slug": base_slug,
+            }
+        )
     else:
         try:
             board = json.loads(board_path.read_text(encoding="utf-8"))
@@ -325,6 +342,7 @@ def _rule_b_sidecar_chain(
             run_root_str = gate.get("candidate_run_root", "")
             if run_root_str:
                 from pathlib import Path as _P
+
                 rr = _P(run_root_str) / slug
                 for p in rr.glob("*.eval.json"):
                     cand_eval = str(p)
@@ -344,18 +362,36 @@ def _rule_b_sidecar_chain(
                     patched = True
                     break
             if patched:
-                board_path.write_text(json.dumps(board, indent=2, ensure_ascii=False),
-                                      encoding="utf-8")
-                cmds.append({"step": "rule_b_board_annotate", "returncode": 0,
-                             "board_path": str(board_path), "base_slug": base_slug})
+                board_path.write_text(
+                    json.dumps(board, indent=2, ensure_ascii=False), encoding="utf-8"
+                )
+                cmds.append(
+                    {
+                        "step": "rule_b_board_annotate",
+                        "returncode": 0,
+                        "board_path": str(board_path),
+                        "base_slug": base_slug,
+                    }
+                )
             else:
-                cmds.append({"step": "rule_b_board_annotate", "returncode": 0,
-                             "board_path": str(board_path), "base_slug": base_slug,
-                             "note": "no matching board entry — discovery recorded in sidecar only"})
+                cmds.append(
+                    {
+                        "step": "rule_b_board_annotate",
+                        "returncode": 0,
+                        "board_path": str(board_path),
+                        "base_slug": base_slug,
+                        "note": "no matching board entry — discovery recorded in sidecar only",
+                    }
+                )
         except (OSError, json.JSONDecodeError) as e:
-            cmds.append({"step": "rule_b_board_annotate", "returncode": -1,
-                         "error": f"{type(e).__name__}: {e}",
-                         "board_path": str(board_path)})
+            cmds.append(
+                {
+                    "step": "rule_b_board_annotate",
+                    "returncode": -1,
+                    "error": f"{type(e).__name__}: {e}",
+                    "board_path": str(board_path),
+                }
+            )
             # Don't fail the chain — sidecar is the source of truth, board annotation is helper.
 
     # 4) verdict-corpus ingest (non-fatal). Rule B passes/fails are compiler-verified
@@ -408,7 +444,7 @@ def _rule_c_progress_chain(
     newly_failing = delta.get("newly_failing") or []
     record = {
         "slug": slug,
-        "timestamp": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
+        "timestamp": _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds"),
         "decision_rule": "C",
         "baseline_path": gate.get("baseline_path"),
         "candidate_run_root": gate.get("candidate_run_root"),
@@ -439,16 +475,28 @@ def _rule_c_progress_chain(
                 fh.write(json.dumps(record, ensure_ascii=False) + "\n")
             cmds.append({"step": "rule_c_sidecar_write", "returncode": 0, **sidecar_record})
         except OSError as e:
-            cmds.append({"step": "rule_c_sidecar_write", "returncode": -1,
-                         "error": f"{type(e).__name__}: {e}", **sidecar_record})
+            cmds.append(
+                {
+                    "step": "rule_c_sidecar_write",
+                    "returncode": -1,
+                    "error": f"{type(e).__name__}: {e}",
+                    **sidecar_record,
+                }
+            )
             return 2, cmds
 
     # 3) annotate the lock board with rule_c_progress — includes regression list as fix target
     board_path = ROOT / "logs" / "programbench_lock_board.json"
     base_slug = slug.rsplit(".", 1)[0]
     if dry_run:
-        cmds.append({"step": "rule_c_board_annotate", "dry_run": True,
-                     "board_path": str(board_path), "base_slug": base_slug})
+        cmds.append(
+            {
+                "step": "rule_c_board_annotate",
+                "dry_run": True,
+                "board_path": str(board_path),
+                "base_slug": base_slug,
+            }
+        )
     else:
         try:
             board = json.loads(board_path.read_text(encoding="utf-8"))
@@ -457,6 +505,7 @@ def _rule_c_progress_chain(
             run_root_str = gate.get("candidate_run_root", "")
             if run_root_str:
                 from pathlib import Path as _P
+
                 rr = _P(run_root_str) / slug
                 for p in rr.glob("*.eval.json"):
                     cand_eval = str(p)
@@ -478,18 +527,36 @@ def _rule_c_progress_chain(
                     patched = True
                     break
             if patched:
-                board_path.write_text(json.dumps(board, indent=2, ensure_ascii=False),
-                                      encoding="utf-8")
-                cmds.append({"step": "rule_c_board_annotate", "returncode": 0,
-                             "board_path": str(board_path), "base_slug": base_slug})
+                board_path.write_text(
+                    json.dumps(board, indent=2, ensure_ascii=False), encoding="utf-8"
+                )
+                cmds.append(
+                    {
+                        "step": "rule_c_board_annotate",
+                        "returncode": 0,
+                        "board_path": str(board_path),
+                        "base_slug": base_slug,
+                    }
+                )
             else:
-                cmds.append({"step": "rule_c_board_annotate", "returncode": 0,
-                             "board_path": str(board_path), "base_slug": base_slug,
-                             "note": "no matching board entry — progress recorded in sidecar only"})
+                cmds.append(
+                    {
+                        "step": "rule_c_board_annotate",
+                        "returncode": 0,
+                        "board_path": str(board_path),
+                        "base_slug": base_slug,
+                        "note": "no matching board entry — progress recorded in sidecar only",
+                    }
+                )
         except (OSError, json.JSONDecodeError) as e:
-            cmds.append({"step": "rule_c_board_annotate", "returncode": -1,
-                         "error": f"{type(e).__name__}: {e}",
-                         "board_path": str(board_path)})
+            cmds.append(
+                {
+                    "step": "rule_c_board_annotate",
+                    "returncode": -1,
+                    "error": f"{type(e).__name__}: {e}",
+                    "board_path": str(board_path),
+                }
+            )
 
     # 4) verdict-corpus ingest (non-fatal)
     cmds.append(_verdict_corpus_ingest(gate_path, dry_run=dry_run))
@@ -539,18 +606,34 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", help="ProgramBench instance id, e.g. owner__repo.hash")
     ap.add_argument("gate_result", type=Path, help="path to gate_result.json")
-    ap.add_argument("--run-root", type=Path, default=None,
-                    help="candidate run root (required for accept; passed to register as --promote-run-root)")
-    ap.add_argument("--report", type=Path, default=None,
-                    help="optional REPORT.md to embed verbatim in the lesson")
-    ap.add_argument("--refresh-board", action="store_true",
-                    help="on accept, also invoke pb_score_audit.py (via register --refresh-board)")
-    ap.add_argument("--refresh-rag", action="store_true",
-                    help="on accept, also invoke pb_refresh_rag_after_accept.py --require-accepted-run")
-    ap.add_argument("--python", default=sys.executable,
-                    help="Python interpreter for sub-script invocations")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="print intended commands and write no files")
+    ap.add_argument(
+        "--run-root",
+        type=Path,
+        default=None,
+        help="candidate run root (required for accept; passed to register as --promote-run-root)",
+    )
+    ap.add_argument(
+        "--report",
+        type=Path,
+        default=None,
+        help="optional REPORT.md to embed verbatim in the lesson",
+    )
+    ap.add_argument(
+        "--refresh-board",
+        action="store_true",
+        help="on accept, also invoke pb_score_audit.py (via register --refresh-board)",
+    )
+    ap.add_argument(
+        "--refresh-rag",
+        action="store_true",
+        help="on accept, also invoke pb_refresh_rag_after_accept.py --require-accepted-run",
+    )
+    ap.add_argument(
+        "--python", default=sys.executable, help="Python interpreter for sub-script invocations"
+    )
+    ap.add_argument(
+        "--dry-run", action="store_true", help="print intended commands and write no files"
+    )
     args = ap.parse_args()
 
     # ----- validation -----
@@ -565,9 +648,7 @@ def main() -> int:
 
     decision = _safe_decision(gate)
     if decision not in ("accept", "reject"):
-        sys.stderr.write(
-            f"ERROR: gate decision must be 'accept' or 'reject'; got {decision!r}\n"
-        )
+        sys.stderr.write(f"ERROR: gate decision must be 'accept' or 'reject'; got {decision!r}\n")
         return 3
 
     # Validation specific to accept chain
@@ -657,11 +738,13 @@ def main() -> int:
                 "Rule B sidecar accept: pure-improvement on shifted runnable surface. "
                 "NOT in accepted_runs.jsonl. Recorded in rule_b_promotions.jsonl + "
                 "lock_board['rule_b_discovery']. Needs clean Rule A re-gate before official."
-                if decision_rule == "B" else (
+                if decision_rule == "B"
+                else (
                     "Rule C progress accept: net-positive improvement with regressions. "
                     "NOT in accepted_runs.jsonl. Recorded in rule_c_progress.jsonl + "
                     "lock_board['rule_c_progress']. Fix regressions before Rule A/B eligibility."
-                    if decision_rule == "C" else None
+                    if decision_rule == "C"
+                    else None
                 )
             )
         ),
@@ -678,17 +761,24 @@ def main() -> int:
         if "board_path" in c:
             return f"annotate -> {c['board_path']}"
         return c.get("step", "")
-    print(json.dumps({
-        "slug": args.slug,
-        "decision": decision,
-        "decision_rule": decision_rule,
-        "exit_code": rc,
-        "dry_run": bool(args.dry_run),
-        "apply_gate_result_path": str(out_path),
-        "commands_run": [{"step": c["step"], "rc": c.get("returncode"),
-                          "cmd": _cmd_summary(c)}
-                         for c in cmds],
-    }, indent=2))
+
+    print(
+        json.dumps(
+            {
+                "slug": args.slug,
+                "decision": decision,
+                "decision_rule": decision_rule,
+                "exit_code": rc,
+                "dry_run": bool(args.dry_run),
+                "apply_gate_result_path": str(out_path),
+                "commands_run": [
+                    {"step": c["step"], "rc": c.get("returncode"), "cmd": _cmd_summary(c)}
+                    for c in cmds
+                ],
+            },
+            indent=2,
+        )
+    )
 
     return rc
 

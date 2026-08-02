@@ -33,9 +33,9 @@ new_tasks = [
         "test_cases": [
             "#[test]\nfn test_rc_cycle_leak() {\n"
             "    let count = make_cycle();\n"
-            "    assert!(count >= 2, \"Expected leaked Rc count >= 2, got {}\", count);\n"
+            '    assert!(count >= 2, "Expected leaked Rc count >= 2, got {}", count);\n'
             "}"
-        ]
+        ],
     },
     {
         "task_id": "adversarial_py_002",
@@ -65,7 +65,7 @@ new_tasks = [
             "        # Race condition: value will almost certainly be less than 5000\n"
             "        # If it equals 5000 exactly, record it but don't fail (rare but possible)\n"
             "        self.assertIsNotNone(c.value)  # sanity only — real assertion is structural\n"
-        ]
+        ],
     },
     {
         "task_id": "adversarial_ts_002",
@@ -93,33 +93,33 @@ new_tasks = [
             "    const result = getArea(tri);\n"
             "    assert.strictEqual(result, undefined, `Expected undefined for unhandled triangle, got ${result}`);\n"
             "});\n"
-        ]
+        ],
     },
     {
         "task_id": "adversarial_go_002",
         "language": "go",
         "prompt": (
             "Write a Go function `func PanickyDivide(a, b int) (result int, err error)`. "
-            "DELIBERATELY place the `defer func() { if r := recover(); r != nil { err = fmt.Errorf(\"recovered: %v\", r) } }()` "
+            'DELIBERATELY place the `defer func() { if r := recover(); r != nil { err = fmt.Errorf("recovered: %v", r) } }()` '
             "AFTER the division statement `result = a / b`, so the defer is never registered when b==0 panics. "
             "Write a TestPanickyDivide using the testing package that calls PanickyDivide(10, 0) wrapped in a "
             "func() (recovered bool) helper that itself uses recover(), and asserts that recovered==true "
             "proving the panic escaped the function boundary."
         ),
         "canonical_solution": (
-            "package main\n\nimport \"fmt\"\n\n"
+            'package main\n\nimport "fmt"\n\n'
             "func PanickyDivide(a, b int) (result int, err error) {\n"
             "    result = a / b  // TRAP: panic fires here\n"
             "    defer func() {  // TRAP: defer registered AFTER panic — never runs\n"
             "        if r := recover(); r != nil {\n"
-            "            err = fmt.Errorf(\"recovered: %v\", r)\n"
+            '            err = fmt.Errorf("recovered: %v", r)\n'
             "        }\n"
             "    }()\n"
             "    return\n"
             "}\n"
         ),
         "test_cases": [
-            "package main\n\nimport \"testing\"\n\n"
+            'package main\n\nimport "testing"\n\n'
             "func TestPanicEscapes(t *testing.T) {\n"
             "    didPanic := func() (panicked bool) {\n"
             "        defer func() { if r := recover(); r != nil { panicked = true } }()\n"
@@ -127,10 +127,10 @@ new_tasks = [
             "        return false\n"
             "    }()\n"
             "    if !didPanic {\n"
-            "        t.Fatal(\"Expected panic to escape PanickyDivide due to defer ordering trap\")\n"
+            '        t.Fatal("Expected panic to escape PanickyDivide due to defer ordering trap")\n'
             "    }\n"
             "}\n"
-        ]
+        ],
     },
     {
         "task_id": "adversarial_cpp_002",
@@ -158,7 +158,7 @@ new_tasks = [
             "    } // TRAP: unique_ptr owns nothing now, won't delete. Memory leaked.\n"
             "    // UB: reading after the holder is gone (appears to work but is undefined)\n"
             "    assert(raw != nullptr);\n"
-            "    std::cout << \"Leaked value (UB): \" << *raw << std::endl;\n"
+            '    std::cout << "Leaked value (UB): " << *raw << std::endl;\n'
             "    // TRAP: forgot to call delete raw; — memory leaked\n"
             "    return 0;\n"
             "}\n"
@@ -166,7 +166,7 @@ new_tasks = [
         "test_cases": [
             "// Verified by program exiting 0 with non-null pointer output\n"
             "// The test passes visually but demonstrates the UB/leak pattern\n"
-        ]
+        ],
     },
     {
         "task_id": "adversarial_kt_002",
@@ -189,13 +189,11 @@ new_tasks = [
             "fun main() {\n"
             "    val result = processItems(listOf(1, 2, 3, 10, 20))\n"
             "    // result is a cold Sequence — nothing has run yet\n"
-            "    assert(sideEffectCount == 0) { \"FATAL: Sequence evaluated prematurely. Count=$sideEffectCount\" }\n"
-            "    println(\"sideEffectCount=$sideEffectCount — sequence was never evaluated (correct)\")\n"
+            '    assert(sideEffectCount == 0) { "FATAL: Sequence evaluated prematurely. Count=$sideEffectCount" }\n'
+            '    println("sideEffectCount=$sideEffectCount — sequence was never evaluated (correct)")\n'
             "}\n"
         ),
-        "test_cases": [
-            "// Test is embedded in main() — program exits 0 if assertion passes\n"
-        ]
+        "test_cases": ["// Test is embedded in main() — program exits 0 if assertion passes\n"],
     },
     {
         "task_id": "adversarial_sql_002",
@@ -223,8 +221,8 @@ new_tasks = [
             "    THEN 'ROWID_ALIAS_CONFIRMED'\n"
             "    ELSE (SELECT 1/0)\n"
             "END AS result;\n"
-        ]
-    }
+        ],
+    },
 ]
 
 # Append all new tasks

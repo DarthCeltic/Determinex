@@ -19,12 +19,12 @@ Path normalization:
   - ``..`` segments rejected (returns empty hash and a reason)
   - NUL byte rejected
 """
+
 from __future__ import annotations
 
 import hashlib
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Iterable
-
 
 _SUPPORTED_OPERATIONS = frozenset({"replace_file"})
 
@@ -86,10 +86,14 @@ def compute(plan_entries: Iterable[dict]) -> CanonicalPatchBodyHash:
         body_bytes = body.encode("utf-8")
         body_hash = hashlib.sha256(body_bytes).hexdigest()
         row = (
-            op.encode("utf-8") + b"\x00"
-            + norm_path.encode("utf-8") + b"\x00"
-            + body_hash.encode("utf-8") + b"\x00"
-            + str(len(body_bytes)).encode("utf-8") + b"\n"
+            op.encode("utf-8")
+            + b"\x00"
+            + norm_path.encode("utf-8")
+            + b"\x00"
+            + body_hash.encode("utf-8")
+            + b"\x00"
+            + str(len(body_bytes)).encode("utf-8")
+            + b"\n"
         )
         rows.append(row)
 

@@ -38,6 +38,7 @@ Usage:
       --promote-run-root .determinex_staging/pb_igrep_c4_revert \\
       --refresh-board
 """
+
 from __future__ import annotations
 
 import argparse
@@ -47,7 +48,6 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 FACTORY_DIR = ROOT / "logs" / "programbench_factory"
@@ -60,8 +60,10 @@ def _git_head_sha() -> str | None:
         proc = subprocess.run(
             ["git", "rev-parse", "HEAD"],
             cwd=str(ROOT),
-            capture_output=True, text=True,
-            encoding="utf-8", errors="replace",
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=10,
         )
         if proc.returncode == 0:
@@ -91,10 +93,11 @@ def refresh_board(py: str) -> Path:
     """Invoke pb_score_audit.py and capture stdout/stderr to REFRESH_LOG."""
     REFRESH_LOG.parent.mkdir(parents=True, exist_ok=True)
     cmd = [py, str(ROOT / "scripts" / "pb_score_audit.py")]
-    started = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
-    proc = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True,
-                          encoding="utf-8", errors="replace")
-    ended = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    started = datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds")
+    proc = subprocess.run(
+        cmd, cwd=str(ROOT), capture_output=True, text=True, encoding="utf-8", errors="replace"
+    )
+    ended = datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds")
     payload = (
         f"[refresh started {started}]\n"
         f"$ {' '.join(cmd)}\n"
@@ -111,20 +114,27 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", help="ProgramBench instance id, e.g. owner__repo.hash")
     ap.add_argument("gate_result", type=Path, help="path to gate_result.json")
-    ap.add_argument("--promote-run-root", type=Path, default=None,
-                    help="record this run_root in the registry row (does NOT copy anything)")
-    ap.add_argument("--refresh-board", action="store_true",
-                    help="also invoke scripts/pb_score_audit.py to refresh the lock board")
-    ap.add_argument("--python", default=sys.executable,
-                    help="Python interpreter for sub-script invocations")
+    ap.add_argument(
+        "--promote-run-root",
+        type=Path,
+        default=None,
+        help="record this run_root in the registry row (does NOT copy anything)",
+    )
+    ap.add_argument(
+        "--refresh-board",
+        action="store_true",
+        help="also invoke scripts/pb_score_audit.py to refresh the lock board",
+    )
+    ap.add_argument(
+        "--python", default=sys.executable, help="Python interpreter for sub-script invocations"
+    )
     args = ap.parse_args()
 
     gate = _load_gate(args.gate_result)
     decision = str(gate.get("decision", "")).lower()
     if decision != "accept":
         sys.stderr.write(
-            f"refusing to register: decision={decision!r}. "
-            "Registry only records accepted runs.\n"
+            f"refusing to register: decision={decision!r}. Registry only records accepted runs.\n"
         )
         return 2
 
@@ -132,11 +142,13 @@ def main() -> int:
     candidate = gate.get("candidate") or {}
     delta = gate.get("delta") or {}
 
-    run_root = str(args.promote_run_root) if args.promote_run_root else gate.get("candidate_run_root", "")
+    run_root = (
+        str(args.promote_run_root) if args.promote_run_root else gate.get("candidate_run_root", "")
+    )
 
     row = {
         "slug": args.slug,
-        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+        "timestamp": datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds"),
         "baseline_eval": baseline.get("eval_path"),
         "candidate_eval": candidate.get("eval_path"),
         "baseline_passed": baseline.get("passed"),

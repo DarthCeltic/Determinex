@@ -1,9 +1,9 @@
 """Records for BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_STATUS_TOKENS = (
     "BUILD_ADAPTER_VERIFIER_SELECTED",

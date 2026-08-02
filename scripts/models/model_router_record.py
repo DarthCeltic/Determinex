@@ -15,6 +15,7 @@ All three default to ``False`` and are flipped to ``True`` only by an
 explicit live-mode route through a verified, available model id. Dry-run
 and any blocked decision keep them all ``False``.
 """
+
 from __future__ import annotations
 
 import json
@@ -26,13 +27,13 @@ class RouteRecord:
     """Immutable, JSON-serializable route decision."""
 
     task_class: str
-    requested_mode: str               # "dry_run" | "live"
-    selected_route: str               # ModelRole value (or "NO_MODEL")
-    selected_model_id: str            # may be "" when blocked or no model
-    fallback_chain: tuple[str, ...]   # ordered ModelRole values
+    requested_mode: str  # "dry_run" | "live"
+    selected_route: str  # ModelRole value (or "NO_MODEL")
+    selected_model_id: str  # may be "" when blocked or no model
+    fallback_chain: tuple[str, ...]  # ordered ModelRole values
     availability_checked: bool
     stale_model_id_detected: bool
-    decision: str                     # RouteDecision value
+    decision: str  # RouteDecision value
     execution_authorized: bool = False
     corpus_write_authorized: bool = False
     training_eligible: bool = False

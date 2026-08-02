@@ -34,6 +34,7 @@ Hard rules enforced by load():
     + claim_boundary + top-level blocked_path_demo
     -> BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -52,7 +53,6 @@ from .maintenance_bay_verified_demo_status_record import (
     MaintenanceBayVerifiedDemoStatus,
 )
 
-
 # Required boundary statements every reconciled demo evidence must
 # include in claim_boundary. Missing any of these = BLOCKED_BROAD_CLAIM.
 REQUIRED_BOUNDARY_STATEMENTS = (
@@ -68,7 +68,8 @@ REQUIRED_BOUNDARY_STATEMENTS = (
 
 _DEFAULT_EVIDENCE_DIR = (
     Path(__file__).resolve().parents[2]
-    / "assurance" / "evidence"
+    / "assurance"
+    / "evidence"
     / "maintenance_bay_dry_run_update_splash_demo"
 )
 
@@ -258,8 +259,7 @@ def load(evidence_dir: Path | str | None = None) -> MaintenanceBayVerifiedDemoSt
     boundary_list = blob.get("claim_boundary") or []
     boundary_joined = " ; ".join(str(b) for b in boundary_list).lower()
     missing_required = [
-        req for req in REQUIRED_BOUNDARY_STATEMENTS
-        if req.lower() not in boundary_joined
+        req for req in REQUIRED_BOUNDARY_STATEMENTS if req.lower() not in boundary_joined
     ]
     if missing_required:
         return _block(
@@ -275,7 +275,8 @@ def load(evidence_dir: Path | str | None = None) -> MaintenanceBayVerifiedDemoSt
     # maintenance' embed the phrase without a 'not ' immediately
     # adjacent to it).
     safe = {
-        k: v for k, v in blob.items()
+        k: v
+        for k, v in blob.items()
         if k not in ("verification", "claim_boundary", "blocked_path_demo")
     }
     if "evidence" in safe:
@@ -291,8 +292,7 @@ def load(evidence_dir: Path | str | None = None) -> MaintenanceBayVerifiedDemoSt
             continue
         affirmative_pattern = re.compile(
             r"(?<!not )(?<!refuses )(?<!refused )(?<!refusing )"
-            r"(?<!refuse )(?<!blocks )(?<!blocked )"
-            + re.escape(phrase)
+            r"(?<!refuse )(?<!blocks )(?<!blocked )" + re.escape(phrase)
         )
         if affirmative_pattern.search(safe_haystack):
             return _block(
@@ -308,19 +308,18 @@ def load(evidence_dir: Path | str | None = None) -> MaintenanceBayVerifiedDemoSt
     affected_files = tuple(quarantined.get("affected_files") or [])
     change_body_hash = str(
         quarantined.get("change_body_hash")
-        or (blob.get("evidence") or {}).get("change_body_hash") or ""
+        or (blob.get("evidence") or {}).get("change_body_hash")
+        or ""
     )
 
     baseline_failed = bool(ver.get("baseline_failed"))
     baseline_test_command = str(ver.get("baseline_test_command") or "")
     compatibility_verifier_command = str(ver.get("compatibility_verifier_command") or "")
     false_updated_claim_blocked = bool(
-        ver.get("false_updated_claim_blocked")
-        or blob.get("false_updated_claim_blocked")
+        ver.get("false_updated_claim_blocked") or blob.get("false_updated_claim_blocked")
     )
     false_maintained_claim_blocked = bool(
-        ver.get("false_maintained_claim_blocked")
-        or blob.get("false_maintained_claim_blocked")
+        ver.get("false_maintained_claim_blocked") or blob.get("false_maintained_claim_blocked")
     )
 
     return MaintenanceBayVerifiedDemoStatus(
@@ -331,8 +330,7 @@ def load(evidence_dir: Path | str | None = None) -> MaintenanceBayVerifiedDemoSt
         target_language=str(blob.get("target_language") or ""),
         target_stack=str(blob.get("target_stack") or ""),
         maintenance_issue_summary=str(
-            blob.get("maintenance_issue_summary")
-            or diagnosis.get("maintenance_issue") or ""
+            blob.get("maintenance_issue_summary") or diagnosis.get("maintenance_issue") or ""
         ),
         change_type=str(
             (artifacts.get("maintenance_plan") or {}).get("plan_type")
@@ -345,9 +343,7 @@ def load(evidence_dir: Path | str | None = None) -> MaintenanceBayVerifiedDemoSt
         post_change_tests_passed=True,
         false_updated_claim_blocked=false_updated_claim_blocked,
         false_maintained_claim_blocked=false_maintained_claim_blocked,
-        unsafe_real_repo_mutation_blocked=bool(
-            blob.get("unsafe_real_repo_mutation_blocked")
-        ),
+        unsafe_real_repo_mutation_blocked=bool(blob.get("unsafe_real_repo_mutation_blocked")),
         unsupported_all_projects_claim_blocked=bool(
             blob.get("unsupported_all_projects_claim_blocked")
         ),

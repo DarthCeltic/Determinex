@@ -44,6 +44,7 @@ The point: failures from this iteration become signal for the next, and
 when a sibling tool is already proven 100%, its working patterns get
 pulled — "as the test deems it."
 """
+
 from __future__ import annotations
 
 import argparse
@@ -52,7 +53,6 @@ import re
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BOARD = ROOT / "logs" / "programbench_lock_board.json"
@@ -211,8 +211,8 @@ def _find_override_paths(slug_with_hash: str) -> dict[str, str]:
     if exact.is_dir():
         return {
             "compile_sh": str(exact / "compile.sh") if (exact / "compile.sh").exists() else "",
-            "main_py":    str(exact / "main.py")    if (exact / "main.py").exists()    else "",
-            "dir":        str(exact),
+            "main_py": str(exact / "main.py") if (exact / "main.py").exists() else "",
+            "dir": str(exact),
         }
     # Try base-slug prefix match.
     base = _base_slug(slug_with_hash)
@@ -220,8 +220,8 @@ def _find_override_paths(slug_with_hash: str) -> dict[str, str]:
         if d.is_dir() and d.name.startswith(base + "."):
             return {
                 "compile_sh": str(d / "compile.sh") if (d / "compile.sh").exists() else "",
-                "main_py":    str(d / "main.py")    if (d / "main.py").exists()    else "",
-                "dir":        str(d),
+                "main_py": str(d / "main.py") if (d / "main.py").exists() else "",
+                "dir": str(d),
             }
     return {"compile_sh": "", "main_py": "", "dir": ""}
 
@@ -270,7 +270,7 @@ def build_report(
             if ep.is_file():
                 try:
                     d = json.loads(ep.read_text(encoding="utf-8", errors="replace"))
-                    for t in (d.get("test_results") or []):
+                    for t in d.get("test_results") or []:
                         if t.get("status") == "passed" and t.get("name"):
                             passing_names.add(str(t["name"]))
                 except (OSError, json.JSONDecodeError):
@@ -292,7 +292,11 @@ def build_report(
                 if d.is_dir() and d.name.startswith(slug + "."):
                     slug_with_hash = d.name
                     break
-        paths = _find_override_paths(slug_with_hash) if slug_with_hash else {"compile_sh": "", "main_py": "", "dir": ""}
+        paths = (
+            _find_override_paths(slug_with_hash)
+            if slug_with_hash
+            else {"compile_sh": "", "main_py": "", "dir": ""}
+        )
         locked_tools[slug] = {
             "pct": round(pct, 2),
             "passed": p,
@@ -344,7 +348,9 @@ def build_report(
             for donor_slug, donor_info in locked_tools.items():
                 if donor_slug == base_failing:
                     continue
-                same_family = (donor_info["family"] == failing_family) and (failing_family != "uncategorized")
+                same_family = (donor_info["family"] == failing_family) and (
+                    failing_family != "uncategorized"
+                )
                 if family_required and not same_family:
                     continue
 
@@ -365,19 +371,26 @@ def build_report(
                             overlap_kind = "family-only"
                 if overlap_kind is None:
                     continue
-                donors.append({
-                    "donor_slug": donor_slug,
-                    "donor_pct": donor_info["pct"],
-                    "donor_family": donor_info["family"],
-                    "overlap_kind": overlap_kind,
-                    "donor_paths": donor_info["paths"],
-                })
+                donors.append(
+                    {
+                        "donor_slug": donor_slug,
+                        "donor_pct": donor_info["pct"],
+                        "donor_family": donor_info["family"],
+                        "overlap_kind": overlap_kind,
+                        "donor_paths": donor_info["paths"],
+                    }
+                )
                 module_overlap_counter[(fail_mod, overlap_kind)] += 1
 
             if not donors:
                 continue
             # Best donors first: exact > module > stem > family-only.
-            order = {"exact-test-match": 0, "module-name-match": 1, "stem-match": 2, "family-only": 3}
+            order = {
+                "exact-test-match": 0,
+                "module-name-match": 1,
+                "stem-match": 2,
+                "family-only": 3,
+            }
             donors.sort(key=lambda d: (order.get(d["overlap_kind"], 9), -d["donor_pct"]))
             donors = donors[:max_donors]
 
@@ -394,8 +407,10 @@ def build_report(
     # Per-module summary (most-overlapped fail modules — these are the
     # highest-ROI families to copy patterns from).
     summary = sorted(
-        ({"module": mod, "overlap_kind": kind, "donor_hits": n}
-         for (mod, kind), n in module_overlap_counter.items()),
+        (
+            {"module": mod, "overlap_kind": kind, "donor_hits": n}
+            for (mod, kind), n in module_overlap_counter.items()
+        ),
         key=lambda r: -r["donor_hits"],
     )
     report["by_module_summary"] = summary[:50]
@@ -407,18 +422,33 @@ def build_report(
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--board", type=Path, default=DEFAULT_BOARD,
-                    help="lock board JSON (default: logs/programbench_lock_board.json)")
-    ap.add_argument("--signal-corpus", type=Path, default=DEFAULT_SIGNAL,
-                    help="failure signal corpus JSONL (default: logs/programbench_factory/failure_signal_corpus.jsonl)")
-    ap.add_argument("--out", type=Path, default=DEFAULT_OUT,
-                    help="output report JSON path")
-    ap.add_argument("--lock-threshold", type=float, default=99.5,
-                    help="% runnable above which a tool is treated as locked (default 99.5)")
-    ap.add_argument("--cross-family", action="store_true",
-                    help="match donors across families (otherwise: same family only)")
-    ap.add_argument("--max-donors", type=int, default=4,
-                    help="cap donors per failing test (default 4)")
+    ap.add_argument(
+        "--board",
+        type=Path,
+        default=DEFAULT_BOARD,
+        help="lock board JSON (default: logs/programbench_lock_board.json)",
+    )
+    ap.add_argument(
+        "--signal-corpus",
+        type=Path,
+        default=DEFAULT_SIGNAL,
+        help="failure signal corpus JSONL (default: logs/programbench_factory/failure_signal_corpus.jsonl)",
+    )
+    ap.add_argument("--out", type=Path, default=DEFAULT_OUT, help="output report JSON path")
+    ap.add_argument(
+        "--lock-threshold",
+        type=float,
+        default=99.5,
+        help="% runnable above which a tool is treated as locked (default 99.5)",
+    )
+    ap.add_argument(
+        "--cross-family",
+        action="store_true",
+        help="match donors across families (otherwise: same family only)",
+    )
+    ap.add_argument(
+        "--max-donors", type=int, default=4, help="cap donors per failing test (default 4)"
+    )
     args = ap.parse_args()
 
     report = build_report(
@@ -429,13 +459,18 @@ def main() -> int:
         family_required=not args.cross_family,
         max_donors=args.max_donors,
     )
-    print(json.dumps({
-        "locked_tool_count": report["locked_tool_count"],
-        "failing_tool_count": report["failing_tool_count"],
-        "failure_pairs_with_donors": len(report["failures"]),
-        "out": str(args.out),
-        "top_module_overlaps": report["by_module_summary"][:8],
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "locked_tool_count": report["locked_tool_count"],
+                "failing_tool_count": report["failing_tool_count"],
+                "failure_pairs_with_donors": len(report["failures"]),
+                "out": str(args.out),
+                "top_module_overlaps": report["by_module_summary"][:8],
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

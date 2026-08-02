@@ -27,6 +27,7 @@ Usage:
     python3 scripts/corpus_sentinel.py --once                # single pass then exit (for cron/CI)
     python3 scripts/corpus_sentinel.py --watch path/to/other.json --interval 10
 """
+
 from __future__ import annotations
 
 import argparse
@@ -124,13 +125,17 @@ def _localize_change(old_val, new_val, depth: int = 0) -> str:
                 lines = []
                 for k in new_by_id:
                     if k not in old_by_id:
-                        lines.append(f"LIST ITEM ADDED ({id_field}={k}):\n{_truncate(new_by_id[k])}")
+                        lines.append(
+                            f"LIST ITEM ADDED ({id_field}={k}):\n{_truncate(new_by_id[k])}"
+                        )
                     elif new_by_id[k] != old_by_id[k]:
                         sub = _localize_change(old_by_id[k], new_by_id[k], depth + 1)
                         lines.append(f"LIST ITEM CHANGED ({id_field}={k}):\n{sub}")
                 for k in old_by_id:
                     if k not in new_by_id:
-                        lines.append(f"LIST ITEM REMOVED ({id_field}={k}):\n{_truncate(old_by_id[k])}")
+                        lines.append(
+                            f"LIST ITEM REMOVED ({id_field}={k}):\n{_truncate(old_by_id[k])}"
+                        )
                 return "\n\n".join(lines) if lines else "(list reordered, no item content changed)"
 
     if isinstance(old_val, dict) and isinstance(new_val, dict):
@@ -182,6 +187,7 @@ def _notify_webhook(message: str) -> None:
     try:
         sys.path.insert(0, str(Path(__file__).resolve().parent))
         import determinex_notify  # noqa: PLC0415
+
         determinex_notify.post(
             os.environ["DETERMINEX_NOTIFY_URL"],
             determinex_notify.discord_payload(message, level="info", tool="corpus_sentinel"),
@@ -252,7 +258,9 @@ class CorpusSentinel:
             still_pending_keys = {key for key, _ in changes}
             for key in list(pending_since):
                 if key not in still_pending_keys:
-                    del pending_since[key]  # value settled back to its reported state before debounce fired
+                    del pending_since[
+                        key
+                    ]  # value settled back to its reported state before debounce fired
 
             for key, change_type in changes:
                 first_seen = pending_since.setdefault(key, now)
@@ -264,10 +272,15 @@ class CorpusSentinel:
                 ts = time.strftime("%Y-%m-%d %H:%M:%S")
                 line = f"[{ts}] CORPUS SENTINEL — {path.name}:{key} ({change_type}) — {insight}"
                 print(line, flush=True)
-                _append_ledger({
-                    "ts": ts, "file": path_key, "key": key,
-                    "change_type": change_type, "insight": insight,
-                })
+                _append_ledger(
+                    {
+                        "ts": ts,
+                        "file": path_key,
+                        "key": key,
+                        "change_type": change_type,
+                        "insight": insight,
+                    }
+                )
                 _notify_webhook(f"`{path.name}:{key}` ({change_type}) — {insight}")
                 n_events += 1
                 reported[key] = new_val
@@ -295,13 +308,19 @@ class CorpusSentinel:
                     log.error("sentinel pass failed (continuing): %s", e)
                 time.sleep(self.interval)
         finally:
-            if PID_FILE.exists() and PID_FILE.read_text(encoding="utf-8").strip() == str(os.getpid()):
+            if PID_FILE.exists() and PID_FILE.read_text(encoding="utf-8").strip() == str(
+                os.getpid()
+            ):
                 PID_FILE.unlink()
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--watch", action="append", default=None, help="corpus JSON file to watch (repeatable)")
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    ap.add_argument(
+        "--watch", action="append", default=None, help="corpus JSON file to watch (repeatable)"
+    )
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--interval", type=float, default=15.0)
     ap.add_argument("--once", action="store_true", help="single pass then exit")

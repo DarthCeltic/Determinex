@@ -8,6 +8,7 @@ Usage:
   python scripts/pb_promote.py --tool entr --eval-report path/to/eval.json
   python scripts/pb_promote.py --tool entr  # finds latest_eval_result.json automatically
 """
+
 from __future__ import annotations
 
 import argparse
@@ -18,7 +19,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -45,7 +46,11 @@ def git_describe() -> str:
     try:
         result = subprocess.run(
             ["git", "describe", "--always", "--dirty"],
-            cwd=str(ROOT), capture_output=True, text=True, check=True, timeout=10
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=10,
         )
         return result.stdout.strip()
     except Exception:
@@ -101,8 +106,9 @@ def validate_lock(data: dict) -> tuple[bool, dict, list[str]]:
     failed = ctr.get("failure", 0) + ctr.get("failed", 0)
     pct = (passed / total * 100) if total else 0.0
 
-    counts = dict(total=total, passed=passed, not_run=not_run,
-                  skipped=skipped, failed=failed, pct=pct)
+    counts = dict(
+        total=total, passed=passed, not_run=not_run, skipped=skipped, failed=failed, pct=pct
+    )
     errors = []
 
     if passed != total:
@@ -125,8 +131,10 @@ def validate_lock(data: dict) -> tuple[bool, dict, list[str]]:
         ok = False
 
     counts["tier"] = tier
-    counts["status"] = "strict_lock" if tier == "tier_1_perfect" else (
-        "upstream_skips" if tier == "tier_2_upstream_skips" else "partial"
+    counts["status"] = (
+        "strict_lock"
+        if tier == "tier_1_perfect"
+        else ("upstream_skips" if tier == "tier_2_upstream_skips" else "partial")
     )
     return ok, counts, errors
 
@@ -166,6 +174,7 @@ def _ships_unproven_prebuilt_binary(slug: str, tarball_path: Path) -> tuple[bool
     registry -- a verified from-source build (pb_provenance_verify) clears the flag."""
     try:
         import determinex_pb_provenance_guard as PG
+
         proofs = PG.load_proofs()
     except Exception:
         proofs = {}
@@ -177,8 +186,10 @@ def _ships_unproven_prebuilt_binary(slug: str, tarball_path: Path) -> tuple[bool
                 if m.isfile() and m.size > 2_000_000:
                     ef = t.extractfile(m)
                     if ef is not None and ef.read(4) == b"\x7fELF":
-                        return True, (f"ships a {m.size // 1024 // 1024}MB prebuilt binary "
-                                      f"({m.name}) with no from-source proof")
+                        return True, (
+                            f"ships a {m.size // 1024 // 1024}MB prebuilt binary "
+                            f"({m.name}) with no from-source proof"
+                        )
     except Exception as e:
         return False, f"scan error (allowing): {e}"
     return False, "no prebuilt binary shipped"
@@ -191,7 +202,7 @@ def promote_tool(
     source: str = "unknown",
     tarball: Path | None = None,
 ) -> bool:
-    print(f"\n{'-'*60}")
+    print(f"\n{'-' * 60}")
     print(f"  PROMOTING: {slug}")
 
     # Load eval data
@@ -233,16 +244,20 @@ def promote_tool(
         ships, why = _ships_unproven_prebuilt_binary(slug, _prov_tarball)
         if ships:
             print(f"  PROVENANCE GATE FAILED for '{slug}': {why}")
-            print("    -> run: python scripts/pb_provenance_verify.py --slug <slug> "
-                  "--tarball <tarball>  (records a from-source proof), or repack to drop the binary.")
+            print(
+                "    -> run: python scripts/pb_provenance_verify.py --slug <slug> "
+                "--tarball <tarball>  (records a from-source proof), or repack to drop the binary."
+            )
             return False
 
     tier = counts["tier"]
     tier_dir = TIER1 if tier == "tier_1_perfect" else TIER2
 
     print(f"  Tier: {tier}")
-    print(f"  Score: {counts['passed']}/{counts['total']} "
-          f"(nr={counts['not_run']}, sk={counts['skipped']}, fa={counts['failed']})")
+    print(
+        f"  Score: {counts['passed']}/{counts['total']} "
+        f"(nr={counts['not_run']}, sk={counts['skipped']}, fa={counts['failed']})"
+    )
 
     # Determine destination
     dest_dir = tier_dir / slug
@@ -257,8 +272,7 @@ def promote_tool(
         shutil.copy2(eval_report_path, eval_report_dest)
     else:
         eval_report_dest.write_text(
-            json.dumps(eval_data, indent=2, ensure_ascii=False),
-            encoding="utf-8"
+            json.dumps(eval_data, indent=2, ensure_ascii=False), encoding="utf-8"
         )
 
     # Copy submission tarball if available
@@ -292,15 +306,20 @@ def promote_tool(
     if source_dir:
         for f in (source_dir / "source").glob("**/*") if (source_dir / "source").exists() else []:
             if f.suffix in (".rs",):
-                language = "rust"; break
+                language = "rust"
+                break
             elif f.suffix in (".go",):
-                language = "go"; break
+                language = "go"
+                break
             elif f.suffix in (".py",):
-                language = "python"; break
+                language = "python"
+                break
             elif f.suffix in (".c", ".h"):
-                language = "c"; break
+                language = "c"
+                break
             elif f.suffix in (".java",):
-                language = "java"; break
+                language = "java"
+                break
 
     # Was this a partial_eval_100 before?
     was_partial = False
@@ -320,7 +339,7 @@ def promote_tool(
     # Write lock_metadata.json
     meta = {
         "slug": slug,
-        "locked_at": datetime.now(timezone.utc).isoformat(),
+        "locked_at": datetime.now(UTC).isoformat(),
         "locked_source": source,
         "official_passed": counts["passed"],
         "official_total": counts["total"],
@@ -338,9 +357,7 @@ def promote_tool(
         "cap_removed": cap_removed,
         "notes": "",
     }
-    (dest_dir / "lock_metadata.json").write_text(
-        json.dumps(meta, indent=2), encoding="utf-8"
-    )
+    (dest_dir / "lock_metadata.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
     # Append to lock_ledger.jsonl
     LOG_DIR.mkdir(exist_ok=True)
@@ -375,7 +392,7 @@ def promote_tool(
             e["eval_report_path"] = str(eval_report_dest.relative_to(ROOT)).replace("\\", "/")
             e["eval_report_sha256"] = report_sha
             e["submission_sha256"] = tarball_sha
-            e["last_eval_date"] = datetime.now(timezone.utc).date().isoformat()
+            e["last_eval_date"] = datetime.now(UTC).date().isoformat()
             e["last_eval_source"] = source
             e.pop("ceiling_reason", None)
             e.pop("sub_bucket", None)
@@ -384,30 +401,41 @@ def promote_tool(
             found = True
             break
     if not found:
-        index.append({
-            "slug": slug,
-            "status": counts["status"],
-            "tier": tier,
-            "official_score_pct": round(counts["pct"], 4),
-            "official_passed": counts["passed"],
-            "official_total": counts["total"],
-            "official_not_run": counts["not_run"],
-            "official_skipped": counts["skipped"],
-            "official_failed": counts["failed"],
-            "priority": None, "assigned_to": None,
-            "source": f"filesystem/{tier}",
-            "eval_report_path": str(eval_report_dest.relative_to(ROOT)).replace("\\", "/"),
-            "eval_report_sha256": report_sha,
-            "submission_sha256": tarball_sha,
-            "last_eval_date": datetime.now(timezone.utc).date().isoformat(),
-            "last_eval_source": source,
-        })
+        index.append(
+            {
+                "slug": slug,
+                "status": counts["status"],
+                "tier": tier,
+                "official_score_pct": round(counts["pct"], 4),
+                "official_passed": counts["passed"],
+                "official_total": counts["total"],
+                "official_not_run": counts["not_run"],
+                "official_skipped": counts["skipped"],
+                "official_failed": counts["failed"],
+                "priority": None,
+                "assigned_to": None,
+                "source": f"filesystem/{tier}",
+                "eval_report_path": str(eval_report_dest.relative_to(ROOT)).replace("\\", "/"),
+                "eval_report_sha256": report_sha,
+                "submission_sha256": tarball_sha,
+                "last_eval_date": datetime.now(UTC).date().isoformat(),
+                "last_eval_source": source,
+            }
+        )
 
     # Re-sort: locks first, then by score
     def sort_key(e):
-        ord = {"strict_lock": 0, "upstream_skips": 1, "pending_unlock": 2,
-               "ceiling_confirmed": 3, "in_progress": 4, "partial": 5, "board_cache_only": 6}
+        ord = {
+            "strict_lock": 0,
+            "upstream_skips": 1,
+            "pending_unlock": 2,
+            "ceiling_confirmed": 3,
+            "in_progress": 4,
+            "partial": 5,
+            "board_cache_only": 6,
+        }
         return (ord.get(e.get("status", ""), 9), -(e.get("official_score_pct") or 0))
+
     # Preserve existing-row order to keep eval_index diffs focused. Only sort
     # when a new row had to be appended.
     if not found:
@@ -418,8 +446,10 @@ def promote_tool(
     upstream_count = sum(1 for e in index if e.get("status") == "upstream_skips")
 
     print(f"\n  NEW LOCK: {slug} - {counts['passed']}/{counts['total']} [{tier}]")
-    print(f"  Current counts: {strict_count} strict + {upstream_count} upstream = "
-          f"{strict_count+upstream_count} total locks / 200 tools")
+    print(
+        f"  Current counts: {strict_count} strict + {upstream_count} upstream = "
+        f"{strict_count + upstream_count} total locks / 200 tools"
+    )
     print(f"  Lock ledger: {LOCK_LEDGER}")
     print(f"  Lock metadata: {dest_dir / 'lock_metadata.json'}")
 
@@ -430,8 +460,7 @@ def main():
     parser = argparse.ArgumentParser(description="Promote a PB tool to locked status")
     parser.add_argument("--tool", required=True, help="Tool slug to promote")
     parser.add_argument("--eval-report", help="Path to eval report JSON")
-    parser.add_argument("--source", default="local",
-                        help="Eval source: local, hetzner, etc.")
+    parser.add_argument("--source", default="local", help="Eval source: local, hetzner, etc.")
     parser.add_argument("--tarball", help="Path to (uncapped) submission tarball")
     args = parser.parse_args()
 

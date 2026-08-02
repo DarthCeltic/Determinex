@@ -15,6 +15,7 @@ Usage:
 """
 
 from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -75,13 +76,14 @@ def generate_patch(instance: dict, model: str) -> tuple[str, float]:
     t0 = time.time()
     prompt = f"""Fix the following GitHub issue in the repository.
 
-Repository: {instance.get('repo', '')}
-Issue title: {instance.get('problem_statement', '')[:500]}
+Repository: {instance.get("repo", "")}
+Issue title: {instance.get("problem_statement", "")[:500]}
 
 Provide a unified diff patch that resolves this issue.
 """
     if model == "deepseek":
         import openai
+
         client = openai.OpenAI(
             api_key=os.environ["DEEPSEEK_API_KEY"],
             base_url="https://api.deepseek.com",
@@ -89,14 +91,17 @@ Provide a unified diff patch that resolves this issue.
         resp = client.chat.completions.create(
             model="deepseek-chat",
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=2048, temperature=0.2,
+            max_tokens=2048,
+            temperature=0.2,
         )
         patch = resp.choices[0].message.content or ""
     elif model == "claude":
         import anthropic
+
         client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
         msg = client.messages.create(
-            model="claude-sonnet-4-6", max_tokens=2048,
+            model="claude-sonnet-4-6",
+            max_tokens=2048,
             messages=[{"role": "user", "content": prompt}],
         )
         patch = msg.content[0].text if msg.content else ""
@@ -106,17 +111,26 @@ Provide a unified diff patch that resolves this issue.
     return patch, round(time.time() - t0, 2)
 
 
-def run_swebench_eval(predictions_path: Path, dataset: str, run_id: str,
-                      workers: int, timeout: int) -> dict:
+def run_swebench_eval(
+    predictions_path: Path, dataset: str, run_id: str, workers: int, timeout: int
+) -> dict:
     """Run SWE-bench evaluation harness on the predictions file."""
     cmd = [
-        sys.executable, "-m", "swebench.harness.run_evaluation",
-        "--predictions_path", str(predictions_path),
-        "--dataset_name", dataset,
-        "--max_workers", str(workers),
-        "--run_id", run_id,
-        "--cache_level", "env",
-        "--timeout", str(timeout),
+        sys.executable,
+        "-m",
+        "swebench.harness.run_evaluation",
+        "--predictions_path",
+        str(predictions_path),
+        "--dataset_name",
+        dataset,
+        "--max_workers",
+        str(workers),
+        "--run_id",
+        run_id,
+        "--cache_level",
+        "env",
+        "--timeout",
+        str(timeout),
     ]
     env = os.environ.copy()
     env["PYTHONUTF8"] = "1"
@@ -138,6 +152,7 @@ def load_swebench_live_windows(limit: int, filter_str: str) -> list[dict]:
     """
     try:
         import datasets
+
         try:
             # Try Windows-specific dataset first
             ds = datasets.load_dataset(
@@ -174,15 +189,18 @@ def main() -> None:
     ap.add_argument("--filter", default="", help="Filter instances by keyword")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--timeout", type=int, default=300)
-    ap.add_argument("--skip-eval", action="store_true",
-                    help="Generate patches only, skip Docker eval (analysis + linux-ism check)")
+    ap.add_argument(
+        "--skip-eval",
+        action="store_true",
+        help="Generate patches only, skip Docker eval (analysis + linux-ism check)",
+    )
     ap.add_argument("--dataset", default="princeton-nlp/SWE-bench_Lite")
     args = ap.parse_args()
 
     ts = time.strftime("%Y%m%d_%H%M%S")
     models = ["deepseek", "claude"] if args.model == "all" else [args.model]
 
-    print(f"\nSWE-bench-Live Windows Wrapper")
+    print("\nSWE-bench-Live Windows Wrapper")
     print(f"Models: {models}  Limit: {args.limit}  Dataset: {args.dataset}")
     print("=" * 60)
 
@@ -205,7 +223,9 @@ def main() -> None:
                 patch, latency = generate_patch(inst, model)
             except Exception as e:
                 print(f"    ERROR: {e}")
-                predictions.append({"instance_id": iid, "model_patch": "", "model_name_or_path": model})
+                predictions.append(
+                    {"instance_id": iid, "model_patch": "", "model_name_or_path": model}
+                )
                 continue
 
             # Linux-ism detection on the generated patch
@@ -214,11 +234,13 @@ def main() -> None:
                 print(f"    WARN: {len(isms)} Linux-ism(s): {', '.join(l for _, l in isms)}")
                 linux_ism_report.append({"instance_id": iid, "linux_isms": [l for _, l in isms]})
 
-            predictions.append({
-                "instance_id": iid,
-                "model_patch": patch,
-                "model_name_or_path": model,
-            })
+            predictions.append(
+                {
+                    "instance_id": iid,
+                    "model_patch": patch,
+                    "model_name_or_path": model,
+                }
+            )
             print(f"    patch={len(patch)}c  linux_isms={len(isms)}  latency={latency}s")
 
         # Write predictions
@@ -233,14 +255,17 @@ def main() -> None:
         # Linux-ism summary
         ism_path = pred_dir / "linux_ism_report.json"
         ism_summary = {
-            "model": model, "instances": len(instances),
+            "model": model,
+            "instances": len(instances),
             "instances_with_linux_isms": len(linux_ism_report),
             "linux_ism_rate": round(len(linux_ism_report) / len(instances), 3) if instances else 0,
             "details": linux_ism_report,
         }
         ism_path.write_text(json.dumps(ism_summary, indent=2), encoding="utf-8")
-        print(f"  Linux-ism rate: {ism_summary['linux_ism_rate']:.1%} "
-              f"({len(linux_ism_report)}/{len(instances)} instances)")
+        print(
+            f"  Linux-ism rate: {ism_summary['linux_ism_rate']:.1%} "
+            f"({len(linux_ism_report)}/{len(instances)} instances)"
+        )
 
         # Docker eval
         if not args.skip_eval:
@@ -254,10 +279,12 @@ def main() -> None:
             else:
                 print(f"  Eval: FAILED (rc={eval_result['returncode']}) — see {eval_path}")
         else:
-            print(f"  Eval skipped (--skip-eval). Run harness manually:")
-            print(f"    cd {DETERMINEX_ROOT} && python -m swebench.harness.run_evaluation "
-                  f"--predictions_path {pred_path} --dataset_name {args.dataset} "
-                  f"--run_id {run_id} --max_workers {args.workers}")
+            print("  Eval skipped (--skip-eval). Run harness manually:")
+            print(
+                f"    cd {DETERMINEX_ROOT} && python -m swebench.harness.run_evaluation "
+                f"--predictions_path {pred_path} --dataset_name {args.dataset} "
+                f"--run_id {run_id} --max_workers {args.workers}"
+            )
 
 
 if __name__ == "__main__":

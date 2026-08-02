@@ -4,8 +4,8 @@ Exact user-facing text for the IDE approval flow. Plain, direct,
 non-hype. No claims that AI is always correct or that approval is
 risk-free.
 """
-from __future__ import annotations
 
+from __future__ import annotations
 
 APPROVAL_UX_COPY: dict[str, str] = {
     "diagnosis_advisory": (
@@ -57,8 +57,7 @@ APPROVAL_UX_COPY: dict[str, str] = {
         "produce plausible-looking patches that fail the verifier."
     ),
     "no_blind_approval": (
-        "Read the diff. Read the verifier output. If anything is unclear, "
-        "reject the packet."
+        "Read the diff. Read the verifier output. If anything is unclear, reject the packet."
     ),
 }
 

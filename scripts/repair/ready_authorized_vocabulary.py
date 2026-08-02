@@ -18,6 +18,7 @@ The classifier does NOT mutate the existing token surface. It
 adds a layer that an operator or downstream agent can consult to
 distinguish a capability signal from an authorization signal.
 """
+
 from __future__ import annotations
 
 import sys
@@ -35,152 +36,172 @@ from .ready_authorized_vocabulary_record import (
     TokenClassification,
 )
 
-
 # Canonical classification map — one entry per known status token.
 # Keep this exhaustive over the audit set; the test suite walks the
 # repo to keep this in sync.
 _TOKEN_CLASSIFICATION: dict[str, tuple[str, str, str]] = {
     # token -> (surface, vocabulary_class, rationale)
-
     # ----- capability_available (READY) -----
     "IDE_BACKEND_COMMAND_SURFACE_READY": (
-        "backend", "capability_available",
-        "backend dispatcher is wired up; does not imply any approval"
+        "backend",
+        "capability_available",
+        "backend dispatcher is wired up; does not imply any approval",
     ),
     "IDE_DIAGNOSE_DRY_RUN_READY": (
-        "backend", "capability_available",
-        "diagnose dry-run flow is wired; no live model called"
+        "backend",
+        "capability_available",
+        "diagnose dry-run flow is wired; no live model called",
     ),
     "IDE_DIAGNOSE_LIVE_OPT_IN_READY": (
-        "backend", "capability_available",
-        "live opt-in flow exists; the opt-in itself is a separate request"
+        "backend",
+        "capability_available",
+        "live opt-in flow exists; the opt-in itself is a separate request",
     ),
     "MODEL_ROUTE_PANEL_READY": (
-        "shared", "capability_available",
-        "model-route panel is renderable; no admission implied"
+        "shared",
+        "capability_available",
+        "model-route panel is renderable; no admission implied",
     ),
     "INTAKE_READY": (
-        "backend", "capability_available",
-        "intake gate is open; nothing has been admitted yet"
+        "backend",
+        "capability_available",
+        "intake gate is open; nothing has been admitted yet",
     ),
     "IDE_SOURCE_APPLY_DRY_RUN_READY": (
-        "backend", "capability_available",
-        "source-apply dry-run can render; mutation is NOT authorized"
+        "backend",
+        "capability_available",
+        "source-apply dry-run can render; mutation is NOT authorized",
     ),
     "SOURCE_APPLY_DRY_RUN_READY": (
-        "backend", "capability_available",
-        "repair-side mirror of dry-run readiness; no mutation authorized"
+        "backend",
+        "capability_available",
+        "repair-side mirror of dry-run readiness; no mutation authorized",
     ),
     "LOCAL_MODEL_LIVE_ADMISSION_READY": (
-        "backend", "capability_available",
-        "live-admission flow can be invoked; admission itself requires admit()"
+        "backend",
+        "capability_available",
+        "live-admission flow can be invoked; admission itself requires admit()",
     ),
     "REAL_LOCAL_MODEL_CONFIG_READY": (
-        "backend", "capability_available",
-        "real-local-model config can be written; nothing is admitted"
+        "backend",
+        "capability_available",
+        "real-local-model config can be written; nothing is admitted",
     ),
     "FRONTEND_COMMAND_INVOKE_CLIENT_READY": (
-        "frontend", "capability_available",
-        "frontend invoke client is wired; no backend state changed"
+        "frontend",
+        "capability_available",
+        "frontend invoke client is wired; no backend state changed",
     ),
     "TAURI_RUST_COMMAND_BRIDGE_READY": (
-        "frontend", "capability_available",
-        "Tauri bridge is mounted; commands still go through gates"
+        "frontend",
+        "capability_available",
+        "Tauri bridge is mounted; commands still go through gates",
     ),
     "FRONTEND_PANEL_COMMAND_WIRING_READY": (
-        "frontend", "capability_available",
-        "panel-to-command wiring complete"
+        "frontend",
+        "capability_available",
+        "panel-to-command wiring complete",
     ),
     "WORKSPACE_STATUS_PANEL_READY": (
-        "frontend", "capability_available",
-        "workspace status panel is renderable"
+        "frontend",
+        "capability_available",
+        "workspace status panel is renderable",
     ),
     "REPAIR_PANEL_SHELL_READY": (
-        "frontend", "capability_available",
-        "repair panel shell is renderable"
+        "frontend",
+        "capability_available",
+        "repair panel shell is renderable",
     ),
     "FRONTEND_DIAGNOSE_DRY_RUN_READY": (
-        "frontend", "capability_available",
-        "frontend diagnose dry-run is renderable"
+        "frontend",
+        "capability_available",
+        "frontend diagnose dry-run is renderable",
     ),
     "TEMP_VERIFY_PANEL_READY": (
-        "frontend", "capability_available",
-        "temp-verify panel is renderable; no verifier has run"
+        "frontend",
+        "capability_available",
+        "temp-verify panel is renderable; no verifier has run",
     ),
     "HUMAN_APPROVAL_PANEL_READY": (
-        "frontend", "capability_available",
-        "approval panel is renderable; no approval has been granted"
+        "frontend",
+        "capability_available",
+        "approval panel is renderable; no approval has been granted",
     ),
     "SOURCE_APPLY_DRY_RUN_PANEL_READY": (
-        "frontend", "capability_available",
-        "source-apply dry-run panel is renderable; no mutation will happen"
+        "frontend",
+        "capability_available",
+        "source-apply dry-run panel is renderable; no mutation will happen",
     ),
-    "EVIDENCE_VIEWER_READY": (
-        "frontend", "capability_available",
-        "evidence viewer is renderable"
-    ),
+    "EVIDENCE_VIEWER_READY": ("frontend", "capability_available", "evidence viewer is renderable"),
     "LOCAL_MODEL_SETTINGS_PANEL_READY": (
-        "frontend", "capability_available",
-        "local-model settings panel is renderable"
+        "frontend",
+        "capability_available",
+        "local-model settings panel is renderable",
     ),
-
     # ----- admission_present (ADMITTED) -----
     "LIVE_MODEL_ADMITTED": (
-        "backend", "admission_present",
-        "live model admitted by admit() gate; does not authorize source mutation"
+        "backend",
+        "admission_present",
+        "live model admitted by admit() gate; does not authorize source mutation",
     ),
     "LIVE_MODEL_NOT_ADMITTED": (
-        "backend", "request_pending",
-        "live model not admitted; admission flow still pending"
+        "backend",
+        "request_pending",
+        "live model not admitted; admission flow still pending",
     ),
     "LOCAL_MODEL_METADATA_ADMITTED": (
-        "backend", "admission_present",
-        "metadata-level admission; live model still requires a separate admission"
+        "backend",
+        "admission_present",
+        "metadata-level admission; live model still requires a separate admission",
     ),
     "REAL_LOCAL_MODEL_ADMITTED": (
-        "backend", "admission_present",
-        "real-local-model gate admitted; does not authorize source mutation"
+        "backend",
+        "admission_present",
+        "real-local-model gate admitted; does not authorize source mutation",
     ),
-
     # ----- approval_present (ACCEPTED) -----
     "REAL_HUMAN_APPROVAL_ACCEPTED": (
-        "backend", "approval_present",
+        "backend",
+        "approval_present",
         "operator approval accepted by strict HMAC gate; "
-        "still must pass apply-time body-hash and signature-kind checks"
+        "still must pass apply-time body-hash and signature-kind checks",
     ),
     "SOURCE_APPROVAL_ACCEPTED_FIXTURE": (
-        "backend", "approval_present",
+        "backend",
+        "approval_present",
         "FIXTURE-only approval; apply gate refuses fixture approvals "
-        "(CLAUDE-AUTH-002 remediation), so this NEVER implies source_mutation_authorized"
+        "(CLAUDE-AUTH-002 remediation), so this NEVER implies source_mutation_authorized",
     ),
     "SOURCE_MUTATION_APPROVAL_ACCEPTED_FIXTURE": (
-        "backend", "approval_present",
-        "repair-side FIXTURE-only approval; apply gate refuses fixture approvals"
+        "backend",
+        "approval_present",
+        "repair-side FIXTURE-only approval; apply gate refuses fixture approvals",
     ),
-
     # ----- source_mutation_authorized (the only token in this class) -----
     "SOURCE_MUTATION_APPLIED_AFTER_APPROVAL": (
-        "backend", "source_mutation_authorized",
+        "backend",
+        "source_mutation_authorized",
         "post-fact authorization record; emitted ONLY by the apply gate "
         "after every check (approval, verifier, snapshot, hash binding, "
         "symlink refusal). Reading this token implies the mutation has "
-        "ALREADY happened — not that future mutation is authorized."
+        "ALREADY happened — not that future mutation is authorized.",
     ),
-
     # ----- evidence_present (verifier/snapshot run records) -----
     "POST_APPLY_VERIFIER_PASSED": (
-        "backend", "evidence_present",
-        "post-apply verifier produced a pass record"
+        "backend",
+        "evidence_present",
+        "post-apply verifier produced a pass record",
     ),
     "ROLLBACK_SNAPSHOT_WRITTEN": (
-        "backend", "evidence_present",
-        "rollback snapshot artifact written; restoration still requires "
-        "the rollback executor"
+        "backend",
+        "evidence_present",
+        "rollback snapshot artifact written; restoration still requires the rollback executor",
     ),
     "REAL_TEMP_PATCH_VERIFIER_PASSED": (
-        "backend", "evidence_present",
+        "backend",
+        "evidence_present",
         "temp verifier produced a pass record on an isolated workspace; "
-        "the real workspace has NOT been mutated"
+        "the real workspace has NOT been mutated",
     ),
 }
 
@@ -189,6 +210,7 @@ def classes() -> tuple[str, ...]:
     from .ready_authorized_vocabulary_record import (
         AUTHORITY_VOCABULARY_CLASSES,
     )
+
     return AUTHORITY_VOCABULARY_CLASSES
 
 
@@ -201,8 +223,10 @@ def classify(token: str) -> TokenClassification | None:
         return None
     surface, klass, rationale = entry
     return TokenClassification(
-        token=token, surface=surface,
-        vocabulary_class=klass, rationale=rationale,
+        token=token,
+        surface=surface,
+        vocabulary_class=klass,
+        rationale=rationale,
     )
 
 
@@ -246,8 +270,7 @@ def assert_ready_does_not_imply_authorized() -> ReadyAuthorizedLanguageRecord:
         # as approval_present, never as source_mutation_authorized.
         if "FIXTURE" in tok and c.vocabulary_class == "source_mutation_authorized":
             ambiguous.append(
-                f"{tok!r} classifies as source_mutation_authorized "
-                "even though it is fixture-only"
+                f"{tok!r} classifies as source_mutation_authorized even though it is fixture-only"
             )
         # Hard invariant 3: no frontend (UI) surface token may
         # classify into an authorization-implying class.

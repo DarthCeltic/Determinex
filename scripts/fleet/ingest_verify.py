@@ -19,20 +19,22 @@ intake.hardened_runner). This module FAILS CLOSED: without a sandbox runner it
 refuses to verify, unless the caller explicitly opts into `allow_unsandboxed=True`
 (only safe for our own trusted test fixtures, never for real contributions).
 """
+
 from __future__ import annotations
 
 import json
 import sys
 import tempfile
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from determinex_oracle import get_oracle, OracleUnavailable  # noqa: E402
+from determinex_oracle import OracleUnavailable, get_oracle  # noqa: E402
 
-from .protocol import Shard, ContributionItem  # noqa: E402
+from .protocol import ContributionItem, Shard  # noqa: E402
 
 # A sandbox runner takes (lang, workdir) and returns True iff the oracle PASSed
 # *inside isolation*. Production callers pass a Docker / hardened-runner-backed one.
@@ -41,13 +43,14 @@ SandboxVerify = Callable[[str, Path], bool]
 
 @dataclass
 class IngestResult:
-    admitted: list[str]          # item ids accepted into the corpus
-    dropped: dict[str, str]      # item id -> reason
-    duplicates: list[str]        # item ids already present
+    admitted: list[str]  # item ids accepted into the corpus
+    dropped: dict[str, str]  # item id -> reason
+    duplicates: list[str]  # item ids already present
 
     def summary(self) -> str:
-        return (f"admitted={len(self.admitted)} dropped={len(self.dropped)} "
-                f"dup={len(self.duplicates)}")
+        return (
+            f"admitted={len(self.admitted)} dropped={len(self.dropped)} dup={len(self.duplicates)}"
+        )
 
 
 def _write_workdir(files: dict[str, str], root: Path) -> None:
@@ -73,7 +76,7 @@ def _local_oracle_verify(lang: str, workdir: Path) -> bool:
 
 def verify_item(
     item: ContributionItem,
-    sandbox: Optional[SandboxVerify] = None,
+    sandbox: SandboxVerify | None = None,
     *,
     allow_unsandboxed: bool = False,
 ) -> tuple[bool, str]:
@@ -118,7 +121,7 @@ def _load_existing_ids(corpus_path: Path) -> set[str]:
 def ingest_shard(
     shard: Shard,
     corpus_path: Path,
-    sandbox: Optional[SandboxVerify] = None,
+    sandbox: SandboxVerify | None = None,
     *,
     allow_unsandboxed: bool = False,
     apply: bool = False,

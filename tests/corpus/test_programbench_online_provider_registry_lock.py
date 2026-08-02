@@ -16,38 +16,40 @@ from corpus.legacy_recovery.artifact_discovery_provider_registry import (  # noq
 def _registry(tmp_path: Path) -> DiscoveryProviderRegistry:
     path = tmp_path / "providers.json"
     path.write_text(
-        json.dumps({
-            "providers": [
-                {
-                    "name": "docker_hub_official",
-                    "type": "docker_hub",
-                    "allowed_queries": ["official_namespace", "exact_image_reference"],
-                    "requires_digest": True,
-                    "allows_broad_search": False,
-                },
-                {
-                    "name": "ghcr_exact",
-                    "type": "ghcr",
-                    "allowed_queries": ["exact_owner_repo"],
-                    "requires_digest": True,
-                    "allows_broad_search": False,
-                },
-                {
-                    "name": "github_release_metadata",
-                    "type": "github_release",
-                    "allowed_queries": ["exact_owner_repo"],
-                    "requires_revision": True,
-                    "allows_broad_search": False,
-                },
-                {
-                    "name": "huggingface_explicit",
-                    "type": "huggingface",
-                    "allowed_queries": ["explicit_repo_reference"],
-                    "requires_revision": True,
-                    "allows_broad_search": False,
-                },
-            ]
-        }),
+        json.dumps(
+            {
+                "providers": [
+                    {
+                        "name": "docker_hub_official",
+                        "type": "docker_hub",
+                        "allowed_queries": ["official_namespace", "exact_image_reference"],
+                        "requires_digest": True,
+                        "allows_broad_search": False,
+                    },
+                    {
+                        "name": "ghcr_exact",
+                        "type": "ghcr",
+                        "allowed_queries": ["exact_owner_repo"],
+                        "requires_digest": True,
+                        "allows_broad_search": False,
+                    },
+                    {
+                        "name": "github_release_metadata",
+                        "type": "github_release",
+                        "allowed_queries": ["exact_owner_repo"],
+                        "requires_revision": True,
+                        "allows_broad_search": False,
+                    },
+                    {
+                        "name": "huggingface_explicit",
+                        "type": "huggingface",
+                        "allowed_queries": ["explicit_repo_reference"],
+                        "requires_revision": True,
+                        "allows_broad_search": False,
+                    },
+                ]
+            }
+        ),
         encoding="utf-8",
     )
     return DiscoveryProviderRegistry(path)

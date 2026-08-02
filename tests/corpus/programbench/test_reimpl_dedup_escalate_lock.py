@@ -17,6 +17,7 @@ terminal' stderr, 7x usage, 5x version, 4x segfault, ...), so:
      no partial to refine) -> hand the leaf up the ladder now. Router sets this for
      every tier that HAS a next tier; the top tier keeps its full round budget.
 """
+
 from __future__ import annotations
 
 import sys
@@ -38,9 +39,12 @@ def _obs(name, argv, stdout="", stderr="", rc=0):
 
 # ---------------------------------------------------------------- oracle dedup
 
+
 def test_dedup_one_rep_per_behavior_class():
-    same_err = [_obs(f"e{i}", [f"-{c}"], "", "Error opening terminal: unknown.\n", 1)
-                for i, c in enumerate("abcd")]
+    same_err = [
+        _obs(f"e{i}", [f"-{c}"], "", "Error opening terminal: unknown.\n", 1)
+        for i, c in enumerate("abcd")
+    ]
     help_o = _obs("help", ["-h"], "usage: x\n")
     reps = reimpl._dedup_reps(same_err + [help_o], help_o)
     assert len(reps) == 2  # one error-class rep + help
@@ -56,8 +60,11 @@ def test_dedup_always_includes_the_focus_probe():
 
 
 def test_dedup_distinct_classes_all_kept():
-    xs = [_obs("h", ["-h"], "usage\n"), _obs("v", ["-V"], "v1.0\n"),
-          _obs("seg", ["-u", "0"], "", "Segmentation fault\n", 139)]
+    xs = [
+        _obs("h", ["-h"], "usage\n"),
+        _obs("v", ["-V"], "v1.0\n"),
+        _obs("seg", ["-u", "0"], "", "Segmentation fault\n", 139),
+    ]
     assert len(reimpl._dedup_reps(xs, xs[-1])) == 3
 
 
@@ -71,8 +78,7 @@ def test_incremental_solve_skip_checks_use_verify_memo():
         return "x\n", "", 0
 
     obs = [_obs(f"p{i}", [f"-{i}"], "x\n") for i in range(3)]
-    code, stations = reimpl.incremental_solve(
-        obs, ladder=[], helptext="", short="t", runner=runner)
+    code, stations = reimpl.incremental_solve(obs, ladder=[], helptext="", short="t", runner=runner)
     assert stations == 0
     assert calls["n"] == 3  # memo held: one probe-run per station, not the full prefix
 
@@ -83,8 +89,7 @@ def test_incremental_solve_acceptance_still_uses_full_set(monkeypatch):
     monkeypatch.setattr(reimpl, "_LANG", "c")
     # two probes in one class + one distinct; runner keys off argv so a candidate can
     # pass -a but fail -b even though they share a behavior class
-    obs = [_obs("a", ["-a"], "same\n"), _obs("b", ["-b"], "same\n"),
-           _obs("c", ["-c"], "other\n")]
+    obs = [_obs("a", ["-a"], "same\n"), _obs("b", ["-b"], "same\n"), _obs("c", ["-c"], "other\n")]
 
     def runner(code, probe):
         if "GOOD" in code:
@@ -113,12 +118,19 @@ def test_composite_search_keeps_working_after_rep_overfit(monkeypatch):
     # iterating past a rep-overfit candidate until a full pass.
     monkeypatch.setenv("DETERMINEX_VS_HEARTBEAT", "0")
     monkeypatch.setattr(reimpl, "_LANG", "c")
-    obs = [_obs("a", ["-a"], "same\n"), _obs("b", ["-b"], "same\n"),
-           _obs("c", ["-c"], "same\n")]  # one behavior class x3 -> dedup active at st.3
+    obs = [
+        _obs("a", ["-a"], "same\n"),
+        _obs("b", ["-b"], "same\n"),
+        _obs("c", ["-c"], "same\n"),
+    ]  # one behavior class x3 -> dedup active at st.3
 
     def runner(code, probe):
-        ok_by = {"GOODA": ("-a",), "GAME": ("-a", "-c"), "AB": ("-a", "-b"),
-                 "GOOD": ("-a", "-b", "-c")}
+        ok_by = {
+            "GOODA": ("-a",),
+            "GAME": ("-a", "-c"),
+            "AB": ("-a", "-b"),
+            "GOOD": ("-a", "-b", "-c"),
+        }
         for key, argvs in ok_by.items():
             if key in code:
                 return ("same\n" if probe.argv[0] in argvs else "WRONG\n"), "", 0
@@ -133,7 +145,8 @@ def test_composite_search_keeps_working_after_rep_overfit(monkeypatch):
 
     ladder = [ModelEntry("scripted", tier=1, cost=0.0, generate=gen)]
     code, stations = reimpl.incremental_solve(
-        obs, ladder=ladder, helptext="", short="t", k=1, rounds=5, runner=runner)
+        obs, ladder=ladder, helptext="", short="t", k=1, rounds=5, runner=runner
+    )
     # station 3's GAME passes both reps (a, c) but fails duplicate b on the full set:
     # the composite oracle must NOT let the search return solved there -- the next
     # sample (GOOD) is required. 5 generations total proves the search continued.
@@ -148,8 +161,10 @@ def test_monotone_acceptance_rejects_behavior_swaps(monkeypatch):
     # candidate that fails anything the current program passes.
     monkeypatch.setenv("DETERMINEX_VS_HEARTBEAT", "0")
     monkeypatch.setattr(reimpl, "_LANG", "c")
-    obs = [_obs("n", ["-n"], "", "Error opening terminal: unknown.\n", 1),
-           _obs("s", ["-s"], "", "Error opening terminal: unknown.\n", 1)]
+    obs = [
+        _obs("n", ["-n"], "", "Error opening terminal: unknown.\n", 1),
+        _obs("s", ["-s"], "", "Error opening terminal: unknown.\n", 1),
+    ]
 
     def runner(code, probe):
         flags = {"HAS_N": ("-n",), "SWAP": ("-s",), "BOTH": ("-n", "-s")}
@@ -167,31 +182,34 @@ def test_monotone_acceptance_rejects_behavior_swaps(monkeypatch):
 
     ladder = [ModelEntry("swappy", tier=1, cost=0.0, generate=gen)]
     code, _ = reimpl.incremental_solve(
-        obs, ladder=ladder, helptext="", short="t", k=1, rounds=3, runner=runner)
-    assert "HAS_N" in code      # the solved behavior survived
-    assert "SWAP" not in code   # the swap candidate was refused
+        obs, ladder=ladder, helptext="", short="t", k=1, rounds=3, runner=runner
+    )
+    assert "HAS_N" in code  # the solved behavior survived
+    assert "SWAP" not in code  # the swap candidate was refused
 
 
 def test_unsolved_station_is_not_checkpointed_done(tmp_path, monkeypatch):
     monkeypatch.setenv("DETERMINEX_VS_HEARTBEAT", "0")
     monkeypatch.setattr(reimpl, "_LANG", "c")
     import json
+
     obs = [_obs("a", ["-a"], "same\n")]
 
     def runner(code, probe):
         return "WRONG\n", "", 0  # nothing ever passes
 
-    ladder = [ModelEntry("hopeless", tier=1, cost=0.0,
-                         generate=lambda p, t: f"junk{t}")]
+    ladder = [ModelEntry("hopeless", tier=1, cost=0.0, generate=lambda p, t: f"junk{t}")]
     ck = tmp_path / "t_stations.ckpt.json"
-    reimpl.incremental_solve(obs, ladder=ladder, helptext="", short="t",
-                             k=1, rounds=1, runner=runner, checkpoint_path=ck)
+    reimpl.incremental_solve(
+        obs, ladder=ladder, helptext="", short="t", k=1, rounds=1, runner=runner, checkpoint_path=ck
+    )
     d = json.loads(ck.read_text(encoding="utf-8"))
-    assert d["done"] == []      # unsolved behavior stays retryable on restart
-    assert d["stations"] == 1   # ...but the work attempt is still recorded
+    assert d["done"] == []  # unsolved behavior stays retryable on restart
+    assert d["stations"] == 1  # ...but the work attempt is still recorded
 
 
 # ------------------------------------------------------------- early escalation
+
 
 class _R:
     def __init__(self, passed, score):
@@ -208,8 +226,7 @@ def test_zero_signal_round_escalates_early(monkeypatch):
         calls["n"] += 1
         return f"junk-{temp}-{calls['n']}"
 
-    vs = VerifiedSearch(verify=lambda t: _R(False, 0.0), k=4, rounds=3,
-                        early_escalate=True)
+    vs = VerifiedSearch(verify=lambda t: _R(False, 0.0), k=4, rounds=3, early_escalate=True)
     res = vs.solve(gen, "p")
     assert not res.solved and res.rounds_used == 1
     assert calls["n"] == 4  # one round of k, not rounds*k
@@ -224,8 +241,7 @@ def test_partial_signal_keeps_all_rounds_even_with_early_escalate(monkeypatch):
         calls["n"] += 1
         return f"junk-{calls['n']}"
 
-    vs = VerifiedSearch(verify=lambda t: _R(False, 0.4), k=4, rounds=3,
-                        early_escalate=True)
+    vs = VerifiedSearch(verify=lambda t: _R(False, 0.4), k=4, rounds=3, early_escalate=True)
     res = vs.solve(gen, "p")
     assert res.rounds_used == 3  # score > 0 -> feedback rounds get their chance
     assert calls["n"] == 12
@@ -256,12 +272,17 @@ def test_router_early_escalates_lower_tier_but_not_top(monkeypatch):
         tier_calls["strong"] += 1
         return f"strong-{tier_calls['strong']}"
 
-    router = ModelRouter([ModelEntry("weak", tier=1, cost=0.0, generate=weak),
-                          ModelEntry("strong", tier=2, cost=1.0, generate=strong)],
-                         k=4, rounds=3)
+    router = ModelRouter(
+        [
+            ModelEntry("weak", tier=1, cost=0.0, generate=weak),
+            ModelEntry("strong", tier=2, cost=1.0, generate=strong),
+        ],
+        k=4,
+        rounds=3,
+    )
     rr = router.solve_leaf(verify=lambda t: _R(False, 0.0), prompt="p", start_tier=1)
     assert not rr.solved
-    assert tier_calls["weak"] == 4    # zero-signal round 1 -> escalated immediately
+    assert tier_calls["weak"] == 4  # zero-signal round 1 -> escalated immediately
     assert tier_calls["strong"] == 12  # top tier keeps its full k*rounds budget
 
 
@@ -274,9 +295,15 @@ def test_router_top_tier_solve_still_returns_solved(monkeypatch):
     def strong(prompt, temp):
         return "RIGHT"
 
-    router = ModelRouter([ModelEntry("weak", tier=1, cost=0.0, generate=weak),
-                          ModelEntry("strong", tier=2, cost=1.0, generate=strong)],
-                         k=2, rounds=2)
-    rr = router.solve_leaf(verify=lambda t: _R(t == "RIGHT", 1.0 if t == "RIGHT" else 0.0),
-                           prompt="p", start_tier=1)
+    router = ModelRouter(
+        [
+            ModelEntry("weak", tier=1, cost=0.0, generate=weak),
+            ModelEntry("strong", tier=2, cost=1.0, generate=strong),
+        ],
+        k=2,
+        rounds=2,
+    )
+    rr = router.solve_leaf(
+        verify=lambda t: _R(t == "RIGHT", 1.0 if t == "RIGHT" else 0.0), prompt="p", start_tier=1
+    )
     assert rr.solved and rr.model_used == "strong" and rr.escalations == 1

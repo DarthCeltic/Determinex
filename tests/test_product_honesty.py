@@ -79,7 +79,7 @@ def test_the_git_banner_distinguishes_a_clean_tree_from_a_failed_read():
     assert "Git status unavailable" in text, "no honest label for a failed git read"
     # The failure state must be consulted where the claim is rendered, not merely stored.
     clean_idx = text.index("Working tree clean")
-    window = text[max(0, clean_idx - 1200):clean_idx]
+    window = text[max(0, clean_idx - 1200) : clean_idx]
     assert "explorerGitUnavailable" in window, (
         "'Working tree clean' is rendered without consulting the failed-read state"
     )
@@ -142,7 +142,7 @@ def test_a_benchmark_is_scored_against_the_tasks_it_actually_attempts():
     `--n 500`, and score is `resolved / defaultTotal` -- so a run that solved every task it
     attempted displayed as 43.9%."""
     text = _read("components/BenchmarkRunner.tsx")
-    block = text[text.index('id: "bigcode"'):]
+    block = text[text.index('id: "bigcode"') :]
     block = block[: block.index("},")]
     n_arg = re.search(r'"--n",\s*"(\d+)"', block)
     total = re.search(r"defaultTotal:\s*(\d+)", block)
@@ -159,7 +159,7 @@ def test_stopping_a_benchmark_reports_whether_the_kill_was_confirmed():
     stopped regardless of whether Rust killed anything."""
     text = _read("components/BenchmarkRunner.tsx")
     assert "const stopBenchmark = async" in text, "stop handler must await the kill"
-    assert "await invokeSafe(\"stop_benchmark_run\"" in text, (
+    assert 'await invokeSafe("stop_benchmark_run"' in text, (
         "the stop result is not awaited, so the log runs before the kill resolves"
     )
     assert 'invokeSafe("stop_benchmark_run", { benchmarkId: id }).catch(' not in text, (
@@ -176,7 +176,7 @@ def test_a_failed_read_is_not_rendered_as_a_measurement():
     assert "result === null" in text, "the failure case is not distinguished from an empty result"
     # The "exact count" claim must be conditional on the read having succeeded.
     exact_at = text.index("Exact line count.")
-    assert "unavailable" in text[max(0, exact_at - 400):exact_at], (
+    assert "unavailable" in text[max(0, exact_at - 400) : exact_at], (
         "the 'Exact line count.' tooltip is not gated on the read having succeeded"
     )
 
@@ -200,7 +200,7 @@ def test_maintenance_bay_does_not_assert_work_it_has_not_done():
 
 
 def test_repo_clinic_does_not_report_analysis_without_a_workspace():
-    """"<dd>analyzed</dd>" was the one unconditional row in a table of twelve. With no workspace
+    """ "<dd>analyzed</dd>" was the one unconditional row in a table of twelve. With no workspace
     open, resolvedWorkspacePath is "" so no diagnosis is attempted -- and it still said analyzed."""
     text = _read("components/ide-product-shell/RepoClinicPanel.tsx")
     assert "<dd>analyzed</dd>" not in text, "repo analysis status is unconditional again"
@@ -212,9 +212,15 @@ def test_the_project_hub_does_not_ship_invented_activity():
     `lastOpened: "Today"` / `lastRun: "Frontend IA pass"` / `proof: "Proof gated"`, so a fresh
     install described recent activity and proof state on drives the user does not have."""
     text = _read("components/ProjectHub.tsx")
-    seeds = text[text.index("const SEEDED_PROJECTS"):]
+    seeds = text[text.index("const SEEDED_PROJECTS") :]
     seeds = seeds[: seeds.index("\n];")]
-    for invented in ("Frontend IA pass", "PB shard review", "Ablation evidence", '"Today"', '"This week"'):
+    for invented in (
+        "Frontend IA pass",
+        "PB shard review",
+        "Ablation evidence",
+        '"Today"',
+        '"This week"',
+    ):
         assert invented not in seeds, (
             f"seeded project data still contains invented activity: {invented}"
         )

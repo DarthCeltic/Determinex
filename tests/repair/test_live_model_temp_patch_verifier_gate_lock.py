@@ -1,4 +1,5 @@
 """Tests for LIVE_MODEL_TEMP_PATCH_VERIFIER_GATE_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -73,9 +72,12 @@ def _hash_tree(root: Path) -> dict[str, str]:
 
 
 def _admission_ready():
-    gate = LiveModelAdmissionGate(config=LiveModelAdmissionConfig(
-        mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=True,
-    ))
+    gate = LiveModelAdmissionGate(
+        config=LiveModelAdmissionConfig(
+            mode=LiveAdmissionMode.OPT_IN_LIVE,
+            opt_in_live=True,
+        )
+    )
     inv = LocalModelInventory.of(sorted(CURRENT_MODEL_IDS))
     candidate = LocalModelCandidate(
         model_id="determinex-engineer-v11-dsl",
@@ -84,7 +86,9 @@ def _admission_ready():
         supported_task_classes=(TaskClass.PATCH_GENERATION.value,),
     )
     return gate.evaluate(
-        candidate, TaskClass.PATCH_GENERATION, inv,
+        candidate,
+        TaskClass.PATCH_GENERATION,
+        inv,
         ModelRouter(inventory=inv).route(TaskClass.PATCH_GENERATION, mode=RouterMode.LIVE),
     )
 

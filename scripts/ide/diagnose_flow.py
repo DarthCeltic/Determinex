@@ -3,6 +3,7 @@
 Wraps the existing OptInLiveDiagnoseCommand. Two paths: dry_run and
 live_opt_in. Advisory only. Source unchanged.
 """
+
 from __future__ import annotations
 
 import sys
@@ -21,7 +22,6 @@ from .diagnose_flow_record import (
     IDE_DIAGNOSE_FLOW_STATUS_TOKENS,
     IDEDiagnoseFlowRecord,
 )
-
 
 _ALLOWED_TASKS = frozenset({"BUILD_DIAGNOSIS", "TEST_FAILURE_LOCALIZATION"})
 
@@ -43,8 +43,11 @@ class IDEDiagnoseFlow:
         if task_class not in _ALLOWED_TASKS:
             return IDEDiagnoseFlowRecord(
                 decision="IDE_DIAGNOSE_BLOCKED_UNSUPPORTED_TASK",
-                workspace=str(ws), task_class=task_class, mode=mode,
-                advisory_payload={}, advisory_only=True,
+                workspace=str(ws),
+                task_class=task_class,
+                mode=mode,
+                advisory_payload={},
+                advisory_only=True,
                 patch_generated=False,
                 source_mutation_authorized=False,
                 training_eligible=False,
@@ -56,7 +59,9 @@ class IDEDiagnoseFlow:
             # No live model call. We still record the flow as ready.
             return IDEDiagnoseFlowRecord(
                 decision="IDE_DIAGNOSE_DRY_RUN_READY",
-                workspace=str(ws), task_class=task_class, mode="dry_run",
+                workspace=str(ws),
+                task_class=task_class,
+                mode="dry_run",
                 advisory_payload={"kind": "DRY_RUN", "summary": "dry-run mode"},
                 advisory_only=True,
                 patch_generated=False,
@@ -73,8 +78,11 @@ class IDEDiagnoseFlow:
         if config is None:
             return IDEDiagnoseFlowRecord(
                 decision="IDE_DIAGNOSE_BLOCKED_NO_MODEL",
-                workspace=str(ws), task_class=task_class, mode=mode,
-                advisory_payload={}, advisory_only=True,
+                workspace=str(ws),
+                task_class=task_class,
+                mode=mode,
+                advisory_payload={},
+                advisory_only=True,
                 patch_generated=False,
                 source_mutation_authorized=False,
                 training_eligible=False,
@@ -85,13 +93,20 @@ class IDEDiagnoseFlow:
         # Live requires explicit opt_in flag inside the command.
         prov = provider or DeterministicProvider(canned={"summary": "fixture diagnose"})
         cmd_rec = OptInLiveDiagnoseCommand().run(
-            ws, task_class=task_class, config=config, provider=prov, opt_in=True,
+            ws,
+            task_class=task_class,
+            config=config,
+            provider=prov,
+            opt_in=True,
         )
         if cmd_rec.decision == "OPT_IN_LIVE_DIAGNOSE_BLOCKED_NO_MODEL_CONFIG":
             return IDEDiagnoseFlowRecord(
                 decision="IDE_DIAGNOSE_BLOCKED_NO_MODEL",
-                workspace=str(ws), task_class=task_class, mode=mode,
-                advisory_payload={}, advisory_only=True,
+                workspace=str(ws),
+                task_class=task_class,
+                mode=mode,
+                advisory_payload={},
+                advisory_only=True,
                 patch_generated=False,
                 source_mutation_authorized=False,
                 training_eligible=False,
@@ -102,8 +117,11 @@ class IDEDiagnoseFlow:
             # Provider unavailable / other.
             return IDEDiagnoseFlowRecord(
                 decision="IDE_DIAGNOSE_BLOCKED_NOT_OPTED_IN",
-                workspace=str(ws), task_class=task_class, mode=mode,
-                advisory_payload={}, advisory_only=True,
+                workspace=str(ws),
+                task_class=task_class,
+                mode=mode,
+                advisory_payload={},
+                advisory_only=True,
                 patch_generated=False,
                 source_mutation_authorized=False,
                 training_eligible=False,
@@ -113,7 +131,9 @@ class IDEDiagnoseFlow:
 
         return IDEDiagnoseFlowRecord(
             decision="IDE_DIAGNOSE_LIVE_OPT_IN_READY",
-            workspace=str(ws), task_class=task_class, mode=mode,
+            workspace=str(ws),
+            task_class=task_class,
+            mode=mode,
             advisory_payload=dict(cmd_rec.advisory_payload),
             advisory_only=True,
             patch_generated=False,

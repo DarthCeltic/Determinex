@@ -12,6 +12,7 @@ Usage:
   python scripts/pb_eval_unified.py --tool entr --force-local
   python scripts/pb_eval_unified.py --tool entr --force-hetzner
 """
+
 from __future__ import annotations
 
 import argparse
@@ -26,7 +27,7 @@ import sys
 import tarfile
 import tempfile
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -36,6 +37,7 @@ LOCKED_BASE = PB_DIR / "locked"
 INDEX_FILE = PB_DIR / "eval_index.json"
 LOG_DIR = ROOT / "logs"
 REGRESSIONS_LOG = LOG_DIR / "regressions.jsonl"
+
 
 def _is_dir(p: str | Path | None) -> bool:
     """`Path.is_dir()` that treats "I am not allowed to look" as "not this one".
@@ -67,7 +69,11 @@ def _detect_pb_staging() -> Path:
     if e:
         return Path(e)
     # on the Linux eval box, stage under /root/determinex-staging (same place official_eval uses)
-    return Path("/root/determinex-staging") if _is_dir("/root/ProgramBench") else Path("T:/determinex-programbench")
+    return (
+        Path("/root/determinex-staging")
+        if _is_dir("/root/ProgramBench")
+        else Path("T:/determinex-programbench")
+    )
 
 
 PB_LOCAL = _detect_pb_local()
@@ -81,10 +87,10 @@ HETZNER_SSH_KEY = Path.home() / ".ssh" / "id_citadel"
 HETZNER_REMOTE_DIR = "/root/determinex-pb-uncap"
 
 # Cap detection pattern
-CAP_PATTERN = re.compile(r'^\s*del\s+items\s*\[\s*\d+\s*:\s*\]\s*$', re.MULTILINE)
+CAP_PATTERN = re.compile(r"^\s*del\s+items\s*\[\s*\d+\s*:\s*\]\s*$", re.MULTILINE)
 KEYWORD_FILTER = re.compile(
-    r'if any\(s in nodeid for s in \([^)]*(?:tmux|interactive|libtmux|pexpect|test_pty)[^)]*\)\)',
-    re.IGNORECASE
+    r"if any\(s in nodeid for s in \([^)]*(?:tmux|interactive|libtmux|pexpect|test_pty)[^)]*\)\)",
+    re.IGNORECASE,
 )
 
 
@@ -155,7 +161,7 @@ def verify_submission(tarball: Path) -> tuple[bool, list[str]]:
                     if "conftest.py" in m.name:
                         if KEYWORD_FILTER.search(content):
                             warnings.append(f"WARN: Old keyword TUI filter in {m.name}")
-                        if 'timeout' not in content:
+                        if "timeout" not in content:
                             warnings.append(f"WARN: No timeout configured in {m.name}")
 
     except Exception as ex:
@@ -203,8 +209,9 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def ensure_eval_disk_headroom(path: str | Path | None = None,
-                              min_free_gb: float | None = None) -> dict:
+def ensure_eval_disk_headroom(
+    path: str | Path | None = None, min_free_gb: float | None = None
+) -> dict:
     """Fail fast before ProgramBench eval if the Docker host is low on disk.
 
     PB evals build multi-GB Docker images and write result artifacts from inside
@@ -218,8 +225,8 @@ def ensure_eval_disk_headroom(path: str | Path | None = None,
     if min_free_gb is None:
         min_free_gb = float(os.environ.get("DETERMINEX_PB_MIN_FREE_GB", "20"))
     usage = shutil.disk_usage(path)
-    free_gb = usage.free / (1024 ** 3)
-    total_gb = usage.total / (1024 ** 3)
+    free_gb = usage.free / (1024**3)
+    total_gb = usage.total / (1024**3)
     if free_gb < min_free_gb:
         raise RuntimeError(
             "PB eval disk guard: "
@@ -227,8 +234,7 @@ def ensure_eval_disk_headroom(path: str | Path | None = None,
             f"{min_free_gb:.1f}GB. Prune inactive programbench-compiled "
             "Docker caches before launching eval."
         )
-    return {"path": str(path), "free_gb": free_gb, "total_gb": total_gb,
-            "min_free_gb": min_free_gb}
+    return {"path": str(path), "free_gb": free_gb, "total_gb": total_gb, "min_free_gb": min_free_gb}
 
 
 def _get_canonical_slug(slug: str) -> tuple[str, str]:
@@ -265,8 +271,10 @@ def run_local_eval(slug: str, tarball: Path) -> dict | None:
     where canonical_slug is 'author__tool.hash' (e.g. 'eradman__entr.8e2e8b4').
     """
     disk = ensure_eval_disk_headroom()
-    print(f"  Disk preflight: {disk['free_gb']:.1f}GB free at {disk['path']} "
-          f"(min {disk['min_free_gb']:.1f}GB)")
+    print(
+        f"  Disk preflight: {disk['free_gb']:.1f}GB free at {disk['path']} "
+        f"(min {disk['min_free_gb']:.1f}GB)"
+    )
     canonical, author = _get_canonical_slug(slug)
     staging_dir = PB_STAGING / f"uncap_{slug}_{int(time.time())}"
     task_dir = staging_dir / canonical
@@ -279,10 +287,7 @@ def run_local_eval(slug: str, tarball: Path) -> dict | None:
     preflight_submission(canonical, dest_tarball)  # oracle: catch compile.sh mangling + stale cache
 
     try:
-        cmd = [
-            "uv", "run", "programbench", "eval",
-            str(staging_dir), "--filter", author, "--force"
-        ]
+        cmd = ["uv", "run", "programbench", "eval", str(staging_dir), "--filter", author, "--force"]
 
         print(f"  Staging: {staging_dir}/{canonical}/")
         print(f"  Running local eval: {' '.join(cmd)}")
@@ -299,8 +304,9 @@ def run_local_eval(slug: str, tarball: Path) -> dict | None:
         POLL = int(os.environ.get("DETERMINEX_PB_POLL_SECS", "45"))
         logf = staging_dir / "eval.out"
         with open(logf, "w", encoding="utf-8") as _lf:
-            proc = subprocess.Popen(cmd, cwd=str(PB_LOCAL), env=env,
-                                    stdout=_lf, stderr=subprocess.STDOUT, text=True)
+            proc = subprocess.Popen(
+                cmd, cwd=str(PB_LOCAL), env=env, stdout=_lf, stderr=subprocess.STDOUT, text=True
+            )
             t0 = time.time()
             stalled = 0
             reason = None
@@ -325,23 +331,42 @@ def run_local_eval(slug: str, tarball: Path) -> dict | None:
                 try:
                     cids = subprocess.run(
                         f"docker ps --format '{{{{.ID}}}} {{{{.Image}}}}' | grep -F 'compiled/{slug}' "
-                        f"| awk '{{print $1}}'", shell=True, capture_output=True, text=True,
-                        timeout=20).stdout.split()
+                        f"| awk '{{print $1}}'",
+                        shell=True,
+                        capture_output=True,
+                        text=True,
+                        timeout=20,
+                    ).stdout.split()
                 except Exception:
                     cids = []
-                ctests = "" if cids else "?"  # no container yet (building/between) -> treat as progress
+                ctests = (
+                    "" if cids else "?"
+                )  # no container yet (building/between) -> treat as progress
                 for cid in cids:
                     try:
                         ctests += subprocess.run(
-                            ["docker", "exec", cid, "sh", "-c",
-                             "cat /proc/[0-9]*/environ 2>/dev/null | tr '\\000' '\\n' | "
-                             "grep -h PYTEST_CURRENT_TEST="],
-                            capture_output=True, text=True, timeout=15).stdout
+                            [
+                                "docker",
+                                "exec",
+                                cid,
+                                "sh",
+                                "-c",
+                                "cat /proc/[0-9]*/environ 2>/dev/null | tr '\\000' '\\n' | "
+                                "grep -h PYTEST_CURRENT_TEST=",
+                            ],
+                            capture_output=True,
+                            text=True,
+                            timeout=15,
+                        ).stdout
                     except Exception:
-                        ctests = "?"  # unmeasurable -> progress (never false-kill on a docker hiccup)
+                        ctests = (
+                            "?"  # unmeasurable -> progress (never false-kill on a docker hiccup)
+                        )
                         break
                 if ctests != "?":
-                    ctests = "\n".join(sorted(ctests.splitlines()))  # order-independent across polls
+                    ctests = "\n".join(
+                        sorted(ctests.splitlines())
+                    )  # order-independent across polls
                 try:
                     logsz = logf.stat().st_size
                 except Exception:
@@ -370,12 +395,16 @@ def run_local_eval(slug: str, tarball: Path) -> dict | None:
                     flush=True,
                 )
                 if stalled >= STALL_SECS:
-                    reason = f"no test progress for {stalled}s (current-test set + log frozen = stuck)"
+                    reason = (
+                        f"no test progress for {stalled}s (current-test set + log frozen = stuck)"
+                    )
                 elif time.time() - t0 >= HARD_CAP:
                     reason = f"exceeded {HARD_CAP}s hard cap"
                 if reason:
-                    print(f"  HANG: {slug} {reason} -> killing eval + compiled containers",
-                          file=sys.stderr)
+                    print(
+                        f"  HANG: {slug} {reason} -> killing eval + compiled containers",
+                        file=sys.stderr,
+                    )
                     try:
                         proc.kill()
                     except Exception:
@@ -385,9 +414,15 @@ def run_local_eval(slug: str, tarball: Path) -> dict | None:
                             cids = subprocess.run(
                                 f"docker ps --format '{{{{.ID}}}} {{{{.Image}}}}' | "
                                 f"grep -F 'compiled/{slug}' | awk '{{print $1}}'",
-                                shell=True, capture_output=True, text=True, timeout=20).stdout.split()
+                                shell=True,
+                                capture_output=True,
+                                text=True,
+                                timeout=20,
+                            ).stdout.split()
                         for cid in cids:
-                            subprocess.run(["docker", "rm", "-f", cid], capture_output=True, timeout=30)
+                            subprocess.run(
+                                ["docker", "rm", "-f", cid], capture_output=True, timeout=30
+                            )
                     except Exception:
                         pass
                     _alert_hang(slug, int(time.time() - t0))
@@ -403,7 +438,7 @@ def run_local_eval(slug: str, tarball: Path) -> dict | None:
         # Find the eval output json (named canonical.eval.json)
         eval_jsons = list(staging_dir.rglob("*.eval.json"))
         if not eval_jsons:
-            print(f"  ERROR: No eval.json produced", file=sys.stderr)
+            print("  ERROR: No eval.json produced", file=sys.stderr)
             return {"passed": 0, "total": 0, "outcome": "NO_EVAL_JSON", "pct": 0.0}
 
         data = json.loads(eval_jsons[0].read_text(encoding="utf-8", errors="replace"))
@@ -419,7 +454,7 @@ def run_local_eval(slug: str, tarball: Path) -> dict | None:
             pass
 
 
-def preflight_submission(slug: str, tarball: "Path") -> list:
+def preflight_submission(slug: str, tarball: Path) -> list:
     """Oracle preflight before every eval (operator ask 2026-06-26): catch the build-breaking
     gotchas automatically instead of after a wasted eval.
       (1) compile.sh MANGLING -- a heredoc that expanded host shell vars bakes in an absolute
@@ -428,12 +463,16 @@ def preflight_submission(slug: str, tarball: "Path") -> list:
       (3) PROHIBITED upstream source shipped (provenance) -- many real-repo source files + an ELF.
     Returns a list of warnings (also printed loudly)."""
     import tarfile as _tf
+
     warns = []
     hard_rejects = []
     # (2) purge stale compiled-cache so a changed submission never reuses an old binary
     try:
-        subprocess.run(["docker", "rmi", "-f", f"programbench-compiled/{slug}:determinex-cached"],
-                       capture_output=True, timeout=60)
+        subprocess.run(
+            ["docker", "rmi", "-f", f"programbench-compiled/{slug}:determinex-cached"],
+            capture_output=True,
+            timeout=60,
+        )
     except Exception:
         pass
     try:
@@ -442,17 +481,31 @@ def preflight_submission(slug: str, tarball: "Path") -> list:
             comp = next((m for m in members if m.name.strip("./") == "compile.sh"), None)
             if comp:
                 txt = t.extractfile(comp).read().decode("utf-8", "replace")
-                bad = [m for m in ("/c/Users", "/c/Program Files", "(x86)", 'cd "/usr/bin"',
-                                   "\\Users\\", "Microsoft VS Code") if m in txt]
+                bad = [
+                    m
+                    for m in (
+                        "/c/Users",
+                        "/c/Program Files",
+                        "(x86)",
+                        'cd "/usr/bin"',
+                        "\\Users\\",
+                        "Microsoft VS Code",
+                    )
+                    if m in txt
+                ]
                 # a baked host PATH is a long line with many colon-separated absolute
                 # dirs (:/usr/...); a base64 printf blob is long but has NO colons -> skip it.
-                longpath = any(len(ln) > 400 and ln.count(':/') >= 3 for ln in txt.splitlines())
+                longpath = any(len(ln) > 400 and ln.count(":/") >= 3 for ln in txt.splitlines())
                 if bad or longpath:
-                    warns.append("compile.sh MANGLED (heredoc expanded host vars: %s%s). Rebuild it "
-                                 "LITERAL (quoted <<'EOF' or a .py file). It will fail with a dash "
-                                 "syntax error." % (bad, " +400-char PATH line" if longpath else ""))
+                    warns.append(
+                        "compile.sh MANGLED (heredoc expanded host vars: %s%s). Rebuild it "
+                        "LITERAL (quoted <<'EOF' or a .py file). It will fail with a dash "
+                        "syntax error." % (bad, " +400-char PATH line" if longpath else "")
+                    )
             # (3) prohibited-upstream heuristic: many source files + an ELF named like the tool
-            srcs = [m for m in members if m.isfile() and m.name.endswith((".go", ".rs", ".c", ".cpp"))]
+            srcs = [
+                m for m in members if m.isfile() and m.name.endswith((".go", ".rs", ".c", ".cpp"))
+            ]
             short = slug.split("__")[-1].split(".")[0]
             elf = False
             for m in members:
@@ -486,6 +539,7 @@ def diagnose_not_run(data: dict, slug: str = "") -> dict:
     not_run = a test in tests.json that produced NO result -> the binary/collection broke, NOT a
     behavioral miss. This prints a loud, actionable verdict so a broken build never looks like a
     low score. Composes the known not_run taxonomy (build-fail / hash-mismatch / cap / bidir / TUI)."""
+
     def _w(o):
         if isinstance(o, dict):
             if "test_results" in o and isinstance(o["test_results"], list):
@@ -495,35 +549,55 @@ def diagnose_not_run(data: dict, slug: str = "") -> dict:
                 if r is not None:
                     return r
         return None
+
     tr = _w(data) or []
     from collections import Counter
+
     c = Counter(t.get("status") for t in tr)
     nr = c.get("not_run", 0)
     total = len(tr)
-    out = {"total": total, "passed": c.get("passed", 0), "not_run": nr,
-           "failed": c.get("failure", 0) + c.get("failed", 0), "skipped": c.get("skipped", 0)}
+    out = {
+        "total": total,
+        "passed": c.get("passed", 0),
+        "not_run": nr,
+        "failed": c.get("failure", 0) + c.get("failed", 0),
+        "skipped": c.get("skipped", 0),
+    }
     if nr == 0:
         return out
     # classify the not_run cause from the result rows
-    ecs = Counter((t.get("extra", {}) or {}).get("error_code") for t in tr if t.get("status") == "not_run")
+    ecs = Counter(
+        (t.get("extra", {}) or {}).get("error_code") for t in tr if t.get("status") == "not_run"
+    )
     msg = []
     if nr == total:  # EVERYTHING not_run -> build/collection broke
         if "executable_hash_mismatch" in ecs:
-            msg.append("ALL not_run + executable_hash_mismatch -> STALE :determinex-cached image. "
-                       "FIX: docker rmi -f programbench-compiled/%s:determinex-cached, re-eval." % slug)
+            msg.append(
+                "ALL not_run + executable_hash_mismatch -> STALE :determinex-cached image. "
+                "FIX: docker rmi -f programbench-compiled/%s:determinex-cached, re-eval." % slug
+            )
         else:
-            msg.append("ALL not_run -> BUILD or COLLECTION BROKE (no executable / 0 tests collected). "
-                       "FIX: run compile.sh in the :task image, check build.err (syntax/rc127), purge "
-                       ":determinex-cached, verify executable is produced.")
+            msg.append(
+                "ALL not_run -> BUILD or COLLECTION BROKE (no executable / 0 tests collected). "
+                "FIX: run compile.sh in the :task image, check build.err (syntax/rc127), purge "
+                ":determinex-cached, verify executable is produced."
+            )
     else:
         # partial: prefix-dupe (bidir) vs cap vs genuine TUI
         names = [t.get("name", "") for t in tr if t.get("status") == "not_run"]
         tui = sum(1 for n in names if re.search(r"tmux|_tui_|pty|curses|pexpect", n, re.I))
         if tui:
-            msg.append(f"{tui}/{nr} not_run look TUI (tmux/pty/curses) -> provision tmux + PTY or confirm genuine.")
-        msg.append(f"{nr}/{total} not_run -> check bidir-prefix dupes (determinex_pb_bidir_restore) / "
-                   "collection cap (del items / collect_ignore_glob) before trusting the score.")
-    print(f"\n  ⚠️  [not_run oracle] {slug}: {nr}/{total} not_run. " + " ".join(msg) + "\n", file=sys.stderr)
+            msg.append(
+                f"{tui}/{nr} not_run look TUI (tmux/pty/curses) -> provision tmux + PTY or confirm genuine."
+            )
+        msg.append(
+            f"{nr}/{total} not_run -> check bidir-prefix dupes (determinex_pb_bidir_restore) / "
+            "collection cap (del items / collect_ignore_glob) before trusting the score."
+        )
+    print(
+        f"\n  ⚠️  [not_run oracle] {slug}: {nr}/{total} not_run. " + " ".join(msg) + "\n",
+        file=sys.stderr,
+    )
     return out
 
 
@@ -531,19 +605,28 @@ def _alert_hang(slug: str, stalled_secs: int) -> None:
     """Ping on a stuck/hung eval: loud line + append to a hang-alert ledger (+ optional
     determinex_notify if present). Lets a batch flag hangs instead of silently burning time."""
     msg = f"HANG: {slug} stalled {stalled_secs}s (eval auto-escaped)"
-    print(f"\n{'!'*60}\n  ⚠️  {msg}\n{'!'*60}", file=sys.stderr)
+    print(f"\n{'!' * 60}\n  ⚠️  {msg}\n{'!' * 60}", file=sys.stderr)
     try:
         led = ROOT / "logs" / "pb_hang_alerts.jsonl"
         led.parent.mkdir(parents=True, exist_ok=True)
         with open(led, "a", encoding="utf-8") as f:
-            f.write(json.dumps({"ts": int(time.time()), "slug": slug,
-                                "stalled_secs": stalled_secs}) + "\n")
+            f.write(
+                json.dumps({"ts": int(time.time()), "slug": slug, "stalled_secs": stalled_secs})
+                + "\n"
+            )
     except Exception:
         pass
     try:
         import determinex_notify  # type: ignore
-        fn = next((getattr(determinex_notify, n) for n in ("notify", "send", "push", "alert")
-                   if callable(getattr(determinex_notify, n, None))), None)
+
+        fn = next(
+            (
+                getattr(determinex_notify, n)
+                for n in ("notify", "send", "push", "alert")
+                if callable(getattr(determinex_notify, n, None))
+            ),
+            None,
+        )
         if fn:
             fn(msg)  # best-effort ping
     except Exception:
@@ -568,9 +651,19 @@ def run_hetzner_eval(slug: str, tarball: Path) -> dict | None:
         for attempt in range(3):
             try:
                 return subprocess.run(
-                    ["ssh", "-i", ssh_key, "-o", "StrictHostKeyChecking=no",
-                     f"root@{ssh_host}", cmd],
-                    capture_output=True, text=True, check=check, timeout=60
+                    [
+                        "ssh",
+                        "-i",
+                        ssh_key,
+                        "-o",
+                        "StrictHostKeyChecking=no",
+                        f"root@{ssh_host}",
+                        cmd,
+                    ],
+                    capture_output=True,
+                    text=True,
+                    check=check,
+                    timeout=60,
                 )
             except subprocess.TimeoutExpired:
                 if attempt == 2:
@@ -581,9 +674,17 @@ def run_hetzner_eval(slug: str, tarball: Path) -> dict | None:
         for attempt in range(3):
             try:
                 subprocess.run(
-                    ["scp", "-i", ssh_key, "-o", "StrictHostKeyChecking=no",
-                     str(local), f"root@{ssh_host}:{remote}"],
-                    check=True, timeout=300
+                    [
+                        "scp",
+                        "-i",
+                        ssh_key,
+                        "-o",
+                        "StrictHostKeyChecking=no",
+                        str(local),
+                        f"root@{ssh_host}:{remote}",
+                    ],
+                    check=True,
+                    timeout=300,
                 )
                 return
             except subprocess.TimeoutExpired:
@@ -595,9 +696,17 @@ def run_hetzner_eval(slug: str, tarball: Path) -> dict | None:
         for attempt in range(3):
             try:
                 subprocess.run(
-                    ["scp", "-i", ssh_key, "-o", "StrictHostKeyChecking=no",
-                     f"root@{ssh_host}:{remote}", str(local)],
-                    check=True, timeout=300
+                    [
+                        "scp",
+                        "-i",
+                        ssh_key,
+                        "-o",
+                        "StrictHostKeyChecking=no",
+                        f"root@{ssh_host}:{remote}",
+                        str(local),
+                    ],
+                    check=True,
+                    timeout=300,
                 )
                 return
             except subprocess.TimeoutExpired:
@@ -622,8 +731,10 @@ def run_hetzner_eval(slug: str, tarball: Path) -> dict | None:
         # purged + rebuilt). run_local_eval's preflight purges locally; this is the remote-side
         # equivalent so the closed loop works off-box, where the autodrive actually runs.
         print(f"  Purging stale Hetzner cache for {slug} (rebuild from fresh submission)...")
-        ssh(f"docker rmi -f programbench-compiled/{slug}:determinex-cached 2>/dev/null || true",
-            check=False)
+        ssh(
+            f"docker rmi -f programbench-compiled/{slug}:determinex-cached 2>/dev/null || true",
+            check=False,
+        )
 
         # Determine author filter
         if "__" in slug:
@@ -649,22 +760,26 @@ def run_hetzner_eval(slug: str, tarball: Path) -> dict | None:
         # slow-but-working branches as false "hangs". A TRUE hang = pytest blocked on a
         # C-level read => its CPU time stops advancing. So we stall only when BOTH the log is
         # frozen AND the eval container's pytest CPU has not advanced.
-        print(f"  Waiting for eval to complete...")
+        print("  Waiting for eval to complete...")
         STALL_SECS = 300  # 5 min of no log growth AND no MEANINGFUL CPU advance = hung
         _base = slug.split("__")[-1].split(".")[0]
 
         def _pytest_cpu_secs() -> int:
             # cumulative CPU seconds of pytest in the live eval container (0 if none found)
-            cid = ssh(f"docker ps --format '{{{{.ID}}}} {{{{.Image}}}}' | grep -i '{_base}' "
-                      f"| head -1 | cut -d' ' -f1", check=False).stdout.strip()
+            cid = ssh(
+                f"docker ps --format '{{{{.ID}}}} {{{{.Image}}}}' | grep -i '{_base}' "
+                f"| head -1 | cut -d' ' -f1",
+                check=False,
+            ).stdout.strip()
             if not cid:
                 return -1
             # sum CPU TIME of ALL processes in the eval container, not just pytest: during a
             # test the CPU is burned by the TOOL subprocess (pipr/gdu/...), so pytest's own
             # CPU reads ~flat and a pytest-only measure false-stalls a working eval. All-proc
             # CPU advances whenever any test is actually running.
-            r = ssh(f"docker exec {cid} sh -c \"ps -eo time= 2>/dev/null\"",
-                    check=False).stdout.strip()
+            r = ssh(
+                f'docker exec {cid} sh -c "ps -eo time= 2>/dev/null"', check=False
+            ).stdout.strip()
             tot = 0
             for tok in r.split():
                 parts = tok.replace("-", ":").split(":")
@@ -682,7 +797,7 @@ def run_hetzner_eval(slug: str, tarball: Path) -> dict | None:
             time.sleep(30)
             check = ssh(f"ps -p {pid} > /dev/null 2>&1; echo $?", check=False)
             if check.stdout.strip() != "0":
-                print(f"  Process {pid} completed after ~{attempt*30}s")
+                print(f"  Process {pid} completed after ~{attempt * 30}s")
                 break
             sz = ssh(f"wc -c < {log_file} 2>/dev/null || echo 0", check=False)
             try:
@@ -701,17 +816,23 @@ def run_hetzner_eval(slug: str, tarball: Path) -> dict | None:
             stalled_for = 0 if progressed else stalled_for + 30
             last_size, last_cpu = cur, cpu
             if stalled_for >= STALL_SECS:
-                print(f"  ⚠️  HANG ALERT: {slug} stalled {stalled_for}s (log frozen AND "
-                      f"pytest CPU not advancing = genuinely hung) -- killing + skipping", file=sys.stderr)
+                print(
+                    f"  ⚠️  HANG ALERT: {slug} stalled {stalled_for}s (log frozen AND "
+                    f"pytest CPU not advancing = genuinely hung) -- killing + skipping",
+                    file=sys.stderr,
+                )
                 _alert_hang(slug, stalled_for)
-                ssh(f"kill -9 {pid} 2>/dev/null; pkill -9 -f '{remote_eval_dir}' 2>/dev/null; "
+                ssh(
+                    f"kill -9 {pid} 2>/dev/null; pkill -9 -f '{remote_eval_dir}' 2>/dev/null; "
                     f"docker ps --format '{{{{.ID}}}} {{{{.Image}}}}' | grep -i '{slug.split('__')[-1].split('.')[0]}' "
-                    f"| awk '{{print $1}}' | xargs -r docker kill 2>/dev/null", check=False)
+                    f"| awk '{{print $1}}' | xargs -r docker kill 2>/dev/null",
+                    check=False,
+                )
                 ssh(f"rm -rf {remote_dir}", check=False)
                 return {"passed": 0, "total": 0, "outcome": "HANG", "pct": 0.0}
             if attempt % 4 == 0:
                 log_check = ssh(f"tail -3 {log_file} 2>/dev/null || echo 'no log'", check=False)
-                print(f"  [{attempt*30}s] {log_check.stdout.strip()}")
+                print(f"  [{attempt * 30}s] {log_check.stdout.strip()}")
         else:
             print(f"  ⚠️  HANG ALERT: {slug} hit 60-min cap -- killing", file=sys.stderr)
             _alert_hang(slug, 3600)
@@ -720,13 +841,12 @@ def run_hetzner_eval(slug: str, tarball: Path) -> dict | None:
 
         # Find and download eval json
         find_result = ssh(
-            f"find {remote_eval_dir} -name '*.eval.json' 2>/dev/null | head -1",
-            check=False
+            f"find {remote_eval_dir} -name '*.eval.json' 2>/dev/null | head -1", check=False
         )
         remote_json = find_result.stdout.strip()
 
         if not remote_json:
-            print(f"  ERROR: No eval.json found on Hetzner", file=sys.stderr)
+            print("  ERROR: No eval.json found on Hetzner", file=sys.stderr)
             return {"passed": 0, "total": 0, "outcome": "NO_EVAL_JSON", "pct": 0.0}
 
         with tempfile.NamedTemporaryFile(suffix=".eval.json", delete=False) as _f:
@@ -742,7 +862,7 @@ def run_hetzner_eval(slug: str, tarball: Path) -> dict | None:
         return data
 
     except subprocess.TimeoutExpired:
-        print(f"  ERROR: SSH/SCP timed out", file=sys.stderr)
+        print("  ERROR: SSH/SCP timed out", file=sys.stderr)
         return None
     except Exception as ex:
         print(f"  ERROR: Hetzner eval failed: {ex}", file=sys.stderr)
@@ -772,13 +892,21 @@ def classify_result(data: dict, slug: str = "") -> dict:  # noqa: ARG001
         outcome = "PARTIAL"
         tier = ""
 
-    failed_tests = [r.get("test_id", "") for r in tr if r.get("status") not in
-                    ("passed", "not_run", "skipped") and r.get("status") is not None]
+    failed_tests = [
+        r.get("test_id", "")
+        for r in tr
+        if r.get("status") not in ("passed", "not_run", "skipped") and r.get("status") is not None
+    ]
 
     return dict(
-        outcome=outcome, tier=tier,
-        passed=passed, total=total, not_run=not_run,
-        skipped=skipped, failed=failed, pct=pct,
+        outcome=outcome,
+        tier=tier,
+        passed=passed,
+        total=total,
+        not_run=not_run,
+        skipped=skipped,
+        failed=failed,
+        pct=pct,
         failed_tests=failed_tests[:10],
     )
 
@@ -789,11 +917,13 @@ def print_result_banner(slug: str, res: dict, source: str) -> None:
     )
     print()
     print(f"  {icon} {res['outcome']}: {slug}")
-    print(f"     passed={res['passed']} total={res['total']} "
-          f"not_run={res['not_run']} skipped={res['skipped']} failed={res['failed']}")
+    print(
+        f"     passed={res['passed']} total={res['total']} "
+        f"not_run={res['not_run']} skipped={res['skipped']} failed={res['failed']}"
+    )
     print(f"     score={res['pct']:.2f}%  source={source}")
     if res.get("failed_tests"):
-        print(f"     First failures:")
+        print("     First failures:")
         for t in res["failed_tests"][:5]:
             print(f"       {t}")
 
@@ -805,11 +935,11 @@ def print_leaderboard_summary(index: list[dict]) -> None:
     total = len(index)
 
     print()
-    print("┌─" + "─"*65 + "─┐")
+    print("┌─" + "─" * 65 + "─┐")
     print(f"│ {'DETERMINEX PROGRAMBENCH — CURRENT STANDINGS':<65} │")
-    print("├─" + "─"*65 + "─┤")
+    print("├─" + "─" * 65 + "─┤")
     print(f"│ {'Rank':<5} {'Tool':<35} {'Score':>7} {'Tier':<6} {'Status':<12} │")
-    print("├─" + "─"*65 + "─┤")
+    print("├─" + "─" * 65 + "─┤")
 
     combined = [(e, 0) for e in strict] + [(e, 1) for e in upstream]
     for i, (e, _) in enumerate(combined[:20], 1):
@@ -821,23 +951,26 @@ def print_leaderboard_summary(index: list[dict]) -> None:
 
     if len(combined) < 20:
         # Fill with top pending
-        for e in pending[:20-len(combined)]:
+        for e in pending[: 20 - len(combined)]:
             i = len(combined) + pending.index(e) + 1
             slug = e["slug"][:35]
             pct = e["official_score_pct"]
             print(f"│ {i:<5} {slug:<35} {pct:>6.1f}% {'':6} {'⏳ PEND':<12} │")
 
-    print("├─" + "─"*65 + "─┤")
-    print(f"│ Strict locks: {len(strict)}/{total} ({len(strict)/total*100:.1f}%) "
-          f"| Pending: {len(pending)} tools{'':<15} │")
-    print("└─" + "─"*65 + "─┘")
+    print("├─" + "─" * 65 + "─┤")
+    print(
+        f"│ Strict locks: {len(strict)}/{total} ({len(strict) / total * 100:.1f}%) "
+        f"| Pending: {len(pending)} tools{'':<15} │"
+    )
+    print("└─" + "─" * 65 + "─┘")
 
 
-def run_eval(slug: str, force_local: bool = False, force_hetzner: bool = False,
-             dry_run: bool = False) -> dict | None:
-    print(f"\n{'='*65}")
+def run_eval(
+    slug: str, force_local: bool = False, force_hetzner: bool = False, dry_run: bool = False
+) -> dict | None:
+    print(f"\n{'=' * 65}")
     print(f"EVAL: {slug}")
-    print(f"{'='*65}")
+    print(f"{'=' * 65}")
 
     tarball = find_uncapped_tarball(slug)
     if tarball is None:
@@ -888,19 +1021,25 @@ def run_eval(slug: str, force_local: bool = False, force_hetzner: bool = False,
     tool_dir = find_tool_dir(slug)
     if tool_dir:
         result_path = tool_dir / "latest_eval_result.json"
-        result_path.write_text(json.dumps({
-            "slug": slug,
-            "eval_source": source,
-            "eval_timestamp": datetime.now(timezone.utc).isoformat(),
-            **res,
-        }, indent=2), encoding="utf-8")
+        result_path.write_text(
+            json.dumps(
+                {
+                    "slug": slug,
+                    "eval_source": source,
+                    "eval_timestamp": datetime.now(UTC).isoformat(),
+                    **res,
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
 
         # Update unlock_ticket
         ticket_path = tool_dir / "unlock_ticket.json"
         if ticket_path.exists():
             try:
                 ticket = json.loads(ticket_path.read_text())
-                ticket["last_attempt"] = datetime.now(timezone.utc).isoformat()
+                ticket["last_attempt"] = datetime.now(UTC).isoformat()
                 ticket["attempts"] = ticket.get("attempts", 0) + 1
                 if res["outcome"] in ("STRICT_LOCK", "UPSTREAM_SKIPS"):
                     ticket["status"] = "passed"
@@ -919,7 +1058,7 @@ def run_eval(slug: str, force_local: bool = False, force_hetzner: bool = False,
                 res["outcome"] = "REGRESSION"
                 reg = {
                     "slug": slug,
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "timestamp": datetime.now(UTC).isoformat(),
                     "prev_passed": prev_best,
                     "new_passed": res["passed"],
                     "total": res["total"],
@@ -928,24 +1067,28 @@ def run_eval(slug: str, force_local: bool = False, force_hetzner: bool = False,
                 with open(REGRESSIONS_LOG, "a", encoding="utf-8") as f:
                     f.write(json.dumps(reg) + "\n")
                 print(f"\n  ⚠️  REGRESSION: {slug} dropped {prev_best}→{res['passed']}")
-                print(f"     Previous best preserved. Check logs/regressions.jsonl")
+                print("     Previous best preserved. Check logs/regressions.jsonl")
             break
 
     # Update index entry
-    update_index_entry(slug, {
-        "official_score_pct": round(res["pct"], 4),
-        "official_passed": res["passed"],
-        "official_total": res["total"],
-        "official_not_run": res["not_run"],
-        "official_skipped": res["skipped"],
-        "official_failed": res["failed"],
-        "last_eval_source": source,
-        "last_eval_time": datetime.now(timezone.utc).isoformat(),
-    })
+    update_index_entry(
+        slug,
+        {
+            "official_score_pct": round(res["pct"], 4),
+            "official_passed": res["passed"],
+            "official_total": res["total"],
+            "official_not_run": res["not_run"],
+            "official_skipped": res["skipped"],
+            "official_failed": res["failed"],
+            "last_eval_source": source,
+            "last_eval_time": datetime.now(UTC).isoformat(),
+        },
+    )
 
     # Promote if lock
     if res["outcome"] in ("STRICT_LOCK", "UPSTREAM_SKIPS") and res["outcome"] != "REGRESSION":
         from pb_promote import promote_tool
+
         promote_tool(slug, data, source=source, tarball=tarball)
 
     return res
@@ -953,7 +1096,9 @@ def run_eval(slug: str, force_local: bool = False, force_hetzner: bool = False,
 
 def get_batch_tools(batch_path_str: str) -> list[str]:
     """Get tools from a batch directory, sorted by not_run ASC, score DESC."""
-    batch_path = PB_DIR / batch_path_str if not Path(batch_path_str).is_absolute() else Path(batch_path_str)
+    batch_path = (
+        PB_DIR / batch_path_str if not Path(batch_path_str).is_absolute() else Path(batch_path_str)
+    )
     if not batch_path.exists():
         # Try as relative to pending
         batch_path = PENDING_BASE / batch_path_str.replace("pending_unlock/", "")
@@ -989,8 +1134,9 @@ def main():
 
     parser.add_argument("--force-local", action="store_true")
     parser.add_argument("--force-hetzner", action="store_true")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Route and verify but don't actually run eval")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Route and verify but don't actually run eval"
+    )
     args = parser.parse_args()
 
     if args.tool:
@@ -1028,7 +1174,7 @@ def main():
             else:
                 results["failed"].append(slug)
 
-        print(f"\n{'='*65}")
+        print(f"\n{'=' * 65}")
         print(f"BATCH COMPLETE: {args.batch}")
         print(f"  New locks:   {len(results['locks'])}: {', '.join(results['locks'])}")
         print(f"  Partial:     {len(results['partial'])}: {', '.join(results['partial'])}")

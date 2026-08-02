@@ -7,30 +7,60 @@ Sources:
 
 Output: data/combined_training.jsonl  (up to MAX_TOTAL examples, shuffled)
 """
-import json, glob, os, random, collections
+
+import collections
+import glob
+import json
+import os
+import random
 from pathlib import Path
 
-T_CAP      = 2000     # max examples per language from T: drive
-MAX_TOTAL  = 100_000  # hard cap (dsl_finetune also caps at 100K, but be explicit)
+T_CAP = 2000  # max examples per language from T: drive
+MAX_TOTAL = 100_000  # hard cap (dsl_finetune also caps at 100K, but be explicit)
 
 DATA_DIR = Path(os.environ.get("DETERMINEX_ROOT", Path(__file__).parent.parent)) / "data"
 OUT_FILE = DATA_DIR / "combined_training.jsonl"
 
 # T: drive corpus directories (all contain instruction/output/system examples)
+#
+# These were four literal strings containing the *shell* expression
+# "${DETERMINEX_MODELS_DIR:-~/determinex-models}". Python does not expand shell syntax, so
+# every path here resolved to a directory whose name was the source text -- this script
+# scanned four folders that cannot exist and reported finding nothing, without erroring.
+# Resolved the way sh would, using the same env-var pattern already on line 20 of this file.
+_MODELS_DIR = Path(
+    os.path.expanduser(os.environ.get("DETERMINEX_MODELS_DIR", "~/determinex-models"))
+)
 T_DIRS = [
-    "${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus/real_scale/",
-    "${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus/augmented/",
-    "${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus/antigravity/",
-    "${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus/",
+    str(_MODELS_DIR / "corpus" / "real_scale") + "/",
+    str(_MODELS_DIR / "corpus" / "augmented") + "/",
+    str(_MODELS_DIR / "corpus" / "antigravity") + "/",
+    str(_MODELS_DIR / "corpus") + "/",
 ]
 
 # Languages that aren't useful for code generation training
-SKIP_LANGS = {"html", "yaml", "hcl", "cobol", "fortran", "language",
-              "json", "toml", "css", "graphql", "dockerfile", "redis"}
+SKIP_LANGS = {
+    "html",
+    "yaml",
+    "hcl",
+    "cobol",
+    "fortran",
+    "language",
+    "json",
+    "toml",
+    "css",
+    "graphql",
+    "dockerfile",
+    "redis",
+}
 
 # Files in data/ to skip when reading local sources
-SKIP_FILES = {"combined_training.jsonl", "rosetta_training.jsonl",
-              "rosetta_train.jsonl", "lora_train.jsonl"}
+SKIP_FILES = {
+    "combined_training.jsonl",
+    "rosetta_training.jsonl",
+    "rosetta_train.jsonl",
+    "lora_train.jsonl",
+}
 
 random.seed(42)
 
@@ -59,7 +89,9 @@ for d in T_DIRS:
         except Exception as e:
             print(f"  WARN: could not read {f}: {e}")
 
-print(f"  Loaded {sum(len(v) for v in by_lang.values()):,} T: examples across {len(by_lang)} languages")
+print(
+    f"  Loaded {sum(len(v) for v in by_lang.values()):,} T: examples across {len(by_lang)} languages"
+)
 
 t_examples = []
 for lang in sorted(by_lang.keys()):
@@ -96,9 +128,9 @@ for f in sorted(DATA_DIR.glob("*.jsonl")):
                 try:
                     obj = json.loads(line)
                     # Accept any valid format
-                    has_msgs  = "messages" in obj
+                    has_msgs = "messages" in obj
                     has_alpaca = "instruction" in obj or "output" in obj
-                    has_pcomp  = "prompt" in obj and ("completion" in obj or "response" in obj)
+                    has_pcomp = "prompt" in obj and ("completion" in obj or "response" in obj)
                     if has_msgs or has_alpaca or has_pcomp:
                         exs.append(obj)
                 except Exception:

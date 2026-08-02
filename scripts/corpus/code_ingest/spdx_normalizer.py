@@ -6,34 +6,60 @@ metadata into canonical SPDX identifiers (e.g. "MIT License" → "MIT").
 
 Reference: https://spdx.org/licenses/
 """
+
 from __future__ import annotations
 
 import re
 
 # Green: ingest allowed without review
-GREEN_LICENSES: frozenset[str] = frozenset({
-    "MIT", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause",
-    "ISC", "Unlicense", "CC0-1.0", "0BSD",
-    "BlueOak-1.0.0", "BSD-2-Clause-Patent",
-})
+GREEN_LICENSES: frozenset[str] = frozenset(
+    {
+        "MIT",
+        "Apache-2.0",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "ISC",
+        "Unlicense",
+        "CC0-1.0",
+        "0BSD",
+        "BlueOak-1.0.0",
+        "BSD-2-Clause-Patent",
+    }
+)
 
 # Yellow: ingest allowed but requires metadata review before model training
-YELLOW_LICENSES: frozenset[str] = frozenset({
-    "MPL-2.0", "EPL-2.0", "EPL-1.0",
-    "CC-BY-4.0", "CC-BY-3.0", "CC-BY-SA-4.0",
-    "EUPL-1.2",
-})
+YELLOW_LICENSES: frozenset[str] = frozenset(
+    {
+        "MPL-2.0",
+        "EPL-2.0",
+        "EPL-1.0",
+        "CC-BY-4.0",
+        "CC-BY-3.0",
+        "CC-BY-SA-4.0",
+        "EUPL-1.2",
+    }
+)
 
 # Red: do not ingest into training corpus without explicit legal review
 # LGPL is included: even library copyleft creates obligations for training data usage.
-RED_LICENSES: frozenset[str] = frozenset({
-    "GPL-2.0-only", "GPL-2.0-or-later", "GPL-3.0-only", "GPL-3.0-or-later",
-    "AGPL-3.0-only", "AGPL-3.0-or-later",
-    "LGPL-2.0-only", "LGPL-2.1-only", "LGPL-2.1-or-later",
-    "LGPL-3.0-only", "LGPL-3.0-or-later",
-    "SSPL-1.0", "Commons-Clause",
-    "BUSL-1.1",
-})
+RED_LICENSES: frozenset[str] = frozenset(
+    {
+        "GPL-2.0-only",
+        "GPL-2.0-or-later",
+        "GPL-3.0-only",
+        "GPL-3.0-or-later",
+        "AGPL-3.0-only",
+        "AGPL-3.0-or-later",
+        "LGPL-2.0-only",
+        "LGPL-2.1-only",
+        "LGPL-2.1-or-later",
+        "LGPL-3.0-only",
+        "LGPL-3.0-or-later",
+        "SSPL-1.0",
+        "Commons-Clause",
+        "BUSL-1.1",
+    }
+)
 
 # Canonical normalizations: raw text fragment → SPDX identifier
 _NORMALIZATIONS: list[tuple[re.Pattern, str]] = [
@@ -64,12 +90,42 @@ _NORMALIZATIONS: list[tuple[re.Pattern, str]] = [
     # AGPL
     (re.compile(r"affero.{0,20}general.{0,20}public|agpl.{0,5}v?3", re.I), "AGPL-3.0-only"),
     # LGPL — handle both "v2.1" and "version 2.1" forms; check 2.1 before 2.0
-    (re.compile(r"(?:lesser.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?3)|(?:lgpl.{0,5}v?3)|lgplv3|lgpl-3", re.I), "LGPL-3.0-only"),
-    (re.compile(r"(?:lesser.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2\.1)|(?:lgpl.{0,5}v?2\.1)|lgpl-2\.1", re.I), "LGPL-2.1-only"),
-    (re.compile(r"(?:lesser.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2(?!\.1))|(?:lgpl.{0,5}v?2(?!\.1))|lgplv2(?!\.1)|lgpl-2(?!\.)", re.I), "LGPL-2.0-only"),
+    (
+        re.compile(
+            r"(?:lesser.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?3)|(?:lgpl.{0,5}v?3)|lgplv3|lgpl-3",
+            re.I,
+        ),
+        "LGPL-3.0-only",
+    ),
+    (
+        re.compile(
+            r"(?:lesser.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2\.1)|(?:lgpl.{0,5}v?2\.1)|lgpl-2\.1",
+            re.I,
+        ),
+        "LGPL-2.1-only",
+    ),
+    (
+        re.compile(
+            r"(?:lesser.{0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2(?!\.1))|(?:lgpl.{0,5}v?2(?!\.1))|lgplv2(?!\.1)|lgpl-2(?!\.)",
+            re.I,
+        ),
+        "LGPL-2.0-only",
+    ),
     # GPL — handle both "v2"/"v3" and "version 2"/"version 3" forms
-    (re.compile(r"(?:gnu(?:(?!affero|lesser).){0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?3)|(?<![a-z])(?:gpl.{0,5}v?3|gplv3|gpl-3)", re.I), "GPL-3.0-only"),
-    (re.compile(r"(?:gnu(?:(?!affero|lesser).){0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2)|(?<![a-z])(?:gpl.{0,5}v?2|gplv2|gpl-2)", re.I), "GPL-2.0-only"),
+    (
+        re.compile(
+            r"(?:gnu(?:(?!affero|lesser).){0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?3)|(?<![a-z])(?:gpl.{0,5}v?3|gplv3|gpl-3)",
+            re.I,
+        ),
+        "GPL-3.0-only",
+    ),
+    (
+        re.compile(
+            r"(?:gnu(?:(?!affero|lesser).){0,20}general.{0,20}public.{0,20}licen[cs]e.{0,15}(?:v(?:ersion)?\.?\s*)?2)|(?<![a-z])(?:gpl.{0,5}v?2|gplv2|gpl-2)",
+            re.I,
+        ),
+        "GPL-2.0-only",
+    ),
     # MPL
     (re.compile(r"mozilla.{0,20}public.{0,20}license.{0,10}2|mpl.{0,5}2", re.I), "MPL-2.0"),
     # EPL
@@ -77,7 +133,12 @@ _NORMALIZATIONS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"eclipse.{0,20}public.{0,20}license.{0,10}1|epl.{0,5}1", re.I), "EPL-1.0"),
     # CC-BY
     (re.compile(r"creative.commons.{0,10}attribution.{0,10}4|cc.by.4", re.I), "CC-BY-4.0"),
-    (re.compile(r"creative.commons.{0,10}attribution.{0,30}share.alike.{0,10}4|cc.by.sa.4", re.I), "CC-BY-SA-4.0"),
+    (
+        re.compile(
+            r"creative.commons.{0,10}attribution.{0,30}share.alike.{0,10}4|cc.by.sa.4", re.I
+        ),
+        "CC-BY-SA-4.0",
+    ),
     # BUSL
     (re.compile(r"business.source.license|busl", re.I), "BUSL-1.1"),
     # SSPL
@@ -130,11 +191,16 @@ _OR_LATER = re.compile(
 )
 
 # Only the GNU family expresses the "or later" choice this way.
-_OR_LATER_ELIGIBLE = frozenset({
-    "GPL-2.0-only", "GPL-3.0-only",
-    "AGPL-3.0-only",
-    "LGPL-2.0-only", "LGPL-2.1-only", "LGPL-3.0-only",
-})
+_OR_LATER_ELIGIBLE = frozenset(
+    {
+        "GPL-2.0-only",
+        "GPL-3.0-only",
+        "AGPL-3.0-only",
+        "LGPL-2.0-only",
+        "LGPL-2.1-only",
+        "LGPL-3.0-only",
+    }
+)
 
 
 def _apply_or_later(spdx_id: str, normalized: str) -> str:

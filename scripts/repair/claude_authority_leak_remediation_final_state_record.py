@@ -12,11 +12,11 @@ by inspecting the eight prior rungs' lock manifests and evidence
 artifacts on disk. The finale never re-runs the underlying gates;
 it asserts the locks are in place.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_STATUS_TOKENS = (
     "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_PASSED",
@@ -71,9 +71,7 @@ class ClaudeAuthorityLeakRemediationFinalStateRecord:
 
     @property
     def is_blocked(self) -> bool:
-        return self.decision.startswith(
-            "CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_BLOCKED_"
-        )
+        return self.decision.startswith("CLAUDE_AUTHORITY_LEAK_REMEDIATION_FINAL_STATE_BLOCKED_")
 
 
 __all__ = [

@@ -13,9 +13,15 @@ from verified_task.reconcile_benchmark_artifacts import reconcile_roots  # noqa:
 def test_reconciler_passes_clean_gated_eval_tree(tmp_path):
     run = tmp_path / "run" / "tool__repo.hash"
     run.mkdir(parents=True)
-    (tmp_path / "run" / "manifest.json").write_text(json.dumps({"items": [{"slug": "tool__repo.hash"}]}), encoding="utf-8")
-    (tmp_path / "run" / "gate_result.json").write_text(json.dumps({"decision": "reject"}), encoding="utf-8")
-    (run / "tool__repo.hash.eval.json").write_text(json.dumps({"test_results": []}), encoding="utf-8")
+    (tmp_path / "run" / "manifest.json").write_text(
+        json.dumps({"items": [{"slug": "tool__repo.hash"}]}), encoding="utf-8"
+    )
+    (tmp_path / "run" / "gate_result.json").write_text(
+        json.dumps({"decision": "reject"}), encoding="utf-8"
+    )
+    (run / "tool__repo.hash.eval.json").write_text(
+        json.dumps({"test_results": []}), encoding="utf-8"
+    )
 
     report = reconcile_roots([tmp_path])
 
@@ -26,7 +32,9 @@ def test_reconciler_passes_clean_gated_eval_tree(tmp_path):
 def test_reconciler_flags_eval_without_status(tmp_path):
     run = tmp_path / "run" / "tool__repo.hash"
     run.mkdir(parents=True)
-    (run / "tool__repo.hash.eval.json").write_text(json.dumps({"test_results": []}), encoding="utf-8")
+    (run / "tool__repo.hash.eval.json").write_text(
+        json.dumps({"test_results": []}), encoding="utf-8"
+    )
 
     report = reconcile_roots([tmp_path])
 
@@ -46,11 +54,9 @@ def test_reconciler_flags_orphan_log(tmp_path):
 
 def test_reconciler_flags_running_shard_in_active_manifest(tmp_path):
     active = tmp_path / "HETZNER_ACTIVE_MANIFEST.json"
-    active.write_text(json.dumps({
-        "shards": {
-            "demo": {"state": "remote_running"}
-        }
-    }), encoding="utf-8")
+    active.write_text(
+        json.dumps({"shards": {"demo": {"state": "remote_running"}}}), encoding="utf-8"
+    )
 
     report = reconcile_roots([tmp_path], active_manifest=active)
 
@@ -60,10 +66,16 @@ def test_reconciler_flags_running_shard_in_active_manifest(tmp_path):
 def test_reconciler_counts_corpus_trace_statuses(tmp_path):
     trace = tmp_path / "corpus" / "rows.jsonl"
     trace.parent.mkdir(parents=True)
-    trace.write_text(json.dumps({
-        "record_status": "active_training_eligible",
-        "training_eligible": True,
-    }) + "\n", encoding="utf-8")
+    trace.write_text(
+        json.dumps(
+            {
+                "record_status": "active_training_eligible",
+                "training_eligible": True,
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
     report = reconcile_roots([tmp_path])
 

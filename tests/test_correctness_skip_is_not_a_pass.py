@@ -90,7 +90,7 @@ def test_both_call_sites_check_for_a_skip_before_checking_the_boolean():
     assert len(calls) >= 2, f"expected at least two call sites, found {len(calls)}"
 
     for start in calls:
-        window = src[start:start + 1400]
+        window = src[start : start + 1400]
         skip_at = window.find("_is_correctness_skip(")
         assert skip_at != -1, (
             "a run_correctness_tests call site does not consult _is_correctness_skip; skip signals "

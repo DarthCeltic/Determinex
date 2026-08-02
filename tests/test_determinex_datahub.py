@@ -61,7 +61,9 @@ class _Handler(BaseHTTPRequestHandler):
         if "updateLineage" in query:
             payload = type(self).scripted.get("mutation", {"data": {"updateLineage": True}})
         elif "searchAcrossLineage" in query:
-            payload = type(self).scripted.get("lineage", {"data": {"searchAcrossLineage": {"searchResults": []}}})
+            payload = type(self).scripted.get(
+                "lineage", {"data": {"searchAcrossLineage": {"searchResults": []}}}
+            )
         else:
             payload = type(self).scripted.get("schema", {"data": {"dataset": None}})
         raw = json.dumps(payload).encode()
@@ -94,8 +96,18 @@ LIVE_SCHEMA = {
             "platform": {"name": "snowflake"},
             "schemaMetadata": {
                 "fields": [
-                    {"fieldPath": "order_id", "nativeDataType": "BIGINT", "description": "pk", "nullable": False},
-                    {"fieldPath": "customer_id", "nativeDataType": "BIGINT", "description": "fk", "nullable": False},
+                    {
+                        "fieldPath": "order_id",
+                        "nativeDataType": "BIGINT",
+                        "description": "pk",
+                        "nullable": False,
+                    },
+                    {
+                        "fieldPath": "customer_id",
+                        "nativeDataType": "BIGINT",
+                        "description": "fk",
+                        "nullable": False,
+                    },
                 ]
             },
         }
@@ -162,7 +174,11 @@ def test_lineage_query_sends_a_single_input_object(stub_datahub):
     """
     url, handler = stub_datahub
     handler.scripted["lineage"] = {
-        "data": {"searchAcrossLineage": {"searchResults": [{"entity": {"urn": "urn:li:dataset:up", "type": "DATASET"}}]}}
+        "data": {
+            "searchAcrossLineage": {
+                "searchResults": [{"entity": {"urn": "urn:li:dataset:up", "type": "DATASET"}}]
+            }
+        }
     }
     client = DataHubContextClient(gql_url=url)
     lineage = client.get_dataset_lineage(ORDERS_URN)

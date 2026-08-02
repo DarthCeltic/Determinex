@@ -5,9 +5,7 @@ Import EXTRA_CONCEPTS and merge with CONCEPTS from micro_eval.py
 """
 
 EXTRA_CONCEPTS = {
-
     # ── RUST ──────────────────────────────────────────────────────────────────
-
     "rust_hashmap": {
         "lang": "rust",
         "description": "HashMap<String,i32> word frequency counter",
@@ -17,8 +15,10 @@ EXTRA_CONCEPTS = {
         ),
         "probes": [
             {
-                "id": "RHM_P1_basic", "label": "Count word frequencies",
-                "lang": "rust", "fn_name": "word_count",
+                "id": "RHM_P1_basic",
+                "label": "Count word frequencies",
+                "lang": "rust",
+                "fn_name": "word_count",
                 "prompt": "Write a Rust function word_count(text: &str) -> std::collections::HashMap<String, i32> that splits the text on whitespace and counts how many times each word appears.",
                 "test_harness": """
 use std::collections::HashMap;
@@ -36,8 +36,10 @@ fn main() {
 """,
             },
             {
-                "id": "RHM_P2_contains", "label": "Key existence check with contains_key",
-                "lang": "rust", "fn_name": "has_key",
+                "id": "RHM_P2_contains",
+                "label": "Key existence check with contains_key",
+                "lang": "rust",
+                "fn_name": "has_key",
                 "prompt": "Write a Rust function has_key(map: &std::collections::HashMap<String,i32>, key: &str) -> bool that returns true if key exists in map.",
                 "test_harness": """
 use std::collections::HashMap;
@@ -54,8 +56,10 @@ fn main() {
 """,
             },
             {
-                "id": "RHM_P3_entry", "label": "entry().or_insert() increment pattern",
-                "lang": "rust", "fn_name": "increment_key",
+                "id": "RHM_P3_entry",
+                "label": "entry().or_insert() increment pattern",
+                "lang": "rust",
+                "fn_name": "increment_key",
                 "prompt": "Write a Rust function increment_key(map: &mut std::collections::HashMap<String,i32>, key: &str) that increments the value for key by 1, inserting 0 first if key is absent.",
                 "test_harness": """
 use std::collections::HashMap;
@@ -73,8 +77,10 @@ fn main() {
 """,
             },
             {
-                "id": "RHM_P4_merge", "label": "Merge two HashMaps, summing values",
-                "lang": "rust", "fn_name": "merge_counts",
+                "id": "RHM_P4_merge",
+                "label": "Merge two HashMaps, summing values",
+                "lang": "rust",
+                "fn_name": "merge_counts",
                 "prompt": "Write a Rust function merge_counts(a: std::collections::HashMap<String,i32>, b: std::collections::HashMap<String,i32>) -> std::collections::HashMap<String,i32> that returns a new map with keys from both, summing values for shared keys.",
                 "test_harness": """
 use std::collections::HashMap;
@@ -93,8 +99,10 @@ fn main() {
 """,
             },
             {
-                "id": "RHM_P5_rename", "label": "Concept transfer: renamed to char_count",
-                "lang": "rust", "fn_name": "char_count",
+                "id": "RHM_P5_rename",
+                "label": "Concept transfer: renamed to char_count",
+                "lang": "rust",
+                "fn_name": "char_count",
                 "prompt": "Write a Rust function char_count(s: &str) -> std::collections::HashMap<char, usize> that counts how many times each character appears in s.",
                 "test_harness": """
 use std::collections::HashMap;
@@ -112,7 +120,6 @@ fn main() {
             },
         ],
     },
-
     "rust_option_chain": {
         "lang": "rust",
         "description": "Option chaining: map, and_then, unwrap_or",
@@ -122,8 +129,10 @@ fn main() {
         ),
         "probes": [
             {
-                "id": "ROC_P1_map", "label": "Option::map to transform inner value",
-                "lang": "rust", "fn_name": "double_if_some",
+                "id": "ROC_P1_map",
+                "label": "Option::map to transform inner value",
+                "lang": "rust",
+                "fn_name": "double_if_some",
                 "prompt": "Write a Rust function double_if_some(x: Option<i32>) -> Option<i32> that returns None if x is None, or Some(value * 2) if x is Some.",
                 "test_harness": """
 fn double_if_some(x: Option<i32>) -> Option<i32> {
@@ -138,8 +147,10 @@ fn main() {
 """,
             },
             {
-                "id": "ROC_P2_and_then", "label": "Option::and_then for chained fallible ops",
-                "lang": "rust", "fn_name": "parse_and_double",
+                "id": "ROC_P2_and_then",
+                "label": "Option::and_then for chained fallible ops",
+                "lang": "rust",
+                "fn_name": "parse_and_double",
                 "prompt": "Write a Rust function parse_and_double(s: &str) -> Option<i32> that parses s as i32, returning None on parse failure, or Some(n*2) on success.",
                 "test_harness": """
 fn parse_and_double(s: &str) -> Option<i32> {
@@ -154,8 +165,10 @@ fn main() {
 """,
             },
             {
-                "id": "ROC_P3_unwrap_or", "label": "unwrap_or / unwrap_or_else default",
-                "lang": "rust", "fn_name": "get_or_default",
+                "id": "ROC_P3_unwrap_or",
+                "label": "unwrap_or / unwrap_or_else default",
+                "lang": "rust",
+                "fn_name": "get_or_default",
                 "prompt": "Write a Rust function get_or_default(x: Option<i32>, default: i32) -> i32 that returns the inner value if Some, or default if None.",
                 "test_harness": """
 fn get_or_default(x: Option<i32>, default: i32) -> i32 {
@@ -170,8 +183,10 @@ fn main() {
 """,
             },
             {
-                "id": "ROC_P4_filter", "label": "Option::filter conditional keep",
-                "lang": "rust", "fn_name": "keep_positive",
+                "id": "ROC_P4_filter",
+                "label": "Option::filter conditional keep",
+                "lang": "rust",
+                "fn_name": "keep_positive",
                 "prompt": "Write a Rust function keep_positive(x: Option<i32>) -> Option<i32> that returns None if x is None or if the value is <= 0, otherwise returns the value.",
                 "test_harness": """
 fn keep_positive(x: Option<i32>) -> Option<i32> {
@@ -187,8 +202,10 @@ fn main() {
 """,
             },
             {
-                "id": "ROC_P5_chain", "label": "Chained Option operations",
-                "lang": "rust", "fn_name": "first_positive_doubled",
+                "id": "ROC_P5_chain",
+                "label": "Chained Option operations",
+                "lang": "rust",
+                "fn_name": "first_positive_doubled",
                 "prompt": "Write a Rust function first_positive_doubled(nums: &[i32]) -> Option<i32> that finds the first positive number (> 0) and returns it doubled, or None if none exists.",
                 "test_harness": """
 fn first_positive_doubled(nums: &[i32]) -> Option<i32> {
@@ -204,7 +221,6 @@ fn main() {
             },
         ],
     },
-
     "rust_result_chain": {
         "lang": "rust",
         "description": "Result<T,E> error propagation with ? operator",
@@ -214,8 +230,10 @@ fn main() {
         ),
         "probes": [
             {
-                "id": "RRC_P1_question", "label": "? operator for early return on error",
-                "lang": "rust", "fn_name": "parse_sum",
+                "id": "RRC_P1_question",
+                "label": "? operator for early return on error",
+                "lang": "rust",
+                "fn_name": "parse_sum",
                 "prompt": "Write a Rust function parse_sum(a: &str, b: &str) -> Result<i32, std::num::ParseIntError> that parses both strings as i32 and returns their sum, propagating any parse error with ?.",
                 "test_harness": """
 fn parse_sum(a: &str, b: &str) -> Result<i32, std::num::ParseIntError> {
@@ -230,8 +248,10 @@ fn main() {
 """,
             },
             {
-                "id": "RRC_P2_map_err", "label": "map_err to convert error type",
-                "lang": "rust", "fn_name": "parse_positive",
+                "id": "RRC_P2_map_err",
+                "label": "map_err to convert error type",
+                "lang": "rust",
+                "fn_name": "parse_positive",
                 "prompt": "Write a Rust function parse_positive(s: &str) -> Result<u32, String> that parses s as i32, returns Err(String) describing the parse failure, and also returns Err if the number is negative.",
                 "test_harness": """
 fn parse_positive(s: &str) -> Result<u32, String> {
@@ -246,8 +266,10 @@ fn main() {
 """,
             },
             {
-                "id": "RRC_P3_ok", "label": "Result::ok() to convert to Option",
-                "lang": "rust", "fn_name": "try_parse",
+                "id": "RRC_P3_ok",
+                "label": "Result::ok() to convert to Option",
+                "lang": "rust",
+                "fn_name": "try_parse",
                 "prompt": "Write a Rust function try_parse(s: &str) -> Option<i32> that attempts to parse s as i32, returning Some(n) on success and None on failure.",
                 "test_harness": """
 fn try_parse(s: &str) -> Option<i32> {
@@ -262,8 +284,10 @@ fn main() {
 """,
             },
             {
-                "id": "RRC_P4_chain", "label": "Chained Result with and_then",
-                "lang": "rust", "fn_name": "parse_and_sqrt",
+                "id": "RRC_P4_chain",
+                "label": "Chained Result with and_then",
+                "lang": "rust",
+                "fn_name": "parse_and_sqrt",
                 "prompt": "Write a Rust function parse_and_sqrt(s: &str) -> Result<f64, String> that parses s as f64, returns Err if parse fails or if the number is negative, otherwise returns Ok(sqrt).",
                 "test_harness": """
 fn parse_and_sqrt(s: &str) -> Result<f64, String> {
@@ -279,8 +303,10 @@ fn main() {
 """,
             },
             {
-                "id": "RRC_P5_collect", "label": "collect() into Result<Vec<_>, E>",
-                "lang": "rust", "fn_name": "parse_all",
+                "id": "RRC_P5_collect",
+                "label": "collect() into Result<Vec<_>, E>",
+                "lang": "rust",
+                "fn_name": "parse_all",
                 "prompt": "Write a Rust function parse_all(items: &[&str]) -> Result<Vec<i32>, std::num::ParseIntError> that parses every string as i32, returning all values or the first parse error.",
                 "test_harness": """
 fn parse_all(items: &[&str]) -> Result<Vec<i32>, std::num::ParseIntError> {
@@ -296,7 +322,6 @@ fn main() {
             },
         ],
     },
-
     "rust_struct_impl": {
         "lang": "rust",
         "description": "struct with impl block and methods",
@@ -306,8 +331,10 @@ fn main() {
         ),
         "probes": [
             {
-                "id": "RSI_P1_new", "label": "struct with new() constructor",
-                "lang": "rust", "fn_name": "new",
+                "id": "RSI_P1_new",
+                "label": "struct with new() constructor",
+                "lang": "rust",
+                "fn_name": "new",
                 "prompt": "Write a Rust struct Counter with a single field count: u32, and an impl block with: new() -> Counter (count starts at 0), increment(&mut self), and value(&self) -> u32.",
                 "test_harness": """
 struct Counter {
@@ -324,8 +351,10 @@ fn main() {
 """,
             },
             {
-                "id": "RSI_P2_methods", "label": "Rectangle struct with area and perimeter",
-                "lang": "rust", "fn_name": "area",
+                "id": "RSI_P2_methods",
+                "label": "Rectangle struct with area and perimeter",
+                "lang": "rust",
+                "fn_name": "area",
                 "prompt": "Write a Rust struct Rectangle with fields width: f64 and height: f64, and an impl block with: new(width: f64, height: f64) -> Rectangle, area(&self) -> f64, perimeter(&self) -> f64.",
                 "test_harness": """
 struct Rectangle {
@@ -340,8 +369,10 @@ fn main() {
 """,
             },
             {
-                "id": "RSI_P3_default", "label": "impl Default for struct",
-                "lang": "rust", "fn_name": "default",
+                "id": "RSI_P3_default",
+                "label": "impl Default for struct",
+                "lang": "rust",
+                "fn_name": "default",
                 "prompt": "Write a Rust struct Config with fields debug: bool (default false) and max_retries: u32 (default 3), and impl Default for Config.",
                 "test_harness": """
 struct Config {
@@ -356,9 +387,11 @@ fn main() {
 """,
             },
             {
-                "id": "RSI_P4_builder", "label": "Builder pattern with method chaining",
-                "lang": "rust", "fn_name": "build",
-                "prompt": "Write a Rust struct QueryBuilder with field table: String and an impl with: new() -> QueryBuilder (table = empty string), table(mut self, t: &str) -> QueryBuilder (sets table and returns self), build(&self) -> String (returns \"SELECT * FROM {table}\").",
+                "id": "RSI_P4_builder",
+                "label": "Builder pattern with method chaining",
+                "lang": "rust",
+                "fn_name": "build",
+                "prompt": 'Write a Rust struct QueryBuilder with field table: String and an impl with: new() -> QueryBuilder (table = empty string), table(mut self, t: &str) -> QueryBuilder (sets table and returns self), build(&self) -> String (returns "SELECT * FROM {table}").',
                 "test_harness": """
 struct QueryBuilder {
     // <<STUDENT_CODE>>
@@ -371,9 +404,11 @@ fn main() {
 """,
             },
             {
-                "id": "RSI_P5_display", "label": "impl Display for struct",
-                "lang": "rust", "fn_name": "fmt",
-                "prompt": "Write a Rust struct Point with fields x: f64 and y: f64, and impl std::fmt::Display for Point so that format!(\"{}\", p) produces \"(x, y)\" with 2 decimal places.",
+                "id": "RSI_P5_display",
+                "label": "impl Display for struct",
+                "lang": "rust",
+                "fn_name": "fmt",
+                "prompt": 'Write a Rust struct Point with fields x: f64 and y: f64, and impl std::fmt::Display for Point so that format!("{}", p) produces "(x, y)" with 2 decimal places.',
                 "test_harness": """
 use std::fmt;
 struct Point {
@@ -392,7 +427,6 @@ fn main() {
             },
         ],
     },
-
     "rust_enum_match": {
         "lang": "rust",
         "description": "enum with data variants and pattern matching",
@@ -402,9 +436,11 @@ fn main() {
         ),
         "probes": [
             {
-                "id": "REM_P1_basic", "label": "Match on simple enum",
-                "lang": "rust", "fn_name": "describe_direction",
-                "prompt": "Write a Rust enum Direction with variants North, South, East, West. Write a function describe_direction(d: Direction) -> &'static str that returns \"north\", \"south\", \"east\", or \"west\".",
+                "id": "REM_P1_basic",
+                "label": "Match on simple enum",
+                "lang": "rust",
+                "fn_name": "describe_direction",
+                "prompt": 'Write a Rust enum Direction with variants North, South, East, West. Write a function describe_direction(d: Direction) -> &\'static str that returns "north", "south", "east", or "west".',
                 "test_harness": """
 enum Direction { North, South, East, West }
 fn describe_direction(d: Direction) -> &'static str {
@@ -420,8 +456,10 @@ fn main() {
 """,
             },
             {
-                "id": "REM_P2_data", "label": "Enum with data variants",
-                "lang": "rust", "fn_name": "area",
+                "id": "REM_P2_data",
+                "label": "Enum with data variants",
+                "lang": "rust",
+                "fn_name": "area",
                 "prompt": "Write a Rust enum Shape with variants Circle(f64) for radius and Rectangle(f64, f64) for width and height. Write fn area(s: Shape) -> f64 using std::f64::consts::PI for circles.",
                 "test_harness": """
 use std::f64::consts::PI;
@@ -437,8 +475,10 @@ fn main() {
 """,
             },
             {
-                "id": "REM_P3_option_like", "label": "Custom Option-like enum",
-                "lang": "rust", "fn_name": "unwrap_or",
+                "id": "REM_P3_option_like",
+                "label": "Custom Option-like enum",
+                "lang": "rust",
+                "fn_name": "unwrap_or",
                 "prompt": "Write a Rust enum Maybe<T> with variants Just(T) and Nothing. Write fn unwrap_or<T>(m: Maybe<T>, default: T) -> T.",
                 "test_harness": """
 enum Maybe<T> { Just(T), Nothing }
@@ -453,9 +493,11 @@ fn main() {
 """,
             },
             {
-                "id": "REM_P4_nested", "label": "Nested match with guard",
-                "lang": "rust", "fn_name": "classify_temp",
-                "prompt": "Write a Rust function classify_temp(celsius: f64) -> &'static str that returns \"freezing\" if < 0, \"cold\" if 0..15, \"comfortable\" if 15..25, \"hot\" if >= 25.",
+                "id": "REM_P4_nested",
+                "label": "Nested match with guard",
+                "lang": "rust",
+                "fn_name": "classify_temp",
+                "prompt": 'Write a Rust function classify_temp(celsius: f64) -> &\'static str that returns "freezing" if < 0, "cold" if 0..15, "comfortable" if 15..25, "hot" if >= 25.',
                 "test_harness": """
 fn classify_temp(celsius: f64) -> &'static str {
     // <<STUDENT_CODE>>
@@ -471,8 +513,10 @@ fn main() {
 """,
             },
             {
-                "id": "REM_P5_if_let", "label": "if let destructuring",
-                "lang": "rust", "fn_name": "first_name",
+                "id": "REM_P5_if_let",
+                "label": "if let destructuring",
+                "lang": "rust",
+                "fn_name": "first_name",
                 "prompt": "Write a Rust function first_name(names: &[Option<&str>]) -> Option<&str> that returns the first Some value in the slice, or None if all are None.",
                 "test_harness": """
 fn first_name<'a>(names: &[Option<&'a str>]) -> Option<&'a str> {
@@ -488,7 +532,6 @@ fn main() {
             },
         ],
     },
-
     "rust_iter_collect": {
         "lang": "rust",
         "description": "Iterator chains: filter, map, flat_map, collect",
@@ -498,8 +541,10 @@ fn main() {
         ),
         "probes": [
             {
-                "id": "RIC_P1_filter_map", "label": "filter then map",
-                "lang": "rust", "fn_name": "evens_doubled",
+                "id": "RIC_P1_filter_map",
+                "label": "filter then map",
+                "lang": "rust",
+                "fn_name": "evens_doubled",
                 "prompt": "Write a Rust function evens_doubled(nums: &[i32]) -> Vec<i32> that returns only the even numbers from nums, each multiplied by 2.",
                 "test_harness": """
 fn evens_doubled(nums: &[i32]) -> Vec<i32> {
@@ -514,8 +559,10 @@ fn main() {
 """,
             },
             {
-                "id": "RIC_P2_flat_map", "label": "flat_map to flatten nested",
-                "lang": "rust", "fn_name": "flatten_words",
+                "id": "RIC_P2_flat_map",
+                "label": "flat_map to flatten nested",
+                "lang": "rust",
+                "fn_name": "flatten_words",
                 "prompt": "Write a Rust function flatten_words(sentences: &[&str]) -> Vec<String> that splits each sentence on whitespace and collects all words into one flat Vec.",
                 "test_harness": """
 fn flatten_words(sentences: &[&str]) -> Vec<String> {
@@ -530,8 +577,10 @@ fn main() {
 """,
             },
             {
-                "id": "RIC_P3_chain", "label": "chain two iterators",
-                "lang": "rust", "fn_name": "concat_vecs",
+                "id": "RIC_P3_chain",
+                "label": "chain two iterators",
+                "lang": "rust",
+                "fn_name": "concat_vecs",
                 "prompt": "Write a Rust function concat_vecs(a: &[i32], b: &[i32]) -> Vec<i32> that returns all elements of a followed by all elements of b.",
                 "test_harness": """
 fn concat_vecs(a: &[i32], b: &[i32]) -> Vec<i32> {
@@ -546,8 +595,10 @@ fn main() {
 """,
             },
             {
-                "id": "RIC_P4_enumerate", "label": "enumerate to get (index, value)",
-                "lang": "rust", "fn_name": "index_of_first_negative",
+                "id": "RIC_P4_enumerate",
+                "label": "enumerate to get (index, value)",
+                "lang": "rust",
+                "fn_name": "index_of_first_negative",
                 "prompt": "Write a Rust function index_of_first_negative(nums: &[i32]) -> Option<usize> that returns the index of the first negative number, or None.",
                 "test_harness": """
 fn index_of_first_negative(nums: &[i32]) -> Option<usize> {
@@ -562,8 +613,10 @@ fn main() {
 """,
             },
             {
-                "id": "RIC_P5_fold", "label": "fold to accumulate",
-                "lang": "rust", "fn_name": "product",
+                "id": "RIC_P5_fold",
+                "label": "fold to accumulate",
+                "lang": "rust",
+                "fn_name": "product",
                 "prompt": "Write a Rust function product(nums: &[i64]) -> i64 that returns the product of all numbers (return 1 for empty slice).",
                 "test_harness": """
 fn product(nums: &[i64]) -> i64 {
@@ -580,7 +633,6 @@ fn main() {
             },
         ],
     },
-
     "rust_string_ops": {
         "lang": "rust",
         "description": "String manipulation: split, trim, contains, replace",
@@ -590,8 +642,10 @@ fn main() {
         ),
         "probes": [
             {
-                "id": "RSO_P1_split_collect", "label": "split on delimiter, collect to Vec",
-                "lang": "rust", "fn_name": "csv_fields",
+                "id": "RSO_P1_split_collect",
+                "label": "split on delimiter, collect to Vec",
+                "lang": "rust",
+                "fn_name": "csv_fields",
                 "prompt": "Write a Rust function csv_fields(line: &str) -> Vec<&str> that splits line on ',' and returns the parts as a Vec<&str>.",
                 "test_harness": """
 fn csv_fields(line: &str) -> Vec<&str> {
@@ -606,8 +660,10 @@ fn main() {
 """,
             },
             {
-                "id": "RSO_P2_trim", "label": "trim whitespace from each line",
-                "lang": "rust", "fn_name": "trim_lines",
+                "id": "RSO_P2_trim",
+                "label": "trim whitespace from each line",
+                "lang": "rust",
+                "fn_name": "trim_lines",
                 "prompt": "Write a Rust function trim_lines(text: &str) -> Vec<String> that splits text on newlines and returns each line with leading/trailing whitespace removed, skipping empty lines.",
                 "test_harness": """
 fn trim_lines(text: &str) -> Vec<String> {
@@ -622,9 +678,11 @@ fn main() {
 """,
             },
             {
-                "id": "RSO_P3_contains_starts", "label": "contains and starts_with",
-                "lang": "rust", "fn_name": "is_http_url",
-                "prompt": "Write a Rust function is_http_url(s: &str) -> bool that returns true if s starts with \"http://\" or \"https://\".",
+                "id": "RSO_P3_contains_starts",
+                "label": "contains and starts_with",
+                "lang": "rust",
+                "fn_name": "is_http_url",
+                "prompt": 'Write a Rust function is_http_url(s: &str) -> bool that returns true if s starts with "http://" or "https://".',
                 "test_harness": """
 fn is_http_url(s: &str) -> bool {
     // <<STUDENT_CODE>>
@@ -639,8 +697,10 @@ fn main() {
 """,
             },
             {
-                "id": "RSO_P4_replace", "label": "String replace and to_uppercase",
-                "lang": "rust", "fn_name": "normalize",
+                "id": "RSO_P4_replace",
+                "label": "String replace and to_uppercase",
+                "lang": "rust",
+                "fn_name": "normalize",
                 "prompt": "Write a Rust function normalize(s: &str) -> String that replaces all '-' with '_' and converts to lowercase.",
                 "test_harness": """
 fn normalize(s: &str) -> String {
@@ -655,8 +715,10 @@ fn main() {
 """,
             },
             {
-                "id": "RSO_P5_join", "label": "join Vec<String> with separator",
-                "lang": "rust", "fn_name": "join_with",
+                "id": "RSO_P5_join",
+                "label": "join Vec<String> with separator",
+                "lang": "rust",
+                "fn_name": "join_with",
                 "prompt": "Write a Rust function join_with(parts: &[String], sep: &str) -> String that joins all parts with sep between them.",
                 "test_harness": """
 fn join_with(parts: &[String], sep: &str) -> String {
@@ -674,7 +736,6 @@ fn main() {
             },
         ],
     },
-
     "rust_vec_ops": {
         "lang": "rust",
         "description": "Vec operations: sort, dedup, retain, partition",
@@ -684,8 +745,10 @@ fn main() {
         ),
         "probes": [
             {
-                "id": "RVO_P1_sort_dedup", "label": "sort and dedup",
-                "lang": "rust", "fn_name": "sorted_unique",
+                "id": "RVO_P1_sort_dedup",
+                "label": "sort and dedup",
+                "lang": "rust",
+                "fn_name": "sorted_unique",
                 "prompt": "Write a Rust function sorted_unique(nums: Vec<i32>) -> Vec<i32> that returns a sorted, deduplicated version of the input.",
                 "test_harness": """
 fn sorted_unique(nums: Vec<i32>) -> Vec<i32> {
@@ -700,8 +763,10 @@ fn main() {
 """,
             },
             {
-                "id": "RVO_P2_retain", "label": "retain to filter in-place",
-                "lang": "rust", "fn_name": "remove_negatives",
+                "id": "RVO_P2_retain",
+                "label": "retain to filter in-place",
+                "lang": "rust",
+                "fn_name": "remove_negatives",
                 "prompt": "Write a Rust function remove_negatives(nums: &mut Vec<i32>) that removes all negative numbers from the Vec in-place.",
                 "test_harness": """
 fn remove_negatives(nums: &mut Vec<i32>) {
@@ -719,8 +784,10 @@ fn main() {
 """,
             },
             {
-                "id": "RVO_P3_partition", "label": "partition into two Vecs",
-                "lang": "rust", "fn_name": "split_evens_odds",
+                "id": "RVO_P3_partition",
+                "label": "partition into two Vecs",
+                "lang": "rust",
+                "fn_name": "split_evens_odds",
                 "prompt": "Write a Rust function split_evens_odds(nums: Vec<i32>) -> (Vec<i32>, Vec<i32>) that returns (evens, odds) preserving original order.",
                 "test_harness": """
 fn split_evens_odds(nums: Vec<i32>) -> (Vec<i32>, Vec<i32>) {
@@ -737,8 +804,10 @@ fn main() {
 """,
             },
             {
-                "id": "RVO_P4_windows", "label": "windows() for sliding pairs",
-                "lang": "rust", "fn_name": "max_consecutive_sum",
+                "id": "RVO_P4_windows",
+                "label": "windows() for sliding pairs",
+                "lang": "rust",
+                "fn_name": "max_consecutive_sum",
                 "prompt": "Write a Rust function max_consecutive_sum(nums: &[i32]) -> Option<i32> that returns the maximum sum of any two consecutive elements, or None if fewer than 2 elements.",
                 "test_harness": """
 fn max_consecutive_sum(nums: &[i32]) -> Option<i32> {
@@ -754,8 +823,10 @@ fn main() {
 """,
             },
             {
-                "id": "RVO_P5_chunks", "label": "chunks() to batch process",
-                "lang": "rust", "fn_name": "chunk_sums",
+                "id": "RVO_P5_chunks",
+                "label": "chunks() to batch process",
+                "lang": "rust",
+                "fn_name": "chunk_sums",
                 "prompt": "Write a Rust function chunk_sums(nums: &[i32], size: usize) -> Vec<i32> that returns the sum of each chunk of `size` elements.",
                 "test_harness": """
 fn chunk_sums(nums: &[i32], size: usize) -> Vec<i32> {
@@ -771,9 +842,7 @@ fn main() {
             },
         ],
     },
-
     # ── GO ────────────────────────────────────────────────────────────────────
-
     "go_interface": {
         "lang": "go",
         "description": "Define and implement a Go interface",
@@ -783,9 +852,11 @@ fn main() {
         ),
         "probes": [
             {
-                "id": "GIF_P1_basic", "label": "Implement Stringer interface",
-                "lang": "go", "fn_name": "String",
-                "prompt": "Write a Go struct Dog with field Name string, and implement the fmt.Stringer interface so String() returns \"Dog: {Name}\".",
+                "id": "GIF_P1_basic",
+                "label": "Implement Stringer interface",
+                "lang": "go",
+                "fn_name": "String",
+                "prompt": 'Write a Go struct Dog with field Name string, and implement the fmt.Stringer interface so String() returns "Dog: {Name}".',
                 "test_harness": """package main
 import "fmt"
 type Dog struct {
@@ -802,8 +873,10 @@ func main() {
 """,
             },
             {
-                "id": "GIF_P2_interface_impl", "label": "Struct implements custom interface",
-                "lang": "go", "fn_name": "Area",
+                "id": "GIF_P2_interface_impl",
+                "label": "Struct implements custom interface",
+                "lang": "go",
+                "fn_name": "Area",
                 "prompt": "Write a Go struct Circle with field Radius float64, and implement an Area() float64 method using math.Pi.",
                 "test_harness": """package main
 import (
@@ -824,8 +897,10 @@ func main() {
 """,
             },
             {
-                "id": "GIF_P3_polymorphism", "label": "Interface used polymorphically",
-                "lang": "go", "fn_name": "total_area",
+                "id": "GIF_P3_polymorphism",
+                "label": "Interface used polymorphically",
+                "lang": "go",
+                "fn_name": "total_area",
                 "prompt": "Given interface Shaper with method Area() float64, write a Go function total_area(shapes []Shaper) float64 that returns the sum of all areas.",
                 "test_harness": """package main
 import "fmt"
@@ -844,9 +919,11 @@ func main() {
 """,
             },
             {
-                "id": "GIF_P4_error_interface", "label": "Custom error type implementing error interface",
-                "lang": "go", "fn_name": "Error",
-                "prompt": "Write a Go struct ValidationError with fields Field string and Message string, and implement the error interface so Error() returns \"{Field}: {Message}\".",
+                "id": "GIF_P4_error_interface",
+                "label": "Custom error type implementing error interface",
+                "lang": "go",
+                "fn_name": "Error",
+                "prompt": 'Write a Go struct ValidationError with fields Field string and Message string, and implement the error interface so Error() returns "{Field}: {Message}".',
                 "test_harness": """package main
 import "fmt"
 type ValidationError struct {
@@ -864,8 +941,10 @@ func main() {
 """,
             },
             {
-                "id": "GIF_P5_type_assert", "label": "Type assertion from interface",
-                "lang": "go", "fn_name": "get_int_value",
+                "id": "GIF_P5_type_assert",
+                "label": "Type assertion from interface",
+                "lang": "go",
+                "fn_name": "get_int_value",
                 "prompt": "Write a Go function get_int_value(v interface{}) (int, bool) that returns the int value and true if v holds an int, otherwise 0 and false.",
                 "test_harness": """package main
 import "fmt"
@@ -883,7 +962,6 @@ func main() {
             },
         ],
     },
-
     "go_map_ops": {
         "lang": "go",
         "description": "Go map operations: create, access, ok-idiom, delete",
@@ -893,8 +971,10 @@ func main() {
         ),
         "probes": [
             {
-                "id": "GMO_P1_freq", "label": "Character frequency map",
-                "lang": "go", "fn_name": "charFrequency",
+                "id": "GMO_P1_freq",
+                "label": "Character frequency map",
+                "lang": "go",
+                "fn_name": "charFrequency",
                 "prompt": "Write a Go function charFrequency(s string) map[rune]int that counts how many times each rune appears in s.",
                 "test_harness": """package main
 import "fmt"
@@ -911,8 +991,10 @@ func main() {
 """,
             },
             {
-                "id": "GMO_P2_ok_idiom", "label": "ok-idiom for safe map access",
-                "lang": "go", "fn_name": "getOrDefault",
+                "id": "GMO_P2_ok_idiom",
+                "label": "ok-idiom for safe map access",
+                "lang": "go",
+                "fn_name": "getOrDefault",
                 "prompt": "Write a Go function getOrDefault(m map[string]int, key string, def int) int that returns the value for key if present, otherwise def.",
                 "test_harness": """package main
 import "fmt"
@@ -928,8 +1010,10 @@ func main() {
 """,
             },
             {
-                "id": "GMO_P3_invert", "label": "Invert a map (swap keys and values)",
-                "lang": "go", "fn_name": "invertMap",
+                "id": "GMO_P3_invert",
+                "label": "Invert a map (swap keys and values)",
+                "lang": "go",
+                "fn_name": "invertMap",
                 "prompt": "Write a Go function invertMap(m map[string]string) map[string]string that swaps keys and values.",
                 "test_harness": """package main
 import "fmt"
@@ -946,8 +1030,10 @@ func main() {
 """,
             },
             {
-                "id": "GMO_P4_group_by", "label": "Group slice elements by key",
-                "lang": "go", "fn_name": "groupByLength",
+                "id": "GMO_P4_group_by",
+                "label": "Group slice elements by key",
+                "lang": "go",
+                "fn_name": "groupByLength",
                 "prompt": "Write a Go function groupByLength(words []string) map[int][]string that groups words by their length.",
                 "test_harness": """package main
 import (
@@ -967,8 +1053,10 @@ func main() {
 """,
             },
             {
-                "id": "GMO_P5_filter", "label": "Filter map by value predicate",
-                "lang": "go", "fn_name": "filterPositive",
+                "id": "GMO_P5_filter",
+                "label": "Filter map by value predicate",
+                "lang": "go",
+                "fn_name": "filterPositive",
                 "prompt": "Write a Go function filterPositive(m map[string]int) map[string]int that returns a new map containing only entries where the value is > 0.",
                 "test_harness": """package main
 import "fmt"
@@ -987,7 +1075,6 @@ func main() {
             },
         ],
     },
-
     "go_slice_ops": {
         "lang": "go",
         "description": "Go slice operations: append, copy, filter, reverse",
@@ -997,8 +1084,10 @@ func main() {
         ),
         "probes": [
             {
-                "id": "GSO_P1_filter", "label": "Filter slice by predicate",
-                "lang": "go", "fn_name": "filterEven",
+                "id": "GSO_P1_filter",
+                "label": "Filter slice by predicate",
+                "lang": "go",
+                "fn_name": "filterEven",
                 "prompt": "Write a Go function filterEven(nums []int) []int that returns a new slice containing only the even numbers.",
                 "test_harness": """package main
 import "fmt"
@@ -1014,8 +1103,10 @@ func main() {
 """,
             },
             {
-                "id": "GSO_P2_reverse", "label": "Reverse a slice in-place",
-                "lang": "go", "fn_name": "reverseInts",
+                "id": "GSO_P2_reverse",
+                "label": "Reverse a slice in-place",
+                "lang": "go",
+                "fn_name": "reverseInts",
                 "prompt": "Write a Go function reverseInts(nums []int) that reverses the slice in-place.",
                 "test_harness": """package main
 import "fmt"
@@ -1033,8 +1124,10 @@ func main() {
 """,
             },
             {
-                "id": "GSO_P3_unique", "label": "Remove duplicates preserving order",
-                "lang": "go", "fn_name": "uniqueInts",
+                "id": "GSO_P3_unique",
+                "label": "Remove duplicates preserving order",
+                "lang": "go",
+                "fn_name": "uniqueInts",
                 "prompt": "Write a Go function uniqueInts(nums []int) []int that returns a new slice with duplicates removed, preserving first-occurrence order.",
                 "test_harness": """package main
 import "fmt"
@@ -1050,8 +1143,10 @@ func main() {
 """,
             },
             {
-                "id": "GSO_P4_chunk", "label": "Chunk slice into groups of n",
-                "lang": "go", "fn_name": "chunkBy",
+                "id": "GSO_P4_chunk",
+                "label": "Chunk slice into groups of n",
+                "lang": "go",
+                "fn_name": "chunkBy",
                 "prompt": "Write a Go function chunkBy(nums []int, size int) [][]int that splits nums into consecutive sub-slices of at most size elements.",
                 "test_harness": """package main
 import "fmt"
@@ -1068,8 +1163,10 @@ func main() {
 """,
             },
             {
-                "id": "GSO_P5_flatten", "label": "Flatten [][]int to []int",
-                "lang": "go", "fn_name": "flatten",
+                "id": "GSO_P5_flatten",
+                "label": "Flatten [][]int to []int",
+                "lang": "go",
+                "fn_name": "flatten",
                 "prompt": "Write a Go function flatten(matrix [][]int) []int that concatenates all inner slices into a single flat slice.",
                 "test_harness": """package main
 import "fmt"
@@ -1086,7 +1183,6 @@ func main() {
             },
         ],
     },
-
     "go_defer_cleanup": {
         "lang": "go",
         "description": "defer for cleanup and LIFO execution order",
@@ -1096,9 +1192,11 @@ func main() {
         ),
         "probes": [
             {
-                "id": "GDC_P1_basic", "label": "defer runs after function returns",
-                "lang": "go", "fn_name": "withCleanup",
-                "prompt": "Write a Go function withCleanup(log *[]string) that appends \"start\" to log, defers appending \"cleanup\", then appends \"work\". The deferred call must run after the appends.",
+                "id": "GDC_P1_basic",
+                "label": "defer runs after function returns",
+                "lang": "go",
+                "fn_name": "withCleanup",
+                "prompt": 'Write a Go function withCleanup(log *[]string) that appends "start" to log, defers appending "cleanup", then appends "work". The deferred call must run after the appends.',
                 "test_harness": """package main
 import "fmt"
 func withCleanup(log *[]string) {
@@ -1116,9 +1214,11 @@ func main() {
 """,
             },
             {
-                "id": "GDC_P2_lifo", "label": "Multiple defers run in LIFO order",
-                "lang": "go", "fn_name": "lifoOrder",
-                "prompt": "Write a Go function lifoOrder() []string that defers appending \"first\", \"second\", \"third\" in that order, then returns the log. Defers must execute in reverse (LIFO) order.",
+                "id": "GDC_P2_lifo",
+                "label": "Multiple defers run in LIFO order",
+                "lang": "go",
+                "fn_name": "lifoOrder",
+                "prompt": 'Write a Go function lifoOrder() []string that defers appending "first", "second", "third" in that order, then returns the log. Defers must execute in reverse (LIFO) order.',
                 "test_harness": """package main
 import "fmt"
 func lifoOrder() []string {
@@ -1134,8 +1234,10 @@ func main() {
 """,
             },
             {
-                "id": "GDC_P3_panic_recover", "label": "defer + recover from panic",
-                "lang": "go", "fn_name": "safeCall",
+                "id": "GDC_P3_panic_recover",
+                "label": "defer + recover from panic",
+                "lang": "go",
+                "fn_name": "safeCall",
                 "prompt": "Write a Go function safeCall(fn func()) (recovered bool) that calls fn() and recovers from any panic, returning true if a panic occurred.",
                 "test_harness": """package main
 import "fmt"
@@ -1152,9 +1254,11 @@ func main() {
 """,
             },
             {
-                "id": "GDC_P4_error_annotate", "label": "defer to annotate named return error",
-                "lang": "go", "fn_name": "riskyOp",
-                "prompt": "Write a Go function riskyOp(fail bool) (err error) that uses a deferred function to wrap the returned error with \"riskyOp: \" prefix if err is non-nil. If fail is true, set err to errors.New(\"base error\").",
+                "id": "GDC_P4_error_annotate",
+                "label": "defer to annotate named return error",
+                "lang": "go",
+                "fn_name": "riskyOp",
+                "prompt": 'Write a Go function riskyOp(fail bool) (err error) that uses a deferred function to wrap the returned error with "riskyOp: " prefix if err is non-nil. If fail is true, set err to errors.New("base error").',
                 "test_harness": """package main
 import (
     "errors"
@@ -1174,8 +1278,10 @@ func main() {
 """,
             },
             {
-                "id": "GDC_P5_rename", "label": "Concept transfer: resource tracking",
-                "lang": "go", "fn_name": "trackResource",
+                "id": "GDC_P5_rename",
+                "label": "Concept transfer: resource tracking",
+                "lang": "go",
+                "fn_name": "trackResource",
                 "prompt": "Write a Go function trackResource(name string, active *[]string) func() that appends name to active and returns a cleanup func that removes it from active.",
                 "test_harness": """package main
 import "fmt"
@@ -1194,7 +1300,6 @@ func main() {
             },
         ],
     },
-
     "go_context_cancel": {
         "lang": "go",
         "description": "context.WithTimeout and WithCancel for cancellation",
@@ -1204,8 +1309,10 @@ func main() {
         ),
         "probes": [
             {
-                "id": "GCC_P1_done_check", "label": "Check context.Done() channel",
-                "lang": "go", "fn_name": "workerWithCtx",
+                "id": "GCC_P1_done_check",
+                "label": "Check context.Done() channel",
+                "lang": "go",
+                "fn_name": "workerWithCtx",
                 "prompt": "Write a Go function workerWithCtx(ctx context.Context, results chan<- int, n int) that sends integers 0..n-1 to results, stopping early if ctx.Done() is closed before each send.",
                 "test_harness": """package main
 import (
@@ -1228,8 +1335,10 @@ func main() {
 """,
             },
             {
-                "id": "GCC_P2_timeout", "label": "context.WithTimeout cancels slow work",
-                "lang": "go", "fn_name": "runWithTimeout",
+                "id": "GCC_P2_timeout",
+                "label": "context.WithTimeout cancels slow work",
+                "lang": "go",
+                "fn_name": "runWithTimeout",
                 "prompt": "Write a Go function runWithTimeout(timeout time.Duration, work func(context.Context) error) error that runs work with a context that times out after timeout, returning context.DeadlineExceeded if it times out.",
                 "test_harness": """package main
 import (
@@ -1257,8 +1366,10 @@ func main() {
 """,
             },
             {
-                "id": "GCC_P3_cancel", "label": "WithCancel — manual cancel propagates",
-                "lang": "go", "fn_name": "countWithCancel",
+                "id": "GCC_P3_cancel",
+                "label": "WithCancel — manual cancel propagates",
+                "lang": "go",
+                "fn_name": "countWithCancel",
                 "prompt": "Write a Go function countWithCancel(parent context.Context, max int) (int, context.CancelFunc) that creates a child context with cancel, starts a goroutine counting to max (1ms per step), and returns the count channel result and the cancel func.",
                 "test_harness": """package main
 import (
@@ -1282,9 +1393,11 @@ func main() {
 """,
             },
             {
-                "id": "GCC_P4_value", "label": "context.WithValue for request-scoped data",
-                "lang": "go", "fn_name": "getRequestID",
-                "prompt": "Write a Go function getRequestID(ctx context.Context) string that retrieves the value stored with key \"request_id\" from ctx, returning \"unknown\" if absent.",
+                "id": "GCC_P4_value",
+                "label": "context.WithValue for request-scoped data",
+                "lang": "go",
+                "fn_name": "getRequestID",
+                "prompt": 'Write a Go function getRequestID(ctx context.Context) string that retrieves the value stored with key "request_id" from ctx, returning "unknown" if absent.',
                 "test_harness": """package main
 import (
     "context"
@@ -1302,8 +1415,10 @@ func main() {
 """,
             },
             {
-                "id": "GCC_P5_rename", "label": "Concept transfer: retry with context",
-                "lang": "go", "fn_name": "retryWithCtx",
+                "id": "GCC_P5_rename",
+                "label": "Concept transfer: retry with context",
+                "lang": "go",
+                "fn_name": "retryWithCtx",
                 "prompt": "Write a Go function retryWithCtx(ctx context.Context, fn func() error, maxAttempts int) error that calls fn up to maxAttempts times, stopping early if ctx is cancelled, returning the last error.",
                 "test_harness": """package main
 import (
@@ -1329,9 +1444,7 @@ func main() {
             },
         ],
     },
-
     # ── PYTHON ───────────────────────────────────────────────────────────────
-
     "py_generator": {
         "lang": "python",
         "description": "Generator functions with yield",
@@ -1341,8 +1454,10 @@ func main() {
         ),
         "probes": [
             {
-                "id": "PGN_P1_range", "label": "Generator that yields a range of values",
-                "lang": "python", "fn_name": "count_up",
+                "id": "PGN_P1_range",
+                "label": "Generator that yields a range of values",
+                "lang": "python",
+                "fn_name": "count_up",
                 "prompt": "Write a Python generator function count_up(start: int, stop: int, step: int = 1) that yields integers from start up to (not including) stop, incrementing by step.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1357,8 +1472,10 @@ main()
 """,
             },
             {
-                "id": "PGN_P2_filter_gen", "label": "Generator that filters values",
-                "lang": "python", "fn_name": "evens_gen",
+                "id": "PGN_P2_filter_gen",
+                "label": "Generator that filters values",
+                "lang": "python",
+                "fn_name": "evens_gen",
                 "prompt": "Write a Python generator function evens_gen(nums: list[int]) that yields only the even numbers from nums.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1373,8 +1490,10 @@ main()
 """,
             },
             {
-                "id": "PGN_P3_infinite", "label": "Infinite generator with take limit",
-                "lang": "python", "fn_name": "fibonacci",
+                "id": "PGN_P3_infinite",
+                "label": "Infinite generator with take limit",
+                "lang": "python",
+                "fn_name": "fibonacci",
                 "prompt": "Write a Python generator function fibonacci() that yields the Fibonacci sequence indefinitely: 0, 1, 1, 2, 3, 5, 8, ...",
                 "test_harness": """
 import itertools
@@ -1389,8 +1508,10 @@ main()
 """,
             },
             {
-                "id": "PGN_P4_pipeline", "label": "Generator pipeline: transform then filter",
-                "lang": "python", "fn_name": "positive_squares",
+                "id": "PGN_P4_pipeline",
+                "label": "Generator pipeline: transform then filter",
+                "lang": "python",
+                "fn_name": "positive_squares",
                 "prompt": "Write a Python generator function positive_squares(nums: list[int]) that yields the square of each number, but only for positive inputs.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1405,8 +1526,10 @@ main()
 """,
             },
             {
-                "id": "PGN_P5_send", "label": "Generator as accumulator using send()",
-                "lang": "python", "fn_name": "running_total",
+                "id": "PGN_P5_send",
+                "label": "Generator as accumulator using send()",
+                "lang": "python",
+                "fn_name": "running_total",
                 "prompt": "Write a Python generator function running_total() that starts at 0, accepts values via send(), and yields the running total after each send.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1424,7 +1547,6 @@ main()
             },
         ],
     },
-
     "py_list_ops": {
         "lang": "python",
         "description": "List comprehensions, sorting, grouping",
@@ -1434,8 +1556,10 @@ main()
         ),
         "probes": [
             {
-                "id": "PLO_P1_comprehension", "label": "List comprehension with condition",
-                "lang": "python", "fn_name": "squares_of_evens",
+                "id": "PLO_P1_comprehension",
+                "label": "List comprehension with condition",
+                "lang": "python",
+                "fn_name": "squares_of_evens",
                 "prompt": "Write a Python function squares_of_evens(nums: list[int]) -> list[int] that returns the squares of all even numbers in nums.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1450,8 +1574,10 @@ main()
 """,
             },
             {
-                "id": "PLO_P2_sort_key", "label": "Sort by custom key",
-                "lang": "python", "fn_name": "sort_by_length",
+                "id": "PLO_P2_sort_key",
+                "label": "Sort by custom key",
+                "lang": "python",
+                "fn_name": "sort_by_length",
                 "prompt": "Write a Python function sort_by_length(words: list[str]) -> list[str] that returns the words sorted by length ascending, with ties broken alphabetically.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1466,8 +1592,10 @@ main()
 """,
             },
             {
-                "id": "PLO_P3_flatten", "label": "Flatten nested list",
-                "lang": "python", "fn_name": "flatten",
+                "id": "PLO_P3_flatten",
+                "label": "Flatten nested list",
+                "lang": "python",
+                "fn_name": "flatten",
                 "prompt": "Write a Python function flatten(nested: list[list[int]]) -> list[int] that flattens one level of nesting.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1482,8 +1610,10 @@ main()
 """,
             },
             {
-                "id": "PLO_P4_group_by", "label": "Group items by key function",
-                "lang": "python", "fn_name": "group_by",
+                "id": "PLO_P4_group_by",
+                "label": "Group items by key function",
+                "lang": "python",
+                "fn_name": "group_by",
                 "prompt": "Write a Python function group_by(items: list, key_fn) -> dict that groups items by the result of key_fn(item).",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1499,8 +1629,10 @@ main()
 """,
             },
             {
-                "id": "PLO_P5_sliding_window", "label": "Sliding window of size n",
-                "lang": "python", "fn_name": "sliding_window",
+                "id": "PLO_P5_sliding_window",
+                "label": "Sliding window of size n",
+                "lang": "python",
+                "fn_name": "sliding_window",
                 "prompt": "Write a Python function sliding_window(items: list, n: int) -> list[tuple] that returns all consecutive n-element windows as tuples.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1517,7 +1649,6 @@ main()
             },
         ],
     },
-
     "py_dict_ops": {
         "lang": "python",
         "description": "Dict comprehensions, merging, transformation",
@@ -1527,8 +1658,10 @@ main()
         ),
         "probes": [
             {
-                "id": "PDO_P1_invert", "label": "Invert dict keys and values",
-                "lang": "python", "fn_name": "invert_dict",
+                "id": "PDO_P1_invert",
+                "label": "Invert dict keys and values",
+                "lang": "python",
+                "fn_name": "invert_dict",
                 "prompt": "Write a Python function invert_dict(d: dict) -> dict that swaps keys and values.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1542,8 +1675,10 @@ main()
 """,
             },
             {
-                "id": "PDO_P2_merge", "label": "Merge two dicts, later values win",
-                "lang": "python", "fn_name": "merge_dicts",
+                "id": "PDO_P2_merge",
+                "label": "Merge two dicts, later values win",
+                "lang": "python",
+                "fn_name": "merge_dicts",
                 "prompt": "Write a Python function merge_dicts(a: dict, b: dict) -> dict that returns a new dict with all key-value pairs from both, with b's values overriding a's on conflicts.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1558,8 +1693,10 @@ main()
 """,
             },
             {
-                "id": "PDO_P3_filter", "label": "Filter dict by value predicate",
-                "lang": "python", "fn_name": "filter_dict",
+                "id": "PDO_P3_filter",
+                "label": "Filter dict by value predicate",
+                "lang": "python",
+                "fn_name": "filter_dict",
                 "prompt": "Write a Python function filter_dict(d: dict[str, int], predicate) -> dict[str, int] that returns a new dict with only entries where predicate(value) is True.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1574,8 +1711,10 @@ main()
 """,
             },
             {
-                "id": "PDO_P4_count", "label": "Count occurrences into dict",
-                "lang": "python", "fn_name": "count_items",
+                "id": "PDO_P4_count",
+                "label": "Count occurrences into dict",
+                "lang": "python",
+                "fn_name": "count_items",
                 "prompt": "Write a Python function count_items(items: list) -> dict that counts how many times each item appears.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1590,8 +1729,10 @@ main()
 """,
             },
             {
-                "id": "PDO_P5_transform_values", "label": "Apply function to all values",
-                "lang": "python", "fn_name": "map_values",
+                "id": "PDO_P5_transform_values",
+                "label": "Apply function to all values",
+                "lang": "python",
+                "fn_name": "map_values",
                 "prompt": "Write a Python function map_values(d: dict, fn) -> dict that returns a new dict with fn applied to every value.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1607,7 +1748,6 @@ main()
             },
         ],
     },
-
     "py_class_basic": {
         "lang": "python",
         "description": "Python class with __init__, methods, properties",
@@ -1617,8 +1757,10 @@ main()
         ),
         "probes": [
             {
-                "id": "PCB_P1_stack", "label": "Stack class with push/pop",
-                "lang": "python", "fn_name": "__init__",
+                "id": "PCB_P1_stack",
+                "label": "Stack class with push/pop",
+                "lang": "python",
+                "fn_name": "__init__",
                 "prompt": "Write a Python class Stack with methods: push(item), pop() -> item (raises IndexError if empty), peek() -> item, is_empty() -> bool, and __len__() -> int.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1644,8 +1786,10 @@ main()
 """,
             },
             {
-                "id": "PCB_P2_property", "label": "Class with @property and validation",
-                "lang": "python", "fn_name": "temperature",
+                "id": "PCB_P2_property",
+                "label": "Class with @property and validation",
+                "lang": "python",
+                "fn_name": "temperature",
                 "prompt": "Write a Python class Temperature with a Celsius value stored internally. Provide: __init__(celsius: float), a celsius property (getter/setter — raises ValueError if set below -273.15), and a fahrenheit property (getter only, returns celsius * 9/5 + 32).",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1667,8 +1811,10 @@ main()
 """,
             },
             {
-                "id": "PCB_P3_repr", "label": "__repr__ and __eq__",
-                "lang": "python", "fn_name": "__repr__",
+                "id": "PCB_P3_repr",
+                "label": "__repr__ and __eq__",
+                "lang": "python",
+                "fn_name": "__repr__",
                 "prompt": "Write a Python class Vector2D with fields x: float and y: float. Implement __repr__ (returns 'Vector2D(x, y)'), __eq__ (compares x and y), and __add__ (adds component-wise).",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1687,8 +1833,10 @@ main()
 """,
             },
             {
-                "id": "PCB_P4_classmethod", "label": "@classmethod factory constructor",
-                "lang": "python", "fn_name": "from_string",
+                "id": "PCB_P4_classmethod",
+                "label": "@classmethod factory constructor",
+                "lang": "python",
+                "fn_name": "from_string",
                 "prompt": "Write a Python class Color with fields r: int, g: int, b: int. Implement __init__(r, g, b) and a classmethod from_hex(hex_str: str) -> 'Color' that parses '#RRGGBB' format.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1704,8 +1852,10 @@ main()
 """,
             },
             {
-                "id": "PCB_P5_iter", "label": "__iter__ and __next__ for iterable",
-                "lang": "python", "fn_name": "__iter__",
+                "id": "PCB_P5_iter",
+                "label": "__iter__ and __next__ for iterable",
+                "lang": "python",
+                "fn_name": "__iter__",
                 "prompt": "Write a Python class Countdown that takes a start: int and implements __iter__ and __next__ to count down from start to 1 inclusive, raising StopIteration when done.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1721,7 +1871,6 @@ main()
             },
         ],
     },
-
     "py_decorator": {
         "lang": "python",
         "description": "Function decorators: timing, caching, retry",
@@ -1731,8 +1880,10 @@ main()
         ),
         "probes": [
             {
-                "id": "PDR_P1_log_calls", "label": "Decorator that logs call count",
-                "lang": "python", "fn_name": "call_counter",
+                "id": "PDR_P1_log_calls",
+                "label": "Decorator that logs call count",
+                "lang": "python",
+                "fn_name": "call_counter",
                 "prompt": "Write a Python decorator call_counter that adds a call_count attribute to the decorated function, incrementing it each time the function is called.",
                 "test_harness": """
 import functools
@@ -1754,8 +1905,10 @@ main()
 """,
             },
             {
-                "id": "PDR_P2_memoize", "label": "Memoization decorator",
-                "lang": "python", "fn_name": "memoize",
+                "id": "PDR_P2_memoize",
+                "label": "Memoization decorator",
+                "lang": "python",
+                "fn_name": "memoize",
                 "prompt": "Write a Python decorator memoize that caches the return value of a function based on its arguments, so repeated calls with the same args don't re-execute the function body.",
                 "test_harness": """
 import functools
@@ -1779,8 +1932,10 @@ main()
 """,
             },
             {
-                "id": "PDR_P3_validate", "label": "Decorator that validates argument types",
-                "lang": "python", "fn_name": "require_positive",
+                "id": "PDR_P3_validate",
+                "label": "Decorator that validates argument types",
+                "lang": "python",
+                "fn_name": "require_positive",
                 "prompt": "Write a Python decorator require_positive that raises ValueError if the first positional argument to the decorated function is not a positive number (> 0).",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1807,8 +1962,10 @@ main()
 """,
             },
             {
-                "id": "PDR_P4_retry", "label": "Retry decorator with max attempts",
-                "lang": "python", "fn_name": "retry",
+                "id": "PDR_P4_retry",
+                "label": "Retry decorator with max attempts",
+                "lang": "python",
+                "fn_name": "retry",
                 "prompt": "Write a Python decorator factory retry(max_attempts: int) that retries the decorated function up to max_attempts times on exception, raising the last exception if all attempts fail.",
                 "test_harness": """
 # <<STUDENT_CODE>>
@@ -1842,8 +1999,10 @@ main()
 """,
             },
             {
-                "id": "PDR_P5_timing", "label": "Timing decorator that stores elapsed time",
-                "lang": "python", "fn_name": "timed",
+                "id": "PDR_P5_timing",
+                "label": "Timing decorator that stores elapsed time",
+                "lang": "python",
+                "fn_name": "timed",
                 "prompt": "Write a Python decorator timed that after each call stores the elapsed wall-clock time (in seconds) in a last_elapsed attribute on the wrapped function.",
                 "test_harness": """
 import time, functools
@@ -1866,7 +2025,6 @@ main()
             },
         ],
     },
-
     "py_regex": {
         "lang": "python",
         "description": "re module: search, findall, sub, groups",
@@ -1876,8 +2034,10 @@ main()
         ),
         "probes": [
             {
-                "id": "PRX_P1_extract", "label": "Extract all numbers from string",
-                "lang": "python", "fn_name": "extract_numbers",
+                "id": "PRX_P1_extract",
+                "label": "Extract all numbers from string",
+                "lang": "python",
+                "fn_name": "extract_numbers",
                 "prompt": "Write a Python function extract_numbers(text: str) -> list[int] that extracts all integers (including negative) from text.",
                 "test_harness": """
 import re
@@ -1893,8 +2053,10 @@ main()
 """,
             },
             {
-                "id": "PRX_P2_validate_email", "label": "Validate email format",
-                "lang": "python", "fn_name": "is_valid_email",
+                "id": "PRX_P2_validate_email",
+                "label": "Validate email format",
+                "lang": "python",
+                "fn_name": "is_valid_email",
                 "prompt": "Write a Python function is_valid_email(email: str) -> bool that returns True if email matches a basic pattern: non-empty local part, @, non-empty domain with at least one dot.",
                 "test_harness": """
 import re
@@ -1912,8 +2074,10 @@ main()
 """,
             },
             {
-                "id": "PRX_P3_replace", "label": "Replace pattern with transformed match",
-                "lang": "python", "fn_name": "redact_ssn",
+                "id": "PRX_P3_replace",
+                "label": "Replace pattern with transformed match",
+                "lang": "python",
+                "fn_name": "redact_ssn",
                 "prompt": "Write a Python function redact_ssn(text: str) -> str that replaces all SSN patterns (NNN-NN-NNNN) with 'XXX-XX-XXXX'.",
                 "test_harness": """
 import re
@@ -1929,8 +2093,10 @@ main()
 """,
             },
             {
-                "id": "PRX_P4_groups", "label": "Named capture groups",
-                "lang": "python", "fn_name": "parse_date",
+                "id": "PRX_P4_groups",
+                "label": "Named capture groups",
+                "lang": "python",
+                "fn_name": "parse_date",
                 "prompt": "Write a Python function parse_date(text: str) -> dict | None that parses a date in 'YYYY-MM-DD' format using named groups, returning {'year': str, 'month': str, 'day': str} or None if no match.",
                 "test_harness": """
 import re
@@ -1946,8 +2112,10 @@ main()
 """,
             },
             {
-                "id": "PRX_P5_split", "label": "Split on multiple delimiters",
-                "lang": "python", "fn_name": "tokenize",
+                "id": "PRX_P5_split",
+                "label": "Split on multiple delimiters",
+                "lang": "python",
+                "fn_name": "tokenize",
                 "prompt": "Write a Python function tokenize(text: str) -> list[str] that splits text on whitespace, commas, semicolons, or pipes, removing empty strings.",
                 "test_harness": """
 import re
@@ -1964,9 +2132,7 @@ main()
             },
         ],
     },
-
     # ── TYPESCRIPT ───────────────────────────────────────────────────────────
-
     "ts_async_await": {
         "lang": "typescript",
         "description": "async/await with Promise, error handling",
@@ -1976,8 +2142,10 @@ main()
         ),
         "probes": [
             {
-                "id": "TSA_P1_basic", "label": "async function returning Promise<number>",
-                "lang": "typescript", "fn_name": "delayedDouble",
+                "id": "TSA_P1_basic",
+                "label": "async function returning Promise<number>",
+                "lang": "typescript",
+                "fn_name": "delayedDouble",
                 "prompt": "Write a TypeScript async function delayedDouble(n: number): Promise<number> that resolves with n * 2 after a 0ms delay (use Promise resolve directly, no actual sleep needed).",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -1993,8 +2161,10 @@ main();
 """,
             },
             {
-                "id": "TSA_P2_catch", "label": "async error handling with try/catch",
-                "lang": "typescript", "fn_name": "safeParseJson",
+                "id": "TSA_P2_catch",
+                "label": "async error handling with try/catch",
+                "lang": "typescript",
+                "fn_name": "safeParseJson",
                 "prompt": "Write a TypeScript async function safeParseJson<T>(json: string): Promise<T | null> that resolves with the parsed object, or null if JSON.parse throws.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2010,8 +2180,10 @@ main();
 """,
             },
             {
-                "id": "TSA_P3_all", "label": "Promise.all to run in parallel",
-                "lang": "typescript", "fn_name": "fetchAll",
+                "id": "TSA_P3_all",
+                "label": "Promise.all to run in parallel",
+                "lang": "typescript",
+                "fn_name": "fetchAll",
                 "prompt": "Write a TypeScript async function fetchAll<T>(fetchers: Array<() => Promise<T>>): Promise<T[]> that runs all fetcher functions in parallel and returns their results in order.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2032,8 +2204,10 @@ main();
 """,
             },
             {
-                "id": "TSA_P4_race", "label": "Promise.race for first-to-resolve",
-                "lang": "typescript", "fn_name": "firstResolved",
+                "id": "TSA_P4_race",
+                "label": "Promise.race for first-to-resolve",
+                "lang": "typescript",
+                "fn_name": "firstResolved",
                 "prompt": "Write a TypeScript async function firstResolved<T>(promises: Promise<T>[]): Promise<T> that returns the value of whichever promise resolves first.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2049,8 +2223,10 @@ main();
 """,
             },
             {
-                "id": "TSA_P5_retry", "label": "Async retry on failure",
-                "lang": "typescript", "fn_name": "retryAsync",
+                "id": "TSA_P5_retry",
+                "label": "Async retry on failure",
+                "lang": "typescript",
+                "fn_name": "retryAsync",
                 "prompt": "Write a TypeScript async function retryAsync<T>(fn: () => Promise<T>, maxAttempts: number): Promise<T> that retries fn up to maxAttempts times, returning the result on success or throwing the last error.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2077,7 +2253,6 @@ main();
             },
         ],
     },
-
     "ts_type_guard": {
         "lang": "typescript",
         "description": "TypeScript type guards and narrowing",
@@ -2087,8 +2262,10 @@ main();
         ),
         "probes": [
             {
-                "id": "TTG_P1_is_string", "label": "isString type guard",
-                "lang": "typescript", "fn_name": "isString",
+                "id": "TTG_P1_is_string",
+                "label": "isString type guard",
+                "lang": "typescript",
+                "fn_name": "isString",
                 "prompt": "Write a TypeScript function isString(value: unknown): value is string that returns true if value is a string.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2104,8 +2281,10 @@ main();
 """,
             },
             {
-                "id": "TTG_P2_discriminated", "label": "Discriminated union narrowing",
-                "lang": "typescript", "fn_name": "getArea",
+                "id": "TTG_P2_discriminated",
+                "label": "Discriminated union narrowing",
+                "lang": "typescript",
+                "fn_name": "getArea",
                 "prompt": "Write TypeScript types: Circle = {kind: 'circle', radius: number} and Square = {kind: 'square', side: number}. Write function getArea(shape: Circle | Square): number using the kind discriminant.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2121,8 +2300,10 @@ main();
 """,
             },
             {
-                "id": "TTG_P3_array_guard", "label": "Type guard for array items",
-                "lang": "typescript", "fn_name": "filterStrings",
+                "id": "TTG_P3_array_guard",
+                "label": "Type guard for array items",
+                "lang": "typescript",
+                "fn_name": "filterStrings",
                 "prompt": "Write a TypeScript function filterStrings(items: unknown[]): string[] that returns only the string items from the array.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2138,8 +2319,10 @@ main();
 """,
             },
             {
-                "id": "TTG_P4_instanceof", "label": "instanceof narrowing",
-                "lang": "typescript", "fn_name": "describeError",
+                "id": "TTG_P4_instanceof",
+                "label": "instanceof narrowing",
+                "lang": "typescript",
+                "fn_name": "describeError",
                 "prompt": "Write a TypeScript function describeError(err: unknown): string that returns the error message if err is an Error instance, 'string error: {err}' if it's a string, or 'unknown error' otherwise.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2154,8 +2337,10 @@ main();
 """,
             },
             {
-                "id": "TTG_P5_exhaustive", "label": "Exhaustive check with never",
-                "lang": "typescript", "fn_name": "formatStatus",
+                "id": "TTG_P5_exhaustive",
+                "label": "Exhaustive check with never",
+                "lang": "typescript",
+                "fn_name": "formatStatus",
                 "prompt": "Write TypeScript type Status = 'pending' | 'active' | 'closed'. Write function formatStatus(s: Status): string returning 'Pending...', 'Active', or 'Closed' respectively, with an exhaustive never check for future safety.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2171,7 +2356,6 @@ main();
             },
         ],
     },
-
     "ts_array_ops": {
         "lang": "typescript",
         "description": "TypeScript array methods: reduce, flatMap, find, every, some",
@@ -2181,8 +2365,10 @@ main();
         ),
         "probes": [
             {
-                "id": "TAO_P1_reduce", "label": "reduce to build object from array",
-                "lang": "typescript", "fn_name": "toRecord",
+                "id": "TAO_P1_reduce",
+                "label": "reduce to build object from array",
+                "lang": "typescript",
+                "fn_name": "toRecord",
                 "prompt": "Write a TypeScript function toRecord<T>(items: T[], keyFn: (item: T) => string): Record<string, T> that converts an array to a record using keyFn for keys.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2200,8 +2386,10 @@ main();
 """,
             },
             {
-                "id": "TAO_P2_flatmap", "label": "flatMap to expand each element",
-                "lang": "typescript", "fn_name": "expandRange",
+                "id": "TAO_P2_flatmap",
+                "label": "flatMap to expand each element",
+                "lang": "typescript",
+                "fn_name": "expandRange",
                 "prompt": "Write a TypeScript function expandRange(ranges: Array<[number, number]>): number[] that converts each [start, end] pair into all integers from start to end inclusive.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2216,8 +2404,10 @@ main();
 """,
             },
             {
-                "id": "TAO_P3_find_index", "label": "find and findIndex",
-                "lang": "typescript", "fn_name": "firstOver",
+                "id": "TAO_P3_find_index",
+                "label": "find and findIndex",
+                "lang": "typescript",
+                "fn_name": "firstOver",
                 "prompt": "Write a TypeScript function firstOver(nums: number[], threshold: number): {value: number, index: number} | null that returns the first number exceeding threshold with its index, or null.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2232,8 +2422,10 @@ main();
 """,
             },
             {
-                "id": "TAO_P4_every_some", "label": "every and some for validation",
-                "lang": "typescript", "fn_name": "validateScores",
+                "id": "TAO_P4_every_some",
+                "label": "every and some for validation",
+                "lang": "typescript",
+                "fn_name": "validateScores",
                 "prompt": "Write a TypeScript function validateScores(scores: number[]): {allValid: boolean, anyPassing: boolean} where allValid means all scores are 0-100 inclusive, and anyPassing means any score >= 60.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2251,8 +2443,10 @@ main();
 """,
             },
             {
-                "id": "TAO_P5_zip", "label": "Zip two arrays into pairs",
-                "lang": "typescript", "fn_name": "zip",
+                "id": "TAO_P5_zip",
+                "label": "Zip two arrays into pairs",
+                "lang": "typescript",
+                "fn_name": "zip",
                 "prompt": "Write a TypeScript function zip<A, B>(a: A[], b: B[]): Array<[A, B]> that pairs elements by index, stopping at the shorter array's length.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2270,7 +2464,6 @@ main();
             },
         ],
     },
-
     "ts_utility_types": {
         "lang": "typescript",
         "description": "TypeScript utility types: Partial, Pick, Omit, Record",
@@ -2280,8 +2473,10 @@ main();
         ),
         "probes": [
             {
-                "id": "TUT_P1_partial_update", "label": "Update function using Partial<T>",
-                "lang": "typescript", "fn_name": "updateUser",
+                "id": "TUT_P1_partial_update",
+                "label": "Update function using Partial<T>",
+                "lang": "typescript",
+                "fn_name": "updateUser",
                 "prompt": "Write a TypeScript type User = {id: string, name: string, email: string}. Write function updateUser(user: User, updates: Partial<User>): User that returns a new User with updates applied.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2298,8 +2493,10 @@ main();
 """,
             },
             {
-                "id": "TUT_P2_pick", "label": "Pick to create subset type",
-                "lang": "typescript", "fn_name": "toPublicUser",
+                "id": "TUT_P2_pick",
+                "label": "Pick to create subset type",
+                "lang": "typescript",
+                "fn_name": "toPublicUser",
                 "prompt": "Write a TypeScript type FullUser = {id: string, name: string, email: string, passwordHash: string}. Write function toPublicUser(user: FullUser): Pick<FullUser, 'id' | 'name'> that returns only id and name.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2315,8 +2512,10 @@ main();
 """,
             },
             {
-                "id": "TUT_P3_record", "label": "Record type for lookup table",
-                "lang": "typescript", "fn_name": "buildIndex",
+                "id": "TUT_P3_record",
+                "label": "Record type for lookup table",
+                "lang": "typescript",
+                "fn_name": "buildIndex",
                 "prompt": "Write a TypeScript function buildIndex(items: string[]): Record<string, number> that maps each string to its first-occurrence index.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2332,8 +2531,10 @@ main();
 """,
             },
             {
-                "id": "TUT_P4_required", "label": "Required<T> vs Partial in function sig",
-                "lang": "typescript", "fn_name": "applyDefaults",
+                "id": "TUT_P4_required",
+                "label": "Required<T> vs Partial in function sig",
+                "lang": "typescript",
+                "fn_name": "applyDefaults",
                 "prompt": "Write TypeScript type Config = {host?: string, port?: number, ssl?: boolean}. Write function applyDefaults(cfg: Config): Required<Config> that fills in defaults: host='localhost', port=8080, ssl=false.",
                 "test_harness": """
 // <<STUDENT_CODE>>
@@ -2349,8 +2550,10 @@ main();
 """,
             },
             {
-                "id": "TUT_P5_mapped", "label": "Custom mapped type",
-                "lang": "typescript", "fn_name": "makeNullable",
+                "id": "TUT_P5_mapped",
+                "label": "Custom mapped type",
+                "lang": "typescript",
+                "fn_name": "makeNullable",
                 "prompt": "Write a TypeScript generic function makeNullable<T extends object>(obj: T): {[K in keyof T]: T[K] | null} that returns the same object typed with all values nullable (at runtime just return the object as-is).",
                 "test_harness": """
 // <<STUDENT_CODE>>

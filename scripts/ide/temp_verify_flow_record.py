@@ -1,9 +1,9 @@
 """Records for IDE_TEMP_VERIFY_FLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDE_TEMP_VERIFY_FLOW_STATUS_TOKENS = (
     "IDE_TEMP_VERIFY_RUNNING",

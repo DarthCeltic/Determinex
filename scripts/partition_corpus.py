@@ -25,6 +25,7 @@ Usage:
 
 import argparse
 import json
+import os
 import re
 import sys
 from collections import Counter
@@ -35,12 +36,17 @@ _DEFAULT_SOURCES = [
     _ROOT.parent.parent / "determinex-models" / "corpus" / "merged" / "corpus_deduped.jsonl",
     _ROOT / "scripts" / "gap_v30_go_errors_v2.jsonl",
 ]
-_DEFAULT_OUT = Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models"))) / "corpus/partitioned"
+_DEFAULT_OUT = (
+    Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models")))
+    / "corpus/partitioned"
+)
 
 # ── Classification signals ────────────────────────────────────────────────────
 
 # DSL protocol — goes to Rosetta training, not model weights
-_DSL_PATTERNS = re.compile(r"^(?:INTENT|CONSTRAINT|CONFIDENCE|CONTEXT|VERDICT):\S", re.I | re.MULTILINE)
+_DSL_PATTERNS = re.compile(
+    r"^(?:INTENT|CONSTRAINT|CONFIDENCE|CONTEXT|VERDICT):\S", re.I | re.MULTILINE
+)
 
 # Monitor: evaluation, critique, bug-fix, anti-pattern
 _MONITOR_INSTRUCTION = re.compile(
@@ -113,111 +119,107 @@ _CODE_OUTPUT = re.compile(
 # Types not listed here fall through to content inference.
 _TYPE_TO_ROLE: dict[str, str] = {
     # Builder: code generation is the output
-    "code_gen":          "builder",
-    "algorithm":         "builder",
-    "test_writing":      "builder",
-    "code_translation":  "builder",
-    "framework":         "builder",
-    "testing":           "builder",
-    "config":            "builder",
-    "config_scaffold":   "builder",
-    "observability":     "builder",
-    "debugging":         "builder",
-    "security":          "builder",
-
+    "code_gen": "builder",
+    "algorithm": "builder",
+    "test_writing": "builder",
+    "code_translation": "builder",
+    "framework": "builder",
+    "testing": "builder",
+    "config": "builder",
+    "config_scaffold": "builder",
+    "observability": "builder",
+    "debugging": "builder",
+    "security": "builder",
     # Monitor: evaluation, critique, correction
-    "bug_fix":           "monitor",
-    "code_review":       "monitor",
-    "anti_pattern":      "monitor",
-    "refactor":          "monitor",
-    "code_explanation":  "monitor",
-
+    "bug_fix": "monitor",
+    "code_review": "monitor",
+    "anti_pattern": "monitor",
+    "refactor": "monitor",
+    "code_explanation": "monitor",
     # Architect: planning and structure
-    "architecture":      "architect",
-
+    "architecture": "architect",
     # IaC types -> builder but also specialist-tagged
-    "tf_good":           "builder",
-    "tf_antipattern":    "builder",
-    "tf_bugfix":         "builder",
-    "tf_advanced":       "builder",
-    "k8s_good":          "builder",
-    "k8s_antipattern":   "builder",
-    "k8s_bugfix":        "builder",
-    "k8s_advanced":      "builder",
-    "ansible_good":      "builder",
+    "tf_good": "builder",
+    "tf_antipattern": "builder",
+    "tf_bugfix": "builder",
+    "tf_advanced": "builder",
+    "k8s_good": "builder",
+    "k8s_antipattern": "builder",
+    "k8s_bugfix": "builder",
+    "k8s_advanced": "builder",
+    "ansible_good": "builder",
     "ansible_antipattern": "builder",
-    "ansible_bugfix":    "builder",
-    "ansible_advanced":  "builder",
-    "ps_good":           "builder",
-    "ps_antipattern":    "builder",
-    "ps_bugfix":         "builder",
-    "ps_advanced":       "builder",
-
+    "ansible_bugfix": "builder",
+    "ansible_advanced": "builder",
+    "ps_good": "builder",
+    "ps_antipattern": "builder",
+    "ps_bugfix": "builder",
+    "ps_advanced": "builder",
     # Specialist-primary types
-    "sol_good":          "builder",
-    "sol_antipattern":   "builder",
-    "sol_bugfix":        "builder",
-    "sol_advanced":      "builder",
-    "react_good":        "builder",
-    "react_bad":         "builder",
-    "react_bug":         "builder",
-    "react_perf":        "builder",
-    "flutter_good":      "builder",
-    "flutter_bad":       "builder",
-    "flutter_bug":       "builder",
-    "flutter_perf":      "builder",
-    "html_good":         "builder",
-    "html_bad":          "builder",
-    "html_bug":          "builder",
-    "html_perf":         "builder",
-    "lua_good":          "builder",
-    "lua_antipattern":   "builder",
-    "lua_bugfix":        "builder",
-    "lua_advanced":      "builder",
-    "r_good":            "builder",
-    "r_antipattern":     "builder",
-    "r_bugfix":          "builder",
-    "r_advanced":        "builder",
-    "julia_good":        "builder",
+    "sol_good": "builder",
+    "sol_antipattern": "builder",
+    "sol_bugfix": "builder",
+    "sol_advanced": "builder",
+    "react_good": "builder",
+    "react_bad": "builder",
+    "react_bug": "builder",
+    "react_perf": "builder",
+    "flutter_good": "builder",
+    "flutter_bad": "builder",
+    "flutter_bug": "builder",
+    "flutter_perf": "builder",
+    "html_good": "builder",
+    "html_bad": "builder",
+    "html_bug": "builder",
+    "html_perf": "builder",
+    "lua_good": "builder",
+    "lua_antipattern": "builder",
+    "lua_bugfix": "builder",
+    "lua_advanced": "builder",
+    "r_good": "builder",
+    "r_antipattern": "builder",
+    "r_bugfix": "builder",
+    "r_advanced": "builder",
+    "julia_good": "builder",
     "julia_antipattern": "builder",
-    "julia_bugfix":      "builder",
-    "julia_advanced":    "builder",
+    "julia_bugfix": "builder",
+    "julia_advanced": "builder",
 }
 
 # Types that carry an implicit specialist tag regardless of output content
 _TYPE_TO_SPECIALIST: dict[str, list[str]] = {
-    "tf_good":           ["iac"],
-    "tf_antipattern":    ["iac"],
-    "tf_bugfix":         ["iac"],
-    "tf_advanced":       ["iac"],
-    "k8s_good":          ["iac"],
-    "k8s_antipattern":   ["iac"],
-    "k8s_bugfix":        ["iac"],
-    "k8s_advanced":      ["iac"],
-    "ansible_good":      ["iac"],
+    "tf_good": ["iac"],
+    "tf_antipattern": ["iac"],
+    "tf_bugfix": ["iac"],
+    "tf_advanced": ["iac"],
+    "k8s_good": ["iac"],
+    "k8s_antipattern": ["iac"],
+    "k8s_bugfix": ["iac"],
+    "k8s_advanced": ["iac"],
+    "ansible_good": ["iac"],
     "ansible_antipattern": ["iac"],
-    "ansible_bugfix":    ["iac"],
-    "ansible_advanced":  ["iac"],
-    "ps_good":           ["powershell"],
-    "ps_antipattern":    ["powershell"],
-    "ps_bugfix":         ["powershell"],
-    "ps_advanced":       ["powershell"],
-    "sol_good":          ["solidity"],
-    "sol_antipattern":   ["solidity"],
-    "sol_bugfix":        ["solidity"],
-    "sol_advanced":      ["solidity"],
-    "react_good":        ["mobile"],
-    "react_bad":         ["mobile"],
-    "react_bug":         ["mobile"],
-    "react_perf":        ["mobile"],
-    "flutter_good":      ["mobile"],
-    "flutter_bad":       ["mobile"],
-    "flutter_bug":       ["mobile"],
-    "flutter_perf":      ["mobile"],
-    "html_good":         ["mobile"],
-    "html_bad":          ["mobile"],
-    "html_bug":          ["mobile"],
-    "html_perf":         ["mobile"],
+    "ansible_bugfix": ["iac"],
+    "ansible_advanced": ["iac"],
+    "ps_good": ["powershell"],
+    "ps_antipattern": ["powershell"],
+    "ps_bugfix": ["powershell"],
+    "ps_advanced": ["powershell"],
+    "sol_good": ["solidity"],
+    "sol_antipattern": ["solidity"],
+    "sol_bugfix": ["solidity"],
+    "sol_advanced": ["solidity"],
+    "react_good": ["mobile"],
+    "react_bad": ["mobile"],
+    "react_bug": ["mobile"],
+    "react_perf": ["mobile"],
+    "flutter_good": ["mobile"],
+    "flutter_bad": ["mobile"],
+    "flutter_bug": ["mobile"],
+    "flutter_perf": ["mobile"],
+    "html_good": ["mobile"],
+    "html_bad": ["mobile"],
+    "html_bug": ["mobile"],
+    "html_perf": ["mobile"],
 }
 
 
@@ -232,9 +234,9 @@ def classify(example: dict) -> tuple[str, list[str]]:
     2. Explicit meta.type -> use _TYPE_TO_ROLE mapping
     3. Content inference fallback (for unlabeled examples)
     """
-    instr  = example.get("instruction", "") or ""
+    instr = example.get("instruction", "") or ""
     output = example.get("output", "") or ""
-    meta   = example.get("meta", {}) or {}
+    meta = example.get("meta", {}) or {}
     ex_type = (meta.get("type") or example.get("type") or "").lower().strip()
 
     # 1. DSL protocol -> Rosetta, never model weights
@@ -252,13 +254,11 @@ def classify(example: dict) -> tuple[str, list[str]]:
         return primary, tags
 
     # 3. Content inference fallback (unlabeled examples)
-    monitor_score = (
-        3 * bool(_MONITOR_INSTRUCTION.search(instr))
-        + 2 * bool(_MONITOR_OUTPUT.search(output))
+    monitor_score = 3 * bool(_MONITOR_INSTRUCTION.search(instr)) + 2 * bool(
+        _MONITOR_OUTPUT.search(output)
     )
-    architect_score = (
-        3 * bool(_ARCHITECT_INSTRUCTION.search(instr))
-        + bool(_ARCHITECT_OUTPUT.search(output))
+    architect_score = 3 * bool(_ARCHITECT_INSTRUCTION.search(instr)) + bool(
+        _ARCHITECT_OUTPUT.search(output)
     )
 
     if monitor_score > architect_score and monitor_score >= 3:
@@ -270,10 +270,14 @@ def classify(example: dict) -> tuple[str, list[str]]:
 
     # Content-based specialist tags
     tags = []
-    if _SQL_OUTPUT.search(output):       tags.append("sql")
-    if _IAC_OUTPUT.search(output):       tags.append("iac")
-    if _SOLIDITY_OUTPUT.search(output):  tags.append("solidity")
-    if _MOBILE_OUTPUT.search(output):    tags.append("mobile")
+    if _SQL_OUTPUT.search(output):
+        tags.append("sql")
+    if _IAC_OUTPUT.search(output):
+        tags.append("iac")
+    if _SOLIDITY_OUTPUT.search(output):
+        tags.append("solidity")
+    if _MOBILE_OUTPUT.search(output):
+        tags.append("mobile")
 
     return primary, tags
 
@@ -295,28 +299,30 @@ def partition(sources: list[Path], out_dir: Path) -> None:
                         all_examples.append(json.loads(line))
                     except json.JSONDecodeError:
                         pass
-        print(f"  [LOAD] {src.name}: {sum(1 for _ in open(src, encoding='utf-8') if _.strip())} examples")
+        print(
+            f"  [LOAD] {src.name}: {sum(1 for _ in open(src, encoding='utf-8') if _.strip())} examples"
+        )
 
     print(f"\n  Total loaded: {len(all_examples)}")
 
     # Classify
     buckets: dict[str, list] = {
-        "builder":         [],
-        "monitor":         [],
-        "architect":       [],
+        "builder": [],
+        "monitor": [],
+        "architect": [],
         "rosetta_protocol": [],
     }
     specialists: dict[str, list] = {
-        "sql":        [],
-        "iac":        [],
-        "solidity":   [],
-        "mobile":     [],
+        "sql": [],
+        "iac": [],
+        "solidity": [],
+        "mobile": [],
         "powershell": [],
-        "data_sci":   [],
+        "data_sci": [],
     }
 
     primary_counts: Counter = Counter()
-    spec_counts:    Counter = Counter()
+    spec_counts: Counter = Counter()
 
     for ex in all_examples:
         primary, tags = classify(ex)
@@ -328,9 +334,9 @@ def partition(sources: list[Path], out_dir: Path) -> None:
 
     # Write primary buckets
     bucket_files = {
-        "builder":          out_dir / "role_builder.jsonl",
-        "monitor":          out_dir / "role_monitor.jsonl",
-        "architect":        out_dir / "role_architect.jsonl",
+        "builder": out_dir / "role_builder.jsonl",
+        "monitor": out_dir / "role_monitor.jsonl",
+        "architect": out_dir / "role_architect.jsonl",
         "rosetta_protocol": out_dir / "rosetta_protocol.jsonl",
     }
     for bucket, path in bucket_files.items():
@@ -340,12 +346,12 @@ def partition(sources: list[Path], out_dir: Path) -> None:
 
     # Write specialist corpora
     spec_files = {
-        "sql":        out_dir / "specialist_sql.jsonl",
-        "iac":        out_dir / "specialist_iac.jsonl",
-        "solidity":   out_dir / "specialist_solidity.jsonl",
-        "mobile":     out_dir / "specialist_mobile.jsonl",
+        "sql": out_dir / "specialist_sql.jsonl",
+        "iac": out_dir / "specialist_iac.jsonl",
+        "solidity": out_dir / "specialist_solidity.jsonl",
+        "mobile": out_dir / "specialist_mobile.jsonl",
         "powershell": out_dir / "specialist_powershell.jsonl",
-        "data_sci":   out_dir / "specialist_data_sci.jsonl",
+        "data_sci": out_dir / "specialist_data_sci.jsonl",
     }
     for tag, path in spec_files.items():
         with open(path, "w", encoding="utf-8") as f:
@@ -356,32 +362,36 @@ def partition(sources: list[Path], out_dir: Path) -> None:
     print("\n" + "=" * 60)
     print("PARTITION RESULTS")
     print("=" * 60)
-    print(f"\n  Primary buckets:")
+    print("\n  Primary buckets:")
     for bucket, path in bucket_files.items():
         n = primary_counts[bucket]
         pct = n / len(all_examples) * 100 if all_examples else 0
         print(f"    {bucket:<20} {n:>6}  ({pct:.1f}%)  -> {path.name}")
 
-    print(f"\n  Specialist corpora (subset of Builder):")
+    print("\n  Specialist corpora (subset of Builder):")
     for tag, path in spec_files.items():
         n = spec_counts[tag]
         print(f"    {tag:<20} {n:>6}            -> {path.name}")
 
     print(f"\n  Output directory: {out_dir}")
-    print(f"\n  NOTE: rosetta_protocol.jsonl is Rosetta v2 training data.")
-    print(f"        Do NOT include it in any model LoRA training run.")
+    print("\n  NOTE: rosetta_protocol.jsonl is Rosetta v2 training data.")
+    print("        Do NOT include it in any model LoRA training run.")
     print("=" * 60)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Partition corpus by role")
     parser.add_argument(
-        "--corpus", nargs="+", type=Path,
+        "--corpus",
+        nargs="+",
+        type=Path,
         default=None,
         help="Input JSONL file(s). Defaults to corpus_deduped.jsonl + gap files.",
     )
     parser.add_argument(
-        "--out", type=Path, default=_DEFAULT_OUT,
+        "--out",
+        type=Path,
+        default=_DEFAULT_OUT,
         help=f"Output directory. Default: {_DEFAULT_OUT}",
     )
     args = parser.parse_args()

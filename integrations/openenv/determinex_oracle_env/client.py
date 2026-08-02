@@ -13,7 +13,9 @@ from openenv.core.env_client import EnvClient
 from .models import DeterminexOracleAction, DeterminexOracleObservation, DeterminexOracleState
 
 
-class DeterminexOracleEnvClient(EnvClient[DeterminexOracleAction, DeterminexOracleObservation, DeterminexOracleState]):
+class DeterminexOracleEnvClient(
+    EnvClient[DeterminexOracleAction, DeterminexOracleObservation, DeterminexOracleState]
+):
     def _step_payload(self, action: DeterminexOracleAction) -> dict:
         return {"files": action.files, "remove": action.remove}
 

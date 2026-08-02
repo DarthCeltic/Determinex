@@ -3,6 +3,7 @@
 Static analysis of the TSX file: required sections, required strings,
 forbidden authority-leak phrases, no source-mutation calls.
 """
+
 from __future__ import annotations
 
 import json
@@ -14,9 +15,18 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-PANEL_PATH = _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "UnifiedNavigationPanel.tsx"
+PANEL_PATH = (
+    _REPO_ROOT
+    / "frontend"
+    / "src"
+    / "components"
+    / "ide-product-shell"
+    / "UnifiedNavigationPanel.tsx"
+)
 API_LIB_PATH = _REPO_ROOT / "frontend" / "src" / "lib" / "ide-product-shell-api.ts"
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_REACT_UNIFIED_NAVIGATION_PANEL_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_react_unified_navigation_panel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -60,17 +70,23 @@ def test_required_status_tokens_declared_in_panel():
 def test_panel_renders_tab_per_surface():
     src = _panel_src()
     for k in (
-        "idea_lab", "repo_clinic", "maintenance_bay",
-        "learning_studio", "proof_operator_center",
+        "idea_lab",
+        "repo_clinic",
+        "maintenance_bay",
+        "learning_studio",
+        "proof_operator_center",
     ):
-        assert f"unified-navigation-tab-${{k}}" in src or f'"{k}"' in src, k
+        assert "unified-navigation-tab-${k}" in src or f'"{k}"' in src, k
 
 
 def test_surface_labels_declared():
     src = _panel_src()
     for label in (
-        "Idea Lab", "Repo Clinic", "Maintenance Bay",
-        "Learning Studio", "Proof / Operator Center",
+        "Idea Lab",
+        "Repo Clinic",
+        "Maintenance Bay",
+        "Learning Studio",
+        "Proof / Operator Center",
     ):
         assert label in src, f"missing surface label {label!r}"
 
@@ -136,8 +152,11 @@ def test_panel_surfaces_missing_surface_banner():
 def test_panel_has_no_unqualified_success_text():
     src = _panel_src()
     forbidden = (
-        "All set!", "You're authorized", "Source mutation enabled",
-        "Training enabled", "Ready means authorized",
+        "All set!",
+        "You're authorized",
+        "Source mutation enabled",
+        "Training enabled",
+        "Ready means authorized",
     )
     for f in forbidden:
         assert f.lower() not in src.lower(), f"forbidden text {f!r}"
@@ -149,8 +168,11 @@ def test_panel_has_no_unqualified_success_text():
 def test_panel_does_not_call_mutating_command():
     src = _panel_src()
     forbidden_commands = (
-        "apply_source", "write_training_row", "approve_packet",
-        "grant_authorization", "release_workflow",
+        "apply_source",
+        "write_training_row",
+        "approve_packet",
+        "grant_authorization",
+        "release_workflow",
     )
     for cmd in forbidden_commands:
         assert cmd not in src, cmd

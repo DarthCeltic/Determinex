@@ -13,7 +13,7 @@ log = logging.getLogger("oracle.validator.regex")
 
 # Default pattern: output must be at least 80 meaningful characters
 _DEFAULT_PATTERN = r"^.{80,}"
-_DEFAULT_DESC    = "Must be at least 80 characters"
+_DEFAULT_DESC = "Must be at least 80 characters"
 
 
 def validate(output: str, task_meta: dict) -> tuple[bool, str]:
@@ -35,8 +35,8 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
     if len(text) < 5:
         return False, "Output is too short"
 
-    config  = task_meta.get("validator_config", {})
-    desc    = config.get("description", _DEFAULT_DESC)
+    config = task_meta.get("validator_config", {})
+    desc = config.get("description", _DEFAULT_DESC)
     flag_names = config.get("flags", [])
 
     # Combine requested flags

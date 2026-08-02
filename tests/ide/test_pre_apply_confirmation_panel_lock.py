@@ -1,4 +1,5 @@
 """Tests for CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -15,18 +16,15 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 pp = importlib.import_module("ide.pre_apply_confirmation_panel")
 pp_rec = importlib.import_module("ide.pre_apply_confirmation_panel_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / ("CLAUDE_PRE_APPLY_CONFIRMATION_PANEL_LOCK_001.json")
 )
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_pre_apply_confirmation_panel"
-)
+EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / ("claude_pre_apply_confirmation_panel")
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
 _CONSEQUENCE = (
-    "Source mutation will write files; "
-    "post-apply verifier will run and may trigger rollback."
+    "Source mutation will write files; post-apply verifier will run and may trigger rollback."
 )
 _TRAINING = "Training eligibility remains False unless separately gated."
 

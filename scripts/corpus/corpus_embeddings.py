@@ -23,6 +23,7 @@ today (one model, one machine) but worth a schema field (meta["_model_version"])
 is relied on across model upgrades -- deferred rather than rushed into the hash-keyed meta dict
 structure that build_index/semantic_search iterate directly.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -40,7 +41,7 @@ if str(SCRIPTS) not in sys.path:
 
 import determinex_corpus_api as api  # noqa: E402
 
-EMBED_MODEL = "nomic-embed-text:latest"          # matches determinex_rag_index.EMBED_MODEL
+EMBED_MODEL = "nomic-embed-text:latest"  # matches determinex_rag_index.EMBED_MODEL
 OLLAMA_URL = "http://localhost:11434"
 CACHE_VEC = ROOT / "corpus" / "programbench" / "embeddings_cache.npy"
 CACHE_META = ROOT / "corpus" / "programbench" / "embeddings_cache.meta.json"
@@ -83,8 +84,13 @@ def _entries(corpus: dict[str, Any] | None = None) -> list[dict[str, str]]:
     kn = corpus if corpus is not None else api.load_corpus()
     by_key: dict[str, dict[str, str]] = {}
 
-    skip = {"_topic_index", "_topic_index_doc", "class_patterns", "learned_classes",
-            "absorbed_sources"}
+    skip = {
+        "_topic_index",
+        "_topic_index_doc",
+        "class_patterns",
+        "learned_classes",
+        "absorbed_sources",
+    }
     for k, v in kn.items():
         if k in skip or k.startswith("_"):
             continue
@@ -99,20 +105,30 @@ def _entries(corpus: dict[str, Any] | None = None) -> list[dict[str, str]]:
                     continue
                 key = str(it["key"])
                 if key in by_key:
-                    by_key[key]["topic"] = str(topic)   # richer topic label than generic "entry"
+                    by_key[key]["topic"] = str(topic)  # richer topic label than generic "entry"
                 else:
-                    by_key[key] = {"key": key, "topic": str(topic),
-                                   "text": f"{key} {it.get('summary', '')}"}
+                    by_key[key] = {
+                        "key": key,
+                        "topic": str(topic),
+                        "text": f"{key} {it.get('summary', '')}",
+                    }
 
     out: list[dict[str, str]] = list(by_key.values())
     for k, v in api.class_patterns(kn).items():
         blob = json.dumps(v, ensure_ascii=False) if isinstance(v, dict) else str(v)
-        out.append({"key": f"class_pattern::{k}", "topic": "class_pattern", "text": f"{k} {blob[:1500]}"})
+        out.append(
+            {"key": f"class_pattern::{k}", "topic": "class_pattern", "text": f"{k} {blob[:1500]}"}
+        )
     for k, v in api.learned_classes(verified_only=True, corpus=kn).items():
         det = v.get("detect") or v.get("symptom") or "" if isinstance(v, dict) else str(v)
         fix = v.get("fix", "") if isinstance(v, dict) else ""
-        out.append({"key": f"learned_class::{k}", "topic": "learned_class",
-                   "text": f"{k} {det} {fix}"[:1500]})
+        out.append(
+            {
+                "key": f"learned_class::{k}",
+                "topic": "learned_class",
+                "text": f"{k} {det} {fix}"[:1500],
+            }
+        )
     return out
 
 
@@ -163,24 +179,34 @@ def build_index(max_new: int = 10_000, corpus: dict[str, Any] | None = None) -> 
         if cache_key in meta:
             idx = meta[cache_key]["idx"]
             vecs[idx] = emb
-            meta[cache_key]["hash"] = h        # MUST update, or a changed entry re-embeds every
-            meta[cache_key]["topic"] = e["topic"]   # future run without ever converging (the
-            meta[cache_key]["snippet"] = e["text"][:160]   # 2026-07-19 non-convergent-loop bug)
+            meta[cache_key]["hash"] = h  # MUST update, or a changed entry re-embeds every
+            meta[cache_key]["topic"] = e["topic"]  # future run without ever converging (the
+            meta[cache_key]["snippet"] = e["text"][:160]  # 2026-07-19 non-convergent-loop bug)
         else:
-            meta[cache_key] = {"idx": len(vecs), "hash": h, "topic": e["topic"],
-                               "snippet": e["text"][:160]}
+            meta[cache_key] = {
+                "idx": len(vecs),
+                "hash": h,
+                "topic": e["topic"],
+                "snippet": e["text"][:160],
+            }
             vecs.append(emb)
         added += 1
         if added % 25 == 0:
             _flush(meta, vecs)
     _flush(meta, vecs)
-    return {"added_or_updated": added, "skipped_cached": skipped_cached, "failed": failed,
-            "total_cached": len(vecs), "ollama_reachable": failed < len(entries) or added > 0,
-            "rebuilt_for_model_change": rebuilt_for_model_change}
+    return {
+        "added_or_updated": added,
+        "skipped_cached": skipped_cached,
+        "failed": failed,
+        "total_cached": len(vecs),
+        "ollama_reachable": failed < len(entries) or added > 0,
+        "rebuilt_for_model_change": rebuilt_for_model_change,
+    }
 
 
 def _flush(meta: dict, vecs: list) -> None:
     import numpy as np
+
     if not vecs:
         return
     CACHE_VEC.parent.mkdir(parents=True, exist_ok=True)
@@ -193,6 +219,7 @@ def semantic_search(query: str, k: int = 10) -> list[dict[str, Any]]:
     exist yet or Ollama is unreachable -- callers must treat this as a best-effort enhancement,
     not a dependency."""
     import numpy as np
+
     if not (CACHE_VEC.exists() and CACHE_META.exists()):
         return []
     qemb = embed_text(query)
@@ -207,13 +234,20 @@ def semantic_search(query: str, k: int = 10) -> list[dict[str, Any]]:
     qn = q / (np.linalg.norm(q) + 1e-9)
     vn = vecs / (np.linalg.norm(vecs, axis=1, keepdims=True) + 1e-9)
     sims = vn @ qn
-    idx_to_key = {v["idx"]: k for k, v in meta.items()
-                  if k != _MODEL_VERSION_KEY and v["idx"] < len(sims)}
+    idx_to_key = {
+        v["idx"]: k for k, v in meta.items() if k != _MODEL_VERSION_KEY and v["idx"] < len(sims)
+    }
     ranked = sorted(((float(sims[i]), i) for i in range(len(sims))), reverse=True)[:k]
-    return [{"key": idx_to_key.get(i, "?"), "score": round(s, 4),
-             "topic": meta.get(idx_to_key.get(i, ""), {}).get("topic", ""),
-             "snippet": meta.get(idx_to_key.get(i, ""), {}).get("snippet", "")}
-            for s, i in ranked if i in idx_to_key]
+    return [
+        {
+            "key": idx_to_key.get(i, "?"),
+            "score": round(s, 4),
+            "topic": meta.get(idx_to_key.get(i, ""), {}).get("topic", ""),
+            "snippet": meta.get(idx_to_key.get(i, ""), {}).get("snippet", ""),
+        }
+        for s, i in ranked
+        if i in idx_to_key
+    ]
 
 
 def stats() -> dict:
@@ -221,12 +255,17 @@ def stats() -> dict:
         return {"exists": False}
     try:
         import numpy as np
+
         meta = json.loads(CACHE_META.read_text(encoding="utf-8"))
         vecs = np.load(CACHE_VEC)
         cached_entries = sum(1 for k in meta if k != _MODEL_VERSION_KEY)
-        return {"exists": True, "cached_entries": cached_entries, "vector_dim": vecs.shape[1] if len(vecs) else 0,
-                "cache_bytes": CACHE_VEC.stat().st_size + CACHE_META.stat().st_size,
-                "embed_model": meta.get(_MODEL_VERSION_KEY)}
+        return {
+            "exists": True,
+            "cached_entries": cached_entries,
+            "vector_dim": vecs.shape[1] if len(vecs) else 0,
+            "cache_bytes": CACHE_VEC.stat().st_size + CACHE_META.stat().st_size,
+            "embed_model": meta.get(_MODEL_VERSION_KEY),
+        }
     except Exception as e:
         return {"exists": True, "error": str(e)}
 

@@ -44,6 +44,7 @@ Hard rules enforced by load():
     source_evidence_summary + explanations + verification.*
     -> BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -62,7 +63,6 @@ from .learning_studio_verified_demo_status_record import (
     LearningStudioVerifiedDemoStatus,
 )
 
-
 # Required claim-boundary statements. The boundary list itself is
 # excluded from the broad-claim regex scan so that benign 'not all
 # projects' / 'no source mutation authorized' etc. do not trip it.
@@ -80,7 +80,8 @@ REQUIRED_BOUNDARY_STATEMENTS = (
 
 _DEFAULT_EVIDENCE_DIR = (
     Path(__file__).resolve().parents[2]
-    / "assurance" / "evidence"
+    / "assurance"
+    / "evidence"
     / "learning_studio_teaching_splash_demo"
 )
 
@@ -215,7 +216,10 @@ def load(evidence_dir: Path | str | None = None) -> LearningStudioVerifiedDemoSt
     auth = blob.get("authority") or {}
 
     # source_mutation_authorized
-    if blob.get("source_mutation_authorized") is True or auth.get("source_mutation_authorized") is True:
+    if (
+        blob.get("source_mutation_authorized") is True
+        or auth.get("source_mutation_authorized") is True
+    ):
         return _block(
             "REACT_LEARNING_STUDIO_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_AUTHORITY_CONFUSION",
             "evidence declares source_mutation_authorized=True",
@@ -233,7 +237,10 @@ def load(evidence_dir: Path | str | None = None) -> LearningStudioVerifiedDemoSt
             "evidence declares training_rows_written=True",
         )
     # approval_authority_granted
-    if blob.get("approval_authority_granted") is True or auth.get("approval_authority_granted") is True:
+    if (
+        blob.get("approval_authority_granted") is True
+        or auth.get("approval_authority_granted") is True
+    ):
         return _block(
             "REACT_LEARNING_STUDIO_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_AUTHORITY_CONFUSION",
             "evidence declares approval_authority_granted=True",
@@ -293,8 +300,7 @@ def load(evidence_dir: Path | str | None = None) -> LearningStudioVerifiedDemoSt
     boundary_list = blob.get("claim_boundary") or []
     boundary_joined = " ; ".join(str(b) for b in boundary_list).lower()
     missing_required = [
-        req for req in REQUIRED_BOUNDARY_STATEMENTS
-        if req.lower() not in boundary_joined
+        req for req in REQUIRED_BOUNDARY_STATEMENTS if req.lower() not in boundary_joined
     ]
     if missing_required:
         return _block(
@@ -310,10 +316,15 @@ def load(evidence_dir: Path | str | None = None) -> LearningStudioVerifiedDemoSt
     # 'this does not prove' language), and verification flags. The
     # boundary list itself already validated above.
     safe = {
-        k: v for k, v in blob.items()
-        if k not in (
-            "verification", "claim_boundary", "blocked_path_demo",
-            "explanations", "source_evidence_summary",
+        k: v
+        for k, v in blob.items()
+        if k
+        not in (
+            "verification",
+            "claim_boundary",
+            "blocked_path_demo",
+            "explanations",
+            "source_evidence_summary",
         )
     }
     if "evidence" in safe:
@@ -329,8 +340,7 @@ def load(evidence_dir: Path | str | None = None) -> LearningStudioVerifiedDemoSt
             continue
         affirmative_pattern = re.compile(
             r"(?<!not )(?<!refuses )(?<!refused )(?<!refusing )"
-            r"(?<!refuse )(?<!blocks )(?<!blocked )"
-            + re.escape(phrase)
+            r"(?<!refuse )(?<!blocks )(?<!blocked )" + re.escape(phrase)
         )
         if affirmative_pattern.search(safe_haystack):
             return _block(
@@ -380,8 +390,7 @@ def load(evidence_dir: Path | str | None = None) -> LearningStudioVerifiedDemoSt
         notes=(
             "evidence read from Codex Learning Studio teaching splash demo bundle",
             "teaching outputs are non-authorizing by construction",
-            "explanations are grounded in existing verified Repo Clinic + "
-            "Maintenance Bay evidence",
+            "explanations are grounded in existing verified Repo Clinic + Maintenance Bay evidence",
             "source mutation, approval, training, release all remain False",
         ),
     )

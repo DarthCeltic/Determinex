@@ -20,41 +20,43 @@ from corpus.legacy_recovery.online_artifact_discovery import (  # noqa: E402
 def _registry(tmp_path: Path) -> Path:
     path = tmp_path / "artifact_sources.json"
     path.write_text(
-        json.dumps({
-            "sources": [
-                {
-                    "name": "docker_hub",
-                    "type": "oci_registry",
-                    "trust_level": "public_untrusted",
-                    "allowed_for": ["image_metadata", "image_pull_if_digest_pinned"],
-                    "requires_digest": True,
-                    "requires_security_scan": True,
-                },
-                {
-                    "name": "ghcr",
-                    "type": "oci_registry",
-                    "trust_level": "public_untrusted",
-                    "allowed_for": ["image_metadata", "image_pull_if_digest_pinned"],
-                    "requires_digest": True,
-                    "requires_security_scan": True,
-                },
-                {
-                    "name": "huggingface",
-                    "type": "hf_hub",
-                    "trust_level": "public_untrusted",
-                    "allowed_for": ["artifact_snapshot"],
-                    "requires_revision_pin": True,
-                    "requires_license": True,
-                },
-                {
-                    "name": "blocked_source",
-                    "type": "oci_registry",
-                    "trust_level": "blocked",
-                    "allowed_for": ["image"],
-                    "requires_digest": True,
-                },
-            ]
-        }),
+        json.dumps(
+            {
+                "sources": [
+                    {
+                        "name": "docker_hub",
+                        "type": "oci_registry",
+                        "trust_level": "public_untrusted",
+                        "allowed_for": ["image_metadata", "image_pull_if_digest_pinned"],
+                        "requires_digest": True,
+                        "requires_security_scan": True,
+                    },
+                    {
+                        "name": "ghcr",
+                        "type": "oci_registry",
+                        "trust_level": "public_untrusted",
+                        "allowed_for": ["image_metadata", "image_pull_if_digest_pinned"],
+                        "requires_digest": True,
+                        "requires_security_scan": True,
+                    },
+                    {
+                        "name": "huggingface",
+                        "type": "hf_hub",
+                        "trust_level": "public_untrusted",
+                        "allowed_for": ["artifact_snapshot"],
+                        "requires_revision_pin": True,
+                        "requires_license": True,
+                    },
+                    {
+                        "name": "blocked_source",
+                        "type": "oci_registry",
+                        "trust_level": "blocked",
+                        "allowed_for": ["image"],
+                        "requires_digest": True,
+                    },
+                ]
+            }
+        ),
         encoding="utf-8",
     )
     return path
@@ -131,7 +133,11 @@ def test_public_untrusted_source_cannot_execute_without_scan(tmp_path):
 def test_security_scan_failure_blocks_hydration(tmp_path):
     discovery = _discovery(
         tmp_path,
-        lambda _request: [_candidate(security_scan={"scanner": "mock", "critical": 1, "high": 0, "policy": "fail"})],
+        lambda _request: [
+            _candidate(
+                security_scan={"scanner": "mock", "critical": 1, "high": 0, "policy": "fail"}
+            )
+        ],
     )
 
     result = discovery.discover_for_candidate({"tool": "bat"})

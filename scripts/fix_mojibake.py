@@ -17,12 +17,14 @@ Usage:
   python scripts/fix_mojibake.py           # fix files in-place
   python scripts/fix_mojibake.py --dry-run # report only, no writes
 """
+
 from __future__ import annotations
+
 import argparse
 import pathlib
 import sys
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 try:
     import ftfy
@@ -76,17 +78,17 @@ _MOJIBAKE_PAIRS: list[tuple[str, str]] = [
     ("â", "↑"),  # â†' → upwards arrow ↑
     ("â¥", "≥"),  # â‰¥ → ≥
     ("â¤", "≤"),  # â‰¤ → ≤
-    ("Ã", "×"),        # Ã— → ×
-    ("Â·", "·"),        # Â· → middle dot ·
-    ("Ã·", "÷"),        # Ã· → division sign ÷
+    ("Ã", "×"),  # Ã— → ×
+    ("Â·", "·"),  # Â· → middle dot ·
+    ("Ã·", "÷"),  # Ã· → division sign ÷
     ("â", "−"),  # â€" → minus sign −
     ("â¶", "▶"),  # â–¶ → ▶
     ("â", "☑"),  # â˜' → ☑
     ("â", "✓"),  # âœ" → ✓
     ("â", "✘"),  # âœ˜ → ✘
-    ("Â ", " "),        # Â  → non-breaking space (keep as NBSP)
-    ("Â®", "®"),        # Â® → ®
-    ("Â©", "©"),        # Â© → ©
+    ("Â ", " "),  # Â  → non-breaking space (keep as NBSP)
+    ("Â®", "®"),  # Â® → ®
+    ("Â©", "©"),  # Â© → ©
     ("â¢", "•"),  # â€¢ → bullet •
     ("ð¤", "\U0001f917"),  # ðŸ¤— → 🤗
     ("ð¡", "\U0001f6e1"),  # ðŸ›¡ → 🛡
@@ -136,12 +138,12 @@ def _is_benign_normalization(c: str) -> bool:
     mojibake is made of, never are.
     """
     o = ord(c)
-    if 0xFE00 <= o <= 0xFE0F or o == 0x200D:      # variation selectors, ZWJ
+    if 0xFE00 <= o <= 0xFE0F or o == 0x200D:  # variation selectors, ZWJ
         return True
     return (
-        0x1F300 <= o <= 0x1FAFF                    # emoji & pictographs
-        or 0x2600 <= o <= 0x27BF                   # misc symbols / dingbats
-        or 0x1F000 <= o <= 0x1F2FF                 # mahjong .. enclosed supplement
+        0x1F300 <= o <= 0x1FAFF  # emoji & pictographs
+        or 0x2600 <= o <= 0x27BF  # misc symbols / dingbats
+        or 0x1F000 <= o <= 0x1F2FF  # mahjong .. enclosed supplement
     )
 
 
@@ -155,13 +157,18 @@ def _is_benign_normalization(c: str) -> bool:
 # Safe because mojibake is MULTI-CHARACTER Latin-1 wreckage (a curly apostrophe arrives as
 # the three-byte sequence rendered 'a-circumflex, euro, trademark'), and folding a single
 # smart quote cannot hide that.
-_TYPOGRAPHIC_FOLD = str.maketrans({
-    "‘": "'", "’": "'",           # single quotes
-    "“": '"', "”": '"',           # double quotes
-    "–": "-", "—": "-",           # en / em dash
-    "…": "...",                        # ellipsis
-    " ": " ",                          # non-breaking space
-})
+_TYPOGRAPHIC_FOLD = str.maketrans(
+    {
+        "‘": "'",
+        "’": "'",  # single quotes
+        "“": '"',
+        "”": '"',  # double quotes
+        "–": "-",
+        "—": "-",  # en / em dash
+        "…": "...",  # ellipsis
+        " ": " ",  # non-breaking space
+    }
+)
 
 
 def _strip_benign(s: str) -> str:
@@ -270,8 +277,8 @@ def run(dry_run: bool = False) -> int:
     # Write report
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with REPORT_PATH.open("w", encoding="utf-8") as rpt:
-        rpt.write(f"# Mojibake Repair Report\n\n")
-        rpt.write(f"Generated: {datetime.now(timezone.utc).isoformat()}  \n")
+        rpt.write("# Mojibake Repair Report\n\n")
+        rpt.write(f"Generated: {datetime.now(UTC).isoformat()}  \n")
         rpt.write(f"Mode: {'dry-run' if dry_run else 'in-place repair'}  \n")
         rpt.write(f"Files changed: {len(changed)}  \n")
         rpt.write(f"Total sequences fixed: {total_chars_fixed}  \n\n")
@@ -324,7 +331,9 @@ def scan_only() -> int:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Repair UTF-8/CP1252 mojibake in docs")
     parser.add_argument("--dry-run", action="store_true", help="Report only, no writes")
-    parser.add_argument("--scan", action="store_true", help="CI scan mode: exit 1 if any mojibake found")
+    parser.add_argument(
+        "--scan", action="store_true", help="CI scan mode: exit 1 if any mojibake found"
+    )
     args = parser.parse_args()
     if args.scan:
         sys.exit(scan_only())

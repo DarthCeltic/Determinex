@@ -21,19 +21,22 @@ Run:
   python scripts/analysis/patch_on_top_gen.py --tool ariga__atlas.6d81150 --backend deepseek
   python scripts/analysis/patch_on_top_gen.py --revert-list c:/tmp/revert_list.txt
 """
+
 from __future__ import annotations
+
 import argparse
-import glob
-import json
-import os
 import sys
 from pathlib import Path
 
 # Import infrastructure from llm_gen_override
 sys.path.insert(0, str(Path(__file__).parent))
-from llm_gen_override import (load_pb_meta, load_failures, load_snippets,
-                              call_llm, extract_python_from_response,
-                              find_scaffold_main)
+from llm_gen_override import (
+    call_llm,
+    extract_python_from_response,
+    find_scaffold_main,
+    load_failures,
+    load_pb_meta,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 OVERRIDES_DIR = ROOT / "corpus" / "programbench" / "per_tool_overrides"
@@ -98,7 +101,10 @@ def build_patch_prompt(tool_key: str, meta: dict, fail_data: dict) -> str:
 def validate_preserves_universal(code: str) -> tuple[bool, str]:
     """Verify code preserves key universal patterns. Returns (ok, reason)."""
     checks = [
-        ("no-args rc=2", any(p in code for p in ("if not argv:", "if len(argv) == 0", "if len(sys.argv) <= 1"))),
+        (
+            "no-args rc=2",
+            any(p in code for p in ("if not argv:", "if len(argv) == 0", "if len(sys.argv) <= 1")),
+        ),
         ("--help handler", "--help" in code or "-h" in code),
         ("sys.exit / return code", "sys.exit" in code or "return 0" in code or "return 2" in code),
         ("SIGPIPE handler", "SIGPIPE" in code),
@@ -109,8 +115,13 @@ def validate_preserves_universal(code: str) -> tuple[bool, str]:
     return (True, "ok")
 
 
-def generate_patch(tool_key: str, meta: dict, failures: dict,
-                    backend: str = "deepseek", model: str = "deepseek-chat") -> bool:
+def generate_patch(
+    tool_key: str,
+    meta: dict,
+    failures: dict,
+    backend: str = "deepseek",
+    model: str = "deepseek-chat",
+) -> bool:
     fail_data = failures.get(tool_key)
     if not fail_data:
         print(f"  {tool_key}: no failure data")
@@ -142,7 +153,9 @@ def generate_patch(tool_key: str, meta: dict, failures: dict,
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tool", help="single tool_key")
-    ap.add_argument("--revert-list", help="file with tool_keys (one per line) — usually c:/tmp/revert_list.txt")
+    ap.add_argument(
+        "--revert-list", help="file with tool_keys (one per line) — usually c:/tmp/revert_list.txt"
+    )
     ap.add_argument("--backend", default="deepseek")
     ap.add_argument("--model", default="deepseek-chat")
     args = ap.parse_args()
@@ -153,7 +166,11 @@ def main():
     if args.tool:
         candidates = [args.tool]
     elif args.revert_list:
-        candidates = [l.strip() for l in open(args.revert_list, encoding="utf-8").read().splitlines() if l.strip()]
+        candidates = [
+            l.strip()
+            for l in open(args.revert_list, encoding="utf-8").read().splitlines()
+            if l.strip()
+        ]
     else:
         print("Must specify --tool or --revert-list")
         sys.exit(1)

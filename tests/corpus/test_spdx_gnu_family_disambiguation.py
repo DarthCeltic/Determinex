@@ -63,8 +63,7 @@ _GRANT = "either version 3 of the License, or (at your option) any later version
 def test_affero_is_never_read_as_plain_gpl(text):
     got = normalize(text)
     assert got is not None and got.startswith("AGPL-3.0"), (
-        f"{text!r} normalised to {got!r}; the GPL rule matched across the word "
-        f"'Affero' again"
+        f"{text!r} normalised to {got!r}; the GPL rule matched across the word 'Affero' again"
     )
 
 
@@ -80,8 +79,7 @@ def test_affero_is_never_read_as_plain_gpl(text):
 def test_lesser_is_never_read_as_plain_gpl(text):
     got = normalize(text)
     assert got is not None and got.startswith("LGPL-3.0"), (
-        f"{text!r} normalised to {got!r}; 'gpl-3'/'gplv3' matched inside the "
-        f"'lgpl' spelling again"
+        f"{text!r} normalised to {got!r}; 'gpl-3'/'gplv3' matched inside the 'lgpl' spelling again"
     )
 
 

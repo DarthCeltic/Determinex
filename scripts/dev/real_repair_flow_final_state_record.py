@@ -1,9 +1,9 @@
 """Records for REAL_REPAIR_FLOW_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REAL_REPAIR_FLOW_FINAL_STATE_TOKENS = (
     "REAL_REPAIR_FLOW_FINAL_STATE_WRITTEN",

@@ -16,6 +16,7 @@ Mutation types:
 The _run method is designed for monkey-patching in tests:
     extractor._run = lambda cmd, cwd=None: (0, "1 passed", "")
 """
+
 from __future__ import annotations
 
 import difflib
@@ -30,13 +31,9 @@ from typing import Any
 log = logging.getLogger(__name__)
 
 # None guard: `if x is None:` at any indent level
-_NONE_GUARD_RE = re.compile(
-    r'^(?P<indent>[ \t]*)if\s+\w+\s+is\s+None\s*:', re.M
-)
+_NONE_GUARD_RE = re.compile(r"^(?P<indent>[ \t]*)if\s+\w+\s+is\s+None\s*:", re.M)
 # Assert statement: `assert <expr>` not followed by True
-_ASSERT_RE = re.compile(
-    r'^(?P<indent>[ \t]*)assert\s+(?!True\b)(?P<expr>[^\n]+)', re.M
-)
+_ASSERT_RE = re.compile(r"^(?P<indent>[ \t]*)assert\s+(?!True\b)(?P<expr>[^\n]+)", re.M)
 
 
 @dataclass
@@ -46,9 +43,9 @@ class PythonRepairTask:
     original_block: str
     mutated_block: str
     line_number: int
-    mutation_type: str              # "none_guard_removal" | "assert_removal"
+    mutation_type: str  # "none_guard_removal" | "assert_removal"
     failure_output: str
-    failure_type: str               # "assertion_error" | "attribute_error" | "type_error" | "test_failure"
+    failure_type: str  # "assertion_error" | "attribute_error" | "type_error" | "test_failure"
     repair_patch: str = ""
     build_system: str = "pytest"
     framework: str = "python"
@@ -90,8 +87,11 @@ class PythonTaskExtractor:
         """Execute a command. Monkey-patch this in tests."""
         try:
             r = subprocess.run(
-                cmd, capture_output=True, text=True,
-                cwd=cwd or self._root, timeout=self._timeout,
+                cmd,
+                capture_output=True,
+                text=True,
+                cwd=cwd or self._root,
+                timeout=self._timeout,
             )
             return r.returncode, r.stdout, r.stderr
         except subprocess.TimeoutExpired:
@@ -105,9 +105,7 @@ class PythonTaskExtractor:
 
     def verify_baseline(self) -> tuple[bool, str]:
         """Run python -m pytest -q. Return (passed, error_msg)."""
-        rc, stdout, stderr = self._run(
-            ["python", "-m", "pytest", "-q", "--tb=no", "--no-header"]
-        )
+        rc, stdout, stderr = self._run(["python", "-m", "pytest", "-q", "--tb=no", "--no-header"])
         if rc == 0:
             return True, ""
         return False, (stdout + stderr)[:500]
@@ -118,8 +116,19 @@ class PythonTaskExtractor:
 
     def find_python_sources(self) -> list[Path]:
         """All .py files under project root, excluding common non-source dirs."""
-        excluded = {".venv", "venv", "env", ".env", "__pycache__",
-                    ".tox", ".nox", "dist", "build", ".git", "node_modules"}
+        excluded = {
+            ".venv",
+            "venv",
+            "env",
+            ".env",
+            "__pycache__",
+            ".tox",
+            ".nox",
+            "dist",
+            "build",
+            ".git",
+            "node_modules",
+        }
         result = []
         for p in self._root.rglob("*.py"):
             parts = set(p.parts)
@@ -142,13 +151,15 @@ class PythonTaskExtractor:
             if body_start < len(lines):
                 next_line = lines[body_start].strip() if body_start < len(lines) else ""
                 if next_line.startswith(("raise", "return")):
-                    sites.append({
-                        "file": py_file,
-                        "line_number": line_no,
-                        "original": m.group(0),
-                        "indent": m.group("indent"),
-                        "relative_path": _safe_relative(py_file, self._root),
-                    })
+                    sites.append(
+                        {
+                            "file": py_file,
+                            "line_number": line_no,
+                            "original": m.group(0),
+                            "indent": m.group("indent"),
+                            "relative_path": _safe_relative(py_file, self._root),
+                        }
+                    )
         return sites
 
     # ------------------------------------------------------------------
@@ -166,6 +177,7 @@ class PythonTaskExtractor:
         """Write mutation; return (original_content, mutated_content)."""
         try:
             from hive.workspace import assert_inside_workspace
+
             assert_inside_workspace(py_file, self._root)
         except (ImportError, ValueError) as _esc:
             raise ValueError(f"Workspace escape blocked before mutation write: {_esc}") from _esc
@@ -242,6 +254,7 @@ class PythonTaskExtractor:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _classify_failure(output: str) -> str:
     lower = output.lower()
     if "attributeerror" in lower:
@@ -264,16 +277,19 @@ def _safe_relative(path: Path, root: Path) -> str:
 
 def _make_task_id(rel_path: str, line_number: int) -> str:
     digest = hashlib.blake2b(
-        f"{rel_path}:{line_number}".encode(), digest_size=8,
+        f"{rel_path}:{line_number}".encode(),
+        digest_size=8,
     ).hexdigest()
     return f"python_none_{digest}"
 
 
 def _unified_diff(path: str, original: str, mutated: str) -> str:
-    return "".join(difflib.unified_diff(
-        mutated.splitlines(keepends=True),
-        original.splitlines(keepends=True),
-        fromfile=f"a/{path}",
-        tofile=f"b/{path}",
-        lineterm="",
-    ))
+    return "".join(
+        difflib.unified_diff(
+            mutated.splitlines(keepends=True),
+            original.splitlines(keepends=True),
+            fromfile=f"a/{path}",
+            tofile=f"b/{path}",
+            lineterm="",
+        )
+    )

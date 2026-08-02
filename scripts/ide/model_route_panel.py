@@ -6,6 +6,7 @@ which specific reason blocks it), and the config/smoke state.
 
 Performs no model invocation. No subprocess. No network.
 """
+
 from __future__ import annotations
 
 import sys
@@ -17,10 +18,10 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from models.live_model_admission import (  # noqa: E402
+    _NETWORK_PROVIDER_TOKENS,
     LiveAdmissionMode,
     LiveModelAdmissionConfig,
     LiveModelAdmissionGate,
-    _NETWORK_PROVIDER_TOKENS,
 )
 from models.local_model_admission_policy import (  # noqa: E402
     LocalModelCandidate,
@@ -79,9 +80,12 @@ class IDEModelRoutePanel:
             block_reason = "MODEL_ROUTE_BLOCKED_STALE_MODEL"
         else:
             # Live admission with explicit opt-in.
-            gate = LiveModelAdmissionGate(config=LiveModelAdmissionConfig(
-                mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=opt_in,
-            ))
+            gate = LiveModelAdmissionGate(
+                config=LiveModelAdmissionConfig(
+                    mode=LiveAdmissionMode.OPT_IN_LIVE,
+                    opt_in_live=opt_in,
+                )
+            )
             candidate = LocalModelCandidate(
                 model_id=config.model_id,
                 provider=config.provider or ModelProvider.OLLAMA.value,

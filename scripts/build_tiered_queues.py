@@ -16,12 +16,14 @@ Outputs:
 
 Hetzner drains the light queue if heavy empties.
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 INSPECT = ROOT / "logs" / "mass_run_v2" / "inspection_report.json"
@@ -29,24 +31,24 @@ PB = Path("T:/determinex-programbench")
 
 # Fixture types that inflate predicted cost (each found = +N to score)
 FIXTURE_COST = {
-    "tmux":           500,   # near-certain timeout
-    "pty":            400,
+    "tmux": 500,  # near-certain timeout
+    "pty": 400,
     "network_server": 300,
-    "multiprocess":   200,
-    "fork":           200,
-    "threading":      100,
-    "popen_pipe":      50,
-    "mkfifo":          30,
-    "git_init":        20,
-    "tempfile":         5,
-    "subprocess_run":   1,
+    "multiprocess": 200,
+    "fork": 200,
+    "threading": 100,
+    "popen_pipe": 50,
+    "mkfifo": 30,
+    "git_init": 20,
+    "tempfile": 5,
+    "subprocess_run": 1,
 }
 
 # Subtype-flag bonuses
 HINT_COST = {
-    "generic_family":   0,
+    "generic_family": 0,
     "structured_output (json output mode)": 200,
-    "structured_output (csv output mode)":  200,
+    "structured_output (csv output mode)": 200,
     "golden_file_heavy (need byte-exact reproduction)": 400,
 }
 
@@ -69,25 +71,34 @@ def has_factory_eval(inst: str) -> bool:
         return False
     try:
         j = json.loads(ej.read_text(encoding="utf-8"))
-        return bool((j.get("test_results") or []))
+        return bool(j.get("test_results") or [])
     except Exception:
         return False
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--include-done", action="store_true",
-                    help="also include tools that already have eval.json (re-eval)")
-    ap.add_argument("--light-pct", type=int, default=35,
-                    help="bottom pct by cost goes to light queue (default 35)")
+    ap.add_argument(
+        "--include-done",
+        action="store_true",
+        help="also include tools that already have eval.json (re-eval)",
+    )
+    ap.add_argument(
+        "--light-pct",
+        type=int,
+        default=35,
+        help="bottom pct by cost goes to light queue (default 35)",
+    )
     ap.add_argument("--out-light", default="C:/tmp/queue_light.txt")
     ap.add_argument("--out-heavy", default="C:/tmp/queue_heavy.txt")
     args = ap.parse_args()
 
     if not INSPECT.is_file():
-        print("ERROR: inspection_report.json not found; run programbench_inspect_tool.py --all first")
+        print(
+            "ERROR: inspection_report.json not found; run programbench_inspect_tool.py --all first"
+        )
         return 1
-    reports: Dict[str, Any] = json.loads(INSPECT.read_text(encoding="utf-8"))
+    reports: dict[str, Any] = json.loads(INSPECT.read_text(encoding="utf-8"))
 
     scored = []
     for inst, rep in reports.items():
@@ -109,8 +120,10 @@ def main() -> int:
     Path(args.out_heavy).write_text("\n".join(heavy) + "\n", encoding="utf-8", newline="\n")
 
     print(f"queued {n} tools total")
-    print(f"  light (local, cost<={scored[cutoff-1][0]}): {len(light)} -> {args.out_light}")
-    print(f"  heavy (Hetzner, cost>={scored[cutoff][0] if cutoff < n else scored[-1][0]}): {len(heavy)} -> {args.out_heavy}")
+    print(f"  light (local, cost<={scored[cutoff - 1][0]}): {len(light)} -> {args.out_light}")
+    print(
+        f"  heavy (Hetzner, cost>={scored[cutoff][0] if cutoff < n else scored[-1][0]}): {len(heavy)} -> {args.out_heavy}"
+    )
     print()
     print("=== sample cheapest 5 (local) ===")
     for c, inst in scored[:5]:

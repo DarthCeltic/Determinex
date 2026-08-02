@@ -1,9 +1,9 @@
 """Records for IDE_SOURCE_APPLY_GATE_FLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDE_SOURCE_APPLY_GATE_STATUS_TOKENS = (
     "IDE_SOURCE_APPLY_BLOCKED_NO_APPROVAL",

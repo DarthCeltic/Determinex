@@ -1,9 +1,9 @@
 """Records for REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REAL_LOCAL_MODEL_HEALTHCHECK_STATUS_TOKENS = (
     "REAL_LOCAL_MODEL_HEALTHCHECK_PASSED",

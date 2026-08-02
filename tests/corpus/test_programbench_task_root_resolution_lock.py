@@ -96,7 +96,9 @@ def test_binary_only_match_does_not_become_task_and_source(tmp_path):
 
 
 def test_missing_tool_produces_no_match(tmp_path):
-    result = _resolver(tmp_path, [tmp_path / "empty"]).resolve_candidate(_candidate("does-not-exist"))
+    result = _resolver(tmp_path, [tmp_path / "empty"]).resolve_candidate(
+        _candidate("does-not-exist")
+    )
 
     assert result.resolution_status == ResolutionStatus.NO_MATCH.value
 
@@ -122,7 +124,9 @@ def test_batch_resolution_artifact_written(tmp_path):
     root = tmp_path / "roots"
     _make_tool(root, "sharkdp__fd.40d8eb3")
     batch = tmp_path / "batch.json"
-    batch.write_text(json.dumps({"selected": [_candidate(), _candidate("missing")]}), encoding="utf-8")
+    batch.write_text(
+        json.dumps({"selected": [_candidate(), _candidate("missing")]}), encoding="utf-8"
+    )
 
     report = _resolver(tmp_path, [root]).resolve_batch(batch)
 
@@ -165,7 +169,11 @@ def test_batch_001_names_resolve_or_miss_cleanly(tmp_path):
     root = tmp_path / "roots"
     _make_tool(root, "antonmedv__fx.86d0d34")
     _make_tool(root, "rcoh__angle-grinder.9c2fc88")
-    candidates = [_candidate("antonmedv__fx.86d0d34"), _candidate("rcoh__angle-grinder.9c2fc88"), _candidate("missing__tool.000")]
+    candidates = [
+        _candidate("antonmedv__fx.86d0d34"),
+        _candidate("rcoh__angle-grinder.9c2fc88"),
+        _candidate("missing__tool.000"),
+    ]
     batch = tmp_path / "batch.json"
     batch.write_text(json.dumps({"selected": candidates}), encoding="utf-8")
 

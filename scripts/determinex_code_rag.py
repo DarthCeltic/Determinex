@@ -14,6 +14,7 @@ Usage:
   determinex_code_rag.py --retrieve "how to parse argv flags in rust"   # query
   determinex_code_rag.py --add-pb    # append the PB tools' upstream repos to the clone set
 """
+
 from __future__ import annotations
 
 import json
@@ -26,20 +27,29 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 # Clones live here: T: on Windows (local), /root/determinex-coderag on the box (Linux). Override with
 # DETERMINEX_CODERAG. The box builds its OWN bounded code-RAG (the curated refs) by cloning from GitHub.
-CODE_DIR = Path(os.environ.get("DETERMINEX_CODERAG") or
-                ("T:/determinex-coderag" if os.name == "nt" else "/root/determinex-coderag"))
+CODE_DIR = Path(
+    os.environ.get("DETERMINEX_CODERAG")
+    or ("T:/determinex-coderag" if os.name == "nt" else "/root/determinex-coderag")
+)
 INDEX = ROOT / "corpus" / "programbench" / "code_rag_index.json"
 REPO_LIST = ROOT / "corpus" / "programbench" / "ingest" / "_code_repos.txt"
 
 # Curated idiomatic reference implementations (clean, well-tested; many are PB tools too).
 REPOS = [
-    "https://github.com/BurntSushi/ripgrep", "https://github.com/sharkdp/fd",
-    "https://github.com/sharkdp/bat", "https://github.com/sharkdp/hyperfine",
-    "https://github.com/clap-rs/clap", "https://github.com/serde-rs/serde",
-    "https://github.com/BurntSushi/xsv", "https://github.com/ajeetdsouza/zoxide",
-    "https://github.com/XAMPPRocky/tokei", "https://github.com/dandavison/delta",
-    "https://github.com/starship/starship", "https://github.com/junegunn/fzf",
-    "https://github.com/spf13/cobra", "https://github.com/charmbracelet/bubbletea",
+    "https://github.com/BurntSushi/ripgrep",
+    "https://github.com/sharkdp/fd",
+    "https://github.com/sharkdp/bat",
+    "https://github.com/sharkdp/hyperfine",
+    "https://github.com/clap-rs/clap",
+    "https://github.com/serde-rs/serde",
+    "https://github.com/BurntSushi/xsv",
+    "https://github.com/ajeetdsouza/zoxide",
+    "https://github.com/XAMPPRocky/tokei",
+    "https://github.com/dandavison/delta",
+    "https://github.com/starship/starship",
+    "https://github.com/junegunn/fzf",
+    "https://github.com/spf13/cobra",
+    "https://github.com/charmbracelet/bubbletea",
     "https://github.com/tldr-pages/tldr",
 ]
 _EXTS = {".rs", ".go", ".c", ".h", ".cpp", ".hpp", ".py", ".js", ".ts"}
@@ -50,8 +60,11 @@ _SYM = re.compile(r"\b(fn|func|def|class|struct|impl|type|interface)\s+([A-Za-z_
 def _repos() -> list[str]:
     repos = list(REPOS)
     if REPO_LIST.exists():
-        repos += [ln.strip() for ln in REPO_LIST.read_text(encoding="utf-8").splitlines()
-                  if ln.strip().startswith("http")]
+        repos += [
+            ln.strip()
+            for ln in REPO_LIST.read_text(encoding="utf-8").splitlines()
+            if ln.strip().startswith("http")
+        ]
     return sorted(set(repos))
 
 
@@ -66,8 +79,12 @@ def clone() -> dict:
             skipped += 1
             continue
         try:
-            r = subprocess.run(["git", "clone", "--depth", "1", "--quiet", url, str(d)],
-                               capture_output=True, text=True, timeout=300)
+            r = subprocess.run(
+                ["git", "clone", "--depth", "1", "--quiet", url, str(d)],
+                capture_output=True,
+                text=True,
+                timeout=300,
+            )
             if r.returncode == 0:
                 cloned += 1
                 print(f"  cloned {name}")
@@ -104,8 +121,10 @@ def build_index() -> dict:
             lst = idx.setdefault(sym, [])
             if rel not in lst and len(lst) < 25:
                 lst.append(rel)
-    INDEX.write_text(json.dumps({"root": str(CODE_DIR), "files": files, "symbols": idx},
-                                ensure_ascii=False), encoding="utf-8")
+    INDEX.write_text(
+        json.dumps({"root": str(CODE_DIR), "files": files, "symbols": idx}, ensure_ascii=False),
+        encoding="utf-8",
+    )
     return {"files": files, "symbols": len(idx)}
 
 
@@ -124,13 +143,18 @@ def retrieve(query: str, k: int = 8, exclude: str = "") -> list[dict]:
     for t in toks:
         for rel in idx.get(t, []):
             if excl and rel.replace("\\", "/").lower().startswith(excl + "/"):
-                continue                          # never return the tool's OWN source
+                continue  # never return the tool's OWN source
             hits[rel] = hits.get(rel, 0) + 1
     out = []
     for rel, score in sorted(hits.items(), key=lambda kv: -kv[1])[:k]:
         try:
-            out.append({"file": rel, "score": score,
-                        "snippet": (root / rel).read_text(encoding="utf-8", errors="replace")[:1500]})
+            out.append(
+                {
+                    "file": rel,
+                    "score": score,
+                    "snippet": (root / rel).read_text(encoding="utf-8", errors="replace")[:1500],
+                }
+            )
         except Exception:
             continue
     return out
@@ -148,7 +172,9 @@ def add_pb_repos() -> dict:
             if m:
                 repos.add(f"https://github.com/{m.group(1)}/{m.group(2)}")
     REPO_LIST.parent.mkdir(parents=True, exist_ok=True)
-    existing = set(REPO_LIST.read_text(encoding="utf-8").splitlines()) if REPO_LIST.exists() else set()
+    existing = (
+        set(REPO_LIST.read_text(encoding="utf-8").splitlines()) if REPO_LIST.exists() else set()
+    )
     allrepos = sorted(existing | repos)
     REPO_LIST.write_text("\n".join(r for r in allrepos if r.strip()), encoding="utf-8")
     return {"pb_repos": len(repos), "total_in_list": len(allrepos)}

@@ -6,12 +6,12 @@ arbitrary repo of that shape. Every row carries a ``ready_level``
 chosen from a closed set, and a per-column truth value for the seven
 apparatus checks.
 """
+
 from __future__ import annotations
 
 import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 READINESS_MATRIX_STATUS_TOKENS = (
     "READINESS_MATRIX_WRITTEN",

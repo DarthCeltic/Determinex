@@ -36,10 +36,10 @@ Hard rules enforced by load():
   * promoted cell with IMPLEMENTED claim but support_state ranked
     below demo_proven -> BLOCKED_MALFORMED
 """
+
 from __future__ import annotations
 
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -50,12 +50,10 @@ if str(_SCRIPTS) not in sys.path:
 
 from .universal_100_matrix_probe_batch_status_record import (
     FORBIDDEN_BROAD_CLAIM_PHRASES,
-    REACT_UNIVERSAL_100_MATRIX_PROBE_EXECUTION_BATCH_BINDING_STATUS_TOKENS,
     REQUIRED_FIXTURE_CAVEATS,
     ProbeCellRow,
     Universal100MatrixProbeBatchStatus,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 
@@ -210,11 +208,15 @@ def _awaiting(note: str, cfg: _BatchConfig = BATCH_001) -> Universal100MatrixPro
     )
 
 
-def _block(decision: str, note: str, cfg: _BatchConfig = BATCH_001) -> Universal100MatrixProbeBatchStatus:
+def _block(
+    decision: str, note: str, cfg: _BatchConfig = BATCH_001
+) -> Universal100MatrixProbeBatchStatus:
     return _shell(decision=decision, note=note, cfg=cfg)
 
 
-def _shell(*, decision: str, note: str, cfg: _BatchConfig = BATCH_001) -> Universal100MatrixProbeBatchStatus:
+def _shell(
+    *, decision: str, note: str, cfg: _BatchConfig = BATCH_001
+) -> Universal100MatrixProbeBatchStatus:
     return Universal100MatrixProbeBatchStatus(
         decision=decision,
         target_surface="Universal 100 Matrix Probe",
@@ -255,7 +257,9 @@ def _shell(*, decision: str, note: str, cfg: _BatchConfig = BATCH_001) -> Univer
         claim_boundary=(),
         forbidden_claims=(),
         blocked_path_summary=(),
-        strongest_truthful_new_claim="(awaiting evidence)" if "AWAITING" in decision else "(blocked)",
+        strongest_truthful_new_claim="(awaiting evidence)"
+        if "AWAITING" in decision
+        else "(blocked)",
         evidence_index_count=0,
         evidence_index_entry_count_field=0,
         evidence_index_valid=False,
@@ -471,9 +475,7 @@ def load(
     promoted_count = int(summary.get("cells_promoted", len(promoted)))
     blocked_or_forbidden = int(summary.get("blocked_or_forbidden", len(blocked)))
 
-    machine_paths = tuple(sorted(
-        str(p) for p in (blob.get("output_paths") or [])
-    ))
+    machine_paths = tuple(sorted(str(p) for p in (blob.get("output_paths") or [])))
 
     return Universal100MatrixProbeBatchStatus(
         decision="REACT_UNIVERSAL_100_MATRIX_PROBE_EXECUTION_BATCH_BINDING_PASSED",
@@ -517,11 +519,17 @@ def load(
         blocked_path_summary=_blocked_path_summary(blob),
         strongest_truthful_new_claim=str(blob.get("strongest_truthful_new_claim") or ""),
         evidence_index_count=int(evidence_health.get("evidence_index_count", 0)),
-        evidence_index_entry_count_field=int(evidence_health.get("evidence_index_entry_count_field", 0)),
+        evidence_index_entry_count_field=int(
+            evidence_health.get("evidence_index_entry_count_field", 0)
+        ),
         evidence_index_valid=bool(evidence_health.get("evidence_index_valid", False)),
         append_only_ledger_status=str(evidence_health.get("append_only_ledger_status", "")),
-        append_only_ledger_chain_valid=bool(evidence_health.get("append_only_ledger_chain_valid", False)),
-        append_only_ledger_entry_count=int(evidence_health.get("append_only_ledger_entry_count", 0)),
+        append_only_ledger_chain_valid=bool(
+            evidence_health.get("append_only_ledger_chain_valid", False)
+        ),
+        append_only_ledger_entry_count=int(
+            evidence_health.get("append_only_ledger_entry_count", 0)
+        ),
         count_drift_status=str(evidence_health.get("count_drift_status", "")),
         count_drift_expected=int(evidence_health.get("count_drift_expected", 0)),
         count_drift_actual=int(evidence_health.get("count_drift_actual", 0)),

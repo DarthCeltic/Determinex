@@ -6,6 +6,7 @@ The drain pool answers "what has been evaluated?" This script answers
 reject reason, scores closeness to lock, and writes a human/agent-readable
 queue. It does not mutate overrides or launch evals.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -15,7 +16,6 @@ from pathlib import Path
 from typing import Any
 
 from pb_native_source_guard import check_path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 STAGING = ROOT / ".determinex_staging"
@@ -43,12 +43,18 @@ def _classify(gate: dict[str, Any]) -> tuple[str, str]:
     if classes:
         top, count = classes.most_common(1)[0]
         if top == "missing_executable":
-            return "infra-path", f"{count} path/binary regressions; fix compile.sh/executable layout first"
+            return (
+                "infra-path",
+                f"{count} path/binary regressions; fix compile.sh/executable layout first",
+            )
         if top == "compile_failed":
             return "build-deps", f"{count} compile/build failures; fix toolchain/deps first"
         if newly <= 3 and passed and runnable and runnable - passed <= 10:
             return "near-lock-behavior", f"{newly} regressions; targeted behavior patch likely"
-        return "behavioral-regression", f"{newly} regressions; cluster by failure messages before rerun"
+        return (
+            "behavioral-regression",
+            f"{newly} regressions; cluster by failure messages before rerun",
+        )
     if "compile" in reason.lower() or passed == 0:
         return "build-deps", "candidate produced no useful runnable/pass signal"
     if runnable and runnable - passed <= 10:
@@ -99,7 +105,9 @@ def build_queue() -> list[dict[str, Any]]:
         remaining = max(runnable - passed, 0)
         newly_failing = len(delta.get("newly_failing") or [])
         fix_class, sketch = _classify(gate)
-        guard = check_path(ROOT / "corpus" / "programbench" / "per_tool_overrides" / slug, slug=slug)
+        guard = check_path(
+            ROOT / "corpus" / "programbench" / "per_tool_overrides" / slug, slug=slug
+        )
 
         # Higher is better: near locks, positive raw gain, low regression count,
         # and native-source-ready candidates rise to the top.
@@ -206,7 +214,9 @@ def write_fix_packets(rows: list[dict[str, Any]], *, limit: int) -> None:
         ]
         if examples:
             for name in examples:
-                msg = fail_messages.get(name) or (delta.get("regression_classes", {}).get(name, {}) or {}).get("regression_hint", "")
+                msg = fail_messages.get(name) or (
+                    delta.get("regression_classes", {}).get(name, {}) or {}
+                ).get("regression_hint", "")
                 msg = str(msg).replace("\r", "\\r")
                 if len(msg) > 1200:
                     msg = msg[:1200] + "..."
@@ -232,7 +242,9 @@ def write_fix_packets(rows: list[dict[str, Any]], *, limit: int) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--top", type=int, default=25)
-    ap.add_argument("--packets", type=int, default=20, help="number of per-tool fix packets to write")
+    ap.add_argument(
+        "--packets", type=int, default=20, help="number of per-tool fix packets to write"
+    )
     args = ap.parse_args()
     rows = build_queue()
     write_outputs(rows)

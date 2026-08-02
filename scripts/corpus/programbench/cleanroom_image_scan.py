@@ -7,11 +7,12 @@ import json
 import shutil
 import subprocess
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -172,7 +173,11 @@ class ProgramBenchCleanroomImageScan:
             if int(summary.get("critical") or 0) == 0 and int(summary.get("high") or 0) == 0
             else CleanroomImageScanStatus.CLEANROOM_IMAGE_SCAN_FAILED.value
         )
-        reasons = [] if status == CleanroomImageScanStatus.CLEANROOM_IMAGE_SCAN_PASSED.value else ["critical_or_high_findings_present"]
+        reasons = (
+            []
+            if status == CleanroomImageScanStatus.CLEANROOM_IMAGE_SCAN_PASSED.value
+            else ["critical_or_high_findings_present"]
+        )
         return self._write_scan_record(
             status=status,
             import_path=import_path,
@@ -304,7 +309,14 @@ def normalize_scan_output(scanner: str, raw: str) -> list[dict[str, Any]]:
 
 
 def summarize_findings(findings: list[dict[str, Any]]) -> dict[str, int]:
-    summary = {"critical": 0, "high": 0, "medium": 0, "low": 0, "unknown": 0, "total": len(findings)}
+    summary = {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "unknown": 0,
+        "total": len(findings),
+    }
     for finding in findings:
         sev = str(finding.get("severity") or "unknown").lower()
         if sev not in summary:
@@ -328,7 +340,9 @@ def _normalize_trivy(data: dict[str, Any]) -> list[dict[str, Any]]:
                     "target": target,
                 }
             )
-    return sorted(out, key=lambda item: (item["severity"], item["id"], item["package"], item["target"]))
+    return sorted(
+        out, key=lambda item: (item["severity"], item["id"], item["package"], item["target"])
+    )
 
 
 def _normalize_grype(data: dict[str, Any]) -> list[dict[str, Any]]:
@@ -341,12 +355,18 @@ def _normalize_grype(data: dict[str, Any]) -> list[dict[str, Any]]:
                 "id": str(vuln.get("id") or ""),
                 "package": str(artifact.get("name") or ""),
                 "installed_version": str(artifact.get("version") or ""),
-                "fixed_version": str(vuln.get("fix", {}).get("versions", [""])[0] if isinstance(vuln.get("fix"), dict) and vuln.get("fix", {}).get("versions") else ""),
+                "fixed_version": str(
+                    vuln.get("fix", {}).get("versions", [""])[0]
+                    if isinstance(vuln.get("fix"), dict) and vuln.get("fix", {}).get("versions")
+                    else ""
+                ),
                 "severity": str(vuln.get("severity") or "UNKNOWN").lower(),
                 "target": str(artifact.get("type") or ""),
             }
         )
-    return sorted(out, key=lambda item: (item["severity"], item["id"], item["package"], item["target"]))
+    return sorted(
+        out, key=lambda item: (item["severity"], item["id"], item["package"], item["target"])
+    )
 
 
 def _detect_scanner(artifact_path: Path) -> ScannerSpec | None:
@@ -354,22 +374,40 @@ def _detect_scanner(artifact_path: Path) -> ScannerSpec | None:
     if trivy:
         version = _detected_version([trivy, "--version"])
         if version is not None:
-            return ScannerSpec("trivy", version, [trivy, "image", "--input", str(artifact_path), "--format", "json"])
+            return ScannerSpec(
+                "trivy",
+                version,
+                [trivy, "image", "--input", str(artifact_path), "--format", "json"],
+            )
     grype = shutil.which("grype")
     if grype:
         version = _detected_version([grype, "version", "-o", "json"])
         if version is not None:
-            return ScannerSpec("grype", version, [grype, f"docker-archive:{artifact_path}", "-o", "json"])
+            return ScannerSpec(
+                "grype", version, [grype, f"docker-archive:{artifact_path}", "-o", "json"]
+            )
     docker = shutil.which("docker")
     if docker and _docker_scout_usable(docker):
         version = _version([docker, "scout", "version"])
-        return ScannerSpec("docker_scout", version, [docker, "scout", "cves", "--format", "json", f"docker-archive://{artifact_path}"])
+        return ScannerSpec(
+            "docker_scout",
+            version,
+            [docker, "scout", "cves", "--format", "json", f"docker-archive://{artifact_path}"],
+        )
     return None
 
 
 def _docker_scout_usable(docker: str) -> bool:
     try:
-        proc = subprocess.run([docker, "scout", "version"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=15, check=False)
+        proc = subprocess.run(
+            [docker, "scout", "version"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=15,
+            check=False,
+        )
     except Exception:
         return False
     return proc.returncode == 0
@@ -377,7 +415,15 @@ def _docker_scout_usable(docker: str) -> bool:
 
 def _version(command: list[str]) -> str:
     try:
-        proc = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=15, check=False)
+        proc = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=15,
+            check=False,
+        )
     except Exception:
         return "unknown"
     return (proc.stdout or proc.stderr or "unknown").strip().splitlines()[0][:160]
@@ -385,7 +431,15 @@ def _version(command: list[str]) -> str:
 
 def _detected_version(command: list[str]) -> str | None:
     try:
-        proc = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=15, check=False)
+        proc = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=15,
+            check=False,
+        )
     except Exception:
         return None
     if proc.returncode != 0:
@@ -414,14 +468,20 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Scan a quarantined ProgramBench cleanroom image artifact.")
+    parser = argparse.ArgumentParser(
+        description="Scan a quarantined ProgramBench cleanroom image artifact."
+    )
     parser.add_argument("import_record", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_image_scans"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_image_scans"),
+    )
     args = parser.parse_args()
     result = ProgramBenchCleanroomImageScan(
         CleanroomImageScanConfig(root=args.root, output_dir=args.output_dir)

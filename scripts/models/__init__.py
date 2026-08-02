@@ -13,4 +13,5 @@ Public surface:
   from models.model_router_record import RouteRecord
   from models.model_inventory import LocalModelInventory
 """
+
 from __future__ import annotations

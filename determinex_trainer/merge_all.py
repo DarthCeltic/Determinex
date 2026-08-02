@@ -12,6 +12,7 @@ Usage:
   python determinex_trainer/merge_all.py --in ${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus/real_scale --out ${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus/merged
 """
 
+import os
 import argparse
 import hashlib
 import json
@@ -19,8 +20,14 @@ import re
 import sys
 from pathlib import Path
 
-_DEFAULT_IN  = Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models"))) / "corpus/real_scale"
-_DEFAULT_OUT = Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models"))) / "corpus/merged"
+_DEFAULT_IN = (
+    Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models")))
+    / "corpus/real_scale"
+)
+_DEFAULT_OUT = (
+    Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models")))
+    / "corpus/merged"
+)
 
 # SQL output detection — matches partition_corpus.py's _SQL_OUTPUT pattern
 _SQL_RE = re.compile(
@@ -107,7 +114,9 @@ def merge(in_dir: Path, out_dir: Path) -> None:
     print("MERGE RESULTS")
     print("=" * 60)
     print(f"  Total raw read:      {total_raw:>10,}")
-    print(f"  Duplicates removed:  {skipped_dup:>10,}  ({skipped_dup/max(total_raw,1)*100:.1f}%)")
+    print(
+        f"  Duplicates removed:  {skipped_dup:>10,}  ({skipped_dup / max(total_raw, 1) * 100:.1f}%)"
+    )
     print(f"  SQL cap removed:     {skipped_sql_cap:>10,}  (cap={SQL_CAP:,})")
     print(f"  Bad JSON skipped:    {skipped_bad:>10,}")
     print(f"  Unique kept:         {len(kept):>10,}")
@@ -120,7 +129,7 @@ def merge(in_dir: Path, out_dir: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Merge and deduplicate corpus")
-    parser.add_argument("--in",  dest="in_dir",  type=Path, default=_DEFAULT_IN)
+    parser.add_argument("--in", dest="in_dir", type=Path, default=_DEFAULT_IN)
     parser.add_argument("--out", dest="out_dir", type=Path, default=_DEFAULT_OUT)
     args = parser.parse_args()
     merge(args.in_dir, args.out_dir)

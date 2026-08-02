@@ -12,12 +12,13 @@ Two-step localhost-only probe:
 No live inference. No source/repo input. No patch generation.
 Detection is a pure read; it never spawns Ollama or pulls a model.
 """
+
 from __future__ import annotations
 
 import shutil
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable, Optional
 from urllib.parse import urlparse
 
 from .real_ollama_provider_detection_record import (
@@ -25,13 +26,13 @@ from .real_ollama_provider_detection_record import (
     RealOllamaProviderDetectionRecord,
 )
 
-
 _LOCAL_HOSTS: frozenset[str] = frozenset({"localhost", "127.0.0.1", "::1"})
 
 
 @dataclass(frozen=True)
 class _TagsResult:
     """Result of a GET /api/tags probe."""
+
     ok: bool
     timed_out: bool
     not_running: bool
@@ -40,17 +41,16 @@ class _TagsResult:
 
 
 TagsTransport = Callable[[str, float], _TagsResult]
-BinaryLocator = Callable[[], Optional[str]]
+BinaryLocator = Callable[[], str | None]
 
 
-def _default_binary_locator() -> Optional[str]:
+def _default_binary_locator() -> str | None:
     return shutil.which("ollama")
 
 
 def _default_tags_transport(endpoint: str, timeout_seconds: float) -> _TagsResult:
     """Stdlib urllib probe — never imported by tests."""
     import json as _json
-    import socket
     import urllib.error
     import urllib.request
 
@@ -63,14 +63,18 @@ def _default_tags_transport(endpoint: str, timeout_seconds: float) -> _TagsResul
         with urllib.request.urlopen(req, timeout=timeout_seconds) as resp:
             if not (200 <= resp.status < 300):
                 return _TagsResult(
-                    ok=False, timed_out=False, not_running=False,
+                    ok=False,
+                    timed_out=False,
+                    not_running=False,
                     error=f"status {resp.status}",
                 )
             try:
                 payload = _json.loads(resp.read().decode("utf-8") or "{}")
             except (ValueError, UnicodeDecodeError) as exc:
                 return _TagsResult(
-                    ok=False, timed_out=False, not_running=False,
+                    ok=False,
+                    timed_out=False,
+                    not_running=False,
                     error=f"malformed json: {exc}",
                 )
             raw = payload.get("models") if isinstance(payload, dict) else None
@@ -82,31 +86,47 @@ def _default_tags_transport(endpoint: str, timeout_seconds: float) -> _TagsResul
                         if isinstance(nm, str) and nm:
                             names.append(nm)
             return _TagsResult(
-                ok=True, timed_out=False, not_running=False,
+                ok=True,
+                timed_out=False,
+                not_running=False,
                 models=tuple(names),
             )
-    except socket.timeout:
+    except TimeoutError:
         return _TagsResult(
-            ok=False, timed_out=True, not_running=False,
+            ok=False,
+            timed_out=True,
+            not_running=False,
             error="socket timeout",
         )
     except urllib.error.URLError as exc:
         reason = str(getattr(exc, "reason", exc)).lower()
         if "timed out" in reason:
             return _TagsResult(
-                ok=False, timed_out=True, not_running=False, error=str(exc),
+                ok=False,
+                timed_out=True,
+                not_running=False,
+                error=str(exc),
             )
         # Connection refused → not running.
         if "refused" in reason or "actively refused" in reason:
             return _TagsResult(
-                ok=False, timed_out=False, not_running=True, error=str(exc),
+                ok=False,
+                timed_out=False,
+                not_running=True,
+                error=str(exc),
             )
         return _TagsResult(
-            ok=False, timed_out=False, not_running=False, error=str(exc),
+            ok=False,
+            timed_out=False,
+            not_running=False,
+            error=str(exc),
         )
     except OSError as exc:
         return _TagsResult(
-            ok=False, timed_out=False, not_running=False, error=str(exc),
+            ok=False,
+            timed_out=False,
+            not_running=False,
+            error=str(exc),
         )
 
 
@@ -120,8 +140,8 @@ def detect(
     *,
     endpoint: str = "http://127.0.0.1:11434",
     timeout_seconds: float = 1.5,
-    binary_locator: Optional[BinaryLocator] = None,
-    tags_transport: Optional[TagsTransport] = None,
+    binary_locator: BinaryLocator | None = None,
+    tags_transport: TagsTransport | None = None,
 ) -> RealOllamaProviderDetectionRecord:
     """Detect a real local Ollama provider. Read-only.
 
@@ -132,7 +152,8 @@ def detect(
     if not _host_is_local(endpoint):
         return RealOllamaProviderDetectionRecord(
             decision="REAL_OLLAMA_PROVIDER_BLOCKED_NETWORK_PROVIDER",
-            endpoint=endpoint, elapsed_ms=0,
+            endpoint=endpoint,
+            elapsed_ms=0,
             network_provider_admitted=False,
             live_inference_called=False,
             notes=("endpoint host not in local set (127.0.0.1/localhost/::1)",),
@@ -143,7 +164,8 @@ def detect(
     if not bin_path:
         return RealOllamaProviderDetectionRecord(
             decision="REAL_OLLAMA_PROVIDER_BLOCKED_NOT_INSTALLED",
-            endpoint=endpoint, elapsed_ms=0,
+            endpoint=endpoint,
+            elapsed_ms=0,
             network_provider_admitted=False,
             live_inference_called=False,
             notes=("ollama binary not found on PATH",),
@@ -157,7 +179,8 @@ def detect(
     if result.timed_out:
         return RealOllamaProviderDetectionRecord(
             decision="REAL_OLLAMA_PROVIDER_BLOCKED_TIMEOUT",
-            endpoint=endpoint, elapsed_ms=elapsed,
+            endpoint=endpoint,
+            elapsed_ms=elapsed,
             network_provider_admitted=False,
             live_inference_called=False,
             notes=(result.error or "timed out",),
@@ -166,7 +189,8 @@ def detect(
     if result.not_running:
         return RealOllamaProviderDetectionRecord(
             decision="REAL_OLLAMA_PROVIDER_BLOCKED_NOT_RUNNING",
-            endpoint=endpoint, elapsed_ms=elapsed,
+            endpoint=endpoint,
+            elapsed_ms=elapsed,
             network_provider_admitted=False,
             live_inference_called=False,
             notes=(result.error or "daemon not running",),
@@ -175,7 +199,8 @@ def detect(
     if not result.ok:
         return RealOllamaProviderDetectionRecord(
             decision="REAL_OLLAMA_PROVIDER_BLOCKED_NOT_RUNNING",
-            endpoint=endpoint, elapsed_ms=elapsed,
+            endpoint=endpoint,
+            elapsed_ms=elapsed,
             network_provider_admitted=False,
             live_inference_called=False,
             notes=(result.error or "daemon responded unhealthily",),
@@ -183,7 +208,8 @@ def detect(
 
     return RealOllamaProviderDetectionRecord(
         decision="REAL_OLLAMA_PROVIDER_DETECTED",
-        endpoint=endpoint, elapsed_ms=elapsed,
+        endpoint=endpoint,
+        elapsed_ms=elapsed,
         models=result.models,
         network_provider_admitted=False,
         live_inference_called=False,

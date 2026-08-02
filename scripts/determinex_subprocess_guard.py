@@ -15,6 +15,7 @@ every compile.sh (like the bidir/hermetic plugins) so ANY hung-child tool is han
 
 Env: DETERMINEX_SUBPROC_TIMEOUT (default 60s). Loaded as a pytest11 plugin OR imported directly.
 """
+
 from __future__ import annotations
 
 import os
@@ -49,13 +50,16 @@ def install() -> None:
     subprocess._determinex_guarded = True  # type: ignore[attr-defined]
 
     _real_init = subprocess.Popen.__init__
+
     def _init(self, *a, **kw):  # child gets its own session so killpg hits the whole tree
         if not _NT and "start_new_session" not in kw and kw.get("preexec_fn") is None:
             kw["start_new_session"] = True
         _real_init(self, *a, **kw)
+
     subprocess.Popen.__init__ = _init  # type: ignore[assignment]
 
     _real_comm = subprocess.Popen.communicate
+
     def _comm(self, input=None, timeout=None):  # default timeout + killpg on ANY exit
         if timeout is None:
             timeout = _T
@@ -72,11 +76,13 @@ def install() -> None:
             except Exception:
                 pass
             raise
+
     subprocess.Popen.communicate = _comm
 
     # Popen.__exit__ calls wait() -- give it a bounded timeout + killpg so it can NEVER block on a
     # still-running child (the exact place the lz4 eval hung).
     _real_wait = subprocess.Popen.wait
+
     def _wait(self, timeout=None):
         # An EXPLICIT timeout (e.g. communicate's internal self.wait) must behave normally -- raise
         # TimeoutExpired so the caller can propagate it. Only a BARE wait() (Popen.__exit__, or a
@@ -91,9 +97,11 @@ def install() -> None:
                 return _real_wait(self, timeout=5)
             except Exception:
                 return -9
+
     subprocess.Popen.wait = _wait  # type: ignore[assignment]  # type: ignore[assignment]
 
     _real_run = subprocess.run
+
     def _run(*a, **kw):
         # (1) a default timeout, and (2) a NON-BLOCKING stdin. The #1 hang cause is a tool that
         # reads stdin (filter mode) invoked as subprocess.run([tool], capture_output=True) with no
@@ -107,6 +115,7 @@ def install() -> None:
         if not _NT and kw.get("input") is None and kw.get("stdin") is None and len(a) <= 3:
             kw["stdin"] = subprocess.DEVNULL
         return _real_run(*a, **kw)
+
     subprocess.run = _run  # type: ignore[assignment]
 
 
@@ -151,7 +160,12 @@ def _kill_children() -> None:
             escaped = False
             if pid != me:
                 try:
-                    cmd = open("/proc/" + d + "/cmdline", "rb").read().replace(b"\x00", b" ").decode("utf-8", "replace")
+                    cmd = (
+                        open("/proc/" + d + "/cmdline", "rb")
+                        .read()
+                        .replace(b"\x00", b" ")
+                        .decode("utf-8", "replace")
+                    )
                 except Exception:
                     cmd = ""
                 escaped = any(pat in cmd for pat in _ESCAPERS)
@@ -164,7 +178,9 @@ def _kill_children() -> None:
     try:  # one marker on the REAL stderr (bypasses pytest capture) so a fired watchdog is visible
         err = sys.__stderr__ or sys.stderr
         if err is not None:
-            err.write(f"determinex-guard: killing {len(targets)} hung proc(s) [tmux/executable/children]\n")
+            err.write(
+                f"determinex-guard: killing {len(targets)} hung proc(s) [tmux/executable/children]\n"
+            )
             err.flush()
     except Exception:
         pass
@@ -201,11 +217,12 @@ try:  # the per-test watchdog hook (only when loaded as a pytest plugin)
     @_pytest.hookimpl(hookwrapper=True)
     def pytest_runtest_protocol(item, nextitem):  # noqa: ARG001
         import threading
+
         done = threading.Event()
 
         def _watch():
             if not done.wait(_WATCHDOG):  # the whole test protocol exceeded the watchdog
-                _kill_children()          # -> kill its children so an orphan-pipe select/read unblocks
+                _kill_children()  # -> kill its children so an orphan-pipe select/read unblocks
 
         th = threading.Thread(target=_watch, daemon=True)
         th.start()

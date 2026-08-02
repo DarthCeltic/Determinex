@@ -7,6 +7,7 @@ PermissionError path, and load_json_with_retry's empty/malformed/missing-file
 semantics (preserved exactly from the original hand-rolled pb_pool_status.py
 `load()`).
 """
+
 from __future__ import annotations
 
 import json
@@ -78,9 +79,7 @@ def test_write_exhausts_retries_and_reraises(tmp_path, monkeypatch):
 
 
 def test_load_json_with_retry_missing_file_returns_default(tmp_path):
-    assert load_json_with_retry(tmp_path / "missing.json", {"fallback": True}) == {
-        "fallback": True
-    }
+    assert load_json_with_retry(tmp_path / "missing.json", {"fallback": True}) == {"fallback": True}
 
 
 def test_load_json_with_retry_empty_file_returns_default(tmp_path):

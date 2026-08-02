@@ -5,6 +5,7 @@ user can paste into any LLM, or that the IDE can pass to a configured provider.
 The packet is advisory only: it does not prove correctness, authorize source
 mutation, or open training eligibility.
 """
+
 from __future__ import annotations
 
 import json
@@ -14,7 +15,16 @@ from pathlib import Path
 SCHEMA_VERSION = "determinex-llm-program-advisory-v1"
 
 _REPAIR_WORDS = ("repair", "fix", "bug", "broken", "failing", "failure", "regression", "error")
-_UPKEEP_WORDS = ("maintain", "upkeep", "update", "upgrade", "dependency", "security", "refactor", "cleanup")
+_UPKEEP_WORDS = (
+    "maintain",
+    "upkeep",
+    "update",
+    "upgrade",
+    "dependency",
+    "security",
+    "refactor",
+    "cleanup",
+)
 
 _BUILD_FILES = (
     "pyproject.toml",
@@ -127,21 +137,29 @@ def _iter_workspace_files(workspace: Path, *, limit: int = 240) -> list[Path]:
     return out
 
 
-def inspect_workspace(workspace: Path | None) -> tuple[bool, tuple[str, ...], tuple[str, ...], tuple[str, ...]]:
+def inspect_workspace(
+    workspace: Path | None,
+) -> tuple[bool, tuple[str, ...], tuple[str, ...], tuple[str, ...]]:
     if workspace is None:
         return False, (), (), ()
     root = Path(workspace)
     files = _iter_workspace_files(root)
-    languages = sorted({
-        _LANGUAGE_EXTENSIONS[path.suffix.lower()]
-        for path in files
-        if path.suffix.lower() in _LANGUAGE_EXTENSIONS
-    })
+    languages = sorted(
+        {
+            _LANGUAGE_EXTENSIONS[path.suffix.lower()]
+            for path in files
+            if path.suffix.lower() in _LANGUAGE_EXTENSIONS
+        }
+    )
     build_signals = sorted(path.name for path in files if path.name in _BUILD_FILES)
     context_files = []
     for path in files:
         rel = path.relative_to(root).as_posix()
-        if path.name in _BUILD_FILES or path.name.lower() in {"readme.md", "readme", "requirements.txt"}:
+        if path.name in _BUILD_FILES or path.name.lower() in {
+            "readme.md",
+            "readme",
+            "requirements.txt",
+        }:
             context_files.append(rel)
         elif path.suffix.lower() in _LANGUAGE_EXTENSIONS and len(context_files) < 12:
             context_files.append(rel)
@@ -150,7 +168,9 @@ def inspect_workspace(workspace: Path | None) -> tuple[bool, tuple[str, ...], tu
     return root.is_dir(), tuple(languages), tuple(build_signals), tuple(context_files)
 
 
-def _verifier_plan(intent: str, languages: tuple[str, ...], build_signals: tuple[str, ...]) -> tuple[str, ...]:
+def _verifier_plan(
+    intent: str, languages: tuple[str, ...], build_signals: tuple[str, ...]
+) -> tuple[str, ...]:
     base = [
         "Identify the smallest deterministic verifier before proposing changes.",
         "Prefer existing project commands over invented commands.",
@@ -160,15 +180,21 @@ def _verifier_plan(intent: str, languages: tuple[str, ...], build_signals: tuple
     if intent == "repair":
         base.insert(0, "Reproduce the failure or capture the exact blocker before patching.")
     elif intent == "upkeep":
-        base.insert(0, "List compatibility risks and rollback steps before applying maintenance changes.")
+        base.insert(
+            0, "List compatibility risks and rollback steps before applying maintenance changes."
+        )
     else:
         base.insert(0, "Define acceptance tests before generating the first implementation.")
     if "package.json" in build_signals:
         base.append("For Node work, inspect package scripts and use lockfile-preserving installs.")
     if "pyproject.toml" in build_signals or "requirements.txt" in build_signals:
-        base.append("For Python work, use the repository virtualenv and run focused pytest targets.")
+        base.append(
+            "For Python work, use the repository virtualenv and run focused pytest targets."
+        )
     if "Cargo.toml" in build_signals or "rust" in languages:
-        base.append("For Rust work, run cargo fmt/check/test with the repo's configured target dir when needed.")
+        base.append(
+            "For Rust work, run cargo fmt/check/test with the repo's configured target dir when needed."
+        )
     return tuple(base)
 
 

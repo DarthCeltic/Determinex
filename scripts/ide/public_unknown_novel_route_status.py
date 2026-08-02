@@ -25,13 +25,13 @@ Hard rules enforced by load():
   * support_claimed True / promoted True / release_supported True ->
     BLOCKED_NOVEL_OVERCLAIM
 """
+
 from __future__ import annotations
 
 import json
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -40,9 +40,7 @@ if str(_SCRIPTS) not in sys.path:
 
 
 _REPO_ROOT = _HERE.parent.parent.parent
-_EDGE_DIR = (
-    _REPO_ROOT / "assurance" / "evidence" / "universal_100_edge_case_expansion_roadmap"
-)
+_EDGE_DIR = _REPO_ROOT / "assurance" / "evidence" / "universal_100_edge_case_expansion_roadmap"
 _EDGE_STATUS = _EDGE_DIR / "edge_case_status_20260529.json"
 _FLAGSHIP_DIR = (
     _REPO_ROOT / "assurance" / "evidence" / "public_tidal_wave_flagship_flow_certification"
@@ -222,7 +220,9 @@ def load(
             _token("BLOCKED_ROUTE_MISMATCH"),
             f"route_status={route_status!r} (expected {EXPECTED_ROUTE_STATUS!r})",
         )
-    support_claimed = bool(unknown_run.get("promoted") or unknown_status.get("support_claimed") or False)
+    support_claimed = bool(
+        unknown_run.get("promoted") or unknown_status.get("support_claimed") or False
+    )
     promoted = bool(unknown_run.get("promoted", False))
     release_supported = bool(unknown_run.get("release_supported", False))
     if support_claimed or promoted or release_supported:

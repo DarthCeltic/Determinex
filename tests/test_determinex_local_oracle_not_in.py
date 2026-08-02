@@ -6,6 +6,7 @@ meaningful if something checks a candidate's real output against it. Without thi
 expect_not_in would be captured correctly and then silently ignored -- a candidate whose
 output DOES contain a forbidden snippet would still be reported as passing.
 """
+
 from __future__ import annotations
 
 import sys
@@ -71,8 +72,9 @@ def test_empty_expect_not_in_never_fails():
 def test_combines_correctly_with_expect_in_and_expect_in_any():
     """All three constraint types (AND, OR-group, negative) can coexist and must ALL be
     satisfied."""
-    ex = _ex(expect_in=["mandatory"], expect_in_any=[["opt-a", "opt-b"]],
-              expect_not_in=["forbidden"])
+    ex = _ex(
+        expect_in=["mandatory"], expect_in_any=[["opt-a", "opt-b"]], expect_not_in=["forbidden"]
+    )
     ok, _, _ = oracle._check(ex, 0, "mandatory text plus opt-a here", "")
     assert ok
 

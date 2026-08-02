@@ -40,17 +40,14 @@ Usage:
 """
 
 import argparse
-import hashlib
 import json
-import os
 import shutil
 import subprocess
 import sys
 import tempfile
 import zipfile
 from pathlib import Path
-from urllib.request import urlopen, Request
-from urllib.error import URLError
+from urllib.request import Request, urlopen
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -59,20 +56,19 @@ if hasattr(sys.stdout, "reconfigure"):
 # CONFIG
 # ---------------------------------------------------------------------------
 
-PYTHON_VERSION      = "3.11.9"
+PYTHON_VERSION = "3.11.9"
 PYTHON_VERSION_NODOT = "311"
-PYTHON_EMBED_URL    = (
-    f"https://www.python.org/ftp/python/{PYTHON_VERSION}/"
-    f"python-{PYTHON_VERSION}-embed-amd64.zip"
+PYTHON_EMBED_URL = (
+    f"https://www.python.org/ftp/python/{PYTHON_VERSION}/python-{PYTHON_VERSION}-embed-amd64.zip"
 )
-GET_PIP_URL         = "https://bootstrap.pypa.io/get-pip.py"
+GET_PIP_URL = "https://bootstrap.pypa.io/get-pip.py"
 
-SIDECAR_DIR         = Path(__file__).parent / "sidecar"
-PYTHON_DIR          = SIDECAR_DIR / "python"
-SIDECAR_SCRIPT_SRC  = Path(__file__).parent / "determinex_sidecar.py"
+SIDECAR_DIR = Path(__file__).parent / "sidecar"
+PYTHON_DIR = SIDECAR_DIR / "python"
+SIDECAR_SCRIPT_SRC = Path(__file__).parent / "determinex_sidecar.py"
 SIDECAR_SCRIPT_DEST = SIDECAR_DIR / "determinex_sidecar.py"
 
-PROFILE_CACHE       = Path(__file__).parent.parent / "determinex_hardware_profile.json"
+PROFILE_CACHE = Path(__file__).parent.parent / "determinex_hardware_profile.json"
 
 # Minimum packages for the inference sidecar (NOT the training stack)
 _SIDECAR_BASE_PACKAGES = ["numpy"]
@@ -82,7 +78,7 @@ _SIDECAR_BASE_PACKAGES = ["numpy"]
 # have. The install failed with "Cannot import 'scikit_build_core.build'",
 # which reads like a missing dependency rather than a nonexistent version.
 # Pinned to a version that actually ships a cp311 win_amd64 wheel.
-_LLAMA_CPP_VERSION     = "0.3.34"
+_LLAMA_CPP_VERSION = "0.3.34"
 
 # Wheel index map (from hardware_profiler.py)
 _CUDA_WHEEL_INDEX = {
@@ -94,13 +90,14 @@ _CUDA_WHEEL_INDEX = {
     "11.8": "https://abetlen.github.io/llama-cpp-python/whl/cu118",
     "11.7": "https://abetlen.github.io/llama-cpp-python/whl/cu117",
 }
-_METAL_INDEX  = "https://abetlen.github.io/llama-cpp-python/whl/metal"
-_CPU_INDEX    = "https://abetlen.github.io/llama-cpp-python/whl/cpu"
+_METAL_INDEX = "https://abetlen.github.io/llama-cpp-python/whl/metal"
+_CPU_INDEX = "https://abetlen.github.io/llama-cpp-python/whl/cpu"
 
 
 # ---------------------------------------------------------------------------
 # HELPERS
 # ---------------------------------------------------------------------------
+
 
 def _log(msg: str, indent: int = 0):
     prefix = "  " * indent
@@ -131,7 +128,11 @@ def _download(url: str, dest: Path, label: str = "", dry_run: bool = False) -> P
                     downloaded += len(chunk)
                     if total:
                         pct = downloaded * 100 // total
-                        print(f"\r  {pct:3d}%  {downloaded//1024//1024} MB / {total//1024//1024} MB", end="", flush=True)
+                        print(
+                            f"\r  {pct:3d}%  {downloaded // 1024 // 1024} MB / {total // 1024 // 1024} MB",
+                            end="",
+                            flush=True,
+                        )
             print()
         except Exception:
             tmp_path.unlink(missing_ok=True)
@@ -159,9 +160,9 @@ def _detect_wheel_index() -> str:
     if PROFILE_CACHE.exists():
         try:
             profile = json.loads(PROFILE_CACHE.read_text())
-            vendor  = profile.get("gpu", {}).get("vendor", "")
-            cuda_v  = profile.get("gpu", {}).get("cuda_version", "")
-            metal   = profile.get("gpu", {}).get("metal_supported", False)
+            vendor = profile.get("gpu", {}).get("vendor", "")
+            cuda_v = profile.get("gpu", {}).get("cuda_version", "")
+            metal = profile.get("gpu", {}).get("metal_supported", False)
 
             if vendor == "nvidia" and cuda_v:
                 major_minor = ".".join(cuda_v.split(".")[:2])
@@ -184,13 +185,17 @@ def _detect_wheel_index() -> str:
         except Exception as e:
             _log(f"Could not parse hardware profile: {e} — falling back to CPU wheel", indent=1)
 
-    _log("No GPU profile found — CPU wheel (run hardware_profiler.py first for GPU acceleration)", indent=1)
+    _log(
+        "No GPU profile found — CPU wheel (run hardware_profiler.py first for GPU acceleration)",
+        indent=1,
+    )
     return _CPU_INDEX
 
 
 # ---------------------------------------------------------------------------
 # SETUP STEPS
 # ---------------------------------------------------------------------------
+
 
 def step_download_embed(dry_run: bool = False):
     """Step 1: Download and extract python-embed-amd64.zip."""
@@ -287,17 +292,31 @@ def step_install_packages(dry_run: bool = False):
     llama_pkg = f"llama-cpp-python=={_LLAMA_CPP_VERSION}"
     _log(f"  Installing {llama_pkg} from {wheel_index}...", indent=1)
     rc = _run_sidecar_python(
-        ["-m", "pip", "install", llama_pkg,
-         "--extra-index-url", wheel_index,
-         "--no-warn-script-location", "-q"],
+        [
+            "-m",
+            "pip",
+            "install",
+            llama_pkg,
+            "--extra-index-url",
+            wheel_index,
+            "--no-warn-script-location",
+            "-q",
+        ],
         dry_run=dry_run,
     )
     if rc != 0 and not dry_run:
         _log("  WARNING: GPU wheel install failed — retrying with CPU wheel", indent=1)
         rc = _run_sidecar_python(
-            ["-m", "pip", "install", llama_pkg,
-             "--extra-index-url", _CPU_INDEX,
-             "--no-warn-script-location", "-q"],
+            [
+                "-m",
+                "pip",
+                "install",
+                llama_pkg,
+                "--extra-index-url",
+                _CPU_INDEX,
+                "--no-warn-script-location",
+                "-q",
+            ],
             dry_run=dry_run,
         )
         if rc != 0 and not dry_run:
@@ -343,6 +362,7 @@ def step_verify(dry_run: bool = False) -> bool:
 # MAIN
 # ---------------------------------------------------------------------------
 
+
 def setup(force: bool = False, dry_run: bool = False):
     _log(f"=== Determinex Sidecar Setup (Python {PYTHON_VERSION}-embed-amd64) ===")
     _log(f"    Target dir: {SIDECAR_DIR}")
@@ -354,7 +374,7 @@ def setup(force: bool = False, dry_run: bool = False):
         return step_verify(dry_run)
 
     if PYTHON_DIR.exists() and force and not dry_run:
-        _log(f"  --force: removing existing sidecar...")
+        _log("  --force: removing existing sidecar...")
         shutil.rmtree(PYTHON_DIR)
 
     SIDECAR_DIR.mkdir(parents=True, exist_ok=True)
@@ -369,8 +389,8 @@ def setup(force: bool = False, dry_run: bool = False):
     if ok or dry_run:
         _log("\n=== Sidecar setup complete. ===")
         _log(f"  Spawn with: {PYTHON_DIR / 'python.exe'} {SIDECAR_SCRIPT_DEST}")
-        _log(f"  Protocol:   NDJSON on stdin/stdout")
-        _log(f"  Test:       python bundler/setup_sidecar.py --verify")
+        _log("  Protocol:   NDJSON on stdin/stdout")
+        _log("  Test:       python bundler/setup_sidecar.py --verify")
     else:
         _log("\n=== Sidecar setup FAILED. See errors above. ===")
         sys.exit(1)
@@ -378,8 +398,8 @@ def setup(force: bool = False, dry_run: bool = False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Determinex embedded Python sidecar setup")
-    parser.add_argument("--force",   action="store_true", help="Rebuild even if sidecar exists")
-    parser.add_argument("--verify",  action="store_true", help="Only verify existing sidecar")
+    parser.add_argument("--force", action="store_true", help="Rebuild even if sidecar exists")
+    parser.add_argument("--verify", action="store_true", help="Only verify existing sidecar")
     parser.add_argument("--dry-run", action="store_true", help="Print plan, don't execute")
     args = parser.parse_args()
 

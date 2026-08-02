@@ -1,16 +1,17 @@
 """SentinelBench shared fixtures and acceptance helpers."""
+
 from __future__ import annotations
 
-import sys
 import os
+import sys
 
 # Ensure scripts/ is on the path for all sentinelbench tests
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "scripts"))
 
 import pytest
-from determinex_safety import SafetyEngine
 from agents.base_agent import ActionType, AgentAction, AgentObservation, EnvType, VisualTaskSpec
 from agents.safety_governor import ActionSafetyGovernor
+from determinex_safety import SafetyEngine
 
 
 @pytest.fixture
@@ -58,4 +59,6 @@ def assert_denied(verdict, layer: str | None = None):
 
 def assert_passed(verdict):
     """Assert that a SafetyVerdict is safe."""
-    assert verdict.safe, f"Expected PASS but got DENY: reason={verdict.reason} layer={verdict.layer}"
+    assert verdict.safe, (
+        f"Expected PASS but got DENY: reason={verdict.reason} layer={verdict.layer}"
+    )

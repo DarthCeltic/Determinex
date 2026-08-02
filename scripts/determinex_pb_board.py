@@ -19,6 +19,7 @@ Buckets:
   GATED           -- gated:reject.
   UNKNOWN         -- no usable status.
 """
+
 from __future__ import annotations
 
 import json
@@ -36,8 +37,11 @@ def _archive_clean(slug: str) -> tuple[bool, str]:
         for d in LOCKED.iterdir():
             if not d.is_dir():
                 continue
-            if (d.name == slug or d.name.split(".")[0] == slug.split(".")[0]
-                    or d.name.split("__")[-1].split(".")[0] == slug.split("__")[-1].split(".")[0]):
+            if (
+                d.name == slug
+                or d.name.split(".")[0] == slug.split(".")[0]
+                or d.name.split("__")[-1].split(".")[0] == slug.split("__")[-1].split(".")[0]
+            ):
                 cands.append(d)
     for d in cands:
         rep = d / "eval_report.json"
@@ -88,8 +92,11 @@ def build_board() -> dict:
         s = (e.get("slug") or "").replace(".eval", "")
         key = None
         for c in canon:
-            if (c == s or c.split(".")[0] == s.split(".")[0]
-                    or c.split("__")[-1].split(".")[0] == s.split("__")[-1].split(".")[0]):
+            if (
+                c == s
+                or c.split(".")[0] == s.split(".")[0]
+                or c.split("__")[-1].split(".")[0] == s.split("__")[-1].split(".")[0]
+            ):
                 key = c
                 break
         if not key:
@@ -97,8 +104,17 @@ def build_board() -> dict:
         bucket, why = classify(e)
         prev = rows.get(key)
         # keep the best (verified > stale; higher score)
-        rank = {"VERIFIED_LOCK": 9, "CEILING_CERT": 7, "STALE_LOCK": 6, "NEAR_LOCK": 5,
-                "MID": 3, "CEILING_CONF": 3, "GATED": 2, "LOW": 1, "UNKNOWN": 0}
+        rank = {
+            "VERIFIED_LOCK": 9,
+            "CEILING_CERT": 7,
+            "STALE_LOCK": 6,
+            "NEAR_LOCK": 5,
+            "MID": 3,
+            "CEILING_CONF": 3,
+            "GATED": 2,
+            "LOW": 1,
+            "UNKNOWN": 0,
+        }
         if not prev or rank.get(bucket, 0) > rank.get(prev[0], 0):
             rows[key] = (bucket, why, e.get("official_score_pct") or 0)
     return rows
@@ -107,19 +123,27 @@ def build_board() -> dict:
 def main() -> int:
     rows = build_board()
     counts = Counter(b for b, _, _ in rows.values())
-    order = ["VERIFIED_LOCK", "STALE_LOCK", "CEILING_CERT", "CEILING_CONF",
-             "NEAR_LOCK", "MID", "LOW", "GATED", "UNKNOWN"]
+    order = [
+        "VERIFIED_LOCK",
+        "STALE_LOCK",
+        "CEILING_CERT",
+        "CEILING_CONF",
+        "NEAR_LOCK",
+        "MID",
+        "LOW",
+        "GATED",
+        "UNKNOWN",
+    ]
     print("=== HONEST PROGRAMBENCH BOARD ===")
     print(f"canonical tools mapped: {len(rows)}/200")
     for b in order:
         print(f"  {b:14s} {counts.get(b, 0)}")
-    print(f"\n  PROVEN LOCKS (clean archive): {counts.get('VERIFIED_LOCK',0)}")
-    print(f"  CLAIMED-BUT-STALE locks (re-archive/demote): {counts.get('STALE_LOCK',0)}")
-    print(f"  NEAR-LOCKS (>=90%, conversion targets): {counts.get('NEAR_LOCK',0)}")
+    print(f"\n  PROVEN LOCKS (clean archive): {counts.get('VERIFIED_LOCK', 0)}")
+    print(f"  CLAIMED-BUT-STALE locks (re-archive/demote): {counts.get('STALE_LOCK', 0)}")
+    print(f"  NEAR-LOCKS (>=90%, conversion targets): {counts.get('NEAR_LOCK', 0)}")
     # detail the actionable buckets
     for b in ("STALE_LOCK", "NEAR_LOCK"):
-        items = sorted([(s, w) for s, (bb, w, p) in rows.items() if bb == b],
-                       key=lambda x: x[0])
+        items = sorted([(s, w) for s, (bb, w, p) in rows.items() if bb == b], key=lambda x: x[0])
         print(f"\n--- {b} ({len(items)}) ---")
         for s, w in items[:60]:
             print(f"  {s:42s} {w}")
@@ -128,4 +152,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

@@ -1,9 +1,9 @@
 """Records for REAL_MODEL_DIAGNOSE_WITH_BUILD_VERIFIER_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REAL_MODEL_DIAGNOSE_WITH_BUILD_VERIFIER_STATUS_TOKENS = (
     "REAL_MODEL_DIAGNOSE_WITH_VERIFIER_WRITTEN",

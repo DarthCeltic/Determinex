@@ -9,6 +9,7 @@ Composes:
 into a flat IDELiveModelRepairFlowState the frontend can render.
 Pure function — no I/O, no source mutation.
 """
+
 from __future__ import annotations
 
 import sys

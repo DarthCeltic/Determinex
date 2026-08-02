@@ -1,9 +1,9 @@
 """Records for DETERMINEX_UNIFIED_PRODUCT_SPLASH_DEMO_SPEC_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 UNIFIED_PRODUCT_SPLASH_DEMO_SPEC_STATUS_TOKENS = (
     "UNIFIED_PRODUCT_SPLASH_DEMO_SPEC_WRITTEN",

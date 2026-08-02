@@ -69,6 +69,7 @@ Usage:
     # Legacy API still works (returns first CopyrightAlert or None)
     alert = g.check(generated_text, task_id="pb_run_001")
 """
+
 from __future__ import annotations
 
 import json
@@ -77,20 +78,23 @@ import os
 import re
 import unicodedata
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 log = logging.getLogger(__name__)
 
-_AUDIT_LOG = Path(os.environ.get(
-    "DETERMINEX_COPYRIGHT_AUDIT_LOG",
-    "logs/copyright_guard/audit.jsonl",
-))
-_ATTRIBUTION_LOG = Path(os.environ.get(
-    "DETERMINEX_ATTRIBUTION_LOG",
-    "logs/copyright_guard/attribution.jsonl",
-))
+_AUDIT_LOG = Path(
+    os.environ.get(
+        "DETERMINEX_COPYRIGHT_AUDIT_LOG",
+        "logs/copyright_guard/audit.jsonl",
+    )
+)
+_ATTRIBUTION_LOG = Path(
+    os.environ.get(
+        "DETERMINEX_ATTRIBUTION_LOG",
+        "logs/copyright_guard/attribution.jsonl",
+    )
+)
 
 # Minimum consecutive-token run for verbatim reproduction (copyright territory)
 _MIN_MATCH_TOKENS = int(os.environ.get("DETERMINEX_COPYRIGHT_MIN_TOKENS", "50"))
@@ -110,55 +114,168 @@ _OBSERVE_ONLY: bool = os.environ.get("DETERMINEX_PROVENANCE_MODE", "observe").lo
 # SPDX identifiers for permissive licenses.
 # Verbatim reuse of permissive-licensed material WITH attribution is legally expected
 # and is the system working correctly — produces AttributionTag, never CopyrightAlert.
-_LICENSE_PERMISSIVE = frozenset({
-    "MIT", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "BSD-4-Clause",
-    "ISC", "Unlicense", "0BSD", "CC0-1.0", "Zlib", "WTFPL",
-    "MIT OR Unlicense", "MIT/Apache-2.0",
-})
+_LICENSE_PERMISSIVE = frozenset(
+    {
+        "MIT",
+        "Apache-2.0",
+        "BSD-2-Clause",
+        "BSD-3-Clause",
+        "BSD-4-Clause",
+        "ISC",
+        "Unlicense",
+        "0BSD",
+        "CC0-1.0",
+        "Zlib",
+        "WTFPL",
+        "MIT OR Unlicense",
+        "MIT/Apache-2.0",
+    }
+)
 # SPDX identifiers for copyleft licenses.
 # Verbatim reuse triggers an attribution obligation and a warning; in enforce mode also a CopyrightAlert.
-_LICENSE_COPYLEFT = frozenset({
-    "GPL-2.0", "GPL-2.0-only", "GPL-2.0-or-later",
-    "GPL-3.0", "GPL-3.0-only", "GPL-3.0-or-later",
-    "LGPL-2.1", "LGPL-2.1-only", "LGPL-2.1-or-later",
-    "LGPL-3.0", "LGPL-3.0-only", "LGPL-3.0-or-later",
-    "AGPL-3.0", "AGPL-3.0-only", "AGPL-3.0-or-later",
-    "MPL-2.0", "EUPL-1.2",
-})
+_LICENSE_COPYLEFT = frozenset(
+    {
+        "GPL-2.0",
+        "GPL-2.0-only",
+        "GPL-2.0-or-later",
+        "GPL-3.0",
+        "GPL-3.0-only",
+        "GPL-3.0-or-later",
+        "LGPL-2.1",
+        "LGPL-2.1-only",
+        "LGPL-2.1-or-later",
+        "LGPL-3.0",
+        "LGPL-3.0-only",
+        "LGPL-3.0-or-later",
+        "AGPL-3.0",
+        "AGPL-3.0-only",
+        "AGPL-3.0-or-later",
+        "MPL-2.0",
+        "EUPL-1.2",
+    }
+)
 
 # Tokens too common in generated code to carry meaningful attribution signal.
 # Bigrams composed entirely of stopword pairs are filtered before Jaccard comparison
 # to reduce false positives on argparse scaffolds, error-handling idioms, test boilerplate.
 # Scope: calibrated against 47 PB locked tools (see scripts/pb_provenance_calibrate.py).
-_BIGRAM_STOPWORDS = frozenset({
-    # Python / general programming keywords
-    "import", "from", "def", "class", "return", "if", "else", "elif",
-    "for", "while", "try", "except", "with", "as", "in", "is", "not",
-    "and", "or", "pass", "raise", "yield", "lambda", "self", "cls",
-    "none", "true", "false", "print", "type", "int", "str", "bool",
-    "dict", "list", "set", "tuple", "len", "range", "any", "all",
-    "open", "read", "write", "close",
-    # Common identifiers in any project
-    "args", "kwargs", "sys", "os", "re", "json", "path", "main",
-    "log", "logger", "err", "error", "msg", "result", "data", "value",
-    "name", "key", "val", "out", "output", "input", "text", "code",
-    "parser", "argv", "help", "description", "add", "argument",
-    # Shell / build ubiquitous tokens
-    "echo", "exit", "set", "mkdir", "chmod", "cd", "cp", "mv", "rm",
-    "bash", "sh", "exec", "eval", "run", "build", "install",
-    # English function words that appear in comments
-    "the", "a", "an", "is", "to", "of", "be", "by", "at", "on",
-})
+_BIGRAM_STOPWORDS = frozenset(
+    {
+        # Python / general programming keywords
+        "import",
+        "from",
+        "def",
+        "class",
+        "return",
+        "if",
+        "else",
+        "elif",
+        "for",
+        "while",
+        "try",
+        "except",
+        "with",
+        "as",
+        "in",
+        "is",
+        "not",
+        "and",
+        "or",
+        "pass",
+        "raise",
+        "yield",
+        "lambda",
+        "self",
+        "cls",
+        "none",
+        "true",
+        "false",
+        "print",
+        "type",
+        "int",
+        "str",
+        "bool",
+        "dict",
+        "list",
+        "set",
+        "tuple",
+        "len",
+        "range",
+        "any",
+        "all",
+        "open",
+        "read",
+        "write",
+        "close",
+        # Common identifiers in any project
+        "args",
+        "kwargs",
+        "sys",
+        "os",
+        "re",
+        "json",
+        "path",
+        "main",
+        "log",
+        "logger",
+        "err",
+        "error",
+        "msg",
+        "result",
+        "data",
+        "value",
+        "name",
+        "key",
+        "val",
+        "out",
+        "output",
+        "input",
+        "text",
+        "code",
+        "parser",
+        "argv",
+        "help",
+        "description",
+        "add",
+        "argument",
+        # Shell / build ubiquitous tokens
+        "echo",
+        "exit",
+        "mkdir",
+        "chmod",
+        "cd",
+        "cp",
+        "mv",
+        "rm",
+        "bash",
+        "sh",
+        "exec",
+        "eval",
+        "run",
+        "build",
+        "install",
+        # English function words that appear in comments
+        "the",
+        "a",
+        "an",
+        "to",
+        "of",
+        "be",
+        "by",
+        "at",
+        "on",
+    }
+)
 
 # Valid source_type values and their display labels
 _SOURCE_TYPE_LABELS: dict[str, str] = {
-    "open_source":  "open source",
-    "academic":     "academic paper",
-    "patent":       "patent",
-    "commercial":   "commercial software",
-    "proprietary":  "proprietary IP",
-    "private":      "private source",
-    "unknown":      "source",
+    "open_source": "open source",
+    "academic": "academic paper",
+    "patent": "patent",
+    "commercial": "commercial software",
+    "proprietary": "proprietary IP",
+    "private": "private source",
+    "unknown": "source",
 }
 
 VALID_SOURCE_TYPES = set(_SOURCE_TYPE_LABELS)
@@ -169,9 +286,11 @@ VALID_MATCH_TYPES = {"verbatim_reproduction", "substantial_similarity", "inspira
 # Data types
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class RegisteredWork:
     """A work registered for verbatim-reproduction protection (copyright guard)."""
+
     label: str
     tokens: list[str]
 
@@ -190,10 +309,11 @@ class ReferenceSource:
       "private"      — Private/confidential material (internal only)
       "unknown"      — License or status not determined
     """
+
     label: str
     tokens: list[str]
-    bigrams: frozenset          # full bigrams — precomputed at register time
-    filtered_bigrams: frozenset # stopword-filtered bigrams — used for Jaccard comparison
+    bigrams: frozenset  # full bigrams — precomputed at register time
+    filtered_bigrams: frozenset  # stopword-filtered bigrams — used for Jaccard comparison
     source_type: str = "unknown"
     license: str = "unknown"
     url: str = ""
@@ -204,12 +324,13 @@ class ReferenceSource:
 @dataclass
 class CopyrightAlert:
     """Verbatim reproduction of a protected work detected."""
+
     task_id: str
     work_label: str
     match_length: int
     output_excerpt: str
     source_excerpt: str
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
 
     def __str__(self) -> str:
         return (
@@ -241,6 +362,7 @@ class AttributionTag:
       "substantial_similarity" — ≥SUBSTANTIAL_TOKEN_THRESHOLD tokens or ≥SUBSTANTIAL_BIGRAM_THRESHOLD bigram Jaccard
       "inspiration"           — ≥INSPIRATION_BIGRAM_THRESHOLD bigram Jaccard
     """
+
     task_id: str
     source_label: str
     source_type: str
@@ -249,9 +371,9 @@ class AttributionTag:
     authors: list[str]
     year: int | None
     match_type: str
-    similarity_score: float   # 0.0–1.0 (token overlap ratio or bigram Jaccard)
-    excerpt: str              # excerpt from output showing the match
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    similarity_score: float  # 0.0–1.0 (token overlap ratio or bigram Jaccard)
+    excerpt: str  # excerpt from output showing the match
+    timestamp: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
 
     def format_citation(self) -> str:
         """One-line citation string for embedding in output."""
@@ -292,10 +414,11 @@ class ProvenanceReport:
     Always safe to log and append reference blocks from.
     Never raises; invalid states produce empty lists, not exceptions.
     """
+
     task_id: str
     copyright_alerts: list[CopyrightAlert] = field(default_factory=list)
     attribution_tags: list[AttributionTag] = field(default_factory=list)
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
 
     @property
     def has_copyright_violation(self) -> bool:
@@ -347,18 +470,20 @@ class ProvenanceReport:
         alerted_labels = {t.source_label for t in tags}
         for alert in self.copyright_alerts:
             if alert.work_label not in alerted_labels:
-                tags.append(AttributionTag(
-                    task_id=self.task_id,
-                    source_label=alert.work_label,
-                    source_type="unknown",
-                    license="unknown",
-                    url="",
-                    authors=[],
-                    year=None,
-                    match_type="verbatim_reproduction",
-                    similarity_score=min(1.0, alert.match_length / max(_MIN_MATCH_TOKENS, 1)),
-                    excerpt=alert.output_excerpt,
-                ))
+                tags.append(
+                    AttributionTag(
+                        task_id=self.task_id,
+                        source_label=alert.work_label,
+                        source_type="unknown",
+                        license="unknown",
+                        url="",
+                        authors=[],
+                        year=None,
+                        match_type="verbatim_reproduction",
+                        similarity_score=min(1.0, alert.match_length / max(_MIN_MATCH_TOKENS, 1)),
+                        excerpt=alert.output_excerpt,
+                    )
+                )
 
         if not tags:
             return ""
@@ -380,13 +505,17 @@ class ProvenanceReport:
                 type_label = _SOURCE_TYPE_LABELS.get(tag.source_type, "source")
                 lines.append(f"- **[{type_label}]** {tag.source_label}")
                 if tag.authors:
-                    lines.append(f"  Authors: {', '.join(tag.authors)}"
-                                 + (f" ({tag.year})" if tag.year else ""))
+                    lines.append(
+                        f"  Authors: {', '.join(tag.authors)}"
+                        + (f" ({tag.year})" if tag.year else "")
+                    )
                 if tag.license not in ("", "unknown"):
                     lines.append(f"  License: {tag.license}")
                 if tag.url:
                     lines.append(f"  URL: {tag.url}")
-                lines.append(f"  Recognition: {tag.match_type} ({tag.similarity_score * 100:.1f}% overlap)")
+                lines.append(
+                    f"  Recognition: {tag.match_type} ({tag.similarity_score * 100:.1f}% overlap)"
+                )
                 lines.append("")
 
         return "\n".join(lines)
@@ -403,6 +532,7 @@ class ProvenanceReport:
 # ---------------------------------------------------------------------------
 # Tokenization and similarity helpers
 # ---------------------------------------------------------------------------
+
 
 def _tokenize(text: str) -> list[str]:
     """NFC-normalize, lowercase, split on whitespace/punctuation boundaries."""
@@ -463,7 +593,7 @@ def _longest_common_run(a: list[str], b: list[str]) -> tuple[int, int, int]:
 
 
 def _tokens_to_excerpt(tokens: list[str], start: int, length: int, max_chars: int = 200) -> str:
-    return " ".join(tokens[start:start + length])[:max_chars]
+    return " ".join(tokens[start : start + length])[:max_chars]
 
 
 def _license_tier(license_str: str) -> str:
@@ -495,6 +625,7 @@ def _filtered_bigrams(tokens: list[str]) -> frozenset:
 # ---------------------------------------------------------------------------
 # Guard
 # ---------------------------------------------------------------------------
+
 
 class CopyrightGuard:
     """
@@ -574,7 +705,8 @@ class CopyrightGuard:
         if source_type not in VALID_SOURCE_TYPES:
             log.warning(
                 "[copyright_guard] unknown source_type '%s' for '%s' — using 'unknown'",
-                source_type, label,
+                source_type,
+                label,
             )
             source_type = "unknown"
 
@@ -606,7 +738,11 @@ class CopyrightGuard:
         self._references.append(ref)
         log.info(
             "[copyright_guard] registered reference '%s' [%s] (%d tokens, %d bigrams, %d filtered)",
-            label, source_type, len(tokens), len(bg), len(fbg),
+            label,
+            source_type,
+            len(tokens),
+            len(bg),
+            len(fbg),
         )
 
     def register_reference_directory(
@@ -631,7 +767,7 @@ class CopyrightGuard:
     # Checking — legacy API (copyright only)
     # ------------------------------------------------------------------
 
-    def check(self, output_text: str, task_id: str = "") -> Optional[CopyrightAlert]:
+    def check(self, output_text: str, task_id: str = "") -> CopyrightAlert | None:
         """
         Check output_text against all protected works for verbatim reproduction.
 
@@ -644,12 +780,10 @@ class CopyrightGuard:
         if len(output_tokens) < _MIN_MATCH_TOKENS:
             return None
 
-        best_alert: Optional[CopyrightAlert] = None
+        best_alert: CopyrightAlert | None = None
 
         for work in self._works:
-            match_len, out_start, src_start = _longest_common_run(
-                output_tokens, work.tokens
-            )
+            match_len, out_start, src_start = _longest_common_run(output_tokens, work.tokens)
             if match_len < _MIN_MATCH_TOKENS:
                 continue
 
@@ -696,9 +830,7 @@ class CopyrightGuard:
 
         # --- Pass 1: copyright check against protected works ---
         for work in self._works:
-            match_len, out_start, src_start = _longest_common_run(
-                output_tokens, work.tokens
-            )
+            match_len, out_start, src_start = _longest_common_run(output_tokens, work.tokens)
             if match_len >= _MIN_MATCH_TOKENS:
                 alert = CopyrightAlert(
                     task_id=task_id,
@@ -789,13 +921,19 @@ class CopyrightGuard:
                     log.info(
                         "[attribution] verbatim reuse of permissive source '%s' in task=%s "
                         "(%.1f%% overlap, %s) — tagging only, no alert",
-                        ref.label, task_id, score * 100, ref.license,
+                        ref.label,
+                        task_id,
+                        score * 100,
+                        ref.license,
                     )
                 else:
                     log.warning(
                         "[attribution] verbatim_reproduction of non-permissive source '%s' "
                         "in task=%s (%.1f%% overlap, tier=%s)",
-                        ref.label, task_id, score * 100, tier,
+                        ref.label,
+                        task_id,
+                        score * 100,
+                        tier,
                     )
                     if not _OBSERVE_ONLY:
                         alert = CopyrightAlert(
@@ -810,12 +948,16 @@ class CopyrightGuard:
             elif match_type == "substantial_similarity":
                 log.info(
                     "[attribution] substantial_similarity to '%s' in task=%s (%.1f%% overlap)",
-                    ref.label, task_id, score * 100,
+                    ref.label,
+                    task_id,
+                    score * 100,
                 )
             else:
                 log.debug(
                     "[attribution] inspiration from '%s' in task=%s (%.1f%% filtered bigram overlap)",
-                    ref.label, task_id, score * 100,
+                    ref.label,
+                    task_id,
+                    score * 100,
                 )
 
             tag = AttributionTag(
@@ -940,25 +1082,35 @@ def _auto_seed(guard: CopyrightGuard) -> None:
                        an optional corpus/references/<subdir>/metadata.json
     """
     # Protected works
-    protected_dir = Path(os.environ.get(
-        "DETERMINEX_PROTECTED_WORKS_DIR",
-        "corpus/protected",
-    ))
+    protected_dir = Path(
+        os.environ.get(
+            "DETERMINEX_PROTECTED_WORKS_DIR",
+            "corpus/protected",
+        )
+    )
     if protected_dir.exists():
         count = guard.register_directory(protected_dir, glob="*.txt")
         if count:
-            log.info("[copyright_guard] auto-seeded %d protected works from %s", count, protected_dir)
+            log.info(
+                "[copyright_guard] auto-seeded %d protected works from %s", count, protected_dir
+            )
 
     # Reference sources — flat .txt files
-    references_dir = Path(os.environ.get(
-        "DETERMINEX_REFERENCES_DIR",
-        "corpus/references",
-    ))
+    references_dir = Path(
+        os.environ.get(
+            "DETERMINEX_REFERENCES_DIR",
+            "corpus/references",
+        )
+    )
     if references_dir.exists():
         # Top-level .txt files with default metadata
         count = guard.register_reference_directory(references_dir, glob="*.txt")
         if count:
-            log.info("[copyright_guard] auto-seeded %d flat reference sources from %s", count, references_dir)
+            log.info(
+                "[copyright_guard] auto-seeded %d flat reference sources from %s",
+                count,
+                references_dir,
+            )
 
         # Subdirectory-based sources with per-dir metadata.json
         for subdir in references_dir.iterdir():

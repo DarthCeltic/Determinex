@@ -31,12 +31,13 @@ spine. Three capabilities:
      / harness-limit) are recorded with a PROOF artifact and a re-adjudication date --
      bounded, audited, and periodically re-challenged (an "impossible" label can be wrong).
 """
+
 from __future__ import annotations
 
 import json
 import re
 import time
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
 
@@ -65,41 +66,53 @@ _TECHNIQUE_CLASS = {
     "behavioral:tty-render": Legitimacy.GREEN,
     "drop-privileges": Legitimacy.GREEN,
     "deleted-cwd": Legitimacy.GREEN,
-    "remove-collection-cap": Legitimacy.GREEN,      # a numeric perf cap is self-inflicted; removing it only lets real tests run
+    "remove-collection-cap": Legitimacy.GREEN,  # a numeric perf cap is self-inflicted; removing it only lets real tests run
     # Routing on a REAL observable context (cwd/argv/env/input files) is legitimate; routing on the
     # TEST NAME (PYTEST_CURRENT_TEST) or a baked {nodeid->output} map is test-detection GAMING -- the
     # CANON AUDIT demoted yj/svd2rust for exactly that. So: context-route GREEN, test-name route RED.
     "context-route": Legitimacy.GREEN,
-    "pytest-current-test-routing": Legitimacy.RED,    # test-name routing = gaming (forbidden)
-    "bidir-mirror": Legitimacy.GREEN,                 # PB tests.json lists tests under BOTH eval.tests./tests. prefixes; mirroring a PASSING case under the prefix PB asked for reflects a genuine pass (never mirrors a <failure>/<error>) -- prefix reconciliation, not a cheat
+    "pytest-current-test-routing": Legitimacy.RED,  # test-name routing = gaming (forbidden)
+    "bidir-mirror": Legitimacy.GREEN,  # PB tests.json lists tests under BOTH eval.tests./tests. prefixes; mirroring a PASSING case under the prefix PB asked for reflects a genuine pass (never mirrors a <failure>/<error>) -- prefix reconciliation, not a cheat
     "bidir": Legitimacy.GREEN,
-    "behavioral:output-mode": Legitimacy.GREEN,       # selecting the renderer flag/env the golden used
+    "behavioral:output-mode": Legitimacy.GREEN,  # selecting the renderer flag/env the golden used
     # YELLOW -- output post-processing (must be content-preserving; checked below)
     "error-string-normalize": Legitimacy.YELLOW,
     "behavioral:whitespace": Legitimacy.YELLOW,
     "behavioral:path-tmp": Legitimacy.YELLOW,
     "behavioral:ansi-color": Legitimacy.YELLOW,
     "behavioral:version-build": Legitimacy.YELLOW,
-    "behavioral:datetime": Legitimacy.GREEN,          # via clock-route (env), not output rewrite
+    "behavioral:datetime": Legitimacy.GREEN,  # via clock-route (env), not output rewrite
     # MATCH/IMPOSSIBLE bookkeeping
-    "upstream-skip": Legitimacy.GREEN,                # an exemption, not a fix
-    "identical-context-conflict": Legitimacy.GREEN,   # a proof, not a fix
+    "upstream-skip": Legitimacy.GREEN,  # an exemption, not a fix
+    "identical-context-conflict": Legitimacy.GREEN,  # a proof, not a fix
 }
 
 # RED signatures in an applied TRANSFORM (the actual code/text we'd ship). These are
 # the things that make a "fix" a cheat regardless of which technique claimed it.
 _RED_TRANSFORM = [
     (re.compile(r"pytest\.mark\.skip|add_marker\(.*skip|item\.add_marker"), "injects a skip"),
-    (re.compile(r"\bdel\s+items\[|items\[:\]\s*=\s*items\[:\d|collect_ignore"), "suppresses test collection"),
-    (re.compile(r"\.golden|expected\.write|write_text\([^)]*golden|open\([^)]*\.golden[^)]*['\"]w"), "writes/edits a golden/fixture"),
-    (re.compile(r"results?\.xml.*<failure|del .*testcase|remove.*<failure>"), "edits the results XML to hide failures"),
+    (
+        re.compile(r"\bdel\s+items\[|items\[:\]\s*=\s*items\[:\d|collect_ignore"),
+        "suppresses test collection",
+    ),
+    (
+        re.compile(
+            r"\.golden|expected\.write|write_text\([^)]*golden|open\([^)]*\.golden[^)]*['\"]w"
+        ),
+        "writes/edits a golden/fixture",
+    ),
+    (
+        re.compile(r"results?\.xml.*<failure|del .*testcase|remove.*<failure>"),
+        "edits the results XML to hide failures",
+    ),
 ]
 
 # A YELLOW output transform is RED if it maps SPECIFIC observed values to SPECIFIC
 # golden values (memorizing the answer) rather than normalizing volatile CLASSES.
 _VOLATILE_CLASS_OK = re.compile(
     r"/tmp/|pytest-|\\r\\n|\\t|\[ \\t\]|0-9a-f\]\{7|x1b\[|\\d\{4\}-\\d\{2\}|"
-    r"strip\(\)|rstrip|expandtabs|\$HOME|/home/|/root/|sub\(r")
+    r"strip\(\)|rstrip|expandtabs|\$HOME|/home/|/root/|sub\(r"
+)
 # a literal-to-literal replace of non-volatile content = memorizing the golden
 _LITERAL_SUBST = re.compile(r"""\.replace\(\s*['"][^'"]{2,}['"]\s*,\s*['"][^'"]{2,}['"]""")
 
@@ -123,18 +136,27 @@ def legitimacy_class(technique: str, transform: str = "") -> Verdict:
     if base == Legitimacy.YELLOW and transform:
         subs = _LITERAL_SUBST.findall(transform)
         if subs and not _VOLATILE_CLASS_OK.search(transform):
-            return Verdict(Legitimacy.RED.value,
-                           "RED: literal-to-literal output substitution (memorizing the "
-                           "golden, not normalizing a volatile class)", train=False)
-        return Verdict(Legitimacy.YELLOW.value,
-                       "YELLOW: output post-processing; allowed (volatile-class normalize). "
-                       "Must be idempotent on the golden.", train=True)
+            return Verdict(
+                Legitimacy.RED.value,
+                "RED: literal-to-literal output substitution (memorizing the "
+                "golden, not normalizing a volatile class)",
+                train=False,
+            )
+        return Verdict(
+            Legitimacy.YELLOW.value,
+            "YELLOW: output post-processing; allowed (volatile-class normalize). "
+            "Must be idempotent on the golden.",
+            train=True,
+        )
     if base == Legitimacy.GREEN:
-        return Verdict(Legitimacy.GREEN.value,
-                       "GREEN: reproduces the reference environment / corrects the build.",
-                       train=True)
-    return Verdict(base.value, f"{base.value}: default class for '{technique}'.",
-                   train=base != Legitimacy.RED)
+        return Verdict(
+            Legitimacy.GREEN.value,
+            "GREEN: reproduces the reference environment / corrects the build.",
+            train=True,
+        )
+    return Verdict(
+        base.value, f"{base.value}: default class for '{technique}'.", train=base != Legitimacy.RED
+    )
 
 
 def training_eligible(technique: str, transform: str = "") -> bool:
@@ -145,7 +167,9 @@ def training_eligible(technique: str, transform: str = "") -> bool:
 def quarantine(record: dict, reason: str) -> None:
     """Park a RED/ineligible fix so it is NEVER trained on (kept for audit)."""
     QUARANTINE.parent.mkdir(parents=True, exist_ok=True)
-    record = dict(record); record["_quarantine_reason"] = reason; record["_ts"] = time.time()
+    record = dict(record)
+    record["_quarantine_reason"] = reason
+    record["_ts"] = time.time()
     with open(QUARANTINE, "a", encoding="utf-8") as f:
         f.write(json.dumps(record) + "\n")
 
@@ -159,7 +183,8 @@ def _passing_set(report_path: Path) -> set[str]:
     out = set()
     for t in results:
         if t.get("status") == "passed":
-            cls = t.get("classname", ""); name = t.get("name", "")
+            cls = t.get("classname", "")
+            name = t.get("name", "")
             out.add(f"{cls}.{name}" if cls else name)
     return out
 
@@ -177,8 +202,9 @@ def keep_if_better(before: Path, after: Path) -> dict:
         "gained": len(gained),
         "regressed": len(regressed),
         "regressed_examples": regressed[:8],
-        "verdict": ("KEEP (+%d, 0 regressions)" % len(gained)) if keep
-                   else ("REVERT (%d regressions: %s...)" % (len(regressed), regressed[:3])),
+        "verdict": ("KEEP (+%d, 0 regressions)" % len(gained))
+        if keep
+        else ("REVERT (%d regressions: %s...)" % (len(regressed), regressed[:3])),
     }
 
 
@@ -208,19 +234,20 @@ def find_cross_branch_contradictions(report_path: Path) -> list[dict]:
     for name, perbranch in by_name.items():
         exps = set(perbranch.values())
         if len(exps) > 1:
-            contradictions.append({"test": name, "branches": perbranch,
-                                   "distinct_expected": sorted(exps)[:4]})
+            contradictions.append(
+                {"test": name, "branches": perbranch, "distinct_expected": sorted(exps)[:4]}
+            )
     return contradictions
 
 
 @dataclass
 class Exemption:
     tool: str
-    test: str               # or '*' for whole-tool
-    kind: str               # upstream-skip | cross-branch-contradiction | harness-limit
-    proof: str              # what was verified
-    ceiling: str            # e.g. "416/419" or "N/A"
-    recorded: str           # ISO date
+    test: str  # or '*' for whole-tool
+    kind: str  # upstream-skip | cross-branch-contradiction | harness-limit
+    proof: str  # what was verified
+    ceiling: str  # e.g. "416/419" or "N/A"
+    recorded: str  # ISO date
     re_adjudicate_after: str  # ISO date -- exemptions are periodically re-challenged
 
 
@@ -245,25 +272,30 @@ def record_exemption(e: Exemption) -> None:
 # shutil.copy (not write_text), and results.xml FAILURE editing. Does NOT flag
 # the legit append-only bidir mirror (it only clones PASSING testcases; never
 # touches <failure>). A tool flagged here is NOT a legitimate lock until cleaned.
-_GAMING_PATTERNS: list[tuple[str, "re.Pattern"]] = [
-    ("output_injection_CompletedProcess",
-     re.compile(r"CompletedProcess\s*\(")),                       # construct a fake subprocess result
-    ("output_injection_run_monkeypatch",
-     re.compile(r"(?:subprocess|_sp|sp)\.(?:run|Popen)\s*=\s*\w")),  # replace run/Popen with a patched fn
-    ("output_injection_check_output",
-     re.compile(r"(?:subprocess|_sp|sp)\.check_output\s*=\s*\w")),
-    ("golden_write_text",
-     re.compile(r"write_text\([^)]*golden|golden[^\n]{0,40}\.write_text\(")),
-    ("golden_copy",                                               # shutil.copy(out, golden) -- evades override-scan
-     re.compile(r"(?:shutil\.)?copy2?\([^)]*golden[^)]*\)")),
-    ("golden_open_w",
-     re.compile(r"open\([^)]*golden[^)]*['\"][wa]")),
-    ("expected_write",
-     re.compile(r"expected[^\n]{0,30}\.write|write_text\([^)]*expected")),
-    ("results_xml_failure_edit",
-     re.compile(r"results?\.xml[\s\S]{0,300}?(?:remove\([^)]*(?:failure|testcase)|del\s[^\n]*testcase|\.remove\([^)]*tc)")),
-    ("skip_injection_dynamic",
-     re.compile(r"add_marker\([^)]*skip|item\.add_marker\([^)]*skip")),
+_GAMING_PATTERNS: list[tuple[str, re.Pattern]] = [
+    (
+        "output_injection_CompletedProcess",
+        re.compile(r"CompletedProcess\s*\("),
+    ),  # construct a fake subprocess result
+    (
+        "output_injection_run_monkeypatch",
+        re.compile(r"(?:subprocess|_sp|sp)\.(?:run|Popen)\s*=\s*\w"),
+    ),  # replace run/Popen with a patched fn
+    ("output_injection_check_output", re.compile(r"(?:subprocess|_sp|sp)\.check_output\s*=\s*\w")),
+    ("golden_write_text", re.compile(r"write_text\([^)]*golden|golden[^\n]{0,40}\.write_text\(")),
+    (
+        "golden_copy",  # shutil.copy(out, golden) -- evades override-scan
+        re.compile(r"(?:shutil\.)?copy2?\([^)]*golden[^)]*\)"),
+    ),
+    ("golden_open_w", re.compile(r"open\([^)]*golden[^)]*['\"][wa]")),
+    ("expected_write", re.compile(r"expected[^\n]{0,30}\.write|write_text\([^)]*expected")),
+    (
+        "results_xml_failure_edit",
+        re.compile(
+            r"results?\.xml[\s\S]{0,300}?(?:remove\([^)]*(?:failure|testcase)|del\s[^\n]*testcase|\.remove\([^)]*tc)"
+        ),
+    ),
+    ("skip_injection_dynamic", re.compile(r"add_marker\([^)]*skip|item\.add_marker\([^)]*skip")),
 ]
 
 
@@ -273,7 +305,7 @@ def scan_text_for_gaming(text: str) -> list[dict]:
     for cat, pat in _GAMING_PATTERNS:
         for m in pat.finditer(text or ""):
             ln = text.count("\n", 0, m.start()) + 1
-            seg = text[m.start():m.start() + 120].splitlines()[0].strip()
+            seg = text[m.start() : m.start() + 120].splitlines()[0].strip()
             hits.append({"category": cat, "line": ln, "evidence": seg})
     return hits
 
@@ -281,6 +313,7 @@ def scan_text_for_gaming(text: str) -> list[dict]:
 def _compile_sh_text(path: Path) -> str:
     """Read compile.sh text from a dir (per_tool_overrides/<iid>/), a tarball, or a file."""
     import tarfile
+
     if path.is_dir():
         cs = path / "compile.sh"
         return cs.read_text(encoding="utf-8", errors="replace") if cs.exists() else ""
@@ -300,12 +333,19 @@ def scan_gaming_path(path: Path) -> dict:
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex PB integrity spine")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    c = sub.add_parser("classify"); c.add_argument("technique"); c.add_argument("--transform", default="")
-    k = sub.add_parser("keep-if-better"); k.add_argument("before", type=Path); k.add_argument("after", type=Path)
-    x = sub.add_parser("contradictions"); x.add_argument("eval_report", type=Path)
-    g = sub.add_parser("scan-gaming"); g.add_argument("paths", nargs="+", type=Path)
+    c = sub.add_parser("classify")
+    c.add_argument("technique")
+    c.add_argument("--transform", default="")
+    k = sub.add_parser("keep-if-better")
+    k.add_argument("before", type=Path)
+    k.add_argument("after", type=Path)
+    x = sub.add_parser("contradictions")
+    x.add_argument("eval_report", type=Path)
+    g = sub.add_parser("scan-gaming")
+    g.add_argument("paths", nargs="+", type=Path)
     args = ap.parse_args()
     if args.cmd == "scan-gaming":
         any_dirty = False
@@ -323,7 +363,8 @@ def main() -> int:
         return 0
     if args.cmd == "keep-if-better":
         r = keep_if_better(args.before, args.after)
-        print(json.dumps(r, indent=2)); return 0 if r["keep"] else 1
+        print(json.dumps(r, indent=2))
+        return 0 if r["keep"] else 1
     if args.cmd == "contradictions":
         cs = find_cross_branch_contradictions(args.eval_report)
         print(f"cross-branch contradictions: {len(cs)}")
@@ -335,4 +376,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

@@ -46,56 +46,62 @@ _HF_CACHE = Path("/workspace/hf_models")  # pre-fetched by tonight_launch.py
 MODELS = {
     "observer": {
         # Switched from gated Llama-3.2-3B → open Qwen2.5-Coder-3B (same size, no token needed)
-        "hf_id":      str(_HF_CACHE / "qwen3b") if (_HF_CACHE / "qwen3b").exists() else "Qwen/Qwen2.5-Coder-3B-Instruct",
-        "gated":      False,
-        "out_name":   "determinex-3-medium-v1.1",
-        "adapter":    Path("/tmp/dsl_obs_adapter"),
-        "merged":     Path("/tmp/dsl_obs_merged"),
-        "gguf_dir":   Path("/workspace/outputs/determinex-3-medium-v1.1"),
+        "hf_id": str(_HF_CACHE / "qwen3b")
+        if (_HF_CACHE / "qwen3b").exists()
+        else "Qwen/Qwen2.5-Coder-3B-Instruct",
+        "gated": False,
+        "out_name": "determinex-3-medium-v1.1",
+        "adapter": Path("/tmp/dsl_obs_adapter"),
+        "merged": Path("/tmp/dsl_obs_merged"),
+        "gguf_dir": Path("/workspace/outputs/determinex-3-medium-v1.1"),
         "train_file": Path("/tmp/dsl_obs_train.jsonl"),
-        "disk_note":  "Adapter + merged on /tmp (~6 GB needed)",
+        "disk_note": "Adapter + merged on /tmp (~6 GB needed)",
     },
     "engineer": {
-        "hf_id":      str(_HF_CACHE / "qwen1.5b") if (_HF_CACHE / "qwen1.5b").exists() else "Qwen/Qwen2.5-Coder-1.5B-Instruct",
-        "gated":      False,
-        "out_name":   "determinex-1-tiny-v1.1",
-        "adapter":    Path("/tmp/dsl_eng_adapter"),
-        "merged":     Path("/tmp/dsl_eng_merged"),
-        "gguf_dir":   Path("/workspace/outputs/determinex-1-tiny-v1.1"),
+        "hf_id": str(_HF_CACHE / "qwen1.5b")
+        if (_HF_CACHE / "qwen1.5b").exists()
+        else "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+        "gated": False,
+        "out_name": "determinex-1-tiny-v1.1",
+        "adapter": Path("/tmp/dsl_eng_adapter"),
+        "merged": Path("/tmp/dsl_eng_merged"),
+        "gguf_dir": Path("/workspace/outputs/determinex-1-tiny-v1.1"),
         "train_file": Path("/tmp/dsl_eng_train.jsonl"),
-        "disk_note":  "Adapter + merged on /tmp (~3 GB, fits easily)",
+        "disk_note": "Adapter + merged on /tmp (~3 GB, fits easily)",
     },
     "sentinel": {
-        "hf_id":      str(_HF_CACHE / "mistral7b") if (_HF_CACHE / "mistral7b").exists() else "mistralai/Mistral-7B-Instruct-v0.3",
-        "gated":      False,
-        "out_name":   "determinex-7-large-v1.1",
-        "adapter":    Path("/workspace/tmp_dsl_sen_adapter"),
-        "merged":     Path("/workspace/tmp_dsl_sen_merged"),
-        "gguf_dir":   Path("/workspace/outputs/determinex-7-large-v1.1"),
+        "hf_id": str(_HF_CACHE / "mistral7b")
+        if (_HF_CACHE / "mistral7b").exists()
+        else "mistralai/Mistral-7B-Instruct-v0.3",
+        "gated": False,
+        "out_name": "determinex-7-large-v1.1",
+        "adapter": Path("/workspace/tmp_dsl_sen_adapter"),
+        "merged": Path("/workspace/tmp_dsl_sen_merged"),
+        "gguf_dir": Path("/workspace/outputs/determinex-7-large-v1.1"),
         "train_file": Path("/workspace/tmp_dsl_sen_train.jsonl"),
-        "disk_note":  "Adapter + merged on /workspace — 7B too large for /tmp",
+        "disk_note": "Adapter + merged on /workspace — 7B too large for /tmp",
     },
 }
 
-DATA_DIR      = Path("/workspace/data")     # all .jsonl files here are used
-DSL_CORPUS    = Path("/workspace/data/dsl_corpus.jsonl")
+DATA_DIR = Path("/workspace/data")  # all .jsonl files here are used
+DSL_CORPUS = Path("/workspace/data/dsl_corpus.jsonl")
 LLAMA_CPP_DIR = Path("/workspace/llama.cpp")
 
 # ── LoRA hyper-params (DSL fine-tune — rank 8, lower than gap retrain rank 16) ─
-LORA_R      = 4     # rank 4: Gap 5 rollback — C1-tiny regressed -3% at rank 8
-LORA_ALPHA  = 8     # alpha = 2 * rank (standard)
-LORA_DROP   = 0.05
-EPOCHS      = 3
-MAX_SEQ     = 512   # DSL packets are short — 512 is ample, saves VRAM
-BATCH_SIZE  = 2     # can double batch vs gap retrain due to shorter sequences
-GRAD_ACCUM  = 4
-LR          = 2e-4
+LORA_R = 4  # rank 4: Gap 5 rollback — C1-tiny regressed -3% at rank 8
+LORA_ALPHA = 8  # alpha = 2 * rank (standard)
+LORA_DROP = 0.05
+EPOCHS = 3
+MAX_SEQ = 512  # DSL packets are short — 512 is ample, saves VRAM
+BATCH_SIZE = 2  # can double batch vs gap retrain due to shorter sequences
+GRAD_ACCUM = 4
+LR = 2e-4
 
 
 def stage(n, label):
-    print(f"\n{'='*60}", flush=True)
+    print(f"\n{'=' * 60}", flush=True)
     print(f"STAGE[{n}/6] {label}", flush=True)
-    print(f"{'='*60}", flush=True)
+    print(f"{'=' * 60}", flush=True)
 
 
 def run(cmd, **kwargs):
@@ -144,6 +150,7 @@ def build_training_file(cfg: dict) -> int:
 
     # Shuffle to interleave DSL data with existing curriculum
     import random
+
     random.seed(42)
     random.shuffle(all_examples)
 
@@ -159,14 +166,15 @@ def train(cfg: dict, model_name: str):
     """Run LoRA fine-tuning via Unsloth + SFTTrainer."""
     import torch
     from datasets import Dataset
-    from transformers import TrainingArguments
     from trl import SFTTrainer
 
     try:
         from unsloth import FastLanguageModel
+
         USE_UNSLOTH = True
     except (ImportError, RuntimeError):
         from transformers import AutoModelForCausalLM, AutoTokenizer
+
         USE_UNSLOTH = False
         print("  [WARN] Unsloth not available — falling back to standard transformers")
 
@@ -185,8 +193,15 @@ def train(cfg: dict, model_name: str):
         model = FastLanguageModel.get_peft_model(
             model,
             r=LORA_R,
-            target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
-                            "gate_proj", "up_proj", "down_proj"],
+            target_modules=[
+                "q_proj",
+                "k_proj",
+                "v_proj",
+                "o_proj",
+                "gate_proj",
+                "up_proj",
+                "down_proj",
+            ],
             lora_alpha=LORA_ALPHA,
             lora_dropout=LORA_DROP,
             bias="none",
@@ -195,14 +210,18 @@ def train(cfg: dict, model_name: str):
         )
     else:
         from peft import LoraConfig, get_peft_model
+
         tokenizer = AutoTokenizer.from_pretrained(cfg["hf_id"])
         model = AutoModelForCausalLM.from_pretrained(
             cfg["hf_id"], torch_dtype=torch.float16, device_map="auto"
         )
         lora_cfg = LoraConfig(
-            r=LORA_R, lora_alpha=LORA_ALPHA, lora_dropout=LORA_DROP,
+            r=LORA_R,
+            lora_alpha=LORA_ALPHA,
+            lora_dropout=LORA_DROP,
             target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
-            bias="none", task_type="CAUSAL_LM",
+            bias="none",
+            task_type="CAUSAL_LM",
         )
         model = get_peft_model(model, lora_cfg)
 
@@ -218,9 +237,7 @@ def train(cfg: dict, model_name: str):
         if not msgs:
             return {"text": ""}
         try:
-            text = tokenizer.apply_chat_template(
-                msgs, tokenize=False, add_generation_prompt=False
-            )
+            text = tokenizer.apply_chat_template(msgs, tokenize=False, add_generation_prompt=False)
         except Exception:
             # Fallback: concatenate role: content
             text = "\n".join(f"{m['role'].upper()}: {m['content']}" for m in msgs)
@@ -232,6 +249,7 @@ def train(cfg: dict, model_name: str):
 
     # trl 1.2.0: SFTConfig holds dataset_text_field + max_length (renamed from max_seq_length)
     from trl import SFTConfig as _SFTConfig
+
     training_args = _SFTConfig(
         output_dir=str(cfg["adapter"]),
         num_train_epochs=EPOCHS,
@@ -272,10 +290,8 @@ def train(cfg: dict, model_name: str):
 def merge_and_gguf(cfg: dict, model, tokenizer):
     """Merge LoRA adapter into base, save merged model, convert to GGUF."""
     try:
-        from unsloth import FastLanguageModel
         merged = model.merge_and_unload()
     except Exception:
-        from peft import AutoPeftModelForCausalLM
         merged = model.merge_and_unload()
 
     cfg["merged"].mkdir(parents=True, exist_ok=True)
@@ -287,10 +303,17 @@ def merge_and_gguf(cfg: dict, model, tokenizer):
     cfg["gguf_dir"].mkdir(parents=True, exist_ok=True)
     gguf_path = cfg["gguf_dir"] / f"{cfg['out_name']}.gguf"
     convert_script = LLAMA_CPP_DIR / "convert_hf_to_gguf.py"
-    run([
-        "python3", str(convert_script), str(cfg["merged"]),
-        "--outfile", str(gguf_path), "--outtype", "q8_0",
-    ])
+    run(
+        [
+            "python3",
+            str(convert_script),
+            str(cfg["merged"]),
+            "--outfile",
+            str(gguf_path),
+            "--outtype",
+            "q8_0",
+        ]
+    )
 
     # Verify GGUF header
     magic = open(gguf_path, "rb").read(4)
@@ -302,18 +325,19 @@ def merge_and_gguf(cfg: dict, model, tokenizer):
 
     # Cleanup merged model to free disk
     shutil.rmtree(cfg["merged"], ignore_errors=True)
-    print(f"  Merged model deleted (disk freed)", flush=True)
+    print("  Merged model deleted (disk freed)", flush=True)
 
     return gguf_path
 
 
 def print_next_steps(cfg: dict, gguf_path: Path, model_name: str, port: int = 10247):
     """Print exact commands for download, micro_eval, and proceed/rollback decision."""
-    local_path = f"${DETERMINEX_MODELS_DIR:-~/determinex-models}/versions/{model_name.replace('determinex-', '').split('-v')[0]}/{cfg['out_name'].split('-v')[1].split('-')[0]}-dsl/{cfg['out_name']}.gguf"
-    print(f"""
-{'='*60}
-  GGUF READY — {cfg['out_name']}
-{'='*60}
+    local_path = f"${{DETERMINEX_MODELS_DIR:-~/determinex-models}}/versions/{model_name.replace('determinex-', '').split('-v')[0]}/{cfg['out_name'].split('-v')[1].split('-')[0]}-dsl/{cfg['out_name']}.gguf"
+    print(
+        f"""
+{"=" * 60}
+  GGUF READY — {cfg["out_name"]}
+{"=" * 60}
 
 Next steps (run on LOCAL machine):
 
@@ -323,10 +347,10 @@ Next steps (run on LOCAL machine):
      "{local_path}"
 
 2. Register with Ollama for micro_eval:
-   ollama create {cfg['out_name']} -f Modelfiles/Modelfile.{model_name.split('-')[1]}
+   ollama create {cfg["out_name"]} -f Modelfiles/Modelfile.{model_name.split("-")[1]}
 
 3. Run micro_eval (compare against current baseline):
-   python scripts/micro_eval.py --model {cfg['out_name']}
+   python scripts/micro_eval.py --model {cfg["out_name"]}
    # Baseline: compare against the PREVIOUS version's score
 
 4. Apply rollback rules (plan Gap 5):
@@ -338,13 +362,15 @@ Next steps (run on LOCAL machine):
 5. If ACCEPTED — proceed to next model on pod.
    If REJECTED — do NOT proceed; note which model rejected DSL fine-tune.
 
-{'='*60}
-""", flush=True)
+{"=" * 60}
+""",
+        flush=True,
+    )
 
 
 def main():
     if len(sys.argv) < 2 or sys.argv[1] not in MODELS:
-        print(f"Usage: python dsl_finetune.py {{observer|engineer|sentinel}}")
+        print("Usage: python dsl_finetune.py {observer|engineer|sentinel}")
         print(f"  observer  → {MODELS['observer']['hf_id']} → {MODELS['observer']['out_name']}")
         print(f"  engineer  → {MODELS['engineer']['hf_id']} → {MODELS['engineer']['out_name']}")
         print(f"  sentinel  → {MODELS['sentinel']['hf_id']} → {MODELS['sentinel']['out_name']}")
@@ -353,19 +379,25 @@ def main():
     model_name = sys.argv[1]
     cfg = MODELS[model_name]
 
-    print(f"\n{'='*60}", flush=True)
+    print(f"\n{'=' * 60}", flush=True)
     print(f"  DSL FINE-TUNE: {model_name.upper()} → {cfg['out_name']}", flush=True)
     print(f"  Started: {time.strftime('%Y-%m-%d %H:%M:%S')}", flush=True)
     print(f"  LoRA rank: {LORA_R}  |  Epochs: {EPOCHS}  |  Max seq: {MAX_SEQ}", flush=True)
     print(f"  {cfg['disk_note']}", flush=True)
-    print(f"{'='*60}", flush=True)
+    print(f"{'=' * 60}", flush=True)
 
     # STAGE 1 — env check
     stage(1, "env-check")
     run(["nvidia-smi", "--query-gpu=name,memory.total,memory.free", "--format=csv,noheader"])
     if subprocess.run(["df", "-h", "/", "/workspace", "/tmp"], check=False).returncode != 0:
         subprocess.run(["df", "-h", "/"], check=False)
-    run(["python3", "-c", "import torch; print('CUDA:', torch.cuda.is_available(), '|', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'N/A')"])
+    run(
+        [
+            "python3",
+            "-c",
+            "import torch; print('CUDA:', torch.cuda.is_available(), '|', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'N/A')",
+        ]
+    )
     subprocess.run(["python3", "-c", "import unsloth; print('Unsloth OK')"], check=False)
 
     # Verify DSL corpus is present
@@ -380,7 +412,7 @@ def main():
     # STAGE 2 — load model (implicit in train(), just print disk state)
     stage(2, "load-model")
     print(f"  Model: {cfg['hf_id']}")
-    print(f"  Will download to ~/.cache/huggingface/ (overlay filesystem)")
+    print("  Will download to ~/.cache/huggingface/ (overlay filesystem)")
     r = subprocess.run(["df", "-h", str(Path.home() / ".cache")], check=False)
     if r.returncode != 0:
         subprocess.run(["df", "-h", "/"], check=False)

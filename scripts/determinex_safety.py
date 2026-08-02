@@ -64,9 +64,9 @@ Usage:
     engine.sign_corpus_entry(entry_dict)         # mutates in-place
     engine.verify_corpus_entry(entry_dict)       # raises on tamper
 """
+
 from __future__ import annotations
 
-import ast
 import hashlib
 import hmac
 import json
@@ -78,7 +78,6 @@ import time
 import unicodedata
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Optional
 
 from pydantic import BaseModel, ValidationError
 
@@ -93,6 +92,7 @@ _INTEGRITY_FILES = (
     Path(__file__).resolve(),
     DETERMINEX_ROOT / "scripts" / "hive" / "safety_gate.py",
 )
+
 
 # ── Corpus HMAC key ───────────────────────────────────────────────────────────
 # Stored in .env as DETERMINEX_CORPUS_HMAC_KEY (hex, 32 bytes minimum).
@@ -115,6 +115,7 @@ def _load_hmac_key() -> bytes:
     )
     return key
 
+
 _CORPUS_HMAC_KEY: bytes = _load_hmac_key()
 
 
@@ -127,6 +128,7 @@ _CORPUS_HMAC_KEY: bytes = _load_hmac_key()
 # the corpus HMAC) has no secret key — it is meant to be independently
 # auditable, not just self-consistent to a keyholder. verify_wal_integrity()
 # walks the chain and reports the first break, if any.
+
 
 def _wal_last_hash(path: Path) -> str:
     if not path.is_file():
@@ -208,7 +210,10 @@ def verify_wal_integrity(path: Path = _WAL_PATH) -> tuple[bool, str]:
             stored_hash = rec.get("record_hash", "")
             stored_prev = rec.get("prev_hash", "")
             if stored_prev != prev_hash:
-                return False, f"line {i}: prev_hash mismatch (chain broken — history edited or reordered)"
+                return (
+                    False,
+                    f"line {i}: prev_hash mismatch (chain broken — history edited or reordered)",
+                )
             check = {k: v for k, v in rec.items() if k != "record_hash"}
             canonical = json.dumps(check, sort_keys=True, ensure_ascii=True, default=str)
             expected = hashlib.sha256((stored_prev + canonical).encode("utf-8")).hexdigest()
@@ -271,7 +276,7 @@ def _save_escalation(state: EscalationState) -> None:
     )
 
 
-def record_violation(subject_id: str, verdict: "SafetyVerdict") -> EscalationState:
+def record_violation(subject_id: str, verdict: SafetyVerdict) -> EscalationState:
     """Append the violation to the WAL, bump the subject's escalation state,
     persist it, and return the updated state. Called from _enforce() on every
     unsafe verdict — never on a clean one (mirrors the ETHICS_ORACLE.md
@@ -281,14 +286,16 @@ def record_violation(subject_id: str, verdict: "SafetyVerdict") -> EscalationSta
     state.tier = _tier_for_count(state.violation_count)
     state.history.append({"layer": verdict.layer, "category": verdict.category, "ts": time.time()})
     _save_escalation(state)
-    wal_append({
-        "subject_id": subject_id,
-        "layer": verdict.layer,
-        "category": verdict.category,
-        "reason": verdict.reason,
-        "violation_count": state.violation_count,
-        "tier": state.tier,
-    })
+    wal_append(
+        {
+            "subject_id": subject_id,
+            "layer": verdict.layer,
+            "category": verdict.category,
+            "reason": verdict.reason,
+            "violation_count": state.violation_count,
+            "tier": state.tier,
+        }
+    )
     return state
 
 
@@ -304,6 +311,7 @@ def clear_escalation(subject_id: str) -> None:
 # SafetyVerdict
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 @dataclass
 class SafetyVerdict:
     safe: bool
@@ -318,6 +326,7 @@ class SafetyVerdict:
 
 class SafetyDenied(Exception):
     """Raised when a safety gate rejects a request."""
+
     def __init__(self, verdict: SafetyVerdict):
         self.verdict = verdict
         super().__init__(f"[{verdict.layer}] {verdict.category}: {verdict.reason}")
@@ -341,283 +350,629 @@ class SafetyDenied(Exception):
 
 _ABSOLUTE_DENY: list[tuple[str, list[str]]] = [
     # ── Malware ──────────────────────────────────────────────────────────────
-    ("MALWARE_RANSOMWARE", [
-        "ransomware", "file encryptor that demands payment", "ransom note generator",
-        "encrypt victim files", "lock files for ransom", "crypto locker",
-    ]),
-    ("MALWARE_WIPER", [
-        "disk wiper", "file destroyer", "delete all files on", "wipe the hard drive",
-        "overwrite master boot record", "mbr wiper", "destructive payload",
-        "data destruction tool", "irreversible file deletion",
-    ]),
-    ("MALWARE_DROPPER", [
-        "malware dropper", "stage-1 payload", "payload delivery", "dropper malware",
-        "download and execute payload", "downloads and executes a payload",
-        "downloads and executes payload", "write a dropper", "build a dropper",
-        "self-replicating code", "virus propagation", "worm propagation", "self-spreading",
-    ]),
-    ("MALWARE_TROJAN", [
-        "trojan horse program", "trojan horse that", "trojan horse which",
-        "implement a trojan", "build a trojan", "write a trojan",
-        "backdoor implant", "persistent backdoor", "backdoor on port",
-        "hidden backdoor", "covert backdoor", "embed backdoor in",
-    ]),
-    ("MALWARE_BOOTKIT", [
-        "bootkit", "rootkit", "kernel rootkit", "uefi implant",
-        "kernel-level persistence", "ring-0 implant", "hypervisor rootkit",
-    ]),
-    ("MALWARE_BOTNET", [
-        "botnet client", "bot herder", "c2 client", "command and control client",
-        "bot implant", "build a botnet", "infected node", "zombie machine",
-        "recruit bots", "botnet infrastructure",
-    ]),
+    (
+        "MALWARE_RANSOMWARE",
+        [
+            "ransomware",
+            "file encryptor that demands payment",
+            "ransom note generator",
+            "encrypt victim files",
+            "lock files for ransom",
+            "crypto locker",
+        ],
+    ),
+    (
+        "MALWARE_WIPER",
+        [
+            "disk wiper",
+            "file destroyer",
+            "delete all files on",
+            "wipe the hard drive",
+            "overwrite master boot record",
+            "mbr wiper",
+            "destructive payload",
+            "data destruction tool",
+            "irreversible file deletion",
+        ],
+    ),
+    (
+        "MALWARE_DROPPER",
+        [
+            "malware dropper",
+            "stage-1 payload",
+            "payload delivery",
+            "dropper malware",
+            "download and execute payload",
+            "downloads and executes a payload",
+            "downloads and executes payload",
+            "write a dropper",
+            "build a dropper",
+            "self-replicating code",
+            "virus propagation",
+            "worm propagation",
+            "self-spreading",
+        ],
+    ),
+    (
+        "MALWARE_TROJAN",
+        [
+            "trojan horse program",
+            "trojan horse that",
+            "trojan horse which",
+            "implement a trojan",
+            "build a trojan",
+            "write a trojan",
+            "backdoor implant",
+            "persistent backdoor",
+            "backdoor on port",
+            "hidden backdoor",
+            "covert backdoor",
+            "embed backdoor in",
+        ],
+    ),
+    (
+        "MALWARE_BOOTKIT",
+        [
+            "bootkit",
+            "rootkit",
+            "kernel rootkit",
+            "uefi implant",
+            "kernel-level persistence",
+            "ring-0 implant",
+            "hypervisor rootkit",
+        ],
+    ),
+    (
+        "MALWARE_BOTNET",
+        [
+            "botnet client",
+            "bot herder",
+            "c2 client",
+            "command and control client",
+            "bot implant",
+            "build a botnet",
+            "infected node",
+            "zombie machine",
+            "recruit bots",
+            "botnet infrastructure",
+        ],
+    ),
     # ── Exploit Development ───────────────────────────────────────────────────
-    ("EXPLOIT_SHELLCODE", [
-        "shellcode", "shell code payload", "shellcode generator",
-        "position independent shellcode", "alphanumeric shellcode",
-        "write shellcode for", "craft shellcode",
-    ]),
-    ("EXPLOIT_BUFFEROVERFLOW", [
-        "buffer overflow exploit", "heap spray exploit", "use-after-free exploit",
-        "rop chain", "return oriented programming chain", "jit spray",
-        "format string exploit", "stack smashing exploit",
-    ]),
-    ("EXPLOIT_CVE", [
-        "exploit cve-", "proof of concept exploit for cve",
-        "weaponize cve", "working exploit for", "reliable exploit for",
-        "exploit code for vulnerability", "exploit this vulnerability",
-    ]),
-    ("EXPLOIT_PRIVESC", [
-        "privilege escalation exploit", "local privilege escalation",
-        "lpe exploit", "suid exploit", "sudo bypass exploit",
-        "kernel exploit for privilege", "escape container to host",
-        "container escape exploit", "container escape using",
-    ]),
+    (
+        "EXPLOIT_SHELLCODE",
+        [
+            "shellcode",
+            "shell code payload",
+            "shellcode generator",
+            "position independent shellcode",
+            "alphanumeric shellcode",
+            "write shellcode for",
+            "craft shellcode",
+        ],
+    ),
+    (
+        "EXPLOIT_BUFFEROVERFLOW",
+        [
+            "buffer overflow exploit",
+            "heap spray exploit",
+            "use-after-free exploit",
+            "rop chain",
+            "return oriented programming chain",
+            "jit spray",
+            "format string exploit",
+            "stack smashing exploit",
+        ],
+    ),
+    (
+        "EXPLOIT_CVE",
+        [
+            "exploit cve-",
+            "proof of concept exploit for cve",
+            "weaponize cve",
+            "working exploit for",
+            "reliable exploit for",
+            "exploit code for vulnerability",
+            "exploit this vulnerability",
+        ],
+    ),
+    (
+        "EXPLOIT_PRIVESC",
+        [
+            "privilege escalation exploit",
+            "local privilege escalation",
+            "lpe exploit",
+            "suid exploit",
+            "sudo bypass exploit",
+            "kernel exploit for privilege",
+            "escape container to host",
+            "container escape exploit",
+            "container escape using",
+        ],
+    ),
     # ── Network Attacks ───────────────────────────────────────────────────────
-    ("ATTACK_DDOS", [
-        "ddos tool", "denial of service tool", "flood attack tool",
-        "syn flood", "udp flood attack", "http flood attack", "http flood tool",
-        "flood tool that sends", "sends requests per second to crash",
-        "amplification attack", "dns amplification", "ntp amplification",
-        "ssdp amplification", "botnet ddos", "coordinated flooding",
-        "bandwidth exhaustion attack", "slowloris attack",
-    ]),
-    ("ATTACK_SCANNING", [
-        "port scanner for attacking", "network scanner to find vulnerable",
-        "vulnerability scanner to exploit", "scan for exploitable services",
-        "automated exploit scanner", "mass exploit scanner",
-    ]),
+    (
+        "ATTACK_DDOS",
+        [
+            "ddos tool",
+            "denial of service tool",
+            "flood attack tool",
+            "syn flood",
+            "udp flood attack",
+            "http flood attack",
+            "http flood tool",
+            "flood tool that sends",
+            "sends requests per second to crash",
+            "amplification attack",
+            "dns amplification",
+            "ntp amplification",
+            "ssdp amplification",
+            "botnet ddos",
+            "coordinated flooding",
+            "bandwidth exhaustion attack",
+            "slowloris attack",
+        ],
+    ),
+    (
+        "ATTACK_SCANNING",
+        [
+            "port scanner for attacking",
+            "network scanner to find vulnerable",
+            "vulnerability scanner to exploit",
+            "scan for exploitable services",
+            "automated exploit scanner",
+            "mass exploit scanner",
+        ],
+    ),
     # ── Credential Attacks ────────────────────────────────────────────────────
-    ("CREDENTIAL_HARVEST", [
-        "credential harvester", "credential stealer", "password harvester",
-        "harvest credentials from", "steal passwords from", "dump credentials",
-        "steals saved passwords", "steal saved passwords",
-        "steals authentication cookies", "steal authentication cookies",
-        "session hijacker", "session hijacking tool",
-        "lsass dump", "mimikatz", "pass the hash", "golden ticket attack",
-        "kerberoasting tool", "as-rep roasting", "ntlm relay",
-    ]),
-    ("CREDENTIAL_STUFFING", [
-        "credential stuffing", "credential stuffing tool", "password stuffing",
-        "account takeover automation", "automated login brute force",
-        "brute force login", "password sprayer", "password spraying tool",
-        "spray passwords",
-    ]),
-    ("CREDENTIAL_PHISHING", [
-        "phishing page", "phishing kit", "phishing site generator",
-        "credential phishing", "login page clone", "fake login page",
-        "spear phishing email generator", "smishing tool", "vishing script",
-        "phishing lure", "evilginx", "reverse proxy phishing",
-    ]),
+    (
+        "CREDENTIAL_HARVEST",
+        [
+            "credential harvester",
+            "credential stealer",
+            "password harvester",
+            "harvest credentials from",
+            "steal passwords from",
+            "dump credentials",
+            "steals saved passwords",
+            "steal saved passwords",
+            "steals authentication cookies",
+            "steal authentication cookies",
+            "session hijacker",
+            "session hijacking tool",
+            "lsass dump",
+            "mimikatz",
+            "pass the hash",
+            "golden ticket attack",
+            "kerberoasting tool",
+            "as-rep roasting",
+            "ntlm relay",
+        ],
+    ),
+    (
+        "CREDENTIAL_STUFFING",
+        [
+            "credential stuffing",
+            "credential stuffing tool",
+            "password stuffing",
+            "account takeover automation",
+            "automated login brute force",
+            "brute force login",
+            "password sprayer",
+            "password spraying tool",
+            "spray passwords",
+        ],
+    ),
+    (
+        "CREDENTIAL_PHISHING",
+        [
+            "phishing page",
+            "phishing kit",
+            "phishing site generator",
+            "credential phishing",
+            "login page clone",
+            "fake login page",
+            "spear phishing email generator",
+            "smishing tool",
+            "vishing script",
+            "phishing lure",
+            "evilginx",
+            "reverse proxy phishing",
+        ],
+    ),
     # ── Remote Access / Surveillance ──────────────────────────────────────────
-    ("RAT_REMOTE_ACCESS", [
-        "remote access trojan", "rat implant", "remote administration tool implant",
-        "covert remote access", "hidden remote shell", "reverse shell",
-        "bind shell implant", "persistent reverse shell",
-    ]),
-    ("KEYLOGGER", [
-        "keylogger", "keystroke logger", "keystroke capture", "key logger",
-        "log keystrokes", "capture keystrokes", "record keystrokes",
-        "keyboard sniffer", "input capture malware",
-    ]),
-    ("STALKERWARE", [
-        "stalkerware", "stalk someone", "covert phone tracking",
-        "hidden phone spy", "phone spy app", "phone spy that",
-        "spy app that reads sms", "spy on partner", "spy on spouse",
-        "monitor partner without knowledge", "track someone without consent",
-        "covert location tracking", "hidden screen recorder",
-        "stealth monitoring app", "invisible tracking",
-    ]),
-    ("SCREENSHOT_COVERT", [
-        "covert screenshot", "hidden screenshot", "stealth screenshot",
-        "screenshot without user knowledge", "silent screen capture",
-        "covert screen recording", "hidden screen recorder",
-    ]),
+    (
+        "RAT_REMOTE_ACCESS",
+        [
+            "remote access trojan",
+            "rat implant",
+            "remote administration tool implant",
+            "covert remote access",
+            "hidden remote shell",
+            "reverse shell",
+            "bind shell implant",
+            "persistent reverse shell",
+        ],
+    ),
+    (
+        "KEYLOGGER",
+        [
+            "keylogger",
+            "keystroke logger",
+            "keystroke capture",
+            "key logger",
+            "log keystrokes",
+            "capture keystrokes",
+            "record keystrokes",
+            "keyboard sniffer",
+            "input capture malware",
+        ],
+    ),
+    (
+        "STALKERWARE",
+        [
+            "stalkerware",
+            "stalk someone",
+            "covert phone tracking",
+            "hidden phone spy",
+            "phone spy app",
+            "phone spy that",
+            "spy app that reads sms",
+            "spy on partner",
+            "spy on spouse",
+            "monitor partner without knowledge",
+            "track someone without consent",
+            "covert location tracking",
+            "hidden screen recorder",
+            "stealth monitoring app",
+            "invisible tracking",
+        ],
+    ),
+    (
+        "SCREENSHOT_COVERT",
+        [
+            "covert screenshot",
+            "hidden screenshot",
+            "stealth screenshot",
+            "screenshot without user knowledge",
+            "silent screen capture",
+            "covert screen recording",
+            "hidden screen recorder",
+        ],
+    ),
     # ── Information Operations ────────────────────────────────────────────────
-    ("INFOOPS_ASTROTURFING", [
-        "astroturfing", "fake grassroots",
-        "coordinated inauthentic behavior infrastructure",
-        "coordinated inauthentic behavior network",
-        "coordinated inauthentic behavior system",
-        "build coordinated inauthentic behavior",
-        "create coordinated inauthentic behavior",
-        "sock puppet network", "sock puppet accounts", "fake account farm",
-        "bot network for influence", "bot network that manipulates",
-        "influence operation infrastructure",
-        "synthetic persona network", "automated persona", "troll farm",
-    ]),
-    ("INFOOPS_DISINFO", [
-        "disinformation campaign", "fake news generator", "fabricate news",
-        "synthetic propaganda", "automated propaganda",
-        "generate false news articles at scale",
-    ]),
+    (
+        "INFOOPS_ASTROTURFING",
+        [
+            "astroturfing",
+            "fake grassroots",
+            "coordinated inauthentic behavior infrastructure",
+            "coordinated inauthentic behavior network",
+            "coordinated inauthentic behavior system",
+            "build coordinated inauthentic behavior",
+            "create coordinated inauthentic behavior",
+            "sock puppet network",
+            "sock puppet accounts",
+            "fake account farm",
+            "bot network for influence",
+            "bot network that manipulates",
+            "influence operation infrastructure",
+            "synthetic persona network",
+            "automated persona",
+            "troll farm",
+        ],
+    ),
+    (
+        "INFOOPS_DISINFO",
+        [
+            "disinformation campaign",
+            "fake news generator",
+            "fabricate news",
+            "synthetic propaganda",
+            "automated propaganda",
+            "generate false news articles at scale",
+        ],
+    ),
     # ── Harassment & Targeting ────────────────────────────────────────────────
-    ("HARASSMENT_FLOOD", [
-        "contact flooding", "contact bombing bot", "message bombing",
-        "sms bombing", "sms bomber", "bulk sms bomber",
-        "call bombing", "spam calls to individual",
-        "sends thousands of text messages to harass",
-        "send thousands of messages to harass",
-        "thousands of text messages to a specific",
-        "automated harassment", "harassment bot",
-        "message flood attack on person",
-    ]),
-    ("HARASSMENT_DOXX", [
-        "doxxing tool", "dox someone", "find home address of",
-        "expose private information of", "reveal personal details of target",
-        "aggregate personal data to expose", "find where someone lives",
-        "identify anonymous user", "unmask anonymous poster",
-        "unmask anonymous users", "correlating their post history",
-        "cross-reference to identify pseudonym",
-    ]),
+    (
+        "HARASSMENT_FLOOD",
+        [
+            "contact flooding",
+            "contact bombing bot",
+            "message bombing",
+            "sms bombing",
+            "sms bomber",
+            "bulk sms bomber",
+            "call bombing",
+            "spam calls to individual",
+            "sends thousands of text messages to harass",
+            "send thousands of messages to harass",
+            "thousands of text messages to a specific",
+            "automated harassment",
+            "harassment bot",
+            "message flood attack on person",
+        ],
+    ),
+    (
+        "HARASSMENT_DOXX",
+        [
+            "doxxing tool",
+            "dox someone",
+            "find home address of",
+            "expose private information of",
+            "reveal personal details of target",
+            "aggregate personal data to expose",
+            "find where someone lives",
+            "identify anonymous user",
+            "unmask anonymous poster",
+            "unmask anonymous users",
+            "correlating their post history",
+            "cross-reference to identify pseudonym",
+        ],
+    ),
     # ── Fraud & Deception ─────────────────────────────────────────────────────
-    ("FRAUD_ACADEMIC", [
-        "write essay for me to submit", "write my homework to submit",
-        "write my assignment to submit", "ghostwrite academic paper",
-        "academic ghostwriting service", "submit as their own work",
-        "complete exam questions for submission", "answer test questions to submit",
-        "plagiarism laundering", "paraphrase to evade plagiarism detection",
-        "bypass turnitin", "bypass plagiarism detector",
-    ]),
-    ("FRAUD_IDENTITY", [
-        "forge identity document", "generate fake id", "fake id generator",
-        "fake passport", "counterfeit credential", "fabricate certificate",
-        "forge diploma", "fake employment verification",
-    ]),
-    ("FRAUD_FINANCIAL", [
-        "credit card fraud", "carding tool", "generate valid credit card numbers",
-        "luhn valid card numbers for fraud", "bank fraud tool",
-        "wire fraud automation", "invoice fraud",
-    ]),
+    (
+        "FRAUD_ACADEMIC",
+        [
+            "write essay for me to submit",
+            "write my homework to submit",
+            "write my assignment to submit",
+            "ghostwrite academic paper",
+            "academic ghostwriting service",
+            "submit as their own work",
+            "complete exam questions for submission",
+            "answer test questions to submit",
+            "plagiarism laundering",
+            "paraphrase to evade plagiarism detection",
+            "bypass turnitin",
+            "bypass plagiarism detector",
+        ],
+    ),
+    (
+        "FRAUD_IDENTITY",
+        [
+            "forge identity document",
+            "generate fake id",
+            "fake id generator",
+            "fake passport",
+            "counterfeit credential",
+            "fabricate certificate",
+            "forge diploma",
+            "fake employment verification",
+        ],
+    ),
+    (
+        "FRAUD_FINANCIAL",
+        [
+            "credit card fraud",
+            "carding tool",
+            "generate valid credit card numbers",
+            "luhn valid card numbers for fraud",
+            "bank fraud tool",
+            "wire fraud automation",
+            "invoice fraud",
+        ],
+    ),
     # ── Child Safety ──────────────────────────────────────────────────────────
-    ("CSAM", [
-        "child sexual abuse material", "csam", "sexual content involving minor",
-        "sexual content involving child", "minor sexual", "underage sexual",
-        "child exploitation material",
-    ]),
+    (
+        "CSAM",
+        [
+            "child sexual abuse material",
+            "csam",
+            "sexual content involving minor",
+            "sexual content involving child",
+            "minor sexual",
+            "underage sexual",
+            "child exploitation material",
+        ],
+    ),
     # ── Weapons & CBRN ────────────────────────────────────────────────────────
-    ("WEAPONS_INSTRUCTIONS", [
-        "instructions to build bomb", "improvised explosive device instructions",
-        "ied construction", "building an ied", "instructions for building an ied",
-        "synthesize nerve agent", "synthesize sarin", "synthesizing sarin",
-        "assists in synthesizing", "synthesize vx nerve", "bioweapon design",
-        "engineer pathogen", "enhance pathogen transmissibility",
-        "gain of function malicious", "synthesize fentanyl",
-        "synthesize methamphetamine synthesis route",
-        "making thermite", "thermite", "instructions for making thermite",
-    ]),
-    ("WEAPONS_CRITICAL_INFRA", [
-        "attack power grid", "disrupt power grid", "attack water treatment",
-        "compromise water treatment", "water treatment plant scada",
-        "attack nuclear facility", "targeting nuclear facility",
-        "nuclear facility control", "attack hospital systems",
-        "hospital power grid", "hospital's power grid",
-        "take down critical infrastructure", "disrupt critical infrastructure",
-        "disable emergency services", "emergency services communication",
-    ]),
+    (
+        "WEAPONS_INSTRUCTIONS",
+        [
+            "instructions to build bomb",
+            "improvised explosive device instructions",
+            "ied construction",
+            "building an ied",
+            "instructions for building an ied",
+            "synthesize nerve agent",
+            "synthesize sarin",
+            "synthesizing sarin",
+            "assists in synthesizing",
+            "synthesize vx nerve",
+            "bioweapon design",
+            "engineer pathogen",
+            "enhance pathogen transmissibility",
+            "gain of function malicious",
+            "synthesize fentanyl",
+            "synthesize methamphetamine synthesis route",
+            "making thermite",
+            "thermite",
+            "instructions for making thermite",
+        ],
+    ),
+    (
+        "WEAPONS_CRITICAL_INFRA",
+        [
+            "attack power grid",
+            "disrupt power grid",
+            "attack water treatment",
+            "compromise water treatment",
+            "water treatment plant scada",
+            "attack nuclear facility",
+            "targeting nuclear facility",
+            "nuclear facility control",
+            "attack hospital systems",
+            "hospital power grid",
+            "hospital's power grid",
+            "take down critical infrastructure",
+            "disrupt critical infrastructure",
+            "disable emergency services",
+            "emergency services communication",
+        ],
+    ),
 ]
 
 # ── Ethical denials (legal but categorically harmful) ─────────────────────────
 _ETHICAL_DENY: list[tuple[str, list[str]]] = [
-    ("SURVEILLANCE_UNDISCLOSED", [
-        "employee monitoring without disclosure", "monitor employees without telling them",
-        "covert employee surveillance", "hidden employee tracking",
-        "screenshot employees without consent", "activity monitor without notification",
-        "monitor computer without user knowing",
-        "facial recognition enrollment system that doesn't require consent",
-        "facial recognition without consent", "facial recognition enrollment without",
-        "biometric enrollment without consent",
-    ]),
-    ("MANIPULATION_DARKPATTERN", [
-        "dark pattern ui", "deceptive ui pattern", "fake urgency timer",
-        "roach motel pattern", "hidden unsubscribe", "pre-checked consent",
-        "disguise ads as content", "bait and switch ui",
-        "misdirection pattern", "trick users into clicking",
-    ]),
-    ("MANIPULATION_ADDICTION", [
-        "maximize screen time by exploiting", "variable reward schedule to hook users",
-        "addictive engagement loop", "exploit psychological vulnerabilities for engagement",
-        "compulsive usage design", "design for addiction",
-        "dopamine exploitation", "infinite scroll to trap",
-    ]),
-    ("REVIEW_MANIPULATION", [
-        "fake review generator", "fake review generation system",
-        "generate fake product reviews", "post fake reviews",
-        "posts fake reviews", "review bombing tool", "automated fake reviews",
-        "review manipulation", "astroturf reviews",
-    ]),
-    ("DISCRIMINATION_PROXY", [
-        "discriminate by zip code as race proxy", "zip code as a proxy",
-        "uses zip code as a proxy", "filter out minority applicants",
-        "use name as ethnicity proxy", "name as an ethnicity proxy",
-        "screen applicants by language as national origin proxy",
-        "language as a national origin proxy",
-        "filter by school as socioeconomic proxy without basis",
-        "discriminatory hiring filter", "biased screening algorithm",
-    ]),
-    ("ECONOMIC_WAGEHEFT", [
-        "falsify time records", "automate timesheet fraud",
-        "falsify employee timesheets", "falsifies employee timesheets",
-        "wage theft tool", "tools to underpay workers", "wage theft automation",
-    ]),
-    ("SPAM_INFRASTRUCTURE", [
-        "email spam campaign", "bulk unsolicited email", "spam bot",
-        "mass unsolicited sms", "robocall campaign without consent",
-        "build a spam list", "scrape emails for spam",
-    ]),
-    ("CRYPTO_UNAUTHORIZED", [
-        "mine cryptocurrency on other people's computers",
-        "cryptojacking", "cryptojacker", "deploys mining software on users",
-        "cryptominer to install on victims",
-        "unauthorized cryptomining", "covert mining malware",
-        "deploy miner without consent",
-    ]),
-    ("VOICE_CLONE_HARM", [
-        "clone someone's voice without consent", "voice clone for fraud",
-        "voice cloning tool to impersonate", "voice cloning tool",
-        "synthesize voice to impersonate", "deepfake voice for scam",
-        "fake audio of real person",
-    ]),
-    ("DEEPFAKE_HARM", [
-        "deepfake of real person without consent", "non-consensual deepfake",
-        "fake video of real person to deceive", "synthetic media to defame",
-        "deepfake pornography", "non-consensual intimate imagery",
-    ]),
-    ("OSINT_TARGETING", [
-        "aggregate public data to build dossier on individual",
-        "build profile to stalk", "osint to find someone's routine",
-        "track person's movements using public data",
-        "identify someone's home from public data for targeting",
-    ]),
-    ("PREDATORY_FINANCE", [
-        "predatory lending calculator", "exploit payday loan borrowers",
-        "target vulnerable borrowers", "maximize debt trap",
-        "high-cost debt spiral tool",
-    ]),
+    (
+        "SURVEILLANCE_UNDISCLOSED",
+        [
+            "employee monitoring without disclosure",
+            "monitor employees without telling them",
+            "covert employee surveillance",
+            "hidden employee tracking",
+            "screenshot employees without consent",
+            "activity monitor without notification",
+            "monitor computer without user knowing",
+            "facial recognition enrollment system that doesn't require consent",
+            "facial recognition without consent",
+            "facial recognition enrollment without",
+            "biometric enrollment without consent",
+        ],
+    ),
+    (
+        "MANIPULATION_DARKPATTERN",
+        [
+            "dark pattern ui",
+            "deceptive ui pattern",
+            "fake urgency timer",
+            "roach motel pattern",
+            "hidden unsubscribe",
+            "pre-checked consent",
+            "disguise ads as content",
+            "bait and switch ui",
+            "misdirection pattern",
+            "trick users into clicking",
+        ],
+    ),
+    (
+        "MANIPULATION_ADDICTION",
+        [
+            "maximize screen time by exploiting",
+            "variable reward schedule to hook users",
+            "addictive engagement loop",
+            "exploit psychological vulnerabilities for engagement",
+            "compulsive usage design",
+            "design for addiction",
+            "dopamine exploitation",
+            "infinite scroll to trap",
+        ],
+    ),
+    (
+        "REVIEW_MANIPULATION",
+        [
+            "fake review generator",
+            "fake review generation system",
+            "generate fake product reviews",
+            "post fake reviews",
+            "posts fake reviews",
+            "review bombing tool",
+            "automated fake reviews",
+            "review manipulation",
+            "astroturf reviews",
+        ],
+    ),
+    (
+        "DISCRIMINATION_PROXY",
+        [
+            "discriminate by zip code as race proxy",
+            "zip code as a proxy",
+            "uses zip code as a proxy",
+            "filter out minority applicants",
+            "use name as ethnicity proxy",
+            "name as an ethnicity proxy",
+            "screen applicants by language as national origin proxy",
+            "language as a national origin proxy",
+            "filter by school as socioeconomic proxy without basis",
+            "discriminatory hiring filter",
+            "biased screening algorithm",
+        ],
+    ),
+    (
+        "ECONOMIC_WAGEHEFT",
+        [
+            "falsify time records",
+            "automate timesheet fraud",
+            "falsify employee timesheets",
+            "falsifies employee timesheets",
+            "wage theft tool",
+            "tools to underpay workers",
+            "wage theft automation",
+        ],
+    ),
+    (
+        "SPAM_INFRASTRUCTURE",
+        [
+            "email spam campaign",
+            "bulk unsolicited email",
+            "spam bot",
+            "mass unsolicited sms",
+            "robocall campaign without consent",
+            "build a spam list",
+            "scrape emails for spam",
+        ],
+    ),
+    (
+        "CRYPTO_UNAUTHORIZED",
+        [
+            "mine cryptocurrency on other people's computers",
+            "cryptojacking",
+            "cryptojacker",
+            "deploys mining software on users",
+            "cryptominer to install on victims",
+            "unauthorized cryptomining",
+            "covert mining malware",
+            "deploy miner without consent",
+        ],
+    ),
+    (
+        "VOICE_CLONE_HARM",
+        [
+            "clone someone's voice without consent",
+            "voice clone for fraud",
+            "voice cloning tool to impersonate",
+            "voice cloning tool",
+            "synthesize voice to impersonate",
+            "deepfake voice for scam",
+            "fake audio of real person",
+        ],
+    ),
+    (
+        "DEEPFAKE_HARM",
+        [
+            "deepfake of real person without consent",
+            "non-consensual deepfake",
+            "fake video of real person to deceive",
+            "synthetic media to defame",
+            "deepfake pornography",
+            "non-consensual intimate imagery",
+        ],
+    ),
+    (
+        "OSINT_TARGETING",
+        [
+            "aggregate public data to build dossier on individual",
+            "build profile to stalk",
+            "osint to find someone's routine",
+            "track person's movements using public data",
+            "identify someone's home from public data for targeting",
+        ],
+    ),
+    (
+        "PREDATORY_FINANCE",
+        [
+            "predatory lending calculator",
+            "exploit payday loan borrowers",
+            "target vulnerable borrowers",
+            "maximize debt trap",
+            "high-cost debt spiral tool",
+        ],
+    ),
 ]
 
 # Combine all denial lists into fast lookup
 _ALL_DENY_CATEGORIES: list[tuple[str, list[str]]] = _ABSOLUTE_DENY + _ETHICAL_DENY
+
 
 # Pre-compile: list of (category, compiled_regex) for speed
 def _compile_deny_patterns() -> list[tuple[str, re.Pattern]]:
@@ -628,6 +983,7 @@ def _compile_deny_patterns() -> list[tuple[str, re.Pattern]]:
         pattern = re.compile("|".join(escaped), re.IGNORECASE)
         compiled.append((category, pattern))
     return compiled
+
 
 _DENY_PATTERNS: list[tuple[str, re.Pattern]] = _compile_deny_patterns()
 
@@ -645,79 +1001,139 @@ _DENY_PATTERNS: list[tuple[str, re.Pattern]] = _compile_deny_patterns()
 _INTENT_SIGNALS: list[tuple[str, list[str], str]] = [
     # (signal_keyword, amplifying_phrases_that_make_it_suspicious, category)
     (
-        "monitor", [
+        "monitor",
+        [
             "without (the user|their|user's) (know|consent|permission|notif)",
-            "covert", "hidden", "stealth", "invisible", "secret",
+            "covert",
+            "hidden",
+            "stealth",
+            "invisible",
+            "secret",
             "without (notif|tell|disclos|alert)",
         ],
-        "COVERT_MONITORING"
+        "COVERT_MONITORING",
     ),
     (
-        "track(ing)?", [
-            "without (consent|permission|know)", "covert", "stealth",
-            "stalking", "follow someone", "locate someone",
+        "track(ing)?",
+        [
+            "without (consent|permission|know)",
+            "covert",
+            "stealth",
+            "stalking",
+            "follow someone",
+            "locate someone",
             "real.time location without",
         ],
-        "COVERT_TRACKING"
+        "COVERT_TRACKING",
     ),
     (
-        "scrape|harvest|collect", [
-            "without consent", "personal data", "private (data|info)",
-            "to target", "to identify", "to locate", "to profile",
+        "scrape|harvest|collect",
+        [
+            "without consent",
+            "personal data",
+            "private (data|info)",
+            "to target",
+            "to identify",
+            "to locate",
+            "to profile",
             "for (stalking|harassment|doxx)",
         ],
-        "NONCONSENSUAL_DATA"
+        "NONCONSENSUAL_DATA",
     ),
     (
-        "automate", [
-            "harassment", "flood", "spam", "(contact|message) (someone|target)",
-            "report (account|profile)", "review bomb",
+        "automate",
+        [
+            "harassment",
+            "flood",
+            "spam",
+            "(contact|message) (someone|target)",
+            "report (account|profile)",
+            "review bomb",
         ],
-        "AUTOMATED_HARASSMENT"
+        "AUTOMATED_HARASSMENT",
     ),
     (
-        "bypass|evade|circumvent", [
-            "detection", "security", "antivirus", "av detection", "edr",
-            "sandbox", "firewall", "content filter", "safe(guard|ty)",
+        "bypass|evade|circumvent",
+        [
+            "detection",
+            "security",
+            "antivirus",
+            "av detection",
+            "edr",
+            "sandbox",
+            "firewall",
+            "content filter",
+            "safe(guard|ty)",
         ],
-        "EVASION"
+        "EVASION",
     ),
     (
-        "inject|hook|intercept", [
-            "process memory", "dll injection", "api hook", "system call",
-            "kernel", "lsass", "credential", "password",
+        "inject|hook|intercept",
+        [
+            "process memory",
+            "dll injection",
+            "api hook",
+            "system call",
+            "kernel",
+            "lsass",
+            "credential",
+            "password",
         ],
-        "CODE_INJECTION"
+        "CODE_INJECTION",
     ),
     (
-        "persistence|persist", [
-            "registry", "startup", "cron (job|tab)", "launchd", "systemd service",
-            "scheduled task", "after reboot", "survive reboot",
+        "persistence|persist",
+        [
+            "registry",
+            "startup",
+            "cron (job|tab)",
+            "launchd",
+            "systemd service",
+            "scheduled task",
+            "after reboot",
+            "survive reboot",
             "without (user|admin) knowledge",
         ],
-        "PERSISTENCE_MECHANISM"
+        "PERSISTENCE_MECHANISM",
     ),
     (
-        "exfiltrat|send.*(to|back).*server|upload.*(to|back)", [
-            "without (user|their) knowledge", "covert", "secretly",
-            "private (key|data|file|credential)", "credentials",
-            "password", "token", "ssh key",
+        "exfiltrat|send.*(to|back).*server|upload.*(to|back)",
+        [
+            "without (user|their) knowledge",
+            "covert",
+            "secretly",
+            "private (key|data|file|credential)",
+            "credentials",
+            "password",
+            "token",
+            "ssh key",
         ],
-        "DATA_EXFILTRATION"
+        "DATA_EXFILTRATION",
     ),
     (
-        "obfuscat|pack(er|ed)|encrypt.*(payload|code)|hide.*(code|malware|payload)", [
-            "detection", "antivirus", "security tool", "analyst",
-            "payload", "shellcode", "malware",
+        "obfuscat|pack(er|ed)|encrypt.*(payload|code)|hide.*(code|malware|payload)",
+        [
+            "detection",
+            "antivirus",
+            "security tool",
+            "analyst",
+            "payload",
+            "shellcode",
+            "malware",
         ],
-        "OBFUSCATION_FOR_EVASION"
+        "OBFUSCATION_FOR_EVASION",
     ),
     (
-        "clone|replicate|mimic", [
-            "voice", "face", "identity", "without (consent|permission)",
-            "impersonat", "deepfake",
+        "clone|replicate|mimic",
+        [
+            "voice",
+            "face",
+            "identity",
+            "without (consent|permission)",
+            "impersonat",
+            "deepfake",
         ],
-        "SYNTHETIC_IDENTITY"
+        "SYNTHETIC_IDENTITY",
     ),
 ]
 
@@ -734,18 +1150,18 @@ for _sig, _amps, _cat in _INTENT_SIGNALS:
 # ─────────────────────────────────────────────────────────────────────────────
 
 _EGRESS_SECRET_RE = re.compile(
-    r"(AKIA[0-9A-Z]{16}"               # AWS access key
-    r"|AIza[0-9A-Za-z\-_]{35}"         # GCP API key
-    r"|ghp_[A-Za-z0-9]{36}"            # GitHub personal access token
-    r"|ghs_[A-Za-z0-9]{36}"            # GitHub app token
-    r"|ghr_[A-Za-z0-9]{36}"            # GitHub refresh token
-    r"|sk-[A-Za-z0-9]{40,}"            # OpenAI secret key
-    r"|sk-ant-[A-Za-z0-9\-_]{90,}"     # Anthropic secret key
-    r"|xoxb-[0-9A-Za-z\-]{50,}"        # Slack bot token
-    r"|xoxp-[0-9A-Za-z\-]{50,}"        # Slack user token
+    r"(AKIA[0-9A-Z]{16}"  # AWS access key
+    r"|AIza[0-9A-Za-z\-_]{35}"  # GCP API key
+    r"|ghp_[A-Za-z0-9]{36}"  # GitHub personal access token
+    r"|ghs_[A-Za-z0-9]{36}"  # GitHub app token
+    r"|ghr_[A-Za-z0-9]{36}"  # GitHub refresh token
+    r"|sk-[A-Za-z0-9]{40,}"  # OpenAI secret key
+    r"|sk-ant-[A-Za-z0-9\-_]{90,}"  # Anthropic secret key
+    r"|xoxb-[0-9A-Za-z\-]{50,}"  # Slack bot token
+    r"|xoxp-[0-9A-Za-z\-]{50,}"  # Slack user token
     r"|SG\.[A-Za-z0-9\-_]{22}\.[A-Za-z0-9\-_]{43}"  # SendGrid
-    r"|[A-Za-z0-9]{32,}:[A-Za-z0-9]{32,}@"          # user:pass in URL
-    r"|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY"   # PEM private key
+    r"|[A-Za-z0-9]{32,}:[A-Za-z0-9]{32,}@"  # user:pass in URL
+    r"|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY"  # PEM private key
     r")",
     re.IGNORECASE,
 )
@@ -778,61 +1194,94 @@ _EGRESS_ENVVAR_RE = re.compile(
 
 # Patterns that are always suspicious in generated output regardless of context
 _OUTPUT_HARD_BLOCK: list[tuple[str, re.Pattern]] = [
-    ("EXFIL_HARDCODED_HOST", re.compile(
-        r"(requests\.(get|post|put)|urllib\.request\.urlopen|httpx\.(get|post)|"
-        r"socket\.connect|smtplib\.SMTP|ftplib\.FTP)\s*\(.*['\"][a-z0-9\-\.]{4,}\.[a-z]{2,}",
-        re.IGNORECASE,
-    )),
-    ("LSASS_READ", re.compile(
-        r"OpenProcess.*PROCESS_VM_READ|ReadProcessMemory|MiniDumpWriteDump"
-        r"|lsass\.exe|SeDebugPrivilege",
-        re.IGNORECASE,
-    )),
-    ("SHADOW_READ", re.compile(
-        r"open\s*\(\s*['\"]/?etc/shadow",
-        re.IGNORECASE,
-    )),
-    ("REGISTRY_CRED_READ", re.compile(
-        r"HKEY_LOCAL_MACHINE.*SAM|HKLM.*SECURITY.*SAM"
-        r"|winreg.*SAM|RegOpenKey.*SAM",
-        re.IGNORECASE,
-    )),
-    ("KEYLOG_API", re.compile(
-        r"SetWindowsHookEx\s*\(\s*WH_KEYBOARD"
-        r"|GetAsyncKeyState|pynput\.keyboard.*Listener"
-        r"|keyboard\.on_press|evdev.*InputDevice.*KEY_",
-        re.IGNORECASE,
-    )),
-    ("PROCESS_MASQUERADE", re.compile(
-        r"setproctitle\s*\(\s*['\"]svchost|setproctitle.*explorer\.exe"
-        r"|argv\[0\]\s*=\s*['\"]svchost|prctl.*PR_SET_NAME.*svchost",
-        re.IGNORECASE,
-    )),
-    ("ANTIDEBUG", re.compile(
-        r"IsDebuggerPresent\s*\(\s*\)|CheckRemoteDebuggerPresent"
-        r"|ptrace\s*\(\s*PTRACE_TRACEME|NtQueryInformationProcess.*DebugPort",
-        re.IGNORECASE,
-    )),
-    ("ANTIVM", re.compile(
-        r"VBOX|VirtualBox|VMware|QEMU.*detect|check.*hypervisor"
-        r"|cpuid.*hypervisor|vmdetect",
-        re.IGNORECASE,
-    )),
-    ("SHELLCODE_PATTERN", re.compile(
-        r"(?:\\x[0-9a-f]{2}){16,}"                # long hex byte runs
-        r"|b'(?:\\x[0-9a-f]{2}){15,}'",            # byte literal shellcode
-        re.IGNORECASE,
-    )),
-    ("MMAP_EXEC", re.compile(
-        r"mmap\.MAP_ANONYMOUS.*PROT_EXEC|mmap\.PROT_EXEC"
-        r"|VirtualAlloc.*PAGE_EXECUTE|ctypes.*VirtualAlloc.*MEM_COMMIT.*PAGE_EXE",
-        re.IGNORECASE,
-    )),
-    ("CRYPTO_HIJACK", re.compile(
-        r"stratum\+tcp://|mining_pool|xmrig|cpuminer|cgminer"
-        r"|monero.*mine|bitcoin.*mine",
-        re.IGNORECASE,
-    )),
+    (
+        "EXFIL_HARDCODED_HOST",
+        re.compile(
+            r"(requests\.(get|post|put)|urllib\.request\.urlopen|httpx\.(get|post)|"
+            r"socket\.connect|smtplib\.SMTP|ftplib\.FTP)\s*\(.*['\"][a-z0-9\-\.]{4,}\.[a-z]{2,}",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "LSASS_READ",
+        re.compile(
+            r"OpenProcess.*PROCESS_VM_READ|ReadProcessMemory|MiniDumpWriteDump"
+            r"|lsass\.exe|SeDebugPrivilege",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "SHADOW_READ",
+        re.compile(
+            r"open\s*\(\s*['\"]/?etc/shadow",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "REGISTRY_CRED_READ",
+        re.compile(
+            r"HKEY_LOCAL_MACHINE.*SAM|HKLM.*SECURITY.*SAM"
+            r"|winreg.*SAM|RegOpenKey.*SAM",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "KEYLOG_API",
+        re.compile(
+            r"SetWindowsHookEx\s*\(\s*WH_KEYBOARD"
+            r"|GetAsyncKeyState|pynput\.keyboard.*Listener"
+            r"|keyboard\.on_press|evdev.*InputDevice.*KEY_",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "PROCESS_MASQUERADE",
+        re.compile(
+            r"setproctitle\s*\(\s*['\"]svchost|setproctitle.*explorer\.exe"
+            r"|argv\[0\]\s*=\s*['\"]svchost|prctl.*PR_SET_NAME.*svchost",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "ANTIDEBUG",
+        re.compile(
+            r"IsDebuggerPresent\s*\(\s*\)|CheckRemoteDebuggerPresent"
+            r"|ptrace\s*\(\s*PTRACE_TRACEME|NtQueryInformationProcess.*DebugPort",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "ANTIVM",
+        re.compile(
+            r"VBOX|VirtualBox|VMware|QEMU.*detect|check.*hypervisor"
+            r"|cpuid.*hypervisor|vmdetect",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "SHELLCODE_PATTERN",
+        re.compile(
+            r"(?:\\x[0-9a-f]{2}){16,}"  # long hex byte runs
+            r"|b'(?:\\x[0-9a-f]{2}){15,}'",  # byte literal shellcode
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "MMAP_EXEC",
+        re.compile(
+            r"mmap\.MAP_ANONYMOUS.*PROT_EXEC|mmap\.PROT_EXEC"
+            r"|VirtualAlloc.*PAGE_EXECUTE|ctypes.*VirtualAlloc.*MEM_COMMIT.*PAGE_EXE",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "CRYPTO_HIJACK",
+        re.compile(
+            r"stratum\+tcp://|mining_pool|xmrig|cpuminer|cgminer"
+            r"|monero.*mine|bitcoin.*mine",
+            re.IGNORECASE,
+        ),
+    ),
 ]
 
 # Suspicious pattern + amplifying context required (same as Layer 1 structure)
@@ -840,17 +1289,17 @@ _OUTPUT_CONTEXTUAL: list[tuple[re.Pattern, list[re.Pattern], str]] = [
     (
         re.compile(r"shutil\.rmtree|os\.remove|Path.*unlink\(\)", re.IGNORECASE),
         [re.compile(r"/etc|/usr|/bin|/sbin|/boot|C:\\Windows|C:\\System", re.IGNORECASE)],
-        "DESTRUCTIVE_SYSTEM_PATH"
+        "DESTRUCTIVE_SYSTEM_PATH",
     ),
     (
         re.compile(r"(startup|HKCU.*Run|HKLM.*Run|crontab|LaunchAgents|systemd)", re.IGNORECASE),
         [re.compile(r"(persist|survive|reboot|autostart|auto.run)", re.IGNORECASE)],
-        "PERSISTENCE_WRITE"
+        "PERSISTENCE_WRITE",
     ),
     (
         re.compile(r"subprocess\.(run|Popen|call|check_output)", re.IGNORECASE),
         [re.compile(r"(shell=True.*\+|shell=True.*format\(|shell=True.*%)", re.IGNORECASE)],
-        "COMMAND_INJECTION_RISK"
+        "COMMAND_INJECTION_RISK",
     ),
 ]
 
@@ -858,6 +1307,7 @@ _OUTPUT_CONTEXTUAL: list[tuple[re.Pattern, list[re.Pattern], str]] = [
 # ─────────────────────────────────────────────────────────────────────────────
 # SafetyEngine
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class SafetyEngine:
     """
@@ -913,21 +1363,25 @@ class SafetyEngine:
         if not verdict.safe:
             log.warning(
                 "[SAFETY BLOCK] layer=%s category=%s reason=%s",
-                verdict.layer, verdict.category, verdict.reason,
+                verdict.layer,
+                verdict.category,
+                verdict.reason,
             )
             state = record_violation(self.subject_id, verdict)
             if state.tier in (TIER_RESTRICT, TIER_CUTOFF):
-                raise SafetyDenied(SafetyVerdict(
-                    safe=False,
-                    layer=verdict.layer,
-                    category=f"ESCALATED_{state.tier.upper()}",
-                    reason=(
-                        f"{verdict.reason} — subject '{self.subject_id}' is at "
-                        f"escalation tier {state.tier} ({state.violation_count} violations); "
-                        f"blocked regardless of engine mode. Clear via clear_escalation()."
-                    ),
-                    violations=verdict.violations,
-                ))
+                raise SafetyDenied(
+                    SafetyVerdict(
+                        safe=False,
+                        layer=verdict.layer,
+                        category=f"ESCALATED_{state.tier.upper()}",
+                        reason=(
+                            f"{verdict.reason} — subject '{self.subject_id}' is at "
+                            f"escalation tier {state.tier} ({state.violation_count} violations); "
+                            f"blocked regardless of engine mode. Clear via clear_escalation()."
+                        ),
+                        violations=verdict.violations,
+                    )
+                )
             if self.mode == "strict":
                 raise SafetyDenied(verdict)
         return verdict
@@ -979,22 +1433,26 @@ class SafetyEngine:
         m = _EGRESS_SECRET_RE.search(prompt_text)
         if m:
             redacted = m.group()[:8] + "..." if len(m.group()) > 8 else "***"
-            return self._enforce(SafetyVerdict(
-                safe=False,
-                layer="L2_EGRESS",
-                category="SECRET_IN_PROMPT",
-                reason=f"Credential token detected in outbound prompt: '{redacted}'",
-                violations=[redacted],
-            ))
+            return self._enforce(
+                SafetyVerdict(
+                    safe=False,
+                    layer="L2_EGRESS",
+                    category="SECRET_IN_PROMPT",
+                    reason=f"Credential token detected in outbound prompt: '{redacted}'",
+                    violations=[redacted],
+                )
+            )
         m = _EGRESS_ENVVAR_RE.search(prompt_text)
         if m:
-            return self._enforce(SafetyVerdict(
-                safe=False,
-                layer="L2_EGRESS",
-                category="ENVVAR_ASSIGNMENT_IN_PROMPT",
-                reason=f"Environment credential assignment detected in outbound prompt",
-                violations=[m.group()[:40]],
-            ))
+            return self._enforce(
+                SafetyVerdict(
+                    safe=False,
+                    layer="L2_EGRESS",
+                    category="ENVVAR_ASSIGNMENT_IN_PROMPT",
+                    reason="Environment credential assignment detected in outbound prompt",
+                    violations=[m.group()[:40]],
+                )
+            )
         return SafetyVerdict(safe=True, layer="L2_EGRESS")
 
     # ── Layer 3: Output Scanner ───────────────────────────────────────────────
@@ -1009,38 +1467,44 @@ class SafetyEngine:
         for label, pattern in _OUTPUT_HARD_BLOCK:
             m = pattern.search(code)
             if m:
-                return self._enforce(SafetyVerdict(
-                    safe=False,
-                    layer="L3_OUTPUT",
-                    category=label,
-                    reason=f"Malicious pattern in generated code: '{m.group().strip()[:60]}'",
-                    violations=[m.group().strip()[:80]],
-                ))
+                return self._enforce(
+                    SafetyVerdict(
+                        safe=False,
+                        layer="L3_OUTPUT",
+                        category=label,
+                        reason=f"Malicious pattern in generated code: '{m.group().strip()[:60]}'",
+                        violations=[m.group().strip()[:80]],
+                    )
+                )
 
         # Contextual patterns (signal + amplifier)
         for sig_re, amp_res, category in _OUTPUT_CONTEXTUAL:
             if sig_re.search(code):
                 for amp_re in amp_res:
                     if amp_re.search(code):
-                        return self._enforce(SafetyVerdict(
-                            safe=False,
-                            layer="L3_OUTPUT",
-                            category=category,
-                            reason=f"Contextual malicious pattern: {category}",
-                            violations=[category],
-                        ))
+                        return self._enforce(
+                            SafetyVerdict(
+                                safe=False,
+                                layer="L3_OUTPUT",
+                                category=category,
+                                reason=f"Contextual malicious pattern: {category}",
+                                violations=[category],
+                            )
+                        )
 
         # Python-specific: dynamic import tricks
         if "python" in lang.lower():
             violations = _scan_output_python(code)
             if violations:
-                return self._enforce(SafetyVerdict(
-                    safe=False,
-                    layer="L3_OUTPUT",
-                    category="PYTHON_DYNAMIC_EXEC",
-                    reason=f"Dynamic code execution in Builder output: {violations[0]}",
-                    violations=violations,
-                ))
+                return self._enforce(
+                    SafetyVerdict(
+                        safe=False,
+                        layer="L3_OUTPUT",
+                        category="PYTHON_DYNAMIC_EXEC",
+                        reason=f"Dynamic code execution in Builder output: {violations[0]}",
+                        violations=violations,
+                    )
+                )
 
         # ── Semgrep OSS: dataflow-aware semantic scan (Layer 3 depth) ─────────
         # Catches evasions that bypass keyword splitting:
@@ -1052,7 +1516,6 @@ class SafetyEngine:
             return self._enforce(semgrep_verdict)
 
         return SafetyVerdict(safe=True, layer="L3_OUTPUT")
-
 
     # ── Combined spec check (L0 + L1) ─────────────────────────────────────────
 
@@ -1123,7 +1586,9 @@ class SafetyEngine:
             manifest = json.loads(_INTEGRITY_MANIFEST.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError) as e:
             return SafetyVerdict(
-                safe=False, layer="L6_INTEGRITY", category="INTEGRITY_MANIFEST_UNREADABLE",
+                safe=False,
+                layer="L6_INTEGRITY",
+                category="INTEGRITY_MANIFEST_UNREADABLE",
                 reason=f"Integrity manifest unreadable: {e}",
             )
         mismatches = []
@@ -1180,10 +1645,15 @@ class SafetyEngine:
         """
         sig = entry.get("_sig", "")
         if not sig:
-            record_violation(self.subject_id, SafetyVerdict(
-                safe=False, layer="L4_CORPUS", category="TOS_CIRCUMVENTION",
-                reason="Corpus entry missing '_sig' field — possible tamper",
-            ))
+            record_violation(
+                self.subject_id,
+                SafetyVerdict(
+                    safe=False,
+                    layer="L4_CORPUS",
+                    category="TOS_CIRCUMVENTION",
+                    reason="Corpus entry missing '_sig' field — possible tamper",
+                ),
+            )
             raise CorpusTamperError("Corpus entry missing '_sig' field — possible tamper")
         check = dict(entry)
         check.pop("_sig")
@@ -1194,10 +1664,15 @@ class SafetyEngine:
             digestmod=hashlib.blake2b,
         ).hexdigest()
         if not hmac.compare_digest(sig, expected):
-            record_violation(self.subject_id, SafetyVerdict(
-                safe=False, layer="L4_CORPUS", category="TOS_CIRCUMVENTION",
-                reason="Corpus entry HMAC mismatch — entry may have been tampered with",
-            ))
+            record_violation(
+                self.subject_id,
+                SafetyVerdict(
+                    safe=False,
+                    layer="L4_CORPUS",
+                    category="TOS_CIRCUMVENTION",
+                    reason="Corpus entry HMAC mismatch — entry may have been tampered with",
+                ),
+            )
             raise CorpusTamperError(
                 f"Corpus entry HMAC mismatch — entry may have been tampered with. "
                 f"Key prefix: {list(entry.keys())[:5]}"
@@ -1222,7 +1697,7 @@ _COPYLEFT_HEADER_RE = re.compile(
 )
 
 
-def _sha256_file(path: Path) -> Optional[str]:
+def _sha256_file(path: Path) -> str | None:
     if not path.is_file():
         return None
     h = hashlib.sha256()
@@ -1260,18 +1735,68 @@ def generate_integrity_manifest() -> dict:
 # keyboard layout away and render identically in most fonts.
 _CONFUSABLES: dict[str, str] = {
     # Cyrillic → Latin (lowercase)
-    "а": "a", "в": "b", "е": "e", "к": "k", "м": "m", "н": "h", "о": "o",
-    "р": "p", "с": "c", "т": "t", "у": "y", "х": "x", "і": "i", "ѕ": "s",
-    "ј": "j", "ԁ": "d", "ѡ": "w", "ё": "e", "ӏ": "l",
+    "а": "a",
+    "в": "b",
+    "е": "e",
+    "к": "k",
+    "м": "m",
+    "н": "h",
+    "о": "o",
+    "р": "p",
+    "с": "c",
+    "т": "t",
+    "у": "y",
+    "х": "x",
+    "і": "i",
+    "ѕ": "s",
+    "ј": "j",
+    "ԁ": "d",
+    "ѡ": "w",
+    "ё": "e",
+    "ӏ": "l",
     # Cyrillic → Latin (uppercase, folds to lowercase target since callers lower() after)
-    "А": "a", "В": "b", "Е": "e", "К": "k", "М": "m", "Н": "h", "О": "o",
-    "Р": "p", "С": "c", "Т": "t", "У": "y", "Х": "x", "І": "i", "Ѕ": "s",
+    "А": "a",
+    "В": "b",
+    "Е": "e",
+    "К": "k",
+    "М": "m",
+    "Н": "h",
+    "О": "o",
+    "Р": "p",
+    "С": "c",
+    "Т": "t",
+    "У": "y",
+    "Х": "x",
+    "І": "i",
+    "Ѕ": "s",
     "Ј": "j",
     # Greek → Latin
-    "α": "a", "β": "b", "ο": "o", "ρ": "p", "υ": "u", "κ": "k", "ν": "v",
-    "τ": "t", "χ": "x", "ι": "i", "η": "n", "γ": "y",
-    "Α": "a", "Β": "b", "Ε": "e", "Ζ": "z", "Η": "n", "Ι": "i", "Κ": "k",
-    "Μ": "m", "Ν": "n", "Ο": "o", "Ρ": "p", "Τ": "t", "Υ": "y", "Χ": "x",
+    "α": "a",
+    "β": "b",
+    "ο": "o",
+    "ρ": "p",
+    "υ": "u",
+    "κ": "k",
+    "ν": "v",
+    "τ": "t",
+    "χ": "x",
+    "ι": "i",
+    "η": "n",
+    "γ": "y",
+    "Α": "a",
+    "Β": "b",
+    "Ε": "e",
+    "Ζ": "z",
+    "Η": "n",
+    "Ι": "i",
+    "Κ": "k",
+    "Μ": "m",
+    "Ν": "n",
+    "Ο": "o",
+    "Ρ": "p",
+    "Τ": "t",
+    "Υ": "y",
+    "Χ": "x",
 }
 _CONFUSABLES_TABLE = str.maketrans(_CONFUSABLES)
 
@@ -1308,7 +1833,8 @@ _PY_EXEC_TRICKS_RE = re.compile(
     re.IGNORECASE,
 )
 
-def _semgrep_scan_code(code: str, lang: str) -> "SafetyVerdict | None":
+
+def _semgrep_scan_code(code: str, lang: str) -> SafetyVerdict | None:
     """Layer 3 depth: Semgrep OSS dataflow-aware scan of Builder-generated code.
 
     Catches evasions that bypass flat keyword-matching:
@@ -1333,13 +1859,19 @@ def _semgrep_scan_code(code: str, lang: str) -> "SafetyVerdict | None":
 
     # Map Determinex language names to Semgrep language IDs
     _SEMGREP_LANG_MAP = {
-        "python": "python", "py": "python",
-        "javascript": "javascript", "js": "javascript",
-        "typescript": "typescript", "ts": "typescript",
-        "go": "go", "golang": "go",
-        "rust": "rust", "rs": "rust",
+        "python": "python",
+        "py": "python",
+        "javascript": "javascript",
+        "js": "javascript",
+        "typescript": "typescript",
+        "ts": "typescript",
+        "go": "go",
+        "golang": "go",
+        "rust": "rust",
+        "rs": "rust",
         "java": "java",
-        "ruby": "ruby", "rb": "ruby",
+        "ruby": "ruby",
+        "rb": "ruby",
     }
     semgrep_lang = _SEMGREP_LANG_MAP.get(lang.lower().split()[0] if lang else "", "")
     if not semgrep_lang:
@@ -1382,24 +1914,38 @@ rules:
     try:
         with tempfile.TemporaryDirectory() as d:
             import pathlib
+
             code_path = pathlib.Path(d) / f"check.{semgrep_lang[:2]}"
             rules_path = pathlib.Path(d) / "rules.yaml"
             code_path.write_text(code, encoding="utf-8", errors="replace")
             rules_path.write_text(_SEMGREP_RULES, encoding="utf-8")
             result = subprocess.run(
-                ["semgrep", "--config", str(rules_path), "--json",
-                 "--no-git-ignore", "--quiet", str(code_path)],
-                capture_output=True, text=True, timeout=15,
+                [
+                    "semgrep",
+                    "--config",
+                    str(rules_path),
+                    "--json",
+                    "--no-git-ignore",
+                    "--quiet",
+                    str(code_path),
+                ],
+                capture_output=True,
+                text=True,
+                timeout=15,
             )
             if result.returncode not in (0, 1):
                 # Non-zero non-1 = Semgrep internal error — fail open
                 return None
             import json
+
             findings = json.loads(result.stdout or "{}").get("results", [])
             if not findings:
                 return None
-            errors = [f["extra"]["message"] for f in findings
-                      if f.get("extra", {}).get("severity") == "ERROR"]
+            errors = [
+                f["extra"]["message"]
+                for f in findings
+                if f.get("extra", {}).get("severity") == "ERROR"
+            ]
             if errors:
                 return SafetyVerdict(
                     safe=False,
@@ -1426,6 +1972,7 @@ _PY_EXEC_TRICKS_RE = re.compile(
     re.IGNORECASE,
 )
 
+
 def _scan_output_python(source: str) -> list[str]:
     """Scan Builder Python output for dynamic execution tricks."""
     violations: list[str] = []
@@ -1434,14 +1981,11 @@ def _scan_output_python(source: str) -> list[str]:
     return violations
 
 
-
-
-
 # ─────────────────────────────────────────────────────────────────────────────
 # Module-level singleton (import-and-use pattern)
 # ─────────────────────────────────────────────────────────────────────────────
 
-_ENGINE: Optional[SafetyEngine] = None
+_ENGINE: SafetyEngine | None = None
 
 
 def get_engine() -> SafetyEngine:
@@ -1493,16 +2037,29 @@ def check_runtime_integrity() -> SafetyVerdict:
 # CLI — manifest generation, WAL/escalation inspection, ad-hoc checks
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def _cli() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex Safety / Ethics Oracle")
-    ap.add_argument("--generate-integrity-manifest", action="store_true",
-                     help="record current sha256 of the safety layer files as the trusted baseline")
-    ap.add_argument("--verify-wal", action="store_true", help="walk the WAL hash chain and report integrity")
+    ap.add_argument(
+        "--generate-integrity-manifest",
+        action="store_true",
+        help="record current sha256 of the safety layer files as the trusted baseline",
+    )
+    ap.add_argument(
+        "--verify-wal", action="store_true", help="walk the WAL hash chain and report integrity"
+    )
     ap.add_argument("--status", metavar="SUBJECT_ID", help="print escalation state for a subject")
-    ap.add_argument("--clear-escalation", metavar="SUBJECT_ID", help="clear a subject's escalation state (re-consent)")
+    ap.add_argument(
+        "--clear-escalation",
+        metavar="SUBJECT_ID",
+        help="clear a subject's escalation state (re-consent)",
+    )
     ap.add_argument("--check-spec", metavar="TEXT", help="run L0+L1 against inline text")
-    ap.add_argument("--check-license", metavar="TEXT", help="run L5 license scan against inline text")
+    ap.add_argument(
+        "--check-license", metavar="TEXT", help="run L5 license scan against inline text"
+    )
     args = ap.parse_args()
 
     if args.generate_integrity_manifest:
@@ -1545,4 +2102,5 @@ def _cli() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(_cli())

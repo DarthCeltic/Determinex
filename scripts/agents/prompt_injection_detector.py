@@ -27,6 +27,7 @@ allow the caller to decide whether to include it. The agent's system prompt
 must be constructed such that even if injection text reaches the context,
 the model knows to treat environmental content as data, not instructions.
 """
+
 from __future__ import annotations
 
 import re
@@ -44,7 +45,7 @@ class InjectionRisk(str, Enum):
 @dataclass
 class InjectionFinding:
     pattern_name: str
-    matched_text: str   # excerpt, not the full match
+    matched_text: str  # excerpt, not the full match
     risk: InjectionRisk
     offset: int
 
@@ -83,55 +84,140 @@ class InjectionResult:
 
 _PATTERNS: list[tuple[str, InjectionRisk, re.Pattern]] = [
     # Critical: explicit instruction override attempts
-    ("ignore_previous_instructions", InjectionRisk.CRITICAL,
-     re.compile(r"ignore\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|directives?|rules?|constraints?)", re.I)),
-    ("forget_instructions", InjectionRisk.CRITICAL,
-     re.compile(r"forget\s+(your\s+)?(instructions?|training|guidelines?|rules?|system\s+prompt)", re.I)),
-    ("new_instructions", InjectionRisk.CRITICAL,
-     re.compile(r"(your\s+new|here\s+are\s+your\s+new|updated)\s+instructions?\s+(are|is)\b", re.I)),
-    ("override_system", InjectionRisk.CRITICAL,
-     re.compile(r"(override|bypass|disregard|ignore)\s+(the\s+)?(system\s+prompt|safety\s+(filter|guard|check|system)|your\s+(values|ethics|guidelines))", re.I)),
-    ("you_are_now", InjectionRisk.CRITICAL,
-     re.compile(r"you\s+are\s+now\s+(a|an|in)\s+(developer|jailbreak|unrestricted|uncensored|DAN|evil|unaligned)", re.I)),
-    ("developer_mode_activation", InjectionRisk.CRITICAL,
-     re.compile(r"(enable|activate|enter|switch\s+to)\s+(developer|god|jailbreak|DAN|unrestricted)\s+mode", re.I)),
-    ("act_as_unrestricted", InjectionRisk.CRITICAL,
-     re.compile(r"act\s+as\s+(an?\s+)?(ai\s+)?(without|ignoring|bypassing)\s+(restrictions?|limits?|safety)", re.I)),
-
+    (
+        "ignore_previous_instructions",
+        InjectionRisk.CRITICAL,
+        re.compile(
+            r"ignore\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|directives?|rules?|constraints?)",
+            re.I,
+        ),
+    ),
+    (
+        "forget_instructions",
+        InjectionRisk.CRITICAL,
+        re.compile(
+            r"forget\s+(your\s+)?(instructions?|training|guidelines?|rules?|system\s+prompt)", re.I
+        ),
+    ),
+    (
+        "new_instructions",
+        InjectionRisk.CRITICAL,
+        re.compile(
+            r"(your\s+new|here\s+are\s+your\s+new|updated)\s+instructions?\s+(are|is)\b", re.I
+        ),
+    ),
+    (
+        "override_system",
+        InjectionRisk.CRITICAL,
+        re.compile(
+            r"(override|bypass|disregard|ignore)\s+(the\s+)?(system\s+prompt|safety\s+(filter|guard|check|system)|your\s+(values|ethics|guidelines))",
+            re.I,
+        ),
+    ),
+    (
+        "you_are_now",
+        InjectionRisk.CRITICAL,
+        re.compile(
+            r"you\s+are\s+now\s+(a|an|in)\s+(developer|jailbreak|unrestricted|uncensored|DAN|evil|unaligned)",
+            re.I,
+        ),
+    ),
+    (
+        "developer_mode_activation",
+        InjectionRisk.CRITICAL,
+        re.compile(
+            r"(enable|activate|enter|switch\s+to)\s+(developer|god|jailbreak|DAN|unrestricted)\s+mode",
+            re.I,
+        ),
+    ),
+    (
+        "act_as_unrestricted",
+        InjectionRisk.CRITICAL,
+        re.compile(
+            r"act\s+as\s+(an?\s+)?(ai\s+)?(without|ignoring|bypassing)\s+(restrictions?|limits?|safety)",
+            re.I,
+        ),
+    ),
     # High: indirect but clearly adversarial
-    ("hidden_instruction_comment", InjectionRisk.HIGH,
-     re.compile(r"(?:<!--|//|#|/\*)\s*(?:AI|LLM|GPT|Claude|assistant|model)\s*:\s*.{10,}", re.I)),
-    ("pretend_you_are", InjectionRisk.HIGH,
-     re.compile(r"pretend\s+(you\s+are|to\s+be)\s+(?:a|an|the)?\s*\w.{0,50}(without\s+restrictions?|no\s+filter|no\s+limit)", re.I)),
-    ("system_prompt_injection", InjectionRisk.HIGH,
-     re.compile(r"\[INST\]|\[SYSTEM\]|<\|im_start\|>system|<<SYS>>", re.I)),
-    ("do_anything_now", InjectionRisk.HIGH,
-     re.compile(r"\bDAN\b.{0,50}(mode|enabled|jailbreak)|do\s+anything\s+now", re.I)),
-    ("disregard_safety", InjectionRisk.HIGH,
-     re.compile(r"disregard\s+(your\s+)?(safety|ethics|guidelines?|rules?|restrictions?)", re.I)),
-    ("exfiltrate_via_action", InjectionRisk.HIGH,
-     re.compile(r"(send|upload|exfiltrat|transmit|leak)\s+.{0,40}(to\s+(attacker|http|remote|external)|without\s+(user|human)\s+(knowledge|consent|approval))", re.I)),
-
+    (
+        "hidden_instruction_comment",
+        InjectionRisk.HIGH,
+        re.compile(r"(?:<!--|//|#|/\*)\s*(?:AI|LLM|GPT|Claude|assistant|model)\s*:\s*.{10,}", re.I),
+    ),
+    (
+        "pretend_you_are",
+        InjectionRisk.HIGH,
+        re.compile(
+            r"pretend\s+(you\s+are|to\s+be)\s+(?:a|an|the)?\s*\w.{0,50}(without\s+restrictions?|no\s+filter|no\s+limit)",
+            re.I,
+        ),
+    ),
+    (
+        "system_prompt_injection",
+        InjectionRisk.HIGH,
+        re.compile(r"\[INST\]|\[SYSTEM\]|<\|im_start\|>system|<<SYS>>", re.I),
+    ),
+    (
+        "do_anything_now",
+        InjectionRisk.HIGH,
+        re.compile(r"\bDAN\b.{0,50}(mode|enabled|jailbreak)|do\s+anything\s+now", re.I),
+    ),
+    (
+        "disregard_safety",
+        InjectionRisk.HIGH,
+        re.compile(r"disregard\s+(your\s+)?(safety|ethics|guidelines?|rules?|restrictions?)", re.I),
+    ),
+    (
+        "exfiltrate_via_action",
+        InjectionRisk.HIGH,
+        re.compile(
+            r"(send|upload|exfiltrat|transmit|leak)\s+.{0,40}(to\s+(attacker|http|remote|external)|without\s+(user|human)\s+(knowledge|consent|approval))",
+            re.I,
+        ),
+    ),
     # High: supply chain attack patterns in build files / scripts
-    ("curl_pipe_shell", InjectionRisk.HIGH,
-     re.compile(r"curl\s+https?://\S+\s*\|\s*(ba)?sh\b", re.I)),
-    ("env_dump_exfiltration", InjectionRisk.HIGH,
-     re.compile(r"\benv\s*\|\s*curl\b", re.I)),
-
+    (
+        "curl_pipe_shell",
+        InjectionRisk.HIGH,
+        re.compile(r"curl\s+https?://\S+\s*\|\s*(ba)?sh\b", re.I),
+    ),
+    ("env_dump_exfiltration", InjectionRisk.HIGH, re.compile(r"\benv\s*\|\s*curl\b", re.I)),
     # Suspicious: could be legitimate (security research docs, etc.)
-    ("role_play_bypass", InjectionRisk.SUSPICIOUS,
-     re.compile(r"(roleplay|role.play)\s+as\s+(an?\s+)?\w.{0,30}(hacker|attacker|adversary|unrestricted)", re.I)),
-    ("hypothetically_harmful", InjectionRisk.SUSPICIOUS,
-     re.compile(r"hypothetically\s+(speaking\s+)?if\s+you\s+(could|were\s+to|had\s+to)\s+.{0,50}(harm|attack|exploit|steal|bypass)", re.I)),
-    ("jailbreak_attempt", InjectionRisk.SUSPICIOUS,
-     re.compile(r"jailbreak|prompt\s+injection|prompt\s+hack|adversarial\s+prompt", re.I)),
-    ("base64_instruction", InjectionRisk.SUSPICIOUS,
-     re.compile(r"decode\s+(this|the\s+following)\s+(base64|b64)\s+and\s+(follow|execute|run|do)", re.I)),
+    (
+        "role_play_bypass",
+        InjectionRisk.SUSPICIOUS,
+        re.compile(
+            r"(roleplay|role.play)\s+as\s+(an?\s+)?\w.{0,30}(hacker|attacker|adversary|unrestricted)",
+            re.I,
+        ),
+    ),
+    (
+        "hypothetically_harmful",
+        InjectionRisk.SUSPICIOUS,
+        re.compile(
+            r"hypothetically\s+(speaking\s+)?if\s+you\s+(could|were\s+to|had\s+to)\s+.{0,50}(harm|attack|exploit|steal|bypass)",
+            re.I,
+        ),
+    ),
+    (
+        "jailbreak_attempt",
+        InjectionRisk.SUSPICIOUS,
+        re.compile(r"jailbreak|prompt\s+injection|prompt\s+hack|adversarial\s+prompt", re.I),
+    ),
+    (
+        "base64_instruction",
+        InjectionRisk.SUSPICIOUS,
+        re.compile(
+            r"decode\s+(this|the\s+following)\s+(base64|b64)\s+and\s+(follow|execute|run|do)", re.I
+        ),
+    ),
 ]
 
 _WORST_RISK_ORDER = [
-    InjectionRisk.CRITICAL, InjectionRisk.HIGH,
-    InjectionRisk.SUSPICIOUS, InjectionRisk.CLEAN
+    InjectionRisk.CRITICAL,
+    InjectionRisk.HIGH,
+    InjectionRisk.SUSPICIOUS,
+    InjectionRisk.CLEAN,
 ]
 
 
@@ -151,12 +237,14 @@ def scan(content: str, source: str = "<unknown>") -> InjectionResult:
     for name, risk, pattern in _PATTERNS:
         for m in pattern.finditer(content):
             excerpt = m.group(0)[:80].replace("\n", " ")
-            findings.append(InjectionFinding(
-                pattern_name=name,
-                matched_text=excerpt,
-                risk=risk,
-                offset=m.start(),
-            ))
+            findings.append(
+                InjectionFinding(
+                    pattern_name=name,
+                    matched_text=excerpt,
+                    risk=risk,
+                    offset=m.start(),
+                )
+            )
 
     if not findings:
         return InjectionResult(

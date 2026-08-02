@@ -20,6 +20,7 @@ ALLOWLIST by basename and these tests pin that.
 
 Measured before/after: 158,788 tracked corpus files, 9.73 GiB pack -> 1,709 files, 69.1 MB.
 """
+
 from __future__ import annotations
 
 import subprocess
@@ -42,8 +43,9 @@ UPSTREAM_SOURCE_EXTS = (".rs", ".c", ".h", ".cpp", ".hpp", ".cc", ".go", ".java"
 
 @pytest.fixture(scope="module")
 def corpus_paths() -> list[str]:
-    out = subprocess.run(["git", "ls-files", "-z", "corpus"], cwd=REPO_ROOT,
-                         capture_output=True, timeout=900)
+    out = subprocess.run(
+        ["git", "ls-files", "-z", "corpus"], cwd=REPO_ROOT, capture_output=True, timeout=900
+    )
     paths = [p for p in out.stdout.decode("utf-8", errors="replace").split("\0") if p]
     if not paths:
         pytest.skip("no corpus/ in this checkout")
@@ -64,7 +66,8 @@ class TestVendoredSourceNeverLeaves:
     def test_per_tool_overrides_publishes_only_our_recipe_filenames(self, published):
         """The allowlist is the whole defence: 142,750 files there, ~420 of them ours."""
         offenders = [
-            p for p in published
+            p
+            for p in published
             if "/per_tool_overrides/" in p.replace("\\", "/")
             and Path(p).name not in PM.CORPUS_OVERRIDE_KEEP
         ]
@@ -107,6 +110,7 @@ class TestBulkEvidenceStaysOutOfGit:
     def test_integrity_is_still_provable_without_the_artifacts(self):
         """Withholding the reports is only acceptable because their hashes ship."""
         import json
+
         index = REPO_ROOT / "corpus" / "programbench" / "eval_index.json"
         if not index.is_file():
             pytest.skip("no eval_index.json")
@@ -122,12 +126,15 @@ class TestBulkEvidenceStaysOutOfGit:
 class TestTheKnowledgeLayerActuallyShips:
     """The inverse failure: filtering so hard that the published corpus is useless."""
 
-    @pytest.mark.parametrize("required", [
-        "corpus/programbench/canonical_tasks.json",   # the pins `corpus fetch` needs
-        "corpus/programbench/eval_index.json",        # the board's rows + report hashes
-        "corpus/programbench/build_knowledge.json",   # the learned SYMPTOM->FIX knowledge
-        "corpus/programbench/README.md",              # the status board
-    ])
+    @pytest.mark.parametrize(
+        "required",
+        [
+            "corpus/programbench/canonical_tasks.json",  # the pins `corpus fetch` needs
+            "corpus/programbench/eval_index.json",  # the board's rows + report hashes
+            "corpus/programbench/build_knowledge.json",  # the learned SYMPTOM->FIX knowledge
+            "corpus/programbench/README.md",  # the status board
+        ],
+    )
     def test_load_bearing_knowledge_is_published(self, published, required):
         assert required in published, f"{required} was filtered out of the public corpus"
 
@@ -137,8 +144,8 @@ class TestTheKnowledgeLayerActuallyShips:
 
     def test_the_published_corpus_is_a_sane_size_for_git(self, published):
         import os
-        total = sum(os.path.getsize(REPO_ROOT / p) for p in published
-                    if (REPO_ROOT / p).exists())
+
+        total = sum(os.path.getsize(REPO_ROOT / p) for p in published if (REPO_ROOT / p).exists())
         mb = total / 1e6
         assert mb < 150, (
             f"published corpus is {mb:.0f} MB. GitHub soft-limits a repo at 1 GB and every "

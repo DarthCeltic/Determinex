@@ -22,6 +22,7 @@ per-target-language oracle toolchains a user opts into.
     python scripts/determinex_toolchain_installer.py install cobol
     python scripts/determinex_toolchain_installer.py list
 """
+
 from __future__ import annotations
 
 import json
@@ -41,11 +42,11 @@ from determinex_oracle import get_oracle  # noqa: E402
 @dataclass
 class ToolchainInstallResult:
     language: str
-    already_available: bool          # was it available BEFORE we tried
-    attempted: bool                  # did we actually run an installer
-    installer: str                   # "winget" | "portable-zip" | "choco" | ""
-    command: str                     # the exact command(s) run, for transparency
-    succeeded: bool                  # re-checked oracle.available() AFTER install -- never trusted blindly
+    already_available: bool  # was it available BEFORE we tried
+    attempted: bool  # did we actually run an installer
+    installer: str  # "winget" | "portable-zip" | "choco" | ""
+    command: str  # the exact command(s) run, for transparency
+    succeeded: bool  # re-checked oracle.available() AFTER install -- never trusted blindly
     output: str = ""
     notes: list = field(default_factory=list)
 
@@ -58,8 +59,8 @@ class ToolchainInstallResult:
 # session that built this module -- others are the standard published
 # package ID for that toolchain, unverified on this particular box.
 _WINGET_IDS: dict[str, str] = {
-    "c": "BrechtSanders.WinLibs.POSIX.UCRT",      # verified live: already on this box's PATH
-    "cpp": "BrechtSanders.WinLibs.POSIX.UCRT",     # same MinGW toolchain provides g++
+    "c": "BrechtSanders.WinLibs.POSIX.UCRT",  # verified live: already on this box's PATH
+    "cpp": "BrechtSanders.WinLibs.POSIX.UCRT",  # same MinGW toolchain provides g++
     "rust": "Rustlang.Rustup",
     "go": "GoLang.Go",
     "jvm": "EclipseAdoptium.Temurin.21.JDK",
@@ -68,8 +69,8 @@ _WINGET_IDS: dict[str, str] = {
     "dotnet": "Microsoft.DotNet.SDK.8",
     "ruby": "RubyInstallerTeam.Ruby.3.3",
     "php": "PHP.PHP.8.3",
-    "basic": "FreeBASIC.FreeBASIC",                # verified live: installed this session
-    "duckdb": "DuckDB.cli",                        # verified live: installed this session
+    "basic": "FreeBASIC.FreeBASIC",  # verified live: installed this session
+    "duckdb": "DuckDB.cli",  # verified live: installed this session
     "riscv-et-soc1": "Docker.DockerDesktop",
     "et-soc1": "Docker.DockerDesktop",
     "erbium": "Docker.DockerDesktop",
@@ -146,17 +147,20 @@ def _persist_user_env_var(name: str, value: str) -> None:
     it up without a reboot -- existing shells still won't see it, same
     documented caveat as every other PATH-touching install in this module."""
     import winreg
-    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment", 0,
-                        winreg.KEY_SET_VALUE) as key:
+
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment", 0, winreg.KEY_SET_VALUE) as key:
         winreg.SetValueEx(key, name, 0, winreg.REG_EXPAND_SZ, value)
     import ctypes
+
     HWND_BROADCAST, WM_SETTINGCHANGE = 0xFFFF, 0x1A
     ctypes.windll.user32.SendMessageTimeoutW(
-        HWND_BROADCAST, WM_SETTINGCHANGE, 0, "Environment", 2, 5000, None)
+        HWND_BROADCAST, WM_SETTINGCHANGE, 0, "Environment", 2, 5000, None
+    )
 
 
 def _append_user_path(new_dir: str) -> None:
     import winreg
+
     with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as key:
         try:
             current, _ = winreg.QueryValueEx(key, "Path")
@@ -182,9 +186,12 @@ def _install_portable_zip(spec: dict, timeout: int = 600) -> str:
     output = ""
     if not seven_zip.exists():
         output += _winget_install("7zip.7zip")
-    cp = subprocess.run([str(seven_zip), "x", str(archive_path),
-                        f"-o{install_dir}", "-y"],
-                       capture_output=True, text=True, timeout=timeout)
+    cp = subprocess.run(
+        [str(seven_zip), "x", str(archive_path), f"-o{install_dir}", "-y"],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+    )
     output += cp.stdout + cp.stderr
 
     probe = install_dir / spec["probe_relpath"]
@@ -199,8 +206,15 @@ def _install_portable_zip(spec: dict, timeout: int = 600) -> str:
 
 
 def _winget_install(pkg_id: str, location: str | None = None, timeout: int = 600) -> str:
-    cmd = ["winget", "install", "--id", pkg_id, "-e",
-          "--accept-source-agreements", "--accept-package-agreements"]
+    cmd = [
+        "winget",
+        "install",
+        "--id",
+        pkg_id,
+        "-e",
+        "--accept-source-agreements",
+        "--accept-package-agreements",
+    ]
     if location:
         cmd += ["--location", location]
     cp = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
@@ -213,45 +227,80 @@ def install_toolchain(language: str) -> ToolchainInstallResult:
     alone -- always re-runs the real Oracle.available() probe afterward,
     since a PATH change frequently doesn't take effect in the CURRENT
     process/shell even when the install itself worked."""
-    oracle = get_oracle(language)  # raises KeyError for an unknown language -- same as every other caller
+    oracle = get_oracle(
+        language
+    )  # raises KeyError for an unknown language -- same as every other caller
     was_available = oracle.available()
     if was_available:
-        return ToolchainInstallResult(language, True, False, "", "", True,
-                                      notes=["already available -- nothing to install"])
+        return ToolchainInstallResult(
+            language, True, False, "", "", True, notes=["already available -- nothing to install"]
+        )
 
     if platform.system() != "Windows":
         return ToolchainInstallResult(
-            language, False, False, "", "", False,
-            notes=[f"no installer wired for platform {platform.system()!r} yet -- "
-                   f"install manually: {oracle.install_hint}"])
+            language,
+            False,
+            False,
+            "",
+            "",
+            False,
+            notes=[
+                f"no installer wired for platform {platform.system()!r} yet -- "
+                f"install manually: {oracle.install_hint}"
+            ],
+        )
 
     ids = _WINGET_ID_LISTS.get(language) or (
-        [_WINGET_IDS[language]] if language in _WINGET_IDS else [])
+        [_WINGET_IDS[language]] if language in _WINGET_IDS else []
+    )
     if ids:
         location = _WINGET_LOCATIONS.get(language)
         output = "\n".join(_winget_install(pkg_id, location=location) for pkg_id in ids)
         now_available = get_oracle(language).available()
-        notes = [] if now_available else [
-            "installer ran but the toolchain still isn't resolvable on PATH in this "
-            "process -- a NEW terminal/session is usually required for a PATH change "
-            "to take effect; re-check after restarting the app/shell"]
+        notes = (
+            []
+            if now_available
+            else [
+                "installer ran but the toolchain still isn't resolvable on PATH in this "
+                "process -- a NEW terminal/session is usually required for a PATH change "
+                "to take effect; re-check after restarting the app/shell"
+            ]
+        )
         return ToolchainInstallResult(
-            language, False, True, "winget",
+            language,
+            False,
+            True,
+            "winget",
             " && ".join(f"winget install --id {i} -e" for i in ids),
-            now_available, output[-4000:], notes)
+            now_available,
+            output[-4000:],
+            notes,
+        )
 
     zip_spec = _PORTABLE_ZIP.get(language)
     if zip_spec:
         output = _install_portable_zip(zip_spec)
         now_available = get_oracle(language).available()
-        notes = [] if now_available else [
-            "portable archive extracted but the toolchain still isn't resolvable "
-            "on PATH in this process -- a NEW terminal/session is usually required "
-            "for a PATH/env-var change to take effect; re-check after restarting "
-            "the app/shell"]
+        notes = (
+            []
+            if now_available
+            else [
+                "portable archive extracted but the toolchain still isn't resolvable "
+                "on PATH in this process -- a NEW terminal/session is usually required "
+                "for a PATH/env-var change to take effect; re-check after restarting "
+                "the app/shell"
+            ]
+        )
         return ToolchainInstallResult(
-            language, False, True, "portable-zip", f"extract {zip_spec['url']}",
-            now_available, output[-4000:], notes)
+            language,
+            False,
+            True,
+            "portable-zip",
+            f"extract {zip_spec['url']}",
+            now_available,
+            output[-4000:],
+            notes,
+        )
 
     choco_id = _CHOCO_IDS.get(language)
     if choco_id:
@@ -265,18 +314,28 @@ def install_toolchain(language: str) -> ToolchainInstallResult:
             notes.append(
                 f"needs an elevated (Run as Administrator) terminal -- Chocolatey requires "
                 f"admin write access to its machine-wide lib directory; re-run "
-                f"`choco install {choco_id} -y` from an admin PowerShell")
-        return ToolchainInstallResult(language, False, True, "choco", " ".join(cmd),
-                                      now_available, out[-4000:], notes)
+                f"`choco install {choco_id} -y` from an admin PowerShell"
+            )
+        return ToolchainInstallResult(
+            language, False, True, "choco", " ".join(cmd), now_available, out[-4000:], notes
+        )
 
     return ToolchainInstallResult(
-        language, False, False, "", "", False,
-        notes=[f"no installer mapping for {language!r} yet -- install manually: "
-               f"{oracle.install_hint}"])
+        language,
+        False,
+        False,
+        "",
+        "",
+        False,
+        notes=[
+            f"no installer mapping for {language!r} yet -- install manually: {oracle.install_hint}"
+        ],
+    )
 
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex oracle toolchain enablement")
     sub = ap.add_subparsers(dest="cmd", required=True)
     inst = sub.add_parser("install", help="install the toolchain for one oracle language")
@@ -286,6 +345,7 @@ def main() -> int:
 
     if args.cmd == "list":
         from determinex_oracle import available_oracles
+
         print(json.dumps(available_oracles(), indent=2))
         return 0
 

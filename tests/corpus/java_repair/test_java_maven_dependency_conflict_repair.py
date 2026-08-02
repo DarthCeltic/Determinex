@@ -7,6 +7,7 @@ correctly classified, signed, and written to corpus.
 
 JAVA_REPAIR_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,9 +16,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / "scripts"))
 
 from agents.base_agent import CorpusType
+from corpus.code_ingest.java_repair_pipeline import JavaRepairPipeline
 from corpus.corpus_manager import CorpusManager
-from corpus.code_ingest.java_repair_pipeline import JavaRepairPipeline, JavaRepairTask
-
 
 _DEP_CONFLICT_ERRORS = [
     (
@@ -44,7 +44,6 @@ _DEP_CONFLICT_ERRORS = [
 
 
 class TestMavenDependencyConflictRepair:
-
     def test_dep_conflict_task_is_signed(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         task = JavaRepairPipeline.make_test_task(

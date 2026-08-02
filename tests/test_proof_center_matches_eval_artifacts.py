@@ -110,8 +110,7 @@ def test_every_shipped_model_row_matches_its_own_eval_artifact():
             f"{label} has an artifact ({passed}/{total}) but the page shows no score"
         )
         assert int(float(row["score"])) == expected_pct, (
-            f"{label}: page shows {row['score']}%, artifact says {expected_pct}% "
-            f"({passed}/{total})"
+            f"{label}: page shows {row['score']}%, artifact says {expected_pct}% ({passed}/{total})"
         )
         assert row["raw"] == f"{passed}/{total}", (
             f"{label}: page shows raw={row['raw']!r}, artifact says {passed}/{total}"

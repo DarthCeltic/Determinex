@@ -1,9 +1,9 @@
 """Records for FRONTEND_APPROVAL_PACKET_ROUNDTRIP_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 FRONTEND_APPROVAL_PACKET_ROUNDTRIP_TOKENS = (
     "APPROVAL_PACKET_ROUNDTRIP_READY",

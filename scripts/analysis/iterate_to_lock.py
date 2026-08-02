@@ -20,13 +20,13 @@ Workflow per tool:
 Usage:
   python scripts/analysis/iterate_to_lock.py --tool ariga__atlas.6d81150 --max-iters 5
 """
+
 from __future__ import annotations
+
 import argparse
 import collections
 import glob
-import io
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -38,9 +38,12 @@ LOG_DIR = ROOT / "logs" / "iterate_to_lock"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 sys.path.insert(0, str(Path(__file__).parent))
-from llm_gen_override import (load_pb_meta, call_llm,
-                              extract_python_from_response, find_scaffold_main)
-
+from llm_gen_override import (
+    call_llm,
+    extract_python_from_response,
+    find_scaffold_main,
+    load_pb_meta,
+)
 
 ITERATE_PROMPT_TEMPLATE = """You are iterating on a Python CLI implementation to pass failing tests. Each iteration moves the script closer to 100% pass rate.
 
@@ -97,7 +100,7 @@ def extract_failures_with_source(eval_path: Path, limit: int = 8) -> list[dict]:
       - Up to `limit` total
     """
     try:
-        with io.open(eval_path, encoding="utf-8", errors="replace") as f:
+        with open(eval_path, encoding="utf-8", errors="replace") as f:
             j = json.load(f)
     except Exception:
         return []
@@ -124,18 +127,20 @@ def extract_failures_with_source(eval_path: Path, limit: int = 8) -> list[dict]:
     out = []
     for r in picks:
         extra = r.get("extra") or {}
-        out.append({
-            "name": r.get("name", ""),
-            "branch": r.get("branch", ""),
-            "source": extra.get("text", "")[:1500],
-            "message": extra.get("message", "")[:800],
-        })
+        out.append(
+            {
+                "name": r.get("name", ""),
+                "branch": r.get("branch", ""),
+                "source": extra.get("text", "")[:1500],
+                "message": extra.get("message", "")[:800],
+            }
+        )
     return out
 
 
 def build_iterate_prompt(tool_key: str, meta: dict, eval_path: Path) -> str | None:
     try:
-        with io.open(eval_path, encoding="utf-8", errors="replace") as f:
+        with open(eval_path, encoding="utf-8", errors="replace") as f:
             j = json.load(f)
     except Exception:
         return None
@@ -177,9 +182,15 @@ def apply_and_eval(tool_key: str, new_code: str, timeout_min: int = 30) -> dict 
     (ov_dir / "main.py").write_text(new_code, encoding="utf-8", newline="\n")
     # Apply to scaffold (re-pack submission.tar.gz)
     subprocess.run(
-        [sys.executable, str(ROOT / "scripts/analysis/apply_overrides_to_scaffolds.py"),
-         "--only-slug", tool_key.rsplit(".", 1)[0]],
-        cwd=str(ROOT), capture_output=True, timeout=30,
+        [
+            sys.executable,
+            str(ROOT / "scripts/analysis/apply_overrides_to_scaffolds.py"),
+            "--only-slug",
+            tool_key.rsplit(".", 1)[0],
+        ],
+        cwd=str(ROOT),
+        capture_output=True,
+        timeout=30,
     )
     # Find scaffold dir
     scaffolds = list(EVAL_ROOT.glob(f"determinex_pb_*_v*/{tool_key}"))
@@ -191,21 +202,31 @@ def apply_and_eval(tool_key: str, new_code: str, timeout_min: int = 30) -> dict 
     filter_str = slug.split("__", 1)[0]
     cmd = [
         "T:\\Dev\\ProgramBench\\.venv\\Scripts\\programbench.exe",
-        "eval", str(scaffold_root), "--filter", filter_str,
-        "--workers", "1", "--branch-workers", "1", "--docker-cpus", "4", "--force",
+        "eval",
+        str(scaffold_root),
+        "--filter",
+        filter_str,
+        "--workers",
+        "1",
+        "--branch-workers",
+        "1",
+        "--docker-cpus",
+        "4",
+        "--force",
     ]
     print(f"  [eval] {scaffold_root.name}/{tool_key}")
     try:
-        subprocess.run(cmd, cwd="T:\\Dev\\ProgramBench",
-                        capture_output=True, timeout=timeout_min * 60)
+        subprocess.run(
+            cmd, cwd="T:\\Dev\\ProgramBench", capture_output=True, timeout=timeout_min * 60
+        )
     except subprocess.TimeoutExpired:
-        print(f"  eval timed out")
+        print("  eval timed out")
         return None
     new_ej = find_latest_eval(tool_key)
     if not new_ej:
         return None
     try:
-        with io.open(new_ej, encoding="utf-8", errors="replace") as f:
+        with open(new_ej, encoding="utf-8", errors="replace") as f:
             j = json.load(f)
         rs = j.get("test_results") or []
         passed = sum(1 for r in rs if r.get("status") == "passed")
@@ -215,8 +236,9 @@ def apply_and_eval(tool_key: str, new_code: str, timeout_min: int = 30) -> dict 
         return None
 
 
-def iterate_one(tool_key: str, max_iters: int = 3,
-                 backend: str = "deepseek", model: str = "deepseek-chat") -> dict:
+def iterate_one(
+    tool_key: str, max_iters: int = 3, backend: str = "deepseek", model: str = "deepseek-chat"
+) -> dict:
     """Run iteration loop on one tool."""
     meta = load_pb_meta()
     history = []
@@ -225,7 +247,7 @@ def iterate_one(tool_key: str, max_iters: int = 3,
         return {"error": "no eval.json"}
     prev_main = find_scaffold_main(tool_key)
     # Initial score
-    with io.open(eval_path, encoding="utf-8", errors="replace") as f:
+    with open(eval_path, encoding="utf-8", errors="replace") as f:
         j = json.load(f)
     rs = j.get("test_results") or []
     initial_pct = 100.0 * sum(1 for r in rs if r.get("status") == "passed") / max(1, len(rs))
@@ -241,7 +263,7 @@ def iterate_one(tool_key: str, max_iters: int = 3,
             break
         prompt = build_iterate_prompt(tool_key, meta, eval_path)
         if not prompt:
-            print(f"  no failures to iterate on")
+            print("  no failures to iterate on")
             break
         print(f"\n  --- iter {it}/{max_iters} ({backend}/{model}, prompt {len(prompt)} chars) ---")
         try:
@@ -251,31 +273,41 @@ def iterate_one(tool_key: str, max_iters: int = 3,
             break
         code = extract_python_from_response(resp)
         if not code:
-            print(f"  no code extracted from response")
+            print("  no code extracted from response")
             continue
         result = apply_and_eval(tool_key, code)
         if not result:
-            print(f"  eval failed")
+            print("  eval failed")
             # Restore prev_main to avoid leaving bad code in place
             (OVERRIDES_DIR / tool_key).mkdir(parents=True, exist_ok=True)
-            (OVERRIDES_DIR / tool_key / "main.py").write_text(best_main, encoding="utf-8", newline="\n")
+            (OVERRIDES_DIR / tool_key / "main.py").write_text(
+                best_main, encoding="utf-8", newline="\n"
+            )
             continue
-        history.append({"iter": it, "pct": result["pct"], "passed": result["passed"],
-                         "total": result["total"]})
+        history.append(
+            {"iter": it, "pct": result["pct"], "passed": result["passed"], "total": result["total"]}
+        )
         print(f"  result: {result['passed']}/{result['total']} = {result['pct']:.2f}%")
         if result["pct"] > best_pct:
             print(f"  *** LIFT: {best_pct:.2f}% -> {result['pct']:.2f}%")
             best_pct = result["pct"]
             best_main = code
             if result["pct"] >= 100:
-                print(f"  *** LOCKED ***")
+                print("  *** LOCKED ***")
                 break
         else:
             print(f"  regression vs best {best_pct:.2f}%; restoring")
-            (OVERRIDES_DIR / tool_key / "main.py").write_text(best_main, encoding="utf-8", newline="\n")
+            (OVERRIDES_DIR / tool_key / "main.py").write_text(
+                best_main, encoding="utf-8", newline="\n"
+            )
 
-    return {"tool": tool_key, "initial_pct": initial_pct, "final_pct": best_pct,
-            "delta": best_pct - initial_pct, "history": history}
+    return {
+        "tool": tool_key,
+        "initial_pct": initial_pct,
+        "final_pct": best_pct,
+        "delta": best_pct - initial_pct,
+        "history": history,
+    }
 
 
 def main():

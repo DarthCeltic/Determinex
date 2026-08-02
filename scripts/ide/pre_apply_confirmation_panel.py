@@ -23,9 +23,10 @@ Hard rules:
     AUTHORITY_AMBIGUITY block.
   * Any panel whose training_eligible=True is BLOCKED.
 """
+
 from __future__ import annotations
 
-from typing import Sequence
+from collections.abc import Sequence
 
 from .pre_apply_confirmation_panel_record import (
     PRE_APPLY_CONFIRMATION_PANEL_STATUS_TOKENS,
@@ -33,7 +34,6 @@ from .pre_apply_confirmation_panel_record import (
     PreApplyConfirmationPanelRecord,
     PreApplyConfirmationPanelViewModel,
 )
-
 
 _REQUIRED_CONSEQUENCE_KEYWORDS = (
     "will write",
@@ -142,7 +142,10 @@ def check(panel: PreApplyConfirmationPanelViewModel | None) -> PreApplyConfirmat
         )
 
     # The reverse: APPLIED state must report source_mutation_authorized True.
-    if panel.ui_state == "PRE_APPLY_UI_SOURCE_MUTATION_APPLIED" and not panel.source_mutation_authorized:
+    if (
+        panel.ui_state == "PRE_APPLY_UI_SOURCE_MUTATION_APPLIED"
+        and not panel.source_mutation_authorized
+    ):
         return _block(
             "PRE_APPLY_CONFIRMATION_PANEL_BLOCKED_AUTHORITY_AMBIGUITY",
             panel=panel,
@@ -170,9 +173,7 @@ def check(panel: PreApplyConfirmationPanelViewModel | None) -> PreApplyConfirmat
             return _block(
                 "PRE_APPLY_CONFIRMATION_PANEL_BLOCKED_AUTHORITY_AMBIGUITY",
                 panel=panel,
-                note=(
-                    "training_eligibility_text must say training remains False"
-                ),
+                note=("training_eligibility_text must say training remains False"),
             )
 
     return PreApplyConfirmationPanelRecord(

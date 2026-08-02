@@ -5,7 +5,11 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from corpus.legacy_recovery.programbench_tool_alias_index import normalized_repo_name, normalized_slug, normalized_tool_name
+from corpus.legacy_recovery.programbench_tool_alias_index import (
+    normalized_repo_name,
+    normalized_slug,
+    normalized_tool_name,
+)
 
 
 @dataclass(slots=True)
@@ -40,7 +44,11 @@ class ProgramBenchSourceIndex:
 
     def find_by_binary(self, binary_name: str) -> list[ProgramBenchSourceEntry]:
         normalized = normalized_slug(binary_name)
-        return [entry for entry in self.entries if normalized in {normalized_slug(name) for name in entry.binary_names}]
+        return [
+            entry
+            for entry in self.entries
+            if normalized in {normalized_slug(name) for name in entry.binary_names}
+        ]
 
     def _build_entries(self) -> list[ProgramBenchSourceEntry]:
         entries: list[ProgramBenchSourceEntry] = []
@@ -88,9 +96,15 @@ def _looks_like_programbench_dir(path: Path) -> bool:
         return True
     if (path / "source").is_dir() or (path / "eval").is_dir():
         return True
-    if any((path / name).is_file() for name in ("Cargo.toml", "go.mod", "package.json", "Makefile", "CMakeLists.txt")):
+    if any(
+        (path / name).is_file()
+        for name in ("Cargo.toml", "go.mod", "package.json", "Makefile", "CMakeLists.txt")
+    ):
         return True
-    if any((path / name).is_file() for name in ("executable", "build.sh", "manifest.json", "gate_result.json")):
+    if any(
+        (path / name).is_file()
+        for name in ("executable", "build.sh", "manifest.json", "gate_result.json")
+    ):
         return True
     return False
 
@@ -117,10 +131,12 @@ def _entry_for(path: Path) -> ProgramBenchSourceEntry:
         binary_names=sorted(set(binary_names)),
         metadata=metadata,
         index_keys=sorted(key for key in keys if key),
-        exact_keys=sorted({
-            normalized_slug(slug),
-            normalized_slug(path.name),
-        }),
+        exact_keys=sorted(
+            {
+                normalized_slug(slug),
+                normalized_slug(path.name),
+            }
+        ),
     )
 
 

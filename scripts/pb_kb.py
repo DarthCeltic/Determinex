@@ -25,7 +25,7 @@ KB_PATH = REPO / "logs" / "pb_kb.json"
 PATTERN_SIGNATURES = {
     "version_string_ldflags": {
         "description": "Binary outputs 'dev'/'unknown' but golden expects pinned version string.",
-        "signals": ["version dev", "GitVersion:  dev", "version = \"dev\"", "GitVersion:  unknown"],
+        "signals": ["version dev", "GitVersion:  dev", 'version = "dev"', "GitVersion:  unknown"],
         "fix": (
             "Inject version via Go ldflags with FULL module import path (not 'main'). "
             "1. Get module from go.mod (e.g. 'github.com/Foo/bar/v2'). "
@@ -41,7 +41,7 @@ PATTERN_SIGNATURES = {
         "description": "Error messages say 'executable:' but golden expects the real binary name.",
         "signals": ["executable: invalid option", "exec -a", "argv[0]", "bin_name"],
         "fix": (
-            "Use exec -a \"<toolname>\" in the executable wrapper so argv[0] matches what "
+            'Use exec -a "<toolname>" in the executable wrapper so argv[0] matches what '
             "the binary uses in error messages. OR if tool reads argv[0] dynamically at "
             "runtime, set it to match the upstream binary name."
         ),
@@ -63,7 +63,7 @@ PATTERN_SIGNATURES = {
         "fix": (
             "Strip or add 'v' prefix in the version output. Either patch the binary build "
             "or add a sed/awk filter in the executable wrapper: "
-            "output=$(./binary --version); echo \"${output#v}\""
+            'output=$(./binary --version); echo "${output#v}"'
         ),
         "example_tools": [],
     },
@@ -98,7 +98,7 @@ PATTERN_SIGNATURES = {
         "description": "Tool blocks waiting for TTY/interactive input, tests time out.",
         "signals": ["timeout", "TIMEOUT", "blocking", "stdin", "--no-interactive", "-y"],
         "fix": (
-            "Detect TTY in wrapper: [ -t 0 ] && exec binary \"$@\" || exec binary --no-interactive -y \"$@\". "
+            'Detect TTY in wrapper: [ -t 0 ] && exec binary "$@" || exec binary --no-interactive -y "$@". '
             "Or pass appropriate non-interactive flags. Check if --no-interactive requires -y "
             "separately to auto-accept (amber pattern)."
         ),
@@ -173,14 +173,14 @@ def search_kb(kb: dict, term: str) -> list[dict]:
             if term_lower in content.lower():
                 # Find the matching line(s)
                 lines = content.splitlines()
-                matching = [
-                    l for l in lines if term_lower in l.lower()
-                ]
-                hits.append({
-                    "tool": tool_name,
-                    "section": section_name,
-                    "matches": matching[:3],
-                })
+                matching = [l for l in lines if term_lower in l.lower()]
+                hits.append(
+                    {
+                        "tool": tool_name,
+                        "section": section_name,
+                        "matches": matching[:3],
+                    }
+                )
 
     return hits
 
@@ -270,7 +270,7 @@ def cmd_record(args):
                 f.write(f"\n## Cluster transfer notes\n\n- Pattern: {pattern_id}\n- {notes}\n")
             print(f"Appended cluster note to {locked_path}")
     print(f"Recorded: {tool} -> pattern={pattern_id}")
-    print(f"Rebuild KB with: python scripts/pb_kb.py build")
+    print("Rebuild KB with: python scripts/pb_kb.py build")
 
 
 if __name__ == "__main__":

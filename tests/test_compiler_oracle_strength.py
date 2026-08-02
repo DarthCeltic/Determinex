@@ -134,9 +134,7 @@ def _docker_ok() -> bool:
         return False
 
 
-needs_sandbox = pytest.mark.skipif(
-    not _docker_ok(), reason="no oracle execution backend available"
-)
+needs_sandbox = pytest.mark.skipif(not _docker_ok(), reason="no oracle execution backend available")
 
 
 @needs_sandbox
@@ -157,7 +155,7 @@ def test_python_module_level_error_fails_where_compileall_passed(tmp_path):
 
 @needs_sandbox
 def test_python_valid_code_with_no_tests_passes(tmp_path):
-    """"No tests" is NOT a failure. A greenfield step legitimately ships none, and
+    """ "No tests" is NOT a failure. A greenfield step legitimately ships none, and
     failing it would be the un-actionable "fails for no reason" this project forbids."""
     passed, _ = validate_project(_ws(tmp_path, {"ok.py": ADD_OK}), "python")
     assert passed is True
@@ -223,10 +221,13 @@ def test_a_language_alias_resolves_to_the_same_image(tmp_path):
 # ── the empty workspace, which every oracle must refuse ──────────────────────
 
 
-@pytest.mark.parametrize("lang,name,src", [
-    ("python", "m.py", "x = 1\n"),
-    ("typescript", "m.ts", "export const n: number = 1;\n"),
-])
+@pytest.mark.parametrize(
+    "lang,name,src",
+    [
+        ("python", "m.py", "x = 1\n"),
+        ("typescript", "m.ts", "export const n: number = 1;\n"),
+    ],
+)
 def test_an_empty_workspace_is_not_verified(tmp_path, lang, name, src):
     """`compileall` over zero files exits 0. So did the importer, and so did unittest
     discovery -- so a Python workspace containing no Python returned PASS and the WAL

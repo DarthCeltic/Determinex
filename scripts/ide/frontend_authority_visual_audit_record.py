@@ -15,11 +15,11 @@ properties. The audit refuses any layout that:
   * lacks a visible 'blocked' section when the underlying state
     is blocked
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 FRONTEND_AUTHORITY_VISUAL_AUDIT_STATUS_TOKENS = (
     "FRONTEND_AUTHORITY_VISUAL_AUDIT_PASSED",
@@ -44,19 +44,22 @@ FRONTEND_VISUAL_SECTIONS = (
 
 # Sections that MUST display a "does not authorize X" caption
 # whenever a "success" / green state is shown.
-SECTIONS_REQUIRING_NEGATIVE_AUTHORITY_CAPTION = frozenset({
-    "diagnosis",
-    "patch_preview",
-    "verifier_result",
-    "approval_request",
-    "evidence_status",
-    "training_eligibility_status",
-})
+SECTIONS_REQUIRING_NEGATIVE_AUTHORITY_CAPTION = frozenset(
+    {
+        "diagnosis",
+        "patch_preview",
+        "verifier_result",
+        "approval_request",
+        "evidence_status",
+        "training_eligibility_status",
+    }
+)
 
 
 @dataclass(frozen=True)
 class SectionState:
     """Description of one visual section."""
+
     section: str
     visible: bool
     is_success_state: bool

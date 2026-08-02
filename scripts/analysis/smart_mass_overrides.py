@@ -12,12 +12,14 @@ Outputs to corpus/programbench/per_tool_overrides/<tool>/main.py.
 
 Run: python scripts/analysis/smart_mass_overrides.py [--threshold 100]
 """
+
 from __future__ import annotations
+
 import argparse
 import glob
 import json
 import re
-from collections import defaultdict, Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]

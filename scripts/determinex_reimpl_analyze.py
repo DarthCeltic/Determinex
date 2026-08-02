@@ -20,6 +20,7 @@ Usage:
   python scripts/determinex_reimpl_analyze.py <short> [--candidate path.py] [--runlog out.txt]
   python scripts/determinex_reimpl_analyze.py gron --candidate logs/reimpl/gron_deepseek_recipe.py
 """
+
 from __future__ import annotations
 
 import argparse
@@ -52,7 +53,13 @@ def check_recipe_adherence(short: str, code: str, observations: list | None) -> 
         bare_loads = bool(re.search(r"json\.loads\(", code)) and not has_hook
         reformats = bool(re.search(r"\b(?:float|int)\s*\(", code)) and not has_hook
         if has_hook:
-            out.append(_line(OK, "number-repr", "parse_int/parse_float raw-capture hook present (recipe applied)"))
+            out.append(
+                _line(
+                    OK,
+                    "number-repr",
+                    "parse_int/parse_float raw-capture hook present (recipe applied)",
+                )
+            )
         else:
             ev = "no parse_int/parse_float hook"
             if bare_loads:
@@ -81,11 +88,21 @@ def check_corpus_learning(short: str) -> list[str]:
     bo, bt = rec.get("best_official"), rec.get("best_official_total")
     last = rec.get("last_official")
     if bo is not None:
-        out.append(_line(OK, "best-official", f"{bo}/{bt}"
-                         + (f"  (last run {last})" if last is not None else "")))
+        out.append(
+            _line(
+                OK,
+                "best-official",
+                f"{bo}/{bt}" + (f"  (last run {last})" if last is not None else ""),
+            )
+        )
     hard = rec.get("hard_behaviors") or []
-    out.append(_line(OK if hard else WARN, "hard-behaviors",
-                     f"{len(hard)} tracked: {', '.join(hard[:8])}{'…' if len(hard) > 8 else ''}"))
+    out.append(
+        _line(
+            OK if hard else WARN,
+            "hard-behaviors",
+            f"{len(hard)} tracked: {', '.join(hard[:8])}{'…' if len(hard) > 8 else ''}",
+        )
+    )
     if rec.get("verified_skill"):
         out.append(_line(OK, "verified-skill", f"LOCKED {rec.get('locked')}"))
     return out
@@ -120,16 +137,32 @@ def analyze(short: str, candidate: str | None, runlog: str | None) -> int:
         if m:
             ratio = float(m.group(3))
             tag = OK if ratio >= 1.0 else WARN
-            print(_line(tag, "discrimination", f"{m.group(1)}/{m.group(2)} (ratio {ratio:.2f})"
-                        + ("" if ratio >= 1.0 else " -- a do-nothing/echo candidate can slip through!")))
+            print(
+                _line(
+                    tag,
+                    "discrimination",
+                    f"{m.group(1)}/{m.group(2)} (ratio {ratio:.2f})"
+                    + ("" if ratio >= 1.0 else " -- a do-nothing/echo candidate can slip through!"),
+                )
+            )
             if ratio < 1.0:
                 concerns += 1
         print("\n[4] OPTIMISM GAP (local proxy vs reality)")
         g = re.search(r"GENUINE behavior reproduced: (\d+)/(\d+)", txt)
         if g:
-            print(_line(OK, "local-genuine", f"{g.group(1)}/{g.group(2)} -- compare to official to see the gap"))
+            print(
+                _line(
+                    OK,
+                    "local-genuine",
+                    f"{g.group(1)}/{g.group(2)} -- compare to official to see the gap",
+                )
+            )
 
-    verdict = "WORKING AS DESIGNED" if concerns == 0 else f"{concerns} CONCERN(S) -- loop not fully as designed"
+    verdict = (
+        "WORKING AS DESIGNED"
+        if concerns == 0
+        else f"{concerns} CONCERN(S) -- loop not fully as designed"
+    )
     print(f"\n=== VERDICT: {verdict} ===\n")
     return concerns
 

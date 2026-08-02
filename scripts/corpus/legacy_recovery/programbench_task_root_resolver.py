@@ -13,8 +13,15 @@ _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from corpus.legacy_recovery.programbench_source_index import ProgramBenchSourceEntry, ProgramBenchSourceIndex
-from corpus.legacy_recovery.programbench_tool_alias_index import aliases_for_tool, normalized_slug, normalized_tool_name
+from corpus.legacy_recovery.programbench_source_index import (
+    ProgramBenchSourceEntry,
+    ProgramBenchSourceIndex,
+)
+from corpus.legacy_recovery.programbench_tool_alias_index import (
+    aliases_for_tool,
+    normalized_slug,
+    normalized_tool_name,
+)
 
 
 class ResolutionStatus(str, Enum):
@@ -76,15 +83,31 @@ class ProgramBenchTaskRootResolver:
             "batch_id": "legacy_replay_promotion_batch_001",
             "source_batch": str(batch_artifact),
             "candidates": len(candidates),
-            "resolved": sum(1 for result in results if result.resolution_status in resolved_statuses),
-            "ambiguous": sum(1 for result in results if result.resolution_status in {ResolutionStatus.AMBIGUOUS_TOOL_MATCH.value, ResolutionStatus.MULTIPLE_MATCHES.value}),
-            "missing": sum(1 for result in results if result.resolution_status == ResolutionStatus.NO_MATCH.value),
+            "resolved": sum(
+                1 for result in results if result.resolution_status in resolved_statuses
+            ),
+            "ambiguous": sum(
+                1
+                for result in results
+                if result.resolution_status
+                in {
+                    ResolutionStatus.AMBIGUOUS_TOOL_MATCH.value,
+                    ResolutionStatus.MULTIPLE_MATCHES.value,
+                }
+            ),
+            "missing": sum(
+                1
+                for result in results
+                if result.resolution_status == ResolutionStatus.NO_MATCH.value
+            ),
             "status_counts": {k: v for k, v in counts.items() if v},
             "results": [asdict(result) for result in results],
             "policy": "Resolution maps legacy candidate identity to existing ProgramBench roots only; it does not run verifier or promote rows.",
         }
         self.config.output_path.parent.mkdir(parents=True, exist_ok=True)
-        self.config.output_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        self.config.output_path.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         return report
 
     def resolve_candidate(self, candidate: dict[str, Any]) -> ResolutionResult:
@@ -97,26 +120,42 @@ class ProgramBenchTaskRootResolver:
         exact = self.index.find_exact(normalized_slug(base.tool))
         exact = _filter_safe(exact, self.allowed_roots)
         if len(exact) == 1:
-            return _resolved(base, exact[0], ResolutionStatus.TASK_AND_SOURCE_RESOLVED, 1.0, "exact_tool_name")
+            return _resolved(
+                base, exact[0], ResolutionStatus.TASK_AND_SOURCE_RESOLVED, 1.0, "exact_tool_name"
+            )
         if len(exact) > 1:
-            return _ambiguous(base, exact, ResolutionStatus.MULTIPLE_MATCHES, "multiple_exact_matches")
+            return _ambiguous(
+                base, exact, ResolutionStatus.MULTIPLE_MATCHES, "multiple_exact_matches"
+            )
 
-        alias_values = [alias for alias in aliases_for_tool(base.tool) if alias != normalized_tool_name(base.tool)]
+        alias_values = [
+            alias
+            for alias in aliases_for_tool(base.tool)
+            if alias != normalized_tool_name(base.tool)
+        ]
         alias_matches: list[ProgramBenchSourceEntry] = []
         for alias in alias_values:
             alias_matches.extend(self.index.find_by_key(alias))
         alias_matches = _dedupe_entries(_filter_safe(alias_matches, self.allowed_roots))
         if len(alias_matches) == 1:
-            return _resolved(base, alias_matches[0], ResolutionStatus.ALIAS_ONLY_MATCH, 0.85, "alias_table")
+            return _resolved(
+                base, alias_matches[0], ResolutionStatus.ALIAS_ONLY_MATCH, 0.85, "alias_table"
+            )
         if len(alias_matches) > 1:
-            return _ambiguous(base, alias_matches, ResolutionStatus.AMBIGUOUS_TOOL_MATCH, "multiple_alias_matches")
+            return _ambiguous(
+                base, alias_matches, ResolutionStatus.AMBIGUOUS_TOOL_MATCH, "multiple_alias_matches"
+            )
 
         binary = self.index.find_by_binary(normalized_tool_name(base.tool))
         binary = _dedupe_entries(_filter_safe(binary, self.allowed_roots))
         if len(binary) == 1:
-            return _resolved(base, binary[0], ResolutionStatus.BINARY_ONLY_MATCH, 0.7, "binary_name_scan")
+            return _resolved(
+                base, binary[0], ResolutionStatus.BINARY_ONLY_MATCH, 0.7, "binary_name_scan"
+            )
         if len(binary) > 1:
-            return _ambiguous(base, binary, ResolutionStatus.AMBIGUOUS_TOOL_MATCH, "multiple_binary_matches")
+            return _ambiguous(
+                base, binary, ResolutionStatus.AMBIGUOUS_TOOL_MATCH, "multiple_binary_matches"
+            )
 
         base.resolution_status = ResolutionStatus.NO_MATCH.value
         base.reason = "no_index_match"
@@ -178,7 +217,9 @@ def _ambiguous(
     return base
 
 
-def _filter_safe(entries: list[ProgramBenchSourceEntry], roots: list[Path]) -> list[ProgramBenchSourceEntry]:
+def _filter_safe(
+    entries: list[ProgramBenchSourceEntry], roots: list[Path]
+) -> list[ProgramBenchSourceEntry]:
     out: list[ProgramBenchSourceEntry] = []
     for entry in entries:
         root = Path(entry.root)
@@ -220,9 +261,15 @@ def _dedupe_entries(entries: list[ProgramBenchSourceEntry]) -> list[ProgramBench
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Resolve legacy ProgramBench replay candidates to task/source roots.")
+    parser = argparse.ArgumentParser(
+        description="Resolve legacy ProgramBench replay candidates to task/source roots."
+    )
     parser.add_argument("batch_artifact", type=Path)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/programbench_task_root_resolution_batch_001.json"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("assurance/evidence/programbench_task_root_resolution_batch_001.json"),
+    )
     parser.add_argument("--root", action="append", type=Path, default=None)
     args = parser.parse_args()
 

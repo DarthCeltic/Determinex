@@ -5,14 +5,13 @@ The output is intentionally operational: it ranks all 200 tools by likely
 tests recovered per hour, marks recovery/source availability, and groups tools
 by reusable engine family so Claude/Codex lanes can split work without guessing.
 """
+
 from __future__ import annotations
 
 import json
-import os
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 BOARD = ROOT / "logs" / "programbench_lock_board.json"
@@ -23,34 +22,79 @@ OUT_MD = ROOT / "docs" / "PROGRAMBENCH_FLOOR_RAISE_ROADMAP.md"
 
 
 FAMILY_RULES: list[tuple[str, str, str]] = [
-    ("json_table", "json,yaml,toml,csv,sql,data-table transformers",
-     "gron,yq,jq,xq,xsv,miller,dsq,trdsql,fx,angle-grinder,tuc,hck,csview"),
-    ("doc_markup", "markdown/html/doc/site converters and linters",
-     "html-to-markdown,h2md,rumdl,marmite,mdbook,oranda,crowbook,typst,pandoc"),
-    ("search_filter", "grep/search/finder/filter tools",
-     "ripgrep,igrep,silver_searcher,fd,ag,grep,walk,peco,fzf"),
-    ("fs_tree", "filesystem tree/size/navigation tools",
-     "dutree,dust,dua,gdu,treemd,xcp,lsd,exa,nnn"),
-    ("fake_activity", "activity/log/demo emitters",
-     "genact,fblog,tailspin,amber,caps-log,loop,pingu"),
-    ("compression", "compression/archive/checksum tools",
-     "zstd,lz4,pigz,xz,sox"),
-    ("render_color", "syntax/color/terminal/render tools",
-     "bat,hexyl,hex,chafa,svgbob,ditaa,figlet,pastel,cmatrix"),
-    ("shell_lang", "shell/language/compiler/interpreter tools",
-     "shellharden,hush,nsh,lua,luajit,quickjs,php-src,tinycc,duckdb"),
-    ("git_project", "git/project/package management tools",
-     "git-trim,stgit,git-graph,skeema,go-mod-outdated,ninja,atlas,hostctl"),
-    ("network_system", "network/system/admin tools",
-     "curlie,masscan,oha,lnav,hwatch,rhit,handlr,pueue"),
+    (
+        "json_table",
+        "json,yaml,toml,csv,sql,data-table transformers",
+        "gron,yq,jq,xq,xsv,miller,dsq,trdsql,fx,angle-grinder,tuc,hck,csview",
+    ),
+    (
+        "doc_markup",
+        "markdown/html/doc/site converters and linters",
+        "html-to-markdown,h2md,rumdl,marmite,mdbook,oranda,crowbook,typst,pandoc",
+    ),
+    (
+        "search_filter",
+        "grep/search/finder/filter tools",
+        "ripgrep,igrep,silver_searcher,fd,ag,grep,walk,peco,fzf",
+    ),
+    (
+        "fs_tree",
+        "filesystem tree/size/navigation tools",
+        "dutree,dust,dua,gdu,treemd,xcp,lsd,exa,nnn",
+    ),
+    (
+        "fake_activity",
+        "activity/log/demo emitters",
+        "genact,fblog,tailspin,amber,caps-log,loop,pingu",
+    ),
+    ("compression", "compression/archive/checksum tools", "zstd,lz4,pigz,xz,sox"),
+    (
+        "render_color",
+        "syntax/color/terminal/render tools",
+        "bat,hexyl,hex,chafa,svgbob,ditaa,figlet,pastel,cmatrix",
+    ),
+    (
+        "shell_lang",
+        "shell/language/compiler/interpreter tools",
+        "shellharden,hush,nsh,lua,luajit,quickjs,php-src,tinycc,duckdb",
+    ),
+    (
+        "git_project",
+        "git/project/package management tools",
+        "git-trim,stgit,git-graph,skeema,go-mod-outdated,ninja,atlas,hostctl",
+    ),
+    (
+        "network_system",
+        "network/system/admin tools",
+        "curlie,masscan,oha,lnav,hwatch,rhit,handlr,pueue",
+    ),
 ]
 
 HARD_HINTS = {
-    "quickjs", "pandoc", "tinycc", "php-src", "duckdb", "gromacs", "proj",
-    "typst", "sox", "lightningcss",
+    "quickjs",
+    "pandoc",
+    "tinycc",
+    "php-src",
+    "duckdb",
+    "gromacs",
+    "proj",
+    "typst",
+    "sox",
+    "lightningcss",
 }
 
-TUI_HINTS = {"fzf", "hwatch", "nnn", "lazygit", "calcurse", "xplr", "tui-journal", "json-tui", "lnav", "rhit"}
+TUI_HINTS = {
+    "fzf",
+    "hwatch",
+    "nnn",
+    "lazygit",
+    "calcurse",
+    "xplr",
+    "tui-journal",
+    "json-tui",
+    "lnav",
+    "rhit",
+}
 
 ENGINE_STATUS: dict[str, dict[str, str]] = {
     "json_table": {
@@ -172,7 +216,9 @@ def active_staging(slug: str) -> list[str]:
     return [name for _mtime, name in sorted(hits, reverse=True)[:5]]
 
 
-def recipe_confidence(entry: dict[str, Any], family: str, has_compile: bool, has_source: bool) -> tuple[float, str]:
+def recipe_confidence(
+    entry: dict[str, Any], family: str, has_compile: bool, has_source: bool
+) -> tuple[float, str]:
     slug = _short(entry.get("slug"))
     score = float(entry.get("best_score") or 0)
     runnable = int(entry.get("best_runnable_total") or 0)
@@ -219,7 +265,9 @@ def recipe_confidence(entry: dict[str, Any], family: str, has_compile: bool, has
     return max(0.05, min(0.95, conf)), ",".join(notes)
 
 
-def decide_lane(entry: dict[str, Any], family: str, conf: float, has_compile: bool, has_source: bool) -> str:
+def decide_lane(
+    entry: dict[str, Any], family: str, conf: float, has_compile: bool, has_source: bool
+) -> str:
     score = float(entry.get("best_score") or 0)
     slug = _short(entry.get("slug"))
     if score == 100:
@@ -288,29 +336,31 @@ def build() -> dict[str, Any]:
         priority = expected * conf
         lane = decide_lane(entry, family, conf, has_compile, src is not None)
         action = decide_action(entry, lane, src is not None, has_compile)
-        targets.append(Target(
-            rank=0,
-            slug=slug,
-            base_slug=base,
-            family=family,
-            lane=lane,
-            action=action,
-            best_passed=passed,
-            runnable=runnable,
-            score=score,
-            gap_to_50=gap50,
-            gap_to_70=gap70,
-            gap_to_80=gap80,
-            expected_gain=expected,
-            priority_score=priority,
-            recipe_confidence=conf,
-            has_override=bool(entry.get("has_override")),
-            has_compile=has_compile,
-            has_best_source=src is not None,
-            has_extracted_tests=bool(entry.get("has_extracted_tests")),
-            active_staging=active_staging(slug),
-            notes=note,
-        ))
+        targets.append(
+            Target(
+                rank=0,
+                slug=slug,
+                base_slug=base,
+                family=family,
+                lane=lane,
+                action=action,
+                best_passed=passed,
+                runnable=runnable,
+                score=score,
+                gap_to_50=gap50,
+                gap_to_70=gap70,
+                gap_to_80=gap80,
+                expected_gain=expected,
+                priority_score=priority,
+                recipe_confidence=conf,
+                has_override=bool(entry.get("has_override")),
+                has_compile=has_compile,
+                has_best_source=src is not None,
+                has_extracted_tests=bool(entry.get("has_extracted_tests")),
+                active_staging=active_staging(slug),
+                notes=note,
+            )
+        )
     targets.sort(key=lambda t: (t.priority_score, t.expected_gain, t.runnable), reverse=True)
     for i, t in enumerate(targets, 1):
         t.rank = i
@@ -326,7 +376,9 @@ def build() -> dict[str, Any]:
             "score": total_passed / total_runnable * 100 if total_runnable else 0,
             "locks": sum(1 for t in targets if t.runnable and t.best_passed == t.runnable),
         },
-        "family_rules": [{"family": f, "description": d, "members": n.split(",")} for f, d, n in FAMILY_RULES],
+        "family_rules": [
+            {"family": f, "description": d, "members": n.split(",")} for f, d, n in FAMILY_RULES
+        ],
         "engine_status": ENGINE_STATUS,
         "targets": [asdict(t) for t in targets],
     }
@@ -340,21 +392,31 @@ def write_markdown(data: dict[str, Any]) -> None:
     lines.append("")
     lines.append("Date: 2026-05-21")
     lines.append("")
-    lines.append("Goal: move every tool toward the 50-80% band first, then reserve hand-finishing for the hard residuals. No tool is deferred; expensive tools are still listed, but feeder engines and recipe misses go first.")
+    lines.append(
+        "Goal: move every tool toward the 50-80% band first, then reserve hand-finishing for the hard residuals. No tool is deferred; expensive tools are still listed, but feeder engines and recipe misses go first."
+    )
     lines.append("")
     lines.append("## Current Board")
     lines.append("")
-    lines.append(f"- Overall best: `{overall['passed']}/{overall['runnable']}` (`{overall['score']:.4f}%`).")
+    lines.append(
+        f"- Overall best: `{overall['passed']}/{overall['runnable']}` (`{overall['score']:.4f}%`)."
+    )
     lines.append(f"- Verified locks: `{overall['locks']}`.")
-    lines.append("- Operating rule: Codex may run one official Docker gate at a time; Claude can keep four lanes saturated. Accepted gates are applied immediately when runnable count is stable.")
+    lines.append(
+        "- Operating rule: Codex may run one official Docker gate at a time; Claude can keep four lanes saturated. Accepted gates are applied immediately when runnable count is stable."
+    )
     lines.append("")
     lines.append("## Ranking Model")
     lines.append("")
-    lines.append("Priority is a hybrid score: expected recoverable tests times recipe confidence. Recipe confidence rises for low-score/high-surface tools, missing or incomplete overrides, available best source, and reusable family engines. It drops for known compiler/interpreter/database cores and TUI-heavy tools. This keeps all tools in scope while doing feeder work first.")
+    lines.append(
+        "Priority is a hybrid score: expected recoverable tests times recipe confidence. Recipe confidence rises for low-score/high-surface tools, missing or incomplete overrides, available best source, and reusable family engines. It drops for known compiler/interpreter/database cores and TUI-heavy tools. This keeps all tools in scope while doing feeder work first."
+    )
     lines.append("")
     lines.append("## Family Engine Readiness")
     lines.append("")
-    lines.append("This section is the missing execution layer: it says whether a family already has a reusable primitive, where it comes from, and what must be built before the highest-ranked tools in that family should be attacked.")
+    lines.append(
+        "This section is the missing execution layer: it says whether a family already has a reusable primitive, where it comes from, and what must be built before the highest-ranked tools in that family should be attacked."
+    )
     lines.append("")
     lines.append("| Family | Status | Existing Source | Next Build Step |")
     lines.append("|---|---|---|---|")
@@ -362,14 +424,22 @@ def write_markdown(data: dict[str, Any]) -> None:
         info = data["engine_status"].get(fam, {"status": "unknown", "source": "", "next": ""})
         lines.append(f"| `{fam}` | {info['status']} | {info['source']} | {info['next']} |")
     lines.append("")
-    lines.append("Status meanings: `partial` means at least one successful tool has a reusable primitive to port; `seed` means useful lessons exist but the family engine still needs construction; `unbuilt` means split the family further before spending a lane.")
+    lines.append(
+        "Status meanings: `partial` means at least one successful tool has a reusable primitive to port; `seed` means useful lessons exist but the family engine still needs construction; `unbuilt` means split the family further before spending a lane."
+    )
     lines.append("")
     lines.append("## Top 40 Damage Targets")
     lines.append("")
-    lines.append("| Rank | Tool | Score | Passed | Runnable | Family | Lane | Expected Gain | Conf | Action |")
+    lines.append(
+        "| Rank | Tool | Score | Passed | Runnable | Family | Lane | Expected Gain | Conf | Action |"
+    )
     lines.append("|---:|---|---:|---:|---:|---|---|---:|---:|---|")
     for t in targets[:40]:
-        lines.append("| {rank} | `{slug}` | {score:.2f}% | {best_passed} | {runnable} | {family} | {lane} | {expected_gain} | {recipe_confidence:.2f} | {action} |".format(**t))
+        lines.append(
+            "| {rank} | `{slug}` | {score:.2f}% | {best_passed} | {runnable} | {family} | {lane} | {expected_gain} | {recipe_confidence:.2f} | {action} |".format(
+                **t
+            )
+        )
     lines.append("")
     lines.append("## Family Feeder Order")
     lines.append("")
@@ -382,15 +452,27 @@ def write_markdown(data: dict[str, Any]) -> None:
         lines.append("")
         lines.append(f"Top feeder expected gain from first 10: `{gain}` tests.")
         for t in fam_targets[:10]:
-            lines.append(f"- `{t['slug']}`: {t['best_passed']}/{t['runnable']} ({t['score']:.2f}%), lane `{t['lane']}`, action: {t['action']}")
+            lines.append(
+                f"- `{t['slug']}`: {t['best_passed']}/{t['runnable']} ({t['score']:.2f}%), lane `{t['lane']}`, action: {t['action']}"
+            )
         lines.append("")
     lines.append("## Immediate Operating Plan")
     lines.append("")
-    lines.append("1. Keep Claude's four lanes on active official evals and accepted-gate application.")
-    lines.append("2. Codex owns the floor-raise lane: audit, source recovery, reusable engine patches, pack, and at most one Docker gate at a time.")
-    lines.append("3. For each candidate: inspect extracted tests, identify reusable family primitive, patch once, pack, gate, apply if accepted, and move on after one or two lifts.")
-    lines.append("4. Do not chase byte-exact residuals until every recipe-miss tool has either crossed 50% or been tagged as a true hand-specialist wall.")
-    lines.append("5. Re-run this script after every wave; the target list is expected to change as feeders land.")
+    lines.append(
+        "1. Keep Claude's four lanes on active official evals and accepted-gate application."
+    )
+    lines.append(
+        "2. Codex owns the floor-raise lane: audit, source recovery, reusable engine patches, pack, and at most one Docker gate at a time."
+    )
+    lines.append(
+        "3. For each candidate: inspect extracted tests, identify reusable family primitive, patch once, pack, gate, apply if accepted, and move on after one or two lifts."
+    )
+    lines.append(
+        "4. Do not chase byte-exact residuals until every recipe-miss tool has either crossed 50% or been tagged as a true hand-specialist wall."
+    )
+    lines.append(
+        "5. Re-run this script after every wave; the target list is expected to change as feeders land."
+    )
     lines.append("")
     lines.append("## Artifact")
     lines.append("")
@@ -409,7 +491,9 @@ def main() -> int:
     print(f"overall {o['passed']}/{o['runnable']} {o['score']:.4f}% locks={o['locks']}")
     print("top 10:")
     for t in data["targets"][:10]:
-        print(f"{t['rank']:3d} {t['priority_score']:8.1f} {t['slug']:45s} {t['score']:6.2f}% gain={t['expected_gain']:4d} lane={t['lane']} family={t['family']}")
+        print(
+            f"{t['rank']:3d} {t['priority_score']:8.1f} {t['slug']:45s} {t['score']:6.2f}% gain={t['expected_gain']:4d} lane={t['lane']} family={t['family']}"
+        )
     return 0
 
 

@@ -43,12 +43,12 @@ if hasattr(sys.stdout, "reconfigure"):
 # ---------------------------------------------------------------------------
 
 FAMILIES = [
-    ("llama",    "meta-llama/Llama-3.2-3B-Instruct",           3072),
-    ("qwen",     "Qwen/Qwen2.5-Coder-3B-Instruct",             2048),
-    ("deepseek", "deepseek-ai/deepseek-coder-1.3b-instruct",   2048),
-    ("mistral",  "mistralai/Mistral-7B-Instruct-v0.3",         4096),
-    ("phi",      "microsoft/Phi-3-mini-4k-instruct",           3072),
-    ("gemma",    "google/gemma-2-2b-it",                       2304),
+    ("llama", "meta-llama/Llama-3.2-3B-Instruct", 3072),
+    ("qwen", "Qwen/Qwen2.5-Coder-3B-Instruct", 2048),
+    ("deepseek", "deepseek-ai/deepseek-coder-1.3b-instruct", 2048),
+    ("mistral", "mistralai/Mistral-7B-Instruct-v0.3", 4096),
+    ("phi", "microsoft/Phi-3-mini-4k-instruct", 3072),
+    ("gemma", "google/gemma-2-2b-it", 2304),
 ]
 
 # SHARED_PROMPTS now lives in shared_prompts.py (zero dependencies) so the GGUF-based
@@ -58,6 +58,7 @@ FAMILIES = [
 # ---------------------------------------------------------------------------
 # COLLECTION
 # ---------------------------------------------------------------------------
+
 
 def load_model(model_id: str, device: str):
     """Load a model in 4-bit NF4 for efficient hidden state extraction."""
@@ -97,13 +98,13 @@ def collect_states(model, tok, prompts: list[str], family: str, out_dir: Path):
                 ).to(model.device)
                 outputs = model(**inputs, output_hidden_states=True)
                 # Last hidden state, mean-pooled across sequence length
-                last_hidden = outputs.hidden_states[-1]          # (1, seq, dim)
-                pooled      = last_hidden.mean(dim=1).squeeze(0) # (dim,)
-                pooled_cpu  = pooled.float().cpu()
+                last_hidden = outputs.hidden_states[-1]  # (1, seq, dim)
+                pooled = last_hidden.mean(dim=1).squeeze(0)  # (dim,)
+                pooled_cpu = pooled.float().cpu()
                 torch.save(pooled_cpu, out_dir / f"prompt_{i:04d}.pt")
                 saved += 1
                 if (i + 1) % 10 == 0:
-                    print(f"    [{family}] {i+1}/{len(prompts)} prompts collected", flush=True)
+                    print(f"    [{family}] {i + 1}/{len(prompts)} prompts collected", flush=True)
             except Exception as e:
                 print(f"    [{family}] prompt {i} failed: {e}", flush=True)
     print(f"  [{family}] Saved {saved}/{len(prompts)} states → {out_dir}", flush=True)
@@ -154,8 +155,12 @@ def run_collection(output_dir: Path, families: list = None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output_dir", type=str, default="outputs/hidden_states")
-    parser.add_argument("--families",   type=str, default=None,
-                        help="Comma-separated family names to collect (default: all)")
+    parser.add_argument(
+        "--families",
+        type=str,
+        default=None,
+        help="Comma-separated family names to collect (default: all)",
+    )
     args = parser.parse_args()
 
     families = args.families.split(",") if args.families else None

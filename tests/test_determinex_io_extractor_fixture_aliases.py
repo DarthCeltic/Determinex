@@ -48,6 +48,7 @@ largest recovery of any fix in this chain. Other 5 tools unchanged in this speci
 (the alias-collision pattern happens to be xh-specific in the sampled branches, though the
 mechanism is general and will apply to any tool using the same idiom).
 """
+
 from __future__ import annotations
 
 import ast
@@ -57,8 +58,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import determinex_io_extractor as iox  # noqa: E402
 
-
 # ---------- _discover_fixture_wrapper_aliases() ----------
+
 
 def test_discovers_simple_one_hop_alias(tmp_path):
     src = '''
@@ -86,7 +87,7 @@ def xh():
 def test_discovers_alias_without_intermediate_assignment(tmp_path):
     """A fixture that returns the runner name directly (no `_run_xh_func = run_xh` step)
     must also resolve -- the assignment hop is optional, not required."""
-    src = '''
+    src = """
 import subprocess
 
 def run_xh(*args):
@@ -95,7 +96,7 @@ def run_xh(*args):
 @pytest.fixture
 def xh():
     return run_xh
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     tree = ast.parse(src)
@@ -105,12 +106,12 @@ def xh():
 
 
 def test_rejects_fixture_returning_unrelated_name(tmp_path):
-    src = '''
+    src = """
 @pytest.fixture
 def sample_text():
     unrelated = "hello world"
     return unrelated
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     tree = ast.parse(src)
@@ -119,13 +120,13 @@ def sample_text():
 
 
 def test_rejects_non_fixture_function_returning_a_runner_name(tmp_path):
-    src = '''
+    src = """
 def run_xh(*args):
     return subprocess.run(["./executable", *args])
 
 def helper():
     return run_xh
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     tree = ast.parse(src)
@@ -137,7 +138,7 @@ def helper():
 def test_fixture_body_with_multiple_statements_before_return_bails(tmp_path):
     """Only a bare `return <name>` (docstring aside) is trusted -- any real logic before
     the return means the fixture isn't a transparent alias; never guess past that."""
-    src = '''
+    src = """
 def run_xh(*args):
     return subprocess.run(["./executable", *args])
 
@@ -145,7 +146,7 @@ def run_xh(*args):
 def xh():
     setup_something()
     return run_xh
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     tree = ast.parse(src)
@@ -155,7 +156,7 @@ def xh():
 
 
 def test_bare_fixture_decorator_name_supported(tmp_path):
-    src = '''
+    src = """
 from pytest import fixture
 
 def run_xh(*args):
@@ -164,7 +165,7 @@ def run_xh(*args):
 @fixture
 def xh():
     return run_xh
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     tree = ast.parse(src)
@@ -174,6 +175,7 @@ def xh():
 
 
 # ---------- extract_file() integration ----------
+
 
 def test_extract_file_resolves_test_calling_fixture_alias_directly(tmp_path):
     src = '''
@@ -213,7 +215,7 @@ def test_simple_call(xh):
 def test_extract_file_unrelated_fixture_of_same_shape_stays_unresolved(tmp_path):
     """A fixture that transparently returns an UNRELATED (non-runner) function must not be
     treated as a runner alias just because it matches the bare-return shape."""
-    src = '''
+    src = """
 def make_sample():
     return "hello"
 
@@ -223,7 +225,7 @@ def sample():
 
 def test_uses_sample(sample):
     assert sample() == "hello"
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

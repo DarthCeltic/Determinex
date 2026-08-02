@@ -5,7 +5,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-
 METADATA_FILENAMES = ("manifest.json", "task.json", "metadata.json", "programbench.json")
 LOCAL_VERIFIER_FILENAMES = ("local_verifier.json", "replay_verifier.json")
 
@@ -81,7 +80,15 @@ def _collect_project_shape(root: Path, evidence: MetadataEvidence) -> None:
             lower = path.name.lower()
             if lower in {"dockerfile", "containerfile"} or lower.startswith("dockerfile."):
                 evidence.dockerfiles.append(rel)
-            elif lower in {"compile.sh", "build.sh", "makefile", "cmakelists.txt", "go.mod", "cargo.toml", "package.json"}:
+            elif lower in {
+                "compile.sh",
+                "build.sh",
+                "makefile",
+                "cmakelists.txt",
+                "go.mod",
+                "cargo.toml",
+                "package.json",
+            }:
                 evidence.build_files.append(rel)
                 if lower in {"go.mod", "cargo.toml", "package.json"}:
                     evidence.module_files.append(rel)

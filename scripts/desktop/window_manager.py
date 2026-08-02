@@ -1,4 +1,5 @@
 """Window management utilities for desktop agents (via AT-SPI or accessibility APIs over VNC)."""
+
 from __future__ import annotations
 
 import logging

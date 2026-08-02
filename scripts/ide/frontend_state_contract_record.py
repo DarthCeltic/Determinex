@@ -1,9 +1,9 @@
 """Records for IDE_FRONTEND_STATE_CONTRACT_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 FRONTEND_STATE_CONTRACT_STATUS_TOKENS = (
     "FRONTEND_STATE_CONTRACT_READY",

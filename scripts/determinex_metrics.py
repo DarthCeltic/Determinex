@@ -15,7 +15,9 @@ Metrics:
 Run:
     python scripts/determinex_metrics.py --port 9101
 """
+
 from __future__ import annotations
+
 import argparse
 import http.server
 import sqlite3
@@ -36,8 +38,8 @@ def collect() -> str:
             c = sqlite3.connect(DB)
             cur = c.cursor()
             n = cur.execute("SELECT COUNT(*) FROM evals").fetchone()[0]
-            out.append(f"# HELP determinex_evals_total Total eval records")
-            out.append(f"# TYPE determinex_evals_total counter")
+            out.append("# HELP determinex_evals_total Total eval records")
+            out.append("# TYPE determinex_evals_total counter")
             out.append(f"determinex_evals_total {n}")
 
             # Latest per tool
@@ -54,11 +56,16 @@ def collect() -> str:
                 # Escape label
                 ie = inst.replace("\\", "\\\\").replace('"', '\\"')
                 out.append(f'determinex_score_pct{{instance_id="{ie}"}} {pct}')
-                if pct >= 95: buckets["95_100"] += 1
-                elif pct >= 70: buckets["70_94"] += 1
-                elif pct >= 40: buckets["40_69"] += 1
-                elif pct >= 10: buckets["10_39"] += 1
-                else: buckets["0_9"] += 1
+                if pct >= 95:
+                    buckets["95_100"] += 1
+                elif pct >= 70:
+                    buckets["70_94"] += 1
+                elif pct >= 40:
+                    buckets["40_69"] += 1
+                elif pct >= 10:
+                    buckets["10_39"] += 1
+                else:
+                    buckets["0_9"] += 1
                 if dur:
                     out.append(f'determinex_eval_duration_seconds{{instance_id="{ie}"}} {dur}')
 
@@ -74,17 +81,26 @@ def collect() -> str:
     # ── Hetzner queue (via SSH) ─────────────────────────────────
     try:
         result = subprocess.run(
-            ["ssh", "-i", str(Path.home()/".ssh"/"id_citadel"),
-             "-o", "ConnectTimeout=3", "root@5.78.192.163",
-             "wc -l /root/queue/pending_light.txt /root/queue/pending_heavy.txt /root/queue/claimed.txt /root/queue/done.txt 2>/dev/null"],
-            capture_output=True, text=True, timeout=10,
+            [
+                "ssh",
+                "-i",
+                str(Path.home() / ".ssh" / "id_citadel"),
+                "-o",
+                "ConnectTimeout=3",
+                "root@5.78.192.163",
+                "wc -l /root/queue/pending_light.txt /root/queue/pending_heavy.txt /root/queue/claimed.txt /root/queue/done.txt 2>/dev/null",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         if result.returncode == 0:
             out.append("# HELP determinex_pool_count Pool state counts")
             out.append("# TYPE determinex_pool_count gauge")
             for line in result.stdout.splitlines():
                 parts = line.split()
-                if len(parts) < 2: continue
+                if len(parts) < 2:
+                    continue
                 n = parts[0]
                 if "pending_light" in parts[1]:
                     out.append(f'determinex_pool_count{{state="pending",tier="light"}} {n}')
@@ -97,8 +113,8 @@ def collect() -> str:
     except Exception:
         pass
 
-    out.append(f"# HELP determinex_collector_last_run Unix timestamp of last metrics collection")
-    out.append(f"# TYPE determinex_collector_last_run gauge")
+    out.append("# HELP determinex_collector_last_run Unix timestamp of last metrics collection")
+    out.append("# TYPE determinex_collector_last_run gauge")
     out.append(f"determinex_collector_last_run {int(time.time())}")
     return "\n".join(out) + "\n"
 
@@ -120,7 +136,8 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.send_response(404)
             self.end_headers()
 
-    def log_message(self, *a, **k): pass  # silence
+    def log_message(self, *a, **k):
+        pass  # silence
 
 
 def main():

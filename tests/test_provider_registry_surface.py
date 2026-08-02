@@ -20,6 +20,7 @@ on this machine -- gemini-cli refused with IneligibleTierError while holding val
 having both surfaces registered independently is what lets a Google model be reached at all when one
 path is closed to an account.
 """
+
 from __future__ import annotations
 
 import json
@@ -107,12 +108,19 @@ class TestTheRegistryIsListable:
 
     def test_each_row_carries_what_a_picker_needs(self):
         for row in P.registry_json():
-            for field in ("name", "tier", "available", "env_key", "default_model", "aliases",
-                          "needs"):
+            for field in (
+                "name",
+                "tier",
+                "available",
+                "env_key",
+                "default_model",
+                "aliases",
+                "needs",
+            ):
                 assert field in row, f"{row.get('name')} is missing {field}"
 
     def test_an_unavailable_provider_says_what_to_set(self):
-        """"Unavailable" with no remedy is the same unhelpful shape as a bare logged_in: false."""
+        """ "Unavailable" with no remedy is the same unhelpful shape as a bare logged_in: false."""
         for row in P.registry_json():
             if not row["available"]:
                 assert row["needs"], f"{row['name']} is unavailable and does not say why"
@@ -131,7 +139,10 @@ class TestTheRegistryIsListable:
         """list_ai_providers shells this exact command; a broken --json is an empty picker."""
         result = subprocess.run(
             [sys.executable, str(_ROOT / "scripts" / "determinex_providers.py"), "--json"],
-            cwd=_ROOT, capture_output=True, text=True, timeout=180,
+            cwd=_ROOT,
+            capture_output=True,
+            text=True,
+            timeout=180,
             env={**__import__("os").environ, "PYTHONPATH": str(_ROOT / "scripts")},
         )
         assert result.returncode == 0, result.stderr[-500:]
@@ -143,7 +154,10 @@ class TestTheRegistryIsListable:
         """--json is additive; the report predates it and is what a terminal user runs."""
         result = subprocess.run(
             [sys.executable, str(_ROOT / "scripts" / "determinex_providers.py")],
-            cwd=_ROOT, capture_output=True, text=True, timeout=180,
+            cwd=_ROOT,
+            capture_output=True,
+            text=True,
+            timeout=180,
             env={**__import__("os").environ, "PYTHONPATH": str(_ROOT / "scripts")},
         )
         assert result.returncode == 0
@@ -247,8 +261,16 @@ class TestEveryOfferedRouteResolves:
         """The providers added to the registry must be assignable to a role, not just nameable in
         Python -- an alias here is what makes a provider a choice in the IDE."""
         aliases = self._aliases()
-        for fragment in ("kimi", "grok", "vertex", "codestral", "together", "cerebras",
-                         "fireworks", "hf-"):
+        for fragment in (
+            "kimi",
+            "grok",
+            "vertex",
+            "codestral",
+            "together",
+            "cerebras",
+            "fireworks",
+            "hf-",
+        ):
             assert any(fragment in a for a in aliases), (
                 f"no alias mentions {fragment!r}, so that provider cannot be assigned to a role"
             )

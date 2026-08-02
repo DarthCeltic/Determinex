@@ -1,13 +1,28 @@
 """Quality checks for source-code corpus intake."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
 
-
 _CODE_EXTENSIONS = {
-    ".py", ".go", ".rs", ".java", ".c", ".h", ".cpp", ".cc", ".hpp",
-    ".ts", ".tsx", ".js", ".jsx", ".rb", ".php", ".sql", ".sh",
+    ".py",
+    ".go",
+    ".rs",
+    ".java",
+    ".c",
+    ".h",
+    ".cpp",
+    ".cc",
+    ".hpp",
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx",
+    ".rb",
+    ".php",
+    ".sql",
+    ".sh",
 }
 
 
@@ -27,7 +42,9 @@ class QualityReport:
         }
 
 
-def assess(path: Path, *, min_code_files: int = 1, max_total_bytes: int = 50_000_000) -> QualityReport:
+def assess(
+    path: Path, *, min_code_files: int = 1, max_total_bytes: int = 50_000_000
+) -> QualityReport:
     files = [path] if path.is_file() else [p for p in path.rglob("*") if p.is_file()]
     code_files = 0
     total_bytes = 0
@@ -44,4 +61,6 @@ def assess(path: Path, *, min_code_files: int = 1, max_total_bytes: int = 50_000
         reasons.append("no supported code files found")
     if total_bytes > max_total_bytes:
         reasons.append(f"source too large: {total_bytes} bytes")
-    return QualityReport(passed=not reasons, code_files=code_files, total_bytes=total_bytes, reasons=reasons)
+    return QualityReport(
+        passed=not reasons, code_files=code_files, total_bytes=total_bytes, reasons=reasons
+    )

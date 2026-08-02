@@ -2,12 +2,13 @@
 Root contract for all Determinex visual/browser/desktop/mobile agents.
 Every controller, adapter, and test must import types from here only.
 """
+
 from __future__ import annotations
 
 import hashlib
 import json
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
 from typing import Any
 
@@ -17,6 +18,7 @@ SCHEMA_VERSION = "determinex-agent-trace-v1"
 # ---------------------------------------------------------------------------
 # Environment types
 # ---------------------------------------------------------------------------
+
 
 class EnvType(str, Enum):
     CODE = "code"
@@ -33,6 +35,7 @@ class EnvType(str, Enum):
 # ---------------------------------------------------------------------------
 # Action types
 # ---------------------------------------------------------------------------
+
 
 class ActionType(str, Enum):
     # Observation (read-only)
@@ -79,6 +82,7 @@ class ActionType(str, Enum):
 # Oracle types
 # ---------------------------------------------------------------------------
 
+
 class OracleType(str, Enum):
     COMPILER = "compiler"
     TEST = "test"
@@ -99,6 +103,7 @@ class OracleType(str, Enum):
 # Corpus types
 # ---------------------------------------------------------------------------
 
+
 class CorpusType(str, Enum):
     CODE_VERDICT = "code_verdict"
     TERMINAL_TRACE = "terminal_trace"
@@ -112,6 +117,7 @@ class CorpusType(str, Enum):
 # ---------------------------------------------------------------------------
 # Core data types
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class VisualTaskSpec:
@@ -158,7 +164,7 @@ class AgentObservation:
     stdout: str | None = None
     stderr: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
 
     def to_dict(self) -> dict:
         return {k: v for k, v in self.__dict__.items() if v is not None}
@@ -168,14 +174,14 @@ class AgentObservation:
 class AgentAction:
     action_type: ActionType
     step: int
-    target: str | None = None       # CSS selector, file path, app name, etc.
-    payload: str | None = None       # text to type, command to run, patch content, etc.
-    x: int | None = None             # screen coordinates
+    target: str | None = None  # CSS selector, file path, app name, etc.
+    payload: str | None = None  # text to type, command to run, patch content, etc.
+    x: int | None = None  # screen coordinates
     y: int | None = None
     rationale: str = ""
-    safety_decision: str = ""        # filled by safety_governor before execution
+    safety_decision: str = ""  # filled by safety_governor before execution
     metadata: dict[str, Any] = field(default_factory=dict)
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
 
     def to_dict(self) -> dict:
         d = {k: v for k, v in self.__dict__.items() if v is not None and v != ""}
@@ -196,7 +202,9 @@ class ActionResult:
         return {
             "action": self.action.to_dict(),
             "success": self.success,
-            "observation_after": self.observation_after.to_dict() if self.observation_after else None,
+            "observation_after": self.observation_after.to_dict()
+            if self.observation_after
+            else None,
             "error": self.error,
             "duration_ms": self.duration_ms,
             "metadata": self.metadata,
@@ -207,7 +215,7 @@ class ActionResult:
 class OracleVerdict:
     oracle_type: OracleType
     passed: bool
-    score: float = 0.0              # 0.0–1.0
+    score: float = 0.0  # 0.0–1.0
     evidence: str = ""
     raw_output: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -235,7 +243,7 @@ class AgentTrace:
     success: bool = False
     aborted: bool = False
     abort_reason: str = ""
-    start_time: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    start_time: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
     end_time: str = ""
     total_steps: int = 0
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -273,6 +281,7 @@ class AgentTrace:
 @dataclass
 class CorpusRecord:
     """Fully normalized, HMAC-ready training record. Created only by CorpusManager."""
+
     schema_version: str
     corpus_type: CorpusType
     timestamp: str
@@ -280,8 +289,8 @@ class CorpusRecord:
     task_id: str
     input_hash: str
     output_hash: str
-    payload: dict[str, Any]         # corpus-type-specific fields
-    _sig: str = ""                  # BLAKE2b-256 HMAC, filled by CorpusManager.sign()
+    payload: dict[str, Any]  # corpus-type-specific fields
+    _sig: str = ""  # BLAKE2b-256 HMAC, filled by CorpusManager.sign()
 
     def to_dict(self) -> dict:
         d = {

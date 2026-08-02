@@ -18,13 +18,14 @@ of being smoothed into a correctness claim.
 Usage
     python scripts/release/capture_first_e2e_rerun.py --session <session-id> [--supersedes <id>]
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -79,14 +80,16 @@ def summarise_steps(steps: list[Any]) -> tuple[dict[str, Any], list[dict[str, An
             # Marked complete without a passing oracle lands here on purpose: not a failure the
             # session reported, but not something we may count as verified either.
             pending += 1
-        per_step.append({
-            "id": raw.get("id"),
-            "status": status,
-            "compiler_result": oracle,
-            "correctness_result": str(raw.get("correctness_result") or ""),
-            "quality": str(raw.get("quality") or ""),
-            "retries": int(raw.get("retries") or 0),
-        })
+        per_step.append(
+            {
+                "id": raw.get("id"),
+                "status": status,
+                "compiler_result": oracle,
+                "correctness_result": str(raw.get("correctness_result") or ""),
+                "quality": str(raw.get("quality") or ""),
+                "retries": int(raw.get("retries") or 0),
+            }
+        )
     observed: dict[str, Any] = {
         "steps_complete": complete,
         "steps_total": len(per_step),
@@ -122,8 +125,8 @@ def build_record(
         (
             f"Every step was verified by the Compiler Oracle ({observed['steps_complete']}/"
             f"{observed['steps_total']} compiler_result=pass)."
-            if passed else
-            f"{observed['steps_complete']}/{observed['steps_total']} steps reached a passing "
+            if passed
+            else f"{observed['steps_complete']}/{observed['steps_total']} steps reached a passing "
             f"Compiler Oracle result; {observed['steps_failed']} failed and "
             f"{observed['steps_pending']} did not reach a verified state."
         ),
@@ -164,8 +167,9 @@ def build_record(
         "derived_from": f"sessions/{manifest.get('session_id')}/manifest.json",
         "notes": list(notes or []),
         "next_required_action": (
-            "" if passed else
-            "Investigate the non-verified steps in the session manifest and rerun the workflow."
+            ""
+            if passed
+            else "Investigate the non-verified steps in the session manifest and rerun the workflow."
         ),
     }
     if supersedes:
@@ -203,9 +207,10 @@ def main(argv: list[str] | None = None) -> int:
         print(f"REFUSED: {exc}", file=sys.stderr)
         return 2
 
-    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    record = build_record(manifest, generated_at_utc=stamp, supersedes=args.supersedes,
-                          notes=args.note)
+    stamp = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    record = build_record(
+        manifest, generated_at_utc=stamp, supersedes=args.supersedes, notes=args.note
+    )
 
     out = (root / args.output) if not Path(args.output).is_absolute() else Path(args.output)
     out.parent.mkdir(parents=True, exist_ok=True)

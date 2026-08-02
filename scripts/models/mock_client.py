@@ -8,10 +8,11 @@ The client carries no I/O. It cannot reach a network, cannot reach a
 subprocess, and cannot read the corpus or training data. Construction
 is the only place a fixture sets up its expected canned responses.
 """
+
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Mapping
+from collections.abc import Mapping
+from dataclasses import dataclass
 
 from .model_router import TaskClass
 from .model_router_record import RouteRecord
@@ -99,12 +100,14 @@ class MockModelClient:
         response = dict(self._canned[tc_key])
         payload_keys = tuple(sorted((payload or {}).keys()))
         response_key = str(response.get("kind") or response.get("status") or "MOCKED")
-        self._calls.append(MockedCall(
-            task_class=tc_key,
-            route_decision=route_record.decision,
-            selected_model_id=route_record.selected_model_id,
-            execution_authorized=route_record.execution_authorized,
-            payload_keys=payload_keys,
-            response_key=response_key,
-        ))
+        self._calls.append(
+            MockedCall(
+                task_class=tc_key,
+                route_decision=route_record.decision,
+                selected_model_id=route_record.selected_model_id,
+                execution_authorized=route_record.execution_authorized,
+                payload_keys=payload_keys,
+                response_key=response_key,
+            )
+        )
         return response

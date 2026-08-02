@@ -13,16 +13,13 @@ Output: logs/swebench/frontier_<model>_<timestamp>/predictions.jsonl
 """
 
 import argparse
+import concurrent.futures
 import json
 import logging
 import os
 import re
-import subprocess
-import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
-import concurrent.futures
 
 _ROOT = Path(__file__).parent.parent
 logging.basicConfig(
@@ -33,39 +30,45 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 REPOS_DIR = Path(os.getenv("DETERMINEX_REPOS_DIR", "T:/determinex-swebench"))
-LOGS_DIR  = _ROOT / "logs" / "swebench"
+LOGS_DIR = _ROOT / "logs" / "swebench"
 
 # ── Model config ──────────────────────────────────────────────────────────────
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-ANTHROPIC_URL  = "https://api.anthropic.com/v1/messages"
+ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 
 DEEPSEEK_MODEL = "deepseek/deepseek-chat-v3-0324"
-CLAUDE_MODEL   = "claude-sonnet-4-6"
+CLAUDE_MODEL = "claude-sonnet-4-6"
 
-ANTHROPIC_API_KEY  = os.getenv("ANTHROPIC_API_KEY", "")
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 
 
 # ── API calls ─────────────────────────────────────────────────────────────────
 
+
 def call_deepseek(prompt: str, system: str = "", temperature: float = 0.0) -> str:
     import urllib.request
-    payload = json.dumps({
-        "model": DEEPSEEK_MODEL,
-        "messages": [
-            {"role": "system", "content": system or "You are an expert Python developer."},
-            {"role": "user", "content": prompt},
-        ],
-        "temperature": temperature,
-        "max_tokens": 8192,
-    }).encode()
+
+    payload = json.dumps(
+        {
+            "model": DEEPSEEK_MODEL,
+            "messages": [
+                {"role": "system", "content": system or "You are an expert Python developer."},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": temperature,
+            "max_tokens": 8192,
+        }
+    ).encode()
     req = urllib.request.Request(
-        OPENROUTER_URL, data=payload,
+        OPENROUTER_URL,
+        data=payload,
         headers={
             "Content-Type": "application/json",
             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        }, method="POST",
+        },
+        method="POST",
     )
     with urllib.request.urlopen(req, timeout=120) as r:
         return json.loads(r.read())["choices"][0]["message"]["content"]
@@ -73,20 +76,25 @@ def call_deepseek(prompt: str, system: str = "", temperature: float = 0.0) -> st
 
 def call_claude(prompt: str, system: str = "", temperature: float = 1.0) -> str:
     import urllib.request
-    payload = json.dumps({
-        "model": CLAUDE_MODEL,
-        "max_tokens": 8192,
-        "temperature": temperature,
-        "system": system or "You are an expert Python developer.",
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode()
+
+    payload = json.dumps(
+        {
+            "model": CLAUDE_MODEL,
+            "max_tokens": 8192,
+            "temperature": temperature,
+            "system": system or "You are an expert Python developer.",
+            "messages": [{"role": "user", "content": prompt}],
+        }
+    ).encode()
     req = urllib.request.Request(
-        ANTHROPIC_URL, data=payload,
+        ANTHROPIC_URL,
+        data=payload,
         headers={
             "Content-Type": "application/json",
             "x-api-key": ANTHROPIC_API_KEY,
             "anthropic-version": "2023-06-01",
-        }, method="POST",
+        },
+        method="POST",
     )
     with urllib.request.urlopen(req, timeout=120) as r:
         resp = json.loads(r.read())
@@ -96,14 +104,56 @@ def call_claude(prompt: str, system: str = "", temperature: float = 1.0) -> str:
 
 # ── File discovery ─────────────────────────────────────────────────────────────
 
-_NOISE = frozenset({
-    'error', 'issue', 'should', 'would', 'could', 'please',
-    'stdout', 'stdin', 'stderr', 'sys', 'os', 'path', 'test', 'tests',
-    'assert', 'format', 'print', 'write', 'read', 'open', 'true', 'false',
-    'none', 'self', 'args', 'kwargs', 'return', 'raise', 'import', 'from',
-    'with', 'file', 'data', 'value', 'result', 'output', 'input', 'name',
-    'type', 'class', 'object', 'string', 'list', 'dict', 'tuple', 'bool',
-})
+_NOISE = frozenset(
+    {
+        "error",
+        "issue",
+        "should",
+        "would",
+        "could",
+        "please",
+        "stdout",
+        "stdin",
+        "stderr",
+        "sys",
+        "os",
+        "path",
+        "test",
+        "tests",
+        "assert",
+        "format",
+        "print",
+        "write",
+        "read",
+        "open",
+        "true",
+        "false",
+        "none",
+        "self",
+        "args",
+        "kwargs",
+        "return",
+        "raise",
+        "import",
+        "from",
+        "with",
+        "file",
+        "data",
+        "value",
+        "result",
+        "output",
+        "input",
+        "name",
+        "type",
+        "class",
+        "object",
+        "string",
+        "list",
+        "dict",
+        "tuple",
+        "bool",
+    }
+)
 
 
 def _is_test_file(p: Path) -> bool:
@@ -114,22 +164,24 @@ def _is_test_file(p: Path) -> bool:
     return "tests" in parts or "test" in parts
 
 
-def find_relevant_files(repo_path: Path, issue: str, fail_tests: str = "", max_files: int = 3) -> list[Path]:
-    keywords = re.findall(r'\b[a-zA-Z_][a-zA-Z0-9_]{4,}\b', issue)
+def find_relevant_files(
+    repo_path: Path, issue: str, fail_tests: str = "", max_files: int = 3
+) -> list[Path]:
+    keywords = re.findall(r"\b[a-zA-Z_][a-zA-Z0-9_]{4,}\b", issue)
     keywords = [k for k in keywords if k.lower() not in _NOISE][:8]
 
     # Boost files from FAIL_TO_PASS test paths
     boost: set[str] = set()
-    for test_id in re.split(r'[\s,]+', fail_tests):
-        m = re.match(r'.*[/\\](test_?)?([a-zA-Z0-9_]+)\.py', test_id)
+    for test_id in re.split(r"[\s,]+", fail_tests):
+        m = re.match(r".*[/\\](test_?)?([a-zA-Z0-9_]+)\.py", test_id)
         if m:
-            boost.add(m.group(2).lstrip('_').lower())
+            boost.add(m.group(2).lstrip("_").lower())
 
     scores: dict[Path, float] = {}
     for p in repo_path.rglob("*.py"):
         if _is_test_file(p):
             continue
-        if any(part.startswith('.') for part in p.parts):
+        if any(part.startswith(".") for part in p.parts):
             continue
         try:
             content = p.read_text(encoding="utf-8", errors="replace")
@@ -170,8 +222,8 @@ RULES:
 def _apply_one_block(content: str, search: str, replace: str) -> "str | None":
     if search in content:
         return content.replace(search, replace, 1)
-    search_norm = search.replace('\r\n', '\n').replace('\r', '\n')
-    content_norm = content.replace('\r\n', '\n').replace('\r', '\n')
+    search_norm = search.replace("\r\n", "\n").replace("\r", "\n")
+    content_norm = content.replace("\r\n", "\n").replace("\r", "\n")
     if search_norm in content_norm:
         return content_norm.replace(search_norm, replace, 1)
     content_lines = content_norm.splitlines(keepends=True)
@@ -180,30 +232,30 @@ def _apply_one_block(content: str, search: str, replace: str) -> "str | None":
     if n == 0:
         return None
     for i in range(len(content_lines) - n + 1):
-        window = [content_lines[i + j].rstrip('\n').rstrip() for j in range(n)]
+        window = [content_lines[i + j].rstrip("\n").rstrip() for j in range(n)]
         if window == search_lines:
-            before = ''.join(content_lines[:i])
-            after = ''.join(content_lines[i + n:])
-            replacement = replace if replace.endswith('\n') else replace + '\n'
+            before = "".join(content_lines[:i])
+            after = "".join(content_lines[i + n :])
+            replacement = replace if replace.endswith("\n") else replace + "\n"
             return before + replacement + after
     # Leading-whitespace-flexible first line
     if n >= 1:
         search_first_core = search_lines[0].lstrip()
         search_rest = [l.rstrip() for l in search_lines[1:]]
         for i in range(len(content_lines) - n + 1):
-            content_first = content_lines[i].rstrip('\n').rstrip()
+            content_first = content_lines[i].rstrip("\n").rstrip()
             if content_first.lstrip() != search_first_core:
                 continue
             if n == 1:
-                before = ''.join(content_lines[:i])
-                after = ''.join(content_lines[i + 1:])
-                replacement = replace if replace.endswith('\n') else replace + '\n'
+                before = "".join(content_lines[:i])
+                after = "".join(content_lines[i + 1 :])
+                replacement = replace if replace.endswith("\n") else replace + "\n"
                 return before + replacement + after
-            rest_window = [content_lines[i + 1 + j].rstrip('\n').rstrip() for j in range(n - 1)]
+            rest_window = [content_lines[i + 1 + j].rstrip("\n").rstrip() for j in range(n - 1)]
             if rest_window == search_rest:
-                before = ''.join(content_lines[:i])
-                after = ''.join(content_lines[i + n:])
-                replacement = replace if replace.endswith('\n') else replace + '\n'
+                before = "".join(content_lines[:i])
+                after = "".join(content_lines[i + n :])
+                replacement = replace if replace.endswith("\n") else replace + "\n"
                 return before + replacement + after
     return None
 
@@ -211,7 +263,7 @@ def _apply_one_block(content: str, search: str, replace: str) -> "str | None":
 def parse_and_apply_patch(response: str, repo_path: Path, target_file: Path) -> str:
     original = target_file.read_text(encoding="utf-8", errors="replace")
     pattern = re.compile(
-        r'<{3,7}\s*SEARCH\s*\n(.*?)\n={3,7}\s*\n(.*?)\n>{3,7}\s*REPLACE',
+        r"<{3,7}\s*SEARCH\s*\n(.*?)\n={3,7}\s*\n(.*?)\n>{3,7}\s*REPLACE",
         re.DOTALL | re.IGNORECASE,
     )
     working = original
@@ -228,18 +280,22 @@ def parse_and_apply_patch(response: str, repo_path: Path, target_file: Path) -> 
         return ""
     # Generate unified diff
     import difflib
-    diff_lines = list(difflib.unified_diff(
-        original.splitlines(keepends=True),
-        working.splitlines(keepends=True),
-        fromfile=f"a/{target_file.relative_to(repo_path)}",
-        tofile=f"b/{target_file.relative_to(repo_path)}",
-    ))
+
+    diff_lines = list(
+        difflib.unified_diff(
+            original.splitlines(keepends=True),
+            working.splitlines(keepends=True),
+            fromfile=f"a/{target_file.relative_to(repo_path)}",
+            tofile=f"b/{target_file.relative_to(repo_path)}",
+        )
+    )
     if not diff_lines:
         return ""
     return "".join(diff_lines)
 
 
 # ── Main solve loop ───────────────────────────────────────────────────────────
+
 
 def solve_instance(
     instance: dict,
@@ -271,9 +327,9 @@ def solve_instance(
         rel = f.relative_to(repo_path)
         content = f.read_text(encoding="utf-8", errors="replace")
         lines = content.splitlines()
-        shown = "\n".join(f"{i+1:4d}: {l}" for i, l in enumerate(lines[:200]))
+        shown = "\n".join(f"{i + 1:4d}: {l}" for i, l in enumerate(lines[:200]))
         if len(lines) > 200:
-            shown += f"\n... ({len(lines)-200} more lines)"
+            shown += f"\n... ({len(lines) - 200} more lines)"
         file_blocks.append(f"=== {rel} ===\n{shown}")
 
     fail_section = f"\nFailing tests (must pass after fix):\n{fail_tests}" if fail_tests else ""
@@ -318,8 +374,10 @@ def solve_instance(
 
 # ── Dataset loading ───────────────────────────────────────────────────────────
 
-def load_instances(instance_ids: Optional[list[str]] = None, max_n: Optional[int] = None) -> list[dict]:
+
+def load_instances(instance_ids: list[str] | None = None, max_n: int | None = None) -> list[dict]:
     from datasets import load_dataset
+
     log.info("Loading SWE-bench Lite dataset...")
     dataset = load_dataset("princeton-nlp/SWE-bench_Lite", split="test")
     instances = list(dataset)
@@ -334,11 +392,14 @@ def load_instances(instance_ids: Optional[list[str]] = None, max_n: Optional[int
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Frontier baseline for SWE-bench comparison")
     parser.add_argument("--model", choices=["deepseek", "claude"], required=True)
     parser.add_argument("--instances", type=int, default=None, help="Max instances")
-    parser.add_argument("--instance-ids", type=str, default=None, help="Comma-separated instance IDs")
+    parser.add_argument(
+        "--instance-ids", type=str, default=None, help="Comma-separated instance IDs"
+    )
     parser.add_argument("--repos-dir", type=str, default=str(REPOS_DIR))
     parser.add_argument("--parallel", type=int, default=4)
     args = parser.parse_args()
@@ -359,12 +420,18 @@ def main():
 
     if args.parallel > 1:
         with concurrent.futures.ThreadPoolExecutor(max_workers=args.parallel) as pool:
-            futs = {pool.submit(solve_instance, inst, args.model, repos_dir): inst for inst in instances}
+            futs = {
+                pool.submit(solve_instance, inst, args.model, repos_dir): inst for inst in instances
+            }
             for fut in concurrent.futures.as_completed(futs):
                 try:
                     pred = fut.result()
                     predictions.append(pred)
-                    log.info("Completed: %s → %d patch chars", pred["instance_id"], len(pred["model_patch"]))
+                    log.info(
+                        "Completed: %s → %d patch chars",
+                        pred["instance_id"],
+                        len(pred["model_patch"]),
+                    )
                 except Exception as e:
                     inst = futs[fut]
                     log.error("Failed %s: %s", inst["instance_id"], e)
@@ -385,7 +452,9 @@ def main():
     log.info("  wsl -d Ubuntu python3 -m swebench.harness.run_evaluation \\")
     log.info("    --dataset_name princeton-nlp/SWE-bench_Lite \\")
     log.info("    --split test \\")
-    log.info("    --predictions_path /mnt/c/Dev/Determinex/logs/swebench/%s/predictions.jsonl \\", run_id)
+    log.info(
+        "    --predictions_path /mnt/c/Dev/Determinex/logs/swebench/%s/predictions.jsonl \\", run_id
+    )
     log.info("    --max_workers 4 --run_id %s", run_id)
 
 

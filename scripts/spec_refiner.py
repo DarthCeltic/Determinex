@@ -5,11 +5,13 @@ spec_refiner.py — Oracle refinement with conversational response
 Called by the refine_spec Tauri command when the user wants to modify a spec
 and get an explanation back. Returns JSON: { response, spec }
 """
-import sys
+
 import argparse
 import json
-import litellm
+import sys
 from pathlib import Path
+
+import litellm
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _PROJECT_ROOT = _SCRIPT_DIR.parent
@@ -18,6 +20,7 @@ sys.path.insert(0, str(_PROJECT_ROOT))
 
 try:
     from dotenv import load_dotenv
+
     load_dotenv(_PROJECT_ROOT / ".env", override=False)
 except ImportError:
     pass

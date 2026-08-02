@@ -1,4 +1,5 @@
 """Screenshot loading and normalization for all visual agent environments."""
+
 from __future__ import annotations
 
 import hashlib
@@ -11,13 +12,14 @@ log = logging.getLogger(__name__)
 
 try:
     from PIL import Image
+
     _PIL_AVAILABLE = True
 except ImportError:
     _PIL_AVAILABLE = False
     log.warning("[vision] Pillow not installed — screenshot operations will be limited")
 
 
-def load_screenshot(path: str | Path) -> "Image.Image | None":
+def load_screenshot(path: str | Path) -> Image.Image | None:
     """Load a screenshot from disk. Returns PIL Image or None if unavailable."""
     if not _PIL_AVAILABLE:
         log.error("[vision] Pillow required for load_screenshot")
@@ -29,7 +31,7 @@ def load_screenshot(path: str | Path) -> "Image.Image | None":
         return None
 
 
-def screenshot_to_bytes(img: "Image.Image", fmt: str = "PNG") -> bytes:
+def screenshot_to_bytes(img: Image.Image, fmt: str = "PNG") -> bytes:
     buf = io.BytesIO()
     img.save(buf, format=fmt)
     return buf.getvalue()
@@ -46,10 +48,10 @@ def screenshot_hash(path: str | Path) -> str:
 
 
 def resize_for_model(
-    img: "Image.Image",
+    img: Image.Image,
     max_width: int = 1280,
     max_height: int = 960,
-) -> "Image.Image":
+) -> Image.Image:
     """Downscale large screenshots before sending to vision models."""
     if not _PIL_AVAILABLE:
         return img
@@ -61,7 +63,7 @@ def resize_for_model(
     return img.resize(new_size, Image.LANCZOS)  # type: ignore[attr-defined]
 
 
-def crop_region(img: "Image.Image", x: int, y: int, w: int, h: int) -> "Image.Image":
+def crop_region(img: Image.Image, x: int, y: int, w: int, h: int) -> Image.Image:
     return img.crop((x, y, x + w, y + h))
 
 

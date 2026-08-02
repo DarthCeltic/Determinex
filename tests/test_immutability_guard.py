@@ -9,6 +9,7 @@ Verifies:
   - determinex doctor is read-only (except --json explicit output)
   - read_only_context() is composable and restores env correctly
 """
+
 from __future__ import annotations
 
 import os
@@ -27,16 +28,19 @@ for _p in (_ROOT, _ROOT / "scripts"):
 # Corpus write guard
 # ---------------------------------------------------------------------------
 
+
 def test_assert_writes_allowed_passes_when_flag_unset(monkeypatch):
     monkeypatch.delenv("DETERMINEX_NO_CORPUS_WRITE", raising=False)
     from corpus.corpus_manager import _assert_writes_allowed
+
     _assert_writes_allowed()  # must not raise
 
 
 @pytest.mark.parametrize("val", ["1", "true", "yes", "True", "YES"])
 def test_assert_writes_blocked_when_flag_set(monkeypatch, val):
     monkeypatch.setenv("DETERMINEX_NO_CORPUS_WRITE", val)
-    from corpus.corpus_manager import _assert_writes_allowed, CorpusWriteBlockedError
+    from corpus.corpus_manager import CorpusWriteBlockedError, _assert_writes_allowed
+
     with pytest.raises(CorpusWriteBlockedError):
         _assert_writes_allowed()
 
@@ -45,12 +49,18 @@ def test_assert_writes_blocked_when_flag_set(monkeypatch, val):
 def test_assert_writes_allowed_for_falsy_values(monkeypatch, val):
     monkeypatch.setenv("DETERMINEX_NO_CORPUS_WRITE", val)
     from corpus.corpus_manager import _assert_writes_allowed
+
     _assert_writes_allowed()  # must not raise
 
 
 def test_read_only_context_blocks_writes(monkeypatch):
     monkeypatch.delenv("DETERMINEX_NO_CORPUS_WRITE", raising=False)
-    from corpus.corpus_manager import read_only_context, _assert_writes_allowed, CorpusWriteBlockedError
+    from corpus.corpus_manager import (
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
+        read_only_context,
+    )
+
     with read_only_context():
         with pytest.raises(CorpusWriteBlockedError):
             _assert_writes_allowed()
@@ -58,7 +68,8 @@ def test_read_only_context_blocks_writes(monkeypatch):
 
 def test_read_only_context_restores_env_on_exit(monkeypatch):
     monkeypatch.delenv("DETERMINEX_NO_CORPUS_WRITE", raising=False)
-    from corpus.corpus_manager import read_only_context, _assert_writes_allowed
+    from corpus.corpus_manager import _assert_writes_allowed, read_only_context
+
     with read_only_context():
         pass
     # After context exits, writes should be allowed again
@@ -69,6 +80,7 @@ def test_read_only_context_restores_env_on_exit(monkeypatch):
 def test_read_only_context_restores_previous_value(monkeypatch):
     monkeypatch.setenv("DETERMINEX_NO_CORPUS_WRITE", "previous_value")
     from corpus.corpus_manager import read_only_context
+
     with read_only_context():
         assert os.environ.get("DETERMINEX_NO_CORPUS_WRITE") == "1"
     assert os.environ.get("DETERMINEX_NO_CORPUS_WRITE") == "previous_value"
@@ -76,7 +88,12 @@ def test_read_only_context_restores_previous_value(monkeypatch):
 
 def test_read_only_context_composable(monkeypatch):
     monkeypatch.delenv("DETERMINEX_NO_CORPUS_WRITE", raising=False)
-    from corpus.corpus_manager import read_only_context, _assert_writes_allowed, CorpusWriteBlockedError
+    from corpus.corpus_manager import (
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
+        read_only_context,
+    )
+
     with read_only_context():
         with read_only_context():
             with pytest.raises(CorpusWriteBlockedError):
@@ -87,7 +104,8 @@ def test_read_only_context_composable(monkeypatch):
 
 def test_read_only_context_restores_on_exception(monkeypatch):
     monkeypatch.delenv("DETERMINEX_NO_CORPUS_WRITE", raising=False)
-    from corpus.corpus_manager import read_only_context, _assert_writes_allowed
+    from corpus.corpus_manager import _assert_writes_allowed, read_only_context
+
     try:
         with read_only_context():
             raise ValueError("simulated error")
@@ -101,9 +119,11 @@ def test_read_only_context_restores_on_exception(monkeypatch):
 # Inspection commands are read-only
 # ---------------------------------------------------------------------------
 
+
 def test_evidence_validate_no_file_mutations():
     """determinex evidence validate must not create, modify, or delete any files."""
     import determinex_cli as cli
+
     evidence_dir = _ROOT / "assurance" / "evidence"
     before = {str(p): p.stat().st_mtime for p in evidence_dir.rglob("*") if p.is_file()}
     sys.argv = ["determinex", "evidence", "validate"]
@@ -154,6 +174,7 @@ def test_config_show_no_file_mutations(tmp_path, capsys):
     runs in the full/CI pass.
     """
     import determinex_cli as cli
+
     # Snapshot entire scripts/ and assurance/ before
     checked_dirs = [_ROOT / "scripts", _ROOT / "assurance", _ROOT / "corpus"]
     before = _snapshot(checked_dirs)
@@ -173,8 +194,9 @@ def test_config_show_no_file_mutations(tmp_path, capsys):
 def test_status_script_no_corpus_writes(monkeypatch):
     """determinex_status main() must not call any corpus write path."""
     monkeypatch.setenv("DETERMINEX_NO_CORPUS_WRITE", "1")
-    from corpus.corpus_manager import CorpusWriteBlockedError
     import determinex_status
+    from corpus.corpus_manager import CorpusWriteBlockedError
+
     # Patch sys.argv to use a safe mode (json output, no tail)
     sys.argv = ["determinex status", "--summary"]
     try:
@@ -188,9 +210,12 @@ def test_status_script_no_corpus_writes(monkeypatch):
 def test_no_corpus_write_flag_exported_in_read_only_context():
     """read_only_context must set DETERMINEX_NO_CORPUS_WRITE=1 during execution."""
     from corpus.corpus_manager import read_only_context
+
     captured = {}
+
     def probe():
         captured["val"] = os.environ.get("DETERMINEX_NO_CORPUS_WRITE", "")
+
     with read_only_context():
         probe()
     assert captured["val"] == "1"

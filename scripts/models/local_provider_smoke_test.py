@@ -4,15 +4,14 @@ Verifies provider availability via the existing compat harness +
 fixture providers. Output is always captured as untrusted. No source
 input. No patch generation. No corpus write. No training eligibility.
 """
+
 from __future__ import annotations
 
-from pathlib import Path
-
+from .live_model_admission import _NETWORK_PROVIDER_TOKENS
 from .live_model_compat_harness import (
     FixtureProvider,
     LiveModelCompatHarness,
 )
-from .live_model_admission import _NETWORK_PROVIDER_TOKENS
 from .local_model_config_record import LocalModelConfigRecord
 from .local_provider_smoke_record import (
     LOCAL_PROVIDER_SMOKE_STATUS_TOKENS,
@@ -37,7 +36,8 @@ class LocalProviderSmokeTest:
         if config is None or not config.config_path:
             return self._blocked(
                 "LOCAL_PROVIDER_SMOKE_BLOCKED_NOT_CONFIGURED",
-                config_path="", provider=getattr(provider, "name", ""),
+                config_path="",
+                provider=getattr(provider, "name", ""),
                 model_id=getattr(provider, "model_id", ""),
                 note="config is None or missing config_path",
             )
@@ -47,13 +47,16 @@ class LocalProviderSmokeTest:
             return self._blocked(
                 "LOCAL_PROVIDER_SMOKE_BLOCKED_NETWORK_PROVIDER",
                 config_path=config.config_path,
-                provider=config.provider, model_id=config.model_id,
+                provider=config.provider,
+                model_id=config.model_id,
                 note="network provider rejected",
             )
 
         # 3. Exercise harness against the fixture provider.
         resp = self._harness.invoke(
-            provider, task_class="VERIFIER_SUMMARY", schema_id="verifier_v1",
+            provider,
+            task_class="VERIFIER_SUMMARY",
+            schema_id="verifier_v1",
             payload={"probe": "smoke"},
         )
 

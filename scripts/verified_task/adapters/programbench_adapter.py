@@ -21,7 +21,7 @@ def programbench_task_spec(
         f'cd /d "{programbench_root}" && '
         f'PYTHONUTF8=1 uv run programbench eval "{candidate_root}" '
         f'--filter "{author}" --workers {workers} --branch-workers 1 '
-        f'--docker-cpus {docker_cpus} --force'
+        f"--docker-cpus {docker_cpus} --force"
     )
     return TaskSpec(
         id=instance_id,

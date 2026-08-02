@@ -44,10 +44,14 @@ def _recommended_use(label: str) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build legacy failure taxonomy from quarantined corpus.")
+    parser = argparse.ArgumentParser(
+        description="Build legacy failure taxonomy from quarantined corpus."
+    )
     parser.add_argument("roots", nargs="+", type=Path)
     parser.add_argument("--max-rows", type=int, default=None)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/legacy_failure_taxonomy.json"))
+    parser.add_argument(
+        "--output", type=Path, default=Path("assurance/evidence/legacy_failure_taxonomy.json")
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
     taxonomy = build_failure_taxonomy(scan_legacy_roots(args.roots, max_rows=args.max_rows))

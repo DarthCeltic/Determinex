@@ -28,6 +28,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -44,7 +45,6 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _has_release_proof_reference,
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 _EVIDENCE_DIR = (
@@ -321,12 +321,16 @@ def load(
     return Universal100TopLevelSectorGapClosureWave001Status(
         decision=_token("PASSED"),
         target_surface="Universal 100 Top-Level Sector Gap Closure Wave 001",
-        target_workflow=str(blob.get("target_workflow") or "universal 100 top-level sector gap closure wave 001"),
+        target_workflow=str(
+            blob.get("target_workflow") or "universal 100 top-level sector gap closure wave 001"
+        ),
         lock_id=LOCK_ID,
         blockers_in_inventory=int(blob.get("blockers_in_inventory", 0)),
         blockers_attempted=int(blob.get("blockers_attempted", 0)),
         blockers_closed=tuple(str(x) for x in (blob.get("blockers_closed") or [])),
-        blockers_partially_closed=tuple(str(x) for x in (blob.get("blockers_partially_closed") or [])),
+        blockers_partially_closed=tuple(
+            str(x) for x in (blob.get("blockers_partially_closed") or [])
+        ),
         blockers_remaining=tuple(str(x) for x in (blob.get("blockers_remaining") or [])),
         cells_promoted=int(blob.get("cells_promoted", 0)),
         cells_blocked=int(blob.get("cells_blocked", 0)),

@@ -17,6 +17,7 @@ Cross-platform: the dangerous-root set covers Windows and POSIX
 conventions. Allowed parents are normalized to lowercase on
 Windows (case-insensitive) and as-is elsewhere.
 """
+
 from __future__ import annotations
 
 import sys
@@ -26,7 +27,6 @@ from .config_root_allowlist_record import (
     CONFIG_ROOT_ALLOWLIST_STATUS_TOKENS,
     ConfigRootAllowlistRecord,
 )
-
 
 # Conservative dangerous-root denylist. Two tiers:
 #
@@ -38,14 +38,29 @@ from .config_root_allowlist_record import (
 # config_root, even one nested several levels deep.
 _DANGEROUS_ROOTS_POSIX_EXACT = ("/",)
 _DANGEROUS_ROOTS_POSIX_PREFIX = (
-    "/etc", "/usr", "/bin", "/sbin", "/boot", "/sys",
-    "/proc", "/dev", "/root", "/var", "/lib", "/lib64",
-    "/System", "/Library",
+    "/etc",
+    "/usr",
+    "/bin",
+    "/sbin",
+    "/boot",
+    "/sys",
+    "/proc",
+    "/dev",
+    "/root",
+    "/var",
+    "/lib",
+    "/lib64",
+    "/System",
+    "/Library",
 )
 _DANGEROUS_ROOTS_WINDOWS_EXACT = ("c:\\", "d:\\", "e:\\")
 _DANGEROUS_ROOTS_WINDOWS_PREFIX = (
-    "c:\\windows", "c:\\program files", "c:\\program files (x86)",
-    "c:\\programdata", "d:\\windows", "e:\\windows",
+    "c:\\windows",
+    "c:\\program files",
+    "c:\\program files (x86)",
+    "c:\\programdata",
+    "d:\\windows",
+    "e:\\windows",
 )
 
 
@@ -99,7 +114,8 @@ def verify(
     if "\x00" in raw:
         return _block(
             "CONFIG_ROOT_BLOCKED_MALFORMED_PATH",
-            requested=raw, resolved="",
+            requested=raw,
+            resolved="",
             allowed_parent="",
             note="requested_root contains NUL",
         )
@@ -111,7 +127,8 @@ def verify(
     if any(seg == ".." for seg in raw_parts):
         return _block(
             "CONFIG_ROOT_BLOCKED_PATH_TRAVERSAL",
-            requested=raw, resolved="",
+            requested=raw,
+            resolved="",
             allowed_parent="",
             note="requested_root contains '..' segment",
         )
@@ -121,7 +138,8 @@ def verify(
     except (OSError, ValueError) as exc:
         return _block(
             "CONFIG_ROOT_BLOCKED_MALFORMED_PATH",
-            requested=raw, resolved="",
+            requested=raw,
+            resolved="",
             allowed_parent="",
             note=f"could not resolve requested_root: {exc}",
         )
@@ -166,7 +184,8 @@ def verify(
     if not allowed_parents:
         return _block(
             "CONFIG_ROOT_BLOCKED_UNTRUSTED_CONFIG",
-            requested=raw, resolved=str(resolved),
+            requested=raw,
+            resolved=str(resolved),
             allowed_parent="",
             note="no allowed_parents supplied; every root refused",
         )
@@ -194,15 +213,20 @@ def verify(
 
     return _block(
         "CONFIG_ROOT_BLOCKED_UNTRUSTED_CONFIG",
-        requested=raw, resolved=str(resolved),
+        requested=raw,
+        resolved=str(resolved),
         allowed_parent="",
         note="resolved root is not inside any allowed_parent",
     )
 
 
 def _block(
-    decision: str, *,
-    requested: str, resolved: str, allowed_parent: str, note: str,
+    decision: str,
+    *,
+    requested: str,
+    resolved: str,
+    allowed_parent: str,
+    note: str,
 ) -> ConfigRootAllowlistRecord:
     return ConfigRootAllowlistRecord(
         decision=decision,

@@ -6,6 +6,7 @@ the corpus with HMAC signatures, correct schema version, and required fields.
 
 JAVA_REPAIR_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -14,8 +15,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent / "scripts"))
 
 from agents.base_agent import SCHEMA_VERSION, CorpusType
-from corpus.corpus_manager import CorpusManager
 from corpus.code_ingest.java_repair_pipeline import JavaRepairPipeline
+from corpus.corpus_manager import CorpusManager
 
 
 def _make_compile_error_task(task_id: str = "compile-001"):
@@ -28,7 +29,6 @@ def _make_compile_error_task(task_id: str = "compile-001"):
 
 
 class TestCompileErrorRepairTraceSigned:
-
     def test_compile_error_record_has_schema_version(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         task = _make_compile_error_task("ce-001")

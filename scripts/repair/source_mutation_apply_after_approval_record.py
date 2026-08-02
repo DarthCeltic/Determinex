@@ -1,9 +1,9 @@
 """Records for SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 SOURCE_MUTATION_APPLY_AFTER_APPROVAL_STATUS_TOKENS = (
     "SOURCE_MUTATION_APPLIED_AFTER_APPROVAL",

@@ -4,15 +4,15 @@ New benchmark rows may become training fuel only when they are schema-complete
 at write time. Older migrated rows can stay `active_eval_evidence`; new rows
 must not recreate another cleanup backlog.
 """
+
 from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from corpus.corpus_manager import hmac_key_scope, verify_signature
-
 
 TRACE_HASH_SCHEMA_VERSION = "canonical-v2"
 TRAINING_ELIGIBLE_STATUS = "active_training_eligible"
@@ -37,12 +37,20 @@ REQUIRED_TRAINING_FIELDS = (
 def complete_benchmark_payload(payload: dict[str, Any]) -> dict[str, Any]:
     """Return a schema-complete benchmark payload for CorpusManager signing."""
     row = dict(payload)
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     _fill(row, "created_at", now)
     _fill(row, "schema_version", "determinex-agent-trace-v1")
     _fill(row, "corpus_type", "code_verdict")
-    _fill(row, "source_kind", row.get("trace_kind") or row.get("source_benchmark") or "benchmark_attempt")
-    _fill(row, "verifier_command", row.get("validator") or row.get("verifier") or row.get("validation_commands"))
+    _fill(
+        row,
+        "source_kind",
+        row.get("trace_kind") or row.get("source_benchmark") or "benchmark_attempt",
+    )
+    _fill(
+        row,
+        "verifier_command",
+        row.get("validator") or row.get("verifier") or row.get("validation_commands"),
+    )
     _fill(row, "verifier_result", row.get("verdict") or row.get("repair_outcome"))
     _fill(row, "failure_class", row.get("failure_type") or row.get("failure_class") or "none")
     _fill(row, "failure_type", row.get("failure_class") or row.get("failure_type") or "none")
@@ -85,7 +93,9 @@ def missing_training_fields(row: dict[str, Any]) -> list[str]:
     missing = [field for field in REQUIRED_TRAINING_FIELDS if not _present_required(row.get(field))]
     if not (_present_known(row.get("language")) or _present_known(row.get("environment_type"))):
         missing.append("language_or_environment_type")
-    if not (_present_known(row.get("license_provenance")) or _present_known(row.get("license_bucket"))):
+    if not (
+        _present_known(row.get("license_provenance")) or _present_known(row.get("license_bucket"))
+    ):
         missing.append("license_provenance")
     if not (_present_known(row.get("source_benchmark")) or _present_known(row.get("benchmark"))):
         missing.append("source_benchmark")

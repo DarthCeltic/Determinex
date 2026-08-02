@@ -18,6 +18,7 @@ Two corruption patterns, both from sloppy automated edits:
 `validate_compile_conftest` as a PRE-EVAL gate so a broken conftest is SEEN + repaired,
 never run blind into a mystery 0.
 """
+
 from __future__ import annotations
 
 import ast
@@ -25,7 +26,8 @@ import re
 from pathlib import Path
 
 _CONFTEST_HEREDOC = re.compile(
-    r"(cat\s*>\s*[^\n]*conftest\.py[^\n]*<<\s*'?(\w+)'?\n)(.*?)(\n\2)", re.DOTALL)
+    r"(cat\s*>\s*[^\n]*conftest\.py[^\n]*<<\s*'?(\w+)'?\n)(.*?)(\n\2)", re.DOTALL
+)
 
 
 def validate_conftest_text(body: str) -> tuple[bool, str]:
@@ -134,7 +136,9 @@ def repair_text(text: str) -> tuple[str, list[str]]:
 def repair_submission_tarball(tar_path: Path) -> dict:
     """Repair the conftest inside a submission.tar.gz's compile.sh, in place.
     Extract members -> repair compile.sh conftest -> repack. Returns outcome."""
-    import tarfile, io
+    import io
+    import tarfile
+
     with tarfile.open(tar_path, "r:gz") as tin:
         members = tin.getmembers()
         data = {}
@@ -163,11 +167,13 @@ def repair_submission_tarball(tar_path: Path) -> dict:
 
 
 def main() -> int:
-    import argparse, sys
+    import argparse
+
     ap = argparse.ArgumentParser(description="Determinex conftest validate+repair")
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("scan")  # scan all overrides
-    f = sub.add_parser("fix"); f.add_argument("slug", nargs="?")  # fix one or all
+    f = sub.add_parser("fix")
+    f.add_argument("slug", nargs="?")  # fix one or all
     f.add_argument("--apply", action="store_true")
     args = ap.parse_args()
     OV = Path(__file__).resolve().parent.parent / "corpus" / "programbench" / "per_tool_overrides"
@@ -198,4 +204,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

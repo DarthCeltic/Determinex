@@ -31,16 +31,17 @@ Environment:
     DETERMINEX_PB_DOCKER_TAG   — Docker image tag for PB eval containers
     MODAL_APP_NAME_PB          — overrides default PB worker app name
 """
+
 from __future__ import annotations
 
 import json
 import os
-from typing import Optional
 
 PB_APP_NAME = os.environ.get("MODAL_APP_NAME_PB", "determinex-pb-worker")
 
 try:
     import modal
+
     _MODAL_AVAILABLE = True
 except ImportError:
     _MODAL_AVAILABLE = False
@@ -104,16 +105,28 @@ if _MODAL_AVAILABLE:
         t0 = time.time()
 
         # Each PB tool has a Docker image: programbench/<owner>_<repo>_<hash>:task
-        docker_image = spec.get("docker_image") or f"programbench/{instance_id.replace('.', '_')}:task"
+        docker_image = (
+            spec.get("docker_image") or f"programbench/{instance_id.replace('.', '_')}:task"
+        )
         cmd = spec.get("eval_cmd", ["pytest", "/solution/", "-x", "--timeout=300"])
 
         try:
             result = subprocess.run(
-                ["docker", "run", "--rm", "--network=none",
-                 "--memory=4g", "--cpus=2",
-                 "-v", "/solution:/solution:ro",
-                 docker_image] + (cmd if isinstance(cmd, list) else cmd.split()),
-                capture_output=True, text=True, timeout=timeout_s,
+                [
+                    "docker",
+                    "run",
+                    "--rm",
+                    "--network=none",
+                    "--memory=4g",
+                    "--cpus=2",
+                    "-v",
+                    "/solution:/solution:ro",
+                    docker_image,
+                ]
+                + (cmd if isinstance(cmd, list) else cmd.split()),
+                capture_output=True,
+                text=True,
+                timeout=timeout_s,
             )
             # Parse pytest output for pass/fail counts
             passed, total = _parse_pytest_output(result.stdout + result.stderr)
@@ -169,14 +182,16 @@ if _MODAL_AVAILABLE:
         Returns:
             list of eval result dicts (same shape as run_pb_eval)
         """
-        return list(run_pb_eval.starmap(
-            [(s["instance_id"], s["spec_json"], s.get("version", "v1"))
-             for s in specs]
-        ))
+        return list(
+            run_pb_eval.starmap(
+                [(s["instance_id"], s["spec_json"], s.get("version", "v1")) for s in specs]
+            )
+        )
 
     def _parse_pytest_output(output: str) -> tuple[int, int]:
         """Parse pytest stdout for pass/fail counts."""
         import re
+
         m = re.search(r"(\d+) passed", output)
         m_total = re.search(r"(\d+) (?:passed|failed|error)", output)
         passed = int(m.group(1)) if m else 0
@@ -188,8 +203,10 @@ if _MODAL_AVAILABLE:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def _cli() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex PB Modal worker")
     sub = ap.add_subparsers(dest="cmd")
 
@@ -214,4 +231,5 @@ def _cli() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(_cli())

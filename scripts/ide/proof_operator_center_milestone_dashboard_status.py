@@ -56,6 +56,7 @@ Hard rules enforced by load():
     surface_statuses / source_evidence_paths / source_audit_paths /
     forbidden_claims -> BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -74,7 +75,6 @@ from .proof_operator_center_milestone_dashboard_status_record import (
     ProofOperatorCenterMilestoneDashboardStatus,
     SurfaceStatus,
 )
-
 
 REQUIRED_BOUNDARY_STATEMENTS = (
     "Proof / Operator Center milestone dashboard only",
@@ -103,7 +103,8 @@ REQUIRED_SURFACES = (
 
 _DEFAULT_EVIDENCE_DIR = (
     Path(__file__).resolve().parents[2]
-    / "assurance" / "evidence"
+    / "assurance"
+    / "evidence"
     / "proof_operator_center_milestone_dashboard"
 )
 
@@ -121,9 +122,7 @@ def _zero_surface() -> tuple[SurfaceStatus, ...]:
 
 def _awaiting(note: str) -> ProofOperatorCenterMilestoneDashboardStatus:
     return ProofOperatorCenterMilestoneDashboardStatus(
-        decision=(
-            "REACT_PROOF_OPERATOR_CENTER_MILESTONE_DASHBOARD_BINDING_AWAITING_EVIDENCE"
-        ),
+        decision=("REACT_PROOF_OPERATOR_CENTER_MILESTONE_DASHBOARD_BINDING_AWAITING_EVIDENCE"),
         target_surface="Proof / Operator Center",
         target_workflow="(awaiting evidence)",
         dashboard_title="(awaiting Codex reconciliation)",
@@ -382,8 +381,7 @@ def load(evidence_dir: Path | str | None = None) -> ProofOperatorCenterMilestone
     boundary_list = blob.get("claim_boundary") or []
     boundary_joined = " ; ".join(str(b) for b in boundary_list).lower()
     missing_required = [
-        req for req in REQUIRED_BOUNDARY_STATEMENTS
-        if req.lower() not in boundary_joined
+        req for req in REQUIRED_BOUNDARY_STATEMENTS if req.lower() not in boundary_joined
     ]
     if missing_required:
         return _block(
@@ -396,11 +394,16 @@ def load(evidence_dir: Path | str | None = None) -> ProofOperatorCenterMilestone
     # forbidden_claims lists, then scan the remainder for affirmative
     # forbidden broad-claim phrases.
     safe = {
-        k: v for k, v in blob.items()
-        if k not in (
-            "blocked_path_demo", "claim_boundary",
-            "claim_boundary_status", "surface_statuses",
-            "source_evidence_paths", "source_audit_paths",
+        k: v
+        for k, v in blob.items()
+        if k
+        not in (
+            "blocked_path_demo",
+            "claim_boundary",
+            "claim_boundary_status",
+            "surface_statuses",
+            "source_evidence_paths",
+            "source_audit_paths",
         )
     }
     # We also strip blocked_path_demo scenarios already counted.
@@ -410,8 +413,7 @@ def load(evidence_dir: Path | str | None = None) -> ProofOperatorCenterMilestone
             continue
         affirmative_pattern = re.compile(
             r"(?<!not )(?<!no )(?<!refuses )(?<!refused )(?<!refusing )"
-            r"(?<!refuse )(?<!blocks )(?<!blocked )"
-            + re.escape(phrase)
+            r"(?<!refuse )(?<!blocks )(?<!blocked )" + re.escape(phrase)
         )
         if affirmative_pattern.search(safe_haystack):
             return _block(
@@ -471,15 +473,11 @@ def load(evidence_dir: Path | str | None = None) -> ProofOperatorCenterMilestone
         scale_to_100_platform_language_appclass_expansion_queue=str(
             s100.get("platform_language_appclass_expansion_queue") or ""
         ),
-        scale_to_100_windows_first_matrix_lock=str(
-            s100.get("windows_first_matrix_lock") or ""
-        ),
+        scale_to_100_windows_first_matrix_lock=str(s100.get("windows_first_matrix_lock") or ""),
         scale_to_100_legacy_enterprise=str(s100.get("legacy_enterprise") or ""),
         scale_to_100_audit_path=str(s100.get("scale_to_100_audit_path") or ""),
         evidence_index_count=int(eh.get("evidence_index_count") or 0),
-        evidence_index_entry_count_field=int(
-            eh.get("evidence_index_entry_count_field") or 0
-        ),
+        evidence_index_entry_count_field=int(eh.get("evidence_index_entry_count_field") or 0),
         evidence_index_valid=True,
         append_only_ledger_status=str(eh.get("append_only_ledger_status") or ""),
         append_only_ledger_chain_valid=True,
@@ -491,33 +489,22 @@ def load(evidence_dir: Path | str | None = None) -> ProofOperatorCenterMilestone
         claim_boundary=tuple(str(b) for b in boundary_list),
         blocked_path_summary=_blocked_path_summary(blob),
         forbidden_claims=tuple(str(c) for c in (cbs.get("forbidden_claims") or [])),
-        implemented_narrow_rooms=tuple(
-            str(c) for c in (cbs.get("implemented_narrow_rooms") or [])
-        ),
-        implemented_with_caveats=tuple(
-            str(c) for c in (cbs.get("implemented_with_caveats") or [])
-        ),
+        implemented_narrow_rooms=tuple(str(c) for c in (cbs.get("implemented_narrow_rooms") or [])),
+        implemented_with_caveats=tuple(str(c) for c in (cbs.get("implemented_with_caveats") or [])),
         roadmap_items=tuple(str(c) for c in (cbs.get("roadmap_items") or [])),
-        source_evidence_paths=tuple(
-            str(p) for p in (blob.get("source_evidence_paths") or [])
-        ),
+        source_evidence_paths=tuple(str(p) for p in (blob.get("source_evidence_paths") or [])),
         source_audit_paths=tuple(str(p) for p in (blob.get("source_audit_paths") or [])),
         dashboard_report_path=str(blob.get("dashboard_report_path") or ""),
-        machine_readable_dashboard_path=str(
-            blob.get("machine_readable_dashboard_path") or ""
-        ),
+        machine_readable_dashboard_path=str(blob.get("machine_readable_dashboard_path") or ""),
         evidence_ref=str(chosen.as_posix()),
         current_next_rung=str(blob.get("current_next_rung") or ""),
         notes=(
-            "evidence read from Codex Proof / Operator Center milestone "
-            "dashboard bundle",
+            "evidence read from Codex Proof / Operator Center milestone dashboard bundle",
             "dashboard DISPLAYS authority; it does not grant authority",
             "Scale-to-100 remains roadmap draft, not current C&T lock",
             "Columbia House Tracker remains pending, not built",
-            "Full Cathedral roadmap is audit input only, not validated by "
-            "this binding",
-            "source mutation, approval, proof-execution, training, "
-            "release all remain False",
+            "Full Cathedral roadmap is audit input only, not validated by this binding",
+            "source mutation, approval, proof-execution, training, release all remain False",
         ),
     )
 

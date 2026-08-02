@@ -1,4 +1,5 @@
 """Tests for SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -34,21 +35,23 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "SOURCE_MUTATION_APPLY_AFTER_APP
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "source_mutation_apply_after_approval"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "SOURCE_MUTATION_APPLIED_AFTER_APPROVAL",
-    "SOURCE_MUTATION_BLOCKED_NO_APPROVAL",
-    "SOURCE_MUTATION_BLOCKED_NO_ROLLBACK",
-    "SOURCE_MUTATION_BLOCKED_SOURCE_HASH_MISMATCH",
-    "SOURCE_MUTATION_BLOCKED_DIFF_MISMATCH",
-    "SOURCE_MUTATION_BLOCKED_VERIFIER_NOT_PASSED",
-    "SOURCE_MUTATION_BLOCKED_PLAN_BODY_MISSING",
-    "SOURCE_MUTATION_BLOCKED_PATH_ESCAPE",
-    "SOURCE_MUTATION_BLOCKED_MISSING_BODY_HASH",
-    "SOURCE_MUTATION_BLOCKED_BODY_HASH_MISMATCH",
-    "SOURCE_MUTATION_BLOCKED_FIXTURE_APPROVAL",
-    "SOURCE_MUTATION_BLOCKED_INVALID_SIGNATURE_KIND",
-    "SOURCE_MUTATION_BLOCKED_SYMLINKS_UNSUPPORTED",
-})
+EXPECTED = frozenset(
+    {
+        "SOURCE_MUTATION_APPLIED_AFTER_APPROVAL",
+        "SOURCE_MUTATION_BLOCKED_NO_APPROVAL",
+        "SOURCE_MUTATION_BLOCKED_NO_ROLLBACK",
+        "SOURCE_MUTATION_BLOCKED_SOURCE_HASH_MISMATCH",
+        "SOURCE_MUTATION_BLOCKED_DIFF_MISMATCH",
+        "SOURCE_MUTATION_BLOCKED_VERIFIER_NOT_PASSED",
+        "SOURCE_MUTATION_BLOCKED_PLAN_BODY_MISSING",
+        "SOURCE_MUTATION_BLOCKED_PATH_ESCAPE",
+        "SOURCE_MUTATION_BLOCKED_MISSING_BODY_HASH",
+        "SOURCE_MUTATION_BLOCKED_BODY_HASH_MISMATCH",
+        "SOURCE_MUTATION_BLOCKED_FIXTURE_APPROVAL",
+        "SOURCE_MUTATION_BLOCKED_INVALID_SIGNATURE_KIND",
+        "SOURCE_MUTATION_BLOCKED_SYMLINKS_UNSUPPORTED",
+    }
+)
 
 
 def _ws(tmp_path):
@@ -60,34 +63,44 @@ def _ws(tmp_path):
 
 def _admission():
     return RealLocalModelAdmissionRecord(
-        decision="REAL_LOCAL_MODEL_ADMITTED", provider="ollama",
+        decision="REAL_LOCAL_MODEL_ADMITTED",
+        provider="ollama",
         model_id="determinex-engineer-v11-dsl",
-        task_classes_admitted=("PATCH_GENERATION",), opt_in=True,
+        task_classes_admitted=("PATCH_GENERATION",),
+        opt_in=True,
     )
 
 
 def _entries():
-    return ({"operation": "replace_file", "path": "src/lib.py",
-             "new_content": "x = 2\n"},)
+    return ({"operation": "replace_file", "path": "src/lib.py", "new_content": "x = 2\n"},)
 
 
 def _body_hash_for(entries):
     from repair.patch_body_hash import compute as _compute
+
     return _compute(list(entries)).hex_digest
 
 
-def _approval_accepted(diff_hash, *, canonical_patch_body_hash=None,
-                       entries=None, signature_kind="real_local_signed",
-                       is_fixture=False):
+def _approval_accepted(
+    diff_hash,
+    *,
+    canonical_patch_body_hash=None,
+    entries=None,
+    signature_kind="real_local_signed",
+    is_fixture=False,
+):
     if canonical_patch_body_hash is None:
         canonical_patch_body_hash = _body_hash_for(entries or _entries())
     return RealHumanApprovalAdmissionRecord(
         decision="REAL_HUMAN_APPROVAL_ACCEPTED",
-        trace_id="trace-1", workspace_identity="/ws",
+        trace_id="trace-1",
+        workspace_identity="/ws",
         diff_hash=diff_hash,
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
-        operator_identity="ryan", operator_signature="a" * 64,
-        signature_kind=signature_kind, is_fixture=is_fixture,
+        operator_identity="ryan",
+        operator_signature="a" * 64,
+        signature_kind=signature_kind,
+        is_fixture=is_fixture,
         accepted_at="2026-05-28T00:00:00+00:00",
         stale_after="2026-05-29T00:00:00+00:00",
         canonical_patch_body_hash=canonical_patch_body_hash,
@@ -97,7 +110,8 @@ def _approval_accepted(diff_hash, *, canonical_patch_body_hash=None,
 def _verify_passed():
     return RealTempPatchVerifyRecord(
         decision="REAL_TEMP_PATCH_VERIFIER_PASSED",
-        workspace="/ws", temp_workspace="/tmp/x",
+        workspace="/ws",
+        temp_workspace="/tmp/x",
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
         unified_diff="--- a\n+++ b\n",
         applied_paths=("src/lib.py",),
@@ -113,10 +127,14 @@ def _setup(tmp_path, diff="my diff body"):
     diff_hash = hashlib.sha256(diff.encode("utf-8")).hexdigest()
     approval = _approval_accepted(diff_hash)
     tv = _verify_passed()
-    snap = take_snap(workspace=ws, snapshot_root=tmp_path / "snaps",
-                    snapshot_id="apply_t", approval=approval, temp_verify=tv)
-    plan = quarantine(_entries(), admission=_admission(),
-                      workspace=ws, opt_in=True)
+    snap = take_snap(
+        workspace=ws,
+        snapshot_root=tmp_path / "snaps",
+        snapshot_id="apply_t",
+        approval=approval,
+        temp_verify=tv,
+    )
+    plan = quarantine(_entries(), admission=_admission(), workspace=ws, opt_in=True)
     return ws, approval, tv, snap, plan, diff
 
 
@@ -127,8 +145,12 @@ def test_status_tokens_exact():
 def test_no_approval_blocks(tmp_path):
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     r = apply_after_approval(
-        workspace=ws, approval=None, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=None,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_NO_APPROVAL"
@@ -139,8 +161,12 @@ def test_no_approval_blocks(tmp_path):
 def test_no_verify_blocks(tmp_path):
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     r = apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=None,
-        rollback_snapshot=snap, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=approval,
+        temp_verify=None,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_VERIFIER_NOT_PASSED"
@@ -150,8 +176,12 @@ def test_no_verify_blocks(tmp_path):
 def test_no_rollback_blocks(tmp_path):
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     r = apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=tv,
-        rollback_snapshot=None, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=approval,
+        temp_verify=tv,
+        rollback_snapshot=None,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_NO_ROLLBACK"
@@ -163,8 +193,12 @@ def test_source_drift_blocks(tmp_path):
     # Drift the workspace AFTER snapshot.
     (ws / "src" / "lib.py").write_text("DRIFTED\n", encoding="utf-8")
     r = apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_SOURCE_HASH_MISMATCH"
@@ -175,8 +209,12 @@ def test_source_drift_blocks(tmp_path):
 def test_diff_mismatch_blocks(tmp_path):
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     r = apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff + " MUTATED",
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_DIFF_MISMATCH"
@@ -189,11 +227,12 @@ def test_plan_body_mismatch_blocks_via_body_hash_gate(tmp_path):
     # — more specific than the older PLAN_BODY_MISSING decision.
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     r = apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=(
-            {"operation": "replace_file", "path": "src/other.py",
-             "new_content": "y\n"},
-        ),
+        workspace=ws,
+        approval=approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=({"operation": "replace_file", "path": "src/other.py", "new_content": "y\n"},),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_BODY_HASH_MISMATCH"
@@ -206,10 +245,12 @@ def test_path_escape_blocks_via_body_hash_gate(tmp_path):
     # could be derived from the malicious entries).
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     r = apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=(
-            {"operation": "replace_file", "path": "../escape", "new_content": "x"},
-        ),
+        workspace=ws,
+        approval=approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=({"operation": "replace_file", "path": "../escape", "new_content": "x"},),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_MISSING_BODY_HASH"
@@ -228,12 +269,19 @@ def test_claude_auth_001_attack_scenario_blocked(tmp_path):
     # Approval was bound to canonical hash of _entries() (x = 2).
     # Attacker supplies the same path but malicious content.
     tampered = (
-        {"operation": "replace_file", "path": "src/lib.py",
-         "new_content": "import os; os.system('rm -rf /')\n"},
+        {
+            "operation": "replace_file",
+            "path": "src/lib.py",
+            "new_content": "import os; os.system('rm -rf /')\n",
+        },
     )
     r = apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=tampered,
+        workspace=ws,
+        approval=approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=tampered,
         observed_diff=diff,  # matches approval.diff_hash
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_BODY_HASH_MISMATCH"
@@ -246,10 +294,15 @@ def test_missing_canonical_body_hash_blocks(tmp_path):
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     # Strip the binding from the approval.
     from dataclasses import replace as _replace
+
     bad_approval = _replace(approval, canonical_patch_body_hash="")
     r = apply_after_approval(
-        workspace=ws, approval=bad_approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=bad_approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_MISSING_BODY_HASH"
@@ -260,11 +313,15 @@ def test_claude_auth_002_fixture_approval_blocked(tmp_path):
     """CLAUDE-AUTH-002: fixture-ACCEPTED approval must be refused at apply gate."""
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     from dataclasses import replace as _replace
-    fixture_approval = _replace(approval, is_fixture=True,
-                                signature_kind="fixture")
+
+    fixture_approval = _replace(approval, is_fixture=True, signature_kind="fixture")
     r = apply_after_approval(
-        workspace=ws, approval=fixture_approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=fixture_approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_FIXTURE_APPROVAL"
@@ -275,11 +332,15 @@ def test_claude_auth_002_invalid_signature_kind_blocked(tmp_path):
     """CLAUDE-AUTH-002: signature_kind outside the production set is refused."""
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     from dataclasses import replace as _replace
-    bad_approval = _replace(approval, is_fixture=False,
-                            signature_kind="some_other_thing")
+
+    bad_approval = _replace(approval, is_fixture=False, signature_kind="some_other_thing")
     r = apply_after_approval(
-        workspace=ws, approval=bad_approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=bad_approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_BLOCKED_INVALID_SIGNATURE_KIND"
@@ -291,8 +352,12 @@ def test_happy_path_applies_and_records_post_apply_required(tmp_path):
     pre = (ws / "src" / "lib.py").read_text(encoding="utf-8")
     assert pre == "x = 1\n"
     r = apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff,
     )
     assert r.decision == "SOURCE_MUTATION_APPLIED_AFTER_APPROVAL"
@@ -309,8 +374,12 @@ def test_happy_path_applies_and_records_post_apply_required(tmp_path):
 def test_record_serializes_safely(tmp_path):
     ws, approval, tv, snap, plan, diff = _setup(tmp_path)
     r = apply_after_approval(
-        workspace=ws, approval=approval, temp_verify=tv,
-        rollback_snapshot=snap, plan=plan, plan_entries=_entries(),
+        workspace=ws,
+        approval=approval,
+        temp_verify=tv,
+        rollback_snapshot=snap,
+        plan=plan,
+        plan_entries=_entries(),
         observed_diff=diff,
     )
     d = r.to_dict()
@@ -320,8 +389,14 @@ def test_record_serializes_safely(tmp_path):
 
 def test_module_does_not_open_network():
     src = Path(mod.__file__).read_text(encoding="utf-8")
-    for forbidden in ("requests", "httpx", "urllib.request",
-                      "socket.connect", "subprocess.Popen", "subprocess.run"):
+    for forbidden in (
+        "requests",
+        "httpx",
+        "urllib.request",
+        "socket.connect",
+        "subprocess.Popen",
+        "subprocess.run",
+    ):
         assert forbidden not in src
 
 

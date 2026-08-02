@@ -8,11 +8,11 @@ views, status states, blocked states, and the proof and
 mutation boundaries that bound it. None of this writes anything;
 this is a backend-side view-model that the frontend will render.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 UNIFIED_PRODUCT_NAVIGATION_MODEL_STATUS_TOKENS = (
     "UNIFIED_PRODUCT_NAVIGATION_MODEL_WRITTEN",
@@ -67,8 +67,13 @@ class ProductSurface:
     def to_dict(self) -> dict[str, object]:
         d = asdict(self)
         for f in (
-            "target_users", "inputs", "outputs", "status_states",
-            "blocked_states", "proof_evidence_requirements", "claim_caveats",
+            "target_users",
+            "inputs",
+            "outputs",
+            "status_states",
+            "blocked_states",
+            "proof_evidence_requirements",
+            "claim_caveats",
         ):
             d[f] = list(d[f])
         return d

@@ -6,6 +6,7 @@ license_scan, container_scan) via security_gate.run_all() into one read-only adv
 result. The count is deliberately not written down here -- see expected_gates(). No new scanner logic
 was written -- this rung is wiring, not invention.
 """
+
 from __future__ import annotations
 
 import importlib
@@ -21,16 +22,31 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 bcs = importlib.import_module("ide.backend_command_surface")
 td = importlib.import_module("ide._tauri_driver")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_MAINTENANCE_BAY_LIVE_SECURITY_SCAN_LOCK_001.json"
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_maintenance_bay_live_security_scan"
+LOCK_PATH = (
+    _REPO_ROOT
+    / "locks"
+    / "sentinel"
+    / "DETERMINEX_MAINTENANCE_BAY_LIVE_SECURITY_SCAN_LOCK_001.json"
+)
+EVIDENCE_DIR = (
+    _REPO_ROOT / "assurance" / "evidence" / "determinex_maintenance_bay_live_security_scan"
+)
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
-PANEL_PATH = _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "MaintenanceBayPanel.tsx"
+PANEL_PATH = (
+    _REPO_ROOT / "frontend" / "src" / "components" / "ide-product-shell" / "MaintenanceBayPanel.tsx"
+)
 BRIDGE_RS = _REPO_ROOT / "frontend" / "src-tauri" / "src" / "ide_repair_bridge.rs"
 LIB_RS = _REPO_ROOT / "frontend" / "src-tauri" / "src" / "lib.rs"
 
 # The gates the Maintenance Bay must ALWAYS compose. A floor, not the full list:
 # removing any of these is a real regression and must fail here.
-REQUIRED_GATES = ("secret_scan", "dependency_scan", "verify_lockfiles", "license_scan", "container_scan")
+REQUIRED_GATES = (
+    "secret_scan",
+    "dependency_scan",
+    "verify_lockfiles",
+    "license_scan",
+    "container_scan",
+)
 
 
 # These tests run `security_gate.run_all()` for real, and two of its six scanners write to a
@@ -120,8 +136,11 @@ def test_rust_command_registered_in_generate_handler():
 
 def test_rust_command_excluded_from_frozen_unified_product_list():
     import re
+
     src = BRIDGE_RS.read_text(encoding="utf-8")
-    m = re.search(r"UNIFIED_PRODUCT_READ_ONLY_COMMANDS\s*:\s*&\[&str\]\s*=\s*&\[(.+?)\];", src, re.DOTALL)
+    m = re.search(
+        r"UNIFIED_PRODUCT_READ_ONLY_COMMANDS\s*:\s*&\[&str\]\s*=\s*&\[(.+?)\];", src, re.DOTALL
+    )
     assert m
     declared = re.findall(r'"([^"]+)"', m.group(1))
     assert "run_maintenance_bay_scan" not in declared
@@ -137,6 +156,7 @@ def test_panel_not_auto_fetched_on_mount():
     """The scan is explicit opt-in (button click), not wired into the useEffect that
     fires on mount -- it can take several seconds (pip-audit over the whole env)."""
     import re
+
     src = PANEL_PATH.read_text(encoding="utf-8")
     # Whitespace-tolerant: this exact construct is legitimately reformatted
     # to multi-line by Prettier (`printWidth`-driven), which doesn't change
@@ -150,13 +170,19 @@ def test_panel_not_auto_fetched_on_mount():
     assert m, "expected the mount effect to call only refresh(), not runScan()"
     for m in re.finditer(r"React\.useEffect\(([\s\S]*?)\}, \[[^\]]*\]\);", src):
         assert "runScan" not in m.group(1), "runScan must not be called from any useEffect"
-    assert 'onClick={() => void runScan()}' in src
+    assert "onClick={() => void runScan()}" in src
 
 
 def test_panel_still_non_authorizing_after_wiring():
     src = PANEL_PATH.read_text(encoding="utf-8").lower()
-    for phrase in ("dependency updated!", "all dependencies up to date", "production-ready",
-                   "patch applied", "now fixed", "source mutation authorized"):
+    for phrase in (
+        "dependency updated!",
+        "all dependencies up to date",
+        "production-ready",
+        "patch applied",
+        "now fixed",
+        "source mutation authorized",
+    ):
         assert phrase not in src
 
 

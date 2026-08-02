@@ -21,6 +21,7 @@ of corpus/ -- the same built-but-invisible risk applies to any subcorpus, not ju
 Usage:  python scripts/corpus/corpus_wiring_census.py [--guard]
   --guard  exit 1 on any non-allowlisted orphan or any empty/unresolvable pointer (CI gate).
 """
+
 from __future__ import annotations
 
 import json
@@ -29,7 +30,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 CORPUS_DIR = ROOT / "corpus"
-PB = CORPUS_DIR / "programbench"   # kept as a name: the TRAINING_EXCLUSION pointer check below is PB-specific
+PB = (
+    CORPUS_DIR / "programbench"
+)  # kept as a name: the TRAINING_EXCLUSION pointer check below is PB-specific
 
 # Archival / write-only / historical artifacts that legitimately have no code consumer.
 # Add here ONLY with a reason -- an unexplained allowlist row defeats the census.
@@ -45,14 +48,13 @@ _ALLOWLIST: dict[str, str] = {
     "crucible_gate_results.jsonl": "manual-run output of determinex_crucible.py (historical signal)",
     "wall_taxonomy.json": "historical wall-classification snapshot, no live consumer",
     "hetzner_drive_queue.tsv": "drive queue for the STOPPED Hetzner churn loop (box off 2026-07-02)",
-    "build_knowledge_archive.json": 
-        "COLD half of build_knowledge.json, split 2026-08-02. The brain is HuggingFace-hosted "
-        "and read on every query, so its bytes are latency: absorbed_sources (1,333 KB) and "
-        "the 2026-07-16 quarantine key (619 KB) were 56% of the file and are never read during "
-        "retrieval. Moved, not deleted -- the corpus rule is that superseded entries stay, "
-        "because dead ends are load-bearing data. Deliberately has no live consumer; read it "
-        "directly when you need provenance or the quarantine record. Pointer lives in the hot "
-        "file under _cold_archive.",
+    "build_knowledge_archive.json": "COLD half of build_knowledge.json, split 2026-08-02. The brain is HuggingFace-hosted "
+    "and read on every query, so its bytes are latency: absorbed_sources (1,333 KB) and "
+    "the 2026-07-16 quarantine key (619 KB) were 56% of the file and are never read during "
+    "retrieval. Moved, not deleted -- the corpus rule is that superseded entries stay, "
+    "because dead ends are load-bearing data. Deliberately has no live consumer; read it "
+    "directly when you need provenance or the quarantine record. Pointer lives in the hot "
+    "file under _cold_archive.",
 }
 
 
@@ -69,7 +71,7 @@ def _artifacts() -> list[Path]:
     for subcorpus in sorted(CORPUS_DIR.iterdir()):
         if not subcorpus.is_dir():
             continue
-        for p in sorted(subcorpus.iterdir()):    # top-level only, never recurse into content dirs
+        for p in sorted(subcorpus.iterdir()):  # top-level only, never recurse into content dirs
             if p.is_file() and p.suffix in _ARTIFACT_SUFFIXES:
                 out.append(p)
     return out
@@ -79,8 +81,12 @@ def _scan_sources() -> str:
     """One concatenated haystack of all code that could consume an artifact (scripts + tests +
     the Tauri backend command surface). Filenames are matched as plain substrings."""
     hay = []
-    for base, pat in ((ROOT / "scripts", "**/*.py"), (ROOT / "tests", "**/*.py"),
-                      (ROOT / "frontend", "**/*.rs"), (ROOT / "frontend", "**/*.ts")):
+    for base, pat in (
+        (ROOT / "scripts", "**/*.py"),
+        (ROOT / "tests", "**/*.py"),
+        (ROOT / "frontend", "**/*.rs"),
+        (ROOT / "frontend", "**/*.ts"),
+    ):
         if not base.exists():
             continue
         for f in base.glob(pat):
@@ -114,44 +120,78 @@ def census() -> dict:
             root = json.loads(tx.read_text(encoding="utf-8")).get("active_replacement_root", "")
             p = Path(root)
             ok = p.is_dir() and any(p.iterdir())
-            pointers.append({"pointer": "TRAINING_EXCLUSION.active_replacement_root",
-                             "value": root, "resolves_nonempty": ok})
+            pointers.append(
+                {
+                    "pointer": "TRAINING_EXCLUSION.active_replacement_root",
+                    "value": root,
+                    "resolves_nonempty": ok,
+                }
+            )
         except (OSError, json.JSONDecodeError) as e:
-            pointers.append({"pointer": "TRAINING_EXCLUSION.active_replacement_root",
-                             "value": f"<unreadable: {e}>", "resolves_nonempty": False})
+            pointers.append(
+                {
+                    "pointer": "TRAINING_EXCLUSION.active_replacement_root",
+                    "value": f"<unreadable: {e}>",
+                    "resolves_nonempty": False,
+                }
+            )
     try:
         sys.path.insert(0, str(ROOT / "scripts"))
         from determinex_settings import DeterminexSettings
+
         r = DeterminexSettings().corpus_root
         # A path on a drive this machine does not have is machine-specific configuration,
         # not a broken pointer. The default is `T:/determinex_corpus`; on a Linux runner
         # there is no T: drive, so the census reported the corpus root broken on every CI
         # run -- a true statement about a question the census cannot answer there.
         import re as _re
+
         _drive = _re.match(r"^([A-Za-z]):[\\/]", str(r))
         if _drive and not Path(f"{_drive.group(1)}:/").exists():
-            pointers.append({"pointer": "settings.corpus_root", "value": str(r),
-                             "resolves_nonempty": True, "unevaluated": True,
-                             "note": "drive not present on this host"})
+            pointers.append(
+                {
+                    "pointer": "settings.corpus_root",
+                    "value": str(r),
+                    "resolves_nonempty": True,
+                    "unevaluated": True,
+                    "note": "drive not present on this host",
+                }
+            )
         else:
             ok = r.is_dir() and any(r.iterdir())
-            pointers.append({"pointer": "settings.corpus_root", "value": str(r),
-                             "resolves_nonempty": ok})
+            pointers.append(
+                {"pointer": "settings.corpus_root", "value": str(r), "resolves_nonempty": ok}
+            )
     except ImportError as e:
         # A MISSING DEPENDENCY IS NOT A BROKEN POINTER. Reporting resolves_nonempty=False
         # here made the guard fail with `bad_pointers=[{'pointer': 'settings.corpus_root',
         # 'value': "<error: No module named 'pydantic'>"}]` -- which reads as "your corpus
         # root is broken" and means "I could not import the settings module". The pointer
         # was never examined, so the census must not render a verdict on it.
-        pointers.append({"pointer": "settings.corpus_root",
-                         "value": f"<not evaluated: {e}>",
-                         "resolves_nonempty": True, "unevaluated": True})
+        pointers.append(
+            {
+                "pointer": "settings.corpus_root",
+                "value": f"<not evaluated: {e}>",
+                "resolves_nonempty": True,
+                "unevaluated": True,
+            }
+        )
     except Exception as e:  # a real resolution failure -- report it as one
-        pointers.append({"pointer": "settings.corpus_root", "value": f"<error: {e}>",
-                         "resolves_nonempty": False})
+        pointers.append(
+            {
+                "pointer": "settings.corpus_root",
+                "value": f"<error: {e}>",
+                "resolves_nonempty": False,
+            }
+        )
 
-    return {"artifacts": len(_artifacts()), "wired": len(wired), "orphans": orphans,
-            "allowlisted": allowlisted, "pointers": pointers}
+    return {
+        "artifacts": len(_artifacts()),
+        "wired": len(wired),
+        "orphans": orphans,
+        "allowlisted": allowlisted,
+        "pointers": pointers,
+    }
 
 
 def main() -> int:
@@ -162,7 +202,9 @@ def main() -> int:
         if res["orphans"] or bad_ptr:
             print(f"\nGUARD FAIL: orphans={res['orphans']} bad_pointers={bad_ptr}", file=sys.stderr)
             return 1
-        print("\nGUARD PASS: every artifact wired or allowlisted; every pointer resolves non-empty.")
+        print(
+            "\nGUARD PASS: every artifact wired or allowlisted; every pointer resolves non-empty."
+        )
     return 0
 
 

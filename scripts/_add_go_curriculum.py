@@ -2,6 +2,7 @@
 _add_go_curriculum.py — one-shot: append Go wrap_error curriculum to micro_curriculum.jsonl
 Run: python scripts/_add_go_curriculum.py
 """
+
 import json
 from pathlib import Path
 

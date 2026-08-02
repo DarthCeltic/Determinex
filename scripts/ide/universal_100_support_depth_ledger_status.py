@@ -19,6 +19,7 @@ Hard rules enforced by load():
     user-ready-proof source path -> BLOCKED_USER_READY_OVERCLAIM
   * forbidden broad-claim phrase as current claim -> BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -36,24 +37,21 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
 
-
 _REPO_ROOT = _HERE.parent.parent.parent
 
-_DEFAULT_EVIDENCE_DIR = (
-    _REPO_ROOT / "assurance" / "evidence" / "universal_100_support_depth_ledger"
-)
+_DEFAULT_EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "universal_100_support_depth_ledger"
 
 EXPECTED_STATUS = "UNIVERSAL_100_SUPPORT_DEPTH_LEDGER_PASSED"
 
 REQUIRED_PANEL_CAPTIONS = (
     "This panel displays evidence; it does not grant authority.",
     "Support-depth ledger is accounting, not promotion.",
-    "\"Accounted for\" does not mean \"supported.\"",
-    "\"Smoke-supported\" does not mean \"production-ready.\"",
-    "\"Fixture-local\" does not mean \"real user repo authorized.\"",
-    "\"User-ready\" remains false unless Codex evidence explicitly proves it.",
-    "\"Release-supported\" remains false unless packaging/fresh-install/release gates explicitly prove it.",
-    "\"Missing rung named\" is progress, not support.",
+    '"Accounted for" does not mean "supported."',
+    '"Smoke-supported" does not mean "production-ready."',
+    '"Fixture-local" does not mean "real user repo authorized."',
+    '"User-ready" remains false unless Codex evidence explicitly proves it.',
+    '"Release-supported" remains false unless packaging/fresh-install/release gates explicitly prove it.',
+    '"Missing rung named" is progress, not support.',
     "Universal 100 means universal intake/routing, not magic execution.",
     "Blocked cells are visible by exact missing rung.",
 )

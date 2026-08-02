@@ -39,6 +39,7 @@ append-vs-replace bug this way, which the recovery COUNT alone did not change (2
 and after that specific fix) but which would have silently produced wrong Examples for
 every combined args=+sql= call had it shipped uncaught.
 """
+
 from __future__ import annotations
 
 import ast
@@ -55,23 +56,24 @@ def _tree(src: str) -> ast.Module:
 
 # ---------- _track_scratch_path_fixtures() ----------
 
+
 def test_scratch_path_fixture_resolves_tmp_path_basename():
-    tree = _tree('''
+    tree = _tree("""
 @pytest.fixture
 def temp_db(tmp_path):
     db_path = tmp_path / "test.db"
     yield str(db_path)
-''')
+""")
     assert iox._track_scratch_path_fixtures(tree) == {"temp_db": "test.db"}
 
 
 def test_scratch_path_fixture_supports_tmpdir_too():
-    tree = _tree('''
+    tree = _tree("""
 @pytest.fixture
 def temp_db(tmpdir):
     db_path = tmpdir / "scratch.db"
     return str(db_path)
-''')
+""")
     assert iox._track_scratch_path_fixtures(tree) == {"temp_db": "scratch.db"}
 
 
@@ -79,28 +81,28 @@ def test_scratch_path_fixture_rejects_non_tmp_base():
     """A base that ISN'T pytest's own tmp_path/tmpdir must never be relativized -- e.g.
     RESOURCES/'golden.txt' is a real, fixed content path _PathResolver already resolves
     correctly; treating it as a scratch location would be wrong."""
-    tree = _tree('''
+    tree = _tree("""
 @pytest.fixture
 def golden(RESOURCES):
     p = RESOURCES / "golden.txt"
     return str(p)
-''')
+""")
     assert iox._track_scratch_path_fixtures(tree) == {}
 
 
 def test_scratch_path_fixture_requires_str_or_bare_return():
-    tree = _tree('''
+    tree = _tree("""
 @pytest.fixture
 def temp_db(tmp_path):
     db_path = tmp_path / "test.db"
     return db_path.resolve()
-''')
+""")
     assert iox._track_scratch_path_fixtures(tree) == {}
 
 
 # ---------- _discover_wrapper_kwarg_flags() ----------
 
-_DUCKDB_CONFTEST = '''
+_DUCKDB_CONFTEST = """
 import subprocess
 
 WORKSPACE_ROOT = __import__("pathlib").Path(__file__).parent
@@ -123,7 +125,7 @@ def run_duckdb(temp_db):
         result = subprocess.run(cmd, capture_output=True, input=input_data)
         return result
     return _run
-'''
+"""
 
 
 def test_discovers_kwarg_flag_and_base_for_fixture_factory():
@@ -140,7 +142,7 @@ def test_discovers_kwarg_flag_and_base_for_fixture_factory():
 def test_executable_placeholder_resolves_one_assignment_removed():
     """The 'executable' path is often assigned to a local var one line before the cmd
     list literal, not written inline -- both must resolve to the same placeholder."""
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 
 @pytest.fixture
@@ -152,28 +154,32 @@ def run_x():
             cmd.extend(["-c", sql])
         return subprocess.run(cmd, capture_output=True)
     return _run
-''')
+""")
     kf = iox._discover_wrapper_kwarg_flags(tree, Path("test_x.py"))
     assert kf["run_x"]["base"] == ["executable"]
 
 
 def test_no_flags_or_base_means_no_entry():
-    tree = _tree('''
+    tree = _tree("""
 def helper():
     return 42
-''')
+""")
     assert iox._discover_wrapper_kwarg_flags(tree, Path("test_x.py")) == {}
 
 
 # ---------- extract_file() integration: end-to-end duckdb shape ----------
 
+
 def test_extract_file_resolves_sql_only_call(tmp_path):
-    src = _DUCKDB_CONFTEST + '''
+    src = (
+        _DUCKDB_CONFTEST
+        + """
 def test_simple_sql(run_duckdb):
     result = run_duckdb(sql="SELECT 1 + 1;")
     assert result.returncode == 0
     assert "2" in result.stdout.decode()
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -188,11 +194,14 @@ def test_extract_file_combined_args_and_sql_appends_not_replaces(tmp_path):
     """The regression this fix specifically exists to prevent: args= must APPEND to the
     wrapper's own base, never wholesale-replace argv and silently drop the base + the
     sql-derived flag."""
-    src = _DUCKDB_CONFTEST + '''
+    src = (
+        _DUCKDB_CONFTEST
+        + """
 def test_csv_output(run_duckdb):
     result = run_duckdb(args=["--csv"], sql="SELECT 1 as a, 2 as b;")
     assert result.returncode == 0
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -206,7 +215,7 @@ def test_extract_file_plain_run_args_kw_unaffected_by_learned_wrappers(tmp_path)
     general-purpose ARGS_KW behavior) must still wholesale-replace argv exactly as
     before -- this fix must not change behavior for runners it never learned anything
     about."""
-    src = '''
+    src = """
 import subprocess
 
 def run(args=None):
@@ -215,7 +224,7 @@ def run(args=None):
 def test_x():
     result = run(args=["--help"])
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

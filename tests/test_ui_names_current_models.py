@@ -102,7 +102,9 @@ def test_no_ui_file_presents_a_superseded_model_as_current():
         rel = path.relative_to(FRONTEND_SRC).as_posix()
         if rel in STALE_ALLOWED:
             continue
-        found = set(MODEL_TAG_RE.findall(_code_only(path.read_text(encoding="utf-8", errors="replace"))))
+        found = set(
+            MODEL_TAG_RE.findall(_code_only(path.read_text(encoding="utf-8", errors="replace")))
+        )
         # citadel-* is the pre-rename spelling of the same models; normalise before
         # comparing, or a legacy tag would slip past the stale set on a name mismatch.
         bad = {t for t in found if t.replace("citadel-", "determinex-") in stale}
@@ -128,8 +130,11 @@ def test_the_scan_actually_matches_real_tags():
         "determinex-engineer-v11-dsl"
     ]
     assert MODEL_TAG_RE.findall("citadel-observer-v6-dsl") == ["citadel-observer-v6-dsl"]
-    hits = [t for p in _ui_files()
-            for t in MODEL_TAG_RE.findall(_code_only(p.read_text(encoding="utf-8", errors="replace")))]
+    hits = [
+        t
+        for p in _ui_files()
+        for t in MODEL_TAG_RE.findall(_code_only(p.read_text(encoding="utf-8", errors="replace")))
+    ]
     assert hits, "the scan found no model tags anywhere in the UI -- regex is broken"
 
 

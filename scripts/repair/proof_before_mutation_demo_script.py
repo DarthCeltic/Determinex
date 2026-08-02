@@ -7,6 +7,7 @@ demo for public/external review. The script is text; this module
 asserts the script contains the required structure and DOES NOT
 require network, Docker, ProgramBench, or training writes.
 """
+
 from __future__ import annotations
 
 from .proof_before_mutation_demo_script_record import (
@@ -14,7 +15,6 @@ from .proof_before_mutation_demo_script_record import (
     DemoStep,
     ProofBeforeMutationDemoScriptRecord,
 )
-
 
 # The required copy phrase — every demo deliverable must contain
 # this string (case-insensitive substring match).
@@ -26,7 +26,8 @@ DEMO_FIXTURE_REPO_PATH = "tests/fixtures/proof_before_mutation_demo_repo"
 
 _HAPPY_PATH: tuple[DemoStep, ...] = (
     DemoStep(
-        n=1, title="Open fixture repo",
+        n=1,
+        title="Open fixture repo",
         description=(
             "Proof Before Mutation begins: open the local demo fixture "
             f"repository at {DEMO_FIXTURE_REPO_PATH}. No external network "
@@ -34,14 +35,16 @@ _HAPPY_PATH: tuple[DemoStep, ...] = (
         ),
     ),
     DemoStep(
-        n=2, title="Detect issue",
+        n=2,
+        title="Detect issue",
         description=(
             "Determinex detects a failing test in the fixture repo using a "
             "local verifier process. No network calls."
         ),
     ),
     DemoStep(
-        n=3, title="Local model diagnoses",
+        n=3,
+        title="Local model diagnoses",
         description=(
             "A locally-admitted model (REAL_LOCAL_MODEL_ADMISSION_LOCK_001) "
             "produces a diagnosis of the failing test. The model output is "
@@ -49,14 +52,16 @@ _HAPPY_PATH: tuple[DemoStep, ...] = (
         ),
     ),
     DemoStep(
-        n=4, title="Determinex quarantines patch",
+        n=4,
+        title="Determinex quarantines patch",
         description=(
             "REAL_PATCH_PLAN_QUARANTINE_LOCK_001 validates the model's "
             "patch plan schema, paths, and op set. Bad entries are rejected."
         ),
     ),
     DemoStep(
-        n=5, title="Temp verifier runs",
+        n=5,
+        title="Temp verifier runs",
         description=(
             "REAL_TEMP_PATCH_VERIFY_LOCK_001 applies the plan to an "
             "isolated temp workspace and runs the verifier there. The real "
@@ -64,14 +69,16 @@ _HAPPY_PATH: tuple[DemoStep, ...] = (
         ),
     ),
     DemoStep(
-        n=6, title="User approval required",
+        n=6,
+        title="User approval required",
         description=(
             "An operator approval packet (REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001) "
             "is requested. Without it, the apply gate refuses to proceed."
         ),
     ),
     DemoStep(
-        n=7, title="Patch body hash is bound",
+        n=7,
+        title="Patch body hash is bound",
         description=(
             "The approval packet binds a canonical sha256 of the patch "
             "bodies (REAL_APPROVAL_DIFF_BODY_CONTENT_BINDING_LOCK_001) plus "
@@ -80,7 +87,8 @@ _HAPPY_PATH: tuple[DemoStep, ...] = (
         ),
     ),
     DemoStep(
-        n=8, title="Source mutation applies only after approval",
+        n=8,
+        title="Source mutation applies only after approval",
         description=(
             "SOURCE_MUTATION_APPLY_AFTER_APPROVAL_LOCK_001 re-checks every "
             "gate (approval/verifier/snapshot/body hash/symlink) and only "
@@ -88,7 +96,8 @@ _HAPPY_PATH: tuple[DemoStep, ...] = (
         ),
     ),
     DemoStep(
-        n=9, title="Post-apply verifier runs",
+        n=9,
+        title="Post-apply verifier runs",
         description=(
             "POST_APPLY_VERIFIER_NO_DEFAULT_PASS_LOCK_001 runs the real "
             "verifier on the mutated workspace. A missing or stub verifier "
@@ -96,14 +105,16 @@ _HAPPY_PATH: tuple[DemoStep, ...] = (
         ),
     ),
     DemoStep(
-        n=10, title="Signed evidence appears",
+        n=10,
+        title="Signed evidence appears",
         description=(
             "An evidence artifact is written and indexed. The evidence is "
             "an audit record, NOT an authorization to mutate again."
         ),
     ),
     DemoStep(
-        n=11, title="Training remains blocked unless separately eligible",
+        n=11,
+        title="Training remains blocked unless separately eligible",
         description=(
             "training_eligible stays False. The Claude IDE lane does not "
             "open training; only an explicit separate gate could."
@@ -114,7 +125,8 @@ _HAPPY_PATH: tuple[DemoStep, ...] = (
 
 _BLOCKED_PATH: tuple[DemoStep, ...] = (
     DemoStep(
-        n=1, title="Missing approval",
+        n=1,
+        title="Missing approval",
         description=(
             "Attempt apply with approval=None. Apply gate returns "
             "SOURCE_MUTATION_BLOCKED_NO_APPROVAL. Evidence records the refusal."
@@ -122,7 +134,8 @@ _BLOCKED_PATH: tuple[DemoStep, ...] = (
         is_blocked_step=True,
     ),
     DemoStep(
-        n=2, title="Changed patch body",
+        n=2,
+        title="Changed patch body",
         description=(
             "Submit a valid approval whose canonical_patch_body_hash matches "
             "one set of bodies, but supply DIFFERENT plan_entries to the "
@@ -133,7 +146,8 @@ _BLOCKED_PATH: tuple[DemoStep, ...] = (
         is_blocked_step=True,
     ),
     DemoStep(
-        n=3, title="Missing verifier",
+        n=3,
+        title="Missing verifier",
         description=(
             "Attempt apply with temp_verify=None. Apply gate returns "
             "SOURCE_MUTATION_BLOCKED_VERIFIER_NOT_PASSED. Evidence records "
@@ -157,9 +171,7 @@ def build_record() -> ProofBeforeMutationDemoScriptRecord:
     blocked = _BLOCKED_PATH
 
     # Required-phrase check across every step's title + description.
-    haystack = " ".join(
-        (s.title + " " + s.description) for s in (happy + blocked)
-    )
+    haystack = " ".join((s.title + " " + s.description) for s in (happy + blocked))
     phrase_present = PROOF_BEFORE_MUTATION_PHRASE.lower() in haystack.lower()
     # The phrase is the marketing tagline; require it in the
     # higher-level demo notes rather than every step. Provide it in
@@ -171,13 +183,15 @@ def build_record() -> ProofBeforeMutationDemoScriptRecord:
         return _block(
             "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_AUTHORITY_AMBIGUITY",
             note="happy-path steps are not contiguous 1..11",
-            happy=happy, blocked=blocked,
+            happy=happy,
+            blocked=blocked,
         )
     if [s.n for s in blocked] != list(range(1, 4)):
         return _block(
             "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_AUTHORITY_AMBIGUITY",
             note="blocked-path steps are not contiguous 1..3",
-            happy=happy, blocked=blocked,
+            happy=happy,
+            blocked=blocked,
         )
 
     # All blocked-path steps must declare is_blocked_step=True.
@@ -185,13 +199,15 @@ def build_record() -> ProofBeforeMutationDemoScriptRecord:
         return _block(
             "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_MISSING_BLOCKED_PATH",
             note="blocked path contains steps without is_blocked_step=True",
-            happy=happy, blocked=blocked,
+            happy=happy,
+            blocked=blocked,
         )
     if any(s.is_blocked_step for s in happy):
         return _block(
             "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_AUTHORITY_AMBIGUITY",
             note="happy-path step marked is_blocked_step",
-            happy=happy, blocked=blocked,
+            happy=happy,
+            blocked=blocked,
         )
 
     # Forbidden infrastructure mentions: the demo must not require
@@ -212,7 +228,8 @@ def build_record() -> ProofBeforeMutationDemoScriptRecord:
                 f"forbidden infra required: network={network_required}, "
                 f"docker={docker_required}, programbench={pb_required}"
             ),
-            happy=happy, blocked=blocked,
+            happy=happy,
+            blocked=blocked,
         )
 
     # Training-writes forbidden.
@@ -220,7 +237,8 @@ def build_record() -> ProofBeforeMutationDemoScriptRecord:
         return _block(
             "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_NETWORK_REQUIRED",
             note="training write language found in demo script",
-            happy=happy, blocked=blocked,
+            happy=happy,
+            blocked=blocked,
         )
 
     # User-source-mutation outside fixture — refuse.
@@ -228,7 +246,8 @@ def build_record() -> ProofBeforeMutationDemoScriptRecord:
         return _block(
             "PROOF_BEFORE_MUTATION_DEMO_BLOCKED_PATH_INCLUDED",
             note="demo references real user source repo rather than fixture",
-            happy=happy, blocked=blocked,
+            happy=happy,
+            blocked=blocked,
         )
 
     if not phrase_present:
@@ -238,7 +257,8 @@ def build_record() -> ProofBeforeMutationDemoScriptRecord:
                 f"required marketing phrase {PROOF_BEFORE_MUTATION_PHRASE!r} "
                 "missing from demo script copy"
             ),
-            happy=happy, blocked=blocked,
+            happy=happy,
+            blocked=blocked,
         )
 
     return ProofBeforeMutationDemoScriptRecord(
@@ -263,17 +283,24 @@ def build_record() -> ProofBeforeMutationDemoScriptRecord:
 
 
 def _block(
-    decision: str, *, note: str,
-    happy: tuple[DemoStep, ...], blocked: tuple[DemoStep, ...],
+    decision: str,
+    *,
+    note: str,
+    happy: tuple[DemoStep, ...],
+    blocked: tuple[DemoStep, ...],
 ) -> ProofBeforeMutationDemoScriptRecord:
     return ProofBeforeMutationDemoScriptRecord(
         decision=decision,
-        happy_path_steps=happy, blocked_path_steps=blocked,
+        happy_path_steps=happy,
+        blocked_path_steps=blocked,
         fixture_repo_path=DEMO_FIXTURE_REPO_PATH,
         copy_phrase_present=False,
-        network_required=False, docker_required=False,
-        programbench_required=False, training_rows_written=False,
-        source_mutation_authorized=False, training_eligible=False,
+        network_required=False,
+        docker_required=False,
+        programbench_required=False,
+        training_rows_written=False,
+        source_mutation_authorized=False,
+        training_eligible=False,
         notes=(note,),
     )
 

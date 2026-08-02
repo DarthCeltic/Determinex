@@ -10,27 +10,25 @@ Strict rules:
 Output: corpus/programbench/pending_unlock/{tool}/submission_uncapped.tar.gz
         corpus/programbench/pending_unlock/{tool}/uncap_diff.txt
 """
+
 from __future__ import annotations
 
 import sys
+
 # Force UTF-8 output on Windows so box-drawing chars print cleanly
-if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
     try:
-        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
         pass
 
 import argparse
 import io
-import json
-import os
 import re
 import tarfile
-import tempfile
 from difflib import unified_diff
 from pathlib import Path
-from datetime import datetime, timezone
 
 ROOT = Path(__file__).parent.parent
 PB_DIR = ROOT / "corpus" / "programbench"
@@ -38,15 +36,15 @@ LOCKED_BASE = PB_DIR / "locked"
 PENDING_BASE = PB_DIR / "pending_unlock"
 
 # Pattern: del items[N:] — any integer, with optional whitespace
-CAP_PATTERN = re.compile(r'^\s*del\s+items\s*\[\s*\d+\s*:\s*\]\s*$', re.MULTILINE)
+CAP_PATTERN = re.compile(r"^\s*del\s+items\s*\[\s*\d+\s*:\s*\]\s*$", re.MULTILINE)
 
 # Old keyword-based TUI filter pattern to detect
 KEYWORD_FILTER_PATTERN = re.compile(
-    r'if any\(s in nodeid for s in \([^)]*(?:tmux|interactive|libtmux|pexpect|test_pty)[^)]*\)\)',
-    re.IGNORECASE
+    r"if any\(s in nodeid for s in \([^)]*(?:tmux|interactive|libtmux|pexpect|test_pty)[^)]*\)\)",
+    re.IGNORECASE,
 )
 
-SEMANTIC_TUI_FILTER = '''    # Semantic TUI classification — filter on file structure and imports, not name
+SEMANTIC_TUI_FILTER = """    # Semantic TUI classification — filter on file structure and imports, not name
     import ast as _ast, pathlib as _pathlib
     def _is_tui_test(item):
         fpath = str(getattr(item, 'fspath', '') or '')
@@ -67,7 +65,7 @@ SEMANTIC_TUI_FILTER = '''    # Semantic TUI classification — filter on file st
         except Exception:
             pass
         return False
-    items[:] = [item for item in items if not _is_tui_test(item)]'''
+    items[:] = [item for item in items if not _is_tui_test(item)]"""
 
 
 def find_tarball(tool_slug: str) -> Path | None:
@@ -98,18 +96,18 @@ def remove_caps(compile_sh: str) -> tuple[str, int]:
     """Remove all del items[N:] lines (and optional/dangling enclosing if statement). Returns (modified, count_removed)."""
     # 1. Match the combined block: 'if len(items) > N:' followed by 'del items[N:]'
     pat_combined = re.compile(
-        r'(?:^\s*if\s+len\s*\(\s*items\s*\)\s*>\s*\d+\s*:\s*\r?\n)?^\s*del\s+items\s*\[\s*\d+\s*:\s*\]\s*\r?\n',
-        re.MULTILINE
+        r"(?:^\s*if\s+len\s*\(\s*items\s*\)\s*>\s*\d+\s*:\s*\r?\n)?^\s*del\s+items\s*\[\s*\d+\s*:\s*\]\s*\r?\n",
+        re.MULTILINE,
     )
-    compile_sh, count = pat_combined.subn('', compile_sh)
-    
+    compile_sh, count = pat_combined.subn("", compile_sh)
+
     # 2. Match any leftover dangling 'if len(items) > N:' statements
     pat_dangling = re.compile(
-        r'^\s*if\s+len\s*\(\s*items\s*\)\s*>\s*\d+\s*:\s*\r?\n+(?=\s*(?:CONFTEST_EOF|def\s|class\s|done|true|^\S))',
-        re.MULTILINE
+        r"^\s*if\s+len\s*\(\s*items\s*\)\s*>\s*\d+\s*:\s*\r?\n+(?=\s*(?:CONFTEST_EOF|def\s|class\s|done|true|^\S))",
+        re.MULTILINE,
     )
-    compile_sh, count_dangling = pat_dangling.subn('', compile_sh)
-    
+    compile_sh, count_dangling = pat_dangling.subn("", compile_sh)
+
     return compile_sh, count + count_dangling
 
 
@@ -118,17 +116,17 @@ def apply_semantic_filter(compile_sh: str) -> tuple[str, bool]:
     # Find the block: from "if any(s in nodeid" through "items[:] = keep"
     # We look for the broader pattern of the keyword filter block
     block_pattern = re.compile(
-        r'(\s*)(?:keep\s*=\s*\[\]\s*\n\s*for item in items:\s*\n\s*nodeid[^\n]*\n\s*'
-        r'if any\(s in nodeid[^\n]*\n[^\n]*\n\s*continue\s*\n\s*keep\.append[^\n]*\n'
-        r'\s*items\[:?\]\s*=\s*keep)',
-        re.DOTALL
+        r"(\s*)(?:keep\s*=\s*\[\]\s*\n\s*for item in items:\s*\n\s*nodeid[^\n]*\n\s*"
+        r"if any\(s in nodeid[^\n]*\n[^\n]*\n\s*continue\s*\n\s*keep\.append[^\n]*\n"
+        r"\s*items\[:?\]\s*=\s*keep)",
+        re.DOTALL,
     )
     # Simpler replacement: if the keyword filter one-liner is present
     old_oneliner = re.compile(
         r'\s*nodeid\s*=\s*\(getattr\(item,\s*[\'"]nodeid[\'"],[^\n]*\)\.lower\(\)\s*\n'
-        r'\s*if any\(s in nodeid for s in[^\n]+\):\s*\n'
-        r'\s*continue\s*\n',
-        re.MULTILINE
+        r"\s*if any\(s in nodeid for s in[^\n]+\):\s*\n"
+        r"\s*continue\s*\n",
+        re.MULTILINE,
     )
 
     if not KEYWORD_FILTER_PATTERN.search(compile_sh):
@@ -136,16 +134,16 @@ def apply_semantic_filter(compile_sh: str) -> tuple[str, bool]:
 
     # Replace the entire keep=[]/for/if/continue/append block
     full_block = re.compile(
-        r'(\n\s*keep\s*=\s*\[\]\s*\n'
-        r'\s*for item in items:\s*\n'
-        r'(?:[^\n]*\n)*?'
-        r'\s*items\[:?\]\s*=\s*keep)',
-        re.MULTILINE
+        r"(\n\s*keep\s*=\s*\[\]\s*\n"
+        r"\s*for item in items:\s*\n"
+        r"(?:[^\n]*\n)*?"
+        r"\s*items\[:?\]\s*=\s*keep)",
+        re.MULTILINE,
     )
-    new, n = full_block.subn('\n' + SEMANTIC_TUI_FILTER, compile_sh)
+    new, n = full_block.subn("\n" + SEMANTIC_TUI_FILTER, compile_sh)
     if n == 0:
         # Try the simpler replacement just for the nodeid/if/continue block
-        new = old_oneliner.sub('', compile_sh)
+        new = old_oneliner.sub("", compile_sh)
 
     return new, True
 
@@ -156,7 +154,7 @@ def uncap_tool(tool_slug: str, output_dir: Path | None = None) -> bool:
         print(f"  ERROR: No tarball found for '{tool_slug}'", file=sys.stderr)
         return False
 
-    print(f"\n{'─'*60}")
+    print(f"\n{'─' * 60}")
     print(f"  Uncapping: {tool_slug}")
     print(f"  Source:    {tarball}")
 
@@ -186,7 +184,7 @@ def uncap_tool(tool_slug: str, output_dir: Path | None = None) -> bool:
                     break
 
             if compile_member is None:
-                print(f"  ERROR: No compile.sh found in tarball", file=sys.stderr)
+                print("  ERROR: No compile.sh found in tarball", file=sys.stderr)
                 return False
 
             f = tf.extractfile(compile_member)
@@ -202,22 +200,24 @@ def uncap_tool(tool_slug: str, output_dir: Path | None = None) -> bool:
     # Verify: no del items[N:] remains
     remaining_caps = CAP_PATTERN.findall(modified_sh)
     if remaining_caps:
-        print(f"  ERROR: Cap removal incomplete — still found:", file=sys.stderr)
+        print("  ERROR: Cap removal incomplete — still found:", file=sys.stderr)
         for cap in remaining_caps:
             print(f"    {cap.strip()}", file=sys.stderr)
         return False
 
     if caps_removed == 0:
         print(f"  WARNING: No collection cap found in {tool_slug}/compile.sh")
-        print(f"           (may already be uncapped or cap is in a different format)")
+        print("           (may already be uncapped or cap is in a different format)")
 
     # Generate diff
-    diff_lines = list(unified_diff(
-        original_sh.splitlines(keepends=True),
-        modified_sh.splitlines(keepends=True),
-        fromfile="compile.sh (original)",
-        tofile="compile.sh (uncapped)",
-    ))
+    diff_lines = list(
+        unified_diff(
+            original_sh.splitlines(keepends=True),
+            modified_sh.splitlines(keepends=True),
+            fromfile="compile.sh (original)",
+            tofile="compile.sh (uncapped)",
+        )
+    )
     diff_text = "".join(diff_lines)
     diff_file.write_text(diff_text, encoding="utf-8")
 
@@ -288,12 +288,15 @@ def main():
     parser = argparse.ArgumentParser(description="Remove collection caps from PB submissions")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--tool", help="Process a single tool by slug")
-    group.add_argument("--all-priority-1", action="store_true",
-                       help="Process all priority-1 (not_run < 100) tools")
-    group.add_argument("--all-priority-2", action="store_true",
-                       help="Process all priority-2 (not_run 100-300) tools")
-    group.add_argument("--all", action="store_true",
-                       help="Process all pending_unlock tools")
+    group.add_argument(
+        "--all-priority-1", action="store_true", help="Process all priority-1 (not_run < 100) tools"
+    )
+    group.add_argument(
+        "--all-priority-2",
+        action="store_true",
+        help="Process all priority-2 (not_run 100-300) tools",
+    )
+    group.add_argument("--all", action="store_true", help="Process all pending_unlock tools")
     args = parser.parse_args()
 
     if args.tool:
@@ -318,7 +321,7 @@ def main():
         else:
             failed.append(slug)
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Completed: {success}/{len(tools)} succeeded")
     if failed:
         print(f"Failed: {', '.join(failed)}")

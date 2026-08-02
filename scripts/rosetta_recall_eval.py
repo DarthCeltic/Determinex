@@ -55,12 +55,16 @@ def load_embeddings(cache_dir: Path, arch: str) -> torch.Tensor:
 def load_rosetta(rosetta_path: Path):
     """Load and verify the Rosetta Stone weights."""
     import hashlib
+
     raw = rosetta_path.read_bytes()
     sha = hashlib.sha256(raw).hexdigest()
     log.info("Rosetta SHA256: %s", sha)
     stone = torch.load(rosetta_path, weights_only=True)
-    log.info("Rosetta version: %s  D_ROSETTA: %s",
-             stone.get("version", "unknown"), stone.get("d_rosetta", "?"))
+    log.info(
+        "Rosetta version: %s  D_ROSETTA: %s",
+        stone.get("version", "unknown"),
+        stone.get("d_rosetta", "?"),
+    )
     return stone, sha
 
 
@@ -110,8 +114,7 @@ def recall_at_k(proj_a: torch.Tensor, proj_b: torch.Tensor, k: int = 1) -> float
 
 
 def cosine_distributions(
-    proj_a: torch.Tensor,
-    proj_b: torch.Tensor
+    proj_a: torch.Tensor, proj_b: torch.Tensor
 ) -> tuple[np.ndarray, np.ndarray]:
     """
     Returns (positive_cosines, negative_cosines).
@@ -135,14 +138,19 @@ def cosine_distributions(
 
 def main():
     ap = argparse.ArgumentParser(description="Rosetta Recall@K evaluation")
-    ap.add_argument("--rosetta", type=Path,
-                    default=Path.home() / ".determinex/rosetta/rosetta_v1.pt")
-    ap.add_argument("--model-a", default="llama",
-                    help="First architecture name (must match key in dims dict)")
-    ap.add_argument("--model-b", default="mistral",
-                    help="Second architecture name")
-    ap.add_argument("--embedding-cache", type=Path, required=True,
-                    help="Directory containing {arch}_embeddings.pt files")
+    ap.add_argument(
+        "--rosetta", type=Path, default=Path.home() / ".determinex/rosetta/rosetta_v1.pt"
+    )
+    ap.add_argument(
+        "--model-a", default="llama", help="First architecture name (must match key in dims dict)"
+    )
+    ap.add_argument("--model-b", default="mistral", help="Second architecture name")
+    ap.add_argument(
+        "--embedding-cache",
+        type=Path,
+        required=True,
+        help="Directory containing {arch}_embeddings.pt files",
+    )
     ap.add_argument("--output-dir", type=Path, default=Path("logs/rosetta_recall"))
     ap.add_argument("--k-values", nargs="+", type=int, default=[1, 3, 5])
     args = ap.parse_args()
@@ -180,7 +188,7 @@ def main():
     for k in args.k_values:
         r_ab = recall_at_k(proj_a, proj_b, k)
         r_ba = recall_at_k(proj_b, proj_a, k)
-        sym  = (r_ab + r_ba) / 2
+        sym = (r_ab + r_ba) / 2
         results["recall"][f"k={k}"] = {
             "A→B": round(r_ab, 4),
             "B→A": round(r_ba, 4),
@@ -191,12 +199,12 @@ def main():
     log.info("Computing cosine distributions...")
     pos_cos, neg_cos = cosine_distributions(proj_a, proj_b)
     results["distributions"] = {
-        "positive_mean":  float(np.mean(pos_cos)),
-        "positive_std":   float(np.std(pos_cos)),
-        "positive_min":   float(np.min(pos_cos)),
-        "positive_max":   float(np.max(pos_cos)),
-        "negative_mean":  float(np.mean(neg_cos)),
-        "negative_std":   float(np.std(neg_cos)),
+        "positive_mean": float(np.mean(pos_cos)),
+        "positive_std": float(np.std(pos_cos)),
+        "positive_min": float(np.min(pos_cos)),
+        "positive_max": float(np.max(pos_cos)),
+        "negative_mean": float(np.mean(neg_cos)),
+        "negative_std": float(np.std(neg_cos)),
         "separation_gap": float(np.mean(pos_cos) - np.mean(neg_cos)),
     }
     log.info("  Positive pairs: mean=%.4f ± %.4f", np.mean(pos_cos), np.std(pos_cos))
@@ -215,11 +223,11 @@ def main():
     # Summary
     r1 = results["recall"].get("k=1", {}).get("symmetric", 0)
     gap = results["distributions"]["separation_gap"]
-    print(f"\n{'='*50}")
+    print(f"\n{'=' * 50}")
     print(f"  Recall@1 (symmetric): {r1:.1%}")
     print(f"  Distribution gap:     {gap:.4f}")
     print(f"  {'STRONG' if r1 > 0.7 else 'MODERATE' if r1 > 0.4 else 'WEAK'} alignment")
-    print(f"{'='*50}\n")
+    print(f"{'=' * 50}\n")
 
     if r1 < 0.5:
         log.warning("Recall@1 below 0.5 — consider more training epochs or data diversity.")

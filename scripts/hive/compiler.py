@@ -3,13 +3,13 @@ scripts/hive/compiler.py — Scaffolding validation, Compiler Oracle, write mode
 ============================================================================================
 Moved from determinex_hive.py (lines ~791-1043, ~1232-1293).
 """
+
 from __future__ import annotations
 
 import ast
 import hashlib
 import logging
 import os
-import psutil
 import re
 import shlex
 import shutil
@@ -19,11 +19,15 @@ import tempfile
 import threading
 import unicodedata
 from pathlib import Path
-from typing import Optional
+
+import psutil
+
 from hive.manifest import StepRecord
 
 try:
-    from hive._log import get_logger as _get_logger, bind_session as _bind_session  # noqa: F401
+    from hive._log import bind_session as _bind_session
+    from hive._log import get_logger as _get_logger  # noqa: F401
+
     log = _get_logger("hive.compiler")
 except ImportError:
     log = logging.getLogger("hive")
@@ -56,16 +60,16 @@ _INVISIBLE_CHARS = re.compile(r"[\u200B\u200C\u200D\u00A0\u2028\u2029\uFEFF]")
 # These look like normal punctuation but cause rustc/go/python to emit
 # "unknown start of token" (e.g. em dash in Rust source).
 _TYPO_REPLACEMENTS: list[tuple[str, str]] = [
-    ("‘", "'"),    # left single quotation mark
-    ("’", "'"),    # right single quotation mark (most common culprit)
-    ("“", '"'),    # left double quotation mark
-    ("”", '"'),    # right double quotation mark
-    ("—", "--"),   # em dash
-    ("–", "-"),    # en dash
-    ("‒", "-"),    # figure dash
-    ("‐", "-"),    # hyphen (Unicode)
-    ("‑", "-"),    # non-breaking hyphen
-    ("´", "'"),    # acute accent
+    ("‘", "'"),  # left single quotation mark
+    ("’", "'"),  # right single quotation mark (most common culprit)
+    ("“", '"'),  # left double quotation mark
+    ("”", '"'),  # right double quotation mark
+    ("—", "--"),  # em dash
+    ("–", "-"),  # en dash
+    ("‒", "-"),  # figure dash
+    ("‐", "-"),  # hyphen (Unicode)
+    ("‑", "-"),  # non-breaking hyphen
+    ("´", "'"),  # acute accent
 ]
 
 
@@ -104,9 +108,7 @@ _TOOLCHAIN_MISSING_PATTERNS = [
     r"rustc: command not found",
     r"python.*not found",
 ]
-_TOOLCHAIN_MISSING_RE = re.compile(
-    "|".join(_TOOLCHAIN_MISSING_PATTERNS), re.IGNORECASE
-)
+_TOOLCHAIN_MISSING_RE = re.compile("|".join(_TOOLCHAIN_MISSING_PATTERNS), re.IGNORECASE)
 _WSL_TOOLCHAIN_UNAVAILABLE_RE = re.compile(
     r"env:\s*.{0,40}(cargo|go|python3?|rustc).{0,80}No such file or directory"
     r"|(cargo|go|python3?|rustc): command not found"
@@ -150,11 +152,19 @@ _CREDENTIAL_STRIP_RE = re.compile(
 # don't inherit the host PYTHONPATH or virtual-env overlays.  A test that passes
 # because the host has a library the project's requirements.txt omits is a false
 # positive — and it will silently poison the training curriculum.
-_ENV_POLLUTION_KEYS: frozenset[str] = frozenset({
-    "PYTHONPATH", "PYTHONSTARTUP", "PYTHONUSERBASE",
-    "VIRTUAL_ENV", "VIRTUAL_ENV_PROMPT",
-    "CONDA_DEFAULT_ENV", "CONDA_PREFIX", "CONDA_EXE", "CONDA_SHLVL",
-})
+_ENV_POLLUTION_KEYS: frozenset[str] = frozenset(
+    {
+        "PYTHONPATH",
+        "PYTHONSTARTUP",
+        "PYTHONUSERBASE",
+        "VIRTUAL_ENV",
+        "VIRTUAL_ENV_PROMPT",
+        "CONDA_DEFAULT_ENV",
+        "CONDA_PREFIX",
+        "CONDA_EXE",
+        "CONDA_SHLVL",
+    }
+)
 
 
 def _with_standard_user_toolchain_bins(path_value: str) -> str:
@@ -186,10 +196,11 @@ def _with_standard_user_toolchain_bins(path_value: str) -> str:
     return os.pathsep.join(entries)
 
 
-def _make_safe_env(extra: Optional[dict] = None) -> dict[str, str]:
+def _make_safe_env(extra: dict | None = None) -> dict[str, str]:
     """Return os.environ copy with credential-bearing and env-pollution keys stripped."""
     safe = {
-        k: v for k, v in os.environ.items()
+        k: v
+        for k, v in os.environ.items()
         if not _CREDENTIAL_STRIP_RE.search(k) and k not in _ENV_POLLUTION_KEYS
     }
     safe["PATH"] = _with_standard_user_toolchain_bins(safe.get("PATH", ""))
@@ -313,11 +324,11 @@ _JOB_OBJECT_AVAILABLE: bool | None = None
 # the OS closes all open handles, triggering KillOnJobClose on every assigned
 # compiler subprocess — no zombie processes survive a daemon crash.
 
-_DAEMON_JOB_HANDLE: Optional[int] = None
+_DAEMON_JOB_HANDLE: int | None = None
 _daemon_job_lock = threading.Lock()
 
 
-def _get_daemon_job_handle() -> Optional[int]:
+def _get_daemon_job_handle() -> int | None:
     """Return (creating if needed) the module-level KillOnJobClose Job Object handle."""
     global _DAEMON_JOB_HANDLE
     if not sys.platform.startswith("win"):
@@ -341,14 +352,14 @@ def _get_daemon_job_handle() -> Optional[int]:
             class _BasicLimit(ctypes.Structure):
                 _fields_ = [
                     ("PerProcessUserTimeLimit", _LargeInt),
-                    ("PerJobUserTimeLimit",     _LargeInt),
-                    ("LimitFlags",              ctypes.c_ulong),
-                    ("MinimumWorkingSetSize",   ctypes.c_size_t),
-                    ("MaximumWorkingSetSize",   ctypes.c_size_t),
-                    ("ActiveProcessLimit",      ctypes.c_ulong),
-                    ("Affinity",                ctypes.c_size_t),
-                    ("PriorityClass",           ctypes.c_ulong),
-                    ("SchedulingClass",         ctypes.c_ulong),
+                    ("PerJobUserTimeLimit", _LargeInt),
+                    ("LimitFlags", ctypes.c_ulong),
+                    ("MinimumWorkingSetSize", ctypes.c_size_t),
+                    ("MaximumWorkingSetSize", ctypes.c_size_t),
+                    ("ActiveProcessLimit", ctypes.c_ulong),
+                    ("Affinity", ctypes.c_size_t),
+                    ("PriorityClass", ctypes.c_ulong),
+                    ("SchedulingClass", ctypes.c_ulong),
                 ]
 
             JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x00002000
@@ -356,8 +367,10 @@ def _get_daemon_job_handle() -> Optional[int]:
             bli = _BasicLimit()
             bli.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
             k32.SetInformationJobObject(
-                h, JobObjectBasicLimitInformation,
-                ctypes.byref(bli), ctypes.sizeof(bli),
+                h,
+                JobObjectBasicLimitInformation,
+                ctypes.byref(bli),
+                ctypes.sizeof(bli),
             )
             _DAEMON_JOB_HANDLE = h
             log.info("[L1-C] Daemon KillOnJobClose Job Object created (handle=%d)", h)
@@ -378,6 +391,7 @@ def _probe_job_object_support() -> bool:
         return False
     try:
         import ctypes
+
         k32 = ctypes.windll.kernel32
         h = k32.CreateJobObjectW(None, None)
         if not h:
@@ -469,8 +483,7 @@ def _apply_job_object_restrictions(proc_handle: int) -> bool:
         )
         JobObjectBasicUIRestrictions = 4
         k32.SetInformationJobObject(
-            h_job, JobObjectBasicUIRestrictions,
-            ctypes.byref(r), ctypes.sizeof(r)
+            h_job, JobObjectBasicUIRestrictions, ctypes.byref(r), ctypes.sizeof(r)
         )
 
         ok = bool(k32.AssignProcessToJobObject(h_job, proc_handle))
@@ -525,8 +538,8 @@ def _kill_process_tree(pid: int) -> None:
 #   fallback when neither container runtime is present.
 
 _ORACLE_IMAGES: dict[str, str] = {
-    "rust":   "rust:1.82-slim",
-    "go":     "golang:1.23-alpine",
+    "rust": "rust:1.82-slim",
+    "go": "golang:1.23-alpine",
     "python": "python:3.12-slim",
     # Built locally, not pulled: the oracle runs --network=none, so `npx tsc` would try
     # to fetch the compiler at RUN time and fail in a way indistinguishable from a type
@@ -539,7 +552,7 @@ _ORACLE_IMAGES: dict[str, str] = {
 # leaving the operator to guess.
 _ORACLE_IMAGE_HINT: dict[str, str] = {
     "typescript": "docker build -t determinex-oracle-ts:20 "
-                  "-f docker/oracle/typescript.Dockerfile .",
+    "-f docker/oracle/typescript.Dockerfile .",
 }
 
 # Spellings that mean the same toolchain. Without this, lang="ts" missed the image lookup
@@ -547,8 +560,11 @@ _ORACLE_IMAGE_HINT: dict[str, str] = {
 # oracle reported itself as a compile failure, which is the one thing an oracle must never
 # do. Resolved for image selection only; the branch conditions stay explicit.
 _LANG_ALIASES: dict[str, str] = {
-    "ts": "typescript", "tsx": "typescript",
-    "rs": "rust", "py": "python", "golang": "go",
+    "ts": "typescript",
+    "tsx": "typescript",
+    "rs": "rust",
+    "py": "python",
+    "golang": "go",
 }
 
 # Type-check with an explicit file list rather than a baked tsconfig.
@@ -573,9 +589,9 @@ _TS_DEFAULT_CHECK = (
     "--module ESNext --moduleResolution bundler $files"
 )
 
-_docker_checked: Optional[bool] = None
-_wsl2_checked:   Optional[bool] = None
-_backend_logged  = False
+_docker_checked: bool | None = None
+_wsl2_checked: bool | None = None
+_backend_logged = False
 _oracle_backend_lock = threading.Lock()
 
 
@@ -586,7 +602,7 @@ def _oracle_backend() -> str:
         if _docker_checked is None:
             try:
                 r = subprocess.run(["docker", "info"], capture_output=True, timeout=4)
-                _docker_checked = (r.returncode == 0)
+                _docker_checked = r.returncode == 0
             except Exception:
                 _docker_checked = False
 
@@ -596,7 +612,7 @@ def _oracle_backend() -> str:
             # Pylance would constant-fold into dead code on this Windows machine.
             try:
                 r = subprocess.run(["wsl", "--status"], capture_output=True, timeout=4)
-                _wsl2_checked = (r.returncode == 0)
+                _wsl2_checked = r.returncode == 0
             except Exception:
                 _wsl2_checked = False
 
@@ -609,7 +625,7 @@ def _oracle_backend() -> str:
 
 def _windows_to_wsl_path(path: Path) -> str:
     """Convert C:\\path\\to\\dir → /mnt/c/path/to/dir for WSL2 volume access."""
-    posix = path.resolve().as_posix()   # "C:/path/to/dir"
+    posix = path.resolve().as_posix()  # "C:/path/to/dir"
     if len(posix) >= 2 and posix[1] == ":":
         return f"/mnt/{posix[0].lower()}{posix[2:]}"
     return posix
@@ -640,9 +656,14 @@ def _ensure_oracle_image(image: str, lang_key: str) -> None:
     if image in _IMAGES_PRESENT:
         return
     try:
-        present = subprocess.run(
-            ["docker", "image", "inspect", image], capture_output=True, timeout=30,
-        ).returncode == 0
+        present = (
+            subprocess.run(
+                ["docker", "image", "inspect", image],
+                capture_output=True,
+                timeout=30,
+            ).returncode
+            == 0
+        )
     except Exception:
         # Can't tell. Fall through: a real pull reports its own failure with a real reason.
         present = False
@@ -661,13 +682,18 @@ def _ensure_oracle_image(image: str, lang_key: str) -> None:
             )
         log.info(
             "[Oracle] Pulling sandbox image %s — first use on this machine. Not charged "
-            "to the %ss compile timeout.", image, COMPILE_TIMEOUT,
+            "to the %ss compile timeout.",
+            image,
+            COMPILE_TIMEOUT,
         )
         try:
             pull = subprocess.run(
                 ["docker", "pull", image],
-                capture_output=True, text=True, encoding="utf-8",
-                errors="backslashreplace", timeout=_IMAGE_PULL_TIMEOUT,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="backslashreplace",
+                timeout=_IMAGE_PULL_TIMEOUT,
             )
         except subprocess.TimeoutExpired as exc:
             raise RuntimeError(
@@ -686,7 +712,11 @@ def _ensure_oracle_image(image: str, lang_key: str) -> None:
 
 
 def _docker_oracle_run(
-    cmd: list[str], workspace: Path, lang: str, timeout: int, allow_network: bool,
+    cmd: list[str],
+    workspace: Path,
+    lang: str,
+    timeout: int,
+    allow_network: bool,
 ) -> subprocess.CompletedProcess:
     """Execute compiler command inside an ephemeral Docker container."""
     lang_lower = lang.lower()
@@ -717,7 +747,9 @@ def _docker_oracle_run(
             f"exit 99; fi; {cmd_str}"
         )
         docker_cmd = [
-            "docker", "run", "--rm",
+            "docker",
+            "run",
+            "--rm",
             *net_flag,
             "--memory=512m",
             "--cpus=2",
@@ -740,14 +772,21 @@ def _docker_oracle_run(
             # a bounded process table stops a candidate fork-bombing the host scheduler.
             "--cap-drop=ALL",
             "--pids-limit=512",
-            "-v", f"{workspace_abs}:/workspace:rw",
-            "-w", "/workspace",
+            "-v",
+            f"{workspace_abs}:/workspace:rw",
+            "-w",
+            "/workspace",
             *cargo_env,
-            image, "sh", "-c", shell_payload,
+            image,
+            "sh",
+            "-c",
+            shell_payload,
         ]
     else:
         docker_cmd = [
-            "docker", "run", "--rm",
+            "docker",
+            "run",
+            "--rm",
             *net_flag,
             "--memory=512m",
             "--cpus=2",
@@ -770,14 +809,20 @@ def _docker_oracle_run(
             # a bounded process table stops a candidate fork-bombing the host scheduler.
             "--cap-drop=ALL",
             "--pids-limit=512",
-            "-v", f"{workspace_abs}:/workspace:rw",
-            "-w", "/workspace",
+            "-v",
+            f"{workspace_abs}:/workspace:rw",
+            "-w",
+            "/workspace",
             *cargo_env,
-            image, *cmd,
+            image,
+            *cmd,
         ]
     return subprocess.run(
         docker_cmd,
-        capture_output=True, text=True, encoding="utf-8", errors="backslashreplace",
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="backslashreplace",
         # 60s overhead: container start and teardown only. The image pull is handled by
         # _ensure_oracle_image above, so this budget no longer has to cover a download.
         # Measured warm on a Windows/WSL2 Docker Desktop host: a hello-world `cargo build`
@@ -787,7 +832,10 @@ def _docker_oracle_run(
 
 
 def _wsl2_oracle_run(
-    cmd: list[str], workspace: Path, lang: str, timeout: int,
+    cmd: list[str],
+    workspace: Path,
+    lang: str,
+    timeout: int,
     _allow_network: bool = False,  # WSL2 network isolation requires nftables; not enforced here
 ) -> subprocess.CompletedProcess:
     """Execute compiler command inside WSL2 with a clean environment (env -i)."""
@@ -796,20 +844,22 @@ def _wsl2_oracle_run(
     # Minimal PATH covering Rust, Go, and Python toolchain locations.
     path_dirs = (
         "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-        ":/usr/local/cargo/bin"   # rustup / cargo
-        ":/usr/local/go/bin"      # Go toolchain
+        ":/usr/local/cargo/bin"  # rustup / cargo
+        ":/usr/local/go/bin"  # Go toolchain
     )
     extra_env = ""
     if "rust" in lang_lower:
         extra_env = f" CARGO_TARGET_DIR=/tmp/cargo-{os.getpid()}"
     cmd_str = " ".join(shlex.quote(c) for c in cmd)
     shell_cmd = (
-        f"cd {shlex.quote(wsl_path)} && "
-        f"env -i HOME=/root PATH={path_dirs}{extra_env} {cmd_str}"
+        f"cd {shlex.quote(wsl_path)} && env -i HOME=/root PATH={path_dirs}{extra_env} {cmd_str}"
     )
     result = subprocess.run(
         ["wsl", "--exec", "bash", "-c", shell_cmd],
-        capture_output=True, text=True, encoding="utf-8", errors="backslashreplace",
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="backslashreplace",
         timeout=timeout + 5,
     )
     if result.returncode != 0:
@@ -820,7 +870,10 @@ def _wsl2_oracle_run(
 
 
 def _direct_oracle_run(
-    cmd: list[str], workspace: Path, lang: str, timeout: int,
+    cmd: list[str],
+    workspace: Path,
+    lang: str,
+    timeout: int,
     _allow_network: bool = False,  # network isolation not available in direct exec path
 ) -> subprocess.CompletedProcess:
     """
@@ -856,8 +909,11 @@ def _direct_oracle_run(
         _flags = subprocess.CREATE_NO_WINDOW if sys.platform.startswith("win") else 0
         proc = subprocess.Popen(
             cmd,
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            cwd=workspace, env=env, creationflags=_flags,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            cwd=workspace,
+            env=env,
+            creationflags=_flags,
         )
         try:
             applied = _apply_job_object_restrictions(proc._handle)  # type: ignore[attr-defined]
@@ -872,7 +928,8 @@ def _direct_oracle_run(
             proc.communicate()
             raise
         return subprocess.CompletedProcess(
-            cmd, proc.returncode,
+            cmd,
+            proc.returncode,
             stdout=_out.decode("utf-8", errors="backslashreplace"),
             stderr=_err.decode("utf-8", errors="backslashreplace"),
         )
@@ -882,7 +939,12 @@ def _direct_oracle_run(
         log.debug("SEC-2 Popen path failed (%s) — falling back to subprocess.run", _popen_err)
 
     return subprocess.run(
-        cmd, capture_output=True, text=True, timeout=timeout, cwd=workspace, env=env,
+        cmd,
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        cwd=workspace,
+        env=env,
     )
 
 
@@ -955,16 +1017,16 @@ def _docker_run(
 # Scan these files for dangerous patterns before the compiler is ever invoked.
 
 _BUILDRS_DANGER_RE = re.compile(
-    r"Command\s*::\s*new\s*\("       # arbitrary subprocess execution
+    r"Command\s*::\s*new\s*\("  # arbitrary subprocess execution
     r"|std\s*::\s*process\s*::\s*Command"
-    r"|std\s*::\s*net\s*::"          # network access from build script
+    r"|std\s*::\s*net\s*::"  # network access from build script
     r"|std\s*::\s*fs\s*::\s*remove"  # file deletion
     r"|std\s*::\s*env\s*::\s*var\s*\("  # env var reads (credential leak)
-    r"|include!\s*\("                # arbitrary file inclusion
+    r"|include!\s*\("  # arbitrary file inclusion
     # G24: additional dangerous patterns missed by original regex
     r"|std\s*::\s*env\s*::\s*set_var\s*\("  # env var writes — can inject PATH
-    r"|std\s*::\s*fs\s*::\s*write\s*\("     # arbitrary file writes outside workspace
-    r"|cc\s*::\s*Build",             # cc crate compiles native C code at build time
+    r"|std\s*::\s*fs\s*::\s*write\s*\("  # arbitrary file writes outside workspace
+    r"|cc\s*::\s*Build",  # cc crate compiles native C code at build time
     re.MULTILINE,
 )
 
@@ -1023,6 +1085,7 @@ def _scan_build_script(workspace: Path, lang: str) -> tuple[bool, str]:
 
 # ── Scaffolding validation pre-flight ────────────────────────────────────────
 
+
 def validate_scaffolding(workspace: Path, lang: str) -> tuple[bool, str]:
     """
     Run the appropriate empty-project validation before Step 1.
@@ -1037,8 +1100,8 @@ def validate_scaffolding(workspace: Path, lang: str) -> tuple[bool, str]:
 
         if "rust" in lang:
             r = _docker_run(
-                ["cargo", "check"],
-                workspace=workspace, lang=lang, timeout=60, allow_network=True)
+                ["cargo", "check"], workspace=workspace, lang=lang, timeout=60, allow_network=True
+            )
             if r.returncode == 0:
                 log.info("Scaffolding validation: cargo check PASSED")
                 return True, ""
@@ -1049,7 +1112,11 @@ def validate_scaffolding(workspace: Path, lang: str) -> tuple[bool, str]:
         elif "go" in lang:
             r = _docker_run(
                 ["go", "mod", "tidy"],
-                workspace=workspace, lang=lang, timeout=60, allow_network=True)
+                workspace=workspace,
+                lang=lang,
+                timeout=60,
+                allow_network=True,
+            )
             if r.returncode == 0:
                 log.info("Scaffolding validation: go mod tidy PASSED")
                 return True, ""
@@ -1063,7 +1130,11 @@ def validate_scaffolding(workspace: Path, lang: str) -> tuple[bool, str]:
                 # Mount the workspace and do pip install --dry-run inside the Docker container
                 r = _docker_run(
                     ["python", "-m", "pip", "install", "-r", "requirements.txt", "--dry-run"],
-                    workspace=workspace, lang=lang, timeout=60, allow_network=True)
+                    workspace=workspace,
+                    lang=lang,
+                    timeout=60,
+                    allow_network=True,
+                )
                 if r.returncode != 0:
                     err = (r.stderr or r.stdout)[:800]
                     log.warning("Scaffolding validation: pip --dry-run FAILED\n%s", err)
@@ -1103,17 +1174,40 @@ def validate_scaffolding(workspace: Path, lang: str) -> tuple[bool, str]:
 # raises the cost of a successful injection by orders of magnitude.
 
 # Python: modules whose presence in a test file is never legitimate
-_PY_FORBIDDEN_MODULES: frozenset[str] = frozenset({
-    "os", "subprocess", "sys", "shutil", "socket", "requests",
-    "http", "urllib", "ftplib", "smtplib", "paramiko",
-    "ctypes", "cffi", "multiprocessing", "pty", "signal",
-    "importlib", "runpy", "code", "codeop",
-    "builtins",  # `import builtins as b; b.eval(...)` bypass vector
-})
+_PY_FORBIDDEN_MODULES: frozenset[str] = frozenset(
+    {
+        "os",
+        "subprocess",
+        "sys",
+        "shutil",
+        "socket",
+        "requests",
+        "http",
+        "urllib",
+        "ftplib",
+        "smtplib",
+        "paramiko",
+        "ctypes",
+        "cffi",
+        "multiprocessing",
+        "pty",
+        "signal",
+        "importlib",
+        "runpy",
+        "code",
+        "codeop",
+        "builtins",  # `import builtins as b; b.eval(...)` bypass vector
+    }
+)
 # Python: dangerous built-ins that allow arbitrary code execution
-_PY_FORBIDDEN_BUILTINS: frozenset[str] = frozenset({
-    "eval", "exec", "compile", "__import__",
-})
+_PY_FORBIDDEN_BUILTINS: frozenset[str] = frozenset(
+    {
+        "eval",
+        "exec",
+        "compile",
+        "__import__",
+    }
+)
 
 # Rust: import paths that must not appear in a correctness test
 _RUST_FORBIDDEN_RE = re.compile(
@@ -1184,9 +1278,9 @@ class _PythonSentinelVisitor(ast.NodeVisitor):
             self.violations.append(f"Forbidden call: {node.func.id}()")
         # Attribute call on __builtins__: __builtins__['eval'](...)
         if isinstance(node.func, ast.Subscript):
-            if (
-                isinstance(node.func.value, ast.Name)
-                and node.func.value.id in ("__builtins__", "builtins")
+            if isinstance(node.func.value, ast.Name) and node.func.value.id in (
+                "__builtins__",
+                "builtins",
             ):
                 self.violations.append("Forbidden __builtins__ subscript call")
         # Alias-based call: `import os as av; av.system(...)` — defense-in-depth.
@@ -1231,9 +1325,7 @@ def _scan_go_harness(source: str) -> list[str]:
     return violations
 
 
-def scan_test_harness_security(
-    source: str, lang: str
-) -> tuple[bool, list[str]]:
+def scan_test_harness_security(source: str, lang: str) -> tuple[bool, list[str]]:
     """
     #SEC-1 Security Sentinel — scan an Architect-generated test harness for
     forbidden imports and dangerous function calls.
@@ -1267,7 +1359,8 @@ def scan_test_harness_security(
     if not is_safe:
         log.warning(
             "[SEC-1] Test harness security scan FAILED (%d violation(s)): %s",
-            len(violations), violations,
+            len(violations),
+            violations,
         )
     return is_safe, violations
 
@@ -1282,6 +1375,7 @@ def scan_test_harness_security(
 # Delegates to the determinex_safety L3 Output Scanner for all pattern logic.
 # Returns (is_safe, violations) matching the SEC-1 interface.
 
+
 def scan_builder_output_security(source: str, lang: str) -> tuple[bool, list[str]]:
     """
     #SEC-2: Scan Builder-generated production code for malicious intent patterns.
@@ -1294,12 +1388,14 @@ def scan_builder_output_security(source: str, lang: str) -> tuple[bool, list[str
     Returns (is_safe, violations). is_safe is True iff violations is empty.
     """
     try:
-        from determinex_safety import check_output, SafetyVerdict
+        from determinex_safety import SafetyVerdict, check_output
+
         verdict: SafetyVerdict = check_output(source, lang)
         if not verdict.safe:
             log.warning(
                 "[SEC-2] Builder output security scan FAILED (%d violation(s)): %s",
-                len(verdict.violations), verdict.violations,
+                len(verdict.violations),
+                verdict.violations,
             )
             return False, verdict.violations
         return True, []
@@ -1313,7 +1409,8 @@ def scan_builder_output_security(source: str, lang: str) -> tuple[bool, list[str
 
 # ── Compiler Oracle — project-level validation ────────────────────────────────
 
-def sanitize_compiler_output(raw: str, workspace_root: Optional[Path] = None) -> str:
+
+def sanitize_compiler_output(raw: str, workspace_root: Path | None = None) -> str:
     """
     Strip workspace-specific absolute paths and timestamps from compiler output
     before hashing for the quality gate.
@@ -1406,7 +1503,11 @@ def _strip_internal_tracebacks(text: str) -> str:
                 block.append(lines[i])
                 i += 1
             # Grab the trailing exception line (unindented, non-traceback)
-            if i < len(lines) and not lines[i].startswith(" ") and not _TRACEBACK_START_RE.match(lines[i]):
+            if (
+                i < len(lines)
+                and not lines[i].startswith(" ")
+                and not _TRACEBACK_START_RE.match(lines[i])
+            ):
                 block.append(lines[i])
                 i += 1
             file_lines = [l for l in block if l.strip().startswith('File "')]
@@ -1466,6 +1567,7 @@ def _detect_brevity_cheat(code: str) -> list[str]:
 # Detects Python imports that are never referenced in the code body, which
 # accumulate silently because tests pass regardless of dead imports.
 
+
 def _detect_ghost_imports(code: str, lang: str) -> list[str]:
     """Mole-114: Detect unused imports in Python generated code (AST-based)."""
     if "python" not in lang.lower():
@@ -1499,7 +1601,7 @@ def _detect_ghost_imports(code: str, lang: str) -> list[str]:
     ]
 
 
-def hash_compiler_error(raw: str, workspace_root: Optional[Path] = None) -> str:
+def hash_compiler_error(raw: str, workspace_root: Path | None = None) -> str:
     """SHA256 of sanitized compiler output. Used by quality gate."""
     sanitized = sanitize_compiler_output(raw, workspace_root)
     return hashlib.sha256(sanitized.encode("utf-8")).hexdigest()[:16]
@@ -1517,7 +1619,7 @@ def classify_training_quality(step: StepRecord) -> str:
     overwriting a stricter classification with a weaker one.
     """
     if step.quality in ("compile_hacked", "inconclusive"):
-        return step.quality   # upstream gate already decided — don't downgrade
+        return step.quality  # upstream gate already decided — don't downgrade
 
     hashes = step.compiler_error_hashes
     if not hashes:
@@ -1539,6 +1641,7 @@ def _oracle_install_hint(lang: str) -> str:
     """
     try:
         import sys as _sys
+
         _s = str(Path(__file__).resolve().parent.parent)
         if _s not in _sys.path:
             _sys.path.insert(0, _s)
@@ -1558,9 +1661,16 @@ _PY_IMPORT_SKIP = ("setup.py", "conftest.py")
 # same as finding nothing. Without the exclusion a vendored .venv or a stale __pycache__
 # would satisfy the has-sources check and hand back the empty-workspace pass it exists to
 # prevent.
-_PY_SOURCE_EXCLUDE = frozenset({
-    ".venv", "venv", "site-packages", "__pycache__", ".git", "node_modules",
-})
+_PY_SOURCE_EXCLUDE = frozenset(
+    {
+        ".venv",
+        "venv",
+        "site-packages",
+        "__pycache__",
+        ".git",
+        "node_modules",
+    }
+)
 
 
 def _validate_python(workspace: Path, lang: str) -> tuple[bool, str]:
@@ -1595,19 +1705,24 @@ def _validate_python(workspace: Path, lang: str) -> tuple[bool, str]:
     #
     # Checked on the host rather than in the container: it needs no sandbox, and skipping a
     # container start is the difference between a cheap guard and one worth omitting.
-    sources = [p for p in workspace.rglob("*.py")
-               if not (set(p.parts) & _PY_SOURCE_EXCLUDE)]
+    sources = [p for p in workspace.rglob("*.py") if not (set(p.parts) & _PY_SOURCE_EXCLUDE)]
     if not sources:
-        msg = ("Compiler Oracle: no .py sources in workspace - nothing to verify. "
-               "A step cannot be marked verified against an empty tree; check that the "
-               "patch applied and wrote where the step declared.")
+        msg = (
+            "Compiler Oracle: no .py sources in workspace - nothing to verify. "
+            "A step cannot be marked verified against an empty tree; check that the "
+            "patch applied and wrote where the step declared."
+        )
         log.warning("Compiler Oracle: FAIL (no sources)")
         return False, msg
 
     # 1. syntax
-    r = _docker_run(["python", "-m", "compileall", "-q", "."],
-                    workspace=workspace, lang=lang, timeout=COMPILE_TIMEOUT,
-                    allow_network=False)
+    r = _docker_run(
+        ["python", "-m", "compileall", "-q", "."],
+        workspace=workspace,
+        lang=lang,
+        timeout=COMPILE_TIMEOUT,
+        allow_network=False,
+    )
     if r.returncode != 0:
         err = (r.stderr or r.stdout)[:400]
         log.warning("Compiler Oracle: FAIL (syntax)\n%s", err)
@@ -1634,8 +1749,13 @@ def _validate_python(workspace: Path, lang: str) -> tuple[bool, str]:
         "if bad:\n"
         "    print('IMPORT FAILURES:'); [print(b) for b in bad]; sys.exit(1)\n"
     )
-    r = _docker_run(["python", "-c", importer], workspace=workspace, lang=lang,
-                    timeout=COMPILE_TIMEOUT, allow_network=False)
+    r = _docker_run(
+        ["python", "-c", importer],
+        workspace=workspace,
+        lang=lang,
+        timeout=COMPILE_TIMEOUT,
+        allow_network=False,
+    )
     if r.returncode != 0:
         err = (r.stdout or r.stderr)[:800]
         log.warning("Compiler Oracle: FAIL (import)\n%s", err)
@@ -1646,9 +1766,13 @@ def _validate_python(workspace: Path, lang: str) -> tuple[bool, str]:
     # the un-actionable "fails for no reason" this project forbids.
     has_tests = any(workspace.rglob("test_*.py")) or any(workspace.rglob("*_test.py"))
     if has_tests:
-        r = _docker_run(["python", "-m", "unittest", "discover", "-v"],
-                        workspace=workspace, lang=lang, timeout=COMPILE_TIMEOUT,
-                        allow_network=False)
+        r = _docker_run(
+            ["python", "-m", "unittest", "discover", "-v"],
+            workspace=workspace,
+            lang=lang,
+            timeout=COMPILE_TIMEOUT,
+            allow_network=False,
+        )
         if r.returncode != 0:
             err = (r.stderr or r.stdout)[:800]
             log.warning("Compiler Oracle: FAIL (tests)\n%s", err)
@@ -1674,21 +1798,33 @@ def validate_project(workspace: Path, lang: str) -> tuple[bool, str]:
         if "rust" in lang:
             r = _docker_run(
                 ["cargo", "build", "--message-format", "short"],
-                workspace=workspace, lang=lang, timeout=COMPILE_TIMEOUT, allow_network=False)
-            output = (r.stderr or r.stdout)
+                workspace=workspace,
+                lang=lang,
+                timeout=COMPILE_TIMEOUT,
+                allow_network=False,
+            )
+            output = r.stderr or r.stdout
             passed = r.returncode == 0
-            if passed: log.info("Compiler Oracle: PASS")
-            else:       log.warning("Compiler Oracle: FAIL\n%s", output[:400])
+            if passed:
+                log.info("Compiler Oracle: PASS")
+            else:
+                log.warning("Compiler Oracle: FAIL\n%s", output[:400])
             return passed, output
 
         elif "go" in lang:
             r = _docker_run(
                 ["go", "build", "./..."],
-                workspace=workspace, lang=lang, timeout=COMPILE_TIMEOUT, allow_network=False)
-            output = (r.stderr or r.stdout)
+                workspace=workspace,
+                lang=lang,
+                timeout=COMPILE_TIMEOUT,
+                allow_network=False,
+            )
+            output = r.stderr or r.stdout
             passed = r.returncode == 0
-            if passed: log.info("Compiler Oracle: PASS")
-            else:       log.warning("Compiler Oracle: FAIL\n%s", output[:400])
+            if passed:
+                log.info("Compiler Oracle: PASS")
+            else:
+                log.warning("Compiler Oracle: FAIL\n%s", output[:400])
             return passed, output
 
         elif "python" in lang:
@@ -1707,13 +1843,16 @@ def validate_project(workspace: Path, lang: str) -> tuple[bool, str]:
             # as verified would be the same overclaim in a new place. JS still fails closed.
             has_cfg = (workspace / "tsconfig.json").is_file()
             cmd = ["tsc", "--noEmit"] if has_cfg else ["sh", "-c", _TS_DEFAULT_CHECK]
-            r = _docker_run(cmd, workspace=workspace, lang=lang,
-                            timeout=COMPILE_TIMEOUT, allow_network=False)
-            output = (r.stdout or r.stderr)
+            r = _docker_run(
+                cmd, workspace=workspace, lang=lang, timeout=COMPILE_TIMEOUT, allow_network=False
+            )
+            output = r.stdout or r.stderr
             passed = r.returncode == 0
             if passed:
-                log.info("Compiler Oracle: PASS (tsc --noEmit%s)",
-                         "" if has_cfg else ", image default tsconfig")
+                log.info(
+                    "Compiler Oracle: PASS (tsc --noEmit%s)",
+                    "" if has_cfg else ", image default tsconfig",
+                )
             else:
                 log.warning("Compiler Oracle: FAIL\n%s", output[:400])
             return passed, output
@@ -1748,9 +1887,12 @@ def validate_project(workspace: Path, lang: str) -> tuple[bool, str]:
                 f"passes for this language (recorded as such, not recommended)."
             )
             if os.environ.get("DETERMINEX_ORACLE_LENIENT", "") == "1":
-                log.warning("Compiler Oracle: UNVERIFIED lenient pass for '%s' "
-                            "(DETERMINEX_ORACLE_LENIENT=1) — this step was checked by "
-                            "nothing", lang)
+                log.warning(
+                    "Compiler Oracle: UNVERIFIED lenient pass for '%s' "
+                    "(DETERMINEX_ORACLE_LENIENT=1) — this step was checked by "
+                    "nothing",
+                    lang,
+                )
                 return True, f"UNVERIFIED: {msg}"
             log.error("Compiler Oracle: FAIL — %s", msg)
             return False, msg
@@ -1770,13 +1912,13 @@ CORRECTNESS_TEST_TIMEOUT = 30
 # Patterns that indicate the Builder reward-hacked compilation:
 # compiles cleanly but doesn't actually implement anything.
 _COMPILE_HACK_PATTERNS = re.compile(
-    r"unimplemented!\s*\(\)"             # Rust unimplemented!()
-    r"|todo!\s*\(\)"                     # Rust todo!()
+    r"unimplemented!\s*\(\)"  # Rust unimplemented!()
+    r"|todo!\s*\(\)"  # Rust todo!()
     r"|panic!\s*\(['\"]not implemented"  # Rust panic
-    r"|raise\s+NotImplementedError"      # Python NotImplementedError
-    r"|pass\s*#\s*TODO"                  # Python empty stub
+    r"|raise\s+NotImplementedError"  # Python NotImplementedError
+    r"|pass\s*#\s*TODO"  # Python empty stub
     r"|return\s+(?:0|None|\"\"|-1|false|true)\s*(?:#.*)?$"  # trivial hardcoded return
-    r"|//\s*TODO",                       # Go/Rust unimplemented comment stub
+    r"|//\s*TODO",  # Go/Rust unimplemented comment stub
     re.MULTILINE,
 )
 _EMPTY_RUST_MAIN_ONLY = re.compile(r"^\s*fn\s+main\s*\(\s*\)\s*\{\s*\}\s*$", re.DOTALL)
@@ -1792,7 +1934,7 @@ def detect_compile_hack(code: str) -> bool:
     return bool(_COMPILE_HACK_PATTERNS.search(code) or _EMPTY_RUST_MAIN_ONLY.search(code))
 
 
-def _write_empty_stub(workspace: Path, lang: str) -> Optional[Path]:
+def _write_empty_stub(workspace: Path, lang: str) -> Path | None:
     """
     #SEC-3 Reference Failure: write a minimal empty stub for the project's
     main source file so we can run the test harness against it.
@@ -1800,9 +1942,9 @@ def _write_empty_stub(workspace: Path, lang: str) -> Optional[Path]:
     """
     lang_lower = lang.lower()
     stubs: dict[str, tuple[str, str]] = {
-        "rust":   ("src/lib.rs",  "// empty stub\n"),
-        "go":     ("main.go",     "package main\nfunc main() {}\n"),
-        "python": ("main.py",     "# empty stub\n"),
+        "rust": ("src/lib.rs", "// empty stub\n"),
+        "go": ("main.go", "package main\nfunc main() {}\n"),
+        "python": ("main.py", "# empty stub\n"),
     }
     for key, (rel, content) in stubs.items():
         if key in lang_lower:
@@ -1863,24 +2005,30 @@ def run_correctness_tests(
             if "rust" in lang:
                 r = _docker_run(
                     ["cargo", "test"],
-                    workspace=workspace, lang=lang,
-                    timeout=CORRECTNESS_TEST_TIMEOUT, allow_network=False,
+                    workspace=workspace,
+                    lang=lang,
+                    timeout=CORRECTNESS_TEST_TIMEOUT,
+                    allow_network=False,
                 )
                 return r.returncode == 0, (r.stdout + r.stderr)[:1000]
 
             elif "go" in lang:
                 r = _docker_run(
                     ["go", "test", "./...", "-timeout", "25s", "-v"],
-                    workspace=workspace, lang=lang,
-                    timeout=CORRECTNESS_TEST_TIMEOUT, allow_network=False,
+                    workspace=workspace,
+                    lang=lang,
+                    timeout=CORRECTNESS_TEST_TIMEOUT,
+                    allow_network=False,
                 )
                 return r.returncode == 0, (r.stdout + r.stderr)[:1000]
 
             elif "python" in lang:
                 r = _docker_run(
                     ["python", "-m", "unittest", test_harness_rel],
-                    workspace=workspace, lang=lang,
-                    timeout=CORRECTNESS_TEST_TIMEOUT, allow_network=False,
+                    workspace=workspace,
+                    lang=lang,
+                    timeout=CORRECTNESS_TEST_TIMEOUT,
+                    allow_network=False,
                 )
                 return r.returncode == 0, (r.stdout + r.stderr)[:1000]
 
@@ -1905,19 +2053,21 @@ def run_correctness_tests(
     if stub_path is not None and stub_path.exists():
         original_source = stub_path.read_text(encoding="utf-8")
         is_actually_empty = original_source.strip() in (
-            "", "// placeholder", "// empty stub", "# empty stub",
-            "// empty stub\n", "# empty stub\n",
+            "",
+            "// placeholder",
+            "// empty stub",
+            "# empty stub",
+            "// empty stub\n",
+            "# empty stub\n",
         )
         if not is_actually_empty:
             # Temporarily replace with a do-nothing stub
             _LANG_EMPTY_STUBS = {
-                "rust":   "// empty stub\n",
-                "go":     "package main\nfunc main() {}\n",
+                "rust": "// empty stub\n",
+                "go": "package main\nfunc main() {}\n",
                 "python": "# empty stub\n",
             }
-            empty_content = next(
-                (v for k, v in _LANG_EMPTY_STUBS.items() if k in lang), None
-            )
+            empty_content = next((v for k, v in _LANG_EMPTY_STUBS.items() if k in lang), None)
             if empty_content:
                 try:
                     stub_path.write_text(empty_content, encoding="utf-8")
@@ -1997,6 +2147,7 @@ def generate_test_harness_prompt(md_spec: str, lang: str) -> str:
 
 # ── File merge — write_mode strategies ───────────────────────────────────────
 
+
 def _is_full_file_rewrite(existing: str, new_code: str, target_file: str) -> bool:
     """
     Return True if new_code looks like a full-file rewrite rather than incremental
@@ -2017,6 +2168,7 @@ def _is_full_file_rewrite(existing: str, new_code: str, target_file: str) -> boo
     # ── Heuristic 1: Python AST symbol overlap ────────────────────────────────
     if target_file.endswith(".py"):
         try:
+
             def _top_names(src: str) -> set[str]:
                 tree = ast.parse(src)
                 return {
@@ -2024,6 +2176,7 @@ def _is_full_file_rewrite(existing: str, new_code: str, target_file: str) -> boo
                     for n in tree.body
                     if isinstance(n, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef))
                 }
+
             existing_names = _top_names(existing)
             new_names = _top_names(new_code)
             if existing_names and len(existing_names & new_names) >= len(existing_names) * 0.5:
@@ -2033,7 +2186,7 @@ def _is_full_file_rewrite(existing: str, new_code: str, target_file: str) -> boo
 
     # ── Heuristic 2: shared import header + new_code is longer ────────────────
     existing_lines = [l for l in existing.splitlines() if l.strip()]
-    new_lines      = [l for l in new_code.splitlines()  if l.strip()]
+    new_lines = [l for l in new_code.splitlines() if l.strip()]
     import_lines = [l for l in existing_lines[:10] if l.startswith(("import ", "from ", "#!"))]
     if import_lines and len(new_lines) > len(existing_lines):
         new_head = new_code[:300]
@@ -2111,21 +2264,22 @@ _GIT_CONFLICT_RE = re.compile(r"^(<{7}|={7}|>{7})\s", re.MULTILINE)
 # ── Mole-123: Shebang hijack ──────────────────────────────────────────────────
 # Allow only standard interpreter shebangs.  A shebang pointing to a path that
 # doesn't match one of these patterns is a red flag for interpreter substitution.
-_SAFE_SHEBANG_RE  = re.compile(
+_SAFE_SHEBANG_RE = re.compile(
     r"^#!\s*(?:"
-    r"/usr/bin/env\s+|/usr/local/bin/env\s+"   # env-style: /usr/bin/env python3
-    r"|/usr/(?:local/)?bin/"                    # direct: /usr/bin/python3
-    r"|/bin/"                                   # system: /bin/bash
+    r"/usr/bin/env\s+|/usr/local/bin/env\s+"  # env-style: /usr/bin/env python3
+    r"|/usr/(?:local/)?bin/"  # direct: /usr/bin/python3
+    r"|/bin/"  # system: /bin/bash
     r")"
     r"(?:python3?|bash|sh|zsh|node|perl|ruby)\b"
 )
-_SHEBANG_LINE_RE  = re.compile(r"^#!")
+_SHEBANG_LINE_RE = re.compile(r"^#!")
 
 # ── Mole-115: Mock addiction (unittest.mock in source files) ──────────────────
 _MOCK_IN_SOURCE_RE = re.compile(
     r"(?:^|\n)\s*(?:import\s+unittest\.mock|from\s+unittest(?:\.mock)?\s+import\s+(?:mock|Mock|MagicMock|patch))",
     re.IGNORECASE,
 )
+
 
 # ── Mole-110: Indentation normalisation ──────────────────────────────────────
 def _normalize_indentation(code: str) -> str:
@@ -2160,11 +2314,14 @@ def apply_step_output(workspace: Path, step: StepRecord, code: str) -> bool:
     try:
         target = (workspace / step.target_file).resolve()
         workspace_resolved = workspace.resolve()
-        target.relative_to(workspace_resolved)   # raises ValueError if outside
+        target.relative_to(workspace_resolved)  # raises ValueError if outside
     except ValueError:
         log.error(
             "PATH TRAVERSAL BLOCKED: target_file '%s' resolves outside workspace %s — "
-            "step %d skipped.", step.target_file, workspace, step.id,
+            "step %d skipped.",
+            step.target_file,
+            workspace,
+            step.id,
         )
         return False
 
@@ -2173,7 +2330,8 @@ def apply_step_output(workspace: Path, step: StepRecord, code: str) -> bool:
         log.error(
             "SYMLINK EXFILTRATION BLOCKED: '%s' is a symlink — step %d skipped. "
             "The Builder may have injected a filesystem escape.",
-            step.target_file, step.id,
+            step.target_file,
+            step.id,
         )
         return False
 
@@ -2181,7 +2339,8 @@ def apply_step_output(workspace: Path, step: StepRecord, code: str) -> bool:
     if _ENV_FILE_RE.search(target.name):
         log.error(
             "[Mole-109] CREDENTIAL WRITE BLOCKED: AI attempted to write '%s' — step %d skipped.",
-            step.target_file, step.id,
+            step.target_file,
+            step.id,
         )
         return False
 
@@ -2189,7 +2348,8 @@ def apply_step_output(workspace: Path, step: StepRecord, code: str) -> bool:
     if _GIT_CONFLICT_RE.search(code):
         log.error(
             "[Mole-119] GIT CONFLICT MARKERS in generated code for '%s' — step %d skipped.",
-            step.target_file, step.id,
+            step.target_file,
+            step.id,
         )
         return False
 
@@ -2198,19 +2358,26 @@ def apply_step_output(workspace: Path, step: StepRecord, code: str) -> bool:
     if _SHEBANG_LINE_RE.match(first_line) and not _SAFE_SHEBANG_RE.match(first_line):
         log.error(
             "[Mole-123] SHEBANG HIJACK BLOCKED: '%s' has non-standard shebang '%s' — step %d skipped.",
-            step.target_file, first_line[:80], step.id,
+            step.target_file,
+            first_line[:80],
+            step.id,
         )
         return False
 
     # ── Mole-115: Block mock imports in source files ──────────────────────────
-    _is_test_file = any(
-        kw in step.target_file.lower()
-        for kw in ("test_", "_test.", "/tests/", "\\tests\\", "spec_", "_spec.")
-    ) if step.target_file else False
+    _is_test_file = (
+        any(
+            kw in step.target_file.lower()
+            for kw in ("test_", "_test.", "/tests/", "\\tests\\", "spec_", "_spec.")
+        )
+        if step.target_file
+        else False
+    )
     if not _is_test_file and _MOCK_IN_SOURCE_RE.search(code):
         log.warning(
             "[Mole-115] unittest.mock in source file '%s' — step %d routed to human review.",
-            step.target_file, step.id,
+            step.target_file,
+            step.id,
         )
         step.quality = "inconclusive"  # demote; don't block the write
 
@@ -2225,7 +2392,9 @@ def apply_step_output(workspace: Path, step: StepRecord, code: str) -> bool:
         log.error(
             "[L9-B] PHANTOM TARGET: '%s' does not exist for write_mode='%s' — step %d skipped. "
             "Ensure a prior new_file step creates this target before replacing it.",
-            step.target_file, mode, step.id,
+            step.target_file,
+            mode,
+            step.id,
         )
         return False
 
@@ -2243,8 +2412,9 @@ def apply_step_output(workspace: Path, step: StepRecord, code: str) -> bool:
         existing = target.read_text(encoding="utf-8") if target.exists() else ""
         if existing and _is_full_file_rewrite(existing, code, step.target_file):
             _atomic_write(target, code)  # L3-A
-            log.info("write_mode=append_to_file (full-rewrite detected → replace) → %s",
-                     step.target_file)
+            log.info(
+                "write_mode=append_to_file (full-rewrite detected → replace) → %s", step.target_file
+            )
         else:
             sep = "\n" if existing and not existing.endswith("\n") else ""
             _atomic_write(target, existing + sep + code)  # L3-A
@@ -2266,8 +2436,7 @@ def apply_step_output(workspace: Path, step: StepRecord, code: str) -> bool:
     return False
 
 
-def _ast_replace_function(workspace: Path, target: Path,
-                            fn_name: str, replacement: str) -> bool:
+def _ast_replace_function(workspace: Path, target: Path, fn_name: str, replacement: str) -> bool:
     """
     Invoke the Determinex ast_editor via the Tauri CLI bridge.
     Returns True on success, False on any error.
@@ -2280,15 +2449,28 @@ def _ast_replace_function(workspace: Path, target: Path,
             log.debug("ast_editor: Tauri binary not found — falling back")
             return False
 
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".rs",
-                                          delete=False, encoding="utf-8") as tf:
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".rs", delete=False, encoding="utf-8"
+        ) as tf:
             tf.write(replacement)
             tmp_path = tf.name
 
         r = subprocess.run(
-            [str(tauri_bin), "ast-replace-fn",
-             "--file", str(target), "--fn", fn_name, "--replacement", tmp_path],
-            capture_output=True, text=True, timeout=10, cwd=workspace)
+            [
+                str(tauri_bin),
+                "ast-replace-fn",
+                "--file",
+                str(target),
+                "--fn",
+                fn_name,
+                "--replacement",
+                tmp_path,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            cwd=workspace,
+        )
         Path(tmp_path).unlink(missing_ok=True)
         return r.returncode == 0
 
@@ -2299,6 +2481,7 @@ def _ast_replace_function(workspace: Path, target: Path,
 
 # ── Public API snapshot extraction ────────────────────────────────────────────
 
+
 def extract_public_api(file_path: Path, lang: str) -> dict:
     """
     Extract public API surface from a source file for DAG invalidation detection.
@@ -2307,7 +2490,7 @@ def extract_public_api(file_path: Path, lang: str) -> dict:
         return {"structs": [], "functions": [], "fields": {}, "return_types": {}}
 
     content = file_path.read_text(encoding="utf-8")
-    lang    = lang.lower()
+    lang = lang.lower()
 
     if "rust" in lang:
         return _extract_rust_api(content)
@@ -2319,26 +2502,31 @@ def extract_public_api(file_path: Path, lang: str) -> dict:
 
 
 def _extract_rust_api(content: str) -> dict:
-    structs     = re.findall(r"^pub\s+struct\s+(\w+)", content, re.MULTILINE)
-    functions   = re.findall(r"^pub\s+(?:async\s+)?fn\s+(\w+)\s*\(([^)]*)\)\s*(->\\s*[^{]+)?", content, re.MULTILINE)
-    fn_names    = [f[0] for f in functions]
+    structs = re.findall(r"^pub\s+struct\s+(\w+)", content, re.MULTILINE)
+    functions = re.findall(
+        r"^pub\s+(?:async\s+)?fn\s+(\w+)\s*\(([^)]*)\)\s*(->\\s*[^{]+)?", content, re.MULTILINE
+    )
+    fn_names = [f[0] for f in functions]
     return_types = {f[0]: f[2].strip().lstrip("->").strip() if f[2] else "()" for f in functions}
-    return {"structs": structs, "functions": fn_names,
-            "fields": {}, "return_types": return_types}
+    return {"structs": structs, "functions": fn_names, "fields": {}, "return_types": return_types}
 
 
 def _extract_go_api(content: str) -> dict:
-    funcs     = re.findall(r"^func\s+(\w+)\s*\(([^)]*)\)\s*([^\s{]*)", content, re.MULTILINE)
-    fn_names  = [f[0] for f in funcs if f[0][0].isupper()]
+    funcs = re.findall(r"^func\s+(\w+)\s*\(([^)]*)\)\s*([^\s{]*)", content, re.MULTILINE)
+    fn_names = [f[0] for f in funcs if f[0][0].isupper()]
     ret_types = {f[0]: f[2].strip() for f in funcs if f[0][0].isupper()}
-    types     = re.findall(r"^type\s+(\w+)\s+struct", content, re.MULTILINE)
+    types = re.findall(r"^type\s+(\w+)\s+struct", content, re.MULTILINE)
     return {"structs": types, "functions": fn_names, "fields": {}, "return_types": ret_types}
 
 
 def _extract_python_api(content: str) -> dict:
     try:
-        tree  = ast.parse(content)
-        funcs = [n.name for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and not n.name.startswith("_")]
+        tree = ast.parse(content)
+        funcs = [
+            n.name
+            for n in ast.walk(tree)
+            if isinstance(n, ast.FunctionDef) and not n.name.startswith("_")
+        ]
         klasses = [n.name for n in ast.walk(tree) if isinstance(n, ast.ClassDef)]
         return {"structs": klasses, "functions": funcs, "fields": {}, "return_types": {}}
     except SyntaxError:

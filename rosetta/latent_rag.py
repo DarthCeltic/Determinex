@@ -80,7 +80,6 @@ import sqlite3
 import sys
 import time
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import torch
@@ -89,21 +88,21 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 try:
-    from kv_compress import KVCompressor, CompressedState
+    from extract_midlayer import MidLayerExtractor
+    from kv_compress import CompressedState, KVCompressor
     from kv_store import KVStore
     from train_rosetta import RosettaStone
-    from extract_midlayer import MidLayerExtractor
 except ImportError:
     sys.path.insert(0, str(Path(__file__).parent))
-    from kv_compress import KVCompressor, CompressedState
-    from kv_store import KVStore
-    from train_rosetta import RosettaStone
     from extract_midlayer import MidLayerExtractor
+    from kv_compress import CompressedState, KVCompressor
+    from train_rosetta import RosettaStone
 
 
 # ---------------------------------------------------------------------------
 # EMBEDDING MODEL — fastembed AllMiniLML6V2 (384-dim, CPU, already in stack)
 # ---------------------------------------------------------------------------
+
 
 def _get_embedder():
     """
@@ -112,6 +111,7 @@ def _get_embedder():
     """
     try:
         from fastembed import TextEmbedding
+
         return TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
     except ImportError:
         print(
@@ -150,6 +150,7 @@ CREATE INDEX IF NOT EXISTS idx_latent_path   ON latent_index(unit_path);
 # LATENT INDEXER — builds the semantic + hidden-state index
 # ---------------------------------------------------------------------------
 
+
 class LatentIndexer:
     """
     Indexes semantic units (functions, classes, files) by:
@@ -162,13 +163,13 @@ class LatentIndexer:
 
     def __init__(
         self,
-        db_path:       str | Path = "determinex_latent.db",
+        db_path: str | Path = "determinex_latent.db",
         source_family: str = "mistral",
     ):
-        self.db_path       = Path(db_path)
+        self.db_path = Path(db_path)
         self.source_family = source_family
-        self.compressor    = KVCompressor()
-        self._embedder     = _get_embedder()
+        self.compressor = KVCompressor()
+        self._embedder = _get_embedder()
 
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self._conn = sqlite3.connect(
@@ -181,7 +182,7 @@ class LatentIndexer:
         self._conn.executescript(_LATENT_SCHEMA)
         print(f"[LatentRAG] Index DB: {self.db_path}", flush=True)
 
-    def _embed_text(self, text: str) -> Optional[np.ndarray]:
+    def _embed_text(self, text: str) -> np.ndarray | None:
         """Returns [384] float32 embedding or None if embedder unavailable."""
         if self._embedder is None:
             return None
@@ -194,11 +195,11 @@ class LatentIndexer:
 
     def index_unit(
         self,
-        context_text:  str,
-        extractor:     MidLayerExtractor,
-        unit_path:     str = "",
-        overwrite:     bool = True,
-    ) -> Optional[int]:
+        context_text: str,
+        extractor: MidLayerExtractor,
+        unit_path: str = "",
+        overwrite: bool = True,
+    ) -> int | None:
         """
         Index a single semantic unit (code function, class, etc.)
 
@@ -216,8 +217,7 @@ class LatentIndexer:
         # Skip if already indexed (unless overwrite)
         if not overwrite:
             row = self._conn.execute(
-                "SELECT id FROM latent_index WHERE context_hash = ?",
-                (context_hash,)
+                "SELECT id FROM latent_index WHERE context_hash = ?", (context_hash,)
             ).fetchone()
             if row:
                 return row[0]
@@ -247,10 +247,7 @@ class LatentIndexer:
 
         # Store
         if overwrite:
-            self._conn.execute(
-                "DELETE FROM latent_index WHERE context_hash = ?",
-                (context_hash,)
-            )
+            self._conn.execute("DELETE FROM latent_index WHERE context_hash = ?", (context_hash,))
 
         cur = self._conn.execute(
             """INSERT INTO latent_index
@@ -269,7 +266,7 @@ class LatentIndexer:
                 context_text[:200].replace("\n", " "),
                 unit_path,
                 time.time(),
-            )
+            ),
         )
         row_id = cur.lastrowid
         print(
@@ -281,10 +278,10 @@ class LatentIndexer:
 
     def index_texts(
         self,
-        texts:     list[str],
-        paths:     Optional[list[str]] = None,
-        extractor: Optional[MidLayerExtractor] = None,
-        family:    Optional[str] = None,
+        texts: list[str],
+        paths: list[str] | None = None,
+        extractor: MidLayerExtractor | None = None,
+        family: str | None = None,
     ) -> int:
         """
         Index a batch of text units.
@@ -292,9 +289,9 @@ class LatentIndexer:
         If extractor is None, creates and manages one internally.
         Returns count of successfully indexed units.
         """
-        family    = family or self.source_family
-        paths     = paths or [""] * len(texts)
-        managed   = extractor is None
+        family = family or self.source_family
+        paths = paths or [""] * len(texts)
+        managed = extractor is None
 
         if managed:
             extractor = MidLayerExtractor(family)
@@ -320,13 +317,17 @@ class LatentIndexer:
             self._conn.close()
             self._conn = None
 
-    def __enter__(self): return self
-    def __exit__(self, *_): self.close()
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        self.close()
 
 
 # ---------------------------------------------------------------------------
 # LATENT RETRIEVER — semantic search + Rosetta projection
 # ---------------------------------------------------------------------------
+
 
 class LatentRetriever:
     """
@@ -338,10 +339,10 @@ class LatentRetriever:
     """
 
     def __init__(self, db_path: str | Path = "determinex_latent.db"):
-        self.db_path    = Path(db_path)
+        self.db_path = Path(db_path)
         self.compressor = KVCompressor()
-        self._embedder  = _get_embedder()
-        self._conn      = sqlite3.connect(
+        self._embedder = _get_embedder()
+        self._conn = sqlite3.connect(
             str(self.db_path),
             check_same_thread=False,
             isolation_level=None,
@@ -358,9 +359,9 @@ class LatentRetriever:
 
     def retrieve_states(
         self,
-        query:           str,
-        top_k:           int = 3,
-        source_family:   Optional[str] = None,
+        query: str,
+        top_k: int = 3,
+        source_family: str | None = None,
     ) -> list[dict]:
         """
         Retrieve top-K semantically similar compressed states for a query.
@@ -391,7 +392,7 @@ class LatentRetriever:
                 """SELECT context_hash, source_family, compressed_blob,
                           embedding, context_preview, unit_path, hidden_dim
                    FROM latent_index WHERE source_family = ?""",
-                (source_family,)
+                (source_family,),
             ).fetchall()
         else:
             rows = self._conn.execute(
@@ -418,15 +419,17 @@ class LatentRetriever:
         results = []
         for sim, ctx_hash, family, blob, preview, path, dim in scored[:top_k]:
             cs = CompressedState.from_blob(blob)
-            results.append({
-                "context_hash":      ctx_hash,
-                "source_family":     family,
-                "compressed_state":  cs,
-                "similarity":        sim,
-                "context_preview":   preview,
-                "unit_path":         path,
-                "hidden_dim":        dim,
-            })
+            results.append(
+                {
+                    "context_hash": ctx_hash,
+                    "source_family": family,
+                    "compressed_state": cs,
+                    "similarity": sim,
+                    "context_preview": preview,
+                    "unit_path": path,
+                    "hidden_dim": dim,
+                }
+            )
 
         print(
             f"[LatentRAG] Retrieved {len(results)} states for query '{query[:50]}…'  "
@@ -437,11 +440,11 @@ class LatentRetriever:
 
     def retrieve_and_project(
         self,
-        query:         str,
-        stone:         RosettaStone,
+        query: str,
+        stone: RosettaStone,
         target_family: str,
-        top_k:         int = 3,
-        source_family: Optional[str] = None,
+        top_k: int = 3,
+        source_family: str | None = None,
     ) -> list[torch.Tensor]:
         """
         Retrieve top-K states and project into target model's embedding space.
@@ -470,7 +473,7 @@ class LatentRetriever:
             src_family = item["source_family"]
 
             # Decompress to float32 tensor
-            hidden = self.compressor.decompress(cs)   # [hidden_dim]
+            hidden = self.compressor.decompress(cs)  # [hidden_dim]
 
             # Project through RosettaStone into target embedding space
             try:
@@ -499,8 +502,11 @@ class LatentRetriever:
             self._conn.close()
             self._conn = None
 
-    def __enter__(self): return self
-    def __exit__(self, *_): self.close()
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        self.close()
 
 
 # ---------------------------------------------------------------------------
@@ -508,7 +514,7 @@ class LatentRetriever:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    import tempfile, os
+    import tempfile
 
     print("[LatentRAG] Running self-test (no model load)...", flush=True)
 
@@ -527,20 +533,20 @@ if __name__ == "__main__":
         ]
 
         import torch as _torch
+
         for text in dummy_texts:
-            hidden = _torch.randn(4096)    # mistral dim
-            cs     = compressor.compress(hidden, "mistral", layer_idx=16, context_text=text)
-            blob   = cs.to_blob()
-            h      = hashlib.sha256(text.encode()).hexdigest()
-            emb    = np.zeros(384, dtype=np.float32)   # dummy embedding
+            hidden = _torch.randn(4096)  # mistral dim
+            cs = compressor.compress(hidden, "mistral", layer_idx=16, context_text=text)
+            blob = cs.to_blob()
+            h = hashlib.sha256(text.encode()).hexdigest()
+            emb = np.zeros(384, dtype=np.float32)  # dummy embedding
             indexer._conn.execute(
                 """INSERT OR IGNORE INTO latent_index
                    (context_hash, source_family, layer_idx, hidden_dim,
                     compressed_blob, embedding, embedding_dim,
                     context_preview, unit_path, created_at)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                (h, "mistral", 16, 4096, blob, emb.tobytes(), 384,
-                 text[:100], "test", time.time())
+                (h, "mistral", 16, 4096, blob, emb.tobytes(), 384, text[:100], "test", time.time()),
             )
         indexer.close()
 
@@ -549,14 +555,17 @@ if __name__ == "__main__":
 
         # Retrieve
         retriever = LatentRetriever(db_path=db_path)
-        results   = retriever.retrieve_states("thread-safe Rust singleton", top_k=2)
+        results = retriever.retrieve_states("thread-safe Rust singleton", top_k=2)
         assert len(results) > 0, "Retrieval returned empty"
         print(f"  Retrieved {len(results)} states  ✓")
 
         # Project through minimal RosettaStone
-        stone   = RosettaStone()
+        stone = RosettaStone()
         vectors = retriever.retrieve_and_project(
-            "thread-safe Rust singleton", stone, "qwen", top_k=2,
+            "thread-safe Rust singleton",
+            stone,
+            "qwen",
+            top_k=2,
             source_family="mistral",
         )
         assert len(vectors) > 0, "No projected vectors"

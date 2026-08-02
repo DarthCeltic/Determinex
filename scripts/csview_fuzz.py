@@ -2,6 +2,7 @@
 """Differential fuzz for csview: generate varied CSV inputs x flag combos, run BOTH the
 reference binary and the candidate, report DIVERGENCES (mine != reference). Those are exactly
 the byte-bugs behind the official gap. Pure black-box (no held-out tests)."""
+
 import random
 import sys
 
@@ -13,10 +14,36 @@ IMAGE = "programbench/wfxr_1776_csview.8ac4de0:task_cleanroom_v6"
 EXE = "/workspace/executable"
 
 CELLS = [
-    "a", "bb", "ccc", "1", "42", "-7", "3.14", "long text", "中文", "中文字",
-    "café", "ééé", "\U0001f600", "x\U0001f600y", "", " ", "  sp  ", "a,b",
-    'has"quote', "tab\tin", "0", "100000", "русский", "한글", "ab中", "日本語テスト",
-    "very long cell content here", "1.2e10", "True", "null",
+    "a",
+    "bb",
+    "ccc",
+    "1",
+    "42",
+    "-7",
+    "3.14",
+    "long text",
+    "中文",
+    "中文字",
+    "café",
+    "ééé",
+    "\U0001f600",
+    "x\U0001f600y",
+    "",
+    " ",
+    "  sp  ",
+    "a,b",
+    'has"quote',
+    "tab\tin",
+    "0",
+    "100000",
+    "русский",
+    "한글",
+    "ab中",
+    "日本語テスト",
+    "very long cell content here",
+    "1.2e10",
+    "True",
+    "null",
 ]
 STYLES = ["none", "ascii", "ascii2", "sharp", "rounded", "reinforced", "markdown", "grid"]
 ALIGNS = ["left", "center", "right"]
@@ -83,8 +110,11 @@ def main():
     print(f"\n=== {len(diverge)}/{len(obs)} divergences ===\n")
     for o, so, rc in diverge[:show]:
         argv = " ".join(o.probe.argv) or "(no args)"
-        inp = o.probe.stdin if o.probe.stdin is not None else (
-            list(o.probe.files.values())[0] if o.probe.files else "")
+        inp = (
+            o.probe.stdin
+            if o.probe.stdin is not None
+            else (list(o.probe.files.values())[0] if o.probe.files else "")
+        )
         print(f"#### {o.probe.name}  argv: {argv}")
         print(f"  INPUT: {inp!r}")
         print(f"  exit ref={o.returncode} mine={rc}")

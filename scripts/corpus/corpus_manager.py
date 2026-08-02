@@ -3,6 +3,7 @@ Unified corpus writer for all seven Determinex corpus types.
 ONLY this module may append to corpus JSONL files on T:.
 All writes are HMAC-signed, schema-versioned, and fsync'd.
 """
+
 from __future__ import annotations
 
 import contextlib
@@ -13,7 +14,7 @@ import logging
 import os
 import tempfile
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -29,6 +30,7 @@ log = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Immutability guard
 # ---------------------------------------------------------------------------
+
 
 class CorpusWriteBlockedError(RuntimeError):
     """Raised when a corpus write is attempted under DETERMINEX_NO_CORPUS_WRITE=1.
@@ -79,22 +81,23 @@ def _assert_writes_allowed() -> None:
 _DEFAULT_ROOT = Path(os.environ.get("DETERMINEX_CORPUS_ROOT", "T:/determinex_corpus"))
 
 _CORPUS_SUBDIRS = {
-    CorpusType.CODE_VERDICT:   "code_verdict",
+    CorpusType.CODE_VERDICT: "code_verdict",
     CorpusType.TERMINAL_TRACE: "terminal_trace",
-    CorpusType.BROWSER_TRACE:  "browser_trace",
-    CorpusType.DESKTOP_TRACE:  "desktop_trace",
-    CorpusType.MOBILE_TRACE:   "mobile_trace",
-    CorpusType.VISUAL_REPAIR:  "visual_repair",
+    CorpusType.BROWSER_TRACE: "browser_trace",
+    CorpusType.DESKTOP_TRACE: "desktop_trace",
+    CorpusType.MOBILE_TRACE: "mobile_trace",
+    CorpusType.VISUAL_REPAIR: "visual_repair",
     CorpusType.SAFETY_REFUSAL: "safety_refusal",
 }
 
-_AUDIT_SUBDIR   = "audit"
+_AUDIT_SUBDIR = "audit"
 _REJECTED_SUBDIR = "rejected"
 
 
 # ---------------------------------------------------------------------------
 # HMAC key management (mirrors determinex_safety.py approach)
 # ---------------------------------------------------------------------------
+
 
 def _read_dotenv_key() -> str:
     env_path = Path(__file__).resolve().parents[2] / ".env"
@@ -135,9 +138,14 @@ def _load_hmac_key() -> bytes:
             key = bytes.fromhex(raw.strip())
             if len(key) >= 32:
                 return key
-            log.warning("[corpus_manager] DETERMINEX_CORPUS_HMAC_KEY too short (%d bytes) — using ephemeral", len(key))
+            log.warning(
+                "[corpus_manager] DETERMINEX_CORPUS_HMAC_KEY too short (%d bytes) — using ephemeral",
+                len(key),
+            )
         except ValueError:
-            log.warning("[corpus_manager] DETERMINEX_CORPUS_HMAC_KEY is not valid hex — using ephemeral")
+            log.warning(
+                "[corpus_manager] DETERMINEX_CORPUS_HMAC_KEY is not valid hex — using ephemeral"
+            )
     # Ephemeral: in-process only, changes on restart
     if not hasattr(_load_hmac_key, "_ephemeral"):
         _load_hmac_key._ephemeral = os.urandom(32)  # type: ignore[attr-defined]
@@ -185,6 +193,7 @@ def resign_record(record: dict) -> dict:
 # CorpusManager
 # ---------------------------------------------------------------------------
 
+
 class CorpusManager:
     """
     Single entry point for all corpus writes.
@@ -210,15 +219,15 @@ class CorpusManager:
         (self.root / _REJECTED_SUBDIR).mkdir(parents=True, exist_ok=True)
 
     def _corpus_path(self, corpus_type: CorpusType) -> Path:
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        today = datetime.now(UTC).strftime("%Y-%m-%d")
         return self.root / _CORPUS_SUBDIRS[corpus_type] / f"{today}.jsonl"
 
     def _audit_path(self) -> Path:
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        today = datetime.now(UTC).strftime("%Y-%m-%d")
         return self.root / _AUDIT_SUBDIR / f"{today}_audit.log"
 
     def _rejected_path(self) -> Path:
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        today = datetime.now(UTC).strftime("%Y-%m-%d")
         return self.root / _REJECTED_SUBDIR / f"{today}_rejected.jsonl"
 
     # ------------------------------------------------------------------
@@ -237,7 +246,7 @@ class CorpusManager:
         record: dict[str, Any] = {
             "schema_version": SCHEMA_VERSION,
             "corpus_type": corpus_type.value,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
             "source_benchmark": source_benchmark,
             "task_id": task_id,
             "input_hash": input_hash,
@@ -286,7 +295,9 @@ class CorpusManager:
         path = self._corpus_path(corpus_type)
         try:
             self._atomic_append(path, record)
-            log.debug("[corpus] wrote %s record task_id=%s", corpus_type.value, record.get("task_id"))
+            log.debug(
+                "[corpus] wrote %s record task_id=%s", corpus_type.value, record.get("task_id")
+            )
         except Exception as exc:
             log.error("[corpus] WRITE FAILED for %s: %s", corpus_type.value, exc)
             self._write_audit(f"WRITE_FAILED corpus_type={corpus_type.value} error={exc}")
@@ -304,13 +315,15 @@ class CorpusManager:
             log.debug("[corpus] wrote %d %s records", len(records), corpus_type.value)
         except Exception as exc:
             log.error("[corpus] BATCH WRITE FAILED for %s: %s", corpus_type.value, exc)
-            self._write_audit(f"BATCH_WRITE_FAILED corpus_type={corpus_type.value} count={len(records)} error={exc}")
+            self._write_audit(
+                f"BATCH_WRITE_FAILED corpus_type={corpus_type.value} count={len(records)} error={exc}"
+            )
             raise
 
     def _write_audit(self, message: str) -> None:
         try:
             path = self._audit_path()
-            ts = datetime.now(timezone.utc).isoformat()
+            ts = datetime.now(UTC).isoformat()
             path.parent.mkdir(parents=True, exist_ok=True)
             with open(path, "a", encoding="utf-8") as f:
                 f.write(f"{ts} {message}\n")
@@ -334,8 +347,12 @@ class CorpusManager:
         ok = _verify_signature(record)
         if not ok:
             self._write_rejected(record, "invalid_hmac_signature")
-            self._write_audit(f"TAMPER_DETECTED task_id={record.get('task_id')} corpus_type={record.get('corpus_type')}")
-            log.error("[corpus] TAMPER DETECTED — rejecting record task_id=%s", record.get("task_id"))
+            self._write_audit(
+                f"TAMPER_DETECTED task_id={record.get('task_id')} corpus_type={record.get('corpus_type')}"
+            )
+            log.error(
+                "[corpus] TAMPER DETECTED — rejecting record task_id=%s", record.get("task_id")
+            )
         return ok
 
     # ------------------------------------------------------------------
@@ -393,7 +410,9 @@ class CorpusManager:
                 "compile_errors": compile_errors,
                 "test_result": test_result,
                 "test_errors": test_errors,
-                "failure_type": "none" if test_result == "pass" and compile_result == "pass" else "validator_failure",
+                "failure_type": "none"
+                if test_result == "pass" and compile_result == "pass"
+                else "validator_failure",
                 "validator": "programbench eval",
                 "source_kind": "benchmark_verdict",
                 "license_gate": "unknown",

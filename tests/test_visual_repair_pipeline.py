@@ -9,6 +9,7 @@ These tests run without a live browser, live VM, or live ADB connection —
 they verify the pipeline's structural correctness and safety guarantees
 using lightweight fakes and the actual module boundaries.
 """
+
 from __future__ import annotations
 
 import sys
@@ -27,15 +28,15 @@ from agents.base_agent import (
     VisualTaskSpec,
 )
 from agents.safety_governor import ActionSafetyGovernor
+from bench_adapters.androidworld import AndroidWorldAdapter, AndroidWorldTask
+from bench_adapters.osworld import OSWorldAdapter, OSWorldTask
 from bench_adapters.swebench_multimodal import SWEBenchMultimodalAdapter, SWEBenchMultimodalTask
 from bench_adapters.webarena import WebArenaAdapter, WebArenaTask
-from bench_adapters.osworld import OSWorldAdapter, OSWorldTask
-from bench_adapters.androidworld import AndroidWorldAdapter, AndroidWorldTask
-
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _make_screenshot(tmp_path: Path, name: str = "test.png") -> Path:
     """Create a minimal valid PNG file for testing."""
@@ -64,8 +65,8 @@ def _make_task(tmp_path: Path) -> SWEBenchMultimodalTask:
 # 1. Screenshot ingestion + visual cloak
 # ---------------------------------------------------------------------------
 
-class TestVisualCloakIntegration:
 
+class TestVisualCloakIntegration:
     def test_cloak_runs_on_screenshot(self, tmp_path):
         """Adapter must attempt cloak on every screenshot."""
         task = _make_task(tmp_path)
@@ -74,13 +75,17 @@ class TestVisualCloakIntegration:
         with patch("bench_adapters.swebench_multimodal._CLOAK_AVAILABLE", True):
             mock_result = MagicMock()
             mock_result.cloak_active = True
-            mock_result.output_path = tmp_path / "work" / "cloaked" / "test-multimodal-001" / "ss_00_cloaked.png"
+            mock_result.output_path = (
+                tmp_path / "work" / "cloaked" / "test-multimodal-001" / "ss_00_cloaked.png"
+            )
             mock_result.redacted_count = 0
             mock_result.categories_found = []
             mock_result.input_hash = "aabbcc"
             mock_result.output_hash = "ddeeff"
 
-            with patch("bench_adapters.swebench_multimodal._cloak_redact", return_value=mock_result):
+            with patch(
+                "bench_adapters.swebench_multimodal._cloak_redact", return_value=mock_result
+            ):
                 result = adapter._cloak_screenshot(task.screenshots[0], task.instance_id, 0)
 
         assert result["cloak_active"] is True, "cloak_active must be True after redaction"
@@ -109,8 +114,8 @@ class TestVisualCloakIntegration:
 # 2. Repair spec (VisualTaskSpec) construction
 # ---------------------------------------------------------------------------
 
-class TestRepairSpecConstruction:
 
+class TestRepairSpecConstruction:
     def test_to_task_spec_contains_issue_text(self, tmp_path):
         task = _make_task(tmp_path)
         adapter = SWEBenchMultimodalAdapter(work_dir=tmp_path / "work")
@@ -140,11 +145,12 @@ class TestRepairSpecConstruction:
 # 3. Corpus record HMAC signing
 # ---------------------------------------------------------------------------
 
-class TestCorpusRecordSigning:
 
+class TestCorpusRecordSigning:
     def test_corpus_record_has_schema_version(self, tmp_path):
         """Every corpus record must carry SCHEMA_VERSION."""
         from corpus.corpus_manager import CorpusManager
+
         cm = CorpusManager(root=tmp_path / "corpus")
         record = cm._normalize_record(
             corpus_type=CorpusType.VISUAL_REPAIR,
@@ -159,6 +165,7 @@ class TestCorpusRecordSigning:
     def test_corpus_record_has_sig(self, tmp_path):
         """Every record must have an HMAC signature field."""
         from corpus.corpus_manager import CorpusManager
+
         cm = CorpusManager(root=tmp_path / "corpus")
         record = cm._normalize_record(
             corpus_type=CorpusType.VISUAL_REPAIR,
@@ -173,6 +180,7 @@ class TestCorpusRecordSigning:
 
     def test_corpus_verify_passes_valid_record(self, tmp_path):
         from corpus.corpus_manager import CorpusManager
+
         cm = CorpusManager(root=tmp_path / "corpus")
         record = cm._normalize_record(
             corpus_type=CorpusType.VISUAL_REPAIR,
@@ -186,6 +194,7 @@ class TestCorpusRecordSigning:
 
     def test_corpus_verify_rejects_tampered_record(self, tmp_path):
         from corpus.corpus_manager import CorpusManager
+
         cm = CorpusManager(root=tmp_path / "corpus")
         record = cm._normalize_record(
             corpus_type=CorpusType.VISUAL_REPAIR,
@@ -204,8 +213,8 @@ class TestCorpusRecordSigning:
 # 4. Action safety governor — dangerous visual-agent actions
 # ---------------------------------------------------------------------------
 
-class TestVisualAgentActionGates:
 
+class TestVisualAgentActionGates:
     def _make_spec(self, benchmark: str = "swebench_multimodal") -> VisualTaskSpec:
         return VisualTaskSpec(
             task_id="gate-test-001",
@@ -217,7 +226,9 @@ class TestVisualAgentActionGates:
     def _make_obs(self) -> AgentObservation:
         return AgentObservation(env_type=EnvType.BROWSER, step=0, url="http://localhost:3000")
 
-    def _make_action(self, action_type: ActionType, rationale: str = "", payload: str = "") -> AgentAction:
+    def _make_action(
+        self, action_type: ActionType, rationale: str = "", payload: str = ""
+    ) -> AgentAction:
         return AgentAction(action_type=action_type, step=0, rationale=rationale, payload=payload)
 
     def test_upload_file_requires_confirmation(self):
@@ -269,8 +280,8 @@ class TestVisualAgentActionGates:
 # 5. Benchmark adapters — VisualTaskSpec contract
 # ---------------------------------------------------------------------------
 
-class TestBenchmarkAdapters:
 
+class TestBenchmarkAdapters:
     def test_webarena_task_spec(self):
         task = WebArenaTask(
             task_id=42,
@@ -328,7 +339,6 @@ class TestBenchmarkAdapters:
         )
         spec = AndroidWorldAdapter().to_task_spec(task)
         emulator_constraints = [
-            c for c in spec.constraints
-            if "emulator" in c.lower() or "physical" in c.lower()
+            c for c in spec.constraints if "emulator" in c.lower() or "physical" in c.lower()
         ]
         assert emulator_constraints, "AndroidWorld spec must enforce emulator-only constraint"

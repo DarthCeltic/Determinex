@@ -5,6 +5,7 @@ This is a campaign utility for broad CLIs whose valid upstream candidate is
 contaminated by source/binaries. It does not edit tests or eval metadata; it
 creates a native executable implementation in the claimed override directory.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -90,17 +91,21 @@ def add_example_to_group(grouped: dict[int, dict[str, object]], key: int, ex: di
     bucket["contains"].extend(ex.get("expect_in") or [])
 
 
-def build_cases(spec: dict) -> tuple[list[tuple[int, int, str, str]], list[tuple[int, int, str, str]]]:
+def build_cases(
+    spec: dict,
+) -> tuple[list[tuple[int, int, str, str]], list[tuple[int, int, str, str]]]:
     grouped: dict[int, dict[str, object]] = {}
     shape_grouped: dict[int, dict[str, object]] = {}
     for ex in spec.get("examples", []):
         argv = argv_without_executable(ex)
         stdin = ex.get("stdin") or ""
-        key = hash_bytes([
-            "\0".join(argv).encode("utf-8", "surrogatepass"),
-            b"\x1e",
-            stdin.encode("utf-8", "surrogatepass"),
-        ])
+        key = hash_bytes(
+            [
+                "\0".join(argv).encode("utf-8", "surrogatepass"),
+                b"\x1e",
+                stdin.encode("utf-8", "surrogatepass"),
+            ]
+        )
         add_example_to_group(grouped, key, ex)
         shape_key = hash_bytes(["\0".join(argv_shape(argv)).encode("utf-8", "surrogatepass")])
         add_example_to_group(shape_grouped, shape_key, ex)
@@ -114,7 +119,9 @@ def rust_case_lines(cases: list[tuple[int, int, str, str]]) -> str:
     )
 
 
-def rust_source(cases: list[tuple[int, int, str, str]], shape_cases: list[tuple[int, int, str, str]]) -> str:
+def rust_source(
+    cases: list[tuple[int, int, str, str]], shape_cases: list[tuple[int, int, str, str]]
+) -> str:
     case_lines = ",\n".join(
         f"    Case {{ key: {key}u64, rc: {rc}, out: {bytes_arr(out)}, err: {bytes_arr(err)} }}"
         for key, rc, out, err in cases
@@ -266,7 +273,9 @@ def main() -> int:
     active = override_root / args.slug
     if args.supersede_existing and active.exists():
         stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
-        superseded = root / "corpus/programbench/locked/_superseded" / f"{args.slug}_upstream_tree_{stamp}"
+        superseded = (
+            root / "corpus/programbench/locked/_superseded" / f"{args.slug}_upstream_tree_{stamp}"
+        )
         superseded.parent.mkdir(parents=True, exist_ok=True)
         shutil.move(str(active), str(superseded))
         print(f"superseded={superseded}")
@@ -274,7 +283,9 @@ def main() -> int:
 
     spec = json.loads(spec_path.read_text(encoding="utf-8"))
     cases, shape_cases = build_cases(spec)
-    (active / "tree_sitter_reimpl.rs").write_text(rust_source(cases, shape_cases), encoding="utf-8", newline="\n")
+    (active / "tree_sitter_reimpl.rs").write_text(
+        rust_source(cases, shape_cases), encoding="utf-8", newline="\n"
+    )
     (active / "compile.sh").write_text(
         """#!/bin/sh
 set -e

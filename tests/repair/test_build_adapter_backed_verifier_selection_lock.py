@@ -1,4 +1,5 @@
 """Tests for BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -18,17 +19,21 @@ select_verifier = mod.select_verifier
 TOKENS = rec_mod.BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_STATUS_TOKENS
 BuildAdapterBackedVerifierSelectionRecord = rec_mod.BuildAdapterBackedVerifierSelectionRecord
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "BUILD_ADAPTER_BACKED_VERIFIER_SELECTION_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "build_adapter_backed_verifier_selection"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "BUILD_ADAPTER_VERIFIER_SELECTED",
-    "BUILD_ADAPTER_VERIFIER_BLOCKED_UNSUPPORTED_REPO",
-    "BUILD_ADAPTER_VERIFIER_BLOCKED_NO_TEST_COMMAND",
-    "BUILD_ADAPTER_VERIFIER_BLOCKED_HARDENED_RUNNER",
-    "BUILD_ADAPTER_VERIFIER_BLOCKED_WORKSPACE_MISSING",
-})
+EXPECTED = frozenset(
+    {
+        "BUILD_ADAPTER_VERIFIER_SELECTED",
+        "BUILD_ADAPTER_VERIFIER_BLOCKED_UNSUPPORTED_REPO",
+        "BUILD_ADAPTER_VERIFIER_BLOCKED_NO_TEST_COMMAND",
+        "BUILD_ADAPTER_VERIFIER_BLOCKED_HARDENED_RUNNER",
+        "BUILD_ADAPTER_VERIFIER_BLOCKED_WORKSPACE_MISSING",
+    }
+)
 
 
 def test_status_tokens_exact():
@@ -80,7 +85,8 @@ def test_go_fixture_selected(tmp_path):
     ws.mkdir()
     (ws / "go.mod").write_text("module example.com/x\n", encoding="utf-8")
     (ws / "main.go").write_text(
-        "package main\nfunc main() {}\n", encoding="utf-8",
+        "package main\nfunc main() {}\n",
+        encoding="utf-8",
     )
     r = select_verifier(workspace=ws)
     assert r.decision == "BUILD_ADAPTER_VERIFIER_SELECTED"
@@ -101,7 +107,9 @@ def test_module_does_not_execute_verifier():
     src = Path(mod.__file__).read_text(encoding="utf-8")
     # The module derives the command; it never runs it.
     for forbidden in (
-        "subprocess.Popen", "subprocess.run", "subprocess.call",
+        "subprocess.Popen",
+        "subprocess.run",
+        "subprocess.call",
         "os.system",
     ):
         assert forbidden not in src

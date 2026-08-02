@@ -15,6 +15,7 @@ models AND accumulates verified capability):
 Legitimacy: only observed/discoverable behavior + general patterns are stored or injected
 -- NEVER test goldens/assertions. Verified-skill lock requires a real official pass.
 """
+
 from __future__ import annotations
 
 import json
@@ -51,7 +52,7 @@ CROSS_TOOL_PITFALLS = """## Reimplementation pitfalls Determinex has learned (ap
 # 12 cpp vs a handful of python). Rewritten as technique PROSE + per-language notes, matching
 # the pattern table/tui already used correctly (they never carried Python-only code).
 _RECIPES = {
-    "json": '''## TECHNIQUE: preserve EXACT number text (json tools) -- the #1 cause of core failures
+    "json": """## TECHNIQUE: preserve EXACT number text (json tools) -- the #1 cause of core failures
 Any JSON decoder that converts a number token to a native float/int DESTROYS the original text
 (1.2e10 -> 12000000000.0, -0 -> 0) BEFORE you can re-emit it, and you can NEVER reconstruct the
 original text afterward. You must capture the RAW SUBSTRING at parse time, not the parsed value.
@@ -71,8 +72,8 @@ COMPACT JSON: when emitting any JSON array/object, use NO space after a comma or
 (`["b",0]`, `{"a":1}`) -- these tools emit compact JSON; a default encoder's `", "` spacing
 (Python's default `json.dumps`, for instance) fails every compact-mode test.
 RESERVED-WORD KEYS: object keys literally named `true`/`false`/`null` are emitted in BRACKET
-form when addressed (`json["null"]`), never dotted -- they sort by their bracketed/quoted form.''',
-    "io": '''## TECHNIQUE: file-arg-or-stdin + exact exit codes
+form when addressed (`json["null"]`), never dotted -- they sort by their bracketed/quoted form.""",
+    "io": """## TECHNIQUE: file-arg-or-stdin + exact exit codes
 Read from a non-flag ARGUMENT (usually a filename) if one is present; only fall back to stdin
 when there is no such argument (a bare `-` argument commonly means "read stdin explicitly").
 - Python: `src = next((a for a in argv[1:] if not a.startswith("-")), None)`, then
@@ -85,8 +86,8 @@ when there is no such argument (a bare `-` argument commonly means "read stdin e
   `std::ifstream` or read from `stdin`/`std::cin`.
 Malformed input: write the tool's exact error to STDERR and use its OBSERVED exit code (often
 3 for parse errors, 4 for a failed URL fetch, 5 for invalid structured input) -- match what
-the reference observation actually showed, never assume a "conventional" code.''',
-    "table": '''## TECHNIQUE: box-drawing table layout -- the 3 byte-exact rules models get WRONG
+the reference observation actually showed, never assume a "conventional" code.""",
+    "table": """## TECHNIQUE: box-drawing table layout -- the 3 byte-exact rules models get WRONG
 A grid/box table is NOT "draw a header then a horizontal line". Get these EXACTLY or every
 table fails byte-match (verified against the reference binary):
 1. COLUMN WIDTH = max DISPLAY width of all cells in that column (header included). DISPLAY
@@ -104,8 +105,8 @@ table fails byte-match (verified against the reference binary):
    (incl. the 1-space side padding); body `1` -> ` 1    `.
 Style variants (none/ascii/sharp/rounded/grid/markdown) only change WHICH glyphs fill these
 slots -- the width/junction/alignment math above is identical for all of them. Capture each
-style's exact glyph set from the reference probes; keep the layout math shared.''',
-    "tui": '''## TECHNIQUE: ncurses/curses TUI tools -- what the tests actually check
+style's exact glyph set from the reference probes; keep the layout math shared.""",
+    "tui": """## TECHNIQUE: ncurses/curses TUI tools -- what the tests actually check
 Proven 2026-07-02 (tty-clock, hand-driven). A plain (non-pty) probe of an ncurses binary
 prints "Error opening terminal: unknown" and exits 1 -- that IS real, correct reference
 behavior for a no-TTY/no-TERM harness context (replicate it: check `newterm()`/`initscr()`
@@ -123,8 +124,8 @@ lines to a placeholder token before comparing, so genuine escape-sequence-driven
 of the right STRUCTURE (row/column layout) tends to match without needing byte-exact segment
 shapes. Test harnesses commonly use tmux (`TmuxHarness`) to drive real keypresses/resize --
 handle SIGTERM/keypress-to-quit exactly as observed (default: any key exits unless a
-"don't quit on keypress" flag is set).''',
-    "diff": '''## TECHNIQUE: line-diff output -- hunk grouping and header format models get wrong
+"don't quit on keypress" flag is set).""",
+    "diff": """## TECHNIQUE: line-diff output -- hunk grouping and header format models get wrong
 A real unified-diff-style tool is not "print every changed line" -- it groups changes into
 HUNKS with a small window of unchanged CONTEXT lines around each change (commonly 3), and
 emits a header line per hunk: `@@ -<old_start>,<old_count> +<new_start>,<new_count> @@`.
@@ -140,7 +141,7 @@ emits a header line per hunk: `@@ -<old_start>,<old_count> +<new_start>,<new_cou
   a line, not just around the whole line -- if the tool does word-level or character-level
   highlighting, the reference probe's exact escape placement matters, not just "some color".
 None of Rust/Go/C/C++ have a usable diff algorithm in their standard library -- this is always
-hand-rolled (a straightforward O(N*M) or Myers-style LCS is sufficient for CLI-scale input).''',
+hand-rolled (a straightforward O(N*M) or Myers-style LCS is sufficient for CLI-scale input).""",
     "csv": '''## TECHNIQUE: quoted-field CSV/TSV parsing and emission -- the naive split() trap
 Splitting a line on `,` breaks the instant any field contains a comma, a quote, or an embedded
 newline -- which real CSV data does. A correct parser/writer follows (informally) RFC 4180:
@@ -156,7 +157,7 @@ None of Rust/Go/C/C++/Python have a stdlib CSV parser sophisticated enough to sk
 entirely (Python's `csv` module and Go's `encoding/csv` are genuinely usable here and DO
 implement RFC 4180 correctly -- use them if available; Rust/C/C++ have no stdlib CSV support
 at all and this must be hand-written).''',
-    "regex_glob": '''## TECHNIQUE: glob/pattern matching without a regex library
+    "regex_glob": """## TECHNIQUE: glob/pattern matching without a regex library
 Most CLI glob syntax (`*` = any run of chars except `/`, `?` = any one char, `[abc]`/`[a-z]`
 = a character class, `**` = recursive directory match) is NOT the same as regex syntax and
 should be converted deliberately, not passed through as-is:
@@ -172,8 +173,8 @@ should be converted deliberately, not passed through as-is:
   regex engine if the tests only ever use literal substrings + `*`/`?`).
 - Case-sensitivity and whether `*` matches a leading dot (hidden files) are common
   probe-dependent behaviors -- verify against the actual observed matches/non-matches rather
-  than assuming shell-glob conventions apply uniformly.''',
-    "ansi": '''## TECHNIQUE: ANSI color/style codes -- generation and stripping
+  than assuming shell-glob conventions apply uniformly.""",
+    "ansi": """## TECHNIQUE: ANSI color/style codes -- generation and stripping
 Raw ANSI escape sequences are `\\x1b[<params>m` (SGR -- Select Graphic Rendition), e.g.
 `\\x1b[32m` = green foreground, `\\x1b[1m` = bold, `\\x1b[0m` = reset all attributes. There is
 no external color library available in any of Rust/Go/C/C++'s standard library -- construct
@@ -187,8 +188,8 @@ and concatenate these escape strings directly.
   byte-for-byte, no stray escape sequences anywhere in the output.
 - STRIPPING ansi codes (for a tool that reads colored input and must normalize it) is a
   regex-shaped problem (`\\x1b\\[[0-9;]*m`) -- but write this as a manual byte/char scan in
-  Rust/C/C++ (no stdlib regex) rather than reaching for a regex crate that doesn't exist here.''',
-    "checksum": '''## TECHNIQUE: hash/checksum computation -- match the EXACT algorithm and output format
+  Rust/C/C++ (no stdlib regex) rather than reaching for a regex crate that doesn't exist here.""",
+    "checksum": """## TECHNIQUE: hash/checksum computation -- match the EXACT algorithm and output format
 If the tool computes a checksum/hash/digest, the algorithm must match EXACTLY (CRC32, MD5,
 SHA-1/256, a simple additive/xor checksum, etc.) -- these are NOT interchangeable and a
 different-but-similar algorithm produces a completely different (wrong) digest for the same
@@ -203,8 +204,8 @@ input, failing every test.
   algorithms -- use it directly rather than hand-rolling. Rust/C/C++ have NO stdlib hashing
   beyond perhaps a trivial CRC table -- a hand-rolled implementation of the EXACT algorithm
   (not an approximation) is required; a well-known reference algorithm (e.g. the standard
-  CRC-32 polynomial 0xEDB88320) must be used verbatim, not an arbitrary custom checksum.''',
-    "http": '''## TECHNIQUE: making an HTTP request without an HTTP client library
+  CRC-32 polynomial 0xEDB88320) must be used verbatim, not an arbitrary custom checksum.""",
+    "http": """## TECHNIQUE: making an HTTP request without an HTTP client library
 - Go has a genuinely usable stdlib HTTP client (`net/http`) -- use `http.Get`/`http.Client` directly,
   this is real stdlib, not an external dependency.
 - Rust/C/C++ have NO stdlib HTTP client at all -- constructing a request means opening a raw
@@ -218,8 +219,8 @@ input, failing every test.
 - If the observed reference behavior only ever hits `http://` (plain, unencrypted) URLs in the
   test fixtures, a raw-socket implementation is sufficient -- TLS/`https://` support requires
   a real TLS library that isn't available here; check the probes before assuming HTTPS is
-  actually exercised by any test.''',
-    "git_plumbing": '''## TECHNIQUE: git-wrapper tools -- shell out to the real `git`, don't reimplement it
+  actually exercised by any test.""",
+    "git_plumbing": """## TECHNIQUE: git-wrapper tools -- shell out to the real `git`, don't reimplement it
 A tool that wraps/extends git behavior (branch cleanup, changelog generation, hooks, etc.)
 almost always works by INVOKING the real `git` binary as a subprocess and parsing its output --
 it does NOT reimplement git's object database/packfile format from scratch, and neither
@@ -235,7 +236,7 @@ should your reimplementation.
 - If the observed behavior implies reading `.git/` internals directly (rare, but some tools do
   this for speed), that's a real structural parsing task (zlib-compressed objects, a simple
   key-value config format) -- confirm this is ACTUALLY what's being tested before attempting
-  it; shelling out to real git is almost always both simpler and what the upstream tool does.''',
+  it; shelling out to real git is almost always both simpler and what the upstream tool does.""",
 }
 
 
@@ -249,8 +250,17 @@ should your reimplementation.
 # checksum -- name-based, rarely a false positive) rank high. tui/table/json/diff keep their
 # original relative order (tui highest of the pre-existing three, matching prior behavior).
 _RECIPE_PRIORITY = [
-    "io", "ansi", "regex_glob", "csv", "checksum", "http", "git_plumbing",
-    "diff", "json", "table", "tui",
+    "io",
+    "ansi",
+    "regex_glob",
+    "csv",
+    "checksum",
+    "http",
+    "git_plumbing",
+    "diff",
+    "json",
+    "table",
+    "tui",
 ]
 
 
@@ -265,8 +275,11 @@ def recipes_for(short: str, observations: list | None = None) -> str:
     blob = ""
     for o in (observations or [])[:6]:
         blob += getattr(o, "stdout", "") or ""
-    tui_blob = "".join(getattr(o, "stdout", "") or "" for o in (observations or [])
-                       if getattr(getattr(o, "probe", None), "name", "").startswith("tui-snapshot"))
+    tui_blob = "".join(
+        getattr(o, "stdout", "") or ""
+        for o in (observations or [])
+        if getattr(getattr(o, "probe", None), "name", "").startswith("tui-snapshot")
+    )
 
     matched = {"io"}
     if "json" in name or "gron" in name or "{" in blob or " = " in blob:
@@ -279,25 +292,48 @@ def recipes_for(short: str, observations: list | None = None) -> str:
     if "\x1b[" in tui_blob or "\x1b[" in blob:
         matched.add("tui")
     # unified-diff-style output: hunk headers or a run of +/- prefixed lines.
-    if "@@ -" in blob or "\n--- " in blob or "\n+++ " in blob or any(
-            k in name for k in ("diff", "delta", "icdiff")):
+    if (
+        "@@ -" in blob
+        or "\n--- " in blob
+        or "\n+++ " in blob
+        or any(k in name for k in ("diff", "delta", "icdiff"))
+    ):
         matched.add("diff")
     # CSV/TSV: quoted fields alongside comma-dense lines, or the tool's name says so.
     if '","' in blob or (blob.count(",") > 5 and '"' in blob) or "csv" in name or "tsv" in name:
         matched.add("csv")
     # glob/regex/search tools: name-based (grep/regex/glob/find-family tool names).
-    if any(k in name for k in ("grep", "regex", "glob", "rgrep", "ripgrep", " rg", "fd", "sd",
-                                "search", "ack", "amber")):
+    if any(
+        k in name
+        for k in (
+            "grep",
+            "regex",
+            "glob",
+            "rgrep",
+            "ripgrep",
+            " rg",
+            "fd",
+            "sd",
+            "search",
+            "ack",
+            "amber",
+        )
+    ):
         matched.add("regex_glob")
     # any ANSI escape at all (broader/weaker signal than the tui-snapshot-specific check above).
     if "\x1b[" in blob:
         matched.add("ansi")
     # hash/checksum tools: name-based.
-    if any(k in name for k in ("hash", "checksum", "crc", "digest", "md5", "sha1", "sha256", "sum")):
+    if any(
+        k in name for k in ("hash", "checksum", "crc", "digest", "md5", "sha1", "sha256", "sum")
+    ):
         matched.add("checksum")
     # HTTP client tools: name-based, or a raw HTTP status line / URL scheme in observed output.
-    if any(k in name for k in ("http", "curl", "curlie", "fetch", "wget", "xh")) or \
-            "HTTP/1." in blob or "://" in blob:
+    if (
+        any(k in name for k in ("http", "curl", "curlie", "fetch", "wget", "xh"))
+        or "HTTP/1." in blob
+        or "://" in blob
+    ):
         matched.add("http")
     # git-wrapper tools: name-based.
     if name.startswith("git") or "git-" in name or "-git" in name:
@@ -335,20 +371,31 @@ def add_probes(short: str, new_probes: list[dict]) -> int:
     Returns how many were actually added (0 => the oracle already covers them = saturation)."""
     SKILLS_DIR.mkdir(parents=True, exist_ok=True)
     cur = load_probes(short)
-    seen = {(json.dumps(p.get("argv", []), sort_keys=True), p.get("stdin"),
-             json.dumps(p.get("files", {}), sort_keys=True),
-             json.dumps(p.get("serve", {}), sort_keys=True)) for p in cur}
+    seen = {
+        (
+            json.dumps(p.get("argv", []), sort_keys=True),
+            p.get("stdin"),
+            json.dumps(p.get("files", {}), sort_keys=True),
+            json.dumps(p.get("serve", {}), sort_keys=True),
+        )
+        for p in cur
+    }
     added = 0
     for p in new_probes:
-        key = (json.dumps(p.get("argv", []), sort_keys=True), p.get("stdin"),
-               json.dumps(p.get("files", {}), sort_keys=True),
-               json.dumps(p.get("serve", {}), sort_keys=True))
+        key = (
+            json.dumps(p.get("argv", []), sort_keys=True),
+            p.get("stdin"),
+            json.dumps(p.get("files", {}), sort_keys=True),
+            json.dumps(p.get("serve", {}), sort_keys=True),
+        )
         if key not in seen:
             seen.add(key)
             cur.append(p)
             added += 1
     if added:
-        _probes_path(short).write_text(json.dumps(cur, indent=1, ensure_ascii=False), encoding="utf-8")
+        _probes_path(short).write_text(
+            json.dumps(cur, indent=1, ensure_ascii=False), encoding="utf-8"
+        )
     return added
 
 
@@ -380,20 +427,30 @@ def render_prompt_block(short: str, max_chars: int = 2600, observations: list | 
         spec = rec.get("spec_notes") or []
         hard = rec.get("hard_behaviors") or []
         if hard:  # tool-specific learned pitfalls -- high value, keep ahead of generic content
-            block.append("## Behaviors that were HARD last time (get these RIGHT)\n%s"
-                         % "\n".join(f"- {h}" for h in hard[:20]))
+            block.append(
+                "## Behaviors that were HARD last time (get these RIGHT)\n%s"
+                % "\n".join(f"- {h}" for h in hard[:20])
+            )
         if spec:
-            block.append("## What Determinex already knows about `%s` (discovered)\n%s"
-                         % (short, "\n".join(f"- {s}" for s in spec[:20])))
+            block.append(
+                "## What Determinex already knows about `%s` (discovered)\n%s"
+                % (short, "\n".join(f"- {s}" for s in spec[:20]))
+            )
     block.append(CROSS_TOOL_PITFALLS)  # generic, applies everywhere -- truncate first if tight
     return "\n\n".join(block)[:max_chars]
 
 
-def record_run(short: str, *, observations: list | None = None,
-               failed_probe_names: list | None = None,
-               best_local: str = "", best_official: int | None = None,
-               official_total: int | None = None, candidate_path: str = "",
-               spec_notes: list | None = None) -> dict:
+def record_run(
+    short: str,
+    *,
+    observations: list | None = None,
+    failed_probe_names: list | None = None,
+    best_local: str = "",
+    best_official: int | None = None,
+    official_total: int | None = None,
+    candidate_path: str = "",
+    spec_notes: list | None = None,
+) -> dict:
     """Persist what this run taught us. Merges with any prior record (the corpus learns
     cumulatively). Locks a verified skill ONLY on a genuine official pass (==total)."""
     SKILLS_DIR.mkdir(parents=True, exist_ok=True)
@@ -424,7 +481,11 @@ def record_run(short: str, *, observations: list | None = None,
 
 if __name__ == "__main__":
     import sys
+
     if len(sys.argv) > 1:
         print(json.dumps(load(sys.argv[1]), indent=2))
     else:
-        print("reimpl_skills:", [p.stem for p in SKILLS_DIR.glob("*.json")] if SKILLS_DIR.exists() else [])
+        print(
+            "reimpl_skills:",
+            [p.stem for p in SKILLS_DIR.glob("*.json")] if SKILLS_DIR.exists() else [],
+        )

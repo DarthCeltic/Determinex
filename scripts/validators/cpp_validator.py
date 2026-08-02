@@ -1,11 +1,11 @@
 """C/C++ output validator for corpus sample gating."""
+
 from __future__ import annotations
 
 import re
 import subprocess
 import tempfile
 from pathlib import Path
-
 
 _TIMEOUT = 60
 
@@ -39,14 +39,19 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
         cmd = _project_command(path)
         if cmd:
             try:
-                result = subprocess.run(cmd, cwd=str(path), capture_output=True, text=True, timeout=_TIMEOUT)
+                result = subprocess.run(
+                    cmd, cwd=str(path), capture_output=True, text=True, timeout=_TIMEOUT
+                )
             except subprocess.TimeoutExpired:
                 return False, "c/cpp project validation timeout"
             except FileNotFoundError as exc:
                 return False, f"c/cpp project validator missing tool: {exc}"
             if result.returncode == 0:
                 return True, "c/cpp project OK"
-            return False, f"c/cpp project: {(result.stderr or result.stdout)[:500].replace(chr(10), ' | ')}"
+            return (
+                False,
+                f"c/cpp project: {(result.stderr or result.stdout)[:500].replace(chr(10), ' | ')}",
+            )
 
     code = _strip_fences(output)
     if len(code) < 10:
@@ -64,10 +69,15 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
             cmd = [compiler, "-Wall", "-Wextra", "-Werror", str(source.name), "-o", "main.exe"]
             if compiler == "g++":
                 cmd.insert(1, "-std=c++20")
-            result = subprocess.run(cmd, cwd=str(td), capture_output=True, text=True, timeout=_TIMEOUT)
+            result = subprocess.run(
+                cmd, cwd=str(td), capture_output=True, text=True, timeout=_TIMEOUT
+            )
             if result.returncode == 0:
                 return True, f"{compiler} OK"
-            return False, f"{compiler}: {(result.stderr or result.stdout)[:500].replace(chr(10), ' | ')}"
+            return (
+                False,
+                f"{compiler}: {(result.stderr or result.stdout)[:500].replace(chr(10), ' | ')}",
+            )
     except subprocess.TimeoutExpired:
         return False, f"{compiler} timeout"
     except FileNotFoundError:

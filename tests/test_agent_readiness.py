@@ -19,6 +19,7 @@ cannot work.
 So readiness is a named state, a live verdict is remembered rather than re-inferred, and the states
 that require a real call are only ever set BY a real call.
 """
+
 from __future__ import annotations
 
 import sys
@@ -52,7 +53,9 @@ class TestProbeStore:
     def test_a_verdict_round_trips(self, probe_store):
         agents.record_probe_result("codex", "ok", "replied OK", at="2026-07-31T18:00:00Z")
         assert agents.last_probe_result("codex") == {
-            "status": "ok", "detail": "replied OK", "at": "2026-07-31T18:00:00Z"
+            "status": "ok",
+            "detail": "replied OK",
+            "at": "2026-07-31T18:00:00Z",
         }
 
     def test_an_unprobed_agent_has_no_verdict(self, probe_store):
@@ -100,9 +103,12 @@ class TestReadinessDifferentiates:
     def test_a_missing_auth_method_is_its_own_state(self, probe_store):
         """Distinct from no_credentials: the credential exists and is perfectly good."""
         state, evidence = agents._readiness(
-            _row(logged_in=False,
-                 detail="credentials found but no auth method selected -- gemini-cli will refuse"),
-            "gemini-cli")
+            _row(
+                logged_in=False,
+                detail="credentials found but no auth method selected -- gemini-cli will refuse",
+            ),
+            "gemini-cli",
+        )
         assert state == agents.READY_NO_AUTH_METHOD
         assert "auth method" in evidence
 
@@ -121,12 +127,15 @@ class TestReadinessDifferentiates:
     def test_a_provider_refusal_outranks_perfect_local_credentials(self, probe_store):
         """THE case. The credentials are valid and refresh; Google declines the client."""
         agents.record_probe_result(
-            "gemini-cli", "provider_refused",
+            "gemini-cli",
+            "provider_refused",
             "IneligibleTierError: no longer supported for Gemini Code Assist for individuals",
-            at="2026-07-31T18:08:00Z")
+            at="2026-07-31T18:08:00Z",
+        )
 
         state, evidence = agents._readiness(
-            _row(detail="auth method 'oauth-personal', stored credentials found"), "gemini-cli")
+            _row(detail="auth method 'oauth-personal', stored credentials found"), "gemini-cli"
+        )
 
         assert state == agents.READY_PROVIDER_REFUSED, (
             "the local credentials looked perfect, which is precisely why this must not read as ready"
@@ -157,12 +166,25 @@ class TestReadinessDifferentiates:
 
     def test_every_state_is_one_of_the_declared_names(self, probe_store):
         declared = {
-            agents.READY_NOT_INSTALLED, agents.READY_NO_CREDENTIALS, agents.READY_NO_AUTH_METHOD,
-            agents.READY_CREDENTIALS_UNVERIFIED, agents.READY_VERIFIED,
-            agents.READY_PROVIDER_REFUSED, agents.READY_QUOTA_EXHAUSTED, agents.READY_FAILED,
+            agents.READY_NOT_INSTALLED,
+            agents.READY_NO_CREDENTIALS,
+            agents.READY_NO_AUTH_METHOD,
+            agents.READY_CREDENTIALS_UNVERIFIED,
+            agents.READY_VERIFIED,
+            agents.READY_PROVIDER_REFUSED,
+            agents.READY_QUOTA_EXHAUSTED,
+            agents.READY_FAILED,
         }
-        for status in ("ok", "provider_refused", "quota_exhausted", "auth_error", "timeout",
-                       "error", "nonsense", ""):
+        for status in (
+            "ok",
+            "provider_refused",
+            "quota_exhausted",
+            "auth_error",
+            "timeout",
+            "error",
+            "nonsense",
+            "",
+        ):
             agents.record_probe_result("codex", status, "d")
             state, _ = agents._readiness(_row(), "codex")
             assert state in declared, f"{status!r} produced an undeclared readiness {state!r}"

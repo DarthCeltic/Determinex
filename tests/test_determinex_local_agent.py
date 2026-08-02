@@ -114,8 +114,7 @@ def test_a_truncated_file_is_labelled_as_truncated(ws, spy):
     L.run(TASK, ws, "m")
     rendered, _shown = L._render_file_contents(ws, ["big.py"], per_file_chars=100)
     assert "TRUNCATED" in rendered, (
-        "a partially-shown file must say so; a SEARCH in the elided region can "
-        "never match"
+        "a partially-shown file must say so; a SEARCH in the elided region can never match"
     )
 
 

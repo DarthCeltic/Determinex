@@ -29,4 +29,3 @@ def _candidates(line: str) -> list[str]:
     if start >= 0 and end > start:
         candidates.append(line[start : end + 1])
     return candidates
-

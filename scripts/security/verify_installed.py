@@ -34,6 +34,7 @@ Usage::
     python scripts/security/verify_installed.py --json
     python scripts/security/verify_installed.py --strict   # exit 1 on CRITICAL
 """
+
 from __future__ import annotations
 
 import argparse
@@ -65,7 +66,7 @@ class Drift:
     package: str
     declared: str
     installed: str | None
-    severity: str          # CRITICAL | HIGH | MEDIUM
+    severity: str  # CRITICAL | HIGH | MEDIUM
     source_file: str
     security_ids: list[str] = field(default_factory=list)
 
@@ -75,8 +76,7 @@ class Drift:
             return f"{self.package}: declared {self.declared} in {where}, NOT INSTALLED"
         ids = f" [{', '.join(self.security_ids)}]" if self.security_ids else ""
         return (
-            f"{self.package}: declared {self.declared} in {where}, "
-            f"installed {self.installed}{ids}"
+            f"{self.package}: declared {self.declared} in {where}, installed {self.installed}{ids}"
         )
 
 
@@ -85,9 +85,9 @@ def _parse_requirement_line(line: str) -> tuple[str, str, list[str]] | None:
     raw = line.rstrip("\n")
     body, _, comment = raw.partition("#")
     body = body.strip()
-    if not body or body.startswith("-"):        # blank, comment-only, -r/-e/--flag
+    if not body or body.startswith("-"):  # blank, comment-only, -r/-e/--flag
         return None
-    if "://" in body:                            # direct URL / VCS reference
+    if "://" in body:  # direct URL / VCS reference
         return None
     try:
         from packaging.requirements import Requirement
@@ -96,7 +96,7 @@ def _parse_requirement_line(line: str) -> tuple[str, str, list[str]] | None:
     except Exception:
         return None
     if not str(req.specifier):
-        return None                              # unpinned: nothing to verify
+        return None  # unpinned: nothing to verify
     return req.name, str(req.specifier), _SECURITY_ID.findall(comment)
 
 
@@ -160,8 +160,12 @@ def to_dict(drifts: list[Drift]) -> dict:
         "blocked": counts["CRITICAL"] > 0,
         "drifts": [
             {
-                "package": d.package, "declared": d.declared, "installed": d.installed,
-                "severity": d.severity, "source": d.source_file, "security_ids": d.security_ids,
+                "package": d.package,
+                "declared": d.declared,
+                "installed": d.installed,
+                "severity": d.severity,
+                "source": d.source_file,
+                "security_ids": d.security_ids,
             }
             for d in drifts
         ],
@@ -179,8 +183,11 @@ def run(write: bool = True) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--json", action="store_true")
-    ap.add_argument("--strict", action="store_true",
-                    help="exit 1 when a declared SECURITY floor is not installed")
+    ap.add_argument(
+        "--strict",
+        action="store_true",
+        help="exit 1 when a declared SECURITY floor is not installed",
+    )
     ap.add_argument("--no-write", action="store_true")
     args = ap.parse_args()
 
@@ -195,7 +202,9 @@ def main() -> int:
         for d in payload["drifts"]:
             ids = f" [{', '.join(d['security_ids'])}]" if d["security_ids"] else ""
             got = d["installed"] or "NOT INSTALLED"
-            print(f"    {d['severity']:8} {d['package']:22} declared {d['declared']:16} have {got}{ids}")
+            print(
+                f"    {d['severity']:8} {d['package']:22} declared {d['declared']:16} have {got}{ids}"
+            )
     return 1 if (args.strict and payload["blocked"]) else 0
 
 

@@ -17,8 +17,12 @@ if str(_SCRIPTS) not in sys.path:
 from corpus.programbench.cleanroom_build_recipe_provenance_gap_record import (
     verify_cleanroom_build_recipe_provenance_gap_record,
 )
-from corpus.programbench.cleanroom_build_recipe_recovery_record import verify_cleanroom_build_recipe_recovery_record
-from corpus.programbench.cleanroom_image_remediation_plan_record import verify_cleanroom_image_remediation_plan_record
+from corpus.programbench.cleanroom_build_recipe_recovery_record import (
+    verify_cleanroom_build_recipe_recovery_record,
+)
+from corpus.programbench.cleanroom_image_remediation_plan_record import (
+    verify_cleanroom_image_remediation_plan_record,
+)
 from corpus.programbench.cleanroom_recipe_provenance_recovery_record import (
     make_cleanroom_recipe_provenance_recovery_record,
     write_cleanroom_recipe_provenance_recovery_record,
@@ -82,7 +86,9 @@ class ProgramBenchCleanroomRecipeProvenanceRecovery:
     def recover(self, gap_path: Path) -> dict[str, Any]:
         resolved_gap = self._resolve(gap_path)
         gap = _read_json(resolved_gap) if resolved_gap.is_file() else {}
-        if not resolved_gap.is_file() or not verify_cleanroom_build_recipe_provenance_gap_record(gap):
+        if not resolved_gap.is_file() or not verify_cleanroom_build_recipe_provenance_gap_record(
+            gap
+        ):
             return self._write_record(
                 status=RecipeProvenanceRecoveryStatus.PROVENANCE_RECOVERY_BLOCKED.value,
                 decision=RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_BLOCKED.value,
@@ -122,7 +128,9 @@ class ProgramBenchCleanroomRecipeProvenanceRecovery:
         recovery_ref = str(gap.get("recipe_recovery") or "")
         plan = _read_json(self._resolve(Path(plan_ref))) if plan_ref else {}
         recovery = _read_json(self._resolve(Path(recovery_ref))) if recovery_ref else {}
-        if not verify_cleanroom_image_remediation_plan_record(plan) or not verify_cleanroom_build_recipe_recovery_record(recovery):
+        if not verify_cleanroom_image_remediation_plan_record(
+            plan
+        ) or not verify_cleanroom_build_recipe_recovery_record(recovery):
             return self._write_record(
                 status=RecipeProvenanceRecoveryStatus.PROVENANCE_RECOVERY_BLOCKED.value,
                 decision=RecipeProvenanceRecoveryStatus.REBUILD_PROVENANCE_BLOCKED.value,
@@ -133,7 +141,10 @@ class ProgramBenchCleanroomRecipeProvenanceRecovery:
                 recipe_recovery=recovery_ref,
                 searched_locations=[],
                 recovered=[],
-                statuses=[RecipeProvenanceRecoveryStatus.PROVENANCE_RECOVERY_BLOCKED.value, *_blocked_statuses()],
+                statuses=[
+                    RecipeProvenanceRecoveryStatus.PROVENANCE_RECOVERY_BLOCKED.value,
+                    *_blocked_statuses(),
+                ],
                 gap_closure=_gap_closure(False, False, False),
                 reasons=["gap_referenced_plan_or_recovery_invalid"],
             )
@@ -173,8 +184,12 @@ class ProgramBenchCleanroomRecipeProvenanceRecovery:
             provenance_statuses=list(dict.fromkeys(statuses)),
             gap_closure=_gap_closure(original_exact, base_exact, go_compatible),
             go_remediation={
-                "current_version": str((recovery.get("go_update") or {}).get("current_version_detected") or ""),
-                "target_version": str((recovery.get("go_update") or {}).get("target_version") or "1.24.13"),
+                "current_version": str(
+                    (recovery.get("go_update") or {}).get("current_version_detected") or ""
+                ),
+                "target_version": str(
+                    (recovery.get("go_update") or {}).get("target_version") or "1.24.13"
+                ),
                 "compatible_with_recovered_recipe": bool(go_compatible),
                 "requires_rebuild": True,
                 "requires_rescan": True,
@@ -183,7 +198,9 @@ class ProgramBenchCleanroomRecipeProvenanceRecovery:
             },
             fidelity_assessment={
                 "fidelity_risk": "material" if material_risk else "unknown",
-                "fidelity_preserving_rebuild": bool(original_exact and base_exact and not material_risk),
+                "fidelity_preserving_rebuild": bool(
+                    original_exact and base_exact and not material_risk
+                ),
                 "material_change_requires_review": bool(material_risk),
             },
             authorization=_authorization(rebuild_ready=original_exact and base_exact),
@@ -191,7 +208,9 @@ class ProgramBenchCleanroomRecipeProvenanceRecovery:
             cache_ready=False,
             executable=False,
         )
-        path = write_cleanroom_recipe_provenance_recovery_record(record, self._resolve(self.config.output_dir))
+        path = write_cleanroom_recipe_provenance_recovery_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _blocked_mismatch(
@@ -249,10 +268,14 @@ class ProgramBenchCleanroomRecipeProvenanceRecovery:
             cache_ready=False,
             executable=False,
         )
-        path = write_cleanroom_recipe_provenance_recovery_record(record, self._resolve(self.config.output_dir))
+        path = write_cleanroom_recipe_provenance_recovery_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
-    def _search_allowed_sources(self, image: str, digest: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    def _search_allowed_sources(
+        self, image: str, digest: str
+    ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
         roots = self.config.search_roots or _default_search_roots()
         searched: list[dict[str, Any]] = []
         recovered: list[dict[str, Any]] = []
@@ -268,7 +291,11 @@ class ProgramBenchCleanroomRecipeProvenanceRecovery:
             if not resolved.exists():
                 searched.append(entry)
                 continue
-            files = [resolved] if resolved.is_file() else sorted(p for p in resolved.rglob("*") if p.is_file())
+            files = (
+                [resolved]
+                if resolved.is_file()
+                else sorted(p for p in resolved.rglob("*") if p.is_file())
+            )
             for path in files[: self.config.max_files_per_root]:
                 entry["files_examined"] += 1
                 for item in _classify_provenance_file(path, self.config.root, image, digest):
@@ -283,7 +310,9 @@ class ProgramBenchCleanroomRecipeProvenanceRecovery:
         return path if path.is_absolute() else self.config.root / path
 
 
-def _classify_provenance_file(path: Path, root: Path, image: str, digest: str) -> list[dict[str, Any]]:
+def _classify_provenance_file(
+    path: Path, root: Path, image: str, digest: str
+) -> list[dict[str, Any]]:
     name = path.name.lower()
     if name in RECIPE_FILENAMES:
         return [_recipe_file_source(path, root)]
@@ -310,7 +339,9 @@ def _classify_provenance_file(path: Path, root: Path, image: str, digest: str) -
     if not data:
         return items
     data_image = str(data.get("image_reference") or data.get("image") or "")
-    data_digest = str(data.get("image_digest") or data.get("manifest_digest") or data.get("digest") or "")
+    data_digest = str(
+        data.get("image_digest") or data.get("manifest_digest") or data.get("digest") or ""
+    )
     if data_image and data_image != image:
         return items
     if data_digest and data_digest not in {digest, ""}:
@@ -368,7 +399,9 @@ def _recipe_file_source(path: Path, root: Path) -> dict[str, Any]:
 
 def _contains_exact_recipe_provenance(data: dict[str, Any]) -> bool:
     flat = _flatten(data)
-    has_recipe = any(k.endswith("original_cleanroom_build_recipe") or k.endswith("recipe_path") for k in flat)
+    has_recipe = any(
+        k.endswith("original_cleanroom_build_recipe") or k.endswith("recipe_path") for k in flat
+    )
     has_digest = bool(_first_digest_value(data))
     return has_recipe and has_digest
 
@@ -377,7 +410,10 @@ def _contains_partial_recipe_hint(data: dict[str, Any]) -> bool:
     flat = _flatten(data)
     keys = " ".join(flat.keys()).lower()
     values = " ".join(str(v).lower() for v in flat.values())
-    return any(token in keys + " " + values for token in ("provenance", "recipe", "dockerfile", "base_image", "manifest_digest"))
+    return any(
+        token in keys + " " + values
+        for token in ("provenance", "recipe", "dockerfile", "base_image", "manifest_digest")
+    )
 
 
 def _flatten(data: Any, prefix: str = "") -> dict[str, Any]:
@@ -404,22 +440,34 @@ def _first_digest_value(data: dict[str, Any]) -> str:
 
 
 def _has_exact_recipe(recovered: list[dict[str, Any]]) -> bool:
-    return any(bool(item.get("original_recipe")) and item.get("provenance_level") == "exact" for item in recovered)
+    return any(
+        bool(item.get("original_recipe")) and item.get("provenance_level") == "exact"
+        for item in recovered
+    )
 
 
 def _has_partial_recipe(recovered: list[dict[str, Any]]) -> bool:
-    return any(bool(item.get("original_recipe")) or item.get("source_type") in {"task_metadata", "signed_provenance_hint"} for item in recovered)
+    return any(
+        bool(item.get("original_recipe"))
+        or item.get("source_type") in {"task_metadata", "signed_provenance_hint"}
+        for item in recovered
+    )
 
 
 def _has_exact_base_digest(recovered: list[dict[str, Any]]) -> bool:
-    return any(bool(item.get("base_image_digest")) and item.get("provenance_level") == "exact" for item in recovered)
+    return any(
+        bool(item.get("base_image_digest")) and item.get("provenance_level") == "exact"
+        for item in recovered
+    )
 
 
 def _has_partial_base(recovered: list[dict[str, Any]]) -> bool:
     return any(bool(item.get("base_image_digest")) for item in recovered)
 
 
-def _go_update_compatible(plan: dict[str, Any], recovery: dict[str, Any], recovered: list[dict[str, Any]]) -> bool:
+def _go_update_compatible(
+    plan: dict[str, Any], recovery: dict[str, Any], recovered: list[dict[str, Any]]
+) -> bool:
     current = str((recovery.get("go_update") or {}).get("current_version_detected") or "")
     target = str((recovery.get("go_update") or {}).get("target_version") or "")
     if current and target and bool((recovery.get("go_update") or {}).get("recipe_compatible")):
@@ -429,8 +477,15 @@ def _go_update_compatible(plan: dict[str, Any], recovery: dict[str, Any], recove
 
 def _material_fidelity_risk(gap: dict[str, Any], recovery: dict[str, Any]) -> bool:
     statuses = set(gap.get("gap_statuses") or [])
-    fidelity = recovery.get("fidelity_assessment") if isinstance(recovery.get("fidelity_assessment"), dict) else {}
-    return "MATERIAL_FIDELITY_RISK" in statuses or str(fidelity.get("fidelity_class") or "") == "material_fidelity_change"
+    fidelity = (
+        recovery.get("fidelity_assessment")
+        if isinstance(recovery.get("fidelity_assessment"), dict)
+        else {}
+    )
+    return (
+        "MATERIAL_FIDELITY_RISK" in statuses
+        or str(fidelity.get("fidelity_class") or "") == "material_fidelity_change"
+    )
 
 
 def _classify(
@@ -456,7 +511,9 @@ def _classify(
     if base_exact:
         statuses.append(RecipeProvenanceRecoveryStatus.BASE_IMAGE_PROVENANCE_RECOVERED_EXACT.value)
     elif base_partial:
-        statuses.append(RecipeProvenanceRecoveryStatus.BASE_IMAGE_PROVENANCE_RECOVERED_PARTIAL.value)
+        statuses.append(
+            RecipeProvenanceRecoveryStatus.BASE_IMAGE_PROVENANCE_RECOVERED_PARTIAL.value
+        )
         reasons.append("base_image_provenance_partial_only")
     else:
         statuses.append(RecipeProvenanceRecoveryStatus.BASE_IMAGE_DIGEST_STILL_MISSING.value)
@@ -566,17 +623,25 @@ def _first_match(text: str, pattern: str) -> str:
 
 
 def _redact(value: str) -> str:
-    value = re.sub(r"https://x-access-token:[^/@\s]+@", "https://x-access-token:ghp_<redacted>@", value)
+    value = re.sub(
+        r"https://x-access-token:[^/@\s]+@", "https://x-access-token:ghp_<redacted>@", value
+    )
     value = re.sub(r"https://[^/@\s]+:[^/@\s]+@", "https://<redacted>@", value)
     value = re.sub(r"ghp_[A-Za-z0-9_]+", "ghp_<redacted>", value)
     return value
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Recover missing ProgramBench cleanroom recipe provenance.")
+    parser = argparse.ArgumentParser(
+        description="Recover missing ProgramBench cleanroom recipe provenance."
+    )
     parser.add_argument("provenance_gap", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_recipe_provenance_recovery"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_recipe_provenance_recovery"),
+    )
     parser.add_argument("--search-root", action="append", type=Path, default=[])
     parser.add_argument("--target-image", default="")
     parser.add_argument("--target-digest", default="")

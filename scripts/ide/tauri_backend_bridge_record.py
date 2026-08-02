@@ -1,9 +1,9 @@
 """Records for TAURI_BACKEND_COMMAND_BRIDGE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 TAURI_BRIDGE_STATUS_TOKENS = (
     "TAURI_BRIDGE_READY",

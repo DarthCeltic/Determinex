@@ -10,7 +10,9 @@ def render_sample_html() -> str:
         "open_availability_ready": False,
         "authority_boundary": "closed",
     }
-    return "<html><body><pre>" + json.dumps(payload, indent=2, sort_keys=True) + "</pre></body></html>"
+    return (
+        "<html><body><pre>" + json.dumps(payload, indent=2, sort_keys=True) + "</pre></body></html>"
+    )
 
 
 def main() -> int:

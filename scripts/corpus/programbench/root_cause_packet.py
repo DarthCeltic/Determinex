@@ -6,7 +6,7 @@ import json
 import os
 import unicodedata
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -52,7 +52,7 @@ def make_root_cause_packet(
         "expected_score_recovery": expected_score_recovery,
         "rerun_scope": rerun_scope,
         "evidence_inputs": evidence_inputs,
-        "created_at": created_at or datetime.now(timezone.utc).isoformat(),
+        "created_at": created_at or datetime.now(UTC).isoformat(),
     }
     return sign_packet(packet)
 

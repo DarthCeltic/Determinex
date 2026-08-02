@@ -6,6 +6,7 @@ This is the local counterpart to `pb_hetzner_pool.py --gate`: it reads
 candidate gate against the current board baseline, applies accepts, ingests
 rejects into the verdict corpus, and archives 100% accepts.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -14,7 +15,6 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 BOARD = ROOT / "logs" / "programbench_lock_board.json"
@@ -89,17 +89,20 @@ def main() -> int:
             continue
 
         if not gate_path.is_file():
-            run([
-                sys.executable,
-                ROOT / "scripts" / "pb_candidate_gate.py",
-                slug,
-                run_root,
-                "--baseline-eval",
-                baseline,
-                "--min-baseline-passed",
-                "1",
-                "--skip-eval",
-            ], dry_run=args.dry_run)
+            run(
+                [
+                    sys.executable,
+                    ROOT / "scripts" / "pb_candidate_gate.py",
+                    slug,
+                    run_root,
+                    "--baseline-eval",
+                    baseline,
+                    "--min-baseline-passed",
+                    "1",
+                    "--skip-eval",
+                ],
+                dry_run=args.dry_run,
+            )
         if args.dry_run:
             continue
         if not gate_path.is_file():
@@ -109,34 +112,45 @@ def main() -> int:
         gate = load_json(gate_path)
         decision = gate.get("decision")
         if decision == "accept":
-            accepts.append(f"{slug}: +{gate.get('candidate_passed', 0) - gate.get('baseline_passed', 0)}")
+            accepts.append(
+                f"{slug}: +{gate.get('candidate_passed', 0) - gate.get('baseline_passed', 0)}"
+            )
             if not args.no_apply:
-                run([
-                    sys.executable,
-                    ROOT / "scripts" / "pb_apply_gate_decision.py",
-                    slug,
-                    gate_path,
-                    "--run-root",
-                    run_root,
-                    "--refresh-board",
-                ], dry_run=False)
+                run(
+                    [
+                        sys.executable,
+                        ROOT / "scripts" / "pb_apply_gate_decision.py",
+                        slug,
+                        gate_path,
+                        "--run-root",
+                        run_root,
+                        "--refresh-board",
+                    ],
+                    dry_run=False,
+                )
             passed, runnable = eval_counts(eval_path)
             if passed == runnable and runnable > 0:
-                ar = run([
-                    sys.executable,
-                    ROOT / "scripts" / "pb_lock_archiver.py",
-                    slug,
-                    eval_path,
-                    run_root,
-                    "--confirm-100",
-                    "--execute",
-                ], dry_run=False)
+                ar = run(
+                    [
+                        sys.executable,
+                        ROOT / "scripts" / "pb_lock_archiver.py",
+                        slug,
+                        eval_path,
+                        run_root,
+                        "--confirm-100",
+                        "--execute",
+                    ],
+                    dry_run=False,
+                )
                 if ar and ar.returncode == 0:
                     archived.append(slug)
         else:
             rejects.append(f"{slug}: {gate.get('reason', '?')}")
             if not args.no_ingest_rejects:
-                run([sys.executable, ROOT / "scripts" / "pb_verdict_corpus.py", gate_path], dry_run=False)
+                run(
+                    [sys.executable, ROOT / "scripts" / "pb_verdict_corpus.py", gate_path],
+                    dry_run=False,
+                )
 
     print("=== evaluated queue gate summary ===")
     print(f"evaluated: {len(candidates)}")

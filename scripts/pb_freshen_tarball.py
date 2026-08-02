@@ -20,7 +20,9 @@ Requirements:
   - SSH key at ~/.ssh/id_citadel
   - Hetzner host: root@5.78.192.163
 """
+
 from __future__ import annotations
+
 import argparse
 import io
 import os
@@ -49,8 +51,7 @@ LOCAL_OVERRIDES = Path(__file__).parent.parent / "corpus" / "programbench" / "pe
 
 def ssh_run(cmd: str) -> tuple[int, str, str]:
     result = subprocess.run(
-        ["ssh"] + SSH_OPTS + [HETZNER_HOST, cmd],
-        capture_output=True, text=True, timeout=60
+        ["ssh"] + SSH_OPTS + [HETZNER_HOST, cmd], capture_output=True, text=True, timeout=60
     )
     return result.returncode, result.stdout, result.stderr
 
@@ -58,7 +59,8 @@ def ssh_run(cmd: str) -> tuple[int, str, str]:
 def scp_get(remote_path: str, local_path: str) -> bool:
     result = subprocess.run(
         ["scp"] + SSH_OPTS + [f"{HETZNER_HOST}:{remote_path}", local_path],
-        capture_output=True, timeout=120
+        capture_output=True,
+        timeout=120,
     )
     return result.returncode == 0
 
@@ -66,7 +68,8 @@ def scp_get(remote_path: str, local_path: str) -> bool:
 def scp_put(local_path: str, remote_path: str) -> bool:
     result = subprocess.run(
         ["scp"] + SSH_OPTS + [local_path, f"{HETZNER_HOST}:{remote_path}"],
-        capture_output=True, timeout=120
+        capture_output=True,
+        timeout=120,
     )
     return result.returncode == 0
 
@@ -93,9 +96,10 @@ def rebuild_tarball_with_new_compile_sh(
     now = int(time.time())
     output = io.BytesIO()
 
-    with tarfile.open(fileobj=io.BytesIO(original_tarball_bytes), mode="r:gz") as src_tf, \
-         tarfile.open(fileobj=output, mode="w:gz") as dst_tf:
-
+    with (
+        tarfile.open(fileobj=io.BytesIO(original_tarball_bytes), mode="r:gz") as src_tf,
+        tarfile.open(fileobj=output, mode="w:gz") as dst_tf,
+    ):
         members = src_tf.getmembers()
         for member in members:
             if member.name in ("./compile.sh", "compile.sh"):
@@ -131,9 +135,13 @@ def find_hetzner_submission_paths(
     """Return list of (hetzner_tarball_path, instance_id) for tools on Hetzner."""
     if slug:
         # Find all dirs matching this slug on Hetzner
-        rc, stdout, _ = ssh_run(f"find {hetzner_base} -name submission.tar.gz -path '*{slug}*' 2>/dev/null")
+        rc, stdout, _ = ssh_run(
+            f"find {hetzner_base} -name submission.tar.gz -path '*{slug}*' 2>/dev/null"
+        )
     else:
-        rc, stdout, _ = ssh_run(f"find {hetzner_base} -name submission.tar.gz 2>/dev/null | head -500")
+        rc, stdout, _ = ssh_run(
+            f"find {hetzner_base} -name submission.tar.gz 2>/dev/null | head -500"
+        )
 
     paths = []
     for line in stdout.strip().splitlines():
@@ -216,11 +224,18 @@ def process_tool(
 
 
 def main():
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--slug", help="Specific tool slug to freshen")
-    ap.add_argument("--run-dir", default="/root/citadel-programbench",
-                    help="Hetzner base directory (default: /root/citadel-programbench)")
-    ap.add_argument("--dry-run", action="store_true", help="Show what would change without uploading")
+    ap.add_argument(
+        "--run-dir",
+        default="/root/citadel-programbench",
+        help="Hetzner base directory (default: /root/citadel-programbench)",
+    )
+    ap.add_argument(
+        "--dry-run", action="store_true", help="Show what would change without uploading"
+    )
     args = ap.parse_args()
 
     print(f"[freshen] scanning {args.run_dir} on {HETZNER_HOST}")
@@ -234,9 +249,15 @@ def main():
 
     for tarball_path, instance_id in paths:
         status = process_tool(tarball_path, instance_id, args.dry_run)
-        tag = "REFRESHED" if status.startswith("REFRESHED") else \
-              "STALE" if status.startswith("STALE") else \
-              status if status in counts else "OTHER"
+        tag = (
+            "REFRESHED"
+            if status.startswith("REFRESHED")
+            else "STALE"
+            if status.startswith("STALE")
+            else status
+            if status in counts
+            else "OTHER"
+        )
         counts[tag] = counts.get(tag, 0) + 1
         if status != "UP_TO_DATE" and status != "NO_LOCAL_COMPILE_SH":
             print(f"  {instance_id}: {status}")

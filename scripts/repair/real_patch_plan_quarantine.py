@@ -25,11 +25,12 @@ Overall decisions:
 
 Pure validation. No filesystem write at this rung.
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -45,7 +46,6 @@ from .real_patch_plan_quarantine_record import (
     RealPatchPlanQuarantineRecord,
     RealQuarantinedPatchEntry,
 )
-
 
 _SUPPORTED_OPERATIONS: frozenset[str] = frozenset({"replace_file"})
 _MAX_ENTRY_BYTES = 2_000_000
@@ -95,7 +95,8 @@ def quarantine(
         return _blocked(
             "REAL_PATCH_PLAN_BLOCKED_NOT_OPTED_IN",
             workspace=ws,
-            model_id=admission.model_id, provider=admission.provider,
+            model_id=admission.model_id,
+            provider=admission.provider,
             reason="explicit opt_in=True is required",
         )
 
@@ -106,10 +107,14 @@ def quarantine(
 
     for raw in plan_entries:
         if not isinstance(raw, dict):
-            rejected.append(RealQuarantinedPatchEntry(
-                operation="?", path="?", new_content_chars=0,
-                rejection_reason="entry is not a dict",
-            ))
+            rejected.append(
+                RealQuarantinedPatchEntry(
+                    operation="?",
+                    path="?",
+                    new_content_chars=0,
+                    rejection_reason="entry is not a dict",
+                )
+            )
             rejection_kinds.add("schema")
             continue
 
@@ -118,81 +123,110 @@ def quarantine(
         content = raw.get("new_content")
 
         if not isinstance(op, str) or not op:
-            rejected.append(RealQuarantinedPatchEntry(
-                operation="?", path=str(path_raw or "?"),
-                new_content_chars=0,
-                rejection_reason="missing operation",
-            ))
+            rejected.append(
+                RealQuarantinedPatchEntry(
+                    operation="?",
+                    path=str(path_raw or "?"),
+                    new_content_chars=0,
+                    rejection_reason="missing operation",
+                )
+            )
             rejection_kinds.add("schema")
             continue
         if op not in _SUPPORTED_OPERATIONS:
-            rejected.append(RealQuarantinedPatchEntry(
-                operation=op, path=str(path_raw or "?"),
-                new_content_chars=0,
-                rejection_reason=f"unsupported operation {op!r}",
-            ))
+            rejected.append(
+                RealQuarantinedPatchEntry(
+                    operation=op,
+                    path=str(path_raw or "?"),
+                    new_content_chars=0,
+                    rejection_reason=f"unsupported operation {op!r}",
+                )
+            )
             rejection_kinds.add("unsupported_operation")
             continue
 
         if not isinstance(path_raw, str):
-            rejected.append(RealQuarantinedPatchEntry(
-                operation=op, path=str(path_raw),
-                new_content_chars=0,
-                rejection_reason="path is not a string",
-            ))
+            rejected.append(
+                RealQuarantinedPatchEntry(
+                    operation=op,
+                    path=str(path_raw),
+                    new_content_chars=0,
+                    rejection_reason="path is not a string",
+                )
+            )
             rejection_kinds.add("schema")
             continue
 
         norm, err = _normalize_rel(path_raw)
         if not norm:
-            rejected.append(RealQuarantinedPatchEntry(
-                operation=op, path=path_raw, new_content_chars=0,
-                rejection_reason=f"path: {err}",
-            ))
+            rejected.append(
+                RealQuarantinedPatchEntry(
+                    operation=op,
+                    path=path_raw,
+                    new_content_chars=0,
+                    rejection_reason=f"path: {err}",
+                )
+            )
             rejection_kinds.add("path_escape")
             continue
 
         if not isinstance(content, str):
-            rejected.append(RealQuarantinedPatchEntry(
-                operation=op, path=norm, new_content_chars=0,
-                rejection_reason="new_content not a string",
-            ))
+            rejected.append(
+                RealQuarantinedPatchEntry(
+                    operation=op,
+                    path=norm,
+                    new_content_chars=0,
+                    rejection_reason="new_content not a string",
+                )
+            )
             rejection_kinds.add("schema")
             continue
 
         if "\x00" in content:
-            rejected.append(RealQuarantinedPatchEntry(
-                operation=op, path=norm,
-                new_content_chars=len(content),
-                rejection_reason="binary content (NUL byte)",
-            ))
+            rejected.append(
+                RealQuarantinedPatchEntry(
+                    operation=op,
+                    path=norm,
+                    new_content_chars=len(content),
+                    rejection_reason="binary content (NUL byte)",
+                )
+            )
             rejection_kinds.add("schema")
             continue
 
         nbytes = len(content.encode("utf-8"))
         if nbytes > _MAX_ENTRY_BYTES:
-            rejected.append(RealQuarantinedPatchEntry(
-                operation=op, path=norm,
-                new_content_chars=len(content),
-                rejection_reason=f"entry exceeds {_MAX_ENTRY_BYTES} bytes",
-            ))
+            rejected.append(
+                RealQuarantinedPatchEntry(
+                    operation=op,
+                    path=norm,
+                    new_content_chars=len(content),
+                    rejection_reason=f"entry exceeds {_MAX_ENTRY_BYTES} bytes",
+                )
+            )
             rejection_kinds.add("schema")
             continue
         if total_bytes + nbytes > _MAX_TOTAL_BYTES:
-            rejected.append(RealQuarantinedPatchEntry(
-                operation=op, path=norm,
-                new_content_chars=len(content),
-                rejection_reason=f"plan exceeds {_MAX_TOTAL_BYTES} bytes",
-            ))
+            rejected.append(
+                RealQuarantinedPatchEntry(
+                    operation=op,
+                    path=norm,
+                    new_content_chars=len(content),
+                    rejection_reason=f"plan exceeds {_MAX_TOTAL_BYTES} bytes",
+                )
+            )
             rejection_kinds.add("schema")
             continue
 
         total_bytes += nbytes
-        accepted.append(RealQuarantinedPatchEntry(
-            operation=op, path=norm,
-            new_content_chars=len(content),
-            rejection_reason="",
-        ))
+        accepted.append(
+            RealQuarantinedPatchEntry(
+                operation=op,
+                path=norm,
+                new_content_chars=len(content),
+                rejection_reason="",
+            )
+        )
 
     if accepted:
         return RealPatchPlanQuarantineRecord(

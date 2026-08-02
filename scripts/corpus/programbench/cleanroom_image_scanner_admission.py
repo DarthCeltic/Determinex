@@ -6,10 +6,10 @@ import json
 import shutil
 import subprocess
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Callable
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -118,7 +118,11 @@ class ProgramBenchCleanroomImageScannerAdmission:
                 [f"version_command_failed:{version_result.stderr[-300:]}"],
                 scanner_command=version_command,
             )
-        version = (version_result.stdout or version_result.stderr or "unknown").strip().splitlines()[0][:160]
+        version = (
+            (version_result.stdout or version_result.stderr or "unknown")
+            .strip()
+            .splitlines()[0][:160]
+        )
         capability = _capability_for(name)
         if not capability:
             return self._write(
@@ -160,7 +164,14 @@ class ProgramBenchCleanroomImageScannerAdmission:
         if self.config.command_runner:
             return self.config.command_runner(command, timeout)
         try:
-            proc = subprocess.run(command, cwd=self.config.root, capture_output=True, text=True, timeout=timeout, check=False)
+            proc = subprocess.run(
+                command,
+                cwd=self.config.root,
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+                check=False,
+            )
             return CommandResult(proc.returncode, proc.stdout, proc.stderr)
         except subprocess.TimeoutExpired as exc:
             return CommandResult(124, exc.stdout or "", exc.stderr or "timeout")
@@ -209,7 +220,9 @@ class ProgramBenchCleanroomImageScannerAdmission:
             cache_ready=False,
             executable=False,
         )
-        path = write_cleanroom_image_scanner_admission_record(record, self._resolve(self.config.output_dir))
+        path = write_cleanroom_image_scanner_admission_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _resolve(self, path: Path) -> Path:
@@ -258,11 +271,17 @@ def _scan_command_template(name: str, path: Path) -> list[str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Admit an approved scanner for ProgramBench cleanroom image scanning.")
+    parser = argparse.ArgumentParser(
+        description="Admit an approved scanner for ProgramBench cleanroom image scanning."
+    )
     parser.add_argument("--scanner-name", default="")
     parser.add_argument("--scanner-path", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_image_scanner_admissions"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_image_scanner_admissions"),
+    )
     parser.add_argument("--allow-wrapper", action="store_true")
     args = parser.parse_args()
     result = ProgramBenchCleanroomImageScannerAdmission(

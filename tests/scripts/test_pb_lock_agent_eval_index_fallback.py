@@ -8,7 +8,9 @@ def test_context_uses_eval_index_when_legacy_board_is_missing(tmp_path, monkeypa
     overrides = repo / "corpus" / "programbench" / "per_tool_overrides"
     tool_dir = overrides / "owner__tool.abc123"
     tool_dir.mkdir(parents=True)
-    (tool_dir / "compile.sh").write_text("#!/bin/sh\nrustc reimpl.rs -o executable\n", encoding="utf-8")
+    (tool_dir / "compile.sh").write_text(
+        "#!/bin/sh\nrustc reimpl.rs -o executable\n", encoding="utf-8"
+    )
     (tool_dir / "reimpl.rs").write_text("fn main() {}\n", encoding="utf-8")
 
     eval_index = repo / "corpus" / "programbench" / "eval_index.json"

@@ -19,6 +19,7 @@ Usage:
     python scripts/determinex_bigcode_run.py --n 100 --subset hard --workers 2
     python scripts/determinex_bigcode_run.py --n 50 --no-docker  # stdlib-only tasks
 """
+
 from __future__ import annotations
 
 import argparse
@@ -32,7 +33,6 @@ import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Optional
 
 _SCRIPTS_DIR = Path(__file__).resolve().parent
 if str(_SCRIPTS_DIR) not in sys.path:
@@ -46,30 +46,72 @@ logging.basicConfig(
 log = logging.getLogger("determinex_bigcode")
 
 # ── Config ────────────────────────────────────────────────────────────────────
-_ANTHROPIC_KEY   = os.getenv("DETERMINEX_ANTHROPIC_KEY", os.getenv("ANTHROPIC_API_KEY", ""))
+_ANTHROPIC_KEY = os.getenv("DETERMINEX_ANTHROPIC_KEY", os.getenv("ANTHROPIC_API_KEY", ""))
 _ANTHROPIC_MODEL = os.getenv("DETERMINEX_ANTHROPIC_MODEL", "claude-sonnet-4-6")
-_ANTHROPIC_URL   = "https://api.anthropic.com/v1/messages"
-_DEEPSEEK_KEY    = os.getenv("DETERMINEX_DEEPSEEK_KEY", os.getenv("DEEPSEEK_API_KEY", ""))
-_DEEPSEEK_MODEL  = os.getenv("DETERMINEX_DEEPSEEK_MODEL", "deepseek-chat")
-_DEEPSEEK_URL    = "https://api.deepseek.com/v1"
+_ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
+_DEEPSEEK_KEY = os.getenv("DETERMINEX_DEEPSEEK_KEY", os.getenv("DEEPSEEK_API_KEY", ""))
+_DEEPSEEK_MODEL = os.getenv("DETERMINEX_DEEPSEEK_MODEL", "deepseek-chat")
+_DEEPSEEK_URL = "https://api.deepseek.com/v1"
 _DEFAULT_BACKEND = os.getenv("DETERMINEX_BCB_BACKEND", "anthropic")
 
 # Docker image for BigCodeBench execution
 BCB_DOCKER_IMAGE = "bigcode/bigcodebench-evaluate:latest"
 
 # Stdlib-only markers — tasks using ONLY these don't need Docker
-_STDLIB_ONLY_IMPORTS = frozenset([
-    "os", "sys", "re", "json", "math", "random", "time", "datetime",
-    "collections", "itertools", "functools", "pathlib", "typing",
-    "string", "io", "abc", "copy", "dataclasses", "enum", "hashlib",
-    "heapq", "operator", "struct", "textwrap", "threading", "queue",
-    "unittest", "contextlib", "inspect", "ast", "csv", "html", "xml",
-    "urllib", "http", "socket", "email", "base64", "gzip", "zipfile",
-    "tempfile", "shutil", "glob", "fnmatch", "stat", "errno",
-])
+_STDLIB_ONLY_IMPORTS = frozenset(
+    [
+        "os",
+        "sys",
+        "re",
+        "json",
+        "math",
+        "random",
+        "time",
+        "datetime",
+        "collections",
+        "itertools",
+        "functools",
+        "pathlib",
+        "typing",
+        "string",
+        "io",
+        "abc",
+        "copy",
+        "dataclasses",
+        "enum",
+        "hashlib",
+        "heapq",
+        "operator",
+        "struct",
+        "textwrap",
+        "threading",
+        "queue",
+        "unittest",
+        "contextlib",
+        "inspect",
+        "ast",
+        "csv",
+        "html",
+        "xml",
+        "urllib",
+        "http",
+        "socket",
+        "email",
+        "base64",
+        "gzip",
+        "zipfile",
+        "tempfile",
+        "shutil",
+        "glob",
+        "fnmatch",
+        "stat",
+        "errno",
+    ]
+)
 
 
 # ── LLM call (shared pattern with determinex_livecode_run) ───────────────────────
+
 
 def _call_llm(prompt: str, backend: str = _DEFAULT_BACKEND, temperature: float = 0.1) -> str:
     import urllib.request
@@ -116,7 +158,10 @@ def _call_llm(prompt: str, backend: str = _DEFAULT_BACKEND, temperature: float =
         req = urllib.request.Request(
             f"{_DEEPSEEK_URL}/chat/completions",
             data=json.dumps(body).encode(),
-            headers={"Content-Type": "application/json", "Authorization": f"Bearer {_DEEPSEEK_KEY}"},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {_DEEPSEEK_KEY}",
+            },
             method="POST",
         )
     else:
@@ -124,6 +169,7 @@ def _call_llm(prompt: str, backend: str = _DEFAULT_BACKEND, temperature: float =
         return ""
 
     import urllib.error
+
     try:
         with urllib.request.urlopen(req, timeout=120) as resp:
             data = json.loads(resp.read())
@@ -137,11 +183,12 @@ def _call_llm(prompt: str, backend: str = _DEFAULT_BACKEND, temperature: float =
 
 # ── Code extraction ────────────────────────────────────────────────────────────
 
+
 def _extract_python_code(response: str) -> str:
-    m = re.search(r'```python\s*(.*?)```', response, re.DOTALL)
+    m = re.search(r"```python\s*(.*?)```", response, re.DOTALL)
     if m:
         return m.group(1).strip()
-    m = re.search(r'```\s*(.*?)```', response, re.DOTALL)
+    m = re.search(r"```\s*(.*?)```", response, re.DOTALL)
     if m:
         return m.group(1).strip()
     return response.strip()
@@ -149,12 +196,15 @@ def _extract_python_code(response: str) -> str:
 
 # ── Docker availability ────────────────────────────────────────────────────────
 
+
 def _check_docker() -> bool:
     """Check if Docker is accessible via WSL."""
     try:
         result = subprocess.run(
             ["wsl", "-d", "Ubuntu", "docker", "ps"],
-            capture_output=True, text=True, timeout=15,
+            capture_output=True,
+            text=True,
+            timeout=15,
         )
         return result.returncode == 0
     except (FileNotFoundError, subprocess.TimeoutExpired):
@@ -167,13 +217,14 @@ def _pull_bcb_image(max_retries: int = 2) -> bool:
         try:
             result = subprocess.run(
                 ["wsl", "-d", "Ubuntu", "docker", "pull", BCB_DOCKER_IMAGE],
-                capture_output=True, text=True, timeout=300,
+                capture_output=True,
+                text=True,
+                timeout=300,
             )
             if result.returncode == 0:
                 log.info("BCB Docker image ready: %s", BCB_DOCKER_IMAGE)
                 return True
-            log.warning("docker pull failed (attempt %d): %s", attempt + 1,
-                        result.stderr[:200])
+            log.warning("docker pull failed (attempt %d): %s", attempt + 1, result.stderr[:200])
         except subprocess.TimeoutExpired:
             log.warning("docker pull timed out (attempt %d)", attempt + 1)
         except Exception as e:
@@ -183,10 +234,11 @@ def _pull_bcb_image(max_retries: int = 2) -> bool:
 
 # ── Execution ─────────────────────────────────────────────────────────────────
 
+
 def _is_stdlib_only(task: dict) -> bool:
     """Check if a task only imports stdlib modules (no Docker needed)."""
     code_prompt = task.get("code_prompt", "") + task.get("test", "")
-    imports = set(re.findall(r'^import\s+(\w+)|^from\s+(\w+)', code_prompt, re.MULTILINE))
+    imports = set(re.findall(r"^import\s+(\w+)|^from\s+(\w+)", code_prompt, re.MULTILINE))
     used = {a or b for a, b in imports if (a or b)}
     return used.issubset(_STDLIB_ONLY_IMPORTS)
 
@@ -195,15 +247,19 @@ def _run_local(solution_code: str, test_code: str, timeout: int = 30) -> tuple[b
     """Execute solution + tests locally (stdlib-only tasks)."""
     full_code = solution_code + "\n\n" + test_code
     with tempfile.NamedTemporaryFile(
-        suffix=".py", mode="w", delete=False,
-        prefix="bcb_local_", encoding="utf-8",
+        suffix=".py",
+        mode="w",
+        delete=False,
+        prefix="bcb_local_",
+        encoding="utf-8",
     ) as f:
         f.write(full_code)
         tmp_path = f.name
     try:
         result = subprocess.run(
             [sys.executable, tmp_path],
-            capture_output=True, text=True,
+            capture_output=True,
+            text=True,
             timeout=timeout,
         )
         output = (result.stdout + result.stderr)[-1000:]
@@ -224,28 +280,44 @@ def _run_docker(solution_code: str, test_code: str, timeout: int = 60) -> tuple[
     full_code = solution_code + "\n\n" + test_code
     # Write to a temp file accessible from WSL
     with tempfile.NamedTemporaryFile(
-        suffix=".py", mode="w", delete=False,
-        prefix="bcb_docker_", encoding="utf-8",
+        suffix=".py",
+        mode="w",
+        delete=False,
+        prefix="bcb_docker_",
+        encoding="utf-8",
         dir=tempfile.gettempdir(),
     ) as f:
         f.write(full_code)
         tmp_path = f.name
 
     # Convert Windows path to WSL path (any drive letter: C:→/mnt/c, D:→/mnt/d, T:→/mnt/t)
-    tmp_wsl = re.sub(r'^([A-Za-z]):', lambda m: f"/mnt/{m.group(1).lower()}", tmp_path.replace("\\", "/"))
+    tmp_wsl = re.sub(
+        r"^([A-Za-z]):", lambda m: f"/mnt/{m.group(1).lower()}", tmp_path.replace("\\", "/")
+    )
 
     try:
         result = subprocess.run(
             [
-                "wsl", "-d", "Ubuntu",
-                "docker", "run", "--rm",
-                "--memory", "2g", "--cpus", "1",
-                "--network", "none",
-                "-v", f"{tmp_wsl}:/solution.py:ro",
+                "wsl",
+                "-d",
+                "Ubuntu",
+                "docker",
+                "run",
+                "--rm",
+                "--memory",
+                "2g",
+                "--cpus",
+                "1",
+                "--network",
+                "none",
+                "-v",
+                f"{tmp_wsl}:/solution.py:ro",
                 BCB_DOCKER_IMAGE,
-                "python", "/solution.py",
+                "python",
+                "/solution.py",
             ],
-            capture_output=True, text=True,
+            capture_output=True,
+            text=True,
             timeout=timeout + 30,
         )
         output = (result.stdout + result.stderr)[-1000:]
@@ -279,10 +351,11 @@ def _execute_task(
 
 # ── Prompt builder ─────────────────────────────────────────────────────────────
 
+
 def _build_prompt(task: dict, failed_output: str = "") -> str:
-    task_id       = task.get("task_id", "unknown")
-    code_prompt   = task.get("code_prompt", "")   # function signature + docstring
-    libs          = task.get("libs", [])
+    task_id = task.get("task_id", "unknown")
+    code_prompt = task.get("code_prompt", "")  # function signature + docstring
+    libs = task.get("libs", [])
 
     lib_section = ""
     if libs:
@@ -309,6 +382,7 @@ def _build_prompt(task: dict, failed_output: str = "") -> str:
 
 
 # ── Single task solver ────────────────────────────────────────────────────────
+
 
 def solve_task(
     task: dict,
@@ -372,14 +446,16 @@ def solve_task(
 
 # ── Dataset loader ────────────────────────────────────────────────────────────
 
+
 def _load_dataset(
     n: int,
-    subset: Optional[str] = None,
+    subset: str | None = None,
 ) -> list[dict]:
     cache_path = Path(__file__).resolve().parent.parent / "data" / "bigcode_cache.jsonl"
 
     try:
         from datasets import load_dataset  # type: ignore[import]
+
         split = "v0.1.2_hard" if subset == "hard" else "v0.1.2"
         ds = load_dataset("bigcode/bigcodebench", split=split, trust_remote_code=True)
         instances = [dict(row) for row in ds]
@@ -407,9 +483,10 @@ def _load_dataset(
 
 # ── Main runner ───────────────────────────────────────────────────────────────
 
+
 def run_benchmark(
     n: int = 50,
-    subset: Optional[str] = None,
+    subset: str | None = None,
     workers: int = 2,
     backend: str = _DEFAULT_BACKEND,
     use_docker: bool = True,
@@ -417,8 +494,14 @@ def run_benchmark(
     output_path: str = "logs/bigcode/results.jsonl",
     timeout: int = 30,
 ) -> list[dict]:
-    log.info("BigCodeBench: n=%d subset=%s workers=%d backend=%s docker=%s",
-             n, subset or "all", workers, backend, use_docker)
+    log.info(
+        "BigCodeBench: n=%d subset=%s workers=%d backend=%s docker=%s",
+        n,
+        subset or "all",
+        workers,
+        backend,
+        use_docker,
+    )
 
     if use_docker:
         if not _check_docker():
@@ -446,21 +529,26 @@ def run_benchmark(
                 result = future.result(timeout=300)
                 results.append(result)
                 solved = sum(1 for r in results if r["passed"])
-                log.info("[%d/%d] %s → %s | %.1f%%",
-                         len(results), len(instances),
-                         result["task_id"],
-                         "PASS" if result["passed"] else "FAIL",
-                         100 * solved / len(results))
+                log.info(
+                    "[%d/%d] %s → %s | %.1f%%",
+                    len(results),
+                    len(instances),
+                    result["task_id"],
+                    "PASS" if result["passed"] else "FAIL",
+                    100 * solved / len(results),
+                )
             except Exception as e:
                 inst = futures[future]
                 log.warning("Task %s raised: %s", inst.get("task_id", "?"), e)
-                results.append({
-                    "task_id": inst.get("task_id", "unknown"),
-                    "solution": "",
-                    "passed": False,
-                    "message": str(e),
-                    "backend": backend,
-                })
+                results.append(
+                    {
+                        "task_id": inst.get("task_id", "unknown"),
+                        "solution": "",
+                        "passed": False,
+                        "message": str(e),
+                        "backend": backend,
+                    }
+                )
 
     with open(output_path, "w", encoding="utf-8") as f:
         for r in results:
@@ -476,6 +564,7 @@ def run_benchmark(
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
+
 
 def main() -> None:
     p = argparse.ArgumentParser(description="Determinex BigCodeBench harness")

@@ -19,13 +19,14 @@ Public API:
     g.charge(model, tokens_in, tokens_out, instance_id)
     print(g.status())
 """
+
 from __future__ import annotations
 
 import json
 import os
 import sys
 import time
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -38,13 +39,13 @@ LEDGER_DIR = DETERMINEX_ROOT / "logs" / "api_ledger"
 # USD per 1M tokens (cache-miss). Add new models here as we use them.
 PRICING: dict[str, tuple[float, float]] = {
     # DeepSeek API now only supports v4-flash and v4-pro (old names alias to flash).
-    "deepseek-v4-flash":  (0.14,  0.28),  # cheap fast variant (former deepseek-chat replacement)
-    "deepseek-v4-pro":    (0.55,  2.19),  # top-tier reasoning (former deepseek-reasoner replacement)
+    "deepseek-v4-flash": (0.14, 0.28),  # cheap fast variant (former deepseek-chat replacement)
+    "deepseek-v4-pro": (0.55, 2.19),  # top-tier reasoning (former deepseek-reasoner replacement)
     # Legacy aliases (route to flash on backend) — kept for back-compat in budget tracking
-    "deepseek-chat":      (0.14,  0.28),
-    "deepseek-reasoner":  (0.14,  0.28),
-    "claude-sonnet-4-6":  (3.00, 15.00),
-    "claude-opus-4-6":    (15.00, 75.00),
+    "deepseek-chat": (0.14, 0.28),
+    "deepseek-reasoner": (0.14, 0.28),
+    "claude-sonnet-4-6": (3.00, 15.00),
+    "claude-opus-4-6": (15.00, 75.00),
 }
 
 # Rate applied to a cloud model with no PRICING row. Non-zero on purpose -- see
@@ -56,8 +57,13 @@ UNKNOWN_CLOUD_RATE: tuple[float, float] = (8.00, 8.00)
 # `determinex-engineer-v11-dsl` and friends as the DEFAULT role models, and those start
 # with "determinex-", not "determinex/".
 LOCAL_MODEL_PREFIXES: tuple[str, ...] = (
-    "ollama/", "ollama_chat/", "hosted_vllm/", "text-completion-openai/",
-    "determinex/", "local/", "determinex-",
+    "ollama/",
+    "ollama_chat/",
+    "hosted_vllm/",
+    "text-completion-openai/",
+    "determinex/",
+    "local/",
+    "determinex-",
 )
 
 
@@ -154,9 +160,17 @@ class BudgetGuard:
         max_per_task: int | None = None,
     ):
         self.run_name = run_name
-        self.max_usd      = float(max_usd      if max_usd      is not None else os.environ.get("DETERMINEX_BUDGET_USD", "2.50"))
-        self.max_calls    = int(  max_calls    if max_calls    is not None else os.environ.get("DETERMINEX_BUDGET_CALLS", "200"))
-        self.max_per_task = int(  max_per_task if max_per_task is not None else os.environ.get("DETERMINEX_BUDGET_PER_TASK", "6"))
+        self.max_usd = float(
+            max_usd if max_usd is not None else os.environ.get("DETERMINEX_BUDGET_USD", "2.50")
+        )
+        self.max_calls = int(
+            max_calls if max_calls is not None else os.environ.get("DETERMINEX_BUDGET_CALLS", "200")
+        )
+        self.max_per_task = int(
+            max_per_task
+            if max_per_task is not None
+            else os.environ.get("DETERMINEX_BUDGET_PER_TASK", "6")
+        )
         STATE_DIR.mkdir(parents=True, exist_ok=True)
         self._path = STATE_DIR / f"{run_name}.json"
         self.state = self._load()
@@ -169,8 +183,10 @@ class BudgetGuard:
             except Exception:
                 pass
         return BudgetState(
-            run_name=self.run_name, max_usd=self.max_usd,
-            max_calls=self.max_calls, max_per_task=self.max_per_task,
+            run_name=self.run_name,
+            max_usd=self.max_usd,
+            max_calls=self.max_calls,
+            max_per_task=self.max_per_task,
         )
 
     def _save(self) -> None:
@@ -179,12 +195,18 @@ class BudgetGuard:
     def allow(self, instance_id: str) -> tuple[bool, str]:
         """Check if a new cloud call is allowed. Returns (ok, reason_if_not)."""
         if self.state.spend_usd >= self.state.max_usd:
-            return False, f"global USD cap reached: ${self.state.spend_usd:.4f} ≥ ${self.state.max_usd}"
+            return (
+                False,
+                f"global USD cap reached: ${self.state.spend_usd:.4f} ≥ ${self.state.max_usd}",
+            )
         if self.state.calls >= self.state.max_calls:
             return False, f"global call cap reached: {self.state.calls} ≥ {self.state.max_calls}"
         per_task = self.state.by_task.get(instance_id, 0)
         if per_task >= self.state.max_per_task:
-            return False, f"per-task cap reached for {instance_id}: {per_task} ≥ {self.state.max_per_task}"
+            return (
+                False,
+                f"per-task cap reached for {instance_id}: {per_task} ≥ {self.state.max_per_task}",
+            )
         return True, ""
 
     def estimate_cost(self, model: str, tokens_in: int, tokens_out: int) -> float:
@@ -218,7 +240,9 @@ class BudgetGuard:
         self.state.calls += 1
         self.state.spend_usd += cost
         self.state.by_task[instance_id] = self.state.by_task.get(instance_id, 0) + 1
-        bm = self.state.by_model.setdefault(model, {"calls": 0, "in_tok": 0, "out_tok": 0, "usd": 0.0})
+        bm = self.state.by_model.setdefault(
+            model, {"calls": 0, "in_tok": 0, "out_tok": 0, "usd": 0.0}
+        )
         bm["calls"] += 1
         bm["in_tok"] += tokens_in
         bm["out_tok"] += tokens_out
@@ -231,15 +255,17 @@ class BudgetGuard:
         elapsed = time.time() - s.started_at
         lines = [
             f"=== Budget guard: {self.run_name} ===",
-            f"Spent: ${s.spend_usd:.4f} of ${s.max_usd:.2f}  ({100*s.spend_usd/max(s.max_usd,1e-9):.1f}%)",
+            f"Spent: ${s.spend_usd:.4f} of ${s.max_usd:.2f}  ({100 * s.spend_usd / max(s.max_usd, 1e-9):.1f}%)",
             f"Calls: {s.calls} of {s.max_calls}",
             f"Tasks that hit cloud: {len(s.by_task)}",
-            f"Elapsed: {elapsed:.0f}s ({elapsed/60:.1f}m)",
+            f"Elapsed: {elapsed:.0f}s ({elapsed / 60:.1f}m)",
         ]
         if s.by_model:
             lines.append("By model:")
             for m, d in s.by_model.items():
-                lines.append(f"  {m}: {d['calls']} calls, in={d['in_tok']:,} out={d['out_tok']:,} cost=${d['usd']:.4f}")
+                lines.append(
+                    f"  {m}: {d['calls']} calls, in={d['in_tok']:,} out={d['out_tok']:,} cost=${d['usd']:.4f}"
+                )
         return "\n".join(lines)
 
     def ledger(
@@ -294,6 +320,7 @@ class BudgetGuard:
 
 if __name__ == "__main__":
     import argparse
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--status", help="Run name to show status for")
     args = ap.parse_args()

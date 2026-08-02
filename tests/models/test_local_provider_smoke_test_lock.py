@@ -1,12 +1,11 @@
 """Tests for LOCAL_PROVIDER_SMOKE_TEST_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -39,7 +38,8 @@ STATUS_TOKENS = frozenset(LOCAL_PROVIDER_SMOKE_STATUS_TOKENS)
 def _config(tmp_path: Path, provider: str = "ollama"):
     w = LocalModelConfigWizard(WizardConfig(config_root=tmp_path))
     return w.write_config(
-        provider=provider, model_id="determinex-engineer-v11-dsl",
+        provider=provider,
+        model_id="determinex-engineer-v11-dsl",
         capabilities=("code_generation",),
         task_classes_allowed=("VERIFIER_SUMMARY",),
         enabled=True,
@@ -96,12 +96,17 @@ def test_network_provider_blocks(tmp_path):
     # but for this test we need a config that passes wizard but is network. We
     # instead inject by hand:
     from models.local_model_config_record import LocalModelConfigRecord
+
     cfg = LocalModelConfigRecord(
-        provider="ollama", model_id="determinex-engineer-v11-dsl",
-        model_digest_or_revision="", capabilities=("code_generation",),
+        provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
+        model_digest_or_revision="",
+        capabilities=("code_generation",),
         task_classes_allowed=("VERIFIER_SUMMARY",),
-        network_required=True, local_only=False,
-        enabled=True, dry_run_default=True,
+        network_required=True,
+        local_only=False,
+        enabled=True,
+        dry_run_default=True,
         created_at="2026-05-28T00:00:00+00:00",
         stale_after="2026-11-24T00:00:00+00:00",
         decision="LOCAL_MODEL_CONFIG_WRITTEN",
@@ -113,8 +118,12 @@ def test_network_provider_blocks(tmp_path):
 
 def test_output_trusted_false_on_every_decision(tmp_path):
     cfg = _config(tmp_path)
-    for p in [DeterministicProvider(canned={"status": "X"}), UnavailableProvider(),
-              TimeoutProvider(), MalformedProvider()]:
+    for p in [
+        DeterministicProvider(canned={"status": "X"}),
+        UnavailableProvider(),
+        TimeoutProvider(),
+        MalformedProvider(),
+    ]:
         res = LocalProviderSmokeTest().run(cfg, p)
         assert res.output_trusted is False
 

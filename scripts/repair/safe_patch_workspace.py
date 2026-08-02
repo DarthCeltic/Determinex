@@ -26,14 +26,15 @@ Public surface:
       SAFE_PATCH_STATUS_TOKENS, stub_verifier_pass, stub_verifier_fail,
   )
 """
+
 from __future__ import annotations
 
 import difflib
 import hashlib
 import shutil
-from dataclasses import dataclass, field
+from collections.abc import Callable, Iterable, Sequence
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable, Iterable, Sequence
 
 from .safe_patch_record import (
     SAFE_PATCH_STATUS_TOKENS,
@@ -41,15 +42,15 @@ from .safe_patch_record import (
     SafePatchResult,
 )
 
-
 _FORBIDDEN_PATH_SEGMENTS = frozenset({"..", ""})  # "" guards leading "/"
-_MAX_PATCH_BYTES = 2_000_000   # 2 MB per file — refuse to load larger
+_MAX_PATCH_BYTES = 2_000_000  # 2 MB per file — refuse to load larger
 _MAX_TOTAL_BYTES = 16_000_000  # 16 MB across all patches
 
 
 @dataclass(frozen=True)
 class VerifierResult:
     """Verifier outcome on the temp workspace."""
+
     passed: bool
     output: str = ""
 
@@ -285,8 +286,9 @@ class SafePatchWorkspace:
         for patch in patches:
             cleaned, reason = _normalize_rel(patch.path)
             if reason:
-                rejected.append({"path": patch.path, "reason": reason,
-                                 "status": "PATCH_BLOCKED_PATH_ESCAPE"})
+                rejected.append(
+                    {"path": patch.path, "reason": reason, "status": "PATCH_BLOCKED_PATH_ESCAPE"}
+                )
                 if rollback_on_failure:
                     self.rollback()
                 return self._final_result(
@@ -304,8 +306,13 @@ class SafePatchWorkspace:
             target = self._temp / cleaned
             # Symlink escape check on target's parent chain.
             if not _path_is_inside(target, self._temp):
-                rejected.append({"path": patch.path, "reason": "resolves outside temp",
-                                 "status": "PATCH_BLOCKED_SYMLINK_ESCAPE"})
+                rejected.append(
+                    {
+                        "path": patch.path,
+                        "reason": "resolves outside temp",
+                        "status": "PATCH_BLOCKED_SYMLINK_ESCAPE",
+                    }
+                )
                 if rollback_on_failure:
                     self.rollback()
                 return self._final_result(
@@ -321,8 +328,13 @@ class SafePatchWorkspace:
                 )
             # If target exists as a symlink, refuse.
             if target.exists() and target.is_symlink():
-                rejected.append({"path": patch.path, "reason": "target is symlink",
-                                 "status": "PATCH_BLOCKED_SYMLINK_ESCAPE"})
+                rejected.append(
+                    {
+                        "path": patch.path,
+                        "reason": "target is symlink",
+                        "status": "PATCH_BLOCKED_SYMLINK_ESCAPE",
+                    }
+                )
                 if rollback_on_failure:
                     self.rollback()
                 return self._final_result(
@@ -339,8 +351,13 @@ class SafePatchWorkspace:
 
             # Binary content guard.
             if _is_binary_text(patch.new_content):
-                rejected.append({"path": patch.path, "reason": "NUL byte in content",
-                                 "status": "PATCH_BLOCKED_BINARY_CONTENT"})
+                rejected.append(
+                    {
+                        "path": patch.path,
+                        "reason": "NUL byte in content",
+                        "status": "PATCH_BLOCKED_BINARY_CONTENT",
+                    }
+                )
                 if rollback_on_failure:
                     self.rollback()
                 return self._final_result(
@@ -357,8 +374,9 @@ class SafePatchWorkspace:
 
             # Per-file size guard.
             if len(patch.new_content.encode("utf-8")) > _MAX_PATCH_BYTES:
-                rejected.append({"path": patch.path, "reason": "file size > 2MB",
-                                 "status": "PATCH_REJECTED"})
+                rejected.append(
+                    {"path": patch.path, "reason": "file size > 2MB", "status": "PATCH_REJECTED"}
+                )
                 if rollback_on_failure:
                     self.rollback()
                 return self._final_result(
@@ -390,9 +408,7 @@ class SafePatchWorkspace:
             v_passed = v_result.passed
             v_output = (v_result.output or "")[:4000]
             v_status = (
-                "PATCH_VERIFIER_PASSED_TEMP_ONLY"
-                if v_result.passed
-                else "PATCH_VERIFIER_FAILED"
+                "PATCH_VERIFIER_PASSED_TEMP_ONLY" if v_result.passed else "PATCH_VERIFIER_FAILED"
             )
 
         # Final status.
@@ -452,9 +468,7 @@ class SafePatchWorkspace:
                 before_text = ""
             try:
                 after_text = (
-                    (after / rel).read_text(encoding="utf-8")
-                    if (after / rel).is_file()
-                    else ""
+                    (after / rel).read_text(encoding="utf-8") if (after / rel).is_file() else ""
                 )
             except (OSError, UnicodeDecodeError):
                 after_text = ""

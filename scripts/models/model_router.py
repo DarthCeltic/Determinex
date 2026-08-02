@@ -24,15 +24,15 @@ Invariants (locked by tests; do not weaken):
      a configured role *requires* network must be enforced by the caller
      based on ``allow_network_models``.
 """
+
 from __future__ import annotations
 
 import enum
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
-from typing import Iterable, Mapping
 
 from .model_inventory import LocalModelInventory
 from .model_router_record import RouteRecord
-
 
 # ---------------------------------------------------------------------------
 # Enums
@@ -143,27 +143,31 @@ DEFAULT_ROLE_TO_MODEL_ID: Mapping[ModelRole, str] = {
 # ---------------------------------------------------------------------------
 
 #: Currently-supported model ids per CLAUDE.md role assignments.
-CURRENT_MODEL_IDS: frozenset[str] = frozenset({
-    "determinex-engineer-v11-dsl",
-    "determinex-observer-v6-dsl",
-    "determinex-sentinel-v5-dsl",
-})
+CURRENT_MODEL_IDS: frozenset[str] = frozenset(
+    {
+        "determinex-engineer-v11-dsl",
+        "determinex-observer-v6-dsl",
+        "determinex-sentinel-v5-dsl",
+    }
+)
 
 #: Explicitly superseded ids. The router flags these as stale even if
 #: someone configures them via env var. (Discovered at audit time:
 #: scripts/codebase_explorer.py lines 58-59 referenced v10/v5 defaults.)
-STALE_MODEL_IDS: frozenset[str] = frozenset({
-    "determinex-engineer-v10-dsl",
-    "determinex-engineer-v9-dsl",
-    "determinex-engineer-v8",
-    "determinex-observer-v5-dsl",
-    "determinex-observer-v5",
-    "determinex-observer-v4",
-    "determinex-observer-v3",
-    "determinex-sentinel-v4",
-    "determinex-sentinel-v3",
-    "determinex-sentinel-v2",
-})
+STALE_MODEL_IDS: frozenset[str] = frozenset(
+    {
+        "determinex-engineer-v10-dsl",
+        "determinex-engineer-v9-dsl",
+        "determinex-engineer-v8",
+        "determinex-observer-v5-dsl",
+        "determinex-observer-v5",
+        "determinex-observer-v4",
+        "determinex-observer-v3",
+        "determinex-sentinel-v4",
+        "determinex-sentinel-v3",
+        "determinex-sentinel-v2",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
@@ -260,8 +264,7 @@ class ModelRouter:
                 if idx > 0:
                     used_fallback = True
                     notes.append(
-                        f"Reached NO_MODEL after exhausting roles "
-                        f"{[r.value for r in chain[:idx]]}."
+                        f"Reached NO_MODEL after exhausting roles {[r.value for r in chain[:idx]]}."
                     )
                 break
 
@@ -271,8 +274,7 @@ class ModelRouter:
             if model_id in STALE_MODEL_IDS:
                 # Blocked decision is final regardless of mode.
                 notes.append(
-                    f"Role {role.value} maps to stale id {model_id!r} "
-                    f"(see STALE_MODEL_IDS)."
+                    f"Role {role.value} maps to stale id {model_id!r} (see STALE_MODEL_IDS)."
                 )
                 return self._blocked_record(
                     task_class=tc,
@@ -310,9 +312,7 @@ class ModelRouter:
                         f"preferred {chain[0].value!r} unavailable."
                     )
                 break
-            notes.append(
-                f"Role {role.value} (model {model_id!r}) not present in inventory."
-            )
+            notes.append(f"Role {role.value} (model {model_id!r}) not present in inventory.")
 
         # Nothing in the chain matched (no NO_MODEL terminus).
         if chosen_role is None:
@@ -360,9 +360,7 @@ class ModelRouter:
 
         # rm is LIVE
         decision = (
-            RouteDecision.ROUTE_FALLBACK_SELECTED
-            if used_fallback
-            else RouteDecision.ROUTE_SELECTED
+            RouteDecision.ROUTE_FALLBACK_SELECTED if used_fallback else RouteDecision.ROUTE_SELECTED
         )
         return RouteRecord(
             task_class=tc.value,

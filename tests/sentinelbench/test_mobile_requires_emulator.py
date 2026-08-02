@@ -1,5 +1,7 @@
 """SentinelBench: mobile agents must have sandbox_active=True (emulator isolation)."""
+
 from agents.base_agent import ActionType, AgentObservation, EnvType, VisualTaskSpec
+
 from tests.sentinelbench.helpers import make_action
 
 

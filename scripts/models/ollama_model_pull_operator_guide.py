@@ -7,6 +7,7 @@ PULL the model — that is intentional. Auto-pull is left for a
 later, separately-locked rung when local policy explicitly
 opt-in's to autopull.
 """
+
 from __future__ import annotations
 
 import re
@@ -18,7 +19,6 @@ from .ollama_model_pull_operator_guide_record import (
     OLLAMA_MODEL_PULL_OPERATOR_GUIDE_STATUS_TOKENS,
     OllamaModelPullOperatorGuideRecord,
 )
-
 
 _SAFE_ID_RE = re.compile(r"^[a-zA-Z0-9._:-]+$")
 
@@ -39,7 +39,8 @@ def guide(
     if selection is None:
         return _blocked(
             "OPERATOR_GUIDE_BLOCKED_PROVIDER_UNAVAILABLE",
-            model_id="", provider="",
+            model_id="",
+            provider="",
             selection_decision="",
             selection_host_state="",
             note="selection record missing",
@@ -112,8 +113,7 @@ def guide(
     # `operator_action`; we re-derive the id from `candidate_model_ids`
     # because the selected_model_id field is intentionally empty on
     # the blocked path.
-    candidate = (selection.candidate_model_ids[0]
-                 if selection.candidate_model_ids else "")
+    candidate = selection.candidate_model_ids[0] if selection.candidate_model_ids else ""
     # Defensive ID safety check: refuse to emit a guide for anything
     # that doesn't look like a plain ollama tag.
     if not candidate or not _SAFE_ID_RE.match(candidate):
@@ -143,8 +143,7 @@ def guide(
         auto_pull_performed=False,  # this lock NEVER auto-pulls
         training_eligibility_opened=False,
         notes=(
-            f"operator must run `ollama pull {candidate}` to install "
-            "the canonical model",
+            f"operator must run `ollama pull {candidate}` to install the canonical model",
             "Determinex will NOT auto-pull",
             "downstream healthcheck + admission gates still apply",
         ),

@@ -13,7 +13,6 @@ from pathlib import Path
 from ..language_profiles import default_validation_commands
 from ..task_spec import ResourceLimits, TaskSpec
 
-
 IDE_LANGUAGES = {"java", "c", "cpp", "c++", "typescript", "javascript", "go", "rust", "python"}
 
 
@@ -41,6 +40,8 @@ def ide_repair_task_spec(
         scorer="all_commands_pass",
         privacy_policy="cloak",
         cloak_mode="project",
-        resource_limits=ResourceLimits(timeout_seconds=timeout_seconds, max_attempts=4, docker_cpus=2),
+        resource_limits=ResourceLimits(
+            timeout_seconds=timeout_seconds, max_attempts=4, docker_cpus=2
+        ),
         metadata={"adapter": "ide_repair", "ide_name": ide_name, "task_shape": "diagnostic_repair"},
     )

@@ -1,4 +1,5 @@
 """Tests for CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -20,7 +21,9 @@ assemble = final_mod.assemble_live_model_ready_final_state
 upstream_locks = final_mod.upstream_locks
 TOKENS = rec_mod.CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_TOKENS
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "claude_lane_live_model_ready_final_state"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -82,7 +85,10 @@ def test_state_json_round_trip():
 
 
 def test_modules_do_not_import_subprocess_or_urllib():
-    for fname in ("claude_lane_live_model_ready_final_state.py", "claude_lane_live_model_ready_final_state_record.py"):
+    for fname in (
+        "claude_lane_live_model_ready_final_state.py",
+        "claude_lane_live_model_ready_final_state_record.py",
+    ):
         src = (_REPO_ROOT / "scripts" / "dev" / fname).read_text(encoding="utf-8")
         assert "import subprocess" not in src
         assert "from subprocess" not in src
@@ -93,11 +99,14 @@ def test_modules_do_not_import_subprocess_or_urllib():
 
 def test_assembly_does_not_run_subprocess(monkeypatch):
     import subprocess as _sp
+
     called = {"count": 0}
     original_run = _sp.run
+
     def _spy(*args, **kwargs):  # pragma: no cover
         called["count"] += 1
         return original_run(*args, **kwargs)
+
     monkeypatch.setattr(_sp, "run", _spy)
     assemble()
     assert called["count"] == 0

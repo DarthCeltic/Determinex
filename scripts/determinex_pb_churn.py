@@ -11,6 +11,7 @@ restartable, keeps failure evidence small, and prevents the old broad-eval
 failure mode where a watch process could spend official evals before the corpus
 or local oracle had approved the candidate.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -37,6 +38,7 @@ STATE_PATH = LOG_DIR / "pb_churn_state.json"
 EVENTS_PATH = LOG_DIR / "pb_churn_events.jsonl"
 HANDBACK = ROOT / "CODEX_HANDBACK.md"
 WATCH_LOCK_PATH = LOG_DIR / "pb_churn_watch.lock"
+
 
 def _configured_secret(name: str) -> bool:
     if os.environ.get(name):
@@ -73,8 +75,7 @@ def default_model_ladder() -> str:
     # Local lane (2026-07-02): the 7b->14b ESCALATION LADDER, not a flat single model.
     # The 7b (4.7GB) fits fully in a 6GB GPU (~100% GPU); the 14b (9-13GB) runs 70/30
     # CPU-bound. Router semantics: 7b clears the cheap bulk, 14b only the missed tail.
-    local_ladder = ("ollama/qwen2.5-coder:7b-instruct:1:1,"
-                    "ollama/qwen2.5-coder:14b-instruct:2:3")
+    local_ladder = "ollama/qwen2.5-coder:7b-instruct:1:1,ollama/qwen2.5-coder:14b-instruct:2:3"
     if _configured_secret("OPENROUTER_API_KEY"):
         return f"openrouter/qwen/qwen3-coder:free,{local_ladder}"
     if os.environ.get("DETERMINEX_PB_CHURN_ALLOW_CLOUD") == "1" and (
@@ -96,7 +97,9 @@ TERMINAL_STATUSES = {
 DEFAULT_COOLDOWN_SECONDS = int(os.environ.get("DETERMINEX_PB_CHURN_COOLDOWN_SECONDS", "86400"))
 ALWAYS_COOLDOWN_ACTIONS = {"official-eval"}
 NO_COMMAND_COOLDOWN_ACTIONS = {"consult-only", "hold-official-eval", "hold-low-roi-cloud-reimpl"}
-DEFAULT_CLOUD_REIMPL_MAX_EXAMPLES = int(os.environ.get("DETERMINEX_PB_CLOUD_REIMPL_MAX_EXAMPLES", "80"))
+DEFAULT_CLOUD_REIMPL_MAX_EXAMPLES = int(
+    os.environ.get("DETERMINEX_PB_CLOUD_REIMPL_MAX_EXAMPLES", "80")
+)
 
 
 @dataclass(frozen=True)
@@ -128,7 +131,7 @@ class ChurnContext:
 
 
 def _now() -> str:
-    return _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")
+    return _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds")
 
 
 def _pid_running(pid: int) -> bool:
@@ -143,6 +146,7 @@ def _pid_running(pid: int) -> bool:
         try:
             import ctypes
             from ctypes import wintypes
+
             PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
             k32 = ctypes.windll.kernel32
             h = k32.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, int(pid))
@@ -252,7 +256,7 @@ def _parse_state_ts(value: Any) -> _dt.datetime | None:
     except ValueError:
         return None
     if ts.tzinfo is None:
-        return ts.replace(tzinfo=_dt.timezone.utc)
+        return ts.replace(tzinfo=_dt.UTC)
     return ts
 
 
@@ -287,9 +291,9 @@ def should_cool_down_run(
     ts = _parse_state_ts(run.get("ts"))
     if ts is None:
         return False
-    now = now or _dt.datetime.now(_dt.timezone.utc)
+    now = now or _dt.datetime.now(_dt.UTC)
     if now.tzinfo is None:
-        now = now.replace(tzinfo=_dt.timezone.utc)
+        now = now.replace(tzinfo=_dt.UTC)
     if (now - ts).total_seconds() >= cooldown_s:
         return False
 
@@ -312,7 +316,11 @@ def should_cool_down_run(
         if action_name == "extract-spec" and slug and not _local_spec_path(slug):
             return True
         if action_name == "local-oracle":
-            oracle = run.get("oracle_result_saved") if isinstance(run.get("oracle_result_saved"), dict) else {}
+            oracle = (
+                run.get("oracle_result_saved")
+                if isinstance(run.get("oracle_result_saved"), dict)
+                else {}
+            )
             try:
                 total = int((oracle or {}).get("total") or 0)
             except (TypeError, ValueError):
@@ -458,7 +466,9 @@ def _local_spec_path(slug: str, answer: dict[str, Any] | None = None) -> str | N
         p = SPECS / f"{name}.json"
         if p.exists() and not _spec_is_empty_harvest(p):
             return str(p)
-        matches = sorted(SPECS.glob(f"{name}.*.json"), key=lambda item: item.stat().st_mtime, reverse=True)
+        matches = sorted(
+            SPECS.glob(f"{name}.*.json"), key=lambda item: item.stat().st_mtime, reverse=True
+        )
         for m in matches:
             if not _spec_is_empty_harvest(m):
                 return str(m)
@@ -477,10 +487,12 @@ def _readiness_priority(slug: str) -> int:
     if spec_path:
         examples = _spec_example_count(spec_path)
         if examples is not None:
-            max_examples = int(os.environ.get(
-                "DETERMINEX_PB_CLOUD_REIMPL_MAX_EXAMPLES",
-                str(DEFAULT_CLOUD_REIMPL_MAX_EXAMPLES),
-            ))
+            max_examples = int(
+                os.environ.get(
+                    "DETERMINEX_PB_CLOUD_REIMPL_MAX_EXAMPLES",
+                    str(DEFAULT_CLOUD_REIMPL_MAX_EXAMPLES),
+                )
+            )
             if examples > max_examples:
                 return 5
         return 2
@@ -493,7 +505,11 @@ def _lang_from_spec(spec_path: str | None) -> str | None:
     if not spec_path:
         return None
     try:
-        data = json.loads((ROOT / spec_path if not Path(spec_path).is_absolute() else Path(spec_path)).read_text(encoding="utf-8"))
+        data = json.loads(
+            (ROOT / spec_path if not Path(spec_path).is_absolute() else Path(spec_path)).read_text(
+                encoding="utf-8"
+            )
+        )
     except Exception:
         return None
     lang = str(data.get("language") or "").strip().lower()
@@ -504,7 +520,11 @@ def _spec_example_count(spec_path: str | None) -> int | None:
     if not spec_path:
         return None
     try:
-        data = json.loads((ROOT / spec_path if not Path(spec_path).is_absolute() else Path(spec_path)).read_text(encoding="utf-8"))
+        data = json.loads(
+            (ROOT / spec_path if not Path(spec_path).is_absolute() else Path(spec_path)).read_text(
+                encoding="utf-8"
+            )
+        )
     except Exception:
         return None
     if not isinstance(data, dict):
@@ -526,10 +546,19 @@ _NATIVE_SOURCE = {
     # oracle. The in-search compile (observe._compile_native) and the official eval
     # template already `go mod init` first; this path was the lone straggler. Match
     # them (GOPROXY=off = offline, stdlib resolves from GOROOT). Fixed 2026-07-03.
-    "go": ("main.go", "export GO111MODULE=on GOFLAGS=-mod=mod GOPROXY=off\n"
-                      "go mod init m 2>/dev/null || true\ngo build -o executable ."),
-    "c": ("main.c", "{ command -v cc >/dev/null && cc -O2 -o executable main.c; } || gcc -O2 -o executable main.c"),
-    "cpp": ("main.cpp", "{ command -v c++ >/dev/null && c++ -O2 -std=c++17 -o executable main.cpp; } || g++ -O2 -std=c++17 -o executable main.cpp"),
+    "go": (
+        "main.go",
+        "export GO111MODULE=on GOFLAGS=-mod=mod GOPROXY=off\n"
+        "go mod init m 2>/dev/null || true\ngo build -o executable .",
+    ),
+    "c": (
+        "main.c",
+        "{ command -v cc >/dev/null && cc -O2 -o executable main.c; } || gcc -O2 -o executable main.c",
+    ),
+    "cpp": (
+        "main.cpp",
+        "{ command -v c++ >/dev/null && c++ -O2 -std=c++17 -o executable main.cpp; } || g++ -O2 -std=c++17 -o executable main.cpp",
+    ),
     "haskell": ("main.hs", "ghc -O2 -o executable main.hs"),
 }
 
@@ -538,7 +567,14 @@ def _infer_candidate_lang(path: Path, preferred: str | None = None) -> str:
     preferred = (preferred or "").lower()
     if preferred in _NATIVE_SOURCE or preferred == "python":
         return preferred
-    suffix_map = {".rs": "rust", ".go": "go", ".c": "c", ".cc": "cpp", ".cpp": "cpp", ".hs": "haskell"}
+    suffix_map = {
+        ".rs": "rust",
+        ".go": "go",
+        ".c": "c",
+        ".cc": "cpp",
+        ".cpp": "cpp",
+        ".hs": "haskell",
+    }
     if path.suffix.lower() in suffix_map:
         return suffix_map[path.suffix.lower()]
     try:
@@ -550,7 +586,11 @@ def _infer_candidate_lang(path: Path, preferred: str | None = None) -> str:
     if re.search(r"(?m)^\s*package\s+main\b", head):
         return "go"
     if "#include" in head and ("int main" in head or " main(" in head):
-        return "cpp" if any(tok in head for tok in ("std::", "#include <iostream>", "using namespace std")) else "c"
+        return (
+            "cpp"
+            if any(tok in head for tok in ("std::", "#include <iostream>", "using namespace std"))
+            else "c"
+        )
     return preferred or "python"
 
 
@@ -578,9 +618,13 @@ def _candidate_for_oracle(candidate: str | None, lang: str | None, slug: str) ->
     src_name, compile_cmd = _NATIVE_SOURCE[inferred]
     out = ROOT / "logs" / "reimpl_native" / _safe_slug(slug)
     out.mkdir(parents=True, exist_ok=True)
-    (out / src_name).write_text(p.read_text(encoding="utf-8", errors="replace"), encoding="utf-8", newline="\n")
+    (out / src_name).write_text(
+        p.read_text(encoding="utf-8", errors="replace"), encoding="utf-8", newline="\n"
+    )
     compile_sh = out / "compile.sh"
-    compile_sh.write_text(f"#!/bin/sh\nset -eu\ncd \"$(dirname \"$0\")\"\n{compile_cmd}\n", encoding="utf-8", newline="\n")
+    compile_sh.write_text(
+        f'#!/bin/sh\nset -eu\ncd "$(dirname "$0")"\n{compile_cmd}\n', encoding="utf-8", newline="\n"
+    )
     try:
         compile_sh.chmod(0o755)
     except OSError:
@@ -611,8 +655,14 @@ def _candidate_for(slug: str, answer: dict[str, Any] | None = None) -> str | Non
     candidates: list[Path] = []
     reimpl_dir = ROOT / "logs" / "reimpl"
     if reimpl_dir.is_dir():
-        candidates.extend(sorted(reimpl_dir.glob(f"{short}_drive.*"), key=lambda p: p.stat().st_mtime, reverse=True))
-        candidates.extend(sorted(reimpl_dir.glob(f"{short}_*.py"), key=lambda p: p.stat().st_mtime, reverse=True))
+        candidates.extend(
+            sorted(
+                reimpl_dir.glob(f"{short}_drive.*"), key=lambda p: p.stat().st_mtime, reverse=True
+            )
+        )
+        candidates.extend(
+            sorted(reimpl_dir.glob(f"{short}_*.py"), key=lambda p: p.stat().st_mtime, reverse=True)
+        )
     if shape.get("class") == "reimpl-candidate":
         d = OVERRIDES / slug
         if (d / "compile.sh").exists():
@@ -672,7 +722,9 @@ def save_oracle_result(slug: str, *, rc: int, stdout: str, stderr: str) -> dict[
         "stdout_tail": stdout[-3000:],
         "stderr_tail": stderr[-1200:],
     }
-    _oracle_result_path(slug).write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    _oracle_result_path(slug).write_text(
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     return data
 
 
@@ -686,17 +738,20 @@ def _candidate_newer_than(candidate: str, oracle_ts: str | None) -> bool:
         p = Path(candidate)
         if not p.is_absolute():
             p = ROOT / candidate
-        mtime = _dt.datetime.fromtimestamp(p.stat().st_mtime, _dt.timezone.utc)
+        mtime = _dt.datetime.fromtimestamp(p.stat().st_mtime, _dt.UTC)
         verdict_ts = _dt.datetime.fromisoformat(oracle_ts)
         if verdict_ts.tzinfo is None:
-            verdict_ts = verdict_ts.replace(tzinfo=_dt.timezone.utc)
+            verdict_ts = verdict_ts.replace(tzinfo=_dt.UTC)
         return mtime > verdict_ts
     except Exception:
         return False
 
 
 def _uses_cloud_station_avoidance(model: str) -> bool:
-    return any(part.strip().lower().startswith(("gemini-", "gemini/")) for part in str(model or "").split(","))
+    return any(
+        part.strip().lower().startswith(("gemini-", "gemini/"))
+        for part in str(model or "").split(",")
+    )
 
 
 def _uses_paid_cloud_model(model: str) -> bool:
@@ -706,7 +761,9 @@ def _uses_paid_cloud_model(model: str) -> bool:
             continue
         if name.startswith(("local/", "ollama/", "tiny/")):
             continue
-        if name.startswith(("huggingface/", "openrouter/", "gemini-", "gemini/", "deepseek", "anthropic", "claude")):
+        if name.startswith(
+            ("huggingface/", "openrouter/", "gemini-", "gemini/", "deepseek", "anthropic", "claude")
+        ):
             return True
     return False
 
@@ -719,7 +776,11 @@ def _low_roi_cloud_hold_reason(ctx: ChurnContext, spec_path: str | None) -> str 
     examples = _spec_example_count(spec_path)
     if examples is None:
         return None
-    max_examples = int(os.environ.get("DETERMINEX_PB_CLOUD_REIMPL_MAX_EXAMPLES", str(DEFAULT_CLOUD_REIMPL_MAX_EXAMPLES)))
+    max_examples = int(
+        os.environ.get(
+            "DETERMINEX_PB_CLOUD_REIMPL_MAX_EXAMPLES", str(DEFAULT_CLOUD_REIMPL_MAX_EXAMPLES)
+        )
+    )
     if examples <= max_examples:
         return None
     return (
@@ -731,13 +792,21 @@ def _low_roi_cloud_hold_reason(ctx: ChurnContext, spec_path: str | None) -> str 
 
 def _reimpl_drive_command(ctx: ChurnContext, lang: str) -> str:
     cmd = [
-        "python3", _script("determinex_reimpl_drive.py"), ctx.slug,
-        "--models", ctx.model,
-        "--iters", str(ctx.iters),
-        "--fuzz", str(ctx.fuzz),
-        "--k", str(ctx.k),
-        "--rounds", str(ctx.rounds),
-        "--lang", lang,
+        "python3",
+        _script("determinex_reimpl_drive.py"),
+        ctx.slug,
+        "--models",
+        ctx.model,
+        "--iters",
+        str(ctx.iters),
+        "--fuzz",
+        str(ctx.fuzz),
+        "--k",
+        str(ctx.k),
+        "--rounds",
+        str(ctx.rounds),
+        "--lang",
+        lang,
         "--no-official",
     ]
     if _uses_cloud_station_avoidance(ctx.model):
@@ -788,7 +857,15 @@ def next_action(ctx: ChurnContext) -> ChurnAction:
         if spec_path and candidate:
             return ChurnAction(
                 name="local-oracle",
-                command=_cmd(["python3", _script("determinex_local_oracle.py"), candidate, "--spec", spec_path]),
+                command=_cmd(
+                    [
+                        "python3",
+                        _script("determinex_local_oracle.py"),
+                        candidate,
+                        "--spec",
+                        spec_path,
+                    ]
+                ),
                 reason="spec and candidate already exist despite stale extraction route",
                 timeout_s=900,
             )
@@ -816,7 +893,15 @@ def next_action(ctx: ChurnContext) -> ChurnAction:
         if candidate:
             return ChurnAction(
                 name="local-oracle",
-                command=_cmd(["python3", _script("determinex_local_oracle.py"), candidate, "--spec", spec_path]),
+                command=_cmd(
+                    [
+                        "python3",
+                        _script("determinex_local_oracle.py"),
+                        candidate,
+                        "--spec",
+                        spec_path,
+                    ]
+                ),
                 reason="native reimpl candidate exists; validate it before spending another model pass",
                 timeout_s=900,
             )
@@ -840,8 +925,11 @@ def next_action(ctx: ChurnContext) -> ChurnAction:
         # action that invokes the model) was unreachable while any candidate file
         # existed. On a red verdict, only re-validate a candidate WRITTEN AFTER
         # that verdict; otherwise spend the pass on reimpl to produce a new one.
-        if candidate and verdict == "oracle-red-needs-tail" and not _candidate_newer_than(
-                candidate, ctx.oracle_ts):
+        if (
+            candidate
+            and verdict == "oracle-red-needs-tail"
+            and not _candidate_newer_than(candidate, ctx.oracle_ts)
+        ):
             return _reimpl_action_or_roi_hold(
                 ctx,
                 lang,
@@ -850,7 +938,15 @@ def next_action(ctx: ChurnContext) -> ChurnAction:
         if candidate:
             return ChurnAction(
                 name="local-oracle",
-                command=_cmd(["python3", _script("determinex_local_oracle.py"), candidate, "--spec", spec_path]),
+                command=_cmd(
+                    [
+                        "python3",
+                        _script("determinex_local_oracle.py"),
+                        candidate,
+                        "--spec",
+                        spec_path,
+                    ]
+                ),
                 reason="validate every local example before official eval",
                 timeout_s=900,
             )
@@ -876,7 +972,16 @@ def next_action(ctx: ChurnContext) -> ChurnAction:
         official_candidate = _candidate_for_official(candidate, lang) or candidate
         return ChurnAction(
             name="official-eval",
-            command=_cmd(["python3", _script("determinex_pb_official_eval.py"), ctx.slug, official_candidate, "--lang", lang]),
+            command=_cmd(
+                [
+                    "python3",
+                    _script("determinex_pb_official_eval.py"),
+                    ctx.slug,
+                    official_candidate,
+                    "--lang",
+                    lang,
+                ]
+            ),
             reason="local oracle is green; official eval may measure the candidate",
             official_eval=True,
             timeout_s=5400,
@@ -947,7 +1052,18 @@ def _load_state() -> dict[str, Any]:
 
 def _save_state(state: dict[str, Any]) -> None:
     LOG_DIR.mkdir(parents=True, exist_ok=True)
-    STATE_PATH.write_text(json.dumps(state, indent=2, ensure_ascii=False, default=lambda o: o.decode("utf-8", errors="replace") if isinstance(o, bytes) else str(o)) + "\n", encoding="utf-8")
+    STATE_PATH.write_text(
+        json.dumps(
+            state,
+            indent=2,
+            ensure_ascii=False,
+            default=lambda o: (
+                o.decode("utf-8", errors="replace") if isinstance(o, bytes) else str(o)
+            ),
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def _append_event(event: dict[str, Any]) -> None:
@@ -1005,10 +1121,16 @@ def execute_action(action: ChurnAction) -> dict[str, Any]:
             start_new_session=True,
         )
         stdout, stderr = proc.communicate(timeout=action.timeout_s)
-        return {"rc": proc.returncode, "stdout": stdout or "", "stderr": stderr or "", "skipped": False}
+        return {
+            "rc": proc.returncode,
+            "stdout": stdout or "",
+            "stderr": stderr or "",
+            "skipped": False,
+        }
     except subprocess.TimeoutExpired:
         if proc:
             import signal
+
             try:
                 os.killpg(os.getpgid(proc.pid), signal.SIGTERM)  # posix; AttributeError on nt
             except Exception:
@@ -1035,6 +1157,7 @@ def _redis_client():
         return None
     try:
         import redis  # type: ignore[import-not-found]
+
         return redis.from_url(url, decode_responses=True, socket_connect_timeout=2)
     except Exception:
         return None
@@ -1095,20 +1218,22 @@ def run_slug(
         raw_candidate = _candidate_for(full, answer)
         lang = _lang_from_spec(spec_path)
         candidate = _candidate_for_oracle(raw_candidate, lang, full)
-        action = next_action(ChurnContext(
-            slug=full,
-            route=route,
-            model=model,
-            spec_path=spec_path,
-            candidate_path=candidate,
-            allow_official=allow_official,
-            lang=lang,
-            iters=iters,
-            fuzz=fuzz,
-            k=k,
-            rounds=rounds,
-            oracle_ts=(oracle or {}).get("ts"),
-        ))
+        action = next_action(
+            ChurnContext(
+                slug=full,
+                route=route,
+                model=model,
+                spec_path=spec_path,
+                candidate_path=candidate,
+                allow_official=allow_official,
+                lang=lang,
+                iters=iters,
+                fuzz=fuzz,
+                k=k,
+                rounds=rounds,
+                oracle_ts=(oracle or {}).get("ts"),
+            )
+        )
 
         result: dict[str, Any] = {
             "slug": full,
@@ -1123,12 +1248,21 @@ def run_slug(
             try:
                 ex = execute_action(action)
             except subprocess.TimeoutExpired as e:
+
                 def _dec(v: Any) -> str:
                     if isinstance(v, bytes):
                         return v.decode("utf-8", errors="replace")
                     return str(v) if v is not None else ""
-                ex = {"rc": 124, "stdout": _dec(e.stdout), "stderr": _dec(e.stderr) or "timeout", "skipped": False}
-            result["result"] = {k2: (v[-4000:] if isinstance(v, str) else v) for k2, v in ex.items()}
+
+                ex = {
+                    "rc": 124,
+                    "stdout": _dec(e.stdout),
+                    "stderr": _dec(e.stderr) or "timeout",
+                    "skipped": False,
+                }
+            result["result"] = {
+                k2: (v[-4000:] if isinstance(v, str) else v) for k2, v in ex.items()
+            }
             # Cooldown measures from COMPLETION, not start (2026-07-03): a reimpl runs up
             # to 2h -- longer than the 90-min cooldown -- so a start-stamped ts is already
             # past cooldown the instant the run ends, and a always-times-out hard tool
@@ -1137,7 +1271,12 @@ def run_slug(
             if action.name == "write-native-reimpl":
                 result["candidate_path"] = _candidate_for(full, answer)
             if action.name == "local-oracle":
-                saved = save_oracle_result(full, rc=int(ex.get("rc") or 0), stdout=str(ex.get("stdout") or ""), stderr=str(ex.get("stderr") or ""))
+                saved = save_oracle_result(
+                    full,
+                    rc=int(ex.get("rc") or 0),
+                    stdout=str(ex.get("stdout") or ""),
+                    stderr=str(ex.get("stderr") or ""),
+                )
                 result["oracle_result_saved"] = saved
             if append_to_handback:
                 append_handback(full, action, rc=ex.get("rc"), log_path=str(EVENTS_PATH))
@@ -1168,21 +1307,41 @@ def _resolve_queue(args: argparse.Namespace) -> list[str]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     group = ap.add_mutually_exclusive_group(required=True)
     group.add_argument("--slugs", help="comma-separated slugs")
-    group.add_argument("--all", action="store_true", help="churn every non-terminal eval_index tool")
-    ap.add_argument("--execute", action="store_true", help="actually run the planned action; default is plan-only")
-    ap.add_argument("--allow-official", action="store_true", help="allow official eval after local oracle is green")
-    ap.add_argument("--append-handback", action="store_true", help="append raw action evidence to CODEX_HANDBACK.md")
+    group.add_argument(
+        "--all", action="store_true", help="churn every non-terminal eval_index tool"
+    )
+    ap.add_argument(
+        "--execute",
+        action="store_true",
+        help="actually run the planned action; default is plan-only",
+    )
+    ap.add_argument(
+        "--allow-official",
+        action="store_true",
+        help="allow official eval after local oracle is green",
+    )
+    ap.add_argument(
+        "--append-handback",
+        action="store_true",
+        help="append raw action evidence to CODEX_HANDBACK.md",
+    )
     ap.add_argument("--watch", action="store_true", help="loop forever")
     ap.add_argument("--interval", type=int, default=300)
     ap.add_argument("--max-tools-per-pass", type=int, default=1)
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--worker", default=DEFAULT_WORKER)
     ap.add_argument("--lease-ttl", type=int, default=7200)
-    ap.add_argument("--cooldown-seconds", type=int, default=DEFAULT_COOLDOWN_SECONDS,
-                    help="seconds to suppress recently failed/no-progress tools from --all queue")
+    ap.add_argument(
+        "--cooldown-seconds",
+        type=int,
+        default=DEFAULT_COOLDOWN_SECONDS,
+        help="seconds to suppress recently failed/no-progress tools from --all queue",
+    )
     ap.add_argument("--include-locked", action="store_true")
     ap.add_argument("--include-ceilings", action="store_true")
     ap.add_argument("--iters", type=int, default=2)
@@ -1205,7 +1364,10 @@ def main(argv: list[str] | None = None) -> int:
         while True:
             queue = _resolve_queue(args)
             todo = queue[: max(1, args.max_tools_per_pass)]
-            print(f"[pb-churn] pass={pass_no} queue={len(queue)} todo={len(todo)} execute={args.execute} model={args.model}", flush=True)
+            print(
+                f"[pb-churn] pass={pass_no} queue={len(queue)} todo={len(todo)} execute={args.execute} model={args.model}",
+                flush=True,
+            )
             for slug in todo:
                 event = run_slug(
                     slug,
@@ -1222,8 +1384,15 @@ def main(argv: list[str] | None = None) -> int:
                 )
                 action = (event.get("action") or {}).get("name")
                 route = (event.get("route") or {}).get("verdict")
-                rc = ((event.get("result") or {}).get("rc") if isinstance(event.get("result"), dict) else None)
-                print(f"[pb-churn] {event.get('slug', slug)} route={route} action={action} rc={rc}", flush=True)
+                rc = (
+                    (event.get("result") or {}).get("rc")
+                    if isinstance(event.get("result"), dict)
+                    else None
+                )
+                print(
+                    f"[pb-churn] {event.get('slug', slug)} route={route} action={action} rc={rc}",
+                    flush=True,
+                )
             if not args.watch:
                 return 0
             pass_no += 1

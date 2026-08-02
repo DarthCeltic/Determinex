@@ -31,6 +31,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -46,7 +47,6 @@ if str(_SCRIPTS) not in sys.path:
 from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 _EVIDENCE_DIR = (
@@ -325,19 +325,21 @@ def load(
         )
 
     candidates = tuple(_candidate_row(c) for c in candidates_raw)
-    batch_targets = {
-        k: tuple(str(s) for s in batch_targets_raw[k]) for k in REQUIRED_BATCH_KEYS
-    }
+    batch_targets = {k: tuple(str(s) for s in batch_targets_raw[k]) for k in REQUIRED_BATCH_KEYS}
 
     return Universal100DepthPromotionCandidateInventoryStatus(
         decision=_token("PASSED"),
         target_surface="Universal 100 Depth Promotion Candidate Inventory",
-        target_workflow=str(blob.get("target_workflow") or "universal 100 depth promotion candidate inventory"),
+        target_workflow=str(
+            blob.get("target_workflow") or "universal 100 depth promotion candidate inventory"
+        ),
         lock_id=LOCK_ID,
         family_count=family_count,
         families_with_any_evidence=_as_int(blob.get("families_with_any_evidence", 0)),
         families_with_no_evidence=_as_int(blob.get("families_with_no_evidence", 0)),
-        families_by_highest_support_depth={str(k): _as_int(v) for k, v in families_by_depth_raw.items()},
+        families_by_highest_support_depth={
+            str(k): _as_int(v) for k, v in families_by_depth_raw.items()
+        },
         candidates=candidates,
         batch_targets=batch_targets,
         source_mutation_authorized=False,

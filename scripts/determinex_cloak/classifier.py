@@ -5,6 +5,7 @@ AST-based private identifier extraction for Python repos.
 Walks all .py files, collects every non-safe identifier, resolves
 star-import holes via the tree-sitter bridge when available.
 """
+
 from __future__ import annotations
 
 import ast
@@ -16,8 +17,8 @@ from ._treesitter_bridge import _TS_AVAILABLE, resolve_python_star_imports
 
 log = logging.getLogger("determinex_cloak")
 
-_SINGLE_CHAR = re.compile(r'^[a-zA-Z_]$')
-_DUNDER = re.compile(r'^__[a-zA-Z_][a-zA-Z0-9_]*__$')
+_SINGLE_CHAR = re.compile(r"^[a-zA-Z_]$")
+_DUNDER = re.compile(r"^__[a-zA-Z_][a-zA-Z0-9_]*__$")
 
 
 class _IdentifierCollector(ast.NodeVisitor):
@@ -94,12 +95,21 @@ def build_private_identifier_set(
     star_warnings: list[str] = []
 
     _SKIP_DIRS = {
-        "site-packages", "__pycache__", ".tox", ".eggs", ".pyinstaller",
-        "resources", "fixtures", ".cargo", "_vendor", "vendor",
+        "site-packages",
+        "__pycache__",
+        ".tox",
+        ".eggs",
+        ".pyinstaller",
+        "resources",
+        "fixtures",
+        ".cargo",
+        "_vendor",
+        "vendor",
     }
 
     py_files = [
-        f for f in repo_path.rglob("*.py")
+        f
+        for f in repo_path.rglob("*.py")
         if not any(part in _SKIP_DIRS for part in f.parts)
         and "build" not in [p.lower() for p in f.relative_to(repo_path).parts[:1]]
     ]
@@ -114,7 +124,9 @@ def build_private_identifier_set(
     for py_file in py_files:
         try:
             if py_file.stat().st_size > 200_000:
-                log.debug("Cloak: skip large file %s (%d bytes)", py_file.name, py_file.stat().st_size)
+                log.debug(
+                    "Cloak: skip large file %s (%d bytes)", py_file.name, py_file.stat().st_size
+                )
                 continue
             source = py_file.read_text(encoding="utf-8", errors="ignore")
             for mod in _collect_star_imports(source):
@@ -133,11 +145,15 @@ def build_private_identifier_set(
         unresolved = resolve_python_star_imports(py_files, repo_path, safe_names, collector)
         resolved_count = len(star_warnings) - len(unresolved)
         if resolved_count:
-            log.info("Cloak: resolved %d/%d star-import holes via AST",
-                     resolved_count, len(star_warnings))
+            log.info(
+                "Cloak: resolved %d/%d star-import holes via AST",
+                resolved_count,
+                len(star_warnings),
+            )
         star_warnings = unresolved
 
     private = frozenset(collector.found)
-    log.info("Cloak: %d private identifiers, %d star-import warnings",
-             len(private), len(star_warnings))
+    log.info(
+        "Cloak: %d private identifiers, %d star-import warnings", len(private), len(star_warnings)
+    )
     return private, star_warnings

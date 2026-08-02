@@ -12,25 +12,51 @@ _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from corpus.programbench.codex_completion_campaign_record import make_campaign_record, write_campaign_record
-
+from corpus.programbench.codex_completion_campaign_record import (
+    make_campaign_record,
+    write_campaign_record,
+)
 
 INSTANCE_ID = "doxygen__doxygen.966d98e"
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
 
-ROOT_CAUSE = Path("assurance/evidence/programbench_root_cause_packets/doxygen_real_bounded_rerun_20260527.json")
-REAL_RERUN = Path("assurance/evidence/programbench_real_bounded_reruns/doxygen_real_bounded_rerun_20260527.REAL_BOUNDED_RERUN_INFRA_FAILURE.json")
-UPSTREAM_RECHECK = Path("assurance/evidence/programbench_upstream_artifact_authority_recheck/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_COMPLETED.json")
-SECURITY_DECISION = Path("assurance/evidence/programbench_official_artifact_security_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OFFICIAL_ARTIFACT_SECURITY_DECISION_WRITTEN.json")
-SCAN = Path("assurance/evidence/programbench_cleanroom_image_scans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json")
-TRIAGE = Path("assurance/evidence/programbench_cleanroom_image_scan_triage/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_TRIAGED.json")
-IMPORT = Path("assurance/evidence/programbench_cleanroom_image_import/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_IMPORT_SCAN_UNAVAILABLE.json")
-HYDRATION = Path("assurance/evidence/programbench_cleanroom_image_hydration/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json")
-REBUILD_DECISION = Path("assurance/evidence/programbench_rebuild_provenance_quarantine_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.json")
-OPERATOR_REQUEST = Path("assurance/evidence/programbench_operator_provenance_requests/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.json")
-ALTERNATE = Path("assurance/evidence/programbench_alternate_cleanroom_image_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.json")
-MANIFEST = Path("assurance/evidence/programbench_dockerhub_manifest_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.EXACT_REMOTE_MANIFEST_FOUND.json")
+ROOT_CAUSE = Path(
+    "assurance/evidence/programbench_root_cause_packets/doxygen_real_bounded_rerun_20260527.json"
+)
+REAL_RERUN = Path(
+    "assurance/evidence/programbench_real_bounded_reruns/doxygen_real_bounded_rerun_20260527.REAL_BOUNDED_RERUN_INFRA_FAILURE.json"
+)
+UPSTREAM_RECHECK = Path(
+    "assurance/evidence/programbench_upstream_artifact_authority_recheck/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_COMPLETED.json"
+)
+SECURITY_DECISION = Path(
+    "assurance/evidence/programbench_official_artifact_security_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OFFICIAL_ARTIFACT_SECURITY_DECISION_WRITTEN.json"
+)
+SCAN = Path(
+    "assurance/evidence/programbench_cleanroom_image_scans/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json"
+)
+TRIAGE = Path(
+    "assurance/evidence/programbench_cleanroom_image_scan_triage/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_TRIAGED.json"
+)
+IMPORT = Path(
+    "assurance/evidence/programbench_cleanroom_image_import/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_IMPORT_SCAN_UNAVAILABLE.json"
+)
+HYDRATION = Path(
+    "assurance/evidence/programbench_cleanroom_image_hydration/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.CLEANROOM_IMAGE_SCAN_FAILED.json"
+)
+REBUILD_DECISION = Path(
+    "assurance/evidence/programbench_rebuild_provenance_quarantine_decisions/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY.json"
+)
+OPERATOR_REQUEST = Path(
+    "assurance/evidence/programbench_operator_provenance_requests/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN.json"
+)
+ALTERNATE = Path(
+    "assurance/evidence/programbench_alternate_cleanroom_image_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND.json"
+)
+MANIFEST = Path(
+    "assurance/evidence/programbench_dockerhub_manifest_provenance/programbench_doxygen_1776_doxygen.966d98e_task_cleanroom.EXACT_REMOTE_MANIFEST_FOUND.json"
+)
 
 
 @dataclass(slots=True)
@@ -73,14 +99,18 @@ class ProgramBenchCodexCompletionCampaign:
                 "official_artifact_security_decision": self._rel(SECURITY_DECISION),
                 "scan_record": self._rel(SCAN),
                 "scan_triage_record": self._rel(TRIAGE),
-                "official_artifact_authority": upstream.get("upstream_benchmark_artifact_authority"),
+                "official_artifact_authority": upstream.get(
+                    "upstream_benchmark_artifact_authority"
+                ),
                 "rebuild_provenance_authority": upstream.get("rebuild_provenance_authority"),
                 "remediation_authority": upstream.get("remediation_authority"),
                 "execution_security_policy": decision.get("decision"),
                 "scan_summary": _scan_summary(scan),
                 "dominant_risk_category": _dominant_risk(triage),
                 "sandbox_requirements": _sandbox_requirements(),
-                "authorization": _closed_auth(extra={"sandbox_requirements_written": status == "SANDBOX_REQUIREMENTS_WRITTEN"}),
+                "authorization": _closed_auth(
+                    extra={"sandbox_requirements_written": status == "SANDBOX_REQUIREMENTS_WRITTEN"}
+                ),
                 "cache_ready": False,
                 "executable": False,
                 "training_eligible": False,
@@ -139,7 +169,12 @@ class ProgramBenchCodexCompletionCampaign:
                     "cache_ready",
                     "executable",
                 ],
-                "authorization": _closed_auth(extra={"exception_request_written": status == "SECURITY_POLICY_EXCEPTION_REQUEST_WRITTEN"}),
+                "authorization": _closed_auth(
+                    extra={
+                        "exception_request_written": status
+                        == "SECURITY_POLICY_EXCEPTION_REQUEST_WRITTEN"
+                    }
+                ),
                 "cache_ready": False,
                 "executable": False,
                 "training_eligible": False,
@@ -148,7 +183,9 @@ class ProgramBenchCodexCompletionCampaign:
         )
         return self._write(record, "programbench_security_policy_exception_requests")
 
-    def policy_admission_gate(self, request_path: Path, sandbox_path: Path, approval_path: Path | None = None) -> dict[str, Any]:
+    def policy_admission_gate(
+        self, request_path: Path, sandbox_path: Path, approval_path: Path | None = None
+    ) -> dict[str, Any]:
         request = self._read(request_path)
         sandbox = self._read(sandbox_path)
         approval = self._read(approval_path) if approval_path else {}
@@ -162,8 +199,16 @@ class ProgramBenchCodexCompletionCampaign:
         elif approval:
             checks = _approval_checks(approval, request, sandbox)
             if all(checks.values()):
-                status = "SECURITY_POLICY_ADMISSION_ACCEPTED_FIXTURE" if fixture else "SECURITY_POLICY_ADMISSION_ACCEPTED"
-                reasons = ["fixture_policy_approval_accepted" if fixture else "operator_policy_approval_accepted"]
+                status = (
+                    "SECURITY_POLICY_ADMISSION_ACCEPTED_FIXTURE"
+                    if fixture
+                    else "SECURITY_POLICY_ADMISSION_ACCEPTED"
+                )
+                reasons = [
+                    "fixture_policy_approval_accepted"
+                    if fixture
+                    else "operator_policy_approval_accepted"
+                ]
                 accepted = not fixture
             elif approval.get("image_digest") and approval.get("image_digest") != DIGEST:
                 status = "SECURITY_POLICY_ADMISSION_BLOCKED_DIGEST_MISMATCH"
@@ -172,7 +217,11 @@ class ProgramBenchCodexCompletionCampaign:
                 status = "SECURITY_POLICY_ADMISSION_BLOCKED_SCOPE_MISMATCH"
                 reasons = ["approval_scope_mismatch"]
             else:
-                status = "SECURITY_POLICY_ADMISSION_REJECTED_FIXTURE" if fixture else "SECURITY_POLICY_ADMISSION_REJECTED"
+                status = (
+                    "SECURITY_POLICY_ADMISSION_REJECTED_FIXTURE"
+                    if fixture
+                    else "SECURITY_POLICY_ADMISSION_REJECTED"
+                )
                 reasons = ["approval_missing_required_acknowledgements"]
         record = self._record(
             "programbench_security_policy_admission_gate",
@@ -197,7 +246,9 @@ class ProgramBenchCodexCompletionCampaign:
         )
         return self._write(record, "programbench_security_policy_admissions")
 
-    def execution_preflight(self, sandbox_path: Path, request_path: Path, admission_path: Path) -> dict[str, Any]:
+    def execution_preflight(
+        self, sandbox_path: Path, request_path: Path, admission_path: Path
+    ) -> dict[str, Any]:
         upstream = self._read(UPSTREAM_RECHECK)
         sandbox = self._read(sandbox_path)
         admission = self._read(admission_path)
@@ -216,7 +267,10 @@ class ProgramBenchCodexCompletionCampaign:
         if ready:
             status = "OFFICIAL_ARTIFACT_PREFLIGHT_READY"
             reasons = ["all_execution_prerequisites_satisfied"]
-        elif admission.get("status") in {"SECURITY_POLICY_ADMISSION_REQUIRED", "SECURITY_POLICY_ADMISSION_ACCEPTED_FIXTURE"}:
+        elif admission.get("status") in {
+            "SECURITY_POLICY_ADMISSION_REQUIRED",
+            "SECURITY_POLICY_ADMISSION_ACCEPTED_FIXTURE",
+        }:
             status = "OFFICIAL_ARTIFACT_PREFLIGHT_BLOCKED_POLICY_ADMISSION_REQUIRED"
             reasons = ["real_policy_admission_required"]
         elif upstream.get("execution_security_policy") == "BLOCKED_SCAN_FAILED":
@@ -247,11 +301,16 @@ class ProgramBenchCodexCompletionCampaign:
                 "root_cause_packet": self._rel(ROOT_CAUSE),
                 "artifact_import": self._rel(IMPORT),
                 "checks": {
-                    "upstream_artifact_authority_present": upstream.get("upstream_benchmark_artifact_authority") == "PRESENT",
+                    "upstream_artifact_authority_present": upstream.get(
+                        "upstream_benchmark_artifact_authority"
+                    )
+                    == "PRESENT",
                     "target_image_digest_exact": upstream.get("image_digest") == DIGEST,
                     "scan_record_present": self._exists(SCAN),
-                    "sandbox_requirements_present": sandbox.get("status") == "SANDBOX_REQUIREMENTS_WRITTEN",
-                    "policy_admission_accepted": admission.get("status") == "SECURITY_POLICY_ADMISSION_ACCEPTED",
+                    "sandbox_requirements_present": sandbox.get("status")
+                    == "SANDBOX_REQUIREMENTS_WRITTEN",
+                    "policy_admission_accepted": admission.get("status")
+                    == "SECURITY_POLICY_ADMISSION_ACCEPTED",
                     "bounded_rerun_packet_present": self._exists(ROOT_CAUSE),
                     "scope_exact": packet.get("rerun_scope", {}).get("tool") == INSTANCE_ID,
                     "max_attempts_one": packet.get("rerun_scope", {}).get("max_attempts") == 1,
@@ -296,7 +355,11 @@ class ProgramBenchCodexCompletionCampaign:
                 "why_not_model_failure": "The candidate was not evaluated because security policy blocks the official artifact before ProgramBench execution.",
                 "why_not_benchmark_failure": "The benchmark artifact authority is present; the blocker is local security admission, not missing upstream artifact authority.",
                 "why_not_training_row": "No official eval outcome was produced under an admitted execution policy.",
-                "evidence_that_would_unblock": ["operator security policy admission", "accepted sandbox/policy gate", "fresh preflight ready record"],
+                "evidence_that_would_unblock": [
+                    "operator security policy admission",
+                    "accepted sandbox/policy gate",
+                    "fresh preflight ready record",
+                ],
                 "current_blocker_owner": "operator security approval",
                 "rerun_authorized": False,
                 "authorization": _closed_auth(),
@@ -308,7 +371,14 @@ class ProgramBenchCodexCompletionCampaign:
         )
         return self._write(record, "programbench_task_skips")
 
-    def final_state(self, sandbox_path: Path, request_path: Path, admission_path: Path, preflight_path: Path, skip_path: Path) -> dict[str, Any]:
+    def final_state(
+        self,
+        sandbox_path: Path,
+        request_path: Path,
+        admission_path: Path,
+        preflight_path: Path,
+        skip_path: Path,
+    ) -> dict[str, Any]:
         consumed = {
             "root_cause_packet": self._rel(ROOT_CAUSE),
             "real_bounded_rerun": self._rel(REAL_RERUN),
@@ -354,8 +424,20 @@ class ProgramBenchCodexCompletionCampaign:
                     "execution remains blocked",
                     "Doxygen can be skipped cleanly in active campaign reporting",
                 ],
-                "what_remains_blocked": ["execution", "ProgramBench rerun", "cache readiness", "training eligibility", "rebuild", "remediation"],
-                "what_must_not_be_inferred": ["safe to execute", "training row", "model failure", "benchmark artifact dead end"],
+                "what_remains_blocked": [
+                    "execution",
+                    "ProgramBench rerun",
+                    "cache readiness",
+                    "training eligibility",
+                    "rebuild",
+                    "remediation",
+                ],
+                "what_must_not_be_inferred": [
+                    "safe to execute",
+                    "training row",
+                    "model failure",
+                    "benchmark artifact dead end",
+                ],
                 "why_not_dead_end": "The official artifact exists and is digest verified; the blocker is policy admission.",
                 "why_not_executable_yet": "Scan-failed official artifact lacks operator policy admission.",
                 "why_not_training_data": "No admitted official eval outcome exists.",
@@ -386,7 +468,9 @@ class ProgramBenchCodexCompletionCampaign:
         )
         return self._write(record, "programbench_campaign_status_boards", name_key="board_id")
 
-    def training_negative_guard(self, final_state_path: Path, skip_path: Path, board_path: Path) -> dict[str, Any]:
+    def training_negative_guard(
+        self, final_state_path: Path, skip_path: Path, board_path: Path
+    ) -> dict[str, Any]:
         statuses = [
             "TRAINING_ELIGIBILITY_NEGATIVE_GUARD_WRITTEN",
             "TRAINING_ELIGIBILITY_BLOCKED_METADATA_ONLY",
@@ -399,7 +483,13 @@ class ProgramBenchCodexCompletionCampaign:
             "determinex-programbench-training-eligibility-negative-guard-v1",
             "TRAINING_ELIGIBILITY_NEGATIVE_GUARD_WRITTEN",
             {
-                "guarded_records": [self._rel(UPSTREAM_RECHECK), self._rel(SECURITY_DECISION), self._rel(final_state_path), self._rel(skip_path), self._rel(board_path)],
+                "guarded_records": [
+                    self._rel(UPSTREAM_RECHECK),
+                    self._rel(SECURITY_DECISION),
+                    self._rel(final_state_path),
+                    self._rel(skip_path),
+                    self._rel(board_path),
+                ],
                 "negative_eligibility_reasons": statuses[1:],
                 "rules": {
                     "metadata_only_artifact_is_not_training_eligible": True,
@@ -417,9 +507,13 @@ class ProgramBenchCodexCompletionCampaign:
                 "reasons": ["blocked_doxygen_records_remain_training_ineligible"],
             },
         )
-        return self._write(record, "programbench_training_eligibility_negative_guards", name_key="record_type")
+        return self._write(
+            record, "programbench_training_eligibility_negative_guards", name_key="record_type"
+        )
 
-    def readiness_matrix(self, board_path: Path, preflight_path: Path, final_state_path: Path) -> dict[str, Any]:
+    def readiness_matrix(
+        self, board_path: Path, preflight_path: Path, final_state_path: Path
+    ) -> dict[str, Any]:
         preflight = self._read(preflight_path)
         final = self._read(final_state_path)
         record = self._record(
@@ -438,7 +532,8 @@ class ProgramBenchCodexCompletionCampaign:
                         "scan_status": "CLEANROOM_IMAGE_SCAN_FAILED",
                         "security_policy_admitted": False,
                         "bounded_rerun_authorized": False,
-                        "execution_preflight_ready": preflight.get("status") == "OFFICIAL_ARTIFACT_PREFLIGHT_READY",
+                        "execution_preflight_ready": preflight.get("status")
+                        == "OFFICIAL_ARTIFACT_PREFLIGHT_READY",
                         "official_score_available": False,
                         "training_eligible": False,
                         "next_action": "operator security policy admission",
@@ -458,13 +553,29 @@ class ProgramBenchCodexCompletionCampaign:
         sandbox = self.sandbox_requirements()
         request = self.policy_exception_request(Path(sandbox["record_path"]))
         approval = _find_live_approval(self.config.root)
-        admission = self.policy_admission_gate(Path(request["record_path"]), Path(sandbox["record_path"]), approval)
-        preflight = self.execution_preflight(Path(sandbox["record_path"]), Path(request["record_path"]), Path(admission["record_path"]))
+        admission = self.policy_admission_gate(
+            Path(request["record_path"]), Path(sandbox["record_path"]), approval
+        )
+        preflight = self.execution_preflight(
+            Path(sandbox["record_path"]),
+            Path(request["record_path"]),
+            Path(admission["record_path"]),
+        )
         skip = self.task_skip(Path(preflight["record_path"]))
-        final = self.final_state(Path(sandbox["record_path"]), Path(request["record_path"]), Path(admission["record_path"]), Path(preflight["record_path"]), Path(skip["record_path"]))
+        final = self.final_state(
+            Path(sandbox["record_path"]),
+            Path(request["record_path"]),
+            Path(admission["record_path"]),
+            Path(preflight["record_path"]),
+            Path(skip["record_path"]),
+        )
         board = self.status_board(Path(final["record_path"]), Path(skip["record_path"]))
-        guard = self.training_negative_guard(Path(final["record_path"]), Path(skip["record_path"]), Path(board["record_path"]))
-        matrix = self.readiness_matrix(Path(board["record_path"]), Path(preflight["record_path"]), Path(final["record_path"]))
+        guard = self.training_negative_guard(
+            Path(final["record_path"]), Path(skip["record_path"]), Path(board["record_path"])
+        )
+        matrix = self.readiness_matrix(
+            Path(board["record_path"]), Path(preflight["record_path"]), Path(final["record_path"])
+        )
         return {
             "sandbox_requirements": sandbox,
             "policy_exception_request": request,
@@ -477,11 +588,19 @@ class ProgramBenchCodexCompletionCampaign:
             "readiness_matrix": matrix,
         }
 
-    def _record(self, record_type: str, schema_version: str, status: str, payload: dict[str, Any]) -> dict[str, Any]:
-        return make_campaign_record(record_type=record_type, schema_version=schema_version, status=status, payload=payload)
+    def _record(
+        self, record_type: str, schema_version: str, status: str, payload: dict[str, Any]
+    ) -> dict[str, Any]:
+        return make_campaign_record(
+            record_type=record_type, schema_version=schema_version, status=status, payload=payload
+        )
 
-    def _write(self, record: dict[str, Any], dirname: str, *, name_key: str = "image_reference") -> dict[str, Any]:
-        path = write_campaign_record(record, self.config.root / "assurance" / "evidence" / dirname, name_key=name_key)
+    def _write(
+        self, record: dict[str, Any], dirname: str, *, name_key: str = "image_reference"
+    ) -> dict[str, Any]:
+        path = write_campaign_record(
+            record, self.config.root / "assurance" / "evidence" / dirname, name_key=name_key
+        )
         return {"record_path": str(path), "record": record}
 
     def _read(self, path: Path | None) -> dict[str, Any]:
@@ -519,7 +638,9 @@ def _scan_summary(scan: dict[str, Any]) -> dict[str, int]:
 
 
 def _dominant_risk(triage: dict[str, Any]) -> str:
-    category = triage.get("category_summary") if isinstance(triage.get("category_summary"), dict) else {}
+    category = (
+        triage.get("category_summary") if isinstance(triage.get("category_summary"), dict) else {}
+    )
     return str(category.get("dominant_category") or "language_runtime")
 
 
@@ -568,15 +689,26 @@ def _closed_auth(extra: dict[str, Any] | None = None) -> dict[str, Any]:
     return auth
 
 
-def _approval_checks(approval: dict[str, Any], request: dict[str, Any], sandbox: dict[str, Any]) -> dict[str, bool]:
+def _approval_checks(
+    approval: dict[str, Any], request: dict[str, Any], sandbox: dict[str, Any]
+) -> dict[str, bool]:
     return {
         "exact_image": approval.get("image_reference") == IMAGE,
         "exact_digest": approval.get("image_digest") == DIGEST,
-        "scan_record_or_summary_hash_referenced": bool(approval.get("scan_record") or approval.get("scan_summary_hash")),
-        "sandbox_requirements_referenced": approval.get("sandbox_requirements") == sandbox.get("record_signature") or bool(approval.get("sandbox_requirements_record")),
-        "operator_signed_or_locally_signed": bool(approval.get("operator_signature") or approval.get("record_signature")),
+        "scan_record_or_summary_hash_referenced": bool(
+            approval.get("scan_record") or approval.get("scan_summary_hash")
+        ),
+        "sandbox_requirements_referenced": approval.get("sandbox_requirements")
+        == sandbox.get("record_signature")
+        or bool(approval.get("sandbox_requirements_record")),
+        "operator_signed_or_locally_signed": bool(
+            approval.get("operator_signature") or approval.get("record_signature")
+        ),
         "scan_risk_acknowledged": approval.get("acknowledges_scan_risk") is True,
-        "bounded_official_eval_only": approval.get("permits_only_bounded_official_artifact_evaluation") is True,
+        "bounded_official_eval_only": approval.get(
+            "permits_only_bounded_official_artifact_evaluation"
+        )
+        is True,
         "no_training_eligibility": approval.get("permits_training_eligibility") is False,
         "no_rebuild_or_remediation": approval.get("permits_rebuild_remediation") is False,
         "no_broad_docker_use": approval.get("permits_broad_docker_use") is False,
@@ -612,9 +744,13 @@ def _doxygen_board_row(final: dict[str, Any], final_path: str, skip_path: str) -
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run non-executing ProgramBench Codex completion campaign rungs.")
+    parser = argparse.ArgumentParser(
+        description="Run non-executing ProgramBench Codex completion campaign rungs."
+    )
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--all", action="store_true", help="Write all safe non-executing campaign records.")
+    parser.add_argument(
+        "--all", action="store_true", help="Write all safe non-executing campaign records."
+    )
     args = parser.parse_args()
     campaign = ProgramBenchCodexCompletionCampaign(CampaignConfig(root=args.root))
     result = campaign.run_all()

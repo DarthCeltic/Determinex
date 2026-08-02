@@ -1,9 +1,9 @@
 """Records for IDE_CONSUMER_FLOW_TRACE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDE_CONSUMER_FLOW_TRACE_TOKENS = (
     "IDE_CONSUMER_FLOW_TRACE_WRITTEN",

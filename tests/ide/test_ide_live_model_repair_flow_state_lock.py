@@ -1,12 +1,11 @@
 """Tests for IDE_LIVE_MODEL_REPAIR_FLOW_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -57,9 +56,12 @@ FIXTURES = _REPO_ROOT / "tests" / "fixtures" / "intake"
 
 def _admission_ready():
     inv = LocalModelInventory.of(sorted(CURRENT_MODEL_IDS))
-    gate = LiveModelAdmissionGate(config=LiveModelAdmissionConfig(
-        mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=True,
-    ))
+    gate = LiveModelAdmissionGate(
+        config=LiveModelAdmissionConfig(
+            mode=LiveAdmissionMode.OPT_IN_LIVE,
+            opt_in_live=True,
+        )
+    )
     candidate = LocalModelCandidate(
         model_id="determinex-engineer-v11-dsl",
         provider=ModelProvider.OLLAMA.value,
@@ -67,7 +69,9 @@ def _admission_ready():
         supported_task_classes=(TaskClass.PATCH_GENERATION.value,),
     )
     return gate.evaluate(
-        candidate, TaskClass.PATCH_GENERATION, inv,
+        candidate,
+        TaskClass.PATCH_GENERATION,
+        inv,
         ModelRouter(inventory=inv).route(TaskClass.PATCH_GENERATION, mode=RouterMode.LIVE),
     )
 
@@ -82,7 +86,9 @@ def _admission_blocked():
         supported_task_classes=(TaskClass.PATCH_GENERATION.value,),
     )
     return gate.evaluate(
-        candidate, TaskClass.PATCH_GENERATION, inv,
+        candidate,
+        TaskClass.PATCH_GENERATION,
+        inv,
         ModelRouter(inventory=inv).route(TaskClass.PATCH_GENERATION),
     )
 
@@ -138,14 +144,16 @@ def test_admitted_plus_diagnosis_plus_quarantined_plan(tmp_path):
     admission = _admission_ready()
     runner = LiveDiagnoseTraceRunner()
     diagnose = runner.run(
-        FIXTURES / "python_broken", task_class="BUILD_DIAGNOSIS",
+        FIXTURES / "python_broken",
+        task_class="BUILD_DIAGNOSIS",
         admission=admission,
         provider=DeterministicProvider(canned={"summary": "ok"}),
     )
     q = LivePatchPlanQuarantine()
     plan = q.quarantine(
         [{"operation": "replace_file", "path": "src/x.py", "new_content": "ok\n"}],
-        admission=admission, workspace=FIXTURES / "python_broken",
+        admission=admission,
+        workspace=FIXTURES / "python_broken",
     )
     state = build_live_flow_state(
         FIXTURES / "python_broken",
@@ -167,14 +175,17 @@ def test_temp_patch_passed_does_not_open_source_mutation(tmp_path):
     q = LivePatchPlanQuarantine()
     plan = q.quarantine(
         [{"operation": "replace_file", "path": "src/lib.py", "new_content": "x = 1\n"}],
-        admission=admission, workspace=tmp_path / "orig",
+        admission=admission,
+        workspace=tmp_path / "orig",
     )
     g = LiveTempPatchVerifierGate()
     vr = g.apply_and_verify(plan, temp_root=tmp_path / "tmp", verifier=stub_verifier_pass)
 
     state = build_live_flow_state(
         tmp_path / "orig",
-        admission=admission, plan=plan, verifier_result=vr,
+        admission=admission,
+        plan=plan,
+        verifier_result=vr,
     )
     assert state.temp_patch_verifier == "TEMP_PATCH_VERIFIER_PASSED"
     assert state.source_mutation == "SOURCE_MUTATION_BLOCKED"
@@ -189,13 +200,16 @@ def test_temp_patch_failed_state(tmp_path):
     q = LivePatchPlanQuarantine()
     plan = q.quarantine(
         [{"operation": "replace_file", "path": "src/lib.py", "new_content": "x = 2\n"}],
-        admission=admission, workspace=tmp_path / "orig",
+        admission=admission,
+        workspace=tmp_path / "orig",
     )
     g = LiveTempPatchVerifierGate()
     vr = g.apply_and_verify(plan, temp_root=tmp_path / "tmp", verifier=stub_verifier_fail)
     state = build_live_flow_state(
         tmp_path / "orig",
-        admission=admission, plan=plan, verifier_result=vr,
+        admission=admission,
+        plan=plan,
+        verifier_result=vr,
     )
     assert state.temp_patch_verifier == "TEMP_PATCH_VERIFIER_FAILED"
     assert state.source_mutation == "SOURCE_MUTATION_BLOCKED"

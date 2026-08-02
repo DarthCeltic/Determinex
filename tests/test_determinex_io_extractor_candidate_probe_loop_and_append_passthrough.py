@@ -28,6 +28,7 @@ token (`run_yj(flags="-h")`), distinct from fix 26's _KWARG_PASSTHROUGH (which
 splices a LIST kwarg's elements via `.extend()`). Also added "stdin_data" to
 STDIN_KW (yj's `run_yj(flags=..., stdin_data=...)` signature).
 """
+
 from __future__ import annotations
 
 import sys
@@ -48,7 +49,7 @@ def test_is_executable_path_expr_declines_unrelated_string_literal():
 
 
 def test_fixture_return_const_resolves_candidate_probe_loop():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 from pathlib import Path
 
 def yj_binary():
@@ -62,14 +63,14 @@ def yj_binary():
         if resolved.exists():
             return resolved
     raise FileNotFoundError("Cannot find yj executable")
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     assert iox._fixture_return_const(func) == "executable"
 
 
 def test_fixture_return_const_declines_probe_loop_with_non_executable_candidate():
     """Conservative guard: if even ONE candidate isn't executable-shaped, never guess."""
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 from pathlib import Path
 
 def data_file():
@@ -78,19 +79,19 @@ def data_file():
         if path.exists():
             return path
     raise FileNotFoundError("not found")
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     assert iox._fixture_return_const(func) is None
 
 
 def test_extract_kwarg_flag_map_recognizes_single_value_append_passthrough():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 def _run(flags="", stdin_data=""):
     cmd = ["executable"]
     if flags:
         cmd.append(flags)
     return cmd
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     result = iox._extract_kwarg_flag_map(func)
     assert result == {"flags": iox._KWARG_APPEND_PASSTHROUGH}
@@ -98,7 +99,8 @@ def _run(flags="", stdin_data=""):
 
 def test_extract_file_resolves_yj_shaped_test_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import os
 import subprocess
 from pathlib import Path
@@ -134,8 +136,10 @@ def run_yj(yj_binary):
         )
         return result
     return _run
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 def test_help(run_yj):
     result = run_yj(flags="-h")
     assert result.returncode == 0
@@ -143,7 +147,7 @@ def test_help(run_yj):
 def test_yaml_to_json(run_yj):
     result = run_yj(flags="-yj", stdin_data="key: value")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

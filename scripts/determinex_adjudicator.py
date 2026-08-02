@@ -44,6 +44,7 @@ that a human/agent would otherwise do by hand: it partitions failures into
 ROUTE / MATCH / UNBLOCK / NEEDS_WORK / IMPOSSIBLE and prints the remediation for
 each -- turning "I think this tops out" into a verifiable, actionable verdict.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -57,9 +58,9 @@ from pathlib import Path
 
 
 class Verdict(str, Enum):
-    ROUTE = "ROUTE"            # context differs -> detect & route, don't quit
-    MATCH = "MATCH"            # environment mismatch -> reproduce reference env
-    UNBLOCK = "UNBLOCK"        # self-inflicted blocker -> remove it
+    ROUTE = "ROUTE"  # context differs -> detect & route, don't quit
+    MATCH = "MATCH"  # environment mismatch -> reproduce reference env
+    UNBLOCK = "UNBLOCK"  # self-inflicted blocker -> remove it
     NEEDS_WORK = "NEEDS_WORK"  # plain behavioral bug -> keep iterating
     IMPOSSIBLE = "IMPOSSIBLE"  # proven contradiction -> emit proof, then stop
 
@@ -67,20 +68,21 @@ class Verdict(str, Enum):
 @dataclass
 class Failure:
     """A normalized failing unit of ground truth. Oracle-agnostic."""
-    test_id: str                  # the discriminating context key (e.g. pytest nodeid)
-    name: str                     # short test/check name
-    text: str = ""                # diagnostic: traceback / compiler error / assertion
-    expected: str | None = None   # golden / expected output, if extractable
-    actual: str | None = None     # observed output, if extractable
-    status: str = "failed"        # failed | skipped | not_run | error
+
+    test_id: str  # the discriminating context key (e.g. pytest nodeid)
+    name: str  # short test/check name
+    text: str = ""  # diagnostic: traceback / compiler error / assertion
+    expected: str | None = None  # golden / expected output, if extractable
+    actual: str | None = None  # observed output, if extractable
+    status: str = "failed"  # failed | skipped | not_run | error
 
 
 @dataclass
 class Adjudication:
     failure: Failure
     verdict: Verdict
-    strategy: str                 # the specific move to make (or proof, if IMPOSSIBLE)
-    remediation: str              # concrete next action for the solve loop / compile.sh
+    strategy: str  # the specific move to make (or proof, if IMPOSSIBLE)
+    remediation: str  # concrete next action for the solve loop / compile.sh
     confidence: float = 0.6
 
 
@@ -90,71 +92,104 @@ class Adjudication:
 # Ordered most-specific first.
 # ---------------------------------------------------------------------------
 _ENV_MATCH: list[tuple[str, re.Pattern[str], str]] = [
-    ("clock-freeze", re.compile(
-        # date-relative golden: a hardcoded generation-date the live clock won't match
-        r"startswith\(['\"]20\d\d-\d\d|"          # assert x.startswith("2026-04-")
-        r"['\"]Week \d+['\"]|"                      # assert 'Week 15' in ...
-        r"== ['\"]20\d\d-\d\d-\d\d|"               # == "2026-04-12..."
-        r"20\d\d-\d\d-\d\dT\d\d:\d\d.*(!=|==|assert)|"  # ISO ts in a comparison
-        r"(resolved|due|created|date)['\"]?\].*20\d\d-\d\d", re.I),
-     "Date-RELATIVE golden test: it hardcodes the test-generation date (e.g. "
-     "resolved.startswith('2026-04-'), 'Week 15', due '2026-04-13'). The live clock "
-     "will never match. NOT a ceiling IF the tool is built from source: patch the "
-     "time source to honor a FAKE_NOW env var and pin it to the generation date in "
-     "the wrapper -- reproduces the reference clock. determinex_pb_autofix applies this "
-     "automatically (clock-freeze). Proven on dstask. Only a ceiling for "
-     "bundled-binary-only tools we cannot rebuild."),
-
-    ("pty-allocate", re.compile(
-        r"/dev/tty|open /dev/tty|no such device or address|Screen\.Init|"
-        r"inappropriate ioctl|not a tty|setupterm|termios", re.I),
-     "Run the binary under an allocated PTY (openpty / `script -qec` / expect) so "
-     "it enters interactive/screen mode; pair with the tool's screen-dump flag "
-     "(e.g. --exit-write) so rendered output reaches stdout."),
-
-    ("install-dependency", re.compile(
-        r"requires .* which is not available|not available|not installed|"
-        r"command not found|No such file or directory: '/?\w[\w./-]*plugin|"
-        r"requires .*-plugin|missing (binary|dependency|tool)", re.I),
-     "Install/build the missing dependency in compile.sh before tests run "
-     "(apt-get / go install / cargo install / pip install the named tool). "
-     "VERIFY FIRST that the named dependency is a real, publicly installable "
-     "package -- if it is a test-only fixture (e.g. a '*-plugin-*' the suite "
-     "expects but does not ship), it must be IMPLEMENTED, not installed, and may "
-     "be a genuine near-lock until then."),
-
-    ("drop-privileges", re.compile(
-        r"\bX_OK\b|os\.access\([^)]*X_OK|all files .*\bexecutable\b|"
-        r"running as root|\beuid 0\b|permission.*ignored|chmod.*no effect|"
-        r"is (not )?executable|assert .*\bos\.access", re.I),
-     "Run pytest as a non-root user (gosu / su-exec / setpriv) so permission-bit "
-     "and executable-detection tests behave as the reference environment expects."),
-
-    ("error-string-normalize", re.compile(
-        r"fork/exec .* ==|== .*fork/exec|shell-init|"
-        r"Error: open .* != Error: |assert 'Error", re.I),
-     "Normalize the platform/runtime error-string in a conftest post-processor "
-     "(e.g. Go 'fork/exec ' -> 'open ') across BOTH stdout and stderr capture paths."),
-
-    ("scalar-build", re.compile(
-        r"AVX2|AVX512|SSE4|SIMD|rendering.*differ|character (art|map)|"
-        r"symbols_output|float(ing)?.?point.*round", re.I),
-     "Rebuild with SIMD disabled / scalar code path (e.g. -mno-avx2, "
-     "--disable-simd, RUSTFLAGS target-feature=-avx2) to match the test-generation "
-     "environment's deterministic output."),
-
-    ("locale-pin", re.compile(
-        r"invalid_?utf-?8|UnicodeDecodeError|locale|LC_ALL|LANG=|"
-        r"codec can't (de|en)code|ascii.*ordinal", re.I),
-     "Pin LC_ALL/LANG (commonly C.UTF-8) and TZ in compile.sh to match the "
-     "reference environment's locale and timezone."),
-
-    ("deleted-cwd", re.compile(
-        r"deleted current dir|cwd.*deleted|getcwd|FileNotFoundError.*cwd|"
-        r"No such file or directory: '/tmp/pytest", re.I),
-     "Launch the binary via a wrapper that chdir()s to a stable directory (or "
-     "tolerates a missing cwd) so a deleted-cwd test does not crash the harness "
-     "before the binary's own error path runs."),
+    (
+        "clock-freeze",
+        re.compile(
+            # date-relative golden: a hardcoded generation-date the live clock won't match
+            r"startswith\(['\"]20\d\d-\d\d|"  # assert x.startswith("2026-04-")
+            r"['\"]Week \d+['\"]|"  # assert 'Week 15' in ...
+            r"== ['\"]20\d\d-\d\d-\d\d|"  # == "2026-04-12..."
+            r"20\d\d-\d\d-\d\dT\d\d:\d\d.*(!=|==|assert)|"  # ISO ts in a comparison
+            r"(resolved|due|created|date)['\"]?\].*20\d\d-\d\d",
+            re.I,
+        ),
+        "Date-RELATIVE golden test: it hardcodes the test-generation date (e.g. "
+        "resolved.startswith('2026-04-'), 'Week 15', due '2026-04-13'). The live clock "
+        "will never match. NOT a ceiling IF the tool is built from source: patch the "
+        "time source to honor a FAKE_NOW env var and pin it to the generation date in "
+        "the wrapper -- reproduces the reference clock. determinex_pb_autofix applies this "
+        "automatically (clock-freeze). Proven on dstask. Only a ceiling for "
+        "bundled-binary-only tools we cannot rebuild.",
+    ),
+    (
+        "pty-allocate",
+        re.compile(
+            r"/dev/tty|open /dev/tty|no such device or address|Screen\.Init|"
+            r"inappropriate ioctl|not a tty|setupterm|termios",
+            re.I,
+        ),
+        "Run the binary under an allocated PTY (openpty / `script -qec` / expect) so "
+        "it enters interactive/screen mode; pair with the tool's screen-dump flag "
+        "(e.g. --exit-write) so rendered output reaches stdout.",
+    ),
+    (
+        "install-dependency",
+        re.compile(
+            r"requires .* which is not available|not available|not installed|"
+            r"command not found|No such file or directory: '/?\w[\w./-]*plugin|"
+            r"requires .*-plugin|missing (binary|dependency|tool)",
+            re.I,
+        ),
+        "Install/build the missing dependency in compile.sh before tests run "
+        "(apt-get / go install / cargo install / pip install the named tool). "
+        "VERIFY FIRST that the named dependency is a real, publicly installable "
+        "package -- if it is a test-only fixture (e.g. a '*-plugin-*' the suite "
+        "expects but does not ship), it must be IMPLEMENTED, not installed, and may "
+        "be a genuine near-lock until then.",
+    ),
+    (
+        "drop-privileges",
+        re.compile(
+            r"\bX_OK\b|os\.access\([^)]*X_OK|all files .*\bexecutable\b|"
+            r"running as root|\beuid 0\b|permission.*ignored|chmod.*no effect|"
+            r"is (not )?executable|assert .*\bos\.access",
+            re.I,
+        ),
+        "Run pytest as a non-root user (gosu / su-exec / setpriv) so permission-bit "
+        "and executable-detection tests behave as the reference environment expects.",
+    ),
+    (
+        "error-string-normalize",
+        re.compile(
+            r"fork/exec .* ==|== .*fork/exec|shell-init|"
+            r"Error: open .* != Error: |assert 'Error",
+            re.I,
+        ),
+        "Normalize the platform/runtime error-string in a conftest post-processor "
+        "(e.g. Go 'fork/exec ' -> 'open ') across BOTH stdout and stderr capture paths.",
+    ),
+    (
+        "scalar-build",
+        re.compile(
+            r"AVX2|AVX512|SSE4|SIMD|rendering.*differ|character (art|map)|"
+            r"symbols_output|float(ing)?.?point.*round",
+            re.I,
+        ),
+        "Rebuild with SIMD disabled / scalar code path (e.g. -mno-avx2, "
+        "--disable-simd, RUSTFLAGS target-feature=-avx2) to match the test-generation "
+        "environment's deterministic output.",
+    ),
+    (
+        "locale-pin",
+        re.compile(
+            r"invalid_?utf-?8|UnicodeDecodeError|locale|LC_ALL|LANG=|"
+            r"codec can't (de|en)code|ascii.*ordinal",
+            re.I,
+        ),
+        "Pin LC_ALL/LANG (commonly C.UTF-8) and TZ in compile.sh to match the "
+        "reference environment's locale and timezone.",
+    ),
+    (
+        "deleted-cwd",
+        re.compile(
+            r"deleted current dir|cwd.*deleted|getcwd|FileNotFoundError.*cwd|"
+            r"No such file or directory: '/tmp/pytest",
+            re.I,
+        ),
+        "Launch the binary via a wrapper that chdir()s to a stable directory (or "
+        "tolerates a missing cwd) so a deleted-cwd test does not crash the harness "
+        "before the binary's own error path runs.",
+    ),
 ]
 
 # ---------------------------------------------------------------------------
@@ -176,14 +211,18 @@ _BROKEN_BINARY = re.compile(
     r"!<arch>|exec format error|cannot execute binary file|"
     r"syntax error near unexpected token .newline.|"
     r"is not a main package|no (Go|main) (files|packages)|"
-    r"not a (valid )?(ELF|executable)", re.I)
+    r"not a (valid )?(ELF|executable)",
+    re.I,
+)
 
 # ---------------------------------------------------------------------------
 # Step 3 -- self-inflicted blocker signatures (things WE added)
 # ---------------------------------------------------------------------------
 _SELF_BLOCKER_SKIP = re.compile(
     r"library-level testing|not easily testable via CLI|collection cap|"
-    r"del items\[|collect_ignore|nodeid filter|our (filter|conftest)", re.I)
+    r"del items\[|collect_ignore|nodeid filter|our (filter|conftest)",
+    re.I,
+)
 
 # compile.sh / conftest patterns that suppress test collection (cap = self-blocker)
 _CAP_PATTERNS = [
@@ -199,7 +238,9 @@ _UPSTREAM_SKIP = re.compile(
     r"flaky in CI|requires network|network test|"
     r"Windows( ping)? .* only|requires a (real )?tty|may be flaky|"
     # internal behavior the tool's CLI cannot expose -> genuinely not testable via CLI
-    r"not (reliably )?externaliz|cannot be (reliably )?tested|not (CLI[- ])?testable", re.I)
+    r"not (reliably )?externaliz|cannot be (reliably )?tested|not (CLI[- ])?testable",
+    re.I,
+)
 
 
 def _extract_golden(text: str) -> tuple[str | None, str | None]:
@@ -221,7 +262,7 @@ def _base_nodeid(test_id: str) -> str:
     nid = test_id
     for pre in ("eval.tests.", "eval/tests/", "tests.", "tests/"):
         if nid.startswith(pre):
-            nid = nid[len(pre):]
+            nid = nid[len(pre) :]
     return nid.replace("/", ".")
 
 
@@ -241,7 +282,9 @@ def classify_failure(
     # This is what mis-classified dstask as ROUTE before the rule existed.
     if _BROKEN_BINARY.search(text):
         return Adjudication(
-            f, Verdict.UNBLOCK, "fix-build-target",
+            f,
+            Verdict.UNBLOCK,
+            "fix-build-target",
             "The shipped executable is not a runnable binary (ar-archive `!<arch>`, "
             "exec-format error, or wrong package). compile.sh built the wrong target. "
             "Build the MAIN package (go build ./cmd/<tool>; cargo build --bin <tool>; "
@@ -260,29 +303,44 @@ def classify_failure(
         #    filter removed; naive removal makes the score WORSE.
         blob = conftest_text + "\n" + compile_sh_text
         perf_cap = any(p.search(blob) for p in _CAP_PATTERNS[:2])  # del items / slice
-        tui_filter = bool(re.search(
-            r"collect_ignore.*t(mux|est_tmux|est_pty|est_curses)|"
-            r"test_pty|test_curses|test_tmux|libtmux", blob, re.I))
+        tui_filter = bool(
+            re.search(
+                r"collect_ignore.*t(mux|est_tmux|est_pty|est_curses)|"
+                r"test_pty|test_curses|test_tmux|libtmux",
+                blob,
+                re.I,
+            )
+        )
         if tui_filter and not perf_cap:
             return Adjudication(
-                f, Verdict.UNBLOCK, "provide-tui-capability",
+                f,
+                Verdict.UNBLOCK,
+                "provide-tui-capability",
                 "not_run from a TUI/PTY capability filter (collect_ignore tmux/pty/"
                 "curses). Do NOT just delete the filter -- install tmux+libtmux and "
                 "allocate a PTY so these tests actually PASS (the keifu pattern), "
                 "else removing the filter only converts not_run into failures.",
-                confidence=0.7)
+                confidence=0.7,
+            )
         return Adjudication(
-            f, Verdict.UNBLOCK, "remove-collection-cap",
+            f,
+            Verdict.UNBLOCK,
+            "remove-collection-cap",
             "Test never ran (not_run) from a performance cap. Strip the "
             "del items[N:] / slice cap from compile.sh+conftest, repack, re-eval."
-            + (" Cap pattern detected in our files." if perf_cap else
-               " Verify the cap type before stripping."),
+            + (
+                " Cap pattern detected in our files."
+                if perf_cap
+                else " Verify the cap type before stripping."
+            ),
             confidence=0.9 if perf_cap else 0.6,
         )
     if f.status == "skipped":
         if _UPSTREAM_SKIP.search(text):
             return Adjudication(
-                f, Verdict.IMPOSSIBLE, "upstream-skip",
+                f,
+                Verdict.IMPOSSIBLE,
+                "upstream-skip",
                 "Genuine upstream @pytest.mark.skip (network/too-slow/tty/flaky). "
                 "Not winnable without editing fixtures. Counts as a near-lock ceiling.",
                 confidence=0.85,
@@ -293,15 +351,20 @@ def classify_failure(
             return env
         if _SELF_BLOCKER_SKIP.search(text):
             return Adjudication(
-                f, Verdict.UNBLOCK, "remove-self-skip",
+                f,
+                Verdict.UNBLOCK,
+                "remove-self-skip",
                 "Skip originates from our own filter / a feature we declined to "
                 "externalize. Re-examine for a CLI path or remove the skip.",
                 confidence=0.6,
             )
         return Adjudication(
-            f, Verdict.MATCH, "investigate-skip-origin",
+            f,
+            Verdict.MATCH,
+            "investigate-skip-origin",
             "Skip is not provably upstream. Identify who skips it; if it is a "
-            "missing dependency or environment gap, reproduce it.", confidence=0.5,
+            "missing dependency or environment gap, reproduce it.",
+            confidence=0.5,
         )
 
     # --- Step 1b: the command HUNG (TimeoutExpired) -- not a content mismatch, so it is
@@ -311,11 +374,14 @@ def classify_failure(
     # below and got the forbidden pytest-current-test gaming remedy -- e.g. oranda.) ---
     if re.search(r"TimeoutExpired|timed out after|\bdeadlock\b|\bhung\b", text, re.I):
         return Adjudication(
-            f, Verdict.MATCH, "command-hang",
+            f,
+            Verdict.MATCH,
+            "command-hang",
             "Command HUNG (TimeoutExpired) -- not a content mismatch, so NEVER route on "
             "PYTEST_CURRENT_TEST. Fix order: (1) feed stdin=DEVNULL (the subprocess guard "
             "handles input-waits); (2) if it blocks on a resource (network fetch, PTY, a "
-            "daemon) MATCH the env, else it is a genuine env-ceiling.", confidence=0.7,
+            "daemon) MATCH the env, else it is a genuine env-ceiling.",
+            confidence=0.7,
         )
 
     # --- Step 2: environment mismatch signature? ---
@@ -329,16 +395,27 @@ def classify_failure(
     # generic peer-routing below; genuinely-semantic/numeric/ordering diffs fall
     # through (they are real solve-loop / contradiction territory).
     try:
-        from determinex_pb_behavioral import (classify_diff as _cdiff, technique_for as _tech,
-                                           DiffKind as _DK, _extract_expected_actual as _xea)
-        _exp, _act = _xea(text)   # E-line aware; handles `in` and `==`
+        from determinex_pb_behavioral import DiffKind as _DK
+        from determinex_pb_behavioral import _extract_expected_actual as _xea
+        from determinex_pb_behavioral import classify_diff as _cdiff
+        from determinex_pb_behavioral import technique_for as _tech
+
+        _exp, _act = _xea(text)  # E-line aware; handles `in` and `==`
         if _exp or _act:
             _k = _cdiff(_exp, _act, exit_mismatch=False, test_name=f.name)
-            if _k in (_DK.TTY_RENDER, _DK.OUTPUT_MODE, _DK.WHITESPACE, _DK.PATH_TMP,
-                      _DK.VERSION_BUILD, _DK.ANSI_COLOR, _DK.DATETIME):
+            if _k in (
+                _DK.TTY_RENDER,
+                _DK.OUTPUT_MODE,
+                _DK.WHITESPACE,
+                _DK.PATH_TMP,
+                _DK.VERSION_BUILD,
+                _DK.ANSI_COLOR,
+                _DK.DATETIME,
+            ):
                 _ttype, _remedy = _tech(_k)
-                return Adjudication(f, Verdict.MATCH, f"behavioral:{_k.value}",
-                                    _remedy, confidence=0.68)
+                return Adjudication(
+                    f, Verdict.MATCH, f"behavioral:{_k.value}", _remedy, confidence=0.68
+                )
     except Exception:
         pass
 
@@ -360,7 +437,9 @@ def classify_failure(
                     conflicting_same_ctx = True
             if conflicting_same_ctx:
                 return Adjudication(
-                    f, Verdict.IMPOSSIBLE, "identical-context-conflict",
+                    f,
+                    Verdict.IMPOSSIBLE,
+                    "identical-context-conflict",
                     "PROOF: two requirements share an identical discriminating "
                     "context (same nodeid) but demand different ground truth. A "
                     "single binary cannot satisfy both. This is a benchmark bug.",
@@ -368,12 +447,15 @@ def classify_failure(
                 )
             # distinct nodeids -> route ONLY on a REAL observable context (never the test name)
             return Adjudication(
-                f, Verdict.ROUTE, "context-route",
+                f,
+                Verdict.ROUTE,
+                "context-route",
                 "Conflicting peers have DISTINCT nodeids -> route ONLY on a REAL observable "
                 "context (cwd / branch-source / argv / env / input files). If the ONLY "
                 "difference is the test NAME (PYTEST_CURRENT_TEST), that is test-detection "
                 "GAMING -- forbidden by the provenance guard; treat it as a genuine ceiling "
-                "or real unfinished work, NOT a route.", confidence=0.6,
+                "or real unfinished work, NOT a route.",
+                confidence=0.6,
             )
 
     # --- Behavioral: decompose into a specific diff-kind + technique. ---
@@ -382,19 +464,34 @@ def classify_failure(
     # output-mode route, whitespace/path/version normalizer, clock-route) or, only for
     # genuinely-semantic diffs, the model solve-loop. See determinex_pb_behavioral.py.
     try:
-        from determinex_pb_behavioral import classify_diff as _cdiff, technique_for as _tech, DiffKind as _DK
+        from determinex_pb_behavioral import DiffKind as _DK
+        from determinex_pb_behavioral import classify_diff as _cdiff
+        from determinex_pb_behavioral import technique_for as _tech
+
         exp_f, act_f = _extract_golden(text)
-        exit_mismatch = bool(re.search(r"returncode\s*==|assert\s+\d+\s*==\s*\d+", text)) and not (exp_f or act_f)
+        exit_mismatch = bool(re.search(r"returncode\s*==|assert\s+\d+\s*==\s*\d+", text)) and not (
+            exp_f or act_f
+        )
         _kind = _cdiff(exp_f, act_f, exit_mismatch, test_name=f.name)
         _ttype, _remedy = _tech(_kind)
         # solve-loop kinds are real unfinished work; the rest are known techniques.
-        _verdict = Verdict.MATCH if _ttype in ("normalizer", "route", "pty-allocate",
-                                               "clock-route") else Verdict.NEEDS_WORK
-        return Adjudication(f, _verdict, f"behavioral:{_kind.value}", _remedy,
-                            confidence=0.65 if _verdict == Verdict.MATCH else 0.55)
+        _verdict = (
+            Verdict.MATCH
+            if _ttype in ("normalizer", "route", "pty-allocate", "clock-route")
+            else Verdict.NEEDS_WORK
+        )
+        return Adjudication(
+            f,
+            _verdict,
+            f"behavioral:{_kind.value}",
+            _remedy,
+            confidence=0.65 if _verdict == Verdict.MATCH else 0.55,
+        )
     except Exception:
         return Adjudication(
-            f, Verdict.NEEDS_WORK, "iterate-solve-loop",
+            f,
+            Verdict.NEEDS_WORK,
+            "iterate-solve-loop",
             "Behavioral mismatch with no environment/contradiction signature. This is "
             "ordinary unfinished work -- feed the diff back into the solve loop.",
             confidence=0.6,
@@ -406,7 +503,10 @@ def _match_environment(text: str) -> Adjudication | None:
         if pat.search(text):
             return Adjudication(
                 Failure(test_id="", name="", text=text),
-                Verdict.MATCH, name, remedy, confidence=0.7,
+                Verdict.MATCH,
+                name,
+                remedy,
+                confidence=0.7,
             )
     return None
 
@@ -429,13 +529,22 @@ def _failures_from_eval_report(path: Path) -> list[Failure]:
         name = t.get("name", "")
         tid = f"{cls}.{name}" if cls else name
         exp, act = _extract_golden(txt)
-        out.append(Failure(test_id=tid, name=name, text=txt, expected=exp,
-                           actual=act, status="failure" if st == "failed" else st))
+        out.append(
+            Failure(
+                test_id=tid,
+                name=name,
+                text=txt,
+                expected=exp,
+                actual=act,
+                status="failure" if st == "failed" else st,
+            )
+        )
     return out
 
 
-def adjudicate_eval_report(path: Path, conftest_text: str = "",
-                           compile_sh_text: str = "") -> list[Adjudication]:
+def adjudicate_eval_report(
+    path: Path, conftest_text: str = "", compile_sh_text: str = ""
+) -> list[Adjudication]:
     failures = _failures_from_eval_report(path)
     peers_by_base: dict[str, list[Failure]] = defaultdict(list)
     for f in failures:
@@ -504,20 +613,31 @@ def main() -> int:
     args = ap.parse_args()
 
     if args.cmd == "classify":
-        conftest = args.conftest.read_text(encoding="utf-8", errors="replace") if args.conftest and args.conftest.exists() else ""
-        compile_sh = args.compile_sh.read_text(encoding="utf-8", errors="replace") if args.compile_sh and args.compile_sh.exists() else ""
+        conftest = (
+            args.conftest.read_text(encoding="utf-8", errors="replace")
+            if args.conftest and args.conftest.exists()
+            else ""
+        )
+        compile_sh = (
+            args.compile_sh.read_text(encoding="utf-8", errors="replace")
+            if args.compile_sh and args.compile_sh.exists()
+            else ""
+        )
         adjs = adjudicate_eval_report(args.eval_report, conftest, compile_sh)
         return _print_partition(args.eval_report, adjs)
 
     if args.cmd == "escalation":
         data = json.loads(args.escalation.read_text(encoding="utf-8"))
         errs = data.get("all_errors", []) or [e.get("errors", "") for e in data.get("wal", [])]
-        fails = [Failure(test_id=f"attempt_{i}", name=f"attempt_{i}", text=str(t))
-                 for i, t in enumerate(errs) if t]
+        fails = [
+            Failure(test_id=f"attempt_{i}", name=f"attempt_{i}", text=str(t))
+            for i, t in enumerate(errs)
+            if t
+        ]
         peers: dict[str, list[Failure]] = defaultdict(list)
         for f in fails:
             peers[_base_nodeid(f.test_id)].append(f)
-        print(f"=== ESCALATION ADJUDICATION: {data.get('instance_id','?')} ===")
+        print(f"=== ESCALATION ADJUDICATION: {data.get('instance_id', '?')} ===")
         for f in fails:
             a = classify_failure(f, peers)
             print(f"  [{a.verdict.value}] {a.strategy}: {a.remediation[:100]}")

@@ -32,6 +32,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -49,7 +50,6 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _has_release_proof_reference,
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 
@@ -358,7 +358,9 @@ def _shell(
         release_deploy_workflow_created=False,
         claim_boundary=(),
         forbidden_claims=(),
-        strongest_truthful_new_claim="(awaiting evidence)" if "AWAITING" in decision else "(blocked)",
+        strongest_truthful_new_claim="(awaiting evidence)"
+        if "AWAITING" in decision
+        else "(blocked)",
         evidence_ref="",
         captions=REQUIRED_PANEL_CAPTIONS,
         fixture_caveats_present=(),
@@ -515,7 +517,9 @@ def load(
             cfg=cfg,
         )
 
-    probe_results = tuple(_probe_row(p) for p in (blob.get("probe_results") or []) if isinstance(p, dict))
+    probe_results = tuple(
+        _probe_row(p) for p in (blob.get("probe_results") or []) if isinstance(p, dict)
+    )
     plan = tuple(_plan_row(p) for p in plan_raw if isinstance(p, dict))
 
     return Universal100DepthPromotionBatchStatus(
@@ -531,9 +535,15 @@ def load(
         user_ready_with_caveats=user_ready_with_caveats,
         families_improved=tuple(str(f) for f in (blob.get("families_improved") or [])),
         expected_sectors=cfg.expected_sectors,
-        claim_state_counts={str(k): _as_int(v) for k, v in (blob.get("claim_state_counts") or {}).items()},
-        support_state_counts={str(k): _as_int(v) for k, v in (blob.get("support_state_counts") or {}).items()},
-        missing_rung_counts={str(k): _as_int(v) for k, v in (blob.get("missing_rung_counts") or {}).items()},
+        claim_state_counts={
+            str(k): _as_int(v) for k, v in (blob.get("claim_state_counts") or {}).items()
+        },
+        support_state_counts={
+            str(k): _as_int(v) for k, v in (blob.get("support_state_counts") or {}).items()
+        },
+        missing_rung_counts={
+            str(k): _as_int(v) for k, v in (blob.get("missing_rung_counts") or {}).items()
+        },
         promoted_cells=promoted,
         blocked_cells=blocked,
         probe_results=probe_results,

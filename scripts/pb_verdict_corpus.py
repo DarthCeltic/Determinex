@@ -39,6 +39,7 @@ Usage (programmatic, called from apply_gate_decision):
     from pb_verdict_corpus import ingest_gate_result
     written = ingest_gate_result(Path(gate_path))
 """
+
 from __future__ import annotations
 
 import argparse
@@ -47,7 +48,6 @@ import json
 import time
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CORPUS = ROOT / "corpus" / "programbench" / "training_corpus" / "pb_verdict_corpus.jsonl"
@@ -127,14 +127,20 @@ def _pick_implementation_files(override_dir: Path) -> list[tuple[str, Path]]:
     """Return source files that represent the implementation, not wrappers."""
     native_sets = [
         [("go.mod", override_dir / "go.mod"), ("main.go", override_dir / "main.go")],
-        [("Cargo.toml", override_dir / "Cargo.toml"), ("src/main.rs", override_dir / "src" / "main.rs")],
+        [
+            ("Cargo.toml", override_dir / "Cargo.toml"),
+            ("src/main.rs", override_dir / "src" / "main.rs"),
+        ],
         [("main.c", override_dir / "main.c")],
         [("main.cpp", override_dir / "main.cpp")],
         [("main.cc", override_dir / "main.cc")],
     ]
     for group in native_sets:
         existing = [(rel, path) for rel, path in group if path.is_file()]
-        if any(rel in {"main.go", "src/main.rs", "main.c", "main.cpp", "main.cc"} for rel, _ in existing):
+        if any(
+            rel in {"main.go", "src/main.rs", "main.c", "main.cpp", "main.cc"}
+            for rel, _ in existing
+        ):
             return existing
     if (override_dir / "main.py").is_file():
         return [("main.py", override_dir / "main.py")]
@@ -183,15 +189,21 @@ def _read_override(slug: str) -> dict[str, Any]:
 
     impl_files: list[dict[str, str]] = []
     for rel, p in _pick_implementation_files(od):
-        impl_files.append({
-            "path": rel,
-            "language": _source_language_for_path(rel),
-            "content": _read_text_truncated(p),
-        })
+        impl_files.append(
+            {
+                "path": rel,
+                "language": _source_language_for_path(rel),
+                "content": _read_text_truncated(p),
+            }
+        )
     out["implementation_files"] = impl_files
     langs = [f["language"] for f in impl_files if f.get("language") not in {"toml", "bash", "text"}]
     if langs:
-        out["implementation_language"] = langs[-1] if "rust" in langs and "src/main.rs" in [f["path"] for f in impl_files] else langs[0]
+        out["implementation_language"] = (
+            langs[-1]
+            if "rust" in langs and "src/main.rs" in [f["path"] for f in impl_files]
+            else langs[0]
+        )
     return out
 
 
@@ -333,7 +345,9 @@ def ingest_gate_result(
             continue
         fail_msg = None
         if verdict == "fail":
-            fail_msg = ((t.get("extra") or {}).get("message") or "")[:_MAX_FAIL_MESSAGE_BYTES] or None
+            fail_msg = ((t.get("extra") or {}).get("message") or "")[
+                :_MAX_FAIL_MESSAGE_BYTES
+            ] or None
         row = {
             "conversations": [
                 {"from": "system", "value": _SYSTEM_PROMPT},
@@ -389,10 +403,12 @@ def ingest_gate_result(
     # the existing PB pipeline; T: is the signed archive for the training flywheel.
     try:
         import sys as _sys
+
         _sys.path.insert(0, str(Path(__file__).parent))
         from agents.base_agent import CorpusType
         from corpus.corpus_manager import get_manager
         from verified_task.bench_to_corpus_eligibility import complete_benchmark_payload
+
         _cm = get_manager()
         signed_records = []
         for row, _rh in zip(new_rows, new_hashes):
@@ -457,16 +473,27 @@ def ingest_gate_result(
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("gate_result", type=Path,
-                    help="path to a gate_result.json produced by pb_candidate_gate.py")
-    ap.add_argument("--corpus", type=Path, default=DEFAULT_CORPUS,
-                    help="output verdict corpus (default: corpus/programbench/training_corpus/pb_verdict_corpus.jsonl)")
-    ap.add_argument("--seen", type=Path, default=DEFAULT_SEEN,
-                    help="seen-hash index (default: alongside corpus)")
-    ap.add_argument("--limit", type=int, default=None,
-                    help="process only first N tests (for smoke tests)")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="compute rows but do not write to corpus")
+    ap.add_argument(
+        "gate_result", type=Path, help="path to a gate_result.json produced by pb_candidate_gate.py"
+    )
+    ap.add_argument(
+        "--corpus",
+        type=Path,
+        default=DEFAULT_CORPUS,
+        help="output verdict corpus (default: corpus/programbench/training_corpus/pb_verdict_corpus.jsonl)",
+    )
+    ap.add_argument(
+        "--seen",
+        type=Path,
+        default=DEFAULT_SEEN,
+        help="seen-hash index (default: alongside corpus)",
+    )
+    ap.add_argument(
+        "--limit", type=int, default=None, help="process only first N tests (for smoke tests)"
+    )
+    ap.add_argument(
+        "--dry-run", action="store_true", help="compute rows but do not write to corpus"
+    )
     args = ap.parse_args()
     summary = ingest_gate_result(
         args.gate_result,

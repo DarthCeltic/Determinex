@@ -7,6 +7,7 @@ payload fields breaks the bind. The bind never authorizes source
 mutation; it only attests that the admission and the named
 operator are coupled.
 """
+
 from __future__ import annotations
 
 import dataclasses
@@ -25,12 +26,8 @@ oib = importlib.import_module("ide.operator_identity_bounding")
 oib_rec = importlib.import_module("ide.operator_identity_bounding_record")
 admission_mod = importlib.import_module("ide.real_human_approval_admission_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_OPERATOR_IDENTITY_BOUNDING_LOCK_001.json"
-)
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_operator_identity_bounding"
-)
+LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / ("CLAUDE_OPERATOR_IDENTITY_BOUNDING_LOCK_001.json")
+EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / ("claude_operator_identity_bounding")
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 

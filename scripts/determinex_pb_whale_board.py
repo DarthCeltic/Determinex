@@ -5,6 +5,7 @@ Reads each whale's freshest eval_report.json (written by determinex_pb_whale_bui
 its recipe, prints one perspective table: passed/total, %, verdict, top blocker.
 Run anytime; it just reflects what's on disk.
 """
+
 from __future__ import annotations
 
 import collections
@@ -59,8 +60,10 @@ def main() -> int:
         print(f"  {name:16s} {sysn:12s} {pt:>14s} {s['pct']:5.1f}%  {s['verdict']:11s} {s['blk']}")
     builds = sum(1 for _, _, s in rows if s["verdict"] in ("BUILDS", "LOCK*"))
     print("  " + "-" * 72)
-    print(f"  {builds}/{len(rows)} whales building; "
-          f"{sum(1 for _,_,s in rows if s['verdict']=='LOCK*')} at 100%")
+    print(
+        f"  {builds}/{len(rows)} whales building; "
+        f"{sum(1 for _, _, s in rows if s['verdict'] == 'LOCK*')} at 100%"
+    )
     return 0
 
 

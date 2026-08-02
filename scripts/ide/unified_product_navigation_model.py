@@ -20,6 +20,7 @@ VALIDATED:
 
 This module does NOT mutate anything and does NOT call any gate.
 """
+
 from __future__ import annotations
 
 from .unified_product_navigation_model_record import (
@@ -29,7 +30,6 @@ from .unified_product_navigation_model_record import (
     ProductSurface,
     UnifiedProductNavigationModelRecord,
 )
-
 
 _FORBIDDEN_MUTATION_PHRASES = (
     "authorized by default",
@@ -55,8 +55,11 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "local app — without claiming all apps or all languages."
         ),
         target_users=(
-            "beginner_no_experience", "learner", "vibe_coder",
-            "junior_developer", "professional_developer",
+            "beginner_no_experience",
+            "learner",
+            "vibe_coder",
+            "junior_developer",
+            "professional_developer",
         ),
         beginner_view=(
             "Plain-language idea capture; clear support-matrix check; "
@@ -69,13 +72,23 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
         ),
         inputs=("idea_text", "constraints", "optional_external_setup"),
         outputs=(
-            "spec", "blueprint", "scaffold", "acceptance_tests",
-            "build_verifier_result", "smoke_plan", "evidence_record",
+            "spec",
+            "blueprint",
+            "scaffold",
+            "acceptance_tests",
+            "build_verifier_result",
+            "smoke_plan",
+            "evidence_record",
         ),
         status_states=(
-            "IDEA_CAPTURED", "SPEC_WRITTEN", "SUPPORT_CHECK_REQUIRED",
-            "BLUEPRINT_READY", "SCAFFOLD_READY",
-            "GENERATED_UNVERIFIED", "TESTS_PASSED", "SMOKE_PASSED",
+            "IDEA_CAPTURED",
+            "SPEC_WRITTEN",
+            "SUPPORT_CHECK_REQUIRED",
+            "BLUEPRINT_READY",
+            "SCAFFOLD_READY",
+            "GENERATED_UNVERIFIED",
+            "TESTS_PASSED",
+            "SMOKE_PASSED",
             "VERIFIED_WORKING_LOCAL_APP",
         ),
         blocked_states=(
@@ -98,8 +111,7 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "training_eligible stays False; Idea Lab does not open training"
         ),
         claim_caveats=(
-            "not all apps — only the languages and frameworks in the "
-            "support matrix",
+            "not all apps — only the languages and frameworks in the support matrix",
             "external setup (databases, paid APIs) is the operator's "
             "responsibility and is caveated",
             "'WORKING' means build+test+smoke evidence, not production-ready",
@@ -113,7 +125,9 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "with verifier-gated source mutation."
         ),
         target_users=(
-            "junior_developer", "professional_developer", "maintainer",
+            "junior_developer",
+            "professional_developer",
+            "maintainer",
             "security_conscious_operator",
         ),
         beginner_view=(
@@ -126,17 +140,28 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "rollback snapshot ref, post-apply verifier output."
         ),
         inputs=(
-            "existing_repo_path", "failing_test_or_error", "verifier_command",
+            "existing_repo_path",
+            "failing_test_or_error",
+            "verifier_command",
         ),
         outputs=(
-            "health_report", "diagnosis", "quarantined_patch_plan",
-            "temp_verifier_result", "approval_request", "post_apply_evidence",
+            "health_report",
+            "diagnosis",
+            "quarantined_patch_plan",
+            "temp_verifier_result",
+            "approval_request",
+            "post_apply_evidence",
         ),
         status_states=(
-            "REPO_OPENED", "REPO_ANALYZED", "ISSUE_DIAGNOSED_UNVERIFIED",
-            "PATCH_PROPOSED_QUARANTINED", "TEMP_VERIFIER_PASSED",
-            "APPROVAL_REQUIRED", "SOURCE_MUTATION_AUTHORIZED",
-            "SOURCE_MUTATION_APPLIED", "POST_APPLY_VERIFIER_PASSED",
+            "REPO_OPENED",
+            "REPO_ANALYZED",
+            "ISSUE_DIAGNOSED_UNVERIFIED",
+            "PATCH_PROPOSED_QUARANTINED",
+            "TEMP_VERIFIER_PASSED",
+            "APPROVAL_REQUIRED",
+            "SOURCE_MUTATION_AUTHORIZED",
+            "SOURCE_MUTATION_APPLIED",
+            "POST_APPLY_VERIFIER_PASSED",
             "REPAIR_VERIFIED",
         ),
         blocked_states=(
@@ -172,29 +197,36 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "housekeeping with compatibility verifiers."
         ),
         target_users=(
-            "professional_developer", "maintainer",
-            "security_conscious_operator", "power_user",
+            "professional_developer",
+            "maintainer",
+            "security_conscious_operator",
+            "power_user",
         ),
         beginner_view=(
             "Clear risk classification per proposed change; UPDATED label "
             "disabled until compatibility verifier passes."
         ),
         professional_view=(
-            "Per-change risk score, dependency graph diff, advisory IDs, "
-            "rollback plan."
+            "Per-change risk score, dependency graph diff, advisory IDs, rollback plan."
         ),
         inputs=(
-            "existing_repo_path", "maintenance_type",
+            "existing_repo_path",
+            "maintenance_type",
             "advisory_or_dependency_target",
         ),
         outputs=(
-            "maintenance_plan", "risk_classification",
-            "quarantined_update", "compatibility_verifier_result",
-            "post_apply_evidence", "rollback_plan",
+            "maintenance_plan",
+            "risk_classification",
+            "quarantined_update",
+            "compatibility_verifier_result",
+            "post_apply_evidence",
+            "rollback_plan",
         ),
         status_states=(
-            "MAINTENANCE_REQUESTED", "MAINTENANCE_PLAN_WRITTEN",
-            "UPDATE_PROPOSED_QUARANTINED", "UPDATE_VERIFIED",
+            "MAINTENANCE_REQUESTED",
+            "MAINTENANCE_PLAN_WRITTEN",
+            "UPDATE_PROPOSED_QUARANTINED",
+            "UPDATE_VERIFIED",
             "UPDATE_APPLIED_AFTER_APPROVAL",
         ),
         blocked_states=(
@@ -213,8 +245,7 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "an explicit approval routes through the apply gate"
         ),
         training_eligibility_boundary=(
-            "training_eligible stays False; Maintenance Bay does not "
-            "open training"
+            "training_eligible stays False; Maintenance Bay does not open training"
         ),
         claim_caveats=(
             "'UPDATED' only after compatibility verifier passes",
@@ -230,8 +261,11 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "operator's chosen level — without authorizing any change."
         ),
         target_users=(
-            "beginner_no_experience", "learner", "vibe_coder",
-            "junior_developer", "professional_developer",
+            "beginner_no_experience",
+            "learner",
+            "vibe_coder",
+            "junior_developer",
+            "professional_developer",
         ),
         beginner_view=(
             "Plain-language explanations of repo / file / error / test "
@@ -244,14 +278,20 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "for any change that would touch source."
         ),
         inputs=(
-            "repo_or_file_or_error_or_test", "level", "concept_request",
+            "repo_or_file_or_error_or_test",
+            "level",
+            "concept_request",
         ),
         outputs=(
-            "explanation", "comparison", "walkthrough",
-            "beginner_version_vs_professional_version", "learning_checklist",
+            "explanation",
+            "comparison",
+            "walkthrough",
+            "beginner_version_vs_professional_version",
+            "learning_checklist",
         ),
         status_states=(
-            "LEARNING_EXPLAINED", "LEARNING_COMPARED",
+            "LEARNING_EXPLAINED",
+            "LEARNING_COMPARED",
             "LEARNING_WALKTHROUGH_RENDERED",
             "LEARNING_HANDOFF_TO_REPO_CLINIC",
             "LEARNING_HANDOFF_TO_IDEA_LAB",
@@ -269,8 +309,7 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "repo_clinic gates or idea_lab gates"
         ),
         training_eligibility_boundary=(
-            "training_eligible stays False; Learning Studio does not "
-            "open training"
+            "training_eligible stays False; Learning Studio does not open training"
         ),
         claim_caveats=(
             "explanations are informative, not authoritative",
@@ -286,8 +325,10 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "and claim safety in one read-only operator surface."
         ),
         target_users=(
-            "professional_developer", "maintainer",
-            "security_conscious_operator", "power_user",
+            "professional_developer",
+            "maintainer",
+            "security_conscious_operator",
+            "power_user",
         ),
         beginner_view=(
             "Plain-language ‘what is authorized / not authorized right "
@@ -300,12 +341,17 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "ProgramBench/provenance read-only mirror."
         ),
         inputs=(
-            "workspace_identity", "evidence_index", "operator_action_queue",
+            "workspace_identity",
+            "evidence_index",
+            "operator_action_queue",
         ),
         outputs=(
-            "evidence_ledger_view", "gate_state_summary",
-            "rollback_status", "training_status_badge",
-            "blocked_actions_list", "claim_safety_status",
+            "evidence_ledger_view",
+            "gate_state_summary",
+            "rollback_status",
+            "training_status_badge",
+            "blocked_actions_list",
+            "claim_safety_status",
         ),
         status_states=(
             "PROOF_VIEW_RENDERED",
@@ -318,17 +364,14 @@ _CANONICAL_SURFACES: tuple[ProductSurface, ...] = (
             "PROGRAMBENCH_NOT_MUTABLE_FROM_CLAUDE_LANE",
         ),
         proof_evidence_requirements=(
-            "evidence ledger is read-only here; canonical writer is the "
-            "Codex lane",
+            "evidence ledger is read-only here; canonical writer is the Codex lane",
             "no surface action may authorize source mutation or training",
         ),
         source_mutation_boundary=(
-            "read-only, non-authorizing surface; operator actions here "
-            "do not approve anything"
+            "read-only, non-authorizing surface; operator actions here do not approve anything"
         ),
         training_eligibility_boundary=(
-            "training_eligible stays False everywhere; this surface only "
-            "shows the status"
+            "training_eligible stays False everywhere; this surface only shows the status"
         ),
         claim_caveats=(
             "operator queue request is a request, not a grant",
@@ -388,9 +431,14 @@ def build_record() -> UnifiedProductNavigationModelRecord:
     ls = next((s for s in surfaces if s.key == "learning_studio"), None)
     if ls:
         bound = ls.source_mutation_boundary.lower()
-        if not any(k in bound for k in (
-            "non-mutating", "routes to repo_clinic", "routes to idea_lab",
-        )):
+        if not any(
+            k in bound
+            for k in (
+                "non-mutating",
+                "routes to repo_clinic",
+                "routes to idea_lab",
+            )
+        ):
             return _block(
                 "UNIFIED_PRODUCT_NAVIGATION_MODEL_BLOCKED_AUTHORITY_CONFUSION",
                 surfaces=surfaces,
@@ -440,9 +488,7 @@ def build_record() -> UnifiedProductNavigationModelRecord:
         decision="UNIFIED_PRODUCT_NAVIGATION_MODEL_VALIDATED",
         surfaces=surfaces,
         shared_authority_vocabulary=SHARED_AUTHORITY_VOCABULARY,
-        unsupported_state_visible_per_surface={
-            s.key: bool(s.blocked_states) for s in surfaces
-        },
+        unsupported_state_visible_per_surface={s.key: bool(s.blocked_states) for s in surfaces},
         source_mutation_authorized=False,
         training_eligible=False,
         notes=(
@@ -455,7 +501,8 @@ def build_record() -> UnifiedProductNavigationModelRecord:
 
 
 def _block(
-    decision: str, *,
+    decision: str,
+    *,
     surfaces: tuple[ProductSurface, ...],
     note: str,
 ) -> UnifiedProductNavigationModelRecord:
@@ -463,9 +510,7 @@ def _block(
         decision=decision,
         surfaces=surfaces,
         shared_authority_vocabulary=SHARED_AUTHORITY_VOCABULARY,
-        unsupported_state_visible_per_surface={
-            s.key: bool(s.blocked_states) for s in surfaces
-        },
+        unsupported_state_visible_per_surface={s.key: bool(s.blocked_states) for s in surfaces},
         source_mutation_authorized=False,
         training_eligible=False,
         notes=(note,),

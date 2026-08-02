@@ -4,17 +4,21 @@
 Run after mass_run_v2_scaffold.py and before any eval. Re-run after each
 iteration to refresh the tarballs (eval is keyed on submission sha).
 """
+
 from __future__ import annotations
+
 import os
 import sys
 import tarfile
 import time
 from pathlib import Path
 
-ROOT = Path(os.environ.get(
-    "DETERMINEX_PB_SCAFFOLD_OUT",
-    "T:/determinex-programbench/mass_run_v2_base",
-))
+ROOT = Path(
+    os.environ.get(
+        "DETERMINEX_PB_SCAFFOLD_OUT",
+        "T:/determinex-programbench/mass_run_v2_base",
+    )
+)
 
 
 def pack_one(inst_dir: Path) -> Path | None:

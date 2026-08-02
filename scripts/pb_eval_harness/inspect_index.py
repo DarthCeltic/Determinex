@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Quick inspection of eval_index.json for harness planning."""
+
 import json
 import pathlib
 

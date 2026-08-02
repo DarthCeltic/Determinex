@@ -84,7 +84,6 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -94,13 +93,16 @@ if hasattr(sys.stdout, "reconfigure"):
 # TREE-SITTER AST HASHING
 # ---------------------------------------------------------------------------
 
+
 def _try_import_tree_sitter():
     try:
         import tree_sitter
         from tree_sitter import Language, Parser
+
         return Parser
     except ImportError:
         return None
+
 
 _TS_PARSER_CLASS = _try_import_tree_sitter()
 
@@ -135,15 +137,16 @@ def compute_ast_hash(source_code: str, language: str = "python") -> tuple[str, i
     try:
         # Try to load the language grammar
         lang_map = {
-            "python":     "tree_sitter_python",
-            "rust":       "tree_sitter_rust",
-            "go":         "tree_sitter_go",
+            "python": "tree_sitter_python",
+            "rust": "tree_sitter_rust",
+            "go": "tree_sitter_go",
             "typescript": "tree_sitter_typescript",
             "javascript": "tree_sitter_javascript",
         }
         lang_module_name = lang_map.get(language.lower(), "tree_sitter_python")
 
         import importlib
+
         lang_module = importlib.import_module(lang_module_name)
         lang = lang_module.language()
 
@@ -155,8 +158,8 @@ def compute_ast_hash(source_code: str, language: str = "python") -> tuple[str, i
         node_types = []
         _collect_node_types(root, node_types)
 
-        ast_str    = " ".join(node_types)
-        ast_hash   = hashlib.sha256(ast_str.encode("utf-8")).hexdigest()
+        ast_str = " ".join(node_types)
+        ast_hash = hashlib.sha256(ast_str.encode("utf-8")).hexdigest()
         node_count = len(node_types)
         return ast_hash, node_count, frozenset(node_types)
 
@@ -173,9 +176,14 @@ def _collect_node_types(node, out: list):
         _collect_node_types(child, out)
 
 
-def compute_ast_delta(hash_a: str, count_a: int, hash_b: str, count_b: int,
-                      types_a: frozenset = frozenset(),
-                      types_b: frozenset = frozenset()) -> float:
+def compute_ast_delta(
+    hash_a: str,
+    count_a: int,
+    hash_b: str,
+    count_b: int,
+    types_a: frozenset = frozenset(),
+    types_b: frozenset = frozenset(),
+) -> float:
     """
     Compute the structural change fraction between two AST snapshots.
 
@@ -262,6 +270,7 @@ CREATE INDEX IF NOT EXISTS idx_burnout_ack     ON burnout_events(acknowledged);
 # BURNOUT EVENT
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class BurnoutEvent:
     """
@@ -273,11 +282,12 @@ class BurnoutEvent:
         3. Flushing the context window of local error logs
         4. Injecting Latent RAG with directory-level abstractions
     """
-    event_type:  str           # 'TUNNEL_VISION' | 'COMPILE_LOOP'
+
+    event_type: str  # 'TUNNEL_VISION' | 'COMPILE_LOOP'
     buffer_path: str
-    session_id:  str
-    timestamp:   float = field(default_factory=time.time)
-    details:     str   = ""
+    session_id: str
+    timestamp: float = field(default_factory=time.time)
+    details: str = ""
 
     @property
     def intervention_prompt(self) -> str:
@@ -316,11 +326,11 @@ class BurnoutEvent:
 # Configurable via environment variables for enterprise tuning
 import os
 
-TUNNEL_VISION_MINUTES    = float(os.environ.get("DETERMINEX_TUNNEL_VISION_MINUTES",  "45"))
-TUNNEL_VISION_AST_DELTA  = float(os.environ.get("DETERMINEX_TUNNEL_VISION_AST_DELTA", "0.05"))
-COMPILE_FAIL_LIMIT       = int(os.environ.get("DETERMINEX_COMPILE_FAIL_LIMIT",        "10"))
-COMPILE_FAIL_WINDOW_MINS = float(os.environ.get("DETERMINEX_COMPILE_FAIL_WINDOW",     "15"))
-CHRONO_POLL_SECONDS      = float(os.environ.get("DETERMINEX_CHRONO_POLL_SECONDS",     "30"))
+TUNNEL_VISION_MINUTES = float(os.environ.get("DETERMINEX_TUNNEL_VISION_MINUTES", "45"))
+TUNNEL_VISION_AST_DELTA = float(os.environ.get("DETERMINEX_TUNNEL_VISION_AST_DELTA", "0.05"))
+COMPILE_FAIL_LIMIT = int(os.environ.get("DETERMINEX_COMPILE_FAIL_LIMIT", "10"))
+COMPILE_FAIL_WINDOW_MINS = float(os.environ.get("DETERMINEX_COMPILE_FAIL_WINDOW", "15"))
+CHRONO_POLL_SECONDS = float(os.environ.get("DETERMINEX_CHRONO_POLL_SECONDS", "30"))
 
 
 class BurnoutProtocol:
@@ -333,10 +343,10 @@ class BurnoutProtocol:
     """
 
     def __init__(self, conn: sqlite3.Connection, session_id: str):
-        self._conn      = conn
+        self._conn = conn
         self.session_id = session_id
 
-    def check(self, buffer_path: str) -> Optional[BurnoutEvent]:
+    def check(self, buffer_path: str) -> BurnoutEvent | None:
         """
         Evaluate all thresholds for the current active buffer.
 
@@ -348,7 +358,7 @@ class BurnoutProtocol:
             return event
         return self._check_tunnel_vision(buffer_path)
 
-    def _check_compile_loop(self, buffer_path: str) -> Optional[BurnoutEvent]:
+    def _check_compile_loop(self, buffer_path: str) -> BurnoutEvent | None:
         """
         THRESHOLD_COMPILE_LOOP:
             failed_compilations > COMPILE_FAIL_LIMIT on the same function
@@ -363,7 +373,7 @@ class BurnoutProtocol:
                  AND timestamp >= ?
                ORDER BY timestamp DESC
                LIMIT 1""",
-            (self.session_id, buffer_path, window_start)
+            (self.session_id, buffer_path, window_start),
         ).fetchone()
 
         if row and row[0] is not None and row[0] > COMPILE_FAIL_LIMIT:
@@ -379,7 +389,7 @@ class BurnoutProtocol:
             )
         return None
 
-    def _check_tunnel_vision(self, buffer_path: str) -> Optional[BurnoutEvent]:
+    def _check_tunnel_vision(self, buffer_path: str) -> BurnoutEvent | None:
         """
         THRESHOLD_TUNNEL_VISION:
             time_in_buffer > TUNNEL_VISION_MINUTES
@@ -404,24 +414,27 @@ class BurnoutProtocol:
                  AND active_buffer_path = ?
                  AND timestamp >= ?
                ORDER BY timestamp ASC""",
-            (self.session_id, buffer_path, fetch_start)
+            (self.session_id, buffer_path, fetch_start),
         ).fetchall()
 
         if len(rows) < 2:
-            return None   # Not enough data to evaluate
+            return None  # Not enough data to evaluate
 
         earliest = rows[0]
-        latest   = rows[-1]
+        latest = rows[-1]
 
-        time_in_buffer = latest[2] - earliest[2]   # seconds
+        time_in_buffer = latest[2] - earliest[2]  # seconds
         if time_in_buffer < (TUNNEL_VISION_MINUTES * 60):
             return None
 
         delta = compute_ast_delta(
-            hash_a=earliest[0], count_a=earliest[1],
-            hash_b=latest[0],   count_b=latest[1],
+            hash_a=earliest[0],
+            count_a=earliest[1],
+            hash_b=latest[0],
+            count_b=latest[1],
             # type sets not stored in DB — rely on count signal only here
-            types_a=frozenset(), types_b=frozenset(),
+            types_a=frozenset(),
+            types_b=frozenset(),
         )
 
         if delta < TUNNEL_VISION_AST_DELTA:
@@ -430,7 +443,7 @@ class BurnoutProtocol:
                 buffer_path=buffer_path,
                 session_id=self.session_id,
                 details=(
-                    f"time_in_buffer={time_in_buffer/60:.1f}min  "
+                    f"time_in_buffer={time_in_buffer / 60:.1f}min  "
                     f"ast_delta={delta:.4f}  "
                     f"threshold={TUNNEL_VISION_AST_DELTA}"
                 ),
@@ -441,6 +454,7 @@ class BurnoutProtocol:
 # ---------------------------------------------------------------------------
 # CHRONO DAEMON — background thread + public API
 # ---------------------------------------------------------------------------
+
 
 class ChronoDaemon:
     """
@@ -457,10 +471,10 @@ class ChronoDaemon:
 
     def __init__(
         self,
-        db_path:    str | Path = ".determinex/chrono.db",
-        session_id: Optional[str] = None,
+        db_path: str | Path = ".determinex/chrono.db",
+        session_id: str | None = None,
     ):
-        self.db_path    = Path(db_path)
+        self.db_path = Path(db_path)
         self.session_id = session_id or str(uuid.uuid4())
         # RLock, not Lock. `_poll_loop` used to take this and then call `_write_snapshot()`, which
         # takes it again -- a self-deadlock that parked a whole hive session for 19 minutes with no
@@ -468,18 +482,18 @@ class ChronoDaemon:
         # away in any of the five methods that take this lock, and the failure mode is silence rather
         # than a crash. Re-entrancy makes the mistake survivable instead of fatal; it does not excuse
         # holding the lock across a disk write, which is why the fix at the call site stands too.
-        self._lock      = threading.RLock()
-        self._thread    = None
-        self._running   = False
+        self._lock = threading.RLock()
+        self._thread = None
+        self._running = False
 
         # Current state
-        self._current_buffer_path    = ""
-        self._current_ast_hash       = ""
+        self._current_buffer_path = ""
+        self._current_ast_hash = ""
         self._current_ast_node_count = 0
-        self._current_ast_type_set: frozenset = frozenset()   # #SEC-AST-DELTA
-        self._current_kv             = 0.0
-        self._compile_fail_count     = 0
-        self._last_fail_signature    = ""
+        self._current_ast_type_set: frozenset = frozenset()  # #SEC-AST-DELTA
+        self._current_kv = 0.0
+        self._compile_fail_count = 0
+        self._last_fail_signature = ""
 
         # Unacknowledged burnout events queue
         self._pending_events: list[BurnoutEvent] = []
@@ -505,10 +519,10 @@ class ChronoDaemon:
 
     def update_buffer(
         self,
-        buffer_path:       str,
-        file_content:      str,
+        buffer_path: str,
+        file_content: str,
         keystroke_velocity: float = 0.0,
-        language:          str = "python",
+        language: str = "python",
     ):
         """
         Update the daemon with the current active buffer state.
@@ -526,20 +540,20 @@ class ChronoDaemon:
         ast_hash, node_count, node_type_set = compute_ast_hash(file_content, language)
 
         with self._lock:
-            self._current_buffer_path    = buffer_path
-            self._current_ast_hash       = ast_hash
+            self._current_buffer_path = buffer_path
+            self._current_ast_hash = ast_hash
             self._current_ast_node_count = node_count
-            self._current_ast_type_set   = node_type_set
-            self._current_kv             = keystroke_velocity
+            self._current_ast_type_set = node_type_set
+            self._current_kv = keystroke_velocity
 
         # Write immediately (don't wait for poll tick)
         self._write_snapshot()
 
     def record_compile_result(
         self,
-        buffer_path:        str,
+        buffer_path: str,
         function_signature: str,
-        failed:             bool,
+        failed: bool,
     ):
         """
         Record a compile result from the Compiler Oracle.
@@ -555,16 +569,16 @@ class ChronoDaemon:
             if failed and function_signature == self._last_fail_signature:
                 self._compile_fail_count += 1
             elif failed:
-                self._compile_fail_count   = 1
-                self._last_fail_signature  = function_signature
+                self._compile_fail_count = 1
+                self._last_fail_signature = function_signature
             else:
                 # Successful compile — reset counter for this signature
-                self._compile_fail_count  = 0
+                self._compile_fail_count = 0
                 self._last_fail_signature = ""
 
         self._write_snapshot()
 
-    def check_burnout(self) -> Optional[BurnoutEvent]:
+    def check_burnout(self) -> BurnoutEvent | None:
         """
         Evaluate Burnout Protocol thresholds for the current buffer.
 
@@ -599,19 +613,18 @@ class ChronoDaemon:
             """SELECT COUNT(*), MIN(timestamp), MAX(timestamp),
                       COUNT(DISTINCT active_buffer_path)
                FROM temporal_context WHERE session_id = ?""",
-            (self.session_id,)
+            (self.session_id,),
         ).fetchone()
         burnouts = self._conn.execute(
-            "SELECT COUNT(*) FROM burnout_events WHERE session_id = ?",
-            (self.session_id,)
+            "SELECT COUNT(*) FROM burnout_events WHERE session_id = ?", (self.session_id,)
         ).fetchone()[0]
         return {
-            "session_id":       self.session_id,
-            "snapshots":        rows[0] or 0,
-            "session_start":    rows[1],
-            "session_end":      rows[2],
-            "unique_buffers":   rows[3] or 0,
-            "burnout_events":   burnouts,
+            "session_id": self.session_id,
+            "snapshots": rows[0] or 0,
+            "session_start": rows[1],
+            "session_end": rows[2],
+            "unique_buffers": rows[3] or 0,
+            "burnout_events": burnouts,
         }
 
     # ── Background daemon ────────────────────────────────────────────────────
@@ -621,7 +634,7 @@ class ChronoDaemon:
         if self._running:
             return
         self._running = True
-        self._thread  = threading.Thread(
+        self._thread = threading.Thread(
             target=self._poll_loop,
             name="determinex-chrono-daemon",
             daemon=True,
@@ -691,7 +704,7 @@ class ChronoDaemon:
                     self._current_kv,
                     self._compile_fail_count,
                     self._last_fail_signature,
-                )
+                ),
             )
 
     def _persist_burnout_event(self, event: BurnoutEvent):
@@ -700,8 +713,7 @@ class ChronoDaemon:
             """INSERT INTO burnout_events
                (session_id, timestamp, event_type, buffer_path, details)
                VALUES (?, ?, ?, ?, ?)""",
-            (event.session_id, event.timestamp, event.event_type,
-             event.buffer_path, event.details)
+            (event.session_id, event.timestamp, event.event_type, event.buffer_path, event.details),
         )
 
     def close(self):
@@ -710,8 +722,11 @@ class ChronoDaemon:
             self._conn.close()
             self._conn = None
 
-    def __enter__(self): return self
-    def __exit__(self, *_): self.close()
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        self.close()
 
 
 # ---------------------------------------------------------------------------
@@ -744,7 +759,7 @@ fn process_data(items: &[i32]) -> Vec<i32> {
     # AST hash self-test
     h1, c1, t1 = compute_ast_hash(sample_rust, language="rust")
     h2, c2, t2 = compute_ast_hash(sample_rust_modified, language="rust")
-    delta   = compute_ast_delta(h1, c1, h2, c2, t1, t2)
+    delta = compute_ast_delta(h1, c1, h2, c2, t1, t2)
     print(f"  AST hash v1: {h1[:16]}…  nodes={c1}  types={len(t1)}")
     print(f"  AST hash v2: {h2[:16]}…  nodes={c2}  types={len(t2)}")
     print(f"  AST delta:   {delta:.4f}  (expected > 0)")
@@ -752,12 +767,14 @@ fn process_data(items: &[i32]) -> Vec<i32> {
     assert delta > 0.0, "Structurally different code should have delta > 0"
 
     # Semantic delta test: single-char change (> to >=) must NOT score 0.0
-    sample_gt  = "fn f(x: i32) -> bool { x > 0 }"
+    sample_gt = "fn f(x: i32) -> bool { x > 0 }"
     sample_gte = "fn f(x: i32) -> bool { x >= 0 }"
-    hgt, cgt, tgt   = compute_ast_hash(sample_gt,  language="rust")
+    hgt, cgt, tgt = compute_ast_hash(sample_gt, language="rust")
     hgte, cgte, tgte = compute_ast_hash(sample_gte, language="rust")
     semantic_delta = compute_ast_delta(hgt, cgt, hgte, cgte, tgt, tgte)
-    print(f"  Semantic delta (> vs >=): {semantic_delta:.4f}  (expected >= 0.10 if tree-sitter available)")
+    print(
+        f"  Semantic delta (> vs >=): {semantic_delta:.4f}  (expected >= 0.10 if tree-sitter available)"
+    )
     if tgt and tgte:  # only assert when tree-sitter actually parsed
         assert semantic_delta >= 0.10, (
             f"Semantic fix (> vs >=) must not score near-zero — got {semantic_delta:.4f}. "
@@ -767,7 +784,7 @@ fn process_data(items: &[i32]) -> Vec<i32> {
     # Daemon + threshold self-test
     with tempfile.TemporaryDirectory() as tmpdir:
         db_path = Path(tmpdir) / "test_chrono.db"
-        daemon  = ChronoDaemon(db_path=db_path)
+        daemon = ChronoDaemon(db_path=db_path)
 
         # Simulate tunnel vision: patch threshold to 5 min so the test
         # doesn't need to actually wait 45 minutes.
@@ -780,21 +797,21 @@ fn process_data(items: &[i32]) -> Vec<i32> {
 
         now_ts = time.time()
         for i in range(7):
-            row_ts = now_ts - (6 * 60) + (i * 60)   # rows spanning 6 min (> 5-min threshold)
+            row_ts = now_ts - (6 * 60) + (i * 60)  # rows spanning 6 min (> 5-min threshold)
             daemon._conn.execute(
                 """INSERT INTO temporal_context
                    (session_id, timestamp, active_buffer_path,
                     ast_hash, ast_node_count, keystroke_velocity,
                     compile_fail_count, last_fail_signature)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-                (daemon.session_id, row_ts, buf, h1, c1, 5.0, 0, "")
+                (daemon.session_id, row_ts, buf, h1, c1, 5.0, 0, ""),
             )
 
         with daemon._lock:
             daemon._current_buffer_path = buf
         event = daemon.check_burnout()
 
-        _fn_globals["TUNNEL_VISION_MINUTES"] = _orig_tv   # restore immediately
+        _fn_globals["TUNNEL_VISION_MINUTES"] = _orig_tv  # restore immediately
         daemon._burnout = BurnoutProtocol(daemon._conn, daemon.session_id)
 
         assert event is not None, "Expected TUNNEL_VISION event"
@@ -803,7 +820,7 @@ fn process_data(items: &[i32]) -> Vec<i32> {
         print(f"  Intervention prompt preview: {event.intervention_prompt[:80]}…")
 
         # Compile loop test
-        daemon._compile_fail_count  = 11
+        daemon._compile_fail_count = 11
         daemon._last_fail_signature = "fn process_data("
         for i in range(12):
             daemon._conn.execute(
@@ -812,9 +829,16 @@ fn process_data(items: &[i32]) -> Vec<i32> {
                     ast_hash, ast_node_count, keystroke_velocity,
                     compile_fail_count, last_fail_signature)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-                (daemon.session_id,
-                 time.time() - (COMPILE_FAIL_WINDOW_MINS * 60) + i * 60,
-                 buf, h1, c1, 0.0, i + 1, "fn process_data(")
+                (
+                    daemon.session_id,
+                    time.time() - (COMPILE_FAIL_WINDOW_MINS * 60) + i * 60,
+                    buf,
+                    h1,
+                    c1,
+                    0.0,
+                    i + 1,
+                    "fn process_data(",
+                ),
             )
 
         event2 = daemon.check_burnout()
@@ -824,6 +848,6 @@ fn process_data(items: &[i32]) -> Vec<i32> {
 
         stats = daemon.get_session_stats()
         print(f"  Session stats: {stats}")
-        daemon.close()   # explicit close before TemporaryDirectory exits (Windows WAL lock)
+        daemon.close()  # explicit close before TemporaryDirectory exits (Windows WAL lock)
 
     print("[ChronoDaemon] Self-test passed.", flush=True)

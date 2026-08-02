@@ -11,13 +11,15 @@ Usage:
     determinex_rag_index.py query "How does the Compile Oracle work?" --corpus determinex-docs
     determinex_rag_index.py stats
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import os
 import sys
-from pathlib import Path
 import urllib.request
+from pathlib import Path
 
 EMBED_MODEL = os.environ.get("DETERMINEX_EMBED_MODEL", "nomic-embed-text:latest")
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
@@ -92,10 +94,20 @@ def cmd_index(args):
             emb = embed(chunk)
             if emb is None:
                 continue
-            cur.execute("""
+            cur.execute(
+                """
                 INSERT INTO rag_chunks(corpus, source_path, chunk_idx, text, embedding, meta)
                 VALUES (%s, %s, %s, %s, %s, %s)
-            """, (args.corpus, rel, i, chunk, emb, json.dumps({"ext": path.suffix, "size": len(text)})))
+            """,
+                (
+                    args.corpus,
+                    rel,
+                    i,
+                    chunk,
+                    emb,
+                    json.dumps({"ext": path.suffix, "size": len(text)}),
+                ),
+            )
             n_chunks += 1
         n_files += 1
         if n_files % 10 == 0:
@@ -111,14 +123,17 @@ def cmd_query(args):
         sys.exit(1)
     c = _pg()
     cur = c.cursor()
-    cur.execute("""
+    cur.execute(
+        """
         SELECT corpus, source_path, chunk_idx, text,
                1 - (embedding <=> %s::vector) AS similarity
         FROM rag_chunks
         WHERE corpus = %s OR %s = 'all'
         ORDER BY embedding <=> %s::vector
         LIMIT %s
-    """, (qemb, args.corpus, args.corpus, qemb, args.k))
+    """,
+        (qemb, args.corpus, args.corpus, qemb, args.k),
+    )
     for corpus, path, idx, text, sim in cur.fetchall():
         print(f"--- {corpus}:{path}#{idx}  sim={sim:.3f} ---")
         print(text[:500])

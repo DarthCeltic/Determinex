@@ -29,7 +29,9 @@ def swelancer_task_spec(
         scorer="all_commands_pass",
         privacy_policy="cloak",
         cloak_mode="project",
-        resource_limits=ResourceLimits(timeout_seconds=timeout_seconds, max_attempts=5, docker_cpus=2),
+        resource_limits=ResourceLimits(
+            timeout_seconds=timeout_seconds, max_attempts=5, docker_cpus=2
+        ),
         metadata={
             "adapter": "swelancer",
             "task_shape": task_kind,

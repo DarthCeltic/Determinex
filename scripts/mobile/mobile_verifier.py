@@ -1,11 +1,11 @@
 """
 Mobile oracle — verifies task completion criteria for mobile agents.
 """
+
 from __future__ import annotations
 
 import logging
 import subprocess
-from typing import Any
 
 from agents.base_agent import OracleType, OracleVerdict
 
@@ -13,8 +13,9 @@ log = logging.getLogger(__name__)
 
 
 def _adb(serial: str, *args: str) -> subprocess.CompletedProcess:
-    return subprocess.run(["adb", "-s", serial] + list(args),
-                          capture_output=True, text=True, timeout=15)
+    return subprocess.run(
+        ["adb", "-s", serial] + list(args), capture_output=True, text=True, timeout=15
+    )
 
 
 def package_opened(serial: str, package: str) -> OracleVerdict:
@@ -28,7 +29,9 @@ def package_opened(serial: str, package: str) -> OracleVerdict:
             evidence=f"package={package} found={passed}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def activity_matches(serial: str, expected_activity: str) -> OracleVerdict:
@@ -42,11 +45,14 @@ def activity_matches(serial: str, expected_activity: str) -> OracleVerdict:
             evidence=f"activity={expected_activity} found={passed}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def ui_text_exists(serial: str, text: str) -> OracleVerdict:
-    from mobile.uiautomator_reader import dump_ui_xml, parse_ui_tree, find_element
+    from mobile.uiautomator_reader import dump_ui_xml, find_element, parse_ui_tree
+
     try:
         xml = dump_ui_xml(serial)
         elements = parse_ui_tree(xml)
@@ -59,7 +65,9 @@ def ui_text_exists(serial: str, text: str) -> OracleVerdict:
             evidence=f"text={text!r} found={passed} matches={len(matches)}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def screenshot_region_matches(
@@ -68,6 +76,7 @@ def screenshot_region_matches(
     threshold: float = 0.05,
 ) -> OracleVerdict:
     from vision.visual_diff import compare
+
     try:
         result = compare(path_before, path_after, threshold=threshold)
         return OracleVerdict(
@@ -77,7 +86,9 @@ def screenshot_region_matches(
             evidence=f"pixel_diff={result.pixel_diff_score:.4f} threshold={threshold}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.VISUAL, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.VISUAL, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def file_exists_on_device(serial: str, path: str) -> OracleVerdict:
@@ -91,11 +102,14 @@ def file_exists_on_device(serial: str, path: str) -> OracleVerdict:
             evidence=f"path={path} exists={passed}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc)
+        )
 
 
 def permission_dialog_handled(serial: str, expected_button: str = "Allow") -> OracleVerdict:
-    from mobile.uiautomator_reader import dump_ui_xml, parse_ui_tree, find_element
+    from mobile.uiautomator_reader import dump_ui_xml, find_element, parse_ui_tree
+
     try:
         xml = dump_ui_xml(serial)
         elements = parse_ui_tree(xml)
@@ -109,4 +123,6 @@ def permission_dialog_handled(serial: str, expected_button: str = "Allow") -> Or
             evidence=f"button={expected_button!r} still_visible={not passed}",
         )
     except Exception as exc:
-        return OracleVerdict(oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc))
+        return OracleVerdict(
+            oracle_type=OracleType.MOBILE, passed=False, score=0.0, evidence=str(exc)
+        )

@@ -34,6 +34,7 @@ when the canonical variable was the one set. The string-vs-bytes bug was therefo
 live by fixing the variable name. It is guarded here because it is real now, not because it ever
 fired.
 """
+
 from __future__ import annotations
 
 import importlib
@@ -55,8 +56,8 @@ from determinex_doctor import (  # noqa: E402
 )
 
 CANONICAL, ALIAS = _HMAC_KEY_ENV_NAMES
-GOOD_KEY = secrets.token_hex(_HMAC_KEY_MIN_BYTES)          # 64 hex chars = 32 bytes
-SHORT_KEY = secrets.token_hex(16)                          # 32 hex chars = 16 bytes
+GOOD_KEY = secrets.token_hex(_HMAC_KEY_MIN_BYTES)  # 64 hex chars = 32 bytes
+SHORT_KEY = secrets.token_hex(16)  # 32 hex chars = 16 bytes
 NOT_HEX = "z" * 64
 
 

@@ -26,7 +26,9 @@ def _candidate(tool: str = "sharkdp__fd.40d8eb3") -> dict:
     }
 
 
-def _config(tmp_path: Path, *, require_image: bool = False, require_baseline: bool = False) -> HydrationConfig:
+def _config(
+    tmp_path: Path, *, require_image: bool = False, require_baseline: bool = False
+) -> HydrationConfig:
     return HydrationConfig(
         task_roots=[tmp_path / "tasks"],
         candidate_roots=[tmp_path / "candidates"],
@@ -85,14 +87,18 @@ def test_missing_eval_harness_status(tmp_path):
 
 def test_missing_docker_image_status_when_required(tmp_path):
     _make_ready_layout(tmp_path)
-    result = ProgramBenchReplayHydrator(_config(tmp_path, require_image=True)).hydrate_candidate(_candidate())
+    result = ProgramBenchReplayHydrator(_config(tmp_path, require_image=True)).hydrate_candidate(
+        _candidate()
+    )
 
     assert result.status == HydrationStatus.MISSING_DOCKER_IMAGE.value
 
 
 def test_missing_baseline_status_when_required(tmp_path):
     _make_ready_layout(tmp_path)
-    result = ProgramBenchReplayHydrator(_config(tmp_path, require_baseline=True)).hydrate_candidate(_candidate())
+    result = ProgramBenchReplayHydrator(_config(tmp_path, require_baseline=True)).hydrate_candidate(
+        _candidate()
+    )
 
     assert result.status == HydrationStatus.MISSING_BASELINE.value
 

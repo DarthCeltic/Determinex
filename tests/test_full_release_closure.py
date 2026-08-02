@@ -52,20 +52,28 @@ def test_verify_download_bundle_checks_zip_artifact_hashes(tmp_path: Path, monke
 
 
 def test_full_release_closure_never_grants_release_authority(tmp_path: Path, monkeypatch):
-    _write_json(tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"})
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"}
+    )
     _write_json(
         tmp_path / "assurance/sbom/determinex-python.cyclonedx.json",
         {"bomFormat": "CycloneDX", "metadata": {"component": {"name": "determinex-python"}}},
     )
-    _write_json(tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json", {"bomFormat": "CycloneDX"})
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json", {"bomFormat": "CycloneDX"}
+    )
     _write_json(
         tmp_path
         / "assurance/evidence/clean_host_fresh_install_runner_execution/run_20260531.CLEAN_HOST_FRESH_INSTALL_RUNNER_EXECUTION_BLOCKED_RUNNER_NOT_EXECUTED.json",
         {"clean_host_fresh_install": False, "status": "blocked"},
     )
-    _write_json(tmp_path / "assurance/evidence/first_end_to_end_user_workflow/result.json", {"status": "blocked"})
     _write_json(
-        tmp_path / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json",
+        tmp_path / "assurance/evidence/first_end_to_end_user_workflow/result.json",
+        {"status": "blocked"},
+    )
+    _write_json(
+        tmp_path
+        / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json",
         {
             "session_id": "semantic-session",
             "status": "BLOCKED_CORRECTNESS_GATE_FAILED_AFTER_BUILDER_HEALTH_PASSED",
@@ -110,25 +118,46 @@ def test_full_release_closure_never_grants_release_authority(tmp_path: Path, mon
     assert "swebench_fresh" not in report["blocked_gate_ids"]
     assert "programbench_200" in report["deferred_gate_ids"]
     assert "swebench_fresh" in report["deferred_gate_ids"]
-    assert "clean_host_install_launch_uninstall_transcript_not_executed" in report["protected_external_blockers"]
-    assert "windows_signing_smartscreen_trust_not_verified" not in report["protected_external_blockers"]
+    assert (
+        "clean_host_install_launch_uninstall_transcript_not_executed"
+        in report["protected_external_blockers"]
+    )
+    assert (
+        "windows_signing_smartscreen_trust_not_verified"
+        not in report["protected_external_blockers"]
+    )
     assert "legal_public_distribution_packet_not_executed" in report["protected_external_blockers"]
     assert "windows_msi_distribution_not_built" in report["protected_external_blockers"]
     assert "linux_package_distribution_not_built" in report["protected_external_blockers"]
-    assert "programbench_200_of_200_strict_locks_not_complete" not in report["protected_external_blockers"]
-    assert "fresh_swebench_privacy_mode_publication_reruns_not_complete" not in report["protected_external_blockers"]
+    assert (
+        "programbench_200_of_200_strict_locks_not_complete"
+        not in report["protected_external_blockers"]
+    )
+    assert (
+        "fresh_swebench_privacy_mode_publication_reruns_not_complete"
+        not in report["protected_external_blockers"]
+    )
     assert "SWE-bench Pro" in " ".join(report["deferred_proof_tracks"])
     assert any("semantic repair loop" in action for action in report["next_executable_actions"])
-    assert (tmp_path / "assurance/evidence/full_release_closure/clean_host_runner_preflight_20260707.json").is_file()
+    assert (
+        tmp_path
+        / "assurance/evidence/full_release_closure/clean_host_runner_preflight_20260707.json"
+    ).is_file()
 
 
-def test_full_release_closure_drops_first_e2e_protected_blocker_after_passing_rerun(tmp_path: Path, monkeypatch):
-    _write_json(tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"})
+def test_full_release_closure_drops_first_e2e_protected_blocker_after_passing_rerun(
+    tmp_path: Path, monkeypatch
+):
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"}
+    )
     _write_json(
         tmp_path / "assurance/sbom/determinex-python.cyclonedx.json",
         {"bomFormat": "CycloneDX", "metadata": {"component": {"name": "determinex-python"}}},
     )
-    _write_json(tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json", {"bomFormat": "CycloneDX"})
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json", {"bomFormat": "CycloneDX"}
+    )
     _write_json(
         tmp_path
         / "assurance/evidence/clean_host_fresh_install_runner_execution/run_20260531.CLEAN_HOST_FRESH_INSTALL_RUNNER_EXECUTION_BLOCKED_RUNNER_NOT_EXECUTED.json",
@@ -139,7 +168,8 @@ def test_full_release_closure_drops_first_e2e_protected_blocker_after_passing_re
         {"status": "LANE_D_BLOCKED_LOCAL_BUILDER_OLLAMA_TIMEOUT"},
     )
     _write_json(
-        tmp_path / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json",
+        tmp_path
+        / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json",
         {
             "status": "FIRST_E2E_RERUN_PASSED",
             "session_id": "passed-session",
@@ -183,12 +213,16 @@ def test_full_release_closure_drops_first_e2e_protected_blocker_after_passing_re
 def test_full_release_closure_drops_clean_host_protected_blocker_after_valid_transcript(
     tmp_path: Path, monkeypatch
 ):
-    _write_json(tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"})
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"}
+    )
     _write_json(
         tmp_path / "assurance/sbom/determinex-python.cyclonedx.json",
         {"bomFormat": "CycloneDX", "metadata": {"component": {"name": "determinex-python"}}},
     )
-    _write_json(tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json", {"bomFormat": "CycloneDX"})
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json", {"bomFormat": "CycloneDX"}
+    )
     # _clean_host_transcript_errors also requires runner.runner_id (non-mocked) and a
     # bundle.installer_sha256 that cross-validates against a REAL artifact hash recorded
     # in the current download bundle manifest (determinex_release_gates._latest_clean_host_
@@ -214,7 +248,8 @@ def test_full_release_closure_drops_clean_host_protected_blocker_after_valid_tra
         },
     )
     _write_json(
-        tmp_path / "assurance/evidence/full_release_closure/clean_host_install_transcript_20260708.json",
+        tmp_path
+        / "assurance/evidence/full_release_closure/clean_host_install_transcript_20260708.json",
         {
             "schema_version": "determinex-clean-host-install-transcript-v1",
             "product_name": "Determinex",
@@ -245,7 +280,8 @@ def test_full_release_closure_drops_clean_host_protected_blocker_after_valid_tra
         {"status": "LANE_D_BLOCKED_LOCAL_BUILDER_OLLAMA_TIMEOUT"},
     )
     _write_json(
-        tmp_path / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json",
+        tmp_path
+        / "assurance/evidence/first_end_to_end_user_workflow/rerun_after_builder_health_latest.json",
         {
             "status": "FIRST_E2E_RERUN_PASSED",
             "session_id": "passed-session",
@@ -283,18 +319,25 @@ def test_full_release_closure_drops_clean_host_protected_blocker_after_valid_tra
     report = closure.write_report(tmp_path / "closure.json", tmp_path)
 
     assert "clean_host" not in report["blocked_gate_ids"]
-    assert "clean_host_install_launch_uninstall_transcript_not_executed" not in report["protected_external_blockers"]
+    assert (
+        "clean_host_install_launch_uninstall_transcript_not_executed"
+        not in report["protected_external_blockers"]
+    )
 
 
 def test_full_release_closure_omits_rebuild_action_when_download_bundle_is_current(
     tmp_path: Path, monkeypatch
 ):
-    _write_json(tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"})
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-python.spdx.json", {"name": "determinex-python"}
+    )
     _write_json(
         tmp_path / "assurance/sbom/determinex-python.cyclonedx.json",
         {"bomFormat": "CycloneDX", "metadata": {"component": {"name": "determinex-python"}}},
     )
-    _write_json(tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json", {"bomFormat": "CycloneDX"})
+    _write_json(
+        tmp_path / "assurance/sbom/determinex-npm.cyclonedx.json", {"bomFormat": "CycloneDX"}
+    )
     _write_json(
         tmp_path
         / "assurance/evidence/clean_host_fresh_install_runner_execution/run_20260531.CLEAN_HOST_FRESH_INSTALL_RUNNER_EXECUTION_BLOCKED_RUNNER_NOT_EXECUTED.json",
@@ -333,7 +376,10 @@ def test_full_release_closure_omits_rebuild_action_when_download_bundle_is_curre
 
     report = closure.write_report(tmp_path / "closure.json", tmp_path)
 
-    assert not any(action.startswith("Rebuild the download bundle") for action in report["next_executable_actions"])
+    assert not any(
+        action.startswith("Rebuild the download bundle")
+        for action in report["next_executable_actions"]
+    )
 
 
 def test_full_release_closure_omits_msi_build_action_when_msi_gate_passes(
@@ -439,6 +485,11 @@ def test_full_release_closure_omits_legal_action_when_public_distribution_gate_p
     report = closure.write_report(tmp_path / "closure.json", tmp_path)
 
     assert "legal_public_distribution" not in report["blocked_gate_ids"]
-    assert "legal_public_distribution_packet_not_executed" not in report["protected_external_blockers"]
-    assert "public_distribution_legal_ip_packet_not_executed" not in report["protected_external_blockers"]
+    assert (
+        "legal_public_distribution_packet_not_executed" not in report["protected_external_blockers"]
+    )
+    assert (
+        "public_distribution_legal_ip_packet_not_executed"
+        not in report["protected_external_blockers"]
+    )
     assert not any("legal/IP" in action for action in report["next_executable_actions"])

@@ -7,17 +7,25 @@ Latin 'a', fullwidth 'ａ' for 'a', ...) silently bypassed every deny-pattern
 match. This is the classic "Pliny technique #2" homograph jailbreak. Fixed
 by upgrading to NFKC (folds fullwidth/compatibility forms) plus an explicit
 confusables table (folds cross-script lookalikes NFKC can't touch)."""
+
 from __future__ import annotations
 
 import pytest
+
 from tests.sentinelbench.helpers import assert_denied, assert_passed
 
 
 def _cyrillic_homoglyph(text: str) -> str:
     """Swap common Latin letters for Cyrillic lookalikes."""
     table = {
-        "a": "а", "e": "е", "o": "о", "p": "р", "c": "с",
-        "y": "у", "x": "х", "i": "і",
+        "a": "а",
+        "e": "е",
+        "o": "о",
+        "p": "р",
+        "c": "с",
+        "y": "у",
+        "x": "х",
+        "i": "і",
     }
     return "".join(table.get(ch, ch) for ch in text)
 

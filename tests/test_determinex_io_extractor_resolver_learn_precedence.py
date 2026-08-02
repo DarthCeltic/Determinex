@@ -25,6 +25,7 @@ built on.
 Fixed by learning conftest.py FIRST, then the test file itself SECOND, so the test
 file's own definitions always win on a name collision.
 """
+
 from __future__ import annotations
 
 import sys
@@ -45,7 +46,8 @@ def test_test_file_own_constant_wins_over_conftest_name_collision(tmp_path):
 
     tests_dir = tmp_path / "eval" / "tests"
     tests_dir.mkdir(parents=True)
-    (tests_dir / "conftest.py").write_text('''
+    (tests_dir / "conftest.py").write_text(
+        """
 import subprocess
 from pathlib import Path
 
@@ -55,8 +57,10 @@ RESOURCES = WORKSPACE / "test-resources"
 
 def run_thing(*args):
     return subprocess.run([str(EXECUTABLE), *args], capture_output=True)
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 import subprocess
 from pathlib import Path
 
@@ -65,7 +69,7 @@ RESOURCES = Path(__file__).parent.parent / "test_resources" / "test_svg"
 def test_uses_own_resources(run_thing):
     result = run_thing(RESOURCES / "simple_box.txt")
     assert result.returncode == 0
-'''
+"""
     f = tests_dir / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

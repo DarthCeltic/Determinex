@@ -16,12 +16,12 @@ Mutation types:
 The _run method is designed for monkey-patching in tests:
     extractor._run = lambda cmd, cwd=None: (0, "ok", "")
 """
+
 from __future__ import annotations
 
 import difflib
 import hashlib
 import logging
-import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -29,7 +29,9 @@ from typing import Any
 
 log = logging.getLogger(__name__)
 
-_UNWRAP_LITERAL = ".unwrap()"   # used as a plain string check; comment filtering is done in find_unwrap_sites
+_UNWRAP_LITERAL = (
+    ".unwrap()"  # used as a plain string check; comment filtering is done in find_unwrap_sites
+)
 
 
 @dataclass
@@ -39,9 +41,9 @@ class RustRepairTask:
     original_line: str
     mutated_line: str
     line_number: int
-    mutation_type: str                  # "unwrap_panic" | "unwrap_or_wrong" | "question_to_unwrap"
+    mutation_type: str  # "unwrap_panic" | "unwrap_or_wrong" | "question_to_unwrap"
     failure_output: str
-    failure_type: str                   # "test_failure" | "panic" | "compile_error"
+    failure_type: str  # "test_failure" | "panic" | "compile_error"
     repair_patch: str = ""
     build_system: str = "cargo"
     framework: str = "rust"
@@ -83,8 +85,11 @@ class RustTaskExtractor:
         """Execute a command. Monkey-patch this in tests."""
         try:
             r = subprocess.run(
-                cmd, capture_output=True, text=True,
-                cwd=cwd or self._root, timeout=self._timeout,
+                cmd,
+                capture_output=True,
+                text=True,
+                cwd=cwd or self._root,
+                timeout=self._timeout,
             )
             return r.returncode, r.stdout, r.stderr
         except subprocess.TimeoutExpired:
@@ -110,9 +115,9 @@ class RustTaskExtractor:
     def find_rust_sources(self) -> list[Path]:
         """All .rs files under project root, excluding the target/ directory."""
         return [
-            p for p in self._root.rglob("*.rs")
-            if "target" + "/" not in str(p).replace("\\", "/")
-            and "target\\" not in str(p)
+            p
+            for p in self._root.rglob("*.rs")
+            if "target" + "/" not in str(p).replace("\\", "/") and "target\\" not in str(p)
         ]
 
     def find_unwrap_sites(self, rs_file: Path) -> list[dict]:
@@ -127,12 +132,14 @@ class RustTaskExtractor:
             if stripped.startswith("//") or stripped.startswith("///"):
                 continue
             if ".unwrap()" in line:
-                sites.append({
-                    "file": rs_file,
-                    "line_number": i + 1,
-                    "original": line,
-                    "relative_path": _safe_relative(rs_file, self._root),
-                })
+                sites.append(
+                    {
+                        "file": rs_file,
+                        "line_number": i + 1,
+                        "original": line,
+                        "relative_path": _safe_relative(rs_file, self._root),
+                    }
+                )
         return sites
 
     # ------------------------------------------------------------------
@@ -150,6 +157,7 @@ class RustTaskExtractor:
         """Write mutation; return (original_content, mutated_content)."""
         try:
             from hive.workspace import assert_inside_workspace
+
             assert_inside_workspace(rs_file, self._root)
         except (ImportError, ValueError) as _esc:
             raise ValueError(f"Workspace escape blocked before mutation write: {_esc}") from _esc
@@ -185,7 +193,7 @@ class RustTaskExtractor:
             if len(tasks) >= max_tasks:
                 break
             sites = self.find_unwrap_sites(rs_file)
-            for site in sites[:3]:              # max 3 mutations per file
+            for site in sites[:3]:  # max 3 mutations per file
                 if len(tasks) >= max_tasks:
                     break
                 task = self._try_site(site)
@@ -228,6 +236,7 @@ class RustTaskExtractor:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _classify_failure(output: str) -> str:
     lower = output.lower()
     if "error[e" in lower or "error:" in lower:
@@ -246,16 +255,19 @@ def _safe_relative(path: Path, root: Path) -> str:
 
 def _make_task_id(rel_path: str, line_number: int) -> str:
     digest = hashlib.blake2b(
-        f"{rel_path}:{line_number}".encode(), digest_size=8,
+        f"{rel_path}:{line_number}".encode(),
+        digest_size=8,
     ).hexdigest()
     return f"rust_unwrap_{digest}"
 
 
 def _unified_diff(path: str, original: str, mutated: str) -> str:
-    return "".join(difflib.unified_diff(
-        mutated.splitlines(keepends=True),
-        original.splitlines(keepends=True),
-        fromfile=f"a/{path}",
-        tofile=f"b/{path}",
-        lineterm="",
-    ))
+    return "".join(
+        difflib.unified_diff(
+            mutated.splitlines(keepends=True),
+            original.splitlines(keepends=True),
+            fromfile=f"a/{path}",
+            tofile=f"b/{path}",
+            lineterm="",
+        )
+    )

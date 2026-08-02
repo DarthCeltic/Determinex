@@ -36,6 +36,7 @@ CLI
 ---
     python scripts/determinex_hw_profiler.py <kernel_source.c> [--dialect et_soc1_yolo] [--json]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -57,24 +58,48 @@ _RULES_DIR = _HERE / "hw_rules"
 # ---------------------------------------------------------------------------
 _DIALECTS: dict[str, list[dict]] = {
     "et_soc1_yolo": [
-        {"label": "CONV_1x1",
-         "regex": r"CONV_1x1\([^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
-         "fields": ("IC", "H", "W", "OC", "act"), "taps": 1, "is_dw": False},
-        {"label": "CONV_3x3_P1_VPU",
-         "regex": r"CONV_3x3_P1_VPU\([^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
-         "fields": ("IC", "H", "W", "OC", "act"), "taps": 9, "is_dw": False},
-        {"label": "CONV_3x3_S2_P1_VPU",
-         "regex": r"CONV_3x3_S2_P1_VPU\([^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
-         "fields": ("IC", "H", "W", "OC", "OH", "OW", "act"), "taps": 9, "is_dw": False},
-        {"label": "CONV_DW3x3_S1_P1_VPU",
-         "regex": r"CONV_DW3x3_S1_P1_VPU\([^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
-         "fields": ("C", "H", "W", "act"), "taps": 9, "is_dw": True},
-        {"label": "bare_conv2d_3x3_p1_vpu",
-         "regex": r"conv2d_3x3_p1_fp32_mh_vpu\(hid,[^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
-         "fields": ("IC", "H", "W", "OC", "act"), "taps": 9, "is_dw": False},
-        {"label": "bare_conv2d_3x3_p1_tensor",
-         "regex": r"conv2d_3x3_p1_fp32_mh_tensor\(hid,\s*base,[^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
-         "fields": ("IC", "H", "W", "OC", "act"), "taps": 9, "is_dw": False},
+        {
+            "label": "CONV_1x1",
+            "regex": r"CONV_1x1\([^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
+            "fields": ("IC", "H", "W", "OC", "act"),
+            "taps": 1,
+            "is_dw": False,
+        },
+        {
+            "label": "CONV_3x3_P1_VPU",
+            "regex": r"CONV_3x3_P1_VPU\([^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
+            "fields": ("IC", "H", "W", "OC", "act"),
+            "taps": 9,
+            "is_dw": False,
+        },
+        {
+            "label": "CONV_3x3_S2_P1_VPU",
+            "regex": r"CONV_3x3_S2_P1_VPU\([^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
+            "fields": ("IC", "H", "W", "OC", "OH", "OW", "act"),
+            "taps": 9,
+            "is_dw": False,
+        },
+        {
+            "label": "CONV_DW3x3_S1_P1_VPU",
+            "regex": r"CONV_DW3x3_S1_P1_VPU\([^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
+            "fields": ("C", "H", "W", "act"),
+            "taps": 9,
+            "is_dw": True,
+        },
+        {
+            "label": "bare_conv2d_3x3_p1_vpu",
+            "regex": r"conv2d_3x3_p1_fp32_mh_vpu\(hid,[^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
+            "fields": ("IC", "H", "W", "OC", "act"),
+            "taps": 9,
+            "is_dw": False,
+        },
+        {
+            "label": "bare_conv2d_3x3_p1_tensor",
+            "regex": r"conv2d_3x3_p1_fp32_mh_tensor\(hid,\s*base,[^;]*?,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u,\s*(\d+)u\)",
+            "fields": ("IC", "H", "W", "OC", "act"),
+            "taps": 9,
+            "is_dw": False,
+        },
     ],
 }
 
@@ -118,6 +143,7 @@ def detect_dialect_sources(root: Path) -> tuple[str, list[Path]] | None:
     # function (triggered whenever the census's top language is c/cpp) was
     # still walking the whole tree raw and hadn't been touched.
     from determinex_ingest import _walk_files
+
     c_files = [p for p in _walk_files(root) if p.suffix.lower() == ".c"]
     # A hand-ported hardware kernel (this profiler's actual target) is
     # realistically a handful to a few dozen files -- thousands of tracked
@@ -214,10 +240,22 @@ def extract_call_sites(text: str, dialect: str, t_tile: int) -> list[CallSite]:
                 tensor_eligible = ic_ok and oc_ok and hw_ok
                 reason = f"IC%{t_tile}={IC % t_tile} OC%{t_tile}={OC % t_tile} (OH*OW)%{t_tile}={(OH * OW) % t_tile}"
 
-            sites.append(CallSite(
-                label=spec["label"], macs=macs, IC=IC, OC=OC, H=H, W=W, OH=OH, OW=OW,
-                taps=taps, is_dw=is_dw, tensor_eligible=tensor_eligible,
-                boundary_reason=reason))
+            sites.append(
+                CallSite(
+                    label=spec["label"],
+                    macs=macs,
+                    IC=IC,
+                    OC=OC,
+                    H=H,
+                    W=W,
+                    OH=OH,
+                    OW=OW,
+                    taps=taps,
+                    is_dw=is_dw,
+                    tensor_eligible=tensor_eligible,
+                    boundary_reason=reason,
+                )
+            )
     sites.sort(key=lambda s: -s.macs)
     return sites
 
@@ -234,10 +272,12 @@ def _check_padded_row_alignment_multi_tap(site: CallSite, consts: dict) -> str |
     pad = 1
     pw = site.W + 2 * pad
     if pw % t_tile != 0:
-        k = int(round(site.taps ** 0.5))
-        return (f"padded row width PW={pw} (W={site.W}, pad={pad}) is NOT a multiple of "
-                f"{t_tile} -- K={k} tap offsets kx>0 will silently misalign against the "
-                f"hardware's {consts['TENSOR_LOAD_MASK_BYTES']}-byte addr/stride masking")
+        k = int(round(site.taps**0.5))
+        return (
+            f"padded row width PW={pw} (W={site.W}, pad={pad}) is NOT a multiple of "
+            f"{t_tile} -- K={k} tap offsets kx>0 will silently misalign against the "
+            f"hardware's {consts['TENSOR_LOAD_MASK_BYTES']}-byte addr/stride masking"
+        )
     return None
 
 
@@ -246,10 +286,12 @@ def _check_store_output_tile_alignment(site: CallSite, consts: dict) -> str | No
         return None
     t_tile = consts["T_TILE"]
     if site.OC % t_tile != 0 or (site.OH * site.OW) % t_tile != 0:
-        return (f"output tile OC={site.OC} OH*OW={site.OH * site.OW} not provably a multiple "
-                f"of {t_tile} -- tensor_store's own {consts['TENSOR_STORE_MASK_BYTES']}-byte "
-                f"addr/stride mask (mask=~(16*{consts['TENSOR_STORE_MASK_COLS']}-1)) may silently "
-                f"misalign the output write")
+        return (
+            f"output tile OC={site.OC} OH*OW={site.OH * site.OW} not provably a multiple "
+            f"of {t_tile} -- tensor_store's own {consts['TENSOR_STORE_MASK_BYTES']}-byte "
+            f"addr/stride mask (mask=~(16*{consts['TENSOR_STORE_MASK_COLS']}-1)) may silently "
+            f"misalign the output write"
+        )
     return None
 
 
@@ -259,9 +301,11 @@ def _check_scp_fregs_tile_capacity_ceiling(site: CallSite, consts: dict) -> str 
     # This kernel always tiles to exactly T_TILE; only fires if a call site
     # implies a tile dimension larger than the hardware's fixed, zero-slack sizing.
     if site.OC > consts["TFMA_MAX_AROWS"] and site.OC % consts["TFMA_MAX_AROWS"] != 0:
-        return (f"OC={site.OC} is not a clean multiple of TFMA_MAX_AROWS={consts['TFMA_MAX_AROWS']} "
-                f"-- a naive single-pass tile would overflow FREGS=NFREGS({consts['NFREGS']}), which "
-                f"is an EXACT fit (arows x TFMA_REGS_PER_ROW) with zero slack")
+        return (
+            f"OC={site.OC} is not a clean multiple of TFMA_MAX_AROWS={consts['TFMA_MAX_AROWS']} "
+            f"-- a naive single-pass tile would overflow FREGS=NFREGS({consts['NFREGS']}), which "
+            f"is an EXACT fit (arows x TFMA_REGS_PER_ROW) with zero slack"
+        )
     return None
 
 
@@ -269,20 +313,28 @@ def _check_tenb_bank_offset_disjointness(text: str, consts: dict) -> list[str]:
     raw_sites = list(re.finditer(r"\btensor_load\s*\(", text))
     if not raw_sites:
         return []
-    return [(f"{len(raw_sites)} raw tensor_load(...) call site(s) found outside macro wrappers -- "
-             f"manually verify use_tenb is set consistently with the logical operand (weight=main "
-             f"bank, activation=tenb bank at +{consts['SCP_TENB_OFFSET']} offset) for each; this "
-             "cannot be verified automatically from the call site alone")]
+    return [
+        (
+            f"{len(raw_sites)} raw tensor_load(...) call site(s) found outside macro wrappers -- "
+            f"manually verify use_tenb is set consistently with the logical operand (weight=main "
+            f"bank, activation=tenb bank at +{consts['SCP_TENB_OFFSET']} offset) for each; this "
+            "cannot be verified automatically from the call site alone"
+        )
+    ]
 
 
 def _check_file_load_sync_checklist(text: str, _consts: dict) -> list[str]:
     raw_sites = list(re.finditer(r"\bfile_load\s*\(", text))
     if not raw_sites:
         return []
-    return [(f"{len(raw_sites)} file_load(...) call site(s) found -- confirm the launcher "
-             "synchronizes (waits for completion of) every file_load before the corresponding "
-             "kernelLaunch; this ordering guarantee lives in host/launcher code and is not "
-             "statically checkable from kernel source alone")]
+    return [
+        (
+            f"{len(raw_sites)} file_load(...) call site(s) found -- confirm the launcher "
+            "synchronizes (waits for completion of) every file_load before the corresponding "
+            "kernelLaunch; this ordering guarantee lives in host/launcher code and is not "
+            "statically checkable from kernel source alone"
+        )
+    ]
 
 
 _CALL_SITE_CHECKS = {
@@ -302,7 +354,9 @@ def load_rule_table(hardware_target: str) -> dict:
         return json.load(f)
 
 
-def evaluate_rules(sites: list[CallSite], text: str, rule_table: dict) -> tuple[list[str], list[str], list[str]]:
+def evaluate_rules(
+    sites: list[CallSite], text: str, rule_table: dict
+) -> tuple[list[str], list[str], list[str]]:
     consts = rule_table["constants"]
     critical: list[str] = []
     warnings: list[str] = []
@@ -319,7 +373,9 @@ def evaluate_rules(sites: list[CallSite], text: str, rule_table: dict) -> tuple[
                 finding = fn(site, consts)
                 if finding:
                     site.risk_flags.append(f"[{severity}] {rule['title']}: {finding}")
-                    line = f"{site.label} IC={site.IC} OC={site.OC} H={site.H} W={site.W} -> {finding}"
+                    line = (
+                        f"{site.label} IC={site.IC} OC={site.OC} H={site.H} W={site.W} -> {finding}"
+                    )
                     if severity == "critical":
                         critical.append(line)
                     elif severity == "warning":
@@ -347,8 +403,9 @@ def profile(source_path: Path, dialect: str, hardware_target: str = "et_soc1") -
     return _profile_text(text, dialect, hardware_target)
 
 
-def profile_repo(dialect: str, sources: list[Path],
-                  hardware_target: str = "et_soc1") -> HardwareProfile:
+def profile_repo(
+    dialect: str, sources: list[Path], hardware_target: str = "et_soc1"
+) -> HardwareProfile:
     """Profile every source file matching a detected dialect and aggregate
     the results into one report -- what determinex_ingest wires up, since a
     kernel's conv-like call sites are rarely confined to a single file."""
@@ -365,17 +422,33 @@ def _profile_text(text: str, dialect: str, hardware_target: str) -> HardwareProf
 
     total_macs = sum(s.macs for s in sites)
     heatmap_top10 = [
-        {"label": s.label, "IC": s.IC, "OC": s.OC, "H": s.H, "W": s.W,
-         "OH": s.OH, "OW": s.OW, "taps": s.taps, "macs": s.macs,
-         "pct": round(100.0 * s.macs / total_macs, 2) if total_macs else 0.0}
+        {
+            "label": s.label,
+            "IC": s.IC,
+            "OC": s.OC,
+            "H": s.H,
+            "W": s.W,
+            "OH": s.OH,
+            "OW": s.OW,
+            "taps": s.taps,
+            "macs": s.macs,
+            "pct": round(100.0 * s.macs / total_macs, 2) if total_macs else 0.0,
+        }
         for s in sites[:10]
     ]
 
     return HardwareProfile(
-        hardware_target=hardware_target, dialect=dialect, total_macs=total_macs,
-        n_call_sites=len(sites), n_tensor_eligible=sum(1 for s in sites if s.tensor_eligible),
-        n_critical=len(critical), heatmap_top10=heatmap_top10,
-        critical_findings=critical, warnings=warnings, checklist=checklist)
+        hardware_target=hardware_target,
+        dialect=dialect,
+        total_macs=total_macs,
+        n_call_sites=len(sites),
+        n_tensor_eligible=sum(1 for s in sites if s.tensor_eligible),
+        n_critical=len(critical),
+        heatmap_top10=heatmap_top10,
+        critical_findings=critical,
+        warnings=warnings,
+        checklist=checklist,
+    )
 
 
 def main() -> int:
@@ -391,13 +464,19 @@ def main() -> int:
         print(json.dumps(asdict(hp), indent=2))
         return 0
 
-    print(f"=== Pre-Flight Static Graph Profiler: {args.source} ({hp.dialect} / {hp.hardware_target}) ===")
-    print(f"  {hp.n_call_sites} call sites, {hp.n_tensor_eligible} tensor-eligible, "
-          f"total MACs={hp.total_macs:,}\n")
+    print(
+        f"=== Pre-Flight Static Graph Profiler: {args.source} ({hp.dialect} / {hp.hardware_target}) ==="
+    )
+    print(
+        f"  {hp.n_call_sites} call sites, {hp.n_tensor_eligible} tensor-eligible, "
+        f"total MACs={hp.total_macs:,}\n"
+    )
     print("--- Stage 1 (proxy): compute heatmap, top 10 ---")
     for row in hp.heatmap_top10:
-        print(f"  {row['label']:28s} IC={row['IC']:<4} OC={row['OC']:<4} H={row['H']:<4} "
-              f"W={row['W']:<4} taps={row['taps']:<2} MACs={row['macs']:>12,} ({row['pct']:5.1f}%)")
+        print(
+            f"  {row['label']:28s} IC={row['IC']:<4} OC={row['OC']:<4} H={row['H']:<4} "
+            f"W={row['W']:<4} taps={row['taps']:<2} MACs={row['macs']:>12,} ({row['pct']:5.1f}%)"
+        )
     print(f"\n--- Stage 2/3: hardware boundary + memory-layout risk ({hp.n_critical} CRITICAL) ---")
     for line in hp.critical_findings:
         print(f"  [CRITICAL] {line}")

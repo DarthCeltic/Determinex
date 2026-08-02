@@ -10,6 +10,7 @@ Usage:
   python scripts/pb_corpus_behavior.py --tool jq
   python scripts/pb_corpus_behavior.py --all --force   # re-extract even if signature exists
 """
+
 import argparse
 import json
 import re
@@ -63,10 +64,16 @@ BEHAVIORAL_TAGS_MAP: list[tuple[str, list[str]]] = [
     ("yaml-processor", ["yaml", "yq"]),
     ("xml-processor", ["xml", "xq", "htmlq"]),
     ("html-processor", ["html", "htmlq"]),
-    ("text-transform", ["sed", "awk", "tr", "transform", "replace", "rename", "nomino", "srgn", "rumdl"]),
+    (
+        "text-transform",
+        ["sed", "awk", "tr", "transform", "replace", "rename", "nomino", "srgn", "rumdl"],
+    ),
     ("regex-engine", ["regex", "grex", "grep", "rg", "ripgrep"]),
     ("file-searcher", ["find", "fd", "ripgrep", "rg", "search", "glob"]),
-    ("code-linter", ["lint", "check", "format", "fmt", "shellharden", "deadnix", "rumdl", "markuplint"]),
+    (
+        "code-linter",
+        ["lint", "check", "format", "fmt", "shellharden", "deadnix", "rumdl", "markuplint"],
+    ),
     ("code-formatter", ["format", "fmt", "prettier", "tex-fmt", "black"]),
     ("http-client", ["http", "curl", "wget", "muffet", "curlie", "oha", "rewrk"]),
     ("compression", ["zip", "zstd", "lz4", "gz", "tar", "compress"]),
@@ -214,7 +221,9 @@ def build_signature(tool_dir: Path, board_entry: dict) -> dict[str, Any]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Extract behavioral signatures for locked PB tools")
+    parser = argparse.ArgumentParser(
+        description="Extract behavioral signatures for locked PB tools"
+    )
     parser.add_argument("--all", action="store_true", help="Process all locked tools")
     parser.add_argument("--tool", type=str, help="Process a specific tool by short name")
     parser.add_argument("--force", action="store_true", help="Re-extract even if signature exists")
@@ -252,7 +261,9 @@ def main() -> None:
         sig = build_signature(tool_dir, entry)
         out_path.write_text(json.dumps(sig, indent=2))
         produced += 1
-        print(f"  OK {slug}: lang={sig['language']} build={sig['build_system']} tags={sig['behavioral_tags'][:3]}...")
+        print(
+            f"  OK {slug}: lang={sig['language']} build={sig['build_system']} tags={sig['behavioral_tags'][:3]}..."
+        )
 
     print(f"\nProduced {produced} signatures in {SIG_DIR}/")
 

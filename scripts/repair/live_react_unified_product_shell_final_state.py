@@ -25,6 +25,7 @@ exact thing that archival cleanup correctly removed.
 
 Read-only on disk. Never re-runs runtime gates.
 """
+
 from __future__ import annotations
 
 import json
@@ -34,7 +35,6 @@ from .live_react_unified_product_shell_final_state_record import (
     LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_STATUS_TOKENS,
     LiveReactUnifiedProductShellFinalStateRecord,
 )
-
 
 _RUNG_LOCKS: dict[str, str] = {
     "tauri_command_surface": "DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001",
@@ -129,9 +129,7 @@ def evaluate(repo_root: Path | str) -> LiveReactUnifiedProductShellFinalStateRec
         next_rung = "complete_missing_rung"
     elif not claims_clean:
         decision = "LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_BLOCKED_DIMENSION_NOT_CLOSED"
-        notes = (
-            f"unsupported claim keys set to True: {claim_violations!r}",
-        )
+        notes = (f"unsupported claim keys set to True: {claim_violations!r}",)
         next_rung = "scrub_unsupported_claims"
     else:
         decision = "LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE_PASSED"

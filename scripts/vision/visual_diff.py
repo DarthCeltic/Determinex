@@ -3,6 +3,7 @@ Visual diff between two screenshots.
 Supports: pixel diff, region diff, text diff via OCR, layout bounding-box diff,
 and thresholded similarity scoring.
 """
+
 from __future__ import annotations
 
 import logging
@@ -12,8 +13,9 @@ from typing import Any
 log = logging.getLogger(__name__)
 
 try:
-    from PIL import Image, ImageChops
     import numpy as np
+    from PIL import Image, ImageChops
+
     _FULL_AVAILABLE = True
 except ImportError:
     _FULL_AVAILABLE = False
@@ -26,7 +28,7 @@ class DiffRegion:
     y: int
     w: int
     h: int
-    diff_score: float   # 0.0 = identical, 1.0 = completely different
+    diff_score: float  # 0.0 = identical, 1.0 = completely different
 
     def to_dict(self) -> dict:
         return {"x": self.x, "y": self.y, "w": self.w, "h": self.h, "diff_score": self.diff_score}
@@ -34,7 +36,7 @@ class DiffRegion:
 
 @dataclass
 class VisualDiffResult:
-    pixel_diff_score: float             # 0.0–1.0 (fraction of changed pixels)
+    pixel_diff_score: float  # 0.0–1.0 (fraction of changed pixels)
     similar: bool
     threshold: float
     diff_regions: list[DiffRegion] = field(default_factory=list)
@@ -56,7 +58,7 @@ class VisualDiffResult:
         }
 
 
-def pixel_diff(img_a: "Image.Image", img_b: "Image.Image") -> float:
+def pixel_diff(img_a: Image.Image, img_b: Image.Image) -> float:
     """Return fraction of pixels that differ between two same-size images."""
     if not _FULL_AVAILABLE:
         return 1.0
@@ -69,8 +71,8 @@ def pixel_diff(img_a: "Image.Image", img_b: "Image.Image") -> float:
 
 
 def region_diff(
-    img_a: "Image.Image",
-    img_b: "Image.Image",
+    img_a: Image.Image,
+    img_b: Image.Image,
     block_size: int = 32,
 ) -> list[DiffRegion]:
     """Divide image into blocks and score each block's pixel diff."""
@@ -92,9 +94,10 @@ def region_diff(
     return regions
 
 
-def text_diff(img_a: "Image.Image", img_b: "Image.Image") -> tuple[list[str], list[str]]:
+def text_diff(img_a: Image.Image, img_b: Image.Image) -> tuple[list[str], list[str]]:
     """Return (text_added, text_removed) between two screenshots via OCR."""
     from vision.ocr_scanner import extract_words
+
     words_a = set(extract_words(img_a))
     words_b = set(extract_words(img_b))
     added = sorted(words_b - words_a)

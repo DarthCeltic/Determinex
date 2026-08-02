@@ -28,13 +28,13 @@ Hard rules enforced by load():
   * any required-block phrase missing from the combined scanner+contract
     set -> BLOCKED_SCANNER_MISSING_REQUIRED_PHRASE
 """
+
 from __future__ import annotations
 
 import json
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -221,7 +221,10 @@ def load(
 
     scanner = fblob.get("false_claim_scanner_model") or {}
     scanner_phrases_raw = scanner.get("blocked_or_flagged_phrases") or []
-    if not isinstance(scanner_phrases_raw, list) or len(scanner_phrases_raw) != EXPECTED_SCANNER_PHRASES:
+    if (
+        not isinstance(scanner_phrases_raw, list)
+        or len(scanner_phrases_raw) != EXPECTED_SCANNER_PHRASES
+    ):
         return _block(
             _token("BLOCKED_SCANNER_COUNT_MISMATCH"),
             f"flagship scanner phrases length="
@@ -231,7 +234,10 @@ def load(
 
     contract = eblob.get("proof_report_export_contract") or {}
     forbidden_raw = contract.get("forbidden_report_claims") or []
-    if not isinstance(forbidden_raw, list) or len(forbidden_raw) != EXPECTED_FORBIDDEN_REPORT_CLAIMS:
+    if (
+        not isinstance(forbidden_raw, list)
+        or len(forbidden_raw) != EXPECTED_FORBIDDEN_REPORT_CLAIMS
+    ):
         return _block(
             _token("BLOCKED_FORBIDDEN_COUNT_MISMATCH"),
             f"export forbidden_report_claims length="

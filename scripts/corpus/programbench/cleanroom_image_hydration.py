@@ -19,7 +19,9 @@ from corpus.programbench.cleanroom_image_hydration_record import (
     write_cleanroom_image_hydration_record,
 )
 from corpus.programbench.operator_artifact_admission import OperatorArtifactAdmissionStatus
-from corpus.programbench.operator_artifact_admission_record import verify_operator_artifact_admission_record
+from corpus.programbench.operator_artifact_admission_record import (
+    verify_operator_artifact_admission_record,
+)
 
 
 class CleanroomImageHydrationStatus(str, Enum):
@@ -92,7 +94,10 @@ class ProgramBenchCleanroomImageHydration:
                 scan_result or {},
                 ["fixture_admission_cannot_hydrate"],
             )
-        if str(admission.get("status") or "") != OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.value:
+        if (
+            str(admission.get("status") or "")
+            != OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.value
+        ):
             return self._blocked(
                 CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_REAL_ADMISSION.value,
                 admission_path,
@@ -129,7 +134,11 @@ class ProgramBenchCleanroomImageHydration:
                 ["admission_must_not_be_training_eligible"],
             )
 
-        claim = admission.get("operator_claim") if isinstance(admission.get("operator_claim"), dict) else {}
+        claim = (
+            admission.get("operator_claim")
+            if isinstance(admission.get("operator_claim"), dict)
+            else {}
+        )
         expected_digest = str(claim.get("digest") or claim.get("immutable_revision") or "")
         if not expected_digest.startswith("sha256:"):
             return self._blocked(
@@ -140,7 +149,9 @@ class ProgramBenchCleanroomImageHydration:
                 scan_result or {},
                 ["sha256_digest_required"],
             )
-        if not str(claim.get("license_provenance_notes") or claim.get("provenance_notes") or "").strip():
+        if not str(
+            claim.get("license_provenance_notes") or claim.get("provenance_notes") or ""
+        ).strip():
             return self._blocked(
                 CleanroomImageHydrationStatus.CLEANROOM_IMAGE_BLOCKED_NO_PROVENANCE.value,
                 admission_path,
@@ -190,8 +201,12 @@ class ProgramBenchCleanroomImageHydration:
                 ["security_scan_policy_failed"],
             )
 
-        quarantine = self._copy_artifact(artifact, self._resolve(self.config.quarantine_dir), expected_digest)
-        cache = self._copy_artifact(quarantine, self._resolve(self.config.cache_dir), expected_digest)
+        quarantine = self._copy_artifact(
+            artifact, self._resolve(self.config.quarantine_dir), expected_digest
+        )
+        cache = self._copy_artifact(
+            quarantine, self._resolve(self.config.cache_dir), expected_digest
+        )
         record = make_cleanroom_image_hydration_record(
             status=CleanroomImageHydrationStatus.CLEANROOM_IMAGE_CACHE_READY.value,
             admission_record=_rel(self.config.root, admission_path),
@@ -228,11 +243,17 @@ class ProgramBenchCleanroomImageHydration:
         scan_result: dict[str, Any],
         reasons: list[str],
     ) -> dict[str, Any]:
-        claim = admission.get("operator_claim") if isinstance(admission.get("operator_claim"), dict) else {}
+        claim = (
+            admission.get("operator_claim")
+            if isinstance(admission.get("operator_claim"), dict)
+            else {}
+        )
         record = make_cleanroom_image_hydration_record(
             status=status,
             admission_record=_rel(self.config.root, admission_path),
-            image_reference=str(admission.get("image_reference") or claim.get("image_reference") or ""),
+            image_reference=str(
+                admission.get("image_reference") or claim.get("image_reference") or ""
+            ),
             source_url_or_registry=str(claim.get("source_url_or_registry") or ""),
             expected_digest=str(claim.get("digest") or claim.get("immutable_revision") or ""),
             observed_digest=observed_digest,
@@ -286,7 +307,9 @@ def _compact_scan(scan: dict[str, Any]) -> dict[str, Any]:
     if "artifact" not in compact and scan.get("artifact_path"):
         compact["artifact"] = scan.get("artifact_path")
     if "policy" not in compact and scan.get("status"):
-        compact["policy"] = "pass" if scan.get("status") == "CLEANROOM_IMAGE_SCAN_PASSED" else "block"
+        compact["policy"] = (
+            "pass" if scan.get("status") == "CLEANROOM_IMAGE_SCAN_PASSED" else "block"
+        )
     return compact
 
 
@@ -296,7 +319,12 @@ def _is_fixture_admission(record: dict[str, Any]) -> bool:
     source = str(claim.get("source_url_or_registry") or "")
     reason = str(claim.get("admission_reason") or "").lower()
     notes = str(claim.get("license_provenance_notes") or "").lower()
-    return operator_id == "lock_fixture" or source.startswith("fixture://") or "fixture" in reason or "fixture" in notes
+    return (
+        operator_id == "lock_fixture"
+        or source.startswith("fixture://")
+        or "fixture" in reason
+        or "fixture" in notes
+    )
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -316,15 +344,27 @@ def _safe(value: str) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Hydrate an admitted ProgramBench cleanroom image into quarantine/cache.")
+    parser = argparse.ArgumentParser(
+        description="Hydrate an admitted ProgramBench cleanroom image into quarantine/cache."
+    )
     parser.add_argument("admission_record", type=Path)
     parser.add_argument("--artifact-path", type=Path)
     parser.add_argument("--observed-digest", default="")
     parser.add_argument("--scan-result", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_image_hydration"))
-    parser.add_argument("--quarantine-dir", type=Path, default=Path("T:/determinex_artifacts/quarantine/programbench"))
-    parser.add_argument("--cache-dir", type=Path, default=Path("T:/determinex_artifacts/cache/programbench"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_image_hydration"),
+    )
+    parser.add_argument(
+        "--quarantine-dir",
+        type=Path,
+        default=Path("T:/determinex_artifacts/quarantine/programbench"),
+    )
+    parser.add_argument(
+        "--cache-dir", type=Path, default=Path("T:/determinex_artifacts/cache/programbench")
+    )
     args = parser.parse_args()
     scan = _read_json(args.scan_result) if args.scan_result else {}
     result = ProgramBenchCleanroomImageHydration(
@@ -334,7 +374,12 @@ def main() -> int:
             quarantine_dir=args.quarantine_dir,
             cache_dir=args.cache_dir,
         )
-    ).hydrate(args.admission_record, artifact_path=args.artifact_path, observed_digest=args.observed_digest, scan_result=scan)
+    ).hydrate(
+        args.admission_record,
+        artifact_path=args.artifact_path,
+        observed_digest=args.observed_digest,
+        scan_result=scan,
+    )
     print(json.dumps(result["record"], indent=2, sort_keys=True))
     return 0
 

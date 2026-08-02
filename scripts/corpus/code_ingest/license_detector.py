@@ -11,6 +11,7 @@ Detection priority (highest confidence first):
 Returns a LicenseResult with SPDX identifier and bucket classification.
 No license found → bucket="unknown", ingest_allowed=False.
 """
+
 from __future__ import annotations
 
 import json
@@ -20,28 +21,39 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 
-from corpus.code_ingest.spdx_normalizer import normalize, bucket, ingest_allowed
+from corpus.code_ingest.spdx_normalizer import bucket, ingest_allowed, normalize
 
 log = logging.getLogger(__name__)
 
-_LICENSE_FILENAMES = frozenset({
-    "LICENSE", "LICENSE.txt", "LICENSE.md", "LICENSE.rst",
-    "LICENCE", "LICENCE.txt", "LICENCE.md",
-    "COPYING", "COPYING.txt", "COPYING.md",
-    "LICENSE-MIT", "LICENSE-APACHE", "LICENSE-BSD",
-})
+_LICENSE_FILENAMES = frozenset(
+    {
+        "LICENSE",
+        "LICENSE.txt",
+        "LICENSE.md",
+        "LICENSE.rst",
+        "LICENCE",
+        "LICENCE.txt",
+        "LICENCE.md",
+        "COPYING",
+        "COPYING.txt",
+        "COPYING.md",
+        "LICENSE-MIT",
+        "LICENSE-APACHE",
+        "LICENSE-BSD",
+    }
+)
 
-_HEADER_LINES = 50   # scan first N lines of source files for license header
+_HEADER_LINES = 50  # scan first N lines of source files for license header
 
 
 @dataclass
 class LicenseResult:
     spdx_id: str | None
-    bucket: str           # "green" | "yellow" | "red" | "unknown"
+    bucket: str  # "green" | "yellow" | "red" | "unknown"
     ingest_allowed: bool
-    source: str           # where we found the license info
-    raw_text: str         # excerpt that triggered detection
-    confidence: str       # "high" | "medium" | "low"
+    source: str  # where we found the license info
+    raw_text: str  # excerpt that triggered detection
+    confidence: str  # "high" | "medium" | "low"
 
     def to_dict(self) -> dict:
         return {
@@ -146,7 +158,8 @@ def _detect_file(path: Path) -> LicenseResult:
     # 3. Copyright mention in header
     copyright_match = re.search(
         r"(mit|apache|bsd|isc|gpl|lgpl|agpl|mpl|cc0|unlicense|mozilla|eclipse).{0,200}(license|licen[cs]ed|copyright)",
-        header, re.I
+        header,
+        re.I,
     )
     if copyright_match:
         return _make_result(copyright_match.group(0), source=f"{path}:copyright", confidence="low")

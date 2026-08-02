@@ -1,9 +1,9 @@
 """Records for REAL_LIVE_DIAGNOSE_ONLY_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REAL_LIVE_DIAGNOSE_ONLY_STATUS_TOKENS = (
     "REAL_LIVE_DIAGNOSE_WRITTEN",

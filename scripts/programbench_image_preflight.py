@@ -9,6 +9,7 @@ Checks:
   5. Optional candidate source dir compiles to a real ./executable file.
   6. The candidate executable survives ProgramBench's move-to-/opt hash step.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -17,7 +18,6 @@ import subprocess
 import sys
 import tarfile
 from pathlib import Path
-
 
 STASHED = "/opt/programbench-stashed-executable-do-not-modify"
 DEFAULT_DOCKER_CPUS = "1"
@@ -65,7 +65,14 @@ def docker_run_base() -> list[str]:
 
 def check_image(image: str) -> bool:
     rc, out = run(
-        ["docker", "image", "inspect", image, "--format", "{{.Id}} {{.Created}} {{json .RepoTags}}"],
+        [
+            "docker",
+            "image",
+            "inspect",
+            image,
+            "--format",
+            "{{.Id}} {{.Created}} {{json .RepoTags}}",
+        ],
         timeout=60,
     )
     if rc != 0:
@@ -177,9 +184,13 @@ def check_candidate(image: str, source_dir: Path) -> bool:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Preflight ProgramBench image/executable plumbing.")
+    parser = argparse.ArgumentParser(
+        description="Preflight ProgramBench image/executable plumbing."
+    )
     parser.add_argument("instance_id", help="Full instance id, e.g. jqlang__jq.b33a763")
-    parser.add_argument("--source-dir", type=Path, help="Optional candidate source dir containing compile.sh")
+    parser.add_argument(
+        "--source-dir", type=Path, help="Optional candidate source dir containing compile.sh"
+    )
     parser.add_argument("--submission-tar", type=Path, help="Optional submission.tar.gz to inspect")
     args = parser.parse_args()
 

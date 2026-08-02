@@ -8,11 +8,12 @@ real usage; tests use stub verifiers). Verifier failure rolls back the
 temp tree. Human approval remains required for any subsequent
 original-repo write.
 """
+
 from __future__ import annotations
 
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -73,7 +74,7 @@ class LiveTempPatchVerifierGate:
                 workspace=str(ws),
                 temp_workspace="",
                 note="plan entries have contents larger than preview; "
-                     "full-plan delivery not yet implemented at this rung",
+                "full-plan delivery not yet implemented at this rung",
                 plan_admission_ref=plan.admission_decision_ref,
             )
 
@@ -142,8 +143,11 @@ class LiveTempPatchVerifierGate:
             rolled_back=False,
             source_unchanged_confirmed=True,
             human_approval_required=True,
-            statuses_seen=(decision, "LIVE_PATCH_HUMAN_APPROVAL_REQUIRED",
-                           "LIVE_PATCH_TRAINING_ELIGIBLE_FALSE"),
+            statuses_seen=(
+                decision,
+                "LIVE_PATCH_HUMAN_APPROVAL_REQUIRED",
+                "LIVE_PATCH_TRAINING_ELIGIBLE_FALSE",
+            ),
             plan_admission_ref=plan_admission_ref,
             training_eligible=False,
             notes=(note,),

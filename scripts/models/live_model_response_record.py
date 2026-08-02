@@ -5,12 +5,12 @@ that captures whatever a provider returned without trusting it. The
 record is the only output the compat harness produces; downstream
 rungs consume it under quarantine.
 """
+
 from __future__ import annotations
 
 import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 LIVE_MODEL_RESPONSE_STATUS_TOKENS = (
     "MODEL_COMPAT_HARNESS_PASSED",

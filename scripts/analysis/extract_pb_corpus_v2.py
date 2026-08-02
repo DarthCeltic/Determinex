@@ -23,12 +23,13 @@ Output:
 Run:
   python scripts/analysis/extract_pb_corpus_v2.py
 """
+
 from __future__ import annotations
+
 import argparse
 import ast
 import glob
 import gzip
-import io
 import json
 import re
 from pathlib import Path
@@ -100,7 +101,7 @@ def load_test_statuses(tool_key: str) -> dict[str, str]:
         return out
     matches.sort(reverse=True)
     try:
-        with io.open(matches[0][1], encoding="utf-8", errors="replace") as f:
+        with open(matches[0][1], encoding="utf-8", errors="replace") as f:
             j = json.load(f)
     except Exception:
         return out
@@ -152,8 +153,13 @@ def slice_impl_for_test(override_src: str, test_name: str) -> str:
     return override_src[:4000]
 
 
-def extract_branch(tool_slug: str, branch_dir: Path, test_statuses: dict,
-                    override_src: str | None, max_fixture_bytes: int) -> list[dict]:
+def extract_branch(
+    tool_slug: str,
+    branch_dir: Path,
+    test_statuses: dict,
+    override_src: str | None,
+    max_fixture_bytes: int,
+) -> list[dict]:
     eval_dir = branch_dir / "eval"
     if not eval_dir.is_dir():
         return []
@@ -237,23 +243,25 @@ def extract_branch(tool_slug: str, branch_dir: Path, test_statuses: dict,
                     )
                     example_type = "spec_only"
 
-            examples.append({
-                "messages": [
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": "\n".join(user_msg_parts)},
-                    {"role": "assistant", "content": assistant_content},
-                ],
-                "meta": {
-                    "tool": tool_slug,
-                    "branch": branch_dir.name,
-                    "test_file": test_file.name,
-                    "test_name": fn["name"],
-                    "test_status": status,
-                    "fixtures_referenced": refs,
-                    "golden_used": primary_golden[0] if primary_golden else None,
-                    "example_type": example_type,
-                },
-            })
+            examples.append(
+                {
+                    "messages": [
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": "\n".join(user_msg_parts)},
+                        {"role": "assistant", "content": assistant_content},
+                    ],
+                    "meta": {
+                        "tool": tool_slug,
+                        "branch": branch_dir.name,
+                        "test_file": test_file.name,
+                        "test_name": fn["name"],
+                        "test_status": status,
+                        "fixtures_referenced": refs,
+                        "golden_used": primary_golden[0] if primary_golden else None,
+                        "example_type": example_type,
+                    },
+                }
+            )
     return examples
 
 
@@ -285,21 +293,30 @@ def main():
             for branch in tool_dir.iterdir():
                 if not branch.is_dir():
                     continue
-                tool_examples.extend(extract_branch(
-                    tool_slug, branch, test_statuses, override_src, args.max_fixture_bytes))
+                tool_examples.extend(
+                    extract_branch(
+                        tool_slug, branch, test_statuses, override_src, args.max_fixture_bytes
+                    )
+                )
             # Per-tool shard
             (BY_TOOL / f"{tool_slug}.jsonl").write_text(
                 "\n".join(json.dumps(ex, ensure_ascii=False) for ex in tool_examples) + "\n",
-                encoding="utf-8", newline="\n"
+                encoding="utf-8",
+                newline="\n",
             )
             for ex in tool_examples:
                 agg.write(json.dumps(ex, ensure_ascii=False) + "\n")
                 by_type[ex["meta"]["example_type"]] = by_type.get(ex["meta"]["example_type"], 0) + 1
-                by_status[ex["meta"]["test_status"]] = by_status.get(ex["meta"]["test_status"], 0) + 1
+                by_status[ex["meta"]["test_status"]] = (
+                    by_status.get(ex["meta"]["test_status"], 0) + 1
+                )
             total += len(tool_examples)
 
     # Gzip the aggregate for repo storage
-    with open(agg_path, "rb") as f_in, gzip.open(str(agg_path) + ".gz", "wb", compresslevel=9) as f_out:
+    with (
+        open(agg_path, "rb") as f_in,
+        gzip.open(str(agg_path) + ".gz", "wb", compresslevel=9) as f_out,
+    ):
         f_out.writelines(f_in)
 
     print(f"\n=== TOTAL: {total} examples ===")

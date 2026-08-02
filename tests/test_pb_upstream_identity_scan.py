@@ -6,6 +6,7 @@ Tier 1 tests use synthetic files (no network). Tier 2 tests use a REAL local git
 in a tmp dir (git clone of a local path is fast and needs no network) so the diff logic is
 exercised against real git behavior, not mocked.
 """
+
 from __future__ import annotations
 
 import subprocess
@@ -15,8 +16,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import pb_upstream_identity_scan as scan  # noqa: E402
 
-
 # ---------- Tier 1: manifest scan ----------
+
 
 def test_tier1_manifest_scan_catches_cargo_toml_repository_match(tmp_path):
     (tmp_path / "Cargo.toml").write_text(
@@ -29,7 +30,9 @@ def test_tier1_manifest_scan_catches_cargo_toml_repository_match(tmp_path):
 
 
 def test_tier1_manifest_scan_catches_go_mod_module_match(tmp_path):
-    (tmp_path / "go.mod").write_text("module github.com/mikefarah/yq/v4\n\ngo 1.21\n", encoding="utf-8")
+    (tmp_path / "go.mod").write_text(
+        "module github.com/mikefarah/yq/v4\n\ngo 1.21\n", encoding="utf-8"
+    )
     result = scan.tier1_manifest_scan(tmp_path, "mikefarah/yq")
     assert result["match_count"] == 1
     assert result["hits"][0]["field"] == "module"
@@ -50,6 +53,7 @@ def test_tier1_manifest_scan_ignores_manifests_outside_search(tmp_path):
 
 
 # ---------- Tier 1: copyright header scan ----------
+
 
 def test_tier1_header_scan_catches_verbatim_upstream_copyright(tmp_path):
     src = tmp_path / "src"
@@ -87,6 +91,7 @@ def test_tier1_header_scan_only_scans_known_source_extensions(tmp_path):
 
 # ---------- verdict logic ----------
 
+
 def test_verdict_header_match_is_proven():
     v = scan.compute_verdict({"match_count": 0}, {"match_count": 1}, {})
     assert v == "UPSTREAM_SOURCE_PROVEN"
@@ -98,12 +103,16 @@ def test_verdict_manifest_match_alone_is_strong_evidence():
 
 
 def test_verdict_high_tier2_overlap_is_strong_evidence():
-    v = scan.compute_verdict({"match_count": 0}, {"match_count": 0}, {"pct_identical_of_compared": 87.5})
+    v = scan.compute_verdict(
+        {"match_count": 0}, {"match_count": 0}, {"pct_identical_of_compared": 87.5}
+    )
     assert v == "UPSTREAM_SOURCE_STRONG_EVIDENCE"
 
 
 def test_verdict_low_tier2_overlap_is_likely_genuine():
-    v = scan.compute_verdict({"match_count": 0}, {"match_count": 0}, {"pct_identical_of_compared": 5.0})
+    v = scan.compute_verdict(
+        {"match_count": 0}, {"match_count": 0}, {"pct_identical_of_compared": 5.0}
+    )
     assert v == "LIKELY_GENUINE_REIMPL"
 
 
@@ -113,11 +122,14 @@ def test_verdict_no_signal_at_all_is_inconclusive():
 
 
 def test_verdict_mid_range_tier2_overlap_is_inconclusive():
-    v = scan.compute_verdict({"match_count": 0}, {"match_count": 0}, {"pct_identical_of_compared": 40.0})
+    v = scan.compute_verdict(
+        {"match_count": 0}, {"match_count": 0}, {"pct_identical_of_compared": 40.0}
+    )
     assert v == "INCONCLUSIVE"
 
 
 # ---------- Tier 2: real local-git diff (no network) ----------
+
 
 def _init_git_repo(path: Path, files: dict[str, str]) -> str:
     path.mkdir(parents=True, exist_ok=True)
@@ -132,13 +144,17 @@ def _init_git_repo(path: Path, files: dict[str, str]) -> str:
     subprocess.run(["git", "config", "user.name", "test"], cwd=path, check=True)
     subprocess.run(["git", "add", "-A"], cwd=path, check=True)
     subprocess.run(["git", "commit", "-q", "-m", "init"], cwd=path, check=True)
-    rev = subprocess.run(["git", "rev-parse", "HEAD"], cwd=path, capture_output=True, text=True, check=True)
+    rev = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=path, capture_output=True, text=True, check=True
+    )
     return rev.stdout.strip()
 
 
 def test_tier2_upstream_diff_identical_files_score_100_percent(tmp_path, monkeypatch):
     upstream_src = tmp_path / "upstream_origin"
-    commit = _init_git_repo(upstream_src, {"main.rs": "fn main() {}\n", "lib.rs": "pub fn x() {}\n"})
+    commit = _init_git_repo(
+        upstream_src, {"main.rs": "fn main() {}\n", "lib.rs": "pub fn x() {}\n"}
+    )
 
     submission = tmp_path / "submission"
     submission.mkdir()
@@ -157,11 +173,15 @@ def test_tier2_upstream_diff_identical_files_score_100_percent(tmp_path, monkeyp
 
 def test_tier2_upstream_diff_crlf_only_difference_still_counts_identical(tmp_path, monkeypatch):
     upstream_src = tmp_path / "upstream_origin"
-    commit = _init_git_repo(upstream_src, {"main.rs": "fn main() {\r\n    println!(\"hi\");\r\n}\r\n"})
+    commit = _init_git_repo(
+        upstream_src, {"main.rs": 'fn main() {\r\n    println!("hi");\r\n}\r\n'}
+    )
 
     submission = tmp_path / "submission"
     submission.mkdir()
-    (submission / "main.rs").write_text("fn main() {\n    println!(\"hi\");\n}\n", encoding="utf-8", newline="")
+    (submission / "main.rs").write_text(
+        'fn main() {\n    println!("hi");\n}\n', encoding="utf-8", newline=""
+    )
 
     monkeypatch.setattr(scan, "_clone_url", lambda repository: str(upstream_src))
     result = scan.tier2_upstream_diff(submission, "unused/repo", commit, network=True)
@@ -177,7 +197,9 @@ def test_tier2_upstream_diff_genuinely_different_content_scores_low(tmp_path, mo
 
     submission = tmp_path / "submission"
     submission.mkdir()
-    (submission / "main.rs").write_text("fn main() { totally_different_reimpl(); }\n", encoding="utf-8")
+    (submission / "main.rs").write_text(
+        "fn main() { totally_different_reimpl(); }\n", encoding="utf-8"
+    )
 
     monkeypatch.setattr(scan, "_clone_url", lambda repository: str(upstream_src))
     result = scan.tier2_upstream_diff(submission, "unused/repo", commit, network=True)
@@ -203,11 +225,10 @@ def test_tier2_upstream_diff_bad_commit_reports_error(tmp_path):
 
 # ---------- guard() reads the cache correctly ----------
 
+
 def test_guard_flags_provable_upstream_and_strong_evidence(tmp_path, monkeypatch):
     verified_locks = tmp_path / "verified_locks.json"
-    verified_locks.write_text(
-        '{"locks": {"a": {}, "b": {}, "c": {}, "d": {}}}', encoding="utf-8"
-    )
+    verified_locks.write_text('{"locks": {"a": {}, "b": {}, "c": {}, "d": {}}}', encoding="utf-8")
     cache_path = tmp_path / "cache.json"
     cache_path.write_text(
         '{"results": {'
@@ -215,18 +236,20 @@ def test_guard_flags_provable_upstream_and_strong_evidence(tmp_path, monkeypatch
         '"b": {"verdict": "UPSTREAM_SOURCE_STRONG_EVIDENCE"}, '
         '"c": {"verdict": "LIKELY_GENUINE_REIMPL"}, '
         '"d": {"error": "no submission.tar.gz"}'
-        '}}',
+        "}}",
         encoding="utf-8",
     )
     monkeypatch.setattr(scan, "VERIFIED_LOCKS", verified_locks)
     monkeypatch.setattr(scan, "SCAN_CACHE", cache_path)
-    import io
     import contextlib
+    import io
+
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         rc = scan.guard()
     assert rc == 1
     import json
+
     out = json.loads(buf.getvalue())
     flagged = {v["slug"] for v in out["violations"]}
     assert flagged == {"a", "b", "d"}  # c (genuine reimpl evidence) is NOT a violation
@@ -236,7 +259,9 @@ def test_guard_passes_clean_when_all_locks_are_genuine(tmp_path, monkeypatch):
     verified_locks = tmp_path / "verified_locks.json"
     verified_locks.write_text('{"locks": {"a": {}}}', encoding="utf-8")
     cache_path = tmp_path / "cache.json"
-    cache_path.write_text('{"results": {"a": {"verdict": "LIKELY_GENUINE_REIMPL"}}}', encoding="utf-8")
+    cache_path.write_text(
+        '{"results": {"a": {"verdict": "LIKELY_GENUINE_REIMPL"}}}', encoding="utf-8"
+    )
     monkeypatch.setattr(scan, "VERIFIED_LOCKS", verified_locks)
     monkeypatch.setattr(scan, "SCAN_CACHE", cache_path)
     assert scan.guard() == 0
@@ -254,6 +279,7 @@ def test_guard_flags_never_scanned_entries(tmp_path, monkeypatch):
 
 # ---------- corpus API integration (no filesystem crawling) ----------
 
+
 def test_scan_slug_reports_error_when_corpus_has_no_provenance_entry(monkeypatch):
     monkeypatch.setattr(scan.corpus_api, "task_provenance", lambda q: None)
     result = scan.scan_slug("not-a-real-task", network=False)
@@ -267,6 +293,7 @@ def test_live_scan_uses_corpus_api_not_filesystem_for_dirble():
     real repository+commit -- the exact fact this scanner's data path was built to stop
     re-deriving by hand."""
     import determinex_corpus_api as corpus_api
+
     prov = corpus_api.task_provenance("isona__dirble.e2dea9f")
     assert prov is not None
     assert prov.repository == "Isona/dirble"

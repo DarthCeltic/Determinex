@@ -14,6 +14,7 @@ required check passes:
 Any failure → specific blocked status. The gate is pure: it never
 performs the actual original-repo write.
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -22,8 +23,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -58,17 +57,19 @@ EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "human_approval_source_mu
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-STATUS_TOKENS = frozenset({
-    "SOURCE_MUTATION_APPROVAL_REQUIRED",
-    "SOURCE_MUTATION_APPROVAL_ACCEPTED_FIXTURE",
-    "SOURCE_MUTATION_BLOCKED_MISSING_APPROVAL",
-    "SOURCE_MUTATION_BLOCKED_DIFF_MISMATCH",
-    "SOURCE_MUTATION_BLOCKED_STALE_TRACE",
-    "SOURCE_MUTATION_BLOCKED_VERIFIER_NOT_PASSED",
-    "SOURCE_MUTATION_BLOCKED_REPO_MISMATCH",
-    "SOURCE_MUTATION_BLOCKED_TRACE_ID_MISMATCH",
-    "SOURCE_MUTATION_BLOCKED_OPERATOR_EMPTY",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "SOURCE_MUTATION_APPROVAL_REQUIRED",
+        "SOURCE_MUTATION_APPROVAL_ACCEPTED_FIXTURE",
+        "SOURCE_MUTATION_BLOCKED_MISSING_APPROVAL",
+        "SOURCE_MUTATION_BLOCKED_DIFF_MISMATCH",
+        "SOURCE_MUTATION_BLOCKED_STALE_TRACE",
+        "SOURCE_MUTATION_BLOCKED_VERIFIER_NOT_PASSED",
+        "SOURCE_MUTATION_BLOCKED_REPO_MISMATCH",
+        "SOURCE_MUTATION_BLOCKED_TRACE_ID_MISMATCH",
+        "SOURCE_MUTATION_BLOCKED_OPERATOR_EMPTY",
+    }
+)
 
 
 def _hash_tree(root: Path) -> dict[str, str]:
@@ -102,16 +103,25 @@ def _make_passing_trace(tmp_path: Path):
     )
 
 
-def _make_packet(trace, *, operator="ryan", token="ok", diff_override=None,
-                 trace_id_override=None, workspace_override=None) -> ApprovalPacket:
+def _make_packet(
+    trace,
+    *,
+    operator="ryan",
+    token="ok",
+    diff_override=None,
+    trace_id_override=None,
+    workspace_override=None,
+) -> ApprovalPacket:
     spr = trace.safe_patch_result or {}
     observed_diff = str(spr.get("unified_diff") or "")
     return ApprovalPacket(
         trace_id=trace_id_override if trace_id_override is not None else trace.trace_id,
-        workspace_identity=workspace_override if workspace_override is not None else trace.workspace,
+        workspace_identity=workspace_override
+        if workspace_override is not None
+        else trace.workspace,
         diff_sha256=diff_override if diff_override is not None else diff_hash(observed_diff),
         verifier_status=str(spr.get("verifier_status") or ""),
-        timestamp_utc=_dt.datetime.now(_dt.timezone.utc).isoformat(),
+        timestamp_utc=_dt.datetime.now(_dt.UTC).isoformat(),
         operator=operator,
         approval_token=token,
         fixture=True,
@@ -229,8 +239,10 @@ def test_verifier_failed_trace_blocks_even_with_valid_packet(tmp_path):
         workspace_identity=trace.workspace,
         diff_sha256=diff_hash(str(spr.get("unified_diff") or "")),
         verifier_status=str(spr.get("verifier_status") or ""),
-        timestamp_utc=_dt.datetime.now(_dt.timezone.utc).isoformat(),
-        operator="ryan", approval_token="ok", fixture=True,
+        timestamp_utc=_dt.datetime.now(_dt.UTC).isoformat(),
+        operator="ryan",
+        approval_token="ok",
+        fixture=True,
     )
     decision = gate.evaluate(packet, trace)
     # The diff is empty because PATCH_ROLLED_BACK clears the temp tree;
@@ -260,8 +272,9 @@ def test_unsupported_repo_trace_blocks(tmp_path):
         workspace_identity=trace.workspace,
         diff_sha256="0" * 64,
         verifier_status="",
-        timestamp_utc=_dt.datetime.now(_dt.timezone.utc).isoformat(),
-        operator="ryan", approval_token="ok",
+        timestamp_utc=_dt.datetime.now(_dt.UTC).isoformat(),
+        operator="ryan",
+        approval_token="ok",
     )
     decision = gate.evaluate(packet, trace)
     assert decision.is_blocked

@@ -6,6 +6,7 @@ that the front-end can render directly. The model is a pure function —
 no I/O beyond reading lock + evidence file *names* for the pointer
 block.
 """
+
 from __future__ import annotations
 
 import sys
@@ -20,8 +21,8 @@ from repair.human_approval_record import ApprovalGateDecision  # noqa: E402
 from repair.verified_repair_trace_record import VerifiedRepairTrace  # noqa: E402
 
 from .repair_state_record import (
-    EvidencePointers,
     IDE_REPAIR_STATE_TOKENS,
+    EvidencePointers,
     IDERepairState,
     IntakeStatus,
     ModelRouteStatus,
@@ -113,8 +114,13 @@ def build_ide_state(
     approval_status, mutation_authorized = _source_approval_status(approval)
 
     statuses_seen: list[str] = [
-        intake.value, verifier.value, route_status.value, plan_status.value,
-        temp_status.value, verifier_status.value, approval_status.value,
+        intake.value,
+        verifier.value,
+        route_status.value,
+        plan_status.value,
+        temp_status.value,
+        verifier_status.value,
+        approval_status.value,
         "CORPUS_ELIGIBILITY_FALSE",
     ]
     if lock_paths or evidence_paths:

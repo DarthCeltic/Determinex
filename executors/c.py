@@ -8,6 +8,7 @@ The 8 universal CLI patterns are implemented with the same clap-style wording
 and rc=1 on unknown args as Python/Rust/Go so cross-language test goldens
 stay aligned.
 """
+
 from __future__ import annotations
 
 import os
@@ -17,11 +18,14 @@ import time
 from pathlib import Path
 
 from .base import (
-    Executor, ExecutorError,
-    ProbeResult, ScaffoldResult, BuildResult, EvalResult,
+    BuildResult,
+    EvalResult,
+    Executor,
+    ExecutorError,
+    ProbeResult,
+    ScaffoldResult,
 )
 from .python import PythonExecutor, _derive_tool_name
-
 
 _MAIN_C = r"""/* {tool_name} -- Determinex mass-run C scaffold.
  *
@@ -190,6 +194,7 @@ chmod +x ./executable
 
 class CExecutor(Executor):
     """Concrete C language executor."""
+
     family: str = "c"
     file_ext: str = ".c"
     executable_name: str = "executable"
@@ -216,8 +221,9 @@ class CExecutor(Executor):
         source.mkdir(parents=True, exist_ok=True)
         tool_name, author = _derive_tool_name(probe.instance_id)
 
-        (source / "main.c").write_text(_MAIN_C.format(tool_name=tool_name),
-                                       encoding="utf-8", newline="\n")
+        (source / "main.c").write_text(
+            _MAIN_C.format(tool_name=tool_name), encoding="utf-8", newline="\n"
+        )
         (source / "compile.sh").write_text(_COMPILE_SH, encoding="utf-8", newline="\n")
         try:
             os.chmod(source / "compile.sh", 0o755)
@@ -239,8 +245,11 @@ class CExecutor(Executor):
 
         return ScaffoldResult(
             work_dir=work_dir,
-            files_written=[source / "main.c", source / "compile.sh",
-                           source / "README_DETERMINEX.md"],
+            files_written=[
+                source / "main.c",
+                source / "compile.sh",
+                source / "README_DETERMINEX.md",
+            ],
         )
 
     def build(self, work_dir: Path) -> BuildResult:
@@ -257,15 +266,13 @@ class CExecutor(Executor):
         proc = subprocess.run(
             ["bash", "./compile.sh"],
             cwd=str(source),
-            capture_output=True, text=True, timeout=60,
+            capture_output=True,
+            text=True,
+            timeout=60,
         )
         elapsed = time.time() - t0
         executable = source / self.executable_name
-        ok = (
-            proc.returncode == 0
-            and executable.is_file()
-            and not executable.is_symlink()
-        )
+        ok = proc.returncode == 0 and executable.is_file() and not executable.is_symlink()
         if not ok and executable.is_symlink():
             raise ExecutorError(
                 f"build: {executable} is a symlink — programbench moves it to /opt "
@@ -286,6 +293,7 @@ class CExecutor(Executor):
 
 def _cli() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="C executor — run one tool through all 7 phases")
     ap.add_argument("instance_id")
     ap.add_argument("--work-dir", type=Path, default=None)
@@ -293,7 +301,9 @@ def _cli() -> int:
     ap.add_argument("--skip-build", action="store_true")
     args = ap.parse_args()
 
-    work_dir = args.work_dir or Path(f"T:/determinex-programbench/_executor_c_test/{args.instance_id}")
+    work_dir = args.work_dir or Path(
+        f"T:/determinex-programbench/_executor_c_test/{args.instance_id}"
+    )
     work_dir.mkdir(parents=True, exist_ok=True)
 
     ex = CExecutor()

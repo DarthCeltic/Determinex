@@ -4,16 +4,16 @@ Pure function over lock-manifest file presence. Emits a single
 :class:`ClaudeLaneLiveModelReadyFinalState` consolidating the
 campaign's equilibrium.
 """
+
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .claude_lane_live_model_ready_final_state_record import (
     CLAUDE_LANE_LIVE_MODEL_READY_FINAL_STATE_TOKENS,
     ClaudeLaneLiveModelReadyFinalState,
 )
-
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
@@ -54,8 +54,7 @@ def assemble_live_model_ready_final_state() -> ClaudeLaneLiveModelReadyFinalStat
     notes: list[str] = []
     if missing:
         notes.append(
-            f"{len(missing)} upstream lock(s) missing — reported in "
-            f"upstream_locks_missing."
+            f"{len(missing)} upstream lock(s) missing — reported in upstream_locks_missing."
         )
     notes.append(
         "Live local-model admission is opt-in; dry-run is the default. "
@@ -65,7 +64,7 @@ def assemble_live_model_ready_final_state() -> ClaudeLaneLiveModelReadyFinalStat
     )
 
     return ClaudeLaneLiveModelReadyFinalState(
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=datetime.now(UTC).isoformat(),
         execution_surface="CLEAN",
         model_routing="READY",
         live_model_admission="READY_OPT_IN_LOCAL_ONLY",

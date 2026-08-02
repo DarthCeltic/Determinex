@@ -5,6 +5,7 @@ known trap must NOT hard-reject a candidate -- only a SECOND occurrence of the S
 later candidate from the same generation sequence (meaning the model was warned and ignored it)
 gates before the candidate reaches the real compiler/test oracle.
 """
+
 from __future__ import annotations
 
 import sys
@@ -13,8 +14,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import determinex_contract as C  # noqa: E402
 
-
 # ---------- known_traps_scan: real positive/negative cases per language ----------
+
 
 def test_rust_unwrap_expect_detected():
     hits = C.known_traps_scan("let f = File::open(path).unwrap();", "rust")
@@ -112,7 +113,7 @@ fn main() {
 
 
 def test_known_traps_scan_reports_line_number():
-    code = "fn main() {\n    let x = 1;\n    let f = File::open(\"p\").unwrap();\n}"
+    code = 'fn main() {\n    let x = 1;\n    let f = File::open("p").unwrap();\n}'
     hits = C.known_traps_scan(code, "rust")
     hit = next(h for h in hits if h.trap_id == "rust_unwrap_expect")
     assert hit.line == 3
@@ -125,6 +126,7 @@ def test_known_traps_scan_strips_code_fence():
 
 
 # ---------- trap_guard: the two-strike state machine ----------
+
 
 def test_trap_guard_first_occurrence_passes_through_untouched():
     """The real oracle is still the only judge of a FIRST attempt -- no gating, no resample."""
@@ -144,11 +146,13 @@ def test_trap_guard_first_occurrence_passes_through_untouched():
 def test_trap_guard_second_occurrence_of_same_trap_gates_and_resamples():
     """Second candidate with the SAME trap (after the first was silently recorded) must be
     gated: resampled with an escalated note, not returned as-is."""
-    responses = iter([
-        "let f = File::open(path).unwrap();",   # 1st call: trap present, recorded, passed through
-        "let f = File::open(path).unwrap();",   # 2nd call: SAME trap again -> must gate+resample
-        "let f = File::open(path)?;",           # 3rd call (after resample): clean
-    ])
+    responses = iter(
+        [
+            "let f = File::open(path).unwrap();",  # 1st call: trap present, recorded, passed through
+            "let f = File::open(path).unwrap();",  # 2nd call: SAME trap again -> must gate+resample
+            "let f = File::open(path)?;",  # 3rd call (after resample): clean
+        ]
+    )
     prompts_seen = []
 
     def fake_generate(prompt, temp):
@@ -174,10 +178,12 @@ def test_trap_guard_second_occurrence_of_same_trap_gates_and_resamples():
 def test_trap_guard_different_traps_do_not_trigger_gate():
     """Trap A on the first call and trap B on the second call are DIFFERENT traps -- neither
     has been repeated, so neither gates."""
-    responses = iter([
-        "let f = File::open(path).unwrap();",       # trap: rust_unwrap_expect
-        'eprintln!("Error: {:?}", err);',             # trap: rust_debug_error_print (different)
-    ])
+    responses = iter(
+        [
+            "let f = File::open(path).unwrap();",  # trap: rust_unwrap_expect
+            'eprintln!("Error: {:?}", err);',  # trap: rust_debug_error_print (different)
+        ]
+    )
 
     def fake_generate(prompt, temp):
         return next(responses)
@@ -193,6 +199,7 @@ def test_trap_guard_exhausts_retries_and_returns_last_candidate():
     """If every resample still repeats the trap, trap_guard gives up after max_retries and
     returns the last candidate anyway -- it never silently blocks the pipeline; the real
     oracle still gets the final say."""
+
     def always_bad_generate(prompt, temp):
         return "let f = File::open(path).unwrap();"
 
@@ -214,6 +221,7 @@ def test_trap_guard_clean_code_never_gates():
 def test_trap_guard_state_is_isolated_per_instance():
     """Two separate trap_guard-wrapped generators (e.g. two different model-ladder entries)
     must not share warned-trap state."""
+
     def bad_generate(prompt, temp):
         return "let f = File::open(path).unwrap();"
 

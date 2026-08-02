@@ -26,6 +26,7 @@ Hard rules enforced by load():
     explicit release-proof / user-ready-proof source path) ->
     BLOCKED_RELEASE_OVERCLAIM / BLOCKED_USER_READY_OVERCLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -41,7 +42,6 @@ if str(_SCRIPTS) not in sys.path:
 from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     FORBIDDEN_BROAD_CLAIM_PHRASES,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 
@@ -377,10 +377,18 @@ def load(evidence_dir: Path | str | None = None) -> ConveyorBacklogAndDepthQueue
         next_depth_promotion_queue_by_sector=_dict_or_empty(blob.get("next_depth_promotion_queue")),
         next_verifier_building_queue=_dict_or_empty(blob.get("next_verifier_building_queue")),
         next_fixture_building_queue=_dict_or_empty(blob.get("next_fixture_building_queue")),
-        next_packaging_fresh_install_queue=_tuple_of_dicts(blob.get("next_packaging_fresh_install_queue")),
-        next_user_ready_with_caveats_candidates_by_sector=_dict_or_empty(blob.get("next_user_ready_with_caveats_candidates")),
-        blocked_cells_by_exact_missing_rung=_missing_rung_dict_to_rows(blob.get("blocked_cells_by_exact_missing_rung")),
-        roadmap_cells_by_exact_missing_rung=_missing_rung_dict_to_rows(blob.get("roadmap_cells_by_exact_missing_rung")),
+        next_packaging_fresh_install_queue=_tuple_of_dicts(
+            blob.get("next_packaging_fresh_install_queue")
+        ),
+        next_user_ready_with_caveats_candidates_by_sector=_dict_or_empty(
+            blob.get("next_user_ready_with_caveats_candidates")
+        ),
+        blocked_cells_by_exact_missing_rung=_missing_rung_dict_to_rows(
+            blob.get("blocked_cells_by_exact_missing_rung")
+        ),
+        roadmap_cells_by_exact_missing_rung=_missing_rung_dict_to_rows(
+            blob.get("roadmap_cells_by_exact_missing_rung")
+        ),
         forbidden_policy_blocked_cells=_tuple_of_dicts(blob.get("forbidden_policy_blocked_cells")),
         claude_visual_binding_backlog=dict(claude_backlog),
         codex_safe_parallel_work_queue=_dict_or_empty(blob.get("codex_safe_parallel_work_queue")),

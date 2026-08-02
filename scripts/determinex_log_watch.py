@@ -20,80 +20,123 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Optional, List, Dict, Any
 
 # ── ANSI colours ──────────────────────────────────────────────────────────────
 _COLOUR = True  # toggled off by --no-colour
+
 
 def _c(code: str, text: str) -> str:
     if not _COLOUR:
         return text
     return f"\033[{code}m{text}\033[0m"
 
-def green(t):  return _c("92", t)
-def red(t):    return _c("91", t)
-def yellow(t): return _c("93", t)
-def cyan(t):   return _c("96", t)
-def blue(t):   return _c("94", t)
-def dim(t):    return _c("2", t)
-def bold(t):   return _c("1", t)
-def magenta(t):return _c("95", t)
+
+def green(t):
+    return _c("92", t)
+
+
+def red(t):
+    return _c("91", t)
+
+
+def yellow(t):
+    return _c("93", t)
+
+
+def cyan(t):
+    return _c("96", t)
+
+
+def blue(t):
+    return _c("94", t)
+
+
+def dim(t):
+    return _c("2", t)
+
+
+def bold(t):
+    return _c("1", t)
+
+
+def magenta(t):
+    return _c("95", t)
+
 
 # ── Line classifier ───────────────────────────────────────────────────────────
 
 # Ordered by priority — first match wins
 PATTERNS = [
     # Compiler Oracle verdicts
-    (re.compile(r'\b(COMPILER[:\s]+PASS|compiler.*pass|cargo build.*ok)\b', re.I),
-     lambda m, line: green(f"  ✓ {line.strip()}")),
-    (re.compile(r'\b(COMPILER[:\s]+FAIL|compiler.*error|cargo build.*fail|error\[E\d+\])\b', re.I),
-     lambda m, line: red(f"  ✗ {line.strip()}")),
-
+    (
+        re.compile(r"\b(COMPILER[:\s]+PASS|compiler.*pass|cargo build.*ok)\b", re.I),
+        lambda m, line: green(f"  ✓ {line.strip()}"),
+    ),
+    (
+        re.compile(
+            r"\b(COMPILER[:\s]+FAIL|compiler.*error|cargo build.*fail|error\[E\d+\])\b", re.I
+        ),
+        lambda m, line: red(f"  ✗ {line.strip()}"),
+    ),
     # Monitor verdicts
-    (re.compile(r'\b(MONITOR[:\s]+PASS|verdict.*PASS|VERDICT:.*PASS)\b', re.I),
-     lambda m, line: green(f"  ✓ {line.strip()}")),
-    (re.compile(r'\b(MONITOR[:\s]+FAIL|verdict.*FAIL|VERDICT:.*FAIL)\b', re.I),
-     lambda m, line: yellow(f"  ⚠ {line.strip()}")),
-
+    (
+        re.compile(r"\b(MONITOR[:\s]+PASS|verdict.*PASS|VERDICT:.*PASS)\b", re.I),
+        lambda m, line: green(f"  ✓ {line.strip()}"),
+    ),
+    (
+        re.compile(r"\b(MONITOR[:\s]+FAIL|verdict.*FAIL|VERDICT:.*FAIL)\b", re.I),
+        lambda m, line: yellow(f"  ⚠ {line.strip()}"),
+    ),
     # Step transitions
-    (re.compile(r'\[step[_ ]?(\d+)\].*start|starting step (\d+)|step (\d+).*begin', re.I),
-     lambda m, line: cyan(f"\n  ▶ {line.strip()}")),
-    (re.compile(r'\[step[_ ]?(\d+)\].*complete|step (\d+).*done|step (\d+).*pass', re.I),
-     lambda m, line: green(f"  ✓ {line.strip()}")),
-    (re.compile(r'\[step[_ ]?(\d+)\].*fail|step (\d+).*failed|step (\d+).*retry', re.I),
-     lambda m, line: red(f"  ✗ {line.strip()}")),
-
+    (
+        re.compile(r"\[step[_ ]?(\d+)\].*start|starting step (\d+)|step (\d+).*begin", re.I),
+        lambda m, line: cyan(f"\n  ▶ {line.strip()}"),
+    ),
+    (
+        re.compile(r"\[step[_ ]?(\d+)\].*complete|step (\d+).*done|step (\d+).*pass", re.I),
+        lambda m, line: green(f"  ✓ {line.strip()}"),
+    ),
+    (
+        re.compile(r"\[step[_ ]?(\d+)\].*fail|step (\d+).*failed|step (\d+).*retry", re.I),
+        lambda m, line: red(f"  ✗ {line.strip()}"),
+    ),
     # Session lifecycle
-    (re.compile(r'session\s+(complete|finished|done|succeeded)', re.I),
-     lambda m, line: bold(green(f"\n  ★ {line.strip()}"))),
-    (re.compile(r'session\s+(failed|aborted|error)', re.I),
-     lambda m, line: bold(red(f"\n  ✗ {line.strip()}"))),
-    (re.compile(r'(oracle|architect|builder|monitor)\s*(role|step|starting|running)', re.I),
-     lambda m, line: magenta(f"  ◆ {line.strip()}")),
-
+    (
+        re.compile(r"session\s+(complete|finished|done|succeeded)", re.I),
+        lambda m, line: bold(green(f"\n  ★ {line.strip()}")),
+    ),
+    (
+        re.compile(r"session\s+(failed|aborted|error)", re.I),
+        lambda m, line: bold(red(f"\n  ✗ {line.strip()}")),
+    ),
+    (
+        re.compile(r"(oracle|architect|builder|monitor)\s*(role|step|starting|running)", re.I),
+        lambda m, line: magenta(f"  ◆ {line.strip()}"),
+    ),
     # Retries and escalations
-    (re.compile(r'(retry|retrying|attempt\s+\d+)', re.I),
-     lambda m, line: yellow(f"  ↺ {line.strip()}")),
-    (re.compile(r'(escalat|architect.*replan|re[-_]?plan)', re.I),
-     lambda m, line: yellow(f"  ⬆ {line.strip()}")),
-
+    (
+        re.compile(r"(retry|retrying|attempt\s+\d+)", re.I),
+        lambda m, line: yellow(f"  ↺ {line.strip()}"),
+    ),
+    (
+        re.compile(r"(escalat|architect.*replan|re[-_]?plan)", re.I),
+        lambda m, line: yellow(f"  ⬆ {line.strip()}"),
+    ),
     # Cost tracking
-    (re.compile(r'(cost|tokens?|budget)[\s:]+[\$\d]', re.I),
-     lambda m, line: dim(f"  💰 {line.strip()}")),
-
+    (
+        re.compile(r"(cost|tokens?|budget)[\s:]+[\$\d]", re.I),
+        lambda m, line: dim(f"  💰 {line.strip()}"),
+    ),
     # DSL messages
-    (re.compile(r'^INTENT:', re.M),
-     lambda m, line: dim(f"  ≋ {line.strip()}")),
-
+    (re.compile(r"^INTENT:", re.M), lambda m, line: dim(f"  ≋ {line.strip()}")),
     # Generic errors/warnings
-    (re.compile(r'\b(error|exception|traceback|critical)\b', re.I),
-     lambda m, line: red(f"  ! {line.strip()}")),
-    (re.compile(r'\b(warning|warn)\b', re.I),
-     lambda m, line: yellow(f"  ~ {line.strip()}")),
-
+    (
+        re.compile(r"\b(error|exception|traceback|critical)\b", re.I),
+        lambda m, line: red(f"  ! {line.strip()}"),
+    ),
+    (re.compile(r"\b(warning|warn)\b", re.I), lambda m, line: yellow(f"  ~ {line.strip()}")),
     # Info / progress
-    (re.compile(r'\b(info|debug)\b', re.I),
-     lambda m, line: dim(f"    {line.strip()}")),
+    (re.compile(r"\b(info|debug)\b", re.I), lambda m, line: dim(f"    {line.strip()}")),
 ]
 
 
@@ -125,12 +168,12 @@ def find_sessions() -> list[Path]:
     )
 
 
-def newest_session() -> Optional[Path]:
+def newest_session() -> Path | None:
     sessions = find_sessions()
     return sessions[0] if sessions else None
 
 
-def find_session_by_id(session_id: str) -> Optional[Path]:
+def find_session_by_id(session_id: str) -> Path | None:
     # Exact match first
     exact = SESSIONS_DIR / session_id
     if exact.exists() and (exact / "session.log").exists():
@@ -142,7 +185,7 @@ def find_session_by_id(session_id: str) -> Optional[Path]:
     return None
 
 
-def read_manifest(session_dir: Path) -> Optional[dict]:
+def read_manifest(session_dir: Path) -> dict | None:
     manifest = session_dir / "manifest.json"
     if manifest.exists():
         try:
@@ -154,7 +197,8 @@ def read_manifest(session_dir: Path) -> Optional[dict]:
 
 # ── Progress bar ──────────────────────────────────────────────────────────────
 
-def render_progress(manifest: Optional[dict]) -> str:
+
+def render_progress(manifest: dict | None) -> str:
     if not manifest:
         return ""
     steps = manifest.get("steps", [])
@@ -180,7 +224,7 @@ def render_progress(manifest: Optional[dict]) -> str:
     return f"  [{bar}] {pct}%  {' · '.join(status_bits)}"
 
 
-def render_session_header(session_dir: Path, manifest: Optional[dict]):
+def render_session_header(session_dir: Path, manifest: dict | None):
     sid = session_dir.name
     print(f"\n{bold(cyan('─' * 60))}")
     print(f"  {bold('Session:')} {cyan(sid)}")
@@ -188,15 +232,24 @@ def render_session_header(session_dir: Path, manifest: Optional[dict]):
         lang = manifest.get("lang", "?")
         status = manifest.get("status", "?")
         proj = manifest.get("project_name", "")
-        status_col = green(status) if status == "complete" else red(status) if status == "failed" else yellow(status)
-        print(f"  {bold('Project:')} {proj or dim('(unnamed)')}  "
-              f"{bold('Lang:')} {lang}  "
-              f"{bold('Status:')} {status_col}")
+        status_col = (
+            green(status)
+            if status == "complete"
+            else red(status)
+            if status == "failed"
+            else yellow(status)
+        )
+        print(
+            f"  {bold('Project:')} {proj or dim('(unnamed)')}  "
+            f"{bold('Lang:')} {lang}  "
+            f"{bold('Status:')} {status_col}"
+        )
     print(render_progress(manifest))
     print(f"{bold(cyan('─' * 60))}\n")
 
 
 # ── Session listing ───────────────────────────────────────────────────────────
+
 
 def list_sessions():
     sessions = find_sessions()
@@ -216,19 +269,28 @@ def list_sessions():
             proj = manifest.get("project_name", "")
 
         mtime = time.strftime("%Y-%m-%d %H:%M", time.localtime(sd.stat().st_mtime))
-        status_col = green(status) if status == "complete" else red(status) if status == "failed" else yellow(status)
+        status_col = (
+            green(status)
+            if status == "complete"
+            else red(status)
+            if status == "failed"
+            else yellow(status)
+        )
         log_size = (sd / "session.log").stat().st_size if (sd / "session.log").exists() else 0
         log_kb = f"{log_size // 1024}KB" if log_size >= 1024 else f"{log_size}B"
 
-        print(f"  {dim(sd.name[:36])}  {status_col:<20}  {cyan(lang):<8}  {mtime}  {dim(log_kb)}"
-              + (f"  {dim(proj)}" if proj else ""))
+        print(
+            f"  {dim(sd.name[:36])}  {status_col:<20}  {cyan(lang):<8}  {mtime}  {dim(log_kb)}"
+            + (f"  {dim(proj)}" if proj else "")
+        )
 
     print()
 
 
 # ── Tail loop ─────────────────────────────────────────────────────────────────
 
-def is_session_finished(manifest: Optional[dict]) -> bool:
+
+def is_session_finished(manifest: dict | None) -> bool:
     if not manifest:
         return False
     return manifest.get("status") in ("complete", "failed")
@@ -296,6 +358,7 @@ def tail_session(session_dir: Path, follow: bool = False):
 
 # ── Optional: detect from Tauri app data dir ─────────────────────────────────
 
+
 def find_sessions_in_appdata() -> list[Path]:
     """Also check the Tauri app data directory for sessions."""
     candidates = []
@@ -307,8 +370,7 @@ def find_sessions_in_appdata() -> list[Path]:
             p = Path(appdata) / subdir / "sessions"
             if p.exists():
                 candidates.extend(
-                    d for d in p.iterdir()
-                    if d.is_dir() and (d / "session.log").exists()
+                    d for d in p.iterdir() if d.is_dir() and (d / "session.log").exists()
                 )
 
     return sorted(candidates, key=lambda d: d.stat().st_mtime, reverse=True)
@@ -323,7 +385,9 @@ def main():
     parser = argparse.ArgumentParser(description="Determinex Hive Mind live log watcher")
     parser.add_argument("session_id", nargs="?", help="Session ID or prefix (default: newest)")
     parser.add_argument("--list", action="store_true", help="List all sessions and exit")
-    parser.add_argument("--follow", action="store_true", help="Keep tailing after session completes")
+    parser.add_argument(
+        "--follow", action="store_true", help="Keep tailing after session completes"
+    )
     parser.add_argument("--no-colour", "--no-color", action="store_true", help="Plain text output")
     args = parser.parse_args()
 
@@ -340,7 +404,7 @@ def main():
                 print(f"  {dim(str(d))}")
         return
 
-    session_dir: Optional[Path] = None
+    session_dir: Path | None = None
 
     if args.session_id:
         session_dir = find_session_by_id(args.session_id)

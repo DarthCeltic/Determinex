@@ -24,7 +24,7 @@ import base64
 import json
 import shutil
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 # ── UTF-8 terminal fix (Windows) ────────────────────────────────────────────
@@ -35,14 +35,15 @@ if hasattr(sys.stderr, "reconfigure"):
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 _DETERMINEX_ROOT = Path(__file__).resolve().parent.parent
-_STAGING      = _DETERMINEX_ROOT / ".determinex_staging"
-_DEFAULT_OUTBOX   = _STAGING / "outbox"
-_DEFAULT_KEY      = _STAGING / "vault" / "vault.key"
-_DEFAULT_OUTPUT   = _DETERMINEX_ROOT / "frontend" / "src-tauri" / "determinex_v1_vanguard_dpo.jsonl"
-_PROCESSED_DIR    = _DEFAULT_OUTBOX / "processed"
+_STAGING = _DETERMINEX_ROOT / ".determinex_staging"
+_DEFAULT_OUTBOX = _STAGING / "outbox"
+_DEFAULT_KEY = _STAGING / "vault" / "vault.key"
+_DEFAULT_OUTPUT = _DETERMINEX_ROOT / "frontend" / "src-tauri" / "determinex_v1_vanguard_dpo.jsonl"
+_PROCESSED_DIR = _DEFAULT_OUTBOX / "processed"
 
 
 # ── Crypto ───────────────────────────────────────────────────────────────────
+
 
 def _load_key(key_path: Path) -> bytes:
     """Load the 32-byte AES-256-GCM vault key from disk."""
@@ -71,23 +72,23 @@ def _decrypt_envelope(key_bytes: bytes, encoded: str) -> str:
         from cryptography.hazmat.primitives.ciphers.aead import AESGCM
     except ImportError:
         raise ImportError(
-            "[FORGE] 'cryptography' package required.\n"
-            "       pip install cryptography"
+            "[FORGE] 'cryptography' package required.\n       pip install cryptography"
         )
 
     envelope = base64.b64decode(encoded.strip())
     if len(envelope) < 28:  # 12 nonce + 16 tag minimum
         raise ValueError(f"[FORGE] Envelope too short ({len(envelope)} bytes) — corrupt .enc file.")
 
-    nonce      = envelope[:12]
-    ciphertext = envelope[12:]   # includes GCM tag at the end (Python cryptography handles this)
+    nonce = envelope[:12]
+    ciphertext = envelope[12:]  # includes GCM tag at the end (Python cryptography handles this)
 
-    aesgcm    = AESGCM(key_bytes)
+    aesgcm = AESGCM(key_bytes)
     plaintext = aesgcm.decrypt(nonce, ciphertext, None)
     return plaintext.decode("utf-8")
 
 
 # ── Format Conversion ────────────────────────────────────────────────────────
+
 
 def _sharegpt_to_training(record: dict) -> dict | None:
     """
@@ -111,7 +112,7 @@ def _sharegpt_to_training(record: dict) -> dict | None:
 
     result = {}
     for turn in conversations:
-        role  = turn.get("from", "").lower()
+        role = turn.get("from", "").lower()
         value = turn.get("value", "").strip()
         if role in ("system", "user", "assistant") and value:
             result[role] = value
@@ -125,9 +126,10 @@ def _sharegpt_to_training(record: dict) -> dict | None:
 
 # ── Main Flush Logic ─────────────────────────────────────────────────────────
 
+
 def flush_outbox(
     outbox_dir: Path,
-    key_path:   Path,
+    key_path: Path,
     output_jsonl: Path,
     dry_run: bool = False,
     verbose: bool = False,
@@ -152,8 +154,8 @@ def flush_outbox(
         print(str(e), flush=True)
         return 0
 
-    flushed   = 0
-    skipped   = 0
+    flushed = 0
+    skipped = 0
     processed = _PROCESSED_DIR if not dry_run else None
 
     if processed and not dry_run:
@@ -163,9 +165,9 @@ def flush_outbox(
 
     for enc_file in enc_files:
         try:
-            encoded   = enc_file.read_text(encoding="utf-8").strip()
+            encoded = enc_file.read_text(encoding="utf-8").strip()
             plaintext = _decrypt_envelope(key_bytes, encoded)
-            record    = json.loads(plaintext)
+            record = json.loads(plaintext)
             converted = _sharegpt_to_training(record)
 
             if converted is None:
@@ -196,8 +198,7 @@ def flush_outbox(
             for line in lines_to_append:
                 f.write(line + "\n")
         print(
-            f"[FORGE] Flushed {flushed} sample(s) → {output_jsonl.name}  "
-            f"({skipped} skipped)",
+            f"[FORGE] Flushed {flushed} sample(s) → {output_jsonl.name}  ({skipped} skipped)",
             flush=True,
         )
     elif lines_to_append and dry_run:
@@ -214,25 +215,41 @@ def flush_outbox(
 
 # ── CLI ──────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="determinex-forge — Vanguard vault decryption and JSONL flush"
     )
     parser.add_argument(
-        "command", nargs="?", default="decrypt-outbox",
+        "command",
+        nargs="?",
+        default="decrypt-outbox",
         choices=["decrypt-outbox"],
         help="Command to run (default: decrypt-outbox)",
     )
-    parser.add_argument("--outbox",   type=Path, default=_DEFAULT_OUTBOX,
-                        help=f"Outbox directory (default: {_DEFAULT_OUTBOX})")
-    parser.add_argument("--key",      type=Path, default=_DEFAULT_KEY,
-                        help=f"Vault key path (default: {_DEFAULT_KEY})")
-    parser.add_argument("--output",   type=Path, default=_DEFAULT_OUTPUT,
-                        help=f"Output JSONL file (default: {_DEFAULT_OUTPUT})")
-    parser.add_argument("--dry-run",  action="store_true",
-                        help="Decrypt and count without writing JSONL or moving files")
-    parser.add_argument("--verbose",  action="store_true",
-                        help="Print a preview of each decrypted sample")
+    parser.add_argument(
+        "--outbox",
+        type=Path,
+        default=_DEFAULT_OUTBOX,
+        help=f"Outbox directory (default: {_DEFAULT_OUTBOX})",
+    )
+    parser.add_argument(
+        "--key", type=Path, default=_DEFAULT_KEY, help=f"Vault key path (default: {_DEFAULT_KEY})"
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=_DEFAULT_OUTPUT,
+        help=f"Output JSONL file (default: {_DEFAULT_OUTPUT})",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Decrypt and count without writing JSONL or moving files",
+    )
+    parser.add_argument(
+        "--verbose", action="store_true", help="Print a preview of each decrypted sample"
+    )
     args = parser.parse_args()
 
     if not args.outbox.exists():
@@ -244,8 +261,7 @@ def main():
     print(f"[FORGE] Outbox : {args.outbox}")
     print(f"[FORGE] Key    : {args.key}")
     print(f"[FORGE] Output : {args.output}")
-    print(f"[FORGE] Time   : {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}\n",
-          flush=True)
+    print(f"[FORGE] Time   : {datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%SZ')}\n", flush=True)
 
     count = flush_outbox(
         outbox_dir=args.outbox,

@@ -19,10 +19,11 @@ Usage:
 
 Run after a pool drain.
 """
+
 from __future__ import annotations
+
 import argparse
 import glob
-import io
 import json
 import re
 import shutil
@@ -39,8 +40,13 @@ LOG_DIR.mkdir(exist_ok=True)
 
 def fetch_hetzner_baseline(remote_file: str = "done.v36_final") -> dict:
     """Pull baseline done.txt from Hetzner via ssh."""
-    cmd = ["ssh", "-i", str(Path.home() / ".ssh" / "id_determinex"),
-           "root@5.78.192.163", f"cat /root/queue/{remote_file}"]
+    cmd = [
+        "ssh",
+        "-i",
+        str(Path.home() / ".ssh" / "id_determinex"),
+        "root@5.78.192.163",
+        f"cat /root/queue/{remote_file}",
+    ]
     try:
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
         if r.returncode != 0:
@@ -75,7 +81,7 @@ def current_scores() -> dict:
         mt = p.stat().st_mtime
         if tk not in scores or mt > scores[tk][1]:
             try:
-                with io.open(ej, encoding="utf-8", errors="replace") as f:
+                with open(ej, encoding="utf-8", errors="replace") as f:
                     j = json.load(f)
                 rs = j.get("test_results") or []
                 passed = sum(1 for r in rs if r.get("status") == "passed")
@@ -99,11 +105,15 @@ def revert_one(tool_key: str) -> bool:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--threshold", type=float, default=3.0,
-                    help="revert if current < baseline by this many pp")
-    ap.add_argument("--baseline-source", default="hetzner",
-                    choices=["hetzner", "v36_final", "v33b_final", "local-v34"],
-                    help="where to pull baseline from")
+    ap.add_argument(
+        "--threshold", type=float, default=3.0, help="revert if current < baseline by this many pp"
+    )
+    ap.add_argument(
+        "--baseline-source",
+        default="hetzner",
+        choices=["hetzner", "v36_final", "v33b_final", "local-v34"],
+        help="where to pull baseline from",
+    )
     ap.add_argument("--baseline-file", default="done.v36_final")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
@@ -165,11 +175,13 @@ def main():
     if len(improved) > 30:
         print(f"  ... +{len(improved) - 30} more")
     print()
-    print(f"=== SUMMARY ===")
+    print("=== SUMMARY ===")
     print(f"  regressed: {len(regressed)}")
     print(f"  improved:  {len(improved)}")
     print(f"  same:      {len(same)}")
-    print(f"  net delta: {sum(d for _,_,_,d in regressed) + sum(d for _,_,_,d in improved):+.2f}pp")
+    print(
+        f"  net delta: {sum(d for _, _, _, d in regressed) + sum(d for _, _, _, d in improved):+.2f}pp"
+    )
 
     if args.dry_run:
         print("\n[dry-run] No changes made.")
@@ -191,14 +203,22 @@ def main():
     # Write per-tool log
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_path = LOG_DIR / f"regressions_{ts}.json"
-    log_path.write_text(json.dumps({
-        "baseline_source": args.baseline_source,
-        "threshold": args.threshold,
-        "regressed": [{"tool": t, "baseline": b, "current": c, "delta": d}
-                      for t,b,c,d in regressed],
-        "improved": [{"tool": t, "baseline": b, "current": c, "delta": d}
-                     for t,b,c,d in improved],
-    }, indent=2), encoding="utf-8")
+    log_path.write_text(
+        json.dumps(
+            {
+                "baseline_source": args.baseline_source,
+                "threshold": args.threshold,
+                "regressed": [
+                    {"tool": t, "baseline": b, "current": c, "delta": d} for t, b, c, d in regressed
+                ],
+                "improved": [
+                    {"tool": t, "baseline": b, "current": c, "delta": d} for t, b, c, d in improved
+                ],
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     print(f"\n  log: {log_path}")
     print(f"  revert list: {revert_list_path}")
     print()

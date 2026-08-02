@@ -13,6 +13,7 @@ against it, and verifies:
 Shard and full phases call the real programbench eval harness; we don't
 exercise those in this test (covered by manual end-to-end via the CLI).
 """
+
 from __future__ import annotations
 
 import os
@@ -25,9 +26,8 @@ import pytest
 _SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(_SCRIPTS))
 
+import run_ledger as rl  # noqa: E402
 import three_speed_gate as gate  # noqa: E402
-import run_ledger as rl          # noqa: E402
-
 
 # ---------------------------------------------------------------------------
 # Fake-scaffold helpers
@@ -116,14 +116,16 @@ def fresh_ledger(tmp_path, monkeypatch):
 # Tests
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.usefixtures("fresh_ledger")
 def test_micro_passes_for_clap_scaffold(tmp_path):
     """The iter-1 scaffold (clap wording, rc=1) must pass micro at ≥85%."""
     exe = _write_script(tmp_path, "clap_main.py", _CLAP_TEMPLATE)
     results = gate.run_micro(exe)
     summary = gate.micro_summary(results)
-    assert summary["pass_rate"] >= 0.85, \
-        f"clap scaffold should pass ≥85%: got {summary['pass_rate']*100:.0f}% — failures: {summary['failures']}"
+    assert summary["pass_rate"] >= 0.85, (
+        f"clap scaffold should pass ≥85%: got {summary['pass_rate'] * 100:.0f}% — failures: {summary['failures']}"
+    )
 
 
 @pytest.mark.usefixtures("fresh_ledger")
@@ -136,8 +138,9 @@ def test_micro_fails_for_broken_scaffold(tmp_path):
     rc_fam = summary["by_family"].get("rc_2_unknown_option", {})
     # At least one rc_2_unknown_option case must fail (gate would otherwise let
     # the regression through to a 6-hour full eval).
-    assert rc_fam.get("failed", 0) >= 1, \
+    assert rc_fam.get("failed", 0) >= 1, (
         f"broken scaffold should fail at least one rc_2_unknown_option case: {rc_fam}"
+    )
 
 
 @pytest.mark.usefixtures("fresh_ledger")
@@ -146,7 +149,7 @@ def test_micro_failure_halts_escalation(tmp_path):
     attempt to run shard/full — even when given a scaffold_root."""
     exe = _write_script(tmp_path, "broken_main.py", _BROKEN_TEMPLATE)
     report = gate.run_gate(
-        gate="full",                     # request the full chain
+        gate="full",  # request the full chain
         executable=exe,
         scaffold_root=tmp_path,
         shard_tools=["fake__tool.deadbeef"],
@@ -164,7 +167,8 @@ def test_micro_writes_ledger_event(tmp_path):
     exe = _write_script(tmp_path, "clap_main.py", _CLAP_TEMPLATE)
     gate.run_gate(gate="micro", executable=exe, run_id="ledger_test")
     # Read back via the ledger query path
-    from run_ledger import _open_db, SQLITE_PATH
+    from run_ledger import SQLITE_PATH, _open_db
+
     conn = _open_db(SQLITE_PATH)
     try:
         rows = conn.execute(
@@ -181,9 +185,15 @@ def test_micro_cases_cover_universal_patterns():
     """Every Tier-1 universal CLI pattern must have at least one micro case."""
     families_covered = {c.family for c in gate.MICRO_CASES}
     expected = {
-        "rc_2_unknown_option", "help", "version", "empty_input",
-        "stdin_handling", "no_color_negation", "file_not_found",
-        "output_flag", "multiple_inputs",
+        "rc_2_unknown_option",
+        "help",
+        "version",
+        "empty_input",
+        "stdin_handling",
+        "no_color_negation",
+        "file_not_found",
+        "output_flag",
+        "multiple_inputs",
     }
     missing = expected - families_covered
     assert not missing, f"micro coverage missing families: {missing}"
@@ -191,5 +201,6 @@ def test_micro_cases_cover_universal_patterns():
 
 def test_micro_count_matches_doc():
     """The module docstring promises 20 cases — keep them in sync."""
-    assert len(gate.MICRO_CASES) == 20, \
+    assert len(gate.MICRO_CASES) == 20, (
         f"expected 20 micro cases (doc says 20), got {len(gate.MICRO_CASES)}"
+    )

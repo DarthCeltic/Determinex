@@ -21,16 +21,15 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Optional
 
 # ── ANSI colours ──────────────────────────────────────────────────────────────
-GREEN  = "\033[92m"
-RED    = "\033[91m"
+GREEN = "\033[92m"
+RED = "\033[91m"
 YELLOW = "\033[93m"
-CYAN   = "\033[96m"
-DIM    = "\033[2m"
-BOLD   = "\033[1m"
-RESET  = "\033[0m"
+CYAN = "\033[96m"
+DIM = "\033[2m"
+BOLD = "\033[1m"
+RESET = "\033[0m"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -290,6 +289,7 @@ python
 
 # ── Hive runner ───────────────────────────────────────────────────────────────
 
+
 def run_hive_build(spec_content: str, lang: str, timeout: int) -> dict:
     """
     Full build via determinex_hive.py subcommands:
@@ -311,13 +311,21 @@ def run_hive_build(spec_content: str, lang: str, timeout: int) -> dict:
         cmd = [sys.executable or "python", str(hive_script)] + args
         r = subprocess.run(
             cmd,
-            capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=step_timeout,
-            env={**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1",
-                 "PYTHONUNBUFFERED": "1"},
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=step_timeout,
+            env={
+                **os.environ,
+                "PYTHONIOENCODING": "utf-8",
+                "PYTHONUTF8": "1",
+                "PYTHONUNBUFFERED": "1",
+            },
         )
         return r.returncode, (r.stdout or "").strip(), (r.stderr or "").strip()
 
-    def extract_session_id(stdout: str) -> Optional[str]:
+    def extract_session_id(stdout: str) -> str | None:
         # Look for JSON {"session_id": "..."} or plain "session_id: ..."
         for line in stdout.splitlines():
             line = line.strip()
@@ -329,7 +337,11 @@ def run_hive_build(spec_content: str, lang: str, timeout: int) -> dict:
                         return str(sid)
                 except json.JSONDecodeError:
                     pass
-            m = re.search(r'(?:session[_-]?id|session created|new session)["\s:=]+([a-zA-Z0-9_-]{8,})', line, re.I)
+            m = re.search(
+                r'(?:session[_-]?id|session created|new session)["\s:=]+([a-zA-Z0-9_-]{8,})',
+                line,
+                re.I,
+            )
             if m:
                 return m.group(1)
         return None
@@ -345,7 +357,8 @@ def run_hive_build(spec_content: str, lang: str, timeout: int) -> dict:
             return {
                 "ok": False,
                 "error": f"new-session failed (rc={rc})",
-                "stdout": out[-1000:], "stderr": err[-500:],
+                "stdout": out[-1000:],
+                "stderr": err[-500:],
             }
 
         # ── Step 2: generate DAG ──────────────────────────────────────────
@@ -358,7 +371,8 @@ def run_hive_build(spec_content: str, lang: str, timeout: int) -> dict:
                 "ok": False,
                 "error": f"generate-dag failed (rc={rc})",
                 "session_id": session_id,
-                "stdout": out[-1000:], "stderr": err[-500:],
+                "stdout": out[-1000:],
+                "stderr": err[-500:],
             }
 
         # ── Step 3: run session ───────────────────────────────────────────
@@ -400,6 +414,7 @@ def run_hive_build(spec_content: str, lang: str, timeout: int) -> dict:
 def fallback_run(spec_content: str, lang: str, timeout: int, level_id: int) -> dict:
     """Try HTTP API first (if hive daemon is running), fall back to subprocess."""
     import urllib.request
+
     try:
         urllib.request.urlopen("http://localhost:8765/health", timeout=2)
         return _run_via_http(spec_content, lang, timeout, level_id)
@@ -409,7 +424,10 @@ def fallback_run(spec_content: str, lang: str, timeout: int, level_id: int) -> d
 
 
 def _run_via_http(spec_content: str, lang: str, timeout: int, level_id: int) -> dict:
-    import urllib.request, urllib.error, json as _json, tempfile
+    import json as _json
+    import tempfile
+    import urllib.error
+    import urllib.request
 
     base = "http://localhost:8765"
     headers = {"Content-Type": "application/json"}
@@ -458,6 +476,7 @@ def _run_via_http(spec_content: str, lang: str, timeout: int, level_id: int) -> 
 
 # ── Report helpers ─────────────────────────────────────────────────────────────
 
+
 def fmt_time(seconds: float) -> str:
     if seconds < 60:
         return f"{seconds:.1f}s"
@@ -494,7 +513,7 @@ def print_result(level: dict, result: dict, elapsed: float):
     if not ok:
         err = result.get("error") or "unknown error"
         print(f"  {RED}{err}{RESET}")
-        
+
         # Also print the actual subprocess stderr if available
         stderr_out = result.get("stderr", "").strip()
         if stderr_out:
@@ -526,12 +545,16 @@ def print_summary(results: list[dict]):
     for r in results:
         ok = r["result"].get("ok", False)
         icon = f"{GREEN}[OK]{RESET}" if ok else f"{RED}[ERR]{RESET}"
-        print(f"  {icon}  L{r['id']} {r['name']:<20} {fmt_time(r['elapsed']):<10} "
-              f"{count_retries(r['result'])} retries")
+        print(
+            f"  {icon}  L{r['id']} {r['name']:<20} {fmt_time(r['elapsed']):<10} "
+            f"{count_retries(r['result'])} retries"
+        )
 
-    print(f"\n  Passed: {GREEN}{passed}/{total}{RESET}  "
-          f"Total time: {fmt_time(total_time)}  "
-          f"Total retries: {total_retries}")
+    print(
+        f"\n  Passed: {GREEN}{passed}/{total}{RESET}  "
+        f"Total time: {fmt_time(total_time)}  "
+        f"Total retries: {total_retries}"
+    )
 
     if passed == total:
         print(f"\n  {GREEN}{BOLD}All levels passed — compiler loop fully functional.{RESET}")
@@ -545,16 +568,21 @@ def print_summary(results: list[dict]):
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Determinex Hive Mind limits test")
-    parser.add_argument("--levels", default="1,2,3,4,5,6",
-                        help="Comma-separated level IDs to run (default: all)")
-    parser.add_argument("--lang", choices=["rust", "python"], default="rust",
-                        help="Target language (default: rust)")
-    parser.add_argument("--timeout", type=int, default=600,
-                        help="Per-level timeout in seconds (default: 600)")
-    parser.add_argument("--no-rosetta", action="store_true",
-                        help="Disable Rosetta bridge for this run")
+    parser.add_argument(
+        "--levels", default="1,2,3,4,5,6", help="Comma-separated level IDs to run (default: all)"
+    )
+    parser.add_argument(
+        "--lang", choices=["rust", "python"], default="rust", help="Target language (default: rust)"
+    )
+    parser.add_argument(
+        "--timeout", type=int, default=600, help="Per-level timeout in seconds (default: 600)"
+    )
+    parser.add_argument(
+        "--no-rosetta", action="store_true", help="Disable Rosetta bridge for this run"
+    )
     args = parser.parse_args()
 
     selected_ids = {int(x.strip()) for x in args.levels.split(",")}
@@ -565,9 +593,11 @@ def main():
         os.environ["DETERMINEX_NO_ROSETTA"] = "1"
 
     print_header()
-    print(f"  Language: {CYAN}{args.lang}{RESET}  "
-          f"Levels: {CYAN}{args.levels}{RESET}  "
-          f"Timeout: {CYAN}{args.timeout}s per level{RESET}")
+    print(
+        f"  Language: {CYAN}{args.lang}{RESET}  "
+        f"Levels: {CYAN}{args.levels}{RESET}  "
+        f"Timeout: {CYAN}{args.timeout}s per level{RESET}"
+    )
     if args.no_rosetta:
         print(f"  {YELLOW}Rosetta bridge: DISABLED{RESET}")
     print()
@@ -590,17 +620,21 @@ def main():
         print_result(level, result, elapsed)
         print()
 
-        all_results.append({
-            "id": level["id"],
-            "name": level["name"],
-            "result": result,
-            "elapsed": elapsed,
-        })
+        all_results.append(
+            {
+                "id": level["id"],
+                "name": level["name"],
+                "result": result,
+                "elapsed": elapsed,
+            }
+        )
 
         # Stop on catastrophic failure (level 1 or 2 failed — something is broken)
         if not result.get("ok") and level["id"] <= 2:
             print(f"  {RED}Stopping early — baseline level {level['id']} failed.{RESET}")
-            print(f"  {DIM}Check: is Ollama running? Are models loaded? Is determinex_hive.py wired?{RESET}\n")
+            print(
+                f"  {DIM}Check: is Ollama running? Are models loaded? Is determinex_hive.py wired?{RESET}\n"
+            )
             break
 
     if all_results:
@@ -609,11 +643,16 @@ def main():
     # Write JSON report
     report_path = REPO_ROOT / "determinex_limits_report.json"
     with open(report_path, "w", encoding="utf-8") as f:
-        json.dump({
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
-            "lang": args.lang,
-            "results": all_results,
-        }, f, indent=2, default=str)
+        json.dump(
+            {
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "lang": args.lang,
+                "results": all_results,
+            },
+            f,
+            indent=2,
+            default=str,
+        )
     print(f"\n  {DIM}Report written to {report_path}{RESET}\n")
 
 

@@ -4,6 +4,7 @@ CLAUDE_PUBLIC_CLAIMS_LEDGER_LOCK_001 — rung 7. Classifies every
 Claude/IDE-lane public claim into one of five disjoint states and
 applies four hard rules to refuse over-claiming.
 """
+
 from __future__ import annotations
 
 from .public_claims_ledger_record import (
@@ -13,7 +14,6 @@ from .public_claims_ledger_record import (
     PublicClaim,
     PublicClaimsLedgerRecord,
 )
-
 
 # The canonical ledger — every Claude/IDE-lane claim required by the
 # campaign spec. Entries here are public-facing language. An empty
@@ -32,10 +32,7 @@ _CANONICAL_LEDGER: tuple[PublicClaim, ...] = (
     PublicClaim(
         key="local_model_healthcheck",
         classification="implemented",
-        short=(
-            "Local-model healthcheck is the precondition for "
-            "diagnose-with-verifier-context."
-        ),
+        short=("Local-model healthcheck is the precondition for diagnose-with-verifier-context."),
         evidence_ref="REAL_LOCAL_MODEL_HEALTHCHECK_LOCK_001",
     ),
     PublicClaim(
@@ -52,8 +49,7 @@ _CANONICAL_LEDGER: tuple[PublicClaim, ...] = (
         key="quarantined_patch_plan",
         classification="implemented",
         short=(
-            "Patch plans are quarantined and schema/path-validated before "
-            "any other rung sees them."
+            "Patch plans are quarantined and schema/path-validated before any other rung sees them."
         ),
         evidence_ref="REAL_PATCH_PLAN_QUARANTINE_LOCK_001",
     ),
@@ -69,10 +65,7 @@ _CANONICAL_LEDGER: tuple[PublicClaim, ...] = (
     PublicClaim(
         key="human_approval_source_mutation_gate",
         classification="implemented",
-        short=(
-            "Human approval is required AND fixture approvals are refused "
-            "at the apply gate."
-        ),
+        short=("Human approval is required AND fixture approvals are refused at the apply gate."),
         evidence_ref="APPLY_GATE_FIXTURE_REFUSAL_LOCK_001",
         blocks_or_gates=("source_mutation_authorized=False",),
     ),
@@ -110,8 +103,7 @@ _CANONICAL_LEDGER: tuple[PublicClaim, ...] = (
         key="post_apply_verifier",
         classification="implemented",
         short=(
-            "Post-apply verifier never defaults to pass; missing or stub "
-            "verifiers are refused."
+            "Post-apply verifier never defaults to pass; missing or stub verifiers are refused."
         ),
         evidence_ref="POST_APPLY_VERIFIER_NO_DEFAULT_PASS_LOCK_001",
     ),
@@ -164,10 +156,7 @@ _CANONICAL_LEDGER: tuple[PublicClaim, ...] = (
     PublicClaim(
         key="public_packaging",
         classification="planned",
-        short=(
-            "Public packaging (signed installer, demo bundle) is planned, "
-            "not implemented."
-        ),
+        short=("Public packaging (signed installer, demo bundle) is planned, not implemented."),
         evidence_ref="docs/CLAUDE_PUBLIC_CLAIMS_LEDGER.md",
     ),
     PublicClaim(
@@ -182,35 +171,34 @@ _CANONICAL_LEDGER: tuple[PublicClaim, ...] = (
     PublicClaim(
         key="mobile_console",
         classification="research_track",
-        short=(
-            "Mobile console is a research track; not implemented in the "
-            "Claude IDE lane."
-        ),
+        short=("Mobile console is a research track; not implemented in the Claude IDE lane."),
         evidence_ref="docs/CLAUDE_PUBLIC_CLAIMS_LEDGER.md",
     ),
 )
 
 
 # Required claim keys (from the campaign spec).
-REQUIRED_CLAIM_KEYS = frozenset({
-    "local_model_detection_admission",
-    "local_model_healthcheck",
-    "diagnose_with_verifier_context",
-    "quarantined_patch_plan",
-    "temp_patch_verifier",
-    "human_approval_source_mutation_gate",
-    "canonical_patch_body_binding",
-    "cryptographic_local_approval_binding",
-    "rollback_snapshot",
-    "post_apply_verifier",
-    "frontend_repair_panel",
-    "source_mutation",
-    "training_eligibility",
-    "release_readiness",
-    "public_packaging",
-    "federated_forge",
-    "mobile_console",
-})
+REQUIRED_CLAIM_KEYS = frozenset(
+    {
+        "local_model_detection_admission",
+        "local_model_healthcheck",
+        "diagnose_with_verifier_context",
+        "quarantined_patch_plan",
+        "temp_patch_verifier",
+        "human_approval_source_mutation_gate",
+        "canonical_patch_body_binding",
+        "cryptographic_local_approval_binding",
+        "rollback_snapshot",
+        "post_apply_verifier",
+        "frontend_repair_panel",
+        "source_mutation",
+        "training_eligibility",
+        "release_readiness",
+        "public_packaging",
+        "federated_forge",
+        "mobile_console",
+    }
+)
 
 
 def canonical_ledger() -> tuple[PublicClaim, ...]:
@@ -227,15 +215,12 @@ def build_record() -> PublicClaimsLedgerRecord:
     for c in _CANONICAL_LEDGER:
         # Classification must be one of the five.
         if c.classification not in PUBLIC_CLAIM_CLASSIFICATIONS:
-            ambiguities.append(
-                f"{c.key}: unknown classification {c.classification!r}"
-            )
+            ambiguities.append(f"{c.key}: unknown classification {c.classification!r}")
             continue
         # Every claim except 'not_claimed' must have an evidence ref.
         if c.classification != "not_claimed" and not c.evidence_ref:
             ambiguities.append(
-                f"{c.key}: classification {c.classification!r} requires "
-                "non-empty evidence_ref"
+                f"{c.key}: classification {c.classification!r} requires non-empty evidence_ref"
             )
         # Short text must be non-empty.
         if not c.short:
@@ -264,9 +249,7 @@ def build_record() -> PublicClaimsLedgerRecord:
         )
     public_pkg = _find_claim("public_packaging")
     if public_pkg and public_pkg.classification in CLASSIFICATIONS_THAT_IMPLY_LIVE_CAPABILITY:
-        overclaims.append(
-            "public_packaging classified as 'implemented'; not yet shipped."
-        )
+        overclaims.append("public_packaging classified as 'implemented'; not yet shipped.")
 
     # Hard rule 3: no claim implies benchmark execution from Claude lane.
     for c in _CANONICAL_LEDGER:
@@ -288,9 +271,7 @@ def build_record() -> PublicClaimsLedgerRecord:
         # Forbidden words check
         kw_forbidden = ("freely", "without approval", "no gate")
         if any(kw in sm.short.lower() for kw in kw_forbidden):
-            overclaims.append(
-                "source_mutation short text contains forbidden phrasing"
-            )
+            overclaims.append("source_mutation short text contains forbidden phrasing")
 
     if overclaims:
         decision = "PUBLIC_CLAIMS_LEDGER_BLOCKED_OVERCLAIM"

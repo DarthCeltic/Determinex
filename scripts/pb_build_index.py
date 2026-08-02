@@ -12,6 +12,7 @@ Sources (in priority order):
 
 Outputs: corpus/programbench/eval_index.json
 """
+
 from __future__ import annotations
 
 import argparse
@@ -52,8 +53,9 @@ def classify_eval_report(data: dict) -> dict:
     skipped = ctr.get("skipped", 0)
     failed = ctr.get("failure", 0) + ctr.get("failed", 0)
     pct = (passed / total * 100) if total else 0.0
-    return dict(total=total, passed=passed, not_run=not_run,
-                skipped=skipped, failed=failed, pct=pct)
+    return dict(
+        total=total, passed=passed, not_run=not_run, skipped=skipped, failed=failed, pct=pct
+    )
 
 
 def determine_status(counts: dict) -> str:
@@ -208,15 +210,20 @@ def scan_pending_unlock(pending_base: Path, already_seen: set[str]) -> list[dict
                 except Exception:
                     pass
 
-            counts = classify_eval_report(data) if data else {
-                "total": ticket.get("current_total", 0),
-                "passed": ticket.get("current_passed", 0),
-                "not_run": ticket.get("current_not_run", 0),
-                "skipped": 0, "failed": 0,
-                "pct": (ticket.get("current_passed", 0) /
-                        ticket.get("current_total", 1) * 100)
-                       if ticket.get("current_total") else 0,
-            }
+            counts = (
+                classify_eval_report(data)
+                if data
+                else {
+                    "total": ticket.get("current_total", 0),
+                    "passed": ticket.get("current_passed", 0),
+                    "not_run": ticket.get("current_not_run", 0),
+                    "skipped": 0,
+                    "failed": 0,
+                    "pct": (ticket.get("current_passed", 0) / ticket.get("current_total", 1) * 100)
+                    if ticket.get("current_total")
+                    else 0,
+                }
+            )
 
             entry = {
                 "slug": slug,
@@ -264,14 +271,20 @@ def scan_ceiling_confirmed(ceiling_base: Path, already_seen: set[str]) -> list[d
             except Exception:
                 pass
 
-        counts = classify_eval_report(data) if data else {
-            "total": analysis.get("best_total", 0),
-            "passed": analysis.get("best_passed", 0),
-            "not_run": 0, "skipped": 0, "failed": 0,
-            "pct": (analysis.get("best_passed", 0) /
-                    analysis.get("best_total", 1) * 100)
-                   if analysis.get("best_total") else 0,
-        }
+        counts = (
+            classify_eval_report(data)
+            if data
+            else {
+                "total": analysis.get("best_total", 0),
+                "passed": analysis.get("best_passed", 0),
+                "not_run": 0,
+                "skipped": 0,
+                "failed": 0,
+                "pct": (analysis.get("best_passed", 0) / analysis.get("best_total", 1) * 100)
+                if analysis.get("best_total")
+                else 0,
+            }
+        )
 
         entry = {
             "slug": slug,
@@ -306,10 +319,18 @@ def scan_in_progress(ip_base: Path, already_seen: set[str]) -> list[dict]:
             continue
         report_path = tool_dir / "current_eval.json"
         data = load_eval_report(report_path)
-        counts = classify_eval_report(data) if data else {
-            "total": 0, "passed": 0, "not_run": 0,
-            "skipped": 0, "failed": 0, "pct": 0.0,
-        }
+        counts = (
+            classify_eval_report(data)
+            if data
+            else {
+                "total": 0,
+                "passed": 0,
+                "not_run": 0,
+                "skipped": 0,
+                "failed": 0,
+                "pct": 0.0,
+            }
+        )
         entry = {
             "slug": slug,
             "status": "in_progress",
@@ -446,10 +467,10 @@ def print_leaderboard(index: list[dict]) -> None:
     Console().print(table)
 
     if len(index) > 40:
-        print(f"  ... ({len(index)-40} more tools)")
+        print(f"  ... ({len(index) - 40} more tools)")
 
     print()
-    print(f" Strict lock rate: {strict}/{len(index)} = {strict/len(index)*100:.1f}%")
+    print(f" Strict lock rate: {strict}/{len(index)} = {strict / len(index) * 100:.1f}%")
     print(f" Potential locks after uncap: {strict + upstream + pending} (if all pending pass)")
     print("=" * 85)
 
@@ -497,19 +518,20 @@ def build_index(print_board: bool = True) -> list[dict]:
     # Sort: strict/upstream locks first (score 100), then by score desc
     def sort_key(e):
         status_order = {
-            "strict_lock": 0, "upstream_skips": 1,
-            "pending_unlock": 2, "ceiling_confirmed": 3,
-            "in_progress": 4, "partial": 5, "board_cache_only": 6,
+            "strict_lock": 0,
+            "upstream_skips": 1,
+            "pending_unlock": 2,
+            "ceiling_confirmed": 3,
+            "in_progress": 4,
+            "partial": 5,
+            "board_cache_only": 6,
         }
         return (status_order.get(e["status"], 99), -e["official_score_pct"])
 
     index.sort(key=sort_key)
 
     INDEX_OUT.parent.mkdir(parents=True, exist_ok=True)
-    INDEX_OUT.write_text(
-        json.dumps(index, indent=2, ensure_ascii=False),
-        encoding="utf-8"
-    )
+    INDEX_OUT.write_text(json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8")
 
     if print_board:
         print_leaderboard(index)
@@ -519,8 +541,9 @@ def build_index(print_board: bool = True) -> list[dict]:
 
 def main():
     parser = argparse.ArgumentParser(description="Build ProgramBench eval index")
-    parser.add_argument("--print-leaderboard", action="store_true",
-                        help="Print full leaderboard to stdout")
+    parser.add_argument(
+        "--print-leaderboard", action="store_true", help="Print full leaderboard to stdout"
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
 

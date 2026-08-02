@@ -1,14 +1,14 @@
 """Final-state assembly for the Determinex IDE consumer-ready backend."""
+
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .determinex_ide_consumer_ready_final_state_record import (
     DETERMINEX_IDE_CONSUMER_READY_FINAL_STATE_TOKENS,
     DeterminexIDEConsumerReadyFinalState,
 )
-
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
@@ -42,11 +42,13 @@ def assemble_consumer_ready_final_state() -> DeterminexIDEConsumerReadyFinalStat
     notes: list[str] = []
     if missing:
         notes.append(f"{len(missing)} upstream lock(s) missing")
-    notes.append("Source mutation remains BLOCKED pending real human approval; "
-                 "training eligibility blocked by default.")
+    notes.append(
+        "Source mutation remains BLOCKED pending real human approval; "
+        "training eligibility blocked by default."
+    )
 
     return DeterminexIDEConsumerReadyFinalState(
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=datetime.now(UTC).isoformat(),
         local_model_config="READY_OPT_IN",
         local_provider_smoke="READY",
         live_diagnose_command="READY_OPT_IN",

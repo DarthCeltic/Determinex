@@ -9,6 +9,7 @@ wrap even a trivial reply in structured formatting. The three response
 strings below are the exact, real, unmodified responses captured live
 from `ollama/determinex-engineer-v11-dsl` -- not synthesized examples.
 """
+
 from __future__ import annotations
 
 import sys
@@ -18,15 +19,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 from hive.executor import _is_healthy_builder_response
 
-
 # The exact, real responses captured live 2026-07-02 (see commit message).
 REAL_RESPONSE_1 = (
-    '### Assistant\nok\n\n### Code:\n\n```python\ndef health_check():\n'
+    "### Assistant\nok\n\n### Code:\n\n```python\ndef health_check():\n"
     '    return "ok"\n```\n\n\n### Validation:\n\n```sh\necho $(python3 -c '
     "'import sys; print(sys.version_info.major >= 3 and sys.version_info.minor >= 8"
 )
 REAL_RESPONSE_2 = (
-    '### Assistant\nok\n\n### Code:\n\n```python\ndef health_check():\n'
+    "### Assistant\nok\n\n### Code:\n\n```python\ndef health_check():\n"
     '    return "ok"\n```\n\n\n### Validation:\n\n```sh\necho $(python3 -c '
     "'import sys; print(sys.version_info.major == 3 and sys.version_info.minor >= 8"
 )

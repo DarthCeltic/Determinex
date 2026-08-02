@@ -55,9 +55,11 @@ def _live_role_defaults() -> dict[str, str]:
     import hive.ctx_config as ctx
 
     for value in vars(ctx).values():
-        if (isinstance(value, dict)
-                and isinstance(value.get("engineer"), str)
-                and value["engineer"].startswith("determinex")):
+        if (
+            isinstance(value, dict)
+            and isinstance(value.get("engineer"), str)
+            and value["engineer"].startswith("determinex")
+        ):
             return value
     pytest.fail("could not find the role->model defaults in hive/ctx_config.py")
 
@@ -78,29 +80,35 @@ def test_the_live_default_role_models_route_as_cheapest_tier():
         assert (tier, cost) == (1, 0.0), f"{role} model {model!r} rated tier={tier} cost={cost}"
 
 
-@pytest.mark.parametrize("model", [
-    "ollama/determinex-engineer-v11-dsl",
-    "ollama_chat/qwen2.5-coder:14b",
-    "hosted_vllm/some-model",
-    "determinex/engineer",
-    "determinex-engineer-v11-dsl",
-    "determinex-observer-v6-dsl",
-    "local/qwen",
-    "DETERMINEX-ENGINEER-V11-DSL",       # case is not a locality signal
-    "  determinex-engineer-v11-dsl  ",   # nor is surrounding whitespace
-])
+@pytest.mark.parametrize(
+    "model",
+    [
+        "ollama/determinex-engineer-v11-dsl",
+        "ollama_chat/qwen2.5-coder:14b",
+        "hosted_vllm/some-model",
+        "determinex/engineer",
+        "determinex-engineer-v11-dsl",
+        "determinex-observer-v6-dsl",
+        "local/qwen",
+        "DETERMINEX-ENGINEER-V11-DSL",  # case is not a locality signal
+        "  determinex-engineer-v11-dsl  ",  # nor is surrounding whitespace
+    ],
+)
 def test_local_forms_are_free(model):
     assert is_local_model(model) is True, f"{model!r} not recognised as local"
     assert _estimate_cost_usd(model, 10_000, 8_000, 2_000) == 0.0
 
 
-@pytest.mark.parametrize("model", [
-    "deepseek/deepseek-chat",
-    "claude-sonnet-4-6",
-    "openrouter/deepseek/deepseek-v4-flash",
-    "gpt-4o",
-    "anthropic.claude-v2:1",   # colon, no slash: why we do not guess from tag syntax
-])
+@pytest.mark.parametrize(
+    "model",
+    [
+        "deepseek/deepseek-chat",
+        "claude-sonnet-4-6",
+        "openrouter/deepseek/deepseek-v4-flash",
+        "gpt-4o",
+        "anthropic.claude-v2:1",  # colon, no slash: why we do not guess from tag syntax
+    ],
+)
 def test_cloud_models_are_never_free(model):
     """The direction that must never regress. Under-reporting spend overspends real
     money; over-reporting merely exhausts the budget early and falls back to local."""
@@ -155,9 +163,11 @@ def test_a_prefixed_cloud_model_is_priced_by_the_cap():
 
     bare = bg.estimate_cost_usd("deepseek-chat", 800_000, 200_000)
     assert bare > 0
-    for prefixed in ("deepseek/deepseek-chat",
-                     "openrouter/deepseek/deepseek-v4-flash",
-                     "anthropic/claude-sonnet-4-6"):
+    for prefixed in (
+        "deepseek/deepseek-chat",
+        "openrouter/deepseek/deepseek-v4-flash",
+        "anthropic/claude-sonnet-4-6",
+    ):
         cost = bg.estimate_cost_usd(prefixed, 800_000, 200_000)
         assert cost > 0, f"{prefixed} priced at $0 -- the cap cannot engage"
 
@@ -168,8 +178,9 @@ def test_the_cap_actually_stops_a_prefixed_model():
     import budget_guard as bg
 
     guard = bg.BudgetGuard.__new__(bg.BudgetGuard)
-    guard.state = bg.BudgetState(run_name="test-cap", max_usd=1.0,
-                                 max_calls=10_000, max_per_task=10_000)
+    guard.state = bg.BudgetState(
+        run_name="test-cap", max_usd=1.0, max_calls=10_000, max_per_task=10_000
+    )
     guard._path = None  # _save is patched out below; never touch disk in a test
     guard._save = lambda: None  # type: ignore[method-assign]
 
@@ -193,9 +204,11 @@ def test_local_models_never_consume_the_cloud_cap():
     """The other side of the same coin: a local run must not exhaust a cloud budget."""
     import budget_guard as bg
 
-    for model in ("ollama/determinex-engineer-v11-dsl",
-                  "determinex-engineer-v11-dsl",
-                  "local/qwen"):
+    for model in (
+        "ollama/determinex-engineer-v11-dsl",
+        "determinex-engineer-v11-dsl",
+        "local/qwen",
+    ):
         assert bg.estimate_cost_usd(model, 5_000_000, 1_000_000) == 0.0
 
 
@@ -208,9 +221,14 @@ def test_all_three_cost_consumers_agree():
     import determinex_providers as prov
     from hive.budget import is_local_model as hive_is_local
 
-    for model in ("deepseek/deepseek-chat", "anthropic/claude-sonnet-4-6",
-                  "ollama/determinex-engineer-v11-dsl", "determinex-engineer-v11-dsl",
-                  "local/qwen", "gpt-4o"):
+    for model in (
+        "deepseek/deepseek-chat",
+        "anthropic/claude-sonnet-4-6",
+        "ollama/determinex-engineer-v11-dsl",
+        "determinex-engineer-v11-dsl",
+        "local/qwen",
+        "gpt-4o",
+    ):
         assert bg.is_local_model(model) == hive_is_local(model), model
         assert prov._is_local_litellm_model(model) == bg.is_local_model(model), model
 

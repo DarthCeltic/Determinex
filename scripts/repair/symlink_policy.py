@@ -18,6 +18,7 @@ non-existing targets) that the apparatus does not need today. A
 clean refusal is auditable; the operator can resolve the workspace
 to a symlink-free state before retrying.
 """
+
 from __future__ import annotations
 
 from pathlib import Path

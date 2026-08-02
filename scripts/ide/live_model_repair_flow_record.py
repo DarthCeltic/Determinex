@@ -1,9 +1,9 @@
 """IDE-facing live-model repair flow state record."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDE_LIVE_MODEL_REPAIR_FLOW_STATE_TOKENS = (
     "LIVE_MODEL_NOT_ADMITTED",

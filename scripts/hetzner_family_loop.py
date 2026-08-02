@@ -13,6 +13,7 @@ run on the host toolchain. Clone + seed/repair happen on the host (the repo dir 
 
 Usage:  python3 hetzner_family_loop.py config.json results.json
 """
+
 from __future__ import annotations
 
 import json
@@ -27,8 +28,14 @@ WORK = Path("/root/fam_runs")
 def sh(cmd: str, cwd: Path | None = None, timeout: int = 3000) -> tuple[int, str]:
     # bash -c preserves shell constructs (pipes, redirects, semicolons) without shell=True.
     # This script runs on Hetzner Linux where bash is always present.
-    p = subprocess.run(["bash", "-c", cmd], cwd=str(cwd) if cwd else None,
-                       capture_output=True, text=True, timeout=timeout, errors="replace")
+    p = subprocess.run(
+        ["bash", "-c", cmd],
+        cwd=str(cwd) if cwd else None,
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        errors="replace",
+    )
     return p.returncode, (p.stdout + p.stderr)
 
 
@@ -40,12 +47,23 @@ def in_image(image: str, workdir: Path, inner: str, env: dict | None = None) -> 
     _BASH_IMAGES = ("python:", "ruby:", "node:", "php:", "composer:", "maven:", "mcr.microsoft.com")
     shell = "bash -lc" if any(image.startswith(p) for p in _BASH_IMAGES) else "sh -c"
     env_flags = "".join(f" -e {k}={v}" for k, v in (env or {}).items())
-    return (f"docker run --rm --network host{env_flags} -v {workdir}:/app -w /app {image} "
-            f"{shell} 'git config --global --add safe.directory /app 2>/dev/null; {safe}'")
+    return (
+        f"docker run --rm --network host{env_flags} -v {workdir}:/app -w /app {image} "
+        f"{shell} 'git config --global --add safe.directory /app 2>/dev/null; {safe}'"
+    )
 
 
-_COUNT_PATS = (r"OK \((\d+)", r"Tests:\s*(\d+)", r"(\d+) examples", r"(\d+) runs",
-               r"Tests run:\s*(\d+)", r"(\d+) passed", r"(\d+) passing", r"(\d+) tests", r"# tests (\d+)")
+_COUNT_PATS = (
+    r"OK \((\d+)",
+    r"Tests:\s*(\d+)",
+    r"(\d+) examples",
+    r"(\d+) runs",
+    r"Tests run:\s*(\d+)",
+    r"(\d+) passed",
+    r"(\d+) passing",
+    r"(\d+) tests",
+    r"# tests (\d+)",
+)
 
 
 def count_from(text: str) -> int:
@@ -69,41 +87,62 @@ def run_repo(cfg: dict) -> dict:
     tool = cfg["tool"]
     d = WORK / tool
     image = cfg.get("image", "")
-    res = {"tool": tool, "upstream": cfg.get("upstream", ""), "commit": cfg["commit"], "image": image, "ok": False, "error": None}
+    res = {
+        "tool": tool,
+        "upstream": cfg.get("upstream", ""),
+        "commit": cfg["commit"],
+        "image": image,
+        "ok": False,
+        "error": None,
+    }
 
     row_env = {k: v for k, v in cfg.items() if k.startswith("env_")} or None
     if row_env:
         row_env = {k[4:]: v for k, v in row_env.items()}  # strip "env_" prefix
+
     def runner(inner: str, timeout: int = 3000) -> tuple[int, str]:
-        return sh(in_image(image, d, inner, env=row_env) if image else inner, cwd=None if image else d, timeout=timeout)
+        return sh(
+            in_image(image, d, inner, env=row_env) if image else inner,
+            cwd=None if image else d,
+            timeout=timeout,
+        )
 
     try:
         sh(f"rm -rf {d}")
         rc, out = sh(f"git clone --quiet {cfg['repo_url']} {d}", timeout=1800)
         if rc != 0:
-            res["error"] = "clone_failed: " + out[-300:]; return res
+            res["error"] = "clone_failed: " + out[-300:]
+            return res
         if cfg["commit"] != "HEAD":
-            rc, _ = sh(f"git fetch --quiet --depth 1 origin {cfg['commit']} 2>/dev/null; git checkout --quiet {cfg['commit']}", cwd=d)
+            rc, _ = sh(
+                f"git fetch --quiet --depth 1 origin {cfg['commit']} 2>/dev/null; git checkout --quiet {cfg['commit']}",
+                cwd=d,
+            )
         res["resolved_sha"] = sh("git rev-parse --short HEAD", cwd=d)[1].strip()
         # Run install+test TOGETHER per phase in ONE container — gem/bundler/venv environments do
         # not carry across separate `docker run` invocations. Deps are cached in the mounted dir
         # (vendor/bundle, node_modules, .m2) so the re-install on phases 2-3 is near-instant.
         phase = lambda: runner("(%s) >/tmp/_inst.log 2>&1; %s" % (cfg["install"], cfg["test"]))
         rc_b, out_b = phase()
-        res["baseline_rc"] = rc_b; res["baseline_count"] = count_from(out_b)
+        res["baseline_rc"] = rc_b
+        res["baseline_count"] = count_from(out_b)
         res["baseline_summary"] = summary_line(out_b)  # verbatim test-runner line (real proof)
         sf = d / cfg["seed_file"]
         t = sf.read_text(encoding="utf-8", errors="replace")
         if cfg["seed_old"] not in t:
-            res["error"] = "seed_anchor_not_found"; res["tail"] = out_b[-200:]; return res
+            res["error"] = "seed_anchor_not_found"
+            res["tail"] = out_b[-200:]
+            return res
         sf.write_text(t.replace(cfg["seed_old"], cfg["seed_new"], 1), encoding="utf-8")
         rc_s, out_s = phase()
-        res["seeded_rc"] = rc_s; res["seeded_summary"] = summary_line(out_s)
+        res["seeded_rc"] = rc_s
+        res["seeded_summary"] = summary_line(out_s)
         sh(f"git checkout -- {cfg['seed_file']}", cwd=d)
         rc_r, out_r = phase()
-        res["reverify_rc"] = rc_r; res["reverify_count"] = count_from(out_r)
+        res["reverify_rc"] = rc_r
+        res["reverify_count"] = count_from(out_r)
         res["reverify_summary"] = summary_line(out_r)  # verbatim proof of the re-verified green
-        res["ok"] = (rc_b == 0 and rc_s != 0 and rc_r == 0)
+        res["ok"] = rc_b == 0 and rc_s != 0 and rc_r == 0
         if not res["ok"]:
             res["error"] = f"loop_not_clean baseline={rc_b} seeded={rc_s} reverify={rc_r}"
             res["tail"] = (out_b if rc_b != 0 else out_r)[-260:]
@@ -118,8 +157,24 @@ def main() -> int:
     out = {"family": cfg["family"], "rows": [run_repo(r) for r in cfg["rows"]]}
     out["all_ok"] = all(r["ok"] for r in out["rows"]) and len(out["rows"]) >= 3
     Path(sys.argv[2]).write_text(json.dumps(out, indent=2), encoding="utf-8")
-    print(json.dumps({"family": out["family"], "all_ok": out["all_ok"],
-                      "rows": [{"tool": r["tool"], "ok": r["ok"], "count": r.get("reverify_count"), "err": r["error"]} for r in out["rows"]]}, indent=2))
+    print(
+        json.dumps(
+            {
+                "family": out["family"],
+                "all_ok": out["all_ok"],
+                "rows": [
+                    {
+                        "tool": r["tool"],
+                        "ok": r["ok"],
+                        "count": r.get("reverify_count"),
+                        "err": r["error"],
+                    }
+                    for r in out["rows"]
+                ],
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

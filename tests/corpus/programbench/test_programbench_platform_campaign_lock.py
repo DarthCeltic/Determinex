@@ -44,7 +44,10 @@ def test_batch001_state_preserves_doxygen_and_missing_metadata_rows() -> None:
     assert record["status"] == "BATCH001_STATE_AGGREGATED"
     assert verify_platform_record(record)
     states = {row["instance_id"]: row for row in record["instances"]}
-    assert states[DOXYGEN_INSTANCE]["bounded_rerun_status"] == "BOUNDED_RERUN_BLOCKED_SECURITY_PREFLIGHT"
+    assert (
+        states[DOXYGEN_INSTANCE]["bounded_rerun_status"]
+        == "BOUNDED_RERUN_BLOCKED_SECURITY_PREFLIGHT"
+    )
     missing = [row for row in states.values() if not row["image_name"]]
     assert len(missing) == 10
     assert all(row["executable"] is False for row in missing)
@@ -143,7 +146,10 @@ def test_generic_execution_preflight_blocks_missing_artifact_authority_and_diges
     missing["artifact_authority"] = "ARTIFACT_AUTHORITY_PRESENT"
     digest_record = _platform().generic_execution_preflight(instance_state=missing)
 
-    assert authority_record["status"] == "GENERIC_EXECUTION_PREFLIGHT_BLOCKED_ARTIFACT_AUTHORITY_MISSING"
+    assert (
+        authority_record["status"]
+        == "GENERIC_EXECUTION_PREFLIGHT_BLOCKED_ARTIFACT_AUTHORITY_MISSING"
+    )
     assert digest_record["status"] == "GENERIC_EXECUTION_PREFLIGHT_BLOCKED_IMAGE_DIGEST_MISSING"
 
 
@@ -189,7 +195,9 @@ def test_campaign_reporting_api_is_read_only_and_blocks_ready_claims() -> None:
     assert record["read_only"] is True
     assert record["report"]["rerun_readiness_summary"]["ready"] == 0
     assert record["report"]["training_eligibility_summary"]["eligible"] == 0
-    assert any(row["instance_id"] == DOXYGEN_INSTANCE for row in record["report"]["instance_summaries"])
+    assert any(
+        row["instance_id"] == DOXYGEN_INSTANCE for row in record["report"]["instance_summaries"]
+    )
 
 
 def test_evidence_graph_denies_unauthorized_execution_path() -> None:

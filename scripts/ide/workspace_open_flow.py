@@ -6,6 +6,7 @@ directory. Returns an IDEWorkspaceOpenRecord with the language, build
 system, test framework, and a verifier-state token. Source is never
 mutated.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -107,7 +108,8 @@ class IDEWorkspaceOpenFlow:
         # 3. Verifier coverage state.
         try:
             cov = classify_for_build_test(
-                adapter.build_system_id, adapter.test_framework_id,
+                adapter.build_system_id,
+                adapter.test_framework_id,
             )
         except (TypeError, KeyError):
             cov = None
@@ -137,7 +139,9 @@ class IDEWorkspaceOpenFlow:
 
     @staticmethod
     def _blocked(
-        ws: str, decision: str, note: str,
+        ws: str,
+        decision: str,
+        note: str,
     ) -> IDEWorkspaceOpenRecord:
         return IDEWorkspaceOpenRecord(
             decision=decision,
@@ -148,8 +152,11 @@ class IDEWorkspaceOpenFlow:
             verifier_state="WORKSPACE_OPEN_VERIFIER_MISSING",
             languages_detected=(),
             source_unchanged=True,
-            statuses_seen=(decision, "WORKSPACE_OPEN_SOURCE_UNCHANGED",
-                           "WORKSPACE_OPEN_VERIFIER_MISSING"),
+            statuses_seen=(
+                decision,
+                "WORKSPACE_OPEN_SOURCE_UNCHANGED",
+                "WORKSPACE_OPEN_VERIFIER_MISSING",
+            ),
             notes=(note,),
         )
 

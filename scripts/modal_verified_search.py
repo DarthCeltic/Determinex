@@ -39,17 +39,18 @@ Environment:
 Note: Modal functions require 'modal token new' and a paid Modal account.
 The local Ollama path (existing behavior) is never removed — Modal is additive.
 """
+
 from __future__ import annotations
 
 import json
 import os
 from pathlib import Path
-from typing import Optional
 
 APP_NAME = os.environ.get("MODAL_APP_NAME", "determinex-verified-search")
 
 try:
     import modal
+
     _MODAL_AVAILABLE = True
 except ImportError:
     _MODAL_AVAILABLE = False
@@ -89,7 +90,7 @@ if _MODAL_AVAILABLE:
         image=determinex_image,
         gpu=_GPU,
         timeout=7200,  # 2h — matches local lane timeout
-        memory=32768,   # 32GB RAM
+        memory=32768,  # 32GB RAM
         secrets=[modal.Secret.from_name("determinex-hf-token")],
     )
     def run_k_search(
@@ -123,6 +124,7 @@ if _MODAL_AVAILABLE:
             }
         """
         import sys
+
         sys.path.insert(0, "/root/Citadel/scripts")
 
         spec = json.loads(spec_json)
@@ -130,21 +132,32 @@ if _MODAL_AVAILABLE:
 
         # Start vLLM server in background for batch inference
         import subprocess
-        vllm_proc = subprocess.Popen([
-            "python", "-m", "vllm.entrypoints.openai.api_server",
-            "--model", model,
-            "--port", "8000",
-            "--dtype", "bfloat16",
-            "--tensor-parallel-size", "1",
-        ])
+
+        vllm_proc = subprocess.Popen(
+            [
+                "python",
+                "-m",
+                "vllm.entrypoints.openai.api_server",
+                "--model",
+                model,
+                "--port",
+                "8000",
+                "--dtype",
+                "bfloat16",
+                "--tensor-parallel-size",
+                "1",
+            ]
+        )
 
         import time
+
         time.sleep(30)  # vLLM startup
 
         try:
             # Import the verified search engine
             # (scripts/ is on sys.path; Determinex scripts work standalone)
             from determinex_pb_reimpl import run_verified_search  # type: ignore
+
             result = run_verified_search(
                 instance_id=instance_id,
                 spec=spec,
@@ -176,8 +189,10 @@ if _MODAL_AVAILABLE:
 
 # ── Local CLI for testing ─────────────────────────────────────────────────────
 
+
 def _cli() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex Modal verified search")
     sub = ap.add_subparsers(dest="cmd")
 
@@ -223,4 +238,5 @@ def _cli() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(_cli())

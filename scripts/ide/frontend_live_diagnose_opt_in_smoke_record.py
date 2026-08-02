@@ -1,9 +1,9 @@
 """Records for FRONTEND_LIVE_DIAGNOSE_OPT_IN_SMOKE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 FRONTEND_LIVE_DIAGNOSE_OPT_IN_SMOKE_TOKENS = (
     "FRONTEND_LIVE_DIAGNOSE_SMOKE_READY",

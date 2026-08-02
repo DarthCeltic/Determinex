@@ -27,6 +27,7 @@ CLI
     python scripts/determinex_local_model_bench.py bench [--model TAG]
     python scripts/determinex_local_model_bench.py estimate-timeout [--model TAG]
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -63,8 +64,15 @@ _TIMEOUT_SAFETY_FACTOR = 6  # a real turn's prompt is far longer than the bench 
 # chat room has a working timeout on day one, clearly distinguishable (via
 # BenchResult.source == "placeholder") from anything actually measured.
 _PLACEHOLDER_SECONDS_BY_TIER = {
-    "1.5b": 2.0, "3b": 4.0, "7b": 8.0, "8b": 9.0,
-    "13b": 18.0, "14b": 20.0, "32b": 45.0, "34b": 48.0, "70b": 90.0,
+    "1.5b": 2.0,
+    "3b": 4.0,
+    "7b": 8.0,
+    "8b": 9.0,
+    "13b": 18.0,
+    "14b": 20.0,
+    "32b": 45.0,
+    "34b": 48.0,
+    "70b": 90.0,
     "unknown": 30.0,
 }
 _TIER_RE = re.compile(r"(\d+(?:\.\d+)?)b", re.IGNORECASE)
@@ -92,12 +100,18 @@ def infer_tier(model: str) -> str:
 
 def _default_model() -> str:
     import os
+
     return os.environ.get("DETERMINEX_LOCAL_BUILDER_MODEL", _DEFAULT_MODEL)
 
 
 def _ollama_host() -> str:
     import os
-    return os.environ.get("DETERMINEX_OLLAMA_URL") or os.environ.get("OLLAMA_HOST") or "http://localhost:11434"
+
+    return (
+        os.environ.get("DETERMINEX_OLLAMA_URL")
+        or os.environ.get("OLLAMA_HOST")
+        or "http://localhost:11434"
+    )
 
 
 @dataclass
@@ -115,7 +129,8 @@ def detect_hardware() -> HardwareFingerprint:
     cpu_count = 0
     try:
         import psutil
-        total_ram_gb = round(psutil.virtual_memory().total / (1024 ** 3), 1)
+
+        total_ram_gb = round(psutil.virtual_memory().total / (1024**3), 1)
         cpu_count = psutil.cpu_count(logical=True) or 0
     except Exception:
         pass
@@ -128,7 +143,9 @@ def detect_hardware() -> HardwareFingerprint:
         # normal, expected case, not an error.
         out = subprocess.run(
             ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         if out.returncode == 0 and out.stdout.strip():
             first_line = out.stdout.strip().splitlines()[0]
@@ -138,8 +155,9 @@ def detect_hardware() -> HardwareFingerprint:
     except Exception:
         pass
 
-    return HardwareFingerprint(total_ram_gb=total_ram_gb, cpu_count=cpu_count,
-                               gpu_name=gpu_name, gpu_vram_gb=gpu_vram_gb)
+    return HardwareFingerprint(
+        total_ram_gb=total_ram_gb, cpu_count=cpu_count, gpu_name=gpu_name, gpu_vram_gb=gpu_vram_gb
+    )
 
 
 @dataclass
@@ -151,7 +169,7 @@ class BenchResult:
     tokens_per_second: float
     hardware: dict
     measured_at: str
-    error: "str | None" = None
+    error: str | None = None
     # "measured_local" (this machine, just now) | "community" (someone else's
     # contributed corpus/local_model_benchmarks/*.json) | "placeholder" (no
     # real data anywhere yet -- a labeled guess, never silently presented as
@@ -174,14 +192,16 @@ def _read_cache() -> dict:
 
 def _write_cache(cache: dict) -> None:
     BENCH_CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    BENCH_CACHE_PATH.write_text(json.dumps(cache, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    BENCH_CACHE_PATH.write_text(
+        json.dumps(cache, indent=1, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
 
 
 def _cache_key(model: str, hardware_key: str) -> str:
     return f"{model}::{hardware_key}"
 
 
-def bench_model(model: "str | None" = None, *, force: bool = False) -> BenchResult:
+def bench_model(model: str | None = None, *, force: bool = False) -> BenchResult:
     """Clock one real round-trip against the local Ollama model. Cached per
     (model, hardware) pair for _CACHE_TTL_SECONDS -- re-measures automatically
     once stale, or immediately if force=True."""
@@ -194,20 +214,24 @@ def bench_model(model: "str | None" = None, *, force: bool = False) -> BenchResu
     if not force:
         cached = cache.get(key)
         if cached:
-            age = (_dt.datetime.now(_dt.timezone.utc) -
-                    _dt.datetime.fromisoformat(cached["measured_at"])).total_seconds()
+            age = (
+                _dt.datetime.now(_dt.UTC) - _dt.datetime.fromisoformat(cached["measured_at"])
+            ).total_seconds()
             if age < _CACHE_TTL_SECONDS and not cached.get("error"):
                 return BenchResult(**cached)
 
     import urllib.request
+
     payload = json.dumps({"model": model, "prompt": _BENCH_PROMPT, "stream": False}).encode("utf-8")
     started = time.monotonic()
     tokens_generated = 0
     error = None
     try:
         req = urllib.request.Request(
-            f"{_ollama_host()}/api/generate", data=payload,
-            headers={"Content-Type": "application/json"}, method="POST",
+            f"{_ollama_host()}/api/generate",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
         )
         with urllib.request.urlopen(req, timeout=120) as resp:
             body = json.loads(resp.read().decode("utf-8"))
@@ -218,10 +242,15 @@ def bench_model(model: "str | None" = None, *, force: bool = False) -> BenchResu
     tps = round(tokens_generated / latency, 2) if latency > 0 and tokens_generated else 0.0
 
     result = BenchResult(
-        model=model, hardware_key=hw_key, latency_seconds=latency,
-        tokens_generated=tokens_generated, tokens_per_second=tps,
-        hardware=asdict(hw), measured_at=_dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
-        error=error, source="measured_local",
+        model=model,
+        hardware_key=hw_key,
+        latency_seconds=latency,
+        tokens_generated=tokens_generated,
+        tokens_per_second=tps,
+        hardware=asdict(hw),
+        measured_at=_dt.datetime.now(_dt.UTC).isoformat(timespec="seconds"),
+        error=error,
+        source="measured_local",
     )
     cache[key] = asdict(result)
     _write_cache(cache)
@@ -240,8 +269,11 @@ def load_community_benchmarks() -> list[BenchResult]:
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
             data["source"] = "community"
-            out.append(BenchResult(**{k: v for k, v in data.items()
-                                       if k in BenchResult.__dataclass_fields__}))
+            out.append(
+                BenchResult(
+                    **{k: v for k, v in data.items() if k in BenchResult.__dataclass_fields__}
+                )
+            )
         except (json.JSONDecodeError, OSError, TypeError):
             continue
     return out
@@ -251,14 +283,18 @@ def _placeholder_result(model: str) -> BenchResult:
     tier = infer_tier(model)
     seconds = _PLACEHOLDER_SECONDS_BY_TIER[tier]
     return BenchResult(
-        model=model, hardware_key="unknown", latency_seconds=seconds,
-        tokens_generated=0, tokens_per_second=0.0, hardware={},
-        measured_at=_dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
+        model=model,
+        hardware_key="unknown",
+        latency_seconds=seconds,
+        tokens_generated=0,
+        tokens_per_second=0.0,
+        hardware={},
+        measured_at=_dt.datetime.now(_dt.UTC).isoformat(timespec="seconds"),
         source="placeholder",
     )
 
 
-def estimate_timeout_seconds(model: "str | None" = None) -> int:
+def estimate_timeout_seconds(model: str | None = None) -> int:
     """The number the chat backend actually wants: a sane per-turn timeout for
     this model, clamped to a floor/ceiling so neither an unmeasurably-fast nor
     an absurdly-slow reading produces a useless timeout. Priority order for
@@ -286,7 +322,7 @@ def estimate_timeout_seconds(model: "str | None" = None) -> int:
     return max(_TIMEOUT_FLOOR, min(_TIMEOUT_CEILING, estimate))
 
 
-def submit_community_bench(model: "str | None" = None) -> Path:
+def submit_community_bench(model: str | None = None) -> Path:
     """Run a REAL bench on this machine and write it as its own file under
     corpus/local_model_benchmarks/, meant to be `git add`ed and PR'd -- the
     mechanism for "others who download can report their findings." Never
@@ -299,7 +335,7 @@ def submit_community_bench(model: "str | None" = None) -> Path:
     # scripted back-to-back runs) at second-only granularity silently
     # collided and clobbered each other, found live by this module's own
     # test suite.
-    ts = _dt.datetime.now(_dt.timezone.utc).strftime("%Y%m%dT%H%M%S%f")
+    ts = _dt.datetime.now(_dt.UTC).strftime("%Y%m%dT%H%M%S%f")
     path = COMMUNITY_BENCH_DIR / f"{safe_model}__{safe_hw}__{ts}.json"
     data = asdict(result)
     data["source"] = "community"
@@ -310,7 +346,9 @@ def submit_community_bench(model: "str | None" = None) -> Path:
 def main() -> int:
     import argparse
 
-    parser = argparse.ArgumentParser(description="Clock local Ollama model latency, calibrate agent-chat timeouts")
+    parser = argparse.ArgumentParser(
+        description="Clock local Ollama model latency, calibrate agent-chat timeouts"
+    )
     sub = parser.add_subparsers(dest="cmd")
 
     p_bench = sub.add_parser("bench")
@@ -337,4 +375,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

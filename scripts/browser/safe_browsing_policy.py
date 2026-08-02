@@ -2,6 +2,7 @@
 Safe browsing policy — URL and action screening for browser agents.
 Blocks navigation to dangerous domains and prevents accidental purchases/form submits.
 """
+
 from __future__ import annotations
 
 import logging
@@ -17,17 +18,33 @@ log = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 _BLOCKED_URL_PATTERNS: list[tuple[str, re.Pattern]] = [
-    ("phishing_keywords",   re.compile(r"(paypal|bank|login|account|verify|secure)\.(tk|ml|ga|cf|gq)\b", re.I)),
-    ("ip_only_url",         re.compile(r"https?://\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?:[:/]|$)")),
-    ("credential_in_url",   re.compile(r"https?://[^@]+:[^@]+@", re.I)),
-    ("data_url_exec",       re.compile(r"^data:(text/html|application/javascript)", re.I)),
-    ("javascript_url",      re.compile(r"^javascript:", re.I)),
-    ("local_network",       re.compile(r"https?://(localhost|127\.\d+\.\d+\.\d+|192\.168\.|10\.\d+\.|172\.(1[6-9]|2\d|3[01])\.)", re.I)),
+    (
+        "phishing_keywords",
+        re.compile(r"(paypal|bank|login|account|verify|secure)\.(tk|ml|ga|cf|gq)\b", re.I),
+    ),
+    ("ip_only_url", re.compile(r"https?://\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?:[:/]|$)")),
+    ("credential_in_url", re.compile(r"https?://[^@]+:[^@]+@", re.I)),
+    ("data_url_exec", re.compile(r"^data:(text/html|application/javascript)", re.I)),
+    ("javascript_url", re.compile(r"^javascript:", re.I)),
+    (
+        "local_network",
+        re.compile(
+            r"https?://(localhost|127\.\d+\.\d+\.\d+|192\.168\.|10\.\d+\.|172\.(1[6-9]|2\d|3[01])\.)",
+            re.I,
+        ),
+    ),
 ]
 
-_HIGH_RISK_DOMAINS: frozenset[str] = frozenset({
-    "payment.page", "checkout", "billing", "cart", "buy", "purchase",
-})
+_HIGH_RISK_DOMAINS: frozenset[str] = frozenset(
+    {
+        "payment.page",
+        "checkout",
+        "billing",
+        "cart",
+        "buy",
+        "purchase",
+    }
+)
 
 _ALLOWED_FORM_DOMAINS_ENV = "DETERMINEX_ALLOWED_FORM_DOMAINS"
 

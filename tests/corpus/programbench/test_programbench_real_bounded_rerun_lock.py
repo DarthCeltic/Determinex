@@ -7,9 +7,17 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
-from corpus.programbench.real_bounded_rerun import RealBoundedRerun, RealBoundedRerunConfig, RealBoundedRerunStatus  # noqa: E402
+from corpus.programbench.real_bounded_rerun import (  # noqa: E402
+    RealBoundedRerun,
+    RealBoundedRerunConfig,
+    RealBoundedRerunStatus,
+)
 from corpus.programbench.real_bounded_rerun_record import verify_real_rerun_record  # noqa: E402
-from corpus.programbench.root_cause_packet import make_root_cause_packet, sign_packet, write_packet  # noqa: E402
+from corpus.programbench.root_cause_packet import (  # noqa: E402
+    make_root_cause_packet,
+    sign_packet,
+    write_packet,
+)
 
 
 def _artifact(tmp_path: Path, name: str, score: str) -> Path:
@@ -19,10 +27,21 @@ def _artifact(tmp_path: Path, name: str, score: str) -> Path:
     return path
 
 
-def _packet_path(tmp_path: Path, *, tool: str = "doxygen", candidate_id: str = "doxygen_v7", max_attempts: int = 1, quarantine: bool = False, tamper: bool = False) -> Path:
+def _packet_path(
+    tmp_path: Path,
+    *,
+    tool: str = "doxygen",
+    candidate_id: str = "doxygen_v7",
+    max_attempts: int = 1,
+    quarantine: bool = False,
+    tamper: bool = False,
+) -> Path:
     baseline = _artifact(tmp_path, f"{candidate_id}_baseline", "249/250")
     candidate = _artifact(tmp_path, f"{candidate_id}_candidate", "248/250")
-    evidence_inputs: list = [baseline.relative_to(tmp_path).as_posix(), candidate.relative_to(tmp_path).as_posix()]
+    evidence_inputs: list = [
+        baseline.relative_to(tmp_path).as_posix(),
+        candidate.relative_to(tmp_path).as_posix(),
+    ]
     if quarantine:
         manifest = tmp_path / "manifest.replay_manifest.json"
         manifest.write_text(json.dumps({"quarantine_only": True}), encoding="utf-8")
@@ -34,8 +53,14 @@ def _packet_path(tmp_path: Path, *, tool: str = "doxygen", candidate_id: str = "
         baseline_score="249/250",
         candidate_score="248/250",
         score_delta="-1",
-        baseline_artifact_reference={"path": baseline.relative_to(tmp_path).as_posix(), "score": "249/250"},
-        candidate_artifact_reference={"path": candidate.relative_to(tmp_path).as_posix(), "score": "248/250"},
+        baseline_artifact_reference={
+            "path": baseline.relative_to(tmp_path).as_posix(),
+            "score": "249/250",
+        },
+        candidate_artifact_reference={
+            "path": candidate.relative_to(tmp_path).as_posix(),
+            "score": "248/250",
+        },
         failing_tests=["test_default_config_html_output"],
         previously_passing_now_failing_tests=["test_argv0_preserved"],
         regression_diff_summary="candidate regressed argv0 behavior and default config output",
@@ -51,7 +76,11 @@ def _packet_path(tmp_path: Path, *, tool: str = "doxygen", candidate_id: str = "
         packet = sign_packet(packet)
     if tamper:
         packet["repair_hypothesis"] = "tampered"
-    return write_packet(packet, tmp_path / "packets") if not tamper else _write_unsigned(packet, tmp_path / "packets")
+    return (
+        write_packet(packet, tmp_path / "packets")
+        if not tamper
+        else _write_unsigned(packet, tmp_path / "packets")
+    )
 
 
 def _write_unsigned(packet: dict, output_dir: Path) -> Path:
@@ -82,7 +111,10 @@ def test_invalid_packet_blocks_live_rerun(tmp_path):
         _target(),
     )
 
-    assert result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_PACKET_INVALID.value
+    assert (
+        result["record"]["status"]
+        == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_PACKET_INVALID.value
+    )
     assert calls["n"] == 0
 
 
@@ -92,7 +124,10 @@ def test_scope_mismatch_blocks_live_rerun(tmp_path):
         _target(tool="richgo"),
     )
 
-    assert result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_SCOPE_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_SCOPE_MISMATCH.value
+    )
 
 
 def test_attempt_limit_blocks_live_rerun(tmp_path):
@@ -107,7 +142,10 @@ def test_attempt_limit_blocks_live_rerun(tmp_path):
 
     result = runner.run(_packet_path(tmp_path), _target())
 
-    assert result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_ATTEMPT_LIMIT.value
+    assert (
+        result["record"]["status"]
+        == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_ATTEMPT_LIMIT.value
+    )
 
 
 def test_richgo_cannot_be_triggered_by_doxygen_packet(tmp_path):
@@ -117,9 +155,14 @@ def test_richgo_cannot_be_triggered_by_doxygen_packet(tmp_path):
         calls["n"] += 1
         return {"decision": "accept"}
 
-    result = _runner(tmp_path, executor).run(_packet_path(tmp_path, tool="doxygen"), _target(tool="richgo", candidate_id="richgo_v7"))
+    result = _runner(tmp_path, executor).run(
+        _packet_path(tmp_path, tool="doxygen"), _target(tool="richgo", candidate_id="richgo_v7")
+    )
 
-    assert result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_SCOPE_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_SCOPE_MISMATCH.value
+    )
     assert calls["n"] == 0
 
 
@@ -136,23 +179,31 @@ def test_mock_live_run_records_signed_active_eval_evidence(tmp_path):
 
 
 def test_improved_result_not_automatically_training_eligible(tmp_path):
-    result = _runner(tmp_path, lambda _ctx: {"decision": "accept", "passed_delta": 1}).run(_packet_path(tmp_path), _target())
+    result = _runner(tmp_path, lambda _ctx: {"decision": "accept", "passed_delta": 1}).run(
+        _packet_path(tmp_path), _target()
+    )
 
     assert result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_IMPROVED.value
     assert result["record"]["training_eligible"] is False
 
 
 def test_rejected_result_is_signed_evidence(tmp_path):
-    result = _runner(tmp_path, lambda _ctx: {"decision": "reject", "passed_delta": 0}).run(_packet_path(tmp_path), _target())
+    result = _runner(tmp_path, lambda _ctx: {"decision": "reject", "passed_delta": 0}).run(
+        _packet_path(tmp_path), _target()
+    )
 
     assert result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_REJECTED.value
     assert verify_real_rerun_record(result["record"])
 
 
 def test_infra_failure_is_signed_as_infra_failure(tmp_path):
-    result = _runner(tmp_path, lambda _ctx: {"status": "infra_failure", "error": "docker_unavailable"}).run(_packet_path(tmp_path), _target())
+    result = _runner(
+        tmp_path, lambda _ctx: {"status": "infra_failure", "error": "docker_unavailable"}
+    ).run(_packet_path(tmp_path), _target())
 
-    assert result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_INFRA_FAILURE.value
+    assert (
+        result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_INFRA_FAILURE.value
+    )
     assert verify_real_rerun_record(result["record"])
 
 
@@ -166,7 +217,9 @@ def test_preflight_image_missing_output_is_infra_failure(tmp_path):
         },
     ).run(_packet_path(tmp_path), _target())
 
-    assert result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_INFRA_FAILURE.value
+    assert (
+        result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_INFRA_FAILURE.value
+    )
     assert verify_real_rerun_record(result["record"])
 
 
@@ -189,5 +242,8 @@ def test_quarantine_only_packet_does_not_execute(tmp_path):
         _target(),
     )
 
-    assert result["record"]["status"] == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_PACKET_INVALID.value
+    assert (
+        result["record"]["status"]
+        == RealBoundedRerunStatus.REAL_BOUNDED_RERUN_BLOCKED_PACKET_INVALID.value
+    )
     assert calls["n"] == 0

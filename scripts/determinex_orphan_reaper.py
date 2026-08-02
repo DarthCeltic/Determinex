@@ -21,39 +21,111 @@ Usage:
   python3 determinex_orphan_reaper.py            # arm: kill matching orphans
   python3 determinex_orphan_reaper.py --dry-run  # list what WOULD be killed, kill nothing
 """
+
 from __future__ import annotations
 
 import subprocess
 import sys
 import time
 
-REAP_AGE = 1200          # seconds: only orphans older than this (>> any single-probe timeout)
-CPU_RUNAWAY = 50.0       # percent: a non-temp orphan must be pegging CPU to qualify
+REAP_AGE = 1200  # seconds: only orphans older than this (>> any single-probe timeout)
+CPU_RUNAWAY = 50.0  # percent: a non-temp orphan must be pegging CPU to qualify
 
 # Never kill these -- orchestrators, services, shells, build tools, runtimes.
 SKIP_COMM = {
-    "systemd", "init", "dockerd", "containerd", "containerd-shim", "containerd-shim-runc-v2",
-    "sshd", "redis-server", "redis", "cron", "crond", "ollama", "qemu-ga", "irqbalance", "atd",
-    "packagekitd", "agetty", "rsyslog", "rsyslogd", "dbus-daemon", "systemd-journal", "udevd",
-    "systemd-udevd", "polkitd", "multipathd", "networkd-dispat", "unattended-upgr", "accounts-daemon",
-    "sleep", "bash", "sh", "dash", "zsh", "tmux", "node", "python", "python3", "python3.11",
-    "go", "gopls", "cargo", "rustc", "ghc", "cc", "gcc", "g++", "clang", "clang++", "make", "ld",
-    "npm", "pip", "pip3", "uv", "git", "ssh", "scp", "rsync", "docker", "containerd-shim-runc",
+    "systemd",
+    "init",
+    "dockerd",
+    "containerd",
+    "containerd-shim",
+    "containerd-shim-runc-v2",
+    "sshd",
+    "redis-server",
+    "redis",
+    "cron",
+    "crond",
+    "ollama",
+    "qemu-ga",
+    "irqbalance",
+    "atd",
+    "packagekitd",
+    "agetty",
+    "rsyslog",
+    "rsyslogd",
+    "dbus-daemon",
+    "systemd-journal",
+    "udevd",
+    "systemd-udevd",
+    "polkitd",
+    "multipathd",
+    "networkd-dispat",
+    "unattended-upgr",
+    "accounts-daemon",
+    "sleep",
+    "bash",
+    "sh",
+    "dash",
+    "zsh",
+    "tmux",
+    "node",
+    "python",
+    "python3",
+    "python3.11",
+    "go",
+    "gopls",
+    "cargo",
+    "rustc",
+    "ghc",
+    "cc",
+    "gcc",
+    "g++",
+    "clang",
+    "clang++",
+    "make",
+    "ld",
+    "npm",
+    "pip",
+    "pip3",
+    "uv",
+    "git",
+    "ssh",
+    "scp",
+    "rsync",
+    "docker",
+    "containerd-shim-runc",
 }
 # Markers that a binary is an eval tool artifact (vs a system daemon).
-EVAL_PATH_MARKERS = ("/tmp/", "/workspace/", "determinex_native_", "/executable", "./executable",
-                     ".citrun_", "/cand", "determinex_obs_")
+EVAL_PATH_MARKERS = (
+    "/tmp/",
+    "/workspace/",
+    "determinex_native_",
+    "/executable",
+    "./executable",
+    ".citrun_",
+    "/cand",
+    "determinex_obs_",
+)
 # Long-lived drivers that must NEVER be reaped even if orphaned (ppid==1 after an SSH drop) -- they
 # are SUPPOSED to keep running. Checked first so the nested-probe rule below can't catch them.
-ORCHESTRATOR_SIG = ("determinex_pb_autodrive", "determinex_reimpl_drive", "determinex_pb_overnight",
-                    "determinex_pb_reeval", "pb_parallel", "programbench eval", "determinex_hive",
-                    "determinex_swebench", "--watch", "--all")
+ORCHESTRATOR_SIG = (
+    "determinex_pb_autodrive",
+    "determinex_reimpl_drive",
+    "determinex_pb_overnight",
+    "determinex_pb_reeval",
+    "pb_parallel",
+    "programbench eval",
+    "determinex_hive",
+    "determinex_swebench",
+    "--watch",
+    "--all",
+)
 
 
 def _candidates() -> list[tuple[str, str, int, float, str, str]]:
     """(pid, ppid, etimes, pcpu, comm, args) for ppid==1 orphans older than REAP_AGE."""
-    out = subprocess.run(["ps", "-eo", "pid=,ppid=,etimes=,pcpu=,comm=,args="],
-                         capture_output=True, text=True).stdout
+    out = subprocess.run(
+        ["ps", "-eo", "pid=,ppid=,etimes=,pcpu=,comm=,args="], capture_output=True, text=True
+    ).stdout
     rows = []
     for line in out.splitlines():
         parts = line.split(None, 5)
@@ -71,7 +143,7 @@ def _candidates() -> list[tuple[str, str, int, float, str, str]]:
 
 def _is_reapable(comm: str, cpu: float, args: str) -> bool:
     if any(s in args for s in ORCHESTRATOR_SIG):
-        return False                      # never reap a long-lived driver/eval, even if orphaned
+        return False  # never reap a long-lived driver/eval, even if orphaned
     if comm in SKIP_COMM:
         # A skipped runtime (python/sh/...) is STILL reapable if its args reveal a TRANSIENT one-off
         # tool-PROBE running a tmp tool binary -- the exact 23.5h orphan was an orphaned
@@ -87,6 +159,7 @@ def main() -> int:
     dry = "--dry-run" in sys.argv
     try:
         import syslog
+
         syslog.openlog("determinex-reaper")
     except Exception:
         syslog = None

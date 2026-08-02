@@ -10,12 +10,13 @@ The verifier callable is pluggable; default is the locked
 stub_verifier_pass. Callers should pass a real BuildAdapter-backed
 verifier for production.
 """
+
 from __future__ import annotations
 
 import hashlib
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable, Optional
 
 _HERE = Path(__file__).resolve()
 _SCRIPTS = _HERE.parent.parent
@@ -51,7 +52,7 @@ def run(
     *,
     workspace: Path,
     apply_record: SourceMutationApplyAfterApprovalRecord | None,
-    verifier: Optional[Callable[[Path], "VerifierResult"]] = None,
+    verifier: Callable[[Path], VerifierResult] | None = None,
     fixture_mode: bool = False,
 ) -> PostApplyVerifierRecord:
     """Post-apply verifier runner.
@@ -73,7 +74,9 @@ def run(
             verifier_output="",
             post_apply_source_hash=_sha256_tree(ws),
             apply_ref=getattr(apply_record, "decision", "") if apply_record else "",
-            rollback_snapshot_ref=getattr(apply_record, "rollback_snapshot_ref", "") if apply_record else "",
+            rollback_snapshot_ref=getattr(apply_record, "rollback_snapshot_ref", "")
+            if apply_record
+            else "",
             rollback_recommended=False,
             training_eligible=False,
             statuses_seen=("POST_APPLY_VERIFIER_BLOCKED_NO_APPLY",),
@@ -107,6 +110,7 @@ def run(
     stub_callables = {stub_verifier_pass}
     try:
         from .safe_patch_workspace import stub_verifier_fail  # noqa: E402
+
         stub_callables.add(stub_verifier_fail)
     except ImportError:
         pass

@@ -18,23 +18,35 @@ from corpus.programbench.cleanroom_image_remediation_plan_record import (
     write_cleanroom_image_remediation_plan_record,
 )
 from corpus.programbench.cleanroom_image_scan_record import verify_cleanroom_image_scan_record
-from corpus.programbench.cleanroom_image_scan_triage_record import verify_cleanroom_image_scan_triage_record
+from corpus.programbench.cleanroom_image_scan_triage_record import (
+    verify_cleanroom_image_scan_triage_record,
+)
 
 
 class CleanroomImageRemediationPlanStatus(str, Enum):
     CLEANROOM_IMAGE_REMEDIATION_PLAN_READY = "CLEANROOM_IMAGE_REMEDIATION_PLAN_READY"
     CLEANROOM_IMAGE_REMEDIATION_REQUIRED = "CLEANROOM_IMAGE_REMEDIATION_REQUIRED"
     CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN = "CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN"
-    CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BUILD_RECIPE = "CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BUILD_RECIPE"
-    CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BASE_PROVENANCE = "CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BASE_PROVENANCE"
-    CLEANROOM_IMAGE_REMEDIATION_REQUIRES_RUNTIME_UPDATE = "CLEANROOM_IMAGE_REMEDIATION_REQUIRES_RUNTIME_UPDATE"
+    CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BUILD_RECIPE = (
+        "CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BUILD_RECIPE"
+    )
+    CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BASE_PROVENANCE = (
+        "CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BASE_PROVENANCE"
+    )
+    CLEANROOM_IMAGE_REMEDIATION_REQUIRES_RUNTIME_UPDATE = (
+        "CLEANROOM_IMAGE_REMEDIATION_REQUIRES_RUNTIME_UPDATE"
+    )
     CLEANROOM_IMAGE_REMEDIATION_FIDELITY_RISK = "CLEANROOM_IMAGE_REMEDIATION_FIDELITY_RISK"
     CLEANROOM_IMAGE_SAFER_EQUIVALENT_REQUIRED = "CLEANROOM_IMAGE_SAFER_EQUIVALENT_REQUIRED"
     CLEANROOM_IMAGE_POLICY_STILL_BLOCKED = "CLEANROOM_IMAGE_POLICY_STILL_BLOCKED"
     CLEANROOM_IMAGE_NOT_EXECUTABLE = "CLEANROOM_IMAGE_NOT_EXECUTABLE"
     CLEANROOM_IMAGE_TRAINING_INELIGIBLE = "CLEANROOM_IMAGE_TRAINING_INELIGIBLE"
-    CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_SCAN = "CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_SCAN"
-    CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_TRIAGE = "CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_TRIAGE"
+    CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_SCAN = (
+        "CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_SCAN"
+    )
+    CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_TRIAGE = (
+        "CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_TRIAGE"
+    )
     CLEANROOM_IMAGE_REMEDIATION_PLAN_NOT_REQUIRED = "CLEANROOM_IMAGE_REMEDIATION_PLAN_NOT_REQUIRED"
 
 
@@ -148,13 +160,21 @@ class ProgramBenchCleanroomImageRemediationPlan:
             CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_FIDELITY_RISK.value,
         ]
         if dominant == "language_runtime":
-            statuses.append(CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_RUNTIME_UPDATE.value)
+            statuses.append(
+                CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_RUNTIME_UPDATE.value
+            )
         if required_inputs["source_dockerfile_or_build_recipe_required"]:
-            statuses.append(CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BUILD_RECIPE.value)
+            statuses.append(
+                CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BUILD_RECIPE.value
+            )
         if required_inputs["base_image_digest_required"]:
-            statuses.append(CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BASE_PROVENANCE.value)
+            statuses.append(
+                CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BASE_PROVENANCE.value
+            )
         if (triage.get("fixed_version_summary") or {}).get("critical_high_without_fix", 0):
-            statuses.append(CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_SAFER_EQUIVALENT_REQUIRED.value)
+            statuses.append(
+                CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_SAFER_EQUIVALENT_REQUIRED.value
+            )
         return self._write(
             status=CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN.value,
             scan_path=scan_path,
@@ -196,7 +216,10 @@ class ProgramBenchCleanroomImageRemediationPlan:
             required_inputs={},
             ordered_steps=[],
             fidelity_risk={"risk": "unknown", "reason": "required_evidence_missing"},
-            statuses=[status, CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_POLICY_STILL_BLOCKED.value],
+            statuses=[
+                status,
+                CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_POLICY_STILL_BLOCKED.value,
+            ],
             reasons=reasons,
         )
 
@@ -229,9 +252,15 @@ class ProgramBenchCleanroomImageRemediationPlan:
             scan_record=_rel(self.config.root, scan_path),
             triage_record=_rel(self.config.root, triage_path),
             recommendation=recommendation,
-            dominant_risk_category=str((triage.get("category_summary") or {}).get("dominant_category") or ""),
-            severity_counts=triage.get("severity_counts") if isinstance(triage.get("severity_counts"), dict) else {},
-            fixed_version_summary=triage.get("fixed_version_summary") if isinstance(triage.get("fixed_version_summary"), dict) else {},
+            dominant_risk_category=str(
+                (triage.get("category_summary") or {}).get("dominant_category") or ""
+            ),
+            severity_counts=triage.get("severity_counts")
+            if isinstance(triage.get("severity_counts"), dict)
+            else {},
+            fixed_version_summary=triage.get("fixed_version_summary")
+            if isinstance(triage.get("fixed_version_summary"), dict)
+            else {},
             top_drivers=top_drivers or [],
             remediation_strategies=strategies,
             required_inputs=required_inputs,
@@ -243,7 +272,9 @@ class ProgramBenchCleanroomImageRemediationPlan:
             cache_ready=False,
             executable=False,
         )
-        path = write_cleanroom_image_remediation_plan_record(record, self._resolve(self.config.output_dir))
+        path = write_cleanroom_image_remediation_plan_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _resolve(self, path: Path) -> Path:
@@ -326,11 +357,17 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Plan remediation for a failed ProgramBench cleanroom image scan.")
+    parser = argparse.ArgumentParser(
+        description="Plan remediation for a failed ProgramBench cleanroom image scan."
+    )
     parser.add_argument("scan_record", type=Path)
     parser.add_argument("triage_record", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_image_remediation_plans"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_image_remediation_plans"),
+    )
     parser.add_argument("--build-recipe", type=Path)
     parser.add_argument("--base-image-digest", default="")
     parser.add_argument("--go-version-target", default="1.24.13")

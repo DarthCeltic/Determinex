@@ -29,20 +29,22 @@ Usage (testing):
 
 Implements LanguageRepairBackend.
 """
+
 from __future__ import annotations
 
 import hashlib
 import logging
-from intake.hardened_runner import run as _hardened_run
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
-from corpus.code_ingest.python_project_indexer import PythonProject, index_python_project
-from corpus.code_ingest.python_task_extractor import PythonRepairTask, PythonTaskExtractor
+from agents.prompt_injection_detector import InjectionRisk
+from agents.prompt_injection_detector import scan as injection_scan
 from corpus.code_ingest.license_detector import detect
+from corpus.code_ingest.python_task_extractor import PythonRepairTask, PythonTaskExtractor
 from corpus.code_ingest.secret_scanner import is_clean as secrets_clean
-from agents.prompt_injection_detector import scan as injection_scan, InjectionRisk
+from intake.hardened_runner import run as _hardened_run
 
 log = logging.getLogger(__name__)
 
@@ -126,7 +128,9 @@ class PythonRepairPipeline:
         result.license_spdx = license_result.spdx_id or "unknown"
         result.license_bucket = license_result.bucket
         if not license_result.ingest_allowed:
-            result.rejected_reason = f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            result.rejected_reason = (
+                f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            )
             log.info("[python_pipeline] rejected %s — %s", repo_path, result.rejected_reason)
             return result
 
@@ -207,12 +211,15 @@ class PythonRepairPipeline:
         """Write a PythonRepairTask to corpus as a signed record."""
         try:
             from agents.base_agent import CorpusType
+
             payload = task.to_corpus_payload()
             input_hash = hashlib.blake2b(
-                (task.mutated_block + task.failure_output).encode(), digest_size=16,
+                (task.mutated_block + task.failure_output).encode(),
+                digest_size=16,
             ).hexdigest()
             output_hash = hashlib.blake2b(
-                task.original_block.encode(), digest_size=16,
+                task.original_block.encode(),
+                digest_size=16,
             ).hexdigest()
             record = self._cm._normalize_record(
                 corpus_type=CorpusType.CODE_VERDICT,

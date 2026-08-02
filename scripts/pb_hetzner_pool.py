@@ -11,6 +11,7 @@ evals and returns eval JSONs/logs. This script can:
 - mirror the returned shard under T:/determinex-programbench/hetzner_results,
 - gate imported evals locally and optionally apply accepted gates.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -24,7 +25,6 @@ import tarfile
 import time
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 PY = Path(r"C:\Users\ryang\AppData\Local\Python\pythoncore-3.11-64\python.exe")
@@ -44,7 +44,9 @@ ACTIVE_MANIFEST = FACTORY / "HETZNER_ACTIVE_MANIFEST.json"
 DEFAULT_ACTIVE_SHARDS = 3
 
 
-def run(cmd: list[str], *, cwd: Path | None = None, check: bool = True) -> subprocess.CompletedProcess[str]:
+def run(
+    cmd: list[str], *, cwd: Path | None = None, check: bool = True
+) -> subprocess.CompletedProcess[str]:
     print("+", " ".join(str(x) for x in cmd))
     return subprocess.run(
         [str(x) for x in cmd],
@@ -83,7 +85,9 @@ def run_logged(
         errors="replace",
     )
     if check and result.returncode:
-        raise subprocess.CalledProcessError(result.returncode, [str(x) for x in cmd], result.stdout, result.stderr)
+        raise subprocess.CalledProcessError(
+            result.returncode, [str(x) for x in cmd], result.stdout, result.stderr
+        )
     return result
 
 
@@ -123,9 +127,7 @@ def remote_cleanup(name: str) -> None:
 def mirror_verified(name: str) -> bool:
     mirror = T_MIRROR / name
     return (
-        mirror.is_dir()
-        and (mirror / "manifest.json").is_file()
-        and (mirror / "results").is_dir()
+        mirror.is_dir() and (mirror / "manifest.json").is_file() and (mirror / "results").is_dir()
     )
 
 
@@ -141,7 +143,7 @@ def _write_json(path: Path, data: Any) -> None:
 
 
 def _utc_now() -> str:
-    return _dt.datetime.now(_dt.timezone.utc).isoformat()
+    return _dt.datetime.now(_dt.UTC).isoformat()
 
 
 def _load_active_manifest() -> dict[str, Any]:
@@ -231,10 +233,7 @@ def deploy_shard_dir(name: str, shard_dir: Path, workers: int, docker_cpus: int)
             "refresh queue/reservations or export with valid --include values"
         )
     archive = make_tar(shard_dir)
-    print(
-        f"archive={archive} items={count} "
-        f"size_mb={archive.stat().st_size / 1024 / 1024:.2f}"
-    )
+    print(f"archive={archive} items={count} size_mb={archive.stat().st_size / 1024 / 1024:.2f}")
     record_shard(
         name,
         "deploying",
@@ -338,11 +337,16 @@ def pull(args: argparse.Namespace) -> int:
     # Only pull result artifacts. Copying the full shard also transfers the
     # packed run roots/source trees back from Hetzner and can stall for a long
     # time after all eval JSONs are already complete.
-    run([SCP, "-i", SSH_KEY, f"{REMOTE}:{REMOTE_BASE}/{name}/manifest.json", dest / "manifest.json"])
+    run(
+        [SCP, "-i", SSH_KEY, f"{REMOTE}:{REMOTE_BASE}/{name}/manifest.json", dest / "manifest.json"]
+    )
     run([SCP, "-i", SSH_KEY, "-r", f"{REMOTE}:{REMOTE_BASE}/{name}/results", dest / "results"])
     run([SCP, "-i", SSH_KEY, "-r", f"{REMOTE}:{REMOTE_BASE}/{name}/logs", dest / "logs"])
     for log_name in ("shard.out.log", "shard.err.log"):
-        run([SCP, "-i", SSH_KEY, f"{REMOTE}:{REMOTE_BASE}/{name}/{log_name}", dest / log_name], check=False)
+        run(
+            [SCP, "-i", SSH_KEY, f"{REMOTE}:{REMOTE_BASE}/{name}/{log_name}", dest / log_name],
+            check=False,
+        )
 
     T_MIRROR.mkdir(parents=True, exist_ok=True)
     mirror = T_MIRROR / name
@@ -354,7 +358,9 @@ def pull(args: argparse.Namespace) -> int:
 
     run([PY, ROOT / "scripts" / "pb_import_hetzner_shard.py", dest, "--copy-logs"])
     if args.gate:
-        summary = gate_imported(dest, apply_accepts=args.apply_accepts, ingest_rejects=args.ingest_rejects)
+        summary = gate_imported(
+            dest, apply_accepts=args.apply_accepts, ingest_rejects=args.ingest_rejects
+        )
         record_shard(name, "gated", gate_summary=summary)
     if getattr(args, "cleanup_remote", False):
         if mirror_verified(name):
@@ -370,7 +376,9 @@ def _board_by_base() -> dict[str, dict[str, Any]]:
     return {r["base_slug"]: r for r in rows if r.get("base_slug")}
 
 
-def gate_imported(return_dir: Path, *, apply_accepts: bool, ingest_rejects: bool) -> list[dict[str, Any]]:
+def gate_imported(
+    return_dir: Path, *, apply_accepts: bool, ingest_rejects: bool
+) -> list[dict[str, Any]]:
     manifest = json.loads((return_dir / "manifest.json").read_text(encoding="utf-8"))
     board = _board_by_base()
     summary: list[dict[str, Any]] = []
@@ -395,17 +403,21 @@ def gate_imported(return_dir: Path, *, apply_accepts: bool, ingest_rejects: bool
                 print(f"skip gate, no baseline: {slug}")
                 summary.append({"slug": slug, "decision": "skip", "reason": "no baseline"})
                 continue
-            run_logged([
-                PY,
-                ROOT / "scripts" / "pb_candidate_gate.py",
-                slug,
-                run_root,
-                "--baseline-eval",
-                baseline,
-                "--min-baseline-passed",
-                "1",
-                "--skip-eval",
-            ], gate_log_dir / f"{slug}.candidate_gate.log", check=False)
+            run_logged(
+                [
+                    PY,
+                    ROOT / "scripts" / "pb_candidate_gate.py",
+                    slug,
+                    run_root,
+                    "--baseline-eval",
+                    baseline,
+                    "--min-baseline-passed",
+                    "1",
+                    "--skip-eval",
+                ],
+                gate_log_dir / f"{slug}.candidate_gate.log",
+                check=False,
+            )
 
         if not gate_path.is_file():
             summary.append({"slug": slug, "decision": "skip", "reason": "missing gate_result.json"})
@@ -420,31 +432,43 @@ def gate_imported(return_dir: Path, *, apply_accepts: bool, ingest_rejects: bool
             "gate_path": str(gate_path),
         }
         if decision == "accept" and apply_accepts:
-            run_logged([
-                PY,
-                ROOT / "scripts" / "pb_apply_gate_decision.py",
-                slug,
-                gate_path,
-                "--run-root",
-                run_root,
-                "--refresh-board",
-            ], gate_log_dir / f"{slug}.apply_accept.log", check=False)
+            run_logged(
+                [
+                    PY,
+                    ROOT / "scripts" / "pb_apply_gate_decision.py",
+                    slug,
+                    gate_path,
+                    "--run-root",
+                    run_root,
+                    "--refresh-board",
+                ],
+                gate_log_dir / f"{slug}.apply_accept.log",
+                check=False,
+            )
             row["applied"] = True
         elif decision != "accept" and ingest_rejects:
-            run_logged([PY, ROOT / "scripts" / "pb_verdict_corpus.py", gate_path], gate_log_dir / f"{slug}.verdict_corpus.log", check=False)
-            run_logged([
-                PY,
-                ROOT / "scripts" / "pb_corpus_hint_audit.py",
-                "--slug",
-                slug,
-                "--eval",
-                eval_path,
-                "--input",
-                gate_path,
-                "--source",
-                run_root,
-                "--write-note",
-            ], gate_log_dir / f"{slug}.hint_audit.log", check=False)
+            run_logged(
+                [PY, ROOT / "scripts" / "pb_verdict_corpus.py", gate_path],
+                gate_log_dir / f"{slug}.verdict_corpus.log",
+                check=False,
+            )
+            run_logged(
+                [
+                    PY,
+                    ROOT / "scripts" / "pb_corpus_hint_audit.py",
+                    "--slug",
+                    slug,
+                    "--eval",
+                    eval_path,
+                    "--input",
+                    gate_path,
+                    "--source",
+                    run_root,
+                    "--write-note",
+                ],
+                gate_log_dir / f"{slug}.hint_audit.log",
+                check=False,
+            )
             hint = _latest_hint_note(slug)
             if hint:
                 row["hint_audit"] = {
@@ -456,7 +480,9 @@ def gate_imported(return_dir: Path, *, apply_accepts: bool, ingest_rejects: bool
                 }
                 _print_hint_summary(row["hint_audit"])
         summary.append(row)
-    (return_dir / "gate_summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (return_dir / "gate_summary.json").write_text(
+        json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return summary
 
 
@@ -475,7 +501,9 @@ def _latest_hint_note(slug: str) -> dict[str, Any] | None:
                 continue
             if rec.get("slug") != slug:
                 continue
-            if latest is None or str(rec.get("captured_at", "")) >= str(latest.get("captured_at", "")):
+            if latest is None or str(rec.get("captured_at", "")) >= str(
+                latest.get("captured_at", "")
+            ):
                 latest = rec
     return latest
 
@@ -518,7 +546,8 @@ def conveyor(args: argparse.Namespace) -> int:
             names = [n for n in names if n in managed]
         if args.name or args.name_prefix:
             names = [
-                n for n in names
+                n
+                for n in names
                 if n in args.name or any(n.startswith(prefix) for prefix in args.name_prefix)
             ]
         active = []
@@ -650,8 +679,15 @@ def main() -> int:
     c.add_argument("--once", action="store_true")
     c.add_argument("--exclude", action="append", default=[])
     c.add_argument("--include", action="append", default=[])
-    c.add_argument("--name", action="append", default=[], help="existing remote shard name to drain/watch")
-    c.add_argument("--name-prefix", action="append", default=[], help="only drain/watch existing shards with this prefix")
+    c.add_argument(
+        "--name", action="append", default=[], help="existing remote shard name to drain/watch"
+    )
+    c.add_argument(
+        "--name-prefix",
+        action="append",
+        default=[],
+        help="only drain/watch existing shards with this prefix",
+    )
     c.add_argument(
         "--active-manifest-only",
         action="store_true",

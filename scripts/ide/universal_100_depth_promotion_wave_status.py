@@ -24,6 +24,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -41,11 +42,8 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
 
-
 _REPO_ROOT = _HERE.parent.parent.parent
-_EVIDENCE_DIR = (
-    _REPO_ROOT / "assurance" / "evidence" / "universal_100_depth_promotion_wave_001"
-)
+_EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "universal_100_depth_promotion_wave_001"
 EXPECTED_STATUS = "UNIVERSAL_100_DEPTH_PROMOTION_WAVE_001_PASSED"
 LOCK_ID = "DETERMINEX_UNIVERSAL_100_DEPTH_PROMOTION_WAVE_001_LOCK_001"
 REQUIRED_BATCH_KEYS = ("017", "018", "019")
@@ -346,7 +344,9 @@ def load(
         WaveDeltaEntry(
             batch_id=str(k),
             lock_id=str((deltas_raw[k] or {}).get("lock_id") or ""),
-            support_map_delta_count=_as_int((deltas_raw[k] or {}).get("support_map_delta_count", 0)),
+            support_map_delta_count=_as_int(
+                (deltas_raw[k] or {}).get("support_map_delta_count", 0)
+            ),
         )
         for k in REQUIRED_BATCH_KEYS
     )
@@ -355,7 +355,9 @@ def load(
     return Universal100DepthPromotionWave001Status(
         decision=_token("PASSED"),
         target_surface="Universal 100 Depth Promotion Wave 001",
-        target_workflow=str(blob.get("target_workflow") or "universal 100 depth promotion wave 001"),
+        target_workflow=str(
+            blob.get("target_workflow") or "universal 100 depth promotion wave 001"
+        ),
         lock_id=LOCK_ID,
         cells_probed=_as_int(blob.get("cells_probed", 0)),
         cells_promoted=_as_int(blob.get("cells_promoted", 0)),

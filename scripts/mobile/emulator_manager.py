@@ -2,6 +2,7 @@
 Android emulator manager — lifecycle for mobile agent isolation.
 Hard rule: emulator first. No physical device automation by default.
 """
+
 from __future__ import annotations
 
 import logging
@@ -9,7 +10,6 @@ import os
 import subprocess
 import time
 from dataclasses import dataclass
-from typing import Any
 
 log = logging.getLogger(__name__)
 
@@ -19,9 +19,9 @@ _ALLOW_PHYSICAL = os.environ.get("DETERMINEX_ALLOW_PHYSICAL_DEVICE", "0") == "1"
 
 @dataclass
 class EmulatorInfo:
-    serial: str         # e.g. "emulator-5554"
-    avd_name: str       # e.g. "Pixel_6_API_33"
-    state: str          # "offline" | "online" | "unknown"
+    serial: str  # e.g. "emulator-5554"
+    avd_name: str  # e.g. "Pixel_6_API_33"
+    state: str  # "offline" | "online" | "unknown"
     is_emulator: bool = True
 
 
@@ -33,8 +33,9 @@ class EmulatorManager:
 
     def list_avds(self) -> list[str]:
         try:
-            result = subprocess.run(["avdmanager", "list", "avd", "-c"],
-                                    capture_output=True, text=True, timeout=30)
+            result = subprocess.run(
+                ["avdmanager", "list", "avd", "-c"], capture_output=True, text=True, timeout=30
+            )
             return [line.strip() for line in result.stdout.splitlines() if line.strip()]
         except FileNotFoundError:
             log.warning("[emulator_manager] avdmanager not found — Android SDK required")
@@ -46,8 +47,9 @@ class EmulatorManager:
         flags = ["-no-window"] if headless else []
         try:
             subprocess.Popen(
-                ["emulator", f"-avd", avd_name, "-port", str(port)] + flags,
-                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                ["emulator", "-avd", avd_name, "-port", str(port)] + flags,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
             )
         except FileNotFoundError:
             raise RuntimeError("emulator CLI not found. Ensure Android SDK emulator is in PATH.")
@@ -60,8 +62,7 @@ class EmulatorManager:
     def stop(self, serial: str) -> None:
         log.info("[emulator_manager] stopping %s", serial)
         try:
-            subprocess.run(["adb", "-s", serial, "emu", "kill"],
-                           capture_output=True, timeout=10)
+            subprocess.run(["adb", "-s", serial, "emu", "kill"], capture_output=True, timeout=10)
         except Exception as exc:
             log.warning("[emulator_manager] stop failed: %s", exc)
         self._active.pop(serial, None)
@@ -72,7 +73,9 @@ class EmulatorManager:
             try:
                 result = subprocess.run(
                     ["adb", "-s", serial, "shell", "getprop", "sys.boot_completed"],
-                    capture_output=True, text=True, timeout=5,
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
                 )
                 if result.stdout.strip() == "1":
                     log.info("[emulator_manager] %s boot complete", serial)
@@ -107,12 +110,14 @@ class EmulatorManager:
                 parts = line.split()
                 if len(parts) >= 2 and parts[1] == "device":
                     serial = parts[0]
-                    devices.append(EmulatorInfo(
-                        serial=serial,
-                        avd_name="",
-                        state="online",
-                        is_emulator=serial.startswith("emulator"),
-                    ))
+                    devices.append(
+                        EmulatorInfo(
+                            serial=serial,
+                            avd_name="",
+                            state="online",
+                            is_emulator=serial.startswith("emulator"),
+                        )
+                    )
             return devices
         except Exception as exc:
             log.error("[emulator_manager] list_devices failed: %s", exc)

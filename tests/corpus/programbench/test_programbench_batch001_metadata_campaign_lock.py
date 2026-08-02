@@ -23,7 +23,10 @@ def test_image_name_derivation_covers_top_metadata_targets_without_digest_or_aut
     assert record["summary"]["image_names_derived"] == 10
     first = record["targets"][0]
     assert first["instance_id"] == "ammarabouzor__tui-journal.2b4540d"
-    assert first["derived_image_name"] == "programbench/ammarabouzor_1776_tui-journal.2b4540d:task_cleanroom"
+    assert (
+        first["derived_image_name"]
+        == "programbench/ammarabouzor_1776_tui-journal.2b4540d:task_cleanroom"
+    )
     assert first["image_digest"] == ""
     assert first["artifact_authority_status"] == "ARTIFACT_AUTHORITY_INCONCLUSIVE"
     assert record["authorization"]["docker_pull_authorized"] is False
@@ -61,8 +64,12 @@ def test_safe_manifest_lookup_live_path_is_not_supported_and_fixtures_cover_outc
         supported=True,
         metadata={"manifest_digest": "sha256:" + "a" * 64},
     )
-    missing = classify_safe_manifest_lookup(image_name="programbench/missing:task_cleanroom", supported=True)
-    blocked = classify_safe_manifest_lookup(image_name="programbench/blocked:task_cleanroom", blocked_by_policy=True)
+    missing = classify_safe_manifest_lookup(
+        image_name="programbench/missing:task_cleanroom", supported=True
+    )
+    blocked = classify_safe_manifest_lookup(
+        image_name="programbench/blocked:task_cleanroom", blocked_by_policy=True
+    )
     assert found["status"] == "SAFE_MANIFEST_LOOKUP_MANIFEST_FOUND"
     assert missing["status"] == "SAFE_MANIFEST_LOOKUP_MANIFEST_NOT_FOUND"
     assert blocked["status"] == "SAFE_MANIFEST_LOOKUP_BLOCKED_BY_POLICY"
@@ -74,7 +81,9 @@ def test_manifest_digest_admission_blocks_without_exact_digest() -> None:
     assert record["status"] == "MANIFEST_DIGEST_ADMISSION_BLOCKED_NO_DIGEST"
     assert record["summary"]["metadata_admitted"] == 0
     assert record["summary"]["blocked_no_digest"] == 10
-    assert all(row["cache_ready"] is False and row["executable"] is False for row in record["admissions"])
+    assert all(
+        row["cache_ready"] is False and row["executable"] is False for row in record["admissions"]
+    )
 
 
 def test_metadata_state_refresh_preserves_doxygen_and_marks_no_change() -> None:
@@ -84,7 +93,10 @@ def test_metadata_state_refresh_preserves_doxygen_and_marks_no_change() -> None:
     assert record["doxygen_state_preserved"] is True
     assert record["summary"]["changed"] == 0
     assert all(row["after_state"]["executable"] is False for row in record["rows"])
-    assert all(row["after_state"]["training_eligible"] == "TRAINING_ELIGIBLE_FALSE" for row in record["rows"])
+    assert all(
+        row["after_state"]["training_eligible"] == "TRAINING_ELIGIBLE_FALSE"
+        for row in record["rows"]
+    )
 
 
 def test_scan_requirements_queue_blocks_without_digest() -> None:
@@ -93,7 +105,10 @@ def test_scan_requirements_queue_blocks_without_digest() -> None:
     assert record["status"] == "SCAN_REQUIREMENTS_BLOCKED_NO_DIGEST"
     assert record["summary"]["metadata_admitted"] == 0
     assert record["summary"]["blocked_no_digest"] == 10
-    assert all(item["import_authorized"] is False and item["scan_executed"] is False for item in record["items"])
+    assert all(
+        item["import_authorized"] is False and item["scan_executed"] is False
+        for item in record["items"]
+    )
 
 
 def test_operator_action_refresh_keeps_doxygen_security_and_metadata_targets_metadata() -> None:
@@ -112,8 +127,13 @@ def test_unblock_priority_refresh_keeps_metadata_targets_ahead_of_doxygen() -> N
     record = _campaign().unblock_priority_refresh()
 
     assert record["status"] == "BATCH001_UNBLOCK_PRIORITY_REFRESH_WRITTEN"
-    assert record["top_3_next_targets"][0]["exact_operator_packet_needed"] == "image_metadata_submission"
-    doxygen = next(row for row in record["ranked_unblock_list"] if row["instance_id"] == DOXYGEN_INSTANCE)
+    assert (
+        record["top_3_next_targets"][0]["exact_operator_packet_needed"]
+        == "image_metadata_submission"
+    )
+    doxygen = next(
+        row for row in record["ranked_unblock_list"] if row["instance_id"] == DOXYGEN_INSTANCE
+    )
     assert doxygen["estimated_difficulty"] == "HARD_POLICY_ADMISSION_REQUIRED"
     assert doxygen["executable"] is False
 

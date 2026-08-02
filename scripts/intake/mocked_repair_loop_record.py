@@ -6,6 +6,7 @@ live in :mod:`intake.mocked_intake_repair` so the loop and its trace
 types stay co-located. This shim exists so callers that prefer the
 record-only import path keep working.
 """
+
 from __future__ import annotations
 
 from .mocked_intake_repair import (

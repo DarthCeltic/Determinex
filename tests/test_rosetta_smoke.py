@@ -11,6 +11,7 @@ These tests deliberately avoid importing torch or loading .pt weights so they
 run cleanly in CI without a GPU. Projection accuracy tests live in a separate
 integration suite that requires the rosetta_v1.pt checkpoint.
 """
+
 from __future__ import annotations
 
 import sys
@@ -26,13 +27,14 @@ if str(_SCRIPTS) not in sys.path:
 _IMPORT_ERROR = ""
 try:
     from determinex_rosetta import (
-        D_ROSETTA,
         BASE_ARCH_INFO,
+        D_ROSETTA,
+        best_for_role,
         get_model,
         list_models,
-        best_for_role,
         probe_gguf,
     )
+
     _ROSETTA_AVAILABLE = True
 except ImportError as _e:
     _ROSETTA_AVAILABLE = False
@@ -47,6 +49,7 @@ pytestmark = pytest.mark.skipif(
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
+
 
 def test_d_rosetta_is_4096():
     assert D_ROSETTA == 4096
@@ -89,6 +92,7 @@ def test_default_dims_are_positive_integers():
 # ~/.determinex/models.yaml — we test the API shape not the persistence)
 # ---------------------------------------------------------------------------
 
+
 def test_list_models_returns_list():
     result = list_models()
     assert isinstance(result, list)
@@ -109,6 +113,7 @@ def test_best_for_role_returns_none_when_no_models_match():
 # GGUF parser shape test (no actual file needed — test error handling)
 # ---------------------------------------------------------------------------
 
+
 def test_probe_gguf_raises_on_missing_file():
     with pytest.raises((FileNotFoundError, OSError, Exception)):
         probe_gguf(Path("/nonexistent/file.gguf"))
@@ -118,6 +123,7 @@ def test_probe_gguf_raises_on_missing_file():
 # Semantic DSL Layer 1 smoke test
 # ---------------------------------------------------------------------------
 
+
 def test_rosetta_dsl_imports_do_not_crash():
     """
     Verify that the Semantic DSL constants and arch info are importable without
@@ -126,6 +132,7 @@ def test_rosetta_dsl_imports_do_not_crash():
     """
     # Re-import with explicit symbol check
     import importlib
+
     mod = importlib.import_module("determinex_rosetta")
     assert hasattr(mod, "D_ROSETTA")
     assert hasattr(mod, "BASE_ARCH_INFO")
@@ -134,12 +141,14 @@ def test_rosetta_dsl_imports_do_not_crash():
 
 def test_rosetta_stone_class_exists_and_is_class():
     from determinex_rosetta import RosettaStone
+
     assert isinstance(RosettaStone, type)
 
 
 def test_rosetta_layer_1_is_default():
     """Layer 1 (Semantic DSL) is the active layer; Layer 2 requires rosetta_v1.pt."""
     from determinex_rosetta import RosettaStone
+
     # RosettaStone.load() must raise on a nonexistent checkpoint, not silently
     # construct a stone with no weights. This verifies the load gate is active.
     with pytest.raises(Exception):

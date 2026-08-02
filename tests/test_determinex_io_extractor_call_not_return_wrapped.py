@@ -35,6 +35,7 @@ Return-wrapper requirement) -- the call's own arguments are what matter, not
 whether its result is returned directly, assigned to a variable first (any number
 of statements away), or ignored.
 """
+
 from __future__ import annotations
 
 import sys
@@ -45,7 +46,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_extract_wrapper_base_argv_resolves_assign_then_return_shape():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 
 EXECUTABLE = "./executable"
@@ -56,12 +57,15 @@ def run(*args, timeout=5.0):
         return result
     except subprocess.TimeoutExpired:
         return None
-''')
-    func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef)
-                and n.name == "run")
+""")
+    func = next(
+        n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef) and n.name == "run"
+    )
     module_path_exprs = {
-        stmt.targets[0].id: stmt.value for stmt in tree.body
-        if isinstance(stmt, iox.ast.Assign) and len(stmt.targets) == 1
+        stmt.targets[0].id: stmt.value
+        for stmt in tree.body
+        if isinstance(stmt, iox.ast.Assign)
+        and len(stmt.targets) == 1
         and isinstance(stmt.targets[0], iox.ast.Name)
     }
     base, suffix = iox._extract_wrapper_base_argv(func, {}, module_path_exprs, set())
@@ -70,7 +74,8 @@ def run(*args, timeout=5.0):
 
 def test_extract_file_resolves_htop_shaped_try_except_wrapper_end_to_end(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import os
 
@@ -92,14 +97,16 @@ def run(*args, stdin=None, env=None, cwd=None, timeout=5.0, check=False):
             def __init__(self):
                 self.returncode = -1
         return TimeoutResult()
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 from conftest import run
 
 def test_help():
     result = run("-H", "--help")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

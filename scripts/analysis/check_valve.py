@@ -29,14 +29,13 @@ Run:
   python scripts/analysis/check_valve.py --tool kyoh86__richgo.313114f
   python scripts/analysis/check_valve.py --tool kyoh86__richgo.313114f --revalidate
 """
+
 from __future__ import annotations
+
 import argparse
 import ast
-import io
 import json
-import os
 import re
-import subprocess
 import sys
 from pathlib import Path
 
@@ -48,6 +47,7 @@ OVERRIDES = ROOT / "corpus" / "programbench" / "per_tool_overrides"
 
 def find_latest_eval(tool_key: str) -> Path | None:
     import glob
+
     matches = []
     for ej in glob.glob(str(EVAL_ROOT / "determinex_pb_*_v*" / tool_key / "*.eval.json")):
         p = Path(ej)
@@ -61,19 +61,21 @@ def find_latest_eval(tool_key: str) -> Path | None:
 def categorize_tests(eval_path: Path) -> dict:
     """Returns {status: [test_records...]} with full fixture info."""
     try:
-        with io.open(eval_path, encoding="utf-8", errors="replace") as f:
+        with open(eval_path, encoding="utf-8", errors="replace") as f:
             j = json.load(f)
     except Exception:
         return {}
     out = {"passed": [], "failure": [], "skipped": [], "error": [], "not_run": [], "unknown": []}
     for r in j.get("test_results") or []:
         st = r.get("status", "unknown")
-        out.setdefault(st, []).append({
-            "name": r.get("name", ""),
-            "branch": r.get("branch", ""),
-            "message": (r.get("extra") or {}).get("message", "")[:600],
-            "source": (r.get("extra") or {}).get("text", "")[:1500],
-        })
+        out.setdefault(st, []).append(
+            {
+                "name": r.get("name", ""),
+                "branch": r.get("branch", ""),
+                "message": (r.get("extra") or {}).get("message", "")[:600],
+                "source": (r.get("extra") or {}).get("text", "")[:1500],
+            }
+        )
     return out
 
 
@@ -99,9 +101,9 @@ def find_test_args_in_source(test_src: str) -> list[list[str]]:
 def emit_plan(tool_key: str, categories: dict) -> dict:
     plan = {
         "tool": tool_key,
-        "valve_closed": [],   # passing — don't engage LLM
-        "valve_open": [],     # failing — engage LLM
-        "valve_review": [],   # error/skipped — manual review
+        "valve_closed": [],  # passing — don't engage LLM
+        "valve_open": [],  # failing — engage LLM
+        "valve_review": [],  # error/skipped — manual review
         "stats": {
             "passed": len(categories.get("passed", [])),
             "failure": len(categories.get("failure", [])),
@@ -114,15 +116,19 @@ def emit_plan(tool_key: str, categories: dict) -> dict:
         plan["valve_closed"].append({"name": r["name"], "branch": r["branch"]})
     for r in categories.get("failure", []):
         args_found = find_test_args_in_source(r["source"])
-        plan["valve_open"].append({
-            "name": r["name"], "branch": r["branch"],
-            "first_error_line": r["message"].split("\n")[0][:200],
-            "args_used": args_found[:3],
-        })
+        plan["valve_open"].append(
+            {
+                "name": r["name"],
+                "branch": r["branch"],
+                "first_error_line": r["message"].split("\n")[0][:200],
+                "args_used": args_found[:3],
+            }
+        )
     for st in ("skipped", "error"):
         for r in categories.get(st, []):
-            plan["valve_review"].append({"name": r["name"], "status": st,
-                                            "reason": r["message"].split("\n")[0][:200]})
+            plan["valve_review"].append(
+                {"name": r["name"], "status": st, "reason": r["message"].split("\n")[0][:200]}
+            )
     return plan
 
 
@@ -132,8 +138,11 @@ def find_executable(tool_key: str) -> Path | None:
         EVAL_ROOT / f"determinex_pb_factory_{tool_key}_v1" / tool_key / "source" / "executable",
         EVAL_ROOT / "determinex_pb_*" / tool_key / "source" / "executable",
     ):
-        for p in (Path(str(pattern)).parent.glob(Path(str(pattern)).name)
-                  if "*" in str(pattern) else [pattern]):
+        for p in (
+            Path(str(pattern)).parent.glob(Path(str(pattern)).name)
+            if "*" in str(pattern)
+            else [pattern]
+        ):
             if p.is_file():
                 return p
     return None
@@ -143,8 +152,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tool", required=True, help="tool slug, e.g. kyoh86__richgo.313114f")
     ap.add_argument("--out", default=None)
-    ap.add_argument("--show-failing", type=int, default=10,
-                    help="print first N failing tests with their fixture info")
+    ap.add_argument(
+        "--show-failing",
+        type=int,
+        default=10,
+        help="print first N failing tests with their fixture info",
+    )
     args = ap.parse_args()
 
     eval_path = find_latest_eval(args.tool)
@@ -154,22 +167,22 @@ def main():
     cats = categorize_tests(eval_path)
     plan = emit_plan(args.tool, cats)
 
-    out_path = Path(args.out) if args.out else (
-        ROOT / "logs" / "check_valve" / f"{args.tool}.json"
-    )
+    out_path = Path(args.out) if args.out else (ROOT / "logs" / "check_valve" / f"{args.tool}.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(plan, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print(f"=== {args.tool} ===")
     print(f"  valve CLOSED (passing, skip LLM): {plan['stats']['passed']}")
     print(f"  valve OPEN (failing, engage LLM): {plan['stats']['failure']}")
-    print(f"  valve REVIEW (skipped/error):     {plan['stats']['skipped'] + plan['stats']['error']}")
+    print(
+        f"  valve REVIEW (skipped/error):     {plan['stats']['skipped'] + plan['stats']['error']}"
+    )
     print(f"  not_run (test never executed):    {plan['stats']['not_run']}")
     print(f"  plan written: {out_path}")
     print()
     if args.show_failing > 0 and plan["valve_open"]:
         print(f"=== first {args.show_failing} failing tests (where to engage LLM) ===")
-        for v in plan["valve_open"][:args.show_failing]:
+        for v in plan["valve_open"][: args.show_failing]:
             print(f"\n  {v['name']}  (branch {v['branch']})")
             print(f"    error: {v['first_error_line']}")
             if v["args_used"]:

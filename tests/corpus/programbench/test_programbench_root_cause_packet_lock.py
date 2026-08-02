@@ -7,7 +7,11 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
-from corpus.programbench.root_cause_packet import make_root_cause_packet, sign_packet, write_packet  # noqa: E402
+from corpus.programbench.root_cause_packet import (  # noqa: E402
+    make_root_cause_packet,
+    sign_packet,
+    write_packet,
+)
 from corpus.programbench.root_cause_packet_gate import RootCausePacketGate  # noqa: E402
 from corpus.programbench.root_cause_packet_schema import RootCausePacketStatus  # noqa: E402
 

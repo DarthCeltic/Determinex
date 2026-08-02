@@ -1,7 +1,6 @@
 import re
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "release" / "build_release_package.ps1"
 
@@ -12,7 +11,7 @@ def test_release_build_script_anchors_paths_to_script_location():
     assert "$PSScriptRoot" in text
     assert "$RepoRoot" in text
     assert "Push-Location $FrontendDir" in text
-    assert "Push-Location \"..\\..\\frontend\"" not in text
+    assert 'Push-Location "..\\..\\frontend"' not in text
 
 
 def test_release_build_script_uses_deterministic_dependency_install():
@@ -42,10 +41,10 @@ def test_release_build_script_has_cargo_lock_workarounds():
 
     assert "[string]$CargoTargetDir" in text
     assert "$env:CARGO_TARGET_DIR = $CargoTargetDir" in text
-    assert "$env:CARGO_BUILD_JOBS = \"1\"" in text
-    assert "$env:CARGO_INCREMENTAL = \"0\"" in text
+    assert '$env:CARGO_BUILD_JOBS = "1"' in text
+    assert '$env:CARGO_INCREMENTAL = "0"' in text
     assert "function Get-InstallerDir" in text
-    assert "Join-Path $env:CARGO_TARGET_DIR \"release\\bundle\"" in text
+    assert 'Join-Path $env:CARGO_TARGET_DIR "release\\bundle"' in text
 
 
 def test_release_build_script_has_optional_authenticode_signing_route():
@@ -64,7 +63,7 @@ def test_release_build_script_can_package_download_bundle():
 
     assert "[switch]$PackageDownloadBundle" in text
     assert "[string]$TauriBundleTarget" in text
-    assert '$EffectiveTauriBundleTarget = if ($TauriBundleTarget)' in text
+    assert "$EffectiveTauriBundleTarget = if ($TauriBundleTarget)" in text
     # 2026-07-19: "all" is not a valid --bundles value for tauri-cli on Windows
     # (only an explicit msi,nsis list is) -- this assertion used to lock in
     # that exact broken default, meaning the documented -PackageDownloadBundle
@@ -156,7 +155,8 @@ def test_the_script_does_not_try_to_pass_an_empty_password_via_the_environment()
     text = SCRIPT.read_text(encoding="utf-8")
     # Only flag a real assignment, not the commented-out record of the old code or the warning text.
     live = [
-        line for line in text.splitlines()
+        line
+        for line in text.splitlines()
         if "TAURI_SIGNING_PRIVATE_KEY_PASSWORD" in line
         and not line.lstrip().startswith("#")
         and re.search(r'PRIVATE_KEY_PASSWORD\s*=\s*""\s*$', line)

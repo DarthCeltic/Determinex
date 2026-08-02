@@ -100,10 +100,7 @@ def _signing_modules() -> dict[str, str]:
 def test_no_new_family_signs_with_a_key_published_in_the_source():
     """THE guard. A new evidence family copied from one of the 23 inherits the literal, and its
     verify_* then looks like enforcement while proving nothing."""
-    found = {
-        rel for rel, src in _signing_modules().items()
-        if _LITERAL_KEY_RETURN.search(src)
-    }
+    found = {rel for rel, src in _signing_modules().items() if _LITERAL_KEY_RETURN.search(src)}
     added = sorted(found - KNOWN_LITERAL_FALLBACK)
     assert not added, (
         f"{len(added)} signing family/families return a hardcoded key literal and are not in the "
@@ -115,10 +112,7 @@ def test_no_new_family_signs_with_a_key_published_in_the_source():
 def test_the_known_gap_list_does_not_silently_rot():
     """If a family is migrated or deleted, the list must be updated in the same change, so the
     recorded count stays the real count. This is what keeps the audit trail honest."""
-    found = {
-        rel for rel, src in _signing_modules().items()
-        if _LITERAL_KEY_RETURN.search(src)
-    }
+    found = {rel for rel, src in _signing_modules().items() if _LITERAL_KEY_RETURN.search(src)}
     stale = sorted(KNOWN_LITERAL_FALLBACK - found)
     assert not stale, (
         f"these are listed as literal-fallback but no longer are (migrated or removed): {stale}. "

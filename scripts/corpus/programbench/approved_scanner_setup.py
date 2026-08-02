@@ -5,10 +5,10 @@ import argparse
 import json
 import shutil
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Callable
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
@@ -46,7 +46,9 @@ class ApprovedScannerSetupStatus(str, Enum):
 class ApprovedScannerSetupConfig:
     root: Path = Path(".")
     output_dir: Path = Path("assurance/evidence/programbench_approved_scanner_setup")
-    admission_output_dir: Path = Path("assurance/evidence/programbench_cleanroom_image_scanner_admissions")
+    admission_output_dir: Path = Path(
+        "assurance/evidence/programbench_cleanroom_image_scanner_admissions"
+    )
     command_runner: Callable[[list[str], int], CommandResult] | None = None
     which: Callable[[str], str | None] = shutil.which
     allow_wrappers: bool = False
@@ -89,7 +91,9 @@ class ProgramBenchApprovedScannerSetup:
             _install_instructions(),
         )
 
-    def _admit_candidate(self, scanner_name: str, scanner_path: Path | None, *, operator_supplied: bool = False) -> dict[str, object]:
+    def _admit_candidate(
+        self, scanner_name: str, scanner_path: Path | None, *, operator_supplied: bool = False
+    ) -> dict[str, object]:
         if scanner_name not in {"trivy", "grype", "docker_scout"}:
             return self._write(
                 ApprovedScannerSetupStatus.APPROVED_SCANNER_OPERATOR_PATH_REJECTED.value
@@ -116,12 +120,19 @@ class ProgramBenchApprovedScannerSetup:
         ).admit(scanner_name, scanner_path)
         admission_record = admission["record"]
         admission_status = str(admission_record.get("status") or "")
-        admitted = admission_status == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+        admitted = (
+            admission_status
+            == CleanroomImageScannerAdmissionStatus.CLEANROOM_SCANNER_ADMITTED.value
+        )
         statuses = [
             ApprovedScannerSetupStatus.APPROVED_SCANNER_SETUP_READY.value,
-            ApprovedScannerSetupStatus.APPROVED_SCANNER_FOUND.value if scanner_path else ApprovedScannerSetupStatus.APPROVED_SCANNER_NOT_FOUND.value,
+            ApprovedScannerSetupStatus.APPROVED_SCANNER_FOUND.value
+            if scanner_path
+            else ApprovedScannerSetupStatus.APPROVED_SCANNER_NOT_FOUND.value,
             ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_RERUN_READY.value,
-            ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_PASSED.value if admitted else ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_FAILED.value,
+            ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_PASSED.value
+            if admitted
+            else ApprovedScannerSetupStatus.APPROVED_SCANNER_ADMISSION_FAILED.value,
             ApprovedScannerSetupStatus.CLEANROOM_IMAGE_NOT_EXECUTABLE.value,
             ApprovedScannerSetupStatus.CLEANROOM_IMAGE_TRAINING_INELIGIBLE.value,
         ]
@@ -222,12 +233,22 @@ def _install_instructions() -> list[str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Set up or admit an approved scanner path for ProgramBench cleanroom images.")
+    parser = argparse.ArgumentParser(
+        description="Set up or admit an approved scanner path for ProgramBench cleanroom images."
+    )
     parser.add_argument("--scanner-name", default="")
     parser.add_argument("--scanner-path", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_approved_scanner_setup"))
-    parser.add_argument("--admission-output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_image_scanner_admissions"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_approved_scanner_setup"),
+    )
+    parser.add_argument(
+        "--admission-output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_image_scanner_admissions"),
+    )
     parser.add_argument("--allow-wrapper", action="store_true")
     args = parser.parse_args()
     result = ProgramBenchApprovedScannerSetup(

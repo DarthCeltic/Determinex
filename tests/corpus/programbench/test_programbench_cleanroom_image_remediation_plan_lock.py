@@ -11,10 +11,17 @@ from corpus.programbench.cleanroom_image_remediation_plan import (  # noqa: E402
     CleanroomImageRemediationPlanStatus,
     ProgramBenchCleanroomImageRemediationPlan,
 )
-from corpus.programbench.cleanroom_image_remediation_plan_record import verify_cleanroom_image_remediation_plan_record  # noqa: E402
-from corpus.programbench.cleanroom_image_scan_record import make_cleanroom_image_scan_record, write_cleanroom_image_scan_record  # noqa: E402
-from corpus.programbench.cleanroom_image_scan_triage_record import make_cleanroom_image_scan_triage_record, write_cleanroom_image_scan_triage_record  # noqa: E402
-
+from corpus.programbench.cleanroom_image_remediation_plan_record import (
+    verify_cleanroom_image_remediation_plan_record,  # noqa: E402
+)
+from corpus.programbench.cleanroom_image_scan_record import (  # noqa: E402
+    make_cleanroom_image_scan_record,
+    write_cleanroom_image_scan_record,
+)
+from corpus.programbench.cleanroom_image_scan_triage_record import (  # noqa: E402
+    make_cleanroom_image_scan_triage_record,
+    write_cleanroom_image_scan_triage_record,
+)
 
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
@@ -32,7 +39,14 @@ def _write_scan(tmp_path: Path) -> Path:
         file_size=123,
         scanner="trivy",
         scanner_version="Version: 0.test",
-        findings_summary={"critical": 2, "high": 2, "medium": 1, "low": 0, "unknown": 0, "total": 5},
+        findings_summary={
+            "critical": 2,
+            "high": 2,
+            "medium": 1,
+            "low": 0,
+            "unknown": 0,
+            "total": 5,
+        },
         normalized_findings=[],
         reasons=["critical_or_high_findings_present"],
         cache_ready=False,
@@ -41,7 +55,9 @@ def _write_scan(tmp_path: Path) -> Path:
     return write_cleanroom_image_scan_record(record, tmp_path / "scan")
 
 
-def _write_triage(tmp_path: Path, *, recommendation: str = "REMEDIATE_IMAGE_REQUIRED", policy_blocked: bool = True) -> Path:
+def _write_triage(
+    tmp_path: Path, *, recommendation: str = "REMEDIATE_IMAGE_REQUIRED", policy_blocked: bool = True
+) -> Path:
     record = make_cleanroom_image_scan_triage_record(
         status="CLEANROOM_IMAGE_SCAN_TRIAGED",
         recommendation=recommendation,
@@ -106,24 +122,38 @@ def test_missing_scan_evidence_blocks_plan(tmp_path):
     triage = _write_triage(tmp_path)
     result = _planner(tmp_path).plan(tmp_path / "missing.json", triage)
 
-    assert result["record"]["status"] == CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_SCAN.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_SCAN.value
+    )
 
 
 def test_missing_triage_evidence_blocks_plan(tmp_path):
     scan = _write_scan(tmp_path)
     result = _planner(tmp_path).plan(scan, tmp_path / "missing.json")
 
-    assert result["record"]["status"] == CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_TRIAGE.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_PLAN_BLOCKED_NO_TRIAGE.value
+    )
 
 
 def test_non_remediate_recommendation_routes_to_not_required(tmp_path):
-    result = _planner(tmp_path).plan(_write_scan(tmp_path), _write_triage(tmp_path, recommendation="POLICY_EXCEPTION_REVIEW_REQUIRED"))
+    result = _planner(tmp_path).plan(
+        _write_scan(tmp_path),
+        _write_triage(tmp_path, recommendation="POLICY_EXCEPTION_REVIEW_REQUIRED"),
+    )
 
-    assert result["record"]["status"] == CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_PLAN_NOT_REQUIRED.value
+    assert (
+        result["record"]["status"]
+        == CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_PLAN_NOT_REQUIRED.value
+    )
 
 
 def test_policy_unblocked_image_does_not_need_remediation_plan(tmp_path):
-    result = _planner(tmp_path).plan(_write_scan(tmp_path), _write_triage(tmp_path, policy_blocked=False))
+    result = _planner(tmp_path).plan(
+        _write_scan(tmp_path), _write_triage(tmp_path, policy_blocked=False)
+    )
 
     assert result["record"]["recommendation"] == "NO_REMEDIATION_REQUIRED"
 
@@ -132,7 +162,9 @@ def test_language_runtime_dominance_produces_runtime_update_strategy(tmp_path):
     result = _planner(tmp_path).plan(_write_scan(tmp_path), _write_triage(tmp_path))
 
     assert result["record"]["dominant_risk_category"] == "language_runtime"
-    assert result["record"]["remediation_strategies"][0]["strategy"] == "update_go_runtime_toolchain"
+    assert (
+        result["record"]["remediation_strategies"][0]["strategy"] == "update_go_runtime_toolchain"
+    )
 
 
 def test_go_stdlib_findings_produce_go_runtime_update_strategy(tmp_path):
@@ -145,13 +177,19 @@ def test_go_stdlib_findings_produce_go_runtime_update_strategy(tmp_path):
 def test_missing_build_recipe_marks_requires_build_recipe(tmp_path):
     result = _planner(tmp_path).plan(_write_scan(tmp_path), _write_triage(tmp_path))
 
-    assert CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BUILD_RECIPE.value in result["record"]["plan_statuses"]
+    assert (
+        CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BUILD_RECIPE.value
+        in result["record"]["plan_statuses"]
+    )
 
 
 def test_missing_base_provenance_marks_requires_base_provenance(tmp_path):
     result = _planner(tmp_path).plan(_write_scan(tmp_path), _write_triage(tmp_path))
 
-    assert CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BASE_PROVENANCE.value in result["record"]["plan_statuses"]
+    assert (
+        CleanroomImageRemediationPlanStatus.CLEANROOM_IMAGE_REMEDIATION_REQUIRES_BASE_PROVENANCE.value
+        in result["record"]["plan_statuses"]
+    )
 
 
 def test_plan_marks_benchmark_fidelity_risk_when_runtime_or_base_changes(tmp_path):

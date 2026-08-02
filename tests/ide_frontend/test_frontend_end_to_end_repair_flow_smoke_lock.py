@@ -1,4 +1,5 @@
 """Tests for FRONTEND_END_TO_END_REPAIR_FLOW_SMOKE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
@@ -7,23 +8,26 @@ from pathlib import Path
 from scripts.ide.frontend_end_to_end_repair_flow_smoke import (
     FRONTEND_END_TO_END_REPAIR_FLOW_SMOKE_TOKENS,
     FrontendEndToEndRepairFlowSmokeTrace,
-    FrontendStage,
     run_smoke,
 )
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_END_TO_END_REPAIR_FLOW_SMOKE_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_END_TO_END_REPAIR_FLOW_SMOKE_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_end_to_end_repair_flow_smoke"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED_TOKENS = frozenset({
-    "FRONTEND_E2E_SMOKE_TRACE_WRITTEN",
-    "FRONTEND_E2E_SMOKE_SOURCE_UNCHANGED",
-    "FRONTEND_E2E_SMOKE_APPROVAL_REQUIRED",
-    "FRONTEND_E2E_SMOKE_TRAINING_ELIGIBLE_FALSE",
-    "FRONTEND_E2E_SMOKE_NO_LIVE_MODEL_CALL",
-    "FRONTEND_E2E_SMOKE_NO_NETWORK_CALL",
-})
+EXPECTED_TOKENS = frozenset(
+    {
+        "FRONTEND_E2E_SMOKE_TRACE_WRITTEN",
+        "FRONTEND_E2E_SMOKE_SOURCE_UNCHANGED",
+        "FRONTEND_E2E_SMOKE_APPROVAL_REQUIRED",
+        "FRONTEND_E2E_SMOKE_TRAINING_ELIGIBLE_FALSE",
+        "FRONTEND_E2E_SMOKE_NO_LIVE_MODEL_CALL",
+        "FRONTEND_E2E_SMOKE_NO_NETWORK_CALL",
+    }
+)
 
 
 def test_status_tokens_exact():
@@ -105,6 +109,7 @@ def test_no_spawn_no_socket_smoke_is_in_process():
     # never spawning a subprocess or opening a socket. We assert that
     # by checking no live-model module is imported at module load.
     import scripts.ide.frontend_end_to_end_repair_flow_smoke as mod
+
     src = Path(mod.__file__).read_text(encoding="utf-8")
     for forbidden in ("requests", "httpx", "urllib.request", "socket.connect"):
         assert forbidden not in src, f"forbidden import/use: {forbidden}"

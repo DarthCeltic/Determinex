@@ -18,6 +18,7 @@ Usage:
   python scripts/security/security_gate.py --guard   # same, but exit 1 on any block (CI use)
   python scripts/security/security_gate.py --json out.json   # also write machine-readable result
 """
+
 from __future__ import annotations
 
 import argparse
@@ -26,7 +27,7 @@ import io
 import json
 import sys
 from contextlib import redirect_stdout
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -48,6 +49,7 @@ def _bare_argv():
 
 def _run_secret_scan() -> tuple[bool, str]:
     import secret_scan  # type: ignore[import-not-found]
+
     buf = io.StringIO()
     with _bare_argv(), redirect_stdout(buf):
         code = secret_scan.main()
@@ -57,6 +59,7 @@ def _run_secret_scan() -> tuple[bool, str]:
 
 def _run_dependency_scan() -> tuple[bool, str]:
     import dependency_scan  # type: ignore[import-not-found]
+
     r = dependency_scan.run()
     detail = f"{r.total_packages} packages, {len(r.vulnerabilities)} vulns ({r.critical_count} critical, {r.high_count} high)"
     if r.scan_error:
@@ -66,6 +69,7 @@ def _run_dependency_scan() -> tuple[bool, str]:
 
 def _run_verify_lockfiles() -> tuple[bool, str]:
     import verify_lockfiles  # type: ignore[import-not-found]
+
     r = verify_lockfiles.run()
     return r.passed, f"{len(r.files_checked)} files checked, {r.critical_count} critical violations"
 
@@ -79,6 +83,7 @@ _REPO_LICENSE_SPDX = "AGPL-3.0-or-later"
 
 def _run_license_scan() -> tuple[bool, str]:
     import license_scan  # type: ignore[import-not-found]
+
     out_path = REPO_ROOT / "assurance" / "licenses" / "license_inventory.json"
     with _bare_argv():
         license_scan.main()
@@ -100,14 +105,18 @@ def _run_license_scan() -> tuple[bool, str]:
     # which yields spdx_id None -- still fails this gate rather than being waved
     # through as "the known false positive".
     real_blocks = [
-        r for r in data.get("rows", [])
+        r
+        for r in data.get("rows", [])
         if not (r.get("path") == str(REPO_ROOT) and r.get("spdx_id") == _REPO_LICENSE_SPDX)
     ]
-    return (len(real_blocks) == 0), f"{blocked} flagged ({len(real_blocks)} not the known repo-license false positive)"
+    return (
+        len(real_blocks) == 0
+    ), f"{blocked} flagged ({len(real_blocks)} not the known repo-license false positive)"
 
 
 def _run_container_scan() -> tuple[bool, str]:
     import container_scan  # type: ignore[import-not-found]
+
     out_path = REPO_ROOT / "assurance" / "security" / "container_scan.json"
     with _bare_argv():
         container_scan.main()
@@ -126,7 +135,10 @@ def _run_container_scan() -> tuple[bool, str]:
     if "image_count" not in data or data.get("scan_error"):
         reason = str(data.get("scan_error") or data.get("error") or "docker unavailable")
         return True, f"DID NOT RUN ({reason}) -- no image inventory (advisory, non-blocking)"
-    return True, f"{data.get('image_count', 0)} images, {unpinned} unpinned tags (advisory, non-blocking)"
+    return (
+        True,
+        f"{data.get('image_count', 0)} images, {unpinned} unpinned tags (advisory, non-blocking)",
+    )
 
 
 def _run_verify_installed() -> tuple[bool, str]:
@@ -146,10 +158,15 @@ def _run_verify_installed() -> tuple[bool, str]:
 
     with _bare_argv():
         payload = verify_installed.run()
-    crit, high, missing = (payload["critical_count"], payload["high_count"],
-                           payload["missing_count"])
-    detail = (f"{crit} unapplied security floor(s), {high} below declared floor, "
-              f"{missing} declared-but-absent")
+    crit, high, missing = (
+        payload["critical_count"],
+        payload["high_count"],
+        payload["missing_count"],
+    )
+    detail = (
+        f"{crit} unapplied security floor(s), {high} below declared floor, "
+        f"{missing} declared-but-absent"
+    )
     # Only an unapplied SECURITY floor blocks. A package that is simply absent is
     # usually an optional extra, and blocking on that would make this gate noise.
     return crit == 0, detail
@@ -176,14 +193,16 @@ def run_all() -> dict:
     overall = all(r["passed"] for r in results)
     return {
         "schema": "determinex-security-gate-v1",
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "overall_passed": overall,
         "gates": results,
     }
 
 
 def main(argv: list[str] | None = None) -> int:
-    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     p.add_argument("--guard", action="store_true", help="exit 1 if any gate blocked (CI mode)")
     p.add_argument("--json", type=Path, help="also write the machine-readable result here")
     args = p.parse_args(argv)

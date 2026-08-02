@@ -1,7 +1,8 @@
 """SentinelBench action gate: SUBMIT_FORM always requires confirmation."""
-from tests.sentinelbench.helpers import make_action
+
 from agents.base_agent import ActionType
-from agents.safety_governor import SafetyDecisionValue
+
+from tests.sentinelbench.helpers import make_action
 
 
 def test_submit_form_requires_confirmation(governor, benign_task, browser_observation):

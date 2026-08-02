@@ -25,7 +25,9 @@ from corpus.legacy_recovery.replay_outcome_writer import (  # noqa: E402
 from corpus.legacy_recovery.replay_workspace_builder import ReplayWorkspaceBuilder  # noqa: E402
 
 
-def _candidate(tool: str = "sharkdp__fd.40d8eb3", failure_class: str = "path_env_dependency") -> dict:
+def _candidate(
+    tool: str = "sharkdp__fd.40d8eb3", failure_class: str = "path_env_dependency"
+) -> dict:
     return {
         "tool": tool,
         "candidate_rows": 42,
@@ -197,7 +199,10 @@ def test_batch_writes_one_manifest_and_one_row_per_candidate(tmp_path):
     assert report["attempted"] == 2
     assert len(rows) == 2
     assert len(manifests) == 2
-    assert all(row["record_status"] in {OUTCOME_EVAL, OUTCOME_REJECT, OUTCOME_INFRA, OUTCOME_TRAINING} for row in rows)
+    assert all(
+        row["record_status"] in {OUTCOME_EVAL, OUTCOME_REJECT, OUTCOME_INFRA, OUTCOME_TRAINING}
+        for row in rows
+    )
     assert all(verify_signature(row) for row in rows)
 
 
@@ -215,4 +220,6 @@ def test_candidate_missing_hash_becomes_infra_failure(tmp_path):
 
 
 def _read_rows(path: Path) -> list[dict]:
-    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    return [
+        json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()
+    ]

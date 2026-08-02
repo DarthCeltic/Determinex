@@ -18,7 +18,7 @@ import logging
 import os
 import unicodedata
 from pathlib import Path
-from typing import Optional, List, Dict, Union
+from typing import Union
 
 # ── #6 CUDA Allocator Fragmentation Guard ─────────────────────────────────────
 os.environ.setdefault(
@@ -27,14 +27,12 @@ os.environ.setdefault(
 )
 
 try:
-    from llama_cpp import Llama, llama_decode
-    from llama_cpp import llama_batch_init, llama_batch_free
+    from llama_cpp import Llama, llama_batch_free, llama_batch_init, llama_decode
 except ImportError:
     Llama = None
 
-import torch
 import numpy as np
-
+import torch
 from determinex_rosetta import RosettaStone
 
 log = logging.getLogger("inference")
@@ -58,7 +56,7 @@ class DeterminexInference:
         arch_name: str,
         n_ctx: int = 4096,
         n_gpu_layers: int = -1,
-        entropy_cal_path: Optional[Path] = None
+        entropy_cal_path: Path | None = None,
     ):
         if Llama is None:
             raise ImportError("llama-cpp-python is required for DeterminexInference.")
@@ -75,27 +73,27 @@ class DeterminexInference:
             n_ctx=n_ctx,
             n_gpu_layers=n_gpu_layers,
             vocab_only=False,
-            embedding=True,         # llama-cpp-python 0.3.x: enables model.embed()
+            embedding=True,  # llama-cpp-python 0.3.x: enables model.embed()
             logits_all=True,
         )
         self.hidden_dim = self.model.n_embd()
 
     def __del__(self) -> None:
         try:
-            if hasattr(self, 'model') and self.model is not None:
+            if hasattr(self, "model") and self.model is not None:
                 del self.model
                 self.model = None
             _clear_cuda_cache()
         except Exception:
             pass
 
-    def _load_entropy_table(self, path: Optional[Path]) -> Dict[str, float]:
+    def _load_entropy_table(self, path: Path | None) -> dict[str, float]:
         if path and path.exists():
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 return json.load(f)
         return {}
 
-    def extract_logits(self, tokens: List[int]) -> np.ndarray:
+    def extract_logits(self, tokens: list[int]) -> np.ndarray:
         self.model.eval(tokens)
         vocab_size = self.model.n_vocab()
         logits_ptr = self.model._ctx.logits
@@ -119,9 +117,9 @@ class DeterminexInference:
             return min(100.0, max(0.0, 100.0 - (scale * abs(entropy - base_ent))))
         return max(0.0, min(100.0, 100.0 - (entropy * 10.0)))
 
-    def inject_soft_prompt(self,
-                           text_tokens: List[int],
-                           soft_embeddings: torch.Tensor) -> List[int]:
+    def inject_soft_prompt(
+        self, text_tokens: list[int], soft_embeddings: torch.Tensor
+    ) -> list[int]:
         """
         Hybrid two-pass injection:
 
@@ -174,7 +172,7 @@ class DeterminexInference:
         self.model.n_tokens = K
 
         # ── Pass 2: text tokens at positions K..K+n-1 (via high-level eval) ──
-        self.model.eval(text_tokens)   # n_tokens becomes K + len(text_tokens)
+        self.model.eval(text_tokens)  # n_tokens becomes K + len(text_tokens)
 
         # ── Autoregressive generation ─────────────────────────────────────────
         eos: set = {self.model.token_eos()}
@@ -186,7 +184,7 @@ class DeterminexInference:
             except Exception:
                 pass
 
-        output_tokens: List[int] = []
+        output_tokens: list[int] = []
         for _ in range(512):
             sampled_tok = self.model.sample()
             if sampled_tok in eos:
@@ -196,11 +194,9 @@ class DeterminexInference:
 
         return output_tokens
 
-    def process_rosetta_injection(self,
-                                  source_h: torch.Tensor,
-                                  source_arch: str,
-                                  stone: RosettaStone,
-                                  text_prompt: str) -> str:
+    def process_rosetta_injection(
+        self, source_h: torch.Tensor, source_arch: str, stone: RosettaStone, text_prompt: str
+    ) -> str:
         """
         Projects thought vector → target space → injects as K=1 soft prefix.
         """

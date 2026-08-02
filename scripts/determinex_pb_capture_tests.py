@@ -18,6 +18,7 @@ Usage:
   inject_capture(compile_sh_text) -> (new_text, changed)   # add the hook
   harvest(eval_data) -> {relpath: source}                  # read source from an eval dict
 """
+
 from __future__ import annotations
 
 import re
@@ -78,7 +79,7 @@ def has_capture(text: str) -> bool:
     return "determinex.capture" in text or "DETERMINEX_SRC" in text
 
 
-def inject_capture(compile_sh_text: str) -> "tuple[str, bool]":
+def inject_capture(compile_sh_text: str) -> tuple[str, bool]:
     """Install the capture hook as a pip pytest11 plugin (survives branch conftest overlay)."""
     if has_capture(compile_sh_text):
         return compile_sh_text, False
@@ -86,8 +87,8 @@ def inject_capture(compile_sh_text: str) -> "tuple[str, bool]":
         "\n# --- determinex test-source capture hook (read ephemeral test .py via results.xml) ---\n"
         "mkdir -p /opt/determinex_capture\n"
         "cat > /opt/determinex_capture/determinex_capture_plugin.py <<'DETERMINEX_CAP_EOF'\n"
-        + CAPTURE_PLUGIN.strip("\n") +
-        "\nDETERMINEX_CAP_EOF\n"
+        + CAPTURE_PLUGIN.strip("\n")
+        + "\nDETERMINEX_CAP_EOF\n"
         "cat > /opt/determinex_capture/setup.py <<'DETERMINEX_CAP_SETUP'\n"
         "from setuptools import setup\n"
         'setup(name="determinex_capture", version="1.0", py_modules=["determinex_capture_plugin"],\n'
@@ -98,14 +99,17 @@ def inject_capture(compile_sh_text: str) -> "tuple[str, bool]":
     return compile_sh_text.rstrip("\n") + "\n" + block, True
 
 
-def strip_capture(compile_sh_text: str) -> "tuple[str, bool]":
+def strip_capture(compile_sh_text: str) -> tuple[str, bool]:
     new, n = re.subn(
         r"\n# --- determinex test-source capture hook.*?\(\s*cd /opt/determinex_capture &&[^\n]*\)\n",
-        "\n", compile_sh_text, flags=re.DOTALL)
+        "\n",
+        compile_sh_text,
+        flags=re.DOTALL,
+    )
     return new, n > 0
 
 
-def harvest(eval_data: dict) -> "dict[str, str]":
+def harvest(eval_data: dict) -> dict[str, str]:
     """Pull captured test source out of an eval dict (the determinex.capture testcases)."""
     out: dict[str, str] = {}
     for r in (eval_data or {}).get("test_results", []):
@@ -121,4 +125,5 @@ def harvest(eval_data: dict) -> "dict[str, str]":
 
 if __name__ == "__main__":
     import sys
+
     print(__doc__ if len(sys.argv) < 2 else has_capture(open(sys.argv[1]).read()))

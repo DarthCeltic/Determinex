@@ -1,4 +1,5 @@
 """Tests for REAL_TEMP_PATCH_VERIFY_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -27,14 +28,16 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "REAL_TEMP_PATCH_VERIFY_LOCK_001
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "real_temp_patch_verify"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "REAL_TEMP_PATCH_VERIFIER_PASSED",
-    "REAL_TEMP_PATCH_VERIFIER_FAILED",
-    "REAL_TEMP_PATCH_SOURCE_UNCHANGED",
-    "REAL_TEMP_PATCH_HUMAN_APPROVAL_REQUIRED",
-    "REAL_TEMP_PATCH_BLOCKED_NOT_QUARANTINED",
-    "REAL_TEMP_PATCH_BLOCKED_APPLY_REJECTED",
-})
+EXPECTED = frozenset(
+    {
+        "REAL_TEMP_PATCH_VERIFIER_PASSED",
+        "REAL_TEMP_PATCH_VERIFIER_FAILED",
+        "REAL_TEMP_PATCH_SOURCE_UNCHANGED",
+        "REAL_TEMP_PATCH_HUMAN_APPROVAL_REQUIRED",
+        "REAL_TEMP_PATCH_BLOCKED_NOT_QUARANTINED",
+        "REAL_TEMP_PATCH_BLOCKED_APPLY_REJECTED",
+    }
+)
 
 
 def _ws(tmp_path):
@@ -46,20 +49,20 @@ def _ws(tmp_path):
 
 def _admission():
     return RealLocalModelAdmissionRecord(
-        decision="REAL_LOCAL_MODEL_ADMITTED", provider="ollama",
+        decision="REAL_LOCAL_MODEL_ADMITTED",
+        provider="ollama",
         model_id="determinex-engineer-v11-dsl",
-        task_classes_admitted=("PATCH_GENERATION",), opt_in=True,
+        task_classes_admitted=("PATCH_GENERATION",),
+        opt_in=True,
     )
 
 
 def _entries():
-    return ({"operation": "replace_file", "path": "src/lib.py",
-             "new_content": "x = 2\n"},)
+    return ({"operation": "replace_file", "path": "src/lib.py", "new_content": "x = 2\n"},)
 
 
 def _make_quarantine(workspace):
-    return quarantine(_entries(), admission=_admission(),
-                      workspace=workspace, opt_in=True)
+    return quarantine(_entries(), admission=_admission(), workspace=workspace, opt_in=True)
 
 
 def test_status_tokens_exact():
@@ -67,17 +70,22 @@ def test_status_tokens_exact():
 
 
 def test_not_quarantined_blocked(tmp_path):
-    r = verify(plan=None, plan_entries=_entries(), workspace=_ws(tmp_path),
-               temp_root=tmp_path / "tmp")
+    r = verify(
+        plan=None, plan_entries=_entries(), workspace=_ws(tmp_path), temp_root=tmp_path / "tmp"
+    )
     assert r.decision == "REAL_TEMP_PATCH_BLOCKED_NOT_QUARANTINED"
 
 
 def test_passing_verifier_records_human_approval_required(tmp_path):
     ws = _ws(tmp_path)
     plan = _make_quarantine(ws)
-    r = verify(plan=plan, plan_entries=_entries(), workspace=ws,
-               temp_root=tmp_path / "tmp",
-               verifier=spw.stub_verifier_pass)
+    r = verify(
+        plan=plan,
+        plan_entries=_entries(),
+        workspace=ws,
+        temp_root=tmp_path / "tmp",
+        verifier=spw.stub_verifier_pass,
+    )
     assert r.decision == "REAL_TEMP_PATCH_VERIFIER_PASSED"
     assert r.human_approval_required is True
     assert r.original_unchanged is True
@@ -90,9 +98,13 @@ def test_passing_verifier_records_human_approval_required(tmp_path):
 def test_failing_verifier_blocks(tmp_path):
     ws = _ws(tmp_path)
     plan = _make_quarantine(ws)
-    r = verify(plan=plan, plan_entries=_entries(), workspace=ws,
-               temp_root=tmp_path / "tmp",
-               verifier=spw.stub_verifier_fail)
+    r = verify(
+        plan=plan,
+        plan_entries=_entries(),
+        workspace=ws,
+        temp_root=tmp_path / "tmp",
+        verifier=spw.stub_verifier_fail,
+    )
     assert r.decision == "REAL_TEMP_PATCH_VERIFIER_FAILED"
     assert r.human_approval_required is False
     assert r.original_unchanged is True
@@ -103,9 +115,13 @@ def test_original_source_unchanged_after_temp_apply(tmp_path):
     ws = _ws(tmp_path)
     pre = (ws / "src" / "lib.py").read_text(encoding="utf-8")
     plan = _make_quarantine(ws)
-    verify(plan=plan, plan_entries=_entries(), workspace=ws,
-           temp_root=tmp_path / "tmp",
-           verifier=spw.stub_verifier_pass)
+    verify(
+        plan=plan,
+        plan_entries=_entries(),
+        workspace=ws,
+        temp_root=tmp_path / "tmp",
+        verifier=spw.stub_verifier_pass,
+    )
     post = (ws / "src" / "lib.py").read_text(encoding="utf-8")
     assert pre == post == "x = 1\n"
 
@@ -113,9 +129,13 @@ def test_original_source_unchanged_after_temp_apply(tmp_path):
 def test_temp_workspace_contents_modified_but_not_original(tmp_path):
     ws = _ws(tmp_path)
     plan = _make_quarantine(ws)
-    r = verify(plan=plan, plan_entries=_entries(), workspace=ws,
-               temp_root=tmp_path / "tmp",
-               verifier=spw.stub_verifier_pass)
+    r = verify(
+        plan=plan,
+        plan_entries=_entries(),
+        workspace=ws,
+        temp_root=tmp_path / "tmp",
+        verifier=spw.stub_verifier_pass,
+    )
     assert r.decision == "REAL_TEMP_PATCH_VERIFIER_PASSED"
     # Diff should be non-empty since temp got the change.
     assert r.unified_diff
@@ -130,20 +150,28 @@ def test_empty_resolved_patches_blocks(tmp_path):
     ws = _ws(tmp_path)
     plan = _make_quarantine(ws)
     # Pass plan_entries with a different path so resolution fails.
-    r = verify(plan=plan, plan_entries=(
-        {"operation": "replace_file", "path": "src/other.py",
-         "new_content": "y = 3\n"},
-    ), workspace=ws, temp_root=tmp_path / "tmp",
-               verifier=spw.stub_verifier_pass)
+    r = verify(
+        plan=plan,
+        plan_entries=(
+            {"operation": "replace_file", "path": "src/other.py", "new_content": "y = 3\n"},
+        ),
+        workspace=ws,
+        temp_root=tmp_path / "tmp",
+        verifier=spw.stub_verifier_pass,
+    )
     assert r.decision == "REAL_TEMP_PATCH_BLOCKED_APPLY_REJECTED"
 
 
 def test_record_serializes_safely(tmp_path):
     ws = _ws(tmp_path)
     plan = _make_quarantine(ws)
-    r = verify(plan=plan, plan_entries=_entries(), workspace=ws,
-               temp_root=tmp_path / "tmp",
-               verifier=spw.stub_verifier_pass)
+    r = verify(
+        plan=plan,
+        plan_entries=_entries(),
+        workspace=ws,
+        temp_root=tmp_path / "tmp",
+        verifier=spw.stub_verifier_pass,
+    )
     d = r.to_dict()
     json.dumps(d)
     assert d["original_unchanged"] is True
@@ -153,8 +181,14 @@ def test_record_serializes_safely(tmp_path):
 
 def test_module_does_not_open_network():
     src = Path(mod.__file__).read_text(encoding="utf-8")
-    for forbidden in ("requests", "httpx", "urllib.request",
-                      "socket.connect", "subprocess.Popen", "subprocess.run"):
+    for forbidden in (
+        "requests",
+        "httpx",
+        "urllib.request",
+        "socket.connect",
+        "subprocess.Popen",
+        "subprocess.run",
+    ):
         assert forbidden not in src
 
 

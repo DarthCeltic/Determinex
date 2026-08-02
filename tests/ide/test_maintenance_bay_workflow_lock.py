@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_MAINTENANCE_BAY_WORKFLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -51,18 +52,27 @@ def test_status_tokens_exact():
 
 def test_maintenance_types_exact():
     assert mb.canonical_maintenance_types() == (
-        "dependency_update", "security_fix", "docs_update",
-        "test_hardening", "refactor", "migration",
-        "formatting_lint_cleanup", "performance_cleanup",
+        "dependency_update",
+        "security_fix",
+        "docs_update",
+        "test_hardening",
+        "refactor",
+        "migration",
+        "formatting_lint_cleanup",
+        "performance_cleanup",
     )
 
 
 def test_states_exact():
     assert mb.canonical_states() == (
-        "MAINTENANCE_REQUESTED", "MAINTENANCE_PLAN_WRITTEN",
-        "UPDATE_PROPOSED_QUARANTINED", "COMPATIBILITY_VERIFIER_REQUIRED",
-        "UPDATE_VERIFIED", "UPDATE_BLOCKED_UNVERIFIED",
-        "UPDATE_APPLIED_AFTER_APPROVAL", "UPDATE_FAILED_HONESTLY",
+        "MAINTENANCE_REQUESTED",
+        "MAINTENANCE_PLAN_WRITTEN",
+        "UPDATE_PROPOSED_QUARANTINED",
+        "COMPATIBILITY_VERIFIER_REQUIRED",
+        "UPDATE_VERIFIED",
+        "UPDATE_BLOCKED_UNVERIFIED",
+        "UPDATE_APPLIED_AFTER_APPROVAL",
+        "UPDATE_FAILED_HONESTLY",
     )
 
 
@@ -80,13 +90,15 @@ def test_docs_update_with_basic_requirements_is_written():
 
 
 def test_full_dep_update_applied_after_approval_is_written():
-    rec = mb.evaluate(**_state(
-        compatibility_verifier_passed=True,
-        approval_present=True,
-        update_applied_label_enabled=True,
-        updated_label_enabled=True,
-        post_apply_verifier_passed=True,
-    ))
+    rec = mb.evaluate(
+        **_state(
+            compatibility_verifier_passed=True,
+            approval_present=True,
+            update_applied_label_enabled=True,
+            updated_label_enabled=True,
+            post_apply_verifier_passed=True,
+        )
+    )
     assert rec.is_written
 
 
@@ -107,19 +119,23 @@ def test_dep_update_without_risk_visible_blocks():
 
 
 def test_security_fix_without_advisory_caveat_blocks():
-    rec = mb.evaluate(**_state(
-        maintenance_type="security_fix",
-        advisory_status_caveated=False,
-    ))
+    rec = mb.evaluate(
+        **_state(
+            maintenance_type="security_fix",
+            advisory_status_caveated=False,
+        )
+    )
     assert rec.decision == "MAINTENANCE_BAY_WORKFLOW_BLOCKED_AUTHORITY_CONFUSION"
 
 
 def test_docs_update_without_risk_passes():
     """docs_update doesn't require risk_visible — it's low-risk by nature."""
-    rec = mb.evaluate(**_state(
-        maintenance_type="docs_update",
-        risk_visible=False,
-    ))
+    rec = mb.evaluate(
+        **_state(
+            maintenance_type="docs_update",
+            risk_visible=False,
+        )
+    )
     assert rec.is_written
 
 
@@ -127,10 +143,12 @@ def test_docs_update_without_risk_passes():
 # Compatibility verifier missing
 # ---------------------------------------------------------------------------
 def test_applied_label_without_compatibility_verifier_blocks():
-    rec = mb.evaluate(**_state(
-        update_applied_label_enabled=True,
-        compatibility_verifier_present=False,
-    ))
+    rec = mb.evaluate(
+        **_state(
+            update_applied_label_enabled=True,
+            compatibility_verifier_present=False,
+        )
+    )
     assert rec.decision == "MAINTENANCE_BAY_WORKFLOW_BLOCKED_MISSING_COMPATIBILITY_VERIFIER"
 
 
@@ -138,13 +156,15 @@ def test_applied_label_without_compatibility_verifier_blocks():
 # False updated label
 # ---------------------------------------------------------------------------
 def test_updated_label_without_post_apply_verifier_blocks():
-    rec = mb.evaluate(**_state(
-        compatibility_verifier_passed=True,
-        approval_present=True,
-        update_applied_label_enabled=True,
-        updated_label_enabled=True,
-        # post_apply_verifier_passed=False
-    ))
+    rec = mb.evaluate(
+        **_state(
+            compatibility_verifier_passed=True,
+            approval_present=True,
+            update_applied_label_enabled=True,
+            updated_label_enabled=True,
+            # post_apply_verifier_passed=False
+        )
+    )
     assert rec.decision == "MAINTENANCE_BAY_WORKFLOW_BLOCKED_FALSE_UPDATED_LABEL"
 
 
@@ -152,20 +172,24 @@ def test_updated_label_without_post_apply_verifier_blocks():
 # Proposed -> applied confusion
 # ---------------------------------------------------------------------------
 def test_applied_label_without_approval_blocks():
-    rec = mb.evaluate(**_state(
-        compatibility_verifier_passed=True,
-        update_applied_label_enabled=True,
-        # approval_present=False
-    ))
+    rec = mb.evaluate(
+        **_state(
+            compatibility_verifier_passed=True,
+            update_applied_label_enabled=True,
+            # approval_present=False
+        )
+    )
     assert rec.decision == "MAINTENANCE_BAY_WORKFLOW_BLOCKED_AUTHORITY_CONFUSION"
 
 
 def test_applied_label_without_compatibility_verifier_pass_blocks():
-    rec = mb.evaluate(**_state(
-        approval_present=True,
-        update_applied_label_enabled=True,
-        # compatibility_verifier_passed=False
-    ))
+    rec = mb.evaluate(
+        **_state(
+            approval_present=True,
+            update_applied_label_enabled=True,
+            # compatibility_verifier_passed=False
+        )
+    )
     assert rec.decision == "MAINTENANCE_BAY_WORKFLOW_BLOCKED_AUTHORITY_CONFUSION"
 
 
@@ -173,11 +197,15 @@ def test_applied_label_without_compatibility_verifier_pass_blocks():
 # Invariants
 # ---------------------------------------------------------------------------
 def test_record_never_authorizes_mutation():
-    rec = mb.evaluate(**_state(
-        compatibility_verifier_passed=True, approval_present=True,
-        update_applied_label_enabled=True, updated_label_enabled=True,
-        post_apply_verifier_passed=True,
-    ))
+    rec = mb.evaluate(
+        **_state(
+            compatibility_verifier_passed=True,
+            approval_present=True,
+            update_applied_label_enabled=True,
+            updated_label_enabled=True,
+            post_apply_verifier_passed=True,
+        )
+    )
     assert rec.is_written
     assert rec.source_mutation_authorized is False
     assert rec.training_eligible is False

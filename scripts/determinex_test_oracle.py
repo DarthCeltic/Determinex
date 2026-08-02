@@ -16,7 +16,9 @@ so the candidate is forced to match them. The corpus self-feed then compounds it
 Compose-only: io_extractor (inputs) + observe (reference run, done by the oracle) +
 reimpl_corpus (probe storage). Nothing here is a parallel reimplementation.
 """
+
 from __future__ import annotations
+
 import dataclasses
 import glob
 import os
@@ -26,9 +28,10 @@ import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import determinex_io_extractor as IO        # noqa: E402
-import determinex_observe as OBS            # noqa: E402
-import determinex_reimpl_corpus as CORPUS   # noqa: E402
+import determinex_io_extractor as IO  # noqa: E402
+import determinex_observe as OBS  # noqa: E402
+import determinex_reimpl_corpus as CORPUS  # noqa: E402
+
 
 def _hf_snapshot_roots() -> list[str]:
     """Every plausible HF-cache snapshots dir for the PB tests dataset, most-portable
@@ -65,15 +68,15 @@ def _branch_tars(slug: str) -> list[str]:
     match alone found only 10/174 tools, so most tools were never seeded (0 tail coverage).
     Prefer exact > author__repo (hash stripped) > bare repo name."""
     slug = str(slug)
-    author_repo = slug.split(".")[0]              # wfxr__csview.8ac -> wfxr__csview
-    bare = author_repo.split("__")[-1]            # -> csview (or whole slug if no __)
+    author_repo = slug.split(".")[0]  # wfxr__csview.8ac -> wfxr__csview
+    bare = author_repo.split("__")[-1]  # -> csview (or whole slug if no __)
     for root in _hf_snapshot_roots():
         for snap in sorted(glob.glob(f"{root}/*")):
             names = [os.path.basename(d) for d in glob.glob(f"{snap}/*") if os.path.isdir(d)]
             # rank each candidate dir: 0 exact, 1 author__repo, 2 bare repo; skip non-matches
             best = None
             for name in names:
-                nrepo = name.split(".")[0]        # author__repo of the snapshot dir
+                nrepo = name.split(".")[0]  # author__repo of the snapshot dir
                 if name == slug:
                     rank = 0
                 elif "__" in author_repo and nrepo == author_repo:
@@ -107,10 +110,15 @@ def official_test_probes(slug: str, *, cap: int = 400) -> list:
                 if key in seen:
                     continue
                 seen.add(key)
-                probes.append(OBS.Probe(
-                    name=f"test::{ip.test}::{len(probes)}",
-                    argv=[str(a) for a in (ip.argv or [])],
-                    stdin=ip.stdin, files=dict(ip.files or {}), env=dict(ip.env or {})))
+                probes.append(
+                    OBS.Probe(
+                        name=f"test::{ip.test}::{len(probes)}",
+                        argv=[str(a) for a in (ip.argv or [])],
+                        stdin=ip.stdin,
+                        files=dict(ip.files or {}),
+                        env=dict(ip.env or {}),
+                    )
+                )
                 if len(probes) >= cap:
                     return probes
     return probes
@@ -125,15 +133,20 @@ def seed_corpus(slug: str, short: str, *, cap: int = 400) -> tuple[int, int]:
 
 if __name__ == "__main__":
     import argparse
+
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug")
     ap.add_argument("--cap", type=int, default=400)
-    ap.add_argument("--seed", action="store_true", help="persist into the corpus (default: dry count)")
+    ap.add_argument(
+        "--seed", action="store_true", help="persist into the corpus (default: dry count)"
+    )
     a = ap.parse_args()
     short = a.slug.split("__")[-1].split(".")[0]
     pr = official_test_probes(a.slug, cap=a.cap)
     print(f"{a.slug}: {len(pr)} official-test input probes recoverable (cap={a.cap})")
     if a.seed:
         added = CORPUS.add_probes(short, [dataclasses.asdict(p) for p in pr])
-        print(f"  seeded corpus oracle for {short}: +{added} new (total now "
-              f"{len(CORPUS.load_probes(short))})")
+        print(
+            f"  seeded corpus oracle for {short}: +{added} new (total now "
+            f"{len(CORPUS.load_probes(short))})"
+        )

@@ -5,6 +5,7 @@ This intentionally does not trust the Markdown work matrix as machine truth.
 It scans eval JSON files, override dirs, extracted local tests, and lock dirs,
 then writes a normalized lock board.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -13,7 +14,6 @@ import json
 import sys
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_EVAL_ROOT = Path("T:/determinex-programbench")
@@ -37,8 +37,7 @@ def iter_eval_jsons(eval_root: Path) -> list[Path]:
     if not eval_root.is_dir():
         return []
     paths: list[Path] = []
-    for pattern in ("determinex_pb*/*/*.eval.json", "v*/*/*.eval.json",
-                    "pb_*/*/*.eval.json"):
+    for pattern in ("determinex_pb*/*/*.eval.json", "v*/*/*.eval.json", "pb_*/*/*.eval.json"):
         paths.extend(eval_root.glob(pattern))
     seen = {p.resolve(): p for p in paths}
     return sorted(seen.values(), key=lambda p: p.stat().st_mtime)
@@ -92,7 +91,9 @@ def iter_accepted_run_evals(path: Path = ACCEPTED_RUNS_JSONL) -> list[dict[str, 
     if not path.is_file():
         return []
     summaries: list[dict[str, Any]] = []
-    for line_no, line in enumerate(path.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+    for line_no, line in enumerate(
+        path.read_text(encoding="utf-8", errors="replace").splitlines(), 1
+    ):
         if not line.strip():
             continue
         try:
@@ -109,20 +110,24 @@ def iter_accepted_run_evals(path: Path = ACCEPTED_RUNS_JSONL) -> list[dict[str, 
         if not eval_path.is_file():
             continue
         summary = summarize_eval(eval_path)
-        summary.update({
-            "slug": slug,
-            "base_slug": base_slug(slug),
-            "factory_accepted": True,
-            "factory_registry_path": str(path),
-            "factory_registry_line": line_no,
-            "gate_result_path": row.get("gate_result_path"),
-            "run_root": row.get("run_root"),
-        })
+        summary.update(
+            {
+                "slug": slug,
+                "base_slug": base_slug(slug),
+                "factory_accepted": True,
+                "factory_registry_path": str(path),
+                "factory_registry_line": line_no,
+                "gate_result_path": row.get("gate_result_path"),
+                "run_root": row.get("run_root"),
+            }
+        )
         summaries.append(summary)
     return summaries
 
 
-def load_reproducible_overrides(path: Path = REPRODUCIBLE_OVERRIDES_JSON) -> dict[str, dict[str, Any]]:
+def load_reproducible_overrides(
+    path: Path = REPRODUCIBLE_OVERRIDES_JSON,
+) -> dict[str, dict[str, Any]]:
     """Load audited reproducible-best overrides for stale historical peaks."""
     if not path.is_file():
         return {}
@@ -153,13 +158,15 @@ def apply_reproducible_overrides(grouped: dict[str, dict[str, Any]]) -> None:
             continue
         slug = str(payload.get("slug") or key)
         summary = summarize_eval(eval_path)
-        summary.update({
-            "slug": slug,
-            "base_slug": key,
-            "reproducible_override": True,
-            "reproducible_override_reason": payload.get("reason"),
-            "reproducible_override_source": str(REPRODUCIBLE_OVERRIDES_JSON),
-        })
+        summary.update(
+            {
+                "slug": slug,
+                "base_slug": key,
+                "reproducible_override": True,
+                "reproducible_override_reason": payload.get("reason"),
+                "reproducible_override_source": str(REPRODUCIBLE_OVERRIDES_JSON),
+            }
+        )
         if key not in grouped:
             grouped[key] = {"latest": summary, "best": summary, "eval_count": 1}
         else:
@@ -188,6 +195,7 @@ def summarize_locked_archives() -> dict[str, dict[str, Any]]:
 
 def grouped_evals(eval_root: Path) -> dict[str, dict[str, Any]]:
     grouped: dict[str, dict[str, Any]] = {}
+
     def add_summary(summary: dict[str, Any]) -> None:
         key = str(summary.get("base_slug") or base_slug(str(summary.get("slug") or "")))
         if not key:
@@ -199,12 +207,9 @@ def grouped_evals(eval_root: Path) -> dict[str, dict[str, Any]]:
         if summary.get("eval_mtime", 0) > grouped[key]["latest"].get("eval_mtime", 0):
             grouped[key]["latest"] = summary
         best = grouped[key]["best"]
-        if (
-            summary.get("score", 0) > best.get("score", 0)
-            or (
-                summary.get("score", 0) == best.get("score", 0)
-                and summary.get("eval_mtime", 0) > best.get("eval_mtime", 0)
-            )
+        if summary.get("score", 0) > best.get("score", 0) or (
+            summary.get("score", 0) == best.get("score", 0)
+            and summary.get("eval_mtime", 0) > best.get("eval_mtime", 0)
         ):
             grouped[key]["best"] = summary
 
@@ -223,8 +228,7 @@ def grouped_evals(eval_root: Path) -> dict[str, dict[str, Any]]:
 def dir_keys(path: Path) -> set[str]:
     if not path.is_dir():
         return set()
-    return {base_slug(p.name) for p in path.iterdir()
-            if p.is_dir() and not p.name.startswith(".")}
+    return {base_slug(p.name) for p in path.iterdir() if p.is_dir() and not p.name.startswith(".")}
 
 
 def locked_tool_dir_keys(path: Path) -> set[str]:
@@ -274,63 +278,71 @@ def build_board(eval_root: Path) -> list[dict[str, Any]]:
             best = evals[key]["best"]
             latest = evals[key]["latest"]
             row.update(best)
-            row.update({
-                "best_score": best.get("score"),
-                "best_passed": best.get("passed"),
-                "best_total": best.get("total"),
-                "best_runnable_total": best.get("runnable_total"),
-                "best_raw_score": best.get("raw_score"),
-                "best_eval_path": best.get("eval_path"),
-                "latest_score": latest.get("score"),
-                "latest_passed": latest.get("passed"),
-                "latest_total": latest.get("total"),
-                "latest_runnable_total": latest.get("runnable_total"),
-                "latest_raw_score": latest.get("raw_score"),
-                "latest_eval_path": latest.get("eval_path"),
-                "eval_count": evals[key]["eval_count"],
-                "latest_regressed_from_best": (
-                    latest.get("score", 0) + 1e-9 < best.get("score", 0)
-                ),
-            })
+            row.update(
+                {
+                    "best_score": best.get("score"),
+                    "best_passed": best.get("passed"),
+                    "best_total": best.get("total"),
+                    "best_runnable_total": best.get("runnable_total"),
+                    "best_raw_score": best.get("raw_score"),
+                    "best_eval_path": best.get("eval_path"),
+                    "latest_score": latest.get("score"),
+                    "latest_passed": latest.get("passed"),
+                    "latest_total": latest.get("total"),
+                    "latest_runnable_total": latest.get("runnable_total"),
+                    "latest_raw_score": latest.get("raw_score"),
+                    "latest_eval_path": latest.get("eval_path"),
+                    "eval_count": evals[key]["eval_count"],
+                    "latest_regressed_from_best": (
+                        latest.get("score", 0) + 1e-9 < best.get("score", 0)
+                    ),
+                }
+            )
         else:
-            row.update({
-                "slug": key,
-                "score": None,
-                "best_score": None,
-                "latest_score": None,
-                "passed": None,
-                "failed": None,
-                "skipped": None,
-                "errored": None,
-                "total": None,
-                "runnable_total": None,
-                "not_run": None,
-                "raw_score": None,
-                "eval_path": None,
-            })
+            row.update(
+                {
+                    "slug": key,
+                    "score": None,
+                    "best_score": None,
+                    "latest_score": None,
+                    "passed": None,
+                    "failed": None,
+                    "skipped": None,
+                    "errored": None,
+                    "total": None,
+                    "runnable_total": None,
+                    "not_run": None,
+                    "raw_score": None,
+                    "eval_path": None,
+                }
+            )
         if locked_dir_name and locked_dir_name in locked_archives:
             locked_summary = locked_archives[locked_dir_name]
-            row.update({
-                "locked_score": locked_summary.get("score"),
-                "locked_passed": locked_summary.get("passed"),
-                "locked_total": locked_summary.get("total"),
-                "locked_runnable_total": locked_summary.get("runnable_total"),
-                "locked_raw_score": locked_summary.get("raw_score"),
-                "locked_eval_path": locked_summary.get("eval_path"),
-            })
+            row.update(
+                {
+                    "locked_score": locked_summary.get("score"),
+                    "locked_passed": locked_summary.get("passed"),
+                    "locked_total": locked_summary.get("total"),
+                    "locked_runnable_total": locked_summary.get("runnable_total"),
+                    "locked_raw_score": locked_summary.get("raw_score"),
+                    "locked_eval_path": locked_summary.get("eval_path"),
+                }
+            )
             if (locked_summary.get("score") or 0) >= (row.get("best_score") or 0):
                 row.update(locked_summary)
                 row["base_slug"] = key
                 row["slug"] = row.get("slug") or key
                 row["locked_archive_slug"] = locked_summary.get("slug")
-                row.update({
-                    "best_score": locked_summary.get("score"),
-                    "best_passed": locked_summary.get("passed"),
-                    "best_total": locked_summary.get("total"),
-                    "best_runnable_total": locked_summary.get("runnable_total"),
-                    "best_raw_score": locked_summary.get("raw_score"),
-                    "best_eval_path": locked_summary.get("eval_path"),
-                })
+                row.update(
+                    {
+                        "best_score": locked_summary.get("score"),
+                        "best_passed": locked_summary.get("passed"),
+                        "best_total": locked_summary.get("total"),
+                        "best_runnable_total": locked_summary.get("runnable_total"),
+                        "best_raw_score": locked_summary.get("raw_score"),
+                        "best_eval_path": locked_summary.get("eval_path"),
+                    }
+                )
         if row["locked_dir"]:
             action = "verify/archive-lock"
         elif row["has_eval"] and row.get("best_score", 0) >= 99.5:
@@ -353,11 +365,28 @@ def write_outputs(board: list[dict[str, Any]], json_path: Path, csv_path: Path) 
     json_path.write_text(json.dumps(board, indent=2, sort_keys=True), encoding="utf-8")
 
     fields = [
-        "base_slug", "slug", "best_score", "latest_score", "passed", "failed", "skipped", "errored",
-        "total", "runnable_total", "not_run", "raw_score",
-        "has_eval", "has_override", "has_extracted_tests", "locked_dir",
-        "latest_regressed_from_best", "next_action", "factory_accepted", "reproducible_override",
-        "best_eval_path", "latest_eval_path",
+        "base_slug",
+        "slug",
+        "best_score",
+        "latest_score",
+        "passed",
+        "failed",
+        "skipped",
+        "errored",
+        "total",
+        "runnable_total",
+        "not_run",
+        "raw_score",
+        "has_eval",
+        "has_override",
+        "has_extracted_tests",
+        "locked_dir",
+        "latest_regressed_from_best",
+        "next_action",
+        "factory_accepted",
+        "reproducible_override",
+        "best_eval_path",
+        "latest_eval_path",
     ]
     with csv_path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
@@ -401,8 +430,11 @@ def main() -> int:
     parser.add_argument("--eval-root", type=Path, default=DEFAULT_EVAL_ROOT)
     parser.add_argument("--json", type=Path, default=OUT_JSON)
     parser.add_argument("--csv", type=Path, default=OUT_CSV)
-    parser.add_argument("--skip-language-classify", action="store_true",
-                        help="skip the post-audit language-classification step")
+    parser.add_argument(
+        "--skip-language-classify",
+        action="store_true",
+        help="skip the post-audit language-classification step",
+    )
     args = parser.parse_args()
 
     board = build_board(args.eval_root)
@@ -418,6 +450,7 @@ def main() -> int:
     if not args.skip_language_classify:
         try:
             import subprocess as _sp
+
             classifier = Path(__file__).resolve().parent / "pb_language_classifier.py"
             if classifier.is_file():
                 _sp.run([sys.executable, str(classifier)], check=False)

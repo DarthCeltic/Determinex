@@ -32,28 +32,37 @@ from pathlib import Path
 _PATTERNS: list[tuple[str, str, str]] = [
     # (name, regex, replacement)
     # Real-looking usernames: 3+ chars, not generic placeholder words
-    ("home_path",      r"/home/(?!user/|username/|name/|example/)[a-zA-Z][a-zA-Z0-9_-]{2,}/",
-                       "/home/user/"),
-    ("users_path_win",
-     r"C:[/\\]Users[/\\](?!user[/\\]|username[/\\]|name[/\\]|new[/\\]|admin[/\\]|"
-     r"Public[/\\]|Default[/\\]|DefaultAccount[/\\]|WDAGUtility[/\\])[a-zA-Z][a-zA-Z0-9_.-]{2,}[/\\]",
-     "C:/Users/user/"),
-    ("dev_path",       r"C:[/\\]Dev[/\\]",                           "/workspace/"),
-    ("tmp_workspace",  r"/tmp/determinex_workspace_[a-zA-Z0-9_-]+/",   "/workspace/"),
-    ("ssh_privkey",    r"-----BEGIN [A-Z ]*PRIVATE KEY-----",        "[REDACTED_KEY]"),
-    ("ssh_pubkey",     r"ssh-(rsa|ed25519|ecdsa)\s+AAAA[A-Za-z0-9+/=]{20,}", "[REDACTED_PUBKEY]"),
+    (
+        "home_path",
+        r"/home/(?!user/|username/|name/|example/)[a-zA-Z][a-zA-Z0-9_-]{2,}/",
+        "/home/user/",
+    ),
+    (
+        "users_path_win",
+        r"C:[/\\]Users[/\\](?!user[/\\]|username[/\\]|name[/\\]|new[/\\]|admin[/\\]|"
+        r"Public[/\\]|Default[/\\]|DefaultAccount[/\\]|WDAGUtility[/\\])[a-zA-Z][a-zA-Z0-9_.-]{2,}[/\\]",
+        "C:/Users/user/",
+    ),
+    ("dev_path", r"C:[/\\]Dev[/\\]", "/workspace/"),
+    ("tmp_workspace", r"/tmp/determinex_workspace_[a-zA-Z0-9_-]+/", "/workspace/"),
+    ("ssh_privkey", r"-----BEGIN [A-Z ]*PRIVATE KEY-----", "[REDACTED_KEY]"),
+    ("ssh_pubkey", r"ssh-(rsa|ed25519|ecdsa)\s+AAAA[A-Za-z0-9+/=]{20,}", "[REDACTED_PUBKEY]"),
     # Full IPv4 quads — private ranges with all 4 octets explicitly required
-    ("ipv4_real",
-     r"\b(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}"
-     r"|172\.(?:1[6-9]|2[0-9]|3[01])\.\d{1,3}\.\d{1,3}"
-     r"|192\.168\.\d{1,3}\.\d{1,3})\b",
-     "[REDACTED_IP]"),
+    (
+        "ipv4_real",
+        r"\b(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}"
+        r"|172\.(?:1[6-9]|2[0-9]|3[01])\.\d{1,3}\.\d{1,3}"
+        r"|192\.168\.\d{1,3}\.\d{1,3})\b",
+        "[REDACTED_IP]",
+    ),
     # Real email addresses — exclude obvious placeholder/devops/code-example domains
-    ("email_real",
-     r"\b[a-zA-Z0-9._%+-]+@(?![a-zA-Z0-9.-]*example[a-zA-Z0-9.-]*\.|domain\.|test\.|localhost|"
-     r"contoso\.|fabrikam\.|woodgrove\.|corp\.|internal\.|local\.|prod-db\.|staging-db\.|"
-     r"dev-db\.|email\.|mail\.)[a-zA-Z0-9.-]{4,}\.[a-zA-Z]{2,}\b",
-     "[REDACTED_EMAIL]"),
+    (
+        "email_real",
+        r"\b[a-zA-Z0-9._%+-]+@(?![a-zA-Z0-9.-]*example[a-zA-Z0-9.-]*\.|domain\.|test\.|localhost|"
+        r"contoso\.|fabrikam\.|woodgrove\.|corp\.|internal\.|local\.|prod-db\.|staging-db\.|"
+        r"dev-db\.|email\.|mail\.)[a-zA-Z0-9.-]{4,}\.[a-zA-Z]{2,}\b",
+        "[REDACTED_EMAIL]",
+    ),
 ]
 
 _COMPILED = [(name, re.compile(pat), repl) for name, pat, repl in _PATTERNS]

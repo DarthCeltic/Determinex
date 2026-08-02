@@ -12,6 +12,7 @@ _tauri_driver._dispatch and asserts:
 
 No subprocess is spawned and no socket is opened.
 """
+
 from __future__ import annotations
 
 import sys
@@ -31,8 +32,9 @@ from .frontend_live_diagnose_opt_in_smoke_record import (  # noqa: E402
 )
 
 
-def _stage(name: str, cmd: str, args: dict,
-           opt_in: bool, provider_configured: bool) -> FrontendLiveDiagnoseSmokeStage:
+def _stage(
+    name: str, cmd: str, args: dict, opt_in: bool, provider_configured: bool
+) -> FrontendLiveDiagnoseSmokeStage:
     resp = _dispatch(cmd, args)
     return FrontendLiveDiagnoseSmokeStage(
         name=name,
@@ -53,7 +55,8 @@ def run_smoke(workspace: Path | None = None) -> FrontendLiveDiagnoseSmokeTrace:
         "diagnose_dry_run",
         "diagnose_dry_run",
         base,
-        opt_in=False, provider_configured=False,
+        opt_in=False,
+        provider_configured=False,
     )
 
     # 2. Live path WITHOUT opt-in — must be blocked.
@@ -61,7 +64,8 @@ def run_smoke(workspace: Path | None = None) -> FrontendLiveDiagnoseSmokeTrace:
         "diagnose_live_no_opt_in",
         "diagnose_live_opt_in",
         {**base, "opt_in": False},
-        opt_in=False, provider_configured=False,
+        opt_in=False,
+        provider_configured=False,
     )
 
     # 3. Live path WITH opt-in but NO provider — must be blocked.
@@ -69,7 +73,8 @@ def run_smoke(workspace: Path | None = None) -> FrontendLiveDiagnoseSmokeTrace:
         "diagnose_live_opt_in_no_provider",
         "diagnose_live_opt_in",
         {**base, "opt_in": True},
-        opt_in=True, provider_configured=False,
+        opt_in=True,
+        provider_configured=False,
     )
 
     # 4. Advisory-only stage — even on opt-in + provider, the visible
@@ -80,7 +85,8 @@ def run_smoke(workspace: Path | None = None) -> FrontendLiveDiagnoseSmokeTrace:
         "diagnose_live_advisory_only",
         "diagnose_dry_run",
         base,
-        opt_in=True, provider_configured=True,
+        opt_in=True,
+        provider_configured=True,
     )
 
     statuses_seen: list[str] = list(FRONTEND_LIVE_DIAGNOSE_OPT_IN_SMOKE_TOKENS)

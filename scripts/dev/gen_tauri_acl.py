@@ -59,21 +59,35 @@ def registered_commands() -> list[str]:
 
 def render(commands: list[str]) -> str:
     ident = {c: "allow-" + c.replace("_", "-") for c in commands}
-    lines = [HEADER, "", "[[set]]", 'identifier = "allow-app-commands"',
-             'description = "Every command registered in generate_handler!."', "permissions = ["]
+    lines = [
+        HEADER,
+        "",
+        "[[set]]",
+        'identifier = "allow-app-commands"',
+        'description = "Every command registered in generate_handler!."',
+        "permissions = [",
+    ]
     lines += [f'    "{ident[c]}",' for c in commands]
     lines.append("]")
     for c in commands:
-        lines += ["", "[[permission]]", f'identifier = "{ident[c]}"',
-                  f'description = "Enables the {c} command."',
-                  "[permission.commands]", f'allow = ["{c}"]']
+        lines += [
+            "",
+            "[[permission]]",
+            f'identifier = "{ident[c]}"',
+            f'description = "Enables the {c} command."',
+            "[permission.commands]",
+            f'allow = ["{c}"]',
+        ]
     return "\n".join(lines) + "\n"
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--check", action="store_true",
-                    help="exit 1 if the file is out of date instead of rewriting it")
+    ap.add_argument(
+        "--check",
+        action="store_true",
+        help="exit 1 if the file is out of date instead of rewriting it",
+    )
     args = ap.parse_args()
 
     commands = registered_commands()
@@ -84,9 +98,11 @@ def main() -> int:
         print(f"up to date: {len(commands)} commands")
         return 0
     if args.check:
-        print(f"OUT OF DATE: {OUT.relative_to(REPO_ROOT).as_posix()} "
-              f"does not match generate_handler! ({len(commands)} commands). "
-              f"Run: python scripts/dev/gen_tauri_acl.py")
+        print(
+            f"OUT OF DATE: {OUT.relative_to(REPO_ROOT).as_posix()} "
+            f"does not match generate_handler! ({len(commands)} commands). "
+            f"Run: python scripts/dev/gen_tauri_acl.py"
+        )
         return 1
 
     OUT.parent.mkdir(parents=True, exist_ok=True)

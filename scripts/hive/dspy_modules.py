@@ -32,13 +32,15 @@ Integration:
 Requirements:
     pip install dspy-ai>=2.4.0 pydantic>=2.0.0
 """
+
 from __future__ import annotations
 
 import os
-from typing import Optional
+from typing import Any  # used in oracle_metric's signature; was never imported
 
 try:
     import dspy
+
     _DSPY_AVAILABLE = True
 except ImportError:
     _DSPY_AVAILABLE = False
@@ -53,13 +55,18 @@ if not _DSPY_AVAILABLE:
 
 # ── DSPy Signatures ───────────────────────────────────────────────────────────
 
+
 class MonitorVerdictSignature(dspy.Signature):
     """You are a code review monitor. Score the builder output on correctness,
     safety, and adherence to the step instruction. Return a score 0.0-1.0
     and a one-sentence verdict explaining the main issue or confirmation."""
 
-    step_instruction: str = dspy.InputField(desc="The step instruction the builder was asked to implement")
-    builder_output: str = dspy.InputField(desc="The code the builder produced (truncated to 3000 chars)")
+    step_instruction: str = dspy.InputField(
+        desc="The step instruction the builder was asked to implement"
+    )
+    builder_output: str = dspy.InputField(
+        desc="The code the builder produced (truncated to 3000 chars)"
+    )
     compiler_result: str = dspy.InputField(desc="PASS or FAIL from the compiler oracle")
     language: str = dspy.InputField(desc="Target programming language (rust, go, python, etc.)")
 
@@ -83,6 +90,7 @@ class DAGPlanSignature(dspy.Signature):
 
 
 # ── DSPy Modules ─────────────────────────────────────────────────────────────
+
 
 class DeterminexMonitor(dspy.Module):
     """DSPy drop-in for _parse_monitor_verdict() in hive/prompt_builder.py.
@@ -119,6 +127,7 @@ class DeterminexMonitor(dspy.Module):
             return score, verdict
         except Exception as e:
             import logging
+
             logging.getLogger("hive.dspy").warning("DeterminexMonitor failed: %s", e)
             return 0.5, f"dspy-monitor-error: {e}"
 
@@ -153,15 +162,17 @@ class DeterminexDAGPlanner(dspy.Module):
             return []
         except Exception as e:
             import logging
+
             logging.getLogger("hive.dspy").warning("DeterminexDAGPlanner failed: %s", e)
             return []
 
 
 # ── LM configuration ─────────────────────────────────────────────────────────
 
+
 def configure_dspy_lm(
-    model: Optional[str] = None,
-    api_base: Optional[str] = None,
+    model: str | None = None,
+    api_base: str | None = None,
     temperature: float = 0.2,
 ) -> None:
     """Configure the DSPy language model from Determinex's provider config.
@@ -177,14 +188,18 @@ def configure_dspy_lm(
         dspy.configure(lm=lm)
     except Exception as e:
         import logging
+
         logging.getLogger("hive.dspy").warning(
             "DSPy LM configuration failed (model=%s api_base=%s): %s — "
             "DETERMINEX_USE_DSPY will fall back to static prompts.",
-            model, api_base, e,
+            model,
+            api_base,
+            e,
         )
 
 
 # ── BootstrapFewShot optimizer (run offline to produce optimized weights) ─────
+
 
 def optimize_monitor(
     corpus_sessions_dir: str,
@@ -201,7 +216,6 @@ def optimize_monitor(
     and the output file exists at DETERMINEX_DSPY_WEIGHTS_PATH.
     """
     import pickle
-    from pathlib import Path
 
     configure_dspy_lm()
 
@@ -209,8 +223,10 @@ def optimize_monitor(
     # compiler_result, expected_score) from sessions where quality=training_ready
     trainset = _load_trainset_from_sessions(corpus_sessions_dir)
     if not trainset:
-        print(f"No training examples found in {corpus_sessions_dir}. "
-              "Run the build loop first to accumulate verified sessions.")
+        print(
+            f"No training examples found in {corpus_sessions_dir}. "
+            "Run the build loop first to accumulate verified sessions."
+        )
         return
 
     def oracle_metric(example: dspy.Example, pred: dspy.Prediction, _trace: Any = None) -> float:
@@ -218,7 +234,11 @@ def optimize_monitor(
         actual_pass = example.get("correctness_result") == "pass"
         pred_score = float(pred.score) if hasattr(pred, "score") else 0.5
         # Reward high score for actual passes, low score for actual fails
-        return 1.0 if (actual_pass and pred_score >= 0.7) or (not actual_pass and pred_score < 0.5) else 0.0
+        return (
+            1.0
+            if (actual_pass and pred_score >= 0.7) or (not actual_pass and pred_score < 0.5)
+            else 0.0
+        )
 
     monitor = DeterminexMonitor()
     optimizer = dspy.BootstrapFewShot(metric=oracle_metric, max_bootstrapped_demos=max_demos)
@@ -232,6 +252,7 @@ def _load_trainset_from_sessions(sessions_dir: str) -> list[dspy.Example]:
     """Load training examples from session WAL files."""
     import json
     from pathlib import Path
+
     examples = []
     for session_path in Path(sessions_dir).rglob("manifest.json"):
         try:
@@ -247,16 +268,22 @@ def _load_trainset_from_sessions(sessions_dir: str) -> list[dspy.Example]:
                 if step.get("correctness_result") == "skipped":
                     continue
                 if step.get("quality") == "training_ready":
-                    examples.append(dspy.Example(
-                        step_instruction=step.get("instruction", ""),
-                        builder_output=step.get("builder_output_path", ""),
-                        compiler_result="PASS" if step.get("correctness_result") == "pass" else "FAIL",
-                        language=manifest.get("lang", ""),
-                        score=1.0 if step.get("correctness_result") == "pass" else 0.2,
-                        verdict=step.get("monitor_verdict", ""),
-                        correctness_result=step.get("correctness_result", ""),
-                        issues=[],
-                    ).with_inputs("step_instruction", "builder_output", "compiler_result", "language"))
+                    examples.append(
+                        dspy.Example(
+                            step_instruction=step.get("instruction", ""),
+                            builder_output=step.get("builder_output_path", ""),
+                            compiler_result="PASS"
+                            if step.get("correctness_result") == "pass"
+                            else "FAIL",
+                            language=manifest.get("lang", ""),
+                            score=1.0 if step.get("correctness_result") == "pass" else 0.2,
+                            verdict=step.get("monitor_verdict", ""),
+                            correctness_result=step.get("correctness_result", ""),
+                            issues=[],
+                        ).with_inputs(
+                            "step_instruction", "builder_output", "compiler_result", "language"
+                        )
+                    )
         except Exception:
             continue
     return examples
@@ -264,8 +291,10 @@ def _load_trainset_from_sessions(sessions_dir: str) -> list[dspy.Example]:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex DSPy modules")
     sub = ap.add_subparsers(dest="cmd")
     opt = sub.add_parser("optimize", help="Run BootstrapFewShot on corpus sessions")
@@ -282,4 +311,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())

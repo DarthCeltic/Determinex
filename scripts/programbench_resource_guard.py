@@ -9,14 +9,14 @@ daemon and leave the UI returning 500s.
 This module is the law: Determinex-side callers build ProgramBench eval commands
 through this guard instead of open-coding ``uv run programbench eval``.
 """
+
 from __future__ import annotations
 
 import os
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
-
 
 RESOURCE_SENSITIVE_PATTERNS: tuple[str, ...] = (
     # Real timing benchmark. Its tests spawn pytest-xdist workers, and those
@@ -51,9 +51,12 @@ class ProgramBenchEvalPolicy:
 
     def flags(self) -> list[str]:
         return [
-            "--workers", str(self.workers),
-            "--branch-workers", str(self.branch_workers),
-            "--docker-cpus", str(self.docker_cpus),
+            "--workers",
+            str(self.workers),
+            "--branch-workers",
+            str(self.branch_workers),
+            "--docker-cpus",
+            str(self.docker_cpus),
         ]
 
 
@@ -155,7 +158,10 @@ def build_eval_cmd(
         requested_workers=requested_workers,
     )
     cmd = [
-        "uv", "run", "programbench", "eval",
+        "uv",
+        "run",
+        "programbench",
+        "eval",
         str(scaffold_root).replace("\\", "/"),
     ]
     if filter_re:
@@ -186,7 +192,8 @@ def assert_no_unguarded_eval_command(command: Iterable[str]) -> None:
     if "programbench eval" not in text:
         return
     missing = [
-        flag for flag in ("--workers", "--branch-workers", "--docker-cpus")
+        flag
+        for flag in ("--workers", "--branch-workers", "--docker-cpus")
         if not re.search(rf"(^|\s){re.escape(flag)}(\s|$)", text)
     ]
     if missing:

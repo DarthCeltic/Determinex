@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_IDE_UI_READY_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -87,7 +88,10 @@ def test_state_json_round_trip():
 
 
 def test_modules_do_not_import_subprocess_or_urllib():
-    for fname in ("determinex_ide_ui_ready_final_state.py", "determinex_ide_ui_ready_final_state_record.py"):
+    for fname in (
+        "determinex_ide_ui_ready_final_state.py",
+        "determinex_ide_ui_ready_final_state_record.py",
+    ):
         src = (_REPO_ROOT / "scripts" / "dev" / fname).read_text(encoding="utf-8")
         assert "import subprocess" not in src
         assert "import urllib" not in src

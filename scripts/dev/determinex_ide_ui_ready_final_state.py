@@ -1,14 +1,14 @@
 """Final-state assembly for the Determinex IDE UI-ready backend."""
+
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .determinex_ide_ui_ready_final_state_record import (
     DETERMINEX_IDE_UI_READY_FINAL_STATE_TOKENS,
     DeterminexIDEUIReadyFinalState,
 )
-
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
@@ -42,11 +42,13 @@ def assemble_ui_ready_final_state() -> DeterminexIDEUIReadyFinalState:
     notes: list[str] = []
     if missing:
         notes.append(f"{len(missing)} upstream lock(s) missing")
-    notes.append("Source mutation BLOCKED pending real human approval. "
-                 "Training eligibility blocked. Tauri Rust UI not modified.")
+    notes.append(
+        "Source mutation BLOCKED pending real human approval. "
+        "Training eligibility blocked. Tauri Rust UI not modified."
+    )
 
     return DeterminexIDEUIReadyFinalState(
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=datetime.now(UTC).isoformat(),
         workspace_open_flow="READY",
         model_route_panel="READY",
         diagnose_flow="READY",

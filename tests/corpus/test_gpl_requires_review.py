@@ -8,6 +8,7 @@ red-bucket and ingest_allowed=False.
 
 CORPUS_LICENSE_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -17,21 +18,15 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
-from corpus.code_ingest.spdx_normalizer import normalize, bucket, ingest_allowed, RED_LICENSES
 from corpus.code_ingest.license_detector import detect
-
+from corpus.code_ingest.spdx_normalizer import RED_LICENSES, bucket, ingest_allowed, normalize
 
 GPL_LICENSE_TEXTS = [
-    ("GPL-2.0",
-     "GNU GENERAL PUBLIC LICENSE\nVersion 2, June 1991"),
-    ("GPL-3.0",
-     "GNU GENERAL PUBLIC LICENSE\nVersion 3, June 2007"),
-    ("AGPL-3.0",
-     "GNU AFFERO GENERAL PUBLIC LICENSE\nVersion 3, November 2007"),
-    ("LGPL-2.1",
-     "GNU LESSER GENERAL PUBLIC LICENSE\nVersion 2.1, February 1999"),
-    ("LGPL-3.0",
-     "GNU LESSER GENERAL PUBLIC LICENSE\nVersion 3, June 2007"),
+    ("GPL-2.0", "GNU GENERAL PUBLIC LICENSE\nVersion 2, June 1991"),
+    ("GPL-3.0", "GNU GENERAL PUBLIC LICENSE\nVersion 3, June 2007"),
+    ("AGPL-3.0", "GNU AFFERO GENERAL PUBLIC LICENSE\nVersion 3, November 2007"),
+    ("LGPL-2.1", "GNU LESSER GENERAL PUBLIC LICENSE\nVersion 2.1, February 1999"),
+    ("LGPL-3.0", "GNU LESSER GENERAL PUBLIC LICENSE\nVersion 3, June 2007"),
 ]
 
 HEADER_EXAMPLES = [
@@ -42,7 +37,6 @@ HEADER_EXAMPLES = [
 
 
 class TestGPLRequiresReview:
-
     @pytest.mark.parametrize("name,text", GPL_LICENSE_TEXTS)
     def test_gpl_family_is_red_bucket(self, name, text):
         spdx = normalize(text)

@@ -14,6 +14,7 @@ check_output/check_call or os.system/os.popen, and treat it as an ad-hoc runner 
 directory -- regardless of what it's named. Verified against real corpus data (jq, sqlite)
 before writing these tests, not just synthetic cases.
 """
+
 from __future__ import annotations
 
 import ast
@@ -30,6 +31,7 @@ def _func(src: str) -> ast.FunctionDef:
 
 
 # ---------- _shells_out(): direct subprocess/os calls ----------
+
 
 def test_shells_out_detects_subprocess_run():
     f = _func("def run_jq(args):\n    return subprocess.run([EXE, *args], capture_output=True)")
@@ -75,6 +77,7 @@ def test_shells_out_false_for_unrelated_dot_run_method():
 
 
 # ---------- _discover_wrapper_names(): own file + sibling helper modules ----------
+
 
 def test_discover_wrapper_names_finds_locally_defined_wrapper():
     src = (
@@ -148,12 +151,9 @@ def test_discover_wrapper_names_does_not_rescan_itself_as_a_helper(tmp_path):
 
 # ---------- _find_run_call(): extra_run_names actually widens recognition ----------
 
+
 def test_find_run_call_recognizes_extra_run_name():
-    src = (
-        "def test_something():\n"
-        "    r = run_jq(['-n', '1+2'])\n"
-        "    assert r.returncode == 0\n"
-    )
+    src = "def test_something():\n    r = run_jq(['-n', '1+2'])\n    assert r.returncode == 0\n"
     func = _func(src)
     argv, stdin, env, files = iox._find_run_call(func, extra_run_names={"run_jq"})
     assert argv == ["-n", "1+2"]
@@ -163,17 +163,14 @@ def test_find_run_call_without_extra_names_fails_on_unknown_wrapper():
     """Regression guard: confirms the FAILURE MODE this whole fix addresses actually exists
     without extra_run_names -- an unrecognized wrapper name with no extra_run_names hint and
     no stdin/args keyword is NOT resolved."""
-    src = (
-        "def test_something():\n"
-        "    r = run_jq(['-n', '1+2'])\n"
-        "    assert r.returncode == 0\n"
-    )
+    src = "def test_something():\n    r = run_jq(['-n', '1+2'])\n    assert r.returncode == 0\n"
     func = _func(src)
     argv, stdin, env, files = iox._find_run_call(func)
     assert argv is None
 
 
 # ---------- end-to-end: extract_file() recovers a previously-unresolvable test ----------
+
 
 def test_extract_file_recovers_custom_named_wrapper_defined_in_same_file(tmp_path):
     test_file = tmp_path / "test_mytool.py"
@@ -218,8 +215,7 @@ def test_extract_file_still_skips_genuinely_unresolvable_tests(tmp_path):
     anywhere, not even indirectly) should still be honestly skipped, not fabricated."""
     test_file = tmp_path / "test_mytool.py"
     test_file.write_text(
-        "def test_something_unrelated():\n"
-        "    assert compute_something() == 42\n",
+        "def test_something_unrelated():\n    assert compute_something() == 42\n",
         encoding="utf-8",
     )
     cov = iox.extract_file(test_file)

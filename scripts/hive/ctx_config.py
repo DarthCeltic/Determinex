@@ -65,8 +65,8 @@ _ENV_KEYS: dict[Role, str] = {
 }
 
 _MODEL_TAGS: dict[Role, str] = {
-    "engineer": os.getenv("DETERMINEX_BUILDER_MODEL",   "determinex-engineer-v11-dsl"),
-    "observer": os.getenv("DETERMINEX_OBSERVER_MODEL",  "determinex-observer-v6-dsl"),
+    "engineer": os.getenv("DETERMINEX_BUILDER_MODEL", "determinex-engineer-v11-dsl"),
+    "observer": os.getenv("DETERMINEX_OBSERVER_MODEL", "determinex-observer-v6-dsl"),
     "sentinel": os.getenv("DETERMINEX_ARCHITECT_MODEL", "determinex-sentinel-v5-dsl"),
 }
 
@@ -91,6 +91,7 @@ class RosettaPrefixConfig:
     """Carrier for Layer 2 (soft-prefix injection) config. Returned by
     `effective_prefix_config(role)`; callers that haven't been migrated to
     Layer 2 simply ignore it."""
+
     enabled: bool
     weights_path: str
     target_role: Role
@@ -98,6 +99,7 @@ class RosettaPrefixConfig:
 
 
 # --- API ----------------------------------------------------------------------
+
 
 def effective_n_ctx(role: Role) -> int:
     """Resolve the n_ctx for `role` from env (priority) or default.
@@ -140,8 +142,7 @@ def fits_in_role(text: str, role: Role) -> bool:
     return estimate_tokens(text) <= budget
 
 
-def effective_prefix_config(role: Role,
-                            source_role: Role | None = None) -> RosettaPrefixConfig:
+def effective_prefix_config(role: Role, source_role: Role | None = None) -> RosettaPrefixConfig:
     """Return the Layer-2 prefix config. Enabled = (env flag set) AND
     (weights file readable). Callers that don't support prefix injection should
     just ignore the returned `enabled=True` case for now."""
@@ -163,25 +164,28 @@ _SUMMARIZE_SYSTEM = (
 )
 
 
-def _ollama_complete(model: str, system: str, user: str,
-                     num_ctx: int, num_predict: int, timeout_s: int = 60) -> str:
+def _ollama_complete(
+    model: str, system: str, user: str, num_ctx: int, num_predict: int, timeout_s: int = 60
+) -> str:
     url = os.getenv("DETERMINEX_OLLAMA_URL", "http://localhost:11434")
     parsed = urllib.parse.urlparse(url)
     if (parsed.hostname or "") not in {"localhost", "127.0.0.1", "::1"}:
         raise ValueError(f"DETERMINEX_OLLAMA_URL host '{parsed.hostname}' not allowed")
-    body = json.dumps({
-        "model": model,
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user",   "content": user},
-        ],
-        "stream": False,
-        "options": {
-            "num_ctx":     num_ctx,
-            "num_predict": num_predict,
-            "temperature": 0.1,
-        },
-    }).encode("utf-8")
+    body = json.dumps(
+        {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            "stream": False,
+            "options": {
+                "num_ctx": num_ctx,
+                "num_predict": num_predict,
+                "temperature": 0.1,
+            },
+        }
+    ).encode("utf-8")
     req = urllib.request.Request(
         f"{url.rstrip('/')}/api/chat",
         data=body,
@@ -196,8 +200,7 @@ def _ollama_complete(model: str, system: str, user: str,
         return ""
 
 
-def summarize_if_needed(text: str, role: Role = "engineer",
-                        target_role: Role = "observer") -> str:
+def summarize_if_needed(text: str, role: Role = "engineer", target_role: Role = "observer") -> str:
     """If `text` fits in `role`'s budget, return as-is. Otherwise compress
     via `target_role` (default Observer 3B) and return the compression.
 
@@ -215,7 +218,11 @@ def summarize_if_needed(text: str, role: Role = "engineer",
     log.info(
         "hierarchical compression: %d est. tokens > %d budget for '%s'; "
         "summarizing via '%s' to <= %d tokens",
-        estimate_tokens(text), target_budget, role, target_role, summary_token_budget,
+        estimate_tokens(text),
+        target_budget,
+        role,
+        target_role,
+        summary_token_budget,
     )
 
     target_n_ctx = effective_n_ctx(target_role) or 8192
@@ -236,19 +243,20 @@ def report() -> dict:
     """Diagnostic dict suitable for `determinex-ask where --explain` to surface."""
     return {
         "n_ctx_by_role": {role: effective_n_ctx(role) for role in _DEFAULT_N_CTX},
-        "model_tags":    dict(_MODEL_TAGS),
+        "model_tags": dict(_MODEL_TAGS),
         "rosetta_layer2": {
-            "enabled":      ROSETTA_LAYER2_ENABLED,
+            "enabled": ROSETTA_LAYER2_ENABLED,
             "weights_path": ROSETTA_PT_PATH,
             "weights_present": os.path.isfile(ROSETTA_PT_PATH),
         },
-        "system_reserve_tokens":     _SYSTEM_RESERVE,
+        "system_reserve_tokens": _SYSTEM_RESERVE,
         "completion_reserve_tokens": _COMPLETION_RESERVE,
-        "chars_per_token":           _CHARS_PER_TOKEN,
+        "chars_per_token": _CHARS_PER_TOKEN,
     }
 
 
 if __name__ == "__main__":
     import sys as _sys
+
     print(json.dumps(report(), indent=2))
     _sys.exit(0)

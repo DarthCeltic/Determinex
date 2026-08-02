@@ -30,25 +30,23 @@ import os
 import subprocess
 import sys
 import threading
-import time
 from pathlib import Path
-from typing import Optional
 
 log = logging.getLogger("hive.forge_daemon")
 
 # ── Default thresholds (spec: §Invention 2, ForgeDaemon) ─────────────────────
-DEFAULT_THRESHOLD_FILES: int   = 50
-DEFAULT_THRESHOLD_MB:    float = 10.0
-DEFAULT_POLL_INTERVAL_S: float = 30.0   # check outbox every 30 seconds
+DEFAULT_THRESHOLD_FILES: int = 50
+DEFAULT_THRESHOLD_MB: float = 10.0
+DEFAULT_POLL_INTERVAL_S: float = 30.0  # check outbox every 30 seconds
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-_ROOT              = (
+_ROOT = (
     Path(os.environ["DETERMINEX_ROOT"]).resolve()
     if os.environ.get("DETERMINEX_ROOT")
     else Path(__file__).resolve().parent.parent.parent
 )
-_DEFAULT_OUTBOX    = _ROOT / ".determinex_staging" / "outbox"
-_DEFAULT_FORGE_PY  = _ROOT / "scripts" / "determinex_forge.py"
+_DEFAULT_OUTBOX = _ROOT / ".determinex_staging" / "outbox"
+_DEFAULT_FORGE_PY = _ROOT / "scripts" / "determinex_forge.py"
 
 
 class ForgeDaemon:
@@ -76,25 +74,25 @@ class ForgeDaemon:
 
     def __init__(
         self,
-        outbox_dir:       Path  = _DEFAULT_OUTBOX,
-        forge_script:     Path  = _DEFAULT_FORGE_PY,
-        threshold_files:  int   = DEFAULT_THRESHOLD_FILES,
-        threshold_mb:     float = DEFAULT_THRESHOLD_MB,
-        poll_interval_s:  float = DEFAULT_POLL_INTERVAL_S,
-        python_executable: str  = sys.executable,
+        outbox_dir: Path = _DEFAULT_OUTBOX,
+        forge_script: Path = _DEFAULT_FORGE_PY,
+        threshold_files: int = DEFAULT_THRESHOLD_FILES,
+        threshold_mb: float = DEFAULT_THRESHOLD_MB,
+        poll_interval_s: float = DEFAULT_POLL_INTERVAL_S,
+        python_executable: str = sys.executable,
     ) -> None:
-        self.outbox_dir       = Path(outbox_dir)
-        self.forge_script     = Path(forge_script)
-        self.threshold_files  = threshold_files
-        self.threshold_mb     = threshold_mb
-        self.poll_interval_s  = poll_interval_s
+        self.outbox_dir = Path(outbox_dir)
+        self.forge_script = Path(forge_script)
+        self.threshold_files = threshold_files
+        self.threshold_mb = threshold_mb
+        self.poll_interval_s = poll_interval_s
         self.python_executable = python_executable
 
-        self._stop_event:   threading.Event          = threading.Event()
-        self._thread:       Optional[threading.Thread] = None
-        self._forge_proc:   Optional[subprocess.Popen] = None
-        self._trigger_count: int                     = 0   # total invocations this session
-        self._lock:         threading.Lock           = threading.Lock()
+        self._stop_event: threading.Event = threading.Event()
+        self._thread: threading.Thread | None = None
+        self._forge_proc: subprocess.Popen | None = None
+        self._trigger_count: int = 0  # total invocations this session
+        self._lock: threading.Lock = threading.Lock()
 
     # ── Public API ────────────────────────────────────────────────────────────
 
@@ -105,8 +103,9 @@ class ForgeDaemon:
             return
 
         if not self.forge_script.exists():
-            log.warning("ForgeDaemon: forge script not found at %s — daemon disabled",
-                        self.forge_script)
+            log.warning(
+                "ForgeDaemon: forge script not found at %s — daemon disabled", self.forge_script
+            )
             return
 
         if not self.outbox_dir.exists():
@@ -117,12 +116,15 @@ class ForgeDaemon:
         self._thread = threading.Thread(
             target=self._poll_loop,
             name="ForgeDaemon",
-            daemon=True,   # dies with the parent process — no orphaned threads
+            daemon=True,  # dies with the parent process — no orphaned threads
         )
         self._thread.start()
         log.info(
             "ForgeDaemon started — outbox=%s threshold=%d files / %.1fMB poll=%.0fs",
-            self.outbox_dir, self.threshold_files, self.threshold_mb, self.poll_interval_s,
+            self.outbox_dir,
+            self.threshold_files,
+            self.threshold_mb,
+            self.poll_interval_s,
         )
 
     def stop(self) -> None:
@@ -149,16 +151,16 @@ class ForgeDaemon:
 
         total_mb = sum(f.stat().st_size for f in enc_files) / 1_000_000
 
-        threshold_crossed = (
-            len(enc_files) >= self.threshold_files
-            or total_mb >= self.threshold_mb
-        )
+        threshold_crossed = len(enc_files) >= self.threshold_files or total_mb >= self.threshold_mb
 
         if not threshold_crossed:
             log.debug(
                 "ForgeDaemon: outbox below threshold (%d files / %.2fMB — "
                 "threshold=%d files / %.1fMB)",
-                len(enc_files), total_mb, self.threshold_files, self.threshold_mb,
+                len(enc_files),
+                total_mb,
+                self.threshold_files,
+                self.threshold_mb,
             )
             return False
 
@@ -175,7 +177,8 @@ class ForgeDaemon:
             log.info(
                 "ForgeDaemon: THRESHOLD CROSSED — %d encrypted files / %.2fMB "
                 "→ launching forge script",
-                len(enc_files), total_mb,
+                len(enc_files),
+                total_mb,
             )
             self._trigger_count += 1
             self._forge_proc = subprocess.Popen(
@@ -186,7 +189,8 @@ class ForgeDaemon:
             )
             log.info(
                 "ForgeDaemon: forge subprocess launched (pid=%d, trigger #%d)",
-                self._forge_proc.pid, self._trigger_count,
+                self._forge_proc.pid,
+                self._trigger_count,
             )
 
         # Collect output in a background reader thread so we don't block
@@ -217,7 +221,7 @@ class ForgeDaemon:
     # G31: Maximum wall-clock time for a single forge run.  A hung forge script
     # (e.g. waiting for network that isn't there) would otherwise block the
     # daemon thread's re-evaluation loop indefinitely.
-    _FORGE_TIMEOUT_S: float = 300.0   # 5 minutes
+    _FORGE_TIMEOUT_S: float = 300.0  # 5 minutes
 
     def _collect_forge_output(self, proc: subprocess.Popen) -> None:
         """Stream forge subprocess stdout to our logger; enforce a hard timeout."""
@@ -256,29 +260,26 @@ class ForgeDaemon:
     def status(self) -> dict:
         """Return a snapshot of daemon state for session logging."""
         with self._lock:
-            forge_running = (
-                self._forge_proc is not None
-                and self._forge_proc.poll() is None
-            )
+            forge_running = self._forge_proc is not None and self._forge_proc.poll() is None
         return {
-            "daemon_running":   self.is_running,
-            "forge_in_flight":  forge_running,
-            "trigger_count":    self._trigger_count,
-            "threshold_files":  self.threshold_files,
-            "threshold_mb":     self.threshold_mb,
-            "outbox_dir":       str(self.outbox_dir),
+            "daemon_running": self.is_running,
+            "forge_in_flight": forge_running,
+            "trigger_count": self._trigger_count,
+            "threshold_files": self.threshold_files,
+            "threshold_mb": self.threshold_mb,
+            "outbox_dir": str(self.outbox_dir),
         }
 
 
 # ── Module-level singleton (one daemon per orchestrator process) ───────────────
-_daemon: Optional[ForgeDaemon] = None
+_daemon: ForgeDaemon | None = None
 
 
 def get_forge_daemon(
-    outbox_dir:      Path  = _DEFAULT_OUTBOX,
-    forge_script:    Path  = _DEFAULT_FORGE_PY,
-    threshold_files: int   = DEFAULT_THRESHOLD_FILES,
-    threshold_mb:    float = DEFAULT_THRESHOLD_MB,
+    outbox_dir: Path = _DEFAULT_OUTBOX,
+    forge_script: Path = _DEFAULT_FORGE_PY,
+    threshold_files: int = DEFAULT_THRESHOLD_FILES,
+    threshold_mb: float = DEFAULT_THRESHOLD_MB,
     poll_interval_s: float = DEFAULT_POLL_INTERVAL_S,
 ) -> ForgeDaemon:
     """
@@ -300,10 +301,10 @@ def get_forge_daemon(
     else:
         # G32: detect re-init attempts with different config
         _non_default = (
-            outbox_dir      != _DEFAULT_OUTBOX
-            or forge_script    != _DEFAULT_FORGE_PY
+            outbox_dir != _DEFAULT_OUTBOX
+            or forge_script != _DEFAULT_FORGE_PY
             or threshold_files != DEFAULT_THRESHOLD_FILES
-            or threshold_mb    != DEFAULT_THRESHOLD_MB
+            or threshold_mb != DEFAULT_THRESHOLD_MB
             or poll_interval_s != DEFAULT_POLL_INTERVAL_S
         )
         if _non_default:

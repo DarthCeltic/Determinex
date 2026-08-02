@@ -79,7 +79,10 @@ class ProgramBenchOperatorArtifactAdmission:
                 operator_claim,
                 ["triage_record_signature_invalid"],
             )
-        if str(triage.get("failure_type") or "") != InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value:
+        if (
+            str(triage.get("failure_type") or "")
+            != InfraFailureTriageStatus.MISSING_CLEANROOM_IMAGE.value
+        ):
             return self._write_blocked(
                 OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_TRIAGE.value,
                 triage_path,
@@ -87,7 +90,10 @@ class ProgramBenchOperatorArtifactAdmission:
                 operator_claim,
                 ["triage_failure_type_not_missing_cleanroom_image"],
             )
-        if str(triage.get("source_status") or "") != InfraFailureTriageStatus.IMAGE_RECOVERY_REQUIRES_OPERATOR.value:
+        if (
+            str(triage.get("source_status") or "")
+            != InfraFailureTriageStatus.IMAGE_RECOVERY_REQUIRES_OPERATOR.value
+        ):
             return self._write_blocked(
                 OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_BLOCKED_NO_TRIAGE.value,
                 triage_path,
@@ -177,7 +183,9 @@ class ProgramBenchOperatorArtifactAdmission:
             hydration_candidate=True,
             executable=False,
         )
-        path = write_operator_artifact_admission_record(record, self._resolve(self.config.output_dir))
+        path = write_operator_artifact_admission_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _write_blocked(
@@ -191,7 +199,9 @@ class ProgramBenchOperatorArtifactAdmission:
         record = make_operator_artifact_admission_record(
             status=status,
             triage_record=_rel(self.config.root, triage_path),
-            image_reference=str(operator_claim.get("image_reference") or triage.get("missing_image") or ""),
+            image_reference=str(
+                operator_claim.get("image_reference") or triage.get("missing_image") or ""
+            ),
             target=dict(triage.get("target") or {}),
             admission_statuses=[
                 OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_ADMISSION_REJECTED.value,
@@ -203,7 +213,9 @@ class ProgramBenchOperatorArtifactAdmission:
             hydration_candidate=False,
             executable=False,
         )
-        path = write_operator_artifact_admission_record(record, self._resolve(self.config.output_dir))
+        path = write_operator_artifact_admission_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _resolve(self, path: Path) -> Path:
@@ -216,7 +228,11 @@ def _scope_matches(triage: dict[str, Any], claim: dict[str, Any]) -> bool:
     for key in ("tool", "candidate_id"):
         if str(intended.get(key) or "") != str(target.get(key) or ""):
             return False
-    rerun_scope = triage.get("evidence", {}).get("rerun_scope") if isinstance(triage.get("evidence"), dict) else {}
+    rerun_scope = (
+        triage.get("evidence", {}).get("rerun_scope")
+        if isinstance(triage.get("evidence"), dict)
+        else {}
+    )
     if isinstance(rerun_scope, dict) and intended.get("max_attempts") is not None:
         return int(intended.get("max_attempts") or 0) == int(rerun_scope.get("max_attempts") or 0)
     return True
@@ -245,7 +261,9 @@ def _public_untrusted_direct_hydration(claim: dict[str, Any]) -> bool:
     requested_use = str(claim.get("requested_use") or "").lower()
     if source_type != "public_untrusted" and trust_level != "public_untrusted":
         return False
-    return requested_use in {"direct_hydration", "hydration_ready", "execute"} or bool(claim.get("direct_hydration"))
+    return requested_use in {"direct_hydration", "hydration_ready", "execute"} or bool(
+        claim.get("direct_hydration")
+    )
 
 
 def _normalize_claim(claim: dict[str, Any]) -> dict[str, Any]:
@@ -283,11 +301,17 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Admit operator-supplied ProgramBench artifact provenance.")
+    parser = argparse.ArgumentParser(
+        description="Admit operator-supplied ProgramBench artifact provenance."
+    )
     parser.add_argument("triage_record", type=Path)
     parser.add_argument("operator_claim", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_operator_artifact_admissions"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_operator_artifact_admissions"),
+    )
     args = parser.parse_args()
     claim = _read_json(args.operator_claim)
     result = ProgramBenchOperatorArtifactAdmission(

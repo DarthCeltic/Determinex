@@ -23,6 +23,7 @@ Public API:
 Set DETERMINEX_CLOAK=1 to enable obfuscation; DETERMINEX_CLOAK_AUDIT=1 to enable audit log.
 Both default OFF. Orthogonal — you can audit without obfuscating, or vice versa.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -35,32 +36,162 @@ from pathlib import Path
 # ── Config ──────────────────────────────────────────────────────────────────
 DETERMINEX_ROOT = Path(os.environ.get("DETERMINEX_ROOT", Path(__file__).resolve().parents[1]))
 CLOAK_AUDIT_DIR = DETERMINEX_ROOT / "logs" / "cloak_audit"
-CLOAK_ON  = os.environ.get("DETERMINEX_CLOAK", "0") in ("1", "true", "yes", "on")
-AUDIT_ON  = os.environ.get("DETERMINEX_CLOAK_AUDIT", "0") in ("1", "true", "yes", "on") or CLOAK_ON
-SAVE_FULL_PAYLOADS = os.environ.get("DETERMINEX_CLOAK_SAVE_PAYLOADS", "1") in ("1", "true", "yes", "on")
+CLOAK_ON = os.environ.get("DETERMINEX_CLOAK", "0") in ("1", "true", "yes", "on")
+AUDIT_ON = os.environ.get("DETERMINEX_CLOAK_AUDIT", "0") in ("1", "true", "yes", "on") or CLOAK_ON
+SAVE_FULL_PAYLOADS = os.environ.get("DETERMINEX_CLOAK_SAVE_PAYLOADS", "1") in (
+    "1",
+    "true",
+    "yes",
+    "on",
+)
 
 # Python keywords + common stdlib names we never obfuscate
-_RESERVED = frozenset({
-    # Python
-    "def", "class", "return", "if", "else", "elif", "for", "while", "in", "and", "or", "not",
-    "import", "from", "as", "with", "try", "except", "finally", "raise", "yield", "lambda",
-    "True", "False", "None", "self", "cls", "pass", "break", "continue", "global", "nonlocal",
-    "assert", "del", "is", "async", "await",
-    # Common stdlib
-    "print", "len", "range", "str", "int", "float", "bool", "list", "dict", "set", "tuple",
-    "bytes", "bytearray", "open", "type", "isinstance", "hasattr", "getattr", "setattr",
-    "input", "format", "repr", "id", "hash", "sorted", "reversed", "enumerate", "zip",
-    "map", "filter", "any", "all", "min", "max", "sum", "abs", "round", "next", "iter",
-    "Exception", "ValueError", "TypeError", "KeyError", "IndexError", "RuntimeError",
-    "FileNotFoundError", "OSError", "IOError", "NotImplementedError", "StopIteration",
-    "sys", "os", "json", "re", "subprocess", "argparse", "pathlib", "Path", "time",
-    "datetime", "io", "math", "random", "string", "collections", "Counter", "defaultdict",
-    "main", "argv", "stdin", "stdout", "stderr", "exit", "platform", "environ",
-    # Shell / common compile.sh
-    "bin", "bash", "set", "echo", "cat", "cp", "mv", "rm", "chmod", "mkdir", "cd", "ls",
-    "grep", "sed", "awk", "find", "xargs", "sort", "uniq", "head", "tail",
-    "executable", "compile", "src", "build", "install", "true", "false",
-})
+_RESERVED = frozenset(
+    {
+        # Python
+        "def",
+        "class",
+        "return",
+        "if",
+        "else",
+        "elif",
+        "for",
+        "while",
+        "in",
+        "and",
+        "or",
+        "not",
+        "import",
+        "from",
+        "as",
+        "with",
+        "try",
+        "except",
+        "finally",
+        "raise",
+        "yield",
+        "lambda",
+        "True",
+        "False",
+        "None",
+        "self",
+        "cls",
+        "pass",
+        "break",
+        "continue",
+        "global",
+        "nonlocal",
+        "assert",
+        "del",
+        "is",
+        "async",
+        "await",
+        # Common stdlib
+        "print",
+        "len",
+        "range",
+        "str",
+        "int",
+        "float",
+        "bool",
+        "list",
+        "dict",
+        "set",
+        "tuple",
+        "bytes",
+        "bytearray",
+        "open",
+        "type",
+        "isinstance",
+        "hasattr",
+        "getattr",
+        "setattr",
+        "input",
+        "format",
+        "repr",
+        "id",
+        "hash",
+        "sorted",
+        "reversed",
+        "enumerate",
+        "zip",
+        "map",
+        "filter",
+        "any",
+        "all",
+        "min",
+        "max",
+        "sum",
+        "abs",
+        "round",
+        "next",
+        "iter",
+        "Exception",
+        "ValueError",
+        "TypeError",
+        "KeyError",
+        "IndexError",
+        "RuntimeError",
+        "FileNotFoundError",
+        "OSError",
+        "IOError",
+        "NotImplementedError",
+        "StopIteration",
+        "sys",
+        "os",
+        "json",
+        "re",
+        "subprocess",
+        "argparse",
+        "pathlib",
+        "Path",
+        "time",
+        "datetime",
+        "io",
+        "math",
+        "random",
+        "string",
+        "collections",
+        "Counter",
+        "defaultdict",
+        "main",
+        "argv",
+        "stdin",
+        "stdout",
+        "stderr",
+        "exit",
+        "platform",
+        "environ",
+        # Shell / common compile.sh
+        "bin",
+        "bash",
+        "echo",
+        "cat",
+        "cp",
+        "mv",
+        "rm",
+        "chmod",
+        "mkdir",
+        "cd",
+        "ls",
+        "grep",
+        "sed",
+        "awk",
+        "find",
+        "xargs",
+        "sort",
+        "uniq",
+        "head",
+        "tail",
+        "executable",
+        "compile",
+        "src",
+        "build",
+        "install",
+        "true",
+        "false",
+    }
+)
 
 _IDENT_PAT = re.compile(r"\b[A-Za-z_][A-Za-z0-9_]{2,}\b")
 _COMPILE_ERR_PAT = re.compile(r"<compile_error>(.*?)</compile_error>", re.DOTALL)
@@ -82,6 +213,7 @@ def obfuscate_compile_errors(text: str) -> tuple[str, dict[str, str]]:
 
     def _obfuscate_block(match: re.Match) -> str:
         body = match.group(1)
+
         def _rename(m: re.Match) -> str:
             tok = m.group(0)
             if tok in _RESERVED:
@@ -94,6 +226,7 @@ def obfuscate_compile_errors(text: str) -> tuple[str, dict[str, str]]:
             new = f"x_{counter[0]:04d}"
             mapping[tok] = new
             return new
+
         new_body = _IDENT_PAT.sub(_rename, body)
         return f"<compile_error>{new_body}</compile_error>"
 
@@ -144,12 +277,18 @@ def audit_call(
         payload_dir = CLOAK_AUDIT_DIR / run_name / "payloads"
         payload_dir.mkdir(parents=True, exist_ok=True)
         payload_path = payload_dir / f"{ts_str}_{instance_id}_a{attempt}_{record['req_sha']}.json"
-        payload_path.write_text(json.dumps({
-            **record,
-            "request": req_text,
-            "response": resp_text,
-            "obfuscation_map": obfuscation_map or {},
-        }, indent=2), encoding="utf-8")
+        payload_path.write_text(
+            json.dumps(
+                {
+                    **record,
+                    "request": req_text,
+                    "response": resp_text,
+                    "obfuscation_map": obfuscation_map or {},
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
         return payload_path
     return index_path
 
@@ -178,13 +317,14 @@ def summarize(run_name: str) -> str:
         total_req += r["req_bytes"]
         total_resp += r["resp_bytes"]
         total_idents += r.get("n_identifiers_replaced", 0)
-        if r.get("obfuscated"): obfuscated_n += 1
+        if r.get("obfuscated"):
+            obfuscated_n += 1
     lines = [
         f"=== Cloak audit: {run_name} ===",
         f"Total cloud calls:         {len(records)}",
         f"  obfuscated:              {obfuscated_n}",
         f"  unobfuscated:            {len(records) - obfuscated_n}",
-        f"By model:                  " + ", ".join(f"{m}={n}" for m, n in by_model.items()),
+        "By model:                  " + ", ".join(f"{m}={n}" for m, n in by_model.items()),
         f"Total req bytes sent:      {total_req:,}",
         f"Total resp bytes received: {total_resp:,}",
         f"Identifiers cloaked:       {total_idents:,}",
@@ -195,6 +335,7 @@ def summarize(run_name: str) -> str:
 
 if __name__ == "__main__":
     import argparse
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--summarize", help="run-name to summarize")
     args = ap.parse_args()

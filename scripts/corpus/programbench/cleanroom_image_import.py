@@ -19,9 +19,13 @@ from corpus.programbench.cleanroom_image_import_record import (
     make_cleanroom_image_import_record,
     write_cleanroom_image_import_record,
 )
-from corpus.programbench.dockerhub_manifest_provenance_record import verify_dockerhub_manifest_provenance_record
+from corpus.programbench.dockerhub_manifest_provenance_record import (
+    verify_dockerhub_manifest_provenance_record,
+)
 from corpus.programbench.operator_artifact_admission import OperatorArtifactAdmissionStatus
-from corpus.programbench.operator_artifact_admission_record import verify_operator_artifact_admission_record
+from corpus.programbench.operator_artifact_admission_record import (
+    verify_operator_artifact_admission_record,
+)
 
 
 class CleanroomImageImportStatus(str, Enum):
@@ -37,9 +41,13 @@ class CleanroomImageImportStatus(str, Enum):
     CLEANROOM_IMAGE_IMPORT_NOT_EXECUTABLE = "CLEANROOM_IMAGE_IMPORT_NOT_EXECUTABLE"
     CLEANROOM_IMAGE_IMPORT_BLOCKED_NO_PROVENANCE = "CLEANROOM_IMAGE_IMPORT_BLOCKED_NO_PROVENANCE"
     CLEANROOM_IMAGE_IMPORT_BLOCKED_NO_ADMISSION = "CLEANROOM_IMAGE_IMPORT_BLOCKED_NO_ADMISSION"
-    CLEANROOM_IMAGE_IMPORT_BLOCKED_FIXTURE_ADMISSION = "CLEANROOM_IMAGE_IMPORT_BLOCKED_FIXTURE_ADMISSION"
+    CLEANROOM_IMAGE_IMPORT_BLOCKED_FIXTURE_ADMISSION = (
+        "CLEANROOM_IMAGE_IMPORT_BLOCKED_FIXTURE_ADMISSION"
+    )
     CLEANROOM_IMAGE_IMPORT_BLOCKED_IMAGE_MISMATCH = "CLEANROOM_IMAGE_IMPORT_BLOCKED_IMAGE_MISMATCH"
-    CLEANROOM_IMAGE_IMPORT_BLOCKED_DIGEST_MISMATCH = "CLEANROOM_IMAGE_IMPORT_BLOCKED_DIGEST_MISMATCH"
+    CLEANROOM_IMAGE_IMPORT_BLOCKED_DIGEST_MISMATCH = (
+        "CLEANROOM_IMAGE_IMPORT_BLOCKED_DIGEST_MISMATCH"
+    )
     CLEANROOM_IMAGE_IMPORT_BLOCKED_UNPINNED = "CLEANROOM_IMAGE_IMPORT_BLOCKED_UNPINNED"
     CLEANROOM_IMAGE_IMPORT_BLOCKED_PULL_DISABLED = "CLEANROOM_IMAGE_IMPORT_BLOCKED_PULL_DISABLED"
     CLEANROOM_IMAGE_IMPORT_PULL_FAILED = "CLEANROOM_IMAGE_IMPORT_PULL_FAILED"
@@ -109,7 +117,11 @@ class ProgramBenchCleanroomImageImport:
             )
 
         expected_digest = str(provenance.get("manifest_digest") or "")
-        claim = admission.get("operator_claim") if isinstance(admission.get("operator_claim"), dict) else {}
+        claim = (
+            admission.get("operator_claim")
+            if isinstance(admission.get("operator_claim"), dict)
+            else {}
+        )
         admitted_digest = str(claim.get("digest") or "")
         image = str(provenance.get("image_reference") or "")
         if image != str(admission.get("image_reference") or ""):
@@ -307,12 +319,18 @@ class ProgramBenchCleanroomImageImport:
         pulled_layers: bool = False,
         artifact_import_path: Path | None = None,
     ) -> dict[str, Any]:
-        claim = admission.get("operator_claim") if isinstance(admission.get("operator_claim"), dict) else {}
+        claim = (
+            admission.get("operator_claim")
+            if isinstance(admission.get("operator_claim"), dict)
+            else {}
+        )
         record = make_cleanroom_image_import_record(
             status=status,
             provenance_record=_rel(self.config.root, provenance_path),
             admission_record=_rel(self.config.root, admission_path),
-            image_reference=str(provenance.get("image_reference") or admission.get("image_reference") or ""),
+            image_reference=str(
+                provenance.get("image_reference") or admission.get("image_reference") or ""
+            ),
             source_url_or_registry=str(claim.get("source_url_or_registry") or ""),
             expected_digest=str(provenance.get("manifest_digest") or claim.get("digest") or ""),
             observed_digest=observed_digest,
@@ -323,8 +341,12 @@ class ProgramBenchCleanroomImageImport:
                 CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_NOT_EXECUTABLE.value,
                 CleanroomImageImportStatus.TRAINING_INELIGIBLE.value,
             ],
-            artifact_import_path=_rel(self.config.root, artifact_import_path) if artifact_import_path else "",
-            quarantine_path=_rel(self.config.root, artifact_import_path) if artifact_import_path else "",
+            artifact_import_path=_rel(self.config.root, artifact_import_path)
+            if artifact_import_path
+            else "",
+            quarantine_path=_rel(self.config.root, artifact_import_path)
+            if artifact_import_path
+            else "",
             scan_result=_compact_scan(scan_result),
             policy_result=CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_POLICY_BLOCKED.value,
             pull_command=pull_command or [],
@@ -372,7 +394,10 @@ def _validate_admission(admission: dict[str, Any]) -> tuple[str, str] | None:
             CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_FIXTURE_ADMISSION.value,
             "fixture_admission_cannot_import",
         )
-    if str(admission.get("status") or "") != OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.value:
+    if (
+        str(admission.get("status") or "")
+        != OperatorArtifactAdmissionStatus.OPERATOR_ARTIFACT_ADMISSION_ACCEPTED.value
+    ):
         return (
             CleanroomImageImportStatus.CLEANROOM_IMAGE_IMPORT_BLOCKED_NO_ADMISSION.value,
             "admission_not_accepted",
@@ -412,7 +437,12 @@ def _is_fixture_admission(record: dict[str, Any]) -> bool:
     source = str(claim.get("source_url_or_registry") or "")
     reason = str(claim.get("admission_reason") or "").lower()
     notes = str(claim.get("license_provenance_notes") or "").lower()
-    return operator_id == "lock_fixture" or source.startswith("fixture://") or "fixture" in reason or "fixture" in notes
+    return (
+        operator_id == "lock_fixture"
+        or source.startswith("fixture://")
+        or "fixture" in reason
+        or "fixture" in notes
+    )
 
 
 def _pinned_ref(provenance: dict[str, Any]) -> str:
@@ -423,7 +453,9 @@ def _pinned_ref(provenance: dict[str, Any]) -> str:
 
 
 def _run(command: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(command, cwd=cwd, capture_output=True, text=True, timeout=900, check=False)
+    return subprocess.run(
+        command, cwd=cwd, capture_output=True, text=True, timeout=900, check=False
+    )
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -443,7 +475,9 @@ def _safe(value: str) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Import an admitted ProgramBench cleanroom image artifact.")
+    parser = argparse.ArgumentParser(
+        description="Import an admitted ProgramBench cleanroom image artifact."
+    )
     parser.add_argument("provenance_record", type=Path)
     parser.add_argument("admission_record", type=Path)
     parser.add_argument("--artifact-path", type=Path)
@@ -451,12 +485,22 @@ def main() -> int:
     parser.add_argument("--scan-result", type=Path)
     parser.add_argument("--live-docker-pull", action="store_true")
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_image_import"))
-    parser.add_argument("--quarantine-dir", type=Path, default=Path("T:/determinex_artifacts/quarantine/programbench"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_image_import"),
+    )
+    parser.add_argument(
+        "--quarantine-dir",
+        type=Path,
+        default=Path("T:/determinex_artifacts/quarantine/programbench"),
+    )
     args = parser.parse_args()
     scan = _read_json(args.scan_result) if args.scan_result else {}
     result = ProgramBenchCleanroomImageImport(
-        CleanroomImageImportConfig(root=args.root, output_dir=args.output_dir, quarantine_dir=args.quarantine_dir)
+        CleanroomImageImportConfig(
+            root=args.root, output_dir=args.output_dir, quarantine_dir=args.quarantine_dir
+        )
     ).import_image(
         args.provenance_record,
         args.admission_record,

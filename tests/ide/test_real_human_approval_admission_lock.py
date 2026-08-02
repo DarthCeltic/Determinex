@@ -1,4 +1,5 @@
 """Tests for REAL_HUMAN_APPROVAL_ADMISSION_LOCK_001."""
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -26,18 +27,20 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "REAL_HUMAN_APPROVAL_ADMISSION_L
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "real_human_approval_admission"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "REAL_HUMAN_APPROVAL_ACCEPTED",
-    "REAL_HUMAN_APPROVAL_REQUIRED",
-    "REAL_HUMAN_APPROVAL_REJECTED",
-    "REAL_HUMAN_APPROVAL_BLOCKED_STALE",
-    "REAL_HUMAN_APPROVAL_BLOCKED_DIFF_MISMATCH",
-    "REAL_HUMAN_APPROVAL_BLOCKED_VERIFIER_NOT_PASSED",
-    "REAL_HUMAN_APPROVAL_BLOCKED_FIXTURE",
-    "REAL_HUMAN_APPROVAL_BLOCKED_TRACE_MISMATCH",
-    "REAL_HUMAN_APPROVAL_BLOCKED_OPERATOR_EMPTY",
-    "REAL_HUMAN_APPROVAL_BLOCKED_SIGNATURE_INVALID",
-})
+EXPECTED = frozenset(
+    {
+        "REAL_HUMAN_APPROVAL_ACCEPTED",
+        "REAL_HUMAN_APPROVAL_REQUIRED",
+        "REAL_HUMAN_APPROVAL_REJECTED",
+        "REAL_HUMAN_APPROVAL_BLOCKED_STALE",
+        "REAL_HUMAN_APPROVAL_BLOCKED_DIFF_MISMATCH",
+        "REAL_HUMAN_APPROVAL_BLOCKED_VERIFIER_NOT_PASSED",
+        "REAL_HUMAN_APPROVAL_BLOCKED_FIXTURE",
+        "REAL_HUMAN_APPROVAL_BLOCKED_TRACE_MISMATCH",
+        "REAL_HUMAN_APPROVAL_BLOCKED_OPERATOR_EMPTY",
+        "REAL_HUMAN_APPROVAL_BLOCKED_SIGNATURE_INVALID",
+    }
+)
 
 
 def _sha(s):
@@ -47,7 +50,8 @@ def _sha(s):
 def _passed_verify():
     return RealTempPatchVerifyRecord(
         decision="REAL_TEMP_PATCH_VERIFIER_PASSED",
-        workspace="/ws", temp_workspace="/tmp/x",
+        workspace="/ws",
+        temp_workspace="/tmp/x",
         verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
         unified_diff="--- a\n+++ b\n",
         applied_paths=("src/lib.py",),
@@ -61,9 +65,11 @@ def _passed_verify():
 def _failed_verify():
     return RealTempPatchVerifyRecord(
         decision="REAL_TEMP_PATCH_VERIFIER_FAILED",
-        workspace="/ws", temp_workspace="/tmp/x",
+        workspace="/ws",
+        temp_workspace="/tmp/x",
         verifier_status="PATCH_VERIFIER_FAILED",
-        unified_diff="", applied_paths=(),
+        unified_diff="",
+        applied_paths=(),
         original_unchanged=True,
         original_sha256_before="a" * 64,
         original_sha256_after="a" * 64,
@@ -77,20 +83,24 @@ def _common_kwargs(diff="my diff body"):
         workspace_identity="/ws",
         expected_diff_hash=_sha(diff),
         expected_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
-        expected_stale_after=(
-            _dt.datetime.now(_dt.timezone.utc) + _dt.timedelta(hours=1)
-        ).isoformat(),
+        expected_stale_after=(_dt.datetime.now(_dt.UTC) + _dt.timedelta(hours=1)).isoformat(),
         observed_diff=diff,
         observed_verifier_status="PATCH_VERIFIER_PASSED_TEMP_ONLY",
         temp_verify=_passed_verify(),
     )
 
 
-def _hmac_sign(kwargs, *, operator_identity="ryan",
-               canonical_patch_body_hash="", rollback_snapshot_ref="",
-               secret_path=None):
+def _hmac_sign(
+    kwargs,
+    *,
+    operator_identity="ryan",
+    canonical_patch_body_hash="",
+    rollback_snapshot_ref="",
+    secret_path=None,
+):
     """Build a real HMAC signature matching the canonical payload."""
     from ide import local_signing
+
     payload = local_signing.canonical_payload(
         trace_id=kwargs["trace_id"],
         canonical_patch_body_hash=canonical_patch_body_hash,
@@ -114,7 +124,8 @@ def test_status_tokens_exact():
 
 def test_verifier_not_passed_blocked():
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature="a" * 64,
         submitted_signature_kind="real_local_signed",
         **{**_common_kwargs(), "temp_verify": _failed_verify()},
@@ -126,7 +137,8 @@ def test_observed_verifier_status_not_passed_blocked():
     kw = _common_kwargs()
     kw["observed_verifier_status"] = "PATCH_VERIFIER_FAILED"
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature="a" * 64,
         submitted_signature_kind="real_local_signed",
         **kw,
@@ -136,11 +148,10 @@ def test_observed_verifier_status_not_passed_blocked():
 
 def test_stale_packet_blocked():
     kw = _common_kwargs()
-    kw["expected_stale_after"] = (
-        _dt.datetime.now(_dt.timezone.utc) - _dt.timedelta(hours=1)
-    ).isoformat()
+    kw["expected_stale_after"] = (_dt.datetime.now(_dt.UTC) - _dt.timedelta(hours=1)).isoformat()
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature="a" * 64,
         submitted_signature_kind="real_local_signed",
         **kw,
@@ -152,7 +163,8 @@ def test_diff_hash_mismatch_blocked():
     kw = _common_kwargs(diff="my diff body")
     kw["observed_diff"] = "MUTATED diff"
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature="a" * 64,
         submitted_signature_kind="real_local_signed",
         **kw,
@@ -162,7 +174,8 @@ def test_diff_hash_mismatch_blocked():
 
 def test_fixture_signature_rejected_on_approve():
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature="a" * 64,
         submitted_signature_kind="fixture",
         **_common_kwargs(),
@@ -172,7 +185,8 @@ def test_fixture_signature_rejected_on_approve():
 
 def test_operator_identity_empty_blocked():
     r = admit(
-        submitted_action="approve", submitted_operator_identity="   ",
+        submitted_action="approve",
+        submitted_operator_identity="   ",
         submitted_signature="a" * 64,
         submitted_signature_kind="real_local_signed",
         **_common_kwargs(),
@@ -182,7 +196,8 @@ def test_operator_identity_empty_blocked():
 
 def test_signature_shape_invalid_blocked(tmp_path):
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature="not-hex",
         submitted_signature_kind="real_local_hmac",
         secret_path=_hmac_secret(tmp_path),
@@ -195,7 +210,8 @@ def test_legacy_real_local_signed_now_refused(tmp_path):
     """CLAUDE-AUTH-008: legacy hex-shape-only signature_kind is gone."""
     kw = _common_kwargs()
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature="a" * 64,
         submitted_signature_kind="real_local_signed",
         secret_path=_hmac_secret(tmp_path),
@@ -212,7 +228,8 @@ def test_hmac_signature_with_tampered_payload_blocked(tmp_path):
     # Sign with one operator name but submit with a different one.
     sig = _hmac_sign(kw, operator_identity="mallory", secret_path=secret_path)
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature=sig,
         submitted_signature_kind="real_local_hmac",
         secret_path=secret_path,
@@ -223,7 +240,8 @@ def test_hmac_signature_with_tampered_payload_blocked(tmp_path):
 
 def test_reject_path_records_rejection():
     r = admit(
-        submitted_action="reject", submitted_operator_identity="ryan",
+        submitted_action="reject",
+        submitted_operator_identity="ryan",
         submitted_signature="ignored",
         submitted_signature_kind="real_local_signed",
         **_common_kwargs(),
@@ -234,8 +252,10 @@ def test_reject_path_records_rejection():
 
 def test_no_action_returns_required():
     r = admit(
-        submitted_action="", submitted_operator_identity="ryan",
-        submitted_signature="", submitted_signature_kind="real_local_signed",
+        submitted_action="",
+        submitted_operator_identity="ryan",
+        submitted_signature="",
+        submitted_signature_kind="real_local_signed",
         **_common_kwargs(),
     )
     assert r.decision == "REAL_HUMAN_APPROVAL_REQUIRED"
@@ -246,7 +266,8 @@ def test_accepted_keeps_source_mutation_unauthorized(tmp_path):
     secret_path = _hmac_secret(tmp_path)
     sig = _hmac_sign(kw, secret_path=secret_path)
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature=sig,
         submitted_signature_kind="real_local_hmac",
         secret_path=secret_path,
@@ -265,7 +286,8 @@ def test_accepted_keeps_source_mutation_unauthorized(tmp_path):
 
 def test_record_serializes_safely():
     r = admit(
-        submitted_action="approve", submitted_operator_identity="ryan",
+        submitted_action="approve",
+        submitted_operator_identity="ryan",
         submitted_signature="c" * 64,
         submitted_signature_kind="real_local_signed",
         **_common_kwargs(),
@@ -278,8 +300,14 @@ def test_record_serializes_safely():
 
 def test_module_does_not_open_network():
     src = Path(mod.__file__).read_text(encoding="utf-8")
-    for forbidden in ("requests", "httpx", "urllib.request",
-                      "socket.connect", "subprocess.Popen", "subprocess.run"):
+    for forbidden in (
+        "requests",
+        "httpx",
+        "urllib.request",
+        "socket.connect",
+        "subprocess.Popen",
+        "subprocess.run",
+    ):
         assert forbidden not in src
 
 

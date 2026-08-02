@@ -12,6 +12,7 @@ Retrieval mode selection:
 As the flywheel corpus grows, ADAPT hits more often — effective score rises
 without model parameter changes, purely from accumulated compiler-verified knowledge.
 """
+
 from __future__ import annotations
 
 import json
@@ -23,13 +24,12 @@ log = logging.getLogger("determinex_swe")
 
 _ROOT = Path(__file__).resolve().parent.parent.parent
 
-_FLYWHEEL_PATH = Path(os.getenv("DETERMINEX_FLYWHEEL_PATH",
-                                str(_ROOT / "auto_curriculum.jsonl")))
-_LATENT_RAG_K  = int(os.getenv("DETERMINEX_LATENT_RAG_K", "2"))
-_NO_ROSETTA    = os.getenv("DETERMINEX_NO_ROSETTA", "0") == "1"
+_FLYWHEEL_PATH = Path(os.getenv("DETERMINEX_FLYWHEEL_PATH", str(_ROOT / "auto_curriculum.jsonl")))
+_LATENT_RAG_K = int(os.getenv("DETERMINEX_LATENT_RAG_K", "2"))
+_NO_ROSETTA = os.getenv("DETERMINEX_NO_ROSETTA", "0") == "1"
 
 _ADAPT_THRESHOLD = float(os.getenv("DETERMINEX_ADAPT_THRESHOLD", "0.70"))
-_HINT_THRESHOLD  = float(os.getenv("DETERMINEX_HINT_THRESHOLD",  "0.50"))
+_HINT_THRESHOLD = float(os.getenv("DETERMINEX_HINT_THRESHOLD", "0.50"))
 
 # Process-level state — loaded once, reused across all solve() calls
 _latent_index: list[tuple[list[float], str, str]] = []  # (embedding, issue, patch)
@@ -52,6 +52,7 @@ def _load_latent_index() -> None:
         return
     try:
         from fastembed import TextEmbedding  # type: ignore[import-untyped]
+
         embedder = TextEmbedding("nomic-ai/nomic-embed-text-v1.5")
         entries: list[dict] = []
         with _FLYWHEEL_PATH.open(encoding="utf-8") as f:
@@ -78,6 +79,7 @@ def _get_latent_embedder():
     if _latent_embedder is None:
         try:
             from fastembed import TextEmbedding  # type: ignore[import-untyped]
+
             _latent_embedder = TextEmbedding("nomic-ai/nomic-embed-text-v1.5")
         except Exception as e:
             log.debug("fastembed unavailable: %s", e)
@@ -93,6 +95,7 @@ def _latent_retrieve(query: str) -> tuple[str, float]:
         return "", 0.0
     try:
         import numpy as np  # type: ignore[import-untyped]
+
         embedder = _get_latent_embedder()
         if embedder is None:
             return "", 0.0

@@ -13,9 +13,15 @@ Tests:
   3. Inject as soft prefix into GGUF model
   4. A/B compare: baseline vs conditioned output
 """
-import sys, hashlib, time, gc, tempfile
-import pytest
+
+import gc
+import hashlib
+import sys
+import tempfile
+import time
 from pathlib import Path
+
+import pytest
 
 # Fix stdout encoding on Windows
 if hasattr(sys.stdout, "reconfigure"):
@@ -27,18 +33,21 @@ sys.path.insert(0, str(DETERMINEX / "rosetta"))
 sys.path.insert(0, str(DETERMINEX / "scripts"))
 
 import torch
+from extract_midlayer import MidLayerExtractor
 from kv_compress import KVCompressor
 from kv_store import KVStore
-from extract_midlayer import MidLayerExtractor
 
 # ── Config ──────────────────────────────────────────────────────────────────
-HF_MODEL_ID  = "Qwen/Qwen2.5-Coder-1.5B-Instruct"
-HIDDEN_DIM   = 1536
-LAYER_ATTR   = "model.layers"
+HF_MODEL_ID = "Qwen/Qwen2.5-Coder-1.5B-Instruct"
+HIDDEN_DIM = 1536
+LAYER_ATTR = "model.layers"
 
 # Resolve GGUF blob from Ollama manifest
 import json
-MANIFEST = Path("T:/OllamaModels/models/manifests/registry.ollama.ai/library/determinex-1-tiny-v1.1/latest")
+
+MANIFEST = Path(
+    "T:/OllamaModels/models/manifests/registry.ollama.ai/library/determinex-1-tiny-v1.1/latest"
+)
 _manifest = json.load(open(MANIFEST))
 _gguf_digest = next(
     l["digest"].replace("sha256:", "sha256-")
@@ -71,6 +80,7 @@ PROMPT = "Implement the create_job handler in Rust using axum:"
 
 # ────────────────────────────────────────────────────────────────────────────
 
+
 @pytest.fixture(scope="module")
 def extracted_state():
     """Fixture: run mid-layer extraction once, share result across stage tests."""
@@ -86,9 +96,9 @@ def extracted_state():
 
 
 def test_extraction(extracted_state):
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("STAGE 1: Mid-layer extraction from HF model")
-    print("="*60)
+    print("=" * 60)
 
     state = extracted_state
     print(f"  Extracted: shape={state.shape}  dtype={state.dtype}")
@@ -98,16 +108,15 @@ def test_extraction(extracted_state):
 
 
 def test_kv_roundtrip(extracted_state):
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("STAGE 2: Compress → Store → Retrieve → Decompress")
-    print("="*60)
+    print("=" * 60)
 
     state = extracted_state
     compressor = KVCompressor()
     store = KVStore(str(DB_PATH))
 
-    cs = compressor.compress(state, family="qwen", layer_idx=14,
-                             context_text=CONTEXT)
+    cs = compressor.compress(state, family="qwen", layer_idx=14, context_text=CONTEXT)
     quality = compressor.round_trip_quality(state, cs)
     blob_size = len(cs.int8_data) + len(cs.scales) + len(cs.zero_points)
     print(f"  Compression: blob={blob_size} bytes  cos_sim={quality:.5f}")
@@ -137,8 +146,7 @@ def state_vec(extracted_state):
     """Fixture: the decompressed state vector for the injection test."""
     compressor = KVCompressor()
     store = KVStore(str(DB_PATH))
-    cs = compressor.compress(extracted_state, family="qwen", layer_idx=14,
-                             context_text=CONTEXT)
+    cs = compressor.compress(extracted_state, family="qwen", layer_idx=14, context_text=CONTEXT)
     row_id = store.store(CONTEXT, "qwen", cs)
     ctx_hash = hashlib.sha256(CONTEXT.encode()).hexdigest()
     cs_back = store.retrieve_by_hash(ctx_hash)
@@ -148,9 +156,9 @@ def state_vec(extracted_state):
 
 
 def test_injection(state_vec: torch.Tensor):
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("STAGE 3: Soft-prefix injection + generation (determinex-1-tiny)")
-    print("="*60)
+    print("=" * 60)
 
     if not GGUF_PATH.exists():
         print(f"  SKIP: GGUF not found at {GGUF_PATH}")
@@ -163,7 +171,7 @@ def test_injection(state_vec: torch.Tensor):
         print("  (llama-cpp-python required — runs on pod, not local Windows)")
         return
 
-    print(f"  Loading GGUF: {GGUF_PATH.name} ({GGUF_PATH.stat().st_size//1024//1024} MB)")
+    print(f"  Loading GGUF: {GGUF_PATH.name} ({GGUF_PATH.stat().st_size // 1024 // 1024} MB)")
     try:
         inference = DeterminexInference(
             gguf_path=str(GGUF_PATH),
@@ -182,8 +190,11 @@ def test_injection(state_vec: torch.Tensor):
     if actual_dim != state_vec.shape[0]:
         print(f"  Adjusting state dim {state_vec.shape[0]} → {actual_dim} via linear projection")
         proj = torch.nn.Linear(state_vec.shape[0], actual_dim, bias=False)
-        torch.nn.init.eye_(proj.weight[:min(actual_dim, state_vec.shape[0]),
-                                        :min(actual_dim, state_vec.shape[0])])
+        torch.nn.init.eye_(
+            proj.weight[
+                : min(actual_dim, state_vec.shape[0]), : min(actual_dim, state_vec.shape[0])
+            ]
+        )
         with torch.no_grad():
             state_vec = proj(state_vec)
 
@@ -194,7 +205,7 @@ def test_injection(state_vec: torch.Tensor):
     t0 = time.time()
     baseline = inference.model(PROMPT, max_tokens=150, echo=False)
     baseline_text = baseline["choices"][0]["text"]
-    print(f"  Baseline ({time.time()-t0:.1f}s):\n{baseline_text[:300]}")
+    print(f"  Baseline ({time.time() - t0:.1f}s):\n{baseline_text[:300]}")
 
     # ── Conditioned ───────────────────────────────────────────────────────
     print("\n  [Conditioned] Generating with Flow AI soft prefix...")
@@ -202,22 +213,24 @@ def test_injection(state_vec: torch.Tensor):
     text_tokens = inference.model.tokenize(PROMPT.encode(), special=True)
     out_tokens = inference.inject_soft_prompt(text_tokens, soft_emb)
     conditioned_text = inference.model.detokenize(out_tokens).decode("utf-8", errors="ignore")
-    print(f"  Conditioned ({time.time()-t0:.1f}s):\n{conditioned_text[:300]}")
+    print(f"  Conditioned ({time.time() - t0:.1f}s):\n{conditioned_text[:300]}")
 
     # ── Compare ───────────────────────────────────────────────────────────
     import torch.nn.functional as F
+
     def bow(t):
         words = t.lower().split()
         vocab = sorted(set(words))
         v = torch.zeros(len(vocab))
-        for i, w in enumerate(vocab): v[i] = words.count(w)
+        for i, w in enumerate(vocab):
+            v[i] = words.count(w)
         return v
 
     vb, vc = bow(baseline_text), bow(conditioned_text)
     mn = min(len(vb), len(vc))
     sim = F.cosine_similarity(vb[:mn].unsqueeze(0), vc[:mn].unsqueeze(0)).item() if mn > 0 else 0
     print(f"\n  Baseline vs Conditioned similarity: {sim:.3f}")
-    print(f"  (Lower = more divergent outputs = conditioning is having an effect)")
+    print("  (Lower = more divergent outputs = conditioning is having an effect)")
     print("  PASS: injection and generation complete")
 
     del inference
@@ -227,21 +240,21 @@ def test_injection(state_vec: torch.Tensor):
 
 
 def main():
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Flow AI End-to-End Test")
     print(f"HF model : {HF_MODEL_ID}")
     print(f"GGUF     : {GGUF_PATH.name}")
     print(f"CUDA     : {torch.cuda.is_available()}")
-    print("="*60)
+    print("=" * 60)
 
     try:
         state = test_extraction()
         state_back, ctx_hash = test_kv_roundtrip(state)
         test_injection(state_back)
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("ALL STAGES PASSED")
-        print("="*60)
+        print("=" * 60)
     finally:
         try:
             if DB_PATH.exists():

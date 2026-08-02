@@ -1,16 +1,17 @@
 """
 Browser replay recorder — captures full action sequences for reproducibility and corpus.
 """
+
 from __future__ import annotations
 
 import json
 import logging
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from agents.base_agent import AgentAction, ActionResult, AgentObservation
+from agents.base_agent import ActionResult, AgentAction, AgentObservation
 
 log = logging.getLogger(__name__)
 
@@ -54,7 +55,9 @@ class ReplayRecorder:
             timestamp=time.time() - self._start_time,
             action=action.to_dict(),
             observation_before=observation_before.to_dict(),
-            observation_after=result.observation_after.to_dict() if result.observation_after else None,
+            observation_after=result.observation_after.to_dict()
+            if result.observation_after
+            else None,
             result=result.to_dict(),
         )
         self.frames.append(frame)
@@ -64,11 +67,15 @@ class ReplayRecorder:
         fname = filename or f"replay_{self.task_id}.json"
         path = self.output_dir / fname
         with open(path, "w", encoding="utf-8") as f:
-            json.dump({
-                "task_id": self.task_id,
-                "total_steps": len(self.frames),
-                "frames": [fr.to_dict() for fr in self.frames],
-            }, f, indent=2)
+            json.dump(
+                {
+                    "task_id": self.task_id,
+                    "total_steps": len(self.frames),
+                    "frames": [fr.to_dict() for fr in self.frames],
+                },
+                f,
+                indent=2,
+            )
         log.info("[replay_recorder] saved %d frames → %s", len(self.frames), path)
         return path
 

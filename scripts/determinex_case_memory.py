@@ -20,6 +20,7 @@ the same interface.
     for case in mem.retrieve(new_err_text, k=3):
         # inject case.solution as a worked example into the model prompt
 """
+
 from __future__ import annotations
 
 import json
@@ -33,8 +34,8 @@ _TOKEN = re.compile(r"[A-Za-z_][A-Za-z0-9_]+")
 
 @dataclass
 class Case:
-    signature: str        # the failure signature (error / assertion text)
-    solution: str         # the verified fix (patch / code)
+    signature: str  # the failure signature (error / assertion text)
+    solution: str  # the verified fix (patch / code)
     tool: str = ""
     language: str = ""
     oracle_passed: bool = True
@@ -66,30 +67,36 @@ class CaseMemory:
                 continue
             try:
                 d = json.loads(line)
-                self._cases.append(Case(**{k: d.get(k) for k in
-                    ("signature", "solution", "tool", "language", "oracle_passed")}))
+                self._cases.append(
+                    Case(
+                        **{
+                            k: d.get(k)
+                            for k in ("signature", "solution", "tool", "language", "oracle_passed")
+                        }
+                    )
+                )
             except Exception:
                 continue
 
-    def add(self, signature: str, solution: str, oracle_passed: bool,
-            tool: str = "", language: str = "") -> bool:
+    def add(
+        self, signature: str, solution: str, oracle_passed: bool, tool: str = "", language: str = ""
+    ) -> bool:
         """Admit a case ONLY if the oracle passed. Unverified solutions are
         refused -- retrieval must never surface something that did not work."""
         if not oracle_passed:
             return False
-        case = Case(signature=signature, solution=solution, tool=tool,
-                    language=language, oracle_passed=True)
+        case = Case(
+            signature=signature, solution=solution, tool=tool, language=language, oracle_passed=True
+        )
         self._cases.append(case)
         self.store.parent.mkdir(parents=True, exist_ok=True)
         with open(self.store, "a", encoding="utf-8") as f:
             f.write(json.dumps(asdict(case)) + "\n")
         return True
 
-    def retrieve(self, signature: str, k: int = 3,
-                 min_similarity: float = 0.05) -> list[Case]:
+    def retrieve(self, signature: str, k: int = 3, min_similarity: float = 0.05) -> list[Case]:
         q = _tokens(signature)
-        scored = [(_jaccard(q, _tokens(c.signature)), c) for c in self._cases
-                  if c.oracle_passed]
+        scored = [(_jaccard(q, _tokens(c.signature)), c) for c in self._cases if c.oracle_passed]
         scored = [(s, c) for s, c in scored if s >= min_similarity]
         scored.sort(key=lambda x: x[0], reverse=True)
         return [c for _, c in scored[:k]]
@@ -100,6 +107,7 @@ class CaseMemory:
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex Case Memory")
     sub = ap.add_subparsers(dest="cmd", required=True)
     a = sub.add_parser("add")

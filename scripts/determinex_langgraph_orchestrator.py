@@ -21,16 +21,14 @@ Run:
 Requires:
     pip install langgraph langchain-core langchain-openai
 """
+
 from __future__ import annotations
+
 import argparse
-import json
-import os
-import subprocess
-import sys
-import time
-from pathlib import Path
-from typing import TypedDict, Annotated
 import operator
+import sys
+from pathlib import Path
+from typing import Annotated, TypedDict
 
 
 class DeterminexState(TypedDict):
@@ -106,7 +104,7 @@ def route_decision(state: DeterminexState) -> str:
 
 def build_graph():
     try:
-        from langgraph.graph import StateGraph, END
+        from langgraph.graph import END, StateGraph
     except ImportError:
         print("Install langgraph: pip install langgraph langchain-core")
         sys.exit(1)
@@ -121,12 +119,16 @@ def build_graph():
     g.add_edge("architect", "builder")
     g.add_edge("builder", "oracle")
     g.add_edge("oracle", "monitor")
-    g.add_conditional_edges("monitor", route_decision, {
-        "next_step": "builder",
-        "retry_architect": "architect",
-        "done": END,
-        "escalate": END,
-    })
+    g.add_conditional_edges(
+        "monitor",
+        route_decision,
+        {
+            "next_step": "builder",
+            "retry_architect": "architect",
+            "done": END,
+            "escalate": END,
+        },
+    )
     return g.compile()
 
 
@@ -139,17 +141,25 @@ def main():
 
     spec_text = Path(args.spec).read_text(encoding="utf-8")
     initial: DeterminexState = {
-        "spec": spec_text, "lang": args.lang,
-        "plan": [], "current_step": 0,
-        "last_patch": "", "last_compile_output": "", "last_compile_rc": 0,
-        "retry_count": 0, "max_retries": args.max_retries,
-        "final_artifact": "", "log": [],
+        "spec": spec_text,
+        "lang": args.lang,
+        "plan": [],
+        "current_step": 0,
+        "last_patch": "",
+        "last_compile_output": "",
+        "last_compile_rc": 0,
+        "retry_count": 0,
+        "max_retries": args.max_retries,
+        "final_artifact": "",
+        "log": [],
     }
     graph = build_graph()
     final = graph.invoke(initial)
     for line in final["log"]:
         print(line)
-    print(f"\nFinal state: step={final['current_step']}/{len(final['plan'])} retries={final['retry_count']}")
+    print(
+        f"\nFinal state: step={final['current_step']}/{len(final['plan'])} retries={final['retry_count']}"
+    )
 
 
 if __name__ == "__main__":

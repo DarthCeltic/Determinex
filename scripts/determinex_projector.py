@@ -48,6 +48,15 @@ Usage:
 
 from __future__ import annotations
 
+# torch is imported lazily inside functions (heavy optional dep -- module-scope import
+# would tax every CLI entry point). Annotations are strings under `from __future__ import
+# annotations`, so this block never executes; it exists so static tools can resolve
+# `torch.Tensor` and stop burying real undefined names under false ones.
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import torch
+
 import argparse
 import ast
 import logging
@@ -55,8 +64,8 @@ import os
 import subprocess
 import sys
 import tempfile
+from datetime import UTC, datetime
 from pathlib import Path
-from datetime import datetime, timezone
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -71,40 +80,41 @@ logging.basicConfig(
 log = logging.getLogger("proj")
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-_ROOT    = Path(__file__).resolve().parent.parent
+_ROOT = Path(__file__).resolve().parent.parent
 _STAGING = _ROOT / ".determinex_staging"
 _OUTPUTS = _ROOT / "scripts" / "fine_tuning" / "outputs"
 
 # Import the registry and base Rosetta Stone utilities
 from determinex_rosetta import (
-    get_model,
-    list_models,
-    probe_gguf,
-    build_mlp,
-    load_latest_rosetta,
-    save_adapter,
-    load_adapter,
     ADAPTERS_DIR,
-    D_ROSETTA,
-    BASE_ARCH_INFO,
+    build_mlp,
+    get_model,
+    probe_gguf,
 )
 
 # Legacy fallback paths — only used if model is NOT in registry
 _LEGACY_LEVIATHAN_GGUF = (
-    Path.home() / ".ollama/models/blobs"
+    Path.home()
+    / ".ollama/models/blobs"
     / "sha256-5ff0abeeac1d2dbdd5455c0b49ba3b29a9ce3c1fb181b2eef2e948689d55d046"
 )
-_LEGACY_OBSERVER_GGUF  = Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models"))) / "determinex-observer-v4.gguf"
+_LEGACY_OBSERVER_GGUF = (
+    Path(os.environ.get("DETERMINEX_MODELS_DIR", str(Path.home() / "determinex-models")))
+    / "determinex-observer-v4.gguf"
+)
 
 # HF model ID used only for EngineerWithPrefix (Phase 1 soft prefix injection)
-PHI3_HF_ID   = "microsoft/Phi-3-mini-4k-instruct"
-HF_CACHE_DIR = Path(os.environ.get(
-    "DETERMINEX_HF_CACHE_DIR",
-    str(Path.home() / ".cache" / "huggingface"),
-))
+PHI3_HF_ID = "microsoft/Phi-3-mini-4k-instruct"
+HF_CACHE_DIR = Path(
+    os.environ.get(
+        "DETERMINEX_HF_CACHE_DIR",
+        str(Path.home() / ".cache" / "huggingface"),
+    )
+)
 ENGINEER_LORA = _OUTPUTS / "determinex-engineer-v5" / "lora_adapter"
 
-PROJECTION_LOG  = _ROOT / "logs" / "projector_train.log"
+PROJECTION_LOG = _ROOT / "logs" / "projector_train.log"
+
 
 # ── Dynamic N_PREFIX — #22/#29 ───────────────────────────────────────────────
 def _detect_optimal_n_prefix(default: int = 8) -> int:
@@ -122,14 +132,17 @@ def _detect_optimal_n_prefix(default: int = 8) -> int:
     # Probe llama-cpp-python for default block size
     try:
         import llama_cpp
+
         block_size = getattr(llama_cpp, "LLAMA_DEFAULT_ATTN_BLOCK_SIZE", None)
         if block_size and isinstance(block_size, int) and block_size > 0:
             # Round default UP to nearest multiple of block_size
             import math
+
             return int(math.ceil(default / block_size)) * block_size
     except ImportError:
         pass
     return default
+
 
 N_PREFIX = _detect_optimal_n_prefix(default=8)
 log.info("N_PREFIX resolved to %d tokens", N_PREFIX)
@@ -140,8 +153,8 @@ log.info("N_PREFIX resolved to %d tokens", N_PREFIX)
 # _CONTEXT_TAIL_CHARS: chars of prior output kept as context at each re-injection
 #   boundary (~150 tokens), enough to maintain code coherence across segments.
 N_DILUTION_THRESHOLD = 512
-_SEGMENT_MAX_NEW    = N_DILUTION_THRESHOLD // 2   # 256 new tokens per segment
-_CONTEXT_TAIL_CHARS = 600                          # ~150 tokens of rolling context
+_SEGMENT_MAX_NEW = N_DILUTION_THRESHOLD // 2  # 256 new tokens per segment
+_CONTEXT_TAIL_CHARS = 600  # ~150 tokens of rolling context
 
 # ── #26 FP8/Q8 KV cache quantization noise scale ──────────────────────────────
 # The adapter calibrates against FP32 embeddings but the runtime KV cache uses
@@ -150,11 +163,11 @@ _CONTEXT_TAIL_CHARS = 600                          # ~150 tokens of rolling cont
 _KV_CACHE_Q8_NOISE_SCALE = 0.002
 
 COMPILE_TIMEOUT = 30
-ALIGN_LR      = 3e-4   # alignment phase LR
-COMPILE_LR    = 1e-4   # compile phase LR
-ALIGN_WEIGHT  = 1.0    # weight for MSE+cosine loss
+ALIGN_LR = 3e-4  # alignment phase LR
+COMPILE_LR = 1e-4  # compile phase LR
+ALIGN_WEIGHT = 1.0  # weight for MSE+cosine loss
 COMPILE_WEIGHT = 0.05  # weight for compile REINFORCE signal
-COMPILE_BASELINE = 0.5 # expected compile rate (advantage baseline)
+COMPILE_BASELINE = 0.5  # expected compile rate (advantage baseline)
 
 
 def resolve_pair(source_name: str, target_name: str) -> dict:
@@ -172,8 +185,12 @@ def resolve_pair(source_name: str, target_name: str) -> dict:
             if legacy_path.exists():
                 info = probe_gguf(legacy_path)
                 if source_name.lower() in str(legacy_path).lower():
-                    src = {"path": str(legacy_path), "hidden_dim": info["hidden_dim"],
-                           "arch": info["arch"], "family": info["family"]}
+                    src = {
+                        "path": str(legacy_path),
+                        "hidden_dim": info["hidden_dim"],
+                        "arch": info["arch"],
+                        "family": info["family"],
+                    }
                     break
         if src is None:
             raise ValueError(
@@ -186,8 +203,12 @@ def resolve_pair(source_name: str, target_name: str) -> dict:
             if legacy_path.exists():
                 info = probe_gguf(legacy_path)
                 if target_name.lower() in str(legacy_path).lower():
-                    tgt = {"path": str(legacy_path), "hidden_dim": info["hidden_dim"],
-                           "arch": info["arch"], "family": info["family"]}
+                    tgt = {
+                        "path": str(legacy_path),
+                        "hidden_dim": info["hidden_dim"],
+                        "arch": info["arch"],
+                        "family": info["family"],
+                    }
                     break
         if tgt is None:
             raise ValueError(
@@ -210,34 +231,51 @@ def resolve_pair(source_name: str, target_name: str) -> dict:
     return {
         "source_name": source_name,
         "target_name": target_name,
-        "source_path":  Path(src["path"]),
-        "target_path":  Path(tgt["path"]),
-        "d_src":        d_src,
-        "d_tgt":        d_tgt,
-        "d_hidden":     d_hidden,
-        "source_arch":  src.get("arch", "unknown"),
-        "target_arch":  tgt.get("arch", "unknown"),
+        "source_path": Path(src["path"]),
+        "target_path": Path(tgt["path"]),
+        "d_src": d_src,
+        "d_tgt": d_tgt,
+        "d_hidden": d_hidden,
+        "source_arch": src.get("arch", "unknown"),
+        "target_arch": tgt.get("arch", "unknown"),
         "adapter_name": adapter_name,
-        "save_path":    save_path,
+        "save_path": save_path,
     }
 
 
 # ── Compiler validators ───────────────────────────────────────────────────────
 
+
 def validate_rust(code: str) -> tuple[bool, str]:
     with tempfile.NamedTemporaryFile(suffix=".rs", mode="w", encoding="utf-8", delete=False) as f:
-        f.write(code); path = f.name
+        f.write(code)
+        path = f.name
     try:
         r = subprocess.run(
-            ["rustc", "--crate-type", "lib", "--edition", "2021", path,
-             "--out-dir", tempfile.gettempdir(), "--error-format", "short"],
-            capture_output=True, text=True, timeout=COMPILE_TIMEOUT)
+            [
+                "rustc",
+                "--crate-type",
+                "lib",
+                "--edition",
+                "2021",
+                path,
+                "--out-dir",
+                tempfile.gettempdir(),
+                "--error-format",
+                "short",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=COMPILE_TIMEOUT,
+        )
         return (True, "") if r.returncode == 0 else (False, (r.stderr or r.stdout)[:300])
     except Exception as e:
         return False, str(e)
     finally:
-        try: os.unlink(path)
-        except OSError: pass
+        try:
+            os.unlink(path)
+        except OSError:
+            pass
 
 
 def validate_go(code: str) -> tuple[bool, str]:
@@ -245,8 +283,13 @@ def validate_go(code: str) -> tuple[bool, str]:
         Path(d, "go.mod").write_text("module proj_check\ngo 1.21\n", encoding="utf-8")
         Path(d, "main.go").write_text(code, encoding="utf-8")
         try:
-            r = subprocess.run(["go", "build", "./..."],
-                capture_output=True, text=True, timeout=COMPILE_TIMEOUT, cwd=d)
+            r = subprocess.run(
+                ["go", "build", "./..."],
+                capture_output=True,
+                text=True,
+                timeout=COMPILE_TIMEOUT,
+                cwd=d,
+            )
             return (True, "") if r.returncode == 0 else (False, (r.stderr or r.stdout)[:300])
         except Exception as e:
             return False, str(e)
@@ -262,9 +305,12 @@ def validate_python(code: str) -> tuple[bool, str]:
 
 def validate_code(lang: str, code: str) -> tuple[bool, str]:
     lang = lang.lower()
-    if "rust"   in lang: return validate_rust(code)
-    if "go"     in lang: return validate_go(code)
-    if "python" in lang: return validate_python(code)
+    if "rust" in lang:
+        return validate_rust(code)
+    if "go" in lang:
+        return validate_go(code)
+    if "python" in lang:
+        return validate_python(code)
     return True, "(lenient)"
 
 
@@ -326,6 +372,7 @@ SEED_TASKS = [
 
 # ── Leviathan hidden state encoder ───────────────────────────────────────────
 
+
 class LeviathanEncoder:
     """
     Loads Leviathan GGUF via llama-cpp-python and extracts final hidden states.
@@ -338,8 +385,7 @@ class LeviathanEncoder:
             from llama_cpp import Llama
         except ImportError:
             raise ImportError(
-                "[PROJ] llama-cpp-python not installed.\n"
-                "       Run: pip install llama-cpp-python"
+                "[PROJ] llama-cpp-python not installed.\n       Run: pip install llama-cpp-python"
             )
         log.info("Loading Leviathan GGUF (CPU)... path=%s", gguf_path)
         self.model = Llama(
@@ -350,26 +396,31 @@ class LeviathanEncoder:
             logits_all=False,
             verbose=False,
         )
-        log.info("Leviathan loaded. hidden_size=%d", D_LEVIATHAN)
+        # D_LEVIATHAN was never assigned anywhere in this module, so this line raised
+        # NameError the moment an encoder was actually constructed. n_embd() is the value it
+        # was reaching for and matches this file's own rule -- dimensions are probed from the
+        # GGUF header at runtime, never hardcoded.
+        log.info("Leviathan loaded. hidden_size=%d", self.model.n_embd())
 
-    def encode(self, system: str, prompt: str) -> "torch.Tensor":
+    def encode(self, system: str, prompt: str) -> torch.Tensor:
         """Returns [1, D_LEVIATHAN] — compressed semantic rep of the prompt."""
         import torch
+
         full_text = f"<|system|>\n{system}<|end|>\n<|user|>\n{prompt}<|end|>\n<|assistant|>"
         embedding = self.model.embed(full_text)
         tensor = torch.tensor(embedding, dtype=torch.float32)
         if tensor.dim() == 2:
-            tensor = tensor[-1]   # last token if seq returned
+            tensor = tensor[-1]  # last token if seq returned
         return tensor.unsqueeze(0)  # [1, 2048]
 
-    def encode_to_prefix(self, system: str, prompt: str, n_prefix: int = N_PREFIX) -> "torch.Tensor":
+    def encode_to_prefix(self, system: str, prompt: str, n_prefix: int = N_PREFIX) -> torch.Tensor:
         """Returns [n_prefix, D_LEVIATHAN] for soft prefix injection."""
-        import torch
-        h = self.encode(system, prompt)             # [1, 2048]
-        return h.expand(n_prefix, -1).clone()       # [n_prefix, 2048]
+        h = self.encode(system, prompt)  # [1, 2048]
+        return h.expand(n_prefix, -1).clone()  # [n_prefix, 2048]
 
 
 # ── Observer hidden state encoder (alignment target) ─────────────────────────
+
 
 class ObserverEncoder:
     """
@@ -388,8 +439,7 @@ class ObserverEncoder:
             from llama_cpp import Llama
         except ImportError:
             raise ImportError(
-                "[PROJ] llama-cpp-python not installed.\n"
-                "       Run: pip install llama-cpp-python"
+                "[PROJ] llama-cpp-python not installed.\n       Run: pip install llama-cpp-python"
             )
         log.info("Loading Observer GGUF (CPU)... path=%s", gguf_path)
         self.model = Llama(
@@ -400,11 +450,14 @@ class ObserverEncoder:
             logits_all=False,
             verbose=False,
         )
-        log.info("Observer loaded. target hidden_size=%d", D_TARGET)
+        # Same as D_LEVIATHAN above: D_TARGET is never assigned in this module, so this
+        # raised NameError on construction. Probed from the GGUF header, not hardcoded.
+        log.info("Observer loaded. target hidden_size=%d", self.model.n_embd())
 
-    def encode(self, system: str, prompt: str) -> "torch.Tensor":
+    def encode(self, system: str, prompt: str) -> torch.Tensor:
         """Returns [1, D_TARGET] — Observer's representation of the prompt."""
         import torch
+
         full_text = f"<|system|>\n{system}<|end|>\n<|user|>\n{prompt}<|end|>\n<|assistant|>"
         embedding = self.model.embed(full_text)
         tensor = torch.tensor(embedding, dtype=torch.float32)
@@ -421,7 +474,8 @@ class ObserverEncoder:
 
 # ── Projection MLP ────────────────────────────────────────────────────────────
 
-def _build_projection(d_src: int, d_tgt: int, d_hidden: int | None = None) -> "torch.nn.Module":
+
+def _build_projection(d_src: int, d_tgt: int, d_hidden: int | None = None) -> torch.nn.Module:
     """
     2-layer MLP: R^d_src → R^d_hidden (GELU + LayerNorm) → R^d_tgt
     Dimensions resolved from registry, not hardcoded.
@@ -429,7 +483,6 @@ def _build_projection(d_src: int, d_tgt: int, d_hidden: int | None = None) -> "t
     Uses determinex_rosetta.build_mlp for architecture consistency,
     wrapped in a Module subclass so .forward() has an explicit shape comment.
     """
-    import torch
     import torch.nn as nn
 
     d_h = d_hidden or max(d_src, d_tgt)
@@ -441,7 +494,7 @@ def _build_projection(d_src: int, d_tgt: int, d_hidden: int | None = None) -> "t
             self.d_src = d_src
             self.d_tgt = d_tgt
 
-        def forward(self, x: "torch.Tensor") -> "torch.Tensor":
+        def forward(self, x: torch.Tensor) -> torch.Tensor:
             return self.net(x)  # [n_prefix, d_src] → [n_prefix, d_tgt]
 
     return _W()
@@ -449,7 +502,8 @@ def _build_projection(d_src: int, d_tgt: int, d_hidden: int | None = None) -> "t
 
 # ── Alignment loss ────────────────────────────────────────────────────────────
 
-def alignment_loss(proj: "torch.Tensor", target: "torch.Tensor") -> "torch.Tensor":
+
+def alignment_loss(proj: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
     """
     Computes distance between the projected prefix and the target embedding.
 
@@ -462,13 +516,11 @@ def alignment_loss(proj: "torch.Tensor", target: "torch.Tensor") -> "torch.Tenso
     """
     import torch.nn.functional as F
 
-    proj_mean  = proj.mean(dim=0)            # [D_TARGET] — aggregate prefix signal
-    target_vec = target.squeeze(0)           # [D_TARGET]
+    proj_mean = proj.mean(dim=0)  # [D_TARGET] — aggregate prefix signal
+    target_vec = target.squeeze(0)  # [D_TARGET]
 
-    mse    = F.mse_loss(proj_mean, target_vec)
-    cosine = 1.0 - F.cosine_similarity(
-        proj_mean.unsqueeze(0), target_vec.unsqueeze(0)
-    ).squeeze()
+    mse = F.mse_loss(proj_mean, target_vec)
+    cosine = 1.0 - F.cosine_similarity(proj_mean.unsqueeze(0), target_vec.unsqueeze(0)).squeeze()
 
     return ALIGN_WEIGHT * (mse + cosine)
 
@@ -489,19 +541,20 @@ def _detect_tokenizer_type(tokenizer) -> str:
         vocab = tokenizer.get_vocab()
         sample = list(vocab.keys())[:500]
         # SentencePiece: ▁ (U+2581) marks word-initial tokens
-        sp_count = sum(1 for t in sample if t.startswith('\u2581'))
+        sp_count = sum(1 for t in sample if t.startswith("\u2581"))
         if sp_count > 10:
-            return 'sentencepiece'
+            return "sentencepiece"
         # Tiktoken / GPT-2 BPE: Ġ (U+0120) or raw byte tokens <0xNN>
-        tk_count = sum(1 for t in sample if t.startswith('\u0120') or t.startswith('<0x'))
+        tk_count = sum(1 for t in sample if t.startswith("\u0120") or t.startswith("<0x"))
         if tk_count > 10:
-            return 'tiktoken'
+            return "tiktoken"
     except Exception:
         pass
-    return 'unknown'
+    return "unknown"
 
 
 # ── Engineer with soft prefix injection ───────────────────────────────────────
+
 
 class EngineerWithPrefix:
     """
@@ -515,17 +568,19 @@ class EngineerWithPrefix:
 
     def __init__(self, hf_model_id: str, lora_path: Path | None = None, device: str = "cuda"):
         import torch
-        from transformers import AutoTokenizer, AutoModelForCausalLM
         from peft import PeftModel
+        from transformers import AutoModelForCausalLM, AutoTokenizer
 
         self.device = device
         cache = str(HF_CACHE_DIR) if HF_CACHE_DIR.exists() else None
         log.info("Loading Phi-3-mini tokenizer... (cache=%s)", cache or "default")
         self.tokenizer = AutoTokenizer.from_pretrained(
-            hf_model_id, trust_remote_code=True, cache_dir=cache)
+            hf_model_id, trust_remote_code=True, cache_dir=cache
+        )
 
         log.info("Loading Phi-3-mini model (4-bit NF4)...")
         from transformers import BitsAndBytesConfig
+
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_compute_dtype=torch.float16,
@@ -551,15 +606,15 @@ class EngineerWithPrefix:
         self._tok_type = _detect_tokenizer_type(self.tokenizer)
         log.info("Engineer loaded. hidden_size=%d (tokenizer=%s)", D_TARGET, self._tok_type)
 
-    def get_embedding_layer(self) -> "torch.nn.Module":
+    def get_embedding_layer(self) -> torch.nn.Module:
         return self.model.model.model.embed_tokens
 
     def _build_prefix_embeds(
         self,
-        soft_prefix: "torch.Tensor",
+        soft_prefix: torch.Tensor,
         text: str,
         hop_depth: int = 0,
-    ) -> "tuple[torch.Tensor, torch.Tensor]":
+    ) -> tuple[torch.Tensor, torch.Tensor]:
         """
         Build (combined_embeds, attention_mask) for one generation pass.
 
@@ -572,10 +627,10 @@ class EngineerWithPrefix:
         """
         import torch
 
-        embed_layer  = self.get_embedding_layer()
+        embed_layer = self.get_embedding_layer()
         bos_token_id = self.tokenizer.bos_token_id
 
-        inputs    = self.tokenizer(text, return_tensors="pt").to(self.device)
+        inputs = self.tokenizer(text, return_tensors="pt").to(self.device)
         input_ids = inputs["input_ids"]
 
         with torch.no_grad():
@@ -595,29 +650,32 @@ class EngineerWithPrefix:
             prefix = prefix + torch.randn_like(prefix) * (0.01 * hop_depth)
 
         # #25 BOS pinning
-        if bos_token_id is not None and input_ids.shape[1] > 0 and \
-                input_ids[0, 0].item() == bos_token_id:
-            bos_embed   = all_token_embeds[:, :1, :]
+        if (
+            bos_token_id is not None
+            and input_ids.shape[1] > 0
+            and input_ids[0, 0].item() == bos_token_id
+        ):
+            bos_embed = all_token_embeds[:, :1, :]
             text_embeds = all_token_embeds[:, 1:, :]
-            text_mask   = inputs["attention_mask"][:, 1:]
+            text_mask = inputs["attention_mask"][:, 1:]
         else:
             fallback_bos = bos_token_id if bos_token_id is not None else 1
-            bos_id_t     = torch.tensor([[fallback_bos]], dtype=torch.long, device=self.device)
-            bos_embed    = embed_layer(bos_id_t)
-            text_embeds  = all_token_embeds
-            text_mask    = inputs["attention_mask"]
+            bos_id_t = torch.tensor([[fallback_bos]], dtype=torch.long, device=self.device)
+            bos_embed = embed_layer(bos_id_t)
+            text_embeds = all_token_embeds
+            text_mask = inputs["attention_mask"]
 
         # #23 Bridging token
         nl_embed = nl_mask = None
         nl_ids = self.tokenizer.encode("\n", add_special_tokens=False)
         if nl_ids:
-            nl_t     = torch.tensor([[nl_ids[0]]], dtype=torch.long, device=self.device)
+            nl_t = torch.tensor([[nl_ids[0]]], dtype=torch.long, device=self.device)
             nl_embed = embed_layer(nl_t)
-            nl_mask  = torch.ones(1, 1, dtype=torch.long, device=self.device)
+            nl_mask = torch.ones(1, 1, dtype=torch.long, device=self.device)
 
-        embed_parts: list["torch.Tensor"] = [bos_embed, prefix]
-        mask_parts:  list["torch.Tensor"] = [
-            torch.ones(1, 1,               dtype=torch.long, device=self.device),
+        embed_parts: list[torch.Tensor] = [bos_embed, prefix]
+        mask_parts: list[torch.Tensor] = [
+            torch.ones(1, 1, dtype=torch.long, device=self.device),
             torch.ones(1, prefix.shape[1], dtype=torch.long, device=self.device),
         ]
         if nl_embed is not None:
@@ -635,35 +693,36 @@ class EngineerWithPrefix:
 
         return (
             torch.cat(embed_parts, dim=1),
-            torch.cat(mask_parts,  dim=1),
+            torch.cat(mask_parts, dim=1),
         )
 
     def _run_generate(
         self,
-        combined_embeds: "torch.Tensor",
-        attention_mask:  "torch.Tensor",
-        max_new_tokens:  int,
+        combined_embeds: torch.Tensor,
+        attention_mask: torch.Tensor,
+        max_new_tokens: int,
         temperature: float,
         top_p: float,
         min_p: float,
-    ) -> "torch.Tensor":
+    ) -> torch.Tensor:
         """Call model.generate() with sampler state, return new token IDs only."""
         import torch
+
         n_input = combined_embeds.shape[1]
         _gen_kwargs: dict = {
             "inputs_embeds": combined_embeds,
             "attention_mask": attention_mask,
             "max_new_tokens": max_new_tokens,
-            "pad_token_id":   self.tokenizer.eos_token_id,
+            "pad_token_id": self.tokenizer.eos_token_id,
         }
         if temperature != 1.0 or top_p < 1.0 or min_p > 0.0:
-            _gen_kwargs["do_sample"]   = True
+            _gen_kwargs["do_sample"] = True
             _gen_kwargs["temperature"] = max(temperature, 1e-4)
-            _gen_kwargs["top_p"]       = top_p
+            _gen_kwargs["top_p"] = top_p
             if min_p > 0.0:
                 _gen_kwargs["min_p"] = min_p
         else:
-            _gen_kwargs["do_sample"]   = False
+            _gen_kwargs["do_sample"] = False
             _gen_kwargs["temperature"] = 1.0
         with torch.no_grad():
             output_ids = self.model.generate(**_gen_kwargs)
@@ -671,7 +730,7 @@ class EngineerWithPrefix:
 
     def generate_with_prefix(
         self,
-        soft_prefix: "torch.Tensor",
+        soft_prefix: torch.Tensor,
         system: str,
         prompt: str,
         max_new_tokens: int = 512,
@@ -695,14 +754,16 @@ class EngineerWithPrefix:
               [BOS | soft_prefix | \\n | system + user + tail_of_prior_output]
         """
         if max_new_tokens <= _SEGMENT_MAX_NEW:
-            return self._gen_single(soft_prefix, system, prompt, max_new_tokens,
-                                    temperature, top_p, min_p, hop_depth)
-        return self._gen_chunked(soft_prefix, system, prompt, max_new_tokens,
-                                 temperature, top_p, min_p, hop_depth)
+            return self._gen_single(
+                soft_prefix, system, prompt, max_new_tokens, temperature, top_p, min_p, hop_depth
+            )
+        return self._gen_chunked(
+            soft_prefix, system, prompt, max_new_tokens, temperature, top_p, min_p, hop_depth
+        )
 
     def _gen_single(
         self,
-        soft_prefix: "torch.Tensor",
+        soft_prefix: torch.Tensor,
         system: str,
         prompt: str,
         max_new_tokens: int,
@@ -713,9 +774,9 @@ class EngineerWithPrefix:
     ) -> str:
         """Single-pass generation — prefix injected once, no re-injection."""
         text = self.tokenizer.apply_chat_template(
-            [{"role": "system", "content": system},
-             {"role": "user",   "content": prompt}],
-            tokenize=False, add_generation_prompt=True,
+            [{"role": "system", "content": system}, {"role": "user", "content": prompt}],
+            tokenize=False,
+            add_generation_prompt=True,
         )
         embeds, mask = self._build_prefix_embeds(soft_prefix, text, hop_depth)
         new_ids = self._run_generate(embeds, mask, max_new_tokens, temperature, top_p, min_p)
@@ -723,7 +784,7 @@ class EngineerWithPrefix:
 
     def _gen_chunked(
         self,
-        soft_prefix: "torch.Tensor",
+        soft_prefix: torch.Tensor,
         system: str,
         prompt: str,
         max_new_tokens: int,
@@ -748,16 +809,16 @@ class EngineerWithPrefix:
 
         # Base template: ends with the assistant-turn opener
         base_text = self.tokenizer.apply_chat_template(
-            [{"role": "system", "content": system},
-             {"role": "user",   "content": prompt}],
-            tokenize=False, add_generation_prompt=True,
+            [{"role": "system", "content": system}, {"role": "user", "content": prompt}],
+            tokenize=False,
+            add_generation_prompt=True,
         )
 
         segments: list[str] = []
         total_new = 0
 
         while total_new < max_new_tokens:
-            remaining  = max_new_tokens - total_new
+            remaining = max_new_tokens - total_new
             seg_tokens = min(_SEGMENT_MAX_NEW, remaining)
 
             # Build the text context for this segment
@@ -770,8 +831,7 @@ class EngineerWithPrefix:
                 text = base_text
 
             embeds, mask = self._build_prefix_embeds(soft_prefix, text, hop_depth)
-            new_ids = self._run_generate(embeds, mask, seg_tokens,
-                                         temperature, top_p, min_p)
+            new_ids = self._run_generate(embeds, mask, seg_tokens, temperature, top_p, min_p)
             seg_text = self.tokenizer.decode(new_ids, skip_special_tokens=True)
 
             if not seg_text:
@@ -779,8 +839,13 @@ class EngineerWithPrefix:
 
             segments.append(seg_text)
             total_new += len(new_ids)
-            log.debug("[Layer2] segment %d: +%d tokens (total %d/%d)",
-                      len(segments), len(new_ids), total_new, max_new_tokens)
+            log.debug(
+                "[Layer2] segment %d: +%d tokens (total %d/%d)",
+                len(segments),
+                len(new_ids),
+                total_new,
+                max_new_tokens,
+            )
 
             if any(m in seg_text for m in _EOS_MARKERS):
                 break
@@ -789,9 +854,9 @@ class EngineerWithPrefix:
 
 
 def _simulate_kv_cache_quantization(
-    tensor: "torch.Tensor",
+    tensor: torch.Tensor,
     noise_scale: float = _KV_CACHE_Q8_NOISE_SCALE,
-) -> "torch.Tensor":
+) -> torch.Tensor:
     """
     #26 FP8/Q8 KV cache drift: add Gaussian noise to simulate quantization error.
 
@@ -804,6 +869,7 @@ def _simulate_kv_cache_quantization(
     embeddings. Set to 0.0 to disable (e.g. FP16 runtime or CPU-only inference).
     """
     import torch
+
     if noise_scale <= 0.0:
         return tensor
     return tensor + torch.randn_like(tensor) * noise_scale
@@ -811,13 +877,14 @@ def _simulate_kv_cache_quantization(
 
 # ── Alignment training loop (fast — no generation) ───────────────────────────
 
+
 def train_alignment(
     leviathan: LeviathanEncoder,
-    observer:  ObserverEncoder,
-    W:         "torch.nn.Module",
-    tasks:     list[dict],
-    steps:     int = 200,
-    lr:        float = ALIGN_LR,
+    observer: ObserverEncoder,
+    W: torch.nn.Module,
+    tasks: list[dict],
+    steps: int = 200,
+    lr: float = ALIGN_LR,
     save_path: Path = PROJECTION_SAVE,
 ) -> dict:
     """
@@ -847,8 +914,10 @@ def train_alignment(
 
         # Encode with both encoders — no grad needed from them
         with torch.no_grad():
-            lev_prefix = leviathan.encode_to_prefix(task["system"], task["prompt"])  # [N_PREFIX, 2048]
-            obs_target  = observer.encode(task["system"], task["prompt"])              # [1, 3072]
+            lev_prefix = leviathan.encode_to_prefix(
+                task["system"], task["prompt"]
+            )  # [N_PREFIX, 2048]
+            obs_target = observer.encode(task["system"], task["prompt"])  # [1, 3072]
 
         # ── #31 Pinned memory ────────────────────────────────────────────────────
         if device != "cpu":
@@ -866,7 +935,7 @@ def train_alignment(
         obs_gpu = obs_target.to(device, non_blocking=True)
 
         # Forward through W
-        proj = W(lev_gpu)   # [N_PREFIX, 3072] — grads flow here
+        proj = W(lev_gpu)  # [N_PREFIX, 3072] — grads flow here
 
         # ── #26 FP8/Q8 KV cache drift simulation ─────────────────────────────
         # Apply quantization noise to proj before loss — W learns to project into
@@ -894,9 +963,14 @@ def train_alignment(
 
         if step % 10 == 0:
             avg_loss = sum(stats["loss_history"][-10:]) / min(10, step + 1)
-            avg_cos  = sum(stats["cos_sim_history"][-10:]) / min(10, step + 1)
-            log.info("[%03d] loss=%.4f | cos_sim=%.4f | %s...",
-                     step, avg_loss, avg_cos, task["prompt"][:45])
+            avg_cos = sum(stats["cos_sim_history"][-10:]) / min(10, step + 1)
+            log.info(
+                "[%03d] loss=%.4f | cos_sim=%.4f | %s...",
+                step,
+                avg_loss,
+                avg_cos,
+                task["prompt"][:45],
+            )
 
         if step > 0 and step % 50 == 0:
             _save_projection(W, save_path)
@@ -910,14 +984,15 @@ def train_alignment(
 
 # ── Compile-guided training loop (adds REINFORCE signal on top of alignment) ─
 
+
 def train_projection(
     leviathan: LeviathanEncoder,
-    observer:  ObserverEncoder,
-    engineer:  EngineerWithPrefix,
-    W:         "torch.nn.Module",
-    tasks:     list[dict],
-    steps:     int = 100,
-    lr:        float = COMPILE_LR,
+    observer: ObserverEncoder,
+    engineer: EngineerWithPrefix,
+    W: torch.nn.Module,
+    tasks: list[dict],
+    steps: int = 100,
+    lr: float = COMPILE_LR,
     save_path: Path = PROJECTION_SAVE,
 ) -> dict:
     """
@@ -942,7 +1017,7 @@ def train_projection(
 
         with torch.no_grad():
             lev_prefix = leviathan.encode_to_prefix(task["system"], task["prompt"])
-            obs_target  = observer.encode(task["system"], task["prompt"])
+            obs_target = observer.encode(task["system"], task["prompt"])
 
         # ── #31 Pinned memory ────────────────────────────────────────────────────
         if device != "cpu":
@@ -959,7 +1034,7 @@ def train_projection(
         lev_gpu = lev_prefix.to(device, non_blocking=True)
         obs_gpu = obs_target.to(device, non_blocking=True)
 
-        proj = W(lev_gpu)   # [N_PREFIX, 3072]
+        proj = W(lev_gpu)  # [N_PREFIX, 3072]
 
         # ── #26 FP8/Q8 KV cache drift simulation ─────────────────────────────
         proj_for_loss = _simulate_kv_cache_quantization(proj)
@@ -995,8 +1070,15 @@ def train_projection(
         stats["cos_sim_history"].append(cos)
 
         status = "PASS" if compiled else "FAIL"
-        log.info("[%03d] %s | loss=%.4f | cos=%.4f | %s | %s...",
-                 step, status, loss.item(), cos, task["lang"], task["prompt"][:35])
+        log.info(
+            "[%03d] %s | loss=%.4f | cos=%.4f | %s | %s...",
+            step,
+            status,
+            loss.item(),
+            cos,
+            task["lang"],
+            task["prompt"][:35],
+        )
 
         if step > 0 and step % 10 == 0:
             rate = stats["compiled"] / stats["steps"] * 100
@@ -1006,58 +1088,79 @@ def train_projection(
             _save_projection(W, save_path)
 
     _save_projection(W, save_path)
-    log.info("Compile training done. Compile rate: %.0f%%",
-             stats["compiled"] / max(stats["steps"], 1) * 100)
+    log.info(
+        "Compile training done. Compile rate: %.0f%%",
+        stats["compiled"] / max(stats["steps"], 1) * 100,
+    )
     return stats
 
 
 # ── Checkpoint I/O ────────────────────────────────────────────────────────────
 
-def _save_projection(W: "torch.nn.Module", path: Path,
-                      source_name: str = "", target_name: str = ""):
+
+def _save_projection(W: torch.nn.Module, path: Path, source_name: str = "", target_name: str = ""):
     import torch
+
     path.parent.mkdir(parents=True, exist_ok=True)
-    d_src = getattr(W, 'd_src', 0)
-    d_tgt = getattr(W, 'd_tgt', 0)
-    torch.save({
-        "state_dict":   W.state_dict(),
-        "d_src":        d_src,
-        "d_tgt":        d_tgt,
-        "source_model": source_name,
-        "target_model": target_name,
-        "architecture": "mlp_gelu_ln",
-        "type":         "calibration_adapter",
-        "timestamp":    datetime.now(timezone.utc).isoformat(),
-    }, path)
+    d_src = getattr(W, "d_src", 0)
+    d_tgt = getattr(W, "d_tgt", 0)
+    torch.save(
+        {
+            "state_dict": W.state_dict(),
+            "d_src": d_src,
+            "d_tgt": d_tgt,
+            "source_model": source_name,
+            "target_model": target_name,
+            "architecture": "mlp_gelu_ln",
+            "type": "calibration_adapter",
+            "timestamp": datetime.now(UTC).isoformat(),
+        },
+        path,
+    )
 
 
-def _load_projection(path: Path) -> "torch.nn.Module":
+def _load_projection(path: Path) -> torch.nn.Module:
     import torch
+
     ckpt = torch.load(path, map_location="cpu", weights_only=True)
-    d_src = ckpt.get("d_src") or ckpt.get("d_lev", 2048)   # backward compat
-    d_tgt = ckpt.get("d_tgt") or ckpt.get("d_target", 3072) # backward compat
+    d_src = ckpt.get("d_src") or ckpt.get("d_lev", 2048)  # backward compat
+    d_tgt = ckpt.get("d_tgt") or ckpt.get("d_target", 3072)  # backward compat
     W = _build_projection(d_src, d_tgt)
     W.load_state_dict(ckpt["state_dict"])
     arch = ckpt.get("architecture", "linear")
-    log.info("Loaded projection from %s (arch=%s, d_src=%d, d_tgt=%d, trained %s)",
-             path, arch, d_src, d_tgt, ckpt.get("timestamp", "?"))
+    log.info(
+        "Loaded projection from %s (arch=%s, d_src=%d, d_tgt=%d, trained %s)",
+        path,
+        arch,
+        d_src,
+        d_tgt,
+        ckpt.get("timestamp", "?"),
+    )
     return W
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="determinex_projector — latent bridge W trainer")
-    parser.add_argument("--mode",   choices=["probe","align","train","eval","demo"], default="probe")
-    parser.add_argument("--steps",  type=int,   default=200)
-    parser.add_argument("--lr",     type=float, default=None,
-                        help="Learning rate (default: 3e-4 for align, 1e-4 for train)")
-    parser.add_argument("--lora",   type=Path,  default=ENGINEER_LORA)
-    parser.add_argument("--prompt", type=str,   default=None)
-    parser.add_argument("--lang",   type=str,   default="Rust")
+    parser.add_argument(
+        "--mode", choices=["probe", "align", "train", "eval", "demo"], default="probe"
+    )
+    parser.add_argument("--steps", type=int, default=200)
+    parser.add_argument(
+        "--lr",
+        type=float,
+        default=None,
+        help="Learning rate (default: 3e-4 for align, 1e-4 for train)",
+    )
+    parser.add_argument("--lora", type=Path, default=ENGINEER_LORA)
+    parser.add_argument("--prompt", type=str, default=None)
+    parser.add_argument("--lang", type=str, default="Rust")
     args = parser.parse_args()
 
     import torch
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
     log.info("Device: %s", device)
 
@@ -1065,7 +1168,7 @@ def main():
     if args.mode == "probe":
         log.info("=== PROBE MODE ===")
         log.info("Leviathan GGUF : %s (exists=%s)", LEVIATHAN_GGUF, LEVIATHAN_GGUF.exists())
-        log.info("Observer GGUF  : %s (exists=%s)", OBSERVER_GGUF,  OBSERVER_GGUF.exists())
+        log.info("Observer GGUF  : %s (exists=%s)", OBSERVER_GGUF, OBSERVER_GGUF.exists())
         log.info("Phi-3 HF ID    : %s", PHI3_HF_ID)
         log.info("D_LEVIATHAN    : %d", D_LEVIATHAN)
         log.info("D_TARGET       : %d", D_TARGET)
@@ -1075,6 +1178,7 @@ def main():
         log.info("Seed tasks     : %d", len(SEED_TASKS))
         try:
             import llama_cpp
+
             log.info("llama-cpp-python: INSTALLED v%s", llama_cpp.__version__)
         except ImportError:
             log.warning("llama-cpp-python: NOT INSTALLED — run: pip install llama-cpp-python")
@@ -1095,12 +1199,11 @@ def main():
             sys.exit(1)
 
         leviathan = LeviathanEncoder(LEVIATHAN_GGUF)
-        observer  = ObserverEncoder(OBSERVER_GGUF)
-        W         = _build_projection().to(device)
+        observer = ObserverEncoder(OBSERVER_GGUF)
+        W = _build_projection().to(device)
 
         lr = args.lr or ALIGN_LR
-        stats = train_alignment(leviathan, observer, W, SEED_TASKS,
-                                steps=args.steps, lr=lr)
+        stats = train_alignment(leviathan, observer, W, SEED_TASKS, steps=args.steps, lr=lr)
         log.info("=== ALIGN RESULTS ===")
         log.info("Steps     : %d", stats["steps"])
         if stats["cos_sim_history"]:
@@ -1117,7 +1220,7 @@ def main():
             sys.exit(1)
 
         leviathan = LeviathanEncoder(LEVIATHAN_GGUF)
-        observer  = ObserverEncoder(OBSERVER_GGUF)
+        observer = ObserverEncoder(OBSERVER_GGUF)
 
         # Load W from previous alignment checkpoint if available
         if PROJECTION_SAVE.exists():
@@ -1129,16 +1232,20 @@ def main():
             W = _build_projection().to(device)
 
         lora_path = args.lora if (args.lora / "adapter_config.json").exists() else None
-        engineer  = EngineerWithPrefix(PHI3_HF_ID, lora_path, device)
+        engineer = EngineerWithPrefix(PHI3_HF_ID, lora_path, device)
 
         lr = args.lr or COMPILE_LR
-        stats = train_projection(leviathan, observer, engineer, W, SEED_TASKS,
-                                 steps=args.steps, lr=lr)
+        stats = train_projection(
+            leviathan, observer, engineer, W, SEED_TASKS, steps=args.steps, lr=lr
+        )
         log.info("=== TRAIN RESULTS ===")
         log.info("Steps    : %d", stats["steps"])
-        log.info("Compiled : %d / %d (%.0f%%)",
-                 stats["compiled"], stats["steps"],
-                 stats["compiled"] / max(stats["steps"], 1) * 100)
+        log.info(
+            "Compiled : %d / %d (%.0f%%)",
+            stats["compiled"],
+            stats["steps"],
+            stats["compiled"] / max(stats["steps"], 1) * 100,
+        )
         log.info("Saved    : %s", PROJECTION_SAVE)
         return
 
@@ -1153,10 +1260,10 @@ def main():
 
         log.info("=== EVAL MODE ===")
         leviathan = LeviathanEncoder(LEVIATHAN_GGUF)
-        observer  = ObserverEncoder(OBSERVER_GGUF)
+        observer = ObserverEncoder(OBSERVER_GGUF)
         lora_path = args.lora if (args.lora / "adapter_config.json").exists() else None
-        engineer  = EngineerWithPrefix(PHI3_HF_ID, lora_path, device)
-        W         = _load_projection(PROJECTION_SAVE).to(device)
+        engineer = EngineerWithPrefix(PHI3_HF_ID, lora_path, device)
+        W = _load_projection(PROJECTION_SAVE).to(device)
 
         import torch
         import torch.nn.functional as F
@@ -1164,21 +1271,28 @@ def main():
         passed = 0
         cos_sims = []
         for i, task in enumerate(SEED_TASKS):
-            lev_h  = leviathan.encode_to_prefix(task["system"], task["prompt"]).to(device)
-            obs_h  = observer.encode(task["system"], task["prompt"]).to(device)
+            lev_h = leviathan.encode_to_prefix(task["system"], task["prompt"]).to(device)
+            obs_h = observer.encode(task["system"], task["prompt"]).to(device)
             prefix = W(lev_h)
             cos = F.cosine_similarity(
                 prefix.mean(0).unsqueeze(0), obs_h.squeeze(0).unsqueeze(0)
             ).item()
             cos_sims.append(cos)
-            code   = engineer.generate_with_prefix(prefix, task["system"], task["prompt"])
-            ok, _  = validate_code(task["lang"], code)
+            code = engineer.generate_with_prefix(prefix, task["system"], task["prompt"])
+            ok, _ = validate_code(task["lang"], code)
             passed += ok
-            log.info("[%02d] %s | cos=%.4f | %s | %s...",
-                     i, "PASS" if ok else "FAIL", cos, task["lang"], task["prompt"][:50])
+            log.info(
+                "[%02d] %s | cos=%.4f | %s | %s...",
+                i,
+                "PASS" if ok else "FAIL",
+                cos,
+                task["lang"],
+                task["prompt"][:50],
+            )
 
-        log.info("Eval: %d/%d compiled (%.0f%%)", passed, len(SEED_TASKS),
-                 passed / len(SEED_TASKS) * 100)
+        log.info(
+            "Eval: %d/%d compiled (%.0f%%)", passed, len(SEED_TASKS), passed / len(SEED_TASKS) * 100
+        )
         log.info("Avg cos_sim: %.4f", sum(cos_sims) / len(cos_sims))
         return
 
@@ -1191,23 +1305,27 @@ def main():
             log.error("No trained W — run --mode align first")
             sys.exit(1)
 
-        system = f"You are an expert {args.lang} programmer. Output ONLY correct code, no explanation."
+        system = (
+            f"You are an expert {args.lang} programmer. Output ONLY correct code, no explanation."
+        )
         leviathan = LeviathanEncoder(LEVIATHAN_GGUF)
         lora_path = args.lora if (args.lora / "adapter_config.json").exists() else None
-        engineer  = EngineerWithPrefix(PHI3_HF_ID, lora_path, device)
-        W         = _load_projection(PROJECTION_SAVE).to(device)
+        engineer = EngineerWithPrefix(PHI3_HF_ID, lora_path, device)
+        W = _load_projection(PROJECTION_SAVE).to(device)
 
-        import torch, torch.nn.functional as F
-        lev_h  = leviathan.encode_to_prefix(system, args.prompt).to(device)
+        import torch
+        import torch.nn.functional as F
+
+        lev_h = leviathan.encode_to_prefix(system, args.prompt).to(device)
         prefix = W(lev_h)
-        code   = engineer.generate_with_prefix(prefix, system, args.prompt)
+        code = engineer.generate_with_prefix(prefix, system, args.prompt)
         ok, err = validate_code(args.lang, code)
 
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"Prompt : {args.prompt}")
         print(f"Lang   : {args.lang}")
         print(f"Result : {'COMPILED' if ok else 'FAILED'}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         print(code)
         if not ok:
             print(f"\nError: {err}")

@@ -31,6 +31,7 @@ reference as `this_base` -- scoped conservatively to require the own-parameter
 reference(s) form a contiguous TAIL (nothing fixed follows), matching the existing
 additive `this_base + pos_strs` model exactly.
 """
+
 from __future__ import annotations
 
 import sys
@@ -41,7 +42,7 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_extract_wrapper_base_argv_resolves_own_param_tail():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 from pathlib import Path
 
@@ -54,12 +55,17 @@ def run_java_class(classname, timeout=10):
         capture_output=True, text=True, timeout=timeout
     )
     return result
-''')
-    func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef)
-                and n.name == "run_java_class")
+""")
+    func = next(
+        n
+        for n in iox.ast.walk(tree)
+        if isinstance(n, iox.ast.FunctionDef) and n.name == "run_java_class"
+    )
     module_path_exprs = {
-        stmt.targets[0].id: stmt.value for stmt in tree.body
-        if isinstance(stmt, iox.ast.Assign) and len(stmt.targets) == 1
+        stmt.targets[0].id: stmt.value
+        for stmt in tree.body
+        if isinstance(stmt, iox.ast.Assign)
+        and len(stmt.targets) == 1
         and isinstance(stmt.targets[0], iox.ast.Name)
     }
     base, _suffix = iox._extract_wrapper_base_argv(func, {}, module_path_exprs, set())
@@ -69,18 +75,18 @@ def run_java_class(classname, timeout=10):
 def test_extract_wrapper_base_argv_declines_when_fixed_element_follows_param():
     """Conservative guard: a fixed literal AFTER the own-param reference breaks the
     additive this_base + pos_strs model -- must stay unresolved, never guess."""
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 
 def run_thing(classname):
     return subprocess.run(["java", classname, "--strict"], capture_output=True)
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     assert iox._extract_wrapper_base_argv(func, {}, {}, set()) == (None, None)
 
 
 def test_extract_file_resolves_run_java_class_end_to_end(tmp_path):
-    src = '''
+    src = """
 import subprocess
 from pathlib import Path
 
@@ -97,11 +103,14 @@ def run_java_class(classname, timeout=10):
 def test_string_utils_main():
     result = run_java_class("org.stathissideris.ascii2image.text.StringUtils")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
     assert cov.n_examples == 1
     assert cov.examples[0].argv == [
-        "java", "-cp", "executable", "org.stathissideris.ascii2image.text.StringUtils"
+        "java",
+        "-cp",
+        "executable",
+        "org.stathissideris.ascii2image.text.StringUtils",
     ]

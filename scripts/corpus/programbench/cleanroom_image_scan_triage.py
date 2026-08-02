@@ -14,13 +14,14 @@ _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from corpus.programbench.cleanroom_image_hydration_record import verify_cleanroom_image_hydration_record
+from corpus.programbench.cleanroom_image_hydration_record import (
+    verify_cleanroom_image_hydration_record,
+)
 from corpus.programbench.cleanroom_image_scan_record import verify_cleanroom_image_scan_record
 from corpus.programbench.cleanroom_image_scan_triage_record import (
     make_cleanroom_image_scan_triage_record,
     write_cleanroom_image_scan_triage_record,
 )
-
 
 EXPECTED_IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 EXPECTED_DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
@@ -30,7 +31,9 @@ class CleanroomImageScanTriageStatus(str, Enum):
     CLEANROOM_IMAGE_SCAN_TRIAGED = "CLEANROOM_IMAGE_SCAN_TRIAGED"
     CLEANROOM_IMAGE_REMEDIATE_REQUIRED = "CLEANROOM_IMAGE_REMEDIATE_REQUIRED"
     CLEANROOM_IMAGE_ALTERNATE_SOURCE_REQUIRED = "CLEANROOM_IMAGE_ALTERNATE_SOURCE_REQUIRED"
-    CLEANROOM_IMAGE_POLICY_EXCEPTION_REVIEW_REQUIRED = "CLEANROOM_IMAGE_POLICY_EXCEPTION_REVIEW_REQUIRED"
+    CLEANROOM_IMAGE_POLICY_EXCEPTION_REVIEW_REQUIRED = (
+        "CLEANROOM_IMAGE_POLICY_EXCEPTION_REVIEW_REQUIRED"
+    )
     CLEANROOM_IMAGE_SCAN_DATA_INSUFFICIENT = "CLEANROOM_IMAGE_SCAN_DATA_INSUFFICIENT"
     CLEANROOM_IMAGE_CRITICALS_WITH_FIXES = "CLEANROOM_IMAGE_CRITICALS_WITH_FIXES"
     CLEANROOM_IMAGE_CRITICALS_WITHOUT_FIXES = "CLEANROOM_IMAGE_CRITICALS_WITHOUT_FIXES"
@@ -40,8 +43,12 @@ class CleanroomImageScanTriageStatus(str, Enum):
     CLEANROOM_IMAGE_NOT_EXECUTABLE = "CLEANROOM_IMAGE_NOT_EXECUTABLE"
     CLEANROOM_IMAGE_TRAINING_INELIGIBLE = "CLEANROOM_IMAGE_TRAINING_INELIGIBLE"
     CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_SCAN = "CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_SCAN"
-    CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_HYDRATION = "CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_HYDRATION"
-    CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_DIGEST_MISMATCH = "CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_DIGEST_MISMATCH"
+    CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_HYDRATION = (
+        "CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_NO_HYDRATION"
+    )
+    CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_DIGEST_MISMATCH = (
+        "CLEANROOM_IMAGE_SCAN_TRIAGE_BLOCKED_DIGEST_MISMATCH"
+    )
 
 
 @dataclass(slots=True)
@@ -139,24 +146,36 @@ class ProgramBenchCleanroomImageScanTriage:
             CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_POLICY_STILL_BLOCKED.value,
         ]
         if fixed_summary.get("critical_with_fix", 0) > 0:
-            statuses.append(CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_CRITICALS_WITH_FIXES.value)
+            statuses.append(
+                CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_CRITICALS_WITH_FIXES.value
+            )
         if fixed_summary.get("critical_without_fix", 0) > 0:
-            statuses.append(CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_CRITICALS_WITHOUT_FIXES.value)
+            statuses.append(
+                CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_CRITICALS_WITHOUT_FIXES.value
+            )
         dominant = str(category_summary.get("dominant_category") or "")
         if dominant == "os_base":
-            statuses.append(CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_OS_VULNERABILITY_DOMINANT.value)
+            statuses.append(
+                CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_OS_VULNERABILITY_DOMINANT.value
+            )
         else:
-            statuses.append(CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_APP_VULNERABILITY_DOMINANT.value)
+            statuses.append(
+                CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_APP_VULNERABILITY_DOMINANT.value
+            )
         recommendation = "SCAN_DATA_INSUFFICIENT"
         if critical_high > 0 and fixed_summary.get("critical_high_with_fix", 0) > 0:
             recommendation = "REMEDIATE_IMAGE_REQUIRED"
             statuses.append(CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_REMEDIATE_REQUIRED.value)
         elif critical_high > 0:
             recommendation = "ALTERNATE_PROVENANCE_IMAGE_REQUIRED"
-            statuses.append(CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_ALTERNATE_SOURCE_REQUIRED.value)
+            statuses.append(
+                CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_ALTERNATE_SOURCE_REQUIRED.value
+            )
         elif severity_counts.get("medium", 0) or severity_counts.get("low", 0):
             recommendation = "POLICY_EXCEPTION_REVIEW_REQUIRED"
-            statuses.append(CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_POLICY_EXCEPTION_REVIEW_REQUIRED.value)
+            statuses.append(
+                CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_POLICY_EXCEPTION_REVIEW_REQUIRED.value
+            )
         top_critical = _top_groups(grouped, "critical", limit=10)
         top_high = _top_groups(grouped, "high", limit=10)
         return self._write(
@@ -212,7 +231,10 @@ class ProgramBenchCleanroomImageScanTriage:
             grouped=[],
             top_critical=[],
             top_high=[],
-            statuses=[status, CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_POLICY_STILL_BLOCKED.value],
+            statuses=[
+                status,
+                CleanroomImageScanTriageStatus.CLEANROOM_IMAGE_POLICY_STILL_BLOCKED.value,
+            ],
             reasons=reasons,
         )
 
@@ -260,7 +282,9 @@ class ProgramBenchCleanroomImageScanTriage:
             cache_ready=False,
             executable=False,
         )
-        path = write_cleanroom_image_scan_triage_record(record, self._resolve(self.config.output_dir))
+        path = write_cleanroom_image_scan_triage_record(
+            record, self._resolve(self.config.output_dir)
+        )
         return {"record_path": str(path), "record": record}
 
     def _resolve(self, path: Path) -> Path:
@@ -380,7 +404,15 @@ def _group_findings(findings: list[dict[str, Any]]) -> list[dict[str, Any]]:
         targets[key].add(str(finding.get("target") or ""))
     for key, item in grouped.items():
         item["sample_targets"] = sorted(targets[key])[:5]
-    return sorted(grouped.values(), key=lambda item: (_severity_rank(str(item["severity"])), -int(item["count"]), str(item["package"]), str(item["id"])))
+    return sorted(
+        grouped.values(),
+        key=lambda item: (
+            _severity_rank(str(item["severity"])),
+            -int(item["count"]),
+            str(item["package"]),
+            str(item["id"]),
+        ),
+    )
 
 
 def _top_groups(groups: list[dict[str, Any]], severity: str, *, limit: int) -> list[dict[str, Any]]:
@@ -404,11 +436,17 @@ def _rel(root: Path, path: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Triage ProgramBench cleanroom image scan findings.")
+    parser = argparse.ArgumentParser(
+        description="Triage ProgramBench cleanroom image scan findings."
+    )
     parser.add_argument("scan_record", type=Path)
     parser.add_argument("hydration_record", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_cleanroom_image_scan_triage"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_cleanroom_image_scan_triage"),
+    )
     args = parser.parse_args()
     result = ProgramBenchCleanroomImageScanTriage(
         CleanroomImageScanTriageConfig(root=args.root, output_dir=args.output_dir)

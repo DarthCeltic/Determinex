@@ -19,6 +19,7 @@ This script STAGES only. It does not upload, and it holds no credentials: pushin
 someone's account is their action to take, with their token, after they have read what is in it.
 The staged directory is ready for `huggingface-cli upload`.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -37,8 +38,9 @@ NOTICES = Path("corpus") / "THIRD_PARTY_NOTICES.md"
 
 
 def _tracked_corpus() -> list[str]:
-    out = subprocess.run(["git", "ls-files", "-z", "corpus"], cwd=_ROOT,
-                         capture_output=True, timeout=1800)
+    out = subprocess.run(
+        ["git", "ls-files", "-z", "corpus"], cwd=_ROOT, capture_output=True, timeout=1800
+    )
     return [p for p in out.stdout.decode("utf-8", errors="replace").split("\0") if p]
 
 
@@ -119,8 +121,9 @@ one the published number came from.
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__,
-                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--into", type=Path, default=Path(".tmp/determinex-corpus-dataset"))
     parser.add_argument("--dry-run", action="store_true", help="report what would be staged")
     args = parser.parse_args()
@@ -165,8 +168,8 @@ def main() -> int:
     if notices.is_file():
         shutil.copy2(notices, dest / "THIRD_PARTY_NOTICES.md")
     (dest / "README.md").write_text(
-        dataset_card(publishable, withheld_rows, len(staged), total / 1e6),
-        encoding="utf-8")
+        dataset_card(publishable, withheld_rows, len(staged), total / 1e6), encoding="utf-8"
+    )
 
     print(f"\nstaged at {dest}")
     print("\nNOT uploaded. Publishing under an account is the account holder's action:")

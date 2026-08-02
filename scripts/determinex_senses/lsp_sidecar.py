@@ -182,13 +182,9 @@ class LspSidecar:
                 "processId": os.getpid(),
                 "rootUri": self.workspace.as_uri(),
                 "capabilities": {
-                    "textDocument": {
-                        "publishDiagnostics": {"relatedInformation": False}
-                    }
+                    "textDocument": {"publishDiagnostics": {"relatedInformation": False}}
                 },
-                "workspaceFolders": [
-                    {"uri": self.workspace.as_uri(), "name": self.workspace.name}
-                ],
+                "workspaceFolders": [{"uri": self.workspace.as_uri(), "name": self.workspace.name}],
             },
         }
         await self._send(init_msg)
@@ -205,9 +201,7 @@ class LspSidecar:
             return False
 
         # Send initialized notification
-        await self._send(
-            {"jsonrpc": "2.0", "method": "initialized", "params": {}}
-        )
+        await self._send({"jsonrpc": "2.0", "method": "initialized", "params": {}})
         return True
 
     async def _send(self, msg: dict[str, Any]) -> None:
@@ -267,9 +261,7 @@ class LspSidecar:
             try:
                 while time.monotonic() < deadline:
                     remaining = max(0.1, deadline - time.monotonic())
-                    msg = await asyncio.wait_for(
-                        _LspMessage.read(self._reader), timeout=remaining
-                    )
+                    msg = await asyncio.wait_for(_LspMessage.read(self._reader), timeout=remaining)
                     if msg is None:
                         break
                     if msg.get("method") == "textDocument/publishDiagnostics":

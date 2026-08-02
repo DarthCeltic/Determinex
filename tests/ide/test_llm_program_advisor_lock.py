@@ -1,4 +1,5 @@
 """Tests for Determinex LLM-neutral program advisory packets."""
+
 from __future__ import annotations
 
 import importlib

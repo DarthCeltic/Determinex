@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
@@ -12,7 +11,9 @@ from corpus.programbench.cleanroom_build_recipe_provenance_gap import (  # noqa:
     BuildRecipeProvenanceGapStatus,
     ProgramBenchCleanroomBuildRecipeProvenanceGap,
 )
-from corpus.programbench.cleanroom_build_recipe_provenance_gap_record import verify_cleanroom_build_recipe_provenance_gap_record  # noqa: E402
+from corpus.programbench.cleanroom_build_recipe_provenance_gap_record import (
+    verify_cleanroom_build_recipe_provenance_gap_record,  # noqa: E402
+)
 from corpus.programbench.cleanroom_build_recipe_recovery_record import (  # noqa: E402
     make_cleanroom_build_recipe_recovery_record,
     write_cleanroom_build_recipe_recovery_record,
@@ -21,7 +22,6 @@ from corpus.programbench.cleanroom_image_remediation_plan_record import (  # noq
     make_cleanroom_image_remediation_plan_record,
     write_cleanroom_image_remediation_plan_record,
 )
-
 
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
@@ -60,9 +60,15 @@ def _recovery(
 ) -> Path:
     history = [{"created_by": "RUN wget https://dl.google.com/go/go1.21.0.linux-amd64.tar.gz"}]
     if unredacted_token:
-        history.append({"created_by": "RUN git clone https://x-access-token:ghp_SECRETSECRET@github.com/example/repo"})
+        history.append(
+            {
+                "created_by": "RUN git clone https://x-access-token:ghp_SECRETSECRET@github.com/example/repo"
+            }
+        )
     record = make_cleanroom_build_recipe_recovery_record(
-        status="BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY" if history_only else "BUILD_RECIPE_RECOVERED_EXACT",
+        status="BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY"
+        if history_only
+        else "BUILD_RECIPE_RECOVERED_EXACT",
         image_reference=image,
         image_digest=digest,
         remediation_plan="plans/plan.json",
@@ -104,50 +110,79 @@ def _gapper(tmp_path: Path, target_image: str = IMAGE, target_digest: str = DIGE
 def test_missing_remediation_plan_blocks(tmp_path):
     result = _gapper(tmp_path).write_gap(tmp_path / "missing.json", _recovery(tmp_path))
 
-    assert result["record"]["status"] == BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_PLAN.value
+    assert (
+        result["record"]["status"]
+        == BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_PLAN.value
+    )
 
 
 def test_missing_recipe_recovery_blocks(tmp_path):
     result = _gapper(tmp_path).write_gap(_plan(tmp_path), tmp_path / "missing.json")
 
-    assert result["record"]["status"] == BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_RECOVERY.value
+    assert (
+        result["record"]["status"]
+        == BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_RECOVERY.value
+    )
 
 
 def test_image_mismatch_blocks(tmp_path):
-    result = _gapper(tmp_path).write_gap(_plan(tmp_path), _recovery(tmp_path, image="programbench/other:task_cleanroom"))
+    result = _gapper(tmp_path).write_gap(
+        _plan(tmp_path), _recovery(tmp_path, image="programbench/other:task_cleanroom")
+    )
 
-    assert result["record"]["status"] == BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_IMAGE_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_IMAGE_MISMATCH.value
+    )
 
 
 def test_digest_mismatch_blocks(tmp_path):
     result = _gapper(tmp_path).write_gap(_plan(tmp_path), _recovery(tmp_path, digest="sha256:bad"))
 
-    assert result["record"]["status"] == BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_DIGEST_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == BuildRecipeProvenanceGapStatus.BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_DIGEST_MISMATCH.value
+    )
 
 
 def test_gap_packet_records_original_recipe_missing(tmp_path):
     result = _gapper(tmp_path).write_gap(_plan(tmp_path), _recovery(tmp_path))
 
-    assert BuildRecipeProvenanceGapStatus.ORIGINAL_RECIPE_MISSING.value in result["record"]["gap_statuses"]
+    assert (
+        BuildRecipeProvenanceGapStatus.ORIGINAL_RECIPE_MISSING.value
+        in result["record"]["gap_statuses"]
+    )
 
 
 def test_gap_packet_records_base_digest_missing(tmp_path):
     result = _gapper(tmp_path).write_gap(_plan(tmp_path), _recovery(tmp_path))
 
-    assert BuildRecipeProvenanceGapStatus.BASE_IMAGE_DIGEST_MISSING.value in result["record"]["gap_statuses"]
+    assert (
+        BuildRecipeProvenanceGapStatus.BASE_IMAGE_DIGEST_MISSING.value
+        in result["record"]["gap_statuses"]
+    )
 
 
 def test_gap_packet_records_history_only_reconstruction(tmp_path):
     result = _gapper(tmp_path).write_gap(_plan(tmp_path), _recovery(tmp_path))
 
-    assert BuildRecipeProvenanceGapStatus.RECONSTRUCTED_FROM_IMAGE_HISTORY_ONLY.value in result["record"]["gap_statuses"]
-    assert result["record"]["observed_recipe_state"]["reconstructed_recipe_source"] == "OCI config history only"
+    assert (
+        BuildRecipeProvenanceGapStatus.RECONSTRUCTED_FROM_IMAGE_HISTORY_ONLY.value
+        in result["record"]["gap_statuses"]
+    )
+    assert (
+        result["record"]["observed_recipe_state"]["reconstructed_recipe_source"]
+        == "OCI config history only"
+    )
 
 
 def test_gap_packet_records_material_fidelity_risk(tmp_path):
     result = _gapper(tmp_path).write_gap(_plan(tmp_path), _recovery(tmp_path))
 
-    assert BuildRecipeProvenanceGapStatus.MATERIAL_FIDELITY_RISK.value in result["record"]["gap_statuses"]
+    assert (
+        BuildRecipeProvenanceGapStatus.MATERIAL_FIDELITY_RISK.value
+        in result["record"]["gap_statuses"]
+    )
 
 
 def test_gap_packet_defines_closure_requirements(tmp_path):
@@ -163,7 +198,10 @@ def test_rebuild_is_not_authorized(tmp_path):
     result = _gapper(tmp_path).write_gap(_plan(tmp_path), _recovery(tmp_path))
 
     assert result["record"]["authorization"]["rebuild_authorized"] is False
-    assert BuildRecipeProvenanceGapStatus.REBUILD_NOT_AUTHORIZED.value in result["record"]["gap_statuses"]
+    assert (
+        BuildRecipeProvenanceGapStatus.REBUILD_NOT_AUTHORIZED.value
+        in result["record"]["gap_statuses"]
+    )
 
 
 def test_docker_execution_is_not_authorized(tmp_path):
@@ -200,14 +238,22 @@ def test_redaction_invariant_verified_for_sanitized_history(tmp_path):
     result = _gapper(tmp_path).write_gap(_plan(tmp_path), _recovery(tmp_path))
 
     assert result["record"]["redaction_invariant"]["redaction_passed"] is True
-    assert BuildRecipeProvenanceGapStatus.REDACTION_INVARIANT_VERIFIED.value in result["record"]["gap_statuses"]
+    assert (
+        BuildRecipeProvenanceGapStatus.REDACTION_INVARIANT_VERIFIED.value
+        in result["record"]["gap_statuses"]
+    )
 
 
 def test_redaction_invariant_failed_for_unredacted_history(tmp_path):
-    result = _gapper(tmp_path).write_gap(_plan(tmp_path), _recovery(tmp_path, unredacted_token=True))
+    result = _gapper(tmp_path).write_gap(
+        _plan(tmp_path), _recovery(tmp_path, unredacted_token=True)
+    )
 
     assert result["record"]["redaction_invariant"]["redaction_passed"] is False
-    assert BuildRecipeProvenanceGapStatus.REDACTION_INVARIANT_FAILED.value in result["record"]["gap_statuses"]
+    assert (
+        BuildRecipeProvenanceGapStatus.REDACTION_INVARIANT_FAILED.value
+        in result["record"]["gap_statuses"]
+    )
 
 
 def test_signed_gap_record_is_written(tmp_path):

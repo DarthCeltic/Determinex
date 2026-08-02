@@ -1,5 +1,6 @@
 """Tests for the local-signing helper underpinning
 APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -14,7 +15,9 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 
 ls = importlib.import_module("ide.local_signing")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "APPROVAL_SIGNATURE_CRYPTOGRAPHIC_BINDING_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "approval_signature_cryptographic_binding"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -64,14 +67,20 @@ def test_workspace_identity_does_not_appear_in_payload():
     """The raw workspace_identity must be hashed, not embedded."""
     raw = "/c/Users/secret/private"
     p = ls.canonical_payload(
-        trace_id="t", canonical_patch_body_hash="", diff_hash="",
-        verifier_status="", rollback_snapshot_ref="",
-        workspace_identity=raw, operator_identity="x", stale_after="0",
+        trace_id="t",
+        canonical_patch_body_hash="",
+        diff_hash="",
+        verifier_status="",
+        rollback_snapshot_ref="",
+        workspace_identity=raw,
+        operator_identity="x",
+        stale_after="0",
     )
     assert b"secret" not in p
     assert b"private" not in p
     # But the hash should be there.
     import hashlib
+
     assert hashlib.sha256(raw.encode("utf-8")).hexdigest().encode() in p
 
 
@@ -86,9 +95,13 @@ def test_invalid_signature_shape_verify_returns_false(tmp_path):
 
 def test_module_does_not_open_network():
     src = Path(ls.__file__).read_text(encoding="utf-8")
-    for forbidden in ("import requests", "from requests",
-                      "import httpx", "from httpx",
-                      "urllib.request"):
+    for forbidden in (
+        "import requests",
+        "from requests",
+        "import httpx",
+        "from httpx",
+        "urllib.request",
+    ):
         assert forbidden not in src
 
 

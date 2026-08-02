@@ -45,17 +45,69 @@ CONFIG_PATH = TAURI_DIR / "tauri.conf.json"
 # VCRUNTIME140*) never has, which is the entire distinction this bug turned on.
 OS_PROVIDED_PREFIXES = ("api-ms-win-", "ext-ms-win-")
 OS_PROVIDED = {
-    "kernel32.dll", "user32.dll", "gdi32.dll", "advapi32.dll", "shell32.dll", "ole32.dll",
-    "oleaut32.dll", "ws2_32.dll", "ntdll.dll", "crypt32.dll", "bcrypt.dll", "secur32.dll",
-    "shlwapi.dll", "comdlg32.dll", "comctl32.dll", "userenv.dll", "version.dll", "psapi.dll",
-    "dbghelp.dll", "setupapi.dll", "winmm.dll", "imm32.dll", "dwmapi.dll", "uxtheme.dll",
-    "propsys.dll", "windowscodecs.dll", "d3d11.dll", "d3d12.dll", "dxgi.dll", "directml.dll",
-    "d3dcompiler_47.dll", "gdiplus.dll", "msimg32.dll", "iphlpapi.dll", "winhttp.dll",
-    "wininet.dll", "rpcrt4.dll", "ucrtbase.dll", "msvcrt.dll", "bcryptprimitives.dll",
-    "cfgmgr32.dll", "powrprof.dll", "normaliz.dll", "dnsapi.dll", "mswsock.dll",
-    "wintrust.dll", "urlmon.dll", "oleacc.dll", "wtsapi32.dll", "credui.dll", "dcomp.dll",
-    "hid.dll", "opengl32.dll", "shcore.dll", "combase.dll", "kernelbase.dll", "pdh.dll",
-    "mpr.dll", "netapi32.dll", "authz.dll", "sspicli.dll", "profapi.dll", "win32u.dll",
+    "kernel32.dll",
+    "user32.dll",
+    "gdi32.dll",
+    "advapi32.dll",
+    "shell32.dll",
+    "ole32.dll",
+    "oleaut32.dll",
+    "ws2_32.dll",
+    "ntdll.dll",
+    "crypt32.dll",
+    "bcrypt.dll",
+    "secur32.dll",
+    "shlwapi.dll",
+    "comdlg32.dll",
+    "comctl32.dll",
+    "userenv.dll",
+    "version.dll",
+    "psapi.dll",
+    "dbghelp.dll",
+    "setupapi.dll",
+    "winmm.dll",
+    "imm32.dll",
+    "dwmapi.dll",
+    "uxtheme.dll",
+    "propsys.dll",
+    "windowscodecs.dll",
+    "d3d11.dll",
+    "d3d12.dll",
+    "dxgi.dll",
+    "directml.dll",
+    "d3dcompiler_47.dll",
+    "gdiplus.dll",
+    "msimg32.dll",
+    "iphlpapi.dll",
+    "winhttp.dll",
+    "wininet.dll",
+    "rpcrt4.dll",
+    "ucrtbase.dll",
+    "msvcrt.dll",
+    "bcryptprimitives.dll",
+    "cfgmgr32.dll",
+    "powrprof.dll",
+    "normaliz.dll",
+    "dnsapi.dll",
+    "mswsock.dll",
+    "wintrust.dll",
+    "urlmon.dll",
+    "oleacc.dll",
+    "wtsapi32.dll",
+    "credui.dll",
+    "dcomp.dll",
+    "hid.dll",
+    "opengl32.dll",
+    "shcore.dll",
+    "combase.dll",
+    "kernelbase.dll",
+    "pdh.dll",
+    "mpr.dll",
+    "netapi32.dll",
+    "authz.dll",
+    "sspicli.dll",
+    "profapi.dll",
+    "win32u.dll",
 }
 
 
@@ -79,7 +131,7 @@ def pe_imports(path: Path) -> list[str]:
     """
     b = path.read_bytes()
     pe = struct.unpack_from("<I", b, 0x3C)[0]
-    if b[pe:pe + 4] != b"PE\0\0":
+    if b[pe : pe + 4] != b"PE\0\0":
         raise ValueError(f"{path} is not a PE file")
     n_sections = struct.unpack_from("<H", b, pe + 6)[0]
     opt_size = struct.unpack_from("<H", b, pe + 20)[0]
@@ -108,7 +160,7 @@ def pe_imports(path: Path) -> list[str]:
     if off is None:
         return []
     while True:
-        entry = b[off:off + 20]
+        entry = b[off : off + 20]
         if len(entry) < 20 or entry == b"\0" * 20:
             break
         name_rva = struct.unpack_from("<I", entry, 12)[0]
@@ -117,7 +169,7 @@ def pe_imports(path: Path) -> list[str]:
         noff = to_off(name_rva)
         if noff is None:
             break
-        names.append(b[noff:b.index(b"\0", noff)].decode("ascii", "replace"))
+        names.append(b[noff : b.index(b"\0", noff)].decode("ascii", "replace"))
         off += 20
     return names
 
@@ -170,7 +222,11 @@ def test_the_crt_runtime_is_shipped_beside_the_executable():
 def test_the_shipped_crt_files_exist_and_are_one_consistent_version():
     """Mixing CRT versions across MSVCP140*/VCRUNTIME140* is unsupported by Microsoft and
     fails in ways far less obvious than a missing file."""
-    crt = [r for r in _resources() if re.fullmatch(r"(msvcp140.*|vcruntime140.*|concrt140)\.dll", r, re.I)]
+    crt = [
+        r
+        for r in _resources()
+        if re.fullmatch(r"(msvcp140.*|vcruntime140.*|concrt140)\.dll", r, re.I)
+    ]
     assert crt, "no CRT DLLs declared in bundle.resources"
     for name in crt:
         path = TAURI_DIR / name
@@ -280,8 +336,7 @@ def test_first_run_setup_registers_the_model_ids_the_router_will_actually_route_
         f"install would still be unable to route work"
     )
     assert tags == set(CURRENT_MODEL_IDS), (
-        f"bootstrap.rs tags {sorted(tags)} != router CURRENT_MODEL_IDS "
-        f"{sorted(CURRENT_MODEL_IDS)}"
+        f"bootstrap.rs tags {sorted(tags)} != router CURRENT_MODEL_IDS {sorted(CURRENT_MODEL_IDS)}"
     )
 
 

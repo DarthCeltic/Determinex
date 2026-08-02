@@ -9,6 +9,7 @@ load for a code path that doesn't need it.
 Same prompt -> different model -> different coordinate system -> same meaning.
 W learns the coordinate transform.
 """
+
 from __future__ import annotations
 
 SHARED_PROMPTS: list[str] = [

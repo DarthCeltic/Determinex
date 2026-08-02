@@ -2,11 +2,11 @@
 Clipboard guard — prevents sensitive data from leaking through VM→host clipboard.
 All clipboard reads/writes must go through this module.
 """
+
 from __future__ import annotations
 
 import logging
 import re
-from typing import Any
 
 from vision.visual_cloak import scan_text_for_pii
 
@@ -18,7 +18,7 @@ _SECRET_PATTERNS: list[re.Pattern] = [
     re.compile(r"\bsk-ant-[A-Za-z0-9\-_]{40,}\b"),
     re.compile(r"\bghp_[A-Za-z0-9]{36}\b"),
     re.compile(r"-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----"),
-    re.compile(r"\b[A-Za-z0-9/+]{40}\b"),   # generic base64-like secrets
+    re.compile(r"\b[A-Za-z0-9/+]{40}\b"),  # generic base64-like secrets
 ]
 
 

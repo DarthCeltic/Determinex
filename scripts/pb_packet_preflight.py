@@ -26,12 +26,12 @@ Usage:
 The strict mode is meant for `pb_make_packet.py` / `pb_factory_worker_loop.py`
 to refuse to emit a PATCH packet when the preflight says RECOVERY.
 """
+
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -182,7 +182,9 @@ def _classify(
     # The tool is finished; no edit needed.
     best_passed = board_row.get("best_passed")
     best_runnable = board_row.get("best_runnable_total")
-    locked_present = bool(board_row.get("locked_dir") or board_row.get("locked_archive")) or locked_dir.is_dir()
+    locked_present = (
+        bool(board_row.get("locked_dir") or board_row.get("locked_archive")) or locked_dir.is_dir()
+    )
     is_perfect = (
         isinstance(best_passed, int)
         and isinstance(best_runnable, int)
@@ -190,7 +192,9 @@ def _classify(
         and best_passed == best_runnable
     )
     if is_perfect and locked_present:
-        return "LOCKED", [f"best_passed=best_runnable={best_passed}/{best_runnable}; locked archive present — no edit needed"]
+        return "LOCKED", [
+            f"best_passed=best_runnable={best_passed}/{best_runnable}; locked archive present — no edit needed"
+        ]
 
     if best_eval_json is None or not best_eval_json.is_file():
         reasons.append(f"missing best_eval_path: {best_eval_json}")
@@ -252,7 +256,7 @@ def _resolve_override_paths(slug: str) -> tuple[Path, Path]:
     d = OVERRIDES_ROOT / slug
     compile_sh = d / "compile.sh"
     candidates = [
-        d / "main.py",          # python upstream
+        d / "main.py",  # python upstream
         d / "src" / "main.rs",  # rust (Cargo layout)
         d / "main.rs",
         d / "main.go",
@@ -264,8 +268,14 @@ def _resolve_override_paths(slug: str) -> tuple[Path, Path]:
         if c.is_file():
             return c, compile_sh
     # Glob fallback for typical native layouts (cmd/<tool>/main.go etc.)
-    for pat in ("cmd/**/main.go", "src/**/main.rs", "src/**/*.cpp",
-                "src/**/*.c", "**/main.go", "**/main.rs"):
+    for pat in (
+        "cmd/**/main.go",
+        "src/**/main.rs",
+        "src/**/*.cpp",
+        "src/**/*.c",
+        "**/main.go",
+        "**/main.rs",
+    ):
         try:
             matches = sorted(d.glob(pat), key=lambda p: len(p.parts))
         except OSError:
@@ -291,8 +301,7 @@ def _resolve_best_source(board_row: dict | None) -> tuple[Path | None, Path | No
     if not candidate_root.is_dir():
         return None, None
     # Probe in priority order: native first, then python
-    for name in ("main.py", "main.rs", "src/main.rs", "main.go",
-                 "main.c", "main.cpp", "main.cc"):
+    for name in ("main.py", "main.rs", "src/main.rs", "main.go", "main.c", "main.cpp", "main.cc"):
         p = candidate_root / name
         if p.is_file():
             return p, candidate_root / "compile.sh"
@@ -312,9 +321,13 @@ def preflight(slug: str) -> dict:
     override_main, override_compile = _resolve_override_paths(slug)
     board_row = _board_row(slug)
     best_main, best_compile = _resolve_best_source(board_row)
-    best_eval = Path(board_row["best_eval_path"]) if board_row and board_row.get("best_eval_path") else None
+    best_eval = (
+        Path(board_row["best_eval_path"]) if board_row and board_row.get("best_eval_path") else None
+    )
     base_slug = board_row.get("base_slug") if board_row else slug.split(".")[0]
-    locked_dir = LOCKED_ROOT / (base_slug.split("__")[-1] if base_slug and "__" in base_slug else (base_slug or slug))
+    locked_dir = LOCKED_ROOT / (
+        base_slug.split("__")[-1] if base_slug and "__" in base_slug else (base_slug or slug)
+    )
     freshness = _board_freshness(board_row or {}, ACCEPTED_RUNS)
 
     override_main_rel = override_main.relative_to(ROOT).as_posix()
@@ -348,7 +361,9 @@ def preflight(slug: str) -> dict:
             "factory_accepted": (board_row or {}).get("factory_accepted"),
             "factory_registry_line": (board_row or {}).get("factory_registry_line"),
             "eval_mtime": (board_row or {}).get("eval_mtime"),
-        } if board_row else None,
+        }
+        if board_row
+        else None,
         "paths": {
             "active_override_main": str(override_main),
             "active_override_compile": str(override_compile),

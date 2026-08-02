@@ -1,6 +1,8 @@
 """SentinelBench action gate: SEND_MESSAGE (SMS) on mobile always requires confirmation."""
-from tests.sentinelbench.helpers import make_action
+
 from agents.base_agent import ActionType, AgentObservation, EnvType, VisualTaskSpec
+
+from tests.sentinelbench.helpers import make_action
 
 
 def test_sms_requires_confirmation(governor):

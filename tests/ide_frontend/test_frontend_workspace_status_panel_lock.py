@@ -1,11 +1,9 @@
 """Tests for FRONTEND_WORKSPACE_STATUS_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -15,12 +13,14 @@ EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_workspace_statu
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-STATUS_TOKENS = frozenset({
-    "WORKSPACE_STATUS_PANEL_READY",
-    "WORKSPACE_STATUS_UNSUPPORTED_VISIBLE",
-    "WORKSPACE_STATUS_VERIFIER_MISSING_VISIBLE",
-    "WORKSPACE_STATUS_SOURCE_UNCHANGED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "WORKSPACE_STATUS_PANEL_READY",
+        "WORKSPACE_STATUS_UNSUPPORTED_VISIBLE",
+        "WORKSPACE_STATUS_VERIFIER_MISSING_VISIBLE",
+        "WORKSPACE_STATUS_SOURCE_UNCHANGED",
+    }
+)
 
 
 def test_panel_exists():
@@ -30,6 +30,7 @@ def test_panel_exists():
 def test_panel_status_tokens_constant_exact():
     src = PANEL.read_text(encoding="utf-8")
     import re
+
     m = re.search(r"WORKSPACE_STATUS_PANEL_STATUS_TOKENS\s*=\s*\[([^\]]+)\]\s*as\s*const", src)
     assert m
     declared = set(re.findall(r'"([^"]+)"', m.group(1)))
@@ -44,23 +45,23 @@ def test_panel_calls_get_workspace_status():
 def test_panel_renders_adapter_and_supported_fields():
     src = PANEL.read_text(encoding="utf-8")
     for needle in (
-        "data-testid=\"workspace-status-adapter\"",
-        "data-testid=\"workspace-status-supported\"",
-        "data-testid=\"workspace-status-verifier\"",
-        "data-testid=\"workspace-status-path\"",
+        'data-testid="workspace-status-adapter"',
+        'data-testid="workspace-status-supported"',
+        'data-testid="workspace-status-verifier"',
+        'data-testid="workspace-status-path"',
     ):
         assert needle in src
 
 
 def test_panel_says_source_unchanged():
     src = PANEL.read_text(encoding="utf-8")
-    assert "data-testid=\"workspace-source-unchanged-note\"" in src
+    assert 'data-testid="workspace-source-unchanged-note"' in src
     assert "files were not modified" in src.lower()
 
 
 def test_panel_renders_evidence_refs_when_present():
     src = PANEL.read_text(encoding="utf-8")
-    assert "data-testid=\"workspace-status-evidence-refs\"" in src
+    assert 'data-testid="workspace-status-evidence-refs"' in src
 
 
 def test_panel_has_no_source_apply_or_write_controls():

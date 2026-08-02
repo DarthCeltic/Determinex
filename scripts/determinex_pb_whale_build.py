@@ -12,6 +12,7 @@ Usage:
   python scripts/determinex_pb_whale_build.py <full_slug>          # apply recipe + eval
   python scripts/determinex_pb_whale_build.py --list               # show the recipe map
 """
+
 from __future__ import annotations
 
 import collections
@@ -44,10 +45,12 @@ def ensure_deps(slug: str) -> bool:
     if _MARK in txt:
         return False
     apt = r.get("apt", "build-essential")
-    block = (f"\n{_MARK} corpus whale_base_toolchains: {r.get('sys','')} -> {r.get('build','')[:60]}\n"
-             f"export DEBIAN_FRONTEND=noninteractive\n"
-             f"apt-get update -qq 2>/dev/null || true\n"
-             f"apt-get install -y -qq {apt} 2>/dev/null || true\n")
+    block = (
+        f"\n{_MARK} corpus whale_base_toolchains: {r.get('sys', '')} -> {r.get('build', '')[:60]}\n"
+        f"export DEBIAN_FRONTEND=noninteractive\n"
+        f"apt-get update -qq 2>/dev/null || true\n"
+        f"apt-get install -y -qq {apt} 2>/dev/null || true\n"
+    )
     lines = txt.splitlines(keepends=True)
     at = 1 if lines and lines[0].startswith("#!") else 0
     lines.insert(at, block)
@@ -56,9 +59,11 @@ def ensure_deps(slug: str) -> bool:
 
 
 def build_and_report(slug: str, local: bool | None = None) -> dict:
-    import determinex_pb_autofix as AF
     from pathlib import Path as _P
+
+    import determinex_pb_autofix as AF
     from pb_eval_unified import run_hetzner_eval, run_local_eval
+
     # auto-detect: when running ON the eval box, eval locally (SSHing to ourselves fails 255)
     if local is None:
         local = _P("/root/ProgramBench").is_dir()
@@ -72,14 +77,21 @@ def build_and_report(slug: str, local: bool | None = None) -> dict:
     rc127 = sum(1 for r in tr if "127" in str((r.get("extra") or {}).get("text", ""))[:160])
     total = len(tr)
     passed = c.get("passed", 0)
-    out = {"slug": slug, "deps_added": changed, "passed": passed, "total": total,
-           "failed": c.get("failure", 0) + c.get("failed", 0) + c.get("error", 0),
-           "not_run": c.get("not_run", 0), "rc127": rc127,
-           "verdict": "BUILDS" if total and passed > 0.10 * total else "BUILD-FAIL"}
+    out = {
+        "slug": slug,
+        "deps_added": changed,
+        "passed": passed,
+        "total": total,
+        "failed": c.get("failure", 0) + c.get("failed", 0) + c.get("error", 0),
+        "not_run": c.get("not_run", 0),
+        "rc127": rc127,
+        "verdict": "BUILDS" if total and passed > 0.10 * total else "BUILD-FAIL",
+    }
     # save fresh report
     try:
         (OV / slug / "eval_report.json").write_text(
-            json.dumps(data, indent=1, ensure_ascii=False), encoding="utf-8")
+            json.dumps(data, indent=1, ensure_ascii=False), encoding="utf-8"
+        )
     except Exception:
         pass
     return out
@@ -96,8 +108,10 @@ def main() -> int:
         print(__doc__)
         return 2
     res = build_and_report(args[0], local=(True if "--local" in sys.argv else None))
-    print(f"{res['slug']}: {res['verdict']} {res['passed']}/{res['total']} "
-          f"fail={res['failed']} nr={res['not_run']} rc127={res['rc127']} deps_added={res['deps_added']}")
+    print(
+        f"{res['slug']}: {res['verdict']} {res['passed']}/{res['total']} "
+        f"fail={res['failed']} nr={res['not_run']} rc127={res['rc127']} deps_added={res['deps_added']}"
+    )
     return 0
 
 

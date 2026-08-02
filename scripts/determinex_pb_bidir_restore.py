@@ -28,6 +28,7 @@ Usage:
                                                                            # (the "without injection"
                                                                            #  arm of the dual-eval)
 """
+
 from __future__ import annotations
 
 import io
@@ -36,11 +37,11 @@ import sys
 import tarfile
 from pathlib import Path
 
-_PLUGIN = (Path(__file__).resolve().parent / "determinex_bidir_plugin.py")
+_PLUGIN = Path(__file__).resolve().parent / "determinex_bidir_plugin.py"
 
 # The hook body appended into each conftest heredoc. Self-contained (own aliased imports),
 # guarded so it never raises during conftest import.
-_BIDIR_HOOKS = '''
+_BIDIR_HOOKS = """
 # --- determinex bidir JUnit mirror (restored) -------------------------------------------
 import atexit as _cb_at, copy as _cb_copy, glob as _cb_glob, os as _cb_os
 import xml.etree.ElementTree as _cb_ET
@@ -77,15 +78,20 @@ def pytest_sessionfinish(session, exitstatus): _cb_run()
 def pytest_unconfigure(config): _cb_run()
 _cb_at.register(_cb_run)
 # --- end determinex bidir mirror --------------------------------------------------------
-'''
+"""
 
 _CONFTEST_HEREDOC = re.compile(
-    r"(cat\s*>\s*[^\n]*conftest\.py[^\n]*<<\s*'?(\w+)'?\n)(.*?)(\n\2)", re.DOTALL)
+    r"(cat\s*>\s*[^\n]*conftest\.py[^\n]*<<\s*'?(\w+)'?\n)(.*?)(\n\2)", re.DOTALL
+)
 
 
 def _has_bidir(text: str) -> bool:
-    return ("_cb_mirror" in text or "_mirror_classname" in text
-            or "pytest_sessionfinish" in text and "eval.tests." in text)
+    return (
+        "_cb_mirror" in text
+        or "_mirror_classname" in text
+        or "pytest_sessionfinish" in text
+        and "eval.tests." in text
+    )
 
 
 def inject_bidir(compile_sh_text: str) -> tuple[str, bool]:
@@ -112,7 +118,8 @@ def _cb_present(body: str) -> bool:
 
 _BIDIR_BLOCK = re.compile(
     r"\n# --- determinex bidir JUnit mirror[^\n]*\n.*?# --- end determinex bidir mirror[^\n]*\n",
-    re.DOTALL)
+    re.DOTALL,
+)
 
 
 def strip_bidir(compile_sh_text: str) -> tuple[str, bool]:
@@ -123,9 +130,14 @@ def strip_bidir(compile_sh_text: str) -> tuple[str, bool]:
     changed = n > 0
     if "_cb_mirror" in new:
         # Fallback: drop lines that define/register the mirror if markers were absent.
-        lines = [ln for ln in new.splitlines(keepends=True)
-                 if "_cb_mirror" not in ln and "_cb_run" not in ln
-                 and "_cb_one" not in ln and "_cb_at.register" not in ln]
+        lines = [
+            ln
+            for ln in new.splitlines(keepends=True)
+            if "_cb_mirror" not in ln
+            and "_cb_run" not in ln
+            and "_cb_one" not in ln
+            and "_cb_at.register" not in ln
+        ]
         stripped = "".join(lines)
         if stripped != new:
             new, changed = stripped, True

@@ -21,10 +21,10 @@ import glob
 import json
 import re
 from collections import Counter, defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
-
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT_DIR = ROOT / "assurance" / "evidence" / "programbench_conveyor"
@@ -174,7 +174,9 @@ def _branch_clusters(by_branch: dict[str, list[dict[str, Any]]]) -> tuple[Branch
     return tuple(clusters)
 
 
-def classify(counts: Counter[str], total: int, combined_failure_text: str, log_text: str) -> tuple[str, str]:
+def classify(
+    counts: Counter[str], total: int, combined_failure_text: str, log_text: str
+) -> tuple[str, str]:
     failed = counts["failure"] + counts["failed"]
     errors = counts["error"]
     skipped = counts["skipped"]
@@ -182,7 +184,14 @@ def classify(counts: Counter[str], total: int, combined_failure_text: str, log_t
     passed = counts["passed"]
     nonpass = failed + errors + skipped + not_run
 
-    if total > 0 and passed == total and failed == 0 and errors == 0 and skipped == 0 and not_run == 0:
+    if (
+        total > 0
+        and passed == total
+        and failed == 0
+        and errors == 0
+        and skipped == 0
+        and not_run == 0
+    ):
         return "strict-lock-candidate", "section-5-verification-required"
 
     if failed == 0 and errors == 0 and not_run == 0 and skipped > 0:
@@ -229,7 +238,12 @@ def detect_patterns(
     image_surface = counts["error"] + counts["not_run"]
     nonpass = failed + image_surface + counts["skipped"]
     image_hit = IMAGE_PAT.search(image_text)
-    if image_hit and image_surface > 0 and image_surface >= max(failed, 1) and image_surface >= max(nonpass // 2, 1):
+    if (
+        image_hit
+        and image_surface > 0
+        and image_surface >= max(failed, 1)
+        and image_surface >= max(nonpass // 2, 1)
+    ):
         patterns.append("image/executable plumbing")
     if PTY_PAT.search(text):
         patterns.append("PTY harness gap")
@@ -260,13 +274,19 @@ def recommend_actions(
             ]
         )
     elif failure_class == "skip-parity-check":
-        actions.append("Classify skipped tests as Tier A/Tier B parity before any reference-parity claim.")
+        actions.append(
+            "Classify skipped tests as Tier A/Tier B parity before any reference-parity claim."
+        )
     elif failure_class in {"collection-module-wall", "collection-gap"}:
         if clusters:
-            actions.append(f"Fix collection/import wall in branch {clusters[0].branch} before behavioral work.")
+            actions.append(
+                f"Fix collection/import wall in branch {clusters[0].branch} before behavioral work."
+            )
         actions.append("Run pb_senses.py or equivalent artifact classifier on not_run/error rows.")
     elif failure_class == "image-plumbing":
-        actions.append("Bounce as harness/image plumbing unless executable path can be repaired without fixture edits.")
+        actions.append(
+            "Bounce as harness/image plumbing unless executable path can be repaired without fixture edits."
+        )
     elif failure_class == "pty-gap":
         actions.append("Apply the reusable PTY harness pattern before another full eval.")
     else:
@@ -307,7 +327,7 @@ def render_packet(
     remote_pid: str | None,
     remote_log: str | None,
 ) -> str:
-    now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+    now = dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat()
     lines: list[str] = [
         f"# ProgramBench Eval Conveyor Packet - {batch_id}",
         "",
@@ -333,11 +353,15 @@ def render_packet(
             ]
         )
         if packet.pattern_signatures:
-            lines.append("- pattern_signatures: " + ", ".join(f"`{p}`" for p in packet.pattern_signatures))
+            lines.append(
+                "- pattern_signatures: " + ", ".join(f"`{p}`" for p in packet.pattern_signatures)
+            )
         lines.append("- top_branch_clusters:")
         if packet.branch_clusters:
             for cluster in packet.branch_clusters[:5]:
-                counts = ", ".join(f"{k}={v}" for k, v in sorted(cluster.counts.items()) if k != "passed")
+                counts = ", ".join(
+                    f"{k}={v}" for k, v in sorted(cluster.counts.items()) if k != "passed"
+                )
                 examples = "; ".join(cluster.examples[:3])
                 lines.append(f"  - `{cluster.branch}`: {counts}; examples: `{examples}`")
         else:
@@ -349,13 +373,15 @@ def render_packet(
     lines.extend(["## Corpus Route", ""])
     lines.append("- Add lock/bounce/park verdict rows only after driver confirmation.")
     lines.append("- Keep `training_eligible=false` until Ryan approval.")
-    lines.append("- Promote repeated signatures to `cross_tool_patterns.md` after driver confirmation.")
+    lines.append(
+        "- Promote repeated signatures to `cross_tool_patterns.md` after driver confirmation."
+    )
     lines.append("")
     return "\n".join(lines)
 
 
 def render_handback(packet_path: Path, packets: list[EvalPacket], batch_id: str) -> str:
-    now = dt.datetime.now(dt.timezone.utc).astimezone().replace(microsecond=0).isoformat()
+    now = dt.datetime.now(dt.UTC).astimezone().replace(microsecond=0).isoformat()
     lines = [
         "",
         f"## Eval Conveyor Packet: {batch_id} | {now}",
@@ -370,16 +396,24 @@ def render_handback(packet_path: Path, packets: list[EvalPacket], batch_id: str)
             f"passed `{c['passed']}`, failed `{c['failure'] + c['failed']}`, errors `{c['error']}`, "
             f"skipped `{c['skipped']}`, not_run `{c['not_run']}`, total `{packet.total}`."
         )
-    lines.append("- corpus_route: driver-confirmed verdict rows only; training_eligible stays false pending Ryan approval.")
+    lines.append(
+        "- corpus_route: driver-confirmed verdict rows only; training_eligible stays false pending Ryan approval."
+    )
     return "\n".join(lines) + "\n"
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("reports", nargs="+", help="Eval JSON files, directories, or glob patterns.")
+    parser.add_argument(
+        "reports", nargs="+", help="Eval JSON files, directories, or glob patterns."
+    )
     parser.add_argument("--batch-id", required=True, help="Campaign batch id for packet naming.")
-    parser.add_argument("--out-dir", default=str(DEFAULT_OUT_DIR), help="Evidence packet directory.")
-    parser.add_argument("--append-handback", action="store_true", help="Append summary to CODEX_HANDBACK.md.")
+    parser.add_argument(
+        "--out-dir", default=str(DEFAULT_OUT_DIR), help="Evidence packet directory."
+    )
+    parser.add_argument(
+        "--append-handback", action="store_true", help="Append summary to CODEX_HANDBACK.md."
+    )
     parser.add_argument("--handback-path", default=str(DEFAULT_HANDBACK), help="Handback path.")
     parser.add_argument("--remote-pid", help="Remote ProgramBench PID, if applicable.")
     parser.add_argument("--remote-log", help="Remote ProgramBench log path, if applicable.")
@@ -395,7 +429,9 @@ def main() -> int:
     safe_batch = re.sub(r"[^A-Za-z0-9_.-]+", "_", args.batch_id)
     packet_path = out_dir / f"{safe_batch}_eval_conveyor_packet.md"
     packet_path.write_text(
-        render_packet(packets, batch_id=args.batch_id, remote_pid=args.remote_pid, remote_log=args.remote_log),
+        render_packet(
+            packets, batch_id=args.batch_id, remote_pid=args.remote_pid, remote_log=args.remote_log
+        ),
         encoding="utf-8",
     )
     print(packet_path)

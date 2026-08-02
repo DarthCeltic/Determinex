@@ -35,6 +35,7 @@ Status tokens (closed set)::
 The gauntlet is intentionally read-only against the live repo. It does NOT
 mutate evidence, corpus, locks, or models. T:/ is not required.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -45,8 +46,9 @@ import os
 import shutil
 import subprocess
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 # ---------------------------------------------------------------------------
 # Paths and constants
@@ -65,27 +67,30 @@ LOCKS_DIR = REPO_ROOT / "locks" / "sentinel"
 DEFAULT_TIMEOUT_S = 120
 
 # Status tokens — closed set, all results map to one of these.
-STATUS_TOKENS = frozenset({
-    "ARCH_GAUNTLET_PASSED",
-    "ARCH_GAUNTLET_FAILED",
-    "CLI_COMMAND_AVAILABLE",
-    "CLI_COMMAND_FAILED",
-    "LEGACY_SCRIPT_COMPATIBLE",
-    "LEGACY_SCRIPT_BROKEN",
-    "READ_ONLY_COMMAND_MUTATED_EVIDENCE",
-    "READ_ONLY_COMMAND_PRESERVED_EVIDENCE",
-    "PATH_PORTABILITY_CONFIRMED",
-    "PATH_PORTABILITY_FAILED",
-    "UNSAFE_DEFAULT_BLOCKED",
-    "UNSAFE_DEFAULT_OPEN",
-    "JUST_RUNNER_PRESENT",
-    "JUST_RUNNER_MISSING_SKIPPED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "ARCH_GAUNTLET_PASSED",
+        "ARCH_GAUNTLET_FAILED",
+        "CLI_COMMAND_AVAILABLE",
+        "CLI_COMMAND_FAILED",
+        "LEGACY_SCRIPT_COMPATIBLE",
+        "LEGACY_SCRIPT_BROKEN",
+        "READ_ONLY_COMMAND_MUTATED_EVIDENCE",
+        "READ_ONLY_COMMAND_PRESERVED_EVIDENCE",
+        "PATH_PORTABILITY_CONFIRMED",
+        "PATH_PORTABILITY_FAILED",
+        "UNSAFE_DEFAULT_BLOCKED",
+        "UNSAFE_DEFAULT_OPEN",
+        "JUST_RUNNER_PRESENT",
+        "JUST_RUNNER_MISSING_SKIPPED",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _python_exe() -> str:
     """Return the interpreter to use for subprocess calls."""
@@ -142,7 +147,7 @@ def _run(
     cwd: Path | None = None,
 ) -> dict[str, Any]:
     """Run a subprocess and return a structured result. Never raises."""
-    started = _dt.datetime.now(_dt.timezone.utc).isoformat()
+    started = _dt.datetime.now(_dt.UTC).isoformat()
     try:
         proc = subprocess.run(
             argv,
@@ -164,10 +169,12 @@ def _run(
             "started_at": started,
         }
     except subprocess.TimeoutExpired as e:
+
         def _as_str(v: object) -> str:
             if isinstance(v, bytes):
                 return v.decode("utf-8", errors="replace")
             return v if isinstance(v, str) else ""
+
         return {
             "argv": argv,
             "returncode": -1,
@@ -198,6 +205,7 @@ def _tail(text: str, n_lines: int) -> str:
 # Checks — each returns (status_token, detail_dict)
 # ---------------------------------------------------------------------------
 
+
 def check_cli_version() -> tuple[str, dict[str, Any]]:
     result = _run(_determinex_cli_argv(["--version"]))
     ok = result["returncode"] == 0 and "determinex" in (result["stdout_tail"] or "").lower()
@@ -219,7 +227,10 @@ def check_cli_config_show() -> tuple[str, dict[str, Any]]:
 
 def check_cli_config_doctor() -> tuple[str, dict[str, Any]]:
     result = _run(_determinex_cli_argv(["config", "doctor"]))
-    ok = result["returncode"] == 0 and "safety defaults closed" in (result["stdout_tail"] or "").lower()
+    ok = (
+        result["returncode"] == 0
+        and "safety defaults closed" in (result["stdout_tail"] or "").lower()
+    )
     return (
         "CLI_COMMAND_AVAILABLE" if ok else "CLI_COMMAND_FAILED",
         {"check": "determinex config doctor", "result": result},
@@ -234,10 +245,7 @@ def check_cli_doctor() -> tuple[str, dict[str, Any]]:
     result = _run(_determinex_cli_argv(["doctor"]))
     out = result["stdout_tail"] or ""
     runs = result["returncode"] in (0, 1) and (
-        "ACTIVE" in out
-        or "UNAVAILABLE" in out
-        or "DEMO MODE" in out
-        or "==" in out
+        "ACTIVE" in out or "UNAVAILABLE" in out or "DEMO MODE" in out or "==" in out
     )
     return (
         "CLI_COMMAND_AVAILABLE" if runs else "CLI_COMMAND_FAILED",
@@ -269,6 +277,7 @@ def check_cli_evidence_validate() -> tuple[str, dict[str, Any]]:
 # ---------------------------------------------------------------------------
 # just (task runner) — optional, skipped if not installed
 # ---------------------------------------------------------------------------
+
 
 def _just_available() -> bool:
     return shutil.which("just") is not None
@@ -309,14 +318,12 @@ def check_just_recipe(recipe: str) -> tuple[str, dict[str, Any]]:
 # Legacy scripts — must still work as documented
 # ---------------------------------------------------------------------------
 
+
 def check_legacy_doctor() -> tuple[str, dict[str, Any]]:
     result = _run(_legacy_argv("determinex_doctor.py", []))
     out = result["stdout_tail"] or ""
     ok = result["returncode"] in (0, 1) and (
-        "ACTIVE" in out
-        or "UNAVAILABLE" in out
-        or "DEMO MODE" in out
-        or "==" in out
+        "ACTIVE" in out or "UNAVAILABLE" in out or "DEMO MODE" in out or "==" in out
     )
     return (
         "LEGACY_SCRIPT_COMPATIBLE" if ok else "LEGACY_SCRIPT_BROKEN",
@@ -349,6 +356,7 @@ def check_legacy_evidence_index() -> tuple[str, dict[str, Any]]:
 # Read-only mutation guard
 # ---------------------------------------------------------------------------
 
+
 def _signed_evidence_files() -> list[Path]:
     """The small canonical set of files that must remain byte-identical
     under any read-only command."""
@@ -373,10 +381,12 @@ def check_read_only_preserves_evidence() -> tuple[str, dict[str, Any]]:
         _determinex_cli_argv(["status", "--summary"]),
         _legacy_argv("evidence_index.py", ["--check"]),
     ]:
-        runs.append({
-            "argv": argv,
-            "returncode": _run(argv)["returncode"],
-        })
+        runs.append(
+            {
+                "argv": argv,
+                "returncode": _run(argv)["returncode"],
+            }
+        )
 
     after = {str(p.relative_to(REPO_ROOT)): _hash_path(p) for p in targets}
     mutated = sorted(k for k in before if before[k] != after.get(k))
@@ -387,8 +397,7 @@ def check_read_only_preserves_evidence() -> tuple[str, dict[str, Any]]:
         "mutated_files": mutated,
     }
     return (
-        "READ_ONLY_COMMAND_MUTATED_EVIDENCE" if mutated
-        else "READ_ONLY_COMMAND_PRESERVED_EVIDENCE",
+        "READ_ONLY_COMMAND_MUTATED_EVIDENCE" if mutated else "READ_ONLY_COMMAND_PRESERVED_EVIDENCE",
         detail,
     )
 
@@ -396,6 +405,7 @@ def check_read_only_preserves_evidence() -> tuple[str, dict[str, Any]]:
 # ---------------------------------------------------------------------------
 # Path portability — T:/ optional, env overrides honored
 # ---------------------------------------------------------------------------
+
 
 def check_path_portability(tmp_root: Path) -> tuple[str, dict[str, Any]]:
     """Confirm determinex_settings resolves portable paths when no T:/ is set
@@ -443,8 +453,7 @@ s = DeterminexSettings()
 with_override = {{p: str(getattr(s, p)) for p in props_with_fallback}}
 
 print(json.dumps({{"no_override": no_override, "with_override": with_override}}))
-""".format(scripts=str(SCRIPTS_DIR).replace("\\", "\\\\"),
-           tmp=str(tmp_root).replace("\\", "\\\\"))
+""".format(scripts=str(SCRIPTS_DIR).replace("\\", "\\\\"), tmp=str(tmp_root).replace("\\", "\\\\"))
 
     result = _run([_python_exe(), "-c", snippet])
     if result["returncode"] != 0:
@@ -495,6 +504,7 @@ print(json.dumps({{"no_override": no_override, "with_override": with_override}})
 # Unsafe-default fail-closed guard
 # ---------------------------------------------------------------------------
 
+
 def check_unsafe_defaults_fail_closed() -> tuple[str, dict[str, Any]]:
     """Confirm that with a clean env, all dangerous flags are off (fail-closed)
     AND that the runtime reports zero violations."""
@@ -540,20 +550,20 @@ print(json.dumps({{"flags": flags, "violations": violations}}))
 
     # Hard expectations (all must be fail-closed under a clean env):
     expectations = {
-        "safety_mode":          "strict",
-        "online_discovery":     False,
+        "safety_mode": "strict",
+        "online_discovery": False,
         "allow_cloud_fallback": False,
-        "allow_unsandboxed":    False,
-        "require_docker":       True,
-        "require_cloak":        True,
-        "offline_observer":     True,
-        "flywheel_auto":        False,
+        "allow_unsandboxed": False,
+        "require_docker": True,
+        "require_cloak": True,
+        "offline_observer": True,
+        "flywheel_auto": False,
     }
     mismatches = {k: (flags.get(k), v) for k, v in expectations.items() if flags.get(k) != v}
 
-    status = ("UNSAFE_DEFAULT_BLOCKED"
-              if not mismatches and not violations
-              else "UNSAFE_DEFAULT_OPEN")
+    status = (
+        "UNSAFE_DEFAULT_BLOCKED" if not mismatches and not violations else "UNSAFE_DEFAULT_OPEN"
+    )
     return (
         status,
         {
@@ -569,6 +579,7 @@ print(json.dumps({{"flags": flags, "violations": violations}}))
 # Orchestration
 # ---------------------------------------------------------------------------
 
+
 def run_gauntlet(tmp_root: Path | None = None) -> dict[str, Any]:
     """Run every check; return a structured report. Does not raise."""
     import tempfile
@@ -579,23 +590,23 @@ def run_gauntlet(tmp_root: Path | None = None) -> dict[str, Any]:
         tmp_root = Path(tmp_dir_owner.name)
 
     checks: list[tuple[str, Callable[[], tuple[str, dict[str, Any]]]]] = [
-        ("cli.version",            check_cli_version),
-        ("cli.config_show",        check_cli_config_show),
-        ("cli.config_doctor",      check_cli_config_doctor),
-        ("cli.doctor",             check_cli_doctor),
-        ("cli.status_summary",     check_cli_status_summary),
-        ("cli.evidence_validate",  check_cli_evidence_validate),
-        ("just.runner",            check_just_runner),
-        ("just.doctor",            lambda: check_just_recipe("doctor")),
-        ("just.test",              lambda: check_just_recipe("test")),
-        ("just.evidence",          lambda: check_just_recipe("evidence")),
-        ("just.audit",             lambda: check_just_recipe("audit")),
-        ("legacy.doctor",          check_legacy_doctor),
-        ("legacy.status_summary",  check_legacy_status_summary),
-        ("legacy.evidence_index",  check_legacy_evidence_index),
+        ("cli.version", check_cli_version),
+        ("cli.config_show", check_cli_config_show),
+        ("cli.config_doctor", check_cli_config_doctor),
+        ("cli.doctor", check_cli_doctor),
+        ("cli.status_summary", check_cli_status_summary),
+        ("cli.evidence_validate", check_cli_evidence_validate),
+        ("just.runner", check_just_runner),
+        ("just.doctor", lambda: check_just_recipe("doctor")),
+        ("just.test", lambda: check_just_recipe("test")),
+        ("just.evidence", lambda: check_just_recipe("evidence")),
+        ("just.audit", lambda: check_just_recipe("audit")),
+        ("legacy.doctor", check_legacy_doctor),
+        ("legacy.status_summary", check_legacy_status_summary),
+        ("legacy.evidence_index", check_legacy_evidence_index),
         ("guard.read_only_evidence", check_read_only_preserves_evidence),
-        ("portability.paths",      lambda: check_path_portability(tmp_root)),
-        ("safety.defaults",        check_unsafe_defaults_fail_closed),
+        ("portability.paths", lambda: check_path_portability(tmp_root)),
+        ("safety.defaults", check_unsafe_defaults_fail_closed),
     ]
 
     results: list[dict[str, Any]] = []
@@ -603,10 +614,13 @@ def run_gauntlet(tmp_root: Path | None = None) -> dict[str, Any]:
         try:
             status, detail = fn()
         except Exception as e:  # noqa: BLE001 — never let the gauntlet crash
-            status, detail = "ARCH_GAUNTLET_FAILED", {
-                "check": name,
-                "exception": f"{type(e).__name__}: {e}",
-            }
+            status, detail = (
+                "ARCH_GAUNTLET_FAILED",
+                {
+                    "check": name,
+                    "exception": f"{type(e).__name__}: {e}",
+                },
+            )
         assert status in STATUS_TOKENS, f"Unknown status token: {status!r}"
         results.append({"name": name, "status": status, "detail": detail})
 
@@ -624,7 +638,7 @@ def run_gauntlet(tmp_root: Path | None = None) -> dict[str, Any]:
 
     report = {
         "lock_id": "DETERMINEX_ARCHITECTURE_REGRESSION_GAUNTLET_LOCK_001",
-        "generated_at": _dt.datetime.now(_dt.timezone.utc).isoformat(),
+        "generated_at": _dt.datetime.now(_dt.UTC).isoformat(),
         "rollup_status": rollup,
         "checks_run": len(results),
         "checks_failed": len(failed),
@@ -646,12 +660,13 @@ def run_gauntlet(tmp_root: Path | None = None) -> dict[str, Any]:
 # CLI entry
 # ---------------------------------------------------------------------------
 
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--json", type=Path, default=None,
-                    help="Write the full JSON report to this path")
-    ap.add_argument("--strict", action="store_true",
-                    help="Exit 1 on ARCH_GAUNTLET_FAILED")
+    ap.add_argument(
+        "--json", type=Path, default=None, help="Write the full JSON report to this path"
+    )
+    ap.add_argument("--strict", action="store_true", help="Exit 1 on ARCH_GAUNTLET_FAILED")
     args = ap.parse_args(argv)
 
     report = run_gauntlet()
@@ -659,21 +674,29 @@ def main(argv: list[str] | None = None) -> int:
     # Pretty console summary
     print(f"Architecture Regression Gauntlet — {report['rollup_status']}")
     print(f"  ran {report['checks_run']} checks, {report['checks_failed']} failed")
-    print(f"  host: {report['host']['platform']} python {report['host']['python']}"
-          f" just={'yes' if report['host']['just_available'] else 'no'}")
+    print(
+        f"  host: {report['host']['platform']} python {report['host']['python']}"
+        f" just={'yes' if report['host']['just_available'] else 'no'}"
+    )
     for r in report["results"]:
-        marker = "  ok" if r["status"] not in {
-            "CLI_COMMAND_FAILED", "LEGACY_SCRIPT_BROKEN",
-            "READ_ONLY_COMMAND_MUTATED_EVIDENCE",
-            "PATH_PORTABILITY_FAILED", "UNSAFE_DEFAULT_OPEN",
-            "ARCH_GAUNTLET_FAILED",
-        } else "FAIL"
+        marker = (
+            "  ok"
+            if r["status"]
+            not in {
+                "CLI_COMMAND_FAILED",
+                "LEGACY_SCRIPT_BROKEN",
+                "READ_ONLY_COMMAND_MUTATED_EVIDENCE",
+                "PATH_PORTABILITY_FAILED",
+                "UNSAFE_DEFAULT_OPEN",
+                "ARCH_GAUNTLET_FAILED",
+            }
+            else "FAIL"
+        )
         print(f"  {marker}  {r['name']:<28} {r['status']}")
 
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)
-        args.json.write_text(json.dumps(report, indent=2, sort_keys=False),
-                             encoding="utf-8")
+        args.json.write_text(json.dumps(report, indent=2, sort_keys=False), encoding="utf-8")
         print(f"\nWrote report to {args.json}")
 
     if args.strict and report["rollup_status"] == "ARCH_GAUNTLET_FAILED":

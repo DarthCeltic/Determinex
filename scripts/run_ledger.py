@@ -40,6 +40,7 @@ CLI:
     python scripts/run_ledger.py --summary
     python scripts/run_ledger.py --backfill-pb-eval-jsons
 """
+
 from __future__ import annotations
 
 import argparse
@@ -48,11 +49,12 @@ import os
 import sqlite3
 import sys
 from collections import Counter
+from collections.abc import Iterable
 from contextlib import contextmanager
-from dataclasses import dataclass, field, asdict
-from datetime import datetime, timezone
+from dataclasses import asdict, dataclass, field
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Iterable, Optional
+from typing import Any
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -63,8 +65,8 @@ if hasattr(sys.stdout, "reconfigure"):
 # ---------------------------------------------------------------------------
 
 DETERMINEX_ROOT = Path(os.environ.get("DETERMINEX_ROOT", Path(__file__).resolve().parents[1]))
-LEDGER_DIR   = DETERMINEX_ROOT / "logs" / "ledger"
-SQLITE_PATH  = DETERMINEX_ROOT / "logs" / "determinex_ledger.db"
+LEDGER_DIR = DETERMINEX_ROOT / "logs" / "ledger"
+SQLITE_PATH = DETERMINEX_ROOT / "logs" / "determinex_ledger.db"
 
 # Files whose sha256 is recorded as part of run provenance — extend per executor.
 SCAFFOLD_TEMPLATE_FILES_DEFAULT = (
@@ -77,6 +79,7 @@ SCAFFOLD_TEMPLATE_FILES_DEFAULT = (
 # Event model
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class LedgerEvent:
     """One row of the ledger. JSON-serializable.
@@ -84,15 +87,20 @@ class LedgerEvent:
     Required:    run_id, phase, status, timestamp
     Conventional: task_id, score, failures, artifact, extra
     """
-    run_id:    str
-    phase:     str
-    status:    str
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"))
-    task_id:   Optional[str] = None
-    score:     Optional[float] = None
-    failures:  Optional[dict[str, int]] = None
-    artifact:  Optional[str] = None
-    extra:     Optional[dict[str, Any]] = None
+
+    run_id: str
+    phase: str
+    status: str
+    timestamp: str = field(
+        default_factory=lambda: (
+            datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
+        )
+    )
+    task_id: str | None = None
+    score: float | None = None
+    failures: dict[str, int] | None = None
+    artifact: str | None = None
+    extra: dict[str, Any] | None = None
 
     def to_json(self) -> str:
         return json.dumps(_compact(asdict(self)), default=str, separators=(",", ":"))
@@ -149,13 +157,14 @@ def _open_db(path: Path = SQLITE_PATH) -> sqlite3.Connection:
 # JSONL writer (source of truth)
 # ---------------------------------------------------------------------------
 
+
 def _jsonl_path(run_id: str) -> Path:
     LEDGER_DIR.mkdir(parents=True, exist_ok=True)
     safe = "".join(c if (c.isalnum() or c in "-_.") else "_" for c in run_id)
     return LEDGER_DIR / f"{safe}.jsonl"
 
 
-def append_event(event: LedgerEvent, sqlite_path: Optional[Path] = None) -> Path:
+def append_event(event: LedgerEvent, sqlite_path: Path | None = None) -> Path:
     """Append one event to its run's JSONL, then mirror into the SQLite index.
 
     Returns the JSONL path. JSONL write is atomic (line is one fsync); SQLite
@@ -224,8 +233,12 @@ def _bump_run_seen(conn: sqlite3.Connection, event: LedgerEvent) -> None:
     if row is None:
         conn.execute(
             "INSERT INTO runs(run_id, kind, started_at, last_seen_at, n_events) VALUES (?, ?, ?, ?, 1)",
-            (event.run_id, (event.extra or {}).get("kind") if event.extra else None,
-             event.timestamp, event.timestamp),
+            (
+                event.run_id,
+                (event.extra or {}).get("kind") if event.extra else None,
+                event.timestamp,
+                event.timestamp,
+            ),
         )
     else:
         conn.execute(
@@ -238,12 +251,16 @@ def _bump_run_seen(conn: sqlite3.Connection, event: LedgerEvent) -> None:
 # Rebuild the SQLite index from JSONL (recovery path)
 # ---------------------------------------------------------------------------
 
-def _git_sha(short: bool = False) -> Optional[str]:
+
+def _git_sha(short: bool = False) -> str | None:
     """Capture current git HEAD sha. None if not in a git repo or git missing."""
     import subprocess
+
     try:
         args = ["git", "rev-parse"] + (["--short=12"] if short else []) + ["HEAD"]
-        r = subprocess.run(args, cwd=str(DETERMINEX_ROOT), capture_output=True, text=True, timeout=5)
+        r = subprocess.run(
+            args, cwd=str(DETERMINEX_ROOT), capture_output=True, text=True, timeout=5
+        )
         if r.returncode == 0 and r.stdout.strip():
             return r.stdout.strip()
     except (OSError, subprocess.SubprocessError):
@@ -251,12 +268,18 @@ def _git_sha(short: bool = False) -> Optional[str]:
     return None
 
 
-def _git_dirty() -> Optional[bool]:
+def _git_dirty() -> bool | None:
     """True if the working tree has uncommitted changes; None on error."""
     import subprocess
+
     try:
-        r = subprocess.run(["git", "status", "--porcelain"],
-                           cwd=str(DETERMINEX_ROOT), capture_output=True, text=True, timeout=5)
+        r = subprocess.run(
+            ["git", "status", "--porcelain"],
+            cwd=str(DETERMINEX_ROOT),
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
         if r.returncode == 0:
             return bool(r.stdout.strip())
     except (OSError, subprocess.SubprocessError):
@@ -264,9 +287,10 @@ def _git_dirty() -> Optional[bool]:
     return None
 
 
-def _file_sha256(path: Path) -> Optional[str]:
+def _file_sha256(path: Path) -> str | None:
     """Sha256 of a file. None if missing/unreadable."""
     import hashlib
+
     if not path.is_file():
         return None
     try:
@@ -282,14 +306,14 @@ def _file_sha256(path: Path) -> Optional[str]:
 def record_run_meta(
     *,
     run_id: str,
-    base_run_id: Optional[str] = None,
-    scaffold_version: Optional[str] = None,
-    patch_family: Optional[str] = None,
-    output_root: Optional[str] = None,
-    git_sha: Optional[str] = None,
+    base_run_id: str | None = None,
+    scaffold_version: str | None = None,
+    patch_family: str | None = None,
+    output_root: str | None = None,
+    git_sha: str | None = None,
     scaffold_files: tuple[Path, ...] = SCAFFOLD_TEMPLATE_FILES_DEFAULT,
-    representative_artifact: Optional[Path] = None,
-    notes: Optional[str] = None,
+    representative_artifact: Path | None = None,
+    notes: str | None = None,
     retroactive: bool = False,
 ) -> LedgerEvent:
     """Record provenance for a run BEFORE the first eval lands.
@@ -321,22 +345,22 @@ def record_run_meta(
     if representative_artifact is not None:
         artifact_path = Path(representative_artifact)
         representative = {
-            "path":   str(artifact_path).replace("\\", "/"),
+            "path": str(artifact_path).replace("\\", "/"),
             "sha256": _file_sha256(artifact_path),
             "exists": artifact_path.is_file(),
-            "size":   artifact_path.stat().st_size if artifact_path.is_file() else None,
+            "size": artifact_path.stat().st_size if artifact_path.is_file() else None,
         }
 
     meta = {
-        "base_run_id":             base_run_id,
-        "git_sha":                 git_sha,
-        "git_dirty":               git_dirty,
-        "scaffold_version":        scaffold_version,
-        "scaffold_sha256":         scaffold_hashes,
+        "base_run_id": base_run_id,
+        "git_sha": git_sha,
+        "git_dirty": git_dirty,
+        "scaffold_version": scaffold_version,
+        "scaffold_sha256": scaffold_hashes,
         "representative_artifact": representative,
-        "patch_family":            patch_family,
-        "output_root":             output_root,
-        "retroactive":             retroactive,
+        "patch_family": patch_family,
+        "output_root": output_root,
+        "retroactive": retroactive,
     }
     if notes:
         meta["notes"] = notes
@@ -351,7 +375,7 @@ def record_run_meta(
     return event
 
 
-def query_run_meta(run_id: str, sqlite_path: Optional[Path] = None) -> Optional[dict]:
+def query_run_meta(run_id: str, sqlite_path: Path | None = None) -> dict | None:
     """Return the most recent meta event for a run, or None if never recorded.
 
     sqlite_path resolves at CALL time (not import time) so tests can monkeypatch
@@ -382,7 +406,7 @@ def query_run_meta(run_id: str, sqlite_path: Optional[Path] = None) -> Optional[
     return d
 
 
-def rebuild_index(sqlite_path: Optional[Path] = None) -> dict:
+def rebuild_index(sqlite_path: Path | None = None) -> dict:
     """Drop the SQLite index and rebuild it from every JSONL under LEDGER_DIR.
 
     Returns counts dict for diagnostics. JSONL files are never touched.
@@ -406,8 +430,10 @@ def rebuild_index(sqlite_path: Optional[Path] = None) -> dict:
                 try:
                     d = json.loads(line)
                     event = LedgerEvent(
-                        run_id=d["run_id"], phase=d["phase"], status=d["status"],
-                        timestamp=d.get("timestamp") or datetime.now(timezone.utc).isoformat(),
+                        run_id=d["run_id"],
+                        phase=d["phase"],
+                        status=d["status"],
+                        timestamp=d.get("timestamp") or datetime.now(UTC).isoformat(),
                         task_id=d.get("task_id"),
                         score=d.get("score"),
                         failures=d.get("failures"),
@@ -429,7 +455,8 @@ def rebuild_index(sqlite_path: Optional[Path] = None) -> dict:
 # Reader API (used by monitor + advisor)
 # ---------------------------------------------------------------------------
 
-def query_run_summary(run_id: str, sqlite_path: Optional[Path] = None) -> dict:
+
+def query_run_summary(run_id: str, sqlite_path: Path | None = None) -> dict:
     """Roll up a single run: # tasks completed, score distribution, top families."""
     if sqlite_path is None:
         sqlite_path = SQLITE_PATH
@@ -448,9 +475,13 @@ def query_run_summary(run_id: str, sqlite_path: Optional[Path] = None) -> dict:
     by_task: dict[str, list[dict]] = {}
     for r in rows:
         d = {
-            "task_id": r[0], "phase": r[1], "status": r[2],
-            "score": r[3], "failures_json": r[4],
-            "artifact": r[5], "timestamp": r[6],
+            "task_id": r[0],
+            "phase": r[1],
+            "status": r[2],
+            "score": r[3],
+            "failures_json": r[4],
+            "artifact": r[5],
+            "timestamp": r[6],
         }
         by_task.setdefault(r[0] or "_global", []).append(d)
 
@@ -485,7 +516,7 @@ def query_run_summary(run_id: str, sqlite_path: Optional[Path] = None) -> dict:
     }
 
 
-def query_runs(sqlite_path: Optional[Path] = None) -> list[dict]:
+def query_runs(sqlite_path: Path | None = None) -> list[dict]:
     """Return high-level info for every known run."""
     if sqlite_path is None:
         sqlite_path = SQLITE_PATH
@@ -507,6 +538,7 @@ def query_runs(sqlite_path: Optional[Path] = None) -> list[dict]:
 # ---------------------------------------------------------------------------
 # Backfill: existing ProgramBench eval JSONs -> ledger events
 # ---------------------------------------------------------------------------
+
 
 def backfill_programbench_eval_jsons(
     run_id: str = "mass_run_v2_base",
@@ -542,7 +574,11 @@ def backfill_programbench_eval_jsons(
         task_id = ej.stem.replace(".eval", "")
         # Get the file's mtime as a stable backfill timestamp
         mtime = ej.stat().st_mtime
-        ts = datetime.fromtimestamp(mtime, tz=timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+        ts = (
+            datetime.fromtimestamp(mtime, tz=UTC)
+            .isoformat(timespec="seconds")
+            .replace("+00:00", "Z")
+        )
 
         event = LedgerEvent(
             run_id=run_id,
@@ -560,7 +596,7 @@ def backfill_programbench_eval_jsons(
     return n_added
 
 
-def _existing_eval_artifacts(run_id: str, sqlite_path: Optional[Path] = None) -> set[str]:
+def _existing_eval_artifacts(run_id: str, sqlite_path: Path | None = None) -> set[str]:
     """Set of artifact paths already recorded for this run's eval phase."""
     if sqlite_path is None:
         sqlite_path = SQLITE_PATH
@@ -581,12 +617,13 @@ def _existing_eval_artifacts(run_id: str, sqlite_path: Optional[Path] = None) ->
 # at scripts/determinex_pb_taxonomy.py. This module's previous local _FAMILY_RX
 # was an identical duplicate; removed during the round-1 dedup so the cockpit
 # cannot disagree with the live classifier on which family a test belongs to.
-def _classify_failures(test_results: Iterable[dict]) -> "Counter[str]":
+def _classify_failures(test_results: Iterable[dict]) -> Counter[str]:
     # Lazy import: keeps run_ledger.py importable even when running from a
     # location where the taxonomy module isn't on sys.path yet (e.g. early in
     # the CLI before the bootstrap insert).
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from determinex_pb_taxonomy import classify_test_results
+
     return classify_test_results(test_results)
 
 
@@ -594,36 +631,56 @@ def _classify_failures(test_results: Iterable[dict]) -> "Counter[str]":
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def _cli():
     ap = argparse.ArgumentParser(description="Determinex universal run ledger")
     ap.add_argument("--append-event", help="JSON event blob to append (single-line JSON)")
     ap.add_argument("--rebuild", action="store_true", help="rebuild SQLite index from JSONL")
     ap.add_argument("--summary", help="print summary for one run_id (or --summary=all)")
-    ap.add_argument("--backfill-pb-eval-jsons", action="store_true",
-                    help="ingest existing mass_run_v2_base/*.eval.json files as events")
-    ap.add_argument("--record-run-meta", action="store_true",
-                    help="record provenance for a run (call BEFORE its eval phase starts)")
+    ap.add_argument(
+        "--backfill-pb-eval-jsons",
+        action="store_true",
+        help="ingest existing mass_run_v2_base/*.eval.json files as events",
+    )
+    ap.add_argument(
+        "--record-run-meta",
+        action="store_true",
+        help="record provenance for a run (call BEFORE its eval phase starts)",
+    )
     ap.add_argument("--base-run-id", help="anchor run this run is being compared against")
-    ap.add_argument("--scaffold-version", help="human label for the scaffold variant, e.g. clap_unknown_arg_v1")
+    ap.add_argument(
+        "--scaffold-version", help="human label for the scaffold variant, e.g. clap_unknown_arg_v1"
+    )
     ap.add_argument("--patch-family", help="failure family the scaffold patch targets")
     ap.add_argument("--output-root", help="where artifacts for this run land")
-    ap.add_argument("--representative-artifact",
-                    help="path to one artifact actually produced by this run (sha256 is captured)")
-    ap.add_argument("--retroactive", action="store_true",
-                    help="mark meta as retroactively recorded (after the run started)")
+    ap.add_argument(
+        "--representative-artifact",
+        help="path to one artifact actually produced by this run (sha256 is captured)",
+    )
+    ap.add_argument(
+        "--retroactive",
+        action="store_true",
+        help="mark meta as retroactively recorded (after the run started)",
+    )
     ap.add_argument("--notes", help="free-form note attached to meta")
     ap.add_argument("--query-meta", help="print meta JSON for a run_id")
     ap.add_argument("--run-id", default="mass_run_v2_base", help="run_id for backfill")
-    ap.add_argument("--eval-root", type=Path,
-                    default=Path("T:/determinex-programbench/mass_run_v2_base"),
-                    help="eval dir for backfill")
+    ap.add_argument(
+        "--eval-root",
+        type=Path,
+        default=Path("T:/determinex-programbench/mass_run_v2_base"),
+        help="eval dir for backfill",
+    )
     args = ap.parse_args()
 
     if args.append_event:
         d = json.loads(args.append_event)
         evt = LedgerEvent(
-            run_id=d["run_id"], phase=d["phase"], status=d["status"],
-            timestamp=d.get("timestamp") or datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+            run_id=d["run_id"],
+            phase=d["phase"],
+            status=d["status"],
+            timestamp=d.get("timestamp")
+            or datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
             task_id=d.get("task_id"),
             score=d.get("score"),
             failures=d.get("failures"),
@@ -648,7 +705,9 @@ def _cli():
             scaffold_version=args.scaffold_version,
             patch_family=args.patch_family,
             output_root=args.output_root,
-            representative_artifact=Path(args.representative_artifact) if args.representative_artifact else None,
+            representative_artifact=Path(args.representative_artifact)
+            if args.representative_artifact
+            else None,
             notes=args.notes,
             retroactive=args.retroactive,
         )
@@ -662,7 +721,11 @@ def _cli():
 
     if args.backfill_pb_eval_jsons:
         n = backfill_programbench_eval_jsons(run_id=args.run_id, eval_root=args.eval_root)
-        print(json.dumps({"backfilled": n, "run_id": args.run_id, "eval_root": str(args.eval_root)}, indent=2))
+        print(
+            json.dumps(
+                {"backfilled": n, "run_id": args.run_id, "eval_root": str(args.eval_root)}, indent=2
+            )
+        )
         return
 
     if args.summary:

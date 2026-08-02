@@ -19,7 +19,7 @@ import json
 import logging
 import sys
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 log = logging.getLogger("hive.explorer")
@@ -29,7 +29,7 @@ _SCRIPTS_DIR = Path(__file__).resolve().parent.parent
 if str(_SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_DIR))
 
-from codebase_explorer import CodebaseExplorer, PatchResult
+from codebase_explorer import CodebaseExplorer
 
 _ROOT = Path(__file__).resolve().parent.parent.parent
 _SESSIONS_DIR = _ROOT / "sessions"
@@ -64,21 +64,21 @@ def explore_workspace(
 
     # Convert to dict for serialization
     from dataclasses import asdict
+
     report_dict = asdict(report)
 
     manifest_data = {
         "session_id": session_id,
         "session_type": "explore",
         "workspace_path": str(workspace),
-        "created_at": datetime.now(timezone.utc).isoformat(),
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
         "status": "complete",
         "report": report_dict,
     }
 
     _save_explorer_manifest(session_id, manifest_data)
-    log.info("Explore session %s complete: health=%.0f%%",
-             session_id, report.health_score * 100)
+    log.info("Explore session %s complete: health=%.0f%%", session_id, report.health_score * 100)
 
     return manifest_data
 
@@ -107,15 +107,16 @@ def diagnose_workspace(
         "session_type": "diagnose",
         "workspace_path": str(workspace),
         "issue_text": issue_text,
-        "created_at": datetime.now(timezone.utc).isoformat(),
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
         "status": "complete",
         "diagnosis": diagnosis,
     }
 
     _save_explorer_manifest(session_id, manifest_data)
-    log.info("Diagnose session %s complete: %d targets",
-             session_id, len(diagnosis.get("targets", [])))
+    log.info(
+        "Diagnose session %s complete: %d targets", session_id, len(diagnosis.get("targets", []))
+    )
 
     return manifest_data
 
@@ -140,6 +141,7 @@ def fix_workspace(
     result = explorer.fix(issue_text, out_path)
 
     from dataclasses import asdict
+
     result_dict = asdict(result)
 
     manifest_data = {
@@ -147,8 +149,8 @@ def fix_workspace(
         "session_type": "fix",
         "workspace_path": str(workspace),
         "issue_text": issue_text,
-        "created_at": datetime.now(timezone.utc).isoformat(),
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
         "status": "complete" if result.success else "failed",
         "result": result_dict,
     }
@@ -156,10 +158,18 @@ def fix_workspace(
     _save_explorer_manifest(session_id, manifest_data)
 
     if result.success:
-        log.info("Fix session %s: PATCHED (%d attempts, %d files)",
-                 session_id, result.attempts, len(result.files_modified))
+        log.info(
+            "Fix session %s: PATCHED (%d attempts, %d files)",
+            session_id,
+            result.attempts,
+            len(result.files_modified),
+        )
     else:
-        log.info("Fix session %s: FAILED after %d attempts — %s",
-                 session_id, result.attempts, result.error)
+        log.info(
+            "Fix session %s: FAILED after %d attempts — %s",
+            session_id,
+            result.attempts,
+            result.error,
+        )
 
     return manifest_data

@@ -3,6 +3,7 @@ save_prompts.py — Write per-language prompt files to C:/tmp/prompts/
 Creates 4 files: prompt_rust.txt, prompt_go.txt, prompt_python.txt, prompt_typescript.txt
 Each file is a self-contained prompt for one model run.
 """
+
 import sys
 from pathlib import Path
 
@@ -24,59 +25,63 @@ for lang in LANGS:
         if concept["lang"] != lang:
             continue
         for probe in concept["probes"]:
-            probes.append({
-                "concept_key": concept_key,
-                "probe_id": probe["id"],
-                "lang": lang,
-                "fn_name": probe["fn_name"],
-                "system": concept["system"],
-                "prompt": probe["prompt"],
-            })
+            probes.append(
+                {
+                    "concept_key": concept_key,
+                    "probe_id": probe["id"],
+                    "lang": lang,
+                    "fn_name": probe["fn_name"],
+                    "system": concept["system"],
+                    "prompt": probe["prompt"],
+                }
+            )
 
-    out_path = Path(f"${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus/batch_MODEL_{lang}.json")
+    out_path = Path(
+        f"${{DETERMINEX_MODELS_DIR:-~/determinex-models}}/corpus/batch_MODEL_{lang}.json"
+    )
 
     lines = [
-        f"You are generating a training corpus for a code-generation AI.",
-        f"",
+        "You are generating a training corpus for a code-generation AI.",
+        "",
         f"Solve all {len(probes)} {lang.upper()} coding tasks below.",
-        f"",
-        f"STRICT RULES:",
-        f"- Output ONLY a valid JSON array — nothing before or after it",
-        f"- Each element: {{\"concept_key\": \"...\", \"probe_id\": \"...\", \"lang\": \"{lang}\", \"code\": \"...\"}}",
-        f"- The \"code\" field: raw code string only — NO markdown fences, NO explanation",
+        "",
+        "STRICT RULES:",
+        "- Output ONLY a valid JSON array — nothing before or after it",
+        f'- Each element: {{"concept_key": "...", "probe_id": "...", "lang": "{lang}", "code": "..."}}',
+        '- The "code" field: raw code string only — NO markdown fences, NO explanation',
     ]
 
     if lang == "rust":
         lines += [
-            f"- Rust: complete `fn name(...) -> ... {{ ... }}` block including any use imports needed",
-            f"- Do NOT include fn main()",
+            "- Rust: complete `fn name(...) -> ... { ... }` block including any use imports needed",
+            "- Do NOT include fn main()",
         ]
     elif lang == "go":
         lines += [
-            f"- Go: complete `func name(...) ... {{ ... }}` block only",
-            f"- Do NOT include package declaration or import statements",
+            "- Go: complete `func name(...) ... { ... }` block only",
+            "- Do NOT include package declaration or import statements",
         ]
     elif lang == "python":
         lines += [
-            f"- Python: complete `def name(...):` function, including any needed imports inside the function or at top",
+            "- Python: complete `def name(...):` function, including any needed imports inside the function or at top",
         ]
     elif lang == "typescript":
         lines += [
-            f"- TypeScript: complete function (and any required type definitions above it)",
-            f"- Do NOT include a main() call",
+            "- TypeScript: complete function (and any required type definitions above it)",
+            "- Do NOT include a main() call",
         ]
 
     lines += [
-        f"",
-        f"Replace MODEL in the output filename with the actual model name you are.",
+        "",
+        "Replace MODEL in the output filename with the actual model name you are.",
         f"Write the JSON array to: {out_path}",
-        f"",
-        f"TASKS:",
-        f"",
+        "",
+        "TASKS:",
+        "",
     ]
 
     for i, p in enumerate(probes):
-        lines.append(f"### Task {i+1}/{len(probes)}")
+        lines.append(f"### Task {i + 1}/{len(probes)}")
         lines.append(f"concept_key: {p['concept_key']}")
         lines.append(f"probe_id: {p['probe_id']}")
         lines.append(f"function_name: {p['fn_name']}")
@@ -86,7 +91,7 @@ for lang in LANGS:
     content = "\n".join(lines)
     out_file = OUT_DIR / f"prompt_{lang}.txt"
     out_file.write_text(content, encoding="utf-8")
-    print(f"  Wrote {len(probes)} {lang} tasks → {out_file}  ({len(content)//1000}KB)")
+    print(f"  Wrote {len(probes)} {lang} tasks → {out_file}  ({len(content) // 1000}KB)")
 
 print(f"\nAll prompts saved to {OUT_DIR}")
 print("Open each file, copy contents, paste into the AI service.")

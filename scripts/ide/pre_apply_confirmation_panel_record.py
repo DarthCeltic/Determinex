@@ -8,11 +8,11 @@ that the frontend renders. It must surface, at minimum, every
 field the apply gate binds to, and must distinguish the five
 authority-relevant UI states.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 PRE_APPLY_CONFIRMATION_PANEL_STATUS_TOKENS = (
     "PRE_APPLY_CONFIRMATION_PANEL_PASSED",
@@ -26,11 +26,11 @@ PRE_APPLY_CONFIRMATION_PANEL_STATUS_TOKENS = (
 
 # Five UI states. Each name is a distinct *strict* meaning.
 PRE_APPLY_UI_STATES = (
-    "PRE_APPLY_UI_PREVIEW",                # show only — no execution
-    "PRE_APPLY_UI_DRY_RUN",                # ran a temp-verifier, no real write
-    "PRE_APPLY_UI_APPROVED",               # operator approved; no write yet
-    "PRE_APPLY_UI_SOURCE_MUTATION_AUTHORIZED",   # apply gate green-lit
-    "PRE_APPLY_UI_SOURCE_MUTATION_APPLIED",      # post-fact: wrote happened
+    "PRE_APPLY_UI_PREVIEW",  # show only — no execution
+    "PRE_APPLY_UI_DRY_RUN",  # ran a temp-verifier, no real write
+    "PRE_APPLY_UI_APPROVED",  # operator approved; no write yet
+    "PRE_APPLY_UI_SOURCE_MUTATION_AUTHORIZED",  # apply gate green-lit
+    "PRE_APPLY_UI_SOURCE_MUTATION_APPLIED",  # post-fact: wrote happened
 )
 
 

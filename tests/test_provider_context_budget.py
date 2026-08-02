@@ -19,6 +19,7 @@ except silent, so there is no error anywhere to notice.
 Nothing here talks to a server: the arithmetic and the guard are pure, and they are the
 parts that were wrong.
 """
+
 from __future__ import annotations
 
 import sys
@@ -46,9 +47,9 @@ class _Resp:
 # --------------------------------------------------------------------------------------
 
 REAL_REJECTION = (
-    "litellm.BadRequestError: Hosted_vllmException - {\"error\":{\"message\":\"You passed "
+    'litellm.BadRequestError: Hosted_vllmException - {"error":{"message":"You passed '
     "3841 input tokens and requested 256 output tokens. However, this model's maximum "
-    "context length is 4096 tokens.\"}}"
+    'context length is 4096 tokens."}}'
 )
 
 
@@ -63,9 +64,9 @@ def test_retry_budget_is_taken_from_the_servers_own_numbers():
 @pytest.mark.parametrize(
     "message",
     [
-        "Timeout",                                    # nothing to parse
-        "You passed 3841 input tokens",               # no limit stated
-        "maximum context length is 4096 tokens",      # no prompt size stated
+        "Timeout",  # nothing to parse
+        "You passed 3841 input tokens",  # no limit stated
+        "maximum context length is 4096 tokens",  # no prompt size stated
         "You passed 5000 input tokens ... maximum context length is 4096 tokens",  # hopeless
     ],
 )
@@ -78,6 +79,7 @@ def test_retry_budget_declines_rather_than_inventing_one(message: str):
 # --------------------------------------------------------------------------------------
 # Ollama: num_ctx must be raised, and only for models Ollama actually serves.
 # --------------------------------------------------------------------------------------
+
 
 def test_ollama_context_is_raised_from_the_2048_default(monkeypatch):
     monkeypatch.setattr(P, "_ollama_model_ctx", lambda m, *a, **k: 32768)
@@ -111,6 +113,7 @@ def test_unknown_context_length_changes_nothing(monkeypatch):
 # --------------------------------------------------------------------------------------
 # The guard itself: silence must not be the outcome of a clipped prompt.
 # --------------------------------------------------------------------------------------
+
 
 def test_a_clipped_prompt_raises_instead_of_returning_a_fabrication():
     """The measured case. 25,048 chars in, 2,050 tokens evaluated, and the model returned

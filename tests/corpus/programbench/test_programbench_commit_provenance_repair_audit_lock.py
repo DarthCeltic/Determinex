@@ -6,13 +6,24 @@ from corpus.programbench.commit_provenance_repair_audit import (
     classify_commit_path,
     classify_paths,
 )
-from corpus.programbench.commit_provenance_repair_audit_record import verify_commit_provenance_audit_record
+from corpus.programbench.commit_provenance_repair_audit_record import (
+    verify_commit_provenance_audit_record,
+)
 
 
 def test_commit_path_classifier_separates_lanes() -> None:
-    assert classify_commit_path("scripts/corpus/programbench/batch001_import_scan_pipeline.py") == "CODEX_PROGRAMBENCH"
-    assert classify_commit_path("locks/sentinel/PROGRAMBENCH_BATCH001_SCAN_QUEUE_LOCK_001.json") == "CODEX_PROGRAMBENCH"
-    assert classify_commit_path("frontend/src/components/ide-repair/RepairPanelShell.tsx") == "CLAUDE_FRONTEND"
+    assert (
+        classify_commit_path("scripts/corpus/programbench/batch001_import_scan_pipeline.py")
+        == "CODEX_PROGRAMBENCH"
+    )
+    assert (
+        classify_commit_path("locks/sentinel/PROGRAMBENCH_BATCH001_SCAN_QUEUE_LOCK_001.json")
+        == "CODEX_PROGRAMBENCH"
+    )
+    assert (
+        classify_commit_path("frontend/src/components/ide-repair/RepairPanelShell.tsx")
+        == "CLAUDE_FRONTEND"
+    )
     assert classify_commit_path("assurance/evidence/evidence_index.json") == "SHARED_EVIDENCE_INDEX"
     assert classify_commit_path("some/unknown/path.txt") == "NEEDS_REVIEW"
 
@@ -26,14 +37,18 @@ def test_classify_paths_keeps_all_required_buckets() -> None:
         ]
     )
 
-    assert classified["CODEX_PROGRAMBENCH"] == ["docs/PROGRAMBENCH_BATCH001_IMPORT_SCAN_PIPELINE.md"]
+    assert classified["CODEX_PROGRAMBENCH"] == [
+        "docs/PROGRAMBENCH_BATCH001_IMPORT_SCAN_PIPELINE.md"
+    ]
     assert classified["CLAUDE_FRONTEND"] == ["docs/FRONTEND_REPAIR_PANEL_SHELL.md"]
     assert classified["SHARED_EVIDENCE_INDEX"] == ["assurance/evidence/evidence_index.json"]
     assert classified["NEEDS_REVIEW"] == []
 
 
 def test_live_mixed_commit_audit_passes_with_label_warning() -> None:
-    record = ProgramBenchCommitProvenanceRepairAudit(CommitProvenanceAuditConfig(write_record=False)).run()
+    record = ProgramBenchCommitProvenanceRepairAudit(
+        CommitProvenanceAuditConfig(write_record=False)
+    ).run()
 
     assert record["status"] == "PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED_WITH_LABEL_WARNING"
     assert verify_commit_provenance_audit_record(record)
@@ -50,8 +65,13 @@ def test_live_mixed_commit_audit_passes_with_label_warning() -> None:
 
 
 def test_audit_finds_unknown_commit_file() -> None:
-    record = ProgramBenchCommitProvenanceRepairAudit(CommitProvenanceAuditConfig(write_record=False)).run(
-        commit_files=["scripts/corpus/programbench/batch001_import_scan_pipeline.py", "mystery/file.txt"],
+    record = ProgramBenchCommitProvenanceRepairAudit(
+        CommitProvenanceAuditConfig(write_record=False)
+    ).run(
+        commit_files=[
+            "scripts/corpus/programbench/batch001_import_scan_pipeline.py",
+            "mystery/file.txt",
+        ],
         commit_subject="FRONTEND_REPAIR_PANEL_SHELL_LOCK_001: 9-section shell",
     )
 
@@ -60,7 +80,9 @@ def test_audit_finds_unknown_commit_file() -> None:
 
 
 def test_audit_label_warning_does_not_create_execution_authority() -> None:
-    record = ProgramBenchCommitProvenanceRepairAudit(CommitProvenanceAuditConfig(write_record=False)).run()
+    record = ProgramBenchCommitProvenanceRepairAudit(
+        CommitProvenanceAuditConfig(write_record=False)
+    ).run()
     flags = record["operation_check"]["authorization_flags"]
 
     assert flags["docker_execution_authorized"] is False

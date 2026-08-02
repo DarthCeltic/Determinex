@@ -14,7 +14,10 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from corpus.legacy_recovery.programbench_metadata_sources import collect_metadata_evidence
-from corpus.legacy_recovery.programbench_replay_manifest import ReplayManifest, write_replay_manifest
+from corpus.legacy_recovery.programbench_replay_manifest import (
+    ReplayManifest,
+    write_replay_manifest,
+)
 
 
 class MetadataRecoveryStatus(str, Enum):
@@ -38,7 +41,9 @@ HYDRATION_UNLOCK_STATUSES = {
 
 @dataclass(slots=True)
 class MetadataRecoveryConfig:
-    output_path: Path = Path("assurance/evidence/programbench_replay_batch_001_metadata_recovery.json")
+    output_path: Path = Path(
+        "assurance/evidence/programbench_replay_batch_001_metadata_recovery.json"
+    )
     manifest_root: Path = Path("assurance/evidence/programbench_replay_manifests")
 
 
@@ -80,13 +85,17 @@ class ProgramBenchMetadataRecovery:
             "policy": "Recovered metadata may qualify replay. Guessed metadata only creates candidate records. Nothing executes from a guess.",
         }
         self.config.output_path.parent.mkdir(parents=True, exist_ok=True)
-        self.config.output_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        self.config.output_path.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
         return report
 
     def recover_candidate(self, row: dict[str, Any]) -> MetadataRecoveryResult:
         tool = str(row.get("tool") or "")
         root = Path(str(row.get("selected_root") or ""))
-        result = MetadataRecoveryResult(tool=tool, selected_root=str(root) if str(root) != "." else "")
+        result = MetadataRecoveryResult(
+            tool=tool, selected_root=str(root) if str(root) != "." else ""
+        )
         if not tool or not root or not root.exists():
             result.status = MetadataRecoveryStatus.METADATA_RECOVERY_FAILED.value
             result.reason = "selected_root_missing"
@@ -117,7 +126,9 @@ class ProgramBenchMetadataRecovery:
 
         verifier = _first_local_verifier(evidence.local_verifiers)
         if verifier:
-            command = str(verifier.get("local_verifier_command") or verifier.get("command") or "").strip()
+            command = str(
+                verifier.get("local_verifier_command") or verifier.get("command") or ""
+            ).strip()
             if command:
                 result.local_replay_command = command
                 result.status = MetadataRecoveryStatus.LOCAL_VERIFIER_METADATA_FOUND.value
@@ -134,7 +145,11 @@ class ProgramBenchMetadataRecovery:
             result.quarantine_only = True
             result.reason = "dockerfile_candidate_requires_pinning_and_scan"
             result.artifact_source_candidates = [
-                {"artifact_type": "dockerfile", "path": dockerfile, "use": "quarantine_build_candidate"}
+                {
+                    "artifact_type": "dockerfile",
+                    "path": dockerfile,
+                    "use": "quarantine_build_candidate",
+                }
                 for dockerfile in evidence.dockerfiles[:5]
             ]
             return self._write_manifest(result)
@@ -181,7 +196,11 @@ class ProgramBenchMetadataRecovery:
 
 def _first_local_verifier(verifiers: dict[str, dict[str, Any]]) -> dict[str, Any] | None:
     for _source, data in sorted(verifiers.items()):
-        if data.get("local_verifier_allowed") is True or data.get("command") or data.get("local_verifier_command"):
+        if (
+            data.get("local_verifier_allowed") is True
+            or data.get("command")
+            or data.get("local_verifier_command")
+        ):
             return data
     return None
 
@@ -194,10 +213,20 @@ def _counts(values) -> dict[str, int]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Recover ProgramBench replay metadata without executing guesses.")
+    parser = argparse.ArgumentParser(
+        description="Recover ProgramBench replay metadata without executing guesses."
+    )
     parser.add_argument("image_hydration_report", type=Path)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/programbench_replay_batch_001_metadata_recovery.json"))
-    parser.add_argument("--manifest-root", type=Path, default=Path("assurance/evidence/programbench_replay_manifests"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("assurance/evidence/programbench_replay_batch_001_metadata_recovery.json"),
+    )
+    parser.add_argument(
+        "--manifest-root",
+        type=Path,
+        default=Path("assurance/evidence/programbench_replay_manifests"),
+    )
     args = parser.parse_args()
     report = ProgramBenchMetadataRecovery(
         MetadataRecoveryConfig(output_path=args.output, manifest_root=args.manifest_root)

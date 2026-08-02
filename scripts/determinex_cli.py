@@ -24,6 +24,7 @@ stderr): this is a shipped, installed console script, and anything already
 scripting against `determinex <bad-cmd>; echo $?` shouldn't silently start
 seeing a different exit code because of an internal refactor.
 """
+
 from __future__ import annotations
 
 import sys
@@ -69,14 +70,17 @@ Run `determinex <command> --help` for command-specific options.
 # Command implementations (unchanged from the pre-click dispatcher)
 # ---------------------------------------------------------------------------
 
+
 def _cmd_doctor(argv: list[str]) -> int:
     from determinex_doctor import main as doctor_main
+
     sys.argv = ["determinex doctor"] + argv
     return doctor_main()
 
 
 def _cmd_status(argv: list[str]) -> int:
     from determinex_status import main as status_main
+
     sys.argv = ["determinex status"] + argv
     return status_main()
 
@@ -95,6 +99,7 @@ def _cmd_build(argv: list[str]) -> int:
     `intake.hardened_runner` with network denied -- never a raw subprocess.
     """
     from determinex_build_from_idea import main as build_main
+
     sys.argv = ["determinex build"] + argv
     return build_main()
 
@@ -110,11 +115,13 @@ def _cmd_corpus(argv: list[str]) -> int:
     at exactly the pinned commit, then overlays our recipe.
     """
     from determinex_corpus_fetch import main as corpus_main
+
     return corpus_main(argv)
 
 
 def _cmd_config_show(_argv: list[str]) -> int:
     from determinex_settings import DeterminexSettings
+
     s = DeterminexSettings()
     summary = s.resolved_summary()
     availability = s.check_path_availability()
@@ -143,6 +150,7 @@ def _cmd_config_show(_argv: list[str]) -> int:
 
 def _cmd_config_doctor(_argv: list[str]) -> int:
     from determinex_settings import DeterminexSettings
+
     s = DeterminexSettings()
     violations = s.assert_safety_defaults()
     if violations:
@@ -160,6 +168,7 @@ def _cmd_evidence_validate(_argv: list[str]) -> int:
         print(f"Evidence index not found: {evidence_index}")
         return 1
     import json
+
     data = json.loads(evidence_index.read_text(encoding="utf-8"))
     entries = data.get("entries", [])
     print(f"Evidence index: {len(entries)} entries")
@@ -183,6 +192,7 @@ def _cmd_evidence_validate(_argv: list[str]) -> int:
 
 def _cmd_evidence_render(argv: list[str]) -> int:
     from docs_gen.render_evidence_index import render  # type: ignore[import]
+
     render()
     return 0
 
@@ -192,6 +202,7 @@ def _cmd_evidence_render(argv: list[str]) -> int:
 # infrastructure. doctor/status forward all extra args to the wrapped
 # legacy script's own argparse main() unparsed (click.UNPROCESSED).
 # ---------------------------------------------------------------------------
+
 
 @click.group(
     invoke_without_command=True,

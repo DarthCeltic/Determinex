@@ -11,8 +11,8 @@ sys.path.insert(0, str(_ROOT / "scripts"))
 
 from corpus.corpus_manager import verify_signature  # noqa: E402
 from corpus.legacy_recovery.legacy_bucket_classifier import classify_raw_line  # noqa: E402
-from corpus.legacy_recovery.legacy_chunk_runner import run_chunk  # noqa: E402
 from corpus.legacy_recovery.legacy_candidate_selector import select_candidates  # noqa: E402
+from corpus.legacy_recovery.legacy_chunk_runner import run_chunk  # noqa: E402
 from corpus.legacy_recovery.legacy_promotion_budget import PromotionBudget  # noqa: E402
 from corpus.legacy_recovery.legacy_taxonomy_stability import build_stability_report  # noqa: E402
 from corpus.legacy_recovery.legacy_trace_promoter import (  # noqa: E402
@@ -24,7 +24,10 @@ from corpus.legacy_recovery.legacy_trace_promoter import (  # noqa: E402
 def _row(tool: str = "sqlite__sqlite.839433d", test_id: str = "tests.test_sql.test_select") -> dict:
     return {
         "conversations": [
-            {"from": "human", "value": f"Implement {tool} for /workspace/executable stdout date timestamp behavior."},
+            {
+                "from": "human",
+                "value": f"Implement {tool} for /workspace/executable stdout date timestamp behavior.",
+            },
             {"from": "gpt", "value": "fresh verifier candidate"},
         ],
         "metadata": {
@@ -37,8 +40,12 @@ def _row(tool: str = "sqlite__sqlite.839433d", test_id: str = "tests.test_sql.te
     }
 
 
-def _item(tool: str = "sqlite__sqlite.839433d", test_id: str = "tests.test_sql.test_select") -> dict:
-    return classify_raw_line(json.dumps(_row(tool, test_id)), path=Path("legacy.jsonl"), line_number=1).to_dict()
+def _item(
+    tool: str = "sqlite__sqlite.839433d", test_id: str = "tests.test_sql.test_select"
+) -> dict:
+    return classify_raw_line(
+        json.dumps(_row(tool, test_id)), path=Path("legacy.jsonl"), line_number=1
+    ).to_dict()
 
 
 def _fresh() -> FreshVerifierResult:
@@ -60,7 +67,9 @@ def test_promotion_budget_limits_scan_tool_and_duplicate_cluster():
         _item("duckdb__duckdb.bdb65ec", "tests.d"),
         _item("duckdb__duckdb.bdb65ec", "tests.e"),
     ]
-    result = PromotionBudget(max_attempts_per_scan=10, max_per_tool=2, max_per_cluster=1).select(candidates)
+    result = PromotionBudget(max_attempts_per_scan=10, max_per_tool=2, max_per_cluster=1).select(
+        candidates
+    )
 
     assert result["selected_count"] == 2
     assert result["rejected_count"] == 3
@@ -75,7 +84,9 @@ def test_promotion_budget_caps_total_scan_attempts():
         _item("duckdb__duckdb.bdb65ec", "tests.b"),
         _item("sharkdp__fd.40d8eb3", "tests.c"),
     ]
-    result = PromotionBudget(max_attempts_per_scan=2, max_per_tool=10, max_per_cluster=10).select(candidates)
+    result = PromotionBudget(max_attempts_per_scan=2, max_per_tool=10, max_per_cluster=10).select(
+        candidates
+    )
 
     assert result["selected_count"] == 2
     assert result["rejected"][0]["promotion_reject_reason"] == "scan_budget_exhausted"
@@ -90,7 +101,9 @@ def test_replay_promotion_requires_fresh_verifier_artifact(tmp_path):
         license_provenance="MIT",
     )
     with pytest.raises(ValueError):
-        promote_replayed_trace(_item(), verifier, output_jsonl=tmp_path / "rows.jsonl", language="c")
+        promote_replayed_trace(
+            _item(), verifier, output_jsonl=tmp_path / "rows.jsonl", language="c"
+        )
 
 
 def test_replay_promotion_writes_new_signed_training_row_and_preserves_legacy(tmp_path):
@@ -115,8 +128,10 @@ def test_replay_promotion_writes_new_signed_training_row_and_preserves_legacy(tm
 def test_chunk_runner_writes_named_artifact(tmp_path):
     legacy = tmp_path / "legacy.jsonl"
     legacy.write_text(
-        json.dumps(_row("sqlite__sqlite.839433d", "tests.a")) + "\n"
-        + json.dumps(_row("duckdb__duckdb.bdb65ec", "tests.b")) + "\n",
+        json.dumps(_row("sqlite__sqlite.839433d", "tests.a"))
+        + "\n"
+        + json.dumps(_row("duckdb__duckdb.bdb65ec", "tests.b"))
+        + "\n",
         encoding="utf-8",
     )
     report = run_chunk([legacy], rows=2, label="002", output_dir=tmp_path / "evidence")
@@ -145,7 +160,10 @@ def test_taxonomy_stability_compares_chunks(tmp_path):
             {"failure_class": "stdout_stderr_mismatch", "count": 8},
             {"failure_class": "argv0_alias_regression", "count": 2},
         ],
-        "top_replay_candidates": [{"tool": "sqlite__sqlite.839433d"}, {"tool": "sharkdp__fd.40d8eb3"}],
+        "top_replay_candidates": [
+            {"tool": "sqlite__sqlite.839433d"},
+            {"tool": "sharkdp__fd.40d8eb3"},
+        ],
     }
     p5 = tmp_path / "legacy_recovery_scan_005k.json"
     p25 = tmp_path / "legacy_recovery_scan_025k.json"
@@ -161,11 +179,31 @@ def test_taxonomy_stability_compares_chunks(tmp_path):
 def test_candidate_selector_enforces_budget_and_diversity_shape():
     artifact = {
         "top_replay_candidates": [
-            {"tool": "sqlite__sqlite.839433d", "candidate_rows": 10, "top_failure_classes": {"stdout_stderr_mismatch": 5}},
-            {"tool": "sharkdp__fd.40d8eb3", "candidate_rows": 10, "top_failure_classes": {"path_env_dependency": 5}},
-            {"tool": "junegunn__fzf.b56d614", "candidate_rows": 10, "top_failure_classes": {"exit_code_mismatch": 5}},
-            {"tool": "ariga__atlas.6d81150", "candidate_rows": 10, "top_failure_classes": {"argv0_alias_regression": 5}},
-            {"tool": "antonmedv__fx.86d0d34", "candidate_rows": 10, "top_failure_classes": {"uncategorized": 5}},
+            {
+                "tool": "sqlite__sqlite.839433d",
+                "candidate_rows": 10,
+                "top_failure_classes": {"stdout_stderr_mismatch": 5},
+            },
+            {
+                "tool": "sharkdp__fd.40d8eb3",
+                "candidate_rows": 10,
+                "top_failure_classes": {"path_env_dependency": 5},
+            },
+            {
+                "tool": "junegunn__fzf.b56d614",
+                "candidate_rows": 10,
+                "top_failure_classes": {"exit_code_mismatch": 5},
+            },
+            {
+                "tool": "ariga__atlas.6d81150",
+                "candidate_rows": 10,
+                "top_failure_classes": {"argv0_alias_regression": 5},
+            },
+            {
+                "tool": "antonmedv__fx.86d0d34",
+                "candidate_rows": 10,
+                "top_failure_classes": {"uncategorized": 5},
+            },
         ]
     }
 

@@ -9,7 +9,6 @@ import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -24,7 +23,14 @@ SECRET_PATTERNS = (
 # failing pre-commit and CI on the one file whose job is to catch exactly this. The
 # escaped form produces byte-identical strings at runtime and leaves no non-ASCII
 # bytes in the source for the guard to find.
-MOJIBAKE_PATTERNS = ("\u00e2", "\u00c3", "\ufffd", "\u00c2\u00b7", "\u00e2\u2020", "\u00e2\u20ac\u201d")
+MOJIBAKE_PATTERNS = (
+    "\u00e2",
+    "\u00c3",
+    "\ufffd",
+    "\u00c2\u00b7",
+    "\u00e2\u2020",
+    "\u00e2\u20ac\u201d",
+)
 
 
 @dataclass
@@ -66,7 +72,9 @@ class MemoryScorecard:
             return
 
         project = self._read("PROJECT.md")
-        delegates = all("PROJECT.md" in self._read(path) for path in ("AGENTS.md", "CLAUDE.md", "GEMINI.md"))
+        delegates = all(
+            "PROJECT.md" in self._read(path) for path in ("AGENTS.md", "CLAUDE.md", "GEMINI.md")
+        )
         self._add("tool_overlays_delegate", delegates, "tool overlays reference PROJECT.md")
         self._add(
             "project_avoids_volatile_counts",
@@ -81,15 +89,29 @@ class MemoryScorecard:
         for doc in docs:
             text = doc.read_text(encoding="utf-8", errors="replace")
             frontmatter_ok = text.startswith("---\n") and "\n---\n" in text[:1200]
-            retrieval_ok = "description:" in text and "depends:" in text and text.count("\n## ") >= 2
+            retrieval_ok = (
+                "description:" in text and "depends:" in text and text.count("\n## ") >= 2
+            )
             self._add(f"{doc.name}:frontmatter", frontmatter_ok, "has YAML frontmatter")
-            self._add(f"{doc.name}:retrieval_shape", retrieval_ok, "has description, depends, and h2 chunks")
+            self._add(
+                f"{doc.name}:retrieval_shape",
+                retrieval_ok,
+                "has description, depends, and h2 chunks",
+            )
 
     def _check_stale_boundary_test(self) -> None:
-        path = self.root / "frontend" / "src-tauri" / "tests" / "companion_rag_tauri_command_boundary.rs"
+        path = (
+            self.root
+            / "frontend"
+            / "src-tauri"
+            / "tests"
+            / "companion_rag_tauri_command_boundary.rs"
+        )
         text = path.read_text(encoding="utf-8", errors="replace") if path.exists() else ""
         stale = "OmniscienceHarvester.tsx" in text
-        self._add("boundary_test_tracks_live_ui", not stale, "removed stale OmniscienceHarvester target")
+        self._add(
+            "boundary_test_tracks_live_ui", not stale, "removed stale OmniscienceHarvester target"
+        )
 
     def _check_secret_exposure(self) -> None:
         scanned = self._memory_text_files()
@@ -127,8 +149,12 @@ class MemoryScorecard:
     def _check_operational_tools(self) -> None:
         scorecard = self.root / "scripts" / "memory_scorecard.py"
         inbox = self.root / "scripts" / "memory_learning_inbox.py"
-        self._add("memory_scorecard_present", scorecard.exists(), str(scorecard.relative_to(self.root)))
-        self._add("memory_learning_inbox_present", inbox.exists(), str(inbox.relative_to(self.root)))
+        self._add(
+            "memory_scorecard_present", scorecard.exists(), str(scorecard.relative_to(self.root))
+        )
+        self._add(
+            "memory_learning_inbox_present", inbox.exists(), str(inbox.relative_to(self.root))
+        )
 
     def _memory_text_files(self) -> list[Path]:
         paths: list[Path] = []
@@ -170,7 +196,9 @@ def main() -> int:
     if args.json:
         print(json.dumps(payload, indent=2, sort_keys=True))
     else:
-        print(f"memory_scorecard: {payload['status']} ({payload['total'] - payload['failed']}/{payload['total']})")
+        print(
+            f"memory_scorecard: {payload['status']} ({payload['total'] - payload['failed']}/{payload['total']})"
+        )
         for result in results:
             marker = {"pass": "OK", "warn": "WARN"}.get(result.status, "FAIL")
             print(f"{marker} {result.name}: {result.detail}")

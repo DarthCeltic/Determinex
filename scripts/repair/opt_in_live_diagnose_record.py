@@ -1,9 +1,9 @@
 """Records for OPT_IN_LIVE_DIAGNOSE_COMMAND_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 OPT_IN_LIVE_DIAGNOSE_STATUS_TOKENS = (
     "OPT_IN_LIVE_DIAGNOSE_READY",

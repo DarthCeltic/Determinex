@@ -14,14 +14,15 @@ Designed to be importable from determinex_swebench_agent.py:
 Or from the CLI for ad-hoc inspection:
     python scripts/swebench_spec_lookup.py django__django-12345
 """
+
 import json
 import sys
 from functools import lru_cache
 from pathlib import Path
 
 CORPUS_BASE = Path(__file__).resolve().parent.parent / "corpus" / "swebench"
-INDEX_FILE  = CORPUS_BASE / "swebench_instance_index.jsonl"
-REPOS_BASE  = CORPUS_BASE / "repos"
+INDEX_FILE = CORPUS_BASE / "swebench_instance_index.jsonl"
+REPOS_BASE = CORPUS_BASE / "repos"
 
 
 def sanitize_repo(repo: str) -> str:
@@ -38,7 +39,8 @@ def _load_index() -> dict[str, dict]:
     with INDEX_FILE.open("r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if not line: continue
+            if not line:
+                continue
             try:
                 rec = json.loads(line)
                 out[rec["instance_id"]] = rec
@@ -103,7 +105,9 @@ def inject_block_for(instance_id: str, *, max_spec_chars: int = 18000) -> str:
         for f in files[:10]:
             block_lines.append(f"  - {f}")
     if fail:
-        block_lines.append(f"fail_to_pass (first {len(fail)} of {rec.get('fail_to_pass_count', 0)}):")
+        block_lines.append(
+            f"fail_to_pass (first {len(fail)} of {rec.get('fail_to_pass_count', 0)}):"
+        )
         for t in fail:
             block_lines.append(f"  - {t}")
     block_lines.append(f"pass_to_pass_count: {rec.get('pass_to_pass_count', 0)}")
@@ -121,7 +125,9 @@ def stats() -> dict:
     """Quick stats on the corpus state."""
     idx = _load_index()
     repos = sorted(set(rec["repo"] for rec in idx.values()))
-    repos_with_specs = sum(1 for r in repos if (REPOS_BASE / sanitize_repo(r) / "06_repo_spec.md").exists())
+    repos_with_specs = sum(
+        1 for r in repos if (REPOS_BASE / sanitize_repo(r) / "06_repo_spec.md").exists()
+    )
     return {
         "instances_indexed": len(idx),
         "unique_repos": len(repos),

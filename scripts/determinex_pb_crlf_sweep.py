@@ -11,6 +11,7 @@ Usage:
   python scripts/determinex_pb_crlf_sweep.py            # scan all, print affected tools
   python scripts/determinex_pb_crlf_sweep.py --json     # machine-readable
 """
+
 from __future__ import annotations
 
 import json
@@ -22,8 +23,18 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 OV = ROOT / "corpus" / "programbench" / "per_tool_overrides"
 
 # build scripts whose CRLF actually breaks the build (executed by a shell)
-_SCRIPT_HINTS = ("configure", "autogen.sh", "bootstrap", "config.guess", "config.sub",
-                 "configure.ac", "makefile", "build.sh", "compile", ".m4")
+_SCRIPT_HINTS = (
+    "configure",
+    "autogen.sh",
+    "bootstrap",
+    "config.guess",
+    "config.sub",
+    "configure.ac",
+    "makefile",
+    "build.sh",
+    "compile",
+    ".m4",
+)
 
 
 def _is_build_script(name: str) -> bool:
@@ -65,8 +76,9 @@ def scan_tool(slug: str) -> dict | None:
 
 
 def main() -> int:
-    slugs = sorted(p.name for p in OV.iterdir()
-                   if p.is_dir() and (p / "submission.tar.gz").exists())
+    slugs = sorted(
+        p.name for p in OV.iterdir() if p.is_dir() and (p / "submission.tar.gz").exists()
+    )
     affected = []
     for s in slugs:
         r = scan_tool(s)

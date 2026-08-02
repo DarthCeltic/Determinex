@@ -21,6 +21,7 @@ Outputs:
   - logs/mass_run_v2/sprint4_preflight.json with per-check status
   - rc=0 only if every check passes
 """
+
 from __future__ import annotations
 
 import json
@@ -35,8 +36,8 @@ ROOT = Path(__file__).resolve().parent.parent
 CORPUS = ROOT / "corpus" / "programbench" / "families"
 PBENCH_EXE = Path("T:/Dev/ProgramBench/.venv/Scripts/programbench.exe")
 QUEUE_JSON = ROOT / "logs" / "mass_run_v2" / "sprint4_eval_queue.json"
-BULK_JSON  = ROOT / "logs" / "mass_run_v2" / "sprint4_bulk_generation.json"
-CHAIN_PS1  = ROOT / "scripts" / "sprint4_tiered_eval_chain.ps1"
+BULK_JSON = ROOT / "logs" / "mass_run_v2" / "sprint4_bulk_generation.json"
+CHAIN_PS1 = ROOT / "scripts" / "sprint4_tiered_eval_chain.ps1"
 
 
 class Result:
@@ -49,6 +50,7 @@ class Result:
 
 def check(label: str):
     """Decorator: run check, time it, capture result."""
+
     def deco(fn):
         def wrapped() -> Result:
             r = Result(label)
@@ -64,8 +66,10 @@ def check(label: str):
                 r.ok = False
             r.elapsed_s = round(time.time() - t0, 2)
             return r
+
         wrapped.__name__ = fn.__name__
         return wrapped
+
     return deco
 
 
@@ -73,9 +77,10 @@ def check(label: str):
 def chk_imports() -> str:
     sys.path.insert(0, str(ROOT / "scripts"))
     sys.path.insert(0, str(CORPUS))
-    import programbench_resource_guard  # noqa: F401
-    import programbench_classify_subtype  # noqa: F401
     import generator_lib  # noqa: F401
+    import programbench_classify_subtype  # noqa: F401
+    import programbench_resource_guard  # noqa: F401
+
     return "all three importable"
 
 
@@ -84,11 +89,14 @@ def chk_programbench_exe() -> str:
     assert PBENCH_EXE.is_file(), f"programbench.exe not found at {PBENCH_EXE}"
     proc = subprocess.run(
         [str(PBENCH_EXE), "--help"],
-        capture_output=True, text=True, timeout=10,
+        capture_output=True,
+        text=True,
+        timeout=10,
     )
     assert proc.returncode == 0, f"--help rc={proc.returncode}"
-    assert "eval" in proc.stdout.lower() or "eval" in proc.stderr.lower(), \
+    assert "eval" in proc.stdout.lower() or "eval" in proc.stderr.lower(), (
         "no 'eval' subcommand in help"
+    )
     return f"OK ({len(proc.stdout)} bytes help)"
 
 
@@ -96,7 +104,9 @@ def chk_programbench_exe() -> str:
 def chk_docker() -> str:
     proc = subprocess.run(
         ["docker", "ps", "--format", "{{.Names}}"],
-        capture_output=True, text=True, timeout=10,
+        capture_output=True,
+        text=True,
+        timeout=10,
     )
     assert proc.returncode == 0, f"docker ps rc={proc.returncode}: {proc.stderr[:200]}"
     running = [n for n in proc.stdout.splitlines() if n.strip()]
@@ -108,6 +118,7 @@ def chk_docker() -> str:
 def chk_generators() -> str:
     sys.path.insert(0, str(CORPUS))
     from generator_lib import FAMILY_SPECS  # type: ignore[import-not-found]
+
     n_ok = 0
     n_fail = 0
     fails: list[str] = []
@@ -117,11 +128,19 @@ def chk_generators() -> str:
             out = Path(td) / fam.replace(".", "__")
             gen = CORPUS / "wave1" / "search_grep" / "scaffold_generator.py"
             proc = subprocess.run(
-                [sys.executable, str(gen),
-                 "--instance", f"test__{fam.replace('.', '_')}.abc1234",
-                 "--out", str(out),
-                 "--family-override", fam],
-                capture_output=True, text=True, timeout=30,
+                [
+                    sys.executable,
+                    str(gen),
+                    "--instance",
+                    f"test__{fam.replace('.', '_')}.abc1234",
+                    "--out",
+                    str(out),
+                    "--family-override",
+                    fam,
+                ],
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
             if proc.returncode == 0:
                 n_ok += 1
@@ -136,21 +155,23 @@ def chk_generators() -> str:
 def chk_compile_sh() -> str:
     sys.path.insert(0, str(CORPUS))
     from generator_lib import render_compile_sh  # type: ignore[import-not-found]
+
     s = render_compile_sh()
     assert "chmod +x ./executable" in s, "no chmod on executable"
     assert "no:xdist" in s or "-n auto" in s, "xdist defuse pattern missing"
     # The defuse pattern strips -n auto from run.sh
-    assert "/workspace/eval/run.sh" in s or "../eval/run.sh" in s, \
-        "no run.sh path target"
+    assert "/workspace/eval/run.sh" in s or "../eval/run.sh" in s, "no run.sh path target"
     return f"{len(s)} bytes; defuses xdist"
 
 
 @check("06 resource guard — builds eval cmd for every family")
 def chk_resource_guard() -> str:
     sys.path.insert(0, str(ROOT / "scripts"))
-    from programbench_resource_guard import build_eval_cmd, describe_policy  # type: ignore
+    from programbench_resource_guard import build_eval_cmd  # type: ignore
+
     sys.path.insert(0, str(CORPUS))
     from generator_lib import FAMILY_SPECS  # type: ignore[import-not-found]
+
     for fam in list(FAMILY_SPECS)[:5]:
         cmd, policy = build_eval_cmd(
             scaffold_root="T:/determinex-programbench/determinex_pb_factory_test_v1",
@@ -166,6 +187,7 @@ def chk_resource_guard() -> str:
 def chk_subtype_classifier() -> str:
     sys.path.insert(0, str(ROOT / "scripts"))
     from programbench_classify_subtype import classify  # type: ignore[import-not-found]
+
     queue = json.loads(QUEUE_JSON.read_text(encoding="utf-8"))["ranked"][:8]
     n_strong = 0
     for entry in queue:
@@ -182,7 +204,8 @@ def chk_worker_policy() -> str:
     chain_src = CHAIN_PS1.read_text(encoding="utf-8")
     policy_block = re.search(
         r"WORKER_POLICY\s*=\s*@\{(.+?)^\}",
-        chain_src, re.DOTALL | re.MULTILINE,
+        chain_src,
+        re.DOTALL | re.MULTILINE,
     )
     assert policy_block, "WORKER_POLICY hashtable not found in chain script"
     covered = set(re.findall(r'"([^"]+)"\s*=', policy_block.group(1)))
@@ -223,6 +246,7 @@ def chk_bulk_gen() -> str:
 def chk_local_smoke() -> str:
     sys.path.insert(0, str(ROOT / "scripts"))
     from sprint4_subtype_smoke_pass import _PROBES  # type: ignore[import-not-found]
+
     queue = json.loads(QUEUE_JSON.read_text(encoding="utf-8"))["ranked"][:8]
     n_pass = 0
     for entry in queue:
@@ -246,11 +270,17 @@ def chk_local_smoke() -> str:
 @check("11 chain script — parse clean")
 def chk_chain_parse() -> str:
     proc = subprocess.run(
-        ["powershell", "-NoProfile", "-Command",
-         f"$t=$null; $e=$null; "
-         f"[System.Management.Automation.Language.Parser]::ParseFile('{CHAIN_PS1}', [ref]$t, [ref]$e) | Out-Null; "
-         f"if ($e) {{ $e | ForEach-Object {{ Write-Output $_.Message }} }} else {{ Write-Output 'PARSE OK' }}"],
-        capture_output=True, text=True, timeout=10,
+        [
+            "powershell",
+            "-NoProfile",
+            "-Command",
+            f"$t=$null; $e=$null; "
+            f"[System.Management.Automation.Language.Parser]::ParseFile('{CHAIN_PS1}', [ref]$t, [ref]$e) | Out-Null; "
+            f"if ($e) {{ $e | ForEach-Object {{ Write-Output $_.Message }} }} else {{ Write-Output 'PARSE OK' }}",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=10,
     )
     out = (proc.stdout or "") + (proc.stderr or "")
     assert "PARSE OK" in out, f"chain script parse failed: {out[:300]}"
@@ -259,9 +289,17 @@ def chk_chain_parse() -> str:
 
 def main() -> int:
     checks = [
-        chk_imports, chk_programbench_exe, chk_docker, chk_generators,
-        chk_compile_sh, chk_resource_guard, chk_subtype_classifier,
-        chk_worker_policy, chk_bulk_gen, chk_local_smoke, chk_chain_parse,
+        chk_imports,
+        chk_programbench_exe,
+        chk_docker,
+        chk_generators,
+        chk_compile_sh,
+        chk_resource_guard,
+        chk_subtype_classifier,
+        chk_worker_policy,
+        chk_bulk_gen,
+        chk_local_smoke,
+        chk_chain_parse,
     ]
     print(f"Sprint 4 preflight — {len(checks)} dependency checks")
     print("=" * 78)
@@ -286,12 +324,21 @@ def main() -> int:
 
     out_log = ROOT / "logs" / "mass_run_v2" / "sprint4_preflight.json"
     out_log.parent.mkdir(parents=True, exist_ok=True)
-    out_log.write_text(json.dumps({
-        "results": [{"name": r.name, "ok": r.ok, "detail": r.detail,
-                     "elapsed_s": r.elapsed_s} for r in results],
-        "n_ok": n_ok, "n_total": len(checks),
-        "halted_on_first_fail": halted,
-    }, indent=2), encoding="utf-8")
+    out_log.write_text(
+        json.dumps(
+            {
+                "results": [
+                    {"name": r.name, "ok": r.ok, "detail": r.detail, "elapsed_s": r.elapsed_s}
+                    for r in results
+                ],
+                "n_ok": n_ok,
+                "n_total": len(checks),
+                "halted_on_first_fail": halted,
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     print(f"  log: {out_log}")
 
     if halted or n_ok < len(checks):

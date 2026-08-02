@@ -5,13 +5,13 @@ layout supplied through task metadata. It is intentionally conservative: if a
 Maven or Gradle project exists, use that project validator; otherwise compile a
 single class with javac.
 """
+
 from __future__ import annotations
 
 import re
 import subprocess
 import tempfile
 from pathlib import Path
-
 
 _TIMEOUT = 60
 
@@ -54,13 +54,18 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
         cmd = _project_command(path)
         if cmd:
             try:
-                result = subprocess.run(cmd, cwd=str(path), capture_output=True, text=True, timeout=_TIMEOUT)
+                result = subprocess.run(
+                    cmd, cwd=str(path), capture_output=True, text=True, timeout=_TIMEOUT
+                )
             except subprocess.TimeoutExpired:
                 return False, "java project validation timeout"
             except FileNotFoundError as exc:
                 return False, f"java project validator missing tool: {exc}"
             text = (result.stderr or result.stdout)[:500].replace("\n", " | ")
-            return (result.returncode == 0, "java project OK" if result.returncode == 0 else f"java project: {text}")
+            return (
+                result.returncode == 0,
+                "java project OK" if result.returncode == 0 else f"java project: {text}",
+            )
 
     code = _strip_fences(output)
     if len(code) < 10:
@@ -74,7 +79,13 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
             name = _class_name(code)
             source = td / f"{name}.java"
             source.write_text(code, encoding="utf-8")
-            result = subprocess.run(["javac", str(source.name)], cwd=str(td), capture_output=True, text=True, timeout=_TIMEOUT)
+            result = subprocess.run(
+                ["javac", str(source.name)],
+                cwd=str(td),
+                capture_output=True,
+                text=True,
+                timeout=_TIMEOUT,
+            )
             if result.returncode == 0:
                 return True, "javac OK"
             return False, f"javac: {(result.stderr or result.stdout)[:500].replace(chr(10), ' | ')}"

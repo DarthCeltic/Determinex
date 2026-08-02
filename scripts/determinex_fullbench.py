@@ -51,20 +51,19 @@ _SCRIPTS = Path(__file__).resolve().parent
 sys.path.insert(0, str(_SCRIPTS))
 
 import logging
+
 logging.getLogger("LiteLLM").setLevel(logging.WARNING)
 logging.getLogger("litellm").setLevel(logging.WARNING)
 logging.basicConfig(level=logging.WARNING)
 
-from micro_eval import ask_student, _strip_fences
+from micro_eval import _strip_fences, ask_student
 
 # ---------------------------------------------------------------------------
 # TIER 1 — Algorithmic core (HumanEval difficulty parity)
 # ---------------------------------------------------------------------------
 
 BENCH_CONCEPTS = {
-
     # ── RUST ────────────────────────────────────────────────────────────────
-
     "rust_binary_search": {
         "lang": "rust",
         "system": "You are an expert Rust programmer.",
@@ -99,7 +98,6 @@ fn main() {
             },
         ],
     },
-
     "rust_linked_list": {
         "lang": "rust",
         "system": "You are an expert Rust programmer.",
@@ -144,7 +142,6 @@ fn main() {
             },
         ],
     },
-
     "rust_trait_impl": {
         "lang": "rust",
         "system": "You are an expert Rust programmer.",
@@ -182,7 +179,6 @@ fn main() {
             },
         ],
     },
-
     "rust_error_chain": {
         "lang": "rust",
         "system": "You are an expert Rust programmer.",
@@ -216,7 +212,6 @@ fn main() {
             },
         ],
     },
-
     "rust_iterator_chain": {
         "lang": "rust",
         "system": "You are an expert Rust programmer.",
@@ -250,9 +245,7 @@ fn main() {
             },
         ],
     },
-
     # ── GO ──────────────────────────────────────────────────────────────────
-
     "go_worker_pool": {
         "lang": "go",
         "system": "You are an expert Go programmer.",
@@ -296,7 +289,6 @@ func main() {
             },
         ],
     },
-
     "go_interface": {
         "lang": "go",
         "system": "You are an expert Go programmer.",
@@ -355,7 +347,6 @@ func main() {
             },
         ],
     },
-
     "go_context": {
         "lang": "go",
         "system": "You are an expert Go programmer.",
@@ -391,7 +382,6 @@ func main() {
             },
         ],
     },
-
     "go_functional": {
         "lang": "go",
         "system": "You are an expert Go programmer.",
@@ -417,9 +407,7 @@ func main() {
             },
         ],
     },
-
     # ── PYTHON ──────────────────────────────────────────────────────────────
-
     "py_two_sum": {
         "lang": "python",
         "system": "You are an expert Python programmer.",
@@ -452,7 +440,6 @@ print("ok")
             },
         ],
     },
-
     "py_lru_cache": {
         "lang": "python",
         "system": "You are an expert Python programmer.",
@@ -476,7 +463,6 @@ print("ok")
             },
         ],
     },
-
     "py_async": {
         "lang": "python",
         "system": "You are an expert Python programmer.",
@@ -527,7 +513,6 @@ print("ok")
             },
         ],
     },
-
     "py_datastructures": {
         "lang": "python",
         "system": "You are an expert Python programmer.",
@@ -560,7 +545,6 @@ print("ok")
             },
         ],
     },
-
     "py_functional": {
         "lang": "python",
         "system": "You are an expert Python programmer.",
@@ -601,9 +585,7 @@ print("ok")
             },
         ],
     },
-
     # ── TYPESCRIPT ──────────────────────────────────────────────────────────
-
     "ts_type_system": {
         "lang": "typescript",
         "system": "You are an expert TypeScript programmer.",
@@ -638,7 +620,6 @@ console.log('ok');
             },
         ],
     },
-
     "ts_async": {
         "lang": "typescript",
         "system": "You are an expert TypeScript programmer.",
@@ -665,7 +646,6 @@ retry(flaky, 5, 0).then(result => {
             },
         ],
     },
-
     "ts_data_transform": {
         "lang": "typescript",
         "system": "You are an expert TypeScript programmer.",
@@ -699,7 +679,6 @@ console.log('ok');
             },
         ],
     },
-
 }
 
 
@@ -710,55 +689,68 @@ console.log('ok');
 import re as _re
 import shutil as _shutil
 
+
 def _extract_code(raw: str) -> str:
     """Extract code from model response. Always prefers explicit code block extraction."""
     # Always try fenced block first — handles chatty base models that wrap code in ```lang\n...\n```
-    m = _re.search(r'```(?:\w+)?\s*\n(.*?)```', raw, _re.DOTALL)
+    m = _re.search(r"```(?:\w+)?\s*\n(.*?)```", raw, _re.DOTALL)
     if m:
         return _strip_fences(m.group(1).strip())
     # No fenced block found — try _strip_fences on the whole response (fine-tuned models)
     s = _strip_fences(raw)
     # Last resort: if prose still bleeds through (natural language before first blank line),
     # drop everything up to the first blank line and return the rest
-    if _re.match(r'^[A-Za-z].*[^{}\[\]();]$', s.split('\n')[0]):
-        lines = s.split('\n')
+    if _re.match(r"^[A-Za-z].*[^{}\[\]();]$", s.split("\n")[0]):
+        lines = s.split("\n")
         for i, line in enumerate(lines):
             if not line.strip() and i < len(lines) - 1:
-                return '\n'.join(lines[i+1:]).strip()
+                return "\n".join(lines[i + 1 :]).strip()
     return s
 
 
 def _run_rust(student: str, test_main: str) -> tuple[bool, str]:
     """Assemble: student functions + test fn main(), deduplicating declarations."""
     # If student wrote fn main(), truncate before it — test provides the real main
-    m_main = _re.search(r'\bfn\s+main\s*\(', student)
+    m_main = _re.search(r"\bfn\s+main\s*\(", student)
     if m_main:
-        student = student[:m_main.start()].rstrip()
+        student = student[: m_main.start()].rstrip()
     # Strip bare forward declarations: fn foo(...) -> T;  (no body — would conflict with student)
-    test_clean = _re.sub(r'(?m)^\s*(?:pub\s+)?fn\s+\w+[^{;\n]*;\s*$\n?', '', test_main)
+    test_clean = _re.sub(r"(?m)^\s*(?:pub\s+)?fn\s+\w+[^{;\n]*;\s*$\n?", "", test_main)
     # Remove struct/enum/type defs from test that student already defines (avoids "defined multiple times")
-    for kw in ('struct', 'enum', 'type'):
-        names = set(_re.findall(rf'(?m)^(?:pub\s+)?{kw}\s+(\w+)', student))
+    for kw in ("struct", "enum", "type"):
+        names = set(_re.findall(rf"(?m)^(?:pub\s+)?{kw}\s+(\w+)", student))
         for name in names:
             test_clean = _re.sub(
-                rf'(?:pub\s+)?{kw}\s+{_re.escape(name)}\b[^;{{]*(?:\{{[^}}]*\}}|=[^;]*;)',
-                '', test_clean)
+                rf"(?:pub\s+)?{kw}\s+{_re.escape(name)}\b[^;{{]*(?:\{{[^}}]*\}}|=[^;]*;)",
+                "",
+                test_clean,
+            )
     full = student.strip() + "\n\n" + test_clean.strip()
     with tempfile.NamedTemporaryFile(suffix=".rs", delete=False, mode="w", encoding="utf-8") as f:
-        f.write(full); src = f.name
+        f.write(full)
+        src = f.name
     bin_path = src.replace(".rs", ".exe" if sys.platform == "win32" else ".bin")
     try:
-        r = subprocess.run(["rustc", "--edition", "2021", "-o", bin_path, src],
-                           capture_output=True, text=True, timeout=30)
-        if r.returncode != 0: return False, r.stderr[:600]
+        r = subprocess.run(
+            ["rustc", "--edition", "2021", "-o", bin_path, src],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        if r.returncode != 0:
+            return False, r.stderr[:600]
         r2 = subprocess.run([bin_path], capture_output=True, text=True, timeout=10)
         return (r2.returncode == 0 and bool(r2.stdout.strip())), r2.stderr[:300]
-    except subprocess.TimeoutExpired: return False, "TIMEOUT"
-    except FileNotFoundError: return False, "rustc not found"
+    except subprocess.TimeoutExpired:
+        return False, "TIMEOUT"
+    except FileNotFoundError:
+        return False, "rustc not found"
     finally:
         for p in (src, bin_path):
-            try: os.unlink(p)
-            except OSError: pass
+            try:
+                os.unlink(p)
+            except OSError:
+                pass
 
 
 def _run_go(student: str, test_harness: str) -> tuple[bool, str]:
@@ -768,53 +760,66 @@ def _run_go(student: str, test_harness: str) -> tuple[bool, str]:
     Student provides: function/type implementations.
     """
     # --- clean student ---
-    s = _re.sub(r'^\s*package\s+\w+\s*\n?', '', student.strip(), count=1)
-    s = _re.sub(r'import\s*\(.*?\)\s*\n?', '', s, flags=_re.DOTALL)
-    s = _re.sub(r'import\s+"[^"]+"\s*\n?', '', s)
+    s = _re.sub(r"^\s*package\s+\w+\s*\n?", "", student.strip(), count=1)
+    s = _re.sub(r"import\s*\(.*?\)\s*\n?", "", s, flags=_re.DOTALL)
+    s = _re.sub(r'import\s+"[^"]+"\s*\n?', "", s)
     # Truncate at func main if student wrote one
-    m_main = _re.search(r'\bfunc\s+main\s*\(', s)
+    m_main = _re.search(r"\bfunc\s+main\s*\(", s)
     if m_main:
-        s = s[:m_main.start()].rstrip()
+        s = s[: m_main.start()].rstrip()
 
     # --- clean harness ---
     h = test_harness
     # Strip bare forward declarations (func lines without '{' — invalid Go)
-    h = _re.sub(r'(?m)^func\s+[^\n{]+$\n?', '', h)
+    h = _re.sub(r"(?m)^func\s+[^\n{]+$\n?", "", h)
     # Remove type definitions (struct/interface) that student already defines
-    student_types = set(_re.findall(r'type\s+(\w+)', s))
+    student_types = set(_re.findall(r"type\s+(\w+)", s))
     for name in student_types:
         # multi-line: type NAME struct/interface { ... }
         h = _re.sub(
-            rf'type\s+{_re.escape(name)}\s+(?:struct|interface)\s*\{{[^}}]*\}}',
-            '', h, flags=_re.DOTALL)
+            rf"type\s+{_re.escape(name)}\s+(?:struct|interface)\s*\{{[^}}]*\}}",
+            "",
+            h,
+            flags=_re.DOTALL,
+        )
         # single-line: type NAME OtherType
-        h = _re.sub(rf'(?m)^type\s+{_re.escape(name)}\s+\w+\s*$\n?', '', h)
+        h = _re.sub(rf"(?m)^type\s+{_re.escape(name)}\s+\w+\s*$\n?", "", h)
 
     full = h.strip() + "\n\n" + s.strip()
     with tempfile.NamedTemporaryFile(suffix=".go", delete=False, mode="w", encoding="utf-8") as f:
-        f.write(full); src = f.name
+        f.write(full)
+        src = f.name
     try:
         r = subprocess.run(["go", "run", src], capture_output=True, text=True, timeout=30)
         return (r.returncode == 0 and bool(r.stdout.strip())), (r.stderr or r.stdout)[:500]
-    except subprocess.TimeoutExpired: return False, "TIMEOUT"
-    except FileNotFoundError: return False, "go not found"
+    except subprocess.TimeoutExpired:
+        return False, "TIMEOUT"
+    except FileNotFoundError:
+        return False, "go not found"
     finally:
-        try: os.unlink(src)
-        except OSError: pass
+        try:
+            os.unlink(src)
+        except OSError:
+            pass
 
 
 def _run_python(student: str, test_code: str) -> tuple[bool, str]:
     full = student.strip() + "\n\n" + test_code.strip()
     with tempfile.NamedTemporaryFile(suffix=".py", delete=False, mode="w", encoding="utf-8") as f:
-        f.write(full); src = f.name
+        f.write(full)
+        src = f.name
     try:
         r = subprocess.run([sys.executable, src], capture_output=True, text=True, timeout=15)
-        if r.returncode == 0 and r.stdout.strip(): return True, ""
+        if r.returncode == 0 and r.stdout.strip():
+            return True, ""
         return False, (r.stderr or r.stdout)[:400]
-    except subprocess.TimeoutExpired: return False, "TIMEOUT"
+    except subprocess.TimeoutExpired:
+        return False, "TIMEOUT"
     finally:
-        try: os.unlink(src)
-        except OSError: pass
+        try:
+            os.unlink(src)
+        except OSError:
+            pass
 
 
 def _run_ts(student: str, test_code: str) -> tuple[bool, str]:
@@ -825,14 +830,31 @@ def _run_ts(student: str, test_code: str) -> tuple[bool, str]:
         f.write(full)
     try:
         rc = subprocess.run(
-            ["tsc", "--module", "commonjs", "--target", "ES2020", "--strict",
-             "--skipLibCheck", "--outDir", tmpdir, src],
-            capture_output=True, text=True, shell=(sys.platform == "win32"), timeout=30)
-        if rc.returncode != 0: return False, (rc.stderr or rc.stdout)[:500]
-        r = subprocess.run(["node", os.path.join(tmpdir, "eval.js")],
-                           capture_output=True, text=True, timeout=15)
+            [
+                "tsc",
+                "--module",
+                "commonjs",
+                "--target",
+                "ES2020",
+                "--strict",
+                "--skipLibCheck",
+                "--outDir",
+                tmpdir,
+                src,
+            ],
+            capture_output=True,
+            text=True,
+            shell=(sys.platform == "win32"),
+            timeout=30,
+        )
+        if rc.returncode != 0:
+            return False, (rc.stderr or rc.stdout)[:500]
+        r = subprocess.run(
+            ["node", os.path.join(tmpdir, "eval.js")], capture_output=True, text=True, timeout=15
+        )
         return (r.returncode == 0 and bool(r.stdout.strip())), (r.stderr or r.stdout)[:500]
-    except subprocess.TimeoutExpired: return False, "TIMEOUT"
+    except subprocess.TimeoutExpired:
+        return False, "TIMEOUT"
     finally:
         _shutil.rmtree(tmpdir, ignore_errors=True)
 
@@ -840,18 +862,22 @@ def _run_ts(student: str, test_code: str) -> tuple[bool, str]:
 def run_probe(code: str, probe: dict, lang: str) -> tuple[bool, str]:
     student = _extract_code(code)
     test = probe["test"]
-    if lang == "rust":       return _run_rust(student, test)
-    if lang == "go":         return _run_go(student, test)
-    if lang == "python":     return _run_python(student, test)
-    if lang == "typescript": return _run_ts(student, test)
+    if lang == "rust":
+        return _run_rust(student, test)
+    if lang == "go":
+        return _run_go(student, test)
+    if lang == "python":
+        return _run_python(student, test)
+    if lang == "typescript":
+        return _run_ts(student, test)
     return True, ""
 
 
 def run_bench(model: str, save: bool = False):
-    print(f"\n{'='*65}")
+    print(f"\n{'=' * 65}")
     print(f"  DETERMINEX FULL BENCH — {model}")
     print(f"  {len(BENCH_CONCEPTS)} concept groups | compiler-verified | HumanEval-comparable")
-    print(f"{'='*65}")
+    print(f"{'=' * 65}")
 
     # Pre-warm
     print(f"\n  [pre-warm] Loading {model}...", end="", flush=True)
@@ -883,14 +909,16 @@ def run_bench(model: str, save: bool = False):
             print(f"  │  [{pid}] {status} ({elapsed}s){errstr}")
 
             probe_results.append(ok)
-            results.append({
-                "concept": concept_key,
-                "probe_id": pid,
-                "lang": lang,
-                "passed": ok,
-                "error": err[:200] if not ok else "",
-                "elapsed": elapsed,
-            })
+            results.append(
+                {
+                    "concept": concept_key,
+                    "probe_id": pid,
+                    "lang": lang,
+                    "passed": ok,
+                    "error": err[:200] if not ok else "",
+                    "elapsed": elapsed,
+                }
+            )
 
             if ok:
                 total_pass += 1
@@ -906,9 +934,9 @@ def run_bench(model: str, save: bool = False):
     total = total_pass + total_fail
     overall_pct = round(100 * total_pass / total) if total else 0
 
-    print(f"\n{'='*65}")
+    print(f"\n{'=' * 65}")
     print(f"  OVERALL: {total_pass}/{total} ({overall_pct}%)")
-    print(f"{'='*65}")
+    print(f"{'=' * 65}")
 
     print(f"""
   FRONTIER COMPARISON:
@@ -923,7 +951,7 @@ def run_bench(model: str, save: bool = False):
   HumanEval is Python-only pass@1. Multi-language benchmarks are typically
   3-8% harder than single-language Python benchmarks at equivalent difficulty.
   Adjust comparison accordingly.
-{'='*65}
+{"=" * 65}
 """)
 
     if save:
@@ -933,7 +961,9 @@ def run_bench(model: str, save: bool = False):
             "overall_pct": overall_pct,
             "total_pass": total_pass,
             "total": total,
-            "concept_scores": {k: {"pass": v[0], "total": v[1], "pct": v[2]} for k, v in concept_scores.items()},
+            "concept_scores": {
+                k: {"pass": v[0], "total": v[1], "pct": v[2]} for k, v in concept_scores.items()
+            },
             "probes": results,
         }
         model_safe = model.replace(":", "_").replace("/", "_")

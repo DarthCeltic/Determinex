@@ -16,6 +16,7 @@ If --lang is omitted, the language is inferred from the upstream source
 This script is idempotent: running it again refreshes the source from
 the canonical upstream and rewrites compile.sh + executable shim.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -110,9 +111,23 @@ def _copy_go_source(branch: Path, dest: Path) -> list[str]:
             shutil.copy2(src, dest / f)
             copied.append(f)
     # Also copy any subpackages (top-level dirs that aren't eval/tests/docs)
-    skip_dirs = {"eval", "tests", "test", "testdata", "docs", "ci", "assets",
-                 "screenshots", ".cargo", ".github", "completions", "build",
-                 "Formula", "script", "benches"}
+    skip_dirs = {
+        "eval",
+        "tests",
+        "test",
+        "testdata",
+        "docs",
+        "ci",
+        "assets",
+        "screenshots",
+        ".cargo",
+        ".github",
+        "completions",
+        "build",
+        "Formula",
+        "script",
+        "benches",
+    }
     for d in branch.iterdir():
         if d.is_dir() and d.name not in skip_dirs and not d.name.startswith("."):
             target = dest / d.name
@@ -148,8 +163,17 @@ def _copy_rust_source(branch: Path, dest: Path) -> list[str]:
             shutil.copy2(src, dest / f)
             copied.append(f)
     keep_dirs = {
-        "src", "benches", "tests", "examples", "assets", "data",
-        "fixtures", "themes", "resources", "templates", ".cargo",
+        "src",
+        "benches",
+        "tests",
+        "examples",
+        "assets",
+        "data",
+        "fixtures",
+        "themes",
+        "resources",
+        "templates",
+        ".cargo",
     }
     cargo_toml = branch / "Cargo.toml"
     if cargo_toml.is_file():
@@ -193,8 +217,15 @@ def _copy_c_source(branch: Path, dest: Path) -> list[str]:
     """
     copied = []
     skip_dirs = {
-        ".git", ".github", "eval", "target", "build", "cmake-build-debug",
-        "node_modules", "__pycache__", ".pytest_cache",
+        ".git",
+        ".github",
+        "eval",
+        "target",
+        "build",
+        "cmake-build-debug",
+        "node_modules",
+        "__pycache__",
+        ".pytest_cache",
     }
     skip_suffixes = {".tar", ".gz", ".zip", ".7z", ".rar", ".o", ".a", ".so", ".dll", ".exe"}
     for entry in branch.iterdir():
@@ -208,9 +239,19 @@ def _copy_c_source(branch: Path, dest: Path) -> list[str]:
                 entry,
                 target,
                 ignore=shutil.ignore_patterns(
-                    ".git", "target", "build", "cmake-build-debug",
-                    "__pycache__", ".pytest_cache", "*.o", "*.a", "*.so",
-                    "*.dll", "*.exe", "*.tar.gz", "*.zip",
+                    ".git",
+                    "target",
+                    "build",
+                    "cmake-build-debug",
+                    "__pycache__",
+                    ".pytest_cache",
+                    "*.o",
+                    "*.a",
+                    "*.so",
+                    "*.dll",
+                    "*.exe",
+                    "*.tar.gz",
+                    "*.zip",
                 ),
             )
             copied.append(f"{entry.name}/")
@@ -465,8 +506,20 @@ def convert(
     for f in override_dir.rglob("*"):
         if not f.is_file() or "__pycache__" in str(f):
             continue
-        if f.suffix in (".go", ".rs", ".c", ".cpp", ".h", ".toml", ".mod", ".sum",
-                        ".sh", ".py", ".lock", ".txt") or f.name in ("go.mod", "go.sum", "Makefile"):
+        if f.suffix in (
+            ".go",
+            ".rs",
+            ".c",
+            ".cpp",
+            ".h",
+            ".toml",
+            ".mod",
+            ".sum",
+            ".sh",
+            ".py",
+            ".lock",
+            ".txt",
+        ) or f.name in ("go.mod", "go.sum", "Makefile"):
             data = f.read_bytes()
             if b"\r\n" in data:
                 f.write_bytes(data.replace(b"\r\n", b"\n"))
@@ -479,7 +532,11 @@ def main() -> int:
     ap.add_argument("slug", help="ProgramBench instance id, e.g. tomnomnom__gron.88a6234")
     ap.add_argument("--lang", choices=("go", "rust", "c", "cpp"), default=None)
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--create-missing", action="store_true", help="create override dir when upstream source exists")
+    ap.add_argument(
+        "--create-missing",
+        action="store_true",
+        help="create override dir when upstream source exists",
+    )
     args = ap.parse_args()
     return convert(
         args.slug,

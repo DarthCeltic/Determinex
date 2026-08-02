@@ -17,7 +17,9 @@ from verified_task import (  # noqa: E402
 )
 
 
-def _spec(benchmark: str, language: str = "python", validator: str = "python -m pytest") -> TaskSpec:
+def _spec(
+    benchmark: str, language: str = "python", validator: str = "python -m pytest"
+) -> TaskSpec:
     return TaskSpec(
         id=f"{benchmark.lower().replace('-', '_')}_001",
         benchmark=benchmark,
@@ -152,24 +154,26 @@ def test_browser_trace_is_schema_complete(tmp_path):
 
 
 def test_unsigned_row_rejected():
-    ok, reasons = signed_training_eligible({
-        "record_status": "active_training_eligible",
-        "training_eligible": True,
-        "schema_version": "determinex-agent-trace-v1",
-        "corpus_type": "code_verdict",
-        "language": "python",
-        "source_kind": "benchmark_attempt",
-        "source_benchmark": "ProgramBench",
-        "license_provenance": "MIT",
-        "verifier_command": "python -m pytest",
-        "verifier_result": "pass",
-        "failure_class": "none",
-        "failure_type": "none",
-        "repair_outcome": "pass",
-        "trace_hash_schema_version": "canonical-v2",
-        "trace_hash": "x",
-        "signature_key_scope": "durable",
-    })
+    ok, reasons = signed_training_eligible(
+        {
+            "record_status": "active_training_eligible",
+            "training_eligible": True,
+            "schema_version": "determinex-agent-trace-v1",
+            "corpus_type": "code_verdict",
+            "language": "python",
+            "source_kind": "benchmark_attempt",
+            "source_benchmark": "ProgramBench",
+            "license_provenance": "MIT",
+            "verifier_command": "python -m pytest",
+            "verifier_result": "pass",
+            "failure_class": "none",
+            "failure_type": "none",
+            "repair_outcome": "pass",
+            "trace_hash_schema_version": "canonical-v2",
+            "trace_hash": "x",
+            "signature_key_scope": "durable",
+        }
+    )
 
     assert ok is False
     assert "invalid_or_missing_signature" in reasons

@@ -26,6 +26,7 @@ CLI
     python scripts/determinex_remediation.py plan  <eval_report.json> [--conftest C --compile-sh S]
     python scripts/determinex_remediation.py apply <eval_report.json> <submission_dir>
 """
+
 from __future__ import annotations
 
 import argparse
@@ -38,20 +39,22 @@ _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
 from determinex_adjudicator import (  # noqa: E402
-    Adjudication, Verdict, adjudicate_eval_report,
+    Adjudication,
+    Verdict,
+    adjudicate_eval_report,
 )
 
 
 @dataclass
 class Remediation:
     strategy: str
-    shell_prelude: list[str] = field(default_factory=list)   # lines added early in compile.sh
+    shell_prelude: list[str] = field(default_factory=list)  # lines added early in compile.sh
     shell_appendix: list[str] = field(default_factory=list)  # lines added at end of compile.sh
-    conftest_additions: str = ""                              # python appended to conftest
+    conftest_additions: str = ""  # python appended to conftest
     conftest_removals: list[str] = field(default_factory=list)  # regex patterns to strip
     wrapper_files: dict[str, str] = field(default_factory=dict)  # filename -> contents
     rationale: str = ""
-    manual_followup: str = ""                                 # if not fully automatable
+    manual_followup: str = ""  # if not fully automatable
 
 
 # ---------------------------------------------------------------------------
@@ -65,8 +68,10 @@ def _remove_collection_cap(adjs: list[Adjudication]) -> Remediation:
             r"items\[:\]\s*=\s*items\[:\s*\d+\s*\]\s*\n?",
             r"^\s*collect_ignore(_glob)?\s*=\s*\[[^\]]*\]\s*\n?",
         ],
-        rationale=("Strip the self-imposed collection cap / collect_ignore so the "
-                   "not_run tests actually run. Repack the tarball and re-eval."),
+        rationale=(
+            "Strip the self-imposed collection cap / collect_ignore so the "
+            "not_run tests actually run. Repack the tarball and re-eval."
+        ),
         manual_followup="Repack submission.tar.gz and re-run the eval after stripping.",
     )
 
@@ -76,7 +81,7 @@ def _pty_allocate(adjs: list[Adjudication]) -> Remediation:
         "#!/usr/bin/env bash\n"
         "# PTY launcher: give the binary a controlling terminal so it enters\n"
         "# screen/interactive mode, then capture the rendered screen.\n"
-        'if command -v script >/dev/null 2>&1; then\n'
+        "if command -v script >/dev/null 2>&1; then\n"
         '  exec script -qec "/usr/local/bin/REALBIN $*" /dev/null\n'
         "else\n"
         '  exec /usr/local/bin/REALBIN "$@"\n'
@@ -86,12 +91,16 @@ def _pty_allocate(adjs: list[Adjudication]) -> Remediation:
         strategy="pty-allocate",
         shell_appendix=["apt-get install -y -qq util-linux 2>/dev/null || true"],
         wrapper_files={"_determinex_pty_launcher.sh": launcher},
-        rationale=("Run the binary under a PTY (script(1)) so TTY-gated rendering "
-                   "(line numbers, captions, force-screen) is produced. Point the "
-                   "executable wrapper at _determinex_pty_launcher.sh and pair with the "
-                   "tool's screen-dump flag (e.g. --exit-write) where one exists."),
-        manual_followup=("Replace REALBIN with the actual binary name and, if the "
-                         "tool needs it, append its screen-dump flag in the wrapper."),
+        rationale=(
+            "Run the binary under a PTY (script(1)) so TTY-gated rendering "
+            "(line numbers, captions, force-screen) is produced. Point the "
+            "executable wrapper at _determinex_pty_launcher.sh and pair with the "
+            "tool's screen-dump flag (e.g. --exit-write) where one exists."
+        ),
+        manual_followup=(
+            "Replace REALBIN with the actual binary name and, if the "
+            "tool needs it, append its screen-dump flag in the wrapper."
+        ),
     )
 
 
@@ -104,9 +113,12 @@ def _install_dependency(adjs: list[Adjudication]) -> Remediation:
     # try to name the missing tool from the failure text
     deps: set[str] = set()
     for a in adjs:
-        m = re.search(r"requires ([\w.-]+) which is not available|"
-                      r"([\w.-]*plugin[\w.-]*)|missing (?:binary|dependency|tool)[:\s]+([\w.-]+)",
-                      a.failure.text or "", re.I)
+        m = re.search(
+            r"requires ([\w.-]+) which is not available|"
+            r"([\w.-]*plugin[\w.-]*)|missing (?:binary|dependency|tool)[:\s]+([\w.-]+)",
+            a.failure.text or "",
+            re.I,
+        )
         if m:
             dep = next((g for g in m.groups() if g), "")
             if dep:
@@ -114,15 +126,22 @@ def _install_dependency(adjs: list[Adjudication]) -> Remediation:
     lines = []
     for d in sorted(deps):
         installer = next((v for k, v in _DEP_INSTALLERS.items() if k in d), None)
-        lines.append(installer or
-                     f"(apt-get install -y -qq {d} || go install {d}@latest || "
-                     f"cargo install {d} || pip install {d}) 2>/dev/null || true")
+        lines.append(
+            installer
+            or f"(apt-get install -y -qq {d} || go install {d}@latest || "
+            f"cargo install {d} || pip install {d}) 2>/dev/null || true"
+        )
     return Remediation(
         strategy="install-dependency",
-        shell_prelude=lines or ["# name the missing dependency from the skip reason and install it here"],
+        shell_prelude=lines
+        or ["# name the missing dependency from the skip reason and install it here"],
         rationale=f"Install missing dependencies before tests run: {sorted(deps) or '(unnamed)'}.",
-        manual_followup=("Confirm the exact package/module name and registry "
-                         "(apt vs go vs cargo vs pip) for each dependency.") if not deps else "",
+        manual_followup=(
+            "Confirm the exact package/module name and registry "
+            "(apt vs go vs cargo vs pip) for each dependency."
+        )
+        if not deps
+        else "",
     )
 
 
@@ -133,11 +152,15 @@ def _drop_privileges(adjs: list[Adjudication]) -> Remediation:
             "id -u determinex >/dev/null 2>&1 || useradd -m determinex 2>/dev/null || true",
             "command -v gosu >/dev/null 2>&1 || apt-get install -y -qq gosu 2>/dev/null || true",
         ],
-        rationale=("Permission-bit / executable-detection tests assume a non-root "
-                   "user (root makes every file appear executable and ignores chmod). "
-                   "Run pytest as 'determinex' via gosu so os.access(X_OK) behaves."),
-        manual_followup=("In run.sh, prefix the pytest invocation with "
-                         "`gosu determinex` (or setpriv) so the test process is non-root."),
+        rationale=(
+            "Permission-bit / executable-detection tests assume a non-root "
+            "user (root makes every file appear executable and ignores chmod). "
+            "Run pytest as 'determinex' via gosu so os.access(X_OK) behaves."
+        ),
+        manual_followup=(
+            "In run.sh, prefix the pytest invocation with "
+            "`gosu determinex` (or setpriv) so the test process is non-root."
+        ),
     )
 
 
@@ -162,9 +185,11 @@ def _error_string_normalize(adjs: list[Adjudication]) -> Remediation:
     return Remediation(
         strategy="error-string-normalize",
         conftest_additions=code,
-        rationale=("Go's 'fork/exec <path>' vs the golden's 'open <path>' is a runtime "
-                   "wording difference, not a behavior difference. Normalize it on BOTH "
-                   "stdout and stderr (some tests merge the streams)."),
+        rationale=(
+            "Go's 'fork/exec <path>' vs the golden's 'open <path>' is a runtime "
+            "wording difference, not a behavior difference. Normalize it on BOTH "
+            "stdout and stderr (some tests merge the streams)."
+        ),
     )
 
 
@@ -172,15 +197,19 @@ def _scalar_build(adjs: list[Adjudication]) -> Remediation:
     return Remediation(
         strategy="scalar-build",
         shell_prelude=[
-            "export CFLAGS=\"${CFLAGS} -mno-avx2 -mno-avx512f\"",
-            "export CXXFLAGS=\"${CXXFLAGS} -mno-avx2 -mno-avx512f\"",
-            "export RUSTFLAGS=\"${RUSTFLAGS} -C target-feature=-avx2\"",
+            'export CFLAGS="${CFLAGS} -mno-avx2 -mno-avx512f"',
+            'export CXXFLAGS="${CXXFLAGS} -mno-avx2 -mno-avx512f"',
+            'export RUSTFLAGS="${RUSTFLAGS} -C target-feature=-avx2"',
         ],
-        rationale=("The golden was generated on a scalar/SSE code path; this box's "
-                   "AVX2/AVX512 path rounds differently and renders different output. "
-                   "Disable wide SIMD so the build matches the test-generation env."),
-        manual_followup=("Some build systems need a configure flag instead "
-                         "(e.g. --disable-avx2); verify the build honors the env vars."),
+        rationale=(
+            "The golden was generated on a scalar/SSE code path; this box's "
+            "AVX2/AVX512 path rounds differently and renders different output. "
+            "Disable wide SIMD so the build matches the test-generation env."
+        ),
+        manual_followup=(
+            "Some build systems need a configure flag instead "
+            "(e.g. --disable-avx2); verify the build honors the env vars."
+        ),
     )
 
 
@@ -188,7 +217,9 @@ def _locale_pin(adjs: list[Adjudication]) -> Remediation:
     return Remediation(
         strategy="locale-pin",
         shell_prelude=[
-            "export LC_ALL=C.UTF-8", "export LANG=C.UTF-8", "export TZ=UTC",
+            "export LC_ALL=C.UTF-8",
+            "export LANG=C.UTF-8",
+            "export TZ=UTC",
             "(locale-gen C.UTF-8 2>/dev/null || true)",
         ],
         rationale="Pin locale + timezone so UTF-8/encoding/date goldens match the reference env.",
@@ -199,15 +230,17 @@ def _deleted_cwd(adjs: list[Adjudication]) -> Remediation:
     launcher = (
         "#!/usr/bin/env bash\n"
         "# Tolerate a deleted CWD: chdir to a stable dir before exec.\n"
-        'cd / 2>/dev/null || true\n'
+        "cd / 2>/dev/null || true\n"
         'exec -a "$0" /usr/local/bin/REALBIN "$@"\n'
     )
     return Remediation(
         strategy="deleted-cwd",
         wrapper_files={"_determinex_stable_cwd.sh": launcher},
-        rationale=("A test deletes the CWD then invokes the binary; the Python harness "
-                   "crashes on getcwd() before the binary's own error path runs. Launch "
-                   "from a stable directory."),
+        rationale=(
+            "A test deletes the CWD then invokes the binary; the Python harness "
+            "crashes on getcwd() before the binary's own error path runs. Launch "
+            "from a stable directory."
+        ),
         manual_followup="Replace REALBIN with the real binary name; point the executable wrapper at this launcher.",
     )
 
@@ -222,13 +255,16 @@ def _routing_shim(adjs: list[Adjudication]) -> Remediation:
     note = "\n".join(f"#   - {n}" for n in names)
     return Remediation(
         strategy="context-route",
-        rationale=("Conflicting peers have distinct nodeids. A patch is emitted ONLY for a REAL "
-                   "observable context (cwd / argv / env / input files). Test-name routing "
-                   "(PYTEST_CURRENT_TEST / a baked per-test golden map) is GAMING and is refused."),
-        wrapper_files={},   # NEVER auto-emit a test-name routing shim
-        manual_followup=("Find the REAL discriminator (cwd/argv/env/files) and route on THAT. If the "
-                         "ONLY difference is the test name, this is a genuine ceiling, not a route:\n"
-                         + note),
+        rationale=(
+            "Conflicting peers have distinct nodeids. A patch is emitted ONLY for a REAL "
+            "observable context (cwd / argv / env / input files). Test-name routing "
+            "(PYTEST_CURRENT_TEST / a baked per-test golden map) is GAMING and is refused."
+        ),
+        wrapper_files={},  # NEVER auto-emit a test-name routing shim
+        manual_followup=(
+            "Find the REAL discriminator (cwd/argv/env/files) and route on THAT. If the "
+            "ONLY difference is the test name, this is a genuine ceiling, not a route:\n" + note
+        ),
     )
 
 
@@ -241,8 +277,8 @@ _GENERATORS = {
     "scalar-build": _scalar_build,
     "locale-pin": _locale_pin,
     "deleted-cwd": _deleted_cwd,
-    "context-route": _routing_shim,                  # de-gamed: emits NO test-name patch
-    "pytest-current-test-routing": _routing_shim,    # legacy alias -> same refusal (never games)
+    "context-route": _routing_shim,  # de-gamed: emits NO test-name patch
+    "pytest-current-test-routing": _routing_shim,  # legacy alias -> same refusal (never games)
 }
 
 
@@ -265,8 +301,7 @@ def remediations_for(adjs: list[Adjudication]) -> list[Remediation]:
 # ---------------------------------------------------------------------------
 # Apply a remediation bundle to a PB-style submission directory
 # ---------------------------------------------------------------------------
-def apply_to_submission(workdir: Path, rems: list[Remediation],
-                        dry_run: bool = False) -> list[str]:
+def apply_to_submission(workdir: Path, rems: list[Remediation], dry_run: bool = False) -> list[str]:
     actions: list[str] = []
     compile_sh = workdir / "compile.sh"
     conftest = workdir / "conftest.py"
@@ -294,13 +329,18 @@ def apply_to_submission(workdir: Path, rems: list[Remediation],
             text = "\n".join(lines)
             actions.append(f"compile.sh: +{len(prelude)} prelude lines")
         if appendix:
-            text = text.rstrip() + "\n\n# --- determinex remediation appendix ---\n" + "\n".join(appendix) + "\n"
+            text = (
+                text.rstrip()
+                + "\n\n# --- determinex remediation appendix ---\n"
+                + "\n".join(appendix)
+                + "\n"
+            )
             actions.append(f"compile.sh: +{len(appendix)} appendix lines")
         if not dry_run:
             compile_sh.write_text(text, encoding="utf-8", newline="\n")
 
     # conftest.py: strip removals, append additions
-    if (removals or conf_add):
+    if removals or conf_add:
         text = conftest.read_text(encoding="utf-8", errors="replace") if conftest.exists() else ""
         for pat in removals:
             new = re.sub(pat, "", text, flags=re.M)
@@ -330,8 +370,16 @@ def main() -> int:
     a.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
-    conf = args.conftest.read_text(encoding="utf-8", errors="replace") if args.conftest and args.conftest.exists() else ""
-    cs = args.compile_sh.read_text(encoding="utf-8", errors="replace") if args.compile_sh and args.compile_sh.exists() else ""
+    conf = (
+        args.conftest.read_text(encoding="utf-8", errors="replace")
+        if args.conftest and args.conftest.exists()
+        else ""
+    )
+    cs = (
+        args.compile_sh.read_text(encoding="utf-8", errors="replace")
+        if args.compile_sh and args.compile_sh.exists()
+        else ""
+    )
     adjs = adjudicate_eval_report(args.eval_report, conf, cs)
     rems = remediations_for(adjs)
 

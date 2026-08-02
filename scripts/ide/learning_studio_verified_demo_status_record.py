@@ -17,11 +17,11 @@ Teaching outputs are NON-AUTHORIZING by construction. Even when
 the binding is PASSED, no UI element may imply mutation,
 approval, training, or release authorization.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 LEARNING_STUDIO_VERIFIED_DEMO_STATUS_BINDING_STATUS_TOKENS = (
     "REACT_LEARNING_STUDIO_VERIFIED_DEMO_STATUS_BINDING_PASSED",
@@ -62,6 +62,7 @@ FORBIDDEN_BROAD_CLAIM_PHRASES = (
 @dataclass(frozen=True)
 class LearningStudioVerifiedDemoStatus:
     """Render-safe view-model the React Learning Studio panel consumes."""
+
     decision: str
     demo_title: str
     target_surface: str
@@ -120,7 +121,9 @@ class LearningStudioVerifiedDemoStatus:
 
     @property
     def is_awaiting(self) -> bool:
-        return self.decision == "REACT_LEARNING_STUDIO_VERIFIED_DEMO_STATUS_BINDING_AWAITING_EVIDENCE"
+        return (
+            self.decision == "REACT_LEARNING_STUDIO_VERIFIED_DEMO_STATUS_BINDING_AWAITING_EVIDENCE"
+        )
 
     @property
     def is_blocked(self) -> bool:

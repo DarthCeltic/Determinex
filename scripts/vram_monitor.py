@@ -15,6 +15,7 @@ Thresholds (configurable):
   - VRAM_WARN_THRESHOLD_PCT = 90  → warn when used >= 90% of total
   - VRAM_OOM_THRESHOLD_PCT = 95  → alarm; recommend killing largest model
 """
+
 import argparse
 import json
 import subprocess
@@ -39,13 +40,13 @@ MODEL_CATALOG = [
     # vram_floor_gb = realistic loaded VRAM (q4_K_M + ~10% KV cache headroom for typical context).
     # Conservative: assumes 4-bit quant + 8K-16K context. Larger contexts add ~0.5-1GB.
     ("qwen2.5-coder:32b-instruct-q4_K_M", 19.9, 21.0, 100),
-    ("qwen2.5-coder:14b-instruct-q4_K_M", 9.0,  9.8,  85),
-    ("determinex-sentinel-v5-dsl:latest",     7.7,  8.4,  75),
-    ("qwen2.5-coder:7b-instruct",          4.7,  5.1,  70),
-    ("determinex-observer-v6-dsl:latest",     3.3,  3.8,  65),
-    ("qwen2.5-coder:3b-instruct",          1.9,  2.3,  55),
-    ("determinex-engineer-v11-dsl:latest",    1.6,  2.0,  50),
-    ("qwen2.5-coder:1.5b-instruct",        1.0,  1.4,  35),
+    ("qwen2.5-coder:14b-instruct-q4_K_M", 9.0, 9.8, 85),
+    ("determinex-sentinel-v5-dsl:latest", 7.7, 8.4, 75),
+    ("qwen2.5-coder:7b-instruct", 4.7, 5.1, 70),
+    ("determinex-observer-v6-dsl:latest", 3.3, 3.8, 65),
+    ("qwen2.5-coder:3b-instruct", 1.9, 2.3, 55),
+    ("determinex-engineer-v11-dsl:latest", 1.6, 2.0, 50),
+    ("qwen2.5-coder:1.5b-instruct", 1.0, 1.4, 35),
 ]
 
 
@@ -53,19 +54,27 @@ def query_vram() -> dict:
     """Returns {free_mb, used_mb, total_mb, free_pct, used_pct, name} or {} on failure."""
     try:
         r = subprocess.run(
-            ["nvidia-smi", "--query-gpu=name,memory.free,memory.used,memory.total",
-             "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=8,
+            [
+                "nvidia-smi",
+                "--query-gpu=name,memory.free,memory.used,memory.total",
+                "--format=csv,noheader,nounits",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=8,
         )
         if r.returncode != 0:
             return {}
         line = r.stdout.strip().splitlines()[0] if r.stdout else ""
         parts = [p.strip() for p in line.split(",")]
-        if len(parts) < 4: return {}
+        if len(parts) < 4:
+            return {}
         name, free, used, total = parts[0], int(parts[1]), int(parts[2]), int(parts[3])
         return {
             "name": name,
-            "free_mb": free, "used_mb": used, "total_mb": total,
+            "free_mb": free,
+            "used_mb": used,
+            "total_mb": total,
             "free_pct": 100.0 * free / total,
             "used_pct": 100.0 * used / total,
         }
@@ -77,6 +86,7 @@ def query_loaded_ollama() -> list[dict]:
     """Returns list of currently-loaded Ollama models with VRAM hints from /api/ps."""
     try:
         import urllib.request
+
         r = urllib.request.urlopen("http://localhost:11434/api/ps", timeout=5)
         data = json.loads(r.read())
         return data.get("models", [])
@@ -96,14 +106,17 @@ def recommend_model(available_mb: int, *, total_mb: int | None = None) -> tuple[
     """
     if total_mb is None:
         total_mb = available_mb + 1024  # rough fallback
-    aggressive_mb = max(0, total_mb - 1024)        # ~85% of total for the model
-    conservative_mb = max(0, available_mb - 512)   # only what's currently free
+    aggressive_mb = max(0, total_mb - 1024)  # ~85% of total for the model
+    conservative_mb = max(0, available_mb - 512)  # only what's currently free
 
     for name, _disk_gb, vram_floor_gb, _quality in MODEL_CATALOG:
         floor_mb = int(vram_floor_gb * 1024)
         if floor_mb <= aggressive_mb:
             if floor_mb <= conservative_mb:
-                return name, f"fits comfortably ({available_mb} MiB free, model needs {floor_mb} MiB)"
+                return (
+                    name,
+                    f"fits comfortably ({available_mb} MiB free, model needs {floor_mb} MiB)",
+                )
             return name, (
                 f"fits after Ollama claims VRAM (total {total_mb} MiB; model needs {floor_mb} MiB) "
                 f"— current free is {available_mb} MiB; close other GPU apps if Ollama OOMs"
@@ -147,9 +160,17 @@ def main():
     ap = argparse.ArgumentParser(description="VRAM monitor + model auto-select")
     ap.add_argument("--check", action="store_true", help="single snapshot (default)")
     ap.add_argument("--watch", type=int, default=0, help="refresh every N seconds")
-    ap.add_argument("--recommend", action="store_true", help="print recommended model name only (machine-parseable)")
-    ap.add_argument("--alert-on", choices=("warn", "alarm"), default="alarm",
-                    help="exit non-zero on this severity (default: alarm only)")
+    ap.add_argument(
+        "--recommend",
+        action="store_true",
+        help="print recommended model name only (machine-parseable)",
+    )
+    ap.add_argument(
+        "--alert-on",
+        choices=("warn", "alarm"),
+        default="alarm",
+        help="exit non-zero on this severity (default: alarm only)",
+    )
     args = ap.parse_args()
 
     if args.recommend:

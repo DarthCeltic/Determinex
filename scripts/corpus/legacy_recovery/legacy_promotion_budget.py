@@ -53,4 +53,3 @@ def _cluster_key(candidate: dict[str, Any]) -> str:
     classes = candidate.get("failure_classes") or []
     first = classes[0] if classes else "uncategorized"
     return f"{candidate.get('tool') or 'unknown'}::{first}"
-

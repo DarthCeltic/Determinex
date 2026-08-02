@@ -24,6 +24,7 @@ Hard rules enforced by load():
     -> BLOCKED_MALFORMED
   * any promoted cell with unknown support_state -> BLOCKED_MALFORMED
 """
+
 from __future__ import annotations
 
 import json
@@ -37,13 +38,10 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from .universal_100_matrix_probe_batch_status import (  # noqa: E402
-    FORBIDDEN_BROAD_CLAIM_PHRASES,
-    REQUIRED_PANEL_CAPTIONS as MATRIX_PROBE_PANEL_CAPTIONS,
     SUPPORT_STATE_LADDER,
     _has_release_proof_reference,
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 
@@ -309,7 +307,9 @@ def _cell_row(cell: dict) -> DeltaCellRow:
     )
 
 
-def _shell(*, decision: str, note: str, cfg: _DeltaConfig = DELTA_BATCH_002) -> Universal100SupportMapDeltaStatus:
+def _shell(
+    *, decision: str, note: str, cfg: _DeltaConfig = DELTA_BATCH_002
+) -> Universal100SupportMapDeltaStatus:
     return Universal100SupportMapDeltaStatus(
         decision=decision,
         target_surface="Universal 100 Support Map Delta",
@@ -360,7 +360,9 @@ def _awaiting(note: str, cfg: _DeltaConfig = DELTA_BATCH_002) -> Universal100Sup
     )
 
 
-def _block(decision: str, note: str, cfg: _DeltaConfig = DELTA_BATCH_002) -> Universal100SupportMapDeltaStatus:
+def _block(
+    decision: str, note: str, cfg: _DeltaConfig = DELTA_BATCH_002
+) -> Universal100SupportMapDeltaStatus:
     return _shell(decision=decision, note=note, cfg=cfg)
 
 
@@ -474,9 +476,13 @@ def load(
         delta_sources=tuple(str(s) for s in (blob.get("delta_sources") or [])),
         promoted_cells=promoted,
         blocked_cells=blocked,
-        claim_state_counts={str(k): int(v) for k, v in (blob.get("claim_state_counts") or {}).items()},
+        claim_state_counts={
+            str(k): int(v) for k, v in (blob.get("claim_state_counts") or {}).items()
+        },
         support_state_counts={str(k): int(v) for k, v in support_counts.items()},
-        blockers_by_category={str(k): int(v) for k, v in (blob.get("blockers_by_category") or {}).items()},
+        blockers_by_category={
+            str(k): int(v) for k, v in (blob.get("blockers_by_category") or {}).items()
+        },
         release_supported_count=release_supported,
         source_mutation_authorized=False,
         real_user_source_mutation_authorized=False,
@@ -515,75 +521,111 @@ def _relative_to_repo(path: Path) -> str:
         return path.as_posix()
 
 
-def load_delta_batch_002(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_002(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_002)
 
 
-def load_delta_batch_003(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_003(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_003)
 
 
-def load_delta_batch_004(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_004(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_004)
 
 
-def load_delta_batch_005(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_005(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_005)
 
 
-def load_delta_batch_006(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_006(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_006)
 
 
-def load_delta_batch_007(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_007(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_007)
 
 
-def load_delta_batch_008(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_008(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_008)
 
 
-def load_delta_batch_009(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_009(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_009)
 
 
-def load_delta_batch_010(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_010(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_010)
 
 
-def load_delta_batch_011(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_011(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_011)
 
 
-def load_delta_batch_012(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_012(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_012)
 
 
-def load_delta_batch_013(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_013(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_013)
 
 
-def load_delta_batch_014(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_014(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_014)
 
 
-def load_delta_batch_015(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_015(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_015)
 
 
-def load_delta_batch_016(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_016(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_016)
 
 
-def load_delta_batch_017(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_017(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_017)
 
 
-def load_delta_batch_018(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_018(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_018)
 
 
-def load_delta_batch_019(evidence_dir: Path | str | None = None) -> Universal100SupportMapDeltaStatus:
+def load_delta_batch_019(
+    evidence_dir: Path | str | None = None,
+) -> Universal100SupportMapDeltaStatus:
     return load(evidence_dir, cfg=DELTA_BATCH_019)
 
 

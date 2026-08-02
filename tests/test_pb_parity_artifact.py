@@ -2,8 +2,6 @@ import json
 import tarfile
 from pathlib import Path
 
-import pytest
-
 from scripts import pb_parity_artifact as parity
 
 
@@ -26,7 +24,10 @@ def row(name: str, status: str, branch: str = "abc123") -> dict:
 def test_tier_a_unconditional_skip_writes_complete_artifact(tmp_path):
     report = write_report(
         tmp_path / "report.json",
-        [row("tests.test_demo.test_static_skip", "skipped"), row("tests.test_demo.test_ok", "passed")],
+        [
+            row("tests.test_demo.test_static_skip", "skipped"),
+            row("tests.test_demo.test_ok", "passed"),
+        ],
     )
     source = write_source(
         tmp_path / "src",
@@ -55,7 +56,9 @@ def test_static_skip():
 
 
 def test_tier_b_skipif_requires_reference_run(tmp_path):
-    report = write_report(tmp_path / "report.json", [row("tests.test_demo.test_runtime_skip", "skipped")])
+    report = write_report(
+        tmp_path / "report.json", [row("tests.test_demo.test_runtime_skip", "skipped")]
+    )
     source = write_source(
         tmp_path / "src",
         """
@@ -82,7 +85,10 @@ def test_runtime_skip():
 def test_ineligible_when_report_has_failure(tmp_path):
     report = write_report(
         tmp_path / "report.json",
-        [row("tests.test_demo.test_static_skip", "skipped"), row("tests.test_demo.test_fail", "failure")],
+        [
+            row("tests.test_demo.test_static_skip", "skipped"),
+            row("tests.test_demo.test_fail", "failure"),
+        ],
     )
     source = write_source(
         tmp_path / "src",
@@ -145,7 +151,9 @@ def test_runtime_skip():
 
 
 def test_can_search_compile_tarball_source(tmp_path):
-    report = write_report(tmp_path / "report.json", [row("tests.test_demo.test_static_skip", "skipped")])
+    report = write_report(
+        tmp_path / "report.json", [row("tests.test_demo.test_static_skip", "skipped")]
+    )
     src_file = tmp_path / "test_demo.py"
     src_file.write_text(
         """
@@ -173,8 +181,12 @@ def test_static_skip():
 
 
 def test_diff_requires_reference_same_skips(tmp_path):
-    candidate = write_report(tmp_path / "candidate.json", [row("tests.test_demo.test_a", "skipped")])
-    reference = write_report(tmp_path / "reference.json", [row("tests.test_demo.test_b", "skipped")])
+    candidate = write_report(
+        tmp_path / "candidate.json", [row("tests.test_demo.test_a", "skipped")]
+    )
+    reference = write_report(
+        tmp_path / "reference.json", [row("tests.test_demo.test_b", "skipped")]
+    )
 
     diff = parity.diff_reference(candidate, reference)
 
@@ -184,7 +196,9 @@ def test_diff_requires_reference_same_skips(tmp_path):
 
 
 def test_missing_report_writes_ineligible_artifact(tmp_path):
-    result = parity.build_missing_report_artifact("demo", out_root=tmp_path / "out", missing_report="missing.json")
+    result = parity.build_missing_report_artifact(
+        "demo", out_root=tmp_path / "out", missing_report="missing.json"
+    )
 
     assert result.verdict == "INELIGIBLE"
     text = result.artifact_path.read_text(encoding="utf-8")

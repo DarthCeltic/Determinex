@@ -15,7 +15,9 @@ if str(_SCRIPTS) not in sys.path:
 from corpus.legacy_recovery.legacy_promotion_budget import PromotionBudget
 
 
-def select_candidates(scan_artifact: dict[str, Any], *, minimum_tools: int = 5, minimum_classes: int = 3) -> dict[str, Any]:
+def select_candidates(
+    scan_artifact: dict[str, Any], *, minimum_tools: int = 5, minimum_classes: int = 3
+) -> dict[str, Any]:
     primary: list[dict[str, Any]] = []
     extras: list[dict[str, Any]] = []
     for tool_row in scan_artifact.get("top_replay_candidates") or []:
@@ -29,7 +31,9 @@ def select_candidates(scan_artifact: dict[str, Any], *, minimum_tools: int = 5, 
                 "duplicate_cluster_id": _cluster_id(tool, str(label)),
                 "expected_verifier": "programbench eval",
                 "language_guess": _language_guess(tool),
-                "legacy_row_hash": str(tool_row.get("legacy_row_hash") or _cluster_legacy_hash(tool, str(label))),
+                "legacy_row_hash": str(
+                    tool_row.get("legacy_row_hash") or _cluster_legacy_hash(tool, str(label))
+                ),
                 "priority_score": int(tool_row.get("candidate_rows") or 0),
                 "training_eligible": False,
                 "requires_fresh_verifier": True,
@@ -38,14 +42,20 @@ def select_candidates(scan_artifact: dict[str, Any], *, minimum_tools: int = 5, 
                 primary.append(row)
             else:
                 extras.append(row)
-    selected = PromotionBudget(max_attempts_per_scan=10, max_per_tool=3, max_per_cluster=1).select(primary + extras)
+    selected = PromotionBudget(max_attempts_per_scan=10, max_per_tool=3, max_per_cluster=1).select(
+        primary + extras
+    )
     selected["diversity"] = {
         "distinct_tools": len({row.get("tool") for row in selected["selected"]}),
-        "distinct_failure_classes": len({(row.get("failure_classes") or ["uncategorized"])[0] for row in selected["selected"]}),
+        "distinct_failure_classes": len(
+            {(row.get("failure_classes") or ["uncategorized"])[0] for row in selected["selected"]}
+        ),
         "minimum_tools": minimum_tools,
         "minimum_failure_classes": minimum_classes,
     }
-    selected["policy"] = "Selected candidates are promotion attempts only after fresh verifier replay; selection itself creates no training rows."
+    selected["policy"] = (
+        "Selected candidates are promotion attempts only after fresh verifier replay; selection itself creates no training rows."
+    )
     return selected
 
 
@@ -65,7 +75,10 @@ def _cluster_legacy_hash(tool: str, label: str) -> str:
 
 def _language_guess(tool: str) -> str:
     lowered = tool.lower()
-    if any(token in lowered for token in ("rust", "bat", "fd", "ripgrep", "mdbook", "typst", "pastel", "dust")):
+    if any(
+        token in lowered
+        for token in ("rust", "bat", "fd", "ripgrep", "mdbook", "typst", "pastel", "dust")
+    ):
         return "rust"
     if any(token in lowered for token in ("go", "fzf", "peco", "gdu", "atlas")):
         return "go"
@@ -77,9 +90,15 @@ def _language_guess(tool: str) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Select diverse legacy replay promotion candidates under budget.")
+    parser = argparse.ArgumentParser(
+        description="Select diverse legacy replay promotion candidates under budget."
+    )
     parser.add_argument("scan_artifact", type=Path)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/legacy_replay_promotion_batch_001.json"))
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("assurance/evidence/legacy_replay_promotion_batch_001.json"),
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
     selected = select_candidates(json.loads(args.scan_artifact.read_text(encoding="utf-8")))

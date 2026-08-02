@@ -19,6 +19,7 @@ campaign as a training corpus row. Tests:
   * training_eligible is False on every decision.
   * Guard call does not mutate workspace.
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -62,7 +63,9 @@ LocalModelInventory = inv_mod.LocalModelInventory
 CURRENT_MODEL_IDS = router_mod.CURRENT_MODEL_IDS
 
 FIXTURES = _REPO_ROOT / "tests" / "fixtures" / "intake"
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "CORPUS_ELIGIBILITY_REPAIR_TRACE_GUARD_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "corpus_eligibility_repair_trace_guard"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
@@ -91,7 +94,8 @@ def _runner() -> VerifiedRepairTraceRunner:
 
 def _pass_trace(tmp_path):
     return _runner().run(
-        FIXTURES / "python_broken", tmp_path,
+        FIXTURES / "python_broken",
+        tmp_path,
         patches=[FilePatch("src/calc.py", "x = 1\n")],
         verifier=stub_verifier_pass,
         workspace_id="elig_pass",
@@ -100,7 +104,8 @@ def _pass_trace(tmp_path):
 
 def _fail_trace(tmp_path):
     return _runner().run(
-        FIXTURES / "rust_broken", tmp_path,
+        FIXTURES / "rust_broken",
+        tmp_path,
         patches=[FilePatch("src/lib.rs", "x\n")],
         verifier=stub_verifier_fail,
         workspace_id="elig_fail",
@@ -109,7 +114,8 @@ def _fail_trace(tmp_path):
 
 def _unsupported_trace(tmp_path):
     return _runner().run(
-        FIXTURES / "unsupported_repo", tmp_path,
+        FIXTURES / "unsupported_repo",
+        tmp_path,
         patches=[FilePatch("x.txt", "y\n")],
         verifier=stub_verifier_pass,
         workspace_id="elig_unsup",
@@ -124,7 +130,7 @@ def _accepted_approval(trace):
             workspace_identity=trace.workspace,
             diff_sha256=diff_hash(str(spr.get("unified_diff") or "")),
             verifier_status=str(spr.get("verifier_status") or ""),
-            timestamp_utc=_dt.datetime.now(_dt.timezone.utc).isoformat(),
+            timestamp_utc=_dt.datetime.now(_dt.UTC).isoformat(),
             operator="ryan",
             approval_token="ok",
         ),
@@ -182,7 +188,8 @@ def test_mocked_model_output_reason_fires_for_every_trace(tmp_path):
     g = RepairTraceEligibilityGuard()
     for fname in ("python_broken", "rust_broken", "unsupported_repo"):
         trace = _runner().run(
-            FIXTURES / fname, tmp_path / f"r_{fname}",
+            FIXTURES / fname,
+            tmp_path / f"r_{fname}",
             patches=[FilePatch("x.txt", "y\n")],
             verifier=stub_verifier_pass,
             workspace_id=f"mock_{fname}",
@@ -271,15 +278,17 @@ def test_hypothetical_all_open_policy_still_emits_evidence_only(tmp_path):
     """If every policy flag is True (a future rung would do this only
     after admitting live models and live operators), the decision is
     CORPUS_ELIGIBILITY_EVIDENCE_ONLY — still NOT training_eligible."""
-    g = RepairTraceEligibilityGuard(policy={
-        "mocked_outputs_are_corpus_eligible": True,
-        "temp_only_patches_are_corpus_eligible": True,
-        "unapproved_source_traces_are_corpus_eligible": True,
-        "failed_verifier_traces_are_corpus_eligible": True,
-        "unsupported_repo_traces_are_corpus_eligible": True,
-        "no_live_model_traces_are_corpus_eligible": True,
-        "policy_default_allow": True,
-    })
+    g = RepairTraceEligibilityGuard(
+        policy={
+            "mocked_outputs_are_corpus_eligible": True,
+            "temp_only_patches_are_corpus_eligible": True,
+            "unapproved_source_traces_are_corpus_eligible": True,
+            "failed_verifier_traces_are_corpus_eligible": True,
+            "unsupported_repo_traces_are_corpus_eligible": True,
+            "no_live_model_traces_are_corpus_eligible": True,
+            "policy_default_allow": True,
+        }
+    )
     trace = _pass_trace(tmp_path)
     approval = _accepted_approval(trace)
     dec = g.evaluate(trace, approval=approval)

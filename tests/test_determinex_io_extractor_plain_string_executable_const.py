@@ -19,6 +19,7 @@ _drop_binary_placeholder convention only cares about the basename, so this is ex
 as safe as the existing Path-expression check, just reached via a literal string
 instead of a BinOp chain.
 """
+
 from __future__ import annotations
 
 import sys
@@ -29,19 +30,22 @@ import determinex_io_extractor as iox  # noqa: E402
 
 
 def test_extract_wrapper_base_argv_resolves_plain_string_executable_constant():
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 
 EXECUTABLE = "/workspace/executable"
 
 def run(*args, timeout=5.0):
     return subprocess.run([EXECUTABLE, *args], capture_output=True, timeout=timeout)
-''')
-    func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef)
-                and n.name == "run")
+""")
+    func = next(
+        n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef) and n.name == "run"
+    )
     module_path_exprs = {
-        stmt.targets[0].id: stmt.value for stmt in tree.body
-        if isinstance(stmt, iox.ast.Assign) and len(stmt.targets) == 1
+        stmt.targets[0].id: stmt.value
+        for stmt in tree.body
+        if isinstance(stmt, iox.ast.Assign)
+        and len(stmt.targets) == 1
         and isinstance(stmt.targets[0], iox.ast.Name)
     }
     base, suffix = iox._extract_wrapper_base_argv(func, {}, module_path_exprs, set())
@@ -54,18 +58,20 @@ def test_extract_wrapper_base_argv_declines_plain_string_not_named_executable():
     unresolved here (a plain module-level constant's own value isn't visible to
     _extract_wrapper_base_argv's extra_vars, an unrelated pre-existing limitation),
     proving fix 32's basename check doesn't over-match unrelated constants."""
-    tree = iox.ast.parse('''
+    tree = iox.ast.parse("""
 import subprocess
 
 DATA_FILE = "/workspace/data.txt"
 
 def run(*args, timeout=5.0):
     return subprocess.run([DATA_FILE, *args], capture_output=True, timeout=timeout)
-''')
+""")
     func = next(n for n in iox.ast.walk(tree) if isinstance(n, iox.ast.FunctionDef))
     module_path_exprs = {
-        stmt.targets[0].id: stmt.value for stmt in tree.body
-        if isinstance(stmt, iox.ast.Assign) and len(stmt.targets) == 1
+        stmt.targets[0].id: stmt.value
+        for stmt in tree.body
+        if isinstance(stmt, iox.ast.Assign)
+        and len(stmt.targets) == 1
         and isinstance(stmt.targets[0], iox.ast.Name)
     }
     base, suffix = iox._extract_wrapper_base_argv(func, {}, module_path_exprs, set())
@@ -74,7 +80,8 @@ def run(*args, timeout=5.0):
 
 def test_extract_file_resolves_samtools_shaped_direct_import_call(tmp_path):
     conf = tmp_path / "conftest.py"
-    conf.write_text('''
+    conf.write_text(
+        """
 import subprocess
 import os
 
@@ -86,14 +93,16 @@ def run(*args, stdin=None, env=None, cwd=None, timeout=5.0):
         input=stdin.encode() if isinstance(stdin, str) else stdin,
         capture_output=True, timeout=timeout, env=os.environ.copy(), cwd=cwd,
     )
-''', encoding="utf-8")
-    src = '''
+""",
+        encoding="utf-8",
+    )
+    src = """
 from conftest import run
 
 def test_view_help():
     result = run("view", "--help")
     assert result.returncode == 0
-'''
+"""
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)

@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_IDEA_LAB_WORKFLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -48,20 +49,36 @@ def test_status_tokens_exact():
 
 def test_states_exact():
     assert il.canonical_states() == (
-        "IDEA_CAPTURED", "SPEC_WRITTEN", "SUPPORT_CHECK_REQUIRED",
-        "UNSUPPORTED_REQUEST", "BLUEPRINT_READY", "SCAFFOLD_READY",
-        "GENERATED_UNVERIFIED", "TESTS_PASSED", "SMOKE_PASSED",
-        "VERIFIED_WORKING_LOCAL_APP", "HONEST_FAILURE",
+        "IDEA_CAPTURED",
+        "SPEC_WRITTEN",
+        "SUPPORT_CHECK_REQUIRED",
+        "UNSUPPORTED_REQUEST",
+        "BLUEPRINT_READY",
+        "SCAFFOLD_READY",
+        "GENERATED_UNVERIFIED",
+        "TESTS_PASSED",
+        "SMOKE_PASSED",
+        "VERIFIED_WORKING_LOCAL_APP",
+        "HONEST_FAILURE",
     )
 
 
 def test_flow_steps_exact():
     assert il.canonical_flow_steps() == (
-        "idea_intake", "structured_spec", "beginner_summary",
-        "support_matrix_check", "blueprint", "scaffold_request",
-        "acceptance_tests", "implementation_plan", "build_test_verifier",
-        "smoke_plan", "bounded_repair_plan", "final_report",
-        "evidence", "training_remains_blocked",
+        "idea_intake",
+        "structured_spec",
+        "beginner_summary",
+        "support_matrix_check",
+        "blueprint",
+        "scaffold_request",
+        "acceptance_tests",
+        "implementation_plan",
+        "build_test_verifier",
+        "smoke_plan",
+        "bounded_repair_plan",
+        "final_report",
+        "evidence",
+        "training_remains_blocked",
     )
 
 
@@ -75,18 +92,26 @@ def test_idle_workflow_with_caveats_visible_is_written():
 
 
 def test_build_it_enabled_after_support_check_pass_is_written():
-    rec = il.evaluate(**_default(
-        build_it_enabled=True, support_check_passed=True,
-    ))
+    rec = il.evaluate(
+        **_default(
+            build_it_enabled=True,
+            support_check_passed=True,
+        )
+    )
     assert rec.is_written, rec.notes
 
 
 def test_working_label_after_full_evidence_is_written():
-    rec = il.evaluate(**_default(
-        build_it_enabled=True, support_check_passed=True,
-        working_label_enabled=True,
-        build_verifier_passed=True, tests_passed=True, smoke_passed=True,
-    ))
+    rec = il.evaluate(
+        **_default(
+            build_it_enabled=True,
+            support_check_passed=True,
+            working_label_enabled=True,
+            build_verifier_passed=True,
+            tests_passed=True,
+            smoke_passed=True,
+        )
+    )
     assert rec.is_written, rec.notes
 
 
@@ -115,32 +140,44 @@ def test_build_it_enabled_without_support_check_blocks():
 # False-success refusals
 # ---------------------------------------------------------------------------
 def test_working_label_without_build_verifier_blocks():
-    rec = il.evaluate(**_default(
-        build_it_enabled=True, support_check_passed=True,
-        working_label_enabled=True,
-        tests_passed=True, smoke_passed=True,
-        # build_verifier_passed=False
-    ))
+    rec = il.evaluate(
+        **_default(
+            build_it_enabled=True,
+            support_check_passed=True,
+            working_label_enabled=True,
+            tests_passed=True,
+            smoke_passed=True,
+            # build_verifier_passed=False
+        )
+    )
     assert rec.decision == "IDEA_LAB_WORKFLOW_BLOCKED_FALSE_SUCCESS"
 
 
 def test_working_label_without_tests_passed_blocks():
-    rec = il.evaluate(**_default(
-        build_it_enabled=True, support_check_passed=True,
-        working_label_enabled=True,
-        build_verifier_passed=True, smoke_passed=True,
-        # tests_passed=False
-    ))
+    rec = il.evaluate(
+        **_default(
+            build_it_enabled=True,
+            support_check_passed=True,
+            working_label_enabled=True,
+            build_verifier_passed=True,
+            smoke_passed=True,
+            # tests_passed=False
+        )
+    )
     assert rec.decision == "IDEA_LAB_WORKFLOW_BLOCKED_FALSE_SUCCESS"
 
 
 def test_working_label_without_smoke_blocks():
-    rec = il.evaluate(**_default(
-        build_it_enabled=True, support_check_passed=True,
-        working_label_enabled=True,
-        build_verifier_passed=True, tests_passed=True,
-        # smoke_passed=False
-    ))
+    rec = il.evaluate(
+        **_default(
+            build_it_enabled=True,
+            support_check_passed=True,
+            working_label_enabled=True,
+            build_verifier_passed=True,
+            tests_passed=True,
+            # smoke_passed=False
+        )
+    )
     assert rec.decision == "IDEA_LAB_WORKFLOW_BLOCKED_FALSE_SUCCESS"
 
 
@@ -148,11 +185,16 @@ def test_working_label_without_smoke_blocks():
 # Invariants
 # ---------------------------------------------------------------------------
 def test_record_never_authorizes_source_mutation():
-    rec = il.evaluate(**_default(
-        build_it_enabled=True, support_check_passed=True,
-        working_label_enabled=True,
-        build_verifier_passed=True, tests_passed=True, smoke_passed=True,
-    ))
+    rec = il.evaluate(
+        **_default(
+            build_it_enabled=True,
+            support_check_passed=True,
+            working_label_enabled=True,
+            build_verifier_passed=True,
+            tests_passed=True,
+            smoke_passed=True,
+        )
+    )
     assert rec.is_written
     assert rec.source_mutation_authorized is False
     assert rec.training_eligible is False

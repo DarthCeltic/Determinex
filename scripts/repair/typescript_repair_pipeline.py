@@ -5,27 +5,34 @@ Safety gates package scripts before npm execution, checks license/secrets,
 proves baseline with native npm/tsc commands, extracts optional-chain repair
 tasks, and writes HMAC-signed corpus rows.
 """
+
 from __future__ import annotations
 
 import hashlib
-import json
 import logging
 import re
-from intake.hardened_runner import run as _hardened_run
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
-from agents.prompt_injection_detector import InjectionRisk, scan as injection_scan
+from agents.prompt_injection_detector import InjectionRisk
+from agents.prompt_injection_detector import scan as injection_scan
 from corpus.code_ingest.license_detector import detect
 from corpus.code_ingest.npm_project_indexer import NpmProject, index_npm_project
 from corpus.code_ingest.secret_scanner import is_clean as secrets_clean
-from corpus.code_ingest.typescript_task_extractor import TypeScriptRepairTask, TypeScriptTaskExtractor
+from corpus.code_ingest.typescript_task_extractor import (
+    TypeScriptRepairTask,
+    TypeScriptTaskExtractor,
+)
+from intake.hardened_runner import run as _hardened_run
 
 log = logging.getLogger(__name__)
 
 Executor = Callable[[list[str], Path, int], tuple[int, str, str]]
-_SCRIPT_RISK_RE = re.compile(r"(curl\s+https?://\S+\s*\|\s*(ba)?sh\b|env\s*\|\s*curl|rm\s+-rf\s+/)", re.I)
+_SCRIPT_RISK_RE = re.compile(
+    r"(curl\s+https?://\S+\s*\|\s*(ba)?sh\b|env\s*\|\s*curl|rm\s+-rf\s+/)", re.I
+)
 
 
 def _default_executor(cmd: list[str], cwd: Path, timeout: int) -> tuple[int, str, str]:
@@ -91,7 +98,9 @@ class TypeScriptRepairPipeline:
         result.license_spdx = license_result.spdx_id or "unknown"
         result.license_bucket = license_result.bucket
         if not license_result.ingest_allowed:
-            result.rejected_reason = f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            result.rejected_reason = (
+                f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            )
             return result
 
         if not secrets_clean(repo_path):
@@ -121,13 +130,26 @@ class TypeScriptRepairPipeline:
         try:
             raw = package_json.read_text(encoding="utf-8", errors="replace")
         except OSError:
-            return PackageSafetyResult(safe=False, reason="package_json_unreadable", file_path=str(package_json))
+            return PackageSafetyResult(
+                safe=False, reason="package_json_unreadable", file_path=str(package_json)
+            )
 
         for name, script in project.scripts.items():
-            if name in {"preinstall", "install", "postinstall", "prepare"} and _SCRIPT_RISK_RE.search(script):
-                return PackageSafetyResult(safe=False, reason=f"unsafe_lifecycle_script:{name}", file_path=str(package_json))
+            if name in {
+                "preinstall",
+                "install",
+                "postinstall",
+                "prepare",
+            } and _SCRIPT_RISK_RE.search(script):
+                return PackageSafetyResult(
+                    safe=False,
+                    reason=f"unsafe_lifecycle_script:{name}",
+                    file_path=str(package_json),
+                )
             if _SCRIPT_RISK_RE.search(script):
-                return PackageSafetyResult(safe=False, reason=f"unsafe_script:{name}", file_path=str(package_json))
+                return PackageSafetyResult(
+                    safe=False, reason=f"unsafe_script:{name}", file_path=str(package_json)
+                )
 
         scan_result = injection_scan(raw, source=str(package_json))
         if scan_result.risk in (InjectionRisk.HIGH, InjectionRisk.CRITICAL):
@@ -146,7 +168,9 @@ class TypeScriptRepairPipeline:
 
     def _extract_tasks(self, repo_path: Path, project: NpmProject) -> list[TypeScriptRepairTask]:
         baseline_cmd = _test_command(project)
-        extractor = TypeScriptTaskExtractor(repo_path, baseline_command=baseline_cmd, timeout=self._timeout)
+        extractor = TypeScriptTaskExtractor(
+            repo_path, baseline_command=baseline_cmd, timeout=self._timeout
+        )
         pipeline_self = self
 
         def _patched_run(cmd: list[str], cwd: Path | None = None) -> tuple[int, str, str]:
@@ -158,9 +182,14 @@ class TypeScriptRepairPipeline:
     def _write_corpus_record(self, task: TypeScriptRepairTask, benchmark: str) -> str | None:
         try:
             from agents.base_agent import CorpusType
+
             payload = task.to_corpus_payload()
-            input_hash = hashlib.blake2b((task.mutated_snippet + task.failure_output).encode(), digest_size=16).hexdigest()
-            output_hash = hashlib.blake2b(task.original_snippet.encode(), digest_size=16).hexdigest()
+            input_hash = hashlib.blake2b(
+                (task.mutated_snippet + task.failure_output).encode(), digest_size=16
+            ).hexdigest()
+            output_hash = hashlib.blake2b(
+                task.original_snippet.encode(), digest_size=16
+            ).hexdigest()
             record = self._cm._normalize_record(
                 corpus_type=CorpusType.CODE_VERDICT,
                 task_id=task.task_id,

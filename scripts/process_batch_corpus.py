@@ -23,21 +23,31 @@ _SCRIPTS = Path(__file__).resolve().parent
 sys.path.insert(0, str(_SCRIPTS))
 
 import logging
+
 logging.getLogger("LiteLLM").setLevel(logging.WARNING)
 logging.getLogger("litellm").setLevel(logging.WARNING)
 logging.basicConfig(level=logging.WARNING)
 
-from micro_eval import CONCEPTS, run_probe, _strip_fences
+import os as _os
+
+from micro_eval import CONCEPTS, _strip_fences, run_probe
 from micro_eval_extra import EXTRA_CONCEPTS
 
+# The rename inserted a *shell* expansion into plain Python strings; Python does
+# not expand those, so these silently became a literal directory named
+# "${DETERMINEX_MODELS_DIR:-~/determinex-models}". Resolve it the way sh would.
+_MODELS_DIR = _os.path.expanduser(_os.environ.get("DETERMINEX_MODELS_DIR", "~/determinex-models"))
+
 ALL_CONCEPTS = {**CONCEPTS, **EXTRA_CONCEPTS}
-CORPUS_DIR = Path("${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus")
+CORPUS_DIR = Path("" + _MODELS_DIR + "/corpus")
+
 
 # Lazily load full-corpus concepts from generate_full_corpus_prompts.py
 def _load_full_corpus_concepts() -> dict:
     """Convert MODERN_COMPILED/MODERN_SCRIPTING/etc. into ALL_CONCEPTS format."""
     try:
-        import importlib.util, sys as _sys
+        import importlib.util
+
         spec = importlib.util.spec_from_file_location(
             "gfcp", Path(__file__).parent / "generate_full_corpus_prompts.py"
         )
@@ -60,19 +70,22 @@ def _load_full_corpus_concepts() -> dict:
             key = c["key"]
             probes = []
             for p in c["probes"]:
-                probes.append({
-                    "id": p["id"],
-                    "fn_name": c.get("fn", ""),
-                    "prompt": p["p"],
-                    "lang": c["lang"],
-                    "verifiable": False,  # no compile harness for these
-                })
+                probes.append(
+                    {
+                        "id": p["id"],
+                        "fn_name": c.get("fn", ""),
+                        "prompt": p["p"],
+                        "lang": c["lang"],
+                        "verifiable": False,  # no compile harness for these
+                    }
+                )
             out[key] = {
                 "lang": c["lang"],
                 "system": f"You are an expert {c['lang']} programmer.",
                 "probes": probes,
             }
     return out
+
 
 ALL_CONCEPTS = {**CONCEPTS, **EXTRA_CONCEPTS, **_load_full_corpus_concepts()}
 
@@ -89,9 +102,9 @@ def get_probe(concept_key: str, probe_id: str) -> dict | None:
 
 def process_file(batch_path: Path) -> dict:
     model_name = batch_path.stem.replace("batch_", "")
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"  Processing: {batch_path.name}  ({model_name})")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     try:
         raw = batch_path.read_text(encoding="utf-8")
@@ -122,8 +135,8 @@ def process_file(batch_path: Path) -> dict:
 
     for entry in entries:
         concept_key = entry.get("concept_key", "")
-        probe_id    = entry.get("probe_id", "")
-        code        = entry.get("code", "")
+        probe_id = entry.get("probe_id", "")
+        code = entry.get("code", "")
 
         probe = get_probe(concept_key, probe_id)
         if not probe:
@@ -146,22 +159,27 @@ def process_file(batch_path: Path) -> dict:
 
         status = "PASS" if ok else "FAIL"
         verify_tag = "" if probe.get("verifiable", True) else " [unverified]"
-        print(f"  {status}{verify_tag} [{probe_id}]  ({elapsed}s)" + (f"  {err[:80]}" if not ok else ""))
+        print(
+            f"  {status}{verify_tag} [{probe_id}]  ({elapsed}s)"
+            + (f"  {err[:80]}" if not ok else "")
+        )
 
         concept = ALL_CONCEPTS[concept_key]
-        results.append({
-            "concept_key": concept_key,
-            "probe_id": probe_id,
-            "lang": probe["lang"],
-            "model": model_name,
-            "passed": ok,
-            "elapsed": elapsed,
-            "error": err[:300] if not ok else "",
-            # Training data fields (only populated on pass)
-            "instruction": probe["prompt"] if ok else "",
-            "system": concept["system"] if ok else "",
-            "output": _strip_fences(code) if ok else "",
-        })
+        results.append(
+            {
+                "concept_key": concept_key,
+                "probe_id": probe_id,
+                "lang": probe["lang"],
+                "model": model_name,
+                "passed": ok,
+                "elapsed": elapsed,
+                "error": err[:300] if not ok else "",
+                # Training data fields (only populated on pass)
+                "instruction": probe["prompt"] if ok else "",
+                "system": concept["system"] if ok else "",
+                "output": _strip_fences(code) if ok else "",
+            }
+        )
 
         if ok:
             passed += 1
@@ -195,17 +213,19 @@ def merge_to_jsonl(all_results: dict[str, list]) -> Path:
             if key in seen:
                 continue
             seen.add(key)
-            training_pairs.append({
-                "system": r["system"],
-                "instruction": r["instruction"],
-                "output": r["output"],
-                "meta": {
-                    "concept": r["concept_key"],
-                    "probe": r["probe_id"],
-                    "lang": r["lang"],
-                    "source_model": r["model"],
+            training_pairs.append(
+                {
+                    "system": r["system"],
+                    "instruction": r["instruction"],
+                    "output": r["output"],
+                    "meta": {
+                        "concept": r["concept_key"],
+                        "probe": r["probe_id"],
+                        "lang": r["lang"],
+                        "source_model": r["model"],
+                    },
                 }
-            })
+            )
 
     out_path = CORPUS_DIR / "lora_train.jsonl"
     with open(out_path, "w", encoding="utf-8") as f:
@@ -221,11 +241,11 @@ def print_comparison_table(all_results: dict[str, list]):
     concept_keys = list(ALL_CONCEPTS.keys())
     models = list(all_results.keys())
 
-    print(f"\n{'='*80}")
-    print(f"  CORPUS COMPARISON TABLE")
-    print(f"{'='*80}")
+    print(f"\n{'=' * 80}")
+    print("  CORPUS COMPARISON TABLE")
+    print(f"{'=' * 80}")
     print(f"  {'Concept':<22}  {'Lang':<5}" + "".join(f"  {m[:14]:>14}" for m in models))
-    print(f"  {'-'*22}  {'-'*5}" + "".join(f"  {'-'*14}" for _ in models))
+    print(f"  {'-' * 22}  {'-' * 5}" + "".join(f"  {'-' * 14}" for _ in models))
 
     for ck in concept_keys:
         lang = ALL_CONCEPTS[ck]["lang"]
@@ -238,10 +258,10 @@ def print_comparison_table(all_results: dict[str, list]):
                 continue
             p = sum(1 for r in model_probes if r["passed"])
             t = len(model_probes)
-            row += f"  {f'{p}/{t} ({round(100*p/t)}%)':>14}"
+            row += f"  {f'{p}/{t} ({round(100 * p / t)}%)':>14}"
         print(row)
 
-    print(f"  {'-'*22}  {'-'*5}" + "".join(f"  {'-'*14}" for _ in models))
+    print(f"  {'-' * 22}  {'-' * 5}" + "".join(f"  {'-' * 14}" for _ in models))
 
     # Totals
     row = f"  {'TOTAL':<22}  {'':5}"
@@ -249,16 +269,18 @@ def print_comparison_table(all_results: dict[str, list]):
         results = all_results.get(model_name, [])
         p = sum(1 for r in results if r["passed"])
         t = len([r for r in results if r["concept_key"] in ALL_CONCEPTS])
-        row += f"  {f'{p}/{t} ({round(100*p/t) if t else 0}%)':>14}"
+        row += f"  {f'{p}/{t} ({round(100 * p / t) if t else 0}%)':>14}"
     print(row)
-    print(f"{'='*80}\n")
+    print(f"{'=' * 80}\n")
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("files", nargs="*", help="batch_*.json files to process")
     parser.add_argument("--all", action="store_true", help="Process all batch_*.json in corpus dir")
-    parser.add_argument("--merge", action="store_true", help="Merge passing outputs into lora_train.jsonl")
+    parser.add_argument(
+        "--merge", action="store_true", help="Merge passing outputs into lora_train.jsonl"
+    )
     args = parser.parse_args()
 
     files = []
@@ -287,7 +309,7 @@ def main():
     elif all_results:
         total_passing = sum(1 for results in all_results.values() for r in results if r["passed"])
         print(f"\n  Total passing solutions across all models: {total_passing}")
-        print(f"  Run with --merge to write lora_train.jsonl")
+        print("  Run with --merge to write lora_train.jsonl")
 
 
 if __name__ == "__main__":

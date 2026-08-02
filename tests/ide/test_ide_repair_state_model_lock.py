@@ -15,6 +15,7 @@ VerifiedRepairTrace (and optionally an ApprovalGateDecision). Tests:
   * no source mutation by state assembly
   * record JSON round-trip
 """
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -87,7 +88,8 @@ def _runner() -> VerifiedRepairTraceRunner:
 
 def _pass_trace(tmp_path):
     return _runner().run(
-        FIXTURES / "python_broken", tmp_path,
+        FIXTURES / "python_broken",
+        tmp_path,
         patches=[FilePatch("src/calc.py", "x = 1\n")],
         verifier=stub_verifier_pass,
         workspace_id="ide_pass",
@@ -96,7 +98,8 @@ def _pass_trace(tmp_path):
 
 def _fail_trace(tmp_path):
     return _runner().run(
-        FIXTURES / "rust_broken", tmp_path,
+        FIXTURES / "rust_broken",
+        tmp_path,
         patches=[FilePatch("src/lib.rs", "x\n")],
         verifier=stub_verifier_fail,
         workspace_id="ide_fail",
@@ -105,7 +108,8 @@ def _fail_trace(tmp_path):
 
 def _unsupported_trace(tmp_path):
     return _runner().run(
-        FIXTURES / "unsupported_repo", tmp_path,
+        FIXTURES / "unsupported_repo",
+        tmp_path,
         patches=[FilePatch("x.txt", "y\n")],
         verifier=stub_verifier_pass,
         workspace_id="ide_unsup",
@@ -119,15 +123,24 @@ def _unsupported_trace(tmp_path):
 
 def test_state_tokens_match_expected_set():
     expected = {
-        "INTAKE_READY", "INTAKE_UNSUPPORTED",
-        "VERIFIER_AVAILABLE", "VERIFIER_MISSING",
-        "MODEL_ROUTE_SELECTED", "MODEL_ROUTE_BLOCKED", "MODEL_ROUTE_NO_MODEL",
-        "PATCH_PLAN_AVAILABLE", "PATCH_PLAN_UNAVAILABLE",
-        "PATCH_TEMP_APPLIED", "PATCH_TEMP_FAILED",
-        "PATCH_VERIFIED_TEMP_ONLY", "PATCH_VERIFIER_FAILED",
-        "SOURCE_APPROVAL_REQUIRED", "SOURCE_APPROVAL_ACCEPTED_FIXTURE",
+        "INTAKE_READY",
+        "INTAKE_UNSUPPORTED",
+        "VERIFIER_AVAILABLE",
+        "VERIFIER_MISSING",
+        "MODEL_ROUTE_SELECTED",
+        "MODEL_ROUTE_BLOCKED",
+        "MODEL_ROUTE_NO_MODEL",
+        "PATCH_PLAN_AVAILABLE",
+        "PATCH_PLAN_UNAVAILABLE",
+        "PATCH_TEMP_APPLIED",
+        "PATCH_TEMP_FAILED",
+        "PATCH_VERIFIED_TEMP_ONLY",
+        "PATCH_VERIFIER_FAILED",
+        "SOURCE_APPROVAL_REQUIRED",
+        "SOURCE_APPROVAL_ACCEPTED_FIXTURE",
         "SOURCE_MUTATION_BLOCKED",
-        "CORPUS_ELIGIBILITY_FALSE", "EVIDENCE_AVAILABLE",
+        "CORPUS_ELIGIBILITY_FALSE",
+        "EVIDENCE_AVAILABLE",
     }
     assert set(STATUS_TOKENS) == expected
 
@@ -200,7 +213,7 @@ def test_accepted_approval_flips_source_authorized(tmp_path):
         workspace_identity=trace.workspace,
         diff_sha256=diff_hash(str(spr.get("unified_diff") or "")),
         verifier_status=str(spr.get("verifier_status") or ""),
-        timestamp_utc=_dt.datetime.now(_dt.timezone.utc).isoformat(),
+        timestamp_utc=_dt.datetime.now(_dt.UTC).isoformat(),
         operator="ryan",
         approval_token="ok",
         fixture=True,
@@ -221,7 +234,7 @@ def test_blocked_approval_yields_source_mutation_blocked(tmp_path):
         workspace_identity=trace.workspace,
         diff_sha256="0" * 64,
         verifier_status="",
-        timestamp_utc=_dt.datetime.now(_dt.timezone.utc).isoformat(),
+        timestamp_utc=_dt.datetime.now(_dt.UTC).isoformat(),
         operator="ryan",
         approval_token="ok",
     )

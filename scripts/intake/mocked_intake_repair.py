@@ -22,11 +22,13 @@ No real toolchain is invoked. No source file is mutated. No corpus
 row is written. Training eligibility is False on every path. The
 trace carries the canonical status tokens the lock asserts against.
 """
+
 from __future__ import annotations
 
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+
 # Path hygiene so this works when imported either as ``intake.*``
 # (under scripts/) or directly from a test that has scripts/ on sys.path.
 _HERE = Path(__file__).resolve()
@@ -34,8 +36,6 @@ _SCRIPTS = _HERE.parent.parent
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from intake.build_adapter_registry import BuildAdapterRegistry, SelectionResult  # noqa: E402
-from intake.build_adapters import UnknownAdapter  # noqa: E402
 from models.mock_client import MockModelClient  # noqa: E402
 from models.model_router import (  # noqa: E402
     ModelRouter,
@@ -44,6 +44,8 @@ from models.model_router import (  # noqa: E402
 )
 from models.model_router_record import RouteRecord  # noqa: E402
 
+from intake.build_adapter_registry import BuildAdapterRegistry, SelectionResult  # noqa: E402
+from intake.build_adapters import UnknownAdapter  # noqa: E402
 
 MOCKED_LOOP_STATUS_TOKENS = (
     "DIAGNOSE_MOCK_ROUTE_SELECTED",
@@ -107,6 +109,7 @@ class _SourceMutationError(RuntimeError):
 
 def _hash_workspace_tree(root: Path) -> dict[str, str]:
     import hashlib
+
     out: dict[str, str] = {}
     if not root.is_dir():
         return out
@@ -155,17 +158,19 @@ class MockedIntakeRepairLoop:
         # Unsupported terminus: UnknownAdapter selected.
         if selection.primary is UnknownAdapter:
             for tc in TASK_CLASS_PIPELINE:
-                steps.append(MockedTraceStep(
-                    task_class=tc.value,
-                    route_decision="ROUTE_SKIPPED_UNSUPPORTED_REPO",
-                    selected_model_id="",
-                    execution_authorized=False,
-                    invoked_mock=False,
-                    skipped_reason="unsupported_repo",
-                ))
+                steps.append(
+                    MockedTraceStep(
+                        task_class=tc.value,
+                        route_decision="ROUTE_SKIPPED_UNSUPPORTED_REPO",
+                        selected_model_id="",
+                        execution_authorized=False,
+                        invoked_mock=False,
+                        skipped_reason="unsupported_repo",
+                    )
+                )
             notes.append("UnknownAdapter selected; no model routes consulted.")
             tree_after = _hash_workspace_tree(ws)
-            patch_not_applied = (tree_after == tree_before)
+            patch_not_applied = tree_after == tree_before
             return MockedIntakeRepairTrace(
                 workspace=str(ws),
                 build_system_id=selection.primary.build_system_id,
@@ -191,40 +196,38 @@ class MockedIntakeRepairLoop:
             skipped_reason = ""
             if rec.is_blocked:
                 skipped_reason = rec.decision
-                notes.append(
-                    f"Task {tc.value} route blocked ({rec.decision}); mock not invoked."
-                )
+                notes.append(f"Task {tc.value} route blocked ({rec.decision}); mock not invoked.")
             elif rec.is_no_model:
                 skipped_reason = "ROUTE_NO_MODEL_REQUIRED"
-                notes.append(
-                    f"Task {tc.value} resolved to NO_MODEL; mock not invoked."
-                )
+                notes.append(f"Task {tc.value} resolved to NO_MODEL; mock not invoked.")
             elif not rec.execution_authorized:
                 # Defensive — should not happen given mode=LIVE on a clean
                 # current-id route, but kept explicit for invariant clarity.
                 skipped_reason = "NOT_AUTHORIZED"
-                notes.append(
-                    f"Task {tc.value} not execution_authorized despite LIVE mode."
-                )
+                notes.append(f"Task {tc.value} not execution_authorized despite LIVE mode.")
             else:
                 response = self._mock_client.invoke(
-                    tc, rec, payload={"workspace": str(ws), "adapter": selection.primary.name},
+                    tc,
+                    rec,
+                    payload={"workspace": str(ws), "adapter": selection.primary.name},
                 )
                 mock_kind = str(response.get("kind") or response.get("status") or "MOCKED")
                 invoked = True
-            steps.append(MockedTraceStep(
-                task_class=tc.value,
-                route_decision=rec.decision,
-                selected_model_id=rec.selected_model_id,
-                execution_authorized=rec.execution_authorized,
-                invoked_mock=invoked,
-                mock_response_kind=mock_kind,
-                skipped_reason=skipped_reason,
-            ))
+            steps.append(
+                MockedTraceStep(
+                    task_class=tc.value,
+                    route_decision=rec.decision,
+                    selected_model_id=rec.selected_model_id,
+                    execution_authorized=rec.execution_authorized,
+                    invoked_mock=invoked,
+                    mock_response_kind=mock_kind,
+                    skipped_reason=skipped_reason,
+                )
+            )
 
         # Hard invariant: the loop must never have written to the workspace.
         tree_after = _hash_workspace_tree(ws)
-        patch_not_applied = (tree_after == tree_before)
+        patch_not_applied = tree_after == tree_before
         if not patch_not_applied:
             raise _SourceMutationError(
                 "MockedIntakeRepairLoop wrote to fixture workspace — invariant violated."

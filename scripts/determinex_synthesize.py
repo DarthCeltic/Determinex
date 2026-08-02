@@ -28,6 +28,7 @@ CLI
 ---
     python scripts/determinex_synthesize.py --spec spec.md [--out tests_gen.py]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -41,12 +42,12 @@ from pathlib import Path
 
 @dataclass
 class Spec:
-    name: str                                   # the function/unit name
+    name: str  # the function/unit name
     description: str
     language: str = "python"
-    signature: str = ""                         # e.g. "add(a, b)"
+    signature: str = ""  # e.g. "add(a, b)"
     examples: list[tuple[str, str]] = field(default_factory=list)  # (call, expected_repr)
-    invariants: list[str] = field(default_factory=list)            # invariant ids
+    invariants: list[str] = field(default_factory=list)  # invariant ids
 
 
 # ---------------------------------------------------------------------------
@@ -59,17 +60,17 @@ class Spec:
 # the next call / ; / newline / sentence-period / end -- and KEEP a pair only if the call
 # parses as a call AND the value parses as a Python literal. A piece we cannot trust is
 # dropped, never minted into a broken assertion. That self-validation IS the soundness.
-_CALL_START = re.compile(r'([A-Za-z_]\w*)\s*\(')
-_EX_OP = re.compile(r'\s*(?:==|->|=>|\breturns?\b|\bgives?\b)\s*', re.I)
+_CALL_START = re.compile(r"([A-Za-z_]\w*)\s*\(")
+_EX_OP = re.compile(r"\s*(?:==|->|=>|\breturns?\b|\bgives?\b)\s*", re.I)
 
 
 def _balanced_call(text: str, open_paren: int) -> int:
     """Index just past the ')' matching the '(' at `open_paren` (nesting-safe); -1 if none."""
     depth = 0
     for i in range(open_paren, len(text)):
-        if text[i] == '(':
+        if text[i] == "(":
             depth += 1
-        elif text[i] == ')':
+        elif text[i] == ")":
             depth -= 1
             if depth == 0:
                 return i + 1
@@ -130,18 +131,21 @@ def _extract_examples(text: str, name: str | None = None) -> list[tuple[str, str
         end = _balanced_call(text, cm.end() - 1)
         if end < 0:
             continue
-        call = text[cm.start():end]
+        call = text[cm.start() : end]
         om = _EX_OP.match(text, end)
         if not om:
-            continue                       # no ==/->/returns after the call: not an example
+            continue  # no ==/->/returns after the call: not an example
         exp = _take_value(text, om.end()).rstrip(".").strip()
         if exp and _valid_call(call) and _is_literal(exp):
             out.append((call, exp))
-    seen, uniq = set(), []                  # de-dup, keep order
+    seen, uniq = set(), []  # de-dup, keep order
     for c, e in out:
         if (c, e) not in seen:
-            seen.add((c, e)); uniq.append((c, e))
+            seen.add((c, e))
+            uniq.append((c, e))
     return uniq
+
+
 _INVARIANT_KEYS = {
     "round-trip": r"round.?trip|encode.*decode|decode.*encode|serialize.*deserialize|inverse",
     "idempotent": r"idempoten",
@@ -154,20 +158,26 @@ _INVARIANT_KEYS = {
 def parse_spec(text: str, language: str = "python") -> Spec:
     # function name: explicit "function NAME" / "def NAME" / first identifier(...)
     name = ""
-    m = re.search(r'(?:function|def|fn|func)\s+([a-zA-Z_]\w*)', text)
+    m = re.search(r"(?:function|def|fn|func)\s+([a-zA-Z_]\w*)", text)
     if m:
         name = m.group(1)
     if not name:
-        m = re.search(r'\b([a-z_][a-z0-9_]{2,})\s*\(', text)
+        m = re.search(r"\b([a-z_][a-z0-9_]{2,})\s*\(", text)
         name = m.group(1) if m else "solution"
     uniq = _extract_examples(text, name)
     invariants = [inv for inv, pat in _INVARIANT_KEYS.items() if re.search(pat, text, re.I)]
     sig = ""
-    sm = re.search(rf'{re.escape(name)}\s*\(([^)]*)\)', text)
+    sm = re.search(rf"{re.escape(name)}\s*\(([^)]*)\)", text)
     if sm:
         sig = f"{name}({sm.group(1).strip()})"
-    return Spec(name=name, description=text.strip(), language=language,
-               signature=sig, examples=uniq, invariants=invariants)
+    return Spec(
+        name=name,
+        description=text.strip(),
+        language=language,
+        signature=sig,
+        examples=uniq,
+        invariants=invariants,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -182,27 +192,35 @@ _FUZZ = {
 
 # invariant id -> (applicable_input_types, test body using {fn} and {fuzz})
 _PROPERTY_TEMPLATES = {
-    "idempotent": (("str", "int", "list"),
-                   "    import random\n"
-                   "    for _ in range(50):\n"
-                   "        x = {fuzz}\n"
-                   "        assert {fn}({fn}(x)) == {fn}(x)\n"),
-    "sorted": (("list",),
-               "    import random\n"
-               "    for _ in range(50):\n"
-               "        xs = {fuzz}\n"
-               "        out = {fn}(list(xs))\n"
-               "        assert list(out) == sorted(out)\n"),
-    "length-preserving": (("list", "str"),
-                          "    import random\n"
-                          "    for _ in range(50):\n"
-                          "        xs = {fuzz}\n"
-                          "        assert len({fn}(xs)) == len(xs)\n"),
-    "non-negative": (("int",),
-                     "    import random\n"
-                     "    for _ in range(50):\n"
-                     "        x = {fuzz}\n"
-                     "        assert {fn}(x) >= 0\n"),
+    "idempotent": (
+        ("str", "int", "list"),
+        "    import random\n"
+        "    for _ in range(50):\n"
+        "        x = {fuzz}\n"
+        "        assert {fn}({fn}(x)) == {fn}(x)\n",
+    ),
+    "sorted": (
+        ("list",),
+        "    import random\n"
+        "    for _ in range(50):\n"
+        "        xs = {fuzz}\n"
+        "        out = {fn}(list(xs))\n"
+        "        assert list(out) == sorted(out)\n",
+    ),
+    "length-preserving": (
+        ("list", "str"),
+        "    import random\n"
+        "    for _ in range(50):\n"
+        "        xs = {fuzz}\n"
+        "        assert len({fn}(xs)) == len(xs)\n",
+    ),
+    "non-negative": (
+        ("int",),
+        "    import random\n"
+        "    for _ in range(50):\n"
+        "        x = {fuzz}\n"
+        "        assert {fn}(x) >= 0\n",
+    ),
 }
 
 
@@ -217,6 +235,7 @@ _PROPERTY_TEMPLATES = {
 # Falls back to the original static templates if Hypothesis is not installed.
 try:
     import hypothesis as _hypothesis_present  # noqa: F401
+
     _HYPOTHESIS_AVAILABLE = True
 except ImportError:
     _HYPOTHESIS_AVAILABLE = False
@@ -239,87 +258,114 @@ _HYPOTHESIS_STRATEGY = {
 # invariant id → (applicable_input_types, test body using {fn} and {strategy})
 # Hypothesis variant: uses @given + hypothesis.strategies
 _PROPERTY_TEMPLATES_HYPOTHESIS = {
-    "idempotent": ((("str", "int", "list"),
-                    "from hypothesis import given, settings\n"
-                    "import hypothesis.strategies as st\n"
-                    "\n"
-                    "@given({strategy})\n"
-                    "@settings(max_examples=200, deadline=None)\n"
-                    "def test_invariant_idempotent(x):\n"
-                    "    assert {fn}({fn}(x)) == {fn}(x)\n")),
-    "sorted": ((("list",),
-                "from hypothesis import given, settings\n"
-                "import hypothesis.strategies as st\n"
-                "\n"
-                "@given(st.lists(st.integers(-100, 100), max_size=20))\n"
-                "@settings(max_examples=200, deadline=None)\n"
-                "def test_invariant_sorted(xs):\n"
-                "    out = {fn}(list(xs))\n"
-                "    assert list(out) == sorted(out)\n")),
-    "length-preserving": ((("list", "str"),
-                           "from hypothesis import given, settings\n"
-                           "import hypothesis.strategies as st\n"
-                           "\n"
-                           "@given({strategy})\n"
-                           "@settings(max_examples=200, deadline=None)\n"
-                           "def test_invariant_length_preserving(xs):\n"
-                           "    assert len({fn}(xs)) == len(xs)\n")),
-    "non-negative": ((("int",),
-                      "from hypothesis import given, settings\n"
-                      "import hypothesis.strategies as st\n"
-                      "\n"
-                      "@given(st.integers(-1000, 1000))\n"
-                      "@settings(max_examples=200, deadline=None)\n"
-                      "def test_invariant_non_negative(x):\n"
-                      "    assert {fn}(x) >= 0\n")),
-    "round-trip": ((("str", "int", "list"),
-                    "from hypothesis import given, settings\n"
-                    "import hypothesis.strategies as st\n"
-                    "\n"
-                    "@given({strategy})\n"
-                    "@settings(max_examples=200, deadline=None)\n"
-                    "def test_invariant_round_trip(x):\n"
-                    "    # round-trip: decode(encode(x)) == x (or encode(decode(x)) == x)\n"
-                    "    encoded = {fn}(x)\n"
-                    "    assert {fn}(encoded) == x or {fn}({fn}(x)) == {fn}(x)\n")),
+    "idempotent": (
+        (
+            ("str", "int", "list"),
+            "from hypothesis import given, settings\n"
+            "import hypothesis.strategies as st\n"
+            "\n"
+            "@given({strategy})\n"
+            "@settings(max_examples=200, deadline=None)\n"
+            "def test_invariant_idempotent(x):\n"
+            "    assert {fn}({fn}(x)) == {fn}(x)\n",
+        )
+    ),
+    "sorted": (
+        (
+            ("list",),
+            "from hypothesis import given, settings\n"
+            "import hypothesis.strategies as st\n"
+            "\n"
+            "@given(st.lists(st.integers(-100, 100), max_size=20))\n"
+            "@settings(max_examples=200, deadline=None)\n"
+            "def test_invariant_sorted(xs):\n"
+            "    out = {fn}(list(xs))\n"
+            "    assert list(out) == sorted(out)\n",
+        )
+    ),
+    "length-preserving": (
+        (
+            ("list", "str"),
+            "from hypothesis import given, settings\n"
+            "import hypothesis.strategies as st\n"
+            "\n"
+            "@given({strategy})\n"
+            "@settings(max_examples=200, deadline=None)\n"
+            "def test_invariant_length_preserving(xs):\n"
+            "    assert len({fn}(xs)) == len(xs)\n",
+        )
+    ),
+    "non-negative": (
+        (
+            ("int",),
+            "from hypothesis import given, settings\n"
+            "import hypothesis.strategies as st\n"
+            "\n"
+            "@given(st.integers(-1000, 1000))\n"
+            "@settings(max_examples=200, deadline=None)\n"
+            "def test_invariant_non_negative(x):\n"
+            "    assert {fn}(x) >= 0\n",
+        )
+    ),
+    "round-trip": (
+        (
+            ("str", "int", "list"),
+            "from hypothesis import given, settings\n"
+            "import hypothesis.strategies as st\n"
+            "\n"
+            "@given({strategy})\n"
+            "@settings(max_examples=200, deadline=None)\n"
+            "def test_invariant_round_trip(x):\n"
+            "    # round-trip: decode(encode(x)) == x (or encode(decode(x)) == x)\n"
+            "    encoded = {fn}(x)\n"
+            "    assert {fn}(encoded) == x or {fn}({fn}(x)) == {fn}(x)\n",
+        )
+    ),
 }
 
 # Static fallback templates (used when Hypothesis is not installed)
 _PROPERTY_TEMPLATES_STATIC = {
-    "idempotent": (("str", "int", "list"),
-                   "    import random\n"
-                   "    for _ in range(50):\n"
-                   "        x = {fuzz}\n"
-                   "        assert {fn}({fn}(x)) == {fn}(x)\n"),
-    "sorted": (("list",),
-               "    import random\n"
-               "    for _ in range(50):\n"
-               "        xs = {fuzz}\n"
-               "        out = {fn}(list(xs))\n"
-               "        assert list(out) == sorted(out)\n"),
-    "length-preserving": (("list", "str"),
-                          "    import random\n"
-                          "    for _ in range(50):\n"
-                          "        xs = {fuzz}\n"
-                          "        assert len({fn}(xs)) == len(xs)\n"),
-    "non-negative": (("int",),
-                     "    import random\n"
-                     "    for _ in range(50):\n"
-                     "        x = {fuzz}\n"
-                     "        assert {fn}(x) >= 0\n"),
+    "idempotent": (
+        ("str", "int", "list"),
+        "    import random\n"
+        "    for _ in range(50):\n"
+        "        x = {fuzz}\n"
+        "        assert {fn}({fn}(x)) == {fn}(x)\n",
+    ),
+    "sorted": (
+        ("list",),
+        "    import random\n"
+        "    for _ in range(50):\n"
+        "        xs = {fuzz}\n"
+        "        out = {fn}(list(xs))\n"
+        "        assert list(out) == sorted(out)\n",
+    ),
+    "length-preserving": (
+        ("list", "str"),
+        "    import random\n"
+        "    for _ in range(50):\n"
+        "        xs = {fuzz}\n"
+        "        assert len({fn}(xs)) == len(xs)\n",
+    ),
+    "non-negative": (
+        ("int",),
+        "    import random\n"
+        "    for _ in range(50):\n"
+        "        x = {fuzz}\n"
+        "        assert {fn}(x) >= 0\n",
+    ),
 }
 
 # Active template set — Hypothesis-backed when available
 _PROPERTY_TEMPLATES = (
-    _PROPERTY_TEMPLATES_HYPOTHESIS if _HYPOTHESIS_AVAILABLE
-    else _PROPERTY_TEMPLATES_STATIC
+    _PROPERTY_TEMPLATES_HYPOTHESIS if _HYPOTHESIS_AVAILABLE else _PROPERTY_TEMPLATES_STATIC
 )
 
 
-def _infer_input_type(spec: "Spec") -> str | None:
+def _infer_input_type(spec: Spec) -> str | None:
     """Infer the first-argument type from the examples (e.g. rle('aaabb') -> str)."""
     for call, _ in spec.examples:
-        m = re.search(r'\(\s*(.+?)\s*[,)]', call)
+        m = re.search(r"\(\s*(.+?)\s*[,)]", call)
         if not m:
             continue
         arg = m.group(1)
@@ -327,7 +373,7 @@ def _infer_input_type(spec: "Spec") -> str | None:
             return "str"
         if arg.startswith("["):
             return "list"
-        if re.fullmatch(r'-?\d+', arg):
+        if re.fullmatch(r"-?\d+", arg):
             return "int"
     return None
 
@@ -336,7 +382,8 @@ def synthesize_oracle_tests(spec: Spec) -> str:
     if spec.language not in ("python", "py"):
         raise NotImplementedError(
             f"deterministic synthesis ships for python; '{spec.language}' uses the "
-            f"model-assisted path (validated by its language oracle).")
+            f"model-assisted path (validated by its language oracle)."
+        )
     lines = [
         "# Auto-synthesized oracle (determinex_synthesize). The implementation under",
         f"# test must define `{spec.name}`. These tests ARE the ground truth.",
@@ -396,7 +443,9 @@ def synthesize_oracle_tests(spec: Spec) -> str:
         # Worse, its `caveat` only fired for model-PROPOSED examples, so the weakest oracle shipped
         # with NO warning while a stronger one was flagged. The marker below lets callers detect
         # this case; see determinex_build_from_idea.py, which now refuses to claim verification on it.
-        lines.append("# DETERMINEX_VACUOUS_ORACLE: no example or typeable invariant was extractable")
+        lines.append(
+            "# DETERMINEX_VACUOUS_ORACLE: no example or typeable invariant was extractable"
+        )
         lines.append("def test_symbol_exists():")
         lines.append(f"    assert callable({spec.name})")
         lines.append("")
@@ -413,9 +462,9 @@ def oracle_is_vacuous(test_code: str) -> bool:
     return VACUOUS_ORACLE_MARKER in (test_code or "")
 
 
-
-def propose_examples(description: str, name: str, generate, k: int = 5,
-                     min_agreement: int = 2) -> list[tuple[str, str]]:
+def propose_examples(
+    description: str, name: str, generate, k: int = 5, min_agreement: int = 2
+) -> list[tuple[str, str]]:
     """For an example-free idea, ask a model for I/O examples and keep only those
     that reach CONSENSUS across k samples (appear in >= min_agreement). This turns
     a vague idea into provisional ground truth -- but these are the model's
@@ -424,9 +473,12 @@ def propose_examples(description: str, name: str, generate, k: int = 5,
     does not prove correctness (a consistently-misreading model agrees with itself).
     """
     from collections import Counter
-    prompt = (f"For the function `{name}` described below, give 4 concrete "
-              f"input/output examples, one per line, EXACTLY as `{name}(args) == result`.\n\n"
-              f"{description}\n\nExamples:")
+
+    prompt = (
+        f"For the function `{name}` described below, give 4 concrete "
+        f"input/output examples, one per line, EXACTLY as `{name}(args) == result`.\n\n"
+        f"{description}\n\nExamples:"
+    )
     tally: Counter = Counter()
     for i in range(k):
         try:
@@ -450,14 +502,20 @@ def validate_oracle(test_code: str, spec: Spec) -> tuple[bool, str]:
         # trivial stub so collection succeeds (function exists, returns None)
         params = "*args, **kwargs"
         (dp / "solution.py").write_text(
-            f"def {spec.name}({params}):\n    return None\n", encoding="utf-8")
+            f"def {spec.name}({params}):\n    return None\n", encoding="utf-8"
+        )
         try:
             # validation runs synthesized tests against a stub -> route through the
             # existing hardened runner (workspace-bounded, no network). No new sandbox.
             from intake.hardened_runner import run as _hrun
-            r = _hrun([sys.executable, "-m", "pytest", "tests_gen.py", "-q",
-                       "--collect-only"], workspace=dp, cwd=dp, timeout=30,
-                      allow_network=False)
+
+            r = _hrun(
+                [sys.executable, "-m", "pytest", "tests_gen.py", "-q", "--collect-only"],
+                workspace=dp,
+                cwd=dp,
+                timeout=30,
+                allow_network=False,
+            )
         except Exception as e:
             return False, f"oracle did not run: {e}"
         if r.exit_code != 0 and "error" in (r.stdout + r.stderr).lower():

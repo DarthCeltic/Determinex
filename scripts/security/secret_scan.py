@@ -13,6 +13,7 @@ secret never sits in a tracked file or in pushed git history.
 Prints REDACTED matches (first/last few chars) and a clear verdict. Exit 1 if any
 secret is found in a place that could leak (tracked file, or pushed history).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -26,14 +27,20 @@ REPO = Path(__file__).resolve().parent.parent.parent
 # provider key shapes (kept tight to avoid false positives)
 PATTERNS = {
     "anthropic": re.compile(r"sk-ant-api[0-9]{2}-[A-Za-z0-9_-]{20,}"),
-    "google":    re.compile(r"AIzaSy[A-Za-z0-9_-]{30,}"),
-    "openai":    re.compile(r"sk-(?:proj-)?[A-Za-z0-9_-]{40,}"),
-    "deepseek":  re.compile(r"\bsk-[a-f0-9]{32}\b"),
-    "aws":       re.compile(r"AKIA[0-9A-Z]{16}"),
+    "google": re.compile(r"AIzaSy[A-Za-z0-9_-]{30,}"),
+    "openai": re.compile(r"sk-(?:proj-)?[A-Za-z0-9_-]{40,}"),
+    "deepseek": re.compile(r"\bsk-[a-f0-9]{32}\b"),
+    "aws": re.compile(r"AKIA[0-9A-Z]{16}"),
     "private-key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
 }
-_SKIP = (".env.example", "package-lock.json", ".lock", ".bak", "/secret_scan.py",
-         ".pre-commit-config.yaml")
+_SKIP = (
+    ".env.example",
+    "package-lock.json",
+    ".lock",
+    ".bak",
+    "/secret_scan.py",
+    ".pre-commit-config.yaml",
+)
 
 
 def _redact(s: str) -> str:
@@ -45,11 +52,13 @@ def _redact(s: str) -> str:
 # _FALSE_POSITIVE, but that regex is applied to the PATH, so the content entries in it were dead
 # weight. Kept deliberately tiny and exact -- a substring allowlist over content is how a scanner
 # stops finding real keys.
-_PLACEHOLDER_VALUES = frozenset({
-    # AWS's own documentation example key, used across the world in docs and test fixtures. It
-    # appears here as input to a secret-detection tool benchmark.
-    "AKIAIOSFODNN7EXAMPLE",
-})
+_PLACEHOLDER_VALUES = frozenset(
+    {
+        # AWS's own documentation example key, used across the world in docs and test fixtures. It
+        # appears here as input to a secret-detection tool benchmark.
+        "AKIAIOSFODNN7EXAMPLE",
+    }
+)
 
 
 def _scan_text(text: str) -> list[tuple[str, str]]:
@@ -71,13 +80,15 @@ def _scan_text(text: str) -> list[tuple[str, str]]:
 # portable either. `git grep -P` works here but requires a PCRE-enabled build, and `git log -G`
 # ignores --perl-regexp for the pickaxe. Depending on any of that is how the tracked-tree scan
 # came to silently match nothing for months. Nothing below uses a construct outside POSIX ERE.
-_GIT_PREFILTER_ERE = "|".join((
-    "sk-ant-api[0-9]{2}-",
-    "AIzaSy",
-    "sk-[A-Za-z0-9_-]{20,}",
-    "AKIA[0-9A-Z]{16}",
-    "-----BEGIN [A-Z ]*PRIVATE KEY-----",
-))
+_GIT_PREFILTER_ERE = "|".join(
+    (
+        "sk-ant-api[0-9]{2}-",
+        "AIzaSy",
+        "sk-[A-Za-z0-9_-]{20,}",
+        "AKIA[0-9A-Z]{16}",
+        "-----BEGIN [A-Z ]*PRIVATE KEY-----",
+    )
+)
 
 
 class GitUnavailable(RuntimeError):
@@ -95,8 +106,7 @@ def _git(args: list[str], root: Path | None = None, timeout: int = 180) -> str:
     # non-cp1252 bytes never crash the scan on Windows.
     cwd = Path(root) if root is not None else REPO
     try:
-        r = subprocess.run(["git", *args], cwd=str(cwd), capture_output=True,
-                           timeout=timeout)
+        r = subprocess.run(["git", *args], cwd=str(cwd), capture_output=True, timeout=timeout)
     except FileNotFoundError as exc:
         raise GitUnavailable(f"git is not installed or not on PATH: {exc}") from exc
     except subprocess.TimeoutExpired as exc:
@@ -110,7 +120,9 @@ def _git(args: list[str], root: Path | None = None, timeout: int = 180) -> str:
     # that is a real failure (not a repository, bad pathspec, ...) and must not read as clean.
     if r.returncode > 1:
         detail = (r.stderr or b"").decode("utf-8", errors="replace").strip()[:400]
-        raise GitUnavailable(f"git {' '.join(args[:2])} failed (exit {r.returncode}) in {cwd}: {detail}")
+        raise GitUnavailable(
+            f"git {' '.join(args[:2])} failed (exit {r.returncode}) in {cwd}: {detail}"
+        )
     return (r.stdout or b"").decode("utf-8", errors="replace")
 
 
@@ -129,7 +141,9 @@ _FALSE_POSITIVE = re.compile(
     r"^corpus/|/corpus/|ripsecrets|secret_scan|secret_scanner|test_secret"
     r"|\.parquet$|\.env\.example$"
     r"|(?:^|/)testdata(?:/|$)|(?:^|/)test_vectors(?:/|$)|(?:^|/)crypto(?:/|$)"
-    r"|detect.?secret|gitleaks|trufflehog|AKIAIOSFODNN7EXAMPLE", re.I)
+    r"|detect.?secret|gitleaks|trufflehog|AKIAIOSFODNN7EXAMPLE",
+    re.I,
+)
 
 
 def scan_tracked(root: Path | None = None) -> dict:
@@ -156,8 +170,9 @@ def scan_tracked(root: Path | None = None) -> dict:
     # This scanner had therefore never scanned anything; the bug was invisible precisely because
     # the failure path and the clean path produced identical output.
     try:
-        files = _git(["grep", "-lE", alt,
-                      "--", ":!*.lock", ":!*package-lock.json"], root=base).splitlines()
+        files = _git(
+            ["grep", "-lE", alt, "--", ":!*.lock", ":!*package-lock.json"], root=base
+        ).splitlines()
     except GitUnavailable:
         # Last resort: enumerate everything and match in Python. Slower, but a scan that cannot
         # run must never report clean.
@@ -208,8 +223,14 @@ def scan_history(remotes_only: bool, root: Path | None = None) -> dict:
     # fatal: unable to read files to diff"), aborting the entire history scan. We want raw bytes
     # here anyway -- a secret is a secret whether or not a .doc renders.
     log = _git(
-        ["log", rev, "--no-textconv", f"-G{_GIT_PREFILTER_ERE}",
-         "--name-only", "--pretty=format:%H"],
+        [
+            "log",
+            rev,
+            "--no-textconv",
+            f"-G{_GIT_PREFILTER_ERE}",
+            "--name-only",
+            "--pretty=format:%H",
+        ],
         root=base,
         timeout=1800,
     )
@@ -242,9 +263,13 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Determinex secret scanner")
     ap.add_argument("--history", action="store_true", help="scan ALL git history")
     ap.add_argument("--pushed", action="store_true", help="scan only remote/pushed history")
-    ap.add_argument("--root", type=Path, default=None,
-                    help="repository to scan (defaults to this checkout). Use this to scan a "
-                         "staged mirror rather than the developer tree.")
+    ap.add_argument(
+        "--root",
+        type=Path,
+        default=None,
+        help="repository to scan (defaults to this checkout). Use this to scan a "
+        "staged mirror rather than the developer tree.",
+    )
     args = ap.parse_args()
 
     root = args.root or REPO

@@ -1,4 +1,5 @@
 """Tests for the systematic user-facing IDE audit."""
+
 from __future__ import annotations
 
 import importlib

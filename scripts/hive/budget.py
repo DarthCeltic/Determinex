@@ -3,6 +3,7 @@ scripts/hive/budget.py — API cost tracking and training queue
 ==============================================================
 Moved from determinex_hive.py (lines ~1460-1539).
 """
+
 from __future__ import annotations
 
 import json
@@ -11,11 +12,11 @@ import os
 import re
 import sys
 import threading
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
-from hive.manifest import ManifestSession, StepRecord, save_manifest
 from hive.compiler import classify_training_quality
+from hive.manifest import ManifestSession, StepRecord, save_manifest
 
 log = logging.getLogger("hive")
 
@@ -43,23 +44,38 @@ except ImportError:  # pragma: no cover — budget_guard.py always ships alongsi
     def _bg_is_local_model(model: str) -> bool:
         """Degraded stand-in. Still recognises the bare `determinex-` tags, because
         getting those wrong is the bug this whole path exists to avoid."""
-        return (model or "").strip().lower().startswith(
-            ("ollama/", "ollama_chat/", "hosted_vllm/", "text-completion-openai/",
-             "determinex/", "local/", "determinex-"))
+        return (
+            (model or "")
+            .strip()
+            .lower()
+            .startswith(
+                (
+                    "ollama/",
+                    "ollama_chat/",
+                    "hosted_vllm/",
+                    "text-completion-openai/",
+                    "determinex/",
+                    "local/",
+                    "determinex-",
+                )
+            )
+        )
 
     def _bg_price_per_1m(model: str) -> tuple[float, float] | None:
         return None
 
-    log.warning("[budget] Could not import budget_guard.PRICING — falling back to flat-rate cost estimate for every call")
+    log.warning(
+        "[budget] Could not import budget_guard.PRICING — falling back to flat-rate cost estimate for every call"
+    )
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-_ROOT      = (
+_ROOT = (
     Path(os.environ["DETERMINEX_ROOT"]).resolve()
     if os.environ.get("DETERMINEX_ROOT")
     else Path(__file__).resolve().parent.parent.parent
 )
 _RETRAIN_Q = _ROOT / "logs" / "retrain_queue.jsonl"
-_HUMAN_Q   = _ROOT / "logs" / "human_review_queue.jsonl"
+_HUMAN_Q = _ROOT / "logs" / "human_review_queue.jsonl"
 
 # ── L12-B: SWE-bench decontamination ─────────────────────────────────────────
 # SWE-bench tasks always reference their source repo as "owner__repo-NNNNN".
@@ -77,17 +93,17 @@ _SWEBENCH_FINGERPRINT_RE = re.compile(
 # Without human anchor data, each training run compounds the model's drift
 # toward its own dialect.  We warn aggressively when the auto-queue grows
 # without any human-reviewed examples.
-_SYNTHETIC_ROT_WARN_EVERY = 100   # warn every N auto-ingested examples
-_synthetic_rot_counter    = 0     # module-level counter, reset on daemon restart
-_synthetic_rot_lock       = threading.Lock()
+_SYNTHETIC_ROT_WARN_EVERY = 100  # warn every N auto-ingested examples
+_synthetic_rot_counter = 0  # module-level counter, reset on daemon restart
+_synthetic_rot_lock = threading.Lock()
 
 # G17: Serialises concurrent JSONL appends — open()+write() is not atomic.
-_queue_write_lock         = threading.Lock()
+_queue_write_lock = threading.Lock()
 
 # ── API budget constants ──────────────────────────────────────────────────────
-APPROX_TOKENS_PER_STEP    = 1500
+APPROX_TOKENS_PER_STEP = 1500
 APPROX_COST_PER_1K_TOKENS = 0.008
-BUDGET_WARN_FRACTION      = 0.80
+BUDGET_WARN_FRACTION = 0.80
 
 # Protects session.api_cost_usd / session.budget_exhausted when multiple steps
 # execute concurrently inside run_session() (Tier 1+ wavefront execution).
@@ -130,8 +146,12 @@ def _price_per_1m(model: str) -> tuple[float, float] | None:
 # the offline network policy -- the two must agree or a model is free to one and paid to
 # the other.
 _LOCAL_MODEL_PREFIXES = (
-    "ollama/", "ollama_chat/", "hosted_vllm/", "text-completion-openai/",
-    "determinex/", "local/",
+    "ollama/",
+    "ollama_chat/",
+    "hosted_vllm/",
+    "text-completion-openai/",
+    "determinex/",
+    "local/",
 )
 
 # This project's own Ollama tags, which are BARE names with no provider prefix:
@@ -191,7 +211,8 @@ def _estimate_cost_usd(
             log.warning(
                 "[budget] No pricing entry for model '%s' — using flat $%.3f/1K blended-rate "
                 "estimate (add it to budget_guard.PRICING for an accurate figure)",
-                model, APPROX_COST_PER_1K_TOKENS,
+                model,
+                APPROX_COST_PER_1K_TOKENS,
             )
         return (tokens_used / 1000) * APPROX_COST_PER_1K_TOKENS
 
@@ -222,15 +243,24 @@ def record_api_call_cost(
     cost = _estimate_cost_usd(model, tokens_used, prompt_tokens, completion_tokens)
     with _cost_lock:
         session.api_cost_usd += cost
-        fraction = session.api_cost_usd / session.session_budget_usd if session.session_budget_usd else 0.0
+        fraction = (
+            session.api_cost_usd / session.session_budget_usd if session.session_budget_usd else 0.0
+        )
         if fraction >= 1.0:
             session.budget_exhausted = True
-            log.warning("API BUDGET EXHAUSTED ($%.2f / $%.2f) — switching to local-only mode",
-                        session.api_cost_usd, session.session_budget_usd)
+            log.warning(
+                "API BUDGET EXHAUSTED ($%.2f / $%.2f) — switching to local-only mode",
+                session.api_cost_usd,
+                session.session_budget_usd,
+            )
             return False
         if fraction >= BUDGET_WARN_FRACTION:
-            log.warning("API BUDGET WARNING: $%.2f of $%.2f used (%.0f%%)",
-                        session.api_cost_usd, session.session_budget_usd, fraction * 100)
+            log.warning(
+                "API BUDGET WARNING: $%.2f of $%.2f used (%.0f%%)",
+                session.api_cost_usd,
+                session.session_budget_usd,
+                fraction * 100,
+            )
         return True
 
 
@@ -239,10 +269,10 @@ def api_budget_preflight(session: ManifestSession) -> tuple[bool, float, float]:
     Estimate total session cost from DAG step count before Step 1 executes.
     Returns (budget_ok, estimated_cost, remaining_budget).
     """
-    remaining  = session.session_budget_usd - session.api_cost_usd
+    remaining = session.session_budget_usd - session.api_cost_usd
     step_count = len([s for s in session.steps if s.status in ("pending", "stale_instruction")])
-    estimated  = estimate_session_cost(step_count)
-    budget_ok  = estimated <= remaining
+    estimated = estimate_session_cost(step_count)
+    budget_ok = estimated <= remaining
     return budget_ok, estimated, remaining
 
 
@@ -267,7 +297,8 @@ def queue_for_training(session: ManifestSession, step: StepRecord) -> None:
     if _SWEBENCH_FINGERPRINT_RE.search(_haystack):
         log.warning(
             "[L12-B] SWE-bench fingerprint detected in step %d — routing to human review "
-            "instead of auto-ingestion to prevent benchmark contamination.", step.id,
+            "instead of auto-ingestion to prevent benchmark contamination.",
+            step.id,
         )
         quality = "inconclusive"  # override — never auto-ingest contaminated examples
 
@@ -282,19 +313,19 @@ def queue_for_training(session: ManifestSession, step: StepRecord) -> None:
                 pass
 
     entry = {
-        "timestamp":   datetime.now(timezone.utc).isoformat(),
-        "session_id":  session.session_id,
-        "step_id":     step.id,
-        "lang":        session.lang,
+        "timestamp": datetime.now(UTC).isoformat(),
+        "session_id": session.session_id,
+        "step_id": step.id,
+        "lang": session.lang,
         "instruction": step.instruction,
-        "builder_output_path":   step.builder_output_path,
-        "builder_reasoning":     _reasoning_text,  # L10-B
-        "compiler_result":       step.compiler_result,
-        "monitor_verdict":       step.monitor_verdict,
-        "quality":               quality,
-        "retries":               step.retries,
-        "escalations":           step.escalations,
-        "source":                "ai_generated",  # L11-A
+        "builder_output_path": step.builder_output_path,
+        "builder_reasoning": _reasoning_text,  # L10-B
+        "compiler_result": step.compiler_result,
+        "monitor_verdict": step.monitor_verdict,
+        "quality": quality,
+        "retries": step.retries,
+        "escalations": step.escalations,
+        "source": "ai_generated",  # L11-A
     }
 
     if quality == "training_ready":

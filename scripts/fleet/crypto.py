@@ -18,12 +18,12 @@ discarded after sealing, so a shard is not linkable to a long-lived contributor 
 
 `env` is a small JSON-serializable dict (base64 fields) safe to write to R2 / HF.
 """
+
 from __future__ import annotations
 
 import base64
 import hashlib
 import json
-from dataclasses import dataclass
 from typing import Any
 
 from cryptography.hazmat.primitives import hashes
@@ -35,9 +35,9 @@ from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.serialization import (
     Encoding,
+    NoEncryption,
     PrivateFormat,
     PublicFormat,
-    NoEncryption,
 )
 
 from . import SEAL_ALG

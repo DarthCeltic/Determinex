@@ -22,6 +22,7 @@ Waiver mechanism: assurance/security/vulnerability_waivers.json
     ]
   }
 """
+
 from __future__ import annotations
 
 import json
@@ -45,7 +46,7 @@ class Vulnerability:
     package: str
     installed_version: str
     fixed_version: str
-    severity: str      # CRITICAL | HIGH | MEDIUM | LOW | UNKNOWN
+    severity: str  # CRITICAL | HIGH | MEDIUM | LOW | UNKNOWN
     description: str
     waived: bool = False
     waiver_reason: str = ""
@@ -92,9 +93,12 @@ class ScanReport:
             "vulnerability_count": len(self.vulnerabilities),
             "vulnerabilities": [
                 {
-                    "id": v.vuln_id, "package": v.package,
-                    "version": v.installed_version, "fixed": v.fixed_version,
-                    "severity": v.severity, "waived": v.waived,
+                    "id": v.vuln_id,
+                    "package": v.package,
+                    "version": v.installed_version,
+                    "fixed": v.fixed_version,
+                    "severity": v.severity,
+                    "waived": v.waived,
                 }
                 for v in self.vulnerabilities
             ],
@@ -121,10 +125,13 @@ def _is_waived(vuln_id: str, package: str, waivers: list[dict]) -> tuple[bool, s
 
 def scan_with_pip_audit() -> ScanReport | None:
     import datetime
+
     try:
         result = subprocess.run(
             [sys.executable, "-m", "pip_audit", "--format=json", "-l"],
-            capture_output=True, text=True, timeout=180,
+            capture_output=True,
+            text=True,
+            timeout=180,
         )
         # pip-audit exits 1 when it finds vulnerabilities (that is success, not
         # failure) but exits with other codes / empty stdout on a genuine
@@ -134,8 +141,7 @@ def scan_with_pip_audit() -> ScanReport | None:
         # caused every run to report PASS having scanned nothing).
         if not result.stdout.strip():
             raise RuntimeError(
-                f"pip-audit produced no output (rc={result.returncode}): "
-                f"{result.stderr[:500]}"
+                f"pip-audit produced no output (rc={result.returncode}): {result.stderr[:500]}"
             )
         data = json.loads(result.stdout)
         waivers = _load_waivers()
@@ -143,27 +149,29 @@ def scan_with_pip_audit() -> ScanReport | None:
 
         # pip-audit output: list of {name, version, vulns: [{id, fix_versions, description}]}
         pkg_count = 0
-        for pkg in (data if isinstance(data, list) else data.get("dependencies", [])):
+        for pkg in data if isinstance(data, list) else data.get("dependencies", []):
             pkg_count += 1
             name = pkg.get("name", "")
             version = pkg.get("version", "")
             for v in pkg.get("vulns", []):
                 vid = v.get("id", "")
                 waived, reason = _is_waived(vid, name, waivers)
-                vulns.append(Vulnerability(
-                    vuln_id=vid,
-                    package=name,
-                    installed_version=version,
-                    fixed_version=", ".join(v.get("fix_versions", [])),
-                    severity="HIGH",  # pip-audit doesn't always give severity — default HIGH
-                    description=v.get("description", "")[:200],
-                    waived=waived,
-                    waiver_reason=reason,
-                ))
+                vulns.append(
+                    Vulnerability(
+                        vuln_id=vid,
+                        package=name,
+                        installed_version=version,
+                        fixed_version=", ".join(v.get("fix_versions", [])),
+                        severity="HIGH",  # pip-audit doesn't always give severity — default HIGH
+                        description=v.get("description", "")[:200],
+                        waived=waived,
+                        waiver_reason=reason,
+                    )
+                )
 
         return ScanReport(
             scanner="pip-audit",
-            timestamp=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            timestamp=datetime.datetime.now(datetime.UTC).isoformat(),
             total_packages=pkg_count,
             vulnerabilities=vulns,
         )
@@ -192,11 +200,11 @@ def _merge_over_previous(new: dict, out: Path) -> dict:
     explicitly rather than silently dropped.
     """
     if not new.get("scan_error"):
-        return new                      # a real scan; it is the new truth
+        return new  # a real scan; it is the new truth
     try:
         prev = json.loads(out.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
-        return new                      # nothing to preserve
+        return new  # nothing to preserve
     # The discriminator is the SCANNER, not scan_error. A record this function
     # already preserved carries both a real scanner name AND a scan_error (the
     # error from the attempt that failed against it), so testing scan_error here
@@ -206,7 +214,7 @@ def _merge_over_previous(new: dict, out: Path) -> dict:
     # the unit test for repeated failures used a bare failure as the previous
     # record rather than a preserved-stale one, so it could not see this.
     if prev.get("scanner", "none") == "none":
-        return new                      # nothing was ever really scanned
+        return new  # nothing was ever really scanned
     merged = dict(prev)
     merged["blocked"] = True
     merged["stale"] = True
@@ -217,8 +225,10 @@ def _merge_over_previous(new: dict, out: Path) -> dict:
     log.error(
         "[dependency_scan] scanner unavailable -- KEEPING the %s findings from %s "
         "(%d critical, %d high) rather than overwriting them with zeros",
-        prev.get("scanner"), prev.get("timestamp"),
-        prev.get("critical_count", 0), prev.get("high_count", 0),
+        prev.get("scanner"),
+        prev.get("timestamp"),
+        prev.get("critical_count", 0),
+        prev.get("high_count", 0),
     )
     return merged
 
@@ -230,7 +240,7 @@ def run(output_path: Path | None = None) -> ScanReport:
     if report is None:
         report = ScanReport(
             scanner="none",
-            timestamp=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            timestamp=datetime.datetime.now(datetime.UTC).isoformat(),
             total_packages=0,
             scan_error="No scanner available. Install pip-audit: pip install pip-audit",
         )
@@ -241,11 +251,16 @@ def run(output_path: Path | None = None) -> ScanReport:
     out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     if report.blocked:
-        log.error("[dependency_scan] BLOCKED: %d critical, %d high severity CVEs",
-                  report.critical_count, report.high_count)
+        log.error(
+            "[dependency_scan] BLOCKED: %d critical, %d high severity CVEs",
+            report.critical_count,
+            report.high_count,
+        )
     else:
-        log.info("[dependency_scan] PASS: %d vulnerabilities found (none blocking)",
-                 len(report.vulnerabilities))
+        log.info(
+            "[dependency_scan] PASS: %d vulnerabilities found (none blocking)",
+            len(report.vulnerabilities),
+        )
 
     return report
 

@@ -24,6 +24,7 @@ Usage:
   python scripts/determinex_pb_lock_campaign.py worklist            # manifest of non-PROVEN tools
   python scripts/determinex_pb_lock_campaign.py emit-driver <out.sh>  # Hetzner triage loop script
 """
+
 from __future__ import annotations
 
 import json
@@ -74,6 +75,7 @@ def _locked_archive(base: str, slug: str) -> Path | None:
 
 def build_worklist() -> list[dict]:
     import determinex_pb_lock_registry as R
+
     reg = R.load_registry()
     verified = set(reg.get("locks", {}).keys())
     slugs = _authoritative_slugs()
@@ -103,21 +105,26 @@ def build_worklist() -> list[dict]:
                 if d.is_dir() and _base(d.name) == base and (d / "compile.sh").exists():
                     ov = d
                     break
-        work.append({
-            "base": base, "slug": slug,
-            "tier": "1-as-is" if arch else ("3-pack" if ov else "blocked-no-artifact"),
-            "archive": str(arch.relative_to(ROOT)) if arch else None,
-            "override": str(ov.relative_to(ROOT)) if ov else None,
-            "author": slug.split("__")[0] if "__" in slug else base,
-        })
+        work.append(
+            {
+                "base": base,
+                "slug": slug,
+                "tier": "1-as-is" if arch else ("3-pack" if ov else "blocked-no-artifact"),
+                "archive": str(arch.relative_to(ROOT)) if arch else None,
+                "override": str(ov.relative_to(ROOT)) if ov else None,
+                "author": slug.split("__")[0] if "__" in slug else base,
+            }
+        )
     return work
 
 
 def register_results(results_jsonl: Path, clean_jsons_dir: Path) -> dict:
     """Register every CLEAN tool from a batch results.jsonl, copying its eval_report into the
     archive dir, then refresh the live capability doc ONCE. Drives tier promotion."""
-    import determinex_pb_lock_registry as R
     import shutil
+
+    import determinex_pb_lock_registry as R
+
     registered, skipped = [], []
     for line in results_jsonl.read_text(encoding="utf-8").splitlines():
         line = line.strip()
@@ -146,6 +153,7 @@ def register_results(results_jsonl: Path, clean_jsons_dir: Path) -> dict:
     # refresh the live capability map + doc ONCE after the whole batch
     try:
         import determinex_pb_capability_map as C
+
         C.refresh()
     except Exception as e:
         print(f"[campaign] registered; capability refresh deferred: {e}")
@@ -155,7 +163,9 @@ def register_results(results_jsonl: Path, clean_jsons_dir: Path) -> dict:
 def main() -> int:
     if len(sys.argv) >= 3 and sys.argv[1] == "register-batch":
         out = register_results(Path(sys.argv[2]), Path(sys.argv[3]))
-        print(f"registered {len(out['registered'])} new locks: {', '.join(sorted(out['registered']))}")
+        print(
+            f"registered {len(out['registered'])} new locks: {', '.join(sorted(out['registered']))}"
+        )
         print(f"not-clean / skipped: {len(out['skipped'])}")
         return 0
     if len(sys.argv) >= 2 and sys.argv[1] == "worklist":
@@ -163,6 +173,7 @@ def main() -> int:
         MANIFEST.parent.mkdir(parents=True, exist_ok=True)
         MANIFEST.write_text(json.dumps(work, indent=2), encoding="utf-8")
         from collections import Counter
+
         tiers = Counter(w["tier"] for w in work)
         print(f"worklist -> {MANIFEST}")
         print(f"  non-verified tools: {len(work)}")

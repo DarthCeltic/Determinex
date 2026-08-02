@@ -21,6 +21,7 @@ system spin in place, and it never *quits* without a reason it can name.
     d = pt.observe(digest="abc123", score=-7)   # 7 failing checks
     if d == Directive.ESCALATE: ...
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -36,8 +37,8 @@ class Directive(str, Enum):
 
 @dataclass
 class ProgressTracker:
-    plateau_patience: int = 4        # rounds of no score improvement before acting
-    loop_patience: int = 2           # rounds of zero novelty before escalating
+    plateau_patience: int = 4  # rounds of no score improvement before acting
+    loop_patience: int = 2  # rounds of zero novelty before escalating
     _best_score: float = field(default=float("-inf"))
     _rounds_since_improve: int = 0
     _seen: set = field(default_factory=set)
@@ -64,20 +65,23 @@ class ProgressTracker:
 
         # decide
         if self._rounds_no_novelty >= self.loop_patience:
-            return Directive.ESCALATE      # the model only repeats itself
+            return Directive.ESCALATE  # the model only repeats itself
         if self._rounds_since_improve >= self.plateau_patience:
             # still producing novel-but-no-better candidates -> the step is too hard
             return Directive.RE_DECOMPOSE if novel else Directive.ESCALATE
-        return Directive.WIDEN             # stalled but not yet stuck
+        return Directive.WIDEN  # stalled but not yet stuck
 
     @property
     def best_score(self) -> float:
         return self._best_score
 
     def summary(self) -> dict:
-        return {"attempts": len(self._history), "best_score": self._best_score,
-                "rounds_since_improve": self._rounds_since_improve,
-                "rounds_no_novelty": self._rounds_no_novelty}
+        return {
+            "attempts": len(self._history),
+            "best_score": self._best_score,
+            "rounds_since_improve": self._rounds_since_improve,
+            "rounds_no_novelty": self._rounds_no_novelty,
+        }
 
 
 if __name__ == "__main__":

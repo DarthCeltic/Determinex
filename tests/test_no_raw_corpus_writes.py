@@ -3,10 +3,10 @@ Enforcement test: no module except corpus_manager.py may write directly to corpu
 This is a static grep-based check that runs as part of the test suite.
 It catches future contributors bypassing the CorpusManager signature requirement.
 """
+
 from __future__ import annotations
 
 import re
-import sys
 from pathlib import Path
 
 # Root of the project
@@ -19,18 +19,23 @@ _ALLOWED_CORPUS_WRITER = "scripts/corpus/corpus_manager.py"
 # Pattern that detects direct JSONL open-for-append to corpus paths
 _DIRECT_WRITE_PATTERNS: list[re.Pattern] = [
     # open("...corpus...jsonl", "a") or open("...corpus...jsonl", "ab")
-    re.compile(r'open\s*\([^)]*(?:corpus|verdict_corpus|safety_refusal|terminal_trace|browser_trace|desktop_trace|mobile_trace|visual_repair)[^)]*\.jsonl[^)]*,\s*["\']a', re.I),
+    re.compile(
+        r'open\s*\([^)]*(?:corpus|verdict_corpus|safety_refusal|terminal_trace|browser_trace|desktop_trace|mobile_trace|visual_repair)[^)]*\.jsonl[^)]*,\s*["\']a',
+        re.I,
+    ),
     # .write to a .jsonl file with "corpus" in the path outside manager
-    re.compile(r'\.write\([^)]*\.jsonl'),
+    re.compile(r"\.write\([^)]*\.jsonl"),
     # jsonlines.open / jsonlines.Writer on corpus paths
-    re.compile(r'jsonlines\.(open|Writer)[^)]*corpus'),
+    re.compile(r"jsonlines\.(open|Writer)[^)]*corpus"),
 ]
 
 # Files that are allowed to do corpus-pattern writes (the manager itself)
-_ALLOWED_FILES: frozenset[str] = frozenset({
-    "scripts/corpus/corpus_manager.py",
-    "scripts/pb_verdict_corpus.py",  # compatibility wrapper — allowed, but must route to manager
-})
+_ALLOWED_FILES: frozenset[str] = frozenset(
+    {
+        "scripts/corpus/corpus_manager.py",
+        "scripts/pb_verdict_corpus.py",  # compatibility wrapper — allowed, but must route to manager
+    }
+)
 
 
 def _relative(path: Path) -> str:

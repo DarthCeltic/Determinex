@@ -28,6 +28,7 @@ Hard rules enforced by load():
     bindings -> BLOCKED_MALFORMED
   * forbidden broad-claim phrase as current claim -> BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -44,7 +45,6 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
 
-
 _REPO_ROOT = _HERE.parent.parent.parent
 
 _DEFAULT_EVIDENCE_DIR = (
@@ -54,13 +54,15 @@ _DEFAULT_EVIDENCE_DIR = (
 EXPECTED_STATUS = "TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_005_PASSED"
 EXPECTED_ABSORBED_CHECKPOINT = 354
 EXPECTED_FINAL_SPINE_MIN = 355
-EXPECTED_ABSORBED_LOCKS = frozenset({
-    "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_STATE_LADDER_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_005_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_005_VISUAL_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_006_BINDING_LOCK_001",
-    "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_006_VISUAL_BINDING_LOCK_001",
-})
+EXPECTED_ABSORBED_LOCKS = frozenset(
+    {
+        "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_STATE_LADDER_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_005_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_005_VISUAL_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SECTOR_GULP_BATCH_006_BINDING_LOCK_001",
+        "DETERMINEX_REACT_UNIVERSAL_100_SUPPORT_MAP_DELTA_BATCH_006_VISUAL_BINDING_LOCK_001",
+    }
+)
 
 REQUIRED_PANEL_CAPTIONS = (
     "This panel displays evidence; it does not grant authority.",
@@ -122,8 +124,14 @@ class Reconciliation005Status:
 
     def to_dict(self) -> dict[str, object]:
         d = asdict(self)
-        for k in ("absorbed_claude_locks", "absorbed_checkpoint_evidence_index_validation_errors",
-                  "claim_boundary", "forbidden_claims", "captions", "notes"):
+        for k in (
+            "absorbed_claude_locks",
+            "absorbed_checkpoint_evidence_index_validation_errors",
+            "claim_boundary",
+            "forbidden_claims",
+            "captions",
+            "notes",
+        ):
             d[k] = list(getattr(self, k))
         return d
 
@@ -258,7 +266,13 @@ def load(evidence_dir: Path | str | None = None) -> Reconciliation005Status:
     cp_drift_actual = int(checkpoint.get("count_drift_actual", 0))
     cp_drift_expected = int(checkpoint.get("count_drift_expected", 0))
     cp_ledger = int(checkpoint.get("ledger_entry_count", 0))
-    if not (cp_count == cp_drift_actual == cp_drift_expected == cp_ledger == EXPECTED_ABSORBED_CHECKPOINT):
+    if not (
+        cp_count
+        == cp_drift_actual
+        == cp_drift_expected
+        == cp_ledger
+        == EXPECTED_ABSORBED_CHECKPOINT
+    ):
         return _block(
             "REACT_TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_005_BINDING_BLOCKED_CHECKPOINT_MISMATCH",
             f"absorbed checkpoint counts {cp_count}/{cp_drift_actual}/{cp_drift_expected}/{cp_ledger} != {EXPECTED_ABSORBED_CHECKPOINT}",
@@ -320,7 +334,9 @@ def load(evidence_dir: Path | str | None = None) -> Reconciliation005Status:
         absorbed_checkpoint_evidence_index_validation_errors=tuple(str(x) for x in cp_errs),
         final_expected_evidence_count_after_this_lock=final_expected,
         subprocess_reclassification_required=bool(blob.get("subprocess_reclassification_required")),
-        subprocess_unknown_requires_review_after=int(blob.get("subprocess_unknown_requires_review_after") or 0),
+        subprocess_unknown_requires_review_after=int(
+            blob.get("subprocess_unknown_requires_review_after") or 0
+        ),
         claim_boundary=tuple(str(x) for x in (blob.get("claim_boundary") or [])),
         forbidden_claims=tuple(str(x) for x in (blob.get("forbidden_claims") or [])),
         source_mutation_authorized=False,

@@ -5,7 +5,7 @@ import hmac
 import json
 import os
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -22,7 +22,7 @@ def make_campaign_record(
         "record_type": record_type,
         "status": status,
         "record_status": "active_eval_evidence",
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         **payload,
     }
     record["record_signature"] = _signature(record)
@@ -36,12 +36,21 @@ def verify_campaign_record(record: dict[str, Any]) -> bool:
     return hmac.compare_digest(signature, _signature(record))
 
 
-def write_campaign_record(record: dict[str, Any], output_dir: Path, *, name_key: str = "image_reference") -> Path:
+def write_campaign_record(
+    record: dict[str, Any], output_dir: Path, *, name_key: str = "image_reference"
+) -> Path:
     if not verify_campaign_record(record):
         raise ValueError(f"{record.get('record_type', 'campaign')} record signature invalid")
     output_dir = _test_redirected_output_dir(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    name = _safe(str(record.get(name_key) or record.get("instance_id") or record.get("record_type") or "record"))
+    name = _safe(
+        str(
+            record.get(name_key)
+            or record.get("instance_id")
+            or record.get("record_type")
+            or "record"
+        )
+    )
     status = _safe(str(record.get("status") or "status"))
     path = output_dir / f"{name}.{status}.json"
     path.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")

@@ -23,7 +23,6 @@ Usage:
 """
 
 import argparse
-import os
 import sys
 from pathlib import Path
 
@@ -80,13 +79,11 @@ except ImportError as e:
 
 try:
     from datasets import load_dataset
-    from trl import SFTTrainer
     from transformers import TrainingArguments
+    from trl import SFTTrainer
 except ImportError as e:
     sys.exit(
-        "[FORGE] FATAL: Missing dependency.\n"
-        "  Run: pip install -r requirements.txt\n"
-        f"  Detail: {e}"
+        f"[FORGE] FATAL: Missing dependency.\n  Run: pip install -r requirements.txt\n  Detail: {e}"
     )
 
 # ---------------------------------------------------------------------------
@@ -102,12 +99,13 @@ _DETERMINEX_ROOT = _SCRIPT_DIR.parent.parent  # scripts/fine_tuning -> determine
 
 # Absolute allowlist of valid parent directories for each argument role.
 _ALLOWED_DATA_ROOTS = [
-    _DETERMINEX_ROOT,   # data may live anywhere under the determinex repo tree
+    _DETERMINEX_ROOT,  # data may live anywhere under the determinex repo tree
 ]
 _ALLOWED_OUTPUT_ROOTS = [
-    _SCRIPT_DIR,     # outputs must stay local to scripts/fine_tuning/
+    _SCRIPT_DIR,  # outputs must stay local to scripts/fine_tuning/
     _SCRIPT_DIR / "outputs",
 ]
+
 
 def safe_resolve(raw_path: str, allowed_roots: list) -> Path:
     """Resolve a CLI-supplied path and validate it against an allowlist of roots.
@@ -183,12 +181,17 @@ model = FastLanguageModel.get_peft_model(
     model,
     r=16,
     target_modules=[
-        "q_proj", "k_proj", "v_proj", "o_proj",
-        "gate_proj", "up_proj", "down_proj",
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj",
     ],
-    lora_alpha=32,      # 2x rank — standard stable-convergence heuristic
+    lora_alpha=32,  # 2x rank — standard stable-convergence heuristic
     lora_dropout=0.05,  # Light regularisation to prevent overfitting on small telemetry sets
-    bias="none",        # No additional bias params — keeps adapter footprint lean
+    bias="none",  # No additional bias params — keeps adapter footprint lean
     # Unsloth's patched gradient checkpointing: ~40% VRAM reduction versus standard HF
     use_gradient_checkpointing="unsloth",
     random_state=42,
@@ -223,6 +226,7 @@ print(f"[FORGE] Dataset loaded — {len(raw_dataset)} samples.", flush=True)
 # EOS token is appended at the end of each assistant turn for proper SFT masking.
 chat_template = tokenizer.apply_chat_template
 
+
 def format_conversations(examples):
     """Format each entry via the tokenizer's built-in chat template."""
     formatted = []
@@ -234,6 +238,7 @@ def format_conversations(examples):
         )
         formatted.append(text)
     return {"text": formatted}
+
 
 print("[FORGE] Applying ShareGPT chat template...", flush=True)
 dataset = raw_dataset.map(format_conversations, batched=True)
@@ -256,16 +261,16 @@ training_args = TrainingArguments(
     gradient_accumulation_steps=4,
     learning_rate=2e-4,
     num_train_epochs=args.epochs,
-    lr_scheduler_type="cosine",     # Cosine decay: prevents loss spikes late in training
-    warmup_ratio=0.05,              # 5% linear warmup before cosine decay begins
+    lr_scheduler_type="cosine",  # Cosine decay: prevents loss spikes late in training
+    warmup_ratio=0.05,  # 5% linear warmup before cosine decay begins
     weight_decay=0.01,
     fp16=not __import__("torch").cuda.is_bf16_supported(),  # float16 on 1660 Ti
     bf16=__import__("torch").cuda.is_bf16_supported(),
     logging_steps=10,
     save_strategy="epoch",
-    optim="adamw_8bit",             # 8-bit AdamW: cuts optimizer VRAM by ~50%
+    optim="adamw_8bit",  # 8-bit AdamW: cuts optimizer VRAM by ~50%
     seed=42,
-    report_to="none",               # No WandB / MLflow — local forge only
+    report_to="none",  # No WandB / MLflow — local forge only
 )
 
 trainer = SFTTrainer(

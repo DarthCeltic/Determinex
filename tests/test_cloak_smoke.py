@@ -12,17 +12,16 @@ These are coarse-grained regression tests for the privacy-critical paths:
 The cloak module is privacy-critical; failures here have leaked code in the
 past (see CLAUDE.md §"Pipeline hardening sprint"). Keep these green.
 """
+
 from __future__ import annotations
 
 import ast
 
 import pytest
-
 from determinex_cloak import CloakContext, CloakObfuscationError, SymbolMap
 from determinex_cloak.classifier import _IdentifierCollector
 from determinex_cloak.restoration import restore_file_content, restore_patch
 from determinex_cloak.transformer import obfuscate_source
-
 
 _SAMPLE = (
     "def compute_total(price, qty):\n"
@@ -148,6 +147,7 @@ def test_restore_patch_fails_on_empty():
 # The fix makes every obfuscation failure raise CloakObfuscationError so callers
 # MUST decide to abort the API call rather than send unredacted source.
 # ────────────────────────────────────────────────────────────────────────────
+
 
 class _BoomSymbolMap:
     """SymbolMap stand-in whose `.forward` raises on attribute access.

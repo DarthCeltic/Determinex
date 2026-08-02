@@ -39,6 +39,7 @@ Final measured result on the same file: 2->40 examples (of 47 tests) -- skip rat
 the full 6-tool re-scan (3 branches each): lazygit 27->77 examples (89 tests), skip rate
 56.2%->13.5%. Other tools unchanged (pattern not present in their sampled branches).
 """
+
 from __future__ import annotations
 
 import ast
@@ -55,8 +56,9 @@ def _tree(src: str) -> ast.Module:
 
 # ---------- _track_run_fixtures() ----------
 
+
 def test_track_run_fixtures_finds_a_simple_return_run_call():
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 
 def run_cmd(args):
@@ -65,7 +67,7 @@ def run_cmd(args):
 @pytest.fixture(scope="session")
 def help_long():
     return run_cmd(["--help"])
-''')
+""")
     fx = iox._track_run_fixtures(tree, set())
     assert "help_long" in fx
     argv, stdin, env, files = fx["help_long"]
@@ -73,7 +75,7 @@ def help_long():
 
 
 def test_track_run_fixtures_ignores_non_fixture_functions():
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 
 def run_cmd(args):
@@ -81,23 +83,23 @@ def run_cmd(args):
 
 def help_long():
     return run_cmd(["--help"])
-''')
+""")
     fx = iox._track_run_fixtures(tree, set())
     assert fx == {}
 
 
 def test_track_run_fixtures_ignores_fixtures_with_no_run_call():
-    tree = _tree('''
+    tree = _tree("""
 @pytest.fixture
 def sample_text():
     return "hello world"
-''')
+""")
     fx = iox._track_run_fixtures(tree, set())
     assert fx == {}
 
 
 def test_track_run_fixtures_handles_bare_fixture_decorator_name():
-    tree = _tree('''
+    tree = _tree("""
 import subprocess
 from pytest import fixture
 
@@ -107,7 +109,7 @@ def run_cmd(args):
 @fixture(scope="session")
 def help_short():
     return run_cmd(["-h"])
-''')
+""")
     fx = iox._track_run_fixtures(tree, set())
     assert "help_short" in fx
     assert fx["help_short"][0] == ["-h"]
@@ -115,7 +117,7 @@ def help_short():
 
 # ---------- extract_file() integration: fixture fallback ----------
 
-_HELPER_PREFIX = '''
+_HELPER_PREFIX = """
 import subprocess
 
 EXECUTABLE = "./executable"
@@ -130,14 +132,17 @@ def help_long():
 @pytest.fixture(scope="session")
 def help_short():
     return run_cmd(["-h"])
-'''
+"""
 
 
 def test_extract_file_resolves_test_via_single_fixture_param(tmp_path):
-    src = _HELPER_PREFIX + '''
+    src = (
+        _HELPER_PREFIX
+        + """
 def test_help_exit_code_zero(help_long):
     assert help_long.returncode == 0
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -155,10 +160,13 @@ def test_help_exit_code_zero(help_long):
 def test_extract_file_two_fixture_params_correctly_unresolved(tmp_path):
     """Comparing two DIFFERENT invocations (help_long vs help_short) is a shape this
     Example model can't express -- must stay skipped, never guess which one is 'the' argv."""
-    src = _HELPER_PREFIX + '''
+    src = (
+        _HELPER_PREFIX
+        + """
 def test_help_and_h_match(help_long, help_short):
     assert help_long.stdout == help_short.stdout
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -170,11 +178,14 @@ def test_extract_file_test_with_own_run_call_ignores_fixture_fallback(tmp_path):
     """A test that already resolves argv from its OWN body must use that, not silently
     prefer a same-named fixture (there is none here, but confirms the fallback only
     engages when the test's own resolution genuinely fails)."""
-    src = _HELPER_PREFIX + '''
+    src = (
+        _HELPER_PREFIX
+        + """
 def test_version(help_long):
     result = run_cmd(["--version"])
     assert result.returncode == 0
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -186,13 +197,17 @@ def test_version(help_long):
 
 # ---------- extract_file() integration: extra_vars (parametrize used in assertion) ----------
 
+
 def test_extract_file_parametrize_value_used_directly_in_assertion(tmp_path):
-    src = _HELPER_PREFIX + '''
+    src = (
+        _HELPER_PREFIX
+        + """
 @pytest.mark.parametrize("flag", ["-h", "--help"])
 def test_help_documents_flag_tokens(help_long, flag):
     out = help_long.stdout
     assert flag in out
-'''
+"""
+    )
     f = tmp_path / "test_x.py"
     f.write_text(src, encoding="utf-8")
     cov = iox.extract_file(f)
@@ -208,27 +223,36 @@ def test_help_documents_flag_tokens(help_long, flag):
 
 def test_find_expectations_extra_vars_resolves_bare_name_in_check():
     node = next(
-        n for n in ast.walk(ast.parse('''
+        n
+        for n in ast.walk(
+            ast.parse("""
 def test_x(flag):
     assert flag in out
-'''))
+""")
+        )
         if isinstance(n, ast.FunctionDef)
     )
     resolver = iox._PathResolver(Path("test_x.py"))
     rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
-        node, resolver, extra_vars={"flag": "--help"})
+        node, resolver, extra_vars={"flag": "--help"}
+    )
     assert contains == ["--help"]
 
 
 def test_find_expectations_without_extra_vars_leaves_bare_name_unresolved():
     """No extra_vars supplied (the pre-fix call shape) -- must stay conservative, not guess."""
     node = next(
-        n for n in ast.walk(ast.parse('''
+        n
+        for n in ast.walk(
+            ast.parse("""
 def test_x(flag):
     assert flag in out
-'''))
+""")
+        )
         if isinstance(n, ast.FunctionDef)
     )
     resolver = iox._PathResolver(Path("test_x.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(node, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        node, resolver
+    )
     assert contains == []

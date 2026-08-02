@@ -24,7 +24,6 @@ Usage:
 import gc
 import sys
 from pathlib import Path
-from typing import Optional
 
 import torch
 
@@ -44,33 +43,33 @@ except ImportError:
 # ---------------------------------------------------------------------------
 
 FAMILY_CONFIGS = {
-    "llama":    {
-        "model_id":   "meta-llama/Llama-3.2-3B-Instruct",
+    "llama": {
+        "model_id": "meta-llama/Llama-3.2-3B-Instruct",
         "hidden_dim": 3072,
         "layer_attr": "model.layers",
     },
-    "mistral":  {
-        "model_id":   "mistralai/Mistral-7B-Instruct-v0.3",
+    "mistral": {
+        "model_id": "mistralai/Mistral-7B-Instruct-v0.3",
         "hidden_dim": 4096,
         "layer_attr": "model.layers",
     },
-    "qwen":     {
-        "model_id":   "Qwen/Qwen2.5-Coder-3B-Instruct",
+    "qwen": {
+        "model_id": "Qwen/Qwen2.5-Coder-3B-Instruct",
         "hidden_dim": 2048,
         "layer_attr": "model.layers",
     },
     "deepseek": {
-        "model_id":   "deepseek-ai/deepseek-coder-1.3b-instruct",
+        "model_id": "deepseek-ai/deepseek-coder-1.3b-instruct",
         "hidden_dim": 2048,
         "layer_attr": "model.layers",
     },
-    "phi":      {
-        "model_id":   "microsoft/Phi-3-mini-4k-instruct",
+    "phi": {
+        "model_id": "microsoft/Phi-3-mini-4k-instruct",
         "hidden_dim": 3072,
         "layer_attr": "model.layers",
     },
-    "gemma":    {
-        "model_id":   "google/gemma-2-2b-it",
+    "gemma": {
+        "model_id": "google/gemma-2-2b-it",
         "hidden_dim": 2304,
         "layer_attr": "model.layers",
     },
@@ -89,6 +88,7 @@ def _get_layer_list(model, layer_attr: str):
 # EXTRACTOR
 # ---------------------------------------------------------------------------
 
+
 class MidLayerExtractor:
     """
     Loads a HuggingFace model and extracts mid-layer hidden states via
@@ -103,9 +103,9 @@ class MidLayerExtractor:
     def __init__(
         self,
         family: str,
-        model_id: Optional[str] = None,
+        model_id: str | None = None,
         load_in_4bit: bool = True,
-        device: Optional[str] = None,
+        device: str | None = None,
     ):
         """
         Args:
@@ -118,15 +118,15 @@ class MidLayerExtractor:
             raise ValueError(f"Unknown family '{family}'. Available: {list(FAMILY_CONFIGS)}")
 
         cfg = FAMILY_CONFIGS[family]
-        self.family     = family
-        self.model_id   = model_id or cfg["model_id"]
+        self.family = family
+        self.model_id = model_id or cfg["model_id"]
         self.hidden_dim = cfg["hidden_dim"]
         self.layer_attr = cfg["layer_attr"]
-        self.device     = device or ("cuda" if torch.cuda.is_available() else "cpu")
-        self._model     = None
-        self._tok       = None
-        self._hook      = None
-        self._captured  = {}
+        self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+        self._model = None
+        self._tok = None
+        self._hook = None
+        self._captured = {}
 
         self._load(load_in_4bit)
 
@@ -160,9 +160,9 @@ class MidLayerExtractor:
         model.eval()
 
         # Determine mid-layer index and register hook
-        layers    = _get_layer_list(model, self.layer_attr)
-        n_layers  = len(layers)
-        mid_idx   = n_layers // 2
+        layers = _get_layer_list(model, self.layer_attr)
+        n_layers = len(layers)
+        mid_idx = n_layers // 2
         self._mid_idx = mid_idx
 
         captured = self._captured
@@ -176,13 +176,13 @@ class MidLayerExtractor:
         self._hook = layers[mid_idx].register_forward_hook(_hook_fn)
 
         self._model = model
-        self._tok   = tok
+        self._tok = tok
 
         n_params = sum(p.numel() for p in model.parameters())
         print(
             f"[Extractor] Ready. Layers={n_layers}, mid_layer={mid_idx}, "
             f"hidden_dim={self.hidden_dim}, params={n_params:,}",
-            flush=True
+            flush=True,
         )
 
     def extract(
@@ -229,14 +229,14 @@ class MidLayerExtractor:
             )
 
         mid_hidden = self._captured["mid"]  # [1, seq_len, hidden_dim] on CPU
-        pooled     = mean_pool(mid_hidden)  # [hidden_dim]
+        pooled = mean_pool(mid_hidden)  # [hidden_dim]
 
         self._captured.clear()
 
         print(
             f"[Extractor] Extracted: seq_len={seq_len}, "
             f"state_shape={pooled.shape}, family={self.family}",
-            flush=True
+            flush=True,
         )
         return pooled
 
@@ -254,17 +254,17 @@ class MidLayerExtractor:
             state = self.extract(text, max_length=max_length)
             results.append(state)
             if (i + 1) % 5 == 0:
-                print(f"[Extractor] {i+1}/{len(texts)} extracted", flush=True)
+                print(f"[Extractor] {i + 1}/{len(texts)} extracted", flush=True)
         return results
 
     def get_layer_info(self) -> dict:
         """Return metadata about extraction configuration."""
         return {
-            "family":     self.family,
-            "model_id":   self.model_id,
+            "family": self.family,
+            "model_id": self.model_id,
             "hidden_dim": self.hidden_dim,
-            "mid_idx":    self._mid_idx,
-            "device":     str(self.device),
+            "mid_idx": self._mid_idx,
+            "device": str(self.device),
         }
 
     def unload(self):
@@ -306,10 +306,11 @@ class MidLayerExtractor:
 # Mirrors the collection loop from collect_hidden_states.py but for mid-layer
 # ---------------------------------------------------------------------------
 
+
 def collect_midlayer_states(
     output_dir: Path,
     prompts: list[str],
-    families: Optional[list[str]] = None,
+    families: list[str] | None = None,
 ):
     """
     Run the shared prompt set through each model family and save mid-layer states.
@@ -317,7 +318,6 @@ def collect_midlayer_states(
 
     This produces training data for train_rosetta.py --mode midlayer.
     """
-    import json
     output_dir = Path(output_dir)
     target_families = families or list(FAMILY_CONFIGS.keys())
     results = {}
@@ -328,7 +328,10 @@ def collect_midlayer_states(
 
         existing = sorted(fam_dir.glob("*.pt"))
         if len(existing) >= len(prompts) * 0.9:
-            print(f"[Collect] {family}: already collected ({len(existing)} files), skipping.", flush=True)
+            print(
+                f"[Collect] {family}: already collected ({len(existing)} files), skipping.",
+                flush=True,
+            )
             results[family] = len(existing)
             continue
 
@@ -344,7 +347,10 @@ def collect_midlayer_states(
                     except Exception as e:
                         print(f"[Collect] {family} prompt {i} failed: {e}", flush=True)
                 results[family] = saved
-                print(f"[Collect] {family}: saved {saved}/{len(prompts)} states → {fam_dir}", flush=True)
+                print(
+                    f"[Collect] {family}: saved {saved}/{len(prompts)} states → {fam_dir}",
+                    flush=True,
+                )
         except Exception as e:
             print(f"[Collect] ERROR loading {family}: {e}", flush=True)
             results[family] = 0
@@ -370,6 +376,7 @@ if __name__ == "__main__":
         def __init__(self, dim):
             super().__init__()
             self.ff = nn.Linear(dim, dim)
+
         def forward(self, x):
             return (self.ff(x),)  # return tuple like real transformer
 
@@ -377,16 +384,17 @@ if __name__ == "__main__":
         def __init__(self, dim=64, n_layers=4):
             super().__init__()
             self.layers = nn.ModuleList([TinyTransformerLayer(dim) for _ in range(n_layers)])
+
         def forward(self, x):
             for layer in self.layers:
                 x = layer(x)[0]
             return x
 
-    dim     = 64
+    dim = 64
     n_layers = 4
     mid_idx = n_layers // 2
 
-    model   = TinyModel(dim, n_layers)
+    model = TinyModel(dim, n_layers)
     captured = {}
 
     def hook_fn(module, input, output):

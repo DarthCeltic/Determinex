@@ -28,6 +28,7 @@ Usage:
       --branch-dir T:/determinex-programbench/_extracted_tests/anordal__shellharden.6a6ffd4/<branch>
   python scripts/pb_upstream_oracle.py anordal__shellharden.6a6ffd4 --execute  # ACTUALLY build
 """
+
 from __future__ import annotations
 
 import argparse
@@ -35,21 +36,23 @@ import datetime
 import json
 import os
 import subprocess
-import sys
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 FACTORY_DIR = ROOT / "logs" / "programbench_factory"
-EXTRACTED_TESTS = Path(os.environ.get(
-    "DETERMINEX_PB_EXTRACTED",
-    "T:/determinex-programbench/_extracted_tests",
-))
-DEFAULT_PB_ROOT = Path(os.environ.get(
-    "DETERMINEX_PB_ROOT",
-    "T:/determinex-programbench",
-))
+EXTRACTED_TESTS = Path(
+    os.environ.get(
+        "DETERMINEX_PB_EXTRACTED",
+        "T:/determinex-programbench/_extracted_tests",
+    )
+)
+DEFAULT_PB_ROOT = Path(
+    os.environ.get(
+        "DETERMINEX_PB_ROOT",
+        "T:/determinex-programbench",
+    )
+)
 
 
 def _detect_language(dir_path: Path) -> tuple[str, list[Path]]:
@@ -134,14 +137,14 @@ def make_plan(slug: str, branch_dir: Path | None) -> dict[str, Any]:
 
     plan = {
         "slug": slug,
-        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+        "generated_at": datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds"),
         "candidate_dirs": [str(p) for p in candidates],
         "chosen": chosen,
         "note": (
             "No buildable source found. Inspect the candidate dirs above; "
             "you may need to pass --branch-dir explicitly."
-            if chosen is None else
-            "Pass --execute to invoke the build_command in the chosen dir. "
+            if chosen is None
+            else "Pass --execute to invoke the build_command in the chosen dir. "
             "Use the resulting binary to adjudicate disputed fixtures."
         ),
     }
@@ -163,12 +166,20 @@ def execute_build(plan: dict[str, Any]) -> dict[str, Any]:
         return {"executed": False, "reason": "no chosen build dir"}
     cmd = chosen.get("build_command") or []
     if not cmd:
-        return {"executed": False, "reason": f"no build_command for language {chosen.get('language')}"}
+        return {
+            "executed": False,
+            "reason": f"no build_command for language {chosen.get('language')}",
+        }
     cwd = chosen["dir"]
     try:
         proc = subprocess.run(
-            cmd, cwd=cwd, capture_output=True, text=True,
-            encoding="utf-8", errors="replace", timeout=900,
+            cmd,
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=900,
         )
         return {
             "executed": True,
@@ -179,18 +190,37 @@ def execute_build(plan: dict[str, Any]) -> dict[str, Any]:
             "stderr_tail": (proc.stderr or "")[-1200:],
         }
     except subprocess.TimeoutExpired:
-        return {"executed": True, "cwd": cwd, "cmd": cmd, "returncode": -1, "error": "timeout after 900s"}
+        return {
+            "executed": True,
+            "cwd": cwd,
+            "cmd": cmd,
+            "returncode": -1,
+            "error": "timeout after 900s",
+        }
     except Exception as e:
-        return {"executed": True, "cwd": cwd, "cmd": cmd, "returncode": -1, "error": f"{type(e).__name__}: {e}"}
+        return {
+            "executed": True,
+            "cwd": cwd,
+            "cmd": cmd,
+            "returncode": -1,
+            "error": f"{type(e).__name__}: {e}",
+        }
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", help="ProgramBench instance id, e.g. owner__repo.hash")
-    ap.add_argument("--branch-dir", type=Path, default=None,
-                    help="optional explicit path to upstream source for a specific branch")
-    ap.add_argument("--execute", action="store_true",
-                    help="actually invoke the build_command (default: dry-run)")
+    ap.add_argument(
+        "--branch-dir",
+        type=Path,
+        default=None,
+        help="optional explicit path to upstream source for a specific branch",
+    )
+    ap.add_argument(
+        "--execute",
+        action="store_true",
+        help="actually invoke the build_command (default: dry-run)",
+    )
     args = ap.parse_args()
 
     plan = make_plan(args.slug, args.branch_dir)

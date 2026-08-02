@@ -4,16 +4,16 @@ Consolidates the 8 rungs of the Tauri-integrated campaign plus the
 prior frontend-ready final state into a single
 DeterminexIDETauriIntegratedFinalState.
 """
+
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .determinex_ide_tauri_integrated_final_state_record import (
     DETERMINEX_IDE_TAURI_INTEGRATED_FINAL_STATE_TOKENS,
     DeterminexIDETauriIntegratedFinalState,
 )
-
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
@@ -50,7 +50,7 @@ def assemble_tauri_integrated_final_state() -> DeterminexIDETauriIntegratedFinal
     )
 
     return DeterminexIDETauriIntegratedFinalState(
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=datetime.now(UTC).isoformat(),
         tauri_lib_rs_wiring="READY",
         frontend_command_client="READY",
         panel_command_wiring="READY",

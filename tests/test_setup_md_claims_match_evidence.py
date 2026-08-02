@@ -21,6 +21,7 @@ users away from a working installer for a reason that no longer held.
 The lesson is the same both ways: a hardcoded sentence about gate state is wrong the moment the
 state moves. Both are now derived — per artifact, from the transcript hashes.
 """
+
 from __future__ import annotations
 
 import sys
@@ -40,17 +41,23 @@ GENERATOR = REPO_ROOT / "scripts" / "release" / "package_download_bundle.py"
 
 def _artifact(name: str, digest: str) -> P.InstallerArtifact:
     return P.InstallerArtifact(
-        source_path=Path(name), file_name=name,
+        source_path=Path(name),
+        file_name=name,
         artifact_type="windows_msi" if name.endswith(".msi") else "windows_nsis_setup",
-        size_bytes=1, sha256=digest, authenticode_status="NotSigned",
+        size_bytes=1,
+        sha256=digest,
+        authenticode_status="NotSigned",
     )
 
 
 class TestTheCleanHostClaimIsPerArtifact:
     def test_a_verified_hash_is_claimed(self):
         digest = "a" * 64
-        note = "\n".join(P._clean_host_note(_artifact("x.msi", digest),
-                                            {digest: "clean_host_install_transcript_x.json"}))
+        note = "\n".join(
+            P._clean_host_note(
+                _artifact("x.msi", digest), {digest: "clean_host_install_transcript_x.json"}
+            )
+        )
         assert "clean-host verified" in note
         assert "has not itself been" not in note
         assert "clean_host_install_transcript_x.json" in note, (
@@ -82,17 +89,31 @@ class TestTranscriptHarvesting:
         ev = tmp_path / "assurance" / "evidence"
         ev.mkdir(parents=True)
         good, bad = "1" * 64, "2" * 64
-        (ev / "clean_host_install_transcript_good.json").write_text(json.dumps({
-            "clean_host_fresh_install": True, "installer_execution_performed": True,
-            "launch_performed": True, "uninstall_performed": True,
-            "bundle": {"installer_sha256": good},
-        }), encoding="utf-8")
+        (ev / "clean_host_install_transcript_good.json").write_text(
+            json.dumps(
+                {
+                    "clean_host_fresh_install": True,
+                    "installer_execution_performed": True,
+                    "launch_performed": True,
+                    "uninstall_performed": True,
+                    "bundle": {"installer_sha256": good},
+                }
+            ),
+            encoding="utf-8",
+        )
         # Launch failed: the cycle did not complete, so it is not evidence of a working install.
-        (ev / "clean_host_install_transcript_bad.json").write_text(json.dumps({
-            "clean_host_fresh_install": True, "installer_execution_performed": True,
-            "launch_performed": False, "uninstall_performed": True,
-            "bundle": {"installer_sha256": bad},
-        }), encoding="utf-8")
+        (ev / "clean_host_install_transcript_bad.json").write_text(
+            json.dumps(
+                {
+                    "clean_host_fresh_install": True,
+                    "installer_execution_performed": True,
+                    "launch_performed": False,
+                    "uninstall_performed": True,
+                    "bundle": {"installer_sha256": bad},
+                }
+            ),
+            encoding="utf-8",
+        )
 
         found = P._clean_host_verified_hashes(tmp_path)
         assert good in found
@@ -103,11 +124,18 @@ class TestTranscriptHarvesting:
 
         ev = tmp_path / "assurance" / "evidence"
         ev.mkdir(parents=True)
-        (ev / "clean_host_install_transcript_template.json").write_text(json.dumps({
-            "clean_host_fresh_install": True, "installer_execution_performed": True,
-            "launch_performed": True, "uninstall_performed": True,
-            "bundle": {"installer_sha256": "mocked_sha256"},
-        }), encoding="utf-8")
+        (ev / "clean_host_install_transcript_template.json").write_text(
+            json.dumps(
+                {
+                    "clean_host_fresh_install": True,
+                    "installer_execution_performed": True,
+                    "launch_performed": True,
+                    "uninstall_performed": True,
+                    "bundle": {"installer_sha256": "mocked_sha256"},
+                }
+            ),
+            encoding="utf-8",
+        )
         assert P._clean_host_verified_hashes(tmp_path) == {}, (
             "'mocked_sha256' is a template placeholder, not a verified artifact"
         )
@@ -120,12 +148,15 @@ class TestTranscriptHarvesting:
 
 
 class TestTheGeneratorHoldsNoHardcodedGateClaims:
-    @pytest.mark.parametrize("forbidden", [
-        "This is the verified Windows path",
-        "not clean-host verified)",
-        "clean-host check has not been re-run",
-        "Current blockers remain",
-    ])
+    @pytest.mark.parametrize(
+        "forbidden",
+        [
+            "This is the verified Windows path",
+            "not clean-host verified)",
+            "clean-host check has not been re-run",
+            "Current blockers remain",
+        ],
+    )
     def test_the_stale_sentences_are_gone(self, forbidden):
         """Each of these was a hardcoded assertion about state that moves."""
         assert forbidden not in GENERATOR.read_text(encoding="utf-8"), (
@@ -146,9 +177,15 @@ class TestTheGeneratorHoldsNoHardcodedGateClaims:
 
 def test_the_shipped_setup_md_does_not_overclaim():
     """End-to-end on the newest generated bundle, if one exists in this checkout."""
-    bundles = sorted((REPO_ROOT / ".tmp" / "determinex-download-bundles").glob("*/SETUP.md"),
-                     key=lambda p: p.stat().st_mtime, reverse=True) \
-        if (REPO_ROOT / ".tmp" / "determinex-download-bundles").is_dir() else []
+    bundles = (
+        sorted(
+            (REPO_ROOT / ".tmp" / "determinex-download-bundles").glob("*/SETUP.md"),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        )
+        if (REPO_ROOT / ".tmp" / "determinex-download-bundles").is_dir()
+        else []
+    )
     if not bundles:
         pytest.skip("no generated download bundle in this checkout")
     text = bundles[0].read_text(encoding="utf-8", errors="replace")

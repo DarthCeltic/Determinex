@@ -1,13 +1,11 @@
 """Tests for LOCAL_MODEL_LIVE_ADMISSION_LOCK_001."""
+
 from __future__ import annotations
 
-import hashlib
 import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -108,7 +106,10 @@ def test_default_config_is_dry_run_and_not_opt_in():
 def test_dry_run_default_blocks_live_call():
     gate = LiveModelAdmissionGate()  # default config = dry_run
     rec = gate.evaluate(
-        _valid_candidate(), TaskClass.PATCH_GENERATION, _stocked_inventory(), _route(),
+        _valid_candidate(),
+        TaskClass.PATCH_GENERATION,
+        _stocked_inventory(),
+        _route(),
     )
     assert rec.decision == "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_DRY_RUN_DEFAULT"
     assert rec.live_call_authorized is False
@@ -125,7 +126,10 @@ def test_dry_run_default_blocks_live_call():
 def test_explicit_opt_in_admits_live_call_for_pinned_available_local():
     gate = LiveModelAdmissionGate(config=_opt_in_config())
     rec = gate.evaluate(
-        _valid_candidate(), TaskClass.PATCH_GENERATION, _stocked_inventory(), _route(),
+        _valid_candidate(),
+        TaskClass.PATCH_GENERATION,
+        _stocked_inventory(),
+        _route(),
     )
     assert rec.decision == "LOCAL_MODEL_LIVE_ADMISSION_READY"
     assert rec.live_call_authorized is True
@@ -146,7 +150,10 @@ def test_opt_in_without_flag_blocks_no_config():
     cfg = LiveModelAdmissionConfig(mode=LiveAdmissionMode.OPT_IN_LIVE, opt_in_live=False)
     gate = LiveModelAdmissionGate(config=cfg)
     rec = gate.evaluate(
-        _valid_candidate(), TaskClass.PATCH_GENERATION, _stocked_inventory(), _route(),
+        _valid_candidate(),
+        TaskClass.PATCH_GENERATION,
+        _stocked_inventory(),
+        _route(),
     )
     assert rec.decision == "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_NO_CONFIG"
     assert rec.live_call_authorized is False
@@ -204,7 +211,10 @@ def test_unknown_provider_blocked():
 def test_unsupported_task_class_blocks():
     gate = LiveModelAdmissionGate(config=_opt_in_config())
     rec = gate.evaluate(
-        _valid_candidate(), "NOT_A_TASK_CLASS", _stocked_inventory(), _route(),
+        _valid_candidate(),
+        "NOT_A_TASK_CLASS",
+        _stocked_inventory(),
+        _route(),
     )
     assert rec.decision == "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_UNSUPPORTED_TASK_CLASS"
 
@@ -212,8 +222,10 @@ def test_unsupported_task_class_blocks():
 def test_missing_inventory_blocks():
     gate = LiveModelAdmissionGate(config=_opt_in_config())
     rec = gate.evaluate(
-        _valid_candidate(), TaskClass.PATCH_GENERATION,
-        LocalModelInventory.empty(), _route(),
+        _valid_candidate(),
+        TaskClass.PATCH_GENERATION,
+        LocalModelInventory.empty(),
+        _route(),
     )
     assert rec.decision == "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_MISSING_INVENTORY"
 
@@ -224,7 +236,9 @@ def test_model_unavailable_blocks():
     inv = LocalModelInventory.of(["determinex-observer-v6-dsl"])
     rec = gate.evaluate(
         _valid_candidate(model_id="determinex-engineer-v11-dsl"),
-        TaskClass.PATCH_GENERATION, inv, _route(),
+        TaskClass.PATCH_GENERATION,
+        inv,
+        _route(),
     )
     assert rec.decision == "LOCAL_MODEL_LIVE_ADMISSION_BLOCKED_MODEL_UNAVAILABLE"
 
@@ -256,7 +270,10 @@ def test_metadata_only_when_base_policy_refuses_capabilities():
 def test_admitted_record_cannot_mutate_source():
     gate = LiveModelAdmissionGate(config=_opt_in_config())
     rec = gate.evaluate(
-        _valid_candidate(), TaskClass.PATCH_GENERATION, _stocked_inventory(), _route(),
+        _valid_candidate(),
+        TaskClass.PATCH_GENERATION,
+        _stocked_inventory(),
+        _route(),
     )
     assert rec.is_ready
     assert rec.source_mutation_authorized is False
@@ -265,7 +282,10 @@ def test_admitted_record_cannot_mutate_source():
 def test_admitted_record_cannot_write_corpus():
     gate = LiveModelAdmissionGate(config=_opt_in_config())
     rec = gate.evaluate(
-        _valid_candidate(), TaskClass.PATCH_GENERATION, _stocked_inventory(), _route(),
+        _valid_candidate(),
+        TaskClass.PATCH_GENERATION,
+        _stocked_inventory(),
+        _route(),
     )
     assert rec.corpus_write_authorized is False
 
@@ -273,7 +293,10 @@ def test_admitted_record_cannot_write_corpus():
 def test_admitted_record_cannot_mark_training_eligible():
     gate = LiveModelAdmissionGate(config=_opt_in_config())
     rec = gate.evaluate(
-        _valid_candidate(), TaskClass.PATCH_GENERATION, _stocked_inventory(), _route(),
+        _valid_candidate(),
+        TaskClass.PATCH_GENERATION,
+        _stocked_inventory(),
+        _route(),
     )
     assert rec.training_eligible is False
 
@@ -314,7 +337,10 @@ def test_modules_do_not_import_subprocess_or_urllib():
 def test_record_json_round_trip():
     gate = LiveModelAdmissionGate(config=_opt_in_config())
     rec = gate.evaluate(
-        _valid_candidate(), TaskClass.PATCH_GENERATION, _stocked_inventory(), _route(),
+        _valid_candidate(),
+        TaskClass.PATCH_GENERATION,
+        _stocked_inventory(),
+        _route(),
     )
     parsed = json.loads(rec.to_json())
     assert parsed["decision"] == "LOCAL_MODEL_LIVE_ADMISSION_READY"

@@ -1,9 +1,9 @@
 """Records for OPT_IN_PATCH_PLAN_COMMAND_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 OPT_IN_PATCH_PLAN_STATUS_TOKENS = (
     "OPT_IN_PATCH_PLAN_QUARANTINED",

@@ -2,6 +2,7 @@
 Screen controller for desktop agent — captures screenshots and executes pointer/keyboard
 actions inside a VM via VNC or RDP. NO host pyautogui calls are permitted.
 """
+
 from __future__ import annotations
 
 import logging
@@ -9,12 +10,13 @@ import time
 from pathlib import Path
 from typing import Any
 
-from agents.base_agent import ActionType, AgentAction, ActionResult, AgentObservation, EnvType
+from agents.base_agent import ActionResult, ActionType, AgentAction, AgentObservation, EnvType
 
 log = logging.getLogger(__name__)
 
 try:
     import vncdotool.api as _vnc_api
+
     _VNC_AVAILABLE = True
 except ImportError:
     _VNC_AVAILABLE = False
@@ -54,7 +56,7 @@ class ScreenController:
                 pass
             self._client = None
 
-    def __enter__(self) -> "ScreenController":
+    def __enter__(self) -> ScreenController:
         self.connect()
         return self
 
@@ -73,6 +75,7 @@ class ScreenController:
 
     def capture_observation(self, task_id: str) -> AgentObservation:
         from vision.screenshot_loader import screenshot_hash
+
         path = self.take_screenshot(f"obs_{task_id}")
         return AgentObservation(
             env_type=EnvType.DESKTOP,
@@ -143,13 +146,14 @@ class ScreenController:
                 return ActionResult(action=action, success=True)
             if at == ActionType.DRAG:
                 meta = action.metadata
-                self.drag(action.x or 0, action.y or 0,
-                          meta.get("x2", 0), meta.get("y2", 0))
+                self.drag(action.x or 0, action.y or 0, meta.get("x2", 0), meta.get("y2", 0))
                 return ActionResult(action=action, success=True)
             return ActionResult(action=action, success=False, error=f"Unhandled action type: {at}")
         except Exception as exc:
             return ActionResult(
-                action=action, success=False, error=str(exc),
+                action=action,
+                success=False,
+                error=str(exc),
                 duration_ms=int((time.monotonic() - t0) * 1000),
             )
         finally:

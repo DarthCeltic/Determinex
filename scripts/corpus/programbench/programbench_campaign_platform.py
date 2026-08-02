@@ -12,8 +12,10 @@ _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from corpus.programbench.programbench_platform_record import make_platform_record, write_platform_record
-
+from corpus.programbench.programbench_platform_record import (
+    make_platform_record,
+    write_platform_record,
+)
 
 DOXYGEN_INSTANCE = "doxygen__doxygen.966d98e"
 DOXYGEN_TOOL = "doxygen"
@@ -207,7 +209,11 @@ class ProgramBenchCampaignPlatform:
             reasons = ["live_operator_policy_admission_missing"]
             live_accepted = False
         elif approval.get("rejected") is True:
-            status = "GENERIC_POLICY_ADMISSION_REJECTED_FIXTURE" if fixture else "GENERIC_POLICY_ADMISSION_REJECTED"
+            status = (
+                "GENERIC_POLICY_ADMISSION_REJECTED_FIXTURE"
+                if fixture
+                else "GENERIC_POLICY_ADMISSION_REJECTED"
+            )
             reasons = ["operator_policy_admission_rejected"]
             live_accepted = False
         elif not checks["scope_match"]:
@@ -227,11 +233,23 @@ class ProgramBenchCampaignPlatform:
             reasons = ["approval_request_reference_missing_or_stale"]
             live_accepted = False
         elif all(checks.values()):
-            status = "GENERIC_POLICY_ADMISSION_ACCEPTED_FIXTURE" if fixture else "GENERIC_POLICY_ADMISSION_ACCEPTED"
-            reasons = ["fixture_policy_admission_accepted" if fixture else "operator_policy_admission_accepted"]
+            status = (
+                "GENERIC_POLICY_ADMISSION_ACCEPTED_FIXTURE"
+                if fixture
+                else "GENERIC_POLICY_ADMISSION_ACCEPTED"
+            )
+            reasons = [
+                "fixture_policy_admission_accepted"
+                if fixture
+                else "operator_policy_admission_accepted"
+            ]
             live_accepted = not fixture
         else:
-            status = "GENERIC_POLICY_ADMISSION_REJECTED_FIXTURE" if fixture else "GENERIC_POLICY_ADMISSION_REJECTED"
+            status = (
+                "GENERIC_POLICY_ADMISSION_REJECTED_FIXTURE"
+                if fixture
+                else "GENERIC_POLICY_ADMISSION_REJECTED"
+            )
             reasons = ["approval_missing_required_controls"]
             live_accepted = False
 
@@ -253,7 +271,9 @@ class ProgramBenchCampaignPlatform:
                 "cache_ready": False,
                 "executable": live_accepted,
                 "training_eligible": False,
-                "authorization": _closed_auth(extra={"bounded_official_eval_authorized": live_accepted}),
+                "authorization": _closed_auth(
+                    extra={"bounded_official_eval_authorized": live_accepted}
+                ),
             },
         )
         return self._write(record, "programbench_generic_operator_policy_admission")
@@ -269,18 +289,26 @@ class ProgramBenchCampaignPlatform:
         admission = admission or {}
         checks = {
             "instance_state_exists": bool(state),
-            "artifact_authority_present": state.get("artifact_authority") == "ARTIFACT_AUTHORITY_PRESENT",
+            "artifact_authority_present": state.get("artifact_authority")
+            == "ARTIFACT_AUTHORITY_PRESENT",
             "image_digest_exact": bool(state.get("image_name")) and bool(state.get("image_digest")),
-            "scan_record_present_if_executable": bool(state.get("scan_status")) and state.get("scan_status") != "SCAN_NOT_EVALUATED",
-            "sandbox_requirements_present": "sandbox_requirements" in state.get("evidence_refs", {}),
-            "policy_admission_accepted_if_scan_failed": admission.get("status") == "GENERIC_POLICY_ADMISSION_ACCEPTED",
-            "bounded_rerun_packet_present_if_requested": state.get("bounded_rerun_status") != "BOUNDED_RERUN_NOT_REQUESTED",
+            "scan_record_present_if_executable": bool(state.get("scan_status"))
+            and state.get("scan_status") != "SCAN_NOT_EVALUATED",
+            "sandbox_requirements_present": "sandbox_requirements"
+            in state.get("evidence_refs", {}),
+            "policy_admission_accepted_if_scan_failed": admission.get("status")
+            == "GENERIC_POLICY_ADMISSION_ACCEPTED",
+            "bounded_rerun_packet_present_if_requested": state.get("bounded_rerun_status")
+            != "BOUNDED_RERUN_NOT_REQUESTED",
             "scope_exact": state.get("instance_id") == DOXYGEN_INSTANCE or ready_fixture,
             "max_attempts_enforced": state.get("max_attempts", 1) == 1,
-            "no_training_eligibility_before_run": state.get("training_eligible") == "TRAINING_ELIGIBLE_FALSE",
+            "no_training_eligibility_before_run": state.get("training_eligible")
+            == "TRAINING_ELIGIBLE_FALSE",
             "evidence_index_clean": True,
         }
-        if ready_fixture and all(v or k == "policy_admission_accepted_if_scan_failed" for k, v in checks.items()):
+        if ready_fixture and all(
+            v or k == "policy_admission_accepted_if_scan_failed" for k, v in checks.items()
+        ):
             checks["policy_admission_accepted_if_scan_failed"] = True
             status = "GENERIC_EXECUTION_PREFLIGHT_READY"
             reasons = ["ready_fixture_all_prerequisites_satisfied"]
@@ -315,13 +343,17 @@ class ProgramBenchCampaignPlatform:
                 "image_name": state.get("image_name", ""),
                 "image_digest": state.get("image_digest", ""),
                 "checks": checks,
-                "policy_admission_status": admission.get("status", "GENERIC_POLICY_ADMISSION_REQUIRED"),
+                "policy_admission_status": admission.get(
+                    "status", "GENERIC_POLICY_ADMISSION_REQUIRED"
+                ),
                 "ready_fixture": ready_fixture,
                 "reasons": reasons,
                 "cache_ready": False,
                 "executable": status == "GENERIC_EXECUTION_PREFLIGHT_READY" and ready_fixture,
                 "training_eligible": False,
-                "authorization": _closed_auth(extra={"preflight_ready": status == "GENERIC_EXECUTION_PREFLIGHT_READY"}),
+                "authorization": _closed_auth(
+                    extra={"preflight_ready": status == "GENERIC_EXECUTION_PREFLIGHT_READY"}
+                ),
             },
         )
         return self._write(record, "programbench_generic_execution_preflight")
@@ -342,7 +374,11 @@ class ProgramBenchCampaignPlatform:
                     "NOT_A_BENCHMARK_FAILURE",
                     "NOT_TRAINING_ELIGIBLE",
                 ],
-                "missing_image_mapping": ["MISSING_IMAGE_METADATA", "MISSING_PROVENANCE", "NOT_A_MODEL_FAILURE"],
+                "missing_image_mapping": [
+                    "MISSING_IMAGE_METADATA",
+                    "MISSING_PROVENANCE",
+                    "NOT_A_MODEL_FAILURE",
+                ],
                 "quarantine_only_mapping": ["QUARANTINE_ONLY_METADATA", "NOT_TRAINING_ELIGIBLE"],
                 "authorization": _closed_auth(),
             },
@@ -352,7 +388,11 @@ class ProgramBenchCampaignPlatform:
     def batch_skip_decisions(self, batch_state: dict[str, Any] | None = None) -> dict[str, Any]:
         batch_state = batch_state or self.batch001_state()
         decisions = [_skip_decision(state) for state in batch_state.get("instances", [])]
-        status = "BATCH_SKIP_DECISIONS_WRITTEN" if decisions else "BATCH_SKIP_DECISIONS_BLOCKED_NO_BATCH_STATE"
+        status = (
+            "BATCH_SKIP_DECISIONS_WRITTEN"
+            if decisions
+            else "BATCH_SKIP_DECISIONS_BLOCKED_NO_BATCH_STATE"
+        )
         if batch_state.get("status") == "BATCH001_STATE_PARTIAL_EVIDENCE":
             status = "BATCH_SKIP_DECISIONS_PARTIAL"
         record = self._record(
@@ -449,8 +489,18 @@ class ProgramBenchCampaignPlatform:
         action_queue = action_queue or self.operator_action_queue(batch_state, skip_decisions)
         nodes = [
             _node("instance_state", BATCH_STATE, "BATCH001_STATE_AGGREGATED", ""),
-            _node("policy_admission", GENERIC_POLICY_ADMISSION, "GENERIC_POLICY_ADMISSION_REQUIRED", DOXYGEN_INSTANCE),
-            _node("execution_preflight", GENERIC_PREFLIGHT, "GENERIC_EXECUTION_PREFLIGHT_BLOCKED_POLICY_ADMISSION_REQUIRED", DOXYGEN_INSTANCE),
+            _node(
+                "policy_admission",
+                GENERIC_POLICY_ADMISSION,
+                "GENERIC_POLICY_ADMISSION_REQUIRED",
+                DOXYGEN_INSTANCE,
+            ),
+            _node(
+                "execution_preflight",
+                GENERIC_PREFLIGHT,
+                "GENERIC_EXECUTION_PREFLIGHT_BLOCKED_POLICY_ADMISSION_REQUIRED",
+                DOXYGEN_INSTANCE,
+            ),
             _node("skip_decisions", BATCH_SKIPS, "BATCH_SKIP_DECISIONS_WRITTEN", ""),
             _node("operator_action_queue", ACTION_QUEUE, "OPERATOR_ACTION_QUEUE_WRITTEN", ""),
         ]
@@ -591,9 +641,13 @@ class ProgramBenchCampaignPlatform:
 
     def _missing_image_states(self) -> list[dict[str, Any]]:
         inventory = self._read(MISSING_IMAGE_INVENTORY)
-        return [_missing_image_state(item.get("tool", "unknown")) for item in inventory.get("items", [])]
+        return [
+            _missing_image_state(item.get("tool", "unknown")) for item in inventory.get("items", [])
+        ]
 
-    def _record(self, record_type: str, schema_version: str, status: str, payload: dict[str, Any]) -> dict[str, Any]:
+    def _record(
+        self, record_type: str, schema_version: str, status: str, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         return make_platform_record(
             record_type=record_type,
             schema_version=schema_version,
@@ -634,7 +688,9 @@ class ProgramBenchCampaignPlatform:
 def _missing_image_state(instance_id: str) -> dict[str, Any]:
     return {
         "instance_id": instance_id,
-        "tool_name": instance_id.split("__", 1)[-1].split(".", 1)[0] if "__" in instance_id else instance_id,
+        "tool_name": instance_id.split("__", 1)[-1].split(".", 1)[0]
+        if "__" in instance_id
+        else instance_id,
         "image_name": "",
         "image_digest": "",
         "artifact_authority": "ARTIFACT_AUTHORITY_INCONCLUSIVE",
@@ -650,7 +706,9 @@ def _missing_image_state(instance_id: str) -> dict[str, Any]:
         "training_eligible": "TRAINING_ELIGIBLE_FALSE",
         "skip_status": "MISSING_IMAGE_METADATA",
         "next_unblocker": "IMAGE_METADATA",
-        "evidence_refs": {"missing_image_inventory": str(MISSING_IMAGE_INVENTORY).replace("\\", "/")},
+        "evidence_refs": {
+            "missing_image_inventory": str(MISSING_IMAGE_INVENTORY).replace("\\", "/")
+        },
     }
 
 
@@ -696,12 +754,16 @@ def _generic_admission_checks(state: dict[str, Any], approval: dict[str, Any]) -
         and approval.get("image_name") == state.get("image_name"),
         "digest_match": approval.get("image_digest") == state.get("image_digest"),
         "scan_ref_match": approval.get("scan_evidence_ref") == refs.get("scan"),
-        "sandbox_ref_match": approval.get("sandbox_requirements_ref") == refs.get("sandbox_requirements"),
-        "policy_request_ref_match": approval.get("policy_exception_request_ref") == refs.get("policy_exception_request"),
+        "sandbox_ref_match": approval.get("sandbox_requirements_ref")
+        == refs.get("sandbox_requirements"),
+        "policy_request_ref_match": approval.get("policy_exception_request_ref")
+        == refs.get("policy_exception_request"),
         "max_attempts_one": approval.get("max_attempts") == 1,
         "allowed_scope_exact": approval.get("allowed_scope") == state.get("instance_id"),
         "approval_timestamp_present": bool(approval.get("approval_timestamp")),
-        "operator_signature_present": bool(approval.get("operator_signature") or approval.get("local_record_signature")),
+        "operator_signature_present": bool(
+            approval.get("operator_signature") or approval.get("local_record_signature")
+        ),
         "acknowledges_scan_risk": approval.get("acknowledges_scan_risk") is True,
         "permits_only_bounded_eval": approval.get("permits_only_bounded_official_eval") is True,
         "denies_training_eligibility": approval.get("permits_training_eligibility") is False,
@@ -786,13 +848,23 @@ def _operator_action(decision: dict[str, Any]) -> dict[str, Any]:
     reasons = set(decision.get("skip_reasons", []))
     if "OPERATOR_POLICY_ADMISSION_REQUIRED" in reasons:
         action = "SUPPLY_SECURITY_POLICY_ADMISSION"
-        required = ["operator-signed policy admission bound to exact instance/image/digest/scan/sandbox/request"]
-        rejected = ["fixture admission", "name-only approval", "approval that grants training eligibility"]
+        required = [
+            "operator-signed policy admission bound to exact instance/image/digest/scan/sandbox/request"
+        ]
+        rejected = [
+            "fixture admission",
+            "name-only approval",
+            "approval that grants training eligibility",
+        ]
         priority = "high"
         blocking = "BLOCKED_POLICY_ADMISSION_REQUIRED"
     elif "MISSING_IMAGE_METADATA" in reasons:
         action = "SUPPLY_IMAGE_METADATA"
-        required = ["exact image reference", "digest", "provider metadata or admitted local metadata"]
+        required = [
+            "exact image reference",
+            "digest",
+            "provider metadata or admitted local metadata",
+        ]
         rejected = ["latest tag", "name-only image", "inferred officialness"]
         priority = "medium"
         blocking = "BLOCKED_MISSING_IMAGE_METADATA"
@@ -818,12 +890,19 @@ def _operator_action(decision: dict[str, Any]) -> dict[str, Any]:
 def _state_summary(states: list[dict[str, Any]]) -> dict[str, int]:
     return {
         "total": len(states),
-        "artifact_authority_present": sum(1 for s in states if s["artifact_authority"] == "ARTIFACT_AUTHORITY_PRESENT"),
+        "artifact_authority_present": sum(
+            1 for s in states if s["artifact_authority"] == "ARTIFACT_AUTHORITY_PRESENT"
+        ),
         "missing_image_metadata": sum(1 for s in states if not s.get("image_name")),
         "blocked_policy_admission": sum(
-            1 for s in states if s["security_execution_authority"] == "SECURITY_EXECUTION_AUTHORITY_ABSENT_PENDING_OPERATOR_POLICY_ADMISSION"
+            1
+            for s in states
+            if s["security_execution_authority"]
+            == "SECURITY_EXECUTION_AUTHORITY_ABSENT_PENDING_OPERATOR_POLICY_ADMISSION"
         ),
-        "training_eligible": sum(1 for s in states if s["training_eligible"] == "TRAINING_ELIGIBLE_TRUE"),
+        "training_eligible": sum(
+            1 for s in states if s["training_eligible"] == "TRAINING_ELIGIBLE_TRUE"
+        ),
         "executable": sum(1 for s in states if s["executable"]),
     }
 
@@ -871,9 +950,15 @@ def _closed_auth(*, extra: dict[str, Any] | None = None) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Write read-only ProgramBench campaign platform evidence.")
-    parser.add_argument("--json", action="store_true", help="Print deterministic campaign report JSON.")
-    parser.add_argument("--all", action="store_true", help="Write all platform campaign evidence records.")
+    parser = argparse.ArgumentParser(
+        description="Write read-only ProgramBench campaign platform evidence."
+    )
+    parser.add_argument(
+        "--json", action="store_true", help="Print deterministic campaign report JSON."
+    )
+    parser.add_argument(
+        "--all", action="store_true", help="Write all platform campaign evidence records."
+    )
     args = parser.parse_args(argv)
     platform = ProgramBenchCampaignPlatform()
     if args.json:

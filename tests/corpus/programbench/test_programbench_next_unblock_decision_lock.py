@@ -13,7 +13,9 @@ from corpus.programbench.programbench_next_unblock_decision import (  # noqa: E4
     ProgramBenchNextUnblockDecision,
     decide_next_programbench_unblock,
 )
-from corpus.programbench.programbench_next_unblock_decision_record import verify_programbench_next_unblock_decision_record  # noqa: E402
+from corpus.programbench.programbench_next_unblock_decision_record import (
+    verify_programbench_next_unblock_decision_record,  # noqa: E402
+)
 
 LOCK_PATH = ROOT / "locks" / "sentinel" / "PROGRAMBENCH_NEXT_UNBLOCK_DECISION_LOCK_001.json"
 EVIDENCE_INDEX = ROOT / "assurance" / "evidence" / "evidence_index.json"
@@ -46,13 +48,20 @@ def test_programbench_next_unblock_compares_required_options() -> None:
     assert "doxygen_security_policy_admission" in options
     assert "batch001_one_target_artifact_import_scan_policy" in options
     assert "hold_for_evidence_ledger" in options
-    assert options["doxygen_security_policy_admission"]["required_operator_packet"] == "security_policy_admission"
+    assert (
+        options["doxygen_security_policy_admission"]["required_operator_packet"]
+        == "security_policy_admission"
+    )
 
 
 def test_programbench_next_unblock_holds_when_ledger_not_ready() -> None:
     result = decide_next_programbench_unblock(
         doxygen={},
-        per_target={"batch001_targets": [{"instance_id": "x", "next_unblocker": "supply exact artifact import provenance"}]},
+        per_target={
+            "batch001_targets": [
+                {"instance_id": "x", "next_unblocker": "supply exact artifact import provenance"}
+            ]
+        },
         import_scan={},
         ledger={"chain_valid": False, "mutation_detected": False},
         count_guard={"status": "EVIDENCE_COUNT_DRIFT_GUARD_PASSED"},

@@ -59,8 +59,8 @@ for p in (str(REPO_ROOT), str(REPO_ROOT / "scripts")):
 GUARDS = [
     ("determinex_pb_provenance_guard", "REG", ["prog", "--guard"]),
     ("pb_senses_guard", "DEFAULT_WAL_DIR", ["prog", "--guard"]),
-    ("pb_board_guard", "INDEX_PATH", ["prog", "--guard"]),          # positive control
-    ("pb_override_scan", "LOCKED_DIR", ["prog", "--guard"]),        # positive control
+    ("pb_board_guard", "INDEX_PATH", ["prog", "--guard"]),  # positive control
+    ("pb_override_scan", "LOCKED_DIR", ["prog", "--guard"]),  # positive control
 ]
 
 
@@ -87,10 +87,8 @@ def _run_guard(monkeypatch, capsys, module_name: str, attr: str, argv: list[str]
     return code, out
 
 
-@pytest.mark.parametrize("module_name,attr,argv", GUARDS,
-                         ids=[g[0] for g in GUARDS])
-def test_a_guard_with_no_input_does_not_report_pass(monkeypatch, capsys,
-                                                    module_name, attr, argv):
+@pytest.mark.parametrize("module_name,attr,argv", GUARDS, ids=[g[0] for g in GUARDS])
+def test_a_guard_with_no_input_does_not_report_pass(monkeypatch, capsys, module_name, attr, argv):
     """The whole invariant, for every guard in the table including the control."""
     code, out = _run_guard(monkeypatch, capsys, module_name, attr, argv)
 

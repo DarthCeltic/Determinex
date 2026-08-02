@@ -10,8 +10,8 @@ If the model is not available locally, Ollama returns an error and we return Non
 
 import json
 import logging
-import urllib.request
 import urllib.error
+import urllib.request
 
 log = logging.getLogger("oracle.provider.local_ollama")
 
@@ -49,15 +49,17 @@ def generate(
     # Build Ollama chat-style prompt using system + user turn
     full_prompt = f"[INST] <<SYS>>\n{system}\n<</SYS>>\n\n{prompt_text} [/INST]"
 
-    payload = json.dumps({
-        "model":  model,
-        "prompt": full_prompt,
-        "stream": False,
-        "options": {
-            "temperature": 0.3,
-            "num_predict": 2048,
-        },
-    }).encode("utf-8")
+    payload = json.dumps(
+        {
+            "model": model,
+            "prompt": full_prompt,
+            "stream": False,
+            "options": {
+                "temperature": 0.3,
+                "num_predict": 2048,
+            },
+        }
+    ).encode("utf-8")
 
     url = base_url.rstrip("/") + "/api/generate"
 

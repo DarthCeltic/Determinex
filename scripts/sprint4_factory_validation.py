@@ -17,11 +17,10 @@ Outputs:
   - logs/mass_run_v2/sprint4_factory_validation.json — per-tool timing + paths
   - T:/determinex-programbench/determinex_pb_factory_<tool>_v1/ per tool
 """
+
 from __future__ import annotations
 
 import json
-import re
-import shlex
 import shutil
 import subprocess
 import sys
@@ -34,16 +33,16 @@ PBROOT = Path("T:/determinex-programbench")
 
 # The 10 picks (user-curated, avoid known tar pits)
 TARGETS = [
-    {"instance": "dalance__amber.69a0f52",              "family": "search_grep",     "rank": 1},
-    {"instance": "pls-rs__pls.4e1ae50",                 "family": "shell_coreutils", "rank": 2},
-    {"instance": "ksxgithub__parallel-disk-usage.96978ed","family":"shell_coreutils","rank": 3},
-    {"instance": "pier-cli__pier.5e1bde9",              "family": "rust_cli",        "rank": 4},
-    {"instance": "ecumene__rust-sloth.051c559",         "family": "rust_cli",        "rank": 5},
-    {"instance": "miserlou__loop.209927c",              "family": "shell_coreutils", "rank": 6},
-    {"instance": "clog-tool__clog-cli.7066cba",         "family": "git_wrappers",    "rank": 7},
-    {"instance": "bensadeh__tailspin.6278437",          "family": "formatters",      "rank": 8},
-    {"instance": "canop__rhit.ae90bcb",                 "family": "shell_coreutils", "rank": 9},
-    {"instance": "agourlay__zip-password-finder.704700d","family": "rust_cli",       "rank": 10},
+    {"instance": "dalance__amber.69a0f52", "family": "search_grep", "rank": 1},
+    {"instance": "pls-rs__pls.4e1ae50", "family": "shell_coreutils", "rank": 2},
+    {"instance": "ksxgithub__parallel-disk-usage.96978ed", "family": "shell_coreutils", "rank": 3},
+    {"instance": "pier-cli__pier.5e1bde9", "family": "rust_cli", "rank": 4},
+    {"instance": "ecumene__rust-sloth.051c559", "family": "rust_cli", "rank": 5},
+    {"instance": "miserlou__loop.209927c", "family": "shell_coreutils", "rank": 6},
+    {"instance": "clog-tool__clog-cli.7066cba", "family": "git_wrappers", "rank": 7},
+    {"instance": "bensadeh__tailspin.6278437", "family": "formatters", "rank": 8},
+    {"instance": "canop__rhit.ae90bcb", "family": "shell_coreutils", "rank": 9},
+    {"instance": "agourlay__zip-password-finder.704700d", "family": "rust_cli", "rank": 10},
 ]
 
 
@@ -61,7 +60,12 @@ def generate_one(target: dict) -> dict:
     family = target["family"]
     gen = CORPUS / family / "scaffold_generator.py"
     if not gen.is_file():
-        return {"instance": instance, "family": family, "status": "FAMILY_GEN_MISSING", "gen_path": str(gen)}
+        return {
+            "instance": instance,
+            "family": family,
+            "status": "FAMILY_GEN_MISSING",
+            "gen_path": str(gen),
+        }
 
     eval_json = _eval_json_path(instance)
     out_root = _factory_dir(instance)
@@ -70,9 +74,12 @@ def generate_one(target: dict) -> dict:
     out_root.mkdir(parents=True, exist_ok=True)
 
     cmd = [
-        sys.executable, str(gen),
-        "--instance", instance,
-        "--out", str(out_root),
+        sys.executable,
+        str(gen),
+        "--instance",
+        instance,
+        "--out",
+        str(out_root),
         "--pack",
     ]
     if eval_json.is_file():
@@ -91,13 +98,13 @@ def generate_one(target: dict) -> dict:
     submission = inst_dir / "submission.tar.gz"
 
     record = {
-        "instance":   instance,
-        "family":     family,
-        "rank":       target["rank"],
-        "status":     "OK" if (rc == 0 and main_py.is_file() and submission.is_file()) else "GEN_FAIL",
-        "rc":         rc,
-        "elapsed_s":  round(elapsed, 2),
-        "main_py":    str(main_py),
+        "instance": instance,
+        "family": family,
+        "rank": target["rank"],
+        "status": "OK" if (rc == 0 and main_py.is_file() and submission.is_file()) else "GEN_FAIL",
+        "rc": rc,
+        "elapsed_s": round(elapsed, 2),
+        "main_py": str(main_py),
         "submission": str(submission),
         "submission_bytes": submission.stat().st_size if submission.is_file() else 0,
         "stdout_tail": (proc.stdout or "")[-300:] if rc != 0 else "",
@@ -109,13 +116,15 @@ def generate_one(target: dict) -> dict:
 def base_score(instance: str) -> float | None:
     """Return base eval percent or None if missing."""
     ej = _eval_json_path(instance)
-    if not ej.is_file(): return None
+    if not ej.is_file():
+        return None
     try:
         d = json.loads(ej.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return None
     tr = d.get("test_results", []) or []
-    if not tr: return None
+    if not tr:
+        return None
     p = sum(1 for t in tr if t.get("status") == "passed")
     return round(100.0 * p / len(tr), 2)
 
@@ -134,32 +143,43 @@ def main() -> int:
         rec["base_score"] = bscore
         records.append(rec)
         flag = "✓" if rec.get("status") == "OK" else "✗"
-        print(f"  {flag} #{t['rank']:>2} {t['instance']:<50} family={t['family']:<16} "
-              f"{rec.get('elapsed_s', '?'):>5}s  base={bscore if bscore is not None else '?'}%  status={rec.get('status')}")
+        print(
+            f"  {flag} #{t['rank']:>2} {t['instance']:<50} family={t['family']:<16} "
+            f"{rec.get('elapsed_s', '?'):>5}s  base={bscore if bscore is not None else '?'}%  status={rec.get('status')}"
+        )
 
     total = time.time() - total_t0
     n_ok = sum(1 for r in records if r.get("status") == "OK")
-    avg_gen_time = sum(r.get("elapsed_s", 0) for r in records if r.get("status") == "OK") / max(n_ok, 1)
+    avg_gen_time = sum(r.get("elapsed_s", 0) for r in records if r.get("status") == "OK") / max(
+        n_ok, 1
+    )
 
     print()
-    print(f"=== summary ===")
+    print("=== summary ===")
     print(f"  generated OK:    {n_ok}/{len(TARGETS)}")
     print(f"  total wall time: {round(total, 1)}s")
     print(f"  avg per-tool gen: {round(avg_gen_time, 2)}s")
-    print(f"  factory dirs:    T:/determinex-programbench/determinex_pb_factory_*_v1")
+    print("  factory dirs:    T:/determinex-programbench/determinex_pb_factory_*_v1")
 
     # Persist
     out_log = ROOT / "logs" / "mass_run_v2" / "sprint4_factory_validation.json"
     out_log.parent.mkdir(parents=True, exist_ok=True)
-    out_log.write_text(json.dumps({
-        "targets": TARGETS,
-        "records": records,
-        "summary": {
-            "n_ok": n_ok, "n_total": len(TARGETS),
-            "total_wall_s": round(total, 1),
-            "avg_gen_s_per_tool_ok": round(avg_gen_time, 2),
-        },
-    }, indent=2), encoding="utf-8")
+    out_log.write_text(
+        json.dumps(
+            {
+                "targets": TARGETS,
+                "records": records,
+                "summary": {
+                    "n_ok": n_ok,
+                    "n_total": len(TARGETS),
+                    "total_wall_s": round(total, 1),
+                    "avg_gen_s_per_tool_ok": round(avg_gen_time, 2),
+                },
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     print(f"  log:             {out_log}")
 
     return 0 if n_ok == len(TARGETS) else 1

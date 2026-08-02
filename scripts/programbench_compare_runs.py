@@ -30,6 +30,7 @@ Reads:
 The output JSON is the contract the future frontend Benchmark Lab compare-view
 will subscribe to. Stable keys; additive evolution only.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -37,9 +38,8 @@ import json
 import os
 import sys
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -47,14 +47,17 @@ if hasattr(sys.stdout, "reconfigure"):
 _SCRIPTS = Path(__file__).resolve().parent
 sys.path.insert(0, str(_SCRIPTS))
 from run_ledger import (  # type: ignore[import-not-found]
-    _open_db, query_run_meta, rebuild_index,
+    _open_db,
+    query_run_meta,
+    rebuild_index,
 )
 
-
-_DEFAULT_OUT = Path(os.environ.get(
-    "DETERMINEX_PB_COMPARE_OUT",
-    str(_SCRIPTS.parent / "logs" / "mass_run_v2"),
-))
+_DEFAULT_OUT = Path(
+    os.environ.get(
+        "DETERMINEX_PB_COMPARE_OUT",
+        str(_SCRIPTS.parent / "logs" / "mass_run_v2"),
+    )
+)
 
 LOCK_THRESHOLD = 99.9  # ≥99.9% counts as a lock for compare purposes
 
@@ -63,7 +66,8 @@ LOCK_THRESHOLD = 99.9  # ≥99.9% counts as a lock for compare purposes
 # Read one run's per-tool scores from the ledger
 # ---------------------------------------------------------------------------
 
-def _scores_from_ledger(run_id: str, sqlite_path: Optional[Path] = None) -> dict[str, dict]:
+
+def _scores_from_ledger(run_id: str, sqlite_path: Path | None = None) -> dict[str, dict]:
     """Return {task_id: {score, passed, total, families}} for one run.
 
     Uses the most recent 'eval / completed' event per task. sqlite_path
@@ -72,6 +76,7 @@ def _scores_from_ledger(run_id: str, sqlite_path: Optional[Path] = None) -> dict
     """
     if sqlite_path is None:
         import run_ledger as _rl
+
         sqlite_path = _rl.SQLITE_PATH
     if not sqlite_path.exists():
         rebuild_index(sqlite_path)
@@ -95,10 +100,10 @@ def _scores_from_ledger(run_id: str, sqlite_path: Optional[Path] = None) -> dict
         extra = json.loads(extra_json) if extra_json else {}
         families = json.loads(failures_json) if failures_json else {}
         by_task[task_id] = {
-            "score":   score if score is not None else 0.0,
-            "passed":  extra.get("passed", 0),
-            "failed":  extra.get("failed", 0),
-            "total":   extra.get("total", 0),
+            "score": score if score is not None else 0.0,
+            "passed": extra.get("passed", 0),
+            "failed": extra.get("failed", 0),
+            "total": extra.get("total", 0),
             "families": families,
             "timestamp": ts,
         }
@@ -108,6 +113,7 @@ def _scores_from_ledger(run_id: str, sqlite_path: Optional[Path] = None) -> dict
 # ---------------------------------------------------------------------------
 # Compare two runs
 # ---------------------------------------------------------------------------
+
 
 def compare_two(base_run_id: str, iter_run_id: str) -> dict:
     base = _scores_from_ledger(base_run_id)
@@ -135,19 +141,23 @@ def compare_two(base_run_id: str, iter_run_id: str) -> dict:
         if was_lock and not is_lock:
             new_unlocks.append(tid)
         if delta < 0:
-            regressions.append({"task_id": tid, "delta": delta, "base": b["score"], "iter": a["score"]})
+            regressions.append(
+                {"task_id": tid, "delta": delta, "base": b["score"], "iter": a["score"]}
+            )
         if delta == 0:
             unchanged.append(tid)
-        tools.append({
-            "task_id": tid,
-            "base_score": b["score"],
-            "iter_score": a["score"],
-            "delta": delta,
-            "base_total": b["total"],
-            "iter_total": a["total"],
-            "is_new_lock": is_lock and not was_lock,
-            "is_regression": delta < 0,
-        })
+        tools.append(
+            {
+                "task_id": tid,
+                "base_score": b["score"],
+                "iter_score": a["score"],
+                "delta": delta,
+                "base_total": b["total"],
+                "iter_total": a["total"],
+                "is_new_lock": is_lock and not was_lock,
+                "is_regression": delta < 0,
+            }
+        )
 
     tools.sort(key=lambda t: -t["delta"])
 
@@ -163,9 +173,9 @@ def compare_two(base_run_id: str, iter_run_id: str) -> dict:
     family_delta = [
         {
             "family": f,
-            "base":   fam_base.get(f, 0),
-            "iter":   fam_iter.get(f, 0),
-            "delta":  fam_iter.get(f, 0) - fam_base.get(f, 0),
+            "base": fam_base.get(f, 0),
+            "iter": fam_iter.get(f, 0),
+            "delta": fam_iter.get(f, 0) - fam_base.get(f, 0),
         }
         for f in all_fams
     ]
@@ -175,30 +185,31 @@ def compare_two(base_run_id: str, iter_run_id: str) -> dict:
     avg_iter = round(sum(after[t]["score"] for t in shared) / max(len(shared), 1), 1)
 
     return {
-        "base_run_id":         base_run_id,
-        "iter_run_id":         iter_run_id,
-        "base_meta":           query_run_meta(base_run_id) or {},
-        "iter_meta":           query_run_meta(iter_run_id) or {},
-        "generated_at":        datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
-        "shared_tools":        len(shared),
-        "only_in_base":        only_base,
-        "only_in_iter":        only_iter,
-        "avg_score_base":      avg_base,
-        "avg_score_iter":      avg_iter,
-        "avg_delta_pp":        round(avg_iter - avg_base, 1),
-        "new_locks":           new_locks,
-        "new_unlocks":         new_unlocks,
-        "regression_count":    len(regressions),
-        "unchanged_count":     len(unchanged),
-        "tools":               tools,
-        "regressions":         regressions[:50],
-        "family_delta":        family_delta,
+        "base_run_id": base_run_id,
+        "iter_run_id": iter_run_id,
+        "base_meta": query_run_meta(base_run_id) or {},
+        "iter_meta": query_run_meta(iter_run_id) or {},
+        "generated_at": datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "shared_tools": len(shared),
+        "only_in_base": only_base,
+        "only_in_iter": only_iter,
+        "avg_score_base": avg_base,
+        "avg_score_iter": avg_iter,
+        "avg_delta_pp": round(avg_iter - avg_base, 1),
+        "new_locks": new_locks,
+        "new_unlocks": new_unlocks,
+        "regression_count": len(regressions),
+        "unchanged_count": len(unchanged),
+        "tools": tools,
+        "regressions": regressions[:50],
+        "family_delta": family_delta,
     }
 
 
 # ---------------------------------------------------------------------------
 # Three-way: base -> iter1 -> iter2
 # ---------------------------------------------------------------------------
+
 
 def compare_three(base_id: str, iter1_id: str, iter2_id: str) -> dict:
     b_vs_1 = compare_two(base_id, iter1_id)
@@ -212,10 +223,10 @@ def compare_three(base_id: str, iter1_id: str, iter2_id: str) -> dict:
     shared = sorted(set(base) & set(i1) & set(i2))
     trajectory = [
         {
-            "task_id":   tid,
-            "base":      base[tid]["score"],
-            "iter1":     i1[tid]["score"],
-            "iter2":     i2[tid]["score"],
+            "task_id": tid,
+            "base": base[tid]["score"],
+            "iter1": i1[tid]["score"],
+            "iter2": i2[tid]["score"],
             "net_delta": round(i2[tid]["score"] - base[tid]["score"], 1),
         }
         for tid in shared
@@ -223,22 +234,23 @@ def compare_three(base_id: str, iter1_id: str, iter2_id: str) -> dict:
     trajectory.sort(key=lambda t: -t["net_delta"])
 
     return {
-        "kind":                "three-way",
-        "base_run_id":         base_id,
-        "iter1_run_id":        iter1_id,
-        "iter2_run_id":        iter2_id,
-        "generated_at":        datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
-        "base_vs_iter1":       b_vs_1,
-        "base_vs_iter2":       b_vs_2,
-        "iter1_vs_iter2":      one_vs_2,
-        "shared_tools":        len(shared),
-        "trajectory":          trajectory,
+        "kind": "three-way",
+        "base_run_id": base_id,
+        "iter1_run_id": iter1_id,
+        "iter2_run_id": iter2_id,
+        "generated_at": datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "base_vs_iter1": b_vs_1,
+        "base_vs_iter2": b_vs_2,
+        "iter1_vs_iter2": one_vs_2,
+        "shared_tools": len(shared),
+        "trajectory": trajectory,
     }
 
 
 # ---------------------------------------------------------------------------
 # Renderers
 # ---------------------------------------------------------------------------
+
 
 def render_two_way_md(report: dict) -> str:
     lines: list[str] = []
@@ -250,21 +262,37 @@ def render_two_way_md(report: dict) -> str:
     lines.append("## Run provenance")
     lines.append("")
     lines.append(f"| Field | base ({report['base_run_id']}) | iter ({report['iter_run_id']}) |")
-    lines.append(f"|---|---|---|")
-    lines.append(f"| scaffold_version | {bm.get('scaffold_version','?')} | {im.get('scaffold_version','?')} |")
-    lines.append(f"| patch_family     | {bm.get('patch_family','?')} | {im.get('patch_family','?')} |")
-    lines.append(f"| git_sha          | {(bm.get('git_sha') or '?')[:12]} | {(im.get('git_sha') or '?')[:12]} |")
-    lines.append(f"| output_root      | {bm.get('output_root','?')} | {im.get('output_root','?')} |")
+    lines.append("|---|---|---|")
+    lines.append(
+        f"| scaffold_version | {bm.get('scaffold_version', '?')} | {im.get('scaffold_version', '?')} |"
+    )
+    lines.append(
+        f"| patch_family     | {bm.get('patch_family', '?')} | {im.get('patch_family', '?')} |"
+    )
+    lines.append(
+        f"| git_sha          | {(bm.get('git_sha') or '?')[:12]} | {(im.get('git_sha') or '?')[:12]} |"
+    )
+    lines.append(
+        f"| output_root      | {bm.get('output_root', '?')} | {im.get('output_root', '?')} |"
+    )
     lines.append("")
-    lines.append(f"## Headline")
+    lines.append("## Headline")
     lines.append("")
     lines.append(f"- shared tools: **{report['shared_tools']}**")
-    lines.append(f"- avg score: **{report['avg_score_base']} → {report['avg_score_iter']}** ({report['avg_delta_pp']:+} pp)")
-    lines.append(f"- new locks: **{len(report['new_locks'])}**  |  new unlocks: **{len(report['new_unlocks'])}**  |  regressions: **{report['regression_count']}**  |  unchanged: **{report['unchanged_count']}**")
+    lines.append(
+        f"- avg score: **{report['avg_score_base']} → {report['avg_score_iter']}** ({report['avg_delta_pp']:+} pp)"
+    )
+    lines.append(
+        f"- new locks: **{len(report['new_locks'])}**  |  new unlocks: **{len(report['new_unlocks'])}**  |  regressions: **{report['regression_count']}**  |  unchanged: **{report['unchanged_count']}**"
+    )
     if report["only_in_base"]:
-        lines.append(f"- only in base ({len(report['only_in_base'])}): {report['only_in_base'][:5]}{'...' if len(report['only_in_base'])>5 else ''}")
+        lines.append(
+            f"- only in base ({len(report['only_in_base'])}): {report['only_in_base'][:5]}{'...' if len(report['only_in_base']) > 5 else ''}"
+        )
     if report["only_in_iter"]:
-        lines.append(f"- only in iter ({len(report['only_in_iter'])}): {report['only_in_iter'][:5]}{'...' if len(report['only_in_iter'])>5 else ''}")
+        lines.append(
+            f"- only in iter ({len(report['only_in_iter'])}): {report['only_in_iter'][:5]}{'...' if len(report['only_in_iter']) > 5 else ''}"
+        )
     lines.append("")
 
     if report["new_locks"]:
@@ -279,12 +307,16 @@ def render_two_way_md(report: dict) -> str:
     lines.append("|---:|---:|---:|---|")
     for t in report["tools"][:15]:
         marker = " 🔒" if t["is_new_lock"] else (" ⚠️" if t["is_regression"] else "")
-        lines.append(f"| {t['delta']:+.1f} | {t['base_score']:.1f} | {t['iter_score']:.1f} | {t['task_id']}{marker} |")
+        lines.append(
+            f"| {t['delta']:+.1f} | {t['base_score']:.1f} | {t['iter_score']:.1f} | {t['task_id']}{marker} |"
+        )
     if len(report["tools"]) > 20:
         lines.append("| ... | ... | ... | ... |")
         for t in report["tools"][-5:]:
             marker = " ⚠️" if t["is_regression"] else ""
-            lines.append(f"| {t['delta']:+.1f} | {t['base_score']:.1f} | {t['iter_score']:.1f} | {t['task_id']}{marker} |")
+            lines.append(
+                f"| {t['delta']:+.1f} | {t['base_score']:.1f} | {t['iter_score']:.1f} | {t['task_id']}{marker} |"
+            )
     lines.append("")
 
     lines.append("## Family histogram delta")
@@ -301,6 +333,7 @@ def render_two_way_md(report: dict) -> str:
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def _cli() -> int:
     ap = argparse.ArgumentParser(description="ProgramBench cross-run delta report")
@@ -321,7 +354,7 @@ def _cli() -> int:
         stem = f"{args.base}_vs_{args.iter}_delta"
 
     out_json = args.out / f"{stem}.json"
-    out_md   = args.out / f"{stem}.md"
+    out_md = args.out / f"{stem}.md"
     out_json.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
     if not args.iter2:
         md = render_two_way_md(report)
@@ -329,11 +362,13 @@ def _cli() -> int:
         # Three-way: render the two pairwise reports + trajectory header
         md_parts = [f"# Compare three: {args.base} → {args.iter} → {args.iter2}\n"]
         md_parts.append(f"_generated {report['generated_at']}_\n")
-        md_parts.append(f"## Trajectory net Δ (top 20)\n")
+        md_parts.append("## Trajectory net Δ (top 20)\n")
         md_parts.append("| net Δ pp | base | iter1 | iter2 | tool |")
         md_parts.append("|---:|---:|---:|---:|---|")
         for t in report["trajectory"][:20]:
-            md_parts.append(f"| {t['net_delta']:+.1f} | {t['base']:.1f} | {t['iter1']:.1f} | {t['iter2']:.1f} | {t['task_id']} |")
+            md_parts.append(
+                f"| {t['net_delta']:+.1f} | {t['base']:.1f} | {t['iter1']:.1f} | {t['iter2']:.1f} | {t['task_id']} |"
+            )
         md_parts.append("")
         md_parts.append("## base → iter1\n")
         md_parts.append(render_two_way_md(report["base_vs_iter1"]))

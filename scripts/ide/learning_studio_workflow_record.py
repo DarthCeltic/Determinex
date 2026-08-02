@@ -1,9 +1,9 @@
 """Records for DETERMINEX_LEARNING_STUDIO_WORKFLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 LEARNING_STUDIO_WORKFLOW_STATUS_TOKENS = (
     "LEARNING_STUDIO_WORKFLOW_WRITTEN",

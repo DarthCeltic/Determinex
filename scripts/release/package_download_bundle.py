@@ -4,6 +4,7 @@ The bundle is intentionally not a public-release approval. It packages the
 current MSI/NSIS artifacts with checksums, setup instructions, and a small
 evidence manifest while keeping signing and clean-host gates explicit.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -15,7 +16,7 @@ import shutil
 import subprocess
 import zipfile
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -48,7 +49,7 @@ class InstallerArtifact:
 
 
 def _utc_now() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _sha256(path: Path) -> str:
@@ -141,7 +142,11 @@ def _authenticode_status(path: Path) -> str:
 
 def _has_passing_legal_public_distribution_packet(root: Path) -> bool:
     packet_dir = root / "assurance/evidence/public_distribution"
-    packets = sorted(packet_dir.glob("legal_public_distribution_*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
+    packets = sorted(
+        packet_dir.glob("legal_public_distribution_*.json"),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
     for packet in packets:
         try:
             data = json.loads(packet.read_text(encoding="utf-8"))
@@ -307,7 +312,9 @@ def discover_installers(installer_dir: Path) -> list[InstallerArtifact]:
     if not installer_dir.is_dir():
         raise FileNotFoundError(f"installer directory not found: {installer_dir}")
     candidates = sorted(
-        p for p in installer_dir.rglob("*") if p.is_file() and p.suffix.lower() in INSTALLER_SUFFIXES
+        p
+        for p in installer_dir.rglob("*")
+        if p.is_file() and p.suffix.lower() in INSTALLER_SUFFIXES
     )
     # _artifact_type returns None for a file that merely LOOKS like an installer because of
     # its extension -- payload inside an unpacked package, or a stray .exe that is not
@@ -334,14 +341,17 @@ def discover_installers(installer_dir: Path) -> list[InstallerArtifact]:
         raise FileNotFoundError(
             f"no installer/package artifacts ({', '.join(sorted(INSTALLER_SUFFIXES))}) found under "
             f"{installer_dir}"
-            + (f" -- {len(skipped)} file(s) matched an installer extension but were package "
-               f"payload or unrecognised" if skipped else "")
+            + (
+                f" -- {len(skipped)} file(s) matched an installer extension but were package "
+                f"payload or unrecognised"
+                if skipped
+                else ""
+            )
         )
     return artifacts
 
 
-def _clean_host_note(artifact: InstallerArtifact,
-                     verified: dict[str, str]) -> list[str]:
+def _clean_host_note(artifact: InstallerArtifact, verified: dict[str, str]) -> list[str]:
     """Whether THIS artifact -- this exact hash -- has clean-host evidence."""
     digest = (artifact.sha256 or "").strip().lower()
     if digest and digest in verified:
@@ -380,7 +390,9 @@ def _clean_host_verified_hashes(root: Path) -> dict[str, str]:
     Mocked transcripts are excluded: `installer_sha256: "mocked_sha256"` is a template, not evidence.
     """
     verified: dict[str, str] = {}
-    for path in sorted((root / "assurance" / "evidence").rglob("clean_host_install_transcript*.json")):
+    for path in sorted(
+        (root / "assurance" / "evidence").rglob("clean_host_install_transcript*.json")
+    ):
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
@@ -392,16 +404,24 @@ def _clean_host_verified_hashes(root: Path) -> dict[str, str]:
         if not digest or not re.fullmatch(r"[0-9a-f]{64}", digest):
             continue
         # Only a transcript that actually recorded a successful cycle counts.
-        required = ("clean_host_fresh_install", "installer_execution_performed", "launch_performed",
-                    "uninstall_performed")
+        required = (
+            "clean_host_fresh_install",
+            "installer_execution_performed",
+            "launch_performed",
+            "uninstall_performed",
+        )
         if not all(data.get(field) is True for field in required):
             continue
         verified[digest] = path.name
     return verified
 
 
-def _setup_markdown(product_name: str, version: str, artifacts: list[InstallerArtifact],
-                    clean_host_verified: dict[str, str] | None = None) -> str:
+def _setup_markdown(
+    product_name: str,
+    version: str,
+    artifacts: list[InstallerArtifact],
+    clean_host_verified: dict[str, str] | None = None,
+) -> str:
     nsis = next((a for a in artifacts if a.artifact_type == "windows_nsis_setup"), None)
     msi = next((a for a in artifacts if a.artifact_type == "windows_msi"), None)
     linux = [a for a in artifacts if a.artifact_type in LINUX_PACKAGE_TYPES]
@@ -509,7 +529,9 @@ def _setup_markdown(product_name: str, version: str, artifacts: list[InstallerAr
                     ]
                 )
     else:
-        lines.extend(["## Linux Setup", "", "No Linux package artifact is present in this bundle.", ""])
+        lines.extend(
+            ["## Linux Setup", "", "No Linux package artifact is present in this bundle.", ""]
+        )
     lines.extend(
         [
             "## Release Boundary",
@@ -573,7 +595,9 @@ def build_download_bundle(
             "windows_msi_not_in_bundle; use the NSIS setup artifact until WiX/MSI bundling is repaired"
         )
     missing_linux_package_types = [
-        package_type for package_type in REQUIRED_LINUX_PACKAGE_TYPES if package_type not in artifact_types
+        package_type
+        for package_type in REQUIRED_LINUX_PACKAGE_TYPES
+        if package_type not in artifact_types
     ]
     legal_public_distribution_passed = _has_passing_legal_public_distribution_packet(repo_root)
     if missing_linux_package_types:
@@ -603,8 +627,9 @@ def build_download_bundle(
 
     # Per-artifact, so the document cannot claim clean-host verification for a binary that
     # was rebuilt after the transcript was written.
-    setup_text = _setup_markdown(product_name, version, artifacts,
-                                 _clean_host_verified_hashes(repo_root))
+    setup_text = _setup_markdown(
+        product_name, version, artifacts, _clean_host_verified_hashes(repo_root)
+    )
     (bundle_dir / "SETUP.md").write_text(setup_text, encoding="utf-8")
     (bundle_dir / "CHECKSUMS.sha256").write_text("\n".join(checksum_lines) + "\n", encoding="utf-8")
 
@@ -635,7 +660,11 @@ def build_download_bundle(
         "remaining_blockers": [
             "code_signing_not_verified",
             "smartscreen_trust_not_verified",
-            *([] if legal_public_distribution_passed else ["public_distribution_legal_ip_packet_not_executed"]),
+            *(
+                []
+                if legal_public_distribution_passed
+                else ["public_distribution_legal_ip_packet_not_executed"]
+            ),
             "clean_host_install_proof_not_passed",
             *([] if "windows_msi" in artifact_types else ["windows_msi_not_bundled"]),
             *(
@@ -643,7 +672,10 @@ def build_download_bundle(
                 if not missing_linux_package_types
                 else [
                     "linux_packages_not_bundled",
-                    *(f"{package_type}_not_bundled" for package_type in missing_linux_package_types),
+                    *(
+                        f"{package_type}_not_bundled"
+                        for package_type in missing_linux_package_types
+                    ),
                 ]
             ),
         ],
@@ -651,7 +683,9 @@ def build_download_bundle(
         "windows_msi_evidence_packet": str(msi_packet) if msi_packet else None,
         "artifacts": copied_artifacts,
     }
-    (bundle_dir / "download_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    (bundle_dir / "download_manifest.json").write_text(
+        json.dumps(manifest, indent=2), encoding="utf-8"
+    )
 
     zip_path = output_dir / f"{bundle_name}.zip"
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
@@ -666,16 +700,22 @@ def build_download_bundle(
     (bundle_dir / "download_manifest.json").write_text(manifest_text, encoding="utf-8")
     (evidence_dir / "download_manifest.json").write_text(manifest_text, encoding="utf-8")
     (evidence_dir / "SETUP.md").write_text(setup_text, encoding="utf-8")
-    (evidence_dir / "CHECKSUMS.sha256").write_text("\n".join(checksum_lines) + "\n", encoding="utf-8")
+    (evidence_dir / "CHECKSUMS.sha256").write_text(
+        "\n".join(checksum_lines) + "\n", encoding="utf-8"
+    )
     return manifest
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--installer-dir", type=Path, required=True)
-    parser.add_argument("--output-dir", type=Path, default=Path(r"C:\tmp\determinex-download-bundles"))
+    parser.add_argument(
+        "--output-dir", type=Path, default=Path(r"C:\tmp\determinex-download-bundles")
+    )
     parser.add_argument("--evidence-dir", type=Path, default=DEFAULT_EVIDENCE_DIR)
-    parser.add_argument("--windows-msi-evidence-dir", type=Path, default=DEFAULT_WINDOWS_MSI_EVIDENCE_DIR)
+    parser.add_argument(
+        "--windows-msi-evidence-dir", type=Path, default=DEFAULT_WINDOWS_MSI_EVIDENCE_DIR
+    )
     args = parser.parse_args()
 
     manifest = build_download_bundle(

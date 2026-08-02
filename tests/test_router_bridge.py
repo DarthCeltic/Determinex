@@ -16,6 +16,7 @@ these run in milliseconds.
 
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -40,6 +41,22 @@ GOOD = "def f():\n    return 5\n"
 BAD = "def f():\n    return 4\n"
 
 
+def _flat(text: str) -> str:
+    """Collapse whitespace runs so a source grep survives the formatter.
+
+    These guards match exact source text. `ruff format` changed the exact whitespace they
+    keyed on -- three spaces before a comment became two, two after a comma became one, a
+    one-line argument pair got split across two -- and every one of them went silently
+    vacuous, reporting "found in no files", which is also what they print when the thing they
+    guard has been DELETED. A guard whose blind mode is indistinguishable from the condition
+    it guards against is not guarding.
+
+    Comparing flattened text keeps the check identical -- same tokens, same order -- while
+    dropping a dependency on spacing that a formatter is entitled to change at any time.
+    """
+    return re.sub(r"\s+", " ", text)
+
+
 def _oracle():
     """A verifier that accepts exactly one answer, and records every attempt."""
     seen: list[str] = []
@@ -62,10 +79,10 @@ def _model(answer: str):
 @pytest.mark.parametrize(
     "model,tier",
     [
-        ("determinex/engineer", 1),   # local Ollama, DSL fine-tuned
-        ("local/coder", 1),           # local Ollama, base
-        ("free/qwen3-coder", 2),      # free endpoint: no spend, real latency
-        ("cloud/deepseek-chat", 3),   # paid
+        ("determinex/engineer", 1),  # local Ollama, DSL fine-tuned
+        ("local/coder", 1),  # local Ollama, base
+        ("free/qwen3-coder", 2),  # free endpoint: no spend, real latency
+        ("cloud/deepseek-chat", 3),  # paid
     ],
 )
 def test_tier_follows_the_config_naming_convention(model, tier):
@@ -145,10 +162,20 @@ class TestTheRoutingDefaultIsDerivedNotAssumed:
 
         monkeypatch.setattr(H, "get_hw_profile", lambda: _P())
 
-    @pytest.mark.parametrize("value,expected", [
-        ("1", True), ("true", True), ("yes", True), ("on", True), ("ON", True),
-        ("0", False), ("false", False), ("no", False), ("off", False),
-    ])
+    @pytest.mark.parametrize(
+        "value,expected",
+        [
+            ("1", True),
+            ("true", True),
+            ("yes", True),
+            ("on", True),
+            ("ON", True),
+            ("0", False),
+            ("false", False),
+            ("no", False),
+            ("off", False),
+        ],
+    )
     def test_an_explicit_setting_wins_in_both_directions(self, monkeypatch, value, expected):
         """It only ever forced ON before; `DETERMINEX_ROUTE=0` was indistinguishable from unset,
         so there was no way to say "not on this run" once a default existed."""
@@ -217,8 +244,10 @@ class TestTheRoutingDefaultIsDerivedNotAssumed:
 
         monkeypatch.delenv("DETERMINEX_ROUTE", raising=False)
         monkeypatch.setenv("DETERMINEX_ROUTE_LADDER", "determinex/engineer,determinex/qwen7b")
+
         def boom():
             raise OSError("no driver")
+
         monkeypatch.setattr(H, "get_hw_profile", boom)
         on, why = route_decision()
         assert on is False
@@ -261,8 +290,7 @@ def test_the_cheap_tier_solving_it_never_reaches_the_expensive_one():
         asked.append(model)
         return _model(GOOD if model.startswith("determinex/") else BAD)
 
-    res = routed_build(gen_for, verify,
-                       ["determinex/engineer", "cloud/claude-best"], k=2, rounds=1)
+    res = routed_build(gen_for, verify, ["determinex/engineer", "cloud/claude-best"], k=2, rounds=1)
     assert res is not None and res.passed
     assert res.model_used == "determinex/engineer"
     assert res.tier_used == 1
@@ -276,8 +304,7 @@ def test_escalates_to_the_expensive_tier_when_the_cheap_one_cannot():
     def gen_for(model: str):
         return _model(GOOD if model.startswith("cloud/") else BAD)
 
-    res = routed_build(gen_for, verify,
-                       ["determinex/engineer", "cloud/claude-best"], k=2, rounds=1)
+    res = routed_build(gen_for, verify, ["determinex/engineer", "cloud/claude-best"], k=2, rounds=1)
     assert res is not None and res.passed
     assert res.model_used == "cloud/claude-best"
     assert res.escalations >= 1
@@ -289,8 +316,9 @@ def test_an_exhausted_ladder_reports_failure_not_the_last_guess():
     as a pass. `passed` must stay False when the oracle never accepted anything."""
     verify, seen = _oracle()
 
-    res = routed_build(lambda _m: _model(BAD), verify,
-                       ["determinex/engineer", "cloud/claude-best"], k=2, rounds=1)
+    res = routed_build(
+        lambda _m: _model(BAD), verify, ["determinex/engineer", "cloud/claude-best"], k=2, rounds=1
+    )
     assert res is not None
     assert res.passed is False
     assert seen, "the oracle should have been consulted"
@@ -305,8 +333,7 @@ def test_the_winning_code_is_re_applied_so_the_workspace_ends_passing():
     def gen_for(model: str):
         return _model(GOOD if model.startswith("cloud/") else BAD)
 
-    res = routed_build(gen_for, verify,
-                       ["determinex/engineer", "cloud/claude-best"], k=2, rounds=1)
+    res = routed_build(gen_for, verify, ["determinex/engineer", "cloud/claude-best"], k=2, rounds=1)
     assert res is not None and res.passed
     assert seen[-1] == GOOD, "the last thing applied must be the passing candidate"
 
@@ -315,19 +342,24 @@ def test_routing_cannot_turn_a_failing_step_into_a_pass():
     """`verify` is the Compiler Oracle. Routing decides who attempts a step, never
     what counts as correct -- if it could, the oracle would no longer be the only
     thing in the system allowed to say 'correct'."""
+
     def reject_everything(code: str) -> tuple[bool, str]:
         return False, "compile error"
 
-    res = routed_build(lambda _m: _model(GOOD), reject_everything,
-                       ["determinex/engineer", "cloud/claude-best"], k=3, rounds=1)
+    res = routed_build(
+        lambda _m: _model(GOOD),
+        reject_everything,
+        ["determinex/engineer", "cloud/claude-best"],
+        k=3,
+        rounds=1,
+    )
     assert res is not None and res.passed is False
 
 
 def test_entries_are_ordered_cheapest_first_regardless_of_ladder_order():
     """A ladder written expensive-first must not spend the expensive model first;
     ModelRouter sorts by (tier, cost) and this pins that we rely on it."""
-    entries = build_entries(lambda _m: _model(GOOD),
-                            ["cloud/claude-best", "determinex/engineer"])
+    entries = build_entries(lambda _m: _model(GOOD), ["cloud/claude-best", "determinex/engineer"])
     from determinex_router import ModelRouter
 
     ordered = ModelRouter(entries, k=1, rounds=1).models
@@ -340,8 +372,16 @@ def test_entries_are_ordered_cheapest_first_regardless_of_ladder_order():
 def _result(**kw):
     from hive.router_bridge import RoutedBuildResult
 
-    base = dict(passed=True, code=GOOD, output="ok", model_used="cloud/claude-best",
-                tier_used=3, escalations=1, est_cost=2.5, samples=7)
+    base = dict(
+        passed=True,
+        code=GOOD,
+        output="ok",
+        model_used="cloud/claude-best",
+        tier_used=3,
+        escalations=1,
+        est_cost=2.5,
+        samples=7,
+    )
     base.update(kw)
     return RoutedBuildResult(**base)
 
@@ -350,8 +390,14 @@ def test_provenance_dict_carries_what_a_cost_comparison_needs():
     from hive.router_bridge import provenance_dict
 
     d = provenance_dict(_result())
-    assert d == {"model": "cloud/claude-best", "tier": 3, "escalations": 1,
-                 "samples": 7, "est_cost": 2.5, "passed": True}
+    assert d == {
+        "model": "cloud/claude-best",
+        "tier": 3,
+        "escalations": 1,
+        "samples": 7,
+        "est_cost": 2.5,
+        "passed": True,
+    }
 
 
 def test_route_decision_is_appended_beside_the_spend_ledger(monkeypatch, tmp_path):
@@ -381,7 +427,7 @@ def test_recording_never_raises_even_on_an_unwritable_root(monkeypatch, tmp_path
     blocker = tmp_path / "logs"
     blocker.write_text("not a directory", encoding="utf-8")
     monkeypatch.setattr(rb, "_ROOT", tmp_path)
-    rb.record_route_decision("sess-2", 1, _result())   # must not raise
+    rb.record_route_decision("sess-2", 1, _result())  # must not raise
 
 
 def test_step_record_round_trips_route_provenance():
@@ -508,8 +554,20 @@ def test_api_client_and_manifest_resolve_the_same_root():
 
 
 _CALLS = [
-    {"model": "determinex/engineer", "temp": 0.1, "ms": 41200, "tokens_in": 1800, "tokens_out": 320},
-    {"model": "determinex/engineer", "temp": 0.3, "ms": 38900, "tokens_in": 1800, "tokens_out": 290},
+    {
+        "model": "determinex/engineer",
+        "temp": 0.1,
+        "ms": 41200,
+        "tokens_in": 1800,
+        "tokens_out": 320,
+    },
+    {
+        "model": "determinex/engineer",
+        "temp": 0.3,
+        "ms": 38900,
+        "tokens_in": 1800,
+        "tokens_out": 290,
+    },
     {"model": "cloud/deepseek-chat", "temp": 0.1, "ms": 6100, "tokens_in": 1850, "tokens_out": 410},
 ]
 
@@ -556,11 +614,16 @@ def test_provenance_and_recording_still_work_without_telemetry(tmp_path, monkeyp
     assert "telemetry" not in d, "absent telemetry must not add an empty key"
 
     monkeypatch.setattr(rb, "_ROOT", tmp_path)
-    rb.record_route_decision("s", 1, _result())          # no calls arg
+    rb.record_route_decision("s", 1, _result())  # no calls arg
     rb.record_route_decision("s", 2, _result(), _CALLS)  # with calls
-    rows = (tmp_path / "logs" / "api_ledger" / "route_decisions.jsonl").read_text(
-        encoding="utf-8").strip().splitlines()
+    rows = (
+        (tmp_path / "logs" / "api_ledger" / "route_decisions.jsonl")
+        .read_text(encoding="utf-8")
+        .strip()
+        .splitlines()
+    )
     import json as _json
+
     assert _json.loads(rows[0])["telemetry"]["calls"] == 0
     assert _json.loads(rows[1])["telemetry"]["by_model"]["cloud/deepseek-chat"]["ms"] == 6100
 
@@ -586,12 +649,16 @@ def test_helper_allowlist_covers_every_script_the_rust_backend_calls():
 
     from determinex_hive import _HELPER_MODULES
 
-    rust = (REPO_ROOT / "frontend" / "src-tauri" / "src")
+    rust = REPO_ROOT / "frontend" / "src-tauri" / "src"
     declared: set[str] = set()
     for f in rust.glob("*.rs"):
-        for m in re.finditer(r'SCRIPT[A-Z_]*: &str = "(scripts/[^"]+\.py)"', f.read_text(encoding="utf-8")):
+        for m in re.finditer(
+            r'SCRIPT[A-Z_]*: &str = "(scripts/[^"]+\.py)"', f.read_text(encoding="utf-8")
+        ):
             declared.add(m.group(1))
-        for m in re.finditer(r'PYTHON_DRIVER: &str = "(scripts/[^"]+\.py)"', f.read_text(encoding="utf-8")):
+        for m in re.finditer(
+            r'PYTHON_DRIVER: &str = "(scripts/[^"]+\.py)"', f.read_text(encoding="utf-8")
+        ):
             declared.add(m.group(1))
 
     assert declared, "found no script constants in the Rust backend -- did they move?"
@@ -614,7 +681,8 @@ def test_every_allowlisted_helper_is_a_bundler_hidden_import():
     from determinex_hive import _HELPER_MODULES
 
     bundler = (REPO_ROOT / "bundler" / "build_hive_sidecar.py").read_text(encoding="utf-8")
-    missing = [m for m in _HELPER_MODULES if f'"--hidden-import", "{m}"' not in bundler]
+    flat = _flat(bundler)
+    missing = [m for m in _HELPER_MODULES if _flat(f'"--hidden-import", "{m}"') not in flat]
     assert not missing, f"allowlisted but not bundled: {missing}"
 
 
@@ -625,7 +693,9 @@ def test_helper_rejects_anything_not_allowlisted():
 
     r = subprocess.run(
         [sys.executable, str(REPO_ROOT / "scripts" / "determinex_hive.py"), "helper", "os"],
-        capture_output=True, text=True, timeout=180,
+        capture_output=True,
+        text=True,
+        timeout=180,
     )
     assert r.returncode != 0
     assert "invalid choice" in (r.stderr + r.stdout)

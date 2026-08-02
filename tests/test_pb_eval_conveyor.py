@@ -48,7 +48,10 @@ def test_collection_error_cascade_is_bounced_before_behavior(tmp_path: Path) -> 
             "name": "tests.test_loader_advanced_gaps",
             "branch": "40cb72101fde",
             "status": "error",
-            "extra": {"message": "collection failure", "text": "ImportError: cannot import name run_cli"},
+            "extra": {
+                "message": "collection failure",
+                "text": "ImportError: cannot import name run_cli",
+            },
         },
     ]
     rows.extend(
@@ -91,11 +94,17 @@ def test_rendered_packet_and_handback_are_non_certifying(tmp_path: Path) -> None
                 "status": "failure",
                 "extra": {"message": "AssertionError: database dry-run produced no output"},
             },
-            {"name": "eval.tests.test_command_execution_paths.test_ok", "branch": "7c9925b9a694", "status": "passed"},
+            {
+                "name": "eval.tests.test_command_execution_paths.test_ok",
+                "branch": "7c9925b9a694",
+                "status": "passed",
+            },
         ],
     )
     packet = load_eval_packet(report)
-    packet_text = render_packet([packet], batch_id="TEST-BATCH", remote_pid="123", remote_log="/tmp/log")
+    packet_text = render_packet(
+        [packet], batch_id="TEST-BATCH", remote_pid="123", remote_log="/tmp/log"
+    )
     handback_text = render_handback(tmp_path / "packet.md", [packet], "TEST-BATCH")
 
     assert "driver Section 5 only" in packet_text

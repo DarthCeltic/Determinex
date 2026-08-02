@@ -18,11 +18,12 @@ Design contract:
   - A pluggable transport is accepted for tests; it must NOT open a
     real socket. The production transport is the bound urllib helper.
 """
+
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable, Optional
 from urllib.parse import urlparse
 
 from .ollama_local_provider_smoke_record import (
@@ -30,11 +31,14 @@ from .ollama_local_provider_smoke_record import (
     OllamaLocalProviderSmokeRecord,
 )
 
-
 # Hosts we accept as local. Anything else is treated as network.
-_LOCAL_HOSTS: frozenset[str] = frozenset({
-    "localhost", "127.0.0.1", "::1",
-})
+_LOCAL_HOSTS: frozenset[str] = frozenset(
+    {
+        "localhost",
+        "127.0.0.1",
+        "::1",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -53,7 +57,6 @@ def _real_transport(endpoint: str, timeout_seconds: float) -> _ProbeResult:
     """Stdlib-only localhost probe. NEVER imported by tests."""
     # Lazy import inside the function so this module is safe to load
     # without paying the urllib cost when tests use a mock transport.
-    import socket
     import urllib.error
     import urllib.request
 
@@ -65,21 +68,18 @@ def _real_transport(endpoint: str, timeout_seconds: float) -> _ProbeResult:
         )
         with urllib.request.urlopen(req, timeout=timeout_seconds) as resp:
             return _ProbeResult(
-                status_code=resp.status, ok=(200 <= resp.status < 300),
+                status_code=resp.status,
+                ok=(200 <= resp.status < 300),
                 timed_out=False,
             )
-    except socket.timeout:
-        return _ProbeResult(status_code=0, ok=False, timed_out=True,
-                            error="socket timeout")
+    except TimeoutError:
+        return _ProbeResult(status_code=0, ok=False, timed_out=True, error="socket timeout")
     except urllib.error.URLError as exc:
         if "timed out" in str(exc).lower():
-            return _ProbeResult(status_code=0, ok=False, timed_out=True,
-                                error=str(exc))
-        return _ProbeResult(status_code=0, ok=False, timed_out=False,
-                            error=str(exc))
+            return _ProbeResult(status_code=0, ok=False, timed_out=True, error=str(exc))
+        return _ProbeResult(status_code=0, ok=False, timed_out=False, error=str(exc))
     except OSError as exc:
-        return _ProbeResult(status_code=0, ok=False, timed_out=False,
-                            error=str(exc))
+        return _ProbeResult(status_code=0, ok=False, timed_out=False, error=str(exc))
 
 
 def _host_is_local(endpoint: str) -> bool:
@@ -92,7 +92,7 @@ def smoke(
     *,
     endpoint: str = "",
     timeout_seconds: float = 1.5,
-    transport: Optional[ProbeTransport] = None,
+    transport: ProbeTransport | None = None,
 ) -> OllamaLocalProviderSmokeRecord:
     """Run the bounded smoke.
 

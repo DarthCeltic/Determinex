@@ -15,6 +15,7 @@ These three ARE the S-curve. They belong on a board; rising match×capture = the
 
 Signature library lives at corpus/programbench/signature_library.json (capture-back target).
 """
+
 from __future__ import annotations
 
 import json
@@ -29,20 +30,32 @@ import determinex_pb_fingerprint as FP  # noqa: E402
 
 # techniques we can actually apply automatically today (vs need-build/need-solve)
 AUTO_TECHNIQUES = {
-    "bidir-mirror", "crlf-normalize", "build-fail-routing", "drop-privileges",
-    "pty-allocate", "hermetic-clock", "hermetic-locale", "hermetic-path-canon",
-    "hermetic-seed", "canonical-sort-compare", "ansi-normalize", "whitespace-normalize",
-    "version-pin", "exit-code-route",
+    "bidir-mirror",
+    "crlf-normalize",
+    "build-fail-routing",
+    "drop-privileges",
+    "pty-allocate",
+    "hermetic-clock",
+    "hermetic-locale",
+    "hermetic-path-canon",
+    "hermetic-seed",
+    "canonical-sort-compare",
+    "ansi-normalize",
+    "whitespace-normalize",
+    "version-pin",
+    "exit-code-route",
 }
 
 
 def load_lib() -> dict:
     if LIB.exists():
         return json.loads(LIB.read_text(encoding="utf-8"))
-    return {"schema": "determinex-pb-signature-library-v1",
-            "note": "mechanism -> technique that resolved it + tools it worked on (capture-back). "
-                    "Routing matches a NEW tool's fingerprint to a known technique here.",
-            "signatures": {}}
+    return {
+        "schema": "determinex-pb-signature-library-v1",
+        "note": "mechanism -> technique that resolved it + tools it worked on (capture-back). "
+        "Routing matches a NEW tool's fingerprint to a known technique here.",
+        "signatures": {},
+    }
 
 
 def capture_back(mechanism: str, technique: str, tool: str) -> None:
@@ -62,9 +75,13 @@ def route_tool(report_path: Path) -> dict:
         tr = json.loads(report_path.read_text(encoding="utf-8")).get("test_results", [])
     except Exception:
         return {}
-    def _ident(n): return n.split("::")[-1] if "::" in n else n.split(".")[-1]
+
+    def _ident(n):
+        return n.split("::")[-1] if "::" in n else n.split(".")[-1]
+
     passed = {_ident(x.get("name", "")) for x in tr if x.get("status") == "passed"}
-    by_tech = Counter(); by_mech = Counter()
+    by_tech = Counter()
+    by_mech = Counter()
     for x in tr:
         if x.get("status") == "passed":
             continue
@@ -72,16 +89,22 @@ def route_tool(report_path: Path) -> dict:
         by_mech[fp.mechanism] += 1
         by_tech[fp.technique] += 1
     auto = {t: n for t, n in by_tech.items() if t in AUTO_TECHNIQUES}
-    return {"mechanisms": dict(by_mech), "techniques": dict(by_tech),
-            "auto_routable": auto, "auto_count": sum(auto.values()),
-            "total_residual": sum(by_tech.values())}
+    return {
+        "mechanisms": dict(by_mech),
+        "techniques": dict(by_tech),
+        "auto_routable": auto,
+        "auto_count": sum(auto.values()),
+        "total_residual": sum(by_tech.values()),
+    }
 
 
 def dashboard(roots: list[str]) -> dict:
     """Compute match-rate / capture-rate / auto-routable across all reports."""
     lib = load_lib()
     captured = set(lib["signatures"].keys())
-    total = 0; matched = 0; auto = 0
+    total = 0
+    matched = 0
+    auto = 0
     mech_seen = Counter()
     for root in roots:
         for jf in Path(root).glob("*.eval.json"):
@@ -96,8 +119,10 @@ def dashboard(roots: list[str]) -> dict:
     mechs = set(mech_seen)
     return {
         "residual_tests": total,
-        "match_rate": round(matched / total, 3) if total else 0,   # have a technique mapping
-        "auto_routable_rate": round(auto / total, 3) if total else 0,  # technique we can apply today
+        "match_rate": round(matched / total, 3) if total else 0,  # have a technique mapping
+        "auto_routable_rate": round(auto / total, 3)
+        if total
+        else 0,  # technique we can apply today
         "capture_rate": round(len(captured & mechs) / len(mechs), 3) if mechs else 0,  # in library
         "mechanisms_seen": dict(mech_seen.most_common()),
         "captured_in_library": sorted(captured),
@@ -110,9 +135,13 @@ def main() -> int:
         d = dashboard(roots)
         print("=== COMPOUNDING DASHBOARD (the S-curve metrics) ===")
         print(f"  residual tests:      {d['residual_tests']}")
-        print(f"  match-rate:          {d['match_rate']:.1%}  (fingerprint -> known technique mapping)")
+        print(
+            f"  match-rate:          {d['match_rate']:.1%}  (fingerprint -> known technique mapping)"
+        )
         print(f"  auto-routable-rate:  {d['auto_routable_rate']:.1%}  (technique applicable TODAY)")
-        print(f"  capture-rate:        {d['capture_rate']:.1%}  (mechanisms with a captured-back signature)")
+        print(
+            f"  capture-rate:        {d['capture_rate']:.1%}  (mechanisms with a captured-back signature)"
+        )
         print(f"  captured in library: {d['captured_in_library'] or '(none yet)'}")
         return 0
     print(__doc__)

@@ -49,22 +49,28 @@ def test_the_vc_redist_inside_an_appimage_is_not_a_windows_installer():
     assert _artifact_type(payload) is None
 
 
-@pytest.mark.parametrize("rel", [
-    "appimage/Determinex.AppDir/usr/lib/Determinex/resources/vc_redist.x64.exe",
-    "appimage/Determinex.AppDir/usr/bin/determinex",
-    "nsis/resources/some-helper.exe",
-])
+@pytest.mark.parametrize(
+    "rel",
+    [
+        "appimage/Determinex.AppDir/usr/lib/Determinex/resources/vc_redist.x64.exe",
+        "appimage/Determinex.AppDir/usr/bin/determinex",
+        "nsis/resources/some-helper.exe",
+    ],
+)
 def test_package_payload_is_never_an_artifact(rel):
     assert _artifact_type(Path("bundle") / rel) is None
 
 
-@pytest.mark.parametrize("name,expected", [
-    ("Determinex_0.1.0_x64-setup.exe", "windows_nsis_setup"),
-    ("Determinex_0.1.0_x64_en-US.msi", "windows_msi"),
-    ("Determinex_0.1.0_amd64.AppImage", "linux_appimage"),
-    ("Determinex_0.1.0_amd64.deb", "linux_deb"),
-    ("Determinex-0.1.0-1.x86_64.rpm", "linux_rpm"),
-])
+@pytest.mark.parametrize(
+    "name,expected",
+    [
+        ("Determinex_0.1.0_x64-setup.exe", "windows_nsis_setup"),
+        ("Determinex_0.1.0_x64_en-US.msi", "windows_msi"),
+        ("Determinex_0.1.0_amd64.AppImage", "linux_appimage"),
+        ("Determinex_0.1.0_amd64.deb", "linux_deb"),
+        ("Determinex-0.1.0-1.x86_64.rpm", "linux_rpm"),
+    ],
+)
 def test_the_real_artifacts_still_classify(name, expected):
     """The fix must not cost us the genuine artifacts -- all five names below are what the
     2026-07-29 builds actually emitted."""

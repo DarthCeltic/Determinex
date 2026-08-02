@@ -6,6 +6,7 @@ Covers: DAG topological sort, WAL atomicity, compiler output sanitization,
 
 Run with: pytest tests/test_hive_core.py -v
 """
+
 from __future__ import annotations
 
 import sys
@@ -22,9 +23,11 @@ if str(_SCRIPTS) not in sys.path:
 # 1. DAG topological sort
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def _make_steps(deps: dict[int, list[int]]):
     """Build a minimal list of StepRecord-like dicts for the sort tests."""
     from hive.manifest import StepRecord
+
     return [
         StepRecord(
             id=sid,
@@ -38,6 +41,7 @@ def _make_steps(deps: dict[int, list[int]]):
 def test_topo_sort_linear():
     """1 → 2 → 3 must come out in that order."""
     from hive.dag import topological_sort
+
     steps = _make_steps({1: [], 2: [1], 3: [2]})
     order, cycles = topological_sort(steps)
     assert cycles == []
@@ -48,6 +52,7 @@ def test_topo_sort_linear():
 def test_topo_sort_parallel():
     """Steps 2 and 3 both depend only on 1 — they should both appear after 1."""
     from hive.dag import topological_sort
+
     steps = _make_steps({1: [], 2: [1], 3: [1]})
     order, cycles = topological_sort(steps)
     assert cycles == []
@@ -59,6 +64,7 @@ def test_topo_sort_parallel():
 def test_topo_sort_detects_cycle():
     """A → B → A must be reported as a cycle, not returned in the flat order."""
     from hive.dag import topological_sort
+
     steps = _make_steps({1: [2], 2: [1]})
     order, cycles = topological_sort(steps)
     assert len(cycles) > 0, "Expected at least one cycle group"
@@ -67,6 +73,7 @@ def test_topo_sort_detects_cycle():
 def test_build_execution_waves():
     """Waves must group independent steps together."""
     from hive.dag import build_execution_waves, topological_sort
+
     steps = _make_steps({1: [], 2: [], 3: [1, 2], 4: [3]})
     order, _ = topological_sort(steps)
     waves = build_execution_waves(steps, order)
@@ -89,15 +96,22 @@ def test_build_execution_waves():
 # 2. WAL atomicity
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def test_wal_pending_complete_cycle():
     """Write pending → complete → verify no .pending file remains."""
     from hive.manifest import (
-        ManifestSession, StepRecord, save_manifest,
-        wal_write_pending, wal_complete, wal_recover_pending,
+        ManifestSession,
+        StepRecord,
+        save_manifest,
+        wal_complete,
+        wal_recover_pending,
+        wal_write_pending,
     )
+
     with tempfile.TemporaryDirectory() as tmp:
         # Patch sessions dir to temp location
         import hive.manifest as _m
+
         orig = _m._SESSIONS_DIR
         _m._SESSIONS_DIR = Path(tmp)
         try:
@@ -125,11 +139,17 @@ def test_wal_pending_complete_cycle():
 def test_wal_fail_removes_pending():
     """wal_fail must move .pending → .failed, not leave it pending."""
     from hive.manifest import (
-        ManifestSession, StepRecord, save_manifest,
-        wal_write_pending, wal_fail, wal_recover_pending,
+        ManifestSession,
+        StepRecord,
+        save_manifest,
+        wal_fail,
+        wal_recover_pending,
+        wal_write_pending,
     )
+
     with tempfile.TemporaryDirectory() as tmp:
         import hive.manifest as _m
+
         orig = _m._SESSIONS_DIR
         _m._SESSIONS_DIR = Path(tmp)
         try:
@@ -155,8 +175,10 @@ def test_wal_fail_removes_pending():
 # 3. Compiler output sanitization
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def test_sanitize_strips_unix_workspace_path():
     from hive.compiler import sanitize_compiler_output
+
     raw = "error[E0502]: cannot borrow\n  --> /tmp/determinex_workspace_abc123/src/lib.rs:42:5"
     result = sanitize_compiler_output(raw)
     assert "/tmp/determinex_workspace_abc123/" not in result
@@ -165,14 +187,18 @@ def test_sanitize_strips_unix_workspace_path():
 
 def test_sanitize_strips_windows_workspace_path():
     from hive.compiler import sanitize_compiler_output
+
     # Real format: determinex_workspaces\<uuid>\ (plural base dir, uuid as subdir)
-    raw = r"error[E0502]: cannot borrow  --> C:\Temp\determinex_workspaces\abc123def\src\main.rs:10:3"
+    raw = (
+        r"error[E0502]: cannot borrow  --> C:\Temp\determinex_workspaces\abc123def\src\main.rs:10:3"
+    )
     result = sanitize_compiler_output(raw)
     assert "determinex_workspaces" not in result or "abc123def" not in result
 
 
 def test_sanitize_strips_timestamp():
     from hive.compiler import sanitize_compiler_output
+
     raw = "Compiling myapp at 2026-04-14T08:30:00"
     result = sanitize_compiler_output(raw)
     assert "2026-04-14T08:30:00" not in result
@@ -181,7 +207,8 @@ def test_sanitize_strips_timestamp():
 
 def test_sanitize_same_error_same_hash():
     """Two identical errors from different workspace UUIDs must hash identically."""
-    from hive.compiler import sanitize_compiler_output, hash_compiler_error
+    from hive.compiler import hash_compiler_error, sanitize_compiler_output
+
     err1 = "error[E0502]\n  --> /tmp/determinex_workspaces/aaa111/src/lib.rs:42"
     err2 = "error[E0502]\n  --> /tmp/determinex_workspaces/bbb222/src/lib.rs:42"
     # Sanitize both first — they should produce identical strings
@@ -193,10 +220,12 @@ def test_sanitize_same_error_same_hash():
 # 4. Budget enforcement
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def test_budget_preflight_passes_when_under():
     """Preflight must return ok=True when estimated cost < remaining budget."""
-    from hive.manifest import ManifestSession, StepRecord
     from hive.budget import api_budget_preflight
+    from hive.manifest import ManifestSession, StepRecord
+
     session = ManifestSession(
         session_id="budget-test-001",
         lang="rust",
@@ -217,14 +246,15 @@ def test_budget_preflight_passes_when_under():
 
 def test_budget_exhausted_flag_set_on_overage():
     """record_api_call_cost must set budget_exhausted when cumulative cost exceeds cap."""
-    from hive.manifest import ManifestSession
     from hive.budget import record_api_call_cost
+    from hive.manifest import ManifestSession
+
     session = ManifestSession(
         session_id="budget-test-002",
         lang="python",
         md_spec_path="",
         project_root="/tmp/fake",
-        session_budget_usd=0.001,   # tiny cap — 1 millidollar
+        session_budget_usd=0.001,  # tiny cap — 1 millidollar
         api_cost_usd=0.0,
     )
     assert not session.budget_exhausted

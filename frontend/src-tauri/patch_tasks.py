@@ -38,7 +38,7 @@ for t in tasks:
             "UPDATE audit_log SET payload = 'Fire It' WHERE id = 1;\n"
             "SELECT 'DONE' AS result;\n"
         ]
-        print(f"[OK] Rewrote adversarial_sql_001 to SQLite syntax")
+        print("[OK] Rewrote adversarial_sql_001 to SQLite syntax")
 
 with open(path, "w", encoding="utf-8") as f:
     for t in tasks:

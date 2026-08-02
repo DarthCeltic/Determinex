@@ -2,6 +2,7 @@
 generator. Built 2026-07-27 per Ryan's direct instruction that every project Determinex builds
 or opens should default to a project-instructions file readable by any LLM/agent tool.
 """
+
 from __future__ import annotations
 
 import sys

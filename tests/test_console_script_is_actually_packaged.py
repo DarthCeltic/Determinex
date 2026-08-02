@@ -19,6 +19,7 @@ a thing that holds for a reason nothing states.
 Deliberately asserts on CONFIG rather than calling `find_namespace_packages()`: that call takes
 ~25 minutes on this ~10 GiB checkout, which is not a unit test.
 """
+
 from __future__ import annotations
 
 import sys
@@ -60,9 +61,9 @@ class TestTheEntryPointModuleIsShipped:
             module_path, _, attr = target.partition(":")
             assert attr, f"{name}: entry point {target!r} names no callable"
             candidate = REPO_ROOT / Path(*module_path.split("."))
-            assert candidate.with_suffix(".py").is_file() or (candidate / "__init__.py").is_file(), (
-                f"{name}: entry point module {module_path!r} does not exist"
-            )
+            assert (
+                candidate.with_suffix(".py").is_file() or (candidate / "__init__.py").is_file()
+            ), f"{name}: entry point module {module_path!r} does not exist"
 
     def test_every_console_script_root_package_is_covered_by_the_include_patterns(
         self, pyproject: dict

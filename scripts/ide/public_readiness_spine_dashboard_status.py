@@ -23,6 +23,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -38,7 +39,6 @@ if str(_SCRIPTS) not in sys.path:
 from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 _EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
@@ -71,8 +71,7 @@ REQUIRED_PANEL_CAPTIONS = (
     "Universal support is not claimed.",
     "Proof report export is not release readiness.",
     "Unknown/novel routing is not arbitrary app support.",
-    "Spine integrity is Codex-owned source-truth; surfaced here for "
-    "display only.",
+    "Spine integrity is Codex-owned source-truth; surfaced here for display only.",
 )
 
 
@@ -135,7 +134,9 @@ def _locate_latest_evidence(evidence_dir: Path) -> Path | None:
     return candidates[-1] if candidates else None
 
 
-def _shell(*, decision: str, note: str, combined_passed: int = 0) -> PublicReadinessSpineDashboardStatus:
+def _shell(
+    *, decision: str, note: str, combined_passed: int = 0
+) -> PublicReadinessSpineDashboardStatus:
     return PublicReadinessSpineDashboardStatus(
         decision=decision,
         target_surface="Public Readiness Spine Dashboard",
@@ -193,7 +194,9 @@ def load(
 ) -> PublicReadinessSpineDashboardStatus:
     eidx = Path(evidence_index_path) if evidence_index_path else _EVIDENCE_INDEX
     if not eidx.is_file():
-        return _awaiting(f"evidence_index.json absent at {eidx}", )
+        return _awaiting(
+            f"evidence_index.json absent at {eidx}",
+        )
     try:
         idx = json.loads(eidx.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
@@ -256,8 +259,10 @@ def load(
     # integrity from the last reconciliation pass; the user-facing dashboard
     # shows current state.
     ledger_entry_count = entry_count
-    count_drift_status = "EVIDENCE_COUNT_DRIFT_GUARD_PASSED" if not validation_errors else str(
-        pre.get("count_drift_status") or ""
+    count_drift_status = (
+        "EVIDENCE_COUNT_DRIFT_GUARD_PASSED"
+        if not validation_errors
+        else str(pre.get("count_drift_status") or "")
     )
     count_drift_actual = entry_count
     count_drift_expected = entry_count
@@ -315,7 +320,9 @@ def load(
         evidence_index_ref=_relative_to_repo(eidx),
         reconciliation_ref=_relative_to_repo(chosen),
         captions=REQUIRED_PANEL_CAPTIONS,
-        notes=() if not pre_errors else (f"pre-reconciliation validation_errors: {list(pre_errors)}",),
+        notes=()
+        if not pre_errors
+        else (f"pre-reconciliation validation_errors: {list(pre_errors)}",),
     )
 
 

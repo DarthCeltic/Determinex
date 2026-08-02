@@ -22,7 +22,7 @@ def test_sidecar_builder_outputs_determinex_hive():
     script = (ROOT / "bundler" / "build_hive_sidecar.py").read_text(encoding="utf-8")
 
     assert 'SIDECAR_BASENAME = "determinex-hive"' in script
-    assert 'pyinstaller_name = SIDECAR_BASENAME' in script
+    assert "pyinstaller_name = SIDECAR_BASENAME" in script
     assert "Build the Determinex Hive sidecar binary" in script
 
 

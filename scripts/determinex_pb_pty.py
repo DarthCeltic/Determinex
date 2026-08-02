@@ -27,6 +27,7 @@ Guarded to the tool invocation only (never a blanket wrap -- pytest/libtmux/pexp
 set their own stdin/input pass through untouched, the selective-apply lesson). GREEN per the
 ceiling standard: it only bounds runtime; it does not rewrite output, skip tests, or edit fixtures.
 """
+
 from __future__ import annotations
 
 import json
@@ -120,8 +121,22 @@ _pt_sp.run = _pt_run
 '''
 
 # report signatures that say "this tool has a TUI / interactive surface that can hang"
-_PTY_NAME = ("_tui", "tmux", "pty", "curses", "pexpect", "interactive", "render", "screen",
-             "tview", "tcell", "ncurses", "fullscreen", "keypress", "raw_mode")
+_PTY_NAME = (
+    "_tui",
+    "tmux",
+    "pty",
+    "curses",
+    "pexpect",
+    "interactive",
+    "render",
+    "screen",
+    "tview",
+    "tcell",
+    "ncurses",
+    "fullscreen",
+    "keypress",
+    "raw_mode",
+)
 
 
 def pty_candidate(eval_report_path) -> tuple[bool, str]:
@@ -135,9 +150,12 @@ def pty_candidate(eval_report_path) -> tuple[bool, str]:
         tr = json.loads(p.read_text(encoding="utf-8")).get("test_results") or []
     except Exception:
         return True, "unreadable report -> pty+timeout guard"
-    hits = [x.get("name", "") for x in tr
-            if x.get("status") in ("failed", "error", "not_run", "skipped")
-            and any(s in (x.get("name", "") or "").lower() for s in _PTY_NAME)]
+    hits = [
+        x.get("name", "")
+        for x in tr
+        if x.get("status") in ("failed", "error", "not_run", "skipped")
+        and any(s in (x.get("name", "") or "").lower() for s in _PTY_NAME)
+    ]
     if hits:
         return True, f"{len(hits)} TUI/interactive test(s) -> pty-allocate + subprocess timeout"
     return False, "no TUI/interactive failure signature"
@@ -158,10 +176,10 @@ def inject_pty(compile_sh_text: str) -> tuple[str, bool]:
         "\n# --- determinex pty + anti-hang: install as pytest11 plugin (reliable load) ---\n"
         "mkdir -p /opt/determinex_pty\n"
         "cat > /opt/determinex_pty/determinex_pty_plugin.py <<'DETERMINEX_PTY_EOF'\n"
-        + PTY_PLUGIN.strip("\n") +
-        "\nDETERMINEX_PTY_EOF\n"
+        + PTY_PLUGIN.strip("\n")
+        + "\nDETERMINEX_PTY_EOF\n"
         "cat > /opt/determinex_pty/setup.py <<'DETERMINEX_PTY_SETUP'\n"
-        'from setuptools import setup\n'
+        "from setuptools import setup\n"
         'setup(name="determinex_pty", version="1.0", py_modules=["determinex_pty_plugin"],\n'
         '      entry_points={"pytest11": ["determinex_pty = determinex_pty_plugin"]})\n'
         "DETERMINEX_PTY_SETUP\n"
@@ -177,13 +195,18 @@ def strip_pty(compile_sh_text: str) -> tuple[str, bool]:
     collected -> all not_run. Per corpus, pty is OPT-IN for genuinely-hanging tools, NOT a
     blanket sidecar -- so remove it where it was blanket-applied. Idempotent."""
     import re as _re
+
     new, n = _re.subn(
         r"\n# --- determinex pty \+ anti-hang: install as pytest11 plugin.*?"
         r"\(\s*cd /opt/determinex_pty &&[^\n]*\)\n",
-        "\n", compile_sh_text, flags=_re.DOTALL)
+        "\n",
+        compile_sh_text,
+        flags=_re.DOTALL,
+    )
     return new, n > 0
 
 
 if __name__ == "__main__":
     import sys
+
     print(pty_candidate(sys.argv[1]) if len(sys.argv) > 1 else "usage: <eval_report.json>")

@@ -20,11 +20,12 @@ The emit() call is non-blocking and fail-silent: a filesystem failure never
 propagates to the pipeline caller. The factory must not stop because the
 event log is full.
 """
+
 from __future__ import annotations
 
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -36,9 +37,7 @@ log = logging.getLogger(__name__)
 # Configuration
 # ---------------------------------------------------------------------------
 
-_DEFAULT_AUDIT_DIR = Path(
-    os.environ.get("DETERMINEX_AUDIT_DIR", "T:/determinex_audit/events")
-)
+_DEFAULT_AUDIT_DIR = Path(os.environ.get("DETERMINEX_AUDIT_DIR", "T:/determinex_audit/events"))
 
 _FALLBACK_AUDIT_DIR = Path(os.environ.get("DETERMINEX_ROOT", ".")) / "logs" / "events"
 
@@ -60,13 +59,14 @@ def _audit_dir() -> Path:
 
 
 def _today_log_path() -> Path:
-    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    date_str = datetime.now(UTC).strftime("%Y-%m-%d")
     return _audit_dir() / f"{date_str}.jsonl"
 
 
 # ---------------------------------------------------------------------------
 # Core emit
 # ---------------------------------------------------------------------------
+
 
 def emit(
     event_type: EventType,
@@ -124,18 +124,35 @@ def emit(
 # Convenience wrappers
 # ---------------------------------------------------------------------------
 
+
 def emit_task_accepted(task_id: str, language: str, reason: str = "") -> DeterminexEvent:
-    return emit(EventType.TASK_ACCEPTED, task_id=task_id, language=language, result="accepted", reason=reason)
+    return emit(
+        EventType.TASK_ACCEPTED,
+        task_id=task_id,
+        language=language,
+        result="accepted",
+        reason=reason,
+    )
 
 
 def emit_task_denied(task_id: str, language: str, reason: str) -> DeterminexEvent:
-    return emit(EventType.TASK_DENIED, task_id=task_id, language=language, result="denied", reason=reason)
+    return emit(
+        EventType.TASK_DENIED, task_id=task_id, language=language, result="denied", reason=reason
+    )
 
 
-def emit_baseline(task_id: str, language: str, passed: bool, verifier: str = "", duration_ms: float = 0.0) -> DeterminexEvent:
+def emit_baseline(
+    task_id: str, language: str, passed: bool, verifier: str = "", duration_ms: float = 0.0
+) -> DeterminexEvent:
     etype = EventType.BASELINE_COMPLETED if passed else EventType.BASELINE_FAILED
-    return emit(etype, task_id=task_id, language=language, verifier=verifier,
-                result="pass" if passed else "fail", duration_ms=duration_ms)
+    return emit(
+        etype,
+        task_id=task_id,
+        language=language,
+        verifier=verifier,
+        result="pass" if passed else "fail",
+        duration_ms=duration_ms,
+    )
 
 
 def emit_corpus_written(task_id: str, language: str) -> DeterminexEvent:
@@ -143,8 +160,13 @@ def emit_corpus_written(task_id: str, language: str) -> DeterminexEvent:
 
 
 def emit_corpus_rejected(task_id: str, language: str, reason: str) -> DeterminexEvent:
-    return emit(EventType.CORPUS_ROW_REJECTED, task_id=task_id, language=language,
-                result="rejected", reason=reason)
+    return emit(
+        EventType.CORPUS_ROW_REJECTED,
+        task_id=task_id,
+        language=language,
+        result="rejected",
+        reason=reason,
+    )
 
 
 def emit_license_rejected(task_id: str, spdx: str, bucket: str) -> DeterminexEvent:
@@ -152,8 +174,12 @@ def emit_license_rejected(task_id: str, spdx: str, bucket: str) -> DeterminexEve
 
 
 def emit_cloak_applied(task_id: str, identifier_count: int) -> DeterminexEvent:
-    return emit(EventType.CLOAK_APPLIED, task_id=task_id, result="applied",
-                metadata={"identifier_count": identifier_count})
+    return emit(
+        EventType.CLOAK_APPLIED,
+        task_id=task_id,
+        result="applied",
+        metadata={"identifier_count": identifier_count},
+    )
 
 
 def emit_cloak_failed(task_id: str, reason: str) -> DeterminexEvent:

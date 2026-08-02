@@ -25,13 +25,15 @@ def build_replay_plan(scan_report: dict[str, Any]) -> dict[str, Any]:
     for tool, count in replay_by_tool.items():
         rows = by_tool.get(tool, [])
         failures = Counter(label for row in rows for label in row.get("failure_classes", []))
-        ranked.append({
-            "tool": tool,
-            "candidate_rows": int(count),
-            "top_failure_classes": dict(failures.most_common(5)),
-            "replay_reason": "has legacy eval/gate/test metadata sufficient for verifier reconstruction",
-            "training_eligible": False,
-        })
+        ranked.append(
+            {
+                "tool": tool,
+                "candidate_rows": int(count),
+                "top_failure_classes": dict(failures.most_common(5)),
+                "replay_reason": "has legacy eval/gate/test metadata sufficient for verifier reconstruction",
+                "training_eligible": False,
+            }
+        )
     ranked.sort(key=lambda row: row["candidate_rows"], reverse=True)
     return {
         "schema_version": "determinex-legacy-replay-plan-v1",
@@ -46,7 +48,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Build replay candidate list from legacy scan.")
     parser.add_argument("roots", nargs="+", type=Path)
     parser.add_argument("--max-rows", type=int, default=None)
-    parser.add_argument("--output", type=Path, default=Path("assurance/evidence/legacy_replay_candidate_list.json"))
+    parser.add_argument(
+        "--output", type=Path, default=Path("assurance/evidence/legacy_replay_candidate_list.json")
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args()
     plan = build_replay_plan(scan_legacy_roots(args.roots, max_rows=args.max_rows))

@@ -19,16 +19,17 @@ see determinex_pb_provenance_guard). Garbage oracle in => confident garbage out.
 is never claimed without a passing eval. Live wiring (model + Hetzner eval w/ repack)
 is injected; the loop logic is model- and transport-agnostic and unit-tested with mocks.
 """
+
 from __future__ import annotations
 
 import sys
 from collections import Counter
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from determinex_verified_search import VerifiedSearch, SearchResult  # noqa: E402
+from determinex_verified_search import SearchResult, VerifiedSearch  # noqa: E402
 
 GenerateFn = Callable[[str, float], str]
 # An eval fn runs the oracle on a CANDIDATE compile.sh and returns a PB-eval-shaped dict
@@ -37,15 +38,15 @@ EvalFn = Callable[[str], dict]
 
 
 @dataclass
-class _Failure:               # duck-types determinex_oracle.Failure (.name/.test_id/.text)
+class _Failure:  # duck-types determinex_oracle.Failure (.name/.test_id/.text)
     test_id: str
     name: str
     text: str = ""
 
 
 @dataclass
-class FixOracleResult:        # duck-types determinex_verified_search.OracleLike
-    passed: bool              # True ONLY for a full lock (passed==total, sound oracle)
+class FixOracleResult:  # duck-types determinex_verified_search.OracleLike
+    passed: bool  # True ONLY for a full lock (passed==total, sound oracle)
     failures: list = field(default_factory=list)
     passed_n: int = 0
     total: int = 0
@@ -65,8 +66,13 @@ def adapt_eval(eval_data: dict) -> FixOracleResult:
             continue
         ex = x.get("extra")
         txt = ex.get("text", "") if isinstance(ex, dict) else ""
-        fails.append(_Failure(test_id=x.get("test_id", "") or x.get("name", ""),
-                              name=x.get("name", "") or x.get("test_id", ""), text=txt or ""))
+        fails.append(
+            _Failure(
+                test_id=x.get("test_id", "") or x.get("name", ""),
+                name=x.get("name", "") or x.get("test_id", ""),
+                text=txt or "",
+            )
+        )
     is_lock = total > 0 and passed_n == total
     return FixOracleResult(passed=is_lock, failures=fails[:25], passed_n=passed_n, total=total)
 
@@ -79,20 +85,37 @@ def _build_knowledge_playbook(failures_text: str = "") -> list[str]:
     `failures_text` ranks the LEARNED/absorbed classes by relevance so the matching ones surface."""
     try:
         import json as _json
-        kn = _json.loads((Path(__file__).resolve().parent.parent /
-                          "corpus/programbench/build_knowledge.json").read_text(encoding="utf-8"))
+
+        kn = _json.loads(
+            (
+                Path(__file__).resolve().parent.parent / "corpus/programbench/build_knowledge.json"
+            ).read_text(encoding="utf-8")
+        )
         cp = kn.get("class_patterns", {})
     except Exception:
         return []
-    keys = ["go_x_toolchain", "go_toolchain_bogus_future_version", "go_build_target",
-            "rust_dangling_target_source_gap", "source_gap_upstream_fetch", "cc_build_deps",
-            "whale_native_build_deps", "tarball_source_drift",
-            # behavioral near-lock-tail classes: an output/format mismatch the model can fix in
-            # compile.sh/conftest (the score-mover -- these convert near-locks to locks).
-            "file_mode_goldens", "stdout_stderr_routing", "dead_datetime_anchor_conftest_2026_06_23",
-            "conftest_char_iteration_filter", "repl_banner_history_perbranch", "nr_tests_json_eval_prefix"]
-    out = ["KNOWN BUILD + BEHAVIORAL FAILURE CLASSES (the system's accumulated knowledge -- match the",
-           "symptom and apply the known fix; do NOT guess a different approach when one matches):"]
+    keys = [
+        "go_x_toolchain",
+        "go_toolchain_bogus_future_version",
+        "go_build_target",
+        "rust_dangling_target_source_gap",
+        "source_gap_upstream_fetch",
+        "cc_build_deps",
+        "whale_native_build_deps",
+        "tarball_source_drift",
+        # behavioral near-lock-tail classes: an output/format mismatch the model can fix in
+        # compile.sh/conftest (the score-mover -- these convert near-locks to locks).
+        "file_mode_goldens",
+        "stdout_stderr_routing",
+        "dead_datetime_anchor_conftest_2026_06_23",
+        "conftest_char_iteration_filter",
+        "repl_banner_history_perbranch",
+        "nr_tests_json_eval_prefix",
+    ]
+    out = [
+        "KNOWN BUILD + BEHAVIORAL FAILURE CLASSES (the system's accumulated knowledge -- match the",
+        "symptom and apply the known fix; do NOT guess a different approach when one matches):",
+    ]
     for k in keys:
         v = cp.get(k)
         if isinstance(v, dict):
@@ -100,7 +123,7 @@ def _build_knowledge_playbook(failures_text: str = "") -> list[str]:
             fix = str(v.get("fix") or "")[:210]
             if fix:
                 out.append(f"  * {k}: WHEN {sym}  ->  FIX {fix}")
-        elif isinstance(v, str) and v.strip():   # some classes are a single prose description
+        elif isinstance(v, str) and v.strip():  # some classes are a single prose description
             out.append(f"  * {k}: {v.strip()[:320]}")
     out += [
         "  * slow_build_timeout: builds clean LOCALLY but ALL tests not_run on the box -> the build"
@@ -122,6 +145,7 @@ def _build_knowledge_playbook(failures_text: str = "") -> list[str]:
     learned = kn.get("learned_classes", {})
     if isinstance(learned, dict) and learned:
         import re as _re
+
         ftoks = set(_re.findall(r"[a-z0-9_]+", failures_text.lower())) if failures_text else set()
 
         def _score(v) -> int:
@@ -132,8 +156,11 @@ def _build_knowledge_playbook(failures_text: str = "") -> list[str]:
             dt = set(_re.findall(r"[a-z0-9_]+", str(v.get("detect", "")).lower()))
             return len(ftoks & dt)
 
-        ranked = sorted(learned.items(),
-                        key=lambda kv: (_score(kv[1]), str(kv[1].get("learned", ""))), reverse=True)
+        ranked = sorted(
+            learned.items(),
+            key=lambda kv: (_score(kv[1]), str(kv[1].get("learned", ""))),
+            reverse=True,
+        )
         # when we have failure text, surface the RELEVANT matches (top 20); else the most-recent 12.
         shown = [(k, v) for k, v in ranked if _score(v) > 0][:20] if ftoks else ranked[:12]
         if not shown:
@@ -143,7 +170,8 @@ def _build_knowledge_playbook(failures_text: str = "") -> list[str]:
             f"LEARNED CLASSES ({n_ver} of {len(shown)} shown are oracle-VERIFIED fixes from this "
             "system's own solves; the rest are unverified hints absorbed from prose. Prefer a "
             "VERIFIED class when both match. Apply when the symptom matches; the oracle still "
-            "judges the result):")
+            "judges the result):"
+        )
         for k, v in shown:
             if not isinstance(v, dict):
                 continue
@@ -160,16 +188,24 @@ def _normalize_signature(text: str, slug: str = "") -> str:
     """Generalize a failure text into a reusable SYMPTOM signature: keep the salient error line,
     strip tool-/path-/number-/hash-specific tokens so it matches SIMILAR tools, not just this one."""
     import re as _re
+
     base = slug.split("__")[-1].split(".")[0] if slug else ""
     lines = [ln.strip() for ln in (text or "").splitlines() if ln.strip()]
-    salient = [ln for ln in lines if _re.search(
-        r"error|fatal|not found|cannot find|failed|requires|no such|undefined|mismatch|missing", ln, _re.I)]
+    salient = [
+        ln
+        for ln in lines
+        if _re.search(
+            r"error|fatal|not found|cannot find|failed|requires|no such|undefined|mismatch|missing",
+            ln,
+            _re.I,
+        )
+    ]
     s = (salient[0] if salient else (lines[0] if lines else "")).strip()
     if base:
         s = s.replace(base, "<tool>")
-    s = _re.sub(r"/[\w./+-]+", "<path>", s)         # absolute paths
-    s = _re.sub(r"\b[0-9a-f]{7,40}\b", "<hex>", s)   # commit hashes / addresses
-    s = _re.sub(r"\b\d+\b", "<n>", s)               # line numbers / counts
+    s = _re.sub(r"/[\w./+-]+", "<path>", s)  # absolute paths
+    s = _re.sub(r"\b[0-9a-f]{7,40}\b", "<hex>", s)  # commit hashes / addresses
+    s = _re.sub(r"\b\d+\b", "<n>", s)  # line numbers / counts
     s = _re.sub(r"\s+", " ", s).strip()
     return s[:200]
 
@@ -187,8 +223,9 @@ def _fix_diff(before: str, after: str, slug: str = "") -> list[str]:
     return out[:20]
 
 
-def learn_class(slug: str, failures_text: str, before_sh: str, after_sh: str,
-                knowledge_path: Path | None = None) -> dict:
+def learn_class(
+    slug: str, failures_text: str, before_sh: str, after_sh: str, knowledge_path: Path | None = None
+) -> dict:
     """THE FLYWHEEL: when a VERIFIED fix improved a tool via a NOVEL compile.sh change, distill it
     into a learned class (symptom -> the exact fix that worked) and append to
     build_knowledge.learned_classes, so the grounded fixer applies it FIRST-shot on the next tool
@@ -198,8 +235,10 @@ def learn_class(slug: str, failures_text: str, before_sh: str, after_sh: str,
     import hashlib as _hl
     import json as _json
     import time as _t
-    kp = knowledge_path or (Path(__file__).resolve().parent.parent /
-                            "corpus/programbench/build_knowledge.json")
+
+    kp = knowledge_path or (
+        Path(__file__).resolve().parent.parent / "corpus/programbench/build_knowledge.json"
+    )
     diff = _fix_diff(before_sh, after_sh, slug)
     if not diff:
         return {"learned": False, "why": "no-diff"}
@@ -217,18 +256,27 @@ def learn_class(slug: str, failures_text: str, before_sh: str, after_sh: str,
         return {"learned": False, "why": "bad-registry"}
     is_new = key not in lc
     if is_new:
-        lc[key] = {"detect": sig, "symptom": sig, "fix": fixtext[:800], "source_tool": slug,
-                   "verified": True, "learned": _t.strftime("%Y-%m-%d"), "uses": 0}
-        if len(lc) > 60:                            # bound build_knowledge growth (drop oldest)
+        lc[key] = {
+            "detect": sig,
+            "symptom": sig,
+            "fix": fixtext[:800],
+            "source_tool": slug,
+            "verified": True,
+            "learned": _t.strftime("%Y-%m-%d"),
+            "uses": 0,
+        }
+        if len(lc) > 60:  # bound build_knowledge growth (drop oldest)
             # verified (oracle-confirmed flywheel) entries are NEVER dropped ahead of an
             # unverified one, regardless of date -- mirrors determinex_pb_absorb._bound_and_write.
             # Learned entries in this registry are all verified=True by construction (this function
             # is the only writer of `verified: True`), so in practice this only ever drops by date;
             # the sort key stays defensive in case a future writer ever mixes in verified=False rows.
-            drop_order = sorted(lc, key=lambda x: (bool(lc[x].get("verified")), str(lc[x].get("learned", ""))))
-            for k in drop_order[:len(lc) - 60]:
+            drop_order = sorted(
+                lc, key=lambda x: (bool(lc[x].get("verified")), str(lc[x].get("learned", "")))
+            )
+            for k in drop_order[: len(lc) - 60]:
                 lc.pop(k, None)
-    else:                                           # seen before -> bump the use count
+    else:  # seen before -> bump the use count
         lc[key]["uses"] = int(lc[key].get("uses", 0)) + 1
     try:
         kp.write_text(_json.dumps(kn, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
@@ -255,8 +303,10 @@ def build_fix_prompt(slug: str, compile_sh: str, failures: list) -> str:
         "  version, locale/timezone/clock, SIMD/scalar codepath, or an ENV the reference used.",
         "",
     ]
-    _ftext = "\n".join((getattr(f, "name", "") or "") + ": " + (getattr(f, "text", "") or "")
-                       for f in (failures or []))[:3000]
+    _ftext = "\n".join(
+        (getattr(f, "name", "") or "") + ": " + (getattr(f, "text", "") or "")
+        for f in (failures or [])
+    )[:3000]
     lines += _build_knowledge_playbook(_ftext)
     lines += [
         "Current compile.sh:",
@@ -285,32 +335,44 @@ def clean_candidate(text: str) -> str:
     # pull the contents of the FIRST fenced block if present (```sh ... ``` or ``` ... ```)
     if "```" in t:
         import re
+
         m = re.search(r"```(?:sh|bash|shell)?\s*\n(.*?)```", t, re.DOTALL)
         if m:
             t = m.group(1)
-        else:                                  # unterminated fence -> drop the fence marker line
+        else:  # unterminated fence -> drop the fence marker line
             t = re.sub(r"^```[a-zA-Z]*\s*\n?", "", t).replace("```", "")
     t = t.strip()
     # drop any leading prose before the first shell line (shebang / set / export / a command)
     lines = t.split("\n")
     for i, ln in enumerate(lines):
         s = ln.strip()
-        if s.startswith("#!") or s.startswith(("set ", "export ", "cd ", "if ", "for ")) or "=" in s.split(" ")[0]:
+        if (
+            s.startswith("#!")
+            or s.startswith(("set ", "export ", "cd ", "if ", "for "))
+            or "=" in s.split(" ")[0]
+        ):
             t = "\n".join(lines[i:])
             break
-    if not t.lstrip().startswith("#!"):        # ensure a shebang so `sh compile.sh` is well-formed
+    if not t.lstrip().startswith("#!"):  # ensure a shebang so `sh compile.sh` is well-formed
         t = "#!/bin/sh\n" + t.lstrip()
     return t.strip() + "\n"
 
 
-def amplified_fix(slug: str, compile_sh: str, failures: list,
-                  generate: GenerateFn, eval_fn: EvalFn,
-                  k: int = 6, rounds: int = 2) -> SearchResult:
+def amplified_fix(
+    slug: str,
+    compile_sh: str,
+    failures: list,
+    generate: GenerateFn,
+    eval_fn: EvalFn,
+    k: int = 6,
+    rounds: int = 2,
+) -> SearchResult:
     """Best-of-K verified fix search. `generate(prompt,temp)->candidate compile.sh`;
     `eval_fn(candidate)->PB eval dict`. Returns a SearchResult whose .solved is True
     ONLY when the oracle confirmed a full lock; otherwise the Adjudicator's next_moves.
     Model output is sanitized (clean_candidate) so fenced/prose-wrapped replies still yield
     a valid compile.sh -- the candidate stored & verified is the cleaned script."""
+
     def clean_generate(prompt: str, temperature: float) -> str:
         return clean_candidate(generate(prompt, temperature))
 
@@ -323,18 +385,34 @@ def amplified_fix(slug: str, compile_sh: str, failures: list,
         # NON-solve so verified-search never "clears a ceiling" by gaming.
         try:
             from pb_override_scan import classify_compile_sh
+
             verdict, reasons = classify_compile_sh(candidate)
             if str(verdict).upper().startswith("RED") or any(
-                    g in " ".join(map(str, reasons or [])).lower() for g in
-                    ("output_substitution", "collection_cap", "collect_ignore",
-                     "modifyitems", "golden_fixture_write", "pytest_current_test")):
-                return FixOracleResult(passed=False, failures=[_Failure(
-                    "gaming", "illegitimate-fix", f"compile.sh RED (gaming): {(reasons or [])[:3]}")])
+                g in " ".join(map(str, reasons or [])).lower()
+                for g in (
+                    "output_substitution",
+                    "collection_cap",
+                    "collect_ignore",
+                    "modifyitems",
+                    "golden_fixture_write",
+                    "pytest_current_test",
+                )
+            ):
+                return FixOracleResult(
+                    passed=False,
+                    failures=[
+                        _Failure(
+                            "gaming",
+                            "illegitimate-fix",
+                            f"compile.sh RED (gaming): {(reasons or [])[:3]}",
+                        )
+                    ],
+                )
         except Exception:
             pass
         try:
             data = eval_fn(candidate)
-        except Exception as e:                      # an eval error is not a solve
+        except Exception as e:  # an eval error is not a solve
             return FixOracleResult(passed=False, failures=[_Failure("eval", "eval-error", str(e))])
         return adapt_eval(data or {})
 
@@ -347,7 +425,10 @@ def make_hetzner_eval_fn(slug: str, base_tarball: Path, workdir: Path | None = N
     """Live oracle: write a candidate compile.sh into a repack of base_tarball, run the
     Hetzner eval (reuses pb_eval_unified.run_hetzner_eval -- the sound, provenance-checked
     harness), return its eval dict. Each call is a real build+test (expensive, authoritative)."""
-    import tarfile, tempfile, shutil
+    import shutil
+    import tarfile
+    import tempfile
+
     import pb_eval_unified as U
 
     def eval_fn(candidate_compile_sh: str) -> dict:
@@ -364,9 +445,12 @@ def make_hetzner_eval_fn(slug: str, base_tarball: Path, workdir: Path | None = N
                     if ef is not None and ef.read(4) == b"\x7fELF":
                         continue  # never ship an answer-key binary into the candidate
                 dst.addfile(m, src.extractfile(m) if m.isfile() else None)
-            info = tarfile.TarInfo("./compile.sh"); data = candidate_compile_sh.encode("utf-8")
-            info.size = len(data); info.mode = 0o755
+            info = tarfile.TarInfo("./compile.sh")
+            data = candidate_compile_sh.encode("utf-8")
+            info.size = len(data)
+            info.mode = 0o755
             import io
+
             dst.addfile(info, io.BytesIO(data))
         # ON the eval box use LOCAL docker (run_hetzner_eval would SSH to our own IP and fail);
         # only SSH to Hetzner when driving remotely (Windows). Lets the amplified fix run in the
@@ -379,17 +463,21 @@ def make_hetzner_eval_fn(slug: str, base_tarball: Path, workdir: Path | None = N
     return eval_fn
 
 
-if __name__ == "__main__":   # tiny self-demo with a mock weak model + sound oracle
+if __name__ == "__main__":  # tiny self-demo with a mock weak model + sound oracle
     import random
+
     GOLDEN = "#!/bin/sh\nexport GOTOOLCHAIN=auto\ngo build -o /usr/local/bin/x .\n"
 
     def mock_oracle(candidate: str) -> dict:
-        ok = "GOTOOLCHAIN=auto" in candidate           # the one correct fix
+        ok = "GOTOOLCHAIN=auto" in candidate  # the one correct fix
         n = 100
-        return {"test_results": [{"status": "passed" if ok else "failed",
-                                  "name": f"t{i}"} for i in range(n)]}
+        return {
+            "test_results": [
+                {"status": "passed" if ok else "failed", "name": f"t{i}"} for i in range(n)
+            ]
+        }
 
-    def weak_model(prompt: str, temp: float) -> str:    # right ~20% of the time
+    def weak_model(prompt: str, temp: float) -> str:  # right ~20% of the time
         return GOLDEN if random.random() < 0.2 else "#!/bin/sh\ngo build .\n"
 
     r = amplified_fix("demo__tool", "#!/bin/sh\ngo build .\n", [], weak_model, mock_oracle, k=15)

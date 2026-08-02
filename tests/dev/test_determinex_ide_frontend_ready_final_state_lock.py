@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_IDE_FRONTEND_READY_FINAL_STATE_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -20,7 +21,9 @@ assemble = final_mod.assemble_frontend_ready_final_state
 upstream_locks = final_mod.upstream_locks
 TOKENS = rec_mod.DETERMINEX_IDE_FRONTEND_READY_FINAL_STATE_TOKENS
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_IDE_FRONTEND_READY_FINAL_STATE_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_IDE_FRONTEND_READY_FINAL_STATE_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_ide_frontend_ready_final_state"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"

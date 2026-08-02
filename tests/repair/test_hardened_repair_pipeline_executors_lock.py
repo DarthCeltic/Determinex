@@ -8,6 +8,7 @@ to zero, and that the prior per-language repair locks
 (PYTHON_REPAIR_LOCK_001 / RUST_REPAIR_LOCK_001 / GO_REPAIR_LOCK_001 /
 TYPESCRIPT_REPAIR_LOCK_001 / NATIVE_C_CPP_REPAIR_LOCK_001) still pass.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -31,23 +32,25 @@ LOCKS_DIR = _REPO_ROOT / "locks" / "sentinel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
-STATUS_TOKENS = frozenset({
-    "HARDENED_REPAIR_EXECUTORS_READY",
-    "REPAIR_PIPELINE_MIGRATED",
-    "REPAIR_PIPELINE_COMPAT_PRESERVED",
-    "MUST_MIGRATE_COUNT_ZERO",
-    "BLOCKED_UNSAFE_ZERO",
-    "PROGRAMBENCH_UNTOUCHED",
-    "COMMAND_TIMEOUT_STRUCTURED",
-    "COMMAND_TOOL_MISSING_STRUCTURED",
-    "COMMAND_BLOCKED_PATH_ESCAPE",
-    "COMMAND_BLOCKED_DOCKER",
-    "ENVIRONMENT_SCRUBBED",
-    "SOURCE_TREE_UNMUTATED_EXCEPT_TARGETS",
-    "CORPUS_UNMUTATED",
-    "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
-    "SAFETY_DEFAULTS_RESPECTED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "HARDENED_REPAIR_EXECUTORS_READY",
+        "REPAIR_PIPELINE_MIGRATED",
+        "REPAIR_PIPELINE_COMPAT_PRESERVED",
+        "MUST_MIGRATE_COUNT_ZERO",
+        "BLOCKED_UNSAFE_ZERO",
+        "PROGRAMBENCH_UNTOUCHED",
+        "COMMAND_TIMEOUT_STRUCTURED",
+        "COMMAND_TOOL_MISSING_STRUCTURED",
+        "COMMAND_BLOCKED_PATH_ESCAPE",
+        "COMMAND_BLOCKED_DOCKER",
+        "ENVIRONMENT_SCRUBBED",
+        "SOURCE_TREE_UNMUTATED_EXCEPT_TARGETS",
+        "CORPUS_UNMUTATED",
+        "EVIDENCE_UNMUTATED_EXCEPT_LOCK_RECORD",
+        "SAFETY_DEFAULTS_RESPECTED",
+    }
+)
 
 REPAIR_FILES = (
     "scripts/repair/go_repair_pipeline.py",
@@ -90,6 +93,7 @@ def _hash_signed_evidence() -> dict[str, str]:
 # Status / closed set
 # ---------------------------------------------------------------------------
 
+
 def test_status_tokens_match_expected_set():
     expected = {
         "HARDENED_REPAIR_EXECUTORS_READY",
@@ -115,6 +119,7 @@ def test_status_tokens_match_expected_set():
 # Source-level migration verification
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.parametrize("file_path", REPAIR_FILES)
 def test_repair_pipeline_imports_hardened_runner(file_path: str):
     src = (_REPO_ROOT / file_path).read_text(encoding="utf-8")
@@ -132,9 +137,7 @@ def test_repair_pipeline_default_executor_no_longer_calls_subprocess_run(file_pa
     # The _default_executor body must reference _hardened_run, not subprocess.run.
     # We look for "subprocess.run" appearing AT ALL in the file — none of
     # these pipelines need subprocess for any other purpose.
-    assert "subprocess.run" not in src, (
-        f"{file_path} still contains a subprocess.run call"
-    )
+    assert "subprocess.run" not in src, f"{file_path} still contains a subprocess.run call"
 
 
 @pytest.mark.parametrize("file_path", REPAIR_FILES)
@@ -153,12 +156,11 @@ def test_repair_pipeline_no_longer_imports_subprocess(file_path: str):
 # Behavioral contract preservation (tuple shape)
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.parametrize("mod_path", REPAIR_MODULES)
 def test_default_executor_returns_three_tuple_on_success(mod_path: str, tmp_path: Path):
     mod = importlib.import_module(mod_path)
-    rc, stdout, stderr = mod._default_executor(
-        [sys.executable, "--version"], tmp_path, 10
-    )
+    rc, stdout, stderr = mod._default_executor([sys.executable, "--version"], tmp_path, 10)
     assert isinstance(rc, int)
     assert isinstance(stdout, str)
     assert isinstance(stderr, str)
@@ -172,7 +174,8 @@ def test_default_executor_returns_minus_one_on_timeout(mod_path: str, tmp_path: 
     mod = importlib.import_module(mod_path)
     rc, stdout, stderr = mod._default_executor(
         [sys.executable, "-c", "import time; time.sleep(10)"],
-        tmp_path, 1,
+        tmp_path,
+        1,
     )
     assert rc == -1
     assert stderr == "TIMEOUT"
@@ -183,7 +186,8 @@ def test_default_executor_returns_minus_two_on_missing_tool(mod_path: str, tmp_p
     mod = importlib.import_module(mod_path)
     rc, stdout, stderr = mod._default_executor(
         ["__definitely_not_a_real_tool_xyz_repair__"],
-        tmp_path, 5,
+        tmp_path,
+        5,
     )
     assert rc == -2
     assert "not found" in stderr.lower()
@@ -195,7 +199,9 @@ def test_default_executor_returns_minus_three_on_docker_block(mod_path: str, tmp
     hardened runner. The new -3 exit code surfaces this distinctly."""
     mod = importlib.import_module(mod_path)
     rc, stdout, stderr = mod._default_executor(
-        ["docker", "ps"], tmp_path, 5,
+        ["docker", "ps"],
+        tmp_path,
+        5,
     )
     assert rc == -3
     assert "BLOCKED" in stderr
@@ -205,7 +211,9 @@ def test_default_executor_returns_minus_three_on_docker_block(mod_path: str, tmp
 def test_default_executor_returns_minus_three_on_network_block(mod_path: str, tmp_path: Path):
     mod = importlib.import_module(mod_path)
     rc, stdout, stderr = mod._default_executor(
-        ["curl", "https://example.com"], tmp_path, 5,
+        ["curl", "https://example.com"],
+        tmp_path,
+        5,
     )
     assert rc == -3
     assert "BLOCKED" in stderr
@@ -227,6 +235,7 @@ def test_default_executor_never_raises(mod_path: str, tmp_path: Path):
 # Shell=True never used (defensive monkeypatch)
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.parametrize("mod_path", REPAIR_MODULES)
 def test_default_executor_never_uses_shell_true(monkeypatch, mod_path: str, tmp_path: Path):
     captured: list[dict[str, object]] = []
@@ -241,23 +250,22 @@ def test_default_executor_never_uses_shell_true(monkeypatch, mod_path: str, tmp_
     mod._default_executor([sys.executable, "--version"], tmp_path, 10)
     # Every captured subprocess.run call must have shell=False (or absent)
     for kw in captured:
-        assert kw.get("shell", False) is False, (
-            f"{mod_path} caused subprocess.run with shell=True"
-        )
+        assert kw.get("shell", False) is False, f"{mod_path} caused subprocess.run with shell=True"
 
 
 # ---------------------------------------------------------------------------
 # Env scrub — LD_PRELOAD must not reach the child
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.parametrize("mod_path", REPAIR_MODULES)
 def test_default_executor_strips_ld_preload(monkeypatch, mod_path: str, tmp_path: Path):
     monkeypatch.setenv("LD_PRELOAD", "/this/should/be/stripped.so")
     mod = importlib.import_module(mod_path)
     rc, stdout, _ = mod._default_executor(
-        [sys.executable, "-c",
-         "import os; print(os.environ.get('LD_PRELOAD', '__ABSENT__'))"],
-        tmp_path, 10,
+        [sys.executable, "-c", "import os; print(os.environ.get('LD_PRELOAD', '__ABSENT__'))"],
+        tmp_path,
+        10,
     )
     assert rc == 0
     assert "__ABSENT__" in stdout
@@ -267,6 +275,7 @@ def test_default_executor_strips_ld_preload(monkeypatch, mod_path: str, tmp_path
 # Path-escape: cwd outside the workspace argument is blocked
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.parametrize("mod_path", REPAIR_MODULES)
 def test_default_executor_workspace_must_exist(mod_path: str, tmp_path: Path):
     """A non-existent workspace path must produce a blocked result, not a
@@ -274,7 +283,9 @@ def test_default_executor_workspace_must_exist(mod_path: str, tmp_path: Path):
     mod = importlib.import_module(mod_path)
     bogus = tmp_path / "does_not_exist"
     rc, _, stderr = mod._default_executor(
-        [sys.executable, "--version"], bogus, 5,
+        [sys.executable, "--version"],
+        bogus,
+        5,
     )
     assert rc == -3
     assert "BLOCKED" in stderr
@@ -284,6 +295,7 @@ def test_default_executor_workspace_must_exist(mod_path: str, tmp_path: Path):
 # Parallel execution audit — MUST_MIGRATE must be zero
 # ---------------------------------------------------------------------------
 
+
 def test_audit_no_must_migrate_in_repair_pipelines():
     """Rung-6 invariant: no MUST_MIGRATE site remains in scripts/repair/.
     (The classification sweep in rung 8 may surface MUST_MIGRATE sites
@@ -292,7 +304,8 @@ def test_audit_no_must_migrate_in_repair_pipelines():
     audit_mod = importlib.import_module("scripts.dev.parallel_execution_layer_audit")
     rpt = audit_mod.run_audit()
     repair_must_migrate = [
-        s for s in rpt.sites
+        s
+        for s in rpt.sites
         if s.classification == "MUST_MIGRATE_TO_HARDENED_RUNNER"
         and s.file_path.startswith("scripts/repair/")
     ]
@@ -310,9 +323,9 @@ def test_audit_no_blocked_unsafe_in_repair_pipelines():
     audit_mod = importlib.import_module("scripts.dev.parallel_execution_layer_audit")
     rpt = audit_mod.run_audit()
     repair_blocked = [
-        s for s in rpt.sites
-        if s.classification == "BLOCKED_UNSAFE"
-        and s.file_path.startswith("scripts/repair/")
+        s
+        for s in rpt.sites
+        if s.classification == "BLOCKED_UNSAFE" and s.file_path.startswith("scripts/repair/")
     ]
     assert repair_blocked == [], (
         f"BLOCKED_UNSAFE inside scripts/repair/: "
@@ -340,6 +353,7 @@ def test_audit_programbench_out_of_scope_count_preserved():
 # ProgramBench file content untouched
 # ---------------------------------------------------------------------------
 
+
 def test_no_programbench_files_modified_by_this_rung():
     """Stat-check the ProgramBench-trail file set against the current repo
     state. If any file under those paths is newer than the rung-5 commit's
@@ -362,10 +376,13 @@ def test_no_programbench_files_modified_by_this_rung():
 # Cross-cutting safety
 # ---------------------------------------------------------------------------
 
+
 def test_corpus_write_guard_active():
     from corpus.corpus_manager import (  # type: ignore[attr-defined]
-        _assert_writes_allowed, CorpusWriteBlockedError,
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
     )
+
     os.environ["DETERMINEX_NO_CORPUS_WRITE"] = "1"
     try:
         with pytest.raises(CorpusWriteBlockedError):
@@ -376,6 +393,7 @@ def test_corpus_write_guard_active():
 
 def test_safety_defaults_remain_fail_closed():
     from determinex_settings import DeterminexSettings, reset_settings
+
     reset_settings()
     s = DeterminexSettings()
     assert s.assert_safety_defaults() == []
@@ -387,7 +405,9 @@ def test_no_drive_letter_required(monkeypatch, tmp_path: Path):
             monkeypatch.delenv(k, raising=False)
     mod = importlib.import_module("scripts.repair.python_repair_pipeline")
     rc, stdout, _ = mod._default_executor(
-        [sys.executable, "--version"], tmp_path, 10,
+        [sys.executable, "--version"],
+        tmp_path,
+        10,
     )
     assert rc == 0
 
@@ -405,10 +425,7 @@ def test_evidence_unmutated_by_repair_executor_run(tmp_path: Path):
 # Lock manifest alignment
 # ---------------------------------------------------------------------------
 
-_LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001.json"
-)
+_LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "HARDENED_REPAIR_PIPELINE_EXECUTORS_LOCK_001.json"
 
 
 def test_lock_manifest_exists():

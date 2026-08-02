@@ -28,6 +28,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase as current claim outside refusal
     context -> BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -44,7 +45,6 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _has_release_proof_reference,
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 
@@ -191,7 +191,9 @@ def _family_row(entry: dict) -> CampaignFamilyRow:
         identified=bool(entry.get("identified")),
         classified=bool(entry.get("classified")),
         assigned_missing_rung=bool(entry.get("assigned_missing_rung")),
-        represented_in_completion_campaign_ledger=bool(entry.get("represented_in_completion_campaign_ledger")),
+        represented_in_completion_campaign_ledger=bool(
+            entry.get("represented_in_completion_campaign_ledger")
+        ),
         cells_accounted=int(entry.get("cells_accounted") or 0),
         blocked_by_missing_local_toolchain=bool(entry.get("blocked_by_missing_local_toolchain")),
         blocked_by_missing_fixture=bool(entry.get("blocked_by_missing_fixture")),
@@ -323,7 +325,11 @@ def load(evidence_dir: Path | str | None = None) -> TopLevelSectorCompletionCamp
     summary = blob.get("summary") or {}
     families = int(summary.get("top_level_sector_families", 0))
     coverage_total = int(summary.get("level_1_scoreboard_coverage", 0))
-    if families != EXPECTED_FAMILY_COUNT or coverage_total != EXPECTED_FAMILY_COUNT or len(scoreboard_raw) != EXPECTED_FAMILY_COUNT:
+    if (
+        families != EXPECTED_FAMILY_COUNT
+        or coverage_total != EXPECTED_FAMILY_COUNT
+        or len(scoreboard_raw) != EXPECTED_FAMILY_COUNT
+    ):
         return _block(
             "REACT_UNIVERSAL_100_TOP_LEVEL_SECTOR_COMPLETION_CAMPAIGN_BINDING_BLOCKED_LEVEL_1_NOT_40",
             f"Level 1 must be 40/40 (families={families}, coverage={coverage_total}, scoreboard_len={len(scoreboard_raw)})",
@@ -336,7 +342,11 @@ def load(evidence_dir: Path | str | None = None) -> TopLevelSectorCompletionCamp
         # only true when there *are* missing rungs — sectors with full coverage
         # legitimately have no missing rungs to assign and assigned_missing_rung=false,
         # so it is NOT a Level 1 requirement.
-        if not row.identified or not row.classified or not row.represented_in_completion_campaign_ledger:
+        if (
+            not row.identified
+            or not row.classified
+            or not row.represented_in_completion_campaign_ledger
+        ):
             return _block(
                 "REACT_UNIVERSAL_100_TOP_LEVEL_SECTOR_COMPLETION_CAMPAIGN_BINDING_BLOCKED_LEVEL_1_NOT_40",
                 f"family {row.sector_id} missing identified/classified/represented_in_completion_campaign_ledger true",
@@ -366,26 +376,52 @@ def load(evidence_dir: Path | str | None = None) -> TopLevelSectorCompletionCamp
         level_1_scoreboard_coverage=coverage_total,
         families_with_any_cell_evidence=int(summary.get("families_with_any_cell_evidence", 0)),
         families_roadmap_only=int(summary.get("families_roadmap_only", 0)),
-        families_blocked_by_missing_local_toolchain=int(summary.get("families_blocked_by_missing_local_toolchain", 0)),
-        families_blocked_by_missing_fixture=int(summary.get("families_blocked_by_missing_fixture", 0)),
-        families_blocked_by_missing_verifier=int(summary.get("families_blocked_by_missing_verifier", 0)),
+        families_blocked_by_missing_local_toolchain=int(
+            summary.get("families_blocked_by_missing_local_toolchain", 0)
+        ),
+        families_blocked_by_missing_fixture=int(
+            summary.get("families_blocked_by_missing_fixture", 0)
+        ),
+        families_blocked_by_missing_verifier=int(
+            summary.get("families_blocked_by_missing_verifier", 0)
+        ),
         families_forbidden_policy_blocked=int(summary.get("families_forbidden_policy_blocked", 0)),
-        families_with_smoke_supported_coverage=int(summary.get("families_with_smoke_supported_coverage", 0)),
-        families_with_test_supported_coverage=int(summary.get("families_with_test_supported_coverage", 0)),
-        families_with_repair_supported_coverage=int(summary.get("families_with_repair_supported_coverage", 0)),
-        families_with_maintain_supported_coverage=int(summary.get("families_with_maintain_supported_coverage", 0)),
-        families_with_teach_supported_coverage=int(summary.get("families_with_teach_supported_coverage", 0)),
-        families_with_scaffold_supported_coverage=int(summary.get("families_with_scaffold_supported_coverage", 0)),
-        families_with_packaging_supported_coverage=int(summary.get("families_with_packaging_supported_coverage", 0)),
-        families_with_user_ready_with_caveats_coverage=int(summary.get("families_with_user_ready_with_caveats_coverage", 0)),
-        families_with_fresh_install_verified_coverage=int(summary.get("families_with_fresh_install_verified_coverage", 0)),
+        families_with_smoke_supported_coverage=int(
+            summary.get("families_with_smoke_supported_coverage", 0)
+        ),
+        families_with_test_supported_coverage=int(
+            summary.get("families_with_test_supported_coverage", 0)
+        ),
+        families_with_repair_supported_coverage=int(
+            summary.get("families_with_repair_supported_coverage", 0)
+        ),
+        families_with_maintain_supported_coverage=int(
+            summary.get("families_with_maintain_supported_coverage", 0)
+        ),
+        families_with_teach_supported_coverage=int(
+            summary.get("families_with_teach_supported_coverage", 0)
+        ),
+        families_with_scaffold_supported_coverage=int(
+            summary.get("families_with_scaffold_supported_coverage", 0)
+        ),
+        families_with_packaging_supported_coverage=int(
+            summary.get("families_with_packaging_supported_coverage", 0)
+        ),
+        families_with_user_ready_with_caveats_coverage=int(
+            summary.get("families_with_user_ready_with_caveats_coverage", 0)
+        ),
+        families_with_fresh_install_verified_coverage=int(
+            summary.get("families_with_fresh_install_verified_coverage", 0)
+        ),
         families_with_release_supported_coverage=families_release,
         release_supported_count=release_supported,
         user_ready_with_caveats_count=int(summary.get("user_ready_with_caveats_count", 0)),
         support_depth_counts=_str_int_map(summary.get("support_depth_counts")),
         scoreboard=scoreboard,
         level_1_target=str(blob.get("universal_100_level_1_target") or ""),
-        level_1_not_claimed=tuple(str(x) for x in (blob.get("universal_100_level_1_not_claimed") or [])),
+        level_1_not_claimed=tuple(
+            str(x) for x in (blob.get("universal_100_level_1_not_claimed") or [])
+        ),
         claim_boundary=tuple(str(x) for x in (blob.get("claim_boundary") or [])),
         forbidden_claims=tuple(str(x) for x in (blob.get("forbidden_claims") or [])),
         strongest_truthful_claim=str(blob.get("strongest_truthful_claim") or ""),

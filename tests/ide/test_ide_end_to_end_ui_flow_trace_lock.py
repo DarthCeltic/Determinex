@@ -1,4 +1,5 @@
 """Tests for IDE_END_TO_END_UI_FLOW_TRACE_LOCK_001."""
+
 from __future__ import annotations
 
 import hashlib
@@ -6,8 +7,6 @@ import importlib
 import json
 import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
@@ -56,7 +55,8 @@ def _seed(tmp_path):
 def _cfg(tmp_path):
     w = LocalModelConfigWizard(WizardConfig(config_root=tmp_path / "cfg"))
     return w.write_config(
-        provider="ollama", model_id="determinex-engineer-v11-dsl",
+        provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
         capabilities=("code_generation",),
         task_classes_allowed=("BUILD_DIAGNOSIS", "PATCH_GENERATION"),
         enabled=True,
@@ -94,8 +94,12 @@ def test_trace_includes_all_seven_stages(tmp_path):
     trace = build_ui_flow_trace(ws, config=cfg, temp_root=tmp_path / "tmp")
     names = [s.name for s in trace.stages]
     assert names == [
-        "open_workspace", "model_route_panel", "diagnose",
-        "patch_plan", "temp_verify", "approval_packet",
+        "open_workspace",
+        "model_route_panel",
+        "diagnose",
+        "patch_plan",
+        "temp_verify",
+        "approval_packet",
         "source_apply_gate",
     ]
 

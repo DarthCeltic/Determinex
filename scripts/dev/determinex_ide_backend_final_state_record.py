@@ -5,11 +5,11 @@ have landed, which apparatus pieces compose, and where the next
 unblocker is. Purely descriptive; produced by reading lock-manifest
 file presence under ``locks/sentinel/``.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 DETERMINEX_IDE_BACKEND_FINAL_STATE_TOKENS = (
     "DETERMINEX_IDE_BACKEND_FINAL_STATE_WRITTEN",
@@ -31,6 +31,7 @@ DETERMINEX_IDE_BACKEND_FINAL_STATE_TOKENS = (
 @dataclass(frozen=True)
 class FinalBackendState:
     """The campaign-end backend apparatus snapshot."""
+
     generated_at: str
     execution_surface: str
     model_routing: str

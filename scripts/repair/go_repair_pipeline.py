@@ -2,21 +2,24 @@
 Go repair pipeline: license gate, secret scan, go:generate/build-file scan,
 baseline verification, mutation extraction, and signed corpus writing.
 """
+
 from __future__ import annotations
 
 import hashlib
 import logging
 import re
-from intake.hardened_runner import run as _hardened_run
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
-from agents.prompt_injection_detector import InjectionRisk, scan as injection_scan
+from agents.prompt_injection_detector import InjectionRisk
+from agents.prompt_injection_detector import scan as injection_scan
 from corpus.code_ingest.go_project_indexer import GoProject, index_go_project
 from corpus.code_ingest.go_task_extractor import GoRepairTask, GoTaskExtractor
 from corpus.code_ingest.license_detector import detect
 from corpus.code_ingest.secret_scanner import is_clean as secrets_clean
+from intake.hardened_runner import run as _hardened_run
 
 log = logging.getLogger(__name__)
 
@@ -112,7 +115,9 @@ class GoRepairPipeline:
         result.license_spdx = license_result.spdx_id or "unknown"
         result.license_bucket = license_result.bucket
         if not license_result.ingest_allowed:
-            result.rejected_reason = f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            result.rejected_reason = (
+                f"license_not_green:{result.license_spdx}:{result.license_bucket}"
+            )
             return result
 
         if not secrets_clean(repo_path):
@@ -189,7 +194,9 @@ class GoRepairPipeline:
             return GoSafetyResult(safe=False, reason="init_network_call", file_path=str(path))
         if _TESTMAIN_EXEC_RE.search(content):
             return GoSafetyResult(safe=False, reason="testmain_exec_command", file_path=str(path))
-        if "#cgo" in content and re.search(r"(curl\s+https?://|env\s*\|\s*curl|`|\$\()", content, re.I):
+        if "#cgo" in content and re.search(
+            r"(curl\s+https?://|env\s*\|\s*curl|`|\$\()", content, re.I
+        ):
             return GoSafetyResult(safe=False, reason="cgo_command_injection", file_path=str(path))
         return GoSafetyResult(safe=True, reason="", file_path="")
 
@@ -217,8 +224,11 @@ class GoRepairPipeline:
     def _write_corpus_record(self, task: GoRepairTask, benchmark: str) -> str | None:
         try:
             from agents.base_agent import CorpusType
+
             payload = task.to_corpus_payload()
-            input_hash = hashlib.blake2b((task.mutated_line + task.failure_output).encode(), digest_size=16).hexdigest()
+            input_hash = hashlib.blake2b(
+                (task.mutated_line + task.failure_output).encode(), digest_size=16
+            ).hexdigest()
             output_hash = hashlib.blake2b(task.original_line.encode(), digest_size=16).hexdigest()
             record = self._cm._normalize_record(
                 corpus_type=CorpusType.CODE_VERDICT,

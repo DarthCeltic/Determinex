@@ -4,6 +4,7 @@ Network fetching is intentionally not implemented here. The safe first path is
 local, already-reviewed source directories. External cloning should happen in a
 separate approval-controlled step and then enter this fetcher as a local path.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -41,7 +42,9 @@ def _tree_hash(path: Path) -> str:
     return h.hexdigest()
 
 
-def stage_local_source(source: Path, staging_root: Path, *, name: str | None = None) -> FetchedSource:
+def stage_local_source(
+    source: Path, staging_root: Path, *, name: str | None = None
+) -> FetchedSource:
     source = source.resolve()
     if not source.exists():
         raise FileNotFoundError(source)

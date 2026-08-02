@@ -38,34 +38,32 @@ import subprocess
 import sys
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 log = logging.getLogger("determinex_flywheel")
 
 _ROOT = Path(__file__).resolve().parent.parent
 
-FLYWHEEL_PATH = Path(
-    os.getenv("DETERMINEX_FLYWHEEL_PATH", str(_ROOT / "auto_curriculum.jsonl"))
-)
+FLYWHEEL_PATH = Path(os.getenv("DETERMINEX_FLYWHEEL_PATH", str(_ROOT / "auto_curriculum.jsonl")))
 FLYWHEEL_NOTIFY_THRESHOLD = int(os.getenv("DETERMINEX_FLYWHEEL_THRESHOLD", "50"))
 
 # ── Sprint 4: auto-retrain orchestration config ───────────────────────────────
 _FLYWHEEL_STATE_DIR = _ROOT / ".flywheel"
 _FLYWHEEL_STATE_FILE = _FLYWHEEL_STATE_DIR / "state.json"
-_FLYWHEEL_LOCK_FILE  = _FLYWHEEL_STATE_DIR / "retrain.lock"
-_FLYWHEEL_LOG_DIR    = _ROOT / "logs" / "flywheel"
+_FLYWHEEL_LOCK_FILE = _FLYWHEEL_STATE_DIR / "retrain.lock"
+_FLYWHEEL_LOG_DIR = _ROOT / "logs" / "flywheel"
 
-AUTO_RETRAIN_ENABLED      = os.getenv("DETERMINEX_FLYWHEEL_AUTO", "0") == "1"
-RETRAIN_THRESHOLD         = int(os.getenv("DETERMINEX_FLYWHEEL_RETRAIN_THRESHOLD", "500"))
-PROMOTE_DELTA_PP          = float(os.getenv("DETERMINEX_FLYWHEEL_PROMOTE_DELTA_PP", "1.0"))
-LOCK_TTL_S                = int(os.getenv("DETERMINEX_FLYWHEEL_LOCK_TTL_S", "21600"))  # 6h
-RETRAIN_BASE_MODEL        = os.getenv("DETERMINEX_FLYWHEEL_BASE_MODEL", "determinex-engineer-v11-dsl")
-TRAIN_DRIVER              = os.getenv(
+AUTO_RETRAIN_ENABLED = os.getenv("DETERMINEX_FLYWHEEL_AUTO", "0") == "1"
+RETRAIN_THRESHOLD = int(os.getenv("DETERMINEX_FLYWHEEL_RETRAIN_THRESHOLD", "500"))
+PROMOTE_DELTA_PP = float(os.getenv("DETERMINEX_FLYWHEEL_PROMOTE_DELTA_PP", "1.0"))
+LOCK_TTL_S = int(os.getenv("DETERMINEX_FLYWHEEL_LOCK_TTL_S", "21600"))  # 6h
+RETRAIN_BASE_MODEL = os.getenv("DETERMINEX_FLYWHEEL_BASE_MODEL", "determinex-engineer-v11-dsl")
+TRAIN_DRIVER = os.getenv(
     "DETERMINEX_FLYWHEEL_TRAIN_DRIVER",
     str(_ROOT / "determinex_trainer" / "dsl_finetune.py"),
 )
-MICRO_EVAL_SCRIPT         = os.getenv(
+MICRO_EVAL_SCRIPT = os.getenv(
     "DETERMINEX_FLYWHEEL_MICRO_EVAL",
     str(_ROOT / "scripts" / "micro_eval.py"),
 )
@@ -74,16 +72,17 @@ MICRO_EVAL_SCRIPT         = os.getenv(
 @dataclass
 class FlywheelState:
     """Persistent state across flywheel auto-retrain runs."""
-    last_trigger_count: int = 0            # entry count at last retrain trigger
-    last_promotion_count: int = 0          # entry count at last successful promotion
-    last_promoted_adapter: str = ""        # tag of last promoted adapter
-    last_baseline_score: float = 0.0       # micro_eval score at last promotion (0-100)
-    last_attempt_ts: str = ""              # ISO timestamp of last retrain attempt
-    last_attempt_outcome: str = ""         # "promoted" | "rejected" | "failed" | "skipped"
-    last_attempt_detail: str = ""          # short string explanation
+
+    last_trigger_count: int = 0  # entry count at last retrain trigger
+    last_promotion_count: int = 0  # entry count at last successful promotion
+    last_promoted_adapter: str = ""  # tag of last promoted adapter
+    last_baseline_score: float = 0.0  # micro_eval score at last promotion (0-100)
+    last_attempt_ts: str = ""  # ISO timestamp of last retrain attempt
+    last_attempt_outcome: str = ""  # "promoted" | "rejected" | "failed" | "skipped"
+    last_attempt_detail: str = ""  # short string explanation
 
     @classmethod
-    def load(cls) -> "FlywheelState":
+    def load(cls) -> FlywheelState:
         if _FLYWHEEL_STATE_FILE.exists():
             try:
                 data = json.loads(_FLYWHEEL_STATE_FILE.read_text(encoding="utf-8"))
@@ -138,7 +137,9 @@ def capture_successful_epoch(
     if verification not in VERIFIED_GATE_KINDS:
         log.warning(
             "Flywheel: NOT capturing %s — verification=%r is not compiler-validated, so it is "
-            "not training data. Corpus unchanged.", instance_id, verification,
+            "not training data. Corpus unchanged.",
+            instance_id,
+            verification,
         )
         return _count_entries()
 
@@ -150,7 +151,7 @@ def capture_successful_epoch(
         "output": patch.strip(),
         "instance_id": instance_id,
         "repo": repo_name,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
         "verified": True,
         # Provenance, so a future reader can tell a compile-only sample from a tested one
         # without re-deriving it from run logs.
@@ -167,12 +168,12 @@ def capture_successful_epoch(
 
     if total > 0 and total % FLYWHEEL_NOTIFY_THRESHOLD == 0:
         log.info(
-            "\n" + "=" * 60 +
-            "\nFLYWHEEL THRESHOLD: %d verified patches in auto_curriculum.jsonl\n"
+            "\n" + "=" * 60 + "\nFLYWHEEL THRESHOLD: %d verified patches in auto_curriculum.jsonl\n"
             "Ready for LoRA fine-tune. Trigger manually:\n"
             "  python determinex_trainer/dsl_finetune.py --data auto_curriculum.jsonl\n"
             "  python determinex_trainer/train_unsloth.py --data auto_curriculum.jsonl\n"
-            + "=" * 60,
+            + "="
+            * 60,
             total,
         )
 
@@ -207,21 +208,22 @@ def flywheel_status() -> dict:
             (count % FLYWHEEL_NOTIFY_THRESHOLD) / FLYWHEEL_NOTIFY_THRESHOLD * 100, 1
         ),
         "auto_retrain": {
-            "enabled":             AUTO_RETRAIN_ENABLED,
-            "retrain_threshold":   RETRAIN_THRESHOLD,
+            "enabled": AUTO_RETRAIN_ENABLED,
+            "retrain_threshold": RETRAIN_THRESHOLD,
             "pending_since_train": pending,
-            "pct_to_retrain":      round(min(pending / max(RETRAIN_THRESHOLD, 1), 1.0) * 100, 1),
-            "last_trigger_count":  state.last_trigger_count,
-            "last_promoted":       state.last_promoted_adapter,
-            "last_baseline":       state.last_baseline_score,
-            "last_attempt":        state.last_attempt_ts,
-            "last_outcome":        state.last_attempt_outcome,
-            "last_detail":         state.last_attempt_detail,
+            "pct_to_retrain": round(min(pending / max(RETRAIN_THRESHOLD, 1), 1.0) * 100, 1),
+            "last_trigger_count": state.last_trigger_count,
+            "last_promoted": state.last_promoted_adapter,
+            "last_baseline": state.last_baseline_score,
+            "last_attempt": state.last_attempt_ts,
+            "last_outcome": state.last_attempt_outcome,
+            "last_detail": state.last_attempt_detail,
         },
     }
 
 
 # ── Sprint 4: auto-retrain orchestration ──────────────────────────────────────
+
 
 def _acquire_retrain_lock() -> bool:
     """Return True if we got the lock. Reclaim stale locks older than LOCK_TTL_S."""
@@ -233,7 +235,12 @@ def _acquire_retrain_lock() -> bool:
             held_by = payload.get("pid", "?")
             age_s = time.time() - held_at
             if age_s < LOCK_TTL_S:
-                log.info("retrain lock held by pid %s, age %.0fs (< %ds) — skipping", held_by, age_s, LOCK_TTL_S)
+                log.info(
+                    "retrain lock held by pid %s, age %.0fs (< %ds) — skipping",
+                    held_by,
+                    age_s,
+                    LOCK_TTL_S,
+                )
                 return False
             log.warning("stale retrain lock (age %.0fs) — reclaiming", age_s)
         except (OSError, json.JSONDecodeError):
@@ -256,12 +263,16 @@ def _run_subprocess_logged(cmd: list[str], log_path: Path, timeout_s: int = 7200
     log_path.parent.mkdir(parents=True, exist_ok=True)
     log.info("→ %s  (log: %s)", " ".join(cmd), log_path.name)
     with open(log_path, "a", encoding="utf-8") as fh:
-        fh.write(f"\n========== {datetime.now(timezone.utc).isoformat()} ==========\n")
+        fh.write(f"\n========== {datetime.now(UTC).isoformat()} ==========\n")
         fh.write(" ".join(cmd) + "\n\n")
         fh.flush()
         try:
             return subprocess.run(
-                cmd, stdout=fh, stderr=subprocess.STDOUT, timeout=timeout_s, check=False,
+                cmd,
+                stdout=fh,
+                stderr=subprocess.STDOUT,
+                timeout=timeout_s,
+                check=False,
             ).returncode
         except subprocess.TimeoutExpired:
             fh.write(f"\n[TIMEOUT after {timeout_s}s]\n")
@@ -280,6 +291,7 @@ def _parse_micro_eval_score(log_path: Path) -> float:
     except OSError:
         return -1.0
     import re as _re
+
     # micro_eval typically emits a line like: "Score: 89.0% (40/45)" or similar
     for line in reversed(text.splitlines()):
         m = _re.search(r"(?:Score|TOTAL|RESULT)\D+([0-9]+(?:\.[0-9]+)?)\s*%", line, _re.IGNORECASE)
@@ -325,22 +337,28 @@ def maybe_trigger_auto_retrain(current_count: int | None = None) -> dict:
         return {"status": "skipped", "reason": "lock held by another flywheel process"}
 
     _FLYWHEEL_LOG_DIR.mkdir(parents=True, exist_ok=True)
-    ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    ts = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
     run_dir = _FLYWHEEL_LOG_DIR / ts
     run_dir.mkdir(parents=True, exist_ok=True)
     train_log = run_dir / "dsl_finetune.log"
-    eval_log  = run_dir / "micro_eval.log"
+    eval_log = run_dir / "micro_eval.log"
 
-    state.last_attempt_ts = datetime.now(timezone.utc).isoformat()
+    state.last_attempt_ts = datetime.now(UTC).isoformat()
 
     try:
         # Step 1: training
         python_exe = sys.executable
         train_rc = _run_subprocess_logged(
-            [python_exe, TRAIN_DRIVER,
-             "--data", str(FLYWHEEL_PATH),
-             "--base-model", RETRAIN_BASE_MODEL,
-             "--output-tag", f"{RETRAIN_BASE_MODEL}-auto-{ts}"],
+            [
+                python_exe,
+                TRAIN_DRIVER,
+                "--data",
+                str(FLYWHEEL_PATH),
+                "--base-model",
+                RETRAIN_BASE_MODEL,
+                "--output-tag",
+                f"{RETRAIN_BASE_MODEL}-auto-{ts}",
+            ],
             train_log,
             timeout_s=int(os.getenv("DETERMINEX_FLYWHEEL_TRAIN_TIMEOUT_S", "10800")),
         )
@@ -383,13 +401,17 @@ def maybe_trigger_auto_retrain(current_count: int | None = None) -> dict:
             state.last_trigger_count = current_count  # so we don't loop on the same data
             state.save()
             return {
-                "status": "rejected", "baseline": baseline, "new_score": new_score,
-                "delta_pp": delta_pp, "required_pp": PROMOTE_DELTA_PP,
+                "status": "rejected",
+                "baseline": baseline,
+                "new_score": new_score,
+                "delta_pp": delta_pp,
+                "required_pp": PROMOTE_DELTA_PP,
             }
 
         # Step 4: promote — point the canonical tag at the new adapter
-        promote_rc = _ollama_hot_swap(target_alias=RETRAIN_BASE_MODEL, new_model=new_tag,
-                                       run_dir=run_dir)
+        promote_rc = _ollama_hot_swap(
+            target_alias=RETRAIN_BASE_MODEL, new_model=new_tag, run_dir=run_dir
+        )
         if promote_rc != 0:
             state.last_attempt_outcome = "failed"
             state.last_attempt_detail = f"ollama hot-swap failed rc={promote_rc}"
@@ -397,7 +419,7 @@ def maybe_trigger_auto_retrain(current_count: int | None = None) -> dict:
             return {"status": "failed", "stage": "promote", "rc": promote_rc}
 
         state.last_promotion_count = current_count
-        state.last_trigger_count   = current_count
+        state.last_trigger_count = current_count
         state.last_promoted_adapter = new_tag
         state.last_baseline_score = new_score
         state.last_attempt_outcome = "promoted"
@@ -406,8 +428,11 @@ def maybe_trigger_auto_retrain(current_count: int | None = None) -> dict:
         )
         state.save()
         return {
-            "status": "promoted", "tag": new_tag, "baseline": baseline,
-            "new_score": new_score, "delta_pp": delta_pp,
+            "status": "promoted",
+            "tag": new_tag,
+            "baseline": baseline,
+            "new_score": new_score,
+            "delta_pp": delta_pp,
         }
     finally:
         _release_retrain_lock()
@@ -430,7 +455,7 @@ def _ollama_hot_swap(target_alias: str, new_model: str, run_dir: Path) -> int:
     modelfile.write_text(
         f"FROM {new_model}\n"
         f"# Auto-generated by determinex_flywheel.py Sprint 4 promotion gate\n"
-        f"# Timestamp: {datetime.now(timezone.utc).isoformat()}\n",
+        f"# Timestamp: {datetime.now(UTC).isoformat()}\n",
         encoding="utf-8",
     )
     swap_log = run_dir / "ollama_swap.log"
@@ -461,6 +486,6 @@ if __name__ == "__main__":
     print(f"Last promoted tag    : {ar['last_promoted'] or '(none)'}")
     print(f"Last baseline score  : {ar['last_baseline']:.2f}%")
     print(f"Last attempt         : {ar['last_attempt'] or '(none)'} -> {ar['last_outcome'] or '-'}")
-    if ar['last_detail']:
+    if ar["last_detail"]:
         print(f"  detail: {ar['last_detail']}")
     sys.exit(0)

@@ -27,18 +27,36 @@ from pathlib import Path
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-_SCRIPTS_DIR  = Path(__file__).resolve().parent
-_ROOT         = _SCRIPTS_DIR.parent
-_CONFIG_FILE  = _ROOT / "determinex_user_config.json"
-_ENV_FILE     = _ROOT / ".env"
+_SCRIPTS_DIR = Path(__file__).resolve().parent
+_ROOT = _SCRIPTS_DIR.parent
+_CONFIG_FILE = _ROOT / "determinex_user_config.json"
+_ENV_FILE = _ROOT / ".env"
+
 
 # ── colour helpers ────────────────────────────────────────────────────────────
-def _c(text, code): return f"\033[{code}m{text}\033[0m"
-def green(t):  return _c(t, "92")
-def yellow(t): return _c(t, "93")
-def cyan(t):   return _c(t, "96")
-def bold(t):   return _c(t, "1")
-def dim(t):    return _c(t, "2")
+def _c(text, code):
+    return f"\033[{code}m{text}\033[0m"
+
+
+def green(t):
+    return _c(t, "92")
+
+
+def yellow(t):
+    return _c(t, "93")
+
+
+def cyan(t):
+    return _c(t, "96")
+
+
+def bold(t):
+    return _c(t, "1")
+
+
+def dim(t):
+    return _c(t, "2")
+
 
 def ask(prompt, default="", choices=None):
     """Single prompt with optional choices validation."""
@@ -52,6 +70,7 @@ def ask(prompt, default="", choices=None):
             continue
         return val
 
+
 def ask_bool(prompt, default=True):
     default_str = "Y/n" if default else "y/N"
     raw = input(f"  {cyan('?')} {prompt} [{default_str}]: ").strip().lower()
@@ -59,12 +78,15 @@ def ask_bool(prompt, default=True):
         return default
     return raw in ("y", "yes", "1", "true")
 
+
 def section(title):
     print(f"\n{bold('─' * 60)}")
     print(f"  {bold(title)}")
     print(f"{bold('─' * 60)}")
 
+
 # ── Hardware detection ────────────────────────────────────────────────────────
+
 
 def detect_hardware():
     hw = {"gpu_name": "Unknown", "vram_mb": 0, "ram_gb": 0, "cpu_threads": os.cpu_count() or 4}
@@ -73,7 +95,9 @@ def detect_hardware():
     try:
         result = subprocess.run(
             ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         if result.returncode == 0 and result.stdout.strip():
             parts = result.stdout.strip().split(",")
@@ -85,6 +109,7 @@ def detect_hardware():
     # RAM
     try:
         import ctypes
+
         kernel = ctypes.windll.kernel32
         mem = ctypes.c_ulonglong(0)
         kernel.GetPhysicallyInstalledSystemMemory(ctypes.byref(mem))
@@ -93,7 +118,9 @@ def detect_hardware():
         try:
             result = subprocess.run(
                 ["wmic", "computersystem", "get", "TotalPhysicalMemory"],
-                capture_output=True, text=True, timeout=5,
+                capture_output=True,
+                text=True,
+                timeout=5,
             )
             lines = [l.strip() for l in result.stdout.splitlines() if l.strip().isdigit()]
             if lines:
@@ -102,6 +129,7 @@ def detect_hardware():
             pass
 
     return hw
+
 
 def get_ollama_models():
     try:
@@ -113,11 +141,14 @@ def get_ollama_models():
         pass
     return []
 
+
 def get_gpu_default_power():
     try:
         result = subprocess.run(
             ["nvidia-smi", "--query-gpu=power.default_limit", "--format=csv,noheader,nounits"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         if result.returncode == 0:
             return round(float(result.stdout.strip()))
@@ -125,44 +156,46 @@ def get_gpu_default_power():
         pass
     return 120
 
+
 # ── Training profile presets ──────────────────────────────────────────────────
 
 TRAINING_PROFILES = {
     "safe": {
-        "label"    : "Safe (61°C max, ~40% GPU, takes 2x longer)",
-        "epochs"   : 1,
-        "batch"    : 1,
+        "label": "Safe (61°C max, ~40% GPU, takes 2x longer)",
+        "epochs": 1,
+        "batch": 1,
         "grad_accum": 8,
-        "max_seq"  : 512,
+        "max_seq": 512,
         "power_cap": 70,
     },
     "balanced": {
-        "label"    : "Balanced (75°C max, ~70% GPU, recommended)",
-        "epochs"   : 1,
-        "batch"    : 1,
+        "label": "Balanced (75°C max, ~70% GPU, recommended)",
+        "epochs": 1,
+        "batch": 1,
         "grad_accum": 4,
-        "max_seq"  : 1024,
+        "max_seq": 1024,
         "power_cap": 90,
     },
     "full": {
-        "label"    : "Full throttle (85°C, 98% GPU, fastest — max heat)",
-        "epochs"   : 1,
-        "batch"    : 1,
+        "label": "Full throttle (85°C, 98% GPU, fastest — max heat)",
+        "epochs": 1,
+        "batch": 1,
         "grad_accum": 4,
-        "max_seq"  : 2048,
+        "max_seq": 2048,
         "power_cap": None,  # no cap
     },
     "custom": {
-        "label"    : "Custom — I'll enter everything manually",
-        "epochs"   : None,
-        "batch"    : None,
+        "label": "Custom — I'll enter everything manually",
+        "epochs": None,
+        "batch": None,
         "grad_accum": None,
-        "max_seq"  : None,
+        "max_seq": None,
         "power_cap": None,
     },
 }
 
 # ── .env helpers ──────────────────────────────────────────────────────────────
+
 
 def load_env():
     env = {}
@@ -174,6 +207,7 @@ def load_env():
             k, _, v = line.partition("=")
             env[k.strip()] = v.strip()
     return env
+
 
 def write_env_key(key, value):
     """Update or append a key=value pair in .env without disturbing other lines."""
@@ -193,7 +227,9 @@ def write_env_key(key, value):
         new_lines.append(f"{key}={value}")
     _ENV_FILE.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
 
+
 # ── Main setup flow ────────────────────────────────────────────────────────────
+
 
 def install_git_hooks() -> list[str]:
     """Install the repo's tracked git hooks (scripts/git-hooks/) into
@@ -234,7 +270,7 @@ def run_setup(reconfigure=False):
 
     print(f"\n{bold('═' * 60)}")
     print(f"  {bold('DETERMINEX — User Setup Wizard')}")
-    print(f"  Configures training, models, APIs, and GPU safety for YOUR hardware.")
+    print("  Configures training, models, APIs, and GPU safety for YOUR hardware.")
     print(f"{bold('═' * 60)}")
 
     hooks = install_git_hooks()
@@ -256,9 +292,42 @@ def run_setup(reconfigure=False):
     section("2 / 5 — Model Routing")
     print(f"  {cyan('Building local Ollama model fleet (this may take a few moments)...')}")
     try:
-        subprocess.run(["ollama", "create", "determinex-engineer", "-f", "rosetta/modelfiles/Modelfile.engineer"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.run(["ollama", "create", "determinex-observer", "-f", "rosetta/modelfiles/Modelfile.observer"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.run(["ollama", "create", "determinex-sentinel", "-f", "rosetta/modelfiles/Modelfile.sentinel"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(
+            [
+                "ollama",
+                "create",
+                "determinex-engineer",
+                "-f",
+                "rosetta/modelfiles/Modelfile.engineer",
+            ],
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        subprocess.run(
+            [
+                "ollama",
+                "create",
+                "determinex-observer",
+                "-f",
+                "rosetta/modelfiles/Modelfile.observer",
+            ],
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        subprocess.run(
+            [
+                "ollama",
+                "create",
+                "determinex-sentinel",
+                "-f",
+                "rosetta/modelfiles/Modelfile.sentinel",
+            ],
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
     except Exception as e:
         print(f"  {yellow('!')} Failed to auto-create models: {e}")
 
@@ -272,15 +341,23 @@ def run_setup(reconfigure=False):
 
     # Default selections from .env if they exist
     env = load_env()
-    default_engineer  = existing.get("engineer_model",  env.get("DETERMINEX_ENGINEER_MODEL",  "determinex-engineer-v10-dsl"))
-    default_observer  = existing.get("observer_model",  env.get("DETERMINEX_OBSERVER_MODEL",  "determinex-observer-v5-dsl"))
-    default_sentinel  = existing.get("sentinel_model",  env.get("DETERMINEX_SENTINEL_MODEL",  "determinex-sentinel-v3"))
-    default_leviathan = existing.get("leviathan_model", env.get("DETERMINEX_LEVIATHAN_MODEL", "determinex-leviathan:v1"))
+    default_engineer = existing.get(
+        "engineer_model", env.get("DETERMINEX_ENGINEER_MODEL", "determinex-engineer-v10-dsl")
+    )
+    default_observer = existing.get(
+        "observer_model", env.get("DETERMINEX_OBSERVER_MODEL", "determinex-observer-v5-dsl")
+    )
+    default_sentinel = existing.get(
+        "sentinel_model", env.get("DETERMINEX_SENTINEL_MODEL", "determinex-sentinel-v3")
+    )
+    default_leviathan = existing.get(
+        "leviathan_model", env.get("DETERMINEX_LEVIATHAN_MODEL", "determinex-leviathan:v1")
+    )
 
     print()
-    engineer_model  = ask("Engineer model (code generation, 4-7B)", default_engineer)
-    observer_model  = ask("Observer model (reasoning/critique, 2-3B)", default_observer)
-    sentinel_model  = ask("Sentinel model (security/guard, 2B)", default_sentinel)
+    engineer_model = ask("Engineer model (code generation, 4-7B)", default_engineer)
+    observer_model = ask("Observer model (reasoning/critique, 2-3B)", default_observer)
+    sentinel_model = ask("Sentinel model (security/guard, 2B)", default_sentinel)
     leviathan_model = ask("Leviathan model (teacher, CPU RAM, 8-14B)", default_leviathan)
 
     # ── Section 3: Cloud APIs ────────────────────────────────────────────────
@@ -290,11 +367,12 @@ def run_setup(reconfigure=False):
     print()
 
     current_anthropic = env.get("ANTHROPIC_API_KEY", "")
-    current_gemini    = env.get("GEMINI_API_KEY", "")
-    current_openai    = env.get("OPENAI_API_KEY", "")
+    current_gemini = env.get("GEMINI_API_KEY", "")
+    current_openai = env.get("OPENAI_API_KEY", "")
 
-    use_anthropic = ask_bool("Anthropic (Claude) API — do you have access?",
-                             default=bool(current_anthropic))
+    use_anthropic = ask_bool(
+        "Anthropic (Claude) API — do you have access?", default=bool(current_anthropic)
+    )
     if use_anthropic:
         if current_anthropic:
             print(f"    {dim('Current key: ' + current_anthropic[:12] + '...')}")
@@ -302,15 +380,13 @@ def run_setup(reconfigure=False):
     else:
         anthropic_key = ""
 
-    use_gemini = ask_bool("Google (Gemini) API — do you have access?",
-                          default=bool(current_gemini))
+    use_gemini = ask_bool("Google (Gemini) API — do you have access?", default=bool(current_gemini))
     if use_gemini:
         gemini_key = ask("Gemini API key", current_gemini)
     else:
         gemini_key = ""
 
-    use_openai = ask_bool("OpenAI API — do you have access?",
-                          default=bool(current_openai))
+    use_openai = ask_bool("OpenAI API — do you have access?", default=bool(current_openai))
     if use_openai:
         openai_key = ask("OpenAI API key", current_openai)
     else:
@@ -326,68 +402,76 @@ def run_setup(reconfigure=False):
         print(f"  {marker} {bold(k):<12} {v['label']}")
     print()
 
-    profile_key = ask("Choose a training profile", default_profile,
-                      choices=list(TRAINING_PROFILES.keys())).lower()
+    profile_key = ask(
+        "Choose a training profile", default_profile, choices=list(TRAINING_PROFILES.keys())
+    ).lower()
     profile = TRAINING_PROFILES[profile_key]
 
     if profile_key == "custom":
-        epochs    = int(ask("Epochs per forge run", existing.get("epochs", "1")))
-        batch     = int(ask("Per-device batch size", existing.get("batch_size", "1")))
-        grad_acc  = int(ask("Gradient accumulation steps", existing.get("grad_accum", "4")))
-        max_seq   = int(ask("Max sequence length (tokens)", existing.get("max_seq_length", str(default_seq))))
+        epochs = int(ask("Epochs per forge run", existing.get("epochs", "1")))
+        batch = int(ask("Per-device batch size", existing.get("batch_size", "1")))
+        grad_acc = int(ask("Gradient accumulation steps", existing.get("grad_accum", "4")))
+        max_seq = int(
+            ask("Max sequence length (tokens)", existing.get("max_seq_length", str(default_seq)))
+        )
         power_raw = ask("GPU power cap in watts (0 = no cap)", existing.get("power_cap_watts", "0"))
         power_cap = int(power_raw) if power_raw.isdigit() and int(power_raw) > 0 else None
     else:
-        epochs    = profile["epochs"]
-        batch     = profile["batch"]
-        grad_acc  = profile["grad_accum"]
-        max_seq   = profile["max_seq"] or default_seq
+        epochs = profile["epochs"]
+        batch = profile["batch"]
+        grad_acc = profile["grad_accum"]
+        max_seq = profile["max_seq"] or default_seq
         power_cap = profile["power_cap"]
 
     # ── Section 5: Data Engine ───────────────────────────────────────────────
     section("5 / 5 — Data Engine Preferences")
 
-    oracle_autonomy = ask("Oracle autonomy mode", existing.get("oracle_autonomy", "full"),
-                          choices=["full", "confirm", "off"])
-    samples_per_run = int(ask("Samples to generate per category per run",
-                              str(existing.get("samples_per_run", "50"))))
-    mix_general = ask_bool("Mix Alpaca general data during training (prevents catastrophic forgetting)?",
-                           existing.get("mix_general", True))
-    curriculum_ratio = float(ask("Curriculum-to-general data ratio (0.0-1.0)",
-                                 str(existing.get("curriculum_ratio", "0.8"))))
+    oracle_autonomy = ask(
+        "Oracle autonomy mode",
+        existing.get("oracle_autonomy", "full"),
+        choices=["full", "confirm", "off"],
+    )
+    samples_per_run = int(
+        ask("Samples to generate per category per run", str(existing.get("samples_per_run", "50")))
+    )
+    mix_general = ask_bool(
+        "Mix Alpaca general data during training (prevents catastrophic forgetting)?",
+        existing.get("mix_general", True),
+    )
+    curriculum_ratio = float(
+        ask(
+            "Curriculum-to-general data ratio (0.0-1.0)",
+            str(existing.get("curriculum_ratio", "0.8")),
+        )
+    )
 
     # ── Build config ─────────────────────────────────────────────────────────
     config = {
-        "schema_version" : "1.0",
+        "schema_version": "1.0",
         "user_configured": True,
-
         # Hardware profile
         "hardware": hw,
-
         # Model routing
-        "engineer_model" : engineer_model,
-        "observer_model" : observer_model,
-        "sentinel_model" : sentinel_model,
+        "engineer_model": engineer_model,
+        "observer_model": observer_model,
+        "sentinel_model": sentinel_model,
         "leviathan_model": leviathan_model,
-
         # API access
         "api_anthropic_enabled": use_anthropic,
-        "api_google_enabled"   : use_gemini,
-        "api_openai_enabled"   : use_openai,
-
+        "api_google_enabled": use_gemini,
+        "api_openai_enabled": use_openai,
         # Training profile
-        "training_profile"  : profile_key,
-        "epochs"            : epochs,
-        "batch_size"        : batch,
-        "grad_accum"        : grad_acc,
-        "max_seq_length"    : max_seq,
-        "power_cap_watts"   : power_cap,
-
+        "training_profile": profile_key,
+        "epochs": epochs,
+        "batch_size": batch,
+        "grad_accum": grad_acc,
+        "max_seq_length": max_seq,
+        "power_cap_watts": power_cap,
         # Data engine
-        "oracle_autonomy"  : oracle_autonomy,
-        "samples_per_run"  : samples_per_run,
-        "mix_general"      : mix_general,
-        "curriculum_ratio" : curriculum_ratio,
+        "oracle_autonomy": oracle_autonomy,
+        "samples_per_run": samples_per_run,
+        "mix_general": mix_general,
+        "curriculum_ratio": curriculum_ratio,
     }
 
     # ── Write config ─────────────────────────────────────────────────────────
@@ -395,14 +479,14 @@ def run_setup(reconfigure=False):
     print(f"\n  {green('✓')} Config saved: {_CONFIG_FILE}")
 
     # ── Patch .env ───────────────────────────────────────────────────────────
-    write_env_key("DETERMINEX_ENGINEER_MODEL",  engineer_model)
-    write_env_key("DETERMINEX_OBSERVER_MODEL",  observer_model)
-    write_env_key("DETERMINEX_SENTINEL_MODEL",  sentinel_model)
+    write_env_key("DETERMINEX_ENGINEER_MODEL", engineer_model)
+    write_env_key("DETERMINEX_OBSERVER_MODEL", observer_model)
+    write_env_key("DETERMINEX_SENTINEL_MODEL", sentinel_model)
     write_env_key("DETERMINEX_LEVIATHAN_MODEL", leviathan_model)
 
     write_env_key("ANTHROPIC_API_KEY", anthropic_key)
-    write_env_key("GEMINI_API_KEY",    gemini_key)
-    write_env_key("OPENAI_API_KEY",    openai_key)
+    write_env_key("GEMINI_API_KEY", gemini_key)
+    write_env_key("OPENAI_API_KEY", openai_key)
 
     # DETERMINEX_ prefix, not CITADEL_ -- the real functional consumer
     # (leaderboard_oracle.py's env_bool checks) reads DETERMINEX_API_*_ENABLED;
@@ -410,14 +494,14 @@ def run_setup(reconfigure=False):
     # silently never picked up (found 2026-07-19 in a systematic rename-
     # split-brain sweep).
     write_env_key("DETERMINEX_API_ANTHROPIC_ENABLED", "true" if use_anthropic else "false")
-    write_env_key("DETERMINEX_API_GOOGLE_ENABLED",    "true" if use_gemini    else "false")
-    write_env_key("DETERMINEX_API_OPENAI_ENABLED",    "true" if use_openai    else "false")
+    write_env_key("DETERMINEX_API_GOOGLE_ENABLED", "true" if use_gemini else "false")
+    write_env_key("DETERMINEX_API_OPENAI_ENABLED", "true" if use_openai else "false")
 
     print(f"  {green('✓')} .env updated with model routing and API gate flags")
 
     # ── Apply GPU power cap ───────────────────────────────────────────────────
     if power_cap:
-        apply = ask_bool(f"\nApply GPU power cap now? ({power_cap}W)",  default=True)
+        apply = ask_bool(f"\nApply GPU power cap now? ({power_cap}W)", default=True)
         if apply:
             apply_gpu_throttle(power_cap)
     else:
@@ -427,26 +511,34 @@ def run_setup(reconfigure=False):
     print(f"\n{bold('═' * 60)}")
     print(f"  {green('SETUP COMPLETE')}")
     print(f"{bold('─' * 60)}")
-    print(f"  Profile    : {bold(profile_key.upper())}  —  {TRAINING_PROFILES[profile_key]['label']}")
+    print(
+        f"  Profile    : {bold(profile_key.upper())}  —  {TRAINING_PROFILES[profile_key]['label']}"
+    )
     print(f"  Seq length : {max_seq} tokens  |  batch {batch}x{grad_acc} grad_accum")
     print(f"  GPU cap    : {f'{power_cap}W' if power_cap else 'unlimited'}")
     print(f"  APIs       : {_api_summary(use_anthropic, use_gemini, use_openai)}")
     print(f"  Oracle     : {oracle_autonomy} autonomy  |  {samples_per_run} samples/category")
     print(f"  Mix general: {'yes' if mix_general else 'no'}  |  ratio {curriculum_ratio}")
-    print(f"\n  Run your next training session with:")
+    print("\n  Run your next training session with:")
     train_cmd = _build_train_cmd(config)
     print(f"  {cyan(train_cmd)}")
-    print(f"\n  Or use the data engine:")
+    print("\n  Or use the data engine:")
     print(f"  {cyan('python -m scripts.deepseek_data_engine')}")
     print(f"{bold('═' * 60)}\n")
 
+
 def _api_summary(anthropic, gemini, openai):
     parts = []
-    if anthropic: parts.append(green("Claude"))
-    if gemini:    parts.append(green("Gemini"))
-    if openai:    parts.append(green("OpenAI"))
-    if not parts: return yellow("local-only")
+    if anthropic:
+        parts.append(green("Claude"))
+    if gemini:
+        parts.append(green("Gemini"))
+    if openai:
+        parts.append(green("OpenAI"))
+    if not parts:
+        return yellow("local-only")
     return " + ".join(parts) + dim(" (enabled)")
+
 
 def _build_train_cmd(cfg):
     args = [
@@ -464,11 +556,14 @@ def _build_train_cmd(cfg):
 
 # ── GPU throttle ──────────────────────────────────────────────────────────────
 
+
 def apply_gpu_throttle(watts):
     try:
         result = subprocess.run(
             ["nvidia-smi", "-pl", str(watts)],
-            capture_output=True, text=True, timeout=10,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         if result.returncode == 0:
             print(f"  {green('✓')} GPU power capped to {watts}W")
@@ -478,6 +573,7 @@ def apply_gpu_throttle(watts):
     except FileNotFoundError:
         print(f"  {yellow('!')} nvidia-smi not found on PATH")
 
+
 def restore_gpu_power():
     default = get_gpu_default_power()
     print(f"  Restoring GPU to default TDP ({default}W)...")
@@ -485,6 +581,7 @@ def restore_gpu_power():
 
 
 # ── Show config ────────────────────────────────────────────────────────────────
+
 
 def show_config():
     if not _CONFIG_FILE.exists():
@@ -495,35 +592,36 @@ def show_config():
     print(f"  {bold('DETERMINEX USER CONFIG')}  —  {_CONFIG_FILE}")
     print(f"{bold('─' * 60)}")
     hw = cfg.get("hardware", {})
-    print(f"  GPU         : {hw.get('gpu_name','?')} ({hw.get('vram_mb',0)} MB VRAM)")
-    print(f"  RAM         : {hw.get('ram_gb','?')} GB")
+    print(f"  GPU         : {hw.get('gpu_name', '?')} ({hw.get('vram_mb', 0)} MB VRAM)")
+    print(f"  RAM         : {hw.get('ram_gb', '?')} GB")
     print()
-    print(f"  Profile     : {cfg.get('training_profile','?').upper()}")
-    print(f"  Max seq     : {cfg.get('max_seq_length','?')} tokens")
-    print(f"  Batch       : {cfg.get('batch_size','?')} × {cfg.get('grad_accum','?')} grad_accum")
-    print(f"  Epochs      : {cfg.get('epochs','?')}")
-    print(f"  GPU cap     : {cfg.get('power_cap_watts','unlimited')}")
+    print(f"  Profile     : {cfg.get('training_profile', '?').upper()}")
+    print(f"  Max seq     : {cfg.get('max_seq_length', '?')} tokens")
+    print(f"  Batch       : {cfg.get('batch_size', '?')} × {cfg.get('grad_accum', '?')} grad_accum")
+    print(f"  Epochs      : {cfg.get('epochs', '?')}")
+    print(f"  GPU cap     : {cfg.get('power_cap_watts', 'unlimited')}")
     print()
-    print(f"  Engineer    : {cfg.get('engineer_model','?')}")
-    print(f"  Observer    : {cfg.get('observer_model','?')}")
-    print(f"  Sentinel    : {cfg.get('sentinel_model','?')}")
-    print(f"  Leviathan   : {cfg.get('leviathan_model','?')}")
+    print(f"  Engineer    : {cfg.get('engineer_model', '?')}")
+    print(f"  Observer    : {cfg.get('observer_model', '?')}")
+    print(f"  Sentinel    : {cfg.get('sentinel_model', '?')}")
+    print(f"  Leviathan   : {cfg.get('leviathan_model', '?')}")
     print()
     print(f"  Claude API  : {'enabled' if cfg.get('api_anthropic_enabled') else 'disabled'}")
     print(f"  Gemini API  : {'enabled' if cfg.get('api_google_enabled') else 'disabled'}")
     print(f"  OpenAI API  : {'enabled' if cfg.get('api_openai_enabled') else 'disabled'}")
     print()
-    print(f"  Oracle mode : {cfg.get('oracle_autonomy','?')}")
-    print(f"  Samples/run : {cfg.get('samples_per_run','?')}")
-    print(f"  Mix general : {cfg.get('mix_general','?')}")
-    print(f"  Curriculum  : {cfg.get('curriculum_ratio','?')}")
+    print(f"  Oracle mode : {cfg.get('oracle_autonomy', '?')}")
+    print(f"  Samples/run : {cfg.get('samples_per_run', '?')}")
+    print(f"  Mix general : {cfg.get('mix_general', '?')}")
+    print(f"  Curriculum  : {cfg.get('curriculum_ratio', '?')}")
     print()
-    print(f"  Recommended training command:")
+    print("  Recommended training command:")
     print(f"  {cyan(_build_train_cmd(cfg))}")
     print(f"{bold('═' * 60)}\n")
 
 
 # ── User config loader (for other scripts to import) ──────────────────────────
+
 
 def load_user_config() -> dict:
     """
@@ -543,12 +641,19 @@ def load_user_config() -> dict:
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Determinex User Setup Wizard")
-    parser.add_argument("--reconfigure",   action="store_true", help="Re-run all prompts (overwrites existing config)")
-    parser.add_argument("--show",          action="store_true", help="Print current config and exit")
-    parser.add_argument("--apply-throttle",action="store_true", help="Apply saved GPU power cap now and exit")
-    parser.add_argument("--restore-power", action="store_true", help="Restore GPU to default power limit")
+    parser.add_argument(
+        "--reconfigure", action="store_true", help="Re-run all prompts (overwrites existing config)"
+    )
+    parser.add_argument("--show", action="store_true", help="Print current config and exit")
+    parser.add_argument(
+        "--apply-throttle", action="store_true", help="Apply saved GPU power cap now and exit"
+    )
+    parser.add_argument(
+        "--restore-power", action="store_true", help="Restore GPU to default power limit"
+    )
     args = parser.parse_args()
 
     if args.show:
@@ -572,7 +677,9 @@ def main():
     if _CONFIG_FILE.exists() and not args.reconfigure:
         cfg = load_user_config()
         if cfg.get("user_configured"):
-            print(f"\n  {green('✓')} Already configured. Use --show to view, --reconfigure to change.")
+            print(
+                f"\n  {green('✓')} Already configured. Use --show to view, --reconfigure to change."
+            )
             show_config()
             return
 

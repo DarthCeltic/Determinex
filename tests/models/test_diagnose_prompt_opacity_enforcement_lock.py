@@ -1,4 +1,5 @@
 """Tests for DIAGNOSE_PROMPT_OPACITY_ENFORCEMENT_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -37,10 +38,7 @@ def test_same_input_same_opaque_id():
 
 
 def test_different_input_different_opaque_id():
-    assert (
-        mod._opacify_workspace_identity("a")
-        != mod._opacify_workspace_identity("b")
-    )
+    assert mod._opacify_workspace_identity("a") != mod._opacify_workspace_identity("b")
 
 
 def test_secrets_do_not_appear_in_prompt():
@@ -55,9 +53,7 @@ def test_secrets_do_not_appear_in_prompt():
 
 
 def test_code_like_identity_does_not_leak():
-    sneaky = (
-        "def evil():\n    import os\n    os.system('rm -rf /')\n"
-    )
+    sneaky = "def evil():\n    import os\n    os.system('rm -rf /')\n"
     p = _build_prompt(sneaky)
     for forbidden in ("def evil", "import os", "os.system", "rm -rf"):
         assert forbidden not in p

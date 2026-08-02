@@ -1,12 +1,10 @@
 """Tests for FRONTEND_TEMP_VERIFY_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 import re
-import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 PANEL = _REPO_ROOT / "frontend" / "src" / "components" / "ide-repair" / "TempVerifyPanel.tsx"
@@ -14,12 +12,14 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_TEMP_VERIFY_PANEL_LOCK
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_temp_verify_panel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-STATUS_TOKENS = frozenset({
-    "TEMP_VERIFY_PANEL_READY",
-    "TEMP_VERIFY_FAILED_VISIBLE",
-    "TEMP_VERIFY_PASSED_TEMP_ONLY_VISIBLE",
-    "TEMP_VERIFY_HUMAN_APPROVAL_REQUIRED_VISIBLE",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "TEMP_VERIFY_PANEL_READY",
+        "TEMP_VERIFY_FAILED_VISIBLE",
+        "TEMP_VERIFY_PASSED_TEMP_ONLY_VISIBLE",
+        "TEMP_VERIFY_HUMAN_APPROVAL_REQUIRED_VISIBLE",
+    }
+)
 
 
 def test_panel_exists():
@@ -41,24 +41,24 @@ def test_calls_verify_temp_patch():
 
 def test_renders_failure_and_pass_states():
     src = PANEL.read_text(encoding="utf-8")
-    assert "data-testid=\"temp-verify-failed-note\"" in src
-    assert "data-testid=\"temp-verify-passed-note\"" in src
+    assert 'data-testid="temp-verify-failed-note"' in src
+    assert 'data-testid="temp-verify-passed-note"' in src
 
 
 def test_renders_diff_summary():
     src = PANEL.read_text(encoding="utf-8")
-    assert "data-testid=\"temp-verify-diff-summary\"" in src
+    assert 'data-testid="temp-verify-diff-summary"' in src
 
 
 def test_human_approval_required_always_visible():
     src = PANEL.read_text(encoding="utf-8")
-    assert "data-testid=\"temp-verify-human-approval-required-note\"" in src
+    assert 'data-testid="temp-verify-human-approval-required-note"' in src
     assert "Human approval is required" in src
 
 
 def test_source_unchanged_note():
     src = PANEL.read_text(encoding="utf-8")
-    assert "data-testid=\"temp-verify-source-unchanged-note\"" in src
+    assert 'data-testid="temp-verify-source-unchanged-note"' in src
     assert "not modified" in src.lower()
 
 

@@ -105,7 +105,9 @@ class DataHubContextClient:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                 payload = json.loads(resp.read().decode("utf-8"))
         except urllib.error.HTTPError as exc:
-            raise DataHubUnavailable(f"DataHub returned HTTP {exc.code} for {self.gql_url}") from exc
+            raise DataHubUnavailable(
+                f"DataHub returned HTTP {exc.code} for {self.gql_url}"
+            ) from exc
         except (urllib.error.URLError, OSError) as exc:
             raise DataHubUnavailable(f"could not reach DataHub at {self.gql_url}: {exc}") from exc
         except json.JSONDecodeError as exc:
@@ -194,7 +196,9 @@ class DataHubContextClient:
             self._LINEAGE_QUERY,
             {"input": {"urn": dataset_urn, "direction": direction, "start": 0, "count": 100}},
         )
-        results = ((payload.get("data") or {}).get("searchAcrossLineage") or {}).get("searchResults")
+        results = ((payload.get("data") or {}).get("searchAcrossLineage") or {}).get(
+            "searchResults"
+        )
         if results is None:
             raise DataHubUnavailable(f"no lineage result for urn {dataset_urn}")
         upstreams: list[str] = []
@@ -251,10 +255,30 @@ class DataHubContextClient:
                 platform="snowflake",
                 provenance=FIXTURE,
                 fields=[
-                    {"name": "customer_id", "type": "BIGINT", "description": "Unique customer ID", "nullable": False},
-                    {"name": "email", "type": "VARCHAR(255)", "description": "Customer email address", "nullable": False},
-                    {"name": "country_code", "type": "VARCHAR(10)", "description": "ISO country code", "nullable": True},
-                    {"name": "created_at", "type": "TIMESTAMP_NTZ", "description": "Account registration timestamp", "nullable": False},
+                    {
+                        "name": "customer_id",
+                        "type": "BIGINT",
+                        "description": "Unique customer ID",
+                        "nullable": False,
+                    },
+                    {
+                        "name": "email",
+                        "type": "VARCHAR(255)",
+                        "description": "Customer email address",
+                        "nullable": False,
+                    },
+                    {
+                        "name": "country_code",
+                        "type": "VARCHAR(10)",
+                        "description": "ISO country code",
+                        "nullable": True,
+                    },
+                    {
+                        "name": "created_at",
+                        "type": "TIMESTAMP_NTZ",
+                        "description": "Account registration timestamp",
+                        "nullable": False,
+                    },
                 ],
             )
         return DatasetSchema(
@@ -263,11 +287,36 @@ class DataHubContextClient:
             platform="snowflake",
             provenance=FIXTURE,
             fields=[
-                {"name": "order_id", "type": "BIGINT", "description": "Primary key order identifier", "nullable": False},
-                {"name": "customer_id", "type": "BIGINT", "description": "Foreign key to analytics.customers", "nullable": False},
-                {"name": "order_total_usd", "type": "DECIMAL(12,2)", "description": "Total order amount in USD", "nullable": False},
-                {"name": "status", "type": "VARCHAR(50)", "description": "Order status (COMPLETED, PENDING, CANCELLED)", "nullable": False},
-                {"name": "ordered_at", "type": "TIMESTAMP_NTZ", "description": "Timestamp when order was placed", "nullable": False},
+                {
+                    "name": "order_id",
+                    "type": "BIGINT",
+                    "description": "Primary key order identifier",
+                    "nullable": False,
+                },
+                {
+                    "name": "customer_id",
+                    "type": "BIGINT",
+                    "description": "Foreign key to analytics.customers",
+                    "nullable": False,
+                },
+                {
+                    "name": "order_total_usd",
+                    "type": "DECIMAL(12,2)",
+                    "description": "Total order amount in USD",
+                    "nullable": False,
+                },
+                {
+                    "name": "status",
+                    "type": "VARCHAR(50)",
+                    "description": "Order status (COMPLETED, PENDING, CANCELLED)",
+                    "nullable": False,
+                },
+                {
+                    "name": "ordered_at",
+                    "type": "TIMESTAMP_NTZ",
+                    "description": "Timestamp when order was placed",
+                    "nullable": False,
+                },
             ],
         )
 

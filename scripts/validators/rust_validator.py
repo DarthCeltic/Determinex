@@ -9,11 +9,10 @@ Windows-compatible: uses .rs/.exe temp files with proper cleanup.
 """
 
 import logging
-import subprocess
-import tempfile
 import os
 import re
-from pathlib import Path
+import subprocess
+import tempfile
 
 log = logging.getLogger("oracle.validator.rust")
 
@@ -73,9 +72,7 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
     wrapped = _wrap_in_harness(code)
 
     # Write to a temp .rs file — use suffix so rustc recognises the extension
-    with tempfile.NamedTemporaryFile(
-        suffix=".rs", delete=False, mode="w", encoding="utf-8"
-    ) as tmp:
+    with tempfile.NamedTemporaryFile(suffix=".rs", delete=False, mode="w", encoding="utf-8") as tmp:
         tmp.write(wrapped)
         src_path = tmp.name
 
@@ -86,9 +83,12 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
         result = subprocess.run(
             [
                 "rustc",
-                "--edition", "2021",
-                "--crate-type", "lib",      # no main() required
-                "-o", out_path,
+                "--edition",
+                "2021",
+                "--crate-type",
+                "lib",  # no main() required
+                "-o",
+                out_path,
                 src_path,
             ],
             capture_output=True,
@@ -102,8 +102,7 @@ def validate(output: str, task_meta: dict) -> tuple[bool, str]:
 
         # Extract first meaningful error line from stderr
         stderr_lines = [
-            ln for ln in result.stderr.splitlines()
-            if ln.strip() and not ln.startswith("   =")
+            ln for ln in result.stderr.splitlines() if ln.strip() and not ln.startswith("   =")
         ]
         first_error = "\n".join(stderr_lines[:5]) if stderr_lines else result.stderr[:300]
         log.debug("rustc FAIL: %s", first_error[:200])

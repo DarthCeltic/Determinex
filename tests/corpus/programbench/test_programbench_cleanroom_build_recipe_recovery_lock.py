@@ -14,13 +14,17 @@ from corpus.programbench.cleanroom_build_recipe_recovery import (  # noqa: E402
     BuildRecipeRecoveryStatus,
     ProgramBenchCleanroomBuildRecipeRecovery,
 )
-from corpus.programbench.cleanroom_build_recipe_recovery_record import verify_cleanroom_build_recipe_recovery_record  # noqa: E402
+from corpus.programbench.cleanroom_build_recipe_recovery_record import (
+    verify_cleanroom_build_recipe_recovery_record,  # noqa: E402
+)
 from corpus.programbench.cleanroom_image_remediation_plan_record import (  # noqa: E402
     make_cleanroom_image_remediation_plan_record,
     write_cleanroom_image_remediation_plan_record,
 )
-from corpus.programbench.cleanroom_image_scan_record import make_cleanroom_image_scan_record, write_cleanroom_image_scan_record  # noqa: E402
-
+from corpus.programbench.cleanroom_image_scan_record import (  # noqa: E402
+    make_cleanroom_image_scan_record,
+    write_cleanroom_image_scan_record,
+)
 
 IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
@@ -38,7 +42,14 @@ def _write_scan(tmp_path: Path, artifact_path: str = "") -> Path:
         file_size=123,
         scanner="trivy",
         scanner_version="Version: 0.test",
-        findings_summary={"critical": 2, "high": 2, "medium": 0, "low": 0, "unknown": 0, "total": 4},
+        findings_summary={
+            "critical": 2,
+            "high": 2,
+            "medium": 0,
+            "low": 0,
+            "unknown": 0,
+            "total": 4,
+        },
         normalized_findings=[],
         reasons=["critical_or_high_findings_present"],
         cache_ready=False,
@@ -47,7 +58,9 @@ def _write_scan(tmp_path: Path, artifact_path: str = "") -> Path:
     return write_cleanroom_image_scan_record(record, tmp_path / "scan")
 
 
-def _write_plan(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, artifact_path: str = "") -> Path:
+def _write_plan(
+    tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, artifact_path: str = ""
+) -> Path:
     scan = _write_scan(tmp_path, artifact_path)
     record = make_cleanroom_image_remediation_plan_record(
         status="CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN",
@@ -72,7 +85,9 @@ def _write_plan(tmp_path: Path, *, image: str = IMAGE, digest: str = DIGEST, art
     return write_cleanroom_image_remediation_plan_record(record, tmp_path / "plans")
 
 
-def _recoverer(tmp_path: Path, *search_roots: Path, target_image: str = IMAGE, target_digest: str = DIGEST):
+def _recoverer(
+    tmp_path: Path, *search_roots: Path, target_image: str = IMAGE, target_digest: str = DIGEST
+):
     return ProgramBenchCleanroomBuildRecipeRecovery(
         BuildRecipeRecoveryConfig(
             root=tmp_path,
@@ -92,15 +107,21 @@ def _oci_tar(path: Path) -> None:
             "WorkingDir": "/workspace",
         },
         "history": [
-            {"created_by": "RUN /bin/sh -c wget -O go.tgz https://dl.google.com/go/go1.21.0.linux-amd64.tar.gz"},
-            {"created_by": "RUN /bin/sh -c git clone https://x-access-token:ghp_SECRET@github.com/example/repo.git ."},
+            {
+                "created_by": "RUN /bin/sh -c wget -O go.tgz https://dl.google.com/go/go1.21.0.linux-amd64.tar.gz"
+            },
+            {
+                "created_by": "RUN /bin/sh -c git clone https://x-access-token:ghp_SECRET@github.com/example/repo.git ."
+            },
         ],
     }
     manifest_digest = DIGEST.removeprefix("sha256:")
     config_digest = "deb6e3d2e8483c7b448ab61c6aca402b719cfcb9259c11078a32e1df0f042047"
     with tarfile.open(path, "w") as tar:
         _add_json(tar, "index.json", {"manifests": [{"digest": DIGEST}]})
-        _add_json(tar, "manifest.json", [{"Config": f"blobs/sha256/{config_digest}", "Layers": ["layer"]}])
+        _add_json(
+            tar, "manifest.json", [{"Config": f"blobs/sha256/{config_digest}", "Layers": ["layer"]}]
+        )
         _add_json(tar, f"blobs/sha256/{manifest_digest}", {"schemaVersion": 2})
         _add_json(tar, f"blobs/sha256/{config_digest}", config)
 
@@ -115,7 +136,10 @@ def _add_json(tar: tarfile.TarFile, name: str, data: object) -> None:
 def test_missing_remediation_plan_blocks(tmp_path):
     result = _recoverer(tmp_path).recover(tmp_path / "missing.json")
 
-    assert result["record"]["status"] == BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_NO_REMEDIATION_PLAN.value
+    assert (
+        result["record"]["status"]
+        == BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_NO_REMEDIATION_PLAN.value
+    )
 
 
 def test_invalid_remediation_signature_blocks(tmp_path):
@@ -126,21 +150,30 @@ def test_invalid_remediation_signature_blocks(tmp_path):
 
     result = _recoverer(tmp_path).recover(plan)
 
-    assert result["record"]["status"] == BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_NO_REMEDIATION_PLAN.value
+    assert (
+        result["record"]["status"]
+        == BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_NO_REMEDIATION_PLAN.value
+    )
 
 
 def test_image_mismatch_blocks(tmp_path):
     plan = _write_plan(tmp_path, image="programbench/other:task_cleanroom")
     result = _recoverer(tmp_path).recover(plan)
 
-    assert result["record"]["status"] == BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_IMAGE_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_IMAGE_MISMATCH.value
+    )
 
 
 def test_digest_mismatch_blocks(tmp_path):
     plan = _write_plan(tmp_path, digest="sha256:bad")
     result = _recoverer(tmp_path).recover(plan)
 
-    assert result["record"]["status"] == BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_DIGEST_MISMATCH.value
+    assert (
+        result["record"]["status"]
+        == BuildRecipeRecoveryStatus.BUILD_RECIPE_BLOCKED_DIGEST_MISMATCH.value
+    )
 
 
 def test_records_searched_locations(tmp_path):
@@ -164,11 +197,15 @@ def test_missing_recipe_is_classified(tmp_path):
 def test_exact_dockerfile_with_base_digest_is_recovered(tmp_path):
     root = tmp_path / "recipe"
     root.mkdir()
-    (root / "Dockerfile").write_text("FROM ubuntu:22.04@sha256:abc\nRUN echo ok\n", encoding="utf-8")
+    (root / "Dockerfile").write_text(
+        "FROM ubuntu:22.04@sha256:abc\nRUN echo ok\n", encoding="utf-8"
+    )
     plan = _write_plan(tmp_path)
     result = _recoverer(tmp_path, root).recover(plan)
 
-    assert result["record"]["status"] == BuildRecipeRecoveryStatus.BUILD_RECIPE_RECOVERED_EXACT.value
+    assert (
+        result["record"]["status"] == BuildRecipeRecoveryStatus.BUILD_RECIPE_RECOVERED_EXACT.value
+    )
     assert result["record"]["recipe_components"]["base_image_digest_present"] is True
 
 
@@ -179,8 +216,13 @@ def test_dockerfile_without_base_digest_is_partial(tmp_path):
     plan = _write_plan(tmp_path)
     result = _recoverer(tmp_path, root).recover(plan)
 
-    assert result["record"]["status"] == BuildRecipeRecoveryStatus.BUILD_RECIPE_RECOVERED_PARTIAL.value
-    assert BuildRecipeRecoveryStatus.BUILD_RECIPE_BASE_DIGEST_MISSING.value in result["record"]["recovery_statuses"]
+    assert (
+        result["record"]["status"] == BuildRecipeRecoveryStatus.BUILD_RECIPE_RECOVERED_PARTIAL.value
+    )
+    assert (
+        BuildRecipeRecoveryStatus.BUILD_RECIPE_BASE_DIGEST_MISSING.value
+        in result["record"]["recovery_statuses"]
+    )
 
 
 def test_image_history_reconstructs_quarantine_only_recipe(tmp_path):
@@ -189,7 +231,10 @@ def test_image_history_reconstructs_quarantine_only_recipe(tmp_path):
     plan = _write_plan(tmp_path, artifact_path=str(artifact))
     result = _recoverer(tmp_path).recover(plan)
 
-    assert result["record"]["status"] == BuildRecipeRecoveryStatus.BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY.value
+    assert (
+        result["record"]["status"]
+        == BuildRecipeRecoveryStatus.BUILD_RECIPE_RECONSTRUCTED_QUARANTINE_ONLY.value
+    )
     assert result["record"]["recipe_components"]["reconstructed_from_image_history"] is True
 
 

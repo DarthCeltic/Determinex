@@ -1,5 +1,5 @@
-import sys
 import datetime as dt
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -23,10 +23,14 @@ def test_all_queue_skips_alias_locks_and_ceilings_by_default():
 def test_all_queue_cools_down_recent_timeout_without_blocking_other_tools():
     from determinex_pb_churn import queue_from_eval_rows
 
-    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.UTC)
     rows = [
         {"slug": "rs__jplot.2a54bcc", "status": "pending_unlock", "official_score_pct": 100.0},
-        {"slug": "rust-embedded__svd2rust.1760b5e", "status": "pending_unlock", "official_score_pct": 88.0},
+        {
+            "slug": "rust-embedded__svd2rust.1760b5e",
+            "status": "pending_unlock",
+            "official_score_pct": 88.0,
+        },
     ]
     state = {
         "runs": {
@@ -45,10 +49,14 @@ def test_all_queue_cools_down_recent_timeout_without_blocking_other_tools():
 def test_all_queue_cools_down_short_alias_for_recent_full_slug_failure():
     from determinex_pb_churn import queue_from_eval_rows
 
-    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.UTC)
     rows = [
         {"slug": "yj", "status": "pending_unlock", "official_score_pct": 100.0},
-        {"slug": "yoav-lavi__melody.1234567", "status": "pending_unlock", "official_score_pct": 88.0},
+        {
+            "slug": "yoav-lavi__melody.1234567",
+            "status": "pending_unlock",
+            "official_score_pct": 88.0,
+        },
     ]
     state = {
         "runs": {
@@ -67,10 +75,14 @@ def test_all_queue_cools_down_short_alias_for_recent_full_slug_failure():
 def test_all_queue_cools_down_hashless_author_slug_after_full_slug_failure():
     from determinex_pb_churn import queue_from_eval_rows
 
-    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.UTC)
     rows = [
         {"slug": "yoav-lavi__melody", "status": "board_cache_only", "official_score_pct": 99.9},
-        {"slug": "rust-embedded__svd2rust", "status": "board_cache_only", "official_score_pct": 88.0},
+        {
+            "slug": "rust-embedded__svd2rust",
+            "status": "board_cache_only",
+            "official_score_pct": 88.0,
+        },
     ]
     state = {
         "runs": {
@@ -93,9 +105,10 @@ def test_all_queue_keeps_successful_stage_transition_eligible(tmp_path, monkeypa
     # pin one, so this doesn't depend on the host's real corpus contents.
     monkeypatch.setattr(churn, "SPECS", tmp_path)
     (tmp_path / "rs__jplot.2a54bcc.json").write_text(
-        '{"n_examples": 12, "examples": [{"test": "t"}]}', encoding="utf-8")
+        '{"n_examples": 12, "examples": [{"test": "t"}]}', encoding="utf-8"
+    )
 
-    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.UTC)
     rows = [
         {"slug": "rs__jplot.2a54bcc", "status": "pending_unlock", "official_score_pct": 100.0},
     ]
@@ -116,9 +129,13 @@ def test_all_queue_keeps_successful_stage_transition_eligible(tmp_path, monkeypa
 def test_successful_reimpl_without_candidate_cools_down_as_no_progress():
     from determinex_pb_churn import queue_from_eval_rows
 
-    now = dt.datetime(2026, 6, 30, 21, 10, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 21, 10, tzinfo=dt.UTC)
     rows = [
-        {"slug": "blake3-team__blake3.15e83a5", "status": "pending_unlock", "official_score_pct": 100.0},
+        {
+            "slug": "blake3-team__blake3.15e83a5",
+            "status": "pending_unlock",
+            "official_score_pct": 100.0,
+        },
         {"slug": "codesnap-rs__codesnap", "status": "pending_unlock", "official_score_pct": 99.0},
     ]
     state = {
@@ -145,11 +162,16 @@ def test_productive_bias_ready_work_before_cold_breadth(tmp_path, monkeypatch):
 
     monkeypatch.setattr(churn, "SPECS", tmp_path)
     (tmp_path / "blake3-team__blake3.15e83a5.json").write_text(
-        '{"n_examples": 12, "examples": [{"test": "t"}]}', encoding="utf-8")
+        '{"n_examples": 12, "examples": [{"test": "t"}]}', encoding="utf-8"
+    )
 
-    now = dt.datetime(2026, 6, 30, 21, 10, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 21, 10, tzinfo=dt.UTC)
     rows = [
-        {"slug": "blake3-team__blake3.15e83a5", "status": "pending_unlock", "official_score_pct": 100.0},
+        {
+            "slug": "blake3-team__blake3.15e83a5",
+            "status": "pending_unlock",
+            "official_score_pct": 100.0,
+        },
         {"slug": "codesnap-rs__codesnap", "status": "pending_unlock", "official_score_pct": 99.0},
     ]
     state = {
@@ -166,8 +188,8 @@ def test_productive_bias_ready_work_before_cold_breadth(tmp_path, monkeypatch):
     }
 
     q = churn.queue_from_eval_rows(rows, state, now=now)
-    assert q[0] == "blake3-team__blake3.15e83a5"    # ready work before cold breadth
-    assert "codesnap-rs__codesnap" in q             # untouched tool remains eligible
+    assert q[0] == "blake3-team__blake3.15e83a5"  # ready work before cold breadth
+    assert "codesnap-rs__codesnap" in q  # untouched tool remains eligible
 
 
 def test_breadth_bias_still_orders_within_same_readiness_tier(tmp_path, monkeypatch):
@@ -176,9 +198,13 @@ def test_breadth_bias_still_orders_within_same_readiness_tier(tmp_path, monkeypa
     monkeypatch.setattr(churn, "SPECS", tmp_path)
     monkeypatch.setattr(churn, "ROOT", tmp_path)
 
-    now = dt.datetime(2026, 6, 30, 21, 10, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 21, 10, tzinfo=dt.UTC)
     rows = [
-        {"slug": "blake3-team__blake3.15e83a5", "status": "pending_unlock", "official_score_pct": 100.0},
+        {
+            "slug": "blake3-team__blake3.15e83a5",
+            "status": "pending_unlock",
+            "official_score_pct": 100.0,
+        },
         {"slug": "codesnap-rs__codesnap", "status": "pending_unlock", "official_score_pct": 99.0},
     ]
     state = {
@@ -194,16 +220,20 @@ def test_breadth_bias_still_orders_within_same_readiness_tier(tmp_path, monkeypa
     }
 
     q = churn.queue_from_eval_rows(rows, state, now=now, cooldown_s=0)
-    assert q[0] == "codesnap-rs__codesnap"          # breadth still breaks ties
-    assert "blake3-team__blake3.15e83a5" in q       # just-run tool still eligible, not dropped
+    assert q[0] == "codesnap-rs__codesnap"  # breadth still breaks ties
+    assert "blake3-team__blake3.15e83a5" in q  # just-run tool still eligible, not dropped
 
 
 def test_zero_example_local_oracle_cools_down_as_no_signal():
     from determinex_pb_churn import queue_from_eval_rows
 
-    now = dt.datetime(2026, 6, 30, 23, 25, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 23, 25, tzinfo=dt.UTC)
     rows = [
-        {"slug": "ast-grep__ast-grep.dde0fe0", "status": "pending_unlock", "official_score_pct": 99.0},
+        {
+            "slug": "ast-grep__ast-grep.dde0fe0",
+            "status": "pending_unlock",
+            "official_score_pct": 99.0,
+        },
         {"slug": "naggie__dstask", "status": "pending_unlock", "official_score_pct": 80.0},
     ]
     state = {
@@ -226,16 +256,26 @@ def test_all_queue_prioritizes_ready_candidate_over_cold_high_score(tmp_path, mo
 
     monkeypatch.setattr(churn, "ROOT", tmp_path)
     monkeypatch.setattr(churn, "SPECS", tmp_path / "corpus" / "programbench" / "specs")
-    monkeypatch.setattr(churn, "ORACLE_RESULTS", tmp_path / "corpus" / "programbench" / "oracle_results")
-    monkeypatch.setattr(churn, "OVERRIDES", tmp_path / "corpus" / "programbench" / "per_tool_overrides")
+    monkeypatch.setattr(
+        churn, "ORACLE_RESULTS", tmp_path / "corpus" / "programbench" / "oracle_results"
+    )
+    monkeypatch.setattr(
+        churn, "OVERRIDES", tmp_path / "corpus" / "programbench" / "per_tool_overrides"
+    )
 
     churn.SPECS.mkdir(parents=True)
     (tmp_path / "logs" / "reimpl").mkdir(parents=True)
     (churn.SPECS / "wfxr__csview.8ac4de0.json").write_text("{}", encoding="utf-8")
-    (tmp_path / "logs" / "reimpl" / "csview_drive.py").write_text("print('ready')\n", encoding="utf-8")
+    (tmp_path / "logs" / "reimpl" / "csview_drive.py").write_text(
+        "print('ready')\n", encoding="utf-8"
+    )
 
     rows = [
-        {"slug": "hush-shell__hush.560c33a", "status": "pending_unlock", "official_score_pct": 99.9},
+        {
+            "slug": "hush-shell__hush.560c33a",
+            "status": "pending_unlock",
+            "official_score_pct": 99.9,
+        },
         {"slug": "wfxr__csview.8ac4de0", "status": "pending_unlock", "official_score_pct": 80.0},
     ]
 
@@ -247,12 +287,18 @@ def test_all_queue_prioritizes_existing_spec_over_candidate_without_spec(tmp_pat
 
     monkeypatch.setattr(churn, "ROOT", tmp_path)
     monkeypatch.setattr(churn, "SPECS", tmp_path / "corpus" / "programbench" / "specs")
-    monkeypatch.setattr(churn, "ORACLE_RESULTS", tmp_path / "corpus" / "programbench" / "oracle_results")
-    monkeypatch.setattr(churn, "OVERRIDES", tmp_path / "corpus" / "programbench" / "per_tool_overrides")
+    monkeypatch.setattr(
+        churn, "ORACLE_RESULTS", tmp_path / "corpus" / "programbench" / "oracle_results"
+    )
+    monkeypatch.setattr(
+        churn, "OVERRIDES", tmp_path / "corpus" / "programbench" / "per_tool_overrides"
+    )
 
     churn.SPECS.mkdir(parents=True)
     (tmp_path / "logs" / "reimpl").mkdir(parents=True)
-    (tmp_path / "logs" / "reimpl" / "walk_drive.py").write_text("print('candidate')\n", encoding="utf-8")
+    (tmp_path / "logs" / "reimpl" / "walk_drive.py").write_text(
+        "print('candidate')\n", encoding="utf-8"
+    )
     (churn.SPECS / "gabotechs__dep-tree.json").write_text("{}", encoding="utf-8")
 
     rows = [
@@ -269,9 +315,11 @@ def test_all_queue_pushes_broad_specs_behind_small_specs(tmp_path, monkeypatch):
     monkeypatch.setattr(churn, "SPECS", tmp_path)
     monkeypatch.setenv("DETERMINEX_PB_CLOUD_REIMPL_MAX_EXAMPLES", "80")
     (tmp_path / "ariga__atlas.6d81150.json").write_text(
-        '{"n_examples": 353, "examples": [{"test": "t"}]}', encoding="utf-8")
+        '{"n_examples": 353, "examples": [{"test": "t"}]}', encoding="utf-8"
+    )
     (tmp_path / "ducaale__xh.4a6e44f.json").write_text(
-        '{"n_examples": 18, "examples": [{"test": "t"}]}', encoding="utf-8")
+        '{"n_examples": 18, "examples": [{"test": "t"}]}', encoding="utf-8"
+    )
 
     rows = [
         {"slug": "ariga__atlas.6d81150", "status": "pending_unlock", "official_score_pct": 99.9},
@@ -296,7 +344,9 @@ def test_local_spec_path_treats_confirmed_empty_harvest_as_absent(tmp_path, monk
 
     monkeypatch.setattr(churn, "SPECS", tmp_path)
     empty = tmp_path / "quinn-rs__quinn.bb359cc.json"
-    empty.write_text('{"slug": "quinn-rs__quinn.bb359cc", "n_examples": 0, "examples": []}', encoding="utf-8")
+    empty.write_text(
+        '{"slug": "quinn-rs__quinn.bb359cc", "n_examples": 0, "examples": []}', encoding="utf-8"
+    )
 
     assert churn._local_spec_path("quinn-rs__quinn.bb359cc") is None
     # A placeholder spec WITHOUT the n_examples field stays usable (unknown != empty).
@@ -310,9 +360,10 @@ def test_extract_spec_producing_empty_harvest_cools_down_as_no_progress(tmp_path
 
     monkeypatch.setattr(churn, "SPECS", tmp_path)
     (tmp_path / "quinn-rs__quinn.bb359cc.json").write_text(
-        '{"n_examples": 0, "examples": []}', encoding="utf-8")
+        '{"n_examples": 0, "examples": []}', encoding="utf-8"
+    )
 
-    now = dt.datetime(2026, 7, 10, 2, 0, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 7, 10, 2, 0, tzinfo=dt.UTC)
     run = {
         "executed": True,
         "ts": now.isoformat(),
@@ -324,7 +375,8 @@ def test_extract_spec_producing_empty_harvest_cools_down_as_no_progress(tmp_path
 
     # A successful harvest with real examples stays eligible for the next stage.
     (tmp_path / "lz4__lz4.1519f46.json").write_text(
-        '{"n_examples": 377, "examples": [{"test": "t"}]}', encoding="utf-8")
+        '{"n_examples": 377, "examples": [{"test": "t"}]}', encoding="utf-8"
+    )
     assert not churn.should_cool_down_run(run, slug="lz4__lz4.1519f46", now=now)
 
 
@@ -429,7 +481,7 @@ def test_watch_lock_reclaims_stale_pid(tmp_path, monkeypatch):
 def test_all_queue_cools_down_recent_hold_action():
     from determinex_pb_churn import queue_from_eval_rows
 
-    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.UTC)
     rows = [
         {"slug": "ducaale__xh.4a6e44f", "status": "pending_unlock", "official_score_pct": 99.0},
         {"slug": "wfxr__csview.8ac4de0", "status": "pending_unlock", "official_score_pct": 98.0},
@@ -452,11 +504,13 @@ def test_upstream_source_without_spec_extracts_before_reimpl():
     from determinex_pb_churn import ChurnContext, next_action
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "noborus__ov.b96c2ba",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "noborus__ov.b96c2ba",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
+        }
+    )
 
     action = next_action(ChurnContext(slug=route.slug, route=route, spec_path=None))
 
@@ -471,7 +525,9 @@ def test_local_spec_path_treats_confirmed_empty_harvest_as_absent(tmp_path, monk
 
     monkeypatch.setattr(churn, "SPECS", tmp_path)
     empty = tmp_path / "quinn-rs__quinn.bb359cc.json"
-    empty.write_text('{"slug": "quinn-rs__quinn.bb359cc", "n_examples": 0, "examples": []}', encoding="utf-8")
+    empty.write_text(
+        '{"slug": "quinn-rs__quinn.bb359cc", "n_examples": 0, "examples": []}', encoding="utf-8"
+    )
 
     assert churn._local_spec_path("quinn-rs__quinn.bb359cc") is None
     # A placeholder spec WITHOUT the n_examples field stays usable (unknown != empty).
@@ -485,9 +541,10 @@ def test_extract_spec_producing_empty_harvest_cools_down_as_no_progress(tmp_path
 
     monkeypatch.setattr(churn, "SPECS", tmp_path)
     (tmp_path / "quinn-rs__quinn.bb359cc.json").write_text(
-        '{"n_examples": 0, "examples": []}', encoding="utf-8")
+        '{"n_examples": 0, "examples": []}', encoding="utf-8"
+    )
 
-    now = dt.datetime(2026, 7, 10, 2, 0, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 7, 10, 2, 0, tzinfo=dt.UTC)
     run = {
         "executed": True,
         "ts": now.isoformat(),
@@ -499,7 +556,8 @@ def test_extract_spec_producing_empty_harvest_cools_down_as_no_progress(tmp_path
 
     # A successful harvest with real examples stays eligible for the next stage.
     (tmp_path / "lz4__lz4.1519f46.json").write_text(
-        '{"n_examples": 377, "examples": [{"test": "t"}]}', encoding="utf-8")
+        '{"n_examples": 377, "examples": [{"test": "t"}]}', encoding="utf-8"
+    )
     assert not churn.should_cool_down_run(run, slug="lz4__lz4.1519f46", now=now)
 
 
@@ -604,7 +662,7 @@ def test_watch_lock_reclaims_stale_pid(tmp_path, monkeypatch):
 def test_all_queue_cools_down_recent_hold_action():
     from determinex_pb_churn import queue_from_eval_rows
 
-    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.UTC)
     rows = [
         {"slug": "ducaale__xh.4a6e44f", "status": "pending_unlock", "official_score_pct": 99.0},
         {"slug": "wfxr__csview.8ac4de0", "status": "pending_unlock", "official_score_pct": 98.0},
@@ -627,11 +685,13 @@ def test_upstream_source_without_spec_extracts_before_reimpl():
     from determinex_pb_churn import ChurnContext, next_action
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "noborus__ov.b96c2ba",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "noborus__ov.b96c2ba",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
+        }
+    )
 
     action = next_action(ChurnContext(slug=route.slug, route=route, spec_path=None))
 
@@ -645,18 +705,22 @@ def test_stale_needs_spec_route_with_existing_spec_and_candidate_runs_oracle():
     from determinex_pb_churn import ChurnContext, next_action
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "astaxie__bat",
-        "engine": "extract-spec-first",
-        "source_shape": {"class": "unknown", "source_files": 0},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "astaxie__bat",
+            "engine": "extract-spec-first",
+            "source_shape": {"class": "unknown", "source_files": 0},
+        }
+    )
 
-    action = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        spec_path="corpus/programbench/specs/astaxie__bat.17d1080.json",
-        candidate_path="corpus/programbench/per_tool_overrides/astaxie__bat",
-    ))
+    action = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            spec_path="corpus/programbench/specs/astaxie__bat.17d1080.json",
+            candidate_path="corpus/programbench/per_tool_overrides/astaxie__bat",
+        )
+    )
 
     assert action.name == "local-oracle"
     assert "determinex_local_oracle.py" in action.command
@@ -669,18 +733,22 @@ def test_stale_needs_spec_route_with_existing_spec_runs_reimpl(monkeypatch):
 
     monkeypatch.setenv("DETERMINEX_PB_CHURN_ALLOW_BROAD_CLOUD", "1")
 
-    route = route_from_corpus({
-        "slug": "astaxie__bat",
-        "engine": "extract-spec-first",
-        "source_shape": {"class": "unknown", "source_files": 0},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "astaxie__bat",
+            "engine": "extract-spec-first",
+            "source_shape": {"class": "unknown", "source_files": 0},
+        }
+    )
 
-    action = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        model="gemini-3.1-flash-lite",
-        spec_path="corpus/programbench/specs/astaxie__bat.17d1080.json",
-    ))
+    action = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            model="gemini-3.1-flash-lite",
+            spec_path="corpus/programbench/specs/astaxie__bat.17d1080.json",
+        )
+    )
 
     assert action.name == "write-native-reimpl"
     assert "--no-decompose" in action.command
@@ -691,19 +759,26 @@ def test_upstream_source_with_spec_runs_free_reimpl_no_official():
     from determinex_pb_churn import ChurnContext, next_action
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "noborus__ov.b96c2ba",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
-        "spec": {"path": "corpus/programbench/specs/noborus__ov.b96c2ba.json", "language": "go"},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "noborus__ov.b96c2ba",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
+            "spec": {
+                "path": "corpus/programbench/specs/noborus__ov.b96c2ba.json",
+                "language": "go",
+            },
+        }
+    )
 
-    action = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        spec_path="corpus/programbench/specs/noborus__ov.b96c2ba.json",
-        model="local/qwen2.5-coder:3b",
-    ))
+    action = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            spec_path="corpus/programbench/specs/noborus__ov.b96c2ba.json",
+            model="local/qwen2.5-coder:3b",
+        )
+    )
 
     assert action.name == "write-native-reimpl"
     assert action.official_eval is False
@@ -723,21 +798,25 @@ def test_cloud_reimpl_holds_broad_spec_by_default(tmp_path, monkeypatch):
     )
     monkeypatch.delenv("DETERMINEX_PB_CHURN_ALLOW_BROAD_CLOUD", raising=False)
 
-    route = route_from_corpus({
-        "slug": "ast-grep__ast-grep.dde0fe0",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
-        "spec": {"path": str(spec), "language": "python"},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "ast-grep__ast-grep.dde0fe0",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
+            "spec": {"path": str(spec), "language": "python"},
+        }
+    )
 
-    action = churn.next_action(churn.ChurnContext(
-        slug=route.slug,
-        route=route,
-        model="huggingface/Qwen/Qwen2.5-Coder-32B-Instruct",
-        spec_path=str(spec),
-        k=8,
-        rounds=3,
-    ))
+    action = churn.next_action(
+        churn.ChurnContext(
+            slug=route.slug,
+            route=route,
+            model="huggingface/Qwen/Qwen2.5-Coder-32B-Instruct",
+            spec_path=str(spec),
+            k=8,
+            rounds=3,
+        )
+    )
 
     assert action.name == "hold-low-roi-cloud-reimpl"
     assert action.command == ""
@@ -755,21 +834,25 @@ def test_cloud_reimpl_allows_small_spec(tmp_path, monkeypatch):
     )
     monkeypatch.delenv("DETERMINEX_PB_CHURN_ALLOW_BROAD_CLOUD", raising=False)
 
-    route = route_from_corpus({
-        "slug": "ducaale__xh.4a6e44f",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 10},
-        "spec": {"path": str(spec), "language": "python"},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "ducaale__xh.4a6e44f",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 10},
+            "spec": {"path": str(spec), "language": "python"},
+        }
+    )
 
-    action = churn.next_action(churn.ChurnContext(
-        slug=route.slug,
-        route=route,
-        model="huggingface/Qwen/Qwen2.5-Coder-32B-Instruct",
-        spec_path=str(spec),
-        k=8,
-        rounds=3,
-    ))
+    action = churn.next_action(
+        churn.ChurnContext(
+            slug=route.slug,
+            route=route,
+            model="huggingface/Qwen/Qwen2.5-Coder-32B-Instruct",
+            spec_path=str(spec),
+            k=8,
+            rounds=3,
+        )
+    )
 
     assert action.name == "write-native-reimpl"
     assert "determinex_reimpl_drive.py" in action.command
@@ -779,19 +862,26 @@ def test_upstream_source_with_spec_and_candidate_runs_local_oracle_before_reimpl
     from determinex_pb_churn import ChurnContext, next_action
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "yoav-lavi__melody.f4af9b4",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
-        "spec": {"path": "corpus/programbench/specs/yoav-lavi__melody.f4af9b4.json", "language": "python"},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "yoav-lavi__melody.f4af9b4",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 68},
+            "spec": {
+                "path": "corpus/programbench/specs/yoav-lavi__melody.f4af9b4.json",
+                "language": "python",
+            },
+        }
+    )
 
-    action = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        spec_path="corpus/programbench/specs/yoav-lavi__melody.f4af9b4.json",
-        candidate_path="logs/reimpl/melody_drive.py",
-    ))
+    action = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            spec_path="corpus/programbench/specs/yoav-lavi__melody.f4af9b4.json",
+            candidate_path="logs/reimpl/melody_drive.py",
+        )
+    )
 
     assert action.name == "local-oracle"
     assert action.official_eval is False
@@ -806,19 +896,23 @@ def test_gemini_reimpl_uses_monolithic_cloud_call_not_station_conveyor(monkeypat
 
     monkeypatch.setenv("DETERMINEX_PB_CHURN_ALLOW_BROAD_CLOUD", "1")
 
-    route = route_from_corpus({
-        "slug": "rust-ethereum__ethabi.b1710ad",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 20},
-        "spec": {"path": "corpus/programbench/specs/rust-ethereum__ethabi.b1710ad.json"},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "rust-ethereum__ethabi.b1710ad",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 20},
+            "spec": {"path": "corpus/programbench/specs/rust-ethereum__ethabi.b1710ad.json"},
+        }
+    )
 
-    action = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        model="gemini-3.1-flash-lite",
-        spec_path="corpus/programbench/specs/rust-ethereum__ethabi.b1710ad.json",
-    ))
+    action = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            model="gemini-3.1-flash-lite",
+            spec_path="corpus/programbench/specs/rust-ethereum__ethabi.b1710ad.json",
+        )
+    )
 
     assert action.name == "write-native-reimpl"
     assert "--no-decompose" in action.command
@@ -829,19 +923,23 @@ def test_local_reimpl_keeps_station_conveyor():
     from determinex_pb_churn import ChurnContext, next_action
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "rust-ethereum__ethabi.b1710ad",
-        "engine": "native-reimpl-loop",
-        "source_shape": {"class": "upstream-source-prohibited", "source_files": 20},
-        "spec": {"path": "corpus/programbench/specs/rust-ethereum__ethabi.b1710ad.json"},
-    })
+    route = route_from_corpus(
+        {
+            "slug": "rust-ethereum__ethabi.b1710ad",
+            "engine": "native-reimpl-loop",
+            "source_shape": {"class": "upstream-source-prohibited", "source_files": 20},
+            "spec": {"path": "corpus/programbench/specs/rust-ethereum__ethabi.b1710ad.json"},
+        }
+    )
 
-    action = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        model="qwen2.5-coder:3b",
-        spec_path="corpus/programbench/specs/rust-ethereum__ethabi.b1710ad.json",
-    ))
+    action = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            model="qwen2.5-coder:3b",
+            spec_path="corpus/programbench/specs/rust-ethereum__ethabi.b1710ad.json",
+        )
+    )
 
     assert action.name == "write-native-reimpl"
     assert "--no-decompose" not in action.command
@@ -852,20 +950,25 @@ def test_oracle_tail_runs_local_oracle_not_official_eval():
     from determinex_pb_churn import ChurnContext, next_action
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "wfxr__csview.8ac4de0",
-        "engine": "reimpl-skill-oracle",
-        "source_shape": {"class": "reimpl-candidate", "source_files": 2},
-        "spec": {"path": "corpus/programbench/specs/wfxr__csview.8ac4de0.json"},
-        "reimpl_skill": {"path": "corpus/programbench/reimpl_skills/csview.json"},
-    }, current_verdict="near-lock")
+    route = route_from_corpus(
+        {
+            "slug": "wfxr__csview.8ac4de0",
+            "engine": "reimpl-skill-oracle",
+            "source_shape": {"class": "reimpl-candidate", "source_files": 2},
+            "spec": {"path": "corpus/programbench/specs/wfxr__csview.8ac4de0.json"},
+            "reimpl_skill": {"path": "corpus/programbench/reimpl_skills/csview.json"},
+        },
+        current_verdict="near-lock",
+    )
 
-    action = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        spec_path="corpus/programbench/specs/wfxr__csview.8ac4de0.json",
-        candidate_path="logs/reimpl/csview_drive.py",
-    ))
+    action = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            spec_path="corpus/programbench/specs/wfxr__csview.8ac4de0.json",
+            candidate_path="logs/reimpl/csview_drive.py",
+        )
+    )
 
     assert action.name == "local-oracle"
     assert action.official_eval is False
@@ -897,21 +1000,26 @@ def test_official_eval_uses_staged_native_source_file(tmp_path):
     (staged / "main.rs").write_text("fn main() {}\n", encoding="utf-8")
     (staged / "compile.sh").write_text("#!/bin/sh\n", encoding="utf-8")
 
-    route = route_from_corpus({
-        "slug": "wfxr__csview.8ac4de0",
-        "engine": "spec-local-oracle",
-        "source_shape": {"class": "reimpl-candidate", "source_files": 1},
-        "spec": {"path": "corpus/programbench/specs/wfxr__csview.8ac4de0.json"},
-    }, oracle_result={"passed": 117, "total": 117})
+    route = route_from_corpus(
+        {
+            "slug": "wfxr__csview.8ac4de0",
+            "engine": "spec-local-oracle",
+            "source_shape": {"class": "reimpl-candidate", "source_files": 1},
+            "spec": {"path": "corpus/programbench/specs/wfxr__csview.8ac4de0.json"},
+        },
+        oracle_result={"passed": 117, "total": 117},
+    )
 
-    action = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        spec_path="corpus/programbench/specs/wfxr__csview.8ac4de0.json",
-        candidate_path=str(staged),
-        allow_official=True,
-        lang="rust",
-    ))
+    action = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            spec_path="corpus/programbench/specs/wfxr__csview.8ac4de0.json",
+            candidate_path=str(staged),
+            allow_official=True,
+            lang="rust",
+        )
+    )
 
     assert action.name == "official-eval"
     assert "main.rs" in action.command
@@ -922,27 +1030,34 @@ def test_oracle_green_holds_official_eval_unless_allowed():
     from determinex_pb_churn import ChurnContext, next_action
     from determinex_pb_corpus_router import route_from_corpus
 
-    route = route_from_corpus({
-        "slug": "ducaale__xh.4a6e44f",
-        "engine": "spec-local-oracle",
-        "source_shape": {"class": "reimpl-candidate", "source_files": 3},
-        "spec": {"path": "corpus/programbench/specs/ducaale__xh.4a6e44f.json"},
-    }, oracle_result={"passed": 12, "total": 12})
+    route = route_from_corpus(
+        {
+            "slug": "ducaale__xh.4a6e44f",
+            "engine": "spec-local-oracle",
+            "source_shape": {"class": "reimpl-candidate", "source_files": 3},
+            "spec": {"path": "corpus/programbench/specs/ducaale__xh.4a6e44f.json"},
+        },
+        oracle_result={"passed": 12, "total": 12},
+    )
 
-    held = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        spec_path="corpus/programbench/specs/ducaale__xh.4a6e44f.json",
-        candidate_path="logs/reimpl/xh_drive.py",
-        allow_official=False,
-    ))
-    allowed = next_action(ChurnContext(
-        slug=route.slug,
-        route=route,
-        spec_path="corpus/programbench/specs/ducaale__xh.4a6e44f.json",
-        candidate_path="logs/reimpl/xh_drive.py",
-        allow_official=True,
-    ))
+    held = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            spec_path="corpus/programbench/specs/ducaale__xh.4a6e44f.json",
+            candidate_path="logs/reimpl/xh_drive.py",
+            allow_official=False,
+        )
+    )
+    allowed = next_action(
+        ChurnContext(
+            slug=route.slug,
+            route=route,
+            spec_path="corpus/programbench/specs/ducaale__xh.4a6e44f.json",
+            candidate_path="logs/reimpl/xh_drive.py",
+            allow_official=True,
+        )
+    )
 
     assert held.name == "hold-official-eval"
     assert held.official_eval is False
@@ -1037,7 +1152,9 @@ def test_reimpl_gemini_generator_posts_generate_content(monkeypatch):
         captured["attempts"] = attempts
         return {"candidates": [{"content": {"parts": [{"text": "```python\nprint(1)\n```"}]}}]}
 
-    monkeypatch.setattr(reimpl, "_api_key", lambda name: "test-key" if name == "GEMINI_API_KEY" else "")
+    monkeypatch.setattr(
+        reimpl, "_api_key", lambda name: "test-key" if name == "GEMINI_API_KEY" else ""
+    )
     monkeypatch.setattr(reimpl, "_post_json_hard", fake_post)
 
     gen = reimpl.gemini_generator("gemini-3.1-flash-lite")
@@ -1050,8 +1167,7 @@ def test_reimpl_gemini_generator_posts_generate_content(monkeypatch):
     assert captured["body"]["contents"][0]["parts"][0]["text"] == "write code"
 
 
-_LOCAL_LADDER = ("ollama/qwen2.5-coder:7b-instruct:1:1,"
-                 "ollama/qwen2.5-coder:14b-instruct:2:3")
+_LOCAL_LADDER = "ollama/qwen2.5-coder:7b-instruct:1:1,ollama/qwen2.5-coder:14b-instruct:2:3"
 
 
 def test_churn_default_model_is_local_only_unless_cloud_explicitly_allowed(tmp_path, monkeypatch):
@@ -1197,9 +1313,16 @@ def test_argv_from_command_strips_posix_quotes_on_windows_paths():
     # included) and crashed with OSError 22. All nine first-night local-oracle
     # "rc=1" results were this crash, not oracle verdicts.
     import determinex_pb_churn as churn
-    cmd = churn._cmd(["python3", "scripts/determinex_local_oracle.py",
-                      r"C:\Dev\Determinex\corpus\programbench\specs\x.json",
-                      "--spec", r"C:\Dev\with space\spec.json"])
+
+    cmd = churn._cmd(
+        [
+            "python3",
+            "scripts/determinex_local_oracle.py",
+            r"C:\Dev\Determinex\corpus\programbench\specs\x.json",
+            "--spec",
+            r"C:\Dev\with space\spec.json",
+        ]
+    )
     argv = churn._argv_from_command(cmd)
     assert argv[2] == r"C:\Dev\Determinex\corpus\programbench\specs\x.json"
     assert argv[4] == r"C:\Dev\with space\spec.json"
@@ -1221,8 +1344,11 @@ def test_oracle_red_verdict_routes_to_reimpl_not_rejudge(tmp_path):
     spec = tmp_path / "spec.json"
     spec.write_text('{"language": "rust"}', encoding="utf-8")
     ctx = churn.ChurnContext(
-        slug="t__t.abc", route=_Route(), spec_path=str(spec),
-        candidate_path=str(cand), lang="rust",
+        slug="t__t.abc",
+        route=_Route(),
+        spec_path=str(spec),
+        candidate_path=str(cand),
+        lang="rust",
         oracle_ts="2099-01-01T00:00:00+00:00",  # verdict newer than candidate
     )
     action = churn.next_action(ctx)
@@ -1230,8 +1356,11 @@ def test_oracle_red_verdict_routes_to_reimpl_not_rejudge(tmp_path):
 
     # ...but a candidate written AFTER the verdict is re-validated first
     ctx2 = churn.ChurnContext(
-        slug="t__t.abc", route=_Route(), spec_path=str(spec),
-        candidate_path=str(cand), lang="rust",
+        slug="t__t.abc",
+        route=_Route(),
+        spec_path=str(spec),
+        candidate_path=str(cand),
+        lang="rust",
         oracle_ts="2020-01-01T00:00:00+00:00",  # candidate newer than verdict
     )
     action2 = churn.next_action(ctx2)
@@ -1242,8 +1371,9 @@ def test_timeout_drain_is_bounded(monkeypatch):
     # LOCK (2026-07-03): post-kill communicate() had no timeout -- an orphan
     # grandchild holding the stdout pipe (corpus class: eval_orphan_pipe_hang)
     # wedged the whole churn lane. The drain must abandon the pipes, not hang.
-    import determinex_pb_churn as churn
     import subprocess as sp
+
+    import determinex_pb_churn as churn
 
     class _Proc:
         pid = 4242
@@ -1261,8 +1391,9 @@ def test_timeout_drain_is_bounded(monkeypatch):
             pass
 
     monkeypatch.setattr(churn.subprocess, "Popen", lambda *a, **k: _Proc())
-    res = churn.execute_action(churn.ChurnAction(
-        name="t", command="python3 -c pass", reason="", timeout_s=1))
+    res = churn.execute_action(
+        churn.ChurnAction(name="t", command="python3 -c pass", reason="", timeout_s=1)
+    )
     assert res["rc"] == 124
     assert "abandoned" in res["stderr"]
 
@@ -1274,11 +1405,13 @@ def test_pid_running_dead_pid_returns_false_not_crash():
     # its own watch lock after a restart (every respawn died rc=1). A dead pid must
     # return False cleanly on every platform.
     import determinex_pb_churn as churn
-    assert churn._pid_running(999999) is False       # (almost certainly) dead
-    assert churn._pid_running(0) is False             # guard
-    assert churn._pid_running(-5) is False            # guard
+
+    assert churn._pid_running(999999) is False  # (almost certainly) dead
+    assert churn._pid_running(0) is False  # guard
+    assert churn._pid_running(-5) is False  # guard
     import os as _os
-    assert churn._pid_running(_os.getpid()) is True   # this test process is alive
+
+    assert churn._pid_running(_os.getpid()) is True  # this test process is alive
 
 
 def test_go_native_compile_sh_inits_module(tmp_path, monkeypatch):
@@ -1288,14 +1421,15 @@ def test_go_native_compile_sh_inits_module(tmp_path, monkeypatch):
     # silently red'ing EVERY Go tool's local oracle. The in-search compile and the
     # official eval already `go mod init` first; this path must too.
     import determinex_pb_churn as churn
+
     src_name, compile_cmd = churn._NATIVE_SOURCE["go"]
     assert src_name == "main.go"
-    assert "go mod init" in compile_cmd          # module root established in the dir
+    assert "go mod init" in compile_cmd  # module root established in the dir
     assert "go build -o executable" in compile_cmd
     # and _candidate_for_oracle must bake that into the generated compile.sh
     monkeypatch.setattr(churn, "ROOT", tmp_path)
     gof = tmp_path / "cand.go"
-    gof.write_text('package main\nfunc main(){}\n', encoding="utf-8")
+    gof.write_text("package main\nfunc main(){}\n", encoding="utf-8")
     out = churn._candidate_for_oracle(str(gof), "go", "x__y.abc")
     csh = (Path(out) / "compile.sh").read_text(encoding="utf-8")
     assert "go mod init" in csh
@@ -1306,8 +1440,9 @@ def test_executed_run_ts_is_stamped_at_completion(monkeypatch, tmp_path):
     # up to 2h -- longer than the 90-min cooldown -- so an always-times-out hard tool
     # (atlas) was already "past cooldown" the instant it finished, never yielding. The
     # executed-run ts must reflect COMPLETION so the yield window is real.
-    import determinex_pb_churn as churn
     import time as _t
+
+    import determinex_pb_churn as churn
 
     stamps = []
     real_now = churn._now
@@ -1332,25 +1467,43 @@ def test_executed_run_ts_is_stamped_at_completion(monkeypatch, tmp_path):
     monkeypatch.setattr(churn, "ask_corpus", lambda s: {"slug": s}, raising=False)
     # Drive a minimal run_slug through a stubbed router/next_action:
     import types
+
     fake = types.SimpleNamespace(
-        verdict="needs-native-reimpl",
-        to_dict=lambda: {"verdict": "needs-native-reimpl"})
+        verdict="needs-native-reimpl", to_dict=lambda: {"verdict": "needs-native-reimpl"}
+    )
     monkeypatch.setattr(churn, "load_oracle_result", lambda s: None)
     monkeypatch.setattr(churn, "_local_spec_path", lambda s, a=None: str(tmp_path / "s.json"))
     (tmp_path / "s.json").write_text('{"language":"go"}', encoding="utf-8")
     monkeypatch.setattr(churn, "_candidate_for", lambda s, a=None: str(tmp_path / "c"))
     monkeypatch.setattr(churn, "_candidate_for_oracle", lambda *a, **k: str(tmp_path / "c"))
     import determinex_pb_corpus_router as router
+
     monkeypatch.setattr(router, "route_from_corpus", lambda *a, **k: fake)
     import determinex_pb_ask_corpus as ask
+
     monkeypatch.setattr(ask, "ask_corpus", lambda s: {"slug": s})
-    monkeypatch.setattr(churn, "next_action", lambda ctx: churn.ChurnAction(
-        name="write-native-reimpl", command="x", reason="r", timeout_s=1))
+    monkeypatch.setattr(
+        churn,
+        "next_action",
+        lambda ctx: churn.ChurnAction(
+            name="write-native-reimpl", command="x", reason="r", timeout_s=1
+        ),
+    )
 
     t0 = real_now()
-    ev = churn.run_slug("t__t.abc", execute=True, model="m", allow_official=False,
-                        append_to_handback=False, worker="w", lease_ttl_s=10,
-                        iters=1, fuzz=1, k=1, rounds=1)
+    ev = churn.run_slug(
+        "t__t.abc",
+        execute=True,
+        model="m",
+        allow_official=False,
+        append_to_handback=False,
+        worker="w",
+        lease_ttl_s=10,
+        iters=1,
+        fuzz=1,
+        k=1,
+        rounds=1,
+    )
     # the recorded ts must be >= the moment execution was running (completion-stamped)
     assert ev.get("ts") and ev["ts"] >= stamps[0][1]
 
@@ -1361,13 +1514,15 @@ def test_test_oracle_snapshot_root_is_portable(monkeypatch, tmp_path):
     # never deepened past the front-of-suite literal examples ('million examples of the
     # front, not the end'). Roots must resolve portably (HF_HOME / ~/.cache / override).
     import importlib
+
     import determinex_test_oracle as TO
+
     importlib.reload(TO)
     fake = tmp_path / "hub" / "datasets--programbench--ProgramBench-Tests" / "snapshots"
     fake.mkdir(parents=True)
     monkeypatch.setenv("DETERMINEX_PB_TESTS_SNAPSHOT", str(fake))
     roots = TO._hf_snapshot_roots()
-    assert str(fake) in roots            # explicit override honored
+    assert str(fake) in roots  # explicit override honored
     # and HF_HOME is honored too
     monkeypatch.delenv("DETERMINEX_PB_TESTS_SNAPSHOT", raising=False)
     hf = tmp_path / "hfhome"
@@ -1386,16 +1541,24 @@ def test_breadth_touch_key_is_slug_variant_aware(tmp_path, monkeypatch):
     monkeypatch.setattr(churn, "SPECS", tmp_path)
     monkeypatch.setattr(churn, "ROOT", tmp_path)
 
-    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.timezone.utc)
+    now = dt.datetime(2026, 6, 30, 12, 0, tzinfo=dt.UTC)
     rows = [
         {"slug": "bore", "status": "pending_unlock", "official_score_pct": 100.0},
         {"slug": "never-touched-tool", "status": "pending_unlock", "official_score_pct": 10.0},
     ]
     # recorded under the FULL slug, off-cooldown (25h ago), rc=0 so not cooldown-blocked
     old = (now - dt.timedelta(hours=25)).isoformat()
-    state = {"runs": {"ekzhang__bore.8e059cd": {
-        "executed": True, "ts": old, "action": {"name": "local-oracle"},
-        "result": {"rc": 0}, "oracle_result_saved": {"passed": 5, "total": 10}}}}
+    state = {
+        "runs": {
+            "ekzhang__bore.8e059cd": {
+                "executed": True,
+                "ts": old,
+                "action": {"name": "local-oracle"},
+                "result": {"rc": 0},
+                "oracle_result_saved": {"passed": 5, "total": 10},
+            }
+        }
+    }
     q = churn.queue_from_eval_rows(rows, state, now=now, cooldown_s=5400)
     # `bore` must be recognized as TOUCHED (via its full-slug run) and sort BEHIND the
     # genuinely never-touched tool -- not treated as fresh and pinned to the front.

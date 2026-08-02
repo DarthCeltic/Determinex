@@ -31,6 +31,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -47,7 +48,6 @@ from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _has_release_proof_reference,
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 _EVIDENCE_DIR = (
@@ -321,7 +321,8 @@ def load(
         decision=_token("PASSED"),
         target_surface="Universal 100 Top-Level Sector Coverage Scoreboard",
         target_workflow=str(
-            blob.get("target_workflow") or "universal 100 top-level sector coverage scoreboard update"
+            blob.get("target_workflow")
+            or "universal 100 top-level sector coverage scoreboard update"
         ),
         lock_id=LOCK_ID,
         families_total=families_total,
@@ -335,15 +336,23 @@ def load(
         families_with_maintain_support=int(blob.get("families_with_maintain_support", 0)),
         families_with_teach_support=int(blob.get("families_with_teach_support", 0)),
         families_with_packaging_supported=int(blob.get("families_with_packaging_supported", 0)),
-        families_with_fresh_install_verified=int(blob.get("families_with_fresh_install_verified", 0)),
+        families_with_fresh_install_verified=int(
+            blob.get("families_with_fresh_install_verified", 0)
+        ),
         families_with_release_supported=families_with_release,
-        families_with_user_ready_with_caveats=int(blob.get("families_with_user_ready_with_caveats", 0)),
+        families_with_user_ready_with_caveats=int(
+            blob.get("families_with_user_ready_with_caveats", 0)
+        ),
         release_supported_count=release_supported_count,
         user_ready_with_caveats_count=int(blob.get("user_ready_with_caveats_count", 0)),
         roadmap_only_families_remaining=int(blob.get("roadmap_only_families_remaining", 0)),
         support_depth_counts={str(k): int(v) for k, v in support_depth_counts.items()},
-        blockers_remaining_by_category={str(k): int(v) for k, v in blockers_remaining_by_category.items()},
-        blockers_closed_this_wave=tuple(str(x) for x in (blob.get("blockers_closed_this_wave") or [])),
+        blockers_remaining_by_category={
+            str(k): int(v) for k, v in blockers_remaining_by_category.items()
+        },
+        blockers_closed_this_wave=tuple(
+            str(x) for x in (blob.get("blockers_closed_this_wave") or [])
+        ),
         blockers_partially_closed_this_wave=tuple(
             str(x) for x in (blob.get("blockers_partially_closed_this_wave") or [])
         ),

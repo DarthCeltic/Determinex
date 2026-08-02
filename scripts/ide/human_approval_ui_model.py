@@ -3,17 +3,16 @@
 Builds an IDE-displayable HumanApprovalPacket from a verified
 temp-patch result. Validates packet consistency.
 """
+
 from __future__ import annotations
 
 import datetime as _dt
 import hashlib
-from pathlib import Path
 
 from .human_approval_ui_record import (
     HUMAN_APPROVAL_PACKET_UI_STATUS_TOKENS,
     HumanApprovalPacket,
 )
-
 
 _DEFAULT_STALE_HOURS = 24
 
@@ -35,7 +34,7 @@ def build_packet(
     risk_summary: str = "",
     operator_identity: str = "",
 ) -> HumanApprovalPacket:
-    now = _dt.datetime.now(_dt.timezone.utc)
+    now = _dt.datetime.now(_dt.UTC)
     stale_after = now + _dt.timedelta(hours=_DEFAULT_STALE_HOURS)
     diff_hash = _hash(unified_diff)
     # First 200 chars of the diff for the IDE summary.
@@ -77,7 +76,7 @@ def evaluate_submitted(
     """
     if packet is None:
         return "HUMAN_APPROVAL_BLOCKED_MISSING_PACKET"
-    now = now or _dt.datetime.now(_dt.timezone.utc)
+    now = now or _dt.datetime.now(_dt.UTC)
     try:
         stale = _dt.datetime.fromisoformat(packet.stale_after)
     except (ValueError, TypeError):

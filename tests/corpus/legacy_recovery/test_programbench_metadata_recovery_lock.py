@@ -59,11 +59,13 @@ def test_task_image_found_unlocks_hydration(tmp_path):
 def test_local_verifier_metadata_found_unlocks_hydration(tmp_path):
     root = _root(tmp_path)
     (root / "local_verifier.json").write_text(
-        json.dumps({
-            "local_verifier_allowed": True,
-            "local_verifier_command": "python replay.py",
-            "deterministic": True,
-        }),
+        json.dumps(
+            {
+                "local_verifier_allowed": True,
+                "local_verifier_command": "python replay.py",
+                "deterministic": True,
+            }
+        ),
         encoding="utf-8",
     )
 
@@ -77,7 +79,9 @@ def test_local_verifier_metadata_found_unlocks_hydration(tmp_path):
 
 def test_conflicting_task_image_metadata_blocks_hydration(tmp_path):
     root = _root(tmp_path)
-    (root / "manifest.json").write_text(json.dumps({"task_image": "image-a@sha256:" + "a" * 64}), encoding="utf-8")
+    (root / "manifest.json").write_text(
+        json.dumps({"task_image": "image-a@sha256:" + "a" * 64}), encoding="utf-8"
+    )
     row = _row(root, task_image="image-b@sha256:" + "b" * 64)
 
     result = _recovery(tmp_path).recover_candidate(row)

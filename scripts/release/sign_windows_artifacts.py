@@ -29,6 +29,7 @@ SmartScreen cannot be established from this script: it is a property of Microsof
 service observed by downloading the signed artifact in a browser on a clean machine. It is recorded
 by the trust packet as an operator observation, deliberately, rather than inferred here.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -90,12 +91,21 @@ def _windows_artifacts(root: Path) -> list[tuple[str, Path]]:
         else:
             print(f"  WARN {artifact.get('file_name')}: source_path not found on disk")
     if not out:
-        raise SystemExit(f"{manifest_path} lists no Windows installer with a resolvable source_path")
+        raise SystemExit(
+            f"{manifest_path} lists no Windows installer with a resolvable source_path"
+        )
     return out
 
 
-def sign(artifact: Path, signtool: Path, *, subject: str | None, thumbprint: str | None,
-         timestamp_url: str, dry_run: bool) -> tuple[bool, str]:
+def sign(
+    artifact: Path,
+    signtool: Path,
+    *,
+    subject: str | None,
+    thumbprint: str | None,
+    timestamp_url: str,
+    dry_run: bool,
+) -> tuple[bool, str]:
     cmd: list[str] = [str(signtool), "sign", "/fd", "SHA256", "/td", "SHA256", "/tr", timestamp_url]
     if thumbprint:
         cmd += ["/sha1", thumbprint]
@@ -115,27 +125,36 @@ def verify(artifact: Path, signtool: Path) -> tuple[bool, str]:
     """`/pa` uses the Authenticode policy — the same chain evaluation the trust packet reads."""
     proc = subprocess.run(
         [str(signtool), "verify", "/pa", "/v", str(artifact)],
-        capture_output=True, text=True, timeout=300,
+        capture_output=True,
+        text=True,
+        timeout=300,
     )
     return proc.returncode == 0, (proc.stdout + proc.stderr).strip()[-800:]
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__,
-                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--subject", help='certificate subject name, e.g. "Your Org Legal Name"')
     group.add_argument("--thumbprint", help="certificate SHA-1 thumbprint (no spaces)")
     parser.add_argument("--timestamp-url", default=DEFAULT_TIMESTAMP_URL)
-    parser.add_argument("--dry-run", action="store_true",
-                        help="print the exact signtool invocations without running them")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="print the exact signtool invocations without running them",
+    )
     args = parser.parse_args()
 
     root = Path.cwd()
     signtool = _find_signtool()
     if signtool is None:
-        print("signtool.exe not found. Install the Windows SDK "
-              "(winget install Microsoft.WindowsSDK) or put signtool on PATH.", file=sys.stderr)
+        print(
+            "signtool.exe not found. Install the Windows SDK "
+            "(winget install Microsoft.WindowsSDK) or put signtool on PATH.",
+            file=sys.stderr,
+        )
         return 1
     print(f"signtool: {signtool}")
 
@@ -147,8 +166,14 @@ def main() -> int:
 
     failures = 0
     for name, path in artifacts:
-        ok, output = sign(path, signtool, subject=args.subject, thumbprint=args.thumbprint,
-                          timestamp_url=args.timestamp_url, dry_run=args.dry_run)
+        ok, output = sign(
+            path,
+            signtool,
+            subject=args.subject,
+            thumbprint=args.thumbprint,
+            timestamp_url=args.timestamp_url,
+            dry_run=args.dry_run,
+        )
         print(f"  {'OK  ' if ok else 'FAIL'} sign {name}")
         if not ok:
             failures += 1

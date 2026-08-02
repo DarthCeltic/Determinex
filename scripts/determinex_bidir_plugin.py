@@ -20,6 +20,7 @@ Rules (unchanged from intent):
 Install as a pytest11 plugin so it survives branch-conftest overwrites. (The stgit
 `@harvest` xdist_group name variant is a separate tool-specific concern, not handled here.)
 """
+
 import atexit as _at
 import copy as _copy
 import glob as _glob
@@ -32,9 +33,9 @@ _PLAIN_PFX = "tests."
 
 def _mirror_classname(cls: str) -> str | None:
     if cls.startswith(_EVAL_PFX):
-        return _PLAIN_PFX + cls[len(_EVAL_PFX):]
+        return _PLAIN_PFX + cls[len(_EVAL_PFX) :]
     if cls.startswith(_PLAIN_PFX) and not cls.startswith(_EVAL_PFX):
-        return _EVAL_PFX + cls[len(_PLAIN_PFX):]
+        return _EVAL_PFX + cls[len(_PLAIN_PFX) :]
     return None
 
 
@@ -48,8 +49,9 @@ def _inject(path: str) -> None:
     suites = root.iter("testsuite")
     changed = False
     for suite in list(suites):
-        existing = {(tc.get("classname", ""), tc.get("name", ""))
-                    for tc in suite.findall("testcase")}
+        existing = {
+            (tc.get("classname", ""), tc.get("name", "")) for tc in suite.findall("testcase")
+        }
         for tc in list(suite.findall("testcase")):
             # never mirror a failing/erroring case
             if tc.find("failure") is not None or tc.find("error") is not None:

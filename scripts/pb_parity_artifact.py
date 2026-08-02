@@ -15,10 +15,10 @@ import json
 import re
 import tarfile
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
-
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 BEST_INDEX = ROOT / "corpus" / "programbench" / "best_known_state.json"
@@ -128,7 +128,10 @@ def iter_source_files(paths: Iterable[Path]) -> Iterable[tuple[str, str]]:
                         f = tf.extractfile(member)
                         if not f:
                             continue
-                        yield f"{rel(path)}!{member.name}", f.read().decode("utf-8", errors="replace")
+                        yield (
+                            f"{rel(path)}!{member.name}",
+                            f.read().decode("utf-8", errors="replace"),
+                        )
             except (tarfile.TarError, OSError):
                 continue
         elif path.suffix == ".py":
@@ -195,7 +198,9 @@ def runtime_skip_evidence(test_id: str, row: dict[str, Any]) -> SkipEvidence | N
     return None
 
 
-def classify_skip_from_source(test_id: str, source_paths: list[Path], row: dict[str, Any] | None = None) -> SkipEvidence:
+def classify_skip_from_source(
+    test_id: str, source_paths: list[Path], row: dict[str, Any] | None = None
+) -> SkipEvidence:
     func = function_name(test_id)
     def_pat = re.compile(rf"^\s*def\s+{re.escape(func)}\s*\(")
     for location, text in iter_source_files(source_paths):
@@ -206,18 +211,31 @@ def classify_skip_from_source(test_id: str, source_paths: list[Path], row: dict[
             block_start, decorators = decorator_block(lines, i)
             joined = "\n".join(d.strip() for d in decorators)
             if "@pytest.mark.skipif" in joined or "@unittest.skipIf" in joined:
-                return SkipEvidence(test_id, "TIER B", joined or "skipif decorator", f"{location}:{block_start + 1}")
+                return SkipEvidence(
+                    test_id, "TIER B", joined or "skipif decorator", f"{location}:{block_start + 1}"
+                )
             if "@pytest.mark.skip" in joined or "@unittest.skip" in joined:
-                return SkipEvidence(test_id, "TIER A", joined or "skip decorator", f"{location}:{block_start + 1}")
+                return SkipEvidence(
+                    test_id, "TIER A", joined or "skip decorator", f"{location}:{block_start + 1}"
+                )
             body = "\n".join(lines[i : min(len(lines), i + 40)])
             if "pytest.skip(" in body or "SkipTest" in body:
-                return SkipEvidence(test_id, "TIER B", "runtime skip inside test body", f"{location}:{i + 1}")
-            return SkipEvidence(test_id, "TIER B", "skipped in report; no skip decorator at test definition", f"{location}:{i + 1}")
+                return SkipEvidence(
+                    test_id, "TIER B", "runtime skip inside test body", f"{location}:{i + 1}"
+                )
+            return SkipEvidence(
+                test_id,
+                "TIER B",
+                "skipped in report; no skip decorator at test definition",
+                f"{location}:{i + 1}",
+            )
     if row:
         runtime = runtime_skip_evidence(test_id, row)
         if runtime:
             return runtime
-    return SkipEvidence(test_id, "TIER B", "source location not found; reference run required", "NOT_FOUND")
+    return SkipEvidence(
+        test_id, "TIER B", "source location not found; reference run required", "NOT_FOUND"
+    )
 
 
 def render_artifact(
@@ -234,7 +252,7 @@ def render_artifact(
     lines = [
         f"# ProgramBench Parity Evidence - {tool}",
         "",
-        f"- generated_at: `{dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()}`",
+        f"- generated_at: `{dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat()}`",
         f"- raw_report: `{rel(report_path)}`",
         f"- raw_report_sha256: `{report_hash}`",
         f"- upstream_commit: `{upstream_commit}`",
@@ -320,7 +338,7 @@ def build_missing_report_artifact(
     lines = [
         f"# ProgramBench Parity Evidence - {tool}",
         "",
-        f"- generated_at: `{dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()}`",
+        f"- generated_at: `{dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat()}`",
         f"- raw_report: `{missing_report}`",
         "- raw_report_sha256: `MISSING`",
         "- upstream_commit: `unknown`",
@@ -369,7 +387,9 @@ def task_commit(tool: str) -> str:
         task = PB_TASKS / candidate / "task.yaml"
         if not task.exists():
             continue
-        match = re.search(r"^commit:\s*(\S+)", task.read_text(encoding="utf-8", errors="replace"), re.MULTILINE)
+        match = re.search(
+            r"^commit:\s*(\S+)", task.read_text(encoding="utf-8", errors="replace"), re.MULTILINE
+        )
         if match:
             return match.group(1)
     return "unknown"
@@ -399,7 +419,9 @@ def command_build(args: argparse.Namespace) -> int:
         )
         print(f"{tool}: {result.verdict} skipped=0 artifact={result.artifact_path}")
         return 2
-    sources = [resolve_path(p) for p in args.source] if args.source else source_paths_from_row(tool, row)
+    sources = (
+        [resolve_path(p) for p in args.source] if args.source else source_paths_from_row(tool, row)
+    )
     source_paths = [p for p in sources if p]
     result = build_artifact(
         tool,

@@ -35,9 +35,8 @@ import sys
 import tempfile
 import time
 from pathlib import Path
-from typing import Optional
-from urllib.request import urlopen, Request
 from urllib.error import URLError
+from urllib.request import Request, urlopen
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -52,13 +51,14 @@ REGISTRY_URL = os.environ.get(
 )
 
 LOCAL_VERSIONS_FILE = "registry_local_versions.json"
-TIMEOUT_SECONDS     = 5
-_OFFLINE            = os.environ.get("DETERMINEX_OFFLINE", "").strip().lower() in ("1", "true", "yes")
+TIMEOUT_SECONDS = 5
+_OFFLINE = os.environ.get("DETERMINEX_OFFLINE", "").strip().lower() in ("1", "true", "yes")
 
 
 # ---------------------------------------------------------------------------
 # REGISTRY CLIENT
 # ---------------------------------------------------------------------------
+
 
 class RegistryClient:
     """
@@ -75,19 +75,19 @@ class RegistryClient:
 
     def __init__(
         self,
-        local_dir:    str | Path = "registry/weights",
+        local_dir: str | Path = "registry/weights",
         registry_url: str = REGISTRY_URL,
-        timeout:      int = TIMEOUT_SECONDS,
+        timeout: int = TIMEOUT_SECONDS,
     ):
-        self.local_dir    = Path(local_dir)
+        self.local_dir = Path(local_dir)
         self.registry_url = registry_url
-        self.timeout      = timeout
+        self.timeout = timeout
         self.local_dir.mkdir(parents=True, exist_ok=True)
         self._versions_path = self.local_dir / LOCAL_VERSIONS_FILE
 
     # ── Remote ───────────────────────────────────────────────────────────────
 
-    def fetch_remote_manifest(self) -> Optional[dict]:
+    def fetch_remote_manifest(self) -> dict | None:
         """
         Fetch registry.json from the remote URL.
         Returns None on any network error (fail-safe).
@@ -106,7 +106,7 @@ class RegistryClient:
             print(
                 f"[Registry] Fetched manifest v{manifest.get('registry_version', '?')} "
                 f"({len(manifest.get('families', {}))} families)",
-                flush=True
+                flush=True,
             )
             return manifest
         except URLError as e:
@@ -143,14 +143,14 @@ class RegistryClient:
                 h.update(chunk)
         return h.hexdigest()
 
-    def download_family(self, family: str, entry: dict) -> Optional[Path]:
+    def download_family(self, family: str, entry: dict) -> Path | None:
         """
         Download a family weight file with sha256 verification.
 
         Returns:
             Path to the downloaded file, or None on failure.
         """
-        url    = entry.get("url", "")
+        url = entry.get("url", "")
         sha256 = entry.get("sha256", "")
         if not url:
             print(f"[Registry] No URL for family '{family}' — skipping.", flush=True)
@@ -161,7 +161,7 @@ class RegistryClient:
         # Download to temp file, verify, rename atomically
         try:
             print(f"[Registry] Downloading '{family}' from {url}...", flush=True)
-            t0  = time.time()
+            t0 = time.time()
             req = Request(url, headers={"User-Agent": "Determinex/1.0 RegistryClient"})
             with tempfile.NamedTemporaryFile(
                 dir=self.local_dir, suffix=".tmp", delete=False
@@ -182,7 +182,7 @@ class RegistryClient:
                     print(
                         f"[Registry] sha256 MISMATCH for '{family}': "
                         f"expected={sha256[:16]}… got={actual[:16]}…",
-                        flush=True
+                        flush=True,
                     )
                     return None
                 print(f"[Registry] sha256 verified for '{family}'.", flush=True)
@@ -190,7 +190,7 @@ class RegistryClient:
                 print(
                     f"[Registry] WARNING: No sha256 in manifest for '{family}'. "
                     f"Skipping verification (unsafe for production).",
-                    flush=True
+                    flush=True,
                 )
 
             tmp_path.rename(dest)
@@ -198,7 +198,7 @@ class RegistryClient:
             size_kb = dest.stat().st_size / 1024
             print(
                 f"[Registry] '{family}' downloaded: {size_kb:.1f} KB in {elapsed:.1f}s → {dest}",
-                flush=True
+                flush=True,
             )
             return dest
 
@@ -225,13 +225,13 @@ class RegistryClient:
         if manifest is None:
             return []
 
-        local_versions  = self.load_local_versions()
+        local_versions = self.load_local_versions()
         remote_families = manifest.get("families", {})
-        updated         = []
+        updated = []
 
         for family, entry in remote_families.items():
             remote_ver = entry.get("version", 0)
-            local_ver  = local_versions.get(family, {}).get("version", 0)
+            local_ver = local_versions.get(family, {}).get("version", 0)
 
             if remote_ver <= local_ver:
                 continue  # Already up to date
@@ -240,13 +240,10 @@ class RegistryClient:
             if weight_path.exists() and local_ver > 0:
                 print(
                     f"[Registry] Update available: '{family}' v{local_ver} → v{remote_ver}",
-                    flush=True
+                    flush=True,
                 )
             else:
-                print(
-                    f"[Registry] New family available: '{family}' v{remote_ver}",
-                    flush=True
-                )
+                print(f"[Registry] New family available: '{family}' v{remote_ver}", flush=True)
 
             dl_path = self.download_family(family, entry)
             if dl_path is None:
@@ -263,8 +260,8 @@ class RegistryClient:
 
             # Mark as updated locally
             local_versions[family] = {
-                "version":    remote_ver,
-                "sha256":     entry.get("sha256", ""),
+                "version": remote_ver,
+                "sha256": entry.get("sha256", ""),
                 "family_dim": entry.get("family_dim", 0),
                 "updated_at": time.time(),
             }
@@ -287,12 +284,12 @@ class RegistryClient:
         local = self.load_local_versions()
         weight_files = list(self.local_dir.glob("family_*.pt"))
         return {
-            "local_dir":      str(self.local_dir),
-            "registry_url":   self.registry_url,
-            "offline_mode":   _OFFLINE,
+            "local_dir": str(self.local_dir),
+            "registry_url": self.registry_url,
+            "offline_mode": _OFFLINE,
             "local_families": list(local.keys()),
             "local_versions": {k: v.get("version") for k, v in local.items()},
-            "weight_files":   [f.name for f in weight_files],
+            "weight_files": [f.name for f in weight_files],
         }
 
 
@@ -300,11 +297,12 @@ class RegistryClient:
 # STARTUP HELPER (call from determinex_hive.py or main entry point)
 # ---------------------------------------------------------------------------
 
+
 def startup_sync(
     stone,
-    local_dir:    str | Path = "registry/weights",
-    registry_url: str        = REGISTRY_URL,
-    background:   bool       = True,
+    local_dir: str | Path = "registry/weights",
+    registry_url: str = REGISTRY_URL,
+    background: bool = True,
 ) -> list[str]:
     """
     Run a registry sync on Determinex startup.
@@ -324,6 +322,7 @@ def startup_sync(
         return client.sync(stone)
 
     import threading
+
     def _run():
         try:
             client.sync(stone)
@@ -343,8 +342,10 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Determinex Rosetta Registry Client")
-    parser.add_argument("--status",  action="store_true", help="Show local registry status")
-    parser.add_argument("--sync",    action="store_true", help="Sync with remote registry (no stone load)")
+    parser.add_argument("--status", action="store_true", help="Show local registry status")
+    parser.add_argument(
+        "--sync", action="store_true", help="Sync with remote registry (no stone load)"
+    )
     parser.add_argument("--offline", action="store_true", help="Force offline mode for this run")
     args = parser.parse_args()
 

@@ -3,12 +3,13 @@ scripts/hive/dag.py — Topological sort and DAG invalidation
 ============================================================
 Moved from determinex_hive.py (lines ~1295-1459).
 """
+
 from __future__ import annotations
 
 import logging
 from collections import deque
 
-from hive.manifest import StepRecord, ManifestSession
+from hive.manifest import ManifestSession, StepRecord
 
 log = logging.getLogger("hive")
 
@@ -116,17 +117,21 @@ def topological_sort(
                 components.append(sorted(comp))
 
         cycle_groups = [g for g in components if len(g) > 1]
-        singletons  = [g[0] for g in components if len(g) == 1]
+        singletons = [g[0] for g in components if len(g) == 1]
 
         if cycle_groups:
             log.warning(
                 "DAG CYCLE DETECTED: %d co-dependent group(s): %s "
                 "— each group will compile as a single atomic unit",
-                len(cycle_groups), cycle_groups
+                len(cycle_groups),
+                cycle_groups,
             )
 
         if singletons:
-            log.info("DAG: %d nodes were blocked by cycle groups, appending after groups", len(singletons))
+            log.info(
+                "DAG: %d nodes were blocked by cycle groups, appending after groups",
+                len(singletons),
+            )
 
     # ── Phase 3: build the unified execution_order ─────────────────────
     execution_order: list[int | list[int]] = list(linear_order)
@@ -237,6 +242,9 @@ def flag_stale_downstream(session: ManifestSession, changed_step_id: int) -> int
         if step.id in visited and step.status not in ("complete",):
             step.status = "stale_instruction"
             flagged += 1
-            log.warning("Step %d flagged stale_instruction (transitively downstream of step %d)",
-                        step.id, changed_step_id)
+            log.warning(
+                "Step %d flagged stale_instruction (transitively downstream of step %d)",
+                step.id,
+                changed_step_id,
+            )
     return flagged

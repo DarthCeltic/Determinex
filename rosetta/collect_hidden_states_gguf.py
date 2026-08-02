@@ -39,6 +39,7 @@ Usage:
     python rosetta/collect_hidden_states_gguf.py --output_dir outputs/hidden_states_gguf \
         --gguf-path "C:/models/gemma-2-2b-it-Q8_0.gguf" --family gemma
 """
+
 from __future__ import annotations
 
 import argparse
@@ -95,8 +96,12 @@ def discover_ollama_models() -> dict[str, Path]:
     # 2026-07-27: UnicodeDecodeError on byte 0x9d from one real installed model's Modelfile).
     try:
         listing = subprocess.run(
-            ["ollama", "list"], capture_output=True, text=True, timeout=15,
-            encoding="utf-8", errors="replace",
+            ["ollama", "list"],
+            capture_output=True,
+            text=True,
+            timeout=15,
+            encoding="utf-8",
+            errors="replace",
         )
     except (OSError, subprocess.TimeoutExpired):
         return {}
@@ -114,8 +119,11 @@ def discover_ollama_models() -> dict[str, Path]:
         try:
             shown = subprocess.run(
                 ["ollama", "show", name, "--modelfile"],
-                capture_output=True, text=True, timeout=15,
-                encoding="utf-8", errors="replace",
+                capture_output=True,
+                text=True,
+                timeout=15,
+                encoding="utf-8",
+                errors="replace",
             )
         except (OSError, subprocess.TimeoutExpired):
             continue
@@ -144,7 +152,7 @@ def collect_states_gguf(
     own convention); falls back to CPU-only automatically if no GPU is present.
     """
     import torch  # local import: this module's only hard dependency for the SAVE step, and
-                   # torch is already a project-wide dependency (unlike llama-cpp-python).
+    # torch is already a project-wide dependency (unlike llama-cpp-python).
 
     llama_cpp = _import_llama_cpp()
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -216,8 +224,9 @@ def run_collection_gguf(
     print(f"\n[COLLECT-GGUF] Complete: {results}", flush=True)
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "collection_summary.json").write_text(
-        json.dumps({"prompts": len(SHARED_PROMPTS), "families": results, "backend": "gguf"},
-                   indent=2)
+        json.dumps(
+            {"prompts": len(SHARED_PROMPTS), "families": results, "backend": "gguf"}, indent=2
+        )
     )
     return results
 
@@ -225,14 +234,29 @@ def run_collection_gguf(
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output_dir", type=str, default="outputs/hidden_states_gguf")
-    parser.add_argument("--discover", action="store_true",
-                        help="Collect from every model currently registered in local Ollama")
-    parser.add_argument("--model", type=str, default=None,
-                        help="Collect from exactly one Ollama-registered model by name")
-    parser.add_argument("--gguf-path", type=str, default=None,
-                        help="Collect from a standalone .gguf file not registered with Ollama")
-    parser.add_argument("--family", type=str, default=None,
-                        help="Family name to save under (required with --gguf-path)")
+    parser.add_argument(
+        "--discover",
+        action="store_true",
+        help="Collect from every model currently registered in local Ollama",
+    )
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        help="Collect from exactly one Ollama-registered model by name",
+    )
+    parser.add_argument(
+        "--gguf-path",
+        type=str,
+        default=None,
+        help="Collect from a standalone .gguf file not registered with Ollama",
+    )
+    parser.add_argument(
+        "--family",
+        type=str,
+        default=None,
+        help="Family name to save under (required with --gguf-path)",
+    )
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir)
@@ -245,15 +269,20 @@ def main() -> int:
 
     discovered = discover_ollama_models()
     if not discovered:
-        print("[COLLECT-GGUF] No Ollama models discovered (is `ollama list` empty, or "
-              "`ollama` not on PATH?). Use --gguf-path for a standalone file instead.",
-              file=sys.stderr)
+        print(
+            "[COLLECT-GGUF] No Ollama models discovered (is `ollama list` empty, or "
+            "`ollama` not on PATH?). Use --gguf-path for a standalone file instead.",
+            file=sys.stderr,
+        )
         return 1
 
     if args.model:
         if args.model not in discovered:
-            print(f"[COLLECT-GGUF] '{args.model}' not found among Ollama models: "
-                  f"{list(discovered.keys())}", file=sys.stderr)
+            print(
+                f"[COLLECT-GGUF] '{args.model}' not found among Ollama models: "
+                f"{list(discovered.keys())}",
+                file=sys.stderr,
+            )
             return 1
         run_collection_gguf(output_dir, models={args.model: discovered[args.model]})
         return 0

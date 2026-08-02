@@ -10,6 +10,7 @@ Verifies that Java repair tasks written to the corpus via CorpusManager:
 
 JAVA_CORPUS_LOCK_001 / CORPUS_LICENSE_LOCK_001 partial coverage.
 """
+
 from __future__ import annotations
 
 import sys
@@ -38,7 +39,6 @@ def _make_java_verdict_payload() -> dict:
 
 
 class TestJavaJUnitTraceSigning:
-
     def test_java_trace_has_schema_version(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         record = cm._normalize_record(

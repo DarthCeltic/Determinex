@@ -12,9 +12,11 @@ Outputs:
   - corpus/programbench/results/PB_WORK_MATRIX_200.md (human-readable, sorted by leverage)
   - c:/tmp/pb_work_matrix.tsv (machine-loadable)
 """
+
 from __future__ import annotations
-import json
+
 import glob
+import json
 from pathlib import Path
 
 PB_TASKS = Path("c:/tmp/pb_tasks_200.tsv")
@@ -35,15 +37,17 @@ def load_tasks():
                 continue
             rank, instance_short, lang, stars, tests, frontier_pct = parts
             slug = instance_short.lower().replace("/", "__")
-            rows.append({
-                "rank": int(rank),
-                "instance_short": instance_short,
-                "slug": slug,
-                "lang": lang,
-                "stars": int(stars),
-                "tests": int(tests),
-                "frontier_pct": float(frontier_pct),
-            })
+            rows.append(
+                {
+                    "rank": int(rank),
+                    "instance_short": instance_short,
+                    "slug": slug,
+                    "lang": lang,
+                    "stars": int(stars),
+                    "tests": int(tests),
+                    "frontier_pct": float(frontier_pct),
+                }
+            )
     return rows
 
 
@@ -193,8 +197,14 @@ def main():
             d["top_assertion"] = "-"
 
         d["gap"] = (100.0 - ours["pct"]) if ours else 100.0
-        d["effort"] = estimate_effort(d["our_pct"], t["tests"], d["dominant_bucket"],
-                                      d["has_override"], d["failed"], d["skipped"])
+        d["effort"] = estimate_effort(
+            d["our_pct"],
+            t["tests"],
+            d["dominant_bucket"],
+            d["has_override"],
+            d["failed"],
+            d["skipped"],
+        )
         d["path"] = path_to_100(d)
 
         rows.append(d)
@@ -210,10 +220,13 @@ def main():
         if r["our_pct"] >= 70:
             return (2, r["gap"])
         return (3, r["gap"])
+
     rows.sort(key=sort_key)
 
     with OUT_TSV.open("w", encoding="utf-8", newline="\n") as f:
-        f.write("rank\tslug\tinstance_short\tlang\ttests\tfrontier_pct\tour_pct\tour_passed\tour_failed\tour_skipped\tgap\tdominant_bucket\thas_override\teffort\tpath\n")
+        f.write(
+            "rank\tslug\tinstance_short\tlang\ttests\tfrontier_pct\tour_pct\tour_passed\tour_failed\tour_skipped\tgap\tdominant_bucket\thas_override\teffort\tpath\n"
+        )
         for r in rows:
             f.write(
                 f"{r['rank']}\t{r['slug']}\t{r['instance_short']}\t{r['lang']}\t{r['tests']}\t"
@@ -231,33 +244,49 @@ def main():
     unscored = [r for r in rows if r["our_pct"] is None]
 
     # Count tools that are "skipped-only" (0 failures, only skipped tests)
-    skipped_only = [r for r in rows if r["our_pct"] is not None and r["failed"] == 0 and r["skipped"] > 0 and r["our_pct"] < 100]
+    skipped_only = [
+        r
+        for r in rows
+        if r["our_pct"] is not None and r["failed"] == 0 and r["skipped"] > 0 and r["our_pct"] < 100
+    ]
 
     out = []
     out.append("# PB Work Matrix — All 200 Tasks")
     out.append("")
-    out.append("Joins: official 200-task PB leaderboard + our latest eval.json + per-tool failure clusters + override registry.")
+    out.append(
+        "Joins: official 200-task PB leaderboard + our latest eval.json + per-tool failure clusters + override registry."
+    )
     out.append("")
     out.append("## Summary")
     out.append("")
     out.append("| Tier | Count | % of 200 |")
     out.append("|------|------:|---------:|")
-    out.append(f"| LOCKED (100%) | {len(locked)} | {100*len(locked)/200:.1f}% |")
-    out.append(f"| Near-lock (95-99%) | {len(near)} | {100*len(near)/200:.1f}% |")
-    out.append(f"| Upper (70-94%) | {len(upper)} | {100*len(upper)/200:.1f}% |")
-    out.append(f"| Mid (30-69%) | {len(mid)} | {100*len(mid)/200:.1f}% |")
-    out.append(f"| Floor (1-29%) | {len(floor)} | {100*len(floor)/200:.1f}% |")
-    out.append(f"| Zero (0%) | {len(zero)} | {100*len(zero)/200:.1f}% |")
-    out.append(f"| Unscored | {len(unscored)} | {100*len(unscored)/200:.1f}% |")
+    out.append(f"| LOCKED (100%) | {len(locked)} | {100 * len(locked) / 200:.1f}% |")
+    out.append(f"| Near-lock (95-99%) | {len(near)} | {100 * len(near) / 200:.1f}% |")
+    out.append(f"| Upper (70-94%) | {len(upper)} | {100 * len(upper) / 200:.1f}% |")
+    out.append(f"| Mid (30-69%) | {len(mid)} | {100 * len(mid) / 200:.1f}% |")
+    out.append(f"| Floor (1-29%) | {len(floor)} | {100 * len(floor) / 200:.1f}% |")
+    out.append(f"| Zero (0%) | {len(zero)} | {100 * len(zero) / 200:.1f}% |")
+    out.append(f"| Unscored | {len(unscored)} | {100 * len(unscored) / 200:.1f}% |")
     out.append("")
-    out.append(f"**Evaluated: {200 - len(unscored)} / 200 ({100*(200-len(unscored))/200:.1f}%)**")
-    out.append(f"**Resolved (100%): {len(locked)} / 200 ({100*len(locked)/200:.1f}%)** — leaderboard primary metric")
-    out.append(f"**Almost (≥95%): {len(locked) + len(near)} / 200 ({100*(len(locked)+len(near))/200:.1f}%)**")
+    out.append(
+        f"**Evaluated: {200 - len(unscored)} / 200 ({100 * (200 - len(unscored)) / 200:.1f}%)**"
+    )
+    out.append(
+        f"**Resolved (100%): {len(locked)} / 200 ({100 * len(locked) / 200:.1f}%)** — leaderboard primary metric"
+    )
+    out.append(
+        f"**Almost (≥95%): {len(locked) + len(near)} / 200 ({100 * (len(locked) + len(near)) / 200:.1f}%)**"
+    )
     out.append("")
     if skipped_only:
-        out.append(f"**Skipped-only tools ({len(skipped_only)}): zero actual failures, just need infra/test-dep fixes:**")
+        out.append(
+            f"**Skipped-only tools ({len(skipped_only)}): zero actual failures, just need infra/test-dep fixes:**"
+        )
         for r in skipped_only[:10]:
-            out.append(f"- **{r['instance_short']}** ({r['our_pct']}%, {r['skipped']} skipped): `{r['skipped_sample_reason'][:90]}`")
+            out.append(
+                f"- **{r['instance_short']}** ({r['our_pct']}%, {r['skipped']} skipped): `{r['skipped_sample_reason'][:90]}`"
+            )
         out.append("")
 
     out.append("---")
@@ -268,7 +297,9 @@ def main():
     out.append("|---:|------|---:|---|---:|---|---|---|")
     for r in near:
         psf = f"{r['passed']}/{r['failed']}/{r['skipped']}"
-        out.append(f"| {r['rank']} | {r['instance_short']} | {r['our_pct']} | {psf} | {r['gap']:.2f} | {r['dominant_bucket']} | {r['effort']} | {r['path']} |")
+        out.append(
+            f"| {r['rank']} | {r['instance_short']} | {r['our_pct']} | {psf} | {r['gap']:.2f} | {r['dominant_bucket']} | {r['effort']} | {r['path']} |"
+        )
     out.append("")
     out.append("## Tier 2 — PUSH TO LOCK (70-94%)")
     out.append("")
@@ -277,7 +308,9 @@ def main():
     for r in upper:
         psf = f"{r['passed']}/{r['failed']}/{r['skipped']}"
         ov = "yes" if r["has_override"] else "no"
-        out.append(f"| {r['rank']} | {r['instance_short']} | {r['our_pct']} | {psf} | {r['gap']:.2f} | {r['dominant_bucket']} | {ov} | {r['path']} |")
+        out.append(
+            f"| {r['rank']} | {r['instance_short']} | {r['our_pct']} | {psf} | {r['gap']:.2f} | {r['dominant_bucket']} | {ov} | {r['path']} |"
+        )
     out.append("")
     out.append("## Tier 3 — MID (30-69%)")
     out.append("")
@@ -286,7 +319,9 @@ def main():
     for r in mid:
         psf = f"{r['passed']}/{r['failed']}/{r['skipped']}"
         ov = "yes" if r["has_override"] else "no"
-        out.append(f"| {r['rank']} | {r['instance_short']} | {r['our_pct']} | {psf} | {r['gap']:.2f} | {r['dominant_bucket']} | {ov} | {r['effort']} |")
+        out.append(
+            f"| {r['rank']} | {r['instance_short']} | {r['our_pct']} | {psf} | {r['gap']:.2f} | {r['dominant_bucket']} | {ov} | {r['effort']} |"
+        )
     out.append("")
     out.append("## Tier 4 — FLOOR (1-29%)")
     out.append("")
@@ -295,7 +330,9 @@ def main():
     for r in floor:
         psf = f"{r['passed']}/{r['failed']}/{r['skipped']}"
         ov = "yes" if r["has_override"] else "no"
-        out.append(f"| {r['rank']} | {r['instance_short']} | {r['our_pct']} | {psf} | {r['dominant_bucket']} | {ov} | {r['effort']} |")
+        out.append(
+            f"| {r['rank']} | {r['instance_short']} | {r['our_pct']} | {psf} | {r['dominant_bucket']} | {ov} | {r['effort']} |"
+        )
     out.append("")
     if zero:
         out.append("## Tier 5 — ZERO (evaluated but 0%)")
@@ -303,14 +340,18 @@ def main():
         out.append("| rank | tool | tests | top failure | effort |")
         out.append("|---:|------|---:|---|---|")
         for r in zero:
-            out.append(f"| {r['rank']} | {r['instance_short']} | {r['our_total']} | {r['dominant_bucket']} | {r['effort']} |")
+            out.append(
+                f"| {r['rank']} | {r['instance_short']} | {r['our_total']} | {r['dominant_bucket']} | {r['effort']} |"
+            )
         out.append("")
     out.append("## Tier 6 — UNSCORED (no scaffold or no eval yet)")
     out.append("")
     out.append("| rank | tool | lang | stars | tests | frontier % | effort |")
     out.append("|---:|------|---|---:|---:|---:|---|")
     for r in unscored:
-        out.append(f"| {r['rank']} | {r['instance_short']} | {r['lang']} | {r['stars']} | {r['tests']} | {r['frontier_pct']} | {r['effort']} |")
+        out.append(
+            f"| {r['rank']} | {r['instance_short']} | {r['lang']} | {r['stars']} | {r['tests']} | {r['frontier_pct']} | {r['effort']} |"
+        )
     out.append("")
     out.append("---")
     out.append("")
@@ -322,7 +363,9 @@ def main():
     out.append("- **Tier 4**: full override + scaffold-rewrite passes.")
     out.append("- **Tier 5/6**: generate scaffolds first (factory mass-run).")
     out.append("")
-    out.append("Refresh: `python scripts/analysis/per_tool_failures.py && python scripts/analysis/pb_work_matrix.py`")
+    out.append(
+        "Refresh: `python scripts/analysis/per_tool_failures.py && python scripts/analysis/pb_work_matrix.py`"
+    )
 
     OUT_MD.parent.mkdir(parents=True, exist_ok=True)
     OUT_MD.write_text("\n".join(out) + "\n", encoding="utf-8")

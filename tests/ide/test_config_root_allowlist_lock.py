@@ -1,4 +1,5 @@
 """Tests for CLAUDE_CONFIG_ROOT_ALLOWLIST_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -16,12 +17,8 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 cra = importlib.import_module("ide.config_root_allowlist")
 cra_rec = importlib.import_module("ide.config_root_allowlist_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / (
-    "CLAUDE_CONFIG_ROOT_ALLOWLIST_LOCK_001.json"
-)
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / (
-    "claude_config_root_allowlist"
-)
+LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / ("CLAUDE_CONFIG_ROOT_ALLOWLIST_LOCK_001.json")
+EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / ("claude_config_root_allowlist")
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
@@ -98,7 +95,9 @@ def test_double_dotdot_blocks(tmp_path):
 # ---------------------------------------------------------------------------
 # Dangerous roots
 # ---------------------------------------------------------------------------
-@pytest.mark.skipif(not (sys.platform.startswith("win") or sys.platform == "cygwin"), reason="windows path")
+@pytest.mark.skipif(
+    not (sys.platform.startswith("win") or sys.platform == "cygwin"), reason="windows path"
+)
 def test_windows_system_root_blocks(tmp_path):
     # Even with c:\\ in allowed_parents (caller bug), c:\\windows
     # itself is a system root the verifier refuses.
@@ -109,10 +108,12 @@ def test_windows_system_root_blocks(tmp_path):
 def test_posix_system_root_blocks(monkeypatch):
     monkeypatch.setattr(cra, "_is_windows", lambda: False)
     orig_resolve = Path.resolve
+
     def mock_resolve(self, strict=False):
         if str(self) == "/etc" or str(self) == "/":
             return self
         return orig_resolve(self, strict=strict)
+
     monkeypatch.setattr(Path, "resolve", mock_resolve)
 
     # Force posix path checking by pretending we're given posix strings

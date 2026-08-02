@@ -1,10 +1,10 @@
 """Records for IDE_HUMAN_APPROVAL_SIGNING_FLOW_LOCK_001."""
+
 from __future__ import annotations
 
 import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 IDE_HUMAN_APPROVAL_SIGNING_STATUS_TOKENS = (
     "IDE_APPROVAL_PACKET_READY",

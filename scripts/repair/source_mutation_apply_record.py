@@ -1,9 +1,9 @@
 """Records for SOURCE_MUTATION_APPLY_DRY_RUN_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 SOURCE_APPLY_DRY_RUN_STATUS_TOKENS = (
     "SOURCE_APPLY_DRY_RUN_READY",

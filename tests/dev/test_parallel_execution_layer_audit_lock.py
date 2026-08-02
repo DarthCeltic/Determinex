@@ -13,6 +13,7 @@ Asserts that the static execution-layer audit:
     classified as anything else
   * the on-disk Markdown matches ``to_markdown()`` byte-for-byte
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -41,25 +42,28 @@ EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 DOC_PATH = _REPO_ROOT / "docs" / "audits" / "PARALLEL_EXECUTION_LAYER_AUDIT.md"
 
 
-STATUS_TOKENS = frozenset({
-    "PARALLEL_EXECUTION_AUDIT_READY",
-    "EXECUTION_SITE_FOUND",
-    "HARDENED_COMPILER_PATH",
-    "HIVE_SANDBOXED_PATH",
-    "LEGACY_EXEMPT_READ_ONLY",
-    "LEGACY_EXEMPT_TEST_FIXTURE",
-    "MUST_MIGRATE_TO_HARDENED_RUNNER",
-    "BLOCKED_UNSAFE",
-    "PROGRAMBENCH_OUT_OF_SCOPE",
-    "UNKNOWN_REQUIRES_REVIEW",
-    "AUDIT_READ_ONLY",
-    "SAFETY_DEFAULTS_RESPECTED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "PARALLEL_EXECUTION_AUDIT_READY",
+        "EXECUTION_SITE_FOUND",
+        "HARDENED_COMPILER_PATH",
+        "HIVE_SANDBOXED_PATH",
+        "LEGACY_EXEMPT_READ_ONLY",
+        "LEGACY_EXEMPT_TEST_FIXTURE",
+        "MUST_MIGRATE_TO_HARDENED_RUNNER",
+        "BLOCKED_UNSAFE",
+        "PROGRAMBENCH_OUT_OF_SCOPE",
+        "UNKNOWN_REQUIRES_REVIEW",
+        "AUDIT_READ_ONLY",
+        "SAFETY_DEFAULTS_RESPECTED",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _sha256(p: Path) -> str | None:
     if not p.is_file():
@@ -86,7 +90,7 @@ def _hash_path_tree(root: Path, suffixes: tuple[str, ...]) -> dict[str, str]:
     for p in sorted(root.rglob("*")):
         if not p.is_file():
             continue
-        if not p.suffix.lower() in suffixes:
+        if p.suffix.lower() not in suffixes:
             continue
         rel = p.relative_to(root)
         if any(part in {"__pycache__", ".venv", "venv", "fine_tuning"} for part in rel.parts):
@@ -100,6 +104,7 @@ def _hash_path_tree(root: Path, suffixes: tuple[str, ...]) -> dict[str, str]:
 # ---------------------------------------------------------------------------
 # Status / module sanity
 # ---------------------------------------------------------------------------
+
 
 def test_status_tokens_match_expected_set():
     expected = {
@@ -151,6 +156,7 @@ def test_repo_paths_point_at_real_files():
 # Audit run — produces a non-trivial report
 # ---------------------------------------------------------------------------
 
+
 def test_run_audit_produces_non_empty_report():
     rpt = audit.run_audit()
     assert rpt.total_sites > 0
@@ -161,6 +167,7 @@ def test_run_audit_produces_non_empty_report():
 # ---------------------------------------------------------------------------
 # Key sites are found and correctly classified
 # ---------------------------------------------------------------------------
+
 
 def test_codebase_explorer_classification_rule_still_targets_must_migrate():
     """As of HARDENED_INTAKE_EXECUTION_RUNNER_LOCK_001, ShadowCompiler routes
@@ -190,8 +197,7 @@ def test_build_adapters_classification_rule_still_targets_must_migrate():
     cls, _rationale = audit._classify_path("scripts/intake/build_adapters.py")
     assert cls == "MUST_MIGRATE_TO_HARDENED_RUNNER"
     rpt = audit.run_audit()
-    sites = [s for s in rpt.sites
-             if s.file_path == "scripts/intake/build_adapters.py"]
+    sites = [s for s in rpt.sites if s.file_path == "scripts/intake/build_adapters.py"]
     assert sites == [], (
         f"Unexpected subprocess sites in build_adapters.py after rung-5 "
         f"migration: {[(s.line, s.kind) for s in sites]}"
@@ -203,8 +209,7 @@ def test_hardened_intake_runner_is_classified_hardened():
     HARDENED_COMPILER_PATH — it is the trusted intake-side runner that
     BuildAdapter / ShadowCompiler delegate to."""
     rpt = audit.run_audit()
-    matches = [s for s in rpt.sites
-               if s.file_path == "scripts/intake/hardened_runner.py"]
+    matches = [s for s in rpt.sites if s.file_path == "scripts/intake/hardened_runner.py"]
     assert len(matches) >= 1, "hardened_runner.py should contain at least one subprocess site"
     for s in matches:
         assert s.classification == "HARDENED_COMPILER_PATH"
@@ -219,8 +224,7 @@ def test_audit_must_migrate_residue_is_known_set():
     below; if a new file appears, this test must be updated alongside
     the rung that discovers/migrates it."""
     rpt = audit.run_audit()
-    must_migrate = [s for s in rpt.sites
-                    if s.classification == "MUST_MIGRATE_TO_HARDENED_RUNNER"]
+    must_migrate = [s for s in rpt.sites if s.classification == "MUST_MIGRATE_TO_HARDENED_RUNNER"]
     allowed_files = {
         # All repair-pipeline sites (migrated in rung 6; documented residue
         # baseline allows them as a safety net if any reappear)
@@ -254,19 +258,21 @@ def test_audit_classifies_hive_compiler_as_hardened():
 def test_audit_classifies_programbench_files_as_out_of_scope():
     rpt = audit.run_audit()
     pb_matches = [
-        s for s in rpt.sites
-        if s.file_path.startswith((
-            "scripts/corpus/programbench/",
-            "scripts/pb_",
-            "scripts/determinex_programbench",
-            "scripts/programbench_",
-        ))
+        s
+        for s in rpt.sites
+        if s.file_path.startswith(
+            (
+                "scripts/corpus/programbench/",
+                "scripts/pb_",
+                "scripts/determinex_programbench",
+                "scripts/programbench_",
+            )
+        )
     ]
     assert len(pb_matches) > 0, "ProgramBench files should have execution sites"
     for s in pb_matches:
         assert s.classification == "PROGRAMBENCH_OUT_OF_SCOPE", (
-            f"ProgramBench site {s.file_path}:{s.line} mis-classified as "
-            f"{s.classification}"
+            f"ProgramBench site {s.file_path}:{s.line} mis-classified as {s.classification}"
         )
 
 
@@ -284,14 +290,12 @@ def test_audit_classifies_dev_tools_as_legacy_exempt():
     read-only dev tooling. Otherwise the audit would flag itself."""
     rpt = audit.run_audit()
     self_matches = [
-        s for s in rpt.sites
-        if s.file_path == "scripts/dev/parallel_execution_layer_audit.py"
+        s for s in rpt.sites if s.file_path == "scripts/dev/parallel_execution_layer_audit.py"
     ]
     for s in self_matches:
         assert s.classification == "LEGACY_EXEMPT_READ_ONLY"
     gauntlet_matches = [
-        s for s in rpt.sites
-        if s.file_path == "scripts/dev/architecture_regression_gauntlet.py"
+        s for s in rpt.sites if s.file_path == "scripts/dev/architecture_regression_gauntlet.py"
     ]
     for s in gauntlet_matches:
         assert s.classification == "LEGACY_EXEMPT_READ_ONLY"
@@ -300,6 +304,7 @@ def test_audit_classifies_dev_tools_as_legacy_exempt():
 # ---------------------------------------------------------------------------
 # Fail-closed: unknown sites are explicit, not silently accepted
 # ---------------------------------------------------------------------------
+
 
 def test_unknown_classification_is_explicit_when_no_rule_matches(tmp_path: Path):
     """Synthetic file at a path that no rule matches must be classified
@@ -321,6 +326,7 @@ def test_classify_path_outside_scripts_falls_through_to_unknown():
 # ---------------------------------------------------------------------------
 # Reports: JSON + Markdown produced and consistent
 # ---------------------------------------------------------------------------
+
 
 def test_json_report_has_required_structure():
     rpt = audit.run_audit()
@@ -345,9 +351,7 @@ def test_json_and_markdown_counts_agree():
     # Markdown's "Counts by classification" table cells. We assert the
     # rendered number is present for every classification.
     for cls, n in json_counts.items():
-        assert f"| {cls} | {n} |" in md, (
-            f"Markdown is missing or mis-counts {cls}: {n}"
-        )
+        assert f"| {cls} | {n} |" in md, f"Markdown is missing or mis-counts {cls}: {n}"
 
 
 def test_markdown_lists_blocked_unsafe_section_explicitly():
@@ -363,6 +367,7 @@ def test_markdown_lists_blocked_unsafe_section_explicitly():
 # ---------------------------------------------------------------------------
 # Read-only: the audit does NOT execute any discovered command
 # ---------------------------------------------------------------------------
+
 
 def test_audit_does_not_call_subprocess_during_scan(monkeypatch):
     """If the audit ever shells out, this test will fail. We monkey-patch
@@ -414,6 +419,7 @@ def test_audit_does_not_mutate_scripts_tree():
 # Doc-matches-audit invariant
 # ---------------------------------------------------------------------------
 
+
 def test_doc_file_exists():
     assert DOC_PATH.is_file(), f"missing: {DOC_PATH}"
 
@@ -436,10 +442,13 @@ def test_doc_counts_match_runtime_audit():
 # Cross-cutting safety
 # ---------------------------------------------------------------------------
 
+
 def test_corpus_write_guard_active():
     from corpus.corpus_manager import (  # type: ignore[attr-defined]
-        _assert_writes_allowed, CorpusWriteBlockedError,
+        CorpusWriteBlockedError,
+        _assert_writes_allowed,
     )
+
     os.environ["DETERMINEX_NO_CORPUS_WRITE"] = "1"
     try:
         with pytest.raises(CorpusWriteBlockedError):
@@ -451,6 +460,7 @@ def test_corpus_write_guard_active():
 def test_safety_defaults_remain_fail_closed_after_audit():
     _ = audit.run_audit()
     from determinex_settings import DeterminexSettings, reset_settings
+
     reset_settings()
     s = DeterminexSettings()
     assert s.assert_safety_defaults() == []
@@ -468,10 +478,7 @@ def test_no_drive_letter_required(monkeypatch):
 # Lock manifest alignment
 # ---------------------------------------------------------------------------
 
-_LOCK_PATH = (
-    _REPO_ROOT / "locks" / "sentinel"
-    / "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001.json"
-)
+_LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "PARALLEL_EXECUTION_LAYER_AUDIT_LOCK_001.json"
 
 
 def test_lock_manifest_exists():
@@ -507,9 +514,7 @@ def test_lock_manifest_pins_zero_blocked_unsafe_at_seal():
     the latest rung's own lock test, not this one."""
     data = json.loads(_LOCK_PATH.read_text(encoding="utf-8"))
     pinned = data["counts_snapshot"]["BLOCKED_UNSAFE"]
-    assert pinned == 0, (
-        f"Rung-4 sealed snapshot pinned BLOCKED_UNSAFE=0; got pinned={pinned}"
-    )
+    assert pinned == 0, f"Rung-4 sealed snapshot pinned BLOCKED_UNSAFE=0; got pinned={pinned}"
 
 
 def test_the_audit_doc_has_exactly_one_copy():

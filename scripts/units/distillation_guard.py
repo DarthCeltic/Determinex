@@ -4,6 +4,7 @@ Distillation lock guard.
 Compression is allowed only from signed, licensed, deduped, safety-checked
 corpus rows with model/data cards and held-out improvement evidence.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass

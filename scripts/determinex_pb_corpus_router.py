@@ -7,6 +7,7 @@ default: consult corpus elsewhere, pass the answer here, and get a route record
 that says whether official eval/autofix is allowed or whether the tool must go
 through spec extraction, native reimpl, and local oracle first.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -73,17 +74,27 @@ def _oracle_seen(oracle_result: dict[str, Any] | None) -> bool:
 def _spec_stages(slug: str, spec_path: str) -> list[dict[str, Any]]:
     stages = []
     if spec_path:
-        stages.append(_stage(
-            "local-oracle",
-            ["python3", "scripts/determinex_local_oracle.py", "<candidate>", "--spec", spec_path],
-            "validate the candidate against the harvested corpus spec before official eval",
-        ))
+        stages.append(
+            _stage(
+                "local-oracle",
+                [
+                    "python3",
+                    "scripts/determinex_local_oracle.py",
+                    "<candidate>",
+                    "--spec",
+                    spec_path,
+                ],
+                "validate the candidate against the harvested corpus spec before official eval",
+            )
+        )
     else:
-        stages.append(_stage(
-            "extract-spec",
-            ["python3", "scripts/pb_bulk_spec.py", "--only", slug],
-            "harvest the exact ProgramBench I/O contract before writing or evaluating",
-        ))
+        stages.append(
+            _stage(
+                "extract-spec",
+                ["python3", "scripts/pb_bulk_spec.py", "--only", slug],
+                "harvest the exact ProgramBench I/O contract before writing or evaluating",
+            )
+        )
     return stages
 
 
@@ -156,12 +167,25 @@ def route_from_corpus(
                 ),
                 _stage(
                     "write-native-reimpl",
-                    ["python3", "scripts/determinex_reimpl_drive.py", slug, "--lang", lang, "--no-official"],
+                    [
+                        "python3",
+                        "scripts/determinex_reimpl_drive.py",
+                        slug,
+                        "--lang",
+                        lang,
+                        "--no-official",
+                    ],
                     "write a few-file native reimplementation, not an upstream build",
                 ),
                 _stage(
                     "local-oracle",
-                    ["python3", "scripts/determinex_local_oracle.py", "<candidate>", "--spec", spec_path or "<spec>"],
+                    [
+                        "python3",
+                        "scripts/determinex_local_oracle.py",
+                        "<candidate>",
+                        "--spec",
+                        spec_path or "<spec>",
+                    ],
                     "iterate locally until the candidate is green",
                 ),
                 _stage(
@@ -221,7 +245,9 @@ def route_from_corpus(
         return CorpusRoute(
             slug=slug,
             engine=engine or "spec-local-oracle",
-            verdict="needs-local-oracle-tail" if current_verdict == "near-lock" else "needs-local-oracle",
+            verdict="needs-local-oracle-tail"
+            if current_verdict == "near-lock"
+            else "needs-local-oracle",
             official_eval_allowed=False,
             autofix_allowed=False,
             local_oracle_required=True,
@@ -270,9 +296,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(data, indent=2, ensure_ascii=False))
         return 0
     print(f"{route.slug}: {route.verdict}")
-    print(f"official_eval_allowed={route.official_eval_allowed} "
-          f"autofix_allowed={route.autofix_allowed} "
-          f"local_oracle_required={route.local_oracle_required}")
+    print(
+        f"official_eval_allowed={route.official_eval_allowed} "
+        f"autofix_allowed={route.autofix_allowed} "
+        f"local_oracle_required={route.local_oracle_required}"
+    )
     print(f"reason: {route.reason}")
     for stage in route.stages:
         print(f"- {stage['name']}: {' '.join(stage['command'])}")

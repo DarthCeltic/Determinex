@@ -5,12 +5,12 @@ caller MUST consult before invoking a model. Even an ``READY`` record
 does not by itself authorize source mutation, corpus write, or
 training eligibility — those gates remain independent.
 """
+
 from __future__ import annotations
 
 import enum
 import json
 from dataclasses import asdict, dataclass, field
-
 
 LOCAL_MODEL_LIVE_ADMISSION_STATUS_TOKENS = (
     "LOCAL_MODEL_LIVE_ADMISSION_READY",

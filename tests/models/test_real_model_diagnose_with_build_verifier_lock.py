@@ -1,4 +1,5 @@
 """Tests for REAL_MODEL_DIAGNOSE_WITH_BUILD_VERIFIER_LOCK_001."""
+
 from __future__ import annotations
 
 import importlib
@@ -22,73 +23,93 @@ RealModelDiagnoseWithBuildVerifierRecord = rec_mod.RealModelDiagnoseWithBuildVer
 RealLocalModelHealthcheckRecord = hc_mod.RealLocalModelHealthcheckRecord
 BuildAdapterBackedVerifierSelectionRecord = sel_mod.BuildAdapterBackedVerifierSelectionRecord
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "REAL_MODEL_DIAGNOSE_WITH_BUILD_VERIFIER_LOCK_001.json"
+LOCK_PATH = (
+    _REPO_ROOT / "locks" / "sentinel" / "REAL_MODEL_DIAGNOSE_WITH_BUILD_VERIFIER_LOCK_001.json"
+)
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "real_model_diagnose_with_build_verifier"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-EXPECTED = frozenset({
-    "REAL_MODEL_DIAGNOSE_WITH_VERIFIER_WRITTEN",
-    "REAL_MODEL_DIAGNOSE_BLOCKED_NO_MODEL",
-    "REAL_MODEL_DIAGNOSE_BLOCKED_HEALTHCHECK_FAILED",
-    "REAL_MODEL_DIAGNOSE_BLOCKED_NO_VERIFIER",
-    "REAL_MODEL_DIAGNOSE_BLOCKED_NOT_OPTED_IN",
-    "REAL_MODEL_DIAGNOSE_BLOCKED_TIMEOUT",
-    "REAL_MODEL_DIAGNOSE_BLOCKED_PROVIDER_ERROR",
-    "REAL_MODEL_DIAGNOSE_ADVISORY_ONLY",
-})
+EXPECTED = frozenset(
+    {
+        "REAL_MODEL_DIAGNOSE_WITH_VERIFIER_WRITTEN",
+        "REAL_MODEL_DIAGNOSE_BLOCKED_NO_MODEL",
+        "REAL_MODEL_DIAGNOSE_BLOCKED_HEALTHCHECK_FAILED",
+        "REAL_MODEL_DIAGNOSE_BLOCKED_NO_VERIFIER",
+        "REAL_MODEL_DIAGNOSE_BLOCKED_NOT_OPTED_IN",
+        "REAL_MODEL_DIAGNOSE_BLOCKED_TIMEOUT",
+        "REAL_MODEL_DIAGNOSE_BLOCKED_PROVIDER_ERROR",
+        "REAL_MODEL_DIAGNOSE_ADVISORY_ONLY",
+    }
+)
 
 
 def _hc_passed():
     return RealLocalModelHealthcheckRecord(
         decision="REAL_LOCAL_MODEL_HEALTHCHECK_PASSED",
-        model_id="determinex-engineer-v11-dsl", provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
+        provider="ollama",
         endpoint="http://127.0.0.1:11434",
-        prompt="trivial", response_chars=2, elapsed_ms=200,
+        prompt="trivial",
+        response_chars=2,
+        elapsed_ms=200,
     )
 
 
 def _hc_failed():
     return RealLocalModelHealthcheckRecord(
         decision="REAL_LOCAL_MODEL_HEALTHCHECK_BLOCKED_TIMEOUT",
-        model_id="determinex-engineer-v11-dsl", provider="ollama",
+        model_id="determinex-engineer-v11-dsl",
+        provider="ollama",
         endpoint="http://127.0.0.1:11434",
-        prompt="trivial", response_chars=0, elapsed_ms=5000,
+        prompt="trivial",
+        response_chars=0,
+        elapsed_ms=5000,
     )
 
 
 def _sel_selected():
     return BuildAdapterBackedVerifierSelectionRecord(
         decision="BUILD_ADAPTER_VERIFIER_SELECTED",
-        workspace="/ws", adapter_name="Python",
-        build_system_id="pip", test_framework_id="pytest",
-        verifier_command=("pytest",), hardened_runner="intake.hardened_runner",
-        multi_match=False, matched_adapters=("Python",),
+        workspace="/ws",
+        adapter_name="Python",
+        build_system_id="pip",
+        test_framework_id="pytest",
+        verifier_command=("pytest",),
+        hardened_runner="intake.hardened_runner",
+        multi_match=False,
+        matched_adapters=("Python",),
     )
 
 
 def _sel_blocked():
     return BuildAdapterBackedVerifierSelectionRecord(
         decision="BUILD_ADAPTER_VERIFIER_BLOCKED_UNSUPPORTED_REPO",
-        workspace="/ws", adapter_name="", build_system_id="",
-        test_framework_id="", verifier_command=(),
+        workspace="/ws",
+        adapter_name="",
+        build_system_id="",
+        test_framework_id="",
+        verifier_command=(),
         hardened_runner="intake.hardened_runner",
-        multi_match=False, matched_adapters=(),
+        multi_match=False,
+        matched_adapters=(),
     )
 
 
 def _ok(endpoint, model_id, prompt, system, timeout):
     from models.real_model_diagnose_with_build_verifier import _GenResult
-    return _GenResult(ok=True, timed_out=False,
-                      text="Likely a test runner config drift.")
+
+    return _GenResult(ok=True, timed_out=False, text="Likely a test runner config drift.")
 
 
 def _timeout(endpoint, model_id, prompt, system, timeout):
     from models.real_model_diagnose_with_build_verifier import _GenResult
+
     return _GenResult(ok=False, timed_out=True, error="timed out")
 
 
 def _err(endpoint, model_id, prompt, system, timeout):
     from models.real_model_diagnose_with_build_verifier import _GenResult
+
     return _GenResult(ok=False, timed_out=False, error="500")
 
 
@@ -97,51 +118,79 @@ def test_status_tokens_exact():
 
 
 def test_healthcheck_failed_blocks():
-    r = diagnose(workspace_identity="ws", healthcheck=_hc_failed(),
-                 verifier_selection=_sel_selected(), opt_in=True,
-                 transport=_ok)
+    r = diagnose(
+        workspace_identity="ws",
+        healthcheck=_hc_failed(),
+        verifier_selection=_sel_selected(),
+        opt_in=True,
+        transport=_ok,
+    )
     assert r.decision == "REAL_MODEL_DIAGNOSE_BLOCKED_HEALTHCHECK_FAILED"
 
 
 def test_missing_healthcheck_blocks():
-    r = diagnose(workspace_identity="ws", healthcheck=None,
-                 verifier_selection=_sel_selected(), opt_in=True,
-                 transport=_ok)
+    r = diagnose(
+        workspace_identity="ws",
+        healthcheck=None,
+        verifier_selection=_sel_selected(),
+        opt_in=True,
+        transport=_ok,
+    )
     assert r.decision == "REAL_MODEL_DIAGNOSE_BLOCKED_HEALTHCHECK_FAILED"
 
 
 def test_verifier_not_selected_blocks():
-    r = diagnose(workspace_identity="ws", healthcheck=_hc_passed(),
-                 verifier_selection=_sel_blocked(), opt_in=True,
-                 transport=_ok)
+    r = diagnose(
+        workspace_identity="ws",
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_blocked(),
+        opt_in=True,
+        transport=_ok,
+    )
     assert r.decision == "REAL_MODEL_DIAGNOSE_BLOCKED_NO_VERIFIER"
 
 
 def test_not_opted_in_blocks():
-    r = diagnose(workspace_identity="ws", healthcheck=_hc_passed(),
-                 verifier_selection=_sel_selected(), opt_in=False,
-                 transport=_ok)
+    r = diagnose(
+        workspace_identity="ws",
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
+        opt_in=False,
+        transport=_ok,
+    )
     assert r.decision == "REAL_MODEL_DIAGNOSE_BLOCKED_NOT_OPTED_IN"
 
 
 def test_timeout_recorded():
-    r = diagnose(workspace_identity="ws", healthcheck=_hc_passed(),
-                 verifier_selection=_sel_selected(), opt_in=True,
-                 transport=_timeout)
+    r = diagnose(
+        workspace_identity="ws",
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
+        opt_in=True,
+        transport=_timeout,
+    )
     assert r.decision == "REAL_MODEL_DIAGNOSE_BLOCKED_TIMEOUT"
 
 
 def test_provider_error_recorded():
-    r = diagnose(workspace_identity="ws", healthcheck=_hc_passed(),
-                 verifier_selection=_sel_selected(), opt_in=True,
-                 transport=_err)
+    r = diagnose(
+        workspace_identity="ws",
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
+        opt_in=True,
+        transport=_err,
+    )
     assert r.decision == "REAL_MODEL_DIAGNOSE_BLOCKED_PROVIDER_ERROR"
 
 
 def test_pass_writes_advisory_only():
-    r = diagnose(workspace_identity="ws", healthcheck=_hc_passed(),
-                 verifier_selection=_sel_selected(), opt_in=True,
-                 transport=_ok)
+    r = diagnose(
+        workspace_identity="ws",
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
+        opt_in=True,
+        transport=_ok,
+    )
     assert r.decision == "REAL_MODEL_DIAGNOSE_WITH_VERIFIER_WRITTEN"
     assert r.advisory_only is True
     assert r.output_trusted is False
@@ -157,11 +206,16 @@ def test_advisory_summary_is_bounded():
 
     def gen_big(endpoint, model_id, prompt, system, timeout):
         from models.real_model_diagnose_with_build_verifier import _GenResult
+
         return _GenResult(ok=True, timed_out=False, text=big)
 
-    r = diagnose(workspace_identity="ws", healthcheck=_hc_passed(),
-                 verifier_selection=_sel_selected(), opt_in=True,
-                 transport=gen_big)
+    r = diagnose(
+        workspace_identity="ws",
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
+        opt_in=True,
+        transport=gen_big,
+    )
     assert r.decision == "REAL_MODEL_DIAGNOSE_WITH_VERIFIER_WRITTEN"
     assert len(r.advisory_summary) <= 2048
 
@@ -173,13 +227,18 @@ def test_prompt_does_not_include_source_text():
 
     def capture(endpoint, model_id, prompt, system, timeout):
         from models.real_model_diagnose_with_build_verifier import _GenResult
+
         captured["prompt"] = prompt
         captured["system"] = system
         return _GenResult(ok=True, timed_out=False, text="ok")
 
-    diagnose(workspace_identity="opaque-id-1", healthcheck=_hc_passed(),
-             verifier_selection=_sel_selected(), opt_in=True,
-             transport=capture)
+    diagnose(
+        workspace_identity="opaque-id-1",
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
+        opt_in=True,
+        transport=capture,
+    )
     p = captured["prompt"]
     # Sanity: verifier context references present
     assert "pip" in p
@@ -188,8 +247,14 @@ def test_prompt_does_not_include_source_text():
     # forbiddens are language tokens that would only appear if we
     # had inlined a Python/Rust/Go file body into the prompt.
     for forbidden in (
-        "def test_", "import os", "fn main(", "package main",
-        "class Foo", "@@", "---", "+++",
+        "def test_",
+        "import os",
+        "fn main(",
+        "package main",
+        "class Foo",
+        "@@",
+        "---",
+        "+++",
     ):
         assert forbidden not in p
     # System reinforces advisory-only
@@ -198,15 +263,18 @@ def test_prompt_does_not_include_source_text():
 
 def test_module_does_not_import_requests_or_httpx():
     src = Path(mod.__file__).read_text(encoding="utf-8")
-    for forbidden in ("import requests", "from requests",
-                      "import httpx", "from httpx"):
+    for forbidden in ("import requests", "from requests", "import httpx", "from httpx"):
         assert forbidden not in src
 
 
 def test_record_serializes_safely():
-    r = diagnose(workspace_identity="ws", healthcheck=_hc_passed(),
-                 verifier_selection=_sel_selected(), opt_in=True,
-                 transport=_ok)
+    r = diagnose(
+        workspace_identity="ws",
+        healthcheck=_hc_passed(),
+        verifier_selection=_sel_selected(),
+        opt_in=True,
+        transport=_ok,
+    )
     d = r.to_dict()
     json.dumps(d)
     assert d["advisory_only"] is True

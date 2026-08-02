@@ -3,7 +3,6 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
 from corpus.code_ingest.corpus_packager import assess_source, write_manifest

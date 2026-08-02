@@ -22,6 +22,7 @@ AndroidWorld task schema (subset):
     "evaluators": [{"type": "wifi_on"}]
   }
 """
+
 from __future__ import annotations
 
 import sys
@@ -81,7 +82,9 @@ class AndroidWorldAdapter:
 
     def get_launch_command(self, task: AndroidWorldTask) -> str:
         """Return the adb shell am start command to launch the target activity."""
-        component = f"{task.package_name}/{task.activity_name}" if task.activity_name else task.package_name
+        component = (
+            f"{task.package_name}/{task.activity_name}" if task.activity_name else task.package_name
+        )
         return f"am start -n {component}"
 
     def eval_verdict(self, task: AndroidWorldTask, device_state: dict) -> dict:
@@ -107,32 +110,50 @@ class AndroidWorldAdapter:
             "evaluators": [e.get("type", "") for e in task.evaluators],
             "results": results,
             "passed": all(results.values()) if results else False,
-            "note": "complex evaluators require AndroidWorld harness" if any(
-                v is False for k, v in results.items()
+            "note": "complex evaluators require AndroidWorld harness"
+            if any(
+                v is False
+                for k, v in results.items()
                 if not any(et in k for et in ("wifi_on", "app_installed", "file_exists"))
-            ) else "",
+            )
+            else "",
         }
 
     @staticmethod
     def load_tasks(json_path: Path) -> list[AndroidWorldTask]:
         import json
+
         data = json.loads(json_path.read_text())
         tasks = []
-        for item in (data if isinstance(data, list) else [data]):
+        for item in data if isinstance(data, list) else [data]:
             ss = item.get("screenshot")
-            tasks.append(AndroidWorldTask(
-                task_id=str(item.get("task_id", "")),
-                task_name=item.get("task_name", ""),
-                instruction=item.get("instruction", ""),
-                app_name=item.get("app_name", ""),
-                package_name=item.get("package_name", ""),
-                activity_name=item.get("activity_name", ""),
-                params=item.get("params", {}),
-                evaluators=item.get("evaluators", []),
-                screenshot_path=Path(ss) if ss else None,
-                metadata={k: v for k, v in item.items() if k not in (
-                    "task_id", "task_name", "instruction", "app_name",
-                    "package_name", "activity_name", "params", "evaluators", "screenshot"
-                )},
-            ))
+            tasks.append(
+                AndroidWorldTask(
+                    task_id=str(item.get("task_id", "")),
+                    task_name=item.get("task_name", ""),
+                    instruction=item.get("instruction", ""),
+                    app_name=item.get("app_name", ""),
+                    package_name=item.get("package_name", ""),
+                    activity_name=item.get("activity_name", ""),
+                    params=item.get("params", {}),
+                    evaluators=item.get("evaluators", []),
+                    screenshot_path=Path(ss) if ss else None,
+                    metadata={
+                        k: v
+                        for k, v in item.items()
+                        if k
+                        not in (
+                            "task_id",
+                            "task_name",
+                            "instruction",
+                            "app_name",
+                            "package_name",
+                            "activity_name",
+                            "params",
+                            "evaluators",
+                            "screenshot",
+                        )
+                    },
+                )
+            )
         return tasks

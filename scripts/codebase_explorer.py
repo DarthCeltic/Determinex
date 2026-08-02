@@ -34,11 +34,9 @@ import json
 import logging
 import os
 import re
-import subprocess
 import sys
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Optional
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -59,17 +57,18 @@ _ROOT = Path(__file__).resolve().parent.parent
 # current-generation ids (v11/v6/v5) are the only baseline. The previous
 # v10/v5 hard-coded defaults were stale per CLAUDE.md role assignments and
 # the MODEL_ROUTER_LOCK_001 stale-id catalogue.
-BUILDER_MODEL  = os.getenv("DETERMINEX_BUILDER_MODEL",  "determinex-engineer-v11-dsl")
+BUILDER_MODEL = os.getenv("DETERMINEX_BUILDER_MODEL", "determinex-engineer-v11-dsl")
 OBSERVER_MODEL = os.getenv("DETERMINEX_OBSERVER_MODEL", "determinex-observer-v6-dsl")
-MAX_RETRIES    = int(os.getenv("DETERMINEX_MAX_RETRIES", "5"))
-MAX_FILES      = int(os.getenv("DETERMINEX_MAX_FILES",   "12"))
-CTX_LINES      = int(os.getenv("DETERMINEX_CTX_LINES",  "120"))
-TEST_TIMEOUT   = int(os.getenv("DETERMINEX_TEST_TIMEOUT", "60"))
+MAX_RETRIES = int(os.getenv("DETERMINEX_MAX_RETRIES", "5"))
+MAX_FILES = int(os.getenv("DETERMINEX_MAX_FILES", "12"))
+CTX_LINES = int(os.getenv("DETERMINEX_CTX_LINES", "120"))
+TEST_TIMEOUT = int(os.getenv("DETERMINEX_TEST_TIMEOUT", "60"))
 
 # ── SSRF guard ────────────────────────────────────────────────────────────────
 import urllib.parse as _urlparse
+
 _OLLAMA_URL_RAW = os.getenv("DETERMINEX_OLLAMA_URL", "http://localhost:11434")
-_ALLOWED_HOSTS  = {"localhost", "127.0.0.1", "::1"}
+_ALLOWED_HOSTS = {"localhost", "127.0.0.1", "::1"}
 _parsed_host = _urlparse.urlparse(_OLLAMA_URL_RAW).hostname or ""
 if _parsed_host not in _ALLOWED_HOSTS:
     raise ValueError(
@@ -81,83 +80,188 @@ OLLAMA_URL = _OLLAMA_URL_RAW
 # ── Noise filters ────────────────────────────────────────────────────────────
 
 # Directories to always skip when scanning a workspace
-SKIP_DIRS = frozenset({
-    # Package managers / dependency caches
-    "node_modules", "site-packages", "bower_components", "Pods",
-    "vendor", ".yarn", ".pnp",
-    # Version control
-    ".git", ".svn", ".hg",
-    # Python caches
-    "__pycache__", ".tox", ".mypy_cache", ".pytest_cache", ".eggs",
-    # Virtual environments
-    "venv", ".venv", "env", ".env",
-    # Build artifacts
-    "build", "dist", "target", "out", "bin", "obj", "cmake-build-debug",
-    "cmake-build-release",
-    # IDE / editor
-    ".idea", ".vs", ".vscode",
-    # Framework caches
-    ".next", ".nuxt", ".cargo", ".gradle",
-    ".terraform", ".serverless",
-    # Coverage / test output
-    "coverage", ".nyc_output", "htmlcov",
-    # Heavy data / log directories (common in ML/AI repos)
-    "logs", "log", "data", "datasets", "checkpoints", "weights",
-    "models", "artifacts", "outputs", "results", "eval_results",
-    "cloud_outputs", "fine_tuning", "swebench", "evals",
-    "ab_eval", "run_evaluation", "archive_streamlit",
-    ".determinex_staging",
-})
+SKIP_DIRS = frozenset(
+    {
+        # Package managers / dependency caches
+        "node_modules",
+        "site-packages",
+        "bower_components",
+        "Pods",
+        "vendor",
+        ".yarn",
+        ".pnp",
+        # Version control
+        ".git",
+        ".svn",
+        ".hg",
+        # Python caches
+        "__pycache__",
+        ".tox",
+        ".mypy_cache",
+        ".pytest_cache",
+        ".eggs",
+        # Virtual environments
+        "venv",
+        ".venv",
+        "env",
+        ".env",
+        # Build artifacts
+        "build",
+        "dist",
+        "target",
+        "out",
+        "bin",
+        "obj",
+        "cmake-build-debug",
+        "cmake-build-release",
+        # IDE / editor
+        ".idea",
+        ".vs",
+        ".vscode",
+        # Framework caches
+        ".next",
+        ".nuxt",
+        ".cargo",
+        ".gradle",
+        ".terraform",
+        ".serverless",
+        # Coverage / test output
+        "coverage",
+        ".nyc_output",
+        "htmlcov",
+        # Heavy data / log directories (common in ML/AI repos)
+        "logs",
+        "log",
+        "data",
+        "datasets",
+        "checkpoints",
+        "weights",
+        "models",
+        "artifacts",
+        "outputs",
+        "results",
+        "eval_results",
+        "cloud_outputs",
+        "fine_tuning",
+        "swebench",
+        "evals",
+        "ab_eval",
+        "run_evaluation",
+        "archive_streamlit",
+        ".determinex_staging",
+    }
+)
 
 # Hard cap: never scan more than this many files to prevent hanging
 MAX_SCAN_FILES = 5000
 
 # File extensions we care about for code analysis
-CODE_EXTENSIONS = frozenset({
-    ".py", ".rs", ".go", ".ts", ".tsx", ".js", ".jsx",
-    ".java", ".kt", ".c", ".cpp", ".h", ".hpp", ".cs",
-    ".rb", ".php", ".swift", ".m", ".scala", ".ex", ".exs",
-    ".hs", ".ml", ".fs", ".clj", ".erl", ".dart",
-})
+CODE_EXTENSIONS = frozenset(
+    {
+        ".py",
+        ".rs",
+        ".go",
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".java",
+        ".kt",
+        ".c",
+        ".cpp",
+        ".h",
+        ".hpp",
+        ".cs",
+        ".rb",
+        ".php",
+        ".swift",
+        ".m",
+        ".scala",
+        ".ex",
+        ".exs",
+        ".hs",
+        ".ml",
+        ".fs",
+        ".clj",
+        ".erl",
+        ".dart",
+    }
+)
 
 # Config/doc extensions — lower priority but still relevant
-CONFIG_EXTENSIONS = frozenset({
-    ".toml", ".yaml", ".yml", ".json", ".xml", ".ini", ".cfg",
-    ".md", ".rst", ".txt", ".sql", ".sh", ".bat", ".ps1",
-    ".dockerfile", ".tf", ".hcl",
-})
+CONFIG_EXTENSIONS = frozenset(
+    {
+        ".toml",
+        ".yaml",
+        ".yml",
+        ".json",
+        ".xml",
+        ".ini",
+        ".cfg",
+        ".md",
+        ".rst",
+        ".txt",
+        ".sql",
+        ".sh",
+        ".bat",
+        ".ps1",
+        ".dockerfile",
+        ".tf",
+        ".hcl",
+    }
+)
 
 # Secrets — never read, never index
-SECRET_FILES = frozenset({
-    ".env", ".env.local", ".env.production", ".env.development",
-    "id_rsa", "id_ed25519", "id_ecdsa", "id_dsa",
-    "secrets.json", "credentials.json", "service_account.json",
-    ".netrc", "vault.key",
-})
-SECRET_EXTENSIONS = frozenset({
-    ".pem", ".key", ".pfx", ".p12", ".crt", ".cer", ".der",
-})
+SECRET_FILES = frozenset(
+    {
+        ".env",
+        ".env.local",
+        ".env.production",
+        ".env.development",
+        "id_rsa",
+        "id_ed25519",
+        "id_ecdsa",
+        "id_dsa",
+        "secrets.json",
+        "credentials.json",
+        "service_account.json",
+        ".netrc",
+        "vault.key",
+    }
+)
+SECRET_EXTENSIONS = frozenset(
+    {
+        ".pem",
+        ".key",
+        ".pfx",
+        ".p12",
+        ".crt",
+        ".cer",
+        ".der",
+    }
+)
 
 
 # ── Data structures ──────────────────────────────────────────────────────────
 
+
 @dataclass
 class FileInfo:
-    path: str               # relative to workspace root
+    path: str  # relative to workspace root
     extension: str
     size_bytes: int
     line_count: int
-    category: str           # "source", "test", "config", "other"
-    language: str            # detected language
+    category: str  # "source", "test", "config", "other"
+    language: str  # detected language
 
 
 @dataclass
 class DiagnosticFinding:
-    severity: str            # "error", "warning", "info"
-    file: str                # relative path
-    line: int                # 0 if whole-file
+    severity: str  # "error", "warning", "info"
+    file: str  # relative path
+    line: int  # 0 if whole-file
     message: str
-    category: str            # "compilation", "test_failure", "lint", "structure"
+    category: str  # "compilation", "test_failure", "lint", "structure"
 
 
 @dataclass
@@ -167,19 +271,19 @@ class WorkspaceReport:
     source_files: int
     test_files: int
     config_files: int
-    languages: dict          # language -> file count
-    build_system: str        # "cargo", "go", "pip", "npm", "gradle", "maven", etc.
-    test_framework: str      # "pytest", "jest", "cargo test", "go test", etc.
-    findings: list           # list of DiagnosticFinding dicts
-    shadow_output: str       # raw shadow compilation output
-    health_score: float      # 0.0 - 1.0
+    languages: dict  # language -> file count
+    build_system: str  # "cargo", "go", "pip", "npm", "gradle", "maven", etc.
+    test_framework: str  # "pytest", "jest", "cargo test", "go test", etc.
+    findings: list  # list of DiagnosticFinding dicts
+    shadow_output: str  # raw shadow compilation output
+    health_score: float  # 0.0 - 1.0
 
 
 @dataclass
 class PatchResult:
     success: bool
     patch_diff: str
-    files_modified: list     # list of relative file paths
+    files_modified: list  # list of relative file paths
     tests_passed: bool
     attempts: int
     error: str
@@ -187,27 +291,32 @@ class PatchResult:
 
 # ── Inference helpers ────────────────────────────────────────────────────────
 
-def _ollama(model: str, prompt: str, system: str = "",
-            temperature: float = 0.1) -> str:
+
+def _ollama(model: str, prompt: str, system: str = "", temperature: float = 0.1) -> str:
     """Local Ollama inference. SSRF-guarded above."""
     import urllib.request
-    payload = json.dumps({
-        "model": model,
-        "prompt": (
-            f"<|im_start|>system\n{system or 'You are an expert software engineer.'}"
-            f"<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n"
-            f"<|im_start|>assistant\n"
-        ),
-        "stream": False,
-        "options": {
-            "num_ctx": 16384,
-            "temperature": temperature,
-            "num_predict": 16384,
-        },
-    }).encode()
+
+    payload = json.dumps(
+        {
+            "model": model,
+            "prompt": (
+                f"<|im_start|>system\n{system or 'You are an expert software engineer.'}"
+                f"<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n"
+                f"<|im_start|>assistant\n"
+            ),
+            "stream": False,
+            "options": {
+                "num_ctx": 16384,
+                "temperature": temperature,
+                "num_predict": 16384,
+            },
+        }
+    ).encode()
     req = urllib.request.Request(
-        f"{OLLAMA_URL}/api/generate", data=payload,
-        headers={"Content-Type": "application/json"}, method="POST",
+        f"{OLLAMA_URL}/api/generate",
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     try:
         with urllib.request.urlopen(req, timeout=180) as resp:
@@ -217,8 +326,7 @@ def _ollama(model: str, prompt: str, system: str = "",
         return ""
 
 
-def _infer(model: str, prompt: str, system: str = "",
-           temperature: float = 0.1) -> str:
+def _infer(model: str, prompt: str, system: str = "", temperature: float = 0.1) -> str:
     """Route to Ollama. Extensible to vLLM/DeepSeek via env vars."""
     return _ollama(model, prompt, system, temperature)
 
@@ -226,14 +334,32 @@ def _infer(model: str, prompt: str, system: str = "",
 # ── Language Detection ────────────────────────────────────────────────────────
 
 _EXT_TO_LANG = {
-    ".py": "python", ".rs": "rust", ".go": "go",
-    ".ts": "typescript", ".tsx": "typescript", ".js": "javascript", ".jsx": "javascript",
-    ".java": "java", ".kt": "kotlin", ".c": "c", ".cpp": "cpp",
-    ".h": "c", ".hpp": "cpp", ".cs": "csharp",
-    ".rb": "ruby", ".php": "php", ".swift": "swift",
-    ".scala": "scala", ".ex": "elixir", ".exs": "elixir",
-    ".hs": "haskell", ".ml": "ocaml", ".fs": "fsharp",
-    ".clj": "clojure", ".erl": "erlang", ".dart": "dart",
+    ".py": "python",
+    ".rs": "rust",
+    ".go": "go",
+    ".ts": "typescript",
+    ".tsx": "typescript",
+    ".js": "javascript",
+    ".jsx": "javascript",
+    ".java": "java",
+    ".kt": "kotlin",
+    ".c": "c",
+    ".cpp": "cpp",
+    ".h": "c",
+    ".hpp": "cpp",
+    ".cs": "csharp",
+    ".rb": "ruby",
+    ".php": "php",
+    ".swift": "swift",
+    ".scala": "scala",
+    ".ex": "elixir",
+    ".exs": "elixir",
+    ".hs": "haskell",
+    ".ml": "ocaml",
+    ".fs": "fsharp",
+    ".clj": "clojure",
+    ".erl": "erlang",
+    ".dart": "dart",
     ".m": "objective-c",
 }
 
@@ -243,6 +369,7 @@ def detect_language(ext: str) -> str:
 
 
 # ── Build System Detection ───────────────────────────────────────────────────
+
 
 def detect_build_system(root: Path) -> tuple[str, str]:
     """
@@ -285,6 +412,7 @@ def detect_build_system(root: Path) -> tuple[str, str]:
 
 # ── File Classification ─────────────────────────────────────────────────────
 
+
 def _is_test_file(path: Path) -> bool:
     """True if this looks like a test file."""
     name = path.stem.lower()
@@ -294,7 +422,12 @@ def _is_test_file(path: Path) -> bool:
         return True
     # Check if inside a tests/ or test/ or spec/ directory
     parts_lower = [p.lower() for p in path.parts]
-    return "tests" in parts_lower or "test" in parts_lower or "spec" in parts_lower or "__tests__" in parts_lower
+    return (
+        "tests" in parts_lower
+        or "test" in parts_lower
+        or "spec" in parts_lower
+        or "__tests__" in parts_lower
+    )
 
 
 def _is_secret_file(path: Path) -> bool:
@@ -311,6 +444,7 @@ def _should_skip_dir(name: str) -> bool:
 
 
 # ── Core: Workspace Loader ───────────────────────────────────────────────────
+
 
 class WorkspaceLoader:
     """
@@ -344,9 +478,7 @@ class WorkspaceLoader:
             sum(1 for f in self.files if f.category == "test"),
             sum(1 for f in self.files if f.category == "config"),
         )
-        log.info("Languages: %s", dict(sorted(
-            self.languages.items(), key=lambda x: -x[1]
-        )))
+        log.info("Languages: %s", dict(sorted(self.languages.items(), key=lambda x: -x[1])))
 
         return self.files
 
@@ -424,6 +556,7 @@ class WorkspaceLoader:
 
 # ── Core: Shadow Compiler ────────────────────────────────────────────────────
 
+
 class ShadowCompiler:
     """
     Runs the project's native build/test commands on UNMODIFIED code.
@@ -440,13 +573,13 @@ class ShadowCompiler:
         log.info("Shadow compile: %s build system", self.build_system)
 
         commands = {
-            "cargo":   [["cargo", "check", "--message-format=short"]],
-            "go":      [["go", "build", "./..."]],
-            "pip":     [[sys.executable, "-m", "py_compile"]],  # per-file
-            "npm":     [["npm", "run", "build", "--if-present"]],
-            "maven":   [["mvn", "compile", "-q"]],
-            "gradle":  [["gradle", "compileJava", "-q"]],
-            "cmake":   [["cmake", "--build", "."]],
+            "cargo": [["cargo", "check", "--message-format=short"]],
+            "go": [["go", "build", "./..."]],
+            "pip": [[sys.executable, "-m", "py_compile"]],  # per-file
+            "npm": [["npm", "run", "build", "--if-present"]],
+            "maven": [["mvn", "compile", "-q"]],
+            "gradle": [["gradle", "compileJava", "-q"]],
+            "cmake": [["cmake", "--build", "."]],
         }
 
         cmd_list = commands.get(self.build_system)
@@ -466,7 +599,8 @@ class ShadowCompiler:
 
         for cmd in cmd_list:
             r = _hardened_run(
-                cmd, workspace=self.workspace,
+                cmd,
+                workspace=self.workspace,
                 timeout=TEST_TIMEOUT * 2,
                 extra_env={"PYTHONWARNINGS": "ignore"},
             )
@@ -492,8 +626,7 @@ class ShadowCompiler:
 
         errors = []
         py_files = list(self.workspace.rglob("*.py"))
-        py_files = [f for f in py_files
-                     if not any(skip in str(f) for skip in SKIP_DIRS)]
+        py_files = [f for f in py_files if not any(skip in str(f) for skip in SKIP_DIRS)]
 
         for f in py_files[:200]:  # Cap at 200 files
             r = _hardened_run(
@@ -520,17 +653,16 @@ class ShadowCompiler:
         log.info("Shadow test: %s framework", self.test_framework)
 
         commands = {
-            "pytest":     [sys.executable, "-m", "pytest", "-x", "--tb=short",
-                           "-q", "--no-header"],
+            "pytest": [sys.executable, "-m", "pytest", "-x", "--tb=short", "-q", "--no-header"],
             "cargo test": ["cargo", "test", "--", "--test-threads=1"],
-            "go test":    ["go", "test", "./...", "-count=1", "-short"],
-            "jest":       ["npx", "jest", "--bail", "--silent"],
-            "vitest":     ["npx", "vitest", "run", "--reporter=verbose"],
+            "go test": ["go", "test", "./...", "-count=1", "-short"],
+            "jest": ["npx", "jest", "--bail", "--silent"],
+            "vitest": ["npx", "vitest", "run", "--reporter=verbose"],
             "maven test": ["mvn", "test", "-q"],
-            "gradle test":["gradle", "test", "-q"],
-            "rspec":      ["bundle", "exec", "rspec", "--fail-fast"],
-            "mix test":   ["mix", "test"],
-            "make test":  ["make", "test"],
+            "gradle test": ["gradle", "test", "-q"],
+            "rspec": ["bundle", "exec", "rspec", "--fail-fast"],
+            "mix test": ["mix", "test"],
+            "make test": ["make", "test"],
         }
 
         cmd = commands.get(self.test_framework)
@@ -539,8 +671,10 @@ class ShadowCompiler:
             return True, ""
 
         from intake.hardened_runner import run as _hardened_run
+
         r = _hardened_run(
-            cmd, workspace=self.workspace,
+            cmd,
+            workspace=self.workspace,
             timeout=TEST_TIMEOUT * 3,
             extra_env={"PYTHONWARNINGS": "ignore"},
         )
@@ -566,13 +700,13 @@ class ShadowCompiler:
         lines = raw.splitlines()
         # Filter out noise
         relevant = [
-            l for l in lines
-            if not any(x in l for x in ("DeprecationWarning", "site-packages"))
+            l for l in lines if not any(x in l for x in ("DeprecationWarning", "site-packages"))
         ]
         return "\n".join(relevant[-60:])[:3000]
 
 
 # ── Core: Issue Localizer ────────────────────────────────────────────────────
+
 
 class IssueLocalizer:
     """
@@ -581,24 +715,74 @@ class IssueLocalizer:
     """
 
     # Words too common to be useful as search keywords
-    _NOISE = frozenset({
-        'error', 'issue', 'should', 'would', 'could', 'please', 'count',
-        'stdout', 'stdin', 'stderr', 'sys', 'os', 'path', 'test', 'tests',
-        'assert', 'format', 'print', 'write', 'read', 'open', 'true', 'false',
-        'none', 'self', 'args', 'kwargs', 'return', 'raise', 'import', 'from',
-        'with', 'file', 'data', 'value', 'result', 'output', 'input', 'name',
-        'type', 'class', 'object', 'string', 'list', 'dict', 'tuple', 'bool',
-        'function', 'method', 'module', 'package', 'library', 'version',
-        'error', 'exception', 'traceback', 'stack', 'trace', 'debug',
-    })
+    _NOISE = frozenset(
+        {
+            "error",
+            "issue",
+            "should",
+            "would",
+            "could",
+            "please",
+            "count",
+            "stdout",
+            "stdin",
+            "stderr",
+            "sys",
+            "os",
+            "path",
+            "test",
+            "tests",
+            "assert",
+            "format",
+            "print",
+            "write",
+            "read",
+            "open",
+            "true",
+            "false",
+            "none",
+            "self",
+            "args",
+            "kwargs",
+            "return",
+            "raise",
+            "import",
+            "from",
+            "with",
+            "file",
+            "data",
+            "value",
+            "result",
+            "output",
+            "input",
+            "name",
+            "type",
+            "class",
+            "object",
+            "string",
+            "list",
+            "dict",
+            "tuple",
+            "bool",
+            "function",
+            "method",
+            "module",
+            "package",
+            "library",
+            "version",
+            "exception",
+            "traceback",
+            "stack",
+            "trace",
+            "debug",
+        }
+    )
 
     def __init__(self, workspace: Path, files: list[FileInfo]):
         self.workspace = workspace
         self.files = files
 
-    def locate(
-        self, issue_text: str, shadow_trace: str = ""
-    ) -> list[Path]:
+    def locate(self, issue_text: str, shadow_trace: str = "") -> list[Path]:
         """
         Find the top N files most likely to contain the bug.
         Uses LLM keyword extraction + traceback analysis + content grep.
@@ -655,28 +839,27 @@ class IssueLocalizer:
             f"Bug report:\n{issue_text[:2000]}"
         )
         resp = _infer(
-            OBSERVER_MODEL, prompt,
+            OBSERVER_MODEL,
+            prompt,
             system="You extract code identifiers from bug reports. Return only JSON.",
         )
 
         keywords: list[str] = []
         try:
-            m = re.search(r'\[.*?\]', resp, re.DOTALL)
+            m = re.search(r"\[.*?\]", resp, re.DOTALL)
             if m:
                 keywords = json.loads(m.group())
         except Exception:
             pass
 
         # Filter noise
-        keywords = [
-            k for k in keywords
-            if len(k) >= 3 and k.lower() not in self._NOISE
-        ]
+        keywords = [k for k in keywords if len(k) >= 3 and k.lower() not in self._NOISE]
 
         # Fallback: regex extraction from issue text
         if not keywords:
             keywords = [
-                w for w in re.findall(r'\b[a-zA-Z_][a-zA-Z0-9_]{3,}\b', issue_text)
+                w
+                for w in re.findall(r"\b[a-zA-Z_][a-zA-Z0-9_]{3,}\b", issue_text)
                 if w.lower() not in self._NOISE
             ][:10]
 
@@ -705,17 +888,18 @@ class IssueLocalizer:
                         break
 
         # Rust: --> src/main.rs:42:5
-        for m in re.finditer(r'-->\s+([^\s:]+\.rs):\d+', trace):
+        for m in re.finditer(r"-->\s+([^\s:]+\.rs):\d+", trace):
             files.append(m.group(1))
 
         # Go: filename.go:42
-        for m in re.finditer(r'([^\s]+\.go):\d+', trace):
+        for m in re.finditer(r"([^\s]+\.go):\d+", trace):
             files.append(m.group(1))
 
         return list(dict.fromkeys(files))  # deduplicate, preserve order
 
 
 # ── Core: Patch Pipeline ─────────────────────────────────────────────────────
+
 
 class PatchPipeline:
     """
@@ -724,7 +908,7 @@ class PatchPipeline:
     """
 
     _REGION_THRESHOLD = int(os.getenv("DETERMINEX_REGION_THRESHOLD", "400"))
-    _REGION_CONTEXT   = int(os.getenv("DETERMINEX_REGION_CONTEXT",   "80"))
+    _REGION_CONTEXT = int(os.getenv("DETERMINEX_REGION_CONTEXT", "80"))
 
     def __init__(self, workspace: Path, build_system: str, test_framework: str):
         self.workspace = workspace
@@ -742,15 +926,18 @@ class PatchPipeline:
         Generate a patch to fix the described issue.
         Tries up to MAX_RETRIES, validating each attempt against the compiler/tests.
         """
-        log.info("Patch pipeline: %d target files, %d max retries",
-                 len(target_files), MAX_RETRIES)
+        log.info("Patch pipeline: %d target files, %d max retries", len(target_files), MAX_RETRIES)
 
         # Plan the fix using the Architect (Observer model)
         steps = self._plan_fix(issue_text, target_files, shadow_trace)
         if not steps:
             return PatchResult(
-                success=False, patch_diff="", files_modified=[],
-                tests_passed=False, attempts=0, error="Could not generate a fix plan"
+                success=False,
+                patch_diff="",
+                files_modified=[],
+                tests_passed=False,
+                attempts=0,
+                error="Could not generate a fix plan",
             )
 
         # Execute each step
@@ -768,13 +955,15 @@ class PatchPipeline:
 
             for attempt in range(1, MAX_RETRIES + 1):
                 total_attempts += 1
-                log.info("Step %s attempt %d/%d: %s",
-                         step.get("step", "?"), attempt, MAX_RETRIES,
-                         step.get("description", "")[:60])
-
-                fixed = self._generate_fix(
-                    step, issue_text, last_error, attempt, shadow_trace
+                log.info(
+                    "Step %s attempt %d/%d: %s",
+                    step.get("step", "?"),
+                    attempt,
+                    MAX_RETRIES,
+                    step.get("description", "")[:60],
                 )
+
+                fixed = self._generate_fix(step, issue_text, last_error, attempt, shadow_trace)
                 if not fixed:
                     continue
 
@@ -808,22 +997,30 @@ class PatchPipeline:
 
         if all_patches:
             combined = "\n".join(all_patches)
-            files_modified = [step.get("file", "") for step in steps
-                              if any(step.get("file", "") in p for p in all_patches)]
+            files_modified = [
+                step.get("file", "")
+                for step in steps
+                if any(step.get("file", "") in p for p in all_patches)
+            ]
             return PatchResult(
-                success=True, patch_diff=combined, files_modified=files_modified,
-                tests_passed=True, attempts=total_attempts, error=""
+                success=True,
+                patch_diff=combined,
+                files_modified=files_modified,
+                tests_passed=True,
+                attempts=total_attempts,
+                error="",
             )
 
         return PatchResult(
-            success=False, patch_diff="", files_modified=[],
-            tests_passed=False, attempts=total_attempts,
-            error="All fix attempts exhausted"
+            success=False,
+            patch_diff="",
+            files_modified=[],
+            tests_passed=False,
+            attempts=total_attempts,
+            error="All fix attempts exhausted",
         )
 
-    def _plan_fix(
-        self, issue_text: str, target_files: list[Path], shadow_trace: str
-    ) -> list[dict]:
+    def _plan_fix(self, issue_text: str, target_files: list[Path], shadow_trace: str) -> list[dict]:
         """Architect: decompose the fix into 1-3 atomic steps."""
         file_summaries = []
         for f in target_files[:4]:
@@ -835,9 +1032,7 @@ class PatchPipeline:
 
                 if total <= 200:
                     # Small file: show the whole thing
-                    numbered = "\n".join(
-                        f"{i+1:4d}: {l}" for i, l in enumerate(all_lines)
-                    )
+                    numbered = "\n".join(f"{i + 1:4d}: {l}" for i, l in enumerate(all_lines))
                     file_summaries.append(f"=== {rel} ({total} lines) ===\n{numbered}")
                 else:
                     # Large file: signature index + targeted region
@@ -846,19 +1041,17 @@ class PatchPipeline:
                     for i, line in enumerate(all_lines):
                         stripped = line.lstrip()
                         if re.match(
-                            r'(?:pub\s+)?(?:async\s+)?(?:def|fn|func|fun|class|struct|impl|trait|interface|type)\s+\w+',
-                            stripped
+                            r"(?:pub\s+)?(?:async\s+)?(?:def|fn|func|fun|class|struct|impl|trait|interface|type)\s+\w+",
+                            stripped,
                         ):
-                            sigs.append(f"  L{i+1:4d}: {stripped[:100]}")
+                            sigs.append(f"  L{i + 1:4d}: {stripped[:100]}")
                     sig_block = "\n".join(sigs[:40]) if sigs else "  (no signatures found)"
 
                     # 2) Find traceback anchor lines in this file
                     fname = Path(rel).name
                     anchor_lines = set()
                     if shadow_trace:
-                        for m in re.finditer(
-                            rf'(?:{re.escape(fname)})[^\d]*?(\d+)', shadow_trace
-                        ):
+                        for m in re.finditer(rf"(?:{re.escape(fname)})[^\d]*?(\d+)", shadow_trace):
                             anchor_lines.add(int(m.group(1)))
 
                     # 3) Build targeted region: show 30 lines around each anchor
@@ -871,24 +1064,17 @@ class PatchPipeline:
                             continue  # avoid duplicates
                         for i in range(start, end):
                             shown.add(i)
-                        region = "\n".join(
-                            f"{i+1:4d}: {all_lines[i]}" for i in range(start, end)
-                        )
-                        region_parts.append(
-                            f"  [lines {start+1}–{end}]\n{region}"
-                        )
+                        region = "\n".join(f"{i + 1:4d}: {all_lines[i]}" for i in range(start, end))
+                        region_parts.append(f"  [lines {start + 1}–{end}]\n{region}")
 
                     # 4) If no anchors, show first 40 + last 20 lines
                     if not region_parts:
-                        head = "\n".join(
-                            f"{i+1:4d}: {l}" for i, l in enumerate(all_lines[:40])
-                        )
+                        head = "\n".join(f"{i + 1:4d}: {l}" for i, l in enumerate(all_lines[:40]))
                         tail = "\n".join(
-                            f"{total-20+i+1:4d}: {l}"
-                            for i, l in enumerate(all_lines[-20:])
+                            f"{total - 20 + i + 1:4d}: {l}" for i, l in enumerate(all_lines[-20:])
                         )
                         region_parts.append(f"  [head: lines 1–40]\n{head}")
-                        region_parts.append(f"  [tail: lines {total-19}–{total}]\n{tail}")
+                        region_parts.append(f"  [tail: lines {total - 19}–{total}]\n{tail}")
 
                     regions = "\n".join(region_parts)
                     file_summaries.append(
@@ -902,8 +1088,7 @@ class PatchPipeline:
         trace_section = ""
         if shadow_trace:
             trace_section = (
-                f"\n\n[PRE-CHANGE TRACEBACK — captured before any edits]\n"
-                f"{shadow_trace[:1500]}\n"
+                f"\n\n[PRE-CHANGE TRACEBACK — captured before any edits]\n{shadow_trace[:1500]}\n"
             )
 
         prompt = (
@@ -913,7 +1098,7 @@ class PatchPipeline:
             f"Bug report:\n{issue_text[:2000]}\n"
             f"{trace_section}\n\n"
             f"Relevant files:\n{'---'.join(file_summaries[:2])}\n\n"
-            f'Return ONLY a JSON array of steps:\n'
+            f"Return ONLY a JSON array of steps:\n"
             f'[{{"step": 1, "file": "path/to/file", "action": "modify", '
             f'"description": "Fix the X function to handle Y edge case"}}]\n'
             f"RULES: Use relative paths from the project root. Maximum 3 steps. "
@@ -922,13 +1107,14 @@ class PatchPipeline:
         )
 
         resp = _infer(
-            OBSERVER_MODEL, prompt,
+            OBSERVER_MODEL,
+            prompt,
             system="You plan minimal code fixes. Return only JSON arrays.",
         )
 
         steps: list[dict] = []
         try:
-            m = re.search(r'\[.*?\]', resp, re.DOTALL)
+            m = re.search(r"\[.*?\]", resp, re.DOTALL)
             if m:
                 steps = json.loads(m.group())
         except Exception:
@@ -945,15 +1131,20 @@ class PatchPipeline:
         if not steps and target_files:
             src = target_files[0]
             rel = str(src.relative_to(self.workspace)).replace("\\", "/")
-            steps = [{"step": 1, "file": rel, "action": "modify",
-                       "description": "Fix the bug described in the issue"}]
+            steps = [
+                {
+                    "step": 1,
+                    "file": rel,
+                    "action": "modify",
+                    "description": "Fix the bug described in the issue",
+                }
+            ]
 
         log.info("Fix plan: %d step(s)", len(steps))
         return steps
 
     def _generate_fix(
-        self, step: dict, issue_text: str, last_error: str,
-        attempt: int, shadow_trace: str
+        self, step: dict, issue_text: str, last_error: str, attempt: int, shadow_trace: str
     ) -> str:
         """Builder: generate the actual code fix."""
         target = self.workspace / step["file"]
@@ -966,7 +1157,7 @@ class PatchPipeline:
         retry_ctx = ""
         if last_error:
             retry_ctx = (
-                f"\n\nAttempt #{attempt-1} FAILED:\n{last_error[:600]}\n"
+                f"\n\nAttempt #{attempt - 1} FAILED:\n{last_error[:600]}\n"
                 "Fix that error. Return ONLY the corrected code."
             )
 
@@ -975,26 +1166,25 @@ class PatchPipeline:
             r_start, r_end = self._extract_target_region(
                 [l.rstrip("\n") for l in lines],
                 step.get("description", ""),
-                shadow_trace, step["file"],
+                shadow_trace,
+                step["file"],
             )
             region = [l.rstrip("\n") for l in lines[r_start:r_end]]
-            numbered = "\n".join(
-                f"{r_start + i + 1:4d} | {line}" for i, line in enumerate(region)
-            )
+            numbered = "\n".join(f"{r_start + i + 1:4d} | {line}" for i, line in enumerate(region))
             prompt = (
                 f"Fix this section of the file to resolve the bug.\n\n"
                 f"Bug:\n{issue_text[:1500]}\n\n"
                 f"Fix: {step.get('description', 'Fix the bug')}\n\n"
                 f"File: {step['file']} ({len(lines)} lines total)\n"
-                f"Showing lines {r_start+1}–{r_end}:\n"
+                f"Showing lines {r_start + 1}–{r_end}:\n"
                 f"```\n{numbered}\n```\n"
                 f"{retry_ctx}\n\n"
-                f"Return ONLY the corrected lines {r_start+1}–{r_end}.\n"
+                f"Return ONLY the corrected lines {r_start + 1}–{r_end}.\n"
                 f"No line numbers. No markdown fences. No explanations."
             )
         else:
             plain = [l.rstrip("\n") for l in lines]
-            numbered = "\n".join(f"{i+1:4d} | {l}" for i, l in enumerate(plain))
+            numbered = "\n".join(f"{i + 1:4d} | {l}" for i, l in enumerate(plain))
             prompt = (
                 f"Fix this file to resolve the bug.\n\n"
                 f"Bug:\n{issue_text[:1500]}\n\n"
@@ -1006,19 +1196,20 @@ class PatchPipeline:
             )
 
         raw = _infer(
-            BUILDER_MODEL, prompt,
+            BUILDER_MODEL,
+            prompt,
             system="You are an expert developer. Output ONLY correct code. No markdown fences.",
             temperature=0.1 + (attempt * 0.03),
         )
 
         # Clean up
-        raw = re.sub(r'^```\w*\s*\n?', '', raw.strip())
-        raw = re.sub(r'\n?```\s*$', '', raw).strip()
+        raw = re.sub(r"^```\w*\s*\n?", "", raw.strip())
+        raw = re.sub(r"\n?```\s*$", "", raw).strip()
 
         # Strip echoed line numbers
         cleaned = []
         for line in raw.splitlines():
-            m = re.match(r'^\s*\d+\s*\|\s?(.*)', line)
+            m = re.match(r"^\s*\d+\s*\|\s?(.*)", line)
             cleaned.append(m.group(1) if m else line)
         raw = "\n".join(cleaned)
 
@@ -1040,9 +1231,7 @@ class PatchPipeline:
         fname = Path(file_path).name
 
         # 1. Traceback line
-        for m in re.finditer(
-            rf'(?:{re.escape(fname)})[^\d]*?(\d+)', trace
-        ):
+        for m in re.finditer(rf"(?:{re.escape(fname)})[^\d]*?(\d+)", trace):
             candidate = int(m.group(1)) - 1
             if 0 <= candidate < len(lines):
                 anchor = candidate
@@ -1055,7 +1244,9 @@ class PatchPipeline:
                 if len(name) < 3:
                     continue
                 for i, line in enumerate(lines):
-                    if re.match(rf'\s*(?:async\s+)?(?:def|fn|func|fun)\s+{re.escape(name)}\s*[\(]', line):
+                    if re.match(
+                        rf"\s*(?:async\s+)?(?:def|fn|func|fun)\s+{re.escape(name)}\s*[\(]", line
+                    ):
                         anchor = i
                         break
                 if anchor >= 0:
@@ -1074,13 +1265,16 @@ class PatchPipeline:
     def _make_diff(file_path: str, original: str, fixed: str) -> str:
         """Generate a unified diff."""
         import difflib
+
         rel = Path(file_path).as_posix()
-        diff_lines = list(difflib.unified_diff(
-            original.splitlines(keepends=True),
-            fixed.splitlines(keepends=True),
-            fromfile=f"a/{rel}",
-            tofile=f"b/{rel}",
-        ))
+        diff_lines = list(
+            difflib.unified_diff(
+                original.splitlines(keepends=True),
+                fixed.splitlines(keepends=True),
+                fromfile=f"a/{rel}",
+                tofile=f"b/{rel}",
+            )
+        )
         if not diff_lines:
             return ""
         patch = f"diff --git a/{rel} b/{rel}\n" + "".join(diff_lines)
@@ -1090,6 +1284,7 @@ class PatchPipeline:
 
 
 # ── Main: CodebaseExplorer ───────────────────────────────────────────────────
+
 
 class CodebaseExplorer:
     """
@@ -1132,18 +1327,32 @@ class CodebaseExplorer:
 
         if not compile_ok:
             for line in compile_out.splitlines()[:10]:
-                findings.append(asdict(DiagnosticFinding(
-                    severity="error", file="", line=0,
-                    message=line.strip(), category="compilation"
-                )))
+                findings.append(
+                    asdict(
+                        DiagnosticFinding(
+                            severity="error",
+                            file="",
+                            line=0,
+                            message=line.strip(),
+                            category="compilation",
+                        )
+                    )
+                )
 
         if not test_ok:
             for line in test_out.splitlines()[:10]:
                 if "FAILED" in line or "Error" in line or "error" in line:
-                    findings.append(asdict(DiagnosticFinding(
-                        severity="error", file="", line=0,
-                        message=line.strip(), category="test_failure"
-                    )))
+                    findings.append(
+                        asdict(
+                            DiagnosticFinding(
+                                severity="error",
+                                file="",
+                                line=0,
+                                message=line.strip(),
+                                category="test_failure",
+                            )
+                        )
+                    )
 
         # Health score: simple heuristic
         health = 1.0
@@ -1175,8 +1384,7 @@ class CodebaseExplorer:
             health_score=health,
         )
 
-        log.info("Explore complete: health=%.1f, %d findings",
-                 health, len(findings))
+        log.info("Explore complete: health=%.1f, %d findings", health, len(findings))
         return report
 
     def diagnose(self, issue_text: str) -> dict:
@@ -1202,11 +1410,13 @@ class CodebaseExplorer:
                 rel = str(t.relative_to(self.workspace)).replace("\\", "/")
                 content = t.read_text(encoding="utf-8", errors="replace")
                 lines = content.splitlines()
-                file_contexts.append({
-                    "file": rel,
-                    "lines": len(lines),
-                    "preview": "\n".join(lines[:30]),
-                })
+                file_contexts.append(
+                    {
+                        "file": rel,
+                        "lines": len(lines),
+                        "preview": "\n".join(lines[:30]),
+                    }
+                )
             except Exception:
                 pass
 
@@ -1236,9 +1446,7 @@ class CodebaseExplorer:
         targets = localizer.locate(issue_text, shadow_trace)
 
         # Generate and validate the fix
-        pipeline = PatchPipeline(
-            self.workspace, self.build_system, self.test_framework
-        )
+        pipeline = PatchPipeline(self.workspace, self.build_system, self.test_framework)
         result = pipeline.fix(issue_text, targets, shadow_trace)
 
         # Optionally write patch to file
@@ -1251,6 +1459,7 @@ class CodebaseExplorer:
 
 # ── CLI ──────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="Determinex Enterprise Codebase Explorer",
@@ -1260,23 +1469,25 @@ def main():
 
     # explore — scan and diagnose a workspace
     p_explore = sub.add_parser("explore", help="Scan and diagnose a codebase")
-    p_explore.add_argument("--workspace", "-w", type=Path, required=True,
-                           help="Path to the project root")
-    p_explore.add_argument("--json", action="store_true",
-                           help="Output as JSON")
+    p_explore.add_argument(
+        "--workspace", "-w", type=Path, required=True, help="Path to the project root"
+    )
+    p_explore.add_argument("--json", action="store_true", help="Output as JSON")
 
     # diagnose — locate files relevant to a bug
     p_diag = sub.add_parser("diagnose", help="Locate files relevant to a bug")
     p_diag.add_argument("--workspace", "-w", type=Path, required=True)
-    p_diag.add_argument("--issue", "-i", type=str, required=True,
-                        help="Description of the bug or issue")
+    p_diag.add_argument(
+        "--issue", "-i", type=str, required=True, help="Description of the bug or issue"
+    )
 
     # fix — generate a patch
     p_fix = sub.add_parser("fix", help="Generate a patch to fix a bug")
     p_fix.add_argument("--workspace", "-w", type=Path, required=True)
     p_fix.add_argument("--issue", "-i", type=str, required=True)
-    p_fix.add_argument("--out", "-o", type=Path, default=None,
-                       help="Path to save the generated patch")
+    p_fix.add_argument(
+        "--out", "-o", type=Path, default=None, help="Path to save the generated patch"
+    )
 
     args = parser.parse_args()
 
@@ -1287,12 +1498,14 @@ def main():
         if args.json:
             print(json.dumps(asdict(report), indent=2, default=str))
         else:
-            print(f"\n{'='*60}")
+            print(f"\n{'=' * 60}")
             print(f"WORKSPACE REPORT: {report.workspace_path}")
-            print(f"{'='*60}")
-            print(f"Files:     {report.total_files} total "
-                  f"({report.source_files} source, {report.test_files} test, "
-                  f"{report.config_files} config)")
+            print(f"{'=' * 60}")
+            print(
+                f"Files:     {report.total_files} total "
+                f"({report.source_files} source, {report.test_files} test, "
+                f"{report.config_files} config)"
+            )
             print(f"Build:     {report.build_system}")
             print(f"Tests:     {report.test_framework}")
             print(f"Health:    {report.health_score:.0%}")

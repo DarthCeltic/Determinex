@@ -23,8 +23,12 @@ Usage
   python scripts/pb_unique_recount.py --reports <dir> --distribute             # + place evidence locally
   python scripts/pb_unique_recount.py --reports <dir> --distribute --apply-board  # + rewrite eval_index
 """
+
 from __future__ import annotations
-import argparse, json, hashlib
+
+import argparse
+import hashlib
+import json
 from collections import defaultdict
 from pathlib import Path
 
@@ -38,7 +42,7 @@ PREFIXES = ("eval.tests.", "tests.")
 def strip_prefix(name: str) -> str:
     for p in PREFIXES:
         if name.startswith(p):
-            return name[len(p):]
+            return name[len(p) :]
     return name
 
 
@@ -55,10 +59,10 @@ def unique_counts(test_results: list) -> tuple[int, int, list[str]]:
 def norm_keys(slug: str) -> list[str]:
     """Candidate match keys for a full slug 'author__tool.sha', most specific first."""
     keys = [slug]
-    base = slug.split(".")[0] if "." in slug else slug   # author__tool
+    base = slug.split(".")[0] if "." in slug else slug  # author__tool
     keys.append(base)
     if "__" in base:
-        keys.append(base.split("__")[-1])                # tool
+        keys.append(base.split("__")[-1])  # tool
     return keys
 
 
@@ -66,20 +70,30 @@ def index_reports(reports_dir: Path) -> dict[str, dict]:
     """Map every candidate key -> report record (prefer more specific keys)."""
     idx: dict[str, dict] = {}
     for f in sorted(reports_dir.glob("*.eval.json")):
-        full = f.name[:-len(".eval.json")]
+        full = f.name[: -len(".eval.json")]
         raw = f.read_bytes()
         try:
             tr = json.loads(raw.decode("utf-8")).get("test_results") or []
         except Exception:
             continue
         up, ut, gaps = unique_counts(tr)
-        rec = {"full": full, "uniq_passed": up, "uniq_total": ut, "raw": len(tr),
-               "gaps": gaps, "bytes": raw, "is_lock": ut > 0 and up == ut}
+        rec = {
+            "full": full,
+            "uniq_passed": up,
+            "uniq_total": ut,
+            "raw": len(tr),
+            "gaps": gaps,
+            "bytes": raw,
+            "is_lock": ut > 0 and up == ut,
+        }
         # register under full slug + base/tool keys; on collision keep the BEST
         # (highest unique_passed, then lock) so a tool's best eval always wins.
         for k in norm_keys(full):
             prev = idx.get(k)
-            if prev is None or (rec["uniq_passed"], rec["is_lock"]) > (prev["uniq_passed"], prev["is_lock"]):
+            if prev is None or (rec["uniq_passed"], rec["is_lock"]) > (
+                prev["uniq_passed"],
+                prev["is_lock"],
+            ):
                 idx[k] = rec
     return idx
 
@@ -87,8 +101,12 @@ def index_reports(reports_dir: Path) -> dict[str, dict]:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--reports", type=Path, required=True)
-    ap.add_argument("--distribute", action="store_true", help="place evidence into canonical local dirs")
-    ap.add_argument("--apply-board", action="store_true", help="rewrite eval_index.json unique counts")
+    ap.add_argument(
+        "--distribute", action="store_true", help="place evidence into canonical local dirs"
+    )
+    ap.add_argument(
+        "--apply-board", action="store_true", help="rewrite eval_index.json unique counts"
+    )
     args = ap.parse_args()
 
     ridx = index_reports(args.reports)
@@ -108,22 +126,34 @@ def main() -> int:
         rec = None
         for k in [full] + norm_keys(full) + norm_keys(slug):
             if k in ridx:
-                rec = ridx[k]; break
+                rec = ridx[k]
+                break
         if not rec:
             continue
         matched += 1
         up, ut, lock = rec["uniq_passed"], rec["uniq_total"], rec["is_lock"]
-        sump += up; sumt += ut
+        sump += up
+        sumt += ut
         pct = up / ut if ut else 0
-        if lock: locks += 1
-        elif pct >= 0.99: near99 += 1
-        elif pct >= 0.95: near95 += 1
-        elif pct >= 0.50: partial += 1
-        else: low += 1
+        if lock:
+            locks += 1
+        elif pct >= 0.99:
+            near99 += 1
+        elif pct >= 0.95:
+            near95 += 1
+        elif pct >= 0.50:
+            partial += 1
+        else:
+            low += 1
         if not lock and rec["gaps"]:
-            gaps_out[rec["full"]] = {"slug": slug, "uniq_passed": up, "uniq_total": ut,
-                                     "pct": round(100 * pct, 2), "n_gaps": ut - up,
-                                     "gaps": rec["gaps"]}
+            gaps_out[rec["full"]] = {
+                "slug": slug,
+                "uniq_passed": up,
+                "uniq_total": ut,
+                "pct": round(100 * pct, 2),
+                "n_gaps": ut - up,
+                "gaps": rec["gaps"],
+            }
         # canonical dir
         cdir = (LOCKED if lock else PARTIALS) / rec["full"]
         sha = hashlib.sha256(rec["bytes"]).hexdigest()
@@ -132,12 +162,28 @@ def main() -> int:
             (cdir / "eval_report.json").write_bytes(rec["bytes"])
             distributed.append(rec["full"])
         # board change record
-        if (r.get("official_passed"), r.get("official_total"), r.get("official_full_suite_resolved")) != (up, ut, lock):
-            changes.append((slug, r.get("official_passed"), r.get("official_total"), up, ut, lock, rec["gaps"][:4]))
+        if (
+            r.get("official_passed"),
+            r.get("official_total"),
+            r.get("official_full_suite_resolved"),
+        ) != (up, ut, lock):
+            changes.append(
+                (
+                    slug,
+                    r.get("official_passed"),
+                    r.get("official_total"),
+                    up,
+                    ut,
+                    lock,
+                    rec["gaps"][:4],
+                )
+            )
         if args.apply_board:
-            r["unique_passed"] = up; r["unique_total"] = ut
+            r["unique_passed"] = up
+            r["unique_total"] = ut
             r["raw_test_results"] = rec["raw"]
-            r["official_passed"] = up; r["official_total"] = ut
+            r["official_passed"] = up
+            r["official_total"] = ut
             r["official_full_suite_resolved"] = lock
             r["eval_report_path"] = (cdir / "eval_report.json").as_posix()
             r["eval_report_sha256"] = sha
@@ -145,7 +191,7 @@ def main() -> int:
 
     print(f"matched {matched}/{len(canon)} canonical tasks to eval evidence")
     print(f"UNIQUE locks={locks} near99={near99} near95={near95} partial={partial} low={low}")
-    print(f"UNIQUE aggregate {sump}/{sumt} = {100*sump/sumt:.2f}%" if sumt else "no totals")
+    print(f"UNIQUE aggregate {sump}/{sumt} = {100 * sump / sumt:.2f}%" if sumt else "no totals")
     if args.distribute:
         print(f"distributed evidence into {len(distributed)} canonical dirs")
     print(f"\nrows whose count/lock CHANGES under unique recount: {len(changes)}")
@@ -158,8 +204,10 @@ def main() -> int:
         print("\neval_index.json REWRITTEN on unique basis.")
     gaps_path = Path("C:/tmp/pb_gaps.json")
     gaps_path.write_text(json.dumps(gaps_out, indent=2), encoding="utf-8")
-    print(f"\nper-tool gaps (non-locks) -> {gaps_path}  ({len(gaps_out)} tools, "
-          f"{sum(v['n_gaps'] for v in gaps_out.values())} total failing unique tests)")
+    print(
+        f"\nper-tool gaps (non-locks) -> {gaps_path}  ({len(gaps_out)} tools, "
+        f"{sum(v['n_gaps'] for v in gaps_out.values())} total failing unique tests)"
+    )
     return 0
 
 

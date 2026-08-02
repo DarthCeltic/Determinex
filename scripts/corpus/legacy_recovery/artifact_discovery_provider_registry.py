@@ -31,7 +31,9 @@ class ProviderDecision:
 
 
 class DiscoveryProviderRegistry:
-    def __init__(self, path: Path = Path("assurance/config/online_discovery_providers.json")) -> None:
+    def __init__(
+        self, path: Path = Path("assurance/config/online_discovery_providers.json")
+    ) -> None:
         self.path = path
         self.providers = self._load(path)
 
@@ -41,20 +43,50 @@ class DiscoveryProviderRegistry:
     def validate_request(self, provider_name: str, request: dict[str, Any]) -> ProviderDecision:
         provider = self.get(provider_name)
         if provider is None:
-            return ProviderDecision(ProviderDecisionStatus.PROVIDER_REJECTED.value, "provider_not_registered", provider_name)
+            return ProviderDecision(
+                ProviderDecisionStatus.PROVIDER_REJECTED.value,
+                "provider_not_registered",
+                provider_name,
+            )
         if request.get("broad_search") is True or request.get("query"):
             if not provider.allows_broad_search:
-                return ProviderDecision(ProviderDecisionStatus.PROVIDER_REJECTED.value, "broad_search_disabled", provider_name)
+                return ProviderDecision(
+                    ProviderDecisionStatus.PROVIDER_REJECTED.value,
+                    "broad_search_disabled",
+                    provider_name,
+                )
         query_type = str(request.get("query_type") or "")
         if query_type not in provider.allowed_queries:
-            return ProviderDecision(ProviderDecisionStatus.PROVIDER_NEEDS_EXACT_REFERENCE.value, "query_type_not_allowlisted", provider_name)
+            return ProviderDecision(
+                ProviderDecisionStatus.PROVIDER_NEEDS_EXACT_REFERENCE.value,
+                "query_type_not_allowlisted",
+                provider_name,
+            )
         if provider.type in {"ghcr", "github_release"} and not _has_exact_owner_repo(request):
-            return ProviderDecision(ProviderDecisionStatus.PROVIDER_NEEDS_EXACT_REFERENCE.value, "exact_owner_repo_required", provider_name)
+            return ProviderDecision(
+                ProviderDecisionStatus.PROVIDER_NEEDS_EXACT_REFERENCE.value,
+                "exact_owner_repo_required",
+                provider_name,
+            )
         if provider.type == "huggingface" and not request.get("repo_id"):
-            return ProviderDecision(ProviderDecisionStatus.PROVIDER_NEEDS_EXACT_REFERENCE.value, "explicit_hf_repo_required", provider_name)
-        if provider.type == "docker_hub" and query_type == "official_namespace" and not request.get("image"):
-            return ProviderDecision(ProviderDecisionStatus.PROVIDER_NEEDS_EXACT_REFERENCE.value, "exact_image_required", provider_name)
-        return ProviderDecision(ProviderDecisionStatus.PROVIDER_ALLOWED.value, "provider_request_allowed", provider_name)
+            return ProviderDecision(
+                ProviderDecisionStatus.PROVIDER_NEEDS_EXACT_REFERENCE.value,
+                "explicit_hf_repo_required",
+                provider_name,
+            )
+        if (
+            provider.type == "docker_hub"
+            and query_type == "official_namespace"
+            and not request.get("image")
+        ):
+            return ProviderDecision(
+                ProviderDecisionStatus.PROVIDER_NEEDS_EXACT_REFERENCE.value,
+                "exact_image_required",
+                provider_name,
+            )
+        return ProviderDecision(
+            ProviderDecisionStatus.PROVIDER_ALLOWED.value, "provider_request_allowed", provider_name
+        )
 
     @staticmethod
     def _load(path: Path) -> dict[str, DiscoveryProvider]:

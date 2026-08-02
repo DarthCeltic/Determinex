@@ -14,12 +14,12 @@ import hashlib
 import json
 import os
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from scripts.pb_eval_conveyor import load_eval_packet
-
 
 ROOT = Path(__file__).resolve().parents[1]
 EVAL_INDEX = ROOT / "corpus" / "programbench" / "eval_index.json"
@@ -48,7 +48,7 @@ class ToolRow:
 
 
 def utc_now() -> str:
-    return dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+    return dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat()
 
 
 def load_tools(index_path: Path | None = None) -> dict[str, ToolRow]:
@@ -173,7 +173,11 @@ def file_hash(path: Path) -> str | None:
 
 def mtime(path: Path) -> str | None:
     try:
-        return dt.datetime.fromtimestamp(path.stat().st_mtime, dt.timezone.utc).replace(microsecond=0).isoformat()
+        return (
+            dt.datetime.fromtimestamp(path.stat().st_mtime, dt.UTC)
+            .replace(microsecond=0)
+            .isoformat()
+        )
     except OSError:
         return None
 
@@ -229,7 +233,10 @@ def report_state(path: Path, tools: dict[str, ToolRow]) -> tuple[str | None, dic
     try:
         raw = json.loads(path.read_text(encoding="utf-8", errors="replace"))
         for row in raw.get("test_results") or raw.get("results") or []:
-            if isinstance(row, dict) and str(row.get("status", "")).lower() not in {"passed", "pass"}:
+            if isinstance(row, dict) and str(row.get("status", "")).lower() not in {
+                "passed",
+                "pass",
+            }:
                 name = row.get("name")
                 if name:
                     failing_ids.append(str(name))
@@ -249,7 +256,10 @@ def report_state(path: Path, tools: dict[str, ToolRow]) -> tuple[str | None, dic
         "skipped": packet.counts["skipped"],
         "not_run": packet.counts["not_run"],
         "total": packet.total,
-        "delta_to_lock": failed + packet.counts["error"] + packet.counts["skipped"] + packet.counts["not_run"],
+        "delta_to_lock": failed
+        + packet.counts["error"]
+        + packet.counts["skipped"]
+        + packet.counts["not_run"],
         "failing_test_ids": sorted(dict.fromkeys(failing_ids)),
         "verdict": packet.verdict,
         "failure_class": packet.failure_class,
@@ -339,11 +349,15 @@ def build_index(roots: list[Path], *, include_hashes: bool = True) -> dict[str, 
                 if rec not in by_tool[tool]["overrides"]:
                     by_tool[tool]["overrides"].append(rec)
                     discovered["overrides"] += 1
-        elif "programbench_conveyor" in path_text.replace("\\", "/") and path.suffix.lower() == ".md":
+        elif (
+            "programbench_conveyor" in path_text.replace("\\", "/") and path.suffix.lower() == ".md"
+        ):
             text = path.read_text(encoding="utf-8", errors="replace")
             for tool in tools:
                 if tool in text or any(alias in text for alias in tools[tool].aliases):
-                    by_tool[tool]["conveyor_packets"].append(artifact_record(path, "conveyor_packet"))
+                    by_tool[tool]["conveyor_packets"].append(
+                        artifact_record(path, "conveyor_packet")
+                    )
                     discovered["conveyor_packets"] += 1
 
     for slug, row in by_tool.items():
@@ -394,7 +408,8 @@ def build_index(roots: list[Path], *, include_hashes: bool = True) -> dict[str, 
                 "best_report": row.get("best_report"),
             }
             for slug, row in by_tool.items()
-            if row.get("delta_to_lock") not in (None, 0) and row.get("eval_index_status") != "strict_lock"
+            if row.get("delta_to_lock") not in (None, 0)
+            and row.get("eval_index_status") != "strict_lock"
         ),
         key=lambda r: (int(r["delta_to_lock"]), -(int(r["passed"] or 0)), str(r["tool"])),
     )
@@ -444,9 +459,20 @@ def external_roots() -> list[Path]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default=str(DEFAULT_OUT))
-    parser.add_argument("--root", action="append", dest="roots", help="Additional/override scan root; may be repeated.")
-    parser.add_argument("--include-external", action="store_true", help="Also scan T:/determinex-programbench and T:/determinex-staging if present.")
-    parser.add_argument("--no-hashes", action="store_true", help="Skip file hashing for faster exploratory runs.")
+    parser.add_argument(
+        "--root",
+        action="append",
+        dest="roots",
+        help="Additional/override scan root; may be repeated.",
+    )
+    parser.add_argument(
+        "--include-external",
+        action="store_true",
+        help="Also scan T:/determinex-programbench and T:/determinex-staging if present.",
+    )
+    parser.add_argument(
+        "--no-hashes", action="store_true", help="Skip file hashing for faster exploratory runs."
+    )
     parser.add_argument("--print-top", type=int, default=10)
     args = parser.parse_args()
 

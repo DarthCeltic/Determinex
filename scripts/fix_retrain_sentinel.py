@@ -36,30 +36,32 @@ from pathlib import Path
 
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
-BASE_MODEL    = "mistralai/Mistral-7B-Instruct-v0.3"
-DATA_DIR      = Path("/workspace/data")
+BASE_MODEL = "mistralai/Mistral-7B-Instruct-v0.3"
+DATA_DIR = Path("/workspace/data")
 # DISK NOTE: Mistral 7B is ~14 GB fp16. Root overlay is only 50GB.
 # Put adapter and merged model on /workspace (network fs, 276 TB free) to avoid OOD root.
 # HF model cache (~14GB) will still land on root (~/.cache) — clear old models first if needed.
-OUT_ADAPTER   = Path("/workspace/tmp_sen_adapter")   # ~200 MB
-OUT_MERGED    = Path("/workspace/tmp_sen_merged")    # ~14 GB (network fs — no root pressure)
-OUT_GGUF      = Path("/workspace/outputs/determinex-sentinel-v3/determinex-sentinel-v3.gguf")
+OUT_ADAPTER = Path("/workspace/tmp_sen_adapter")  # ~200 MB
+OUT_MERGED = Path("/workspace/tmp_sen_merged")  # ~14 GB (network fs — no root pressure)
+OUT_GGUF = Path("/workspace/outputs/determinex-sentinel-v3/determinex-sentinel-v3.gguf")
 LLAMA_CPP_DIR = Path("/workspace/llama.cpp")
-TRAIN_FILE    = Path("/workspace/tmp_sen_train.jsonl")  # also on network fs
+TRAIN_FILE = Path("/workspace/tmp_sen_train.jsonl")  # also on network fs
 
-EPOCHS      = 3
-MAX_SEQ     = 1024
-BATCH_SIZE  = 1
-GRAD_ACCUM  = 8
-LR          = 2e-4
-LORA_R      = 16
-LORA_ALPHA  = 32
-LORA_DROP   = 0.05
+EPOCHS = 3
+MAX_SEQ = 1024
+BATCH_SIZE = 1
+GRAD_ACCUM = 8
+LR = 2e-4
+LORA_R = 16
+LORA_ALPHA = 32
+LORA_DROP = 0.05
+
 
 def stage(n, label):
-    print(f"\n{'='*60}", flush=True)
+    print(f"\n{'=' * 60}", flush=True)
     print(f"STAGE[{n}/6] {label}", flush=True)
-    print(f"{'='*60}", flush=True)
+    print(f"{'=' * 60}", flush=True)
+
 
 def run(cmd, **kw):
     print(f"  $ {' '.join(str(c) for c in cmd)}", flush=True)
@@ -68,6 +70,7 @@ def run(cmd, **kw):
         print(f"  [ERROR] Exit {result.returncode}", flush=True)
         sys.exit(result.returncode)
     return result
+
 
 def check_disk_space():
     # Root overlay: HF model cache (~14GB) lands here — check we have room
@@ -93,12 +96,14 @@ def check_disk_space():
             shutil.rmtree(p)
             print(f"  Cleared stale dir: {p}", flush=True)
 
+
 # ══════════════════════════════════════════════════════════════════════════════
 # STAGE 1 — Environment check
 # ══════════════════════════════════════════════════════════════════════════════
 stage(1, "env-check")
 
 import torch
+
 print(f"  PyTorch   : {torch.__version__}", flush=True)
 print(f"  CUDA avail: {torch.cuda.is_available()}", flush=True)
 if torch.cuda.is_available():
@@ -106,8 +111,11 @@ if torch.cuda.is_available():
     total_vram = torch.cuda.get_device_properties(0).total_memory / 1e9
     print(f"  VRAM      : {total_vram:.1f} GB", flush=True)
     if total_vram < 20:
-        print(f"  [WARN] Only {total_vram:.1f} GB VRAM — Mistral 7B fp16 needs ~20 GB peak during training.", flush=True)
-        print(f"  [WARN] Consider switching to 4bit QLoRA if training OOMs.", flush=True)
+        print(
+            f"  [WARN] Only {total_vram:.1f} GB VRAM — Mistral 7B fp16 needs ~20 GB peak during training.",
+            flush=True,
+        )
+        print("  [WARN] Consider switching to 4bit QLoRA if training OOMs.", flush=True)
 
 for pkg in ["transformers", "peft", "datasets", "accelerate"]:
     try:
@@ -119,7 +127,16 @@ for pkg in ["transformers", "peft", "datasets", "accelerate"]:
 
 if not LLAMA_CPP_DIR.exists():
     print("  Cloning llama.cpp...", flush=True)
-    run(["git", "clone", "--depth", "1", "https://github.com/ggerganov/llama.cpp", str(LLAMA_CPP_DIR)])
+    run(
+        [
+            "git",
+            "clone",
+            "--depth",
+            "1",
+            "https://github.com/ggerganov/llama.cpp",
+            str(LLAMA_CPP_DIR),
+        ]
+    )
     run(["pip", "install", "-q", "-r", str(LLAMA_CPP_DIR / "requirements.txt")])
 else:
     print(f"  llama.cpp : {LLAMA_CPP_DIR} (exists)", flush=True)
@@ -131,8 +148,8 @@ check_disk_space()
 # ══════════════════════════════════════════════════════════════════════════════
 stage(2, "load-model")
 
-from transformers import AutoTokenizer, AutoModelForCausalLM
-from peft import LoraConfig, get_peft_model, TaskType
+from peft import LoraConfig, TaskType, get_peft_model
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 print(f"  Base model: {BASE_MODEL}", flush=True)
 tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL, trust_remote_code=True)
@@ -149,7 +166,7 @@ model = AutoModelForCausalLM.from_pretrained(
 model.config.use_cache = False
 model.enable_input_require_grads()
 model.gradient_checkpointing_enable()
-print(f"  Model loaded: {sum(p.numel() for p in model.parameters())/1e6:.1f}M params", flush=True)
+print(f"  Model loaded: {sum(p.numel() for p in model.parameters()) / 1e6:.1f}M params", flush=True)
 
 lora_config = LoraConfig(
     task_type=TaskType.CAUSAL_LM,
@@ -193,6 +210,7 @@ from datasets import load_dataset
 
 raw = load_dataset("json", data_files=str(TRAIN_FILE), split="train")
 
+
 def format_sample(sample):
     """
     Normalize mixed JSON formats into Mistral's native chat template.
@@ -207,34 +225,38 @@ def format_sample(sample):
             {"role": msg.get("role", "user"), "content": msg.get("content", "")}
             for msg in sample["messages"]
         ]
-    elif ("user" in sample and sample["user"] is not None and
-          "assistant" in sample and sample["assistant"] is not None):
+    elif (
+        "user" in sample
+        and sample["user"] is not None
+        and "assistant" in sample
+        and sample["assistant"] is not None
+    ):
         messages = []
         sys_text = sample.get("system") or ""
         if sys_text:
             messages.append({"role": "system", "content": sys_text})
-        messages.append({"role": "user",      "content": sample["user"]})
+        messages.append({"role": "user", "content": sample["user"]})
         messages.append({"role": "assistant", "content": sample["assistant"]})
     elif "instruction" in sample and "output" in sample:
         inp = sample.get("input", "")
         user_content = f"{sample['instruction']}\n\n{inp}" if inp else sample["instruction"]
         messages = [
-            {"role": "user",      "content": user_content},
+            {"role": "user", "content": user_content},
             {"role": "assistant", "content": sample["output"]},
         ]
 
     if messages is not None:
         # Mistral v0.3 tokenizer has a chat template — use it
-        text = tokenizer.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=False
-        )
+        text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
     else:
         text = sample.get("text", str(sample))
 
     return {"text": text}
 
+
 formatted = raw.map(format_sample, remove_columns=raw.column_names)
 print(f"  Formatted {len(formatted)} samples", flush=True)
+
 
 def tokenize(sample):
     result = tokenizer(
@@ -246,15 +268,16 @@ def tokenize(sample):
     result["labels"] = result["input_ids"][:]
     return result
 
+
 tokenized = formatted.map(tokenize, batched=False, num_proc=4, remove_columns=["text"])
-print(f"  Tokenized OK", flush=True)
+print("  Tokenized OK", flush=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # STAGE 4 — Train
 # ══════════════════════════════════════════════════════════════════════════════
 stage(4, "train")
 
-from transformers import TrainingArguments, Trainer, DataCollatorForLanguageModeling
+from transformers import DataCollatorForLanguageModeling, Trainer, TrainingArguments
 
 OUT_ADAPTER.mkdir(parents=True, exist_ok=True)
 
@@ -294,7 +317,7 @@ print(f"  Training {len(tokenized)} samples × {EPOCHS} epochs...", flush=True)
 t0 = time.time()
 trainer.train()
 elapsed = time.time() - t0
-print(f"  Training done in {elapsed/60:.1f} min", flush=True)
+print(f"  Training done in {elapsed / 60:.1f} min", flush=True)
 
 trainer.save_model(str(OUT_ADAPTER))
 tokenizer.save_pretrained(str(OUT_ADAPTER))
@@ -343,13 +366,23 @@ if not convert_script.exists():
     convert_script = LLAMA_CPP_DIR / "convert.py"
 
 if OUT_GGUF.exists():
-    print(f"  Removing old GGUF ({OUT_GGUF.stat().st_size/1e6:.0f} MB)...", flush=True)
+    print(f"  Removing old GGUF ({OUT_GGUF.stat().st_size / 1e6:.0f} MB)...", flush=True)
     OUT_GGUF.unlink()
 
 OUT_GGUF.parent.mkdir(parents=True, exist_ok=True)
 
 print(f"  Converting {OUT_MERGED} → q8_0 → {OUT_GGUF}", flush=True)
-run(["python3", str(convert_script), str(OUT_MERGED), "--outtype", "q8_0", "--outfile", str(OUT_GGUF)])
+run(
+    [
+        "python3",
+        str(convert_script),
+        str(OUT_MERGED),
+        "--outtype",
+        "q8_0",
+        "--outfile",
+        str(OUT_GGUF),
+    ]
+)
 
 if OUT_GGUF.exists():
     size_mb = OUT_GGUF.stat().st_size / 1e6
@@ -364,8 +397,11 @@ shutil.rmtree(OUT_MERGED, ignore_errors=True)
 if TRAIN_FILE.exists():
     TRAIN_FILE.unlink()
 
-print("\n" + "="*60, flush=True)
+print("\n" + "=" * 60, flush=True)
 print("RETRAIN COMPLETE — Sentinel v4", flush=True)
 print(f"  GGUF : {OUT_GGUF}", flush=True)
-print(f"  SCP  : scp -i ~/.ssh/id_runpod -P <PORT> root@<POD_IP>:{OUT_GGUF} \"${DETERMINEX_MODELS_DIR:-~/determinex-models}/determinex-sentinel-v3.gguf\"", flush=True)
-print("="*60, flush=True)
+print(
+    f'  SCP  : scp -i ~/.ssh/id_runpod -P <PORT> root@<POD_IP>:{OUT_GGUF} "${{DETERMINEX_MODELS_DIR:-~/determinex-models}}/determinex-sentinel-v3.gguf"',
+    flush=True,
+)
+print("=" * 60, flush=True)

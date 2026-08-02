@@ -5,17 +5,21 @@ import argparse
 import json
 import subprocess
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from corpus.programbench.bounded_rerun_gate import BoundedRerunGate, BoundedRerunStatus
-from corpus.programbench.real_bounded_rerun_record import make_real_rerun_record, write_real_rerun_record
+from corpus.programbench.real_bounded_rerun_record import (
+    make_real_rerun_record,
+    write_real_rerun_record,
+)
 
 
 class RealBoundedRerunStatus(str, Enum):
@@ -50,7 +54,9 @@ class RealBoundedRerun:
         )
 
     def run(self, packet_path: Path, target: dict[str, Any]) -> dict[str, Any]:
-        authorization = self.bounded_gate.authorize(packet_path, target, attempt_index=self.config.attempt_index)
+        authorization = self.bounded_gate.authorize(
+            packet_path, target, attempt_index=self.config.attempt_index
+        )
         if authorization.status != BoundedRerunStatus.BOUNDED_RERUN_AUTHORIZED.value:
             status = _blocked_status(authorization.status)
             return self._record(
@@ -72,7 +78,13 @@ class RealBoundedRerun:
 
         executor = self.config.executor or _programbench_gate_executor
         try:
-            outcome = executor({"target": target, "rerun_scope": authorization.rerun_scope, "packet_id": authorization.packet_id})
+            outcome = executor(
+                {
+                    "target": target,
+                    "rerun_scope": authorization.rerun_scope,
+                    "packet_id": authorization.packet_id,
+                }
+            )
         except Exception as exc:
             return self._record(
                 RealBoundedRerunStatus.REAL_BOUNDED_RERUN_INFRA_FAILURE.value,
@@ -83,7 +95,9 @@ class RealBoundedRerun:
             )
 
         status = _classify_outcome(outcome)
-        return self._record(status, authorization.packet_id, target, authorization.rerun_scope, outcome=outcome)
+        return self._record(
+            status, authorization.packet_id, target, authorization.rerun_scope, outcome=outcome
+        )
 
     def _record(
         self,
@@ -154,13 +168,16 @@ def _classify_outcome(outcome: dict[str, Any]) -> str:
     if outcome.get("status") == "infra_failure" or outcome.get("error"):
         return RealBoundedRerunStatus.REAL_BOUNDED_RERUN_INFRA_FAILURE.value
     combined_output = f"{outcome.get('stdout', '')}\n{outcome.get('stderr', '')}".lower()
-    if any(marker in combined_output for marker in (
-        "preflight failed",
-        "image missing",
-        "no such image",
-        "docker daemon",
-        "docker unavailable",
-    )):
+    if any(
+        marker in combined_output
+        for marker in (
+            "preflight failed",
+            "image missing",
+            "no such image",
+            "docker daemon",
+            "docker unavailable",
+        )
+    ):
         return RealBoundedRerunStatus.REAL_BOUNDED_RERUN_INFRA_FAILURE.value
     gate = outcome.get("gate_result") if isinstance(outcome.get("gate_result"), dict) else {}
     decision = str(gate.get("decision") or outcome.get("decision") or "")
@@ -201,16 +218,24 @@ def _read_json(path: Path) -> dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run one real bounded ProgramBench rerun from an authorized packet.")
+    parser = argparse.ArgumentParser(
+        description="Run one real bounded ProgramBench rerun from an authorized packet."
+    )
     parser.add_argument("packet", type=Path)
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--tool", required=True)
     parser.add_argument("--candidate-id", required=True)
     parser.add_argument("--attempt-index", type=int, default=1)
-    parser.add_argument("--output-dir", type=Path, default=Path("assurance/evidence/programbench_real_bounded_reruns"))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("assurance/evidence/programbench_real_bounded_reruns"),
+    )
     args = parser.parse_args()
     result = RealBoundedRerun(
-        RealBoundedRerunConfig(root=args.root, output_dir=args.output_dir, attempt_index=args.attempt_index)
+        RealBoundedRerunConfig(
+            root=args.root, output_dir=args.output_dir, attempt_index=args.attempt_index
+        )
     ).run(args.packet, {"tool": args.tool, "candidate_id": args.candidate_id})
     print(json.dumps(result["record"], indent=2, sort_keys=True))
     return 0

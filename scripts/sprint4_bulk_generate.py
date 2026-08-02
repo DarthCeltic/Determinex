@@ -16,6 +16,7 @@ Skipped (per user / structural):
     that beats anything a generic generator can produce)
   - Anything in LOCKED_TOOLS (already at 100% — would waste eval time)
 """
+
 from __future__ import annotations
 
 import json
@@ -34,7 +35,9 @@ BASE_RUN = PBROOT / "mass_run_v2_base"
 
 sys.path.insert(0, str(ROOT / "scripts"))
 from programbench_classify_family import (  # type: ignore[import-not-found]
-    _classify_by_name, _classify_by_tests, _classify_by_lang,
+    _classify_by_lang,
+    _classify_by_name,
+    _classify_by_tests,
 )
 
 # Subtype overrides — semantic behavior layer beneath broad family
@@ -43,15 +46,24 @@ from generator_lib import INSTANCE_SUBTYPE_OVERRIDES  # type: ignore[import-not-
 
 # Already locked at 100% upstream — no need to factory-generate
 LOCKED_TOOLS = {
-    "burntsushi__ripgrep", "ajeetdsouza__zoxide", "sclevine__yj",
-    "sirwart__ripsecrets", "mgdm__htmlq",
+    "burntsushi__ripgrep",
+    "ajeetdsouza__zoxide",
+    "sclevine__yj",
+    "sirwart__ripsecrets",
+    "mgdm__htmlq",
 }
 
 # Hand-built sprint 1/2/3 — factory v1 cannot beat the carefully-tuned v2/v3
 HAND_BUILT_INSTANCES = {
-    "yaa110__nomino",  "konradsz__igrep",     "mookid__diffr",
-    "sharkdp__hyperfine", "wgunderwood__tex-fmt", "cheat__cheat",
-    "svenstaro__genact", "riquito__tuc",      "rust-embedded__svd2rust",
+    "yaa110__nomino",
+    "konradsz__igrep",
+    "mookid__diffr",
+    "sharkdp__hyperfine",
+    "wgunderwood__tex-fmt",
+    "cheat__cheat",
+    "svenstaro__genact",
+    "riquito__tuc",
+    "rust-embedded__svd2rust",
     "foriequal0__git-trim",
 }
 
@@ -73,21 +85,39 @@ SPRINT4_LOCKED = {
 
 # Map family → wave directory
 FAMILY_WAVE = {
-    "rust_cli": "wave1", "go_cli": "wave1", "python_cli": "wave1",
-    "node_cli": "wave1", "shell_coreutils": "wave1", "git_wrappers": "wave1",
-    "file_renamers": "wave1", "search_grep": "wave1", "text_diff": "wave1",
+    "rust_cli": "wave1",
+    "go_cli": "wave1",
+    "python_cli": "wave1",
+    "node_cli": "wave1",
+    "shell_coreutils": "wave1",
+    "git_wrappers": "wave1",
+    "file_renamers": "wave1",
+    "search_grep": "wave1",
+    "text_diff": "wave1",
     "formatters": "wave1",
-    "json_yaml_toml": "wave2", "csv_table": "wave2", "regex_tools": "wave2",
-    "archive_compression": "wave2", "network_http": "wave2", "database": "wave2",
-    "config_env": "wave2", "tui_terminal": "wave2",
-    "latex_document": "wave3", "codegen": "wave3", "compiler_wrappers": "wave3",
-    "animation_output": "wave3", "benchmark_timing": "wave3",
-    "editor_integrated": "wave3", "package_manager": "wave3",
+    "json_yaml_toml": "wave2",
+    "csv_table": "wave2",
+    "regex_tools": "wave2",
+    "archive_compression": "wave2",
+    "network_http": "wave2",
+    "database": "wave2",
+    "config_env": "wave2",
+    "tui_terminal": "wave2",
+    "latex_document": "wave3",
+    "codegen": "wave3",
+    "compiler_wrappers": "wave3",
+    "animation_output": "wave3",
+    "benchmark_timing": "wave3",
+    "editor_integrated": "wave3",
+    "package_manager": "wave3",
     "security_scanner": "wave3",
     # Sprint-4 audit additions (formerly deferred families)
-    "biosequence": "wave3", "image_terminal_render": "wave3",
-    "docs_static_site": "wave3", "html_converter": "wave3",
-    "binary_inspector": "wave3", "game_simulator": "wave3",
+    "biosequence": "wave3",
+    "image_terminal_render": "wave3",
+    "docs_static_site": "wave3",
+    "html_converter": "wave3",
+    "binary_inspector": "wave3",
+    "game_simulator": "wave3",
 }
 
 
@@ -147,9 +177,12 @@ def _generate(instance: str, family: str, eval_json: Path | None) -> dict:
     out_root.mkdir(parents=True, exist_ok=True)
 
     cmd = [
-        sys.executable, str(gen),
-        "--instance", instance,
-        "--out", str(out_root),
+        sys.executable,
+        str(gen),
+        "--instance",
+        instance,
+        "--out",
+        str(out_root),
         "--pack",
     ]
     if eval_json and eval_json.is_file():
@@ -170,11 +203,11 @@ def _generate(instance: str, family: str, eval_json: Path | None) -> dict:
     submission = inst_dir / "submission.tar.gz"
     ok = rc == 0 and main_py.is_file() and submission.is_file()
     return {
-        "status":     "OK" if ok else "GEN_FAIL",
-        "rc":         rc,
-        "elapsed_s":  round(elapsed, 3),
-        "subtype":    family_override,
-        "main_py":    str(main_py),
+        "status": "OK" if ok else "GEN_FAIL",
+        "rc": rc,
+        "elapsed_s": round(elapsed, 3),
+        "subtype": family_override,
+        "main_py": str(main_py),
         "submission": str(submission),
         "submission_bytes": submission.stat().st_size if submission.is_file() else 0,
         "stderr_tail": (proc.stderr or "")[-200:] if rc != 0 else "",
@@ -264,7 +297,7 @@ def main() -> int:
     total_wall = time.time() - t0_total
 
     # Summary printing
-    print(f"=== summary ===")
+    print("=== summary ===")
     print(f"  total instances:        {len(instances)}")
     print(f"  skipped (hand-built):   {n_skipped_hand}")
     print(f"  skipped (locked 100):   {n_skipped_locked}")
@@ -278,26 +311,32 @@ def main() -> int:
         avg = sum(r.get("elapsed_s", 0) for r in records if r.get("status") == "OK") / n_generated
         print(f"  avg per-tool gen:       {round(avg, 3)}s")
     print()
-    print(f"  by family (top 15):")
+    print("  by family (top 15):")
     for fam, n in family_counts.most_common(15):
         print(f"    {n:>4}  {fam}")
 
     out_log = ROOT / "logs" / "mass_run_v2" / "sprint4_bulk_generation.json"
     out_log.parent.mkdir(parents=True, exist_ok=True)
-    out_log.write_text(json.dumps({
-        "records": records,
-        "summary": {
-            "n_instances": len(instances),
-            "n_skipped_hand_built": n_skipped_hand,
-            "n_skipped_locked": n_skipped_locked,
-            "n_skipped_quarantined": n_skipped_quarantine,
-            "n_unclassified": n_unclassified,
-            "n_generated_ok": n_generated,
-            "n_generation_failed": n_failed,
-            "total_wall_s": round(total_wall, 1),
-            "by_family": dict(family_counts.most_common()),
-        },
-    }, indent=2), encoding="utf-8")
+    out_log.write_text(
+        json.dumps(
+            {
+                "records": records,
+                "summary": {
+                    "n_instances": len(instances),
+                    "n_skipped_hand_built": n_skipped_hand,
+                    "n_skipped_locked": n_skipped_locked,
+                    "n_skipped_quarantined": n_skipped_quarantine,
+                    "n_unclassified": n_unclassified,
+                    "n_generated_ok": n_generated,
+                    "n_generation_failed": n_failed,
+                    "total_wall_s": round(total_wall, 1),
+                    "by_family": dict(family_counts.most_common()),
+                },
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     print()
     print(f"  log: {out_log}")
     return 0

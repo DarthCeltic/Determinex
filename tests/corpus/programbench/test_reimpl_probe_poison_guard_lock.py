@@ -18,6 +18,7 @@ silently burning hours of escalated-model compute before a human notices by hand
      depth inside the decompose loop itself, for any poisoning pattern the upfront
      check doesn't catch.
 """
+
 from __future__ import annotations
 
 import sys
@@ -38,11 +39,13 @@ def _obs(name, argv, stdout="", stderr="", rc=0):
 
 # ------------------------------------------------------- _warn_if_probe_pool_poisoned
 
+
 def test_poisoned_pool_triggers_warning(capsys):
     proposed = [OBS.Probe(f"explore_{i}", [f"-{i}"]) for i in range(8)]
-    observations = [_obs(f"explore_{i}", [f"-{i}"], "",
-                         "open gron: no such file or directory\n", 1)
-                    for i in range(8)]
+    observations = [
+        _obs(f"explore_{i}", [f"-{i}"], "", "open gron: no such file or directory\n", 1)
+        for i in range(8)
+    ]
     triggered = reimpl._warn_if_probe_pool_poisoned(proposed, observations)
     assert triggered is True
     assert "SUSPECT PROBE POOL" in capsys.readouterr().out
@@ -50,8 +53,7 @@ def test_poisoned_pool_triggers_warning(capsys):
 
 def test_healthy_diverse_pool_does_not_trigger(capsys):
     proposed = [OBS.Probe(f"explore_{i}", [f"-{i}"]) for i in range(8)]
-    observations = [_obs(f"explore_{i}", [f"-{i}"], f"output-{i}\n", "", 0)
-                    for i in range(8)]
+    observations = [_obs(f"explore_{i}", [f"-{i}"], f"output-{i}\n", "", 0) for i in range(8)]
     triggered = reimpl._warn_if_probe_pool_poisoned(proposed, observations)
     assert triggered is False
     assert "SUSPECT" not in capsys.readouterr().out
@@ -59,8 +61,7 @@ def test_healthy_diverse_pool_does_not_trigger(capsys):
 
 def test_small_pool_below_threshold_is_skipped(capsys):
     proposed = [OBS.Probe(f"explore_{i}", [f"-{i}"]) for i in range(3)]
-    observations = [_obs(f"explore_{i}", [f"-{i}"], "", "same error\n", 1)
-                    for i in range(3)]
+    observations = [_obs(f"explore_{i}", [f"-{i}"], "", "same error\n", 1) for i in range(3)]
     triggered = reimpl._warn_if_probe_pool_poisoned(proposed, observations)
     assert triggered is False  # too few probes to distinguish signal from coincidence
 
@@ -69,30 +70,32 @@ def test_a_few_legitimately_shared_errors_do_not_trigger(capsys):
     # 3 of 10 probes hitting the same real "unknown flag" rejection is plausible and
     # should NOT be flagged as poisoning -- only a dominant majority should.
     proposed = [OBS.Probe(f"explore_{i}", [f"-{i}"]) for i in range(10)]
-    observations = ([_obs(f"explore_{i}", [f"-{i}"], "", "unknown flag\n", 2)
-                     for i in range(3)]
-                    + [_obs(f"explore_{i}", [f"-{i}"], f"ok-{i}\n", "", 0)
-                       for i in range(3, 10)])
+    observations = [_obs(f"explore_{i}", [f"-{i}"], "", "unknown flag\n", 2) for i in range(3)] + [
+        _obs(f"explore_{i}", [f"-{i}"], f"ok-{i}\n", "", 0) for i in range(3, 10)
+    ]
     triggered = reimpl._warn_if_probe_pool_poisoned(proposed, observations)
     assert triggered is False
 
 
 # --------------------------------------------- incremental_solve consecutive-zero streak
 
+
 def test_consecutive_zero_streak_warns_at_threshold(capsys, monkeypatch):
     monkeypatch.setenv("DETERMINEX_VS_HEARTBEAT", "0")
     monkeypatch.setattr(reimpl, "_LANG", "c")
     # 5 distinct behaviors, all identically unreachable by every candidate -> 5
     # consecutive unsolved, score-0.00 stations (the exact live pattern).
-    obs = [_obs(f"p{i}", [f"-{i}"], "", "open gron: no such file or directory\n", 1)
-           for i in range(5)]
+    obs = [
+        _obs(f"p{i}", [f"-{i}"], "", "open gron: no such file or directory\n", 1) for i in range(5)
+    ]
 
     def runner(code, probe):
         return "", "", 1  # nothing the model tries ever matches
 
     ladder = [ModelEntry("stuck", tier=1, cost=0.0, generate=lambda p, t: "junk")]
-    reimpl.incremental_solve(obs, ladder=ladder, helptext="", short="t",
-                             k=1, rounds=1, runner=runner)
+    reimpl.incremental_solve(
+        obs, ladder=ladder, helptext="", short="t", k=1, rounds=1, runner=runner
+    )
     out = capsys.readouterr().out
     assert "5 CONSECUTIVE stations scored 0.00" in out
 
@@ -107,11 +110,13 @@ def test_streak_resets_on_a_solved_station(capsys, monkeypatch):
     # 4 would still be below the threshold of 5, so this alone wouldn't distinguish a
     # broken reset from a correct one. What it DOES prove: the solved station's own
     # printed line is reachable at all (station "e" appears, not swallowed by reorder).
-    obs = [_obs("a", ["-a"], "", "same1\n", 1),
-           _obs("b", ["-b"], "", "same2\n", 1),
-           _obs("e", ["-e"], "", "GOOD1\n", 0),   # solved -> must reset the streak
-           _obs("f", ["-f"], "", "same4\n", 1),
-           _obs("g", ["-g"], "", "same5\n", 1)]
+    obs = [
+        _obs("a", ["-a"], "", "same1\n", 1),
+        _obs("b", ["-b"], "", "same2\n", 1),
+        _obs("e", ["-e"], "", "GOOD1\n", 0),  # solved -> must reset the streak
+        _obs("f", ["-f"], "", "same4\n", 1),
+        _obs("g", ["-g"], "", "same5\n", 1),
+    ]
 
     def runner(code, probe):
         if probe.argv[0] == "-e" and "SOLVE_E" in code:
@@ -119,8 +124,9 @@ def test_streak_resets_on_a_solved_station(capsys, monkeypatch):
         return "", "", 1
 
     ladder = [ModelEntry("mixed", tier=1, cost=0.0, generate=lambda p, t: "SOLVE_E")]
-    reimpl.incremental_solve(obs, ladder=ladder, helptext="", short="t",
-                             k=1, rounds=1, runner=runner)
+    reimpl.incremental_solve(
+        obs, ladder=ladder, helptext="", short="t", k=1, rounds=1, runner=runner
+    )
     out = capsys.readouterr().out
     assert "+e:" in out and "UNSOLVED" not in out.split("+e:")[1].split("\n")[0]
     assert "CONSECUTIVE" not in out  # streak never reached the threshold
@@ -137,7 +143,8 @@ def test_streak_does_not_reset_and_warns_when_nothing_ever_solves(capsys, monkey
         return "", "", 1
 
     ladder = [ModelEntry("stuck", tier=1, cost=0.0, generate=lambda p, t: "junk")]
-    reimpl.incremental_solve(obs, ladder=ladder, helptext="", short="t",
-                             k=1, rounds=1, runner=runner)
+    reimpl.incremental_solve(
+        obs, ladder=ladder, helptext="", short="t", k=1, rounds=1, runner=runner
+    )
     out = capsys.readouterr().out
     assert "5 CONSECUTIVE stations scored 0.00" in out

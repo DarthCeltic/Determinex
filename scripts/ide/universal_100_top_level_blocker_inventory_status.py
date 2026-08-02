@@ -28,6 +28,7 @@ Hard rules enforced by load():
   * forbidden broad-claim phrase outside refusal context ->
     BLOCKED_BROAD_CLAIM
 """
+
 from __future__ import annotations
 
 import json
@@ -43,7 +44,6 @@ if str(_SCRIPTS) not in sys.path:
 from .universal_100_matrix_probe_batch_status import (  # noqa: E402
     _walk_strings_for_forbidden,
 )
-
 
 _REPO_ROOT = _HERE.parent.parent.parent
 _EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "universal_100_top_level_blocker_inventory"
@@ -300,12 +300,16 @@ def load(
     return Universal100TopLevelBlockerInventoryStatus(
         decision=_token("PASSED"),
         target_surface="Universal 100 Top-Level Blocker Inventory",
-        target_workflow=str(blob.get("target_workflow") or "universal 100 top-level blocker inventory"),
+        target_workflow=str(
+            blob.get("target_workflow") or "universal 100 top-level blocker inventory"
+        ),
         lock_id=LOCK_ID,
         blocker_count=blocker_count,
         blockers=blockers,
         category_counts={str(k): int(v) for k, v in category_counts_raw.items()},
-        local_resolvability_counts={str(k): int(v) for k, v in local_resolvability_counts_raw.items()},
+        local_resolvability_counts={
+            str(k): int(v) for k, v in local_resolvability_counts_raw.items()
+        },
         source_mutation_authorized=False,
         real_user_source_mutation_authorized=False,
         approval_authority_granted=False,

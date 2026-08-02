@@ -10,9 +10,10 @@ this:
 
 Run after generate_mass_overrides.py or smart_mass_overrides.py.
 """
+
 from __future__ import annotations
+
 import argparse
-import glob
 import io
 import stat
 import tarfile

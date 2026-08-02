@@ -1,9 +1,9 @@
 """Records for TEMP_PATCH_VERIFY_COMMAND_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 TEMP_PATCH_VERIFY_STATUS_TOKENS = (
     "TEMP_PATCH_VERIFY_PASSED_TEMP_ONLY",

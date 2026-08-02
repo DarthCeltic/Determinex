@@ -1,9 +1,9 @@
 """Records for DETERMINEX_UNIFIED_USER_LEVELS_AND_TEACHING_WINDOWS_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 USER_LEVELS_TEACHING_WINDOWS_STATUS_TOKENS = (
     "USER_LEVELS_TEACHING_WINDOWS_WRITTEN",
@@ -43,8 +43,10 @@ class UserLevelProfile:
     def to_dict(self) -> dict[str, object]:
         d = asdict(self)
         for f in (
-            "warnings_caveats", "teaching_windows",
-            "what_not_to_hide", "what_not_to_over_explain",
+            "warnings_caveats",
+            "teaching_windows",
+            "what_not_to_hide",
+            "what_not_to_over_explain",
         ):
             d[f] = list(d[f])
         return d

@@ -1,4 +1,5 @@
 """Tests for DETERMINEX_UNIFIED_USER_LEVELS_AND_TEACHING_WINDOWS_LOCK_001."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -15,8 +16,15 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 ul = importlib.import_module("ide.user_levels_and_teaching_windows")
 ul_rec = importlib.import_module("ide.user_levels_and_teaching_windows_record")
 
-LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "DETERMINEX_UNIFIED_USER_LEVELS_AND_TEACHING_WINDOWS_LOCK_001.json"
-EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "determinex_unified_user_levels_and_teaching_windows"
+LOCK_PATH = (
+    _REPO_ROOT
+    / "locks"
+    / "sentinel"
+    / "DETERMINEX_UNIFIED_USER_LEVELS_AND_TEACHING_WINDOWS_LOCK_001.json"
+)
+EVIDENCE_DIR = (
+    _REPO_ROOT / "assurance" / "evidence" / "determinex_unified_user_levels_and_teaching_windows"
+)
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
 
@@ -34,9 +42,14 @@ def test_status_tokens_exact():
 
 def test_eight_levels_exact():
     assert ul.USER_LEVELS == (
-        "beginner_no_experience", "learner", "vibe_coder",
-        "junior_developer", "professional_developer", "maintainer",
-        "security_conscious_operator", "power_user",
+        "beginner_no_experience",
+        "learner",
+        "vibe_coder",
+        "junior_developer",
+        "professional_developer",
+        "maintainer",
+        "security_conscious_operator",
+        "power_user",
     )
 
 

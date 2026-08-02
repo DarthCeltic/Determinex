@@ -8,6 +8,7 @@ re-deriving test_results parsing. Converted to real pydantic models
 zero validation); this covers the real-data path plus the new validated
 WAL/JSON boundary at TestResult.
 """
+
 from __future__ import annotations
 
 import json
@@ -31,10 +32,13 @@ def _write(tmp_path: Path, test_results: list[dict]) -> Path:
 
 
 def test_all_passed_is_a_lock(tmp_path):
-    p = _write(tmp_path, [
-        {"name": "tests.test_a::test_one", "status": "passed"},
-        {"name": "tests.test_a::test_two", "status": "passed"},
-    ])
+    p = _write(
+        tmp_path,
+        [
+            {"name": "tests.test_a::test_one", "status": "passed"},
+            {"name": "tests.test_a::test_two", "status": "passed"},
+        ],
+    )
     rep = ER.load(p)
     assert rep.total == 2
     assert rep.passed == 2
@@ -45,28 +49,34 @@ def test_all_passed_is_a_lock(tmp_path):
 
 
 def test_not_run_blocks_lock(tmp_path):
-    p = _write(tmp_path, [
-        {"name": "tests.test_a::test_one", "status": "passed"},
-        {"name": "tests.test_a::test_two", "status": "not_run"},
-    ])
+    p = _write(
+        tmp_path,
+        [
+            {"name": "tests.test_a::test_one", "status": "passed"},
+            {"name": "tests.test_a::test_two", "status": "not_run"},
+        ],
+    )
     rep = ER.load(p)
     assert rep.not_run == 1
     assert rep.is_lock is False
 
 
 def test_failure_produces_parsed_fail_record(tmp_path):
-    p = _write(tmp_path, [
-        {
-            "name": "tests.test_a::test_broken",
-            "status": "failure",
-            "extra": {
-                "text": (
-                    "CompletedProcess(args=['./executable', '-x'], "
-                    "returncode=1) assert returncode == 0"
-                )
+    p = _write(
+        tmp_path,
+        [
+            {
+                "name": "tests.test_a::test_broken",
+                "status": "failure",
+                "extra": {
+                    "text": (
+                        "CompletedProcess(args=['./executable', '-x'], "
+                        "returncode=1) assert returncode == 0"
+                    )
+                },
             },
-        },
-    ])
+        ],
+    )
     rep = ER.load(p)
     assert len(rep.failures) == 1
     f = rep.failures[0]
@@ -80,9 +90,12 @@ def test_failure_produces_parsed_fail_record(tmp_path):
 
 
 def test_skipped_does_not_produce_a_failure(tmp_path):
-    p = _write(tmp_path, [
-        {"name": "tests.test_a::test_skipped_one", "status": "skipped"},
-    ])
+    p = _write(
+        tmp_path,
+        [
+            {"name": "tests.test_a::test_skipped_one", "status": "skipped"},
+        ],
+    )
     rep = ER.load(p)
     assert rep.failures == []
     assert rep.counts.get("skipped") == 1
@@ -91,22 +104,28 @@ def test_skipped_does_not_produce_a_failure(tmp_path):
 def test_bidirectional_dedup_counts_unique_once(tmp_path):
     """eval.tests.* and tests.* namespaces double-count the same logical
     test -- unique_total/unique_passed should collapse them."""
-    p = _write(tmp_path, [
-        {"name": "eval.tests.test_a::test_one", "status": "passed"},
-        {"name": "tests.test_a::test_one", "status": "passed"},
-    ])
+    p = _write(
+        tmp_path,
+        [
+            {"name": "eval.tests.test_a::test_one", "status": "passed"},
+            {"name": "tests.test_a::test_one", "status": "passed"},
+        ],
+    )
     rep = ER.load(p)
-    assert rep.total == 2          # raw count, bidir-inflated
-    assert rep.unique_total == 1   # deduplicated
+    assert rep.total == 2  # raw count, bidir-inflated
+    assert rep.unique_total == 1  # deduplicated
 
 
 def test_malformed_entry_logged_not_crashed(tmp_path, capsys):
     """A test_results entry with a wrong-typed name must not crash load() --
     it gets validated, logged, and treated as an empty/failed record."""
-    p = _write(tmp_path, [
-        {"name": "tests.test_a::test_ok", "status": "passed"},
-        {"name": 12345, "status": "error"},  # malformed: name should be str
-    ])
+    p = _write(
+        tmp_path,
+        [
+            {"name": "tests.test_a::test_ok", "status": "passed"},
+            {"name": 12345, "status": "error"},  # malformed: name should be str
+        ],
+    )
     rep = ER.load(p)
     assert rep.total == 2
     assert rep.passed == 1
@@ -119,9 +138,12 @@ def test_extra_field_any_type_still_stringified(tmp_path):
     .get() stringified whatever it found there, and a validated-but-narrow
     type would reject legitimate-if-unusual harness output that the old
     code handled fine."""
-    p = _write(tmp_path, [
-        {"name": "tests.test_a::test_weird", "status": "failure", "extra": 12345},
-    ])
+    p = _write(
+        tmp_path,
+        [
+            {"name": "tests.test_a::test_weird", "status": "failure", "extra": 12345},
+        ],
+    )
     rep = ER.load(p)
     assert len(rep.failures) == 1
     assert rep.failures[0].text == "12345"

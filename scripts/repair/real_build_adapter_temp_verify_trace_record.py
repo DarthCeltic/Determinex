@@ -1,9 +1,9 @@
 """Records for REAL_BUILD_ADAPTER_TEMP_VERIFY_TRACE_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REAL_BUILD_ADAPTER_TEMP_VERIFY_TRACE_STATUS_TOKENS = (
     "REAL_BUILD_ADAPTER_TEMP_VERIFY_PASSED_APPROVAL_REQUIRED",

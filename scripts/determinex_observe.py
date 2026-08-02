@@ -19,6 +19,7 @@ OracleResult. Garbage oracle in -> confident garbage out; we only ever assert ob
 deterministic I/O. Volatile fields (paths/pids/timestamps) are out of scope for the MVP --
 probes are chosen to be deterministic.
 """
+
 from __future__ import annotations
 
 import dataclasses
@@ -36,6 +37,7 @@ class Probe:
     `serve` maps a URL path -> content; when set, the oracle PROVISIONS a loopback HTTP server
     serving it (the system has Docker loopback + can run http.server) so URL-fetching tools can
     be probed for real. Use the `{URL}` token in argv -> it resolves to http://127.0.0.1:PORT."""
+
     name: str
     argv: list[str]
     stdin: str | None = None
@@ -96,8 +98,8 @@ def aligned_diff(expected: str, got: str, max_lines: int = 24) -> str:
     A small model that has the right STRUCTURE but wrong SURFACE SYNTAX can learn the
     transformation rule from the correspondence far more reliably than reproducing a
     format spec from scratch. Uses difflib to align, so insert/delete/replace are visible."""
-    import difflib
     import re as _re
+
     exp = expected.splitlines()
     g = got.splitlines()
 
@@ -144,6 +146,7 @@ class Failure:
     """Rich, ACTIONABLE failure so the verified-search feedback loop can teach the model:
     carries the input + the EXPECTED observed output, not just 'differs'. VerifiedSearch
     reads .name and .text."""
+
     name: str
     text: str
     test_id: str = ""
@@ -160,7 +163,7 @@ class OracleResult:
     # 0 lines, so a do-nothing candidate scores ~0 — the search gradient points at real
     # behavior, not at trivially matching empties. This is the SELECTION signal.
     score: float = 0.0
-    n_genuine: int = 0       # probes with non-empty expected stdout
+    n_genuine: int = 0  # probes with non-empty expected stdout
     n_genuine_pass: int = 0  # genuine probes reproduced byte-exact (the HONEST headline)
 
 
@@ -179,6 +182,7 @@ _FLAG_RE = None
 def mine_flags(help_text: str) -> list[str]:
     """Pull long flags (--foo) out of help text, deduped, excluding help/version."""
     import re
+
     global _FLAG_RE
     if _FLAG_RE is None:
         _FLAG_RE = re.compile(r"(?<![\w-])--[a-zA-Z][a-zA-Z0-9-]+")
@@ -197,7 +201,7 @@ def mine_flags(help_text: str) -> list[str]:
 # oracle (the scale unlock). Covers JSON (the common PB case) + CSV/TSV/text/numbers.
 _GENERIC_BATTERY: dict[str, str] = {
     "json_obj": '{"a":1,"b":[true,"x"],"c":{"d":2}}',
-    "json_array": '[1,2,3]',
+    "json_array": "[1,2,3]",
     "json_arr_objs": '[{"a":1},{"b":2}]',
     "json_deep": '{"a":{"b":{"c":[1,[2,3]]}}}',
     "json_types": '{"s":"hi","i":42,"neg":-7,"f":1.5,"t":true,"ff":false,"n":null}',
@@ -220,12 +224,12 @@ _EDGE_BATTERY: dict[str, str] = {
     "json_malformed": '{"a":1,',
     "json_trailing_garbage": '{"a":1}garbage',
     "json_bare_string": '"hello"',
-    "json_bare_number": '42',
-    "json_bare_bool": 'true',
-    "json_bare_null": 'null',
+    "json_bare_number": "42",
+    "json_bare_bool": "true",
+    "json_bare_null": "null",
     "json_unicode": '{"emoji":"\U0001f600","accent":"café","tabbed":"a\tb"}',
     "json_num_reprs": '{"exp":1.2e10,"negzero":-0,"big":12345678901234567890,"frac":0.5}',
-    "json_deep_array": '[[[[1]]]]',
+    "json_deep_array": "[[[[1]]]]",
     "json_dup_keys": '{"a":1,"a":2}',
     "text_no_trailing_nl": "no trailing newline",
     "text_blank_lines": "a\n\n\nb\n",
@@ -233,13 +237,14 @@ _EDGE_BATTERY: dict[str, str] = {
     # cells -- the behavior surface of a table/CSV tool that the JSON-shaped battery misses.
     "csv_unicode": "名前,年齢\n中文,30\nab,5\n",
     "csv_emoji": "a,b\n\U0001f600x,y\nz,w\n",
-    "csv_quoted_comma": "a,b\n\"x,y\",z\n1,2\n",
-    "csv_quoted_newline": "a,b\n\"x\ny\",z\n1,2\n",
-    "csv_quoted_quote": "a,b\n\"he said \"\"hi\"\"\",z\n1,2\n",
+    "csv_quoted_comma": 'a,b\n"x,y",z\n1,2\n',
+    "csv_quoted_newline": 'a,b\n"x\ny",z\n1,2\n',
+    "csv_quoted_quote": 'a,b\n"he said ""hi""",z\n1,2\n',
     "csv_empty_cells": "a,b,c\n,,\n1,,3\n",
     "csv_trailing_comma": "a,b,c\n1,2,\n4,5,6\n",
     "csv_wide_mix": "x,y\nééé,1\n中文字,2\n",
 }
+
 
 # File extension per battery key so file-arg discovery works for tools that dispatch on
 # extension (.json/.csv/.tsv) rather than content sniffing.
@@ -253,7 +258,7 @@ def _ext_for(name: str) -> str:
     return ".txt"
 
 
-def _informative(o: "Observation") -> bool:
+def _informative(o: Observation) -> bool:
     """Keep a probe as oracle signal if the reference produced real stdout OR exhibited a
     distinct non-zero exit (error-path behavior worth asserting). 124 is our timeout sentinel."""
     if o.returncode == 124:
@@ -333,12 +338,16 @@ def discrimination_estimate(observations: list[Observation], *, runner=None) -> 
     for code in mutants.values():
         if not verify(code).passed:
             rejected += 1
-    return {"rejected": rejected, "total": len(mutants),
-            "ratio": rejected / len(mutants) if mutants else 1.0}
+    return {
+        "rejected": rejected,
+        "total": len(mutants),
+        "ratio": rejected / len(mutants) if mutants else 1.0,
+    }
 
 
-def propose_probes(help_text: str, docs: str, sample_inputs: list[Probe], generate,
-                   n: int = 40) -> list[Probe]:
+def propose_probes(
+    help_text: str, docs: str, sample_inputs: list[Probe], generate, n: int = 40
+) -> list[Probe]:
     """COMPREHENSIVE EXPLORATION (the frontier-agent half, made cheap + then verified): ask the
     (cheap) model to read the tool's --help/docs and propose N DIVERSE invocations exercising
     distinct behaviors -- crucially FLAG VALUES (e.g. `--style rounded`, `--header-align center`)
@@ -346,8 +355,11 @@ def propose_probes(help_text: str, docs: str, sample_inputs: list[Probe], genera
     input. We then OBSERVE the reference on them (ground truth) and verified-search proves the
     candidate matches -- coverage like an explorer, correctness like only a compiler oracle gives."""
     sample = sample_inputs[0] if sample_inputs else None
-    body = (sample.stdin if sample and sample.stdin else
-            (next(iter(sample.files.values())) if sample and sample.files else "a,b\n1,2\n"))
+    body = (
+        sample.stdin
+        if sample and sample.stdin
+        else (next(iter(sample.files.values())) if sample and sample.files else "a,b\n1,2\n")
+    )
     prompt = (
         "You are exhaustively exploring a CLI tool to map ALL its behaviors. The tool's --help:\n"
         f"{help_text[:1800]}\n\nDocs excerpt:\n{docs[:1200]}\n\n"
@@ -355,7 +367,8 @@ def propose_probes(help_text: str, docs: str, sample_inputs: list[Probe], genera
         f"List {n} DIVERSE invocations (flags only, after the program name) that exercise DISTINCT "
         "behaviors. USE FLAG VALUES (e.g. `--style rounded`, `--style ascii2`, `--header-align "
         "center`, `--delimiter ;`), FLAG COMBINATIONS, and boundary flags. One invocation per "
-        "line, ONLY the flag tokens (e.g. `--style rounded` or `--number --tsv`). No prose.")
+        "line, ONLY the flag tokens (e.g. `--style rounded` or `--number --tsv`). No prose."
+    )
     try:
         out = generate(prompt, 0.4)
     except Exception:
@@ -365,7 +378,7 @@ def propose_probes(help_text: str, docs: str, sample_inputs: list[Probe], genera
     for line in (out or "").splitlines():
         line = line.strip().lstrip("$").strip().strip("`").strip()
         if line.lower().startswith("executable"):
-            line = line[len("executable"):].strip()
+            line = line[len("executable") :].strip()
         if not line or line.startswith("#") or " " not in line and not line.startswith("-"):
             if not line.startswith("-"):
                 continue
@@ -391,8 +404,9 @@ def propose_probes(help_text: str, docs: str, sample_inputs: list[Probe], genera
     return probes
 
 
-def harvest_real_inputs(image: str, exe: str, *, max_files: int = 5, max_bytes: int = 40000,
-                        timeout: int = 60) -> list[Probe]:
+def harvest_real_inputs(
+    image: str, exe: str, *, max_files: int = 5, max_bytes: int = 40000, timeout: int = 60
+) -> list[Probe]:
     """DOMAIN faithfulness: a tool whose real input is a binary/format file (ELF, image, archive,
     source) can't be probed by the generic JSON/text battery. Harvest a few small REAL files from
     the image (a small ELF binary, configs, the tool's own executable) and feed their EXACT bytes
@@ -400,17 +414,34 @@ def harvest_real_inputs(image: str, exe: str, *, max_files: int = 5, max_bytes: 
     identical real-domain input. This is the fix for the elfcat-class optimism gap (8 thin probes
     -> real ELF parsing). Legitimate: reads the image filesystem, never the held-out tests."""
     import base64 as _b64
+
     # candidate real files: small binaries (ELF), text/config, and the tool's own executable.
     script = (
         "for f in /bin/true /usr/bin/true /bin/echo /etc/hostname /etc/os-release "
         "/etc/passwd " + shlex.quote(exe) + " $(ls -S /bin/* /usr/bin/* 2>/dev/null | tail -5); do "
-        "[ -f \"$f\" ] || continue; "
-        f"sz=$(wc -c < \"$f\" 2>/dev/null || echo 0); "
-        f"if [ \"$sz\" -gt 0 ] && [ \"$sz\" -le {max_bytes} ]; then "
-        "echo \"===F:$(basename \"$f\"):$sz\"; base64 \"$f\" 2>/dev/null | tr -d '\\n'; echo; fi; done")
+        '[ -f "$f" ] || continue; '
+        f'sz=$(wc -c < "$f" 2>/dev/null || echo 0); '
+        f'if [ "$sz" -gt 0 ] && [ "$sz" -le {max_bytes} ]; then '
+        'echo "===F:$(basename "$f"):$sz"; base64 "$f" 2>/dev/null | tr -d \'\\n\'; echo; fi; done'
+    )
     try:
-        r = subprocess.run(["docker", "run", "--rm", "--network", "none", "--entrypoint", "sh",
-                            image, "-c", script], capture_output=True, text=True, timeout=timeout)
+        r = subprocess.run(
+            [
+                "docker",
+                "run",
+                "--rm",
+                "--network",
+                "none",
+                "--entrypoint",
+                "sh",
+                image,
+                "-c",
+                script,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
     except Exception:
         return []
     probes: list[Probe] = []
@@ -445,6 +476,7 @@ def flag_value_map(help_text: str) -> dict[str, list[str]]:
     the RIGHT flag and survives line-wrapped value lists -- so `--style {none..grid}` and
     `--*-align {left,center,right}` are probed SYSTEMATICALLY, not by guesswork."""
     import re
+
     lines = (help_text or "").splitlines()
     hdr_re = re.compile(r"^\s+(?:-\w,\s*)?(--[a-zA-Z][\w-]+)")
     blocks: list[tuple[str, str, str]] = []  # (flag, header_line, block_text)
@@ -473,8 +505,12 @@ def flag_value_map(help_text: str) -> dict[str, list[str]]:
             vals = []
             for v in re.split(r"[,\s|]+", m.group(1)):
                 v = v.strip().strip("\"'`").rstrip(".")
-                if (v and re.fullmatch(r"[A-Za-z0-9][\w-]*", v)
-                        and v.lower() not in ("default", "values") and v not in seen):
+                if (
+                    v
+                    and re.fullmatch(r"[A-Za-z0-9][\w-]*", v)
+                    and v.lower() not in ("default", "values")
+                    and v not in seen
+                ):
                     seen.add(v)
                     vals.append(v)
             out[flag] = vals[:10]
@@ -506,8 +542,24 @@ def _heuristic_values(flag: str) -> list[str]:
     values by NAME so its behavior gets covered (numeric flags -> 0/2, delimiter -> ;). Keeps the
     auto-oracle from leaving padding/indent/delimiter/sniff as silent holes."""
     n = flag.lower()
-    if any(w in n for w in ("pad", "indent", "width", "sniff", "limit", "depth",
-                            "count", "num", "rows", "cols", "size", "max", "min")):
+    if any(
+        w in n
+        for w in (
+            "pad",
+            "indent",
+            "width",
+            "sniff",
+            "limit",
+            "depth",
+            "count",
+            "num",
+            "rows",
+            "cols",
+            "size",
+            "max",
+            "min",
+        )
+    ):
         return ["0", "2"]
     if any(w in n for w in ("delim", "sep", "separator")):
         return [";"]
@@ -520,11 +572,17 @@ def _flag_probe(flag: str, value: str | None, rep: Probe | None) -> Probe:
     name = f"flag{flag}" + (f"={value}" if value is not None else "")
     if rep is None:
         return Probe(name, argv)
-    return Probe(f"{name}|{rep.name}", argv + list(rep.argv), rep.stdin, dict(rep.files), dict(rep.serve))
+    return Probe(
+        f"{name}|{rep.name}", argv + list(rep.argv), rep.stdin, dict(rep.files), dict(rep.serve)
+    )
 
 
-def build_probes(help_text: str = "", inputs: list[Probe] | None = None,
-                 max_flags: int = 24, max_total: int = 220) -> list[Probe]:
+def build_probes(
+    help_text: str = "",
+    inputs: list[Probe] | None = None,
+    max_flags: int = 24,
+    max_total: int = 220,
+) -> list[Probe]:
     """Universal probes + SYSTEMATIC flag-combinatorial coverage (each flag x each enumerated
     value x representative inputs, + bounded flag PAIRS for the two richest value-flags) + the
     caller's input probes. The flag x value x input grid is the behavior surface a fixed battery
@@ -554,7 +612,7 @@ def build_probes(help_text: str = "", inputs: list[Probe] | None = None,
             continue
         hv = _heuristic_values(flag)
         for v in hv:
-            for rep in (reps or [None]):
+            for rep in reps or [None]:
                 flag_probes.append(_flag_probe(flag, v, rep))
     # CROSS-COMBOS: boolean flags combined with each other + with the first value-flag, on one
     # input -- official suites test flag interactions (e.g. --number --no-headers, style+number).
@@ -564,20 +622,38 @@ def build_probes(help_text: str = "", inputs: list[Probe] | None = None,
         rep = reps[0]
         for i in range(len(bools)):
             for j in range(i + 1, len(bools)):
-                flag_probes.append(Probe(f"combo{bools[i]},{bools[j]}",
-                                         [bools[i], bools[j], *rep.argv], rep.stdin, dict(rep.files)))
+                flag_probes.append(
+                    Probe(
+                        f"combo{bools[i]},{bools[j]}",
+                        [bools[i], bools[j], *rep.argv],
+                        rep.stdin,
+                        dict(rep.files),
+                    )
+                )
             if vflag and fvmap[vflag]:
                 v = fvmap[vflag][min(1, len(fvmap[vflag]) - 1)]
-                flag_probes.append(Probe(f"combo{bools[i]},{vflag}={v}",
-                                         [bools[i], vflag, v, *rep.argv], rep.stdin, dict(rep.files)))
+                flag_probes.append(
+                    Probe(
+                        f"combo{bools[i]},{vflag}={v}",
+                        [bools[i], vflag, v, *rep.argv],
+                        rep.stdin,
+                        dict(rep.files),
+                    )
+                )
     # bounded flag PAIRS: cross the two richest value-flags (e.g. style x align) on one input
     vflags = [f for f, v in fvmap.items() if v][:2]
     if len(vflags) == 2 and reps:
         (f1, f2), rep = vflags, reps[0]
         for v1 in fvmap[f1][:4]:
             for v2 in fvmap[f2][:3]:
-                flag_probes.append(Probe(f"pair{f1}={v1},{f2}={v2}",
-                                         [f1, v1, f2, v2, *rep.argv], rep.stdin, dict(rep.files)))
+                flag_probes.append(
+                    Probe(
+                        f"pair{f1}={v1},{f2}={v2}",
+                        [f1, v1, f2, v2, *rep.argv],
+                        rep.stdin,
+                        dict(rep.files),
+                    )
+                )
     budget = max(0, max_total - len(probes) - len(inputs))
     probes += flag_probes[:budget]
     probes.extend(inputs)
@@ -593,7 +669,7 @@ def build_probes(help_text: str = "", inputs: list[Probe] | None = None,
 
 
 # --------------------------------------------------------------------------- observe
-def _probe_script(p: "Probe", exe: str, d: str) -> str:
+def _probe_script(p: Probe, exe: str, d: str) -> str:
     """Shell script for one probe inside the (already-running) container: materialize TEXT files
     byte-exact (base64), provision a loopback HTTP server for serve probes, then run exe. Binary
     bin_files are NOT inlined here -- they are `docker cp`-ed in (binary-clean, no cmdline limit)."""
@@ -608,8 +684,10 @@ def _probe_script(p: "Probe", exe: str, d: str) -> str:
         for fn, content in p.serve.items():
             b64 = base64.b64encode(content.encode("utf-8")).decode("ascii")
             setup += f"printf %s {shlex.quote(b64)} | base64 -d > srv/{shlex.quote(fn)}\n"
-        setup += (f"(cd srv && python3 -m http.server {_SERVE_PORT} --bind 127.0.0.1 "
-                  ">/dev/null 2>&1 &) ; sleep 1\n")
+        setup += (
+            f"(cd srv && python3 -m http.server {_SERVE_PORT} --bind 127.0.0.1 "
+            ">/dev/null 2>&1 &) ; sleep 1\n"
+        )
         teardown = "\npkill -f http.server 2>/dev/null; true"
     return setup + shlex.join([exe, *argv]) + teardown
 
@@ -617,8 +695,9 @@ def _probe_script(p: "Probe", exe: str, d: str) -> str:
 import base64  # noqa: E402  (module-level for _probe_script)
 
 
-def observe_in_image(image: str, exe: str, probes: list[Probe], *,
-                     timeout: int = 20) -> list[Observation]:
+def observe_in_image(
+    image: str, exe: str, probes: list[Probe], *, timeout: int = 20
+) -> list[Observation]:
     """Run the reference binary `exe` inside `image` for each probe; capture exact I/O.
 
     THROUGHPUT: a fresh `docker run` costs ~4s of pure startup on Docker Desktop/WSL2, and there
@@ -628,15 +707,31 @@ def observe_in_image(image: str, exe: str, probes: list[Probe], *,
     bin_files go in via `docker cp` (binary-clean, no cmdline-length / no Windows mount hang)."""
     import tempfile as _tf
     import uuid
+
     obs: list[Observation] = []
     if not probes:
         return obs
     cname = f"determinex_obs_{uuid.uuid4().hex[:12]}"
     keep_alive = max(600, timeout * len(probes) + 120)
     started = subprocess.run(
-        ["docker", "run", "-d", "--rm", "--name", cname, "--network", "none",
-         "--entrypoint", "sh", image, "-c", f"sleep {keep_alive}"],
-        capture_output=True, text=True)
+        [
+            "docker",
+            "run",
+            "-d",
+            "--rm",
+            "--name",
+            cname,
+            "--network",
+            "none",
+            "--entrypoint",
+            "sh",
+            image,
+            "-c",
+            f"sleep {keep_alive}",
+        ],
+        capture_output=True,
+        text=True,
+    )
     persistent = started.returncode == 0
     try:
         for i, p in enumerate(probes):
@@ -649,14 +744,17 @@ def observe_in_image(image: str, exe: str, probes: list[Probe], *,
             try:
                 if persistent:
                     if p.bin_files:  # cp binary inputs into the live container's probe dir
-                        subprocess.run(["docker", "exec", cname, "sh", "-c", f"mkdir -p {d}"],
-                                       capture_output=True)
+                        subprocess.run(
+                            ["docker", "exec", cname, "sh", "-c", f"mkdir -p {d}"],
+                            capture_output=True,
+                        )
                         tmpdir = Path(_tf.mkdtemp(prefix="citcp_"))
                         for fn, b64 in p.bin_files.items():
                             hf = tmpdir / fn
                             hf.write_bytes(base64.b64decode(b64))
-                            subprocess.run(["docker", "cp", str(hf), f"{cname}:{d}/{fn}"],
-                                           capture_output=True)
+                            subprocess.run(
+                                ["docker", "cp", str(hf), f"{cname}:{d}/{fn}"], capture_output=True
+                            )
                     ex = ["docker", "exec", "-i", cname, "sh", "-c", script]
                     r = subprocess.run(
                         ex,
@@ -668,9 +766,23 @@ def observe_in_image(image: str, exe: str, probes: list[Probe], *,
                 else:  # fallback: per-probe docker run (Linux, or if -d failed)
                     s2 = script
                     for fn, b64 in p.bin_files.items():
-                        s2 = f"printf %s {shlex.quote(b64)} | base64 -d > {d}/{shlex.quote(fn)}\n" + s2
-                    run1 = ["docker", "run", "--rm", "-i", "--network", "none",
-                            "--entrypoint", "sh", image, "-c", s2]
+                        s2 = (
+                            f"printf %s {shlex.quote(b64)} | base64 -d > {d}/{shlex.quote(fn)}\n"
+                            + s2
+                        )
+                    run1 = [
+                        "docker",
+                        "run",
+                        "--rm",
+                        "-i",
+                        "--network",
+                        "none",
+                        "--entrypoint",
+                        "sh",
+                        image,
+                        "-c",
+                        s2,
+                    ]
                     r = subprocess.run(
                         run1,
                         input=_stdin_bytes(p.stdin),
@@ -682,9 +794,17 @@ def observe_in_image(image: str, exe: str, probes: list[Probe], *,
                 obs.append(Observation(p, stdout, stderr, r.returncode))
             except subprocess.TimeoutExpired:
                 if persistent:  # kill the hung inner process, keep the container for the rest
-                    subprocess.run(["docker", "exec", cname, "sh", "-c",
-                                    "pkill -f /workspace/executable 2>/dev/null; true"],
-                                   capture_output=True)
+                    subprocess.run(
+                        [
+                            "docker",
+                            "exec",
+                            cname,
+                            "sh",
+                            "-c",
+                            "pkill -f /workspace/executable 2>/dev/null; true",
+                        ],
+                        capture_output=True,
+                    )
                 obs.append(Observation(p, "", "<timeout>", 124))
             finally:
                 if tmpdir:
@@ -702,16 +822,33 @@ def is_tui_binary(image: str, exe: str) -> bool:
     observe_tui_snapshot() instead of wasting ordinary probes on it."""
     try:
         r = subprocess.run(
-            ["docker", "run", "--rm", "--entrypoint", "sh", image, "-c",
-             f"ldd {shlex.quote(exe)} 2>/dev/null || true"],
-            capture_output=True, text=True, timeout=15)
+            [
+                "docker",
+                "run",
+                "--rm",
+                "--entrypoint",
+                "sh",
+                image,
+                "-c",
+                f"ldd {shlex.quote(exe)} 2>/dev/null || true",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
         return bool(re.search(r"ncurses|curses|tinfo|termcap", r.stdout, re.IGNORECASE))
     except Exception:
         return False
 
 
-def observe_tui_snapshot(image: str, exe: str, argv_variants: list[list[str]] | None = None,
-                         *, duration: float = 1.2, timeout: int = 20) -> list[Observation]:
+def observe_tui_snapshot(
+    image: str,
+    exe: str,
+    argv_variants: list[list[str]] | None = None,
+    *,
+    duration: float = 1.2,
+    timeout: int = 20,
+) -> list[Observation]:
     """Capture what a TUI (ncurses/curses) reference binary ACTUALLY renders.
 
     THE GAP THIS CLOSES: observe_in_image()'s docker-exec probes have no pty and never set
@@ -762,9 +899,21 @@ def observe_tui_snapshot(image: str, exe: str, argv_variants: list[list[str]] | 
         )
         try:
             r = subprocess.run(
-                ["docker", "run", "--rm", "-e", "TERM=xterm", "--entrypoint", "python3",
-                 image, "-c", py],
-                capture_output=True, timeout=timeout + int(duration) + 5)
+                [
+                    "docker",
+                    "run",
+                    "--rm",
+                    "-e",
+                    "TERM=xterm",
+                    "--entrypoint",
+                    "python3",
+                    image,
+                    "-c",
+                    py,
+                ],
+                capture_output=True,
+                timeout=timeout + int(duration) + 5,
+            )
             stdout = r.stdout.decode("utf-8", errors="replace")
             stderr = r.stderr.decode("utf-8", errors="replace")
             p = Probe(f"tui-snapshot{'-' + '-'.join(argv) if argv else ''}", argv, None, {}, {})
@@ -783,6 +932,7 @@ def _start_host_server(serve: dict[str, str], directory: str):
     import http.server
     import socketserver
     import threading
+
     for fn, content in serve.items():
         (Path(directory) / fn).write_text(content, encoding="utf-8")
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=directory)
@@ -802,9 +952,11 @@ def _run_candidate_py(code: str, p: Probe, *, timeout: int = 20) -> tuple[str, s
         for fn, content in p.files.items():
             (d / fn).write_text(content, encoding="utf-8")
         import base64 as _b64
+
         for fn, b64 in p.bin_files.items():
             (d / fn).write_bytes(_b64.b64decode(b64))
         import sys
+
         argv = [a.replace("{URL}", f"http://127.0.0.1:{_SERVE_PORT}") for a in p.argv]
         srv = None
         try:
@@ -822,15 +974,24 @@ def _run_candidate_py(code: str, p: Probe, *, timeout: int = 20) -> tuple[str, s
             # bounded subprocess only if the runner isn't importable (dev), never silently.
             try:
                 from intake.hardened_runner import run as _hrun
-                res = _hrun(cmd, workspace=d, cwd=d, timeout=timeout,
-                            extra_env={"PYTHONIOENCODING": "utf-8"}, stdin=p.stdin,
-                            output_limit=None, allow_network=bool(p.serve))
+
+                res = _hrun(
+                    cmd,
+                    workspace=d,
+                    cwd=d,
+                    timeout=timeout,
+                    extra_env={"PYTHONIOENCODING": "utf-8"},
+                    stdin=p.stdin,
+                    output_limit=None,
+                    allow_network=bool(p.serve),
+                )
                 if res.timed_out:
                     return "", "<timeout>", 124
                 return res.stdout, res.stderr, res.exit_code
             except ImportError:
-                r = subprocess.run(cmd, cwd=td, input=p.stdin, capture_output=True,
-                                   text=True, timeout=timeout)
+                r = subprocess.run(
+                    cmd, cwd=td, input=p.stdin, capture_output=True, text=True, timeout=timeout
+                )
                 return r.stdout, r.stderr, r.returncode
         except subprocess.TimeoutExpired:
             return "", "<timeout>", 124
@@ -838,7 +999,8 @@ def _run_candidate_py(code: str, p: Probe, *, timeout: int = 20) -> tuple[str, s
             return "", f"<candidate-error: {e}>", 1
         finally:
             if srv is not None:
-                srv.shutdown(); srv.server_close()
+                srv.shutdown()
+                srv.server_close()
 
 
 # --------------------------------------------------------------------------- NATIVE runner
@@ -872,7 +1034,9 @@ def _compile_native(lang: str, code: str, d: Path) -> tuple[Path | None, str]:
             cmd = ["rustc", "--edition", "2021", "-O", "-o", binname, "main.rs"]
         elif L in ("go",):
             (d / "main.go").write_text(code, encoding="utf-8")
-            subprocess.run(["go", "mod", "init", "m"], cwd=d, capture_output=True, text=True, timeout=60)
+            subprocess.run(
+                ["go", "mod", "init", "m"], cwd=d, capture_output=True, text=True, timeout=60
+            )
             cmd = ["go", "build", "-o", binname, "."]
         elif L in ("haskell", "hs"):
             (d / "main.hs").write_text(code, encoding="utf-8")
@@ -893,6 +1057,7 @@ def _compile_native(lang: str, code: str, d: Path) -> tuple[Path | None, str]:
 
 def _kill_proc_group(p) -> None:
     import signal as _signal
+
     try:
         killpg = getattr(_os, "killpg", None)
         getpgid = getattr(_os, "getpgid", None)
@@ -922,8 +1087,14 @@ def _run_capture_safe(cmd, *, cwd, stdin, timeout):
         if stdin:
             fin.write(stdin.encode("utf-8", "replace"))
             fin.seek(0)
-        p = subprocess.Popen(cmd, cwd=str(cwd), stdin=fin, stdout=fout, stderr=ferr,
-                             start_new_session=(_os.name != "nt"))
+        p = subprocess.Popen(
+            cmd,
+            cwd=str(cwd),
+            stdin=fin,
+            stdout=fout,
+            stderr=ferr,
+            start_new_session=(_os.name != "nt"),
+        )
         try:
             rc = p.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
@@ -935,8 +1106,7 @@ def _run_capture_safe(cmd, *, cwd, stdin, timeout):
             rc = 124
         fout.seek(0)
         ferr.seek(0)
-        return (fout.read().decode("utf-8", "replace"),
-                ferr.read().decode("utf-8", "replace"), rc)
+        return (fout.read().decode("utf-8", "replace"), ferr.read().decode("utf-8", "replace"), rc)
     finally:
         for f in (fin, fout, ferr):
             try:
@@ -982,10 +1152,23 @@ def _compile_native_in_container(lang: str, code: str, d: Path) -> tuple[Path | 
     base = ["docker", "run", "--rm", "--network=none", "-v", f"{d}:/w", "-w", "/w"]
     try:
         if L == "go":
-            subprocess.run([*base, builder, "go", "mod", "init", "m"],
-                           capture_output=True, text=True, timeout=120)
-            base = [*base[:2], "--rm", "--network=none", "-e", "CGO_ENABLED=0",
-                    "-v", f"{d}:/w", "-w", "/w"]
+            subprocess.run(
+                [*base, builder, "go", "mod", "init", "m"],
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+            base = [
+                *base[:2],
+                "--rm",
+                "--network=none",
+                "-e",
+                "CGO_ENABLED=0",
+                "-v",
+                f"{d}:/w",
+                "-w",
+                "/w",
+            ]
         cp = subprocess.run([*base, builder, *cmd], capture_output=True, text=True, timeout=600)
     except subprocess.TimeoutExpired:
         return None, "compile-timeout (container)"
@@ -1057,8 +1240,9 @@ echo DTX_BATCH_DONE
 """
 
 
-def run_probes_batched(lang: str, code: str, probes: list, image: str, *,
-                       timeout: int = 1800) -> tuple[list[tuple[str, str, int]], str]:
+def run_probes_batched(
+    lang: str, code: str, probes: list, image: str, *, timeout: int = 1800
+) -> tuple[list[tuple[str, str, int]], str]:
     """Run EVERY probe in one container invocation.
 
     The tool under test runs in ~5 ms; per-probe `docker run`/`exec` plus a Windows->WSL2
@@ -1083,6 +1267,7 @@ def run_probes_batched(lang: str, code: str, probes: list, image: str, *,
         for fn, content in (getattr(p, "files", None) or {}).items():
             (d / fn).write_text(content, encoding="utf-8")
         import base64 as _b64
+
         for fn, b64 in (getattr(p, "bin_files", None) or {}).items():
             (d / fn).write_bytes(_b64.b64decode(b64))
         (d / "__argv").write_text(" ".join(getattr(p, "argv", None) or []), encoding="utf-8")
@@ -1096,8 +1281,10 @@ def run_probes_batched(lang: str, code: str, probes: list, image: str, *,
     # all I/O on the container's own filesystem.
     import io
     import tarfile
+
     buf = io.BytesIO()
-    def _exec_bits(ti: "tarfile.TarInfo") -> "tarfile.TarInfo":
+
+    def _exec_bits(ti: tarfile.TarInfo) -> tarfile.TarInfo:
         # Windows has no execute bit, so a tar built here arrives mode 0644 and every probe
         # fails with "permission denied" -- which looks exactly like a candidate that produces
         # no output. Set it explicitly for the things that must run.
@@ -1110,17 +1297,36 @@ def run_probes_batched(lang: str, code: str, probes: list, image: str, *,
         tf.add(str(root), arcname=".", filter=_exec_bits)
     buf.seek(0)
     try:
-        cid = subprocess.run(["docker", "create", "--network=none", "-w", "/w",
-                              "--entrypoint", "sh", image, "/w/driver.sh"],
-                             capture_output=True, text=True, timeout=180).stdout.strip()
+        cid = subprocess.run(
+            [
+                "docker",
+                "create",
+                "--network=none",
+                "-w",
+                "/w",
+                "--entrypoint",
+                "sh",
+                image,
+                "/w/driver.sh",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=180,
+        ).stdout.strip()
         if not cid:
             return [], "docker create failed"
-        subprocess.run(["docker", "cp", "-", f"{cid}:/w"], input=buf.getvalue(),
-                       capture_output=True, timeout=600)
-        cp = subprocess.run(["docker", "start", "-a", cid],
-                            capture_output=True, text=True, timeout=timeout)
-        got = subprocess.run(["docker", "cp", f"{cid}:/w/results.txt", "-"],
-                             capture_output=True, timeout=600)
+        subprocess.run(
+            ["docker", "cp", "-", f"{cid}:/w"],
+            input=buf.getvalue(),
+            capture_output=True,
+            timeout=600,
+        )
+        cp = subprocess.run(
+            ["docker", "start", "-a", cid], capture_output=True, text=True, timeout=timeout
+        )
+        got = subprocess.run(
+            ["docker", "cp", f"{cid}:/w/results.txt", "-"], capture_output=True, timeout=600
+        )
         subprocess.run(["docker", "rm", "-f", cid], capture_output=True, timeout=120)
     except subprocess.TimeoutExpired:
         return [("", "<batch-timeout>", 124)] * len(probes), ""
@@ -1145,7 +1351,7 @@ def run_probes_batched(lang: str, code: str, probes: list, image: str, *,
     return [by_name.get(f"p_{j:04d}", ("", "<missing>", -1)) for j in range(len(probes))], ""
 
 
-_warm: dict[str, tuple[str, Path]] = {}   # code-hash -> (container id, host root mounted at /w)
+_warm: dict[str, tuple[str, Path]] = {}  # code-hash -> (container id, host root mounted at /w)
 
 
 def _warm_container(image: str, key: str, *, allow_network: bool = False) -> str:
@@ -1162,9 +1368,26 @@ def _warm_container(image: str, key: str, *, allow_network: bool = False) -> str
     net = [] if allow_network else ["--network=none"]
     try:
         cp = subprocess.run(
-            ["docker", "run", "-d", "--rm", *net, "-v", f"{root}:/w", "-w", "/w",
-             "--entrypoint", "sh", image, "-c", "sleep 86400"],
-            capture_output=True, text=True, timeout=180)
+            [
+                "docker",
+                "run",
+                "-d",
+                "--rm",
+                *net,
+                "-v",
+                f"{root}:/w",
+                "-w",
+                "/w",
+                "--entrypoint",
+                "sh",
+                image,
+                "-c",
+                "sleep 86400",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=180,
+        )
     except Exception:
         return ""
     cid = (cp.stdout or "").strip()
@@ -1172,14 +1395,17 @@ def _warm_container(image: str, key: str, *, allow_network: bool = False) -> str
         return ""
     _warm[key] = (cid, root)
     import atexit
+
     def _cleanup(c: str = cid) -> None:
         subprocess.run(["docker", "rm", "-f", c], capture_output=True, timeout=60)
+
     atexit.register(_cleanup)
     return cid
 
 
-def _exec_probe(cid: str, src_dir: Path, binname: str, argv: list[str],
-                stdin: str | None, timeout: int) -> tuple[str, str, int]:
+def _exec_probe(
+    cid: str, src_dir: Path, binname: str, argv: list[str], stdin: str | None, timeout: int
+) -> tuple[str, str, int]:
     """Run one probe inside the already-warm container. Each probe gets a fresh subdirectory
     so its input files cannot leak into the next one.
 
@@ -1196,12 +1422,16 @@ def _exec_probe(cid: str, src_dir: Path, binname: str, argv: list[str],
         _os.chmod(shared_bin, 0o755)
     sub = root / _uuid.uuid4().hex[:12]
     sub.mkdir(parents=True, exist_ok=True)
-    for f in src_dir.iterdir():        # probe inputs only -- the binary already lives at /w
+    for f in src_dir.iterdir():  # probe inputs only -- the binary already lives at /w
         if f.name != binname and f.is_file():
             _shutil.copy2(f, sub / f.name)
-    cp = subprocess.run(["docker", "exec", "-i", "-w", f"/w/{sub.name}", cid,
-                         f"/w/{binname}", *argv],
-                        input=(stdin or ""), capture_output=True, text=True, timeout=timeout)
+    cp = subprocess.run(
+        ["docker", "exec", "-i", "-w", f"/w/{sub.name}", cid, f"/w/{binname}", *argv],
+        input=(stdin or ""),
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+    )
     try:
         _shutil.rmtree(sub, ignore_errors=True)
     except Exception:
@@ -1223,17 +1453,21 @@ def make_native_runner(lang: str, *, timeout: int = 30, image: str | None = None
             # Build where the reference was observed. See assert_same_platform_as_reference:
             # a host build graded against in-image ground truth produced 0/234 for a candidate
             # that scores 84% when built and run in the image.
-            binary, cerr = (_compile_native_in_container(lang, code, d) if image
-                            else _compile_native(lang, code, d))
+            binary, cerr = (
+                _compile_native_in_container(lang, code, d)
+                if image
+                else _compile_native(lang, code, d)
+            )
             _native_cache[h] = (d, binary, cerr)
         _d, binary, cerr = _native_cache[h]
         if binary is None:
-            return "", f"<compile-error: {cerr}>", 1   # compiler oracle: reject, with feedback
+            return "", f"<compile-error: {cerr}>", 1  # compiler oracle: reject, with feedback
         with tempfile.TemporaryDirectory() as rd:
             rdp = Path(rd)
             for fn, content in p.files.items():
                 (rdp / fn).write_text(content, encoding="utf-8")
             import base64 as _b64
+
             for fn, b64 in p.bin_files.items():
                 (rdp / fn).write_bytes(_b64.b64decode(b64))
             argv = [a.replace("{URL}", f"http://127.0.0.1:{_SERVE_PORT}") for a in p.argv]
@@ -1241,13 +1475,15 @@ def make_native_runner(lang: str, *, timeout: int = 30, image: str | None = None
             # execute it -- the candidate binary is untrusted model output, run sandboxed.
             local_bin = rdp / ("cand.exe" if _os.name == "nt" else "cand")
             try:
-                _shutil.copy2(str(binary), str(local_bin)); _os.chmod(str(local_bin), 0o755)
+                _shutil.copy2(str(binary), str(local_bin))
+                _os.chmod(str(local_bin), 0o755)
             except Exception:
                 local_bin = binary
             srv = None
             try:
                 if p.serve:
-                    sd = rdp / "srv"; sd.mkdir(exist_ok=True)
+                    sd = rdp / "srv"
+                    sd.mkdir(exist_ok=True)
                     try:
                         srv = _start_host_server(p.serve, str(sd))
                     except OSError:
@@ -1268,19 +1504,44 @@ def make_native_runner(lang: str, *, timeout: int = 30, image: str | None = None
                         except subprocess.TimeoutExpired:
                             return "", "<timeout>", 124
                     net = [] if p.serve else ["--network=none"]
-                    dcmd = ["docker", "run", "--rm", "-i", *net,
-                            "-v", f"{rdp}:/w", "-w", "/w", image, "/w/" + local_bin.name, *argv]
+                    dcmd = [
+                        "docker",
+                        "run",
+                        "--rm",
+                        "-i",
+                        *net,
+                        "-v",
+                        f"{rdp}:/w",
+                        "-w",
+                        "/w",
+                        image,
+                        "/w/" + local_bin.name,
+                        *argv,
+                    ]
                     try:
-                        cp = subprocess.run(dcmd, input=(p.stdin or ""), capture_output=True,
-                                            text=True, timeout=timeout)
+                        cp = subprocess.run(
+                            dcmd,
+                            input=(p.stdin or ""),
+                            capture_output=True,
+                            text=True,
+                            timeout=timeout,
+                        )
                         return cp.stdout, cp.stderr, cp.returncode
                     except subprocess.TimeoutExpired:
                         return "", "<timeout>", 124
                 cmd = [str(local_bin), *argv]
                 try:
                     from intake.hardened_runner import run as _hrun
-                    res = _hrun(cmd, workspace=rdp, cwd=rdp, timeout=timeout, stdin=p.stdin,
-                                output_limit=None, allow_network=bool(p.serve))
+
+                    res = _hrun(
+                        cmd,
+                        workspace=rdp,
+                        cwd=rdp,
+                        timeout=timeout,
+                        stdin=p.stdin,
+                        output_limit=None,
+                        allow_network=bool(p.serve),
+                    )
                     if res.timed_out:
                         return "", "<timeout>", 124
                     return res.stdout, res.stderr, res.exit_code
@@ -1295,12 +1556,19 @@ def make_native_runner(lang: str, *, timeout: int = 30, image: str | None = None
                 return "", f"<run-error: {e}>", 1
             finally:
                 if srv is not None:
-                    srv.shutdown(); srv.server_close()
+                    srv.shutdown()
+                    srv.server_close()
+
     return runner
 
 
-def make_verify(observations: list[Observation], *, check_stderr: bool = False,
-                runner=_run_candidate_py, batch: tuple[str, str] | None = None):
+def make_verify(
+    observations: list[Observation],
+    *,
+    check_stderr: bool = False,
+    runner=_run_candidate_py,
+    batch: tuple[str, str] | None = None,
+):
     """Return verify(code)->OracleResult: candidate must reproduce stdout (and rc) on every
     probe. stderr is checked only if check_stderr (stderr is often less stable). SOUND: only
     observed probes are asserted.
@@ -1311,13 +1579,15 @@ def make_verify(observations: list[Observation], *, check_stderr: bool = False,
     (56 s/candidate) batched, at identical accuracy (223/234 both ways). The tool itself runs
     in ~5 ms; the rest was transport.
     """
+
     def verify(code: str) -> OracleResult:
         failures: list[Failure] = []
         precomputed: list[tuple[str, str, int]] | None = None
         if batch:
             _lang, _image = batch
-            precomputed, _cerr = run_probes_batched(_lang, code, [o.probe for o in observations],
-                                                    _image)
+            precomputed, _cerr = run_probes_batched(
+                _lang, code, [o.probe for o in observations], _image
+            )
             if _cerr:
                 # Compile failure: the compiler oracle rejects the candidate, with the error as
                 # feedback -- same contract as the per-probe path.
@@ -1326,8 +1596,7 @@ def make_verify(observations: list[Observation], *, check_stderr: bool = False,
         n_genuine = n_genuine_pass = 0
         tot_exp_lines = matched_lines = 0
         for _idx, o in enumerate(observations):
-            so, se, rc = (precomputed[_idx] if precomputed is not None
-                          else runner(code, o.probe))
+            so, se, rc = precomputed[_idx] if precomputed is not None else runner(code, o.probe)
 
             # ASSERTION-AWARE PATH (2026-07-03): honor the official test's REAL criteria
             # (CONTAINS / rc-only) instead of demanding exact reproduction of the reference
@@ -1381,12 +1650,15 @@ def make_verify(observations: list[Observation], *, check_stderr: bool = False,
                 if exp_stdout is not None:
                     want.append(f"stdout EXACTLY:\n{exp_stdout[:400]}")
                 if exp_in:
-                    want.append("output must CONTAIN each of: "
-                                + ", ".join(repr(s) for s in exp_in))
-                text = (f"invocation: executable {argv}\n    the official test requires:\n      "
-                        + "\n      ".join(want)
-                        + f"\n    YOUR CODE produced exit={rc}, stdout={so[:200]!r}, "
-                        f"stderr={se[:200]!r}")
+                    want.append(
+                        "output must CONTAIN each of: " + ", ".join(repr(s) for s in exp_in)
+                    )
+                text = (
+                    f"invocation: executable {argv}\n    the official test requires:\n      "
+                    + "\n      ".join(want)
+                    + f"\n    YOUR CODE produced exit={rc}, stdout={so[:200]!r}, "
+                    f"stderr={se[:200]!r}"
+                )
                 failures.append(Failure(name=o.probe.name, text=text, test_id=o.probe.name))
                 continue
 
@@ -1401,6 +1673,7 @@ def make_verify(observations: list[Observation], *, check_stderr: bool = False,
                 # ordering slip no longer misaligns every following line and collapses the
                 # gradient to ~0 -- the closeness signal now tracks real content overlap.
                 from collections import Counter as _Counter
+
                 matched_lines += sum((_Counter(exp_lines) & _Counter(got_lines)).values())
             ok = (so == o.stdout) and (rc == o.returncode)
             # FAITHFULNESS (JOINT_AUDIT c): assert stderr on ERROR cases (non-zero exit with
@@ -1427,15 +1700,19 @@ def make_verify(observations: list[Observation], *, check_stderr: bool = False,
             if genuine and so:
                 # both produced output -> show the line-aligned transformation (make them talk)
                 diff = aligned_diff(o.stdout, so)
-                text = (f"invocation: executable {argv}{inp}\n"
-                        f"    exit: want {o.returncode}, got {rc}. Fix your output line-by-line "
-                        f"(learn the transform YOU->EXPECT and apply it to every line):\n{diff}")
+                text = (
+                    f"invocation: executable {argv}{inp}\n"
+                    f"    exit: want {o.returncode}, got {rc}. Fix your output line-by-line "
+                    f"(learn the transform YOU->EXPECT and apply it to every line):\n{diff}"
+                )
             else:
                 exp_out = o.stdout if len(o.stdout) <= 800 else o.stdout[:800] + "…"
                 got_out = so if len(so) <= 300 else so[:300] + "…"
-                text = (f"invocation: executable {argv}{inp}\n"
-                        f"    EXPECTED exit={o.returncode}, stdout:\n{exp_out}\n"
-                        f"    YOUR CODE produced exit={rc}, stdout:\n{got_out}")
+                text = (
+                    f"invocation: executable {argv}{inp}\n"
+                    f"    EXPECTED exit={o.returncode}, stdout:\n{exp_out}\n"
+                    f"    YOUR CODE produced exit={rc}, stdout:\n{got_out}"
+                )
             # STDERR (2026-07-02, found via cmatrix scoring 0.00 on 48/48 samples): `ok`
             # above already requires an EXACT stderr match whenever the exit is non-zero and
             # stderr is non-empty, but this failure text -- fed straight into the retry-round
@@ -1446,19 +1723,29 @@ def make_verify(observations: list[Observation], *, check_stderr: bool = False,
                 exp_err = o.stderr if len(o.stderr) <= 500 else o.stderr[:500] + "…"
                 got_err = se if len(se) <= 300 else se[:300] + "…"
                 stderr_mismatch = exp_err.strip() != got_err.strip()
-                text += (f"\n    EXPECTED stderr (MUST MATCH EXACTLY -- part of the pass "
-                        f"criteria{'  <- MISMATCH' if stderr_mismatch else ''}):\n{exp_err}\n"
-                        f"    YOUR CODE's stderr:\n{got_err}")
+                text += (
+                    f"\n    EXPECTED stderr (MUST MATCH EXACTLY -- part of the pass "
+                    f"criteria{'  <- MISMATCH' if stderr_mismatch else ''}):\n{exp_err}\n"
+                    f"    YOUR CODE's stderr:\n{got_err}"
+                )
             failures.append(Failure(name=o.probe.name, text=text, test_id=o.probe.name))
         score = matched_lines / tot_exp_lines if tot_exp_lines else (1.0 if not failures else 0.0)
-        return OracleResult(passed=not failures, failures=failures,
-                            n_total=len(observations), n_pass=npass,
-                            score=score, n_genuine=n_genuine, n_genuine_pass=n_genuine_pass)
+        return OracleResult(
+            passed=not failures,
+            failures=failures,
+            n_total=len(observations),
+            n_pass=npass,
+            score=score,
+            n_genuine=n_genuine,
+            n_genuine_pass=n_genuine_pass,
+        )
+
     return verify
 
 
-def observations_to_examples(observations: list[Observation], max_n: int | None = None,
-                             max_len: int = 1200) -> str:
+def observations_to_examples(
+    observations: list[Observation], max_n: int | None = None, max_len: int = 1200
+) -> str:
     """Render observations as a prompt block the generator learns from. Shows the FULL
     input (argv + stdin + any file contents) AND the exact stdout/exit for EVERY probe by
     default (max_n=None). Showing the input contents is essential: without the file body the
@@ -1482,7 +1769,9 @@ def observations_to_examples(observations: list[Observation], max_n: int | None 
         parts.append(f"  -> exit={o.returncode}, stdout ({len(o.stdout)} bytes):\n{out}")
         if o.stderr.strip():
             err = o.stderr if len(o.stderr) <= max_len else o.stderr[:max_len] + "…<truncated>"
-            note = " (MUST MATCH EXACTLY -- this is part of the pass criteria)" if o.returncode else ""
+            note = (
+                " (MUST MATCH EXACTLY -- this is part of the pass criteria)" if o.returncode else ""
+            )
             parts.append(f"  -> stderr ({len(o.stderr)} bytes){note}:\n{err}")
         lines.append("\n".join(parts))
     return "\n\n".join(lines)
@@ -1493,8 +1782,28 @@ def _rand_json(rng, depth: int = 0) -> str:
     """A random JSON document (legitimate black-box fuzzing -- exactly how PB generates its own
     tests). Covers nesting, arrays, every scalar, unicode, special keys, edge numbers."""
     import json as _json
-    scalars = [0, -0, 1, -7, 42, 1.5, 1.2e10, 1e-5, True, False, None,
-               "x", "a\tb", "q\"q", "ünî", "", "key.dot", "with space", "true"]
+
+    scalars = [
+        0,
+        -0,
+        1,
+        -7,
+        42,
+        1.5,
+        1.2e10,
+        1e-5,
+        True,
+        False,
+        None,
+        "x",
+        "a\tb",
+        'q"q',
+        "ünî",
+        "",
+        "key.dot",
+        "with space",
+        "true",
+    ]
     if depth >= 3 or (depth > 0 and rng.random() < 0.4):
         return _json.dumps(rng.choice(scalars), ensure_ascii=False)
     if rng.random() < 0.5:  # array
@@ -1505,8 +1814,16 @@ def _rand_json(rng, depth: int = 0) -> str:
     return "{" + ",".join(items) + "}"
 
 
-def fuzz_diagnose(image: str, exe: str, candidate_code: str, *, n: int = 40, seed: int = 0,
-                  flags: list[str] | None = None, timeout: int = 20) -> list[Probe]:
+def fuzz_diagnose(
+    image: str,
+    exe: str,
+    candidate_code: str,
+    *,
+    n: int = 40,
+    seed: int = 0,
+    flags: list[str] | None = None,
+    timeout: int = 20,
+) -> list[Probe]:
     """AUTONOMOUS oracle-gap finder (removes the human from the diagnosis loop): generate N
     random black-box inputs, run BOTH the reference and the candidate, and return a Probe for
     every input where they DIVERGE. Those divergences are exactly the oracle's blind spots --
@@ -1514,8 +1831,9 @@ def fuzz_diagnose(image: str, exe: str, candidate_code: str, *, n: int = 40, see
     fuzzing of the reference (no held-out-test access), the same method PB itself uses to make
     tests. Deterministic via seed so the corpus can persist + replay the battery."""
     import random
+
     rng = random.Random(seed)
-    flag_opts = ([[]] + [[f] for f in (flags or [])])
+    flag_opts = [[]] + [[f] for f in (flags or [])]
     cand_probes: list[Probe] = []
     for i in range(n):
         body = _rand_json(rng)
@@ -1546,4 +1864,6 @@ def fuzz_diagnose(image: str, exe: str, candidate_code: str, *, n: int = 40, see
 
 
 if __name__ == "__main__":
-    print("determinex_observe: module ok; import observe_in_image/build_probes/make_verify/fuzz_diagnose")
+    print(
+        "determinex_observe: module ok; import observe_in_image/build_probes/make_verify/fuzz_diagnose"
+    )

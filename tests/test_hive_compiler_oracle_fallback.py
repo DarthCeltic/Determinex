@@ -9,7 +9,6 @@ from pathlib import Path
 
 import pytest
 
-
 _SCRIPTS = Path(__file__).resolve().parent.parent / "scripts"
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
@@ -140,9 +139,13 @@ def test_executor_correctness_gate_blocks_failed_post_escalation_tests(monkeypat
     )
     step = StepRecord(id=1, instruction="write exact function", target_file="src/lib.rs")
     monkeypatch.setattr(executor, "detect_compile_hack", lambda code: False)
-    monkeypatch.setattr(executor, "run_correctness_tests", lambda *args: (False, "assertion failed"))
+    monkeypatch.setattr(
+        executor, "run_correctness_tests", lambda *args: (False, "assertion failed")
+    )
 
-    allowed, error = executor._correctness_allows_completion(session, step, tmp_path, "pub fn bad() {}")
+    allowed, error = executor._correctness_allows_completion(
+        session, step, tmp_path, "pub fn bad() {}"
+    )
 
     assert allowed is False
     assert step.correctness_result == "compile_hacked"
@@ -161,11 +164,11 @@ def test_builder_retry_context_includes_correctness_harness_for_semantic_failure
     harness = tmp_path / "tests" / "correctness.rs"
     harness.parent.mkdir()
     harness.write_text(
-        'use pkg_semantic::lane_d_message;\n\n'
-        '#[test]\n'
-        'fn lane_d_message_matches_spec() {\n'
+        "use pkg_semantic::lane_d_message;\n\n"
+        "#[test]\n"
+        "fn lane_d_message_matches_spec() {\n"
         '    assert_eq!(lane_d_message(), "determinex lane d rust e2e");\n'
-        '}\n',
+        "}\n",
         encoding="utf-8",
     )
     session = ManifestSession(
@@ -202,11 +205,11 @@ def test_rust_correctness_runner_uses_stable_cargo_test_args(monkeypatch, tmp_pa
     )
     (tmp_path / "tests").mkdir()
     (tmp_path / "tests" / "correctness.rs").write_text(
-        'use pkg_semantic::lane_d_message;\n\n'
-        '#[test]\n'
-        'fn lane_d_message_matches_spec() {\n'
+        "use pkg_semantic::lane_d_message;\n\n"
+        "#[test]\n"
+        "fn lane_d_message_matches_spec() {\n"
         '    assert_eq!(lane_d_message(), "determinex lane d rust e2e");\n'
-        '}\n',
+        "}\n",
         encoding="utf-8",
     )
     calls: list[list[str]] = []
@@ -258,7 +261,10 @@ def test_missing_main_repair_prints_lane_d_message_when_step_requires_it(tmp_pat
         "Write complete src/main.rs that prints lane_d_message followed by one newline.",
     )
 
-    assert code == 'use pkg_semantic::lane_d_message;\n\nfn main() {\n    println!("{}", lane_d_message());\n}\n'
+    assert (
+        code
+        == 'use pkg_semantic::lane_d_message;\n\nfn main() {\n    println!("{}", lane_d_message());\n}\n'
+    )
 
 
 def test_docker_required_still_blocks_wsl2_fallback(monkeypatch, tmp_path):
@@ -377,15 +383,20 @@ def test_local_builder_fallback_aliases_use_registered_ollama_tags(monkeypatch):
     }
     try:
         import urllib.request
+
         with urllib.request.urlopen("http://localhost:11434/api/tags", timeout=3) as resp:
             import json
+
             registered = {m["name"] for m in json.load(resp)["models"]}
     except Exception:
         pytest.skip("no Ollama daemon reachable at localhost:11434 -- skipping live tag check")
         return
 
     for tag in configured_tags:
-        assert any(tag == r or r.startswith(tag + ":") for r in registered) or f"{tag}:latest" in registered, (
+        assert (
+            any(tag == r or r.startswith(tag + ":") for r in registered)
+            or f"{tag}:latest" in registered
+        ), (
             f"litellm_config.yaml configures '{tag}' but it is not in the live "
             f"Ollama registry ({sorted(registered)}) -- this is the exact bug "
             f"this test exists to catch."
@@ -397,14 +408,17 @@ def test_cloud_only_model_assignments_do_not_require_ollama(monkeypatch):
 
     monkeypatch.setenv("DETERMINEX_ALLOW_CLOUD_FALLBACK", "1")
 
-    assert executor._required_ollama_models(
-        {
-            "builder": "cloud/deepseek-coder",
-            "monitor": "cloud/claude-fast",
-            "oracle": "cloud/gemini-flash",
-            "architect": "cloud/gpt4o",
-        }
-    ) == {}
+    assert (
+        executor._required_ollama_models(
+            {
+                "builder": "cloud/deepseek-coder",
+                "monitor": "cloud/claude-fast",
+                "oracle": "cloud/gemini-flash",
+                "architect": "cloud/gpt4o",
+            }
+        )
+        == {}
+    )
 
 
 def test_ollama_model_install_detection_uses_exact_tags():

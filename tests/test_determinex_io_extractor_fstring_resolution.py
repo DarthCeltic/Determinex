@@ -18,6 +18,7 @@ logic actually change the extract_dir() output on real data?), never by "does th
 appear somewhere in a skipped function," which produces false positives whenever the
 pattern is incidental (e.g. used in setup/fixture code) rather than the actual skip cause.
 """
+
 from __future__ import annotations
 
 import ast
@@ -59,25 +60,41 @@ def test_returns_none_when_any_part_unresolvable():
 
 
 def test_find_expectations_recovers_fstring_in_check():
-    func = next(n for n in ast.walk(ast.parse(
-        "def test_x():\n"
-        '    missing = "/tmp/foo"\n'
-        "    p = run_tool(['x'])\n"
-        '    assert f"stat {missing}" in p.stdout\n'
-    )) if isinstance(n, ast.FunctionDef))
+    func = next(
+        n
+        for n in ast.walk(
+            ast.parse(
+                "def test_x():\n"
+                '    missing = "/tmp/foo"\n'
+                "    p = run_tool(['x'])\n"
+                '    assert f"stat {missing}" in p.stdout\n'
+            )
+        )
+        if isinstance(n, ast.FunctionDef)
+    )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert contains == ["stat /tmp/foo"]
 
 
 def test_find_expectations_does_not_add_none_when_fstring_unresolvable():
     """Regression guard: an unresolvable f-string must not silently become a bogus
     'contains' entry (e.g. the string "None")."""
-    func = next(n for n in ast.walk(ast.parse(
-        "def test_x():\n"
-        "    p = run_tool(['x'])\n"
-        '    assert f"stat {some_pytest_fixture}" in p.stdout\n'
-    )) if isinstance(n, ast.FunctionDef))
+    func = next(
+        n
+        for n in ast.walk(
+            ast.parse(
+                "def test_x():\n"
+                "    p = run_tool(['x'])\n"
+                '    assert f"stat {some_pytest_fixture}" in p.stdout\n'
+            )
+        )
+        if isinstance(n, ast.FunctionDef)
+    )
     resolver = iox._PathResolver(Path("test_fake.py"))
-    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(func, resolver)
+    rc, exact, contains, ci, in_any, not_in, _rc_nonzero, _rc_in = iox._find_expectations(
+        func, resolver
+    )
     assert contains == []

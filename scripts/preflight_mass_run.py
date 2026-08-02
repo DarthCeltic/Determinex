@@ -16,8 +16,8 @@ Run: python scripts/preflight_mass_run.py
 
 import json
 import os
-import subprocess
 import sqlite3
+import subprocess
 import sys
 from pathlib import Path
 
@@ -28,22 +28,25 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 # ---- Configuration ----
-EXPECTED_PB_RAG_CHUNKS = 7000   # we have 7,816 — allow slack
-EXPECTED_SB_RAG_CHUNKS = 900    # we have 1,038 — allow slack
-EXPECTED_PB_SPECS      = 190    # tools with 06_behavioral_spec.md in in_progress/
-EXPECTED_SB_REPO_SPECS = 88     # SWE-bench repos (BurntSushi/ripgrep folds with PB's burntsushi/ripgrep on Windows)
-MIN_FREE_DISK_GB       = 100    # for mass-run image pulls
-MIN_FREE_RAM_GB        = 8      # for Ollama + Docker + agents
+EXPECTED_PB_RAG_CHUNKS = 7000  # we have 7,816 — allow slack
+EXPECTED_SB_RAG_CHUNKS = 900  # we have 1,038 — allow slack
+EXPECTED_PB_SPECS = 190  # tools with 06_behavioral_spec.md in in_progress/
+EXPECTED_SB_REPO_SPECS = (
+    88  # SWE-bench repos (BurntSushi/ripgrep folds with PB's burntsushi/ripgrep on Windows)
+)
+MIN_FREE_DISK_GB = 100  # for mass-run image pulls
+MIN_FREE_RAM_GB = 8  # for Ollama + Docker + agents
 
-DETERMINEX_ROOT  = Path(os.environ.get("DETERMINEX_ROOT", Path(__file__).resolve().parents[1]))
-PB_DIR        = DETERMINEX_ROOT / "corpus" / "programbench"
-SB_DIR        = DETERMINEX_ROOT / "corpus" / "swebench"
-EXTRACTED_PB  = Path("T:/determinex-programbench/_extracted_tests")
-HF_CACHE      = Path("T:/huggingface_cache/hub")
-DB_PATH       = Path(os.environ.get(
-    "DETERMINEX_DB",
-    r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
-))
+DETERMINEX_ROOT = Path(os.environ.get("DETERMINEX_ROOT", Path(__file__).resolve().parents[1]))
+PB_DIR = DETERMINEX_ROOT / "corpus" / "programbench"
+SB_DIR = DETERMINEX_ROOT / "corpus" / "swebench"
+EXTRACTED_PB = Path("T:/determinex-programbench/_extracted_tests")
+HF_CACHE = Path("T:/huggingface_cache/hub")
+DB_PATH = Path(
+    os.environ.get(
+        "DETERMINEX_DB", r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
+    )
+)
 
 # ---- Result tracker ----
 checks = []  # list of (name, status, detail) — status: "ok", "warn", "fail"
@@ -51,6 +54,7 @@ checks = []  # list of (name, status, detail) — status: "ok", "warn", "fail"
 
 def check(name: str):
     """Decorator to register a check; the function returns (status, detail)."""
+
     def deco(fn):
         try:
             status, detail = fn()
@@ -58,6 +62,7 @@ def check(name: str):
             status, detail = "fail", f"exception: {type(e).__name__}: {e}"
         checks.append((name, status, detail))
         return fn
+
     return deco
 
 
@@ -67,8 +72,12 @@ def check(name: str):
 @check("docker.daemon")
 def _():
     try:
-        r = subprocess.run(["docker", "version", "--format", "{{.Server.Version}}"],
-                           capture_output=True, text=True, timeout=10)
+        r = subprocess.run(
+            ["docker", "version", "--format", "{{.Server.Version}}"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
         if r.returncode == 0 and r.stdout.strip():
             return "ok", f"server v{r.stdout.strip()}"
         return "fail", f"docker version returned rc={r.returncode}: {r.stderr.strip()[:200]}"
@@ -81,8 +90,12 @@ def _():
 @check("docker.disk")
 def _():
     try:
-        r = subprocess.run(["docker", "system", "df", "--format", "json"],
-                           capture_output=True, text=True, timeout=15)
+        r = subprocess.run(
+            ["docker", "system", "df", "--format", "json"],
+            capture_output=True,
+            text=True,
+            timeout=15,
+        )
         if r.returncode != 0:
             return "warn", f"system df failed: {r.stderr.strip()[:120]}"
         # Parse jsonlines
@@ -101,6 +114,7 @@ def _():
 @check("disk.c_free_gb")
 def _():
     import shutil
+
     free = shutil.disk_usage("c:/").free / (1024**3)
     if free < MIN_FREE_DISK_GB:
         return "warn", f"only {free:.1f}GB free on C: (recommended >= {MIN_FREE_DISK_GB}GB)"
@@ -110,6 +124,7 @@ def _():
 @check("disk.t_free_gb")
 def _():
     import shutil
+
     if not Path("t:/").exists():
         return "warn", "T: drive not mounted"
     free = shutil.disk_usage("t:/").free / (1024**3)
@@ -123,6 +138,7 @@ def _():
 def _():
     try:
         import urllib.request
+
         r = urllib.request.urlopen("http://localhost:11434/api/tags", timeout=5)
         data = json.loads(r.read())
         models = data.get("models", [])
@@ -135,6 +151,7 @@ def _():
 def _():
     try:
         import urllib.request
+
         r = urllib.request.urlopen("http://localhost:11434/api/tags", timeout=5)
         data = json.loads(r.read())
         models = [m["name"] for m in data.get("models", [])]
@@ -158,6 +175,7 @@ def _():
     except ImportError:
         # Add scripts dir to path so we can import the sibling module
         import sys as _sys
+
         _sys.path.insert(0, str(Path(__file__).parent))
         from vram_monitor import query_vram, recommend_model
     snap = query_vram()
@@ -175,6 +193,7 @@ def _():
     """Warn if current VRAM use is already > 50% of total (other apps consuming GPU)."""
     try:
         import sys as _sys
+
         _sys.path.insert(0, str(Path(__file__).parent))
         from vram_monitor import query_vram
     except ImportError:
@@ -291,7 +310,8 @@ def _():
 @check("hf.swebench_verified")
 def _():
     p = HF_CACHE / "datasets--princeton-nlp--SWE-bench_Verified" / "snapshots"
-    if not p.exists(): return "fail", f"missing {p}"
+    if not p.exists():
+        return "fail", f"missing {p}"
     parquets = list(p.rglob("*.parquet"))
     return ("ok" if parquets else "fail"), f"{len(parquets)} parquet files"
 
@@ -299,7 +319,8 @@ def _():
 @check("hf.multi_swe_bench")
 def _():
     p = HF_CACHE / "datasets--ByteDance-Seed--Multi-SWE-bench" / "snapshots"
-    if not p.exists(): return "fail", f"missing {p}"
+    if not p.exists():
+        return "fail", f"missing {p}"
     jsonls = list(p.rglob("*.jsonl"))
     return ("ok" if jsonls else "fail"), f"{len(jsonls)} jsonl files"
 
@@ -336,7 +357,8 @@ def _():
 def _():
     """Check if --model local flag is wired in."""
     p = DETERMINEX_ROOT / "scripts" / "determinex_programbench_agent.py"
-    if not p.exists(): return "fail", "PB agent missing"
+    if not p.exists():
+        return "fail", "PB agent missing"
     text = p.read_text(encoding="utf-8", errors="replace")
     if "--model" in text and "local" in text:
         return "ok", "--model local appears wired in PB agent"

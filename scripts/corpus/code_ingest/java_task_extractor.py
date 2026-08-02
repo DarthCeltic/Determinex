@@ -17,13 +17,13 @@ Mutation types supported:
 
 Requires: Java 11+, Maven or Gradle on PATH.
 """
+
 from __future__ import annotations
 
 import hashlib
 import logging
 import re
 import subprocess
-import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -36,17 +36,17 @@ class JavaRepairTask:
     task_id: str
     repo_path: str
     language: str = "java"
-    build_system: str = "maven"          # "maven" | "gradle"
-    framework: str = ""                  # "spring-boot", "junit5", etc.
+    build_system: str = "maven"  # "maven" | "gradle"
+    framework: str = ""  # "spring-boot", "junit5", etc.
     failing_test: str = ""
-    failure_type: str = ""               # "compile_error" | "junit_failure"
+    failure_type: str = ""  # "compile_error" | "junit_failure"
     error_message: str = ""
     mutated_file: str = ""
     original_snippet: str = ""
     mutated_snippet: str = ""
-    repair_patch: str = ""               # unified diff of the fix
-    validator: str = ""                  # "mvn test" | "gradle test"
-    verdict: str = ""                    # "pass" | "fail" | "error"
+    repair_patch: str = ""  # unified diff of the fix
+    validator: str = ""  # "mvn test" | "gradle test"
+    verdict: str = ""  # "pass" | "fail" | "error"
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def to_corpus_payload(self) -> dict:
@@ -87,8 +87,11 @@ class JavaTaskExtractor:
     def _run(self, cmd: list[str], cwd: Path | None = None) -> tuple[int, str, str]:
         try:
             result = subprocess.run(
-                cmd, capture_output=True, text=True,
-                cwd=cwd or self._repo, timeout=self._timeout,
+                cmd,
+                capture_output=True,
+                text=True,
+                cwd=cwd or self._repo,
+                timeout=self._timeout,
             )
             return result.returncode, result.stdout, result.stderr
         except subprocess.TimeoutExpired:
@@ -114,13 +117,15 @@ class JavaTaskExtractor:
         text = java_file.read_text(encoding="utf-8", errors="replace")
         candidates = []
         for m in re.finditer(r"if\s*\(\s*(\w+)\s*==\s*null\s*\)", text):
-            candidates.append({
-                "type": "null_check_removal",
-                "match": m.group(0),
-                "start": m.start(),
-                "end": m.end(),
-                "variable": m.group(1),
-            })
+            candidates.append(
+                {
+                    "type": "null_check_removal",
+                    "match": m.group(0),
+                    "start": m.start(),
+                    "end": m.end(),
+                    "variable": m.group(1),
+                }
+            )
         return candidates
 
     def mutate_file(self, java_file: Path, mutation: dict) -> tuple[str, str]:
@@ -128,7 +133,7 @@ class JavaTaskExtractor:
         original = java_file.read_text(encoding="utf-8", errors="replace")
         if mutation["type"] == "null_check_removal":
             # Replace `if (x == null)` with `if (false)` — always-false guard
-            mutated = original[:mutation["start"]] + "if (false)" + original[mutation["end"]:]
+            mutated = original[: mutation["start"]] + "if (false)" + original[mutation["end"] :]
         else:
             mutated = original
         return original, mutated
@@ -155,7 +160,9 @@ class JavaTaskExtractor:
 
         ok, baseline_err = self.verify_baseline()
         if not ok:
-            log.warning("[java_extractor] baseline failed for %s: %s", self._repo, baseline_err[:200])
+            log.warning(
+                "[java_extractor] baseline failed for %s: %s", self._repo, baseline_err[:200]
+            )
             return []
 
         java_files = self.find_java_files()
@@ -209,11 +216,16 @@ class JavaTaskExtractor:
 def _make_unified_diff(path: str, original: str, mutated: str) -> str:
     """Create a minimal unified diff showing original vs mutated."""
     import difflib
+
     orig_lines = original.splitlines(keepends=True)
     mut_lines = mutated.splitlines(keepends=True)
-    diff = list(difflib.unified_diff(
-        mut_lines, orig_lines,
-        fromfile=f"a/{path}", tofile=f"b/{path}",
-        lineterm="",
-    ))
+    diff = list(
+        difflib.unified_diff(
+            mut_lines,
+            orig_lines,
+            fromfile=f"a/{path}",
+            tofile=f"b/{path}",
+            lineterm="",
+        )
+    )
     return "".join(diff)

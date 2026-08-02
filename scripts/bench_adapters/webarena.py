@@ -21,6 +21,7 @@ WebArena task schema (subset):
     "instantiation_dict": {}
   }
 """
+
 from __future__ import annotations
 
 import sys
@@ -100,16 +101,22 @@ class WebArenaAdapter:
     @staticmethod
     def load_tasks(json_path: Path) -> list[WebArenaTask]:
         import json
+
         data = json.loads(json_path.read_text())
         tasks = []
-        for item in (data if isinstance(data, list) else [data]):
-            tasks.append(WebArenaTask(
-                task_id=item.get("task_id", 0),
-                intent=item.get("intent", ""),
-                sites=item.get("sites", []),
-                start_url=item.get("start_url", ""),
-                eval_config=item.get("eval", {}),
-                metadata={k: v for k, v in item.items()
-                           if k not in ("task_id", "intent", "sites", "start_url", "eval")},
-            ))
+        for item in data if isinstance(data, list) else [data]:
+            tasks.append(
+                WebArenaTask(
+                    task_id=item.get("task_id", 0),
+                    intent=item.get("intent", ""),
+                    sites=item.get("sites", []),
+                    start_url=item.get("start_url", ""),
+                    eval_config=item.get("eval", {}),
+                    metadata={
+                        k: v
+                        for k, v in item.items()
+                        if k not in ("task_id", "intent", "sites", "start_url", "eval")
+                    },
+                )
+            )
         return tasks

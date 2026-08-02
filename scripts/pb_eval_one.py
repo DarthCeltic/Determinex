@@ -1,4 +1,7 @@
-import sys, json, collections, glob, os
+import collections
+import json
+import sys
+
 import determinex_pb_autofix as AF
 from pb_eval_unified import run_local_eval
 
@@ -29,9 +32,17 @@ print("PB_EVAL", slug, dict(c), "total", at)
 # auto-CORRECT on regression. (Rich INSERTs come from the agent via build_cycle end --change.)
 try:
     from determinex_pb_corpus_verify import verify
+
     if bt:  # only when there is a prior score to compare against
         r = verify(slug, f"{bp}/{bt}", f"{ap}/{at}", None, None, None)
-        print("CORPUS_END_SHOT", slug, r["direction"],
-              "| corrected:", r["corrected"], "| inserted:", r["inserted"])
+        print(
+            "CORPUS_END_SHOT",
+            slug,
+            r["direction"],
+            "| corrected:",
+            r["corrected"],
+            "| inserted:",
+            r["inserted"],
+        )
 except Exception as e:
     print("CORPUS_END_SHOT_ERR", repr(e))

@@ -40,16 +40,18 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 import os
+
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # HuggingFace auth — reads HF_TOKEN env var, works without CLI login
 _hf_token = os.environ.get("HF_TOKEN", "")
 if _hf_token:
     from huggingface_hub import login as _hf_login
+
     _hf_login(token=_hf_token, add_to_git_credential=False)
-    print(f"[CLOUD] HuggingFace login OK", flush=True)
+    print("[CLOUD] HuggingFace login OK", flush=True)
 else:
-    print(f"[CLOUD] WARNING: HF_TOKEN not set — gated models will fail", flush=True)
+    print("[CLOUD] WARNING: HF_TOKEN not set — gated models will fail", flush=True)
 
 # ---------------------------------------------------------------------------
 # PERSONA CONFIGS
@@ -57,13 +59,13 @@ else:
 
 PERSONAS = {
     "engineer": {
-        "base_model":  "Qwen/Qwen2.5-Coder-3B-Instruct",
+        "base_model": "Qwen/Qwen2.5-Coder-3B-Instruct",
         "output_name": "determinex-engineer-v9",
-        "lora_r":      32,
-        "lora_alpha":  64,
-        "epochs":      3,
-        "batch_size":  4,
-        "grad_accum":  4,
+        "lora_r": 32,
+        "lora_alpha": 64,
+        "epochs": 3,
+        "batch_size": 4,
+        "grad_accum": 4,
         "system_prompt": (
             "You are Engineer, Determinex's code generation specialist. "
             "You write correct, idiomatic, compiler-verified code. "
@@ -73,33 +75,33 @@ PERSONAS = {
         ),
     },
     "observer": {
-        "base_model":  "meta-llama/Llama-3.2-3B-Instruct",
+        "base_model": "meta-llama/Llama-3.2-3B-Instruct",
         "output_name": "determinex-observer-v4",
-        "lora_r":      16,
-        "lora_alpha":  32,
-        "epochs":      3,
-        "batch_size":  4,
-        "grad_accum":  4,
+        "lora_r": 16,
+        "lora_alpha": 32,
+        "epochs": 3,
+        "batch_size": 4,
+        "grad_accum": 4,
         "system_prompt": (
             "You are Observer, Determinex's hallucination detection specialist. "
             "You review code and responses for correctness, logical errors, and hallucinations. "
             "Output ONLY valid JSON in this exact format: "
-            '{\"verdict\": \"CLEAN\"|\"HALLUCINATION\", \"issues\": [...], \"confidence\": 0.0-1.0}'
+            '{"verdict": "CLEAN"|"HALLUCINATION", "issues": [...], "confidence": 0.0-1.0}'
         ),
     },
     "sentinel": {
-        "base_model":  "mistralai/Mistral-7B-Instruct-v0.3",
+        "base_model": "mistralai/Mistral-7B-Instruct-v0.3",
         "output_name": "determinex-sentinel-v3",
-        "lora_r":      16,
-        "lora_alpha":  32,
-        "epochs":      3,
-        "batch_size":  2,
-        "grad_accum":  8,
+        "lora_r": 16,
+        "lora_alpha": 32,
+        "epochs": 3,
+        "batch_size": 2,
+        "grad_accum": 8,
         "system_prompt": (
             "You are Sentinel, Determinex's planning and decomposition specialist. "
             "You take user requests and produce structured execution plans. "
             "Output ONLY valid JSON: "
-            '{\"tasks\": [...], \"language\": \"...\", \"complexity\": \"low|medium|high\", \"safe\": true|false}'
+            '{"tasks": [...], "language": "...", "complexity": "low|medium|high", "safe": true|false}'
         ),
     },
 }
@@ -122,8 +124,9 @@ MAX_SEQ_LENGTH = 2048
 # FORMAT
 # ---------------------------------------------------------------------------
 
+
 def format_sample(sample: dict, system_prompt: str) -> str:
-    sys_p  = sample.get("system", system_prompt)
+    sys_p = sample.get("system", system_prompt)
     user_p = sample.get("user", sample.get("instruction", ""))
     asst_p = sample.get("assistant", sample.get("output", ""))
     return (
@@ -138,10 +141,11 @@ def format_sample(sample: dict, system_prompt: str) -> str:
 # TRAIN ONE PERSONA
 # ---------------------------------------------------------------------------
 
+
 def train_persona(name: str, cfg: dict, output_root: Path):
-    print(f"\n{'='*60}", flush=True)
+    print(f"\n{'=' * 60}", flush=True)
     print(f"[CLOUD] Training {name.upper()} — {cfg['base_model']}", flush=True)
-    print(f"{'='*60}\n", flush=True)
+    print(f"{'=' * 60}\n", flush=True)
 
     output_dir = output_root / cfg["output_name"]
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -149,7 +153,7 @@ def train_persona(name: str, cfg: dict, output_root: Path):
     # ── Load data ──────────────────────────────────────────────────────────
     available = [Path(p) for p in DATA_FILES if Path(p).exists()]
     if not available:
-        print(f"[CLOUD] ERROR: No data files found. Expected in ./data/", flush=True)
+        print("[CLOUD] ERROR: No data files found. Expected in ./data/", flush=True)
         return False
     print(f"[CLOUD] Data files: {[p.name for p in available]}", flush=True)
 
@@ -161,9 +165,15 @@ def train_persona(name: str, cfg: dict, output_root: Path):
     general_target = int(len(dataset) * 0.25)
     try:
         alpaca = load_dataset("yahma/alpaca-cleaned", split=f"train[:{general_target}]")
+
         def remap(ex):
             u = ex["instruction"] + ("\n\n" + ex["input"] if ex.get("input", "").strip() else "")
-            return {"system": "You are a helpful AI assistant.", "user": u, "assistant": ex.get("output", "")}
+            return {
+                "system": "You are a helpful AI assistant.",
+                "user": u,
+                "assistant": ex.get("output", ""),
+            }
+
         alpaca = alpaca.map(remap).select_columns(["system", "user", "assistant"])
         dataset = concatenate_datasets([dataset, alpaca])
         print(f"[CLOUD] +{len(alpaca)} Alpaca samples. Total: {len(dataset)}", flush=True)
@@ -177,7 +187,7 @@ def train_persona(name: str, cfg: dict, output_root: Path):
         bnb_4bit_quant_type="nf4",
         bnb_4bit_use_double_quant=True,
     )
-    print(f"[CLOUD] Loading base model...", flush=True)
+    print("[CLOUD] Loading base model...", flush=True)
     tok = AutoTokenizer.from_pretrained(cfg["base_model"], trust_remote_code=True)
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
@@ -196,7 +206,15 @@ def train_persona(name: str, cfg: dict, output_root: Path):
     lora = LoraConfig(
         r=cfg["lora_r"],
         lora_alpha=cfg["lora_alpha"],
-        target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+        target_modules=[
+            "q_proj",
+            "k_proj",
+            "v_proj",
+            "o_proj",
+            "gate_proj",
+            "up_proj",
+            "down_proj",
+        ],
         lora_dropout=0.05,
         bias="none",
         task_type=TaskType.CAUSAL_LM,
@@ -207,9 +225,15 @@ def train_persona(name: str, cfg: dict, output_root: Path):
 
     # ── Format dataset ─────────────────────────────────────────────────────
     system_prompt = cfg["system_prompt"]
+
     def fmt(batch):
-        return {"text": [format_sample(s, system_prompt) for s in
-                         [{k: batch[k][i] for k in batch} for i in range(len(batch["user"]))]]}
+        return {
+            "text": [
+                format_sample(s, system_prompt)
+                for s in [{k: batch[k][i] for k in batch} for i in range(len(batch["user"]))]
+            ]
+        }
+
     dataset = dataset.map(fmt, batched=True, remove_columns=dataset.column_names)
 
     # ── Training args ──────────────────────────────────────────────────────
@@ -238,14 +262,14 @@ def train_persona(name: str, cfg: dict, output_root: Path):
         dataset_text_field="text",
     )
 
-    print(f"[CLOUD] Beginning training...", flush=True)
+    print("[CLOUD] Beginning training...", flush=True)
     start = time.time()
     trainer.train()
     elapsed = (time.time() - start) / 60
     print(f"[CLOUD] Training complete in {elapsed:.1f} minutes.", flush=True)
 
     # ── Merge + export ─────────────────────────────────────────────────────
-    print(f"[CLOUD] Merging LoRA adapter...", flush=True)
+    print("[CLOUD] Merging LoRA adapter...", flush=True)
     merged_dir = output_dir / "merged"
     merged_dir.mkdir(exist_ok=True)
     merged = model.merge_and_unload()
@@ -261,27 +285,37 @@ def train_persona(name: str, cfg: dict, output_root: Path):
     gguf_path = output_dir / f"{cfg['output_name']}.gguf"
     llama_cpp = Path("/workspace/llama.cpp")
     if llama_cpp.exists():
-        print(f"[CLOUD] Converting to GGUF...", flush=True)
+        print("[CLOUD] Converting to GGUF...", flush=True)
         import subprocess
-        result = subprocess.run([
-            "python3", str(llama_cpp / "convert_hf_to_gguf.py"),
-            str(merged_dir),
-            "--outfile", str(gguf_path),
-            "--outtype", "q8_0",
-        ], capture_output=True, text=True)
+
+        result = subprocess.run(
+            [
+                "python3",
+                str(llama_cpp / "convert_hf_to_gguf.py"),
+                str(merged_dir),
+                "--outfile",
+                str(gguf_path),
+                "--outtype",
+                "q8_0",
+            ],
+            capture_output=True,
+            text=True,
+        )
         if result.returncode == 0:
             size_gb = gguf_path.stat().st_size / 1e9
             print(f"[CLOUD] GGUF exported: {gguf_path} ({size_gb:.1f}GB)", flush=True)
         else:
             print(f"[CLOUD] GGUF conversion failed: {result.stderr[-500:]}", flush=True)
     else:
-        print(f"[CLOUD] llama.cpp not found — merged HF model saved. Will convert locally.", flush=True)
+        print(
+            "[CLOUD] llama.cpp not found — merged HF model saved. Will convert locally.", flush=True
+        )
 
     # Cleanup VRAM
     del model, merged, trainer
     gc.collect()
     torch.cuda.empty_cache()
-    print(f"[CLOUD] VRAM cleared for next model.", flush=True)
+    print("[CLOUD] VRAM cleared for next model.", flush=True)
     return True
 
 
@@ -291,7 +325,9 @@ def train_persona(name: str, cfg: dict, output_root: Path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", choices=["engineer", "observer", "sentinel", "all"], default="all")
+    parser.add_argument(
+        "--model", choices=["engineer", "observer", "sentinel", "all"], default="all"
+    )
     parser.add_argument("--output_dir", type=str, default="/workspace/outputs")
     args = parser.parse_args()
 

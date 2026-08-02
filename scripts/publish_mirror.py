@@ -61,7 +61,7 @@ REPO = Path(__file__).resolve().parent.parent
 #: and `determinex corpus fetch` reconstructs any upstream tree from its own maintainers at
 #: exactly that commit. Same inputs to the model, nothing re-hosted.
 CORPUS_VENDORED_MARKERS = (
-    "/source/",                      # locked/<tool>/source, pending_unlock/<tier>/<tool>/source
+    "/source/",  # locked/<tool>/source, pending_unlock/<tier>/<tool>/source
 )
 
 #: Inside `per_tool_overrides/<tool>/` only these are ours; the rest of that directory is a
@@ -77,9 +77,9 @@ CORPUS_OVERRIDE_KEEP = ("compile.sh", "conftest.py", "eval_report.json", "tests.
 #: repo carries a checksum of every report and the dataset carries the report — you can prove the
 #: artifact you downloaded is the one the board's number came from.
 CORPUS_BULK_EVIDENCE = (
-    ".bak",              # pre-bidir backups; never publish a backup
-    ".tar.gz",           # submission archives, reproducible from compile.sh
-    "/training_corpus/", # the flywheel's training data
+    ".bak",  # pre-bidir backups; never publish a backup
+    ".tar.gz",  # submission archives, reproducible from compile.sh
+    "/training_corpus/",  # the flywheel's training data
 )
 
 #: Basename PREFIXES for bulk evidence. A prefix, not an exact name: matching only
@@ -283,8 +283,10 @@ def collect(allowlist: list[str], allow_new: bool) -> tuple[list[str], list[str]
             published = set(mirror_files_under(entry))
             narrowed = [f for f in found if f in published]
             if len(narrowed) != len(found):
-                skipped.append(f"{entry} ({len(found) - len(narrowed)} file(s) not published "
-                               f"by the mirror; use --allow-new-path to add one)")
+                skipped.append(
+                    f"{entry} ({len(found) - len(narrowed)} file(s) not published "
+                    f"by the mirror; use --allow-new-path to add one)"
+                )
             found = narrowed
             if not found:
                 continue
@@ -334,7 +336,9 @@ def secret_scan(root: Path) -> None:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--remote", default="origin")
     ap.add_argument("--branch", default="main")
     ap.add_argument("-m", "--message", default=None, help="Commit message for the mirror commit")
@@ -368,9 +372,9 @@ def main() -> int:
         # absent from a fresh clone of the public repo hours later. Either the request is
         # wrong or NEVER is stale; both need a human, and neither is served by a skip line
         # buried among thirty others.
-        if (extra.split("/", 1)[0] in NEVER
-                and not extra.replace("\\", "/").rstrip("/").startswith(
-                    tuple(e.rstrip("/") for e in NEVER_EXCEPT))):
+        if extra.split("/", 1)[0] in NEVER and not extra.replace("\\", "/").rstrip("/").startswith(
+            tuple(e.rstrip("/") for e in NEVER_EXCEPT)
+        ):
             raise SystemExit(
                 f"--allow-new-path {extra!r} contradicts the NEVER list, which refuses "
                 f"{extra.split('/', 1)[0]!r}. Nothing published. Either drop the flag, or "
@@ -398,8 +402,17 @@ def main() -> int:
     staging = Path(tempfile.mkdtemp(prefix="determinex-mirror-"))
     try:
         print(f"[3/5] Staging the mirror's history in {staging} ...")
-        run(["git", "clone", "--branch", args.branch, "--single-branch",
-             run(["git", "remote", "get-url", args.remote]).strip(), str(staging)])
+        run(
+            [
+                "git",
+                "clone",
+                "--branch",
+                args.branch,
+                "--single-branch",
+                run(["git", "remote", "get-url", args.remote]).strip(),
+                str(staging),
+            ]
+        )
 
         # Replace the tree wholesale: anything the mirror has and we no longer
         # publish should disappear, which a copy-over-the-top would silently keep.
@@ -431,14 +444,21 @@ def main() -> int:
         # would update it happily -- it cut the publish set from 11 files to 1.
         ignored = subprocess.run(
             ["git", "check-ignore", "--stdin", "-z"],
-            cwd=str(staging), input="\0".join(files), capture_output=True,
-            text=True, encoding="utf-8", errors="replace", check=False,
+            cwd=str(staging),
+            input="\0".join(files),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
         ).stdout.split("\0")
         if ignored:
             drop = {p.strip().replace("\\", "/") for p in ignored if p.strip()}
             files = [f for f in files if f not in drop]
-            print(f"      - {len(drop)} file(s) refused by the mirror's own .gitignore, "
-                  f"removed from the publish set: {sorted(drop)[:5]}")
+            print(
+                f"      - {len(drop)} file(s) refused by the mirror's own .gitignore, "
+                f"removed from the publish set: {sorted(drop)[:5]}"
+            )
 
         run(["git", "add", "-A"], cwd=staging)
         status = run(["git", "status", "--porcelain"], cwd=staging)
@@ -449,9 +469,20 @@ def main() -> int:
         print(f"      {changed} files differ from the published mirror")
 
         msg = args.message or "chore: sync source and docs from the development checkout"
-        run(["git", "-c", "user.name=Determinex Publisher",
-             "-c", f"user.email={os.environ.get('GIT_AUTHOR_EMAIL', 'noreply@github.com/DarthCeltic')}",
-             "commit", "-q", "-m", msg], cwd=staging)
+        run(
+            [
+                "git",
+                "-c",
+                "user.name=Determinex Publisher",
+                "-c",
+                f"user.email={os.environ.get('GIT_AUTHOR_EMAIL', 'noreply@github.com/DarthCeltic')}",
+                "commit",
+                "-q",
+                "-m",
+                msg,
+            ],
+            cwd=staging,
+        )
 
         if not args.push:
             print("[5/5] DRY RUN -- not pushed. Re-run with --push to publish.")
@@ -467,8 +498,9 @@ def main() -> int:
         print("      verifying the remote tree matches what was published ...")
         run(["git", "fetch", "--quiet", "origin", args.branch], cwd=staging)
         remote = set(
-            run(["git", "ls-tree", "-r", "--name-only", f"origin/{args.branch}"],
-                cwd=staging).splitlines()
+            run(
+                ["git", "ls-tree", "-r", "--name-only", f"origin/{args.branch}"], cwd=staging
+            ).splitlines()
         )
         missing = sorted(set(files) - remote)
         if missing:
@@ -479,10 +511,14 @@ def main() -> int:
             )
         extra_remote = sorted(remote - set(files))
         if extra_remote:
-            print(f"      note: {len(extra_remote)} file(s) in the mirror were not in this "
-                  f"run's file list: {extra_remote[:5]}")
-        print(f"      published and verified: {len(files)} files present in "
-              f"{args.remote}/{args.branch}.")
+            print(
+                f"      note: {len(extra_remote)} file(s) in the mirror were not in this "
+                f"run's file list: {extra_remote[:5]}"
+            )
+        print(
+            f"      published and verified: {len(files)} files present in "
+            f"{args.remote}/{args.branch}."
+        )
         return 0
     finally:
         if not args.keep:

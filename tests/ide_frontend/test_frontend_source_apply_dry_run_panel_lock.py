@@ -1,12 +1,10 @@
 """Tests for FRONTEND_SOURCE_APPLY_DRY_RUN_PANEL_LOCK_001."""
+
 from __future__ import annotations
 
 import json
 import re
-import sys
 from pathlib import Path
-
-import pytest
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 PANEL = _REPO_ROOT / "frontend" / "src" / "components" / "ide-repair" / "SourceApplyDryRunPanel.tsx"
@@ -14,12 +12,14 @@ LOCK_PATH = _REPO_ROOT / "locks" / "sentinel" / "FRONTEND_SOURCE_APPLY_DRY_RUN_P
 EVIDENCE_DIR = _REPO_ROOT / "assurance" / "evidence" / "frontend_source_apply_dry_run_panel"
 EVIDENCE_INDEX = _REPO_ROOT / "assurance" / "evidence" / "evidence_index.json"
 
-STATUS_TOKENS = frozenset({
-    "SOURCE_APPLY_DRY_RUN_PANEL_READY",
-    "SOURCE_APPLY_BLOCKED_VISIBLE",
-    "SOURCE_APPLY_SOURCE_UNCHANGED_VISIBLE",
-    "SOURCE_APPLY_REAL_WRITE_DISABLED",
-})
+STATUS_TOKENS = frozenset(
+    {
+        "SOURCE_APPLY_DRY_RUN_PANEL_READY",
+        "SOURCE_APPLY_BLOCKED_VISIBLE",
+        "SOURCE_APPLY_SOURCE_UNCHANGED_VISIBLE",
+        "SOURCE_APPLY_REAL_WRITE_DISABLED",
+    }
+)
 
 
 def test_panel_exists():

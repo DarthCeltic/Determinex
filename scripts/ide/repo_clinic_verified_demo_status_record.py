@@ -11,11 +11,11 @@ training False — and MUST NOT broaden that into all-codebases /
 all-languages / arbitrary-production-repair / real-user-repo-
 mutation-authorized / training-enabled / release-ready claims.
 """
+
 from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-
 
 REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_STATUS_TOKENS = (
     "REACT_REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_PASSED",
@@ -48,6 +48,7 @@ FORBIDDEN_BROAD_CLAIM_PHRASES = (
 @dataclass(frozen=True)
 class RepoClinicVerifiedDemoStatus:
     """Render-safe view-model the React Repo Clinic panel consumes."""
+
     decision: str
     demo_title: str
     target_surface: str
@@ -93,9 +94,7 @@ class RepoClinicVerifiedDemoStatus:
 
     @property
     def is_blocked(self) -> bool:
-        return self.decision.startswith(
-            "REACT_REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_"
-        )
+        return self.decision.startswith("REACT_REPO_CLINIC_VERIFIED_DEMO_STATUS_BINDING_BLOCKED_")
 
 
 __all__ = [

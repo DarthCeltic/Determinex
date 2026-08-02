@@ -15,6 +15,7 @@ Cache lives at ~/.cache/huggingface/hub/datasets--programbench--ProgramBench-Tes
 
 Expected size: ~2-3 GB total. Disk usage warning printed if C: has <20 GB free.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -29,7 +30,9 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 TASKS_DIR = Path("T:/Dev/ProgramBench/src/programbench/data/tasks")
-HF_CACHE_ROOT = Path.home() / ".cache/huggingface/hub/datasets--programbench--ProgramBench-Tests/snapshots"
+HF_CACHE_ROOT = (
+    Path.home() / ".cache/huggingface/hub/datasets--programbench--ProgramBench-Tests/snapshots"
+)
 
 # Force ProgramBench's blob_store import path to find the right module
 sys.path.insert(0, str(Path("T:/Dev/ProgramBench/src")))
@@ -52,7 +55,7 @@ def find_local_snapshot(instance_id: str) -> Path | None:
     return None
 
 
-HF_REPO_ID  = "programbench/ProgramBench-Tests"
+HF_REPO_ID = "programbench/ProgramBench-Tests"
 HF_REVISION = "main"
 
 
@@ -67,10 +70,14 @@ def pull_one(instance_id: str) -> tuple[bool, str, int]:
     except Exception as e:
         return False, f"huggingface_hub import failed: {e}", 0
     try:
-        base = Path(snapshot_download(
-            HF_REPO_ID, repo_type="dataset", revision=HF_REVISION,
-            allow_patterns=f"{instance_id}/**",
-        ))
+        base = Path(
+            snapshot_download(
+                HF_REPO_ID,
+                repo_type="dataset",
+                revision=HF_REVISION,
+                allow_patterns=f"{instance_id}/**",
+            )
+        )
     except Exception as e:
         return False, f"download failed: {type(e).__name__}: {str(e)[:160]}", 0
     result = base / instance_id
@@ -82,7 +89,9 @@ def pull_one(instance_id: str) -> tuple[bool, str, int]:
 
 def main():
     ap = argparse.ArgumentParser(description="Pre-pull ProgramBench HF blob caches")
-    ap.add_argument("--limit", type=int, default=0, help="pull only the first N tasks (default: all)")
+    ap.add_argument(
+        "--limit", type=int, default=0, help="pull only the first N tasks (default: all)"
+    )
     ap.add_argument("--check", action="store_true", help="don't pull, just report cache state")
     ap.add_argument("--only", nargs="+", help="pull only these specific instance IDs")
     args = ap.parse_args()
@@ -96,7 +105,7 @@ def main():
     if args.only:
         tasks = [t for t in tasks if t in args.only]
     if args.limit and not args.only:
-        tasks = tasks[:args.limit]
+        tasks = tasks[: args.limit]
     print(f"Tasks to inspect: {len(tasks)}")
 
     if args.check:
@@ -121,19 +130,19 @@ def main():
         pulled_now, msg, size_kb = pull_one(iid)
         if pulled_now:
             n_pulled += 1
-            print(f"  PULLED ({size_kb/1024:.1f} MB)")
+            print(f"  PULLED ({size_kb / 1024:.1f} MB)")
         elif msg == "already cached":
             n_skipped += 1
-            print(f"  cached ({size_kb/1024:.1f} MB)")
+            print(f"  cached ({size_kb / 1024:.1f} MB)")
         else:
             n_failed += 1
             print(f"  FAILED — {msg}")
         total_kb += size_kb
 
     dt = time.time() - t0
-    print(f"\n=== Done in {dt:.0f}s ({dt/60:.1f}m) ===")
+    print(f"\n=== Done in {dt:.0f}s ({dt / 60:.1f}m) ===")
     print(f"Pulled now: {n_pulled}    Already cached: {n_skipped}    Failed: {n_failed}")
-    print(f"Total cache size: {total_kb/1024/1024:.2f} GB")
+    print(f"Total cache size: {total_kb / 1024 / 1024:.2f} GB")
     sys.exit(0 if n_failed == 0 else 1)
 
 

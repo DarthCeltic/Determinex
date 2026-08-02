@@ -30,6 +30,7 @@ instead of manufacturing a percentage.
         --baseline determinex/qwen7b \
         --ladder determinex/engineer,determinex/qwen7b
 """
+
 from __future__ import annotations
 
 import argparse
@@ -66,8 +67,8 @@ class RunResult:
 class ArmResult:
     name: str
     runs: list[RunResult] = field(default_factory=list)
-    usd: float = 0.0            # from the session manifests (the hive's accounting)
-    ledger_usd: float = 0.0     # from providers.jsonl, as a cross-check
+    usd: float = 0.0  # from the session manifests (the hive's accounting)
+    ledger_usd: float = 0.0  # from providers.jsonl, as a cross-check
     escalations: int = 0
     route_rows: list[dict] = field(default_factory=list)
 
@@ -132,9 +133,16 @@ def _route_line_count() -> int:
 
 
 def _run(cmd: list[str], env: dict, timeout: int) -> str:
-    proc = subprocess.run([sys.executable, *cmd], cwd=str(_ROOT), env=env,
-                          capture_output=True, text=True, timeout=timeout,
-                          encoding="utf-8", errors="replace")
+    proc = subprocess.run(
+        [sys.executable, *cmd],
+        cwd=str(_ROOT),
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        encoding="utf-8",
+        errors="replace",
+    )
     return (proc.stdout or "") + (proc.stderr or "")
 
 
@@ -142,8 +150,7 @@ def run_one(spec: Path, env: dict, timeout: int, lang: str) -> RunResult:
     res = RunResult(spec=spec.name)
     t0 = time.time()
     try:
-        out = _run([str(_HIVE), "new-session", "--spec", str(spec), "--lang", lang],
-                   env, timeout)
+        out = _run([str(_HIVE), "new-session", "--spec", str(spec), "--lang", lang], env, timeout)
         m = _SESSION_RE.search(out)
         if not m:
             res.error = "no session id in new-session output"
@@ -159,7 +166,10 @@ def run_one(spec: Path, env: dict, timeout: int, lang: str) -> RunResult:
         s = _STEPS_RE.search(out)
         if s:
             res.steps_complete, res.steps_total, res.steps_failed = (
-                int(s.group(1)), int(s.group(2)), int(s.group(3)))
+                int(s.group(1)),
+                int(s.group(2)),
+                int(s.group(3)),
+            )
         else:
             res.error = "run-session did not report a step tally"
     except subprocess.TimeoutExpired:
@@ -171,8 +181,7 @@ def run_one(spec: Path, env: dict, timeout: int, lang: str) -> RunResult:
     return res
 
 
-def run_arm(name: str, specs: list[Path], env_extra: dict, timeout: int,
-            lang: str) -> ArmResult:
+def run_arm(name: str, specs: list[Path], env_extra: dict, timeout: int, lang: str) -> ArmResult:
     env = {**os.environ, **env_extra}
     # Each arm starts from a clean routing state so a stale variable from the caller's shell
     # cannot silently contaminate the baseline.
@@ -240,21 +249,29 @@ def report(always: ArmResult, routed: ArmResult, baseline: str, ladder: list[str
         t = int(r.get("tier_used", 0) or 0)
         by_tier[t] = by_tier.get(t, 0) + 1
     if by_model:
-        print("  steps solved per model: " + ", ".join(
-            f"{m}={c}" for m, c in sorted(by_model.items())))
+        print(
+            "  steps solved per model: "
+            + ", ".join(f"{m}={c}" for m, c in sorted(by_model.items()))
+        )
     if len(by_tier) == 1 and len(by_model) > 1:
         print("  (every rung shares one tier, so the tier histogram cannot separate")
         print("   them -- read the per-model line above, not the tier.)")
     elif by_tier:
-        print("  steps solved per tier: " + ", ".join(
-            f"tier {t}={c}" for t, c in sorted(by_tier.items())))
+        print(
+            "  steps solved per tier: "
+            + ", ".join(f"tier {t}={c}" for t, c in sorted(by_tier.items()))
+        )
 
     print(f"\nsolved (all steps complete): always={always.solved}/{n}  routed={routed.solved}/{n}")
-    print(f"wall clock                 : always={always.seconds:.0f}s  routed={routed.seconds:.0f}s")
+    print(
+        f"wall clock                 : always={always.seconds:.0f}s  routed={routed.seconds:.0f}s"
+    )
     print(f"spend, hive accounting      : always=${always.usd:.6f}  routed=${routed.usd:.6f}")
-    print(f"  (providers-ledger cross-check: always=${always.ledger_usd:.6f} "
-          f"routed=${routed.ledger_usd:.6f} -- nonzero here means spend arrived by a "
-          f"path this harness does not model)")
+    print(
+        f"  (providers-ledger cross-check: always=${always.ledger_usd:.6f} "
+        f"routed=${routed.ledger_usd:.6f} -- nonzero here means spend arrived by a "
+        f"path this harness does not model)"
+    )
 
     if always.usd == 0.0 and routed.usd == 0.0:
         print("\n  Both arms spent $0. That is the honest result for an all-local ladder,")
@@ -269,36 +286,62 @@ def report(always: ArmResult, routed: ArmResult, baseline: str, ladder: list[str
         print("\n  baseline spent $0 but routed did not -- cannot express that as a saving.")
 
     return {
-        "baseline": baseline, "ladder": ladder, "specs": n,
-        "always": {"solved": always.solved, "usd": always.usd, "ledger_usd": always.ledger_usd, "seconds": always.seconds,
-                   "runs": [vars(r) for r in always.runs]},
-        "routed": {"solved": routed.solved, "usd": routed.usd, "ledger_usd": routed.ledger_usd, "seconds": routed.seconds,
-                   "escalations": esc, "routed_steps": steps_routed,
-                   "tier_histogram": by_tier, "model_histogram": by_model, "runs": [vars(r) for r in routed.runs]},
+        "baseline": baseline,
+        "ladder": ladder,
+        "specs": n,
+        "always": {
+            "solved": always.solved,
+            "usd": always.usd,
+            "ledger_usd": always.ledger_usd,
+            "seconds": always.seconds,
+            "runs": [vars(r) for r in always.runs],
+        },
+        "routed": {
+            "solved": routed.solved,
+            "usd": routed.usd,
+            "ledger_usd": routed.ledger_usd,
+            "seconds": routed.seconds,
+            "escalations": esc,
+            "routed_steps": steps_routed,
+            "tier_histogram": by_tier,
+            "model_histogram": by_model,
+            "runs": [vars(r) for r in routed.runs],
+        },
         "saving_percent": saving,
         "escalation_exercised": bool(esc),
     }
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--specs", required=True, help="comma-separated spec .md paths")
-    ap.add_argument("--baseline", required=True,
-                    help="the model that does EVERY step in the always-frontier arm")
-    ap.add_argument("--ladder", required=True,
-                    help="comma-separated ladder for the routed arm, cheapest first")
-    ap.add_argument("--lang", default="rust",
-                    help="target language. Defaults to rust DELIBERATELY: for python the "
-                         "Compiler Oracle is `python -m compileall` -- a SYNTAX check, so "
-                         "any valid code passes, the cheap rung never fails, and escalation "
-                         "can never be exercised. cargo build type-checks for real.")
+    ap.add_argument(
+        "--baseline",
+        required=True,
+        help="the model that does EVERY step in the always-frontier arm",
+    )
+    ap.add_argument(
+        "--ladder", required=True, help="comma-separated ladder for the routed arm, cheapest first"
+    )
+    ap.add_argument(
+        "--lang",
+        default="rust",
+        help="target language. Defaults to rust DELIBERATELY: for python the "
+        "Compiler Oracle is `python -m compileall` -- a SYNTAX check, so "
+        "any valid code passes, the cheap rung never fails, and escalation "
+        "can never be exercised. cargo build type-checks for real.",
+    )
     ap.add_argument("--timeout", type=int, default=1800, help="per hive command, seconds")
     ap.add_argument("--k", type=int, default=2, help="verified-search samples per rung")
-    ap.add_argument("--out", type=Path,
-                    help="also write the result JSON here. Prefer assurance/evidence/ "
-                         "over logs/: logs/ is gitignored, so an A/B result written "
-                         "there is not preserved as evidence and cannot be cited later.")
+    ap.add_argument(
+        "--out",
+        type=Path,
+        help="also write the result JSON here. Prefer assurance/evidence/ "
+        "over logs/: logs/ is gitignored, so an A/B result written "
+        "there is not preserved as evidence and cannot be cited later.",
+    )
     args = ap.parse_args()
 
     specs = [Path(s.strip()) for s in args.specs.split(",") if s.strip()]
@@ -316,15 +359,26 @@ def main() -> int:
     # from the hardware tier and the ladder's cost, so on a tier-1+ host with the shipped
     # all-local ladder an unset variable now means ON -- which would have made this "routing
     # OFF" arm route, and the A/B would have compared routing against itself.
-    always = run_arm("always", specs,
-                     {"DETERMINEX_ROLE_BUILDER": args.baseline, "DETERMINEX_ROUTE": "0"},
-                     args.timeout, args.lang)
+    always = run_arm(
+        "always",
+        specs,
+        {"DETERMINEX_ROLE_BUILDER": args.baseline, "DETERMINEX_ROUTE": "0"},
+        args.timeout,
+        args.lang,
+    )
 
     print(f"\narm 2/2: routed {' -> '.join(ladder)}")
-    routed = run_arm("routed", specs,
-                     {"DETERMINEX_ROUTE": "1",
-                      "DETERMINEX_ROUTE_LADDER": ",".join(ladder),
-                      "DETERMINEX_ROUTE_K": str(args.k)}, args.timeout, args.lang)
+    routed = run_arm(
+        "routed",
+        specs,
+        {
+            "DETERMINEX_ROUTE": "1",
+            "DETERMINEX_ROUTE_LADDER": ",".join(ladder),
+            "DETERMINEX_ROUTE_K": str(args.k),
+        },
+        args.timeout,
+        args.lang,
+    )
 
     payload = report(always, routed, args.baseline, ladder)
     if args.out:

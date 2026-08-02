@@ -1,7 +1,8 @@
 """SentinelBench: desktop agents must have sandbox_active=True (VM isolation)."""
+
 from agents.base_agent import ActionType, AgentObservation, EnvType, VisualTaskSpec
+
 from tests.sentinelbench.helpers import make_action
-from agents.safety_governor import SafetyDecisionValue
 
 
 def test_desktop_action_blocked_without_vm(governor):
@@ -18,7 +19,11 @@ def test_desktop_action_blocked_without_vm(governor):
     assert decision.is_blocked, (
         f"Desktop action without VM must BLOCK but got {decision.value}: {decision.reason}"
     )
-    assert "sandbox" in decision.reason.lower() or "vm" in decision.reason.lower() or "VM" in decision.reason
+    assert (
+        "sandbox" in decision.reason.lower()
+        or "vm" in decision.reason.lower()
+        or "VM" in decision.reason
+    )
 
 
 def test_desktop_action_allowed_with_vm(governor):

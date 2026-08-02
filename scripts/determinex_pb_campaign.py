@@ -23,6 +23,7 @@ EVAL is pluggable (`eval_fn(slug, pilot_dir) -> report_path`) so the same driver
 local-capped or on Hetzner. `plan-all` runs the whole diagnosis+retrieval pass CPU-free
 to produce the ranked fix queue without spending a single eval.
 """
+
 from __future__ import annotations
 
 import json
@@ -33,8 +34,8 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from determinex_adjudicator import adjudicate_eval_report          # noqa: E402
-from determinex_pb_autofix import autofix, OVERRIDES               # noqa: E402
+from determinex_adjudicator import adjudicate_eval_report  # noqa: E402
+from determinex_pb_autofix import OVERRIDES, autofix  # noqa: E402
 from determinex_pb_integrity import keep_if_better, legitimacy_class  # noqa: E402
 
 REPO = _HERE.parent
@@ -60,17 +61,27 @@ def candidates(min_pct: float = 0.0, max_pct: float = 100.0) -> list[dict]:
         if not (min_pct <= pct <= max_pct):
             continue
         slug = (e.get("slug") or "").replace(".eval", "")
-        out.append({"slug": slug, "status": st, "pct": pct,
-                    "failed": e.get("official_failed"), "not_run": e.get("official_not_run")})
+        out.append(
+            {
+                "slug": slug,
+                "status": st,
+                "pct": pct,
+                "failed": e.get("official_failed"),
+                "not_run": e.get("official_not_run"),
+            }
+        )
     # rank: closest-to-lock first (highest pct), then by fewest failures
-    out.sort(key=lambda x: (-(x["pct"] or 0)))
+    out.sort(key=lambda x: -(x["pct"] or 0))
     return out
 
 
 def find_override(slug: str) -> Path | None:
     for d in OVERRIDES.iterdir():
-        if d.is_dir() and (d.name == slug or d.name.split(".")[0] == slug.split(".")[0]
-                           or d.name.split("__")[-1].split(".")[0] == slug.split("__")[-1].split(".")[0]):
+        if d.is_dir() and (
+            d.name == slug
+            or d.name.split(".")[0] == slug.split(".")[0]
+            or d.name.split("__")[-1].split(".")[0] == slug.split("__")[-1].split(".")[0]
+        ):
             if (d / "compile.sh").exists():
                 return d
     return None
@@ -79,8 +90,7 @@ def find_override(slug: str) -> Path | None:
 def latest_report(slug: str) -> Path | None:
     """Newest eval report for a tool, searched across local pilot dirs + staging."""
     base = slug.split("__")[-1].split(".")[0]
-    roots = [Path("T:/determinex-programbench"), REPO / ".determinex_staging",
-             LOCKED / slug]
+    roots = [Path("T:/determinex-programbench"), REPO / ".determinex_staging", LOCKED / slug]
     best, best_mt = None, 0.0
     for root in roots:
         if not root.exists():
@@ -120,12 +130,23 @@ def corpus_retrieve(failure_text: str, k: int = 5) -> list[dict]:
             rec = json.loads(line)
         except Exception:
             continue
-        sig = set(_signature((rec.get("actual", "") + " " + rec.get("expected", "")).strip()).split())
+        sig = set(
+            _signature((rec.get("actual", "") + " " + rec.get("expected", "")).strip()).split()
+        )
         ov = len(want & sig)
         if ov >= 2 and rec.get("verdict") in ("resolved", "improved"):
-            scored.append((ov, {"tool": rec.get("tool"), "diff_kind": rec.get("diff_kind"),
-                                "technique": rec.get("technique"), "verdict": rec.get("verdict"),
-                                "overlap": ov}))
+            scored.append(
+                (
+                    ov,
+                    {
+                        "tool": rec.get("tool"),
+                        "diff_kind": rec.get("diff_kind"),
+                        "technique": rec.get("technique"),
+                        "verdict": rec.get("verdict"),
+                        "overlap": ov,
+                    },
+                )
+            )
     scored.sort(key=lambda x: -x[0])
     return [r for _, r in scored[:k]]
 
@@ -147,9 +168,13 @@ def plan_tool(slug: str) -> dict:
         first_txt = next((a.failure.text for a in adjs if a.failure.text), "")
         retrieved = corpus_retrieve(first_txt)
     res = autofix(slug, rep, apply=False)
-    return {"slug": slug, "report": str(rep) if rep else None,
-            "adjudication": adj_counts, "autofix_would": res.applied + res.skipped,
-            "corpus_suggestions": retrieved}
+    return {
+        "slug": slug,
+        "report": str(rep) if rep else None,
+        "adjudication": adj_counts,
+        "autofix_would": res.applied + res.skipped,
+        "corpus_suggestions": retrieved,
+    }
 
 
 def drive(slug: str, eval_fn, max_iters: int = 3) -> dict:
@@ -173,8 +198,12 @@ def drive(slug: str, eval_fn, max_iters: int = 3) -> dict:
                 traj.append({"iter": i, "ABORT": f"RED fix refused: {ap}"})
                 return {"slug": slug, "trajectory": traj, "stopped": "RED"}
         pilot = Path("T:/determinex-programbench") / f"campaign_{slug}_{i}"
-        after = eval_fn(slug, pilot)        # the Oracle (pluggable: local/Hetzner)
-        gate = keep_if_better(before, after) if before and after else {"keep": True, "verdict": "no-baseline"}
+        after = eval_fn(slug, pilot)  # the Oracle (pluggable: local/Hetzner)
+        gate = (
+            keep_if_better(before, after)
+            if before and after
+            else {"keep": True, "verdict": "no-baseline"}
+        )
         traj.append({"iter": i, "applied": res.applied, "gate": gate["verdict"]})
         if not gate.get("keep"):
             traj.append({"iter": i, "REVERTED": "regression; restoring prior submission"})
@@ -226,44 +255,63 @@ def maybe_retrain(threshold: int = 200) -> dict:
     if BEHAVIORAL_CORPUS.exists():
         n = sum(1 for _ in BEHAVIORAL_CORPUS.open(encoding="utf-8", errors="replace"))
     ready = n >= threshold
-    return {"behavioral_pairs": n, "threshold": threshold, "retrain_ready": ready,
-            "command": "python scripts/determinex_flywheel.py" if ready else
-                       f"accumulate {threshold - n} more pairs first"}
+    return {
+        "behavioral_pairs": n,
+        "threshold": threshold,
+        "retrain_ready": ready,
+        "command": "python scripts/determinex_flywheel.py"
+        if ready
+        else f"accumulate {threshold - n} more pairs first",
+    }
 
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Determinex PB autonomic fan-out driver")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    pa = sub.add_parser("plan-all", help="CPU-free diagnosis+retrieval queue over all unlocked tools")
+    pa = sub.add_parser(
+        "plan-all", help="CPU-free diagnosis+retrieval queue over all unlocked tools"
+    )
     pa.add_argument("--limit", type=int, default=30)
     pa.add_argument("--min-pct", type=float, default=0.0)
-    pt = sub.add_parser("plan"); pt.add_argument("slug")
-    bp = sub.add_parser("backprop"); bp.add_argument("technique")
+    pt = sub.add_parser("plan")
+    pt.add_argument("slug")
+    bp = sub.add_parser("backprop")
+    bp.add_argument("technique")
     sub.add_parser("retrain-status")
     args = ap.parse_args()
 
     if args.cmd == "plan-all":
-        cands = candidates(min_pct=args.min_pct)[:args.limit]
+        cands = candidates(min_pct=args.min_pct)[: args.limit]
         print(f"=== FAN-OUT QUEUE: {len(cands)} unlocked tools (closest-to-lock first) ===")
         for c in cands:
             p = plan_tool(c["slug"])
             adj = p.get("adjudication", {})
             sugg = p.get("corpus_suggestions", [])
             fixes = [a for a in p.get("autofix_would", []) if a and not a.startswith("no ")]
-            tag = ("AUTOFIX:" + ";".join(f.split(":")[0] for f in fixes)) if fixes else "behavioral/manual"
-            print(f"  {c['pct']:5.1f}%  {c['slug']:34s} {tag}"
-                  + (f"  corpus<-{[s['technique'] for s in sugg][:2]}" if sugg else ""))
+            tag = (
+                ("AUTOFIX:" + ";".join(f.split(":")[0] for f in fixes))
+                if fixes
+                else "behavioral/manual"
+            )
+            print(
+                f"  {c['pct']:5.1f}%  {c['slug']:34s} {tag}"
+                + (f"  corpus<-{[s['technique'] for s in sugg][:2]}" if sugg else "")
+            )
         return 0
     if args.cmd == "plan":
-        print(json.dumps(plan_tool(args.slug), indent=2)); return 0
+        print(json.dumps(plan_tool(args.slug), indent=2))
+        return 0
     if args.cmd == "backprop":
         hits = back_propagate(args.technique)
         print(f"{args.technique} back-prop -> {len(hits)} matching tools:")
-        for h in hits: print("  ", h)
+        for h in hits:
+            print("  ", h)
         return 0
     if args.cmd == "retrain-status":
-        print(json.dumps(maybe_retrain(), indent=2)); return 0
+        print(json.dumps(maybe_retrain(), indent=2))
+        return 0
     return 1
 
 

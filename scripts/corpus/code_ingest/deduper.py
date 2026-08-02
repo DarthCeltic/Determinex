@@ -13,19 +13,18 @@ Both thresholds configurable via env vars:
   DETERMINEX_NEAR_DUP_THRESHOLD  (default 0.80)
   DETERMINEX_MINHASH_PERMUTATIONS (default 128)
 """
+
 from __future__ import annotations
 
 import hashlib
 import os
 import re
 from dataclasses import dataclass
-from typing import Iterator
-
 
 _NEAR_DUP_THRESHOLD = float(os.environ.get("DETERMINEX_NEAR_DUP_THRESHOLD", "0.80"))
 _MINHASH_PERMS = int(os.environ.get("DETERMINEX_MINHASH_PERMUTATIONS", "128"))
 _MERSENNE_PRIME = (1 << 61) - 1
-_MAX_HASH = (1 << 32)
+_MAX_HASH = 1 << 32
 
 
 @dataclass
@@ -33,7 +32,7 @@ class DedupResult:
     content_hash: str
     is_exact_duplicate: bool
     is_near_duplicate: bool
-    similarity: float         # Jaccard estimate; 0.0 if not near-dup
+    similarity: float  # Jaccard estimate; 0.0 if not near-dup
     matched_hash: str | None  # hash of the existing entry it matched
 
     @property
@@ -62,7 +61,7 @@ def _shingles(content: str, k: int = 5) -> set[int]:
     tokens = _normalize(content).split()
     if len(tokens) < k:
         return {hash(tuple(tokens))}
-    return {hash(tuple(tokens[i:i+k])) for i in range(len(tokens) - k + 1)}
+    return {hash(tuple(tokens[i : i + k])) for i in range(len(tokens) - k + 1)}
 
 
 class _MinHashSignature:
@@ -73,6 +72,7 @@ class _MinHashSignature:
     def __init__(self, shingles: set[int], n_perm: int = _MINHASH_PERMS):
         # Random-ish hash parameters (deterministic seed)
         import random
+
         rng = random.Random(42)
         a = [rng.randint(1, _MERSENNE_PRIME) for _ in range(n_perm)]
         b = [rng.randint(0, _MERSENNE_PRIME) for _ in range(n_perm)]
@@ -83,7 +83,7 @@ class _MinHashSignature:
                 if h < self.sig[i]:
                     self.sig[i] = h
 
-    def jaccard(self, other: "_MinHashSignature") -> float:
+    def jaccard(self, other: _MinHashSignature) -> float:
         matches = sum(a == b for a, b in zip(self.sig, other.sig))
         return matches / len(self.sig)
 
@@ -98,7 +98,7 @@ class Deduper:
 
     def __init__(self, near_dup_threshold: float = _NEAR_DUP_THRESHOLD):
         self._threshold = near_dup_threshold
-        self._exact: dict[str, str] = {}           # hash → first seen hash (same)
+        self._exact: dict[str, str] = {}  # hash → first seen hash (same)
         self._sigs: list[tuple[str, _MinHashSignature]] = []  # (hash, sig)
 
     def check(self, content: str) -> DedupResult:

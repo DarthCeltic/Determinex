@@ -11,6 +11,7 @@ Two guards:
    board reader must pass encoding="utf-8". This is the regression that broke readers
    on Windows and is the purpose of the mojibake-and-count-fix branch.
 """
+
 from __future__ import annotations
 
 import json
@@ -58,9 +59,7 @@ def test_no_bare_board_reads() -> None:
         for i, line in enumerate(lines, 1):
             if not _BOARD_HINT.search(line):
                 continue
-            if _BARE_READ_TEXT.search(line) or (
-                _BARE_OPEN.search(line) and "encoding" not in line
-            ):
+            if _BARE_READ_TEXT.search(line) or (_BARE_OPEN.search(line) and "encoding" not in line):
                 offenders.append(f"{py.relative_to(REPO)}:{i}: {line.strip()}")
     assert not offenders, (
         "Board/index files must be read with encoding='utf-8' "

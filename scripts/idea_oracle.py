@@ -10,11 +10,13 @@ Replaces the "instant MD spec" approach with a guided conversation:
 When ready_to_spec=True, the frontend calls spec_generator.py with the full
 conversation context so the spec is written once, informed by everything.
 """
-import sys
+
 import argparse
 import json
-import litellm
+import sys
 from pathlib import Path
+
+import litellm
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _PROJECT_ROOT = _SCRIPT_DIR.parent
@@ -23,6 +25,7 @@ sys.path.insert(0, str(_PROJECT_ROOT))
 
 try:
     from dotenv import load_dotenv
+
     load_dotenv(_PROJECT_ROOT / ".env", override=False)
 except ImportError:
     pass
@@ -80,10 +83,12 @@ def _build_user_content(text: str, attachments: list) -> "str | list":
         return text
     content = [{"type": "text", "text": text}]
     for img in images:
-        content.append({
-            "type": "image_url",
-            "image_url": {"url": f"data:{img['mime_type']};base64,{img['data']}"},
-        })
+        content.append(
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:{img['mime_type']};base64,{img['data']}"},
+            }
+        )
     return content
 
 
@@ -155,11 +160,28 @@ def _requested_types(idea: str) -> list[str]:
     import re
 
     text = idea.lower()
-    wants_web = bool(re.search(r"\b(web ?site|site|web app|webapp|frontend|browser|dashboard|portal|landing page|saas)\b", text))
-    wants_mobile = bool(re.search(r"\b(mobile|phone|ios|android|native app|mobile app|app store|play store)\b", text))
-    wants_cli = bool(re.search(r"\b(cli|command.?line|terminal tool|shell command|console app)\b", text))
-    wants_api = bool(re.search(r"\b(api|backend|server|service|endpoint|auth|login|account|sync|rest|graphql)\b", text))
-    wants_pipeline = bool(re.search(r"\b(pipeline|etl|ingest|stream|warehouse|data flow|dataflow)\b", text))
+    wants_web = bool(
+        re.search(
+            r"\b(web ?site|site|web app|webapp|frontend|browser|dashboard|portal|landing page|saas)\b",
+            text,
+        )
+    )
+    wants_mobile = bool(
+        re.search(
+            r"\b(mobile|phone|ios|android|native app|mobile app|app store|play store)\b", text
+        )
+    )
+    wants_cli = bool(
+        re.search(r"\b(cli|command.?line|terminal tool|shell command|console app)\b", text)
+    )
+    wants_api = bool(
+        re.search(
+            r"\b(api|backend|server|service|endpoint|auth|login|account|sync|rest|graphql)\b", text
+        )
+    )
+    wants_pipeline = bool(
+        re.search(r"\b(pipeline|etl|ingest|stream|warehouse|data flow|dataflow)\b", text)
+    )
 
     types: list[str] = []
     if wants_web and wants_mobile:
@@ -185,7 +207,11 @@ def _merge_intent_paths(result: dict, idea: str) -> dict:
     requested_paths = [dict(_PATH_TEMPLATES[name]) for name in requested if name in _PATH_TEMPLATES]
     model_paths = [p for p in result.get("paths", []) if isinstance(p, dict)]
     if "CLI Tool" not in requested:
-        model_paths = [p for p in model_paths if str(p.get("name", "")).lower() not in {"cli tool", "command-line tool"}]
+        model_paths = [
+            p
+            for p in model_paths
+            if str(p.get("name", "")).lower() not in {"cli tool", "command-line tool"}
+        ]
 
     merged = []
     seen = set()
@@ -199,8 +225,12 @@ def _merge_intent_paths(result: dict, idea: str) -> dict:
     result = dict(result)
     result["paths"] = merged[:5]
     if requested[0] == "Web + Mobile App":
-        result["message"] = "You asked for both a website and mobile applications. I will treat this as a cross-platform product, not a CLI tool."
-        result["questions"] = ["Should the website and mobile apps share one account system and backend?"]
+        result["message"] = (
+            "You asked for both a website and mobile applications. I will treat this as a cross-platform product, not a CLI tool."
+        )
+        result["questions"] = [
+            "Should the website and mobile apps share one account system and backend?"
+        ]
     return result
 
 
@@ -210,7 +240,9 @@ def _discover_fallback_for(idea: str) -> dict:
             {
                 "paths": [],
                 "message": "I found the product surfaces in your idea. Which direction should we build first?",
-                "questions": ["Which surface should be first: shared web+mobile, web, mobile, or backend?"],
+                "questions": [
+                    "Which surface should be first: shared web+mobile, web, mobile, or backend?"
+                ],
             },
             idea,
         )
@@ -223,6 +255,7 @@ def _discover_fallback_for(idea: str) -> dict:
 
 def discover(idea: str, attachments: list = None) -> dict:
     import re as _re
+
     roles = load_role_assignments()
     oracle_model = roles.get("oracle", "openai/gpt-4o")
 
@@ -257,7 +290,7 @@ def discover(idea: str, attachments: list = None) -> dict:
     try:
         result = json.loads(raw)
     except json.JSONDecodeError:
-        m = _re.search(r'\{.*\}', raw, _re.DOTALL)
+        m = _re.search(r"\{.*\}", raw, _re.DOTALL)
         if m:
             try:
                 result = json.loads(m.group(0))
@@ -360,9 +393,9 @@ def converse(idea: str, messages: list, user_message: str, attachments: list = N
             estimated_tokens=700,
         )
         raw = (response.choices[0].message.content or "").strip()
-    except Exception as e:
+    except Exception:
         return {
-            "response": f"Could you tell me more about what you have in mind?",
+            "response": "Could you tell me more about what you have in mind?",
             "ready_to_spec": False,
             "spec_summary": None,
         }
@@ -387,6 +420,7 @@ def converse(idea: str, messages: list, user_message: str, attachments: list = N
 # ─────────────────────────────────────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def main():
     parser = argparse.ArgumentParser(description="Oracle discovery conversation.")

@@ -16,13 +16,13 @@ Cloak enforcement:
   If Cloak is inactive and the requirement is set, the call is blocked
   with a hard error — the caller must enable DETERMINEX_CLOAK=1.
 """
+
 from __future__ import annotations
 
 import logging
 import os
 import sys
 from pathlib import Path
-from typing import Optional
 
 log = logging.getLogger("hive.safety")
 
@@ -33,13 +33,26 @@ if str(_SCRIPTS) not in sys.path:
 
 try:
     from determinex_safety import (
-        SafetyVerdict, SafetyDenied, CorpusTamperError,
-        check_spec as _check_spec,
+        CorpusTamperError,
+        SafetyDenied,
+        SafetyVerdict,
+    )
+    from determinex_safety import (
         check_egress as _check_egress,
+    )
+    from determinex_safety import (
         check_output as _check_output,
+    )
+    from determinex_safety import (
+        check_spec as _check_spec,
+    )
+    from determinex_safety import (
         sign_corpus_entry as _sign,
+    )
+    from determinex_safety import (
         verify_corpus_entry as _verify,
     )
+
     _SAFETY_AVAILABLE = True
 except ImportError as _e:
     log.error("[SAFETY GATE] determinex_safety import failed: %s — safety checks DISABLED", _e)
@@ -54,8 +67,15 @@ _CLOAK_ACTIVE = bool(os.environ.get("DETERMINEX_CLOAK", ""))
 
 # Cloud provider prefixes that require Cloak
 _CLOUD_PROVIDERS = {
-    "anthropic", "openai", "deepseek", "openrouter",
-    "gemini", "google", "azure", "mistral", "cohere",
+    "anthropic",
+    "openai",
+    "deepseek",
+    "openrouter",
+    "gemini",
+    "google",
+    "azure",
+    "mistral",
+    "cohere",
 }
 
 
@@ -102,6 +122,7 @@ def _is_cloud_model(model: str) -> bool:
 # Gate functions
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def pre_spec_gate(spec_text: str, source: str = "cli") -> None:
     """
     L0 + L1 gate: run content policy + intent classifier on a user spec.
@@ -117,13 +138,17 @@ def pre_spec_gate(spec_text: str, source: str = "cli") -> None:
         log.warning("[SAFETY GATE] Safety module unavailable — spec check skipped")
         return
 
-    log.debug("[SAFETY GATE] pre_spec_gate: checking spec from '%s' (%d chars)", source, len(spec_text))
+    log.debug(
+        "[SAFETY GATE] pre_spec_gate: checking spec from '%s' (%d chars)", source, len(spec_text)
+    )
     verdict = _check_spec(spec_text)
 
     if not verdict.safe:
         log.error(
             "[SAFETY GATE] Spec DENIED [%s] %s: %s",
-            verdict.layer, verdict.category, verdict.reason,
+            verdict.layer,
+            verdict.category,
+            verdict.reason,
         )
         # SafetyDenied already raised by engine in strict mode;
         # in warn mode, re-raise here so callers always get the exception
@@ -159,14 +184,15 @@ def pre_api_gate(messages: list[dict], model: str, cloak_active: bool = False) -
 
     # ── Egress scan on all message content ───────────────────────────────────
     full_text = " ".join(
-        msg.get("content", "") for msg in messages
-        if isinstance(msg.get("content"), str)
+        msg.get("content", "") for msg in messages if isinstance(msg.get("content"), str)
     )
     verdict = _check_egress(full_text)
     if not verdict.safe:
         log.error(
             "[SAFETY GATE] Egress BLOCKED [%s] %s: %s",
-            verdict.layer, verdict.category, verdict.reason,
+            verdict.layer,
+            verdict.category,
+            verdict.reason,
         )
         raise SafetyDenied(verdict)
 
@@ -190,13 +216,18 @@ def post_generation_gate(code: str, lang: str, step_name: str = "") -> None:
 
     log.debug(
         "[SAFETY GATE] post_generation_gate: scanning %s code (%d chars) for step='%s'",
-        lang, len(code), step_name,
+        lang,
+        len(code),
+        step_name,
     )
     verdict = _check_output(code, lang)
     if not verdict.safe:
         log.error(
             "[SAFETY GATE] Builder output BLOCKED [%s] %s: %s (step='%s')",
-            verdict.layer, verdict.category, verdict.reason, step_name,
+            verdict.layer,
+            verdict.category,
+            verdict.reason,
+            step_name,
         )
         raise SafetyDenied(verdict)
 
@@ -236,6 +267,7 @@ _REDACT_RE = _re.compile(
     r"|-----BEGIN [A-Z ]* PRIVATE KEY)",
     _re.IGNORECASE,
 )
+
 
 def redact_secrets(text: str) -> str:
     """Replace known secret patterns with [REDACTED] for safe log output."""

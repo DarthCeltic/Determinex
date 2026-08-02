@@ -15,7 +15,9 @@ Each sheet contains:
 Usage: python scripts/analysis/pb_action_sheets.py
        python scripts/analysis/pb_action_sheets.py --only ripgrep,htmlq
 """
+
 from __future__ import annotations
+
 import argparse
 import collections
 import glob
@@ -155,12 +157,14 @@ def write_sheet(tool: str, eval_path: Path, only_failed_top_n: int = 5):
     if skipped:
         out.append("## Skipped tests")
         out.append("")
-        out.append("PB counts skipped as non-passing for Resolved metric. Triage these first if no real failures.")
+        out.append(
+            "PB counts skipped as non-passing for Resolved metric. Triage these first if no real failures."
+        )
         out.append("")
         for r in skipped[:5]:
             reason = (r.get("extra") or {}).get("message") or "<no-reason>"
             reason_first = reason.strip().split("\n")[0][:200]
-            out.append(f"- `{r.get('name','')}`")
+            out.append(f"- `{r.get('name', '')}`")
             out.append(f"  - reason: {reason_first}")
         if len(skipped) > 5:
             out.append(f"- *(... {len(skipped) - 5} more skipped)*")
@@ -169,11 +173,15 @@ def write_sheet(tool: str, eval_path: Path, only_failed_top_n: int = 5):
     if not failed:
         out.append("## No actual failures")
         out.append("")
-        out.append("All non-passing tests are skipped. Address skipped reasons above to reach 100%.")
+        out.append(
+            "All non-passing tests are skipped. Address skipped reasons above to reach 100%."
+        )
     else:
         out.append("## Failure clusters")
         out.append("")
-        out.append(f"{len(failed)} failed tests grouped into {len(by_bucket)} buckets (sorted by count).")
+        out.append(
+            f"{len(failed)} failed tests grouped into {len(by_bucket)} buckets (sorted by count)."
+        )
         out.append("")
 
         for bucket, items in sorted_buckets:

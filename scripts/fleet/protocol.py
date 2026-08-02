@@ -18,12 +18,13 @@ PASS on the node, the item is dropped (see ingest_verify). Identifiers in both
 `files` and `pair` are Cloak-obfuscated on the contributor side -- no real names
 leave the contributor's machine.
 """
+
 from __future__ import annotations
 
 import hashlib
 import json
 import time
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from . import PROTOCOL_VERSION
@@ -32,7 +33,8 @@ from . import PROTOCOL_VERSION
 def item_id(lang: str, files: dict[str, str], pair: dict[str, Any]) -> str:
     canon = json.dumps(
         {"lang": lang, "files": files, "pair": pair},
-        sort_keys=True, separators=(",", ":"),
+        sort_keys=True,
+        separators=(",", ":"),
     ).encode("utf-8")
     return hashlib.sha256(canon).hexdigest()
 
@@ -53,10 +55,13 @@ class ContributionItem:
         return asdict(self)
 
     @staticmethod
-    def from_dict(d: dict[str, Any]) -> "ContributionItem":
+    def from_dict(d: dict[str, Any]) -> ContributionItem:
         return ContributionItem(
-            lang=d["lang"], files=d["files"], pair=d["pair"],
-            origin=d.get("origin", "unknown"), id=d.get("id", ""),
+            lang=d["lang"],
+            files=d["files"],
+            pair=d["pair"],
+            origin=d.get("origin", "unknown"),
+            id=d.get("id", ""),
         )
 
 
@@ -77,10 +82,16 @@ class Shard:
         return d
 
     @staticmethod
-    def from_dict(d: dict[str, Any]) -> "Shard":
+    def from_dict(d: dict[str, Any]) -> Shard:
         s = Shard(items=[ContributionItem.from_dict(i) for i in d.get("items", [])])
-        for k in ("protocol_version", "determinex_version", "cloak_applied",
-                  "created_at", "contributor_handle", "consent"):
+        for k in (
+            "protocol_version",
+            "determinex_version",
+            "cloak_applied",
+            "created_at",
+            "contributor_handle",
+            "consent",
+        ):
             if k in d:
                 setattr(s, k, d[k])
         return s

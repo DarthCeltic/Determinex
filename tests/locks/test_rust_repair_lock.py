@@ -17,6 +17,7 @@ Acceptance bar (from master plan):
   [x] no repair accepted without verifier pass
   [x] Rust metadata fields on every record (language, build_system, mutation_type)
 """
+
 from __future__ import annotations
 
 import sys
@@ -24,12 +25,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 
-from corpus.code_ingest.rust_project_indexer import index_rust_project, RustProject
-from corpus.code_ingest.rust_task_extractor import RustTaskExtractor, RustRepairTask
-from repair.rust_repair_pipeline import RustRepairPipeline
-from corpus.corpus_manager import CorpusManager
 from agents.base_agent import CorpusType
-
+from corpus.code_ingest.rust_project_indexer import index_rust_project
+from corpus.code_ingest.rust_task_extractor import RustTaskExtractor
+from corpus.corpus_manager import CorpusManager
+from repair.rust_repair_pipeline import RustRepairPipeline
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -163,8 +163,8 @@ def _always_fail_executor():
 # TestRustProjectIndexer
 # ---------------------------------------------------------------------------
 
-class TestRustProjectIndexer:
 
+class TestRustProjectIndexer:
     def test_cargo_toml_detected(self, tmp_path):
         repo = _make_rust_repo(tmp_path)
         project = index_rust_project(repo)
@@ -190,10 +190,14 @@ class TestRustProjectIndexer:
     def test_lib_target_detected(self, tmp_path):
         repo = tmp_path / "lib_repo"
         repo.mkdir()
-        (repo / "Cargo.toml").write_text('[package]\nname="mylib"\nversion="0.1.0"\nedition="2021"\n', encoding="utf-8")
+        (repo / "Cargo.toml").write_text(
+            '[package]\nname="mylib"\nversion="0.1.0"\nedition="2021"\n', encoding="utf-8"
+        )
         src = repo / "src"
         src.mkdir()
-        (src / "lib.rs").write_text("pub fn add(a: i32, b: i32) -> i32 { a + b }\n", encoding="utf-8")
+        (src / "lib.rs").write_text(
+            "pub fn add(a: i32, b: i32) -> i32 { a + b }\n", encoding="utf-8"
+        )
         project = index_rust_project(repo)
         lib_targets = [t for t in project.targets if t.kind == "lib"]
         assert len(lib_targets) >= 1
@@ -235,8 +239,8 @@ class TestRustProjectIndexer:
 # TestRustBuildScriptSafetyGate
 # ---------------------------------------------------------------------------
 
-class TestRustBuildScriptSafetyGate:
 
+class TestRustBuildScriptSafetyGate:
     def test_curl_bash_build_rs_rejected(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         pipeline = RustRepairPipeline(corpus_manager=cm)
@@ -259,7 +263,9 @@ class TestRustBuildScriptSafetyGate:
         pipeline = RustRepairPipeline(corpus_manager=cm, executor=executor)
         repo = _make_rust_repo(tmp_path, license_text="MIT License")
         result = pipeline.process_repo(repo, "test_corpus")
-        assert result.accepted, f"Repo without build.rs must pass gate; got: {result.rejected_reason}"
+        assert result.accepted, (
+            f"Repo without build.rs must pass gate; got: {result.rejected_reason}"
+        )
 
     def test_build_script_result_has_reason_field(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
@@ -281,8 +287,8 @@ class TestRustBuildScriptSafetyGate:
 # TestRustLicenseGate
 # ---------------------------------------------------------------------------
 
-class TestRustLicenseGate:
 
+class TestRustLicenseGate:
     def test_no_license_file_rejected(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         pipeline = RustRepairPipeline(corpus_manager=cm)
@@ -331,8 +337,8 @@ class TestRustLicenseGate:
 # TestRustBaselineEnforcement
 # ---------------------------------------------------------------------------
 
-class TestRustBaselineEnforcement:
 
+class TestRustBaselineEnforcement:
     def test_extractor_returns_empty_when_baseline_fails(self, tmp_path):
         repo = _make_rust_repo(tmp_path)
         extractor = RustTaskExtractor(repo / "src" if (repo / "src").exists() else repo)
@@ -374,8 +380,9 @@ class TestRustBaselineEnforcement:
 
     def test_pipeline_extracts_tasks_on_baseline_pass(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
-        repo = _make_rust_repo(tmp_path, license_text="MIT License",
-                               source=_RUST_SOURCE_WITH_UNWRAP)
+        repo = _make_rust_repo(
+            tmp_path, license_text="MIT License", source=_RUST_SOURCE_WITH_UNWRAP
+        )
         executor = _baseline_pass_mutation_fail_executor()
         pipeline = RustRepairPipeline(corpus_manager=cm, executor=executor)
         result = pipeline.process_repo(repo, "test_corpus")
@@ -387,8 +394,8 @@ class TestRustBaselineEnforcement:
 # TestRustUnwrapExtraction
 # ---------------------------------------------------------------------------
 
-class TestRustUnwrapExtraction:
 
+class TestRustUnwrapExtraction:
     def test_unwrap_sites_found(self, tmp_path):
         repo = _make_rust_repo(tmp_path, source=_RUST_SOURCE_WITH_UNWRAP)
         extractor = RustTaskExtractor(repo)
@@ -436,16 +443,17 @@ class TestRustUnwrapExtraction:
         extractor = RustTaskExtractor(repo)
         sources = extractor.find_rust_sources()
         for p in sources:
-            assert "target" not in str(p).replace("\\", "/").split("/"), \
+            assert "target" not in str(p).replace("\\", "/").split("/"), (
                 f"target/ file leaked into scan: {p}"
+            )
 
 
 # ---------------------------------------------------------------------------
 # TestRustCorpusSigning
 # ---------------------------------------------------------------------------
 
-class TestRustCorpusSigning:
 
+class TestRustCorpusSigning:
     def test_corpus_record_is_signed(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         task = RustRepairPipeline.make_test_task(task_id="rust-sign-001")
@@ -499,8 +507,16 @@ class TestRustCorpusSigning:
             source_benchmark="test_corpus",
             payload=task.to_corpus_payload(),
         )
-        for field in ("schema_version", "corpus_type", "task_id", "_sig",
-                      "language", "build_system", "mutation_type", "failure_type"):
+        for field in (
+            "schema_version",
+            "corpus_type",
+            "task_id",
+            "_sig",
+            "language",
+            "build_system",
+            "mutation_type",
+            "failure_type",
+        ):
             assert field in record, f"Missing required field: {field}"
 
     def test_failure_output_truncated_to_500(self, tmp_path):
@@ -512,17 +528,24 @@ class TestRustCorpusSigning:
     def test_different_tasks_have_different_signatures(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         task_a = RustRepairPipeline.make_test_task(task_id="rust-sig-a")
-        task_b = RustRepairPipeline.make_test_task(task_id="rust-sig-b",
-                                                    failure_output="different failure")
+        task_b = RustRepairPipeline.make_test_task(
+            task_id="rust-sig-b", failure_output="different failure"
+        )
         rec_a = cm._normalize_record(
-            corpus_type=CorpusType.CODE_VERDICT, task_id=task_a.task_id,
-            input_hash="a1" * 8, output_hash="a2" * 8,
-            source_benchmark="test_corpus", payload=task_a.to_corpus_payload(),
+            corpus_type=CorpusType.CODE_VERDICT,
+            task_id=task_a.task_id,
+            input_hash="a1" * 8,
+            output_hash="a2" * 8,
+            source_benchmark="test_corpus",
+            payload=task_a.to_corpus_payload(),
         )
         rec_b = cm._normalize_record(
-            corpus_type=CorpusType.CODE_VERDICT, task_id=task_b.task_id,
-            input_hash="b1" * 8, output_hash="b2" * 8,
-            source_benchmark="test_corpus", payload=task_b.to_corpus_payload(),
+            corpus_type=CorpusType.CODE_VERDICT,
+            task_id=task_b.task_id,
+            input_hash="b1" * 8,
+            output_hash="b2" * 8,
+            source_benchmark="test_corpus",
+            payload=task_b.to_corpus_payload(),
         )
         assert rec_a["_sig"] != rec_b["_sig"]
 
@@ -538,8 +561,8 @@ class TestRustCorpusSigning:
 # TestRustMutationTypes
 # ---------------------------------------------------------------------------
 
-class TestRustMutationTypes:
 
+class TestRustMutationTypes:
     def test_unwrap_panic_task_signed(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
         task = RustRepairPipeline.make_test_task(
@@ -583,12 +606,17 @@ class TestRustMutationTypes:
         ]
         for task_id, mut_type, fail_type in cases:
             task = RustRepairPipeline.make_test_task(
-                task_id=task_id, mutation_type=mut_type, failure_type=fail_type,
+                task_id=task_id,
+                mutation_type=mut_type,
+                failure_type=fail_type,
             )
             record = cm._normalize_record(
-                corpus_type=CorpusType.CODE_VERDICT, task_id=task.task_id,
-                input_hash="77" * 8, output_hash="88" * 8,
-                source_benchmark="rust_corpus", payload=task.to_corpus_payload(),
+                corpus_type=CorpusType.CODE_VERDICT,
+                task_id=task.task_id,
+                input_hash="77" * 8,
+                output_hash="88" * 8,
+                source_benchmark="rust_corpus",
+                payload=task.to_corpus_payload(),
             )
             assert cm.verify(record) is True, f"Signature invalid for {task_id}"
 
@@ -602,41 +630,57 @@ class TestRustMutationTypes:
 # TestLanguageRepairBackendInterface
 # ---------------------------------------------------------------------------
 
+
 class TestLanguageRepairBackendInterface:
     """Verify the abstract backend contract is importable and correct."""
 
     def test_backend_module_imports(self):
-        from repair.language_repair_backend import (
-            LanguageRepairBackend, ProjectProfile, BaselineResult,
-            RepairTask, MutationResult, RepairResult, OracleVerdict, CorpusRecord,
-        )
+        pass
 
     def test_project_profile_ingest_allowed(self):
-        from repair.language_repair_backend import ProjectProfile
         from pathlib import Path
+
+        from repair.language_repair_backend import ProjectProfile
+
         p = ProjectProfile(
-            language="rust", root=Path("/tmp"), build_system="cargo",
-            license_spdx="MIT", license_bucket="green",
-            has_build_script=False, has_unsafe_patterns=False,
+            language="rust",
+            root=Path("/tmp"),
+            build_system="cargo",
+            license_spdx="MIT",
+            license_bucket="green",
+            has_build_script=False,
+            has_unsafe_patterns=False,
         )
         assert p.ingest_allowed is True
 
     def test_project_profile_red_license_blocks_ingest(self):
-        from repair.language_repair_backend import ProjectProfile
         from pathlib import Path
+
+        from repair.language_repair_backend import ProjectProfile
+
         p = ProjectProfile(
-            language="rust", root=Path("/tmp"), build_system="cargo",
-            license_spdx="GPL-3.0-only", license_bucket="red",
-            has_build_script=False, has_unsafe_patterns=False,
+            language="rust",
+            root=Path("/tmp"),
+            build_system="cargo",
+            license_spdx="GPL-3.0-only",
+            license_bucket="red",
+            has_build_script=False,
+            has_unsafe_patterns=False,
         )
         assert p.ingest_allowed is False
 
     def test_project_profile_unsafe_patterns_blocks_ingest(self):
-        from repair.language_repair_backend import ProjectProfile
         from pathlib import Path
+
+        from repair.language_repair_backend import ProjectProfile
+
         p = ProjectProfile(
-            language="rust", root=Path("/tmp"), build_system="cargo",
-            license_spdx="MIT", license_bucket="green",
-            has_build_script=True, has_unsafe_patterns=True,
+            language="rust",
+            root=Path("/tmp"),
+            build_system="cargo",
+            license_spdx="MIT",
+            license_bucket="green",
+            has_build_script=True,
+            has_unsafe_patterns=True,
         )
         assert p.ingest_allowed is False

@@ -26,6 +26,7 @@ CLI
 ---
     python scripts/determinex_build_from_idea.py --idea idea.md [--model NAME] [--k 8]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -34,13 +35,14 @@ import re
 import sys
 import tempfile
 import urllib.request
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable
 
 _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
+from determinex_adjudicator import Failure  # noqa: E402
 from determinex_synthesize import (  # noqa: E402
     oracle_is_vacuous,
     parse_spec,
@@ -48,7 +50,6 @@ from determinex_synthesize import (  # noqa: E402
     validate_oracle,
 )
 from determinex_verified_search import VerifiedSearch  # noqa: E402
-from determinex_adjudicator import Failure  # noqa: E402
 
 GenerateFn = Callable[[str, float], str]
 
@@ -62,7 +63,7 @@ class BuildResult:
     samples: int
     proof: str
     next_moves: list[str]
-    oracle_proposed: bool = False   # oracle examples were model-proposed (confirm!)
+    oracle_proposed: bool = False  # oracle examples were model-proposed (confirm!)
     #: Samples where the GENERATOR raised instead of returning a candidate.
     #:
     #: `VerifiedSearch` learned to distinguish "the model answered and was wrong" from "the model
@@ -116,25 +117,37 @@ def _fence_safe(gen: GenerateFn) -> GenerateFn:
     compares stripped text, so a fenced and an unfenced copy of the same program
     are correctly seen as one candidate instead of two.
     """
+
     def _g(prompt: str, temperature: float) -> str:
         return _strip_fence(gen(prompt, temperature))
+
     return _g
 
 
-def ollama_generator(model: str = "determinex-coder-base-tiny:latest",
-                     host: str = "http://localhost:11434") -> GenerateFn:
+def ollama_generator(
+    model: str = "determinex-coder-base-tiny:latest", host: str = "http://localhost:11434"
+) -> GenerateFn:
     def _gen(prompt: str, temperature: float) -> str:
-        body = json.dumps({"model": model, "prompt": prompt, "stream": False,
-                           "options": {"temperature": temperature, "num_predict": 500}}).encode()
-        req = urllib.request.Request(host + "/api/generate", data=body,
-                                     headers={"Content-Type": "application/json"})
+        body = json.dumps(
+            {
+                "model": model,
+                "prompt": prompt,
+                "stream": False,
+                "options": {"temperature": temperature, "num_predict": 500},
+            }
+        ).encode()
+        req = urllib.request.Request(
+            host + "/api/generate", data=body, headers={"Content-Type": "application/json"}
+        )
         with urllib.request.urlopen(req, timeout=120) as r:
             return _strip_fence(json.loads(r.read()).get("response", ""))
+
     return _gen
 
 
-def build_from_idea(idea_text: str, generate: GenerateFn,
-                    language: str = "python", k: int = 8, rounds: int = 2) -> BuildResult:
+def build_from_idea(
+    idea_text: str, generate: GenerateFn, language: str = "python", k: int = 8, rounds: int = 2
+) -> BuildResult:
     spec = parse_spec(idea_text, language)
     proposed = False
     # Vague idea with no examples -> ask the model for consensus examples so we have
@@ -142,6 +155,7 @@ def build_from_idea(idea_text: str, generate: GenerateFn,
     # are the model's interpretation -> the result is flagged oracle_proposed.
     if not spec.examples and language in ("python", "py"):
         from determinex_synthesize import propose_examples
+
         ex = propose_examples(spec.description, spec.name, generate, k=5)
         if ex:
             spec.examples = ex
@@ -149,9 +163,16 @@ def build_from_idea(idea_text: str, generate: GenerateFn,
     tests = synthesize_oracle_tests(spec)
     ok, why = validate_oracle(tests, spec)
     if not ok:
-        return BuildResult(False, "", tests, 0, 0,
-                           f"oracle not sound: {why}", ["refine-spec-or-examples"],
-                           oracle_proposed=proposed)
+        return BuildResult(
+            False,
+            "",
+            tests,
+            0,
+            0,
+            f"oracle not sound: {why}",
+            ["refine-spec-or-examples"],
+            oracle_proposed=proposed,
+        )
 
     # A VACUOUS ORACLE IS NOT PROOF (2026-07-30). When no example and no typeable invariant can be
     # extracted, the synthesizer falls back to `assert callable(f)` -- satisfied by
@@ -166,7 +187,11 @@ def build_from_idea(idea_text: str, generate: GenerateFn,
     # model-PROPOSED examples, which are strictly stronger than this.
     if oracle_is_vacuous(tests):
         return BuildResult(
-            False, "", tests, 0, 0,
+            False,
+            "",
+            tests,
+            0,
+            0,
             "oracle not sound: no example or typeable invariant could be derived from this idea, "
             "so the only synthesizable check is that the symbol exists. That cannot verify "
             "behaviour. Add one concrete input/output example and re-run.",
@@ -185,49 +210,93 @@ def build_from_idea(idea_text: str, generate: GenerateFn,
             # not a raw subprocess. Reuses intake.hardened_runner; no new sandbox.
             try:
                 from intake.hardened_runner import run as _hrun
-                res = _hrun([sys.executable, "-m", "pytest", "tests_gen.py", "-q",
-                            "-p", "no:cacheprovider"], workspace=dp, cwd=dp,
-                           timeout=30, allow_network=False)
+
+                res = _hrun(
+                    [
+                        sys.executable,
+                        "-m",
+                        "pytest",
+                        "tests_gen.py",
+                        "-q",
+                        "-p",
+                        "no:cacheprovider",
+                    ],
+                    workspace=dp,
+                    cwd=dp,
+                    timeout=30,
+                    allow_network=False,
+                )
                 return _OracleResult(res.exit_code == 0, (res.stdout + res.stderr)[-800:])
             except Exception as e:
                 return _OracleResult(False, f"run error: {e}")
 
-    prompt = (f"Write a complete Python module defining `{spec.name}`.\n\n"
-              f"Specification:\n{spec.description}\n\n"
-              f"Return ONLY the code in a ```python block. It must satisfy these "
-              f"behaviors exactly.")
+    prompt = (
+        f"Write a complete Python module defining `{spec.name}`.\n\n"
+        f"Specification:\n{spec.description}\n\n"
+        f"Return ONLY the code in a ```python block. It must satisfy these "
+        f"behaviors exactly."
+    )
     res = VerifiedSearch(verify=verify, k=k, rounds=rounds).solve(_fence_safe(generate), prompt)
-    caveat = (" NOTE: the oracle examples were MODEL-PROPOSED from a vague idea -- "
-              "confirm they match your intent." if proposed else "")
+    caveat = (
+        " NOTE: the oracle examples were MODEL-PROPOSED from a vague idea -- "
+        "confirm they match your intent."
+        if proposed
+        else ""
+    )
     gen_errors = getattr(res, "generation_errors", 0)
     gen_error_sample = getattr(res, "generation_error_sample", "")
     if res.solved and res.best is not None:
-        return BuildResult(True, res.best.text, tests, n_checks, res.total_samples,
-                           f"program PASSES all {n_checks} synthesized checks "
-                           f"(oracle-verified, {res.total_samples} samples).{caveat}",
-                           [], oracle_proposed=proposed,
-                           generation_errors=gen_errors,
-                           generation_error_sample=gen_error_sample)
+        return BuildResult(
+            True,
+            res.best.text,
+            tests,
+            n_checks,
+            res.total_samples,
+            f"program PASSES all {n_checks} synthesized checks "
+            f"(oracle-verified, {res.total_samples} samples).{caveat}",
+            [],
+            oracle_proposed=proposed,
+            generation_errors=gen_errors,
+            generation_error_sample=gen_error_sample,
+        )
     best = res.best.text if res.best else ""
     # Carry VerifiedSearch's own verdict when it says the generator was never reached, rather than
     # re-describing the run as "no program passed" -- that phrasing asserts candidates existed.
     if getattr(res, "generator_never_answered", False):
-        return BuildResult(False, "", tests, n_checks, res.total_samples, res.proof,
-                           res.next_moves, oracle_proposed=proposed,
-                           generation_errors=gen_errors,
-                           generation_error_sample=gen_error_sample)
-    return BuildResult(False, best, tests, n_checks, res.total_samples,
-                       f"no program passed the {n_checks} checks ({res.total_samples} samples).{caveat}",
-                       res.next_moves, oracle_proposed=proposed,
-                       generation_errors=gen_errors,
-                       generation_error_sample=gen_error_sample)
+        return BuildResult(
+            False,
+            "",
+            tests,
+            n_checks,
+            res.total_samples,
+            res.proof,
+            res.next_moves,
+            oracle_proposed=proposed,
+            generation_errors=gen_errors,
+            generation_error_sample=gen_error_sample,
+        )
+    return BuildResult(
+        False,
+        best,
+        tests,
+        n_checks,
+        res.total_samples,
+        f"no program passed the {n_checks} checks ({res.total_samples} samples).{caveat}",
+        res.next_moves,
+        oracle_proposed=proposed,
+        generation_errors=gen_errors,
+        generation_error_sample=gen_error_sample,
+    )
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Determinex: idea -> verified program")
     ap.add_argument("--idea", type=Path, required=True)
-    ap.add_argument("--provider", default="local",
-                    help="any registered AI: local/claude/codex/gemini/deepseek/<addon>")
+    ap.add_argument(
+        "--provider",
+        default="local",
+        help="any registered AI: local/claude/codex/gemini/deepseek/<addon>",
+    )
     ap.add_argument("--model", default="")
     ap.add_argument("--lang", default="python")
     ap.add_argument("--k", type=int, default=8)
@@ -236,8 +305,10 @@ def main() -> int:
     # any provider in the universal registry plugs in here unchanged
     try:
         from determinex_extensions import load_extensions
+
         load_extensions()  # host any addons first
         from determinex_providers import get_generator
+
         gen = get_generator(args.provider, args.model or None)
     except Exception:
         gen = ollama_generator(args.model or "determinex-coder-base-tiny:latest")
