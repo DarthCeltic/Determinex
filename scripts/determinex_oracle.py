@@ -700,7 +700,7 @@ def _verify_tauri(workdir: Path) -> OracleResult:
 # checkout of aifoundry-org/hf-hackathon (or a git worktree of it) with the
 # candidate kernel already written into ported_models/yolo/src/. Requires
 # Docker Desktop + a one-time toolchain/SDK build under DETERMINEX_ET_WORK
-# (default C:/Dev/et-soc1-work) -- see docs/architecture (or ask this session)
+# (default <repo-parent>/et-soc1-work) -- see docs/architecture (or ask this session)
 # for the exact bootstrap; probe below only checks Docker itself is present,
 # matching the "available() = a toolchain COULD run" contract other oracles use.
 #
@@ -717,7 +717,8 @@ def _verify_tauri(workdir: Path) -> OracleResult:
 # ---------------------------------------------------------------------------
 def _et_soc1_work_root() -> Path:
     import os
-    return Path(os.environ.get("DETERMINEX_ET_WORK", "C:/Dev/et-soc1-work"))
+    return Path(os.environ.get("DETERMINEX_ET_WORK",
+                               str(Path(__file__).resolve().parent.parent.parent / "et-soc1-work")))
 
 
 def _docker(cmd: list[str], timeout: int = 300) -> subprocess.CompletedProcess:
@@ -1071,7 +1072,7 @@ register(Oracle("mongodb", ("mongodb", "mongo"), ("docker",),
                 _verify_mongodb))
 register(Oracle("riscv-et-soc1", ("riscv-et-soc1", "et-soc1", "erbium"), ("docker",),
                 "Docker Desktop + one-time toolchain/SDK build under "
-                "DETERMINEX_ET_WORK (default C:/Dev/et-soc1-work); see "
+                "DETERMINEX_ET_WORK (default <repo-parent>/et-soc1-work); see "
                 "corpus/programbench/build_knowledge.json 'local_verification_boundary'",
                 _verify_riscv_et_soc1))
 

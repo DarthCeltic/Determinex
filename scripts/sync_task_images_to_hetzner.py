@@ -4,12 +4,14 @@
 Only pushes programbench/*:task images that are present locally but absent on Hetzner.
 Skips programbench-compiled/* images (those are per-candidate, not base images).
 """
+import os
 import subprocess
 import sys
+from pathlib import Path
 import time
 
 REMOTE = "root@5.78.192.163"
-SSH_KEY = "C:/Users/ryang/.ssh/id_citadel"
+SSH_KEY = os.environ.get("DETERMINEX_SSH_KEY", str(Path.home() / ".ssh" / "id_citadel"))
 
 def ssh_lines(cmd: str) -> list[str]:
     r = subprocess.run(

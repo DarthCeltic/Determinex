@@ -13,7 +13,7 @@ to 0, else revert. Single-instance + heartbeat + resumable. Run as ONE bg task.
 """
 from __future__ import annotations
 import collections, json, os, pathlib, re, sys, time
-ROOT=pathlib.Path("C:/Dev/Determinex"); sys.path.insert(0,str(ROOT/"scripts"))
+ROOT=pathlib.Path(__file__).resolve().parent.parent; sys.path.insert(0,str(ROOT/"scripts"))
 OV=ROOT/"corpus/programbench/per_tool_overrides"
 TASKS=pathlib.Path("T:/Dev/ProgramBench/src/programbench/data/tasks")
 LOG=pathlib.Path("C:/tmp/goldfail_swap.log"); HB=pathlib.Path("C:/tmp/campaign.heartbeat")

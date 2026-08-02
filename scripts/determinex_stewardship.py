@@ -10,7 +10,7 @@ creates it on the initial scan run so that EVERYTHING stays synced."
 
 Two-tier doc hierarchy the multi-agent chat room's Mission Plan seeds from:
   1. RUNTIME doc -- the root CLAUDE.md ABOVE the workspace (e.g.
-     C:\\Dev\\CLAUDE.md governing several projects), found by walking up from
+     <repo-parent>/CLAUDE.md governing several projects), found by walking up from
      the workspace looking for an ancestor CLAUDE.md.
   2. PROJECT doc -- the workspace's own CLAUDE.md/PROJECT.md at its root.
 
@@ -50,7 +50,7 @@ _SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv", "target",
 def find_runtime_doc(workspace: Path) -> "Path | None":
     """Walk UP from workspace looking for an ancestor CLAUDE.md -- the
     'overall runtime md' that can govern several projects (e.g.
-    C:\\Dev\\CLAUDE.md). Never returns the workspace's OWN CLAUDE.md; that's
+    <repo-parent>/CLAUDE.md). Never returns the workspace's OWN CLAUDE.md; that's
     the project doc, found separately by find_project_docs()."""
     workspace = workspace.resolve()
     cur = workspace.parent

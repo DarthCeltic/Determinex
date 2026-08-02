@@ -180,7 +180,7 @@ log("""
 ║                                                                  ║
 ║  1. Create Modelfile → see below                                 ║
 ║  2. ollama create determinex-sentinel-v4 -f Modelfile.sentinel_v4   ║
-║  3. cd C:\\Dev\\Determinex\\scripts                                    ║
+║  3. cd <repo>/scripts                                    ║
 ║     python micro_eval.py --model determinex-sentinel-v4             ║
 ║  4. Evaluate result vs 87% baseline (accept if delta >= -3pp)    ║
 ║  5. Update BENCHMARK_HISTORY.md Phase 3 table                    ║

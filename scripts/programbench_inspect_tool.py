@@ -199,7 +199,7 @@ def main() -> int:
     ap.add_argument("instances", nargs="*", help="instance IDs (default: a single tool)")
     ap.add_argument("--all", action="store_true", help="inspect all tools in mass_run_v2_base")
     ap.add_argument("--out", type=Path,
-                    default=Path("C:/Dev/Determinex/logs/mass_run_v2/inspection_report.json"),
+                    default=Path(__file__).resolve().parent.parent / "logs" / "mass_run_v2" / "inspection_report.json",
                     help="write per-tool reports to this JSON")
     args = ap.parse_args()
 

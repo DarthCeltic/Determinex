@@ -309,7 +309,7 @@ def absorb(generate, max_chunks: int = 400, dry_run: bool = False) -> dict:
 
 
 def scan_drive(max_files: int = 6000) -> dict:
-    """One-time BOUNDED scan of the wider drive -- T: archive + every C:/Dev project CODEBASE -- for
+    """One-time BOUNDED scan of the wider drive -- T: archive + every <repo-parent> project CODEBASE -- for
     knowledge + source files, written to the cached list _sources() reads. os.walk with junk-dir
     pruning (node_modules/.git/target/...) + a hard file cap, so it's bounded (the recursive globs
     were unbounded -> too slow). Includes code (.rs/.go/.c/.py) so the CODEBASES get ingested too."""
@@ -317,7 +317,7 @@ def scan_drive(max_files: int = 6000) -> dict:
     # T:/determinex-archive is a 2.4MB post-rename skeleton; the real 29GB archive lives at
     # T:/determinex-archive (same split-brain pattern as corpus_root_split_brain_healed_2026_07_18
     # -- found + fixed 2026-07-19, this scan_drive() call had been silently reading ~nothing).
-    roots = [Path("T:/determinex-archive"), ROOT.parent]   # T: archive + C:/Dev (all 8 projects)
+    roots = [Path("T:/determinex-archive"), ROOT.parent]   # T: archive + <repo-parent> (all 8 projects)
     SKIP = {"node_modules", ".git", "target", "dist", "build", "vendor", "site-packages", ".venv",
             "__pycache__", ".next", ".cargo", "determinex-models", "_superseded", ".pytest_cache",
             "backups", "dist-windows"}
@@ -503,7 +503,7 @@ def main() -> int:
         print(f"fetch-urls: {fetch_urls()}")
         return 0
     if "--scan-drive" in sys.argv:
-        print("scanning drive (bounded os.walk; T: archive + C:/Dev codebases)...")
+        print("scanning drive (bounded os.walk; T: archive + <repo-parent> codebases)...")
         print(f"drive scan: {scan_drive()}")
         return 0
     max_chunks = 400

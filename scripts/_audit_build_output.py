@@ -1,6 +1,11 @@
+import pathlib
 """Build final reconciliation_audit.json. Read-only data gathering."""
 import json, os, hashlib, datetime, subprocess
 from typing import Any
+
+# Repo root, derived. These paths were literal '<repo>/...' strings,
+# which made the audit runnable on exactly one machine.
+_ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 def load_json(p: str) -> Any:
     with open(p, 'r', encoding='utf-8', errors='replace') as f:
@@ -71,9 +76,9 @@ output: dict = {
     'audit_meta': {
         'generated_at': datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
         'auditor_role': 'Executor -- READ ONLY',
-        'protocol_path': 'C:/Dev/Determinex/PROTOCOL.md',
-        'ground_truth_path': 'C:/Dev/Determinex/corpus/programbench/GROUND_TRUTH.md',
-        'eval_index_path': 'C:/Dev/Determinex/corpus/programbench/eval_index.json',
+        'protocol_path': str(_ROOT / 'PROTOCOL.md'),
+        'ground_truth_path': str(_ROOT / 'corpus' / 'programbench' / 'GROUND_TRUTH.md'),
+        'eval_index_path': str(_ROOT / 'corpus' / 'programbench' / 'eval_index.json'),
     },
     'T1_lock_enumeration': {
         'count_in_eval_index': len(locks),
@@ -113,7 +118,7 @@ output: dict = {
     'T5_isolation_evidence': {
         'findings': [
             {
-                'file': 'C:/Dev/Determinex/scripts/determinex_programbench_agent.py',
+                'file': '<repo>/scripts/determinex_programbench_agent.py',
                 'line': 679,
                 'excerpt': (
                     'R18. NEVER MAKE NETWORK CALLS AT RUNTIME (during ./executable invocation). '
@@ -127,7 +132,7 @@ output: dict = {
                 ),
             },
             {
-                'file': 'C:/Dev/Determinex/scripts/determinex_programbench_agent.py',
+                'file': '<repo>/scripts/determinex_programbench_agent.py',
                 'line': 518,
                 'excerpt': 'python3 (3.10), pip (network available -- pip install works)',
                 'type': 'system_prompt_claim',
@@ -148,14 +153,14 @@ output: dict = {
                 ),
             },
             {
-                'file': 'C:/Dev/Determinex/scripts/install_hetzner_stack.sh',
+                'file': '<repo>/scripts/install_hetzner_stack.sh',
                 'line': 79,
                 'excerpt': '--network host (docker run for otel/opentelemetry-collector-contrib)',
                 'type': 'hetzner_provisioning',
                 'note': 'Applies to monitoring collector container, not eval containers.',
             },
             {
-                'file': 'C:/Dev/Determinex/scripts/pb_hetzner_eval_shard.sh',
+                'file': '<repo>/scripts/pb_hetzner_eval_shard.sh',
                 'note': (
                     'Delegates to "programbench eval" CLI. No network flags injected. '
                     'No firewall or netns configuration present in this file.'
@@ -189,8 +194,8 @@ output: dict = {
             'eval_index_total': 510,
             'report_test_count_on_disk': 622,
             'report_passed_count_on_disk': 622,
-            'report_path': 'C:/Dev/Determinex/corpus/programbench/locked/flamelens/eval_report.json',
-            'eval_index_entry': 'C:/Dev/Determinex/corpus/programbench/eval_index.json slug=flamelens',
+            'report_path': '<repo>/corpus/programbench/locked/flamelens/eval_report.json',
+            'eval_index_entry': '<repo>/corpus/programbench/eval_index.json slug=flamelens',
             'ground_truth_impact': 'GROUND_TRUTH.md shows 510/510 (derived from eval_index). On-disk report gives 622/622.',
         },
         {
@@ -220,10 +225,10 @@ output: dict = {
             'description': (
                 'eval_index.json has no eval_report_path for this lock (field absent/empty). '
                 'File located via locked-dir fallback at '
-                'C:/Dev/Determinex/corpus/programbench/locked/rust-embedded__svd2rust.1760b5e/eval_report.json'
+                '<repo>/corpus/programbench/locked/rust-embedded__svd2rust.1760b5e/eval_report.json'
             ),
             'eval_report_path_in_index': '',
-            'file_found_at': 'C:/Dev/Determinex/corpus/programbench/locked/rust-embedded__svd2rust.1760b5e/eval_report.json',
+            'file_found_at': '<repo>/corpus/programbench/locked/rust-embedded__svd2rust.1760b5e/eval_report.json',
         },
         {
             'id': 'DISC-04',
@@ -232,10 +237,10 @@ output: dict = {
             'description': (
                 'eval_index.json has no eval_report_path for this lock (field absent/empty). '
                 'File located via locked-dir fallback at '
-                'C:/Dev/Determinex/corpus/programbench/locked/trasta298__keifu.3331426/eval_report.json'
+                '<repo>/corpus/programbench/locked/trasta298__keifu.3331426/eval_report.json'
             ),
             'eval_report_path_in_index': '',
-            'file_found_at': 'C:/Dev/Determinex/corpus/programbench/locked/trasta298__keifu.3331426/eval_report.json',
+            'file_found_at': '<repo>/corpus/programbench/locked/trasta298__keifu.3331426/eval_report.json',
         },
     ],
     'unknowns': [],

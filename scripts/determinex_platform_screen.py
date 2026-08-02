@@ -13,7 +13,7 @@ than an error. Two of them printed a perfect zero that was indistinguishable fro
   3. MSYS path conversion of a container arg -> "working directory 'W:/' is invalid"
   4. exec bit lost crossing a tar/host bound -> 0/234, looked like total model failure
   5. host binary graded vs in-container truth-> 0/234, looked like total model failure
-  6. env var colliding with an OS-reserved   -> float('C:\\Dev\\Determinex\\0.6')
+  6. env var colliding with an OS-reserved   -> float('<repo>/0.6')
      name (TEMP on Windows)
   7. non-UTF-8 bytes in captured output      -> mojibake in every log line
 

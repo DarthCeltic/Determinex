@@ -168,7 +168,7 @@ def repair_workspace_all(root: Path, generate: GenerateFn | None = None,
     repo-wide, run at the (possibly wrong) workspace root. Found live
     2026-07-22: the old single-oracle model picked "rust" (or whatever
     census's top language happened to be) and ran `cargo check` at
-    C:\\Dev\\Determinex itself, which has no Cargo.toml at all -- the real one
+    <repo>/ itself, which has no Cargo.toml at all -- the real one
     lives at frontend/src-tauri/. This is the fix: discover every real
     build root (frontend, frontend/src-tauri, packages/*, the root
     package, ...) and report each one's own real pass/fail.

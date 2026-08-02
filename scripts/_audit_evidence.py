@@ -24,7 +24,13 @@ def resolve_path(p: str) -> str | None:
     if len(p2) >= 2 and p2[1] == ':':
         p2 = p2[0].upper() + p2[1:]
     if os.path.exists(p2): return p2
-    for prefix in ['C:/Dev/Determinex/', 'c:/Dev/Determinex/']:
+    # DERIVED, not literal. This strips the repo root off an absolute path so the
+    # remainder can be resolved relatively. It was two hardcoded spellings of one
+    # machine's checkout, which meant the audit silently stopped stripping anywhere
+    # else -- and a linter pass briefly replaced both with the same placeholder,
+    # which would have made the loop compare a path against '<repo>/' twice.
+    _root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..')).replace(BS, '/')
+    for prefix in [_root + '/', _root.lower() + '/']:
         if p2.lower().startswith(prefix.lower()):
             rel = p2[len(prefix):]
             if os.path.exists(rel):

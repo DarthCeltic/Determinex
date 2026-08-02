@@ -522,7 +522,7 @@ _NATIVE_SOURCE = {
     "rust": ("main.rs", "rustc -O -o executable main.rs"),
     # go build in module mode (1.16+) needs a go.mod IN THE CANDIDATE DIR, else it
     # walks up and fails on the repo's own .git ("cannot find main module, but found
-    # .git/config in C:\\Dev\\Determinex") -- which silently red'd EVERY go tool's local
+    # .git/config in <repo>/") -- which silently red'd EVERY go tool's local
     # oracle. The in-search compile (observe._compile_native) and the official eval
     # template already `go mod init` first; this path was the lone straggler. Match
     # them (GOPROXY=off = offline, stdlib resolves from GOROOT). Fixed 2026-07-03.
