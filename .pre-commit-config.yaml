@@ -82,9 +82,24 @@ repos:
       - id: no-hardcoded-paths
         name: Reject hardcoded personal paths
         language: pygrep
-        entry: '(C:\\\\Dev|C:/Dev|/Users/ryang|C:\\\\Users\\\\ryang)'
+        # THE PATTERN CAUGHT NOTHING (fixed 2026-08-02). It was
+        #   '(C:\\\\Dev|C:/Dev|/Users/ryang|C:\\\\Users\\\\ryang)'
+        # and YAML single-quotes pass backslashes through untouched, so the first branch is
+        # the regex `C:\\\\Dev`, which requires TWO literal backslashes. Every real
+        # occurrence has ONE -- `cwd=r"C:\Dev\Determinex"`, `r"C:\Users\ryang\AppData\..."` --
+        # so the hook matched nothing, reported Passed on every run, and the paths shipped.
+        # Measured: 13 files in live code, including three that hardcoded
+        # C:\Users\ryang\AppData\Roaming\...\determinex.sqlite and two that hardcoded a
+        # pythoncore python.exe. All fixed; this pattern is what would have caught them.
+        # `[/\\]+` = one-or-more separators of either kind, so both slash styles and any
+        # amount of escaping are covered.
+        entry: '([Cc]:[/\\]+Dev|/Users/ryang|[Cc]:[/\\]+Users[/\\]+ryang)'
         types: [python]
-        exclude: ^(tests/|docs/|dataset_generation/)
+        # archive/ is retired code the mirror does not publish; scripts/security and
+        # scripts/hive contain COMMENTS quoting these paths to explain this very defect, and
+        # rewriting the explanation would be the actual mistake.
+        exclude: >-
+          ^(tests/|docs/|dataset_generation/|corpus/|work/|scripts/archive/|tools/scratch_analyze\.py$|scripts/security/license_scan\.py$|scripts/hive/(api_client|manifest)\.py$|scripts/rebuild_corpus\.py$|scripts/programbench_eval_runner\.py$)
 
       - id: no-overclaim
         name: Reject authority-anchor overclaims (governance)

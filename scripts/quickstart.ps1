@@ -137,4 +137,3 @@ if ($rc -eq 0) {
     Write-Fail "Smoke session FAILED (rc=$rc). Session: $sessionId"
     exit $rc
 }
-

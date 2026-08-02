@@ -18,6 +18,7 @@ Usage: python scripts/analysis/pb_action_sheets.py
 
 from __future__ import annotations
 
+import sys
 import argparse
 import collections
 import glob
@@ -26,7 +27,9 @@ import re
 from pathlib import Path
 
 ROOT = Path("T:/determinex-programbench")
-OUT_DIR = Path("c:/Dev/Determinex/corpus/programbench/results/action_sheets")
+# Derived from this file's location; the absolute form ran on exactly one machine.
+_REPO = Path(__file__).resolve().parents[2]
+OUT_DIR = _REPO / "corpus" / "programbench" / "results" / "action_sheets"
 
 
 def root_cause_bucket(first_line: str) -> str:

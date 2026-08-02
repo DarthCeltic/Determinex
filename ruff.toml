@@ -18,10 +18,24 @@ line-length = 100
 #                              ruff does, locally, which made every local count disagree with
 #                              the count CI would produce. ruff excludes `.venv` by default
 #                              and this one is not named that.
+#   corpus/programbench/per_tool_overrides/  and  corpus/programbench/locked/
+#                              VENDORED UPSTREAM CHECKOUTS. per_tool_overrides READS like a
+#                              directory of our recipes and is ~142,750 files of which ~420
+#                              are ours -- our compile.sh sits INSIDE a complete upstream
+#                              tree. Linting it made CI's `ruff --fix` rewrite eleven
+#                              conftest.py files, and the ones under osgeo__gdal / gromacs /
+#                              duckdb are upstream's own (`from osgeo import gdal`), not ours.
+#                              Excluded WHOLE, deliberately: publish_mirror allowlists this
+#                              tree by basename for exactly this reason -- a blocklist leaks
+#                              every upstream file nobody thought to name.
+#                              corpus/programbench/families/ is NOT excluded; those 32
+#                              scaffold generators are ours and stay linted.
 exclude = [
     "work",
     "assurance/demo_workspaces",
     "scripts/fine_tuning/venv",
+    "corpus/programbench/per_tool_overrides",
+    "corpus/programbench/locked",
 ]
 
 [lint]

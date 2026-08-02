@@ -12,6 +12,7 @@ Threshold tuning:
 
 from __future__ import annotations
 
+import pathlib
 import os
 import sqlite3
 import struct
@@ -33,7 +34,16 @@ def _init_rag() -> bool:
 
         _EMBEDDER = TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
         _DB_PATH = os.environ.get(
-            "DETERMINEX_DB", r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
+            "DETERMINEX_DB",
+            # run.determinex.app is the Tauri BUNDLE IDENTIFIER, so this directory is the
+            # right place -- only the hardcoded user-profile prefix was wrong. Derive it.
+            str(
+                pathlib.Path(
+                    os.environ.get("APPDATA") or pathlib.Path.home() / "AppData" / "Roaming"
+                )
+                / "run.determinex.app"
+                / "determinex.sqlite"
+            ),
         )
         return True
     except Exception as e:

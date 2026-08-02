@@ -36,7 +36,8 @@ INVENTORY_DIR = ROOT / "logs" / "programbench_failure_inventory"
 FACTORY_DIR = ROOT / "logs" / "programbench_factory"
 LOCKED_DIR = ROOT / "corpus" / "programbench" / "locked"
 
-PY311_DEFAULT = r"C:\Users\ryang\AppData\Local\Python\pythoncore-3.11-64\python.exe"
+# The interpreter running this script, not one machine's pythoncore install.
+PY311_DEFAULT = sys.executable
 
 
 def _load_board(board_path: Path) -> list[dict[str, Any]]:

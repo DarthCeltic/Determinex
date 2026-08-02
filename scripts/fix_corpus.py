@@ -5,6 +5,8 @@ Two-phase fix:
 2. Delete bad multi_turn_fill_v1 and regenerate with correct comment syntax
 """
 
+import sys
+import pathlib
 import hashlib
 import json
 import os
@@ -296,9 +298,11 @@ emit("multi_turn_fill_v2", "multi_turn", MT_SYS, mt_fill_v2())
 # Final check
 import subprocess
 
+# Repo root derived from this file's location, and sys.executable rather than whatever
+# `python` happens to be on PATH. Both were hardcoded to one machine before.
 r = subprocess.run(
-    ["python", "scripts/type_audit_raw.py"],
-    cwd=r"C:\Dev\Determinex",
+    [sys.executable, "scripts/type_audit_raw.py"],
+    cwd=str(pathlib.Path(__file__).resolve().parent.parent),
     capture_output=True,
     text=True,
 )

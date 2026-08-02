@@ -20,6 +20,7 @@ Idempotent: skips if already seeded (checks row count).
 
 from __future__ import annotations
 
+import pathlib
 import hashlib
 import os
 import re
@@ -43,7 +44,17 @@ except ImportError:
 REPO_ROOT = Path(__file__).parent.parent
 DB_PATH = Path(
     os.environ.get(
-        "DETERMINEX_DB", r"C:\Users\ryang\AppData\Roaming\run.determinex.app\determinex.sqlite"
+        "DETERMINEX_DB",
+        # run.determinex.app is the Tauri BUNDLE IDENTIFIER, so this directory is the
+        # right place -- only the hardcoded user-profile prefix was wrong. Derive it.
+        str(
+            pathlib.Path(
+                os.environ.get("APPDATA")
+                or pathlib.Path.home() / "AppData" / "Roaming"
+            )
+            / "run.determinex.app"
+            / "determinex.sqlite"
+        ),
     )
 )
 CODING_LAWS = REPO_ROOT / "scripts" / "coding_laws.md"

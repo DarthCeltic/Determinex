@@ -12,10 +12,10 @@ Usage:
   python determinex_trainer/merge_all.py --in ${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus/real_scale --out ${DETERMINEX_MODELS_DIR:-~/determinex-models}/corpus/merged
 """
 
-import os
 import argparse
 import hashlib
 import json
+import os
 import re
 import sys
 from pathlib import Path

@@ -15,6 +15,7 @@ Outputs:
 
 from __future__ import annotations
 
+import sys
 import glob
 import json
 from pathlib import Path
@@ -22,8 +23,10 @@ from pathlib import Path
 PB_TASKS = Path("c:/tmp/pb_tasks_200.tsv")
 EVAL_ROOT = Path("T:/determinex-programbench")
 PER_TOOL = Path("c:/tmp/per_tool_failures.json")
-OVERRIDE_DIR = Path("c:/Dev/Determinex/corpus/programbench/per_tool_overrides")
-OUT_MD = Path("c:/Dev/Determinex/corpus/programbench/results/PB_WORK_MATRIX_200.md")
+# Derived from this file's location; the absolute form ran on exactly one machine.
+_REPO = Path(__file__).resolve().parents[2]
+OVERRIDE_DIR = _REPO / "corpus" / "programbench" / "per_tool_overrides"
+OUT_MD = _REPO / "corpus" / "programbench" / "results" / "PB_WORK_MATRIX_200.md"
 OUT_TSV = Path("c:/tmp/pb_work_matrix.tsv")
 
 

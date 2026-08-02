@@ -27,7 +27,9 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-PY = Path(r"C:\Users\ryang\AppData\Local\Python\pythoncore-3.11-64\python.exe")
+# sys.executable is the interpreter actually running this script, which is what a
+# hardcoded pythoncore path was standing in for -- and it works on any machine.
+PY = Path(sys.executable)
 SSH = Path(r"C:\Windows\System32\OpenSSH\ssh.exe")
 SCP = Path(r"C:\Windows\System32\OpenSSH\scp.exe")
 SSH_KEY = Path.home() / ".ssh" / "id_citadel"
