@@ -145,6 +145,25 @@ def _is_benign_normalization(c: str) -> bool:
     )
 
 
+# ftfy also normalises TYPOGRAPHY -- curly quotes and dashes become their ASCII forms.
+# That is not decode corruption either, and it is what kept
+# docs/companions/hf-hackathon/aifoundry_hackathon_announcement_draft.md failing the Doc
+# guard after the emoji case was already handled: the file contains one U+2019 RIGHT
+# SINGLE QUOTATION MARK, ftfy renders it as "'", and a naive comparison sees a difference.
+# Folding both sides means a remaining difference is a real repair.
+#
+# Safe because mojibake is MULTI-CHARACTER Latin-1 wreckage (a curly apostrophe arrives as
+# the three-byte sequence rendered 'a-circumflex, euro, trademark'), and folding a single
+# smart quote cannot hide that.
+_TYPOGRAPHIC_FOLD = str.maketrans({
+    "‘": "'", "’": "'",           # single quotes
+    "“": '"', "”": '"',           # double quotes
+    "–": "-", "—": "-",           # en / em dash
+    "…": "...",                        # ellipsis
+    " ": " ",                          # non-breaking space
+})
+
+
 def _strip_benign(s: str) -> str:
     """Drop the characters ftfy merely normalises, so what remains is comparable.
 
@@ -154,7 +173,8 @@ def _strip_benign(s: str) -> str:
     reported the file anyway. Stripping both sides and comparing is exact -- if the texts
     match once benign characters are gone, every difference was benign.
     """
-    return "".join(c for c in s if ord(c) < 128 or not _is_benign_normalization(c))
+    folded = s.translate(_TYPOGRAPHIC_FOLD)
+    return "".join(c for c in folded if ord(c) < 128 or not _is_benign_normalization(c))
 
 
 def verify_mojibake_only(original: str, fixed: str) -> tuple[bool, list[tuple[str, str, int]]]:

@@ -45,6 +45,14 @@ _ALLOWLIST: dict[str, str] = {
     "crucible_gate_results.jsonl": "manual-run output of determinex_crucible.py (historical signal)",
     "wall_taxonomy.json": "historical wall-classification snapshot, no live consumer",
     "hetzner_drive_queue.tsv": "drive queue for the STOPPED Hetzner churn loop (box off 2026-07-02)",
+    "build_knowledge_archive.json": 
+        "COLD half of build_knowledge.json, split 2026-08-02. The brain is HuggingFace-hosted "
+        "and read on every query, so its bytes are latency: absorbed_sources (1,333 KB) and "
+        "the 2026-07-16 quarantine key (619 KB) were 56% of the file and are never read during "
+        "retrieval. Moved, not deleted -- the corpus rule is that superseded entries stay, "
+        "because dead ends are load-bearing data. Deliberately has no live consumer; read it "
+        "directly when you need provenance or the quarantine record. Pointer lives in the hot "
+        "file under _cold_archive.",
 }
 
 

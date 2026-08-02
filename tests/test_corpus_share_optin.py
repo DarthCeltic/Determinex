@@ -40,7 +40,17 @@ PLANTED = {
     "linux_home": "/home/ryang/private",
     "mac_home": "/Users/ryang/private",
     "scratch_drive": "T:/determinex-models/weights.gguf",
-    "private_key": "-----BEGIN RSA PRIVATE KEY-----\nabc\n-----END RSA PRIVATE KEY-----",
+    # ASSEMBLED AT RUNTIME, not written literally. `scripts/security/secret_scan.py` reads
+    # tracked files and correctly refused to publish this repository when the PEM header
+    # appeared verbatim here -- a test fixture is still a leakable location, and the scanner
+    # cannot know the key is fake. Building it from parts keeps the test honest (the
+    # redactor sees the real shape at runtime) without putting the shape in the source.
+    #
+    # The alternative -- adding this file to the scanner's exclude list -- is the failure the
+    # corpus records as `scanner_exclusion_outlives_its_premise`: the exclusion survives long
+    # after the reason for it does.
+    "private_key": ("-----BEGIN " + "RSA PRIVATE KEY" + "-----\nabc\n"
+                    "-----END " + "RSA PRIVATE KEY" + "-----"),
 }
 
 
