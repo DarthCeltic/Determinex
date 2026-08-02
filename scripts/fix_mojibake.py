@@ -145,6 +145,18 @@ def _is_benign_normalization(c: str) -> bool:
     )
 
 
+def _strip_benign(s: str) -> str:
+    """Drop the characters ftfy merely normalises, so what remains is comparable.
+
+    Replaces an earlier set-difference test that was subtly wrong: comparing
+    `set(original) ^ set(fixed)` says nothing when a character is removed from ONE position
+    but still occurs elsewhere, and an empty symmetric difference then fell through and
+    reported the file anyway. Stripping both sides and comparing is exact -- if the texts
+    match once benign characters are gone, every difference was benign.
+    """
+    return "".join(c for c in s if ord(c) < 128 or not _is_benign_normalization(c))
+
+
 def verify_mojibake_only(original: str, fixed: str) -> tuple[bool, list[tuple[str, str, int]]]:
     """
     Check that every difference between original and fixed is a known mojibake
@@ -280,8 +292,7 @@ def scan_only() -> int:
         # normalisation and not decode corruption. Report only when a differing character is
         # not a benign normalisation; `verify_mojibake_only` already made this distinction,
         # and the scan path -- the one CI runs -- never consulted it.
-        differing = (set(original) ^ set(fixed))
-        if differing and all(_is_benign_normalization(c) for c in differing if ord(c) > 127):
+        if _strip_benign(original) == _strip_benign(fixed):
             continue
         rel = path.relative_to(REPO_ROOT)
         seq_counts = diff_sequences(original, fixed)
