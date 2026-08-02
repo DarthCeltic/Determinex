@@ -292,10 +292,32 @@ def main() -> int:
                 print(f"    {t}")
         if r["missing"]:
             print("  MISSING ARCHIVE:", ", ".join(r["missing"]))
-        # guard mode: any drift/missing is a hard failure
-        if "--guard" in sys.argv and (r["drifted"] or r["missing"]):
-            print("INTEGRITY GUARD FAILED: a registered lock's artifact drifted. Re-verify before commit.")
-            return 1
+        # DRIFT and ABSENCE are different findings and must not share a verdict.
+        #
+        # Drift means a locked archive changed since it was verified: the lock is lying,
+        # and that is a hard failure anywhere. Absence means the archive is not in THIS
+        # checkout -- which is the normal state of the public mirror, because locked/
+        # holds vendored upstream trees that filter_corpus deliberately does not publish.
+        #
+        # Reporting "a registered lock's artifact drifted" on 0 drifted and 5 missing was
+        # a guard announcing an outcome it had not established, and it failed CI on every
+        # public run for a condition that is by design.
+        if "--guard" in sys.argv:
+            if r["drifted"]:
+                print("INTEGRITY GUARD FAILED: a registered lock's artifact DRIFTED "
+                      "since it was verified. The lock is lying -- re-verify before commit.")
+                return 1
+            if r["missing"]:
+                if r["ok"]:
+                    print("INTEGRITY GUARD FAILED: some archives are present and some are "
+                          "missing, so this checkout is partial rather than filtered. "
+                          "Restore the missing archives before trusting any lock.")
+                    return 1
+                print(f"INTEGRITY GUARD CANNOT VERIFY: {len(r['missing'])} locked "
+                      "archive(s) are absent and none are present -- this is a checkout "
+                      "that does not ship corpus/programbench/locked/ (the public mirror). "
+                      "Nothing drifted; nothing was checked either. NOT a pass.")
+                return 0
         return 0
     if cmd == "reconcile":
         b = reconcile()
