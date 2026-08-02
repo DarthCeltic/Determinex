@@ -272,11 +272,21 @@ def scan_only() -> int:
         except UnicodeDecodeError:
             continue
         fixed = ftfy.fix_text(original)
-        if fixed != original:
-            rel = path.relative_to(REPO_ROOT)
-            seq_counts = diff_sequences(original, fixed)
-            print(f"MOJIBAKE: {rel} ({sum(seq_counts.values())} sequences)")
-            found = True
+        if fixed == original:
+            continue
+        # ftfy does two jobs: it REPAIRS mojibake and it NORMALISES healthy text. This scan
+        # treated any difference at all as the former, so a document containing a rocket
+        # emoji failed CI -- ftfy strips the U+FE0F variation selector after it, which is a
+        # normalisation and not decode corruption. Report only when a differing character is
+        # not a benign normalisation; `verify_mojibake_only` already made this distinction,
+        # and the scan path -- the one CI runs -- never consulted it.
+        differing = (set(original) ^ set(fixed))
+        if differing and all(_is_benign_normalization(c) for c in differing if ord(c) > 127):
+            continue
+        rel = path.relative_to(REPO_ROOT)
+        seq_counts = diff_sequences(original, fixed)
+        print(f"MOJIBAKE: {rel} ({sum(seq_counts.values())} sequences)")
+        found = True
     return 1 if found else 0
 
 
