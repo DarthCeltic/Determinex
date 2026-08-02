@@ -1,9 +1,30 @@
+# NOTE: the vendored/evidence exclusion below is applied PER HOOK, deliberately.
+#
+# It started life as a top-level `exclude:`, which pre-commit applies to EVERY hook -- and
+# three of the guards further down target `^corpus/programbench/...` on purpose:
+# pb-lock-integrity, pb-anti-gaming and corpus-wiring-census. A top-level exclude would have
+# switched all three off silently while the config still listed them, which is the corpus
+# class `guard_shadowed_by_an_earlier_branch` verbatim: the documented behaviour never
+# happens and nothing fails.
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
+      # Trees these two formatting hooks must never rewrite:
+      #   corpus/, work/  ~200 VENDORED UPSTREAM CHECKOUTS. Not our code. The Native
+      #                   Reimplementation Loop feeds these to a model as the reference for
+      #                   the real tool, so a faithful copy is the point; normalising someone
+      #                   else's whitespace makes our reference diverge from upstream.
+      #   assurance/      EVIDENCE -- a record of what the system actually emitted on a given
+      #                   run, including `historical_*_snapshot.py`. Reformatting evidence
+      #                   rewrites the thing the evidence is evidence OF.
+      # Learned the hard way 2026-08-02: a whitespace pass over all tracked files touched
+      # 5,054 corpus and 355 assurance files, and `ruff format` had already rewritten 83
+      # evidence artifacts before assurance/ was excluded from ruff. All restored.
       - id: trailing-whitespace
+        exclude: '^(corpus/|work/|assurance/|logs/eval_results/|dataset_generation/)'
       - id: end-of-file-fixer
+        exclude: '^(corpus/|work/|assurance/|logs/eval_results/|dataset_generation/)'
       - id: check-yaml
       - id: check-json
         # tsconfig.json is JSONC -- the TypeScript compiler documents comments as
@@ -25,7 +46,12 @@ repos:
         args: ["--branch", "main"]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.12
+    # Pinned to the ruff that actually formatted this repo. It was v0.11.12 while the local
+    # toolchain ran 0.15.22 -- eight months apart -- so `ruff format` locally produced output
+    # that `ruff format` in CI rejected, and the two could never agree no matter how many
+    # times the formatter was run. Bumping the pin is the fix; leaving it would mean CI
+    # checking the formatting against a formatter nobody uses.
+    rev: v0.15.22
     hooks:
       - id: ruff
         args: ["--fix"]
@@ -38,7 +64,20 @@ repos:
         language: pygrep
         entry: 'subprocess.*shell\s*=\s*True'
         types: [python]
-        exclude: ^(tests/|docs/|dataset_generation/)
+        # The two REAL shell=True call sites (determinex_pb_autodrive.py) were removed
+        # 2026-08-02 -- argv lists now, tokenization verified identical. What remains are
+        # three files that must contain the string to do their job, which is the same false
+        # positive as detect-private-key flagging the secret scanner:
+        #   determinex_safety.py            the semgrep-style RULE that detects shell=True;
+        #                                   its pattern/pattern-not lines are the rule text
+        #   dev/parallel_execution_layer_audit.py  a comment enumerating call kinds it
+        #                                   classifies ("subprocess.run", "os.system",
+        #                                   "shell=True")
+        #   publish_mirror.py               a docstring that says *not* to use it:
+        #                                   "No shell=True (pre-commit forbids it)"
+        # Named exactly, never by wildcard -- a fourth file with a real shell=True still fails.
+        exclude: >-
+          ^(tests/|docs/|dataset_generation/|scripts/determinex_safety\.py$|scripts/dev/parallel_execution_layer_audit\.py$|scripts/publish_mirror\.py$)
 
       - id: no-hardcoded-paths
         name: Reject hardcoded personal paths

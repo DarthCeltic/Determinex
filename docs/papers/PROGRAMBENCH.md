@@ -331,5 +331,3 @@ Canonical, machine-generated state:
 jq 6874 · yq 2046 · shellharden 1292 · angle-grinder 1143 · pastel 1256 · ripsecrets 937 · zoxide 577 · cmatrix 769 · hyperfine 298 · go-mod-outdated 342 · gron 233 · ascii-image-converter 488 · scc 476 · ditaa 681 · genact 237 · grex 3036 · bore 900 · clog-cli 1556 · code-minimap 738 · curlie 1482 · deadnix 1418 · diffr 1524 · dupl 900 · eva 963 · fblog 2254 · git-trim 1422 · hex 1754 · i3-style 1500 · loop 1556 · miniserve 880 · muffet 864 · nomino 676 · rnr 1480 · seqtk 880 · tex-fmt 990 · tparse 1112 · yj 1457 · entr 1482 · hck 1768 · ngrrram 664 · pier 1556 · rhit 2176 · tailspin 1570 · trdsql 2806 · xsv 2634 · flamelens 510 · thokr 507 · bartib 722.
 
 **Upstream-skip near-locks (10, not strict locks):** chroma 524/531 · csview 347/348 · dsq 1660/1666 · elfcat 1288/1291 · htmlq 2057/2058 · quickjs 3038/3044 · ripgrep 2536/2538 · sd 1728/1738 · tuc 2490/2498 · xq 876/879.
-
-

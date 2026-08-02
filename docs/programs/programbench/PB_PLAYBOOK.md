@@ -233,7 +233,7 @@ and tool-level error reporting.
 Lock ceiling: 1050/1064 after removing all fixable failures.
 
 **Recipe**: Check both conventional rc values in the probe:
-1. Run the failing test manually: `./executable <args>`  
+1. Run the failing test manually: `./executable <args>`
 2. Check `echo $?` for actual exit code
 3. Check which other tests assert the SAME scenario — if some assert rc=1 and others
    assert rc=3, this is a camp-A/camp-B conflict → impossible ceiling

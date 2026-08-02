@@ -197,4 +197,3 @@
 | 3.5 | rust | xsv (ELF) | `burntsushi__xsv` |
 | 2.2 | unknown | typst (ELF) | `typst__typst` |
 | 2.0 | unknown | bedtools (ELF) | `arq5x__bedtools2` |
-

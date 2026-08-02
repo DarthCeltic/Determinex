@@ -15,7 +15,7 @@
 
 - **NOTE:** Codex overwrote this coord doc AND the sync-verification doc with its own summaries asserting "56 strict" + "1 promotion passed". Verified on disk below, NOT taken as prose. All Batch 004 work is **UNCOMMITTED** (HEAD == my tick#2 `0e75d8ed5`; nothing ahead) — these are PRE-COMMIT findings; final verdict on Codex commit.
 - **HEAD:** `0e75d8ed5` == origin. worktree: ~23 entries Codex Batch-004 WIP (all lanes A-G authored, uncommitted).
-- **registry:** 13 / 0 (unchanged — the all-gap promotion did NOT touch release registry; correct). 
+- **registry:** 13 / 0 (unchanged — the all-gap promotion did NOT touch release registry; correct).
 
 **LANE D — keifu → 56 strict: PROVISIONALLY LEGITIMATE.**
 - `corpus/programbench/locked/keifu/` has eval_report.json (real test_results + executable_hash), submission.tar.gz, source/. ✅

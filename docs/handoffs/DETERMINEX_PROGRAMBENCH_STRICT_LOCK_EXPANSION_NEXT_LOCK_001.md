@@ -34,4 +34,3 @@ PYTHONUTF8=1 uv run programbench eval "T:\determinex-staging\pb_keifu_detail_fix
 ```
 
 For lock archival, preserve the strict definition: official eval has `passed == runnable_total`, archive contains `eval_report.json`, `submission.tar.gz`, and `source/`, and `logs/programbench_lock_board.json` refreshes with `locked_archive=true`.
-

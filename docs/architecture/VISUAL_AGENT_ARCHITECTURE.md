@@ -1,6 +1,6 @@
 # Visual Agent Architecture
 
-**Date:** 2026-05-27  
+**Date:** 2026-05-27
 **Status:** Implemented and active
 
 ---

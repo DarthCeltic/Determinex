@@ -1,8 +1,8 @@
 # ProgramBench Blast Radius Map
 
-**Generated:** 2026-06-12  
-**Source:** Raw eval_report.json from A4-CHASE shard + Hetzner factory evals  
-**Purpose:** Cluster failures by signature to rank fixes by tools-unlocked-per-fix  
+**Generated:** 2026-06-12
+**Source:** Raw eval_report.json from A4-CHASE shard + Hetzner factory evals
+**Purpose:** Cluster failures by signature to rank fixes by tools-unlocked-per-fix
 
 > A fix that clears f=2 on three tools beats a fix that clears f=8 on one.
 > T2-track tools (sk>0) should never appear in strict projections.
@@ -36,9 +36,9 @@ Ranked by **tools unlocked per fix**, descending.
 
 ### CLUSTER A — EADDRINUSE / Socket Collision (environmental flake)
 
-**Signature:** `OSError: [Errno 98] Address already in use`  
+**Signature:** `OSError: [Errno 98] Address already in use`
 **Root cause:** Port binding race in multi-worker Docker eval. Test opens a socket and the
-previous test's socket hasn't fully released. Not a binary bug.  
+previous test's socket hasn't fully released. Not a binary bug.
 **Fix recipe:** Rerun the eval. If the failure clears, it was a flake. If persistent,
 add a port retry with `SO_REUSEADDR` or test isolation (separate loopback port per test).
 
@@ -46,16 +46,16 @@ add a port retry with `SO_REUSEADDR` or test isolation (separate loopback port p
 |------|------------------|---------------------|
 | `isona__dirble` | f=2 (bidir) `test_timeout_terminates_slow_requests` | STRICT T1 (if 2nd failure also clears) |
 
-**Priority:** RERUN FIRST before any patch — zero code change, free T1 candidate.  
+**Priority:** RERUN FIRST before any patch — zero code change, free T1 candidate.
 **Playbook:** RECIPE 009 (seed integrity) — record result either way.
 
 ---
 
 ### CLUSTER B — URL Validation / Timeout vs Error Message
 
-**Signature:** `assert 'Invalid URL: not-a-url' in 'TIMEOUT'`  
+**Signature:** `assert 'Invalid URL: not-a-url' in 'TIMEOUT'`
 **Root cause:** Test expects the binary to quickly reject an invalid URL with an error
-message, but the binary times out instead of short-circuiting on URL parse failure.  
+message, but the binary times out instead of short-circuiting on URL parse failure.
 **Fix recipe:** Add early URL validation before making any HTTP connections. If URL fails
 `urllib.parse` or regex check, print error and exit with rc=1 immediately.
 
@@ -63,14 +63,14 @@ message, but the binary times out instead of short-circuiting on URL parse failu
 |------|------------------|---------------------|
 | `isona__dirble` | f=2 (bidir) `test_uri_file_with_mixed_valid_invalid_urls` | STRICT T1 (with Cluster A) |
 
-**Priority:** Single fix unlocks dirble to T1 IF Cluster A also clears.  
+**Priority:** Single fix unlocks dirble to T1 IF Cluster A also clears.
 **Recipe:** New — add URL pre-validation before network dispatch.
 
 ---
 
 ### CLUSTER C — rc=1 on Valid Flag Invocations (errcheck argparse) ⚠ IMPOSSIBLE CEILING
 
-**Signature:** `assert 1 == 0` on flag-parsing tests (`-ignore`, `-tags`, `-ignorepkg`)  
+**Signature:** `assert 1 == 0` on flag-parsing tests (`-ignore`, `-tags`, `-ignorepkg`)
 **Root cause:** errcheck returns rc=1 for flag combinations that should succeed. Six unique
 test patterns (12 bidir). Of these, 5 unique (10 bidir) are structurally unfixable:
 branch 11c421a3b5f4 re-extracts `main_test.go` with unchecked `r.Close()/w.Close()` calls
@@ -84,17 +84,17 @@ has been reclassified to impossible_ceiling.**
 |------|------------------|---------------------|
 | `kisielk__errcheck` | f=12 (6 unique × bidir) | ⛔ impossible_ceiling (f≥10 always) |
 
-**Priority:** Demoted. errcheck cannot reach T1. Not worth patching.  
+**Priority:** Demoted. errcheck cannot reach T1. Not worth patching.
 **Reclassification date:** 2026-06-12 (confirmed from ceiling_note in eval_index).
 
 ---
 
 ### CLUSTER D — Help/Usage Format Normalization Drift
 
-**Signature:** `assert 'direnv v<VER...ven message\n' == 'direnv v<VER...ven message\n'`  
+**Signature:** `assert 'direnv v<VER...ven message\n' == 'direnv v<VER...ven message\n'`
 **Root cause:** `direnv help` vs `direnv --help` produce subtly different output (extra
 line, different ordering, or trailing content). Test normalizes version string but another
-whitespace/format difference remains.  
+whitespace/format difference remains.
 **Fix recipe:** Normalize help output — ensure `help` subcommand and `--help` flag produce
 byte-identical output after version string substitution.
 
@@ -103,17 +103,17 @@ byte-identical output after version string substitution.
 | `direnv__direnv` | f=2 (bidir) `test_help_subcommand_equals_dashdashhelp_normalized` | T2-track only (sk=2 Ruby stays) |
 
 **Priority:** T2-track — clearing this reduces direnv to f=2 (PATH) for a T2 analysis. Does
-NOT unlock strict T1 alone.  
+NOT unlock strict T1 alone.
 **Recipe:** RECIPE 005 (clap/help class) — help text normalization.
 
 ---
 
 ### CLUSTER E — Empty PATH / Exec Detection
 
-**Signature:** `assert ("can't find bash" in "direnv: error command 'echo' not found on PATH ''")`  
+**Signature:** `assert ("can't find bash" in "direnv: error command 'echo' not found on PATH ''")`
 **Root cause:** Test sets PATH='' and expects direnv to report it can't find bash when
 executing a `.envrc` that calls echo. Our binary reports the echo failure instead of
-the bash absence. The test checks for bash-specific language.  
+the bash absence. The test checks for bash-specific language.
 **Fix recipe:** When executing `.envrc` with empty PATH, detect that the shell interpreter
 (bash) is missing before attempting to exec commands, and emit the "can't find bash"
 diagnostic.
@@ -122,7 +122,7 @@ diagnostic.
 |------|------------------|---------------------|
 | `direnv__direnv` | f=2 (bidir) `test_exec_with_empty_path_environment` | T2-track only |
 
-**Priority:** T2-track. With Cluster D, clearing both gives direnv f=0, sk=2 → CEILING_CERT → T2.  
+**Priority:** T2-track. With Cluster D, clearing both gives direnv f=0, sk=2 → CEILING_CERT → T2.
 **Combined impact:** D + E together = direnv T2 cert. Two fixes, one T2.
 
 ---
@@ -145,7 +145,7 @@ diagnostic.
 
 ### CLUSTER G — TUI Keyboard Behavioral (not code-patchable)
 
-**Signature:** tmux Ctrl+E / Escape key handling differences  
+**Signature:** tmux Ctrl+E / Escape key handling differences
 
 | Tool | f | Details |
 |------|---|---------|
@@ -168,7 +168,7 @@ No near-lock path without test fixture modification (which is prohibited).
 
 **Action:** No further one-shot patches until prior-best compile.sh is recovered and root
 cause of regression is understood. Prior bests: figlet 2084/2088 (f=4), crowbook 1760/1774
-(f=14). Investigation needed: what changed between prior-best and chase submissions.  
+(f=14). Investigation needed: what changed between prior-best and chase submissions.
 **Corpus signal:** These regressions are logged in RECIPE 009.
 
 ---

@@ -1,6 +1,6 @@
 # Determinex Safety Architecture
 
-**Date:** 2026-05-27  
+**Date:** 2026-05-27
 **Status:** Implemented and active
 
 ---
@@ -55,8 +55,8 @@ Additionally:
 
 ## Layer 0 — Content Policy
 
-**File:** `scripts/determinex_safety.py` → `_DENY_PATTERNS`  
-**Called from:** `scripts/determinex_hive.py` via `pre_spec_gate()` before session creation  
+**File:** `scripts/determinex_safety.py` → `_DENY_PATTERNS`
+**Called from:** `scripts/determinex_hive.py` via `pre_spec_gate()` before session creation
 **Mode:** Fail-closed, raises `SafetyDenied`
 
 ### What it does
@@ -122,8 +122,8 @@ DETERMINEX_SAFETY_MODE=audit    — log everything, always pass (test only)
 
 ## Layer 1 — Intent Classifier
 
-**File:** `scripts/determinex_safety.py` → `_COMPILED_INTENT`  
-**Called from:** `check_spec()` after L0 passes  
+**File:** `scripts/determinex_safety.py` → `_COMPILED_INTENT`
+**Called from:** `check_spec()` after L0 passes
 **Mode:** Fail-closed, raises `SafetyDenied`
 
 ### What it does
@@ -151,8 +151,8 @@ Example: "monitor" alone passes (legitimate). "monitor without the user's knowle
 
 ## Layer 2 — Egress Filter
 
-**File:** `scripts/hive/safety_gate.py` → `pre_api_gate()`  
-**Called from:** `scripts/hive/api_client.py` → `api_call()` before every API call  
+**File:** `scripts/hive/safety_gate.py` → `pre_api_gate()`
+**Called from:** `scripts/hive/api_client.py` → `api_call()` before every API call
 **Mode:** Fail-closed, raises `SafetyDenied` or `RuntimeError`
 
 ### What it does
@@ -174,8 +174,8 @@ DETERMINEX_REQUIRE_CLOAK=0      — allow unobfuscated cloud calls (privacy redu
 
 ## Layer 3 — Output Scanner
 
-**File:** `scripts/determinex_safety.py` → `check_output()` / `scripts/hive/compiler.py` → `scan_builder_output_security()`  
-**Called from:** `scripts/hive/compiler.py` after Builder code is generated  
+**File:** `scripts/determinex_safety.py` → `check_output()` / `scripts/hive/compiler.py` → `scan_builder_output_security()`
+**Called from:** `scripts/hive/compiler.py` after Builder code is generated
 **Mode:** Fail-closed, raises `SafetyDenied`
 
 ### What it does
@@ -214,8 +214,8 @@ Additional check for: `__import__()`, `exec(compile(...))`, `eval(base64...)`, `
 
 ## Layer 4 — Corpus Integrity
 
-**File:** `scripts/determinex_safety.py` → `sign_corpus_entry()` / `verify_corpus_entry()`  
-**Wrappers:** `scripts/hive/workspace.py` → `sign_corpus_entry()` / `verify_corpus_entry()`  
+**File:** `scripts/determinex_safety.py` → `sign_corpus_entry()` / `verify_corpus_entry()`
+**Wrappers:** `scripts/hive/workspace.py` → `sign_corpus_entry()` / `verify_corpus_entry()`
 **Mode:** Raises `CorpusTamperError` on verification failure
 
 ### What it does
@@ -235,7 +235,7 @@ Set `DETERMINEX_CORPUS_HMAC_KEY` in `.env` before running any training pipeline 
 
 ## Sandbox Enforcement
 
-**File:** `scripts/hive/compiler.py` → `_docker_run()`  
+**File:** `scripts/hive/compiler.py` → `_docker_run()`
 **Config:** `DETERMINEX_REQUIRE_DOCKER=1` (default)
 
 When Docker execution fails, the system no longer silently falls back to WSL2 or direct execution (lower isolation tiers). Instead it raises a `RuntimeError` with instructions to fix Docker or explicitly opt out.
@@ -252,7 +252,7 @@ To use WSL2 or direct mode: `DETERMINEX_REQUIRE_DOCKER=0`.
 
 ## Cloak Enforcement
 
-**File:** `scripts/hive/safety_gate.py` → `pre_api_gate()`  
+**File:** `scripts/hive/safety_gate.py` → `pre_api_gate()`
 **Config:** `DETERMINEX_REQUIRE_CLOAK=1` (default)
 
 Cloud API calls (non-Ollama) are blocked if Cloak is not active. This prevents source code from being sent to external LLM providers in plaintext.

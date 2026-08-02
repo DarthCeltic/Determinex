@@ -1,6 +1,6 @@
 # Determinex DSL Bootstrap Generation
 
-**Objective:** Synthesize 2,000 inter-model communications matching our strict Semantic Protocol. This document supplies the 50 manual seeds and precisely specifies the semantic constraints the Opus API must obey. 
+**Objective:** Synthesize 2,000 inter-model communications matching our strict Semantic Protocol. This document supplies the 50 manual seeds and precisely specifies the semantic constraints the Opus API must obey.
 
 ## Generation Prompt for Claude Opus:
 ```text

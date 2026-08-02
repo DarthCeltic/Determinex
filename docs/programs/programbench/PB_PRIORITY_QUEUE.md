@@ -1,7 +1,7 @@
 # ProgramBench Priority Queue
 
-**Generated:** 2026-06-26  
-**Source:** `corpus/programbench/eval_index.json`  
+**Generated:** 2026-06-26
+**Source:** `corpus/programbench/eval_index.json`
 
 Priority order: P1 (T2-cert) → P2 (verify+lock) → P3-P6 (fix failures) → P7 (rebaseline) → P8-P10 (hard/impossible)
 

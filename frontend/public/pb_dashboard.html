@@ -776,7 +776,7 @@ function renderTierB() {
   filtered.forEach((t, i) => {
     const pct = t.score;
     let color = pct >= 40 ? '#06b6d4' : pct >= 15 ? '#8b5cf6' : '#475569';
-    let band = pct >= 40 ? '<span class="pill pill-yes">High ≥40%</span>' 
+    let band = pct >= 40 ? '<span class="pill pill-yes">High ≥40%</span>'
              : pct >= 15 ? '<span class="pill pill-warning">Mid 15–39%</span>'
              : '<span class="pill pill-none">Low &lt;15%</span>';
     const dirShort = t.dir ? t.dir.substring(0, 35) + (t.dir.length > 35 ? '..' : '') : '—';

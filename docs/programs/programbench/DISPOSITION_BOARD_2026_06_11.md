@@ -1,6 +1,6 @@
 # ProgramBench Disposition Board — 2026-06-11
 
-> **Generated**: 2026-06-11 (Phase 6 of TERMINAL-STATE ACCEPTANCE protocol)  
+> **Generated**: 2026-06-11 (Phase 6 of TERMINAL-STATE ACCEPTANCE protocol)
 > **Purpose**: Publish accepted classifications; refocus repair capacity on UNVERDICTED tools.
 
 ---
@@ -34,7 +34,7 @@
 
 ## Tier 1 Near-Locks (11 tools — Phase 2 artifacts generated)
 
-All tools: `failed=0`, `not_run=0`. Only gap is upstream-disabled tests.  
+All tools: `failed=0`, `not_run=0`. Only gap is upstream-disabled tests.
 Phase 3 (reference binary runs) required to upgrade to `reference_parity` status.
 
 | Tool | Passed/Total | Gap | Skip Reasons | Parity Artifact |

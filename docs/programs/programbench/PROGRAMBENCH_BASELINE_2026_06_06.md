@@ -325,7 +325,7 @@ Tools sharing test patterns (fix one, cluster-transfer to others):
 ### Priority 1: Lock Amber (estimated 2-3 evals)
 **Target: 733/733 = lock #78**
 - Fix `src/console.rs`: replace `process::exit(1)` with plain stdout fallback when no TTY
-- Add conftest filter for `test_replace_command_exits_1_and_produces_no_output`  
+- Add conftest filter for `test_replace_command_exits_1_and_produces_no_output`
 - Fix help golden mismatch (likely `--max-threads [default: 12]` needs hardcoding)
 - Pack → eval → archive
 

@@ -24,7 +24,7 @@ difference. This is measurement only. It does not debias models, certify dataset
 representativeness, or prove deployment fairness.
 
 ### L0 — Content Policy
-**File:** `scripts/determinex_safety.py` → `_DENY_PATTERNS` / `pre_spec_gate()`  
+**File:** `scripts/determinex_safety.py` → `_DENY_PATTERNS` / `pre_spec_gate()`
 **Called:** At session creation, before anything else runs.
 
 Pre-compiled regex scan across the full spec text. A single match in any category
@@ -45,14 +45,14 @@ manipulation, addiction-optimization systems, fake review generation,
 discriminatory proxy screening, wage theft automation, spam infrastructure,
 unauthorized crypto mining, predatory lending tools.
 
-**What L0 catches:** Unsophisticated direct requests in one spec.  
+**What L0 catches:** Unsophisticated direct requests in one spec.
 **What L0 does not catch:** The same intent expressed across multiple specs,
 encoded in unusual phrasing, or through indirect composition.
 
 ---
 
 ### L1 — Intent Classifier
-**File:** `scripts/determinex_safety.py` → `_COMPILED_INTENT` / `check_spec()`  
+**File:** `scripts/determinex_safety.py` → `_COMPILED_INTENT` / `check_spec()`
 **Called:** After L0 passes, still pre-session.
 
 Catches reframing. A signal keyword alone is not a match — it must co-occur
@@ -64,14 +64,14 @@ non-consensual data collection, automated harassment, AV/EDR evasion,
 code injection into process memory, persistence mechanisms, credential
 exfiltration, obfuscation for evasion, synthetic identity fraud.
 
-**What L1 catches:** Single-spec reframing using indirect language.  
+**What L1 catches:** Single-spec reframing using indirect language.
 **What L1 does not catch:** Distributed multi-spec composition where no
 individual spec contains both a signal and its amplifier.
 
 ---
 
 ### L2 — Egress Filter
-**File:** `scripts/hive/safety_gate.py` → `pre_api_gate()`  
+**File:** `scripts/hive/safety_gate.py` → `pre_api_gate()`
 **Called:** Before every cloud API call, without exception.
 
 Scans all outbound prompt content for 16 categories of secrets (LLM API keys,
@@ -81,7 +81,7 @@ assignments and enforces Cloak (blocks cloud calls when `DETERMINEX_REQUIRE_CLOA
 and obfuscation is inactive).
 
 **What L2 catches:** Secrets leaking to cloud providers, plaintext source code
-going to cloud AI without Cloak.  
+going to cloud AI without Cloak.
 **What L2 does not catch:** Secrets encoded in non-standard formats or split
 across multiple calls.
 
@@ -89,7 +89,7 @@ across multiple calls.
 
 ### L3 — Output Scanner
 **File:** `scripts/determinex_safety.py` → `check_output()` /
-`scripts/hive/compiler.py` → `scan_builder_output_security()`  
+`scripts/hive/compiler.py` → `scan_builder_output_security()`
 **Called:** After Builder generates code, before corpus write.
 
 Scans generated code for behavioral indicators of malicious intent — not just
@@ -105,14 +105,14 @@ paths, startup/persistence writes, `shell=True` with string concatenation.
 Python-specific: `exec(compile(...))`, `eval(base64...)`, `marshal.loads`,
 `pickle.loads(base64...)`.
 
-**What L3 catches:** Known malicious-intent code shapes produced by the Builder.  
+**What L3 catches:** Known malicious-intent code shapes produced by the Builder.
 **What L3 does not catch:** Novel attack patterns, multi-file attacks where no
 single file triggers a pattern, obfuscated payloads that pass the scan.
 
 ---
 
 ### L4 — Corpus Integrity
-**File:** `scripts/corpus/corpus_manager.py` / `scripts/determinex_safety.py`  
+**File:** `scripts/corpus/corpus_manager.py` / `scripts/determinex_safety.py`
 **Called:** On every corpus write; verified at retrain time.
 
 Every corpus record is HMAC-BLAKE2b-256 signed over canonical JSON (sorted keys,
@@ -125,7 +125,7 @@ corpus — they become training signal. The model learns to refuse these categor
 through observed refusal examples, not just through inference-time blocking.
 
 **What L4 catches:** Post-hoc tampering with training data, unsigned corpus
-entries.  
+entries.
 **What L4 does not catch:** Attacks that compromise the HMAC key before it is
 used, or manipulation that occurs before the corpus write.
 
@@ -133,8 +133,8 @@ used, or manipulation that occurs before the corpus write.
 
 ## Ethics Oracle (L5) + Runtime Integrity (L6)
 
-**Spec:** `docs/policy/ETHICS_ORACLE.md`  
-**Code:** `scripts/determinex_safety.py` · **Tests:** `tests/test_safety_escalation.py`  
+**Spec:** `docs/policy/ETHICS_ORACLE.md`
+**Code:** `scripts/determinex_safety.py` · **Tests:** `tests/test_safety_escalation.py`
 **Status: IMPLEMENTED 2026-07-01.** (This section previously said "NOT
 IMPLEMENTED" — true when written, corrected only after the code and tests
 landed. Same designed-is-not-shipped standard, applied in both directions.)
@@ -163,17 +163,17 @@ under test.
 
 ## Copyright Displacement Guard + Provenance Sidecar (observe mode — not a training gate)
 
-**File:** `scripts/determinex_copyright_guard.py`  
+**File:** `scripts/determinex_copyright_guard.py`
 **Status: Built. Runs as a fire-and-forget sidecar in the hive executor and PB agent.**
 
 Two complementary systems in one module:
 
-**1. Copyright Guard (verbatim protection)**  
+**1. Copyright Guard (verbatim protection)**
 Detects contiguous token runs of 50+ tokens (≈ 3–5 lines) matching any registered
 protected work. Operators seed `corpus/protected/*.txt`. Findings are logged to
 `logs/copyright_guard/audit.jsonl`.
 
-**2. Provenance / Attribution Tagger**  
+**2. Provenance / Attribution Tagger**
 Detects inspiration and derivation from registered reference sources using
 three-tier similarity detection:
 - `verbatim_reproduction` — ≥50 consecutive matching tokens
@@ -247,5 +247,5 @@ alert = guard.check(generated_output, task_id="run_001")  # returns first Copyri
 
 ---
 
-*Determinex · Ryan Gurganious*  
+*Determinex · Ryan Gurganious*
 *Safety doc last updated: 2026-06-10 — provenance sidecar wiring + observe/enforce mode documented*

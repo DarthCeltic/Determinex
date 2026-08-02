@@ -975,7 +975,7 @@ async fn run_engineer(
     let steps = plan.steps.join("\n  • ");
     let prompt = format!(
         r#"You are the Determinex Engineer. You write production-quality {lang} code.
-ENVIRONMENT CONSTRAINTS: You are operating in a strict single-file sandbox. 
+ENVIRONMENT CONSTRAINTS: You are operating in a strict single-file sandbox.
 For Rust: You run in an air-gapped `rustc` compiler without a Cargo.toml. NO external crates (e.g., `tokio`, `serde`) are available. You MUST use standard library primitives like `std::thread` and `std::sync`. NEVER use `#[tokio::test]` — it will NOT compile. Write plain `#[test]` functions. NEVER use `.await` inside sync test functions.
 For Python: Beware of mutable default arguments triggering data leaks across functional states.
 For TypeScript: Beware of `Array.forEach` swallowing async Promises. Properly await synchronous events.

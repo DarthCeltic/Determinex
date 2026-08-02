@@ -1,7 +1,7 @@
 # Pattern 002 Verdict — Collection-Wall Root Causes
 
-> **Filed**: 2026-06-11  
-> **Scope**: 89 unverdicted tools with `not_run > 20%` (Lane P)  
+> **Filed**: 2026-06-11
+> **Scope**: 89 unverdicted tools with `not_run > 20%` (Lane P)
 > **Verdict**: Two distinct root causes; only one is plugin-fixable.
 
 ---
@@ -111,7 +111,7 @@ if _conftest_mod is not None and not hasattr(_conftest_mod, 'run_cli'):
     import subprocess
     def run_cli(*args, **kwargs):
         """Stub — branch provides no run_cli; use subprocess.run directly."""
-        return subprocess.run(['/workspace/executable'] + list(args), 
+        return subprocess.run(['/workspace/executable'] + list(args),
                               capture_output=True, **kwargs)
     _conftest_mod.run_cli = run_cli
 ```

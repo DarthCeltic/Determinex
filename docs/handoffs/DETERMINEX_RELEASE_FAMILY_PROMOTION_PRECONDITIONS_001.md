@@ -28,4 +28,3 @@ A release-supported family promotion requires all of the following:
 ## Next Lock
 
 `DETERMINEX_FIRST_RELEASE_FAMILY_PROMOTION_PRECHECK_LOCK_001`: pick one family, enumerate every exact cell, bind required evidence paths, and fail closed if any exact cell remains unsupported.
-

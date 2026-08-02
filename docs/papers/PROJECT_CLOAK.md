@@ -583,4 +583,3 @@ The privacy claim always was about *proprietary* identifiers — the function na
 
 *Document updated April 28, 2026. Implementation complete. Ablation running.*
 *Author: DarthCeltic.*
-

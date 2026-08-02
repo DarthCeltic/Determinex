@@ -1,8 +1,8 @@
 # Request Tracker CLI
 
 ## Overview
-A command-line tool written in Python that tracks requests, shows which ones are 
-pending, and lets the user approve or reject them. Requests persist between runs 
+A command-line tool written in Python that tracks requests, shows which ones are
+pending, and lets the user approve or reject them. Requests persist between runs
 via a JSON file.
 
 ## Commands

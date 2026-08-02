@@ -204,10 +204,10 @@ def extract_ts_private_identifiers(source: str, lang='typescript') -> frozenset[
     """Extract TypeScript identifiers that are internal to the module."""
     parser = Parser(TS_LANG if lang == 'typescript' else JS_LANG)
     tree = parser.parse(source.encode())
-    
+
     safe = set()  # exported names, decorators, etc.
     private = set()
-    
+
     def walk(node):
         if node.type == 'export_statement':
             # Mark all identifiers in export statements as safe
@@ -220,9 +220,9 @@ def extract_ts_private_identifiers(source: str, lang='typescript') -> frozenset[
                 private.add(name)
         for child in node.children:
             walk(child)
-    
+
     walk(tree.root_node)
-    
+
     TS_BUILTIN_SAFE = frozenset([
         'undefined', 'null', 'true', 'false', 'this', 'super',
         'console', 'process', 'require', 'module', 'exports',
@@ -370,7 +370,7 @@ print(json.dumps(results))
 '''.format(code=code, tests=json.dumps(tests))
         f.write(test_runner)
         path = f.name
-    
+
     try:
         result = subprocess.run(
             [sys.executable, path],
@@ -408,7 +408,7 @@ from scripts.validators.execution_oracle import run_solution_against_tests
 class LiveCodeAgent:
     def __init__(self, config: str = 'd'):
         self.config = config
-    
+
     def solve(self, problem: dict) -> dict:
         """
         problem format (from LiveCodeBench):
@@ -423,29 +423,29 @@ class LiveCodeAgent:
         """
         # Convert LCB problem to Determinex spec format
         spec = self._problem_to_spec(problem)
-        
+
         # Use Hive write-from-scratch mode
         session = HiveSession.new_session(spec=spec, lang='python')
         session.generate_dag()
         result = session.run_session()
-        
+
         # Extract generated solution from workspace
         solution_code = self._extract_solution(result, problem['starter_code'])
-        
+
         # Validate against test cases
         passed, msg = run_solution_against_tests(
             solution_code,
             problem['test_cases'],
             language='python',
         )
-        
+
         return {
             'question_id': problem['question_id'],
             'solution': solution_code,
             'passed': passed,
             'message': msg,
         }
-    
+
     def _problem_to_spec(self, problem: dict) -> str:
         return f"""# {problem['title']}
 
@@ -511,10 +511,10 @@ BIGCODE_DOCKER_IMAGE = "bigcode/bigcode-bench:latest"
 def run_bigcode_solution(task_id: str, solution_code: str, test_code: str) -> tuple[bool, str]:
     """Execute solution in BigCodeBench Docker image."""
     container_name = f"determinex.bigcode.{task_id}"
-    
+
     # Mount solution + test harness into container
     full_code = solution_code + "\n\n" + test_code
-    
+
     result = subprocess.run([
         'wsl', '-d', 'Ubuntu', 'docker', 'run', '--rm',
         '--name', container_name,
@@ -523,7 +523,7 @@ def run_bigcode_solution(task_id: str, solution_code: str, test_code: str) -> tu
         BIGCODE_DOCKER_IMAGE,
         'python', '-c', full_code
     ], capture_output=True, text=True, timeout=60)
-    
+
     return result.returncode == 0, result.stdout + result.stderr
 ```
 
@@ -567,17 +567,17 @@ def solve_management_task(implementations: list[str], spec: str, test_suite: str
         if not compile_ok:
             scores.append(0.0)
             continue
-        
+
         # 2. Run test suite
         test_ok, _ = run_tests(impl, test_suite)
-        
+
         # 3. Monitor quality score
         monitor_verdict = observer_api.score(impl, spec)
-        
+
         # 4. Composite score
         score = (0.5 * int(test_ok)) + (0.3 * monitor_verdict['confidence']) + (0.2 * int(compile_ok))
         scores.append(score)
-    
+
     return scores.index(max(scores))
 ```
 
@@ -792,4 +792,3 @@ benchmark paradigms while the cloud AI remains blind to every proprietary identi
 *Document: BENCHMARK_EXPANSION.md*
 *Author: DarthCeltic*
 *Status: Living document — update as scores come in*
-

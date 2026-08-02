@@ -104,14 +104,14 @@ pub fn get_lsp_diagnostics(file_name: String, workspace_path: Option<String>) ->
         // Fallback for JS/TS: we could run tsc or eslint, but that takes a while.
         // For now, return an empty array rather than failing.
     }
-    
+
     Ok(diagnostics)
 }
 
 #[tauri::command]
 pub fn get_lsp_symbols(file_name: String) -> Result<Vec<LspSymbol>, String> {
     let mut symbols = Vec::new();
-    
+
     // Fallback: read file and do rudimentary regex matching
     let path = Path::new(&file_name);
     let abs_path = if path.is_absolute() {
@@ -120,7 +120,7 @@ pub fn get_lsp_symbols(file_name: String) -> Result<Vec<LspSymbol>, String> {
         // Assume workspace root
         std::env::current_dir().unwrap_or_default().join(path)
     };
-    
+
     if let Ok(content) = fs::read_to_string(&abs_path) {
         let mut line_num = 1;
         for line in content.lines() {
@@ -155,6 +155,6 @@ pub fn get_lsp_symbols(file_name: String) -> Result<Vec<LspSymbol>, String> {
             line_num += 1;
         }
     }
-    
+
     Ok(symbols)
 }

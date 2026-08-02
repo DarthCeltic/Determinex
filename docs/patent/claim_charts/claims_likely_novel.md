@@ -209,7 +209,7 @@ was inaccurate — the correct description above reflects the actual implementat
 - Append-only dual audit trail (copyright audit log + attribution log) enables simultaneous verification of both "nothing leaked out" and "all influences documented in"
 - The filtered-bigram Jaccard comparison for code (stopword removal of programming keywords) is an engineering choice distinguishing from naive document-similarity approaches applied to prose
 
-**Implementation date:** 2026-06-10  
+**Implementation date:** 2026-06-10
 **Implementation files:**
 - `scripts/determinex_copyright_guard.py` — combined guard (outbound: `CopyrightGuard._works`; inbound: `CopyrightGuard._references`)
 - `scripts/hive/executor.py` — fire-and-forget sidecar wiring (observe mode)

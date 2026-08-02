@@ -1,7 +1,7 @@
 # Action Safety Policy
 
-**Date:** 2026-05-27  
-**Status:** Implemented and active  
+**Date:** 2026-05-27
+**Status:** Implemented and active
 **Implementation:** `scripts/agents/safety_governor.py`
 
 ---

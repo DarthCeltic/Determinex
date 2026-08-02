@@ -51,7 +51,7 @@ test the upstream authors consider active.
 **Tier 1 total: 16 tools**
 
 > **dsq removed 2026-06-13**: Now a strict_lock at 1532/1532 — promoted to locked status.
-> **bartib removed 2026-06-11**: Previously listed as 1856/1858, but best verified eval  
+> **bartib removed 2026-06-11**: Previously listed as 1856/1858, but best verified eval
 > (vbidir7) shows 1688 passed + 166 failures — not a near-lock. Repair target remains active.
 
 Combined lock+near-lock coverage if upstream-skip near-locks counted (historical, invalidated 2026-06-30):

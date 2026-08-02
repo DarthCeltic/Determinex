@@ -151,7 +151,7 @@ Diagnosis was not guesswork:
 | `determinex.exe`, after installing the shipped redist | **resident 15 s** |
 | `determinex-hive.exe` | unaffected either way — PyInstaller bundles its own CRT |
 
-Same binaries, same host, one variable. 
+Same binaries, same host, one variable.
 
 **First fix attempt, and why it was wrong.** Tauri 2.10 exposes `componentRefs` /
 `componentGroupRefs` / `featureRefs` / `featureGroupRefs` / `mergeRefs` but no

@@ -1,15 +1,15 @@
 # Determinex — DataHub Agent Hackathon Submission (2026)
 
-> **Project Name**: Determinex Autonomous Data Engineer  
-> **Challenge**: Metadata-Aware Code Generation & Development (Challenge #2)  
-> **License**: AGPL-3.0-or-later (Open Source)  
-> **Deadline**: August 10, 2026 @ 5:00 PM EDT  
+> **Project Name**: Determinex Autonomous Data Engineer
+> **Challenge**: Metadata-Aware Code Generation & Development (Challenge #2)
+> **License**: AGPL-3.0-or-later (Open Source)
+> **Deadline**: August 10, 2026 @ 5:00 PM EDT
 
 ---
 
 ## 🚀 Overview
 
-**Determinex** is an autonomous AI agent system designed to eliminate schema hallucination and broken data pipelines. 
+**Determinex** is an autonomous AI agent system designed to eliminate schema hallucination and broken data pipelines.
 
 By integrating with **DataHub's open-source Context Platform** over its **GraphQL API**, Determinex reads exact column names, native types and nullability *before* generating pipeline code (dbt SQL models, Airflow DAGs), and can write lineage edges back via the `updateLineage` mutation.
 

@@ -69,7 +69,7 @@ Floor:     53–54
 
 **A3 results are the discriminator.** Reading them in ~4h will tell us:
 - If ≥7 tools hit strict lock → optimistic branch live
-- If 4–6 tools hit strict lock → realistic branch live  
+- If 4–6 tools hit strict lock → realistic branch live
 - If ≤3 tools → pessimistic, need new work (partial_eval_100 cap removal queue)
 
 ## Next highest-leverage moves after A3

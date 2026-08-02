@@ -47,111 +47,111 @@ not training fuel.
 ### Gap 1: Web Backends and APIs
 **(REST, GraphQL, auth, middleware, ORM, query optimization)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    The `curlie` deep study (queued) provides HTTP client/protocol semantics. The Hive Mind uses internal API routing (`reqwest`), and the DSL corpus contains 120k+ validated snippets, heavy on Go/TS backend patterns. The Compiler Oracle handles syntax/type verification for these languages perfectly.
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    Stateful middleware chains, session/auth state management, and complex ORM/database transaction optimizations. Determinex can write an endpoint; it struggles to architect a 50-route monolithic application with cascading database migrations.
 3. **Gap Size:** **MEDIUM**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    Deep study of a lightweight router/middleware framework (e.g., Go's `chi` or TS's `express`) to map middleware abstraction patterns directly to the AST.
 
 ### Gap 2: Frontend and UI
 **(React, state management, CSS layout, browser rendering, bundling)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    `htmlq` (in-progress) covers CSS selectors and DOM traversal. Tree-sitter handles TSX/JSX parsing natively. Determinex's own Tauri/React frontend provides empirical context for Vite bundling and React hooks.
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    Complex client-side state lifecycles (Redux/Zustand), reactive re-render optimizations, browser-specific layout quirks, and CSS-in-JS complexities. The AST doesn't capture visual layout bugs.
 3. **Gap Size:** **MEDIUM**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    Deep study of a headless component library (e.g., `radix-ui`) to master accessibility semantics and reactive state hook patterns.
 
 ### Gap 3: Operating System Interfaces
 **(Kernel interfaces, syscalls, memory management, process scheduling)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    Windows Job Object sandbox (process isolation, CPU/memory limiting), `dutree` and `zoxide` (filesystem traversal, I/O performance), and `fd` (ignore semantics).
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    Kernel-space programming, eBPF, custom memory allocators, POSIX signal handling across threads, and low-level multithreading synchronization primitives beyond standard async/await.
 3. **Gap Size:** **LARGE**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    Deep study of a cross-platform system utility engine (like `libuv` or `tokio` internals) to learn low-level event loop and syscall abstractions.
 
 ### Gap 4: Distributed Systems
 **(Consensus, replication, partition tolerance, distributed transactions)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    The Hive Mind Orchestrator's DAG execution, parallel wave execution, and WAL (Write-Ahead Log) crash recovery provide foundational knowledge of local state machines and durability.
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    Network consensus algorithms (Raft/Paxos), handling network partitions, split-brain resolution, and two-phase commits across networked nodes.
 3. **Gap Size:** **LARGE**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    Deep study of a lightweight Raft implementation (e.g., `etcd/raft` or `hashicorp/raft`) to learn distributed state machine replication.
 
 ### Gap 5: Machine Learning Infrastructure
 **(Training loops, GPU kernels, autograd, tensor operations)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    Rosetta Stone (MLP encoder/decoders, InfoNCE contrastive loss), the LoRA fine-tuning pipeline, Vanguard Vault (encrypted training capture), and `fastembed` ONNX CPU operations. The system actively *builds* ML pipelines.
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    Writing custom low-level GPU kernels (CUDA/Triton), distributed cluster training orchestrations (DeepSpeed/Megatron), and complex autograd graph optimizations.
 3. **Gap Size:** **MEDIUM**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    Deep study of a minimalist tensor framework (like `ggml` or `candle`) to bridge the gap between high-level loss functions and low-level matrix multiplication primitives.
 
 ### Gap 6: Compilers and Language Design
 **(Lexing, parsing, type systems, code generation, optimization)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    Tree-sitter AST parsing (structural analysis), `determinex_cloak` (symbol mapping, scope awareness), `shellharden` (static analysis), `yj` (format parsing), and the queued `jq` study (recursive descent parsing, filter execution).
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    Register allocation algorithms, SSA (Static Single Assignment) optimization passes, and JIT compilation mechanisms.
 3. **Gap Size:** **SMALL**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    Execute the `jq` deep study. `jq` is a functional language compiler in disguise; mastering it closes the frontend compiler/interpreter gap entirely.
 
 ### Gap 7: Real-time and Embedded Systems
 **(Interrupt handlers, deterministic timing, bare metal, RTOS)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    Essentially nothing. The C/C++ corpus from SWE-bench (FFmpeg, duckdb) teaches C syntax but not hardware interactions.
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    Bare metal memory mapping, interrupt service routines (ISRs), strict deterministic timing constraints, and hardware protocol drivers (I2C/SPI/UART).
 3. **Gap Size:** **LARGE**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    Deep study of a lightweight RTOS kernel (like `FreeRTOS` or `Zephyr`) to learn interrupt and context-switch semantics.
 
 ### Gap 8: Security and Cryptography Depth
 **(TLS, SSH, certificates, key exchange protocols)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    `ripsecrets` (Shannon entropy, pattern matching), Vanguard Vault (AES-256-GCM encryption), and Project Cloak (provable identifier obfuscation and data leakage prevention).
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    State-machine implementations of network protocols (TLS/SSH handshakes), public key infrastructure (X.509 parsing), and memory-safe implementations of elliptic curve math without side-channel leaks.
 3. **Gap Size:** **MEDIUM**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    Deep study of a modern cryptographic protocol library (like `rustls` or `age`) to learn secure state-machine transitions.
 
 ### Gap 9: Database Internals
 **(B-tree storage, WAL, MVCC, query planning)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    The Hive Mind WAL (durability/recovery), `sqlite-vec` integration (embedded vector search), and extensive SQLite usage (in `zoxide` and RAG).
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    B-tree page splitting logic, Multi-Version Concurrency Control (MVCC) isolation levels, and heuristic query planner optimization.
 3. **Gap Size:** **MEDIUM**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    Deep study of an embedded key-value store (like `sled`, `pebble`, or SQLite's B-tree code) to master durable page management.
 
 ### Gap 10: Legacy Codebases
 **(COBOL, Fortran, pre-modern C++, mainframes)**
 
-1. **What Determinex already has:** 
+1. **What Determinex already has:**
    C/C++ knowledge from SWE-bench (FFmpeg, php-src) provides exposure to older C patterns and macro usage.
-2. **Actual remaining gap:** 
+2. **Actual remaining gap:**
    Dead languages (COBOL/Fortran), undocumented C macros causing undefined behavior, and manual memory management without modern tooling (ASan/Valgrind).
 3. **Gap Size:** **LARGE**
-4. **Fastest path to close:** 
+4. **Fastest path to close:**
    None. Do not attempt. Let legacy systems die or be translated by specialized migration tools. This is negative ROI for a modern AI IDE.
 
 ---

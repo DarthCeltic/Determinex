@@ -1016,7 +1016,7 @@ return value is a silent no-op: the code runs without error but produces wrong o
   # WRONG — _e_step is unreachable dead code:
   return log_resp.argmax(axis=1)
   _, log_resp = self._e_step(X)   ← never executes
-  
+
   # CORRECT — run _e_step before the return:
   _, log_resp = self._e_step(X)
   return log_resp.argmax(axis=1)

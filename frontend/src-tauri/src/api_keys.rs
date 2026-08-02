@@ -73,7 +73,7 @@ pub fn save_api_keys(
         if let Some(val) = key_val {
             if !val.trim().is_empty() {
                 conn.execute(
-                    "INSERT INTO api_keys (provider, api_key) VALUES (?1, ?2) 
+                    "INSERT INTO api_keys (provider, api_key) VALUES (?1, ?2)
                      ON CONFLICT(provider) DO UPDATE SET api_key=excluded.api_key, updated_at=CURRENT_TIMESTAMP",
                     (provider, val),
                 ).map_err(|e| e.to_string())?;

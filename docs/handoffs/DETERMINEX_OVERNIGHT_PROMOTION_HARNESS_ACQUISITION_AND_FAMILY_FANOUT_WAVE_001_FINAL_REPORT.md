@@ -12,7 +12,7 @@
 
 ## End state
 - **HEAD == origin/clean-main == `a1bb016e0`; worktree CLEAN.**
-- registry **13 / 0** (unchanged — no family inferred). 
+- registry **13 / 0** (unchanged — no family inferred).
 - ProgramBench **56 strict 100% locks / 0 unarchived score=100 / 52.74% (84,957/161,099)** — keifu archived (passed==runnable_total 274/274; raw 66% counts 137 not-run/skipped, excluded by the standard "testable" convention used for all locks). Papers lockstep to 56/0.
 - Foundations LANDED: promotion harness + governed acquisition-packet system + toolchain inventory + acquisition admissions.
 - public NO_GO; PATENT_FILED false; monolithic tests/status still NOT proven.

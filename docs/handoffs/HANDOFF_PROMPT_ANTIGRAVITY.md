@@ -1,6 +1,6 @@
 # Determinex — RunPod Retrain Handoff
-**Date**: 2026-04-13  
-**For**: Sonnet or Opus in Antigravity (or any Claude session with SSH access to RunPod)  
+**Date**: 2026-04-13
+**For**: Sonnet or Opus in Antigravity (or any Claude session with SSH access to RunPod)
 **Pod**: `root@<POD_IP>` port `<PORT>`, SSH key `~/.ssh/id_runpod`
 
 ---
@@ -9,7 +9,7 @@
 
 Determinex is a local-first AI coding assistant — Tauri app, Ollama backend, three fine-tuned personas:
 - **Engineer** (Qwen2.5-Coder-1.5B LoRA) — code generation
-- **Observer** (Llama 3.2 3B LoRA) — hallucination detection + critique  
+- **Observer** (Llama 3.2 3B LoRA) — hallucination detection + critique
 - **Sentinel** (Mistral 7B LoRA) — planning, decomposition, safety gating
 
 All training uses compiler-verified ground truth (`rustc`, `go build`, `python`) — no LLM judges.
@@ -139,7 +139,7 @@ python scripts/micro_eval.py --model determinex-observer-v4 2>&1 | tee eval_obse
 python scripts/micro_eval.py --model determinex-sentinel-v3 2>&1 | tee eval_sentinel_v4.txt
 ```
 
-> Note: `--model` flag takes the Ollama model name, not the file path.  
+> Note: `--model` flag takes the Ollama model name, not the file path.
 > IMPORTANT: Run sequentially — do NOT run in parallel. Ollama unloads one model to load another when two compete for 6GB VRAM.
 
 ### TASK 7: Update docs with real post-retrain numbers
@@ -220,7 +220,7 @@ When updating docs, note:
 ```
 ${DETERMINEX_MODELS_DIR:-~/determinex-models}/
   Modelfile.engineer        — Ollama Modelfile for Engineer
-  Modelfile.observer        — Ollama Modelfile for Observer  
+  Modelfile.observer        — Ollama Modelfile for Observer
   Modelfile.sentinel        — Ollama Modelfile for Sentinel
   determinex-engineer-v9.gguf  — Engineer v10 (already downloaded, 1.6 GB)
   determinex-observer-v4.gguf  — Observer (needs replacement after retrain)

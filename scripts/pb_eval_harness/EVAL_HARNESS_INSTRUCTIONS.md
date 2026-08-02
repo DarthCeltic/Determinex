@@ -251,7 +251,7 @@ for r in non_core:
 
 **These tools require:**
 - Java tools: JDK + Maven/Gradle in the Docker image
-- Haskell tools: GHC + Stack/Cabal  
+- Haskell tools: GHC + Stack/Cabal
 - Unknown tools: Investigation of the source to determine build requirements
 
 **Do not attempt to lock these until the runtime is verified working.**

@@ -29,4 +29,3 @@ The demo may only report `VERIFIED_WORKING_LOCAL_APP` for this Python CLI/file-d
 ## Boundary
 
 This does not prove all apps, any language, all codebases, production-ready arbitrary app creation, mobile support, enterprise readiness, or training eligibility.
-

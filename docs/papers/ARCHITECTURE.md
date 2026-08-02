@@ -1603,6 +1603,3 @@ Six pieces shipped this generation:
    like a failure, the fix must be actionable; gaming excluded), resumable + incremental.
 
 *Generation 9 appended June 29, 2026 from live build state. Author: DarthCeltic.*
-
-
-

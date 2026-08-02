@@ -1,7 +1,7 @@
 # G1 Filter-Safety Gate — Standard Applied and Known Consequences
 
-**Date:** 2026-06-11  
-**Driver:** Claude (Sonnet 4.6)  
+**Date:** 2026-06-11
+**Driver:** Claude (Sonnet 4.6)
 **Trigger:** CAMPAIGN_DIRECTIVE_002 §LANE A, ADDENDUM A §D3
 
 ---
@@ -96,5 +96,5 @@ If the proxy approach is found to have missed a violation (a TUI test that passe
 
 ---
 
-*G1 cleared: 25/25 tools. dua-cli violation found and fixed. A3 dispatched.*  
+*G1 cleared: 25/25 tools. dua-cli violation found and fixed. A3 dispatched.*
 *Addendum 2026-06-12: TUI-only pre-filter mandatory for future batches.*

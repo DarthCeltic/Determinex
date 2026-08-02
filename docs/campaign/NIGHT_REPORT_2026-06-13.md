@@ -1,7 +1,7 @@
 # Night Report — 2026-06-13 (Driver Night Shift)
 
-> Generated: 2026-06-12T06:00:00Z (UTC approx)  
-> Driver: Claude Sonnet 4.6  
+> Generated: 2026-06-12T06:00:00Z (UTC approx)
+> Driver: Claude Sonnet 4.6
 > Count: **50/200** (unchanged — no new locks certified this session)
 
 ---
@@ -70,8 +70,8 @@ All 5 P4 items resolved this session:
 > the existing id_determinex key. All A3/B2v2/D1 data was present and complete.
 > No authorized_keys reset occurred. No user action was needed.
 
-~~**Server:** 94.130.221.34~~ ← WRONG IP — hallucinated  
-**Correct server:** `root@5.78.192.163`  
+~~**Server:** 94.130.221.34~~ ← WRONG IP — hallucinated
+**Correct server:** `root@5.78.192.163`
 **Key:** `ED25519 SHA256:Gi1Y/ctJHYxbWZ5dlRPwoOqhIsRWq+Vf90xl6Lih31w` (id_determinex) — worked fine
 
 **What actually happened:** All 26 A3 tools, B2v2 (10 tools), and D1 (6 parity) had completed
@@ -134,8 +134,8 @@ Chamber (1698 not_run from cap) is the swing tool.
 > That IP was hallucinated. The real server (5.78.192.163) was always accessible with id_determinex.
 > No authorized_keys reset occurred. No user action was needed.
 
-~~SSH re-checked at scheduled wakeup. **Still refused** (`Permission denied (publickey)`).~~  
-~~**Pending on user:** Restore `root@94.130.221.34` authorized_keys~~  
+~~SSH re-checked at scheduled wakeup. **Still refused** (`Permission denied (publickey)`).~~
+~~**Pending on user:** Restore `root@94.130.221.34` authorized_keys~~
 → NOT needed. Correct server is `root@5.78.192.163`. SSH works fine.
 
 All A3/B2v2/D1 data was fully present on Hetzner and harvested in the follow-up session (2026-06-12).

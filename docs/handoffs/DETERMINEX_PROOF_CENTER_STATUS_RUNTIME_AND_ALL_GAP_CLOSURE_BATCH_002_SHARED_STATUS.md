@@ -148,4 +148,3 @@
 **Forbidden-action guard (tick 5 / close):** no locks run, no Codex payload written/edited/swept/reverted, no verifier weakened. Read git + this doc only; edited+committed this doc only.
 
 ---
-

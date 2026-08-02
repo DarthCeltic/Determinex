@@ -15,7 +15,7 @@ The July 8 update marks the transition from closed engineering milestone to Arch
 
 New, implemented, and committed:
 - **Project Renaming & Unification:** The system has officially evolved into **Determinex**. The transition reflects the system's shift from a defensive compilation harness to an autonomous, deterministic problem-solving engine.
-- **Hetzner Churn Loop Resolution:** The autonomous ProgramBench churn loop was successfully closed. A deep dive into early zero-lock outcomes revealed a configuration ceiling (`--k 2 --rounds 1`) that quietly disabled the Correctness Amplifier. When raised to legitimate K=8/rounds=3 amplification parameters, local-model lanes (e.g., `qwen2.5-coder:14b-instruct`) were unblocked to perform genuine verified-search against the deterministic oracle. 
+- **Hetzner Churn Loop Resolution:** The autonomous ProgramBench churn loop was successfully closed. A deep dive into early zero-lock outcomes revealed a configuration ceiling (`--k 2 --rounds 1`) that quietly disabled the Correctness Amplifier. When raised to legitimate K=8/rounds=3 amplification parameters, local-model lanes (e.g., `qwen2.5-coder:14b-instruct`) were unblocked to perform genuine verified-search against the deterministic oracle.
 - **Edge-Fleet Porting (AIFoundry Hackathon):** To prove the portability and efficiency of Determinex's generated assets, we ported 7 highly-efficient, sub-2B parameter models (SmolLM2, Qwen2.5, Qwen3, TinyLlama, Llama 3.2) to the ET-SoC1 board and submitted them, with pinned SHA256 artifact integrity, as pull requests to the AIFoundry + OpenHW CORE-ET hackathon (`aifoundry-org/hf-hackathon`). The submissions are open and mergeable as of 2026-07-10, pending the hackathon's board-CI approval gate; board-measured results will be cited here once the leaderboard runs complete. No board-verified performance claim is made until then.
 - **Full IDE Realization (Tauri Shell & LiteLLM Proxy):** The Tauri desktop application now orchestrates the full Hive Mind loop. Builder models (1.5B class), Sentinel monitors, and API fallback models are routed seamlessly via the `litellm_config.yaml` proxy, unifying the native desktop experience with the backend deterministic verification engine.
 
@@ -2339,5 +2339,3 @@ ProgramBench task by any system**, then Wave 1 (the ~23 tools where the frontier
 
 *Addendum authored June 25, 2026, Ryan Gurganious, as a dated priority
 record of the native reimplementation workshop.*
-
-

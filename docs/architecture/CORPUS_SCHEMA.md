@@ -1,6 +1,6 @@
 # Corpus Schema
 
-**Date:** 2026-05-27  
+**Date:** 2026-05-27
 **Schema Version:** `determinex-agent-trace-v1`
 
 ---

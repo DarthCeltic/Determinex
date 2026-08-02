@@ -74,7 +74,7 @@ fn resolve_write_target(raw_path: &str) -> PathBuf {
 ///     resistance without requiring the file to pre-exist.
 ///
 /// # Returns
-/// `true`  — the path is inside the workspace; the write is safe to proceed.  
+/// `true`  — the path is inside the workspace; the write is safe to proceed.
 /// `false` — the path escapes the workspace; the caller **must** abort.
 ///
 /// # Usage in Orchestrator

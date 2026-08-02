@@ -47,7 +47,7 @@
 
 - **v3 verdict**: BOUNCE. `_xdist_groups` in conftest.py was overwritten by branch conftests before `pytest_collection_finish` could populate it → `_xg` empty → no xdist suffix injection → 2 `not_run` entries (`test_analogies_basic@analogies_serial`, `test_analogies_default_k@analogies_serial`).
 - **v4 fix**: Moved `pytest_collection_finish` + `_xg` dict + xdist injection entirely into the pip plugin (`determinex_bidir.py`). Plugin is immune to conftest overwrites (entry_points loaded first). Added sidecar file `/workspace/determinex_xdist_groups.txt` for post-run verification. Generates BOTH `eval.tests.*` and `tests.*` variants of @suffix entries.
-- **v4 status**: Running on Hetzner via queue watcher (starts once current 4-slot capacity clears). 
+- **v4 status**: Running on Hetzner via queue watcher (starts once current 4-slot capacity clears).
 - **Verification gate (before accepting any fasttext v4 result)**:
   - (a) `/workspace/determinex_xdist_groups.txt` must be non-empty (≥2 entries: analogies_basic, analogies_default_k)
   - (b) `results.xml.orig` must exist; pass/fail/error/skip counts must match between orig and injected

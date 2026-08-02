@@ -33,4 +33,3 @@
 ## Claim Boundary
 
 This batch records route-source mounting, segmented status runtime evidence, and all-gap evidence binding. It does not claim a packaged installed-app GUI smoke, release-supported family, ProgramBench total 100%, public release readiness, beta readiness, installer readiness, or full monolithic `tests/status` completion.
-

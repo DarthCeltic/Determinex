@@ -1,6 +1,6 @@
 # Ethics Oracle — Deterministic Behavioral Guardrail
 
-> **Authored**: 2026-06-06 · Ryan Gurganious  
+> **Authored**: 2026-06-06 · Ryan Gurganious
 > **Status**: **Implemented 2026-07-01** — see `scripts/determinex_safety.py` (the pre-existing L0-L4
 > `SafetyEngine`, already live-wired into `determinex_hive.py` / `hive/api_client.py` /
 > `hive/compiler.py` / `hive/workspace.py`, was audited before build and found to already cover 4
@@ -18,7 +18,7 @@
 > offline media-hash/image classifier. This is not faked as covered; it is the one class in this
 > spec without a real deterministic signal beyond keyword matching, called out here so it isn't
 > mistaken for done. Phase 3 (Hive Mind pre-flight integration) is live for specs/egress/output;
-> Phase 4 (Tauri Compliance Dashboard panel) and Phase 5 (third-party attestation) remain open.  
+> Phase 4 (Tauri Compliance Dashboard panel) and Phase 5 (third-party attestation) remain open.
 > **Patent relevance**: Candidate claim for provisional filing
 
 ---
@@ -95,8 +95,8 @@ WAL writes are `os.fsync()` atomic — same invariant as the Compiler Oracle tra
 
 ## Relationship to Existing Determinex Architecture
 
-- **Compiler Oracle** — ground truth for code correctness  
-- **Project Cloak** — privacy gate (prevents PII/identifier leakage to cloud AI)  
+- **Compiler Oracle** — ground truth for code correctness
+- **Project Cloak** — privacy gate (prevents PII/identifier leakage to cloud AI)
 - **Ethics Oracle** — behavioral compliance gate (prevents misuse categories)
 
 The Ethics Oracle sits in the same layer as Cloak: a pre-flight check before any model call or corpus write. If the gate returns non-1, the action is blocked and logged before reaching the model.

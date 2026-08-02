@@ -27,4 +27,3 @@ This rung creates the fourth verified product-surface splash demo: a non-authori
 
 - Demo workspace: `assurance/demo_workspaces/learning_studio_teaching_splash_demo/run_20260529`
 - Evidence record: `assurance/evidence/learning_studio_teaching_splash_demo/run_20260529.LEARNING_STUDIO_TEACHING_SPLASH_DEMO_PASSED.json`
-
