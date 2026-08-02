@@ -14,9 +14,9 @@ Exit code 0 = ready to launch. Non-zero = blocker found.
 Run: python scripts/preflight_mass_run.py
 """
 
-import pathlib
 import json
 import os
+import pathlib
 import sqlite3
 import subprocess
 import sys
@@ -49,10 +49,7 @@ DB_PATH = Path(
         # run.determinex.app is the Tauri BUNDLE IDENTIFIER, so this directory is the
         # right place -- only the hardcoded user-profile prefix was wrong. Derive it.
         str(
-            pathlib.Path(
-                os.environ.get("APPDATA")
-                or pathlib.Path.home() / "AppData" / "Roaming"
-            )
+            pathlib.Path(os.environ.get("APPDATA") or pathlib.Path.home() / "AppData" / "Roaming")
             / "run.determinex.app"
             / "determinex.sqlite"
         ),

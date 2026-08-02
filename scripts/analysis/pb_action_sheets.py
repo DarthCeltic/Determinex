@@ -18,7 +18,6 @@ Usage: python scripts/analysis/pb_action_sheets.py
 
 from __future__ import annotations
 
-import sys
 import argparse
 import collections
 import glob

@@ -20,9 +20,9 @@ Idempotent: skips if already seeded (checks row count).
 
 from __future__ import annotations
 
-import pathlib
 import hashlib
 import os
+import pathlib
 import re
 import sqlite3
 import struct
@@ -48,10 +48,7 @@ DB_PATH = Path(
         # run.determinex.app is the Tauri BUNDLE IDENTIFIER, so this directory is the
         # right place -- only the hardcoded user-profile prefix was wrong. Derive it.
         str(
-            pathlib.Path(
-                os.environ.get("APPDATA")
-                or pathlib.Path.home() / "AppData" / "Roaming"
-            )
+            pathlib.Path(os.environ.get("APPDATA") or pathlib.Path.home() / "AppData" / "Roaming")
             / "run.determinex.app"
             / "determinex.sqlite"
         ),

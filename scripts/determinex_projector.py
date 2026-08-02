@@ -464,9 +464,12 @@ class ObserverEncoder:
         if tensor.dim() == 2:
             tensor = tensor[-1]
         vec = tensor.unsqueeze(0)  # [1, D_TARGET]
-        if vec.shape[-1] != D_TARGET:
+        # D_TARGET was a module constant the registry refactor deleted. n_embd() is the
+        # probed value it stood for, and matches this file's "nothing is hardcoded" rule.
+        _d_tgt = self.model.n_embd()
+        if vec.shape[-1] != _d_tgt:
             raise ValueError(
-                f"Observer embedding dim {vec.shape[-1]} != D_TARGET {D_TARGET}. "
+                f"Observer embedding dim {vec.shape[-1]} != target dim {_d_tgt}. "
                 f"Check that the GGUF is a 3072-dim model (Llama 3.2 3B)."
             )
         return vec
@@ -604,7 +607,13 @@ class EngineerWithPrefix:
         self.model.eval()
         # #33: detect once at init — used in every generate_with_prefix() call
         self._tok_type = _detect_tokenizer_type(self.tokenizer)
-        log.info("Engineer loaded. hidden_size=%d (tokenizer=%s)", D_TARGET, self._tok_type)
+        # D_TARGET was a deleted module constant. This encoder wraps an HF model, so
+        # the dimension lives on its config -- not a GGUF header.
+        log.info(
+            "Engineer loaded. hidden_size=%d (tokenizer=%s)",
+            self.model.config.hidden_size,
+            self._tok_type,
+        )
 
     def get_embedding_layer(self) -> torch.nn.Module:
         return self.model.model.model.embed_tokens
@@ -885,7 +894,10 @@ def train_alignment(
     tasks: list[dict],
     steps: int = 200,
     lr: float = ALIGN_LR,
-    save_path: Path = PROJECTION_SAVE,
+    # Was `= PROJECTION_SAVE`, a name this module no longer defines. Default
+    # arguments evaluate at DEF time, so that single token made the whole module
+    # unimportable. Resolved from the caller's pair instead.
+    save_path: Path | None = None,
 ) -> dict:
     """
     Pure embedding alignment training. Does NOT run Engineer or compile code.
@@ -898,6 +910,11 @@ def train_alignment(
       4. loss = MSE(mean(proj), h_obs) + cosine_distance(mean(proj), h_obs)
       5. Backprop through W only
     """
+    if save_path is None:
+        raise ValueError(
+            "save_path is required -- pass resolve_pair(src, tgt)['save_path']. "
+            "It used to default to a module constant the registry refactor deleted."
+        )
     import torch
 
     optimizer = torch.optim.AdamW(W.parameters(), lr=lr, weight_decay=1e-4)
@@ -993,7 +1010,7 @@ def train_projection(
     tasks: list[dict],
     steps: int = 100,
     lr: float = COMPILE_LR,
-    save_path: Path = PROJECTION_SAVE,
+    save_path: Path | None = None,  # see train_alignment: was an undefined name
 ) -> dict:
     """
     Compile-guided training. Runs AFTER alignment warmup.
@@ -1003,6 +1020,11 @@ def train_projection(
     fine-tunes the projection toward code-specific patterns.
     COMPILE_WEIGHT=0.05 keeps alignment dominant.
     """
+    if save_path is None:
+        raise ValueError(
+            "save_path is required -- pass resolve_pair(src, tgt)['save_path']. "
+            "It used to default to a module constant the registry refactor deleted."
+        )
     import torch
     import torch.nn.functional as F
 
@@ -1157,7 +1179,28 @@ def main():
     parser.add_argument("--lora", type=Path, default=ENGINEER_LORA)
     parser.add_argument("--prompt", type=str, default=None)
     parser.add_argument("--lang", type=str, default="Rust")
+    # The module docstring has documented `--source X --target Y` since the registry
+    # refactor; argparse never gained them, and resolve_pair() -- written by that same
+    # refactor to return exactly the values it deleted -- was never called from
+    # anywhere. These two arguments are what connect them.
+    parser.add_argument("--source", type=str, default="leviathan")
+    parser.add_argument("--target", type=str, default="determinex-observer-v4")
     args = parser.parse_args()
+
+    # Resolve the pair ONCE, then bind the six names every branch below already uses.
+    # Binding locally (rather than editing 33 call sites) keeps this a wiring fix and
+    # not a rewrite of logic nobody can run right now.
+    try:
+        pair = resolve_pair(args.source, args.target)
+    except ValueError as e:
+        log.error("%s", e)
+        return 1
+    LEVIATHAN_GGUF = pair["source_path"]
+    OBSERVER_GGUF = pair["target_path"]
+    D_LEVIATHAN = pair["d_src"]
+    D_TARGET = pair["d_tgt"]
+    D_HIDDEN = pair["d_hidden"]
+    PROJECTION_SAVE = pair["save_path"]
 
     import torch
 
@@ -1182,7 +1225,10 @@ def main():
             log.info("llama-cpp-python: INSTALLED v%s", llama_cpp.__version__)
         except ImportError:
             log.warning("llama-cpp-python: NOT INSTALLED — run: pip install llama-cpp-python")
-        W = _build_projection()
+        # Was `_build_projection()`. The signature takes two REQUIRED dims; the
+        # registry refactor that introduced them never updated these callers, so
+        # every training mode raised TypeError. Dims come from resolve_pair().
+        W = _build_projection(D_LEVIATHAN, D_TARGET, D_HIDDEN)
         total_params = sum(p.numel() for p in W.parameters())
         log.info("Projection W (MLP): %d parameters (%.1fM)", total_params, total_params / 1e6)
         log.info("PROBE complete.")
@@ -1200,7 +1246,7 @@ def main():
 
         leviathan = LeviathanEncoder(LEVIATHAN_GGUF)
         observer = ObserverEncoder(OBSERVER_GGUF)
-        W = _build_projection().to(device)
+        W = _build_projection(D_LEVIATHAN, D_TARGET, D_HIDDEN).to(device)
 
         lr = args.lr or ALIGN_LR
         stats = train_alignment(leviathan, observer, W, SEED_TASKS, steps=args.steps, lr=lr)
@@ -1229,7 +1275,7 @@ def main():
         else:
             log.info("No alignment checkpoint found — starting from scratch.")
             log.info("Recommend running --mode align first for faster convergence.")
-            W = _build_projection().to(device)
+            W = _build_projection(D_LEVIATHAN, D_TARGET, D_HIDDEN).to(device)
 
         lora_path = args.lora if (args.lora / "adapter_config.json").exists() else None
         engineer = EngineerWithPrefix(PHI3_HF_ID, lora_path, device)

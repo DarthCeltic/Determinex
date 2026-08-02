@@ -12,8 +12,8 @@ Threshold tuning:
 
 from __future__ import annotations
 
-import pathlib
 import os
+import pathlib
 import sqlite3
 import struct
 from dataclasses import dataclass

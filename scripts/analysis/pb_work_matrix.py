@@ -15,7 +15,6 @@ Outputs:
 
 from __future__ import annotations
 
-import sys
 import glob
 import json
 from pathlib import Path

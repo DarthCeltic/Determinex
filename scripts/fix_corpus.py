@@ -5,11 +5,11 @@ Two-phase fix:
 2. Delete bad multi_turn_fill_v1 and regenerate with correct comment syntax
 """
 
-import sys
-import pathlib
 import hashlib
 import json
 import os
+import pathlib
+import sys
 from pathlib import Path
 
 OUT = str(

@@ -101,8 +101,43 @@ def amplify_enabled() -> bool:
     return os.environ.get("DETERMINEX_AMPLIFY", "") in ("1", "true", "yes", "on")
 
 
-def env_k(default: int = 6) -> int:
-    try:
-        return max(1, int(os.environ.get("DETERMINEX_AMPLIFY_K", default)))
-    except ValueError:
-        return default
+def env_k(default: int = 6, *, backend: str = "", model: str = "") -> int:
+    """How many candidates to sample. Operator override > per-rig calibration > default.
+
+    K is not a performance setting here -- `P = 1 - (1 - p)^K`, so it is the rate at which
+    correctness accrues, and the right value is a property of the machine. A single constant
+    is measurably wrong in both directions: on an AMD Radeon (vLLM, 7B) the measured optimum
+    is K=48 and this default wastes ~5x the available throughput; on a consumer box running
+    Ollama with a 1.5B it is K=12, and the default still leaves ~37% of the candidate rate
+    unused. See scripts/determinex_calibrate.py.
+
+    Never silently guesses: an uncalibrated rig gets the conservative default AND a logged
+    line saying so, mirroring the doctrine determinex_oracle enforces for a missing oracle.
+    """
+    explicit = os.environ.get("DETERMINEX_AMPLIFY_K")
+    if explicit:
+        try:
+            return max(1, int(explicit))
+        except ValueError:
+            pass
+
+    if backend:
+        try:
+            import sys
+            from pathlib import Path
+
+            _s = str(Path(__file__).resolve().parent.parent)
+            if _s not in sys.path:
+                sys.path.insert(0, _s)
+            from determinex_calibrate import optimal_k
+
+            k, provenance = optimal_k(backend, model, default=default)
+            if not provenance.startswith("calibrated"):
+                print(f"  [amplify] K={k}: {provenance}")
+            else:
+                print(f"  [amplify] K={k} ({provenance} for {backend}/{model})")
+            return k
+        except Exception:
+            pass  # calibration is an optimisation, never a hard dependency
+
+    return default
