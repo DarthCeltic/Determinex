@@ -115,9 +115,20 @@ def census() -> dict:
         sys.path.insert(0, str(ROOT / "scripts"))
         from determinex_settings import DeterminexSettings
         r = DeterminexSettings().corpus_root
-        ok = r.is_dir() and any(r.iterdir())
-        pointers.append({"pointer": "settings.corpus_root", "value": str(r),
-                         "resolves_nonempty": ok})
+        # A path on a drive this machine does not have is machine-specific configuration,
+        # not a broken pointer. The default is `T:/determinex_corpus`; on a Linux runner
+        # there is no T: drive, so the census reported the corpus root broken on every CI
+        # run -- a true statement about a question the census cannot answer there.
+        import re as _re
+        _drive = _re.match(r"^([A-Za-z]):[\\/]", str(r))
+        if _drive and not Path(f"{_drive.group(1)}:/").exists():
+            pointers.append({"pointer": "settings.corpus_root", "value": str(r),
+                             "resolves_nonempty": True, "unevaluated": True,
+                             "note": "drive not present on this host"})
+        else:
+            ok = r.is_dir() and any(r.iterdir())
+            pointers.append({"pointer": "settings.corpus_root", "value": str(r),
+                             "resolves_nonempty": ok})
     except ImportError as e:
         # A MISSING DEPENDENCY IS NOT A BROKEN POINTER. Reporting resolves_nonempty=False
         # here made the guard fail with `bad_pointers=[{'pointer': 'settings.corpus_root',

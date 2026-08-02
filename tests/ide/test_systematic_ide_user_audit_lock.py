@@ -13,6 +13,18 @@ for _p in (_REPO_ROOT, _REPO_ROOT / "scripts"):
 audit_mod = importlib.import_module("ide.systematic_ide_user_audit")
 
 
+def _evidence_artefacts_present() -> bool:
+    """True only when the evidence ARTEFACTS are here, not merely the index.
+
+    The index is 1.2 MB and publishable on its own (determinex evidence validate needs it,
+    and its 1,837 manifests live under locks/sentinel/); the artefacts are 273 MB and are
+    not published. So `.is_dir()` on assurance/evidence became true in a checkout holding
+    none of what release_gates actually reads.
+    """
+    ev = _REPO_ROOT / "assurance" / "evidence"
+    return ev.is_dir() and any(c.is_dir() for c in ev.iterdir())
+
+
 def test_systematic_audit_sections_pass_for_current_checkout():
     report = audit_mod.collect(_REPO_ROOT)
     payload = report.to_dict()
@@ -24,8 +36,10 @@ def test_systematic_audit_sections_pass_for_current_checkout():
     # assurance/ is on publish_mirror.NEVER -- so in the public checkout that section is
     # blocked for a structural reason, not a regression. Everything else must still be
     # unblocked, which is what this assertion is actually protecting.
-    _evidence = _REPO_ROOT / "assurance" / "evidence"
-    expected_blocked = [] if _evidence.is_dir() else ["release_gates"]
+    # Artefact DIRECTORIES, not just the index: the index alone is publishable and is now
+    # published, so `.is_dir()` on the evidence folder became true in a checkout that has
+    # none of the artefacts release_gates actually reads.
+    expected_blocked = [] if _evidence_artefacts_present() else ["release_gates"]
     assert payload["blocked_section_ids"] == expected_blocked
     section_ids = {section["section_id"] for section in payload["sections"]}
     assert section_ids == {
@@ -47,7 +61,7 @@ def test_audit_report_written_with_non_authorizing_notes(tmp_path: Path):
     # is blocked in a public checkout. Tuple here, list there -- the two assertions read the
     # same field through different accessors, which is why fixing only one left CI red.
     assert report.blocked_section_ids == (
-        () if (_REPO_ROOT / "assurance" / "evidence").is_dir() else ("release_gates",)
+        () if _evidence_artefacts_present() else ("release_gates",)
     )
     assert "does not prove public release readiness" in text
     assert "universal verified support" in text

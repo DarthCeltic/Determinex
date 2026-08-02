@@ -119,6 +119,32 @@ def collect_md_files() -> list[pathlib.Path]:
     return sorted(files)
 
 
+def _is_benign_normalization(c: str) -> bool:
+    """Is this a character ftfy NORMALISES rather than a sign of decode corruption?
+
+    ftfy does two different jobs and this scanner only cares about one. It repairs mojibake
+    (`Ã¢â‚¬â„¢` -> `'`), and it also normalises perfectly healthy text -- notably stripping
+    emoji variation selectors (U+FE0F). Treating every non-ASCII difference as corruption
+    made `docs/companions/hf-hackathon/aifoundry_hackathon_announcement_draft.md` fail the
+    Doc guard for containing a rocket emoji, which is not decode corruption by any reading.
+
+    Deliberately narrow, and narrower than the obvious version: excusing the whole `So`
+    symbol category also excused U+2122 TRADE MARK SIGN, which is a component of the real
+    mojibake sequence `â„¢` -- so a blanket category test would have masked genuine
+    corruption. Only variation selectors, the zero-width joiner, and codepoints in actual
+    emoji/pictograph blocks are excused. Latin-1 letters and punctuation, which is what
+    mojibake is made of, never are.
+    """
+    o = ord(c)
+    if 0xFE00 <= o <= 0xFE0F or o == 0x200D:      # variation selectors, ZWJ
+        return True
+    return (
+        0x1F300 <= o <= 0x1FAFF                    # emoji & pictographs
+        or 0x2600 <= o <= 0x27BF                   # misc symbols / dingbats
+        or 0x1F000 <= o <= 0x1F2FF                 # mahjong .. enclosed supplement
+    )
+
+
 def verify_mojibake_only(original: str, fixed: str) -> tuple[bool, list[tuple[str, str, int]]]:
     """
     Check that every difference between original and fixed is a known mojibake
@@ -143,7 +169,7 @@ def verify_mojibake_only(original: str, fixed: str) -> tuple[bool, list[tuple[st
         # Some change ftfy made isn't in our table — flag but allow if diff is
         # only in non-ASCII ranges (conservative: still allow)
         non_table_diff = set(ftfy_result) - set(current) | set(current) - set(ftfy_result)
-        non_ascii = any(ord(c) > 127 for c in non_table_diff)
+        non_ascii = any(ord(c) > 127 for c in non_table_diff if not _is_benign_normalization(c))
         if non_ascii:
             ok = False
 
