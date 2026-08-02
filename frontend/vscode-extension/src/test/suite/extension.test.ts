@@ -34,7 +34,7 @@ suite("Determinex extension in a real extension host", () => {
       ext,
       `no extension with id ${EXTENSION_ID}. A publisher/name change in package.json breaks ` +
         "every marketplace update path, and this ran green once while the VSIX still identified " +
-        "itself as lunarian-data-systems.citadel.",
+        "itself as lunarian-data-systems.citadel."
     );
   });
 
@@ -46,7 +46,7 @@ suite("Determinex extension in a real extension host", () => {
       declared,
       [],
       "activationEvents is no longer empty; if an explicit event was added, the implicit " +
-        "onCommand path below is no longer the mechanism in play and this suite should say so",
+        "onCommand path below is no longer the mechanism in play and this suite should say so"
     );
   });
 
@@ -81,8 +81,8 @@ suite("Determinex extension in a real extension host", () => {
       ext.isActive,
       true,
       "executing a contributed command did not activate the extension — with " +
-        'activationEvents: [] that means the implicit onCommand activation is not firing, and ' +
-        "every command would silently do nothing",
+        "activationEvents: [] that means the implicit onCommand activation is not firing, and " +
+        "every command would silently do nothing"
     );
     // Recorded rather than asserted: if something else had already activated the extension the
     // transition would not be observable, and claiming to have observed it would be exactly the
@@ -90,7 +90,7 @@ suite("Determinex extension in a real extension host", () => {
     console.log(
       `  activation observed as a transition: ${!wasActiveBefore}` +
         ` (active before invocation: ${wasActiveBefore};` +
-        ` contributed commands in registry before: ${presentBefore.length}/${CONTRIBUTED_COMMANDS.length})`,
+        ` contributed commands in registry before: ${presentBefore.length}/${CONTRIBUTED_COMMANDS.length})`
     );
   });
 
@@ -107,7 +107,7 @@ suite("Determinex extension in a real extension host", () => {
       [],
       `contributed commands absent from the registry after activation: ${missing.join(", ")}. ` +
         "A manifest entry whose handler is never registered is a command that appears in the " +
-        "palette and does nothing.",
+        "palette and does nothing."
     );
   });
 
@@ -118,7 +118,7 @@ suite("Determinex extension in a real extension host", () => {
       ext.packageJSON.capabilities,
       undefined,
       "the extension now declares capabilities; sandbox_permissions_enforced in the " +
-        "extension_compat packet asserts it declares none",
+        "extension_compat packet asserts it declares none"
     );
   });
 });

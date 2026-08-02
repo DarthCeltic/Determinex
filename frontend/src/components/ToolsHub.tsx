@@ -37,7 +37,11 @@ const CLASS_COPY: Record<ProviderClass, { label: string; badge: string; color: s
   local: { label: "Local / On-device", badge: "FREE · PRIVATE", color: "var(--dtx-ok)" },
   free: { label: "Free-tier Cloud API", badge: "FREE TIER", color: "var(--dtx-info)" },
   cheap: { label: "Cheap Cloud API", badge: "LOW COST", color: "var(--dtx-info)" },
-  frontier: { label: "Frontier Cloud API", badge: "PAID · HIGHEST QUALITY", color: "var(--dtx-warn)" },
+  frontier: {
+    label: "Frontier Cloud API",
+    badge: "PAID · HIGHEST QUALITY",
+    color: "var(--dtx-warn)",
+  },
 };
 
 type ProviderEntry = {

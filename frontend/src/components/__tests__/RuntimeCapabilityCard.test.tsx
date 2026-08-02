@@ -65,9 +65,7 @@ describe("RuntimeCapabilityCard", () => {
   it("renders the measured accelerator, including the PyTorch device string", async () => {
     invokeSafeMock.mockResolvedValue({ payload: { accelerator: ACCELERATOR, usage: null } });
     render(<RuntimeCapabilityCard />);
-    await waitFor(() =>
-      expect(screen.getByText(/AMD \(ROCm\)/)).toBeInTheDocument()
-    );
+    await waitFor(() => expect(screen.getByText(/AMD \(ROCm\)/)).toBeInTheDocument());
     // The device string matters: a ROCm build of torch keeps the "cuda" name, so surfacing it is how
     // a user on AMD knows what to pass.
     expect(screen.getByText("cuda")).toBeInTheDocument();
@@ -84,9 +82,7 @@ describe("RuntimeCapabilityCard", () => {
       },
     });
     render(<RuntimeCapabilityCard />);
-    await waitFor(() =>
-      expect(screen.getByText(/Accelerator not detected/)).toBeInTheDocument()
-    );
+    await waitFor(() => expect(screen.getByText(/Accelerator not detected/)).toBeInTheDocument());
     expect(screen.getByText(/rocm-smi/)).toBeInTheDocument();
     // THE regression: a missing reading must not appear as a measured zero.
     expect(screen.queryByText(/0\.0 GB/)).not.toBeInTheDocument();

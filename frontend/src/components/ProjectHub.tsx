@@ -394,10 +394,9 @@ export function ProjectHub({
     }
     setLiveGit(null); // never show the previous project's branch while loading
     void (async () => {
-      const result = await invokeSafe<{ branch: string; files: { path: string }[] }>(
-        "git_status",
-        { cwd: path }
-      );
+      const result = await invokeSafe<{ branch: string; files: { path: string }[] }>("git_status", {
+        cwd: path,
+      });
       if (cancelled) return;
       setLiveGit(
         result
@@ -758,8 +757,7 @@ export function ProjectHub({
                               : `Could not read git state in ${selectedProject.localPath}`
                         }
                       >
-                        <GitBranch size={13} />{" "}
-                        {liveGit === null ? "…" : liveGit.branch}
+                        <GitBranch size={13} /> {liveGit === null ? "…" : liveGit.branch}
                         {liveGit?.ok && liveGit.dirty && (
                           <span className="text-amber-400" title="uncommitted changes">
                             *

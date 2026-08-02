@@ -29,8 +29,10 @@ describe("marketplace planned addons", () => {
     const unwired = ADDONS.filter((a) => a.category === "oracle" && !ORACLE_WIRED_IDS.has(a.id));
     expect(unwired.length).toBeGreaterThan(0); // guards against the list being emptied by accident
     for (const addon of unwired) {
-      expect(addon.planned, `${addon.id} is not wired into _ORACLE_IMAGES but is not marked planned`)
-        .toBe(true);
+      expect(
+        addon.planned,
+        `${addon.id} is not wired into _ORACLE_IMAGES but is not marked planned`
+      ).toBe(true);
     }
   });
 

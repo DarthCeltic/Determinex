@@ -32,7 +32,11 @@ export function DiscoveryProgressView({
   colorOverride,
 }: DiscoveryProgressViewProps) {
   const complexityColor =
-    path.complexity === "low" ? "var(--dtx-ok)" : path.complexity === "medium" ? "var(--dtx-warn)" : "var(--dtx-fail)";
+    path.complexity === "low"
+      ? "var(--dtx-ok)"
+      : path.complexity === "medium"
+        ? "var(--dtx-warn)"
+        : "var(--dtx-fail)";
 
   const progress = Math.min(answeredCount, 5) / 5;
 
@@ -109,7 +113,11 @@ export function DiscoveryProgressView({
                 key={item.key}
                 className="flex items-start gap-3 rounded-xl px-3 py-2.5 transition-all"
                 style={{
-                  background: answered ? `${path.color}08` : active ? "var(--dtx-code-panel)" : "transparent",
+                  background: answered
+                    ? `${path.color}08`
+                    : active
+                      ? "var(--dtx-code-panel)"
+                      : "transparent",
                   border: `1px solid ${answered ? path.color + "25" : active ? "var(--dtx-code-border)" : "transparent"}`,
                 }}
               >
@@ -140,7 +148,13 @@ export function DiscoveryProgressView({
                 <div className="flex-1 min-w-0">
                   <div
                     className="text-label font-bold"
-                    style={{ color: answered ? path.color : active ? "var(--dtx-code-text)" : "var(--dtx-code-border)" }}
+                    style={{
+                      color: answered
+                        ? path.color
+                        : active
+                          ? "var(--dtx-code-text)"
+                          : "var(--dtx-code-border)",
+                    }}
                   >
                     {item.label}
                   </div>

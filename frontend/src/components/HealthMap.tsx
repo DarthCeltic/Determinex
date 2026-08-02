@@ -23,7 +23,12 @@ const INITIAL_HEALTH: FileHealth[] = [];
 
 const STATUS_CONFIG = {
   pass: { color: "var(--dtx-ok)", glow: "rgba(52,211,153,0.3)", Icon: CheckCircle2, label: "PASS" },
-  warn: { color: "var(--dtx-warn)", glow: "rgba(245,158,11,0.3)", Icon: AlertTriangle, label: "WARN" },
+  warn: {
+    color: "var(--dtx-warn)",
+    glow: "rgba(245,158,11,0.3)",
+    Icon: AlertTriangle,
+    label: "WARN",
+  },
   error: { color: "var(--dtx-fail)", glow: "rgba(248,113,113,0.3)", Icon: XCircle, label: "ERROR" },
 };
 

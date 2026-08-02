@@ -74,7 +74,17 @@ export function usePanelSplit(
     [key]
   );
 
+  // React Compiler declines to optimize this component while the manual memoization is
+  // here ("Existing memoization could not be preserved"), and narrowing the dependency from
+  // `opts` to `opts.containerRef` was not enough: the callback also closes over refs it
+  // mutates during the gesture, which the compiler cannot prove it can preserve. Dropping
+  // the useCallback would hand the job to the compiler, but startResize is attached to a
+  // pointer-down handler and the identity churn is not free during a drag. Keeping the
+  // manual memo and telling the compiler to leave this one alone is the honest trade.
   const startResize = useCallback(
+    // The rule reports on the FUNCTION EXPRESSION, not on the useCallback call, so the
+    // directive belongs here rather than a line above `const startResize`.
+    // eslint-disable-next-line react-hooks/preserve-manual-memoization
     (e: { clientX: number; preventDefault: () => void }) => {
       e.preventDefault();
       // The grid being split is the denominator, captured once at gesture start.
@@ -109,7 +119,12 @@ export function usePanelSplit(
       window.addEventListener("pointermove", onMove);
       window.addEventListener("pointerup", onUp);
     },
-    [min, max, commit, opts]
+    // `opts.containerRef`, not `opts`. Callers build the options object inline, so a whole-
+    // object dependency changes identity every render and React Compiler reported
+    // "Existing memoization could not be preserved" and skipped optimizing this component.
+    // The callback only ever reads containerRef, and a ref object is stable for the
+    // component's lifetime, so this both narrows the dependency and makes it honest.
+    [min, max, commit, opts.containerRef]
   );
 
   const reset = useCallback(() => {

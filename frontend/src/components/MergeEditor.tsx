@@ -115,7 +115,9 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
         </div>
         <div className="flex-1 overflow-y-auto">
           {conflicted.length === 0 ? (
-            <div className="p-4 text-xs text-[var(--dtx-code-muted)] italic">No unresolved conflicts.</div>
+            <div className="p-4 text-xs text-[var(--dtx-code-muted)] italic">
+              No unresolved conflicts.
+            </div>
           ) : (
             conflicted.map((f) => (
               <div
@@ -123,7 +125,9 @@ export function MergeEditor({ workspacePath }: MergeEditorProps) {
                 onClick={() => setSelectedPath(f.path)}
                 className={
                   "p-3 border-b border-[var(--dtx-code-border)] cursor-pointer hover:bg-[var(--dtx-code-border-subtle)] transition-colors " +
-                  (selectedPath === f.path ? "bg-[var(--dtx-code-border-subtle)] border-l-2 border-l-orange-500" : "")
+                  (selectedPath === f.path
+                    ? "bg-[var(--dtx-code-border-subtle)] border-l-2 border-l-orange-500"
+                    : "")
                 }
               >
                 <div className="flex items-center gap-1.5 text-sm font-mono truncate text-orange-400">

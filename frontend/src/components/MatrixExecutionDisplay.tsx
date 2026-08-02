@@ -79,10 +79,7 @@ interface MatrixExecutionDisplayProps {
 const STAGE_ORDER: readonly AgentId[] = AGENTS.map((a) => a.id) as unknown as AgentId[];
 
 /** Where a stage sits relative to the one currently running. */
-function stageState(
-  id: AgentId,
-  status: AgentStatus
-): "idle" | "active" | "done" | "failed" {
+function stageState(id: AgentId, status: AgentStatus): "idle" | "active" | "done" | "failed" {
   if (status.error && status.error.stage.toLowerCase().includes(id)) return "failed";
   if (status.currentAgent === id) return "active";
 
@@ -248,7 +245,10 @@ export function MatrixExecutionDisplay({
           className="border-t px-4 py-2"
           style={{ borderColor: "var(--dtx-code-border-subtle)" }}
         >
-          <span className="text-meta font-black uppercase tracking-widest" style={{ color: "var(--dtx-fail)" }}>
+          <span
+            className="text-meta font-black uppercase tracking-widest"
+            style={{ color: "var(--dtx-fail)" }}
+          >
             {agentStatus.error.stage}
           </span>
           <span className="ml-2 text-label font-mono text-gray-400">
@@ -269,7 +269,10 @@ export function MatrixExecutionDisplay({
           style={{ borderColor: "var(--dtx-code-border-subtle)", color: "var(--dtx-code-muted)" }}
         >
           {logs.slice(-40).map((line, i) => (
-            <div key={i} style={line.includes("[ERROR]") ? { color: "var(--dtx-fail)" } : undefined}>
+            <div
+              key={i}
+              style={line.includes("[ERROR]") ? { color: "var(--dtx-fail)" } : undefined}
+            >
               {line}
             </div>
           ))}

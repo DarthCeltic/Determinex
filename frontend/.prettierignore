@@ -2,6 +2,10 @@
 out/
 build/
 node_modules/
+# A DOWNLOADED VS Code build that @vscode/test-electron fetches to run extension tests. Not
+# our code and not ours to format; leaving it in kept `prettier --check .` red forever on
+# 12 files nobody can fix. Same reason it is in eslint.config.mjs's globalIgnores.
+vscode-extension/.vscode-test/
 src-tauri/
 next-env.d.ts
 package-lock.json

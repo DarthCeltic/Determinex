@@ -347,7 +347,9 @@ export function BenchmarkRunner() {
     // idle and the log asserted the process had stopped regardless of whether Rust killed anything.
     const stopConfirmed = await invokeSafe("stop_benchmark_run", { benchmarkId: id });
     if (stopConfirmed === null) {
-      showError("Stop was requested but not confirmed — the benchmark process may still be running.");
+      showError(
+        "Stop was requested but not confirmed — the benchmark process may still be running."
+      );
     }
     setRun(id, { status: "idle" });
     appendLog(id, "âš  Stopped");

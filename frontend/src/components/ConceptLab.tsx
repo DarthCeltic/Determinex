@@ -469,7 +469,11 @@ function PathCard({
   onClick: () => void;
 }) {
   const complexityColor =
-    path.complexity === "low" ? "var(--dtx-ok)" : path.complexity === "medium" ? "var(--dtx-warn)" : "var(--dtx-fail)";
+    path.complexity === "low"
+      ? "var(--dtx-ok)"
+      : path.complexity === "medium"
+        ? "var(--dtx-warn)"
+        : "var(--dtx-fail)";
   return (
     <button
       onClick={onClick}

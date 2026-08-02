@@ -110,7 +110,9 @@ export function RuntimeCapabilityCard() {
       </div>
 
       {phase === "loading" && (
-        <p className="text-label text-gray-500">Probing accelerator and reading the usage ledger…</p>
+        <p className="text-label text-gray-500">
+          Probing accelerator and reading the usage ledger…
+        </p>
       )}
 
       {phase === "unavailable" && (
@@ -176,8 +178,8 @@ export function RuntimeCapabilityCard() {
               <AlertTriangle size={13} className="mt-0.5 shrink-0" />
               <span>
                 Accelerator not detected
-                {data.accelerator_error ? `: ${data.accelerator_error}` : "."} Determinex will run on
-                CPU. No VRAM figure is shown, because none was read.
+                {data.accelerator_error ? `: ${data.accelerator_error}` : "."} Determinex will run
+                on CPU. No VRAM figure is shown, because none was read.
               </span>
             </p>
           )}
@@ -200,9 +202,7 @@ export function RuntimeCapabilityCard() {
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-gray-500">Estimated spend</dt>
-                  <dd className="text-gray-300">
-                    ${(data.usage.total_est_usd ?? 0).toFixed(4)}
-                  </dd>
+                  <dd className="text-gray-300">${(data.usage.total_est_usd ?? 0).toFixed(4)}</dd>
                 </div>
               </dl>
               {data.usage.providers && Object.keys(data.usage.providers).length > 0 && (

@@ -342,9 +342,7 @@ export function SetupWizard() {
         try {
           await invoke("initialize_system");
         } catch (offlineErr: unknown) {
-          setError(
-            offlineErr instanceof Error ? offlineErr.message : String(offlineErr),
-          );
+          setError(offlineErr instanceof Error ? offlineErr.message : String(offlineErr));
           setStep("error");
           return;
         }
@@ -540,8 +538,8 @@ export function SetupWizard() {
                     </p>
                     <p className="text-xs text-green-300/80 leading-relaxed">
                       This unlocks OpenRouter&apos;s <strong>free tier</strong> at zero cost —
-                      including Qwen3 Coder 480B (1M context), NVIDIA Nemotron Ultra 550B, and
-                      Llama 3.3 70B. No credit card required.
+                      including Qwen3 Coder 480B (1M context), NVIDIA Nemotron Ultra 550B, and Llama
+                      3.3 70B. No credit card required.
                     </p>
                   </div>
                 </div>
@@ -896,8 +894,8 @@ export function SetupWizard() {
               {modelStatus && modelStatus.missing_count > 0 && modelInstallState !== "done" && (
                 <div className="w-full max-w-md rounded-xl border border-amber-400/30 bg-amber-400/10 p-4 text-left">
                   <p className="text-sm font-semibold text-amber-200">
-                    {modelStatus.missing_count} of {modelStatus.total_count} fine-tuned models
-                    are not installed
+                    {modelStatus.missing_count} of {modelStatus.total_count} fine-tuned models are
+                    not installed
                   </p>
                   <p className="mt-1 text-xs text-slate-300">
                     {modelStatus.ollama_available
@@ -922,9 +920,7 @@ export function SetupWizard() {
                           setModelStatus(refreshed);
                         } catch (err: unknown) {
                           setModelInstallState("failed");
-                          setModelInstallError(
-                            err instanceof Error ? err.message : String(err),
-                          );
+                          setModelInstallError(err instanceof Error ? err.message : String(err));
                         }
                       }}
                       className="mt-3 rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-900 transition-colors hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60"

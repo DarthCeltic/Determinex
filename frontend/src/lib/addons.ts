@@ -122,7 +122,8 @@ export const ADDONS: Addon[] = [
     name: "Rust / Cargo",
     author: "Determinex Core",
     category: "oracle",
-    description: "cargo build in a network-isolated container. Real type check; does not run cargo test.",
+    description:
+      "cargo build in a network-isolated container. Real type check; does not run cargo test.",
     version: "1.83.0",
     status: "builtin",
     icon: "🦀",
@@ -134,7 +135,8 @@ export const ADDONS: Addon[] = [
     name: "Go Build",
     author: "Determinex Core",
     category: "oracle",
-    description: "go build ./... in a network-isolated container. Real type check; does not run go test.",
+    description:
+      "go build ./... in a network-isolated container. Real type check; does not run go test.",
     version: "1.22.3",
     status: "builtin",
     icon: "🐹",
@@ -145,7 +147,8 @@ export const ADDONS: Addon[] = [
     name: "Python pytest",
     author: "Determinex Core",
     category: "oracle",
-    description: "compileall, then imports every module, then unittest discover. Stdlib only — the sandbox runs --network=none, so pytest and mypy are not available.",
+    description:
+      "compileall, then imports every module, then unittest discover. Stdlib only — the sandbox runs --network=none, so pytest and mypy are not available.",
     version: "3.11.9",
     status: "builtin",
     icon: "🐍",
@@ -156,7 +159,8 @@ export const ADDONS: Addon[] = [
     name: "TypeScript / tsc",
     author: "Determinex Core",
     category: "oracle",
-    description: "tsc --noEmit with the project tsconfig, or --strict when none ships. Type check only; jest is not run.",
+    description:
+      "tsc --noEmit with the project tsconfig, or --strict when none ships. Type check only; jest is not run.",
     version: "5.4.2",
     status: "builtin",
     icon: "📘",

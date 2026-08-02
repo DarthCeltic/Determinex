@@ -213,7 +213,9 @@ export function MaintenanceBayPanel({
               fresh mount with nothing proposed the panel stated that a change set had been proposed
               and quarantined. Nothing in this component or the workflow payload tracks a proposal,
               so the honest rendering is the POLICY that would apply, labelled as such. */}
-          {resp?.payload ? "UPDATE_PROPOSED_QUARANTINED" : "policy: any proposed update is quarantined (none proposed)"}
+          {resp?.payload
+            ? "UPDATE_PROPOSED_QUARANTINED"
+            : "policy: any proposed update is quarantined (none proposed)"}
         </dd>
 
         <dt data-testid="maintenance-bay-compatibility-verifier-required">

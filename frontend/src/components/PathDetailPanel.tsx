@@ -18,7 +18,11 @@ interface PathDetailPanelProps {
 
 export function PathDetailPanel({ path, onChoose, onBack, colorOverride }: PathDetailPanelProps) {
   const complexityColor =
-    path.complexity === "low" ? "var(--dtx-ok)" : path.complexity === "medium" ? "var(--dtx-warn)" : "var(--dtx-fail)";
+    path.complexity === "low"
+      ? "var(--dtx-ok)"
+      : path.complexity === "medium"
+        ? "var(--dtx-warn)"
+        : "var(--dtx-fail)";
 
   return (
     <div className="flex flex-col h-full bg-[var(--dtx-code-bg)] text-gray-300 overflow-hidden">

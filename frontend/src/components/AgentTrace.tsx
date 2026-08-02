@@ -90,20 +90,29 @@ export function AgentTrace() {
           <tbody className="divide-y divide-[var(--dtx-code-border)]">
             {loading && sessions.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-[var(--dtx-code-muted)] italic">
+                <td
+                  colSpan={4}
+                  className="px-4 py-8 text-center text-[var(--dtx-code-muted)] italic"
+                >
                   Loading jobs...
                 </td>
               </tr>
             ) : sessions.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-4 py-8 text-center text-[var(--dtx-code-muted)] italic">
+                <td
+                  colSpan={4}
+                  className="px-4 py-8 text-center text-[var(--dtx-code-muted)] italic"
+                >
                   No agent jobs yet. Start a build from Work and each session appears here with its
                   live status.
                 </td>
               </tr>
             ) : (
               sessions.map((session) => (
-                <tr key={session.session_id} className="hover:bg-[var(--dtx-code-border-subtle)]/50 transition-colors">
+                <tr
+                  key={session.session_id}
+                  className="hover:bg-[var(--dtx-code-border-subtle)]/50 transition-colors"
+                >
                   <td className="px-4 py-3 font-mono text-sm text-blue-400">
                     {session.session_id.substring(0, 8)}...
                   </td>

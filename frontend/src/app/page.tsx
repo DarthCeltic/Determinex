@@ -72,6 +72,8 @@ import {
   isInternalBuild,
   openInternalWindow,
 } from "@/lib/api";
+// Raw invoke for commands returning Result<(), _> -- see the set_project_root call below.
+import { invoke } from "@tauri-apps/api/core";
 import type { WorkReadiness } from "@/lib/work-readiness";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useAiRouter } from "@/contexts/AiRouterContext";
@@ -647,8 +649,13 @@ export default function DeterminexIDE() {
     // browser's root and is the system drive so the picker can reach a project anywhere. Without
     // this call the Env Manager panel correctly refuses to read anything, because "no project is
     // open" is the safe answer when the backend has not been told.
-    invokeSafe("set_project_root", { path: explorerRoot }).catch(() => {
-      // Non-fatal for the rest of the page; the Env Manager will simply refuse until it succeeds.
+    // Raw `invoke`, not invokeSafe: set_project_root returns Result<(), _>, so it resolves
+    // to null on SUCCESS -- and invokeSafe resolves to null on FAILURE. The two are
+    // indistinguishable, which made the catch below unreachable and the failure silent.
+    // Non-fatal for the rest of the page, but a real failure has to be visible somewhere:
+    // the Env Manager refusing to read credentials is the symptom, and this call is the cause.
+    invoke("set_project_root", { path: explorerRoot }).catch((err) => {
+      console.error("set_project_root failed; Env Manager will refuse credentials:", err);
     });
 
     // Probe model coverage alongside the git read. A failure resolves to an explicit "unknown"
@@ -1830,7 +1837,8 @@ export default function DeterminexIDE() {
       // Correctness Amplifier, driven from the IDE", and calls preview_idea_oracle then
       // build_idea. The description now matches what the panel does, and matches the
       // wording surfaceGroups.ts already used for this same surface.
-      description: "Turn an idea into a verified program: synthesize an oracle, then sample until a candidate passes.",
+      description:
+        "Turn an idea into a verified program: synthesize an oracle, then sample until a candidate passes.",
       icon: Search,
       tone: "text-blue-400",
       panel: <VerifiedSearch selectedModel={selectedModel} workspacePath={explorerRoot} />,
@@ -3190,90 +3198,97 @@ export default function DeterminexIDE() {
                             Attach What You Need
                           </div>
                           <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
-                            {([
+                            {(
                               [
-                                "Terminal",
-                                "terminal",
-                                TerminalIcon,
-                                "Run commands beside this screen",
-                              ],
-                              ["Code", "editor", Code2, "Inspect generated files and source"],
-                              ["Build", "build", Gauge, "Watch tasks, tests, and output"],
-                              ["Trace", "trace", GitBranch, "Follow worker events and run history"],
-                              ["Search", "search", Search, "Find project context"],
-                              [
-                                "Find in Files",
-                                "findfiles",
-                                FileSearch,
-                                "Literal text search across the workspace",
-                              ],
-                              ["Health", "health", LayoutGrid, "Check oracle and file readiness"],
-                              // Real, oracle-verified, lock-audited surfaces (see
-                              // DETERMINEX_REACT_{LEARNING_STUDIO,REPO_CLINIC,
-                              // MAINTENANCE_BAY}_PANEL_LOCK_001) that previously had
-                              // NO visible entry point anywhere a normal user would
-                              // look -- only reachable via the command palette
-                              // (Ctrl+K) or the addon-dock's own switcher dropdown,
-                              // which itself only appears once some OTHER addon is
-                              // already open. Ryan: "i dont understand why the main
-                              // functionality is buried in favor of... a watered
-                              // down version of something else on the side" --
-                              // this was that exact pattern, just in a different
-                              // corner of the shell than the Idea Lab one already
-                              // fixed earlier this session.
-                              [
-                                "Learning Studio",
-                                "learning",
-                                Brain,
-                                "Non-authorizing teaching explanations grounded in the verified corpus",
-                              ],
-                              [
-                                "Repo Clinic",
-                                "repoclinic",
-                                Activity,
-                                "Live oracle-backed diagnosis of the open workspace",
-                              ],
-                              [
-                                "Maintenance Bay",
-                                "maintenancebay",
-                                ShieldCheck,
-                                "Live dependency/secret/license/container security scan",
-                              ],
-                              // Round 2 of the same fix -- see quickAttachIds' comment.
-                              [
-                                "Mission Control",
-                                "mission",
-                                GraduationCap,
-                                "Determinex's own release readiness -- not your project's",
-                              ],
-                              [
-                                "Determinex Roadmap",
-                                "roadmap",
-                                ShieldCheck,
-                                "Successor direction, exact blockers, release locks",
-                              ],
-                              [
-                                "Flywheel",
-                                "flywheel",
-                                RefreshCcw,
-                                "Training corpus and feedback feed",
-                              ],
-                              [
-                                "Runtime",
-                                "execution",
-                                Cpu,
-                                "Active hive sessions and local service status",
-                              ],
-                              ["Merge", "merge", GitMerge, "Resolve git merge conflicts"],
-                              // `satisfies` so the second element is checked against
-                              // WorkspaceAddon at COMPILE time. Without it these tuples
-                              // infer as plain string and the launch call below needed an
-                              // `as WorkspaceAddon` cast, which silenced the checker
-                              // completely: "Product Surfaces" sat here as a dead button
-                              // for one addon-id that had been deliberately retired
-                              // (d0d979a280 removed the duplicate but missed this call
-                              // site), compiling cleanly and doing nothing when clicked.
-                            ] satisfies [string, WorkspaceAddon, LucideIcon, string][])
+                                [
+                                  "Terminal",
+                                  "terminal",
+                                  TerminalIcon,
+                                  "Run commands beside this screen",
+                                ],
+                                ["Code", "editor", Code2, "Inspect generated files and source"],
+                                ["Build", "build", Gauge, "Watch tasks, tests, and output"],
+                                [
+                                  "Trace",
+                                  "trace",
+                                  GitBranch,
+                                  "Follow worker events and run history",
+                                ],
+                                ["Search", "search", Search, "Find project context"],
+                                [
+                                  "Find in Files",
+                                  "findfiles",
+                                  FileSearch,
+                                  "Literal text search across the workspace",
+                                ],
+                                ["Health", "health", LayoutGrid, "Check oracle and file readiness"],
+                                // Real, oracle-verified, lock-audited surfaces (see
+                                // DETERMINEX_REACT_{LEARNING_STUDIO,REPO_CLINIC,
+                                // MAINTENANCE_BAY}_PANEL_LOCK_001) that previously had
+                                // NO visible entry point anywhere a normal user would
+                                // look -- only reachable via the command palette
+                                // (Ctrl+K) or the addon-dock's own switcher dropdown,
+                                // which itself only appears once some OTHER addon is
+                                // already open. Ryan: "i dont understand why the main
+                                // functionality is buried in favor of... a watered
+                                // down version of something else on the side" --
+                                // this was that exact pattern, just in a different
+                                // corner of the shell than the Idea Lab one already
+                                // fixed earlier this session.
+                                [
+                                  "Learning Studio",
+                                  "learning",
+                                  Brain,
+                                  "Non-authorizing teaching explanations grounded in the verified corpus",
+                                ],
+                                [
+                                  "Repo Clinic",
+                                  "repoclinic",
+                                  Activity,
+                                  "Live oracle-backed diagnosis of the open workspace",
+                                ],
+                                [
+                                  "Maintenance Bay",
+                                  "maintenancebay",
+                                  ShieldCheck,
+                                  "Live dependency/secret/license/container security scan",
+                                ],
+                                // Round 2 of the same fix -- see quickAttachIds' comment.
+                                [
+                                  "Mission Control",
+                                  "mission",
+                                  GraduationCap,
+                                  "Determinex's own release readiness -- not your project's",
+                                ],
+                                [
+                                  "Determinex Roadmap",
+                                  "roadmap",
+                                  ShieldCheck,
+                                  "Successor direction, exact blockers, release locks",
+                                ],
+                                [
+                                  "Flywheel",
+                                  "flywheel",
+                                  RefreshCcw,
+                                  "Training corpus and feedback feed",
+                                ],
+                                [
+                                  "Runtime",
+                                  "execution",
+                                  Cpu,
+                                  "Active hive sessions and local service status",
+                                ],
+                                ["Merge", "merge", GitMerge, "Resolve git merge conflicts"],
+                                // `satisfies` so the second element is checked against
+                                // WorkspaceAddon at COMPILE time. Without it these tuples
+                                // infer as plain string and the launch call below needed an
+                                // `as WorkspaceAddon` cast, which silenced the checker
+                                // completely: "Product Surfaces" sat here as a dead button
+                                // for one addon-id that had been deliberately retired
+                                // (d0d979a280 removed the duplicate but missed this call
+                                // site), compiling cleanly and doing nothing when clicked.
+                              ] satisfies [string, WorkspaceAddon, LucideIcon, string][]
+                            )
                               .filter(
                                 ([, addon]) =>
                                   isInternalBuild() || (addon !== "mission" && addon !== "roadmap")

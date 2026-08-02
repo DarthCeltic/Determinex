@@ -337,7 +337,10 @@ export function EditorPanel({ pendingFile, workspacePath = "" }: EditorPanelProp
   const rightLang = LANG_MAP[rightExt] ?? "plaintext";
 
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden" style={{ background: "var(--dtx-code-bg)" }}>
+    <div
+      className="flex h-full min-h-0 flex-col overflow-hidden"
+      style={{ background: "var(--dtx-code-bg)" }}
+    >
       {/* Tab bar */}
       <div className="flex items-center border-b border-white/8 bg-black/40 overflow-x-auto no-scrollbar shrink-0">
         {openFiles.map((f, i) => (

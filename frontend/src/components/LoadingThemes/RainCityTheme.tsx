@@ -45,7 +45,12 @@ export function RainCityTheme({
       y: Math.random() * h * 2 - h,
       speed: 4 + Math.random() * 8,
       len: 30 + Math.random() * 80,
-      color: Math.random() < 0.6 ? "var(--dtx-info)" : Math.random() < 0.5 ? "var(--dtx-alt)" : "#8b5cf6",
+      color:
+        Math.random() < 0.6
+          ? "var(--dtx-info)"
+          : Math.random() < 0.5
+            ? "var(--dtx-alt)"
+            : "#8b5cf6",
       alpha: 0.2 + Math.random() * 0.4,
       width: 0.5 + Math.random() * 1.5,
     }));

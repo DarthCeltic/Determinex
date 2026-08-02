@@ -1171,7 +1171,7 @@ function AgentRosterBar({
         // the next render and the dot went back to green. Readiness is remembered, so the answer
         // survives a re-render and a restart.
         const readiness = result
-          ? PROBE_TO_READINESS[result.status] ?? "failed"
+          ? (PROBE_TO_READINESS[result.status] ?? "failed")
           : (s?.readiness ?? (a.installed ? "credentials_unverified" : "not_installed"));
         const dotClass = READINESS[readiness]?.dot ?? "bg-gray-700";
         const readinessLabel = READINESS[readiness]?.label ?? readiness;
@@ -1207,7 +1207,10 @@ function AgentRosterBar({
             {!isProbing && !result && (s?.readinessEvidence || s?.detail) && (
               // The evidence, not just the verdict. A state of "provider refused" is only actionable
               // if it also says what the provider said and when.
-              <p className="truncate text-meta text-gray-600" title={s?.readinessEvidence || s?.detail}>
+              <p
+                className="truncate text-meta text-gray-600"
+                title={s?.readinessEvidence || s?.detail}
+              >
                 {s?.readinessEvidence || s?.detail}
               </p>
             )}
@@ -1272,7 +1275,11 @@ function parseProposals(text: string): ProposedFile[] {
       const payload = JSON.parse(text.slice(bodyStart, end).trim());
       if (payload?.schema !== "determinex-chat-proposed-edits-v1") continue;
       for (const f of payload.files ?? []) {
-        if (typeof f?.path === "string" && typeof f?.before === "string" && typeof f?.after === "string") {
+        if (
+          typeof f?.path === "string" &&
+          typeof f?.before === "string" &&
+          typeof f?.after === "string"
+        ) {
           out.push(f as ProposedFile);
         }
       }

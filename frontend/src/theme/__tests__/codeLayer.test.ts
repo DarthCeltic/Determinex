@@ -42,9 +42,7 @@ function luminance(color: string): number | null {
   }
   const rgba = color.match(/^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
   if (rgba) {
-    return (
-      0.299 * parseFloat(rgba[1]) + 0.587 * parseFloat(rgba[2]) + 0.114 * parseFloat(rgba[3])
-    );
+    return 0.299 * parseFloat(rgba[1]) + 0.587 * parseFloat(rgba[2]) + 0.114 * parseFloat(rgba[3]);
   }
   return null;
 }
@@ -84,9 +82,7 @@ describe("code layer derivation", () => {
           shell - 1
         );
       } else {
-        expect(code, `dark skin ${pack.id}: code bg went lighter`).toBeLessThanOrEqual(
-          shell + 1
-        );
+        expect(code, `dark skin ${pack.id}: code bg went lighter`).toBeLessThanOrEqual(shell + 1);
       }
     }
   );

@@ -80,7 +80,10 @@ export function FileSearchPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props
   };
 
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden" style={{ background: "var(--dtx-code-bg-deep)" }}>
+    <div
+      className="flex h-full min-h-0 flex-col overflow-hidden"
+      style={{ background: "var(--dtx-code-bg-deep)" }}
+    >
       <div className="flex shrink-0 flex-col gap-2 border-b border-white/8 bg-black/60 px-4 py-3">
         <div className="flex items-center gap-2">
           <Search size={13} className="shrink-0 text-gray-500" />

@@ -32,7 +32,9 @@ import { runTests } from "@vscode/test-electron";
  */
 function clearElectronRunAsNode(): void {
   if (process.env.ELECTRON_RUN_AS_NODE !== undefined) {
-    console.log("  (clearing inherited ELECTRON_RUN_AS_NODE so Code.exe runs as VS Code, not Node)");
+    console.log(
+      "  (clearing inherited ELECTRON_RUN_AS_NODE so Code.exe runs as VS Code, not Node)"
+    );
     delete process.env.ELECTRON_RUN_AS_NODE;
   }
 }

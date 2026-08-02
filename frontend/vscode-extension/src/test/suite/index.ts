@@ -8,6 +8,13 @@
 import * as fs from "fs";
 import * as path from "path";
 
+// This bundle is emitted as CommonJS and loaded by the VS Code extension host, which is a
+// CJS runtime. `import Mocha from "mocha"` compiles to an interop wrapper that resolves to a
+// namespace object here, so `new Mocha(...)` below throws "is not a constructor" at run
+// time. The import-equals form is the documented TypeScript spelling for exactly this case.
+// The directive has to sit on the line IMMEDIATELY above the statement -- with the
+// explanation in between, it applied to the next comment line and the error stood.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import Mocha = require("mocha");
 
 export function run(): Promise<void> {

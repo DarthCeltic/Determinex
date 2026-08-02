@@ -19,6 +19,12 @@ const eslintConfig = defineConfig([
     // linted as if it were hand-written TypeScript -- 3 require()-import
     // errors that were never real bugs, just compiled CommonJS output.
     "vscode-extension/out/**",
+    // A DOWNLOADED VS Code build (@vscode/test-electron fetches an entire archive here to
+    // run extension tests). Linting it walks thousands of bundled files and ends in
+    // "FATAL ERROR: Ineffective mark-compacts near heap limit - JavaScript heap out of
+    // memory", so `npx eslint .` could not complete locally at all -- only in CI, where the
+    // directory does not exist. Not our code, and not lintable.
+    "vscode-extension/.vscode-test/**",
   ]),
   {
     rules: {

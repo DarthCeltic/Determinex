@@ -112,8 +112,8 @@ export function DiffReviewPanel() {
                   and reverts on failure, so git is its review surface. */}
               <p className="text-label leading-relaxed text-[#6e7681]">
                 Verified Search queues oracle-verified programs here with{" "}
-                <span className="text-[var(--dtx-code-muted)]">Stage for review</span>. Agent edits do not land
-                here — for your own uncommitted work, open Source Control.
+                <span className="text-[var(--dtx-code-muted)]">Stage for review</span>. Agent edits
+                do not land here — for your own uncommitted work, open Source Control.
               </p>
             </div>
           ) : (
@@ -123,7 +123,9 @@ export function DiffReviewPanel() {
                 onClick={() => setSelectedDiffId(diff.id)}
                 className={
                   "p-3 border-b border-[var(--dtx-code-border)] cursor-pointer hover:bg-[var(--dtx-code-border-subtle)] transition-colors " +
-                  (selectedDiffId === diff.id ? "bg-[var(--dtx-code-border-subtle)] border-l-2 border-l-purple-500" : "")
+                  (selectedDiffId === diff.id
+                    ? "bg-[var(--dtx-code-border-subtle)] border-l-2 border-l-purple-500"
+                    : "")
                 }
               >
                 <div className="text-sm font-mono truncate text-blue-400">
@@ -159,7 +161,9 @@ export function DiffReviewPanel() {
           <>
             <div className="h-14 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg)] px-4 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-mono text-[var(--dtx-code-muted)]">{selectedDiff.path}</span>
+                <span className="text-sm font-mono text-[var(--dtx-code-muted)]">
+                  {selectedDiff.path}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -208,7 +212,9 @@ export function DiffReviewPanel() {
           <div className="flex-1 flex flex-col items-center justify-center opacity-50">
             <Check className="w-16 h-16 text-green-500 mb-4" />
             <p className="text-lg">All caught up!</p>
-            <p className="text-sm text-[var(--dtx-code-muted)]">No AI changes pending your review.</p>
+            <p className="text-sm text-[var(--dtx-code-muted)]">
+              No AI changes pending your review.
+            </p>
           </div>
         )}
       </div>

@@ -33,14 +33,7 @@ const EXEMPT_DIRS = new Set(["__tests__", "wireframes"]);
 
 // The chrome palette that must never come back: these are the values that made half the
 // UI ignore the skin. Zero tolerance, unlike the long tail of one-off accents.
-const BANNED_CHROME = [
-  "#0d1117",
-  "#161b22",
-  "#30363d",
-  "#21262d",
-  "#010409",
-  "#8b949e",
-];
+const BANNED_CHROME = ["#0d1117", "#161b22", "#30363d", "#21262d", "#010409", "#8b949e"];
 
 /**
  * Remaining one-off literal colours across all components. Measured 2026-07-29:
@@ -133,8 +126,10 @@ describe("skin congruity", () => {
       const matches = codeOnly(text).match(/text-\[\d+(?:\.\d+)?px\]/g) ?? [];
       if (matches.length) offenders.push(`${rel}: ${[...new Set(matches)].join(", ")}`);
     }
-    expect(offenders, "arbitrary font sizes bypass the density scale:\n" + offenders.join("\n"))
-      .toEqual([]);
+    expect(
+      offenders,
+      "arbitrary font sizes bypass the density scale:\n" + offenders.join("\n")
+    ).toEqual([]);
   });
 
   it("the long tail of one-off literal colours does not grow", () => {
@@ -157,7 +152,10 @@ describe("skin congruity", () => {
   it("the exempt list points at files that exist", () => {
     // An exemption for a renamed file silently widens the check.
     for (const rel of COLOUR_EXEMPT) {
-      expect(() => readFileSync(join(SRC, rel), "utf8"), `exempt file missing: ${rel}`).not.toThrow();
+      expect(
+        () => readFileSync(join(SRC, rel), "utf8"),
+        `exempt file missing: ${rel}`
+      ).not.toThrow();
     }
   });
 });

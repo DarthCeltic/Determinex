@@ -228,7 +228,10 @@ function CrossPlatformWireframe({ color }: { color: string }) {
             />
             <div className="mt-4 grid grid-cols-3 gap-3">
               {[0, 1, 2].map((i) => (
-                <div key={i} className="h-16 rounded-lg border border-gray-800 bg-[var(--dtx-code-panel)]" />
+                <div
+                  key={i}
+                  className="h-16 rounded-lg border border-gray-800 bg-[var(--dtx-code-panel)]"
+                />
               ))}
             </div>
             <div className="mt-4 h-2 w-2/3 rounded bg-gray-700" />
@@ -311,7 +314,10 @@ function ApiWireframe({ color }: { color: string }) {
               </div>
               <div
                 className="text-meta font-mono"
-                style={{ color: ep.status < 300 ? "var(--dtx-ok)" : "var(--dtx-fail)", opacity: 0.7 }}
+                style={{
+                  color: ep.status < 300 ? "var(--dtx-ok)" : "var(--dtx-fail)",
+                  opacity: 0.7,
+                }}
               >
                 {ep.status}
               </div>

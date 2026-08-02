@@ -59,7 +59,14 @@ export function NeonTerminalTheme({
       height: number;
       color: string;
     }
-    const palette = ["#7c3aed", "#a855f7", "#06b6d4", "#8b5cf6", "var(--dtx-info)", "var(--dtx-alt)"];
+    const palette = [
+      "#7c3aed",
+      "#a855f7",
+      "#06b6d4",
+      "#8b5cf6",
+      "var(--dtx-info)",
+      "var(--dtx-alt)",
+    ];
     const buildings: Building[] = Array.from({ length: 40 }, () => ({
       x: (Math.random() - 0.5) * 600,
       z: Math.random() * 400 + 50,
