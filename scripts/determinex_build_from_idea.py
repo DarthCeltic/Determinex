@@ -313,7 +313,10 @@ def main() -> int:
     except Exception:
         gen = ollama_generator(args.model or "determinex-coder-base-tiny:latest")
     res = build_from_idea(idea, gen, args.lang, k=args.k)
-    print(f"=== BUILD FROM IDEA ({args.model}) ===")
+    # Name what actually ran. This printed `args.model`, which is empty unless --model is
+    # passed, so the first line the README's own command produced was "BUILD FROM IDEA ()".
+    who = f"{args.provider}: {args.model}" if args.model else args.provider
+    print(f"=== BUILD FROM IDEA ({who}) ===")
     print(f"synthesized oracle: {res.n_checks} checks")
     print(f"result: {'SOLVED' if res.solved else 'not solved'}  samples={res.samples}")
     print(f"proof: {res.proof}")

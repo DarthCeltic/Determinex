@@ -115,6 +115,8 @@ class SearchResult:
 
 
 # default temperature ladder: start deterministic, widen for diversity
+from determinex_progress import Directive, ProgressTracker  # noqa: E402
+
 _DEFAULT_TEMPS = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
 
@@ -180,8 +182,33 @@ class VerifiedSearch:
         # in 2 samples).
         self.early_escalate = early_escalate
 
-    def _temp_for(self, i: int) -> float:
-        return self.temps[i] if i < len(self.temps) else self.temps[-1]
+    def _temp_for(self, i: int, hot: bool = False) -> float:
+        """Temperature for sample `i`, skewed hot once the cold rungs are proven useless.
+
+        MEASURED ON THE RADEON, 2026-08-03 (Qwen2.5-Coder-7B, 10 draws per rung, expression
+        evaluator with 6 sound checks):
+
+            t=0.0  p=0.00   1 distinct / 10      <- greedy: ten draws are one draw
+            t=0.2  p=0.00   2 / 10
+            t=0.4  p=0.00   6 / 10
+            t=0.6  p=0.00   8 / 10
+            t=0.8  p=0.10   6 / 10
+            t=1.0  p=0.10  10 / 10
+
+        Every draw at t<=0.6 had p=0.00, so a NOMINAL K of 8 was an EFFECTIVE K of 4 -- half
+        the batch spent on rungs that could not pass. That is why `1-(1-p)^K` over-predicted
+        (0.403 against 0.167 observed): the equation was right and the K was wrong.
+
+        The remedy is not a different equation. After a round where NOTHING scored, the cold
+        rungs have demonstrated -- on this task, not in general -- that they contribute
+        nothing, so the next round spends its budget where the passes actually came from.
+        Cold-first is still correct for the FIRST round: on an easy task the greedy sample
+        solves it outright and sampling hot would be pure waste.
+        """
+        if not hot:
+            return self.temps[i] if i < len(self.temps) else self.temps[-1]
+        hot_rungs = [t for t in self.temps if t >= 0.6] or [self.temps[-1]]
+        return hot_rungs[i % len(hot_rungs)]
 
     def solve(self, generate: GenerateFn, prompt: str) -> SearchResult:
         history: list[Candidate] = []
@@ -209,13 +236,45 @@ class VerifiedSearch:
         # (DETERMINEX_VS_MAX_CONCURRENCY); default keeps the historical k-way behavior.
         max_conc = max(1, int(_os.environ.get("DETERMINEX_VS_MAX_CONCURRENCY", str(self.k))))
 
-        for r in range(self.rounds):
+        # ROUNDS ARE NOT THE STOPPING RULE (2026-08-03). Ryan: "we shouldn't be limited to
+        # three runs -- take the delta from the previous run... if the number to fix is
+        # percentage too high, it stops and we figure out what to do, or we go until that
+        # number stops." A fixed cap is wrong in both directions: it cuts off a run that is
+        # steadily removing failures, and it lets a run that removes none burn its full
+        # allowance. `self.rounds` is now a FLOOR -- the loop runs at least that many and then
+        # keeps going while the failure count is genuinely falling, bounded by the tracker's
+        # own projection and absolute cap rather than by a constant chosen in advance.
+        # COST CEILING. `self.rounds` became a FLOOR, so a run that keeps making progress can
+        # now go well past it -- which is the point, and also a bill. The tracker's absolute cap
+        # bounds it at 40 rounds x K generations worst case; that is fine against a local model
+        # and expensive against a metered API, so an operator can lower it without touching
+        # code. Lowering this does NOT restore the old behaviour: the rate rule still stops a
+        # stalled run early, this only bounds a run that never stalls.
+        _max_rounds = max(
+            self.rounds, int(_os.environ.get("DETERMINEX_VS_MAX_ROUNDS", "40") or 40)
+        )
+        rate = ProgressTracker(absolute_max_rounds=_max_rounds)
+        # True once a whole round has scored nothing: from then on the batch is drawn from the
+        # hot rungs only. Cold-first stays correct for round 1 -- on an easy task the greedy
+        # sample solves it outright and sampling hot would be waste.
+        _all_cold_failed = False
+        stop_reason = ""
+        r = -1
+        while True:
+            r += 1
+            if r >= rate.absolute_max_rounds:
+                stop_reason = f"safety cap: {rate.reason()}"
+                break
             round_prompt = prompt if not feedback else f"{prompt}\n\n{feedback}"
             distinct_this_round = 0
             # The K samples are INDEPENDENT (same prompt, different temperature) -> generate them
             # CONCURRENTLY (bounded by max_conc, see above). Each generate() opens its own
             # connection (thread-safe).
-            temps = [self._temp_for(i) for i in range(self.k)]
+            # After a round in which nothing scored at all, the cold rungs have proven -- on
+            # THIS task -- that they cannot pass, so stop paying for them. See `_temp_for`:
+            # measured on the Radeon, every draw at t<=0.6 had p=0.00 on a task the model
+            # found hard, which is precisely why a nominal K of 8 behaved like a K of 4.
+            temps = [self._temp_for(i, hot=_all_cold_failed) for i in range(self.k)]
             temps_used.update(temps)
 
             def _gen_one(temp, _p=round_prompt):
@@ -378,16 +437,35 @@ class VerifiedSearch:
                     gen_errors=gen_errors,
                     first_gen_error=first_gen_error,
                 )
+            if best is not None and best.score <= 0.0 and not best.passed:
+                _all_cold_failed = True
+
             feedback = self._feedback_from(best)
-            # progress check: if best is still all-fail with no improvement, the
-            # next round needs a different strategy -> let the loop widen temps,
-            # but if we are on the last round, escalate with the Adjudicator's moves.
+
+            # THE RATE, measured on this round's best. `self.rounds` is a floor: below it the
+            # loop always continues, because two or three rounds is not enough of a trend to
+            # project from and an unlucky first round would abort a run that was about to work.
+            round_errors = best.n_failures if best is not None else -1
+            if round_errors >= 0:
+                directive = rate.round_errors(round_errors)
+                if r + 1 >= self.rounds and directive != Directive.CONTINUE:
+                    stop_reason = (
+                        # OUT_OF_PROPORTION is not "stuck" -- the loop is working and will not
+                        # finish, which is a different message and a different remedy: fetch a
+                        # toolchain, a bigger model, or a person. Naming which is the point.
+                        f"the loop is making progress but not enough of it -- {rate.reason()}. "
+                        f"Continuing will not close this; something outside the loop has to "
+                        f"change (missing toolchain, a stronger model, or a human)."
+                        if directive == Directive.OUT_OF_PROPORTION
+                        else f"progress stopped -- {rate.reason()}"
+                    )
+                    break
         return self._escalate(
             best,
             history,
             total,
-            self.rounds,
-            "rounds exhausted",
+            r + 1,
+            stop_reason or "rounds exhausted",
             gen_errors=gen_errors,
             first_gen_error=first_gen_error,
         )

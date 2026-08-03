@@ -2,15 +2,16 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import {
-  GitBranch,
-  ArrowUp,
-  ArrowDown,
-  Plus,
-  Check,
-  RefreshCw,
-  FileCode,
+  AlertCircle,
   AlertTriangle,
+  ArrowDown,
+  ArrowUp,
+  Check,
+  FileCode,
+  GitBranch,
   Minus,
+  Plus,
+  RefreshCw,
 } from "lucide-react";
 import {
   getGitStatus,
@@ -195,12 +196,44 @@ export default function GitPanel({ workspacePath }: Props) {
     );
   }
 
+  // A FAILURE IS NOT A LOAD. `error` is rendered far below, inside the main body -- which is
+  // unreachable while `status` is null, so every failed read showed as an eternal
+  // "Loading Git Status..." and the real reason was discarded. Found by driving all 33
+  // surfaces: Source Control was the only one that rendered nothing actionable, while the
+  // backend was returning branch `mojibake-and-count-fix` and 17 changed files perfectly.
+  //
+  // Three states, three answers, and a way out of each.
+  if (!status && error) {
+    return (
+      <div data-testid="git-panel-error" className="flex-1 flex flex-col items-center justify-center gap-3 p-4 bg-[var(--dtx-code-bg)] text-center">
+        <div className="flex items-center gap-2 text-label font-mono text-amber-300">
+          <AlertCircle className="h-3.5 w-3.5" />
+          Could not read this repository
+        </div>
+        <p className="max-w-xs text-label font-mono text-gray-500">{error}</p>
+        <button
+          type="button"
+          onClick={() => void loadStatus()}
+          className="rounded-md border border-white/10 px-2.5 py-1 text-eyebrow font-bold uppercase tracking-wide text-gray-400 hover:bg-white/5 hover:text-gray-200"
+        >
+          Try again
+        </button>
+      </div>
+    );
+  }
+
+  // Distinguishable states. The first version of this fix kept the same words for the
+  // loading branch, so a check could not tell "still loading" from "the fix never shipped" --
+  // both rendered 21 characters. A state a test cannot name is a state nobody can diagnose.
   if (!status) {
     return (
-      <div className="flex-1 flex items-center justify-center p-4 bg-[var(--dtx-code-bg)]">
+      <div
+        data-testid={isLoading ? "git-panel-loading" : "git-panel-idle"}
+        className="flex-1 flex items-center justify-center p-4 bg-[var(--dtx-code-bg)]"
+      >
         <div className="flex items-center gap-2 text-label font-mono text-gray-500 animate-pulse">
           <RefreshCw className="h-3 w-3 animate-spin" />
-          Loading Git Status...
+          {isLoading ? "Loading Git Status..." : "Waiting for a workspace..."}
         </div>
       </div>
     );

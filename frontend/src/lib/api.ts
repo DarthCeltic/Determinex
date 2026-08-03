@@ -1,5 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import type { WorkReadiness } from "@/lib/work-readiness";
+import type { PathInfo } from "@/components/ConceptLab";
 
 // ── Error handling contract ────────────────────────────────────────────────────
 //
@@ -62,9 +63,25 @@ interface KeyStatusResponse {
   openrouter: boolean;
   kimi: boolean;
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/** One node of the workspace tree, as the CONSUMERS read it.
+ *
+ * `tree: any[]` is why the isDir mismatch below survived: with `any`, TypeScript could not
+ * see that the field every consumer branches on was never present on the payload. Typed now,
+ * so the next field the backend renames fails at compile time instead of rendering a folder
+ * as a file for months.
+ */
+export interface FsTreeNode {
+  name: string;
+  path: string;
+  /** Derived from the backend's `type` by `normalizeTree` -- see getFileSystemTree. */
+  isDir: boolean;
+  /** What the backend actually sends: "file" | "folder". Kept so the mapping stays visible. */
+  type?: string;
+  children?: FsTreeNode[];
+}
+
 interface FsTreeResponse {
-  tree: any[];
+  tree: FsTreeNode[];
 }
 interface WorkspaceFilesResponse {
   files: { name: string; modified: string; type: string }[];
@@ -177,11 +194,34 @@ export async function getApiKeyStatus(): Promise<KeyStatusResponse> {
   }
 }
 
+/** The backend calls it `type: "file" | "folder"`; every consumer reads `isDir`.
+ *
+ * Those two never met, so `isDir` was `undefined` on every node -- always falsy, so EVERY
+ * DIRECTORY rendered with a file icon, clicking one tried to open it as a file, the delete
+ * confirmation said "file" instead of "folder (and everything inside it)", and the git-status
+ * roll-up for a folder never ran. Eight behaviours, one missing field, and nothing threw.
+ *
+ * Normalised HERE rather than at the eight call sites: this is the boundary the payload
+ * crosses, and a second place that re-derives it is a second place to forget.
+ */
+function normalizeTree(nodes: unknown): FsTreeNode[] {
+  if (!Array.isArray(nodes)) return [];
+  return nodes.map((raw) => {
+    const n = raw as FsTreeNode;
+    const isDir = typeof n.isDir === "boolean" ? n.isDir : n.type === "folder";
+    return { ...n, isDir, children: n.children ? normalizeTree(n.children) : undefined };
+  });
+}
+
 export async function getFileSystemTree(target_path: string = ""): Promise<FsTreeResponse> {
   if (!target_path.trim()) return { tree: [] };
   try {
-    if (isTauri())
-      return await invoke<FsTreeResponse>("get_file_system_tree", { targetPath: target_path });
+    if (isTauri()) {
+      const res = await invoke<FsTreeResponse>("get_file_system_tree", {
+        targetPath: target_path,
+      });
+      return { ...res, tree: normalizeTree(res?.tree) };
+    }
     return { tree: [] };
   } catch (error) {
     console.error("Failed to fetch file system tree:", error);
@@ -846,7 +886,19 @@ export async function discoverIdea(
 // converse_idea: multi-turn ideation conversation
 type ConverseIdeaResult = {
   ok: boolean;
-  data?: { response: string; ready_to_spec: boolean; spec_summary: string | null };
+  data?: {
+    response: string;
+    ready_to_spec: boolean;
+    spec_summary: string | null;
+    /** The directions that still fit what the user has said, re-computed on every reply.
+     *  The grid used to be built once at discovery and never touched, so answering
+     *  "terminal only, no browser" left "Web + Mobile App, 3-6 weeks, high" on screen --
+     *  the cards asked for a decision and then ignored it. */
+    paths?: PathInfo[];
+    /** What was removed and WHY, so a card never just vanishes. An unexplained
+     *  disappearance reads as a bug, not as the system listening. */
+    ruled_out?: { name: string; why: string }[];
+  };
   error?: string;
 };
 export async function converseIdea(payload: {

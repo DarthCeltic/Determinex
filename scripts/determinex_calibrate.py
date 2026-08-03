@@ -642,6 +642,19 @@ def main() -> int:
     # saturation (Ollama) but a published requests-per-minute quota. The rule the calibrator
     # measures -- candidates/second stops rising, so stop adding candidates -- is the same;
     # only the reason differs, which is the point of measuring instead of reading a config.
+    # Load the repo .env before reading any key. Without this the documented AMD path fails
+    # COMPLETELY and misleadingly: `--backend amd` reads AMD_TOKEN_FACTORY_KEY from an
+    # environment that never had it, sends "Bearer none", and every request in the sweep is
+    # refused -- which the table then reports as "link degraded" on every row. A reader
+    # following the README concludes the GPU is unreachable when the key was sitting in .env
+    # the whole time. Reuses the providers module's loader rather than adding a fourth copy.
+    try:
+        from determinex_providers import _load_env_once
+
+        _load_env_once()
+    except Exception:
+        pass  # a missing .env is normal; the key may legitimately come from the environment
+
     key_env = "OPENAI_API_KEY"
     if args.backend == "amd":
         base = args.base_url or os.environ.get(
@@ -721,7 +734,24 @@ def main() -> int:
         print(f"  throughput FLATTENED past K={ceiling_k}: beyond it, more concurrency buys "
               f"under 15% per doubling while latency keeps growing.")
     else:
-        print(f"  no ceiling within K<={max(ks)}; this rig has more headroom than the sweep used.")
+        # "No ceiling" is only true if the sweep actually REACHED max(ks). When the higher K
+        # points were excluded because their requests failed, the sweep did not run out of
+        # ceiling -- it ran into one, of a kind the gradient tests cannot see because the
+        # evidence for it was thrown away as unusable. Measured live on AMD's Radeon Token
+        # Factory 2026-08-03: K=1..4 clean, then 4/8, 16/16, 31/32 and 46/48 requests refused
+        # by the published RPM quota, and this line still read "more headroom than the sweep
+        # used" -- the exact opposite of what the rig had just demonstrated.
+        refused = [p.k for p in pts if not p.usable and getattr(p, "errors", 0) > 0]
+        if refused:
+            print(f"  no throughput ceiling among the points that RAN, but K>={min(refused)} "
+                  f"could not be measured: the backend refused "
+                  f"{sum(getattr(p, 'errors', 0) for p in pts if p.k in refused)} of "
+                  f"{sum(p.k for p in pts if p.k in refused)} requests. That is a ceiling too --"
+                  f" a quota or connection limit rather than a hardware one -- so this rig has "
+                  f"LESS headroom than the sweep asked for, not more.")
+        else:
+            print(f"  no ceiling within K<={max(ks)}; this rig has more headroom "
+                  f"than the sweep used.")
 
     # The curve, not the constant. This table is the actual deliverable: it says what to do
     # for work of a given difficulty, and it is what makes K=1 the right answer for a task

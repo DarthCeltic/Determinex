@@ -387,12 +387,23 @@ def _register_raw_factories() -> None:
                     return m.split("/", 1)[1]
             return m
 
+        # PREFIXED, like the canonical registration it replaces. This factory strips the
+        # prefix itself (`_local_model_name`), so a bare tag happened to work HERE -- but
+        # registering it bare overwrites the `local` provider process-wide for anyone who
+        # imports this module, and `determinex_providers` guarantees that provider's default
+        # names its backend. An unprefixed default does not route anywhere but this factory.
+        #
+        # It was caught as test pollution: `test_the_local_default_model_is_still_prefixed_in
+        # _config` passed alone and failed whenever a PB test had imported this module first,
+        # which is the signature of global state being rewritten at import rather than a
+        # flaky test. Importing a module must not change which model the rest of the system
+        # runs.
         PROV.register_provider(
             "local",
             tier=1,
             env_key="",
             aliases=("ollama",),
-            default_model="qwen2.5-coder:7b-instruct",
+            default_model="ollama/qwen2.5-coder:7b-instruct",
             factory=lambda m: ollama_generator(_local_model_name(m)),
         )
     except Exception:

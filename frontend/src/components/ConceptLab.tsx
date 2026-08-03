@@ -731,6 +731,9 @@ function ConceptLabInner({
 
   // Discovery step
   const [paths, setPaths] = useState<PathInfo[]>([]);
+  //: Directions the user's own answers removed, kept so the UI can SAY why rather than
+  //: silently shrinking the grid.
+  const [ruledOut, setRuledOut] = useState<{ name: string; why: string }[]>([]);
   const [selectedPathId, setSelectedPathId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -1066,6 +1069,21 @@ function ConceptLabInner({
 
       if (res.ok && res.data) {
         const { response, ready_to_spec, spec_summary } = res.data;
+
+        // NARROW THE GRID AS THE ANSWERS ARRIVE. The direction cards were computed once at
+        // discovery and never touched again, so a user could answer "terminal only, no
+        // browser" and keep staring at "Web + Mobile App, 3-6 weeks, high". The backend
+        // re-derives the surviving directions from the idea PLUS everything said since, and
+        // returns what it removed with a reason -- a card that vanishes silently reads as a
+        // bug rather than as the system listening.
+        const narrowed = res.data.paths;
+        if (narrowed && narrowed.length > 0) {
+          setPaths((prev) => (narrowed.length < prev.length || prev.length === 0 ? narrowed : prev));
+          const dropped = res.data.ruled_out ?? [];
+          if (dropped.length > 0) {
+            setRuledOut(dropped);
+          }
+        }
 
         typewriterAnimate(response, setOracleTyping, (text) => {
           pushOracleMessage(text);

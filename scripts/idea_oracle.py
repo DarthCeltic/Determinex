@@ -199,9 +199,128 @@ def _requested_types(idea: str) -> list[str]:
     return list(dict.fromkeys(types))
 
 
+def _dedupe_paths(paths: list) -> list:
+    """One card per direction, always.
+
+    Dedup used to live INSIDE `_merge_intent_paths`, which early-returns when no intent regex
+    matched -- so on any idea the regexes did not recognise, the model's raw paths passed
+    through untouched and a model that emitted "CLI Tool" twice rendered two identical cards.
+    Seen live. Normalised on the name so "CLI Tool" and "Command-Line Tool" collapse, while a
+    genuinely different direction like "Calendar Merge CLI Tool" survives.
+    """
+    seen: set[str] = set()
+    out = []
+    for path in paths:
+        if not isinstance(path, dict):
+            continue
+        raw = str(path.get("name", "")).strip().lower()
+        if not raw:
+            continue
+        key = raw.replace("command-line", "cli").replace("command line", "cli")
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(path)
+    return out
+
+
+def narrow_paths(paths: list, idea: str, answers: list) -> dict:
+    """Re-rank and RULE OUT directions as the interview answers arrive.
+
+    Ryan, 2026-08-03: *"that top part of the setup... needs to change to where they can be
+    opened or selected based on the answers and it narrows down as the user answers
+    questions."*
+
+    Directions were computed once, at discovery, from the one-line idea and never touched
+    again -- so a user could answer "no, this is terminal only, nobody opens a browser" and
+    still be staring at "Web + Mobile App, 3-6 weeks, high". The grid asked for a decision it
+    then ignored.
+
+    Deterministic on purpose. This is the same intent extraction that produced the cards,
+    re-run over the idea PLUS everything the user has since said, so a direction survives only
+    while the accumulated text still supports it. No model is consulted: a narrowing that a
+    model could hallucinate away is worse than no narrowing, because the user watched their
+    own answer remove the wrong card.
+
+    Returns `{"paths": [...], "ruled_out": [{"name", "why"}], "reason": str}` -- what was
+    removed is returned, not silently dropped, so the UI can say WHY a card disappeared. A
+    card that vanishes without explanation reads as a bug.
+    """
+    kept = _dedupe_paths([p for p in paths if isinstance(p, dict)])
+    said = " ".join([idea] + [str(a) for a in answers if a]).strip()
+    if not said or not kept:
+        return {"paths": kept, "ruled_out": [], "reason": "nothing to narrow on yet"}
+
+    supported = set(_requested_types(said))
+    if not supported:
+        # The answers say nothing the extractor recognises. Removing everything on that basis
+        # would be inventing a decision the user never made.
+        return {"paths": kept, "ruled_out": [], "reason": "answers do not yet name a surface"}
+
+    # An explicit negation removes a direction even when the word appears -- "no mobile app"
+    # must not keep Mobile App alive merely by containing "mobile".
+    import re as _re
+
+    negated: set[str] = set()
+    for name, pat in (
+        ("Mobile App", r"\b(no|not|without|skip|never)\b[^.]{0,30}\b(mobile|ios|android|phone)\b"),
+        ("Web App", r"\b(no|not|without|skip|never)\b[^.]{0,30}\b(web|browser|site|dashboard)\b"),
+        ("CLI Tool", r"\b(no|not|without|skip|never)\b[^.]{0,30}\b(cli|command.?line|terminal)\b"),
+        ("Backend API", r"\b(no|not|without|skip|never)\b[^.]{0,30}\b(api|backend|server)\b"),
+    ):
+        if _re.search(pat, said.lower()):
+            negated.add(name)
+
+    def _negated(name: str) -> bool:
+        """A negated component also kills any COMPOSITE that contains it.
+
+        "no mobile app" removed `Mobile App` and left `Web + Mobile App` standing -- which is
+        the same direction wearing a longer name, so the user's answer visibly did nothing.
+        """
+        if name in negated:
+            return True
+        return any(part in name for part in ("Mobile", "Web", "CLI") if f"{part} App" in negated
+                   or (part == "CLI" and "CLI Tool" in negated))
+
+    ruled_out = []
+    survivors = []
+    for path in kept:
+        name = str(path.get("name", ""))
+        if _negated(name):
+            ruled_out.append({"name": name, "why": "you said this is not part of it"})
+            continue
+        # Keep anything the accumulated text still supports, plus anything the extractor has
+        # no opinion about (a bespoke direction the model proposed is not ruled out just
+        # because a regex does not know the word for it).
+        if name in supported or name not in _PATH_TEMPLATES:
+            survivors.append(path)
+        else:
+            ruled_out.append({"name": name, "why": "nothing you have said points at this"})
+
+    if not survivors:
+        return {
+            "paths": kept,
+            "ruled_out": [],
+            "reason": "narrowing would have removed every direction, so nothing was removed",
+        }
+
+    order = {n: i for i, n in enumerate(_requested_types(said))}
+    survivors.sort(key=lambda p: order.get(str(p.get("name", "")), 99))
+    return {
+        "paths": survivors,
+        "ruled_out": ruled_out,
+        "reason": (
+            f"{len(survivors)} direction(s) still fit what you have told me"
+            + (f"; {len(ruled_out)} ruled out" if ruled_out else "")
+        ),
+    }
+
+
 def _merge_intent_paths(result: dict, idea: str) -> dict:
     requested = _requested_types(idea)
     if not requested:
+        result = dict(result)
+        result["paths"] = _dedupe_paths(result.get("paths", []))
         return result
 
     requested_paths = [dict(_PATH_TEMPLATES[name]) for name in requested if name in _PATH_TEMPLATES]
@@ -213,14 +332,7 @@ def _merge_intent_paths(result: dict, idea: str) -> dict:
             if str(p.get("name", "")).lower() not in {"cli tool", "command-line tool"}
         ]
 
-    merged = []
-    seen = set()
-    for path in requested_paths + model_paths:
-        name = str(path.get("name", "")).lower()
-        if not name or name in seen:
-            continue
-        seen.add(name)
-        merged.append(path)
+    merged = _dedupe_paths(requested_paths + model_paths)
 
     result = dict(result)
     result["paths"] = merged[:5]
@@ -366,6 +478,20 @@ def converse(idea: str, messages: list, user_message: str, attachments: list = N
     asked = [m.get("text", "") for m in messages if m.get("role") != "user"]
     assessment = assess_round(idea, answers, asked)
 
+    # NARROW THE DIRECTIONS AS THE ANSWERS ARRIVE. Ryan, 2026-08-03: "that top part of the
+    # setup... needs to change to where they can be opened or selected based on the answers
+    # and it narrows down as the user answers questions." The cards were computed once at
+    # discovery and never touched, so a user could say "terminal only, no browser" and keep
+    # staring at "Web + Mobile App, 3-6 weeks, high" -- the grid asked for a decision and then
+    # ignored it. Attached to EVERY return below so the UI can update on any reply, not only
+    # the ones that end the interview.
+    _narrowed = narrow_paths(
+        [dict(_PATH_TEMPLATES[n]) for n in _requested_types(idea) if n in _PATH_TEMPLATES]
+        or [dict(v) for v in _PATH_TEMPLATES.values()],
+        idea,
+        answers,
+    )
+
     if assessment.sufficient or assessment.stalled:
         history_summary = " | ".join(a[:80] for a in answers if a)
         if assessment.sufficient:
@@ -382,6 +508,8 @@ def converse(idea: str, messages: list, user_message: str, attachments: list = N
         return {
             "response": response,
             "ready_to_spec": True,
+            "paths": _narrowed["paths"],
+            "ruled_out": _narrowed["ruled_out"],
             "context_sufficient": assessment.sufficient,
             "context_missing": assessment.missing,
             "context_rationale": assessment.rationale,
@@ -431,6 +559,8 @@ def converse(idea: str, messages: list, user_message: str, attachments: list = N
         return {
             "response": "Could you tell me more about what you have in mind?",
             "ready_to_spec": False,
+            "paths": _narrowed["paths"],
+            "ruled_out": _narrowed["ruled_out"],
             "spec_summary": None,
         }
 
@@ -442,11 +572,20 @@ def converse(idea: str, messages: list, user_message: str, attachments: list = N
     raw = raw.strip()
     try:
         result = json.loads(raw)
+        # The model's reply is the COMMON path, and it was the one return that did not carry
+        # the narrowed directions -- so on a normal turn the grid still never updated. The
+        # narrowing is deterministic and computed above; the model does not get to overwrite
+        # it, because a card the user's own answer removed must not reappear because a model
+        # felt like mentioning it.
+        result["paths"] = _narrowed["paths"]
+        result["ruled_out"] = _narrowed["ruled_out"]
         return result
     except (json.JSONDecodeError, Exception):
         return {
             "response": raw if raw else "Could you tell me more about what you have in mind?",
             "ready_to_spec": False,
+            "paths": _narrowed["paths"],
+            "ruled_out": _narrowed["ruled_out"],
             "spec_summary": None,
         }
 

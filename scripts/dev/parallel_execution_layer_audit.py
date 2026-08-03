@@ -240,6 +240,18 @@ CLASSIFICATION_RULES: tuple[_Rule, ...] = (
         "exempted.",
     ),
     _Rule(
+        re.compile(r"^scripts/dev/record_terminal_segment\.py$"),
+        "LEGACY_EXEMPT_READ_ONLY",
+        "Operator-invoked screen recorder: it runs the command given on ITS OWN command line "
+        "and renders that command's output to frames. Exempt because the argv comes from the "
+        "operator's shell and no model- or user-supplied string reaches it -- NOT because it "
+        "is read-only, which it plainly is not. Given its own rule rather than inheriting the "
+        "blanket `^scripts/dev/` rationale ('read-only audit/dev tooling - no payload "
+        "execution'), which is false for a file whose entire purpose is executing whatever it "
+        "is handed. A bucket that says the wrong reason is how the next reader mis-files "
+        "something that genuinely is dangerous.",
+    ),
+    _Rule(
         re.compile(r"^scripts/determinex_provider_setup\.py$"),
         "LEGACY_EXEMPT_READ_ONLY",
         "First-run setup helper. Its one execution site is `subprocess.run([exe, 'login'])` "
@@ -294,6 +306,16 @@ CLASSIFICATION_RULES: tuple[_Rule, ...] = (
         re.compile(r"^scripts/determinex_metrics\.py$"),
         "LEGACY_EXEMPT_READ_ONLY",
         "Metrics/status gathering; fixed argv, no payload execution.",
+    ),
+    _Rule(
+        re.compile(r"^scripts/determinex_notify\.py$"),
+        "LEGACY_EXEMPT_READ_ONLY",
+        "Native desktop notification: powershell NotifyIcon / osascript / notify-send "
+        "with FIXED argv and no shell=True. The only variable parts are the title and "
+        "body TEXT, which are displayed, never executed. Both are stripped of the quote "
+        "characters that could terminate the enclosing PowerShell or AppleScript string "
+        "literal -- the macOS branch interpolated `title` raw until 2026-08-03, which is "
+        "why this rule names the sanitization rather than asserting the argv is constant.",
     ),
     _Rule(
         re.compile(r"^scripts/determinex_code_rag\.py$"),

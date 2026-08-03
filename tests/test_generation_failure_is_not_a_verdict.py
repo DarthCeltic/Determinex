@@ -473,3 +473,36 @@ class TestAFencedCandidateIsNotAModelVerdict:
 
         res = G.build_from_idea(self.IDEA, verify_counting, k=4)
         assert res.solved is True, res.proof
+
+
+class TestImportingAModuleDoesNotRewriteTheProviderRegistry:
+    """A module that re-registers a provider at import must preserve its invariants.
+
+    `determinex_pb_reimpl._register_raw_factories` deliberately replaces several providers so
+    the whole system uses its proven raw-API generators instead of LiteLLM (documented there:
+    LiteLLM degraded DeepSeek to 7/10 syntax errors). That is legitimate. Registering `local`
+    with a BARE Ollama tag was not: the tag routes nowhere except that module's own factory,
+    and the replacement is process-wide, so importing a ProgramBench helper silently changed
+    which model every other caller's `local` provider would run.
+
+    It surfaced as test pollution -- the prefix assertion above passed alone and failed
+    whenever a PB test had imported first -- which is the signature of global state rewritten
+    at import, not of a flaky test.
+    """
+
+    def test_the_pb_reimpl_registration_keeps_the_local_default_prefixed(self):
+        import importlib
+        import sys
+        from pathlib import Path
+
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+        import determinex_providers as dp
+
+        reimpl = importlib.import_module("determinex_pb_reimpl")
+        reimpl._register_raw_factories()
+
+        default = dp._PROVIDERS["local"].default_model
+        assert "/" in default, (
+            f"importing determinex_pb_reimpl left the local provider with an unqualified "
+            f"default: {default!r}"
+        )

@@ -155,12 +155,38 @@ _INVARIANT_KEYS = {
 }
 
 
+#: Words that follow "function"/"def" in ordinary English but are never a function name.
+#: Without this, "a function that takes a list" named the function `that`.
+_NOT_A_NAME = frozenset({
+    "called", "named", "that", "which", "to", "for", "the", "a", "an", "and", "with",
+    "in", "of", "it", "is", "will", "should", "must", "can", "taking", "takes", "take",
+    "returning", "returns", "return", "accepting", "accepts", "given", "using", "who",
+})
+
+
 def parse_spec(text: str, language: str = "python") -> Spec:
     # function name: explicit "function NAME" / "def NAME" / first identifier(...)
     name = ""
-    m = re.search(r"(?:function|def|fn|func)\s+([a-zA-Z_]\w*)", text)
+    # "function NAME" is written by programmers; USERS write "a function CALLED name",
+    # "a function THAT takes...", "a function TO merge...". Taking the bare next word made
+    # the function name `called` -- and then every example, which calls `solution(...)`,
+    # matched nothing. The idea was refused with "add one concrete input/output example"
+    # while containing three, which blames the user for what they got right. Measured:
+    # "A function called solution ... For example solution([3,1,4]) returns 4" extracted
+    # 0 examples; the identical text without the leading sentence extracted 3.
+    m = re.search(r"(?:function|def|fn|func)\s+(?:(?:called|named)\s+)?([a-zA-Z_]\w*)", text)
     if m:
         name = m.group(1)
+    # An English filler word is never the function's name.
+    if name.lower() in _NOT_A_NAME:
+        name = ""
+    # A name that is never CALLED anywhere, when something else IS, lost the race: prose
+    # said "function foo" but every example calls `bar(...)`, so `bar` is what the oracle
+    # must check. Keep it when nothing is called at all -- a declaration with no examples
+    # still names the function correctly.
+    if name and not re.search(rf"\b{re.escape(name)}\s*\(", text):
+        if re.search(r"\b[a-z_][a-z0-9_]{2,}\s*\(", text):
+            name = ""
     if not name:
         m = re.search(r"\b([a-z_][a-z0-9_]{2,})\s*\(", text)
         name = m.group(1) if m else "solution"

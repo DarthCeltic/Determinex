@@ -1239,12 +1239,54 @@ def main() -> int:
     p_ask_corpus.add_argument("--turn-id", required=True)
     p_ask_corpus.add_argument("--mode", choices=["mention", "broadcast"], default="mention")
 
+    # THE FOREMAN. Ryan, 2026-08-03: "who takes priority based on what information is
+    # presented... the corpus should be the authority, and the answers should be looked at by
+    # time... a mechanism that allows for the AIs to not collide and stop working but listen
+    # to a foreman and keep pushing to the end even on APIs."
+    #
+    # Serialising turns (agent_chat.rs's per-session queue) prevents a COLLISION. It does not
+    # say who is right when participants disagree, or who goes next when nobody is
+    # progressing -- and a room without those answers stops with everyone still "working".
+    p_foreman = sub.add_parser(
+        "foreman",
+        help="rule on the transcript: who is authoritative, and who should take the next turn",
+    )
+    p_foreman.add_argument("session_id")
+    p_foreman.add_argument("--participants", default="")
+
     args = parser.parse_args()
 
     if args.cmd == "create-session":
         participants = [p.strip() for p in args.participants.split(",") if p.strip()]
         result = create_session(args.session_id, args.workspace, participants, args.mode)
         print(json.dumps(result))
+        return 0
+
+    if args.cmd == "foreman":
+        from determinex_foreman import Foreman
+
+        sess = get_session(args.session_id) or {}
+        parts = [
+            x.strip()
+            for x in (args.participants.split(",") if args.participants else sess.get("participants", []))
+            if str(x).strip()
+        ]
+        fm = Foreman()
+        for t in read_transcript(args.session_id):
+            fm.observe(t)
+        ruling = fm.next_move(parts)
+        top = ruling.winning
+        print(json.dumps({
+            "directive": ruling.directive.value,
+            "assign_to": ruling.assign_to,
+            "because": ruling.because,
+            "authoritative": (None if top is None else {
+                "speaker": top.speaker,
+                "authority": top.authority.name,
+                "backed_by": top.authority.label,
+                "at": top.at,
+            }),
+        }))
         return 0
 
     if args.cmd == "list-sessions":
