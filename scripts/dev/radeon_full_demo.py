@@ -144,7 +144,14 @@ def main() -> int:
     from determinex_providers import get_generator
 
     gen = get_generator("vllm", model)
-    vague = "a function called solution that returns the average of a list of numbers"
+    # This idea is UNSPECIFIABLE, not merely under-specified -- there is no input, no output,
+    # and nothing a test could assert. An earlier take used "a function called solution that
+    # returns the average of a list of numbers", which also refused, but for the wrong reason:
+    # the spec parser was naming the function `called` (fixed 2026-08-03), so the oracle came
+    # out vacuous. That refusal was a bug wearing the costume of a principle, and once the bug
+    # was fixed the same idea solved. Demonstrating the real behaviour requires an idea that
+    # genuinely cannot be verified.
+    vague = "improve the code quality of my project"
     print(f'  idea: "{vague}"')
     r = build_from_idea(vague, gen, "python", k=4)
     print(f"  -> solved={r.solved}  checks={r.n_checks}")
@@ -156,7 +163,7 @@ def main() -> int:
         'solution([1, 2, 3]) returns 2.0, solution([10]) returns 10.0, and solution([]) '
         'returns 0.0.'
     )
-    print("  the same idea, with three concrete examples:")
+    print("  now an idea that CAN be verified, with three concrete examples:")
     r2 = build_from_idea(exact, gen, "python", k=4)
     print(f"  -> solved={r2.solved}  checks={r2.n_checks}  samples={r2.samples}")
     print(f"     {r2.proof[:200]}")
