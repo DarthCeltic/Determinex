@@ -54,7 +54,23 @@ export async function getGitStatus(cwd: string): Promise<GitStatusResult> {
   if (!res) {
     throw new Error("Tauri git_status returned null");
   }
-  return res;
+  // `Promise<GitStatusResult>` is a compile-time promise about a runtime value that arrives
+  // over IPC, and it was being kept by assertion alone. When a backend returned a payload
+  // without `files`, the undefined propagated two hooks away into
+  // `explorerGitStatusMap`'s `for (const file of explorerGitFiles)`, threw
+  // "explorerGitFiles is not iterable", and the error boundary unmounted the ENTIRE IDE --
+  // including, on first run, the setup wizard, so a new user's app went blank mid-setup with
+  // a stack trace pointing at a useMemo that was not at fault.
+  //
+  // Failing here instead routes into the caller's existing catch, which sets
+  // `explorerGitUnavailable` -- the honest state, and one the UI already renders as "could
+  // not read git" rather than the false "working tree clean".
+  if (!Array.isArray(res.files)) {
+    throw new Error(
+      `git_status returned no file list (got ${typeof res.files}); treating the read as failed`
+    );
+  }
+  return { ...res, ahead: res.ahead ?? 0, behind: res.behind ?? 0, upstream: res.upstream ?? null };
 }
 
 export async function stageFile(cwd: string, filePath: string): Promise<void> {

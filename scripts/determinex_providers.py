@@ -397,12 +397,99 @@ register_provider(
     default_model="openai/gpt-5.5-pro",
     aliases=("openai", "gpt"),
 )
+def _gemini_qualify(model: str) -> str:
+    """Route a Google model to AI Studio (`gemini/`), never accidentally to Vertex.
+
+    THE BUG (2026-08-03). The registry's DEFAULT is correctly `gemini/gemini-3-flash-preview`,
+    but a caller-supplied name arrives bare -- `get_generator("google", "gemini-2.0-flash")` --
+    and LiteLLM then resolves it to **vertex_ai**, which needs the Google Cloud SDK and
+    Application Default Credentials. The user sees:
+
+        ImportError: Google Cloud SDK not found. Install it with: pip install 'litellm[google]'
+
+    about an API key that is perfectly valid, for a service that does not need the SDK at all.
+    Two different diagnoses for one working credential.
+
+    This is the same bare-name footgun as `_vllm_qualify`, in a second provider, found the
+    same day -- which is why the fix is a named function here too rather than an inline
+    prefix: the next provider that grows a caller-supplied model needs the same treatment.
+
+    An explicit `vertex_ai/` prefix is honoured untouched, because choosing Vertex on purpose
+    is legitimate; only bare and `gemini/`-prefixed names are normalised.
+    """
+    if not model:
+        return model
+    if model.startswith(("vertex_ai/", "vertex_ai_beta/")):
+        return model
+    name = model
+    while name.startswith("gemini/"):
+        name = name[len("gemini/"):]
+    return f"gemini/{name}" if name else model
+
+
+#: Google's 429 has two completely different causes and one of them is not a rate limit at
+#: all. Mapping them apart is the difference between "wait and retry" (which never succeeds)
+#: and "top up billing" (which fixes it in a minute).
+_GEMINI_ERROR_HINTS = (
+    ("prepayment credits are depleted",
+     "Google AI Studio prepay credits are exhausted. This is billing, not a rate limit -- "
+     "retrying will not help. Top up at https://ai.studio/projects (billing), or set "
+     "DETERMINEX_ROLE_* to another provider; Determinex will keep working on whichever "
+     "providers are funded."),
+    ("RESOURCE_EXHAUSTED",
+     "Google returned RESOURCE_EXHAUSTED. If this is quota-per-minute it will clear; if the "
+     "body mentions credits it is billing. Check https://ai.studio/projects."),
+    ("IneligibleTier",
+     "The Gemini CLI's stored OAuth login is on a tier Google no longer serves. Determinex "
+     "does not need the CLI -- it calls the AI Studio API directly with GEMINI_API_KEY."),
+    ("Google Cloud SDK not found",
+     "A Google model was routed to Vertex AI. Determinex normalises Google models to the AI "
+     "Studio endpoint (see _gemini_qualify); an explicit vertex_ai/ prefix requires the SDK "
+     "and Application Default Credentials."),
+)
+
+
+def explain_google_failure(err: object) -> str:
+    """Turn a Google/LiteLLM exception into one sentence a human can act on."""
+    text = str(err)
+    for needle, hint in _GEMINI_ERROR_HINTS:
+        if needle.lower() in text.lower():
+            return hint
+    return ""
+
+
+def _gemini_factory(model: str) -> GenerateFn:
+    """Google via AI Studio, with the real cause surfaced when it refuses."""
+    qualified = _gemini_qualify(model)
+
+    def _gen(prompt: str, temperature: float) -> str:
+        import litellm
+
+        try:
+            resp = litellm.completion(
+                model=qualified,
+                temperature=float(temperature),
+                messages=[{"role": "user", "content": prompt}],
+                api_key=os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY"),
+            )
+        except Exception as exc:
+            hint = explain_google_failure(exc)
+            # Raise, never return "" -- an empty string from a provider is indistinguishable
+            # from a model with nothing to say, which is how a dead provider once looked like
+            # a weak one for an entire evaluation.
+            raise RuntimeError(f"{type(exc).__name__} from {qualified}. {hint}".strip()) from exc
+        return (resp.choices[0].message.content or "") if resp.choices else ""
+
+    return _gen
+
+
 register_provider(
     "gemini",
     tier=4,
     env_key="GEMINI_API_KEY",
     default_model="gemini/gemini-3-flash-preview",
     aliases=("google",),
+    factory=_gemini_factory,
 )
 register_provider(
     "deepseek", tier=3, env_key="DEEPSEEK_API_KEY", default_model="deepseek/deepseek-chat"
@@ -682,10 +769,46 @@ def _vllm_discover_model() -> str:
     return name
 
 
+def _vllm_qualify(model: str) -> str:
+    """Ensure exactly one `hosted_vllm/` prefix on a vLLM model name.
+
+    THE BUG (measured 2026-08-02, live AMD Radeon MI GPU). The `hosted_vllm/` prefix was
+    applied in exactly two places -- to `_VLLM_DEFAULT_MODEL` at import, and inside
+    `_vllm_discover_model()`. A caller supplying the model EXPLICITLY got neither:
+
+        get_generator("vllm", "Qwen/Qwen2.5-Coder-7B-Instruct")
+        -> litellm.BadRequestError: LLM Provider NOT provided ... you passed
+           model=Qwen/Qwen2.5-Coder-7B-Instruct
+
+    on every single call. That is the same bare-name footgun `_qualify_local_model` was
+    written for, and this file already documents three prior recurrences -- but its rule is
+    `if "/" in model: leave it alone`, and EVERY Hugging Face id contains a slash
+    (`Qwen/Qwen2.5-Coder-7B-Instruct`). The existing guard structurally cannot catch this
+    case, so it is a fourth occurrence rather than a regression of the third.
+
+    Why it survived: the default path prefixes itself, and `/v1/models` is what a UI or a
+    router reads to offer a choice -- and it returns BARE ids. So Determinex worked when it
+    picked the model and failed when the USER did, on the AMD path specifically.
+
+    Unconditional re-prefixing is right here, not a guess: for this provider the model name
+    is by definition whatever the vLLM endpoint serves, so `hosted_vllm/` is the only
+    correct LiteLLM route. A caller passing some other provider's prefix has made a category
+    error, and the endpoint rejecting `hosted_vllm/openai/gpt-4` by name is a better outcome
+    than silently routing away from the endpoint they asked for.
+    """
+    if not model:
+        return model
+    name = model
+    while name.startswith("hosted_vllm/"):
+        name = name[len("hosted_vllm/"):]
+    return f"hosted_vllm/{name}" if name else model
+
+
 def _vllm_factory(model: str) -> GenerateFn:
     """Factory for vLLM provider: routes through LiteLLM's hosted_vllm backend."""
     if model == _VLLM_DEFAULT_MODEL and not _VLLM_MODEL_EXPLICIT:
         model = _vllm_discover_model() or model
+    model = _vllm_qualify(model)
 
     def _gen(prompt: str, temperature: float) -> str:
         import litellm
@@ -760,6 +883,36 @@ register_provider(
 
 
 # ---------------------------------------------------------------------------
+# AMD Radeon Token Factory -- models served on AMD GPUs, free tier
+# ---------------------------------------------------------------------------
+# CLAUDE.md and the hackathon submission both recorded this endpoint as "wired and
+# labelled unverified -- its portal needs a China-registered account". That was true
+# when written and is NOT true now: verified live 2026-08-02 from an ordinary account,
+# GET /models returned 200 with five models served on AMD hardware, and MiniCPM5-1B
+# (described by the portal as running on four Radeon PRO W7900 workers) completed a
+# 200-token generation in 2.0 s.
+#
+# The free tier is budget- and rate-limited rather than KV-cache-limited, which makes it
+# a third distinct shape for determinex_calibrate.py: the ceiling here is requests per
+# minute, not GPU memory. Measured budget at time of writing: $10/day, 30 RPM.
+_AMD_TF_BASE = os.environ.get(
+    "AMD_TOKEN_FACTORY_BASE", "https://radeon.anruicloud.com/api/v1"
+)
+_AMD_TF_DEFAULT_MODEL = os.environ.get("AMD_TOKEN_FACTORY_MODEL", "MiniCPM5-1B")
+
+register_provider(
+    "amd-token-factory",
+    tier=2,
+    env_key="AMD_TOKEN_FACTORY_KEY",
+    default_model=_AMD_TF_DEFAULT_MODEL,
+    aliases=("amd", "radeon", "token-factory"),
+    factory=lambda m: _openai_compatible_factory(
+        m, _AMD_TF_BASE, "AMD_TOKEN_FACTORY_KEY"
+    ),
+)
+
+
+# ---------------------------------------------------------------------------
 # User-registered models -- "compatible with EVERYTHING"
 # ---------------------------------------------------------------------------
 # Ryan, live: "users should be able to add future llms that dont have access at
@@ -823,6 +976,28 @@ def _custom_model_entries() -> list[dict]:
     return []
 
 
+#: Reasoning models hide their output in two different places, and a consumer that knows
+#: about neither records a MODEL failure for a HARNESS defect -- the same shape as the
+#: fence-stripping bug this repository already fixed once. Both were observed live on
+#: 2026-08-02 against AMD's Radeon Token Factory:
+#:
+#:   Qwen3.6-35B-A3B   separate `reasoning` field, `content` null. Handled by asking for
+#:                     chat_template_kwargs.enable_thinking=false, and by raising a named
+#:                     error rather than returning "" when that is ignored.
+#:   MiniCPM5-1B       `<think> ... </think>` INLINE in content. Handled here.
+#:
+#: Stripping is deliberately conservative: only a well-formed, closed block at the start is
+#: removed. A response that merely mentions the word "think", or an unterminated tag from a
+#: truncated completion, is left exactly as it arrived -- silently deleting part of a model's
+#: answer would be a worse bug than the one being fixed.
+_THINK_BLOCK = re.compile(r"\A\s*<(think|thinking|reasoning)>.*?</\1>\s*", re.DOTALL | re.IGNORECASE)
+
+
+def _strip_reasoning_tags(text: str) -> str:
+    stripped = _THINK_BLOCK.sub("", text, count=1)
+    return stripped if stripped.strip() else text
+
+
 def _openai_compatible_factory(model_id: str, base_url: str, api_key_env: str) -> GenerateFn:
     """Generate against any OpenAI-compatible endpoint."""
 
@@ -844,14 +1019,52 @@ def _openai_compatible_factory(model_id: str, base_url: str, api_key_env: str) -
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": 8192,
             "api_base": base_url,
+            # REASONING MODELS RETURN NOTHING WITHOUT THIS (found live 2026-08-02 against
+            # AMD's Radeon Token Factory). Qwen3.6-35B-A3B spends its whole completion budget
+            # on a separate `reasoning` field and returns `content: null`: measured 199 of 200
+            # reasoning tokens at max_tokens=200, and 1110 of 1200 at max_tokens=1200 -- more
+            # budget does not help, it just buys more thinking. `enable_thinking: false` gives
+            # real code in 2.3s with reasoning_tokens=0.
+            #
+            # Sent via extra_body because it is a vLLM chat-template extension, not an OpenAI
+            # parameter; endpoints that do not know it ignore it, and the one that rejects it
+            # is retried without below.
+            "extra_body": {"chat_template_kwargs": {"enable_thinking": False}},
         }
         key = os.environ.get(api_key_env, "") if api_key_env else ""
         # Many local servers require no key but LiteLLM's openai backend still
         # wants the parameter present, so send a placeholder rather than failing.
         kwargs["api_key"] = key or "not-needed"
-        resp = litellm.completion(**kwargs)
+        try:
+            resp = litellm.completion(**kwargs)
+        except Exception:
+            kwargs.pop("extra_body", None)
+            resp = litellm.completion(**kwargs)
         _ledger_append(f"openai/{model_id}", resp)
-        return resp.choices[0].message.content or ""
+
+        msg = resp.choices[0].message
+        text = getattr(msg, "content", None) or ""
+        if text.strip():
+            return _strip_reasoning_tags(text)
+        # Empty content is NOT an empty answer. Returning "" here made a reasoning model that
+        # had spent its entire budget thinking look like a model that had nothing to say --
+        # a verdict about the MODEL for a defect in the HARNESS, which is the same failure
+        # this project already fixed once in its fence-stripping path. Say what happened.
+        reasoning = getattr(msg, "reasoning", None) or getattr(msg, "reasoning_content", None) or ""
+        rtok = 0
+        details = getattr(getattr(resp, "usage", None), "completion_tokens_details", None)
+        if details is not None:
+            getter = getattr(details, "get", None)
+            rtok = (getter("reasoning_tokens", 0) if callable(getter)
+                    else getattr(details, "reasoning_tokens", 0)) or 0
+        if reasoning or rtok:
+            raise RuntimeError(
+                f"{model_id} returned no content: the completion budget went to reasoning "
+                f"({rtok} reasoning tokens). This endpoint ignored "
+                f"chat_template_kwargs.enable_thinking=false; raise max_tokens or route this "
+                f"model through a provider that separates reasoning from output."
+            )
+        return text
 
     return _gen
 

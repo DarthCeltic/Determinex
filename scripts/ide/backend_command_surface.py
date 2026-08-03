@@ -539,6 +539,34 @@ class IDEBackendCommandSurface:
                 "IDE_COMMAND_OK",
                 payload={"healthy": None, "note": f"diagnose error: {e}"},
             )
+
+        # A cost gate and a timeout are NOT diagnoses. Reporting them as IDE_COMMAND_OK with
+        # healthy=None told the frontend "we looked, and the answer is inconclusive" when the
+        # truth was "we never looked". Found 2026-08-02: this command blocked for 10 minutes
+        # on a real repository and then reported a pytest collection error that did not exist.
+        if res.oracle == "needs_approval":
+            return self._result(
+                "repair_diagnose",
+                "IDE_COMMAND_NEEDS_APPROVAL",
+                payload={
+                    "healthy": None,
+                    "requires_approval": True,
+                    "estimate_note": res.notes[0] if res.notes else "",
+                    "note": "verification not started: cost exceeds the budget",
+                },
+                notes=tuple(res.notes),
+            )
+        if res.oracle == "timed_out":
+            return self._result(
+                "repair_diagnose",
+                "IDE_COMMAND_TIMED_OUT",
+                payload={
+                    "healthy": None,
+                    "timed_out": True,
+                    "note": "verification exceeded its budget; no verdict was reached",
+                },
+                notes=tuple(res.notes),
+            )
         return self._result(
             "repair_diagnose",
             "IDE_COMMAND_OK",

@@ -183,6 +183,14 @@ describe("Rust response structs match the TypeScript interfaces that read them",
     }
     // Fails if it GROWS, so a new command cannot quietly add to the backlog.
     // 36 -> 8 in this pass (3 bare + 5 typed-envelope-with-dynamic-data).
-    expect(untyped).toBeLessThanOrEqual(8);
+    //
+    // 8 -> 12 (2026-08-03): the four onboarding commands in ipc_hive/onboarding.rs
+    // (provider_setup_report / _verify, user_profile_get / _set). Each returns
+    // `Envelope<Value>` carrying verbatim stdout from a Python helper -- which is the shape
+    // the note above already calls honest for script output. A Rust struct here would be a
+    // THIRD definition of a schema that already exists in Python and in TypeScript
+    // (ProviderSetupReport, ReaderPrescreen), and serde would silently drop any field the
+    // Rust copy had not been taught -- the exact harm the bare-Value note warns about.
+    expect(untyped).toBeLessThanOrEqual(12);
   });
 });

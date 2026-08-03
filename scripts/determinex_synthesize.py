@@ -188,19 +188,26 @@ _FUZZ = {
     "str": "''.join(random.choice('abcxyz') for _ in range(random.randint(0, 8)))",
     "int": "random.randint(-50, 50)",
     "list": "[random.randint(-9, 9) for _ in range(random.randint(0, 8))]",
+    # A list of int PAIRS. Generated as (lo, hi) with lo <= hi about half the time so the
+    # fuzz exercises both valid intervals and the invalid ones a spec may ask to drop.
+    "list[tuple2]": (
+        "[tuple(sorted((random.randint(-9, 9), random.randint(-9, 9))))"
+        " if random.random() < 0.5 else (random.randint(-9, 9), random.randint(-9, 9))"
+        " for _ in range(random.randint(0, 8))]"
+    ),
 }
 
 # invariant id -> (applicable_input_types, test body using {fn} and {fuzz})
 _PROPERTY_TEMPLATES = {
     "idempotent": (
-        ("str", "int", "list"),
+        ("str", "int", "list", "list[tuple2]"),
         "    import random\n"
         "    for _ in range(50):\n"
         "        x = {fuzz}\n"
         "        assert {fn}({fn}(x)) == {fn}(x)\n",
     ),
     "sorted": (
-        ("list",),
+        ("list", "list[tuple2]"),
         "    import random\n"
         "    for _ in range(50):\n"
         "        xs = {fuzz}\n"
@@ -253,6 +260,7 @@ _HYPOTHESIS_STRATEGY = {
     "str": "st.text(max_size=20)",
     "int": "st.integers(-50, 50)",
     "list": "st.lists(st.integers(-9, 9), max_size=10)",
+    "list[tuple2]": "st.lists(st.tuples(st.integers(-9, 9), st.integers(-9, 9)), max_size=10)",
 }
 
 # invariant id → (applicable_input_types, test body using {fn} and {strategy})
@@ -260,7 +268,7 @@ _HYPOTHESIS_STRATEGY = {
 _PROPERTY_TEMPLATES_HYPOTHESIS = {
     "idempotent": (
         (
-            ("str", "int", "list"),
+            ("str", "int", "list", "list[tuple2]"),
             "from hypothesis import given, settings\n"
             "import hypothesis.strategies as st\n"
             "\n"
@@ -272,11 +280,17 @@ _PROPERTY_TEMPLATES_HYPOTHESIS = {
     ),
     "sorted": (
         (
-            ("list",),
+            ("list", "list[tuple2]"),
             "from hypothesis import given, settings\n"
             "import hypothesis.strategies as st\n"
             "\n"
-            "@given(st.lists(st.integers(-100, 100), max_size=20))\n"
+            # {strategy}, not a hardcoded st.lists(st.integers(...)). This template was
+            # the one place the 2026-07-20 type-aware-strategy fix did not reach, so it
+            # kept fuzzing every list function with a list of INTS regardless of the
+            # inferred element type. Found live 2026-08-02: an interval merger taking
+            # list[tuple[int,int]] was handed [1, 2, 3], every correct candidate failed,
+            # and the run reported "not solved" for a task the model had solved.
+            "@given({strategy})\n"
             "@settings(max_examples=200, deadline=None)\n"
             "def test_invariant_sorted(xs):\n"
             "    out = {fn}(list(xs))\n"
@@ -301,7 +315,12 @@ _PROPERTY_TEMPLATES_HYPOTHESIS = {
             "from hypothesis import given, settings\n"
             "import hypothesis.strategies as st\n"
             "\n"
-            "@given(st.integers(-1000, 1000))\n"
+            # {strategy} even though this invariant is int-only and the literal was not
+            # unsound. A per-type strategy table with templates that bypass it is two
+            # sources of truth, and the `sorted` template proved they drift: it kept a
+            # hardcoded int strategy through the 2026-07-20 type-aware fix and stayed wrong
+            # for over a year of commits. One source, no exceptions.
+            "@given({strategy})\n"
             "@settings(max_examples=200, deadline=None)\n"
             "def test_invariant_non_negative(x):\n"
             "    assert {fn}(x) >= 0\n",
@@ -309,7 +328,7 @@ _PROPERTY_TEMPLATES_HYPOTHESIS = {
     ),
     "round-trip": (
         (
-            ("str", "int", "list"),
+            ("str", "int", "list", "list[tuple2]"),
             "from hypothesis import given, settings\n"
             "import hypothesis.strategies as st\n"
             "\n"
@@ -326,14 +345,14 @@ _PROPERTY_TEMPLATES_HYPOTHESIS = {
 # Static fallback templates (used when Hypothesis is not installed)
 _PROPERTY_TEMPLATES_STATIC = {
     "idempotent": (
-        ("str", "int", "list"),
+        ("str", "int", "list", "list[tuple2]"),
         "    import random\n"
         "    for _ in range(50):\n"
         "        x = {fuzz}\n"
         "        assert {fn}({fn}(x)) == {fn}(x)\n",
     ),
     "sorted": (
-        ("list",),
+        ("list", "list[tuple2]"),
         "    import random\n"
         "    for _ in range(50):\n"
         "        xs = {fuzz}\n"
@@ -363,7 +382,26 @@ _PROPERTY_TEMPLATES = (
 
 
 def _infer_input_type(spec: Spec) -> str | None:
-    """Infer the first-argument type from the examples (e.g. rle('aaabb') -> str)."""
+    """Infer the first-argument type from the examples (e.g. rle('aaabb') -> str).
+
+    ELEMENT TYPE MATTERS, and for a while this returned bare "list" for every list.
+
+    Found live 2026-08-02 against a Radeon GPU. The idea was
+    `merge([(1,3),(2,6)]) == [(1,6)]` -- a list of PAIRS. This inferred "list", whose
+    fuzz strategy is `st.lists(st.integers(...))`, and the emitted property test called
+    `merge([1, 2, 3])`. Every correct implementation fails it. Sixteen sampled candidates
+    all failed exactly one check, and the run reported "not solved" about a task the model
+    had very likely solved.
+
+    That is the SAME slop this module already exists to prevent -- the 2026-07-20 fix
+    stopped an int-fuzzed property test being emitted for a string function -- but the
+    guard keys on the inferred type, and `list[int]` and `list[tuple[int,int]]` were the
+    same type as far as inference was concerned. A guard cannot be more precise than the
+    lattice it compares against.
+
+    Returning None for a list whose elements cannot be typed is deliberate: the caller
+    skips the property test rather than emitting one it cannot justify.
+    """
     for call, _ in spec.examples:
         m = re.search(r"\(\s*(.+?)\s*[,)]", call)
         if not m:
@@ -372,9 +410,32 @@ def _infer_input_type(spec: Spec) -> str | None:
         if arg.startswith(("'", '"')):
             return "str"
         if arg.startswith("["):
-            return "list"
+            inner = _list_element_type(call)
+            if inner is not None:
+                return inner
+            continue  # e.g. `merge([])` -- carries no element evidence; try the next example
         if re.fullmatch(r"-?\d+", arg):
             return "int"
+    return None
+
+
+def _list_element_type(call: str) -> str | None:
+    """'list' for a list of ints, 'list[tuple2]' for a list of int pairs, else None.
+
+    None means "not soundly typeable here", not "no list" -- an empty literal `[]` is a
+    real example but says nothing about elements, so it must not select a fuzzer.
+    """
+    m = re.search(r"\[(.*)\]", call, re.DOTALL)
+    if not m:
+        return None
+    body = m.group(1).strip()
+    if not body:
+        return None
+    if body.startswith("("):
+        pair = re.match(r"\(\s*-?\d+\s*,\s*-?\d+\s*\)", body)
+        return "list[tuple2]" if pair else None
+    if re.match(r"-?\d+", body):
+        return "list"
     return None
 
 

@@ -37,6 +37,8 @@ type CodingAgentInfo = {
   // renders instead of the picker vanishing.
   supportsModel?: boolean;
   supportsChatMode?: boolean;
+  /** Curated shortlist in the fast/balanced/deep vocabulary. Empty = free text is correct. */
+  models?: { tier: string; model: string; label: string }[];
 };
 
 // Cheap, free, no-model-call status (see determinex_agents.py._cheap_status).
@@ -326,9 +328,41 @@ export function AgentChatPanel({ workspacePath = "" }: Props) {
   const [planSaving, setPlanSaving] = useState(false);
   const [planResyncing, setPlanResyncing] = useState(false);
 
+  // null = still asking. `invokeSafe` resolves to null on FAILURE, and `res ?? []` collapsed
+  // that into the same empty list as a successful "no agents installed" -- so a failed or
+  // still-running lookup rendered exactly like a machine with nothing installed: a blank
+  // participant list, a Start Session button greyed out for no stated reason, and nothing
+  // anywhere saying which of the three it was. Keeping them apart is the whole fix.
+  const [agentsError, setAgentsError] = useState<string | null>(null);
+
   const refreshAgents = useCallback(async () => {
-    const res = await invokeSafe<CodingAgentInfo[]>("list_coding_agents", {});
-    setAgents([...(res ?? []), CORPUS_AGENT]);
+    setAgentsError(null);
+    setAgents(null);
+    // TIME-BOXED. `invokeSafe` rejects nothing and waits forever, so when the IPC channel
+    // itself is wedged the promise never settles and the panel sits on "Looking for agents..."
+    // indefinitely -- a spinner with no end is the same lie as a blank list, just slower to
+    // notice.
+    //
+    // 45s, not 20s: the subprocess itself takes ~0.25s, but app boot fires a dozen
+    // Python-spawning commands at once and a measured COLD `list_coding_agents` over IPC took
+    // 5.3s against 0.3s warm. A 20s box turned a slow-but-fine boot into "did not answer in
+    // time", which is a different wrong answer rather than a fix. The point of the box is to
+    // guarantee the spinner ENDS, not to be a performance assertion.
+    const res = await Promise.race([
+      invokeSafe<CodingAgentInfo[]>("list_coding_agents", {}),
+      new Promise<undefined>((resolve) => setTimeout(() => resolve(undefined), 45000)),
+    ]);
+    if (res === undefined) {
+      setAgentsError("The agent list did not answer in time.");
+      setAgents([CORPUS_AGENT]);
+      return;
+    }
+    if (res === null) {
+      setAgentsError("Could not read the list of installed agents.");
+      setAgents([CORPUS_AGENT]);
+      return;
+    }
+    setAgents([...res, CORPUS_AGENT]);
   }, []);
 
   // ── Roster status (Ryan: "I want to see everything who's online, what
@@ -738,6 +772,32 @@ export function AgentChatPanel({ workspacePath = "" }: Props) {
                   <Plus size={11} /> New Session
                 </div>
                 <div className="space-y-1.5">
+                  {/* Say WHICH empty this is. All three used to render as the same blank gap
+                      above a Start Session button that was disabled without explanation. */}
+                  {agents === null && (
+                    <div className="flex items-center gap-2 rounded-lg border border-white/8 bg-white/[0.02] px-3 py-2 text-meta text-gray-500">
+                      <Loader2 size={11} className="animate-spin" />
+                      Looking for agents installed on this computer...
+                    </div>
+                  )}
+                  {agentsError && (
+                    <div className="flex items-center justify-between gap-2 rounded-lg border border-amber-400/25 bg-amber-950/20 px-3 py-2 text-meta text-amber-200">
+                      <span>{agentsError}</span>
+                      <button
+                        type="button"
+                        onClick={() => void refreshAgents()}
+                        className="rounded-md border border-amber-400/30 px-2 py-0.5 font-bold uppercase tracking-wide hover:bg-amber-400/10"
+                      >
+                        Retry
+                      </button>
+                    </div>
+                  )}
+                  {agents !== null && !agentsError && agents.length <= 1 && (
+                    <div className="rounded-lg border border-white/8 bg-white/[0.02] px-3 py-2 text-meta leading-relaxed text-gray-500">
+                      No coding agents are installed yet. Install Claude Code, Codex, Gemini CLI
+                      or Ollama and they will appear here automatically.
+                    </div>
+                  )}
                   {(agents ?? []).map((a) => {
                     const checked = selectedParticipants.includes(a.name);
                     const c = colorFor(a.name);
@@ -815,18 +875,41 @@ export function AgentChatPanel({ workspacePath = "" }: Props) {
                                 ))}
                                 <option value={CUSTOM_MODEL_SENTINEL}>type a model name...</option>
                               </select>
+                            ) : (a.models?.length ?? 0) > 0 && !customLocalModel.has(a.name) ? (
+                              // THREE NAMED CHOICES, not a memory test. This was a free-text
+                              // box whose placeholder read "e.g. gemini-2.5-pro" -- so using a
+                              // different model required knowing that Claude has three current
+                              // models, Google four and OpenAI several, and typing one exactly.
+                              // The same three words appear for every provider so the
+                              // vocabulary is learned once and transfers. The escape to free
+                              // text stays, because a closed list cannot name a model that does
+                              // not exist yet -- Ryan: "users should be able to add future llms
+                              // that dont have access at the moment."
+                              <select
+                                value={modelOverrides[a.name] ?? ""}
+                                onChange={(e) => {
+                                  if (e.target.value === CUSTOM_MODEL_SENTINEL) {
+                                    setCustomLocalModel((prev) => new Set(prev).add(a.name));
+                                    return;
+                                  }
+                                  setModelOverride(a.name, e.target.value);
+                                }}
+                                className="w-full rounded-md border border-white/8 bg-black/30 px-2 py-1 text-meta text-gray-400 outline-none focus:border-fuchsia-400/40"
+                              >
+                                <option value="">Default — whatever {a.name} normally uses</option>
+                                {a.models?.map((m) => (
+                                  <option key={m.model} value={m.model}>
+                                    {m.label}
+                                  </option>
+                                ))}
+                                <option value={CUSTOM_MODEL_SENTINEL}>type a model name...</option>
+                              </select>
                             ) : (
                               <input
                                 type="text"
                                 value={modelOverrides[a.name] ?? ""}
                                 onChange={(e) => setModelOverride(a.name, e.target.value)}
-                                placeholder={`model override (default: ${a.name}'s own) -- e.g. ${
-                                  a.name === "claude-code"
-                                    ? "opus"
-                                    : a.name === "codex"
-                                      ? "gpt-5.5"
-                                      : "gemini-2.5-pro"
-                                }`}
+                                placeholder={`model name for ${a.name} (optional)`}
                                 className="w-full rounded-md border border-white/8 bg-black/30 px-2 py-1 font-mono text-meta text-gray-400 placeholder:text-gray-700 outline-none focus:border-fuchsia-400/40"
                               />
                             )}

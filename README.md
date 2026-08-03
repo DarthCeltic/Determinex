@@ -272,13 +272,35 @@ throughput for 1.08× the wall clock. Sampling six verified-search candidates co
 more time than sampling one, so correctness amplification is close to free on this
 hardware. Re-measure per GPU; this is a batching property, not a constant.
 
-#### Path B — AMD's free shared Model API (NOT VERIFIED)
+#### Path B — AMD's free shared Model API (VERIFIED 2026-08-02)
 
-`litellm_config.yaml` carries `amd/qwen3-35b` and `amd/deepseek-flash` pointing at AMD's
-shared Token Factory endpoint. These have **never been executed from this repo** — the
-portal requires a China-registered account. They are wired and labelled, not claimed.
-They read `AMD_FREE_API_KEY`, deliberately separate from `AMD_API_KEY`, so a
-dedicated-instance key is never transmitted to a third-party host.
+**This section previously said "NOT VERIFIED — the portal requires a China-registered
+account." That was true when written and is no longer true.** Re-tested from an ordinary
+account: `GET /models` returned **200** with five models served on AMD GPUs, and the
+endpoint is registered as a first-class provider (`amd-token-factory`, aliases `amd` /
+`radeon`) reading `AMD_TOKEN_FACTORY_KEY`.
+
+Measured live, free tier, no instance and no credits:
+
+| | |
+|---|---|
+| `MiniCPM5-1B` (portal: four Radeon PRO W7900 workers) | 200 tokens in **2.0 s** |
+| K-sweep, candidates/second | **4.51 at K=8**, still climbing |
+| Free-tier budget at time of writing | $10/day, 30 RPM |
+
+4.51 candidates/s is the **highest of any backend measured here** — above the captured
+Radeon vLLM figure of 3.52 and 25× the local 14B's 0.18. It is also a third distinct
+ceiling shape for `determinex_calibrate.py`: rate-limited, rather than KV-cache-limited
+(vLLM) or CPU-saturated (Ollama).
+
+> **Two integration defects had to be fixed before this worked, and both were ours.**
+> `Qwen3.6-35B-A3B` is a reasoning model that returns `content: null` and spends the whole
+> completion budget thinking — 199 of 200 tokens at `max_tokens=200`, and 1110 of 1200 when
+> the budget was raised. `MiniCPM5-1B` uses the other mechanism, `<think>` inline in content.
+> The provider layer ended with `return ... .content or ""`, so **every reasoning model
+> routed through a custom endpoint silently produced an empty generation** and the caller
+> recorded a *model* failure for a *harness* defect. Fixed, and guarded by
+> `tests/test_reasoning_model_output.py`.
 
 #### Path C — local Ollama on an AMD Radeon GPU (ROCm)
 
@@ -601,8 +623,16 @@ them from their maintainers.
 
 ## License
 
-GNU Affero General Public License v3.0 **or later** (`AGPL-3.0-or-later`) — see [LICENSE](LICENSE)
-and [docs/papers/LICENSING.md](docs/papers/LICENSING.md). OSI-approved open source.
+GNU Affero General Public License v3.0 **or later** (`AGPL-3.0-or-later`) — see [LICENSE](LICENSE),
+the copyright and grant notice in [NOTICE](NOTICE), and
+[docs/papers/LICENSING.md](docs/papers/LICENSING.md). OSI-approved open source.
+
+> `LICENSE` holds the AGPL-3.0 text **verbatim and nothing else**, and the copyright notice
+> lives in `NOTICE`. They used to be one file, which made GitHub's detector report
+> `NOASSERTION` and show no licence at all on the repository — it matches a whole file, so a
+> preamble in front of the licence defeats it. Splitting them changes nothing about the
+> grant: *"or (at your option) any later version"* is preserved word for word in `NOTICE`,
+> and is what makes this **-or-later** rather than **-only**.
 Fine-tuned model weights and adapters released by Ryan Gurganious are
 covered by the same license unless a model card states otherwise. Base model
 licenses apply: [Qwen2.5](https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B),

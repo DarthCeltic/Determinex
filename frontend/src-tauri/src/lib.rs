@@ -205,6 +205,11 @@ pub fn run() {
             ipc_hive::generate_spec,
             ipc_hive::refine_spec,
             ipc_hive::discover_idea,
+            ipc_hive::assess_idea_context,
+            ipc_hive::provider_setup_report,
+            ipc_hive::provider_setup_verify,
+            ipc_hive::user_profile_get,
+            ipc_hive::user_profile_set,
             ipc_hive::converse_idea,
             ipc_hive::explore_workspace,
             ipc_hive::diagnose_workspace,
@@ -472,7 +477,7 @@ pub fn run() {
                     })
             };
 
-            app.manage(fs::WorkspaceRoot(workspace_root));
+            app.manage(fs::WorkspaceRoot::new(workspace_root));
 
             // ── Orchestrator ──────────────────────────────────────────────────────
             // Spawned here (inside setup) so the actor has a valid AppHandle from

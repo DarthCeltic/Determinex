@@ -864,6 +864,36 @@ export async function converseIdea(payload: {
   );
 }
 
+// assess_idea_context: do we know enough to build this yet?
+//
+// Answered by whether a SOUND ORACLE can be synthesized from the answers so far, using the
+// same synthesizer that later builds it -- so the interview's notion of "enough" cannot
+// drift from the verifier's. This is what lets the Concept Lab keep asking past the old
+// fixed 4-question bank instead of writing a spec from whatever it happened to have.
+export type IdeaContextAssessment = {
+  sufficient: boolean;
+  satisfied: string[];
+  missing: string[];
+  questions: string[];
+  rationale: string;
+  stalled: boolean;
+  oracle_would_be_vacuous: boolean;
+};
+
+export async function assessIdeaContext(payload: {
+  idea: string;
+  answers: string[];
+  asked: string[];
+  previous_satisfied?: string[];
+}): Promise<{ ok: boolean; data?: IdeaContextAssessment; error?: string }> {
+  return (
+    (await invokeSafe<{ ok: boolean; data?: IdeaContextAssessment; error?: string }>(
+      "assess_idea_context",
+      { payload }
+    )) ?? { ok: false, error: "Tauri runtime not available" }
+  );
+}
+
 // generate_spec: build a Markdown spec from the ideation context
 type GenerateSpecResult = { ok: boolean; data?: { spec: string }; error?: string };
 export async function generateSpec(

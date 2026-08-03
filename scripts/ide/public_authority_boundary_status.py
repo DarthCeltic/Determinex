@@ -259,10 +259,28 @@ def load(
             f"release_supported (combined) cells={cells} families={families}",
         )
 
-    # Preserved-true flags must be True everywhere.
+    # Preserved-true flags must be True everywhere -- and PRESENT.
+    #
+    # This read `if k in ab and ab[k] is not True`, i.e. the flags in a tuple named
+    # _REQUIRED_PRESERVED_TRUE_FLAGS were only checked when they happened to be there. An
+    # absent flag passed the gate and was then reported as True by the `.get(k, True)`
+    # defaults further down, so this surface -- whose entire purpose is to prevent
+    # overclaiming -- would assert that an invariant held on evidence that never mentioned
+    # it. Compare `universal_support_claimed` a few lines below, which uses `is not False`
+    # and correctly blocks on absence: the right idiom was already in this function, applied
+    # inconsistently.
+    #
+    # Verified safe before changing: both current evidence blobs carry all 6 flags, so this
+    # tightens the gate without moving it.
     for src, ab in (("flagship", flagship_ab), ("export", export_ab)):
         for k in _REQUIRED_PRESERVED_TRUE_FLAGS:
-            if k in ab and ab[k] is not True:
+            if k not in ab:
+                return _block(
+                    _token("BLOCKED_AUTHORITY_CONFUSION"),
+                    f"{src}.authority_boundary.{k} is absent; a required preserved-true "
+                    f"flag cannot be assumed",
+                )
+            if ab[k] is not True:
                 return _block(
                     _token("BLOCKED_AUTHORITY_CONFUSION"),
                     f"{src}.authority_boundary.{k} must be True (got {ab[k]!r})",
@@ -303,22 +321,23 @@ def load(
         benchmark_execution_authorized=False,
         programbench_execution_authorized=False,
         release_deploy_workflow_created=False,
-        release_support_unchanged_at_zero=bool(
-            flagship_ab.get("release_support_unchanged_at_zero", True)
-        ),
-        broad_claims_remain_false=bool(flagship_ab.get("broad_claims_remain_false", True)),
+        # Indexed, not `.get(..., True)`. The loop above now requires every one of these
+        # keys to be PRESENT and True, so the old defaults were unreachable -- and while
+        # they were reachable they were the actual defect: an absent flag skipped the check
+        # and was then reported here as though the evidence had asserted it. Leaving a dead
+        # default in place would keep the wrong behaviour one deleted guard away.
+        release_support_unchanged_at_zero=bool(flagship_ab["release_support_unchanged_at_zero"]),
+        broad_claims_remain_false=bool(flagship_ab["broad_claims_remain_false"]),
         proof_execution_authority_remains_false=bool(
-            flagship_ab.get("proof_execution_authority_remains_false", True)
+            flagship_ab["proof_execution_authority_remains_false"]
         ),
         source_mutation_remains_unauthorized=bool(
-            flagship_ab.get("source_mutation_remains_unauthorized", True)
+            flagship_ab["source_mutation_remains_unauthorized"]
         ),
         real_user_source_mutation_remains_unauthorized=bool(
-            flagship_ab.get("real_user_source_mutation_remains_unauthorized", True)
+            flagship_ab["real_user_source_mutation_remains_unauthorized"]
         ),
-        training_eligibility_remains_false=bool(
-            flagship_ab.get("training_eligibility_remains_false", True)
-        ),
+        training_eligibility_remains_false=bool(flagship_ab["training_eligibility_remains_false"]),
         universal_support_claimed=False,
         proof_report_export_is_release_readiness=False,
         report_schema_is_runtime_execution_proof=False,

@@ -631,11 +631,32 @@ export default function DeterminexIDE() {
 
   useEffect(() => {
     if (!explorerRoot) return;
-    getFileSystemTree(explorerRoot)
-      .then((res) => {
-        if (res && res.tree) setFileTree(res.tree);
-      })
-      .catch((err) => showError(`Could not load file tree: ${err}`));
+    let cancelled = false;
+    // Announce the project BEFORE reading it. `set_project_root` is what grants the file
+    // browser access to a project outside the base boundary -- on Windows that boundary is the
+    // system drive, so a project on any other drive is refused until this call lands. These
+    // were two independent effects with no ordering between them, so the tree read raced the
+    // grant and lost about as often as it won; the visible symptom was an empty explorer and
+    // "outside workspace boundary 'C:\'" that came back on reload but not on a re-render.
+    (async () => {
+      if (isTauri()) {
+        try {
+          await invoke("set_project_root", { path: explorerRoot });
+        } catch (err) {
+          console.error("set_project_root failed; the file tree may be refused:", err);
+        }
+      }
+      if (cancelled) return;
+      try {
+        const res = await getFileSystemTree(explorerRoot);
+        if (!cancelled && res && res.tree) setFileTree(res.tree);
+      } catch (err) {
+        if (!cancelled) showError(`Could not load file tree: ${err}`);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [explorerRoot]);
 
   useEffect(() => {
@@ -644,19 +665,17 @@ export default function DeterminexIDE() {
       setExplorerGitFiles([]);
       return;
     }
-    // Tell the backend which project is open. This is load-bearing, not bookkeeping: credential
-    // reads in env_manager are scoped to THIS root rather than to WorkspaceRoot, which is the file
-    // browser's root and is the system drive so the picker can reach a project anywhere. Without
-    // this call the Env Manager panel correctly refuses to read anything, because "no project is
-    // open" is the safe answer when the backend has not been told.
-    // Raw `invoke`, not invokeSafe: set_project_root returns Result<(), _>, so it resolves
-    // to null on SUCCESS -- and invokeSafe resolves to null on FAILURE. The two are
-    // indistinguishable, which made the catch below unreachable and the failure silent.
-    // Non-fatal for the rest of the page, but a real failure has to be visible somewhere:
-    // the Env Manager refusing to read credentials is the symptom, and this call is the cause.
-    invoke("set_project_root", { path: explorerRoot }).catch((err) => {
-      console.error("set_project_root failed; Env Manager will refuse credentials:", err);
-    });
+    // `set_project_root` used to be called here too. It now lives in the file-tree effect
+    // above, which must AWAIT it -- the call both scopes credential reads (env_manager) and
+    // grants the file browser access to a project outside the base boundary, so the tree read
+    // has to happen after it, and two independent effects gave no such ordering.
+    //
+    // Raw `invoke` there, not invokeSafe: set_project_root returns Result<(), _>, so it
+    // resolves to null on SUCCESS -- and invokeSafe resolves to null on FAILURE. The two are
+    // indistinguishable, which made the catch unreachable and the failure silent. Guarded on
+    // isTauri because the raw `invoke` reads `window.__TAURI_INTERNALS__`, absent in the
+    // browser preview, where there is no Env Manager to refuse anything and the alarming
+    // message was pure noise. Crying wolf is how a genuine occurrence gets ignored.
 
     // Probe model coverage alongside the git read. A failure resolves to an explicit "unknown"
     // rather than being left undefined, so the difference between "not checked yet" and "checked,
@@ -2182,8 +2201,19 @@ export default function DeterminexIDE() {
       <SkinBackdrop />
 
       <div className="flex h-full w-full gap-4 relative z-10 pt-1">
+        {/* The document's only heading. Visually hidden -- this shell is a workbench, not a
+            titled page -- but a screen reader arriving here previously found no h1 and no
+            landmarks of any kind, so there was nothing to orient against.
+
+            Found 2026-08-02 by attaching to the RUNNING app over CDP and asking the DOM:
+            nav/main/h1/header/aside all returned 0. Nothing caught it because
+            playwright-tests/shell.spec.ts asserts every control has an accessible NAME --
+            which passes -- and no test asserted the page has STRUCTURE. */}
+        <h1 className="sr-only">Determinex — proof-governed code workbench</h1>
         {/* Activity Bar */}
         <div
+          role="navigation"
+          aria-label="Primary"
           className="flex h-full w-[72px] shrink-0 flex-col items-center border-r pt-6 pb-4 backdrop-blur-3xl z-50 transition-all duration-500 ease-out"
           style={{
             background:
@@ -2355,6 +2385,13 @@ export default function DeterminexIDE() {
             )}
           </div>
         </div>
+        {/* Everything that is not the rail is the main content region. `display:
+            contents` makes this wrapper layout-neutral -- the flex row still lays out
+            its children exactly as before -- while giving assistive technology the
+            landmark it needs. The page previously rendered NO landmarks at all (found
+            2026-08-02 by driving the running app over CDP), so a screen-reader user
+            could not skip the navigation or jump to content. */}
+        <main className="contents">
 
         {/* The nine-group drawer. Sits beside the rail, in-flow -- not a portal
             and not a floating overlay, so it can never cover another surface
@@ -3828,6 +3865,7 @@ export default function DeterminexIDE() {
             </motion.div>
           )}
         </AnimatePresence>
+        </main>
       </div>
 
       {/* Free-floating addon window -- lives OUTSIDE the rail/Zone1/Zone2 flex

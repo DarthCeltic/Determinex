@@ -17,7 +17,9 @@
     "format-check": "prettier --check .",
     "generate:sbom": "cyclonedx-npm --ignore-npm-errors --output-format JSON --output-file ../assurance/sbom/determinex-npm.cyclonedx.json",
     "test:e2e": "playwright test",
-    "knip": "knip"
+    "knip": "knip",
+    "probe:live": "node scripts/ui_drive_probe.mjs",
+    "probe:live:json": "node scripts/ui_drive_probe.mjs --json ui-probe-report.json"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",

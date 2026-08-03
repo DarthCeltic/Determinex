@@ -56,6 +56,23 @@ pub struct CodingAgentInfo {
     pub supports_model: bool,
     #[serde(default)]
     pub supports_chat_mode: bool,
+    /// Curated model shortlist for this CLI, in the fast/balanced/deep vocabulary. Empty means
+    /// no shortlist, and the panel falls back to free text. These are the CLI's OWN model
+    /// strings, not LiteLLM ids -- `gemini --model gemini/gemini-3-pro-preview` would fail.
+    #[serde(default)]
+    pub models: Vec<CodingAgentModel>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+pub struct CodingAgentModel {
+    /// fast | balanced | deep — the same three words for every provider, so the user learns
+    /// the vocabulary once and it transfers.
+    pub tier: String,
+    /// The exact string this agent's --model flag accepts.
+    pub model: String,
+    /// What to show a human. Never the raw model string alone.
+    pub label: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]

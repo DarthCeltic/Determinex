@@ -344,17 +344,51 @@ def converse(idea: str, messages: list, user_message: str, attachments: list = N
     # Count how many times the user has already replied (user turns in history, excluding the current one)
     user_turn_count = sum(1 for m in messages if m.get("role") == "user")
 
-    # Hard turn limit — force ready_to_spec after 2 user replies regardless of model
-    # The 3B model reliably loops on the 3rd exchange; cut it off here
-    if user_turn_count >= 2:
-        # Summarize what we know from the conversation
-        history_summary = " | ".join(
-            m.get("text", "")[:80] for m in messages if m.get("role") == "user"
-        )
+    # READINESS IS MEASURED, NOT COUNTED.
+    #
+    # This used to be `if user_turn_count >= 2: ready_to_spec = True`, commented "The 3B
+    # model reliably loops on the 3rd exchange; cut it off here." That diagnosis was right
+    # and the remedy traded the user's spec for the model's stamina: two answers to a
+    # five-answer problem produced a confident build of the wrong thing, and the compiler
+    # oracle certified it, because compiling is not the same as being what was asked for.
+    #
+    # `idea_context.assess_round` asks the question that actually matters -- can a SOUND
+    # ORACLE be synthesized from what we have been told? -- using the same synthesizer that
+    # will later build it, so the interview's notion of "enough" cannot drift from the
+    # verifier's. The loop the cap was protecting against is handled directly: follow-ups
+    # come from a deterministic checklist of what is ABSENT, so a question can only be asked
+    # while the thing it asks for is genuinely missing, and a round that establishes nothing
+    # new is reported as `stalled` rather than rephrased.
+    from idea_context import assess_round
+
+    answers = [m.get("text", "") for m in messages if m.get("role") == "user"]
+    answers.append(user_message)
+    asked = [m.get("text", "") for m in messages if m.get("role") != "user"]
+    assessment = assess_round(idea, answers, asked)
+
+    if assessment.sufficient or assessment.stalled:
+        history_summary = " | ".join(a[:80] for a in answers if a)
+        if assessment.sufficient:
+            response = f"Got it — I have enough to write your spec ({assessment.rationale})."
+        else:
+            # Stalled: say so plainly and hand the choice back. Grinding through rephrased
+            # questions is what made a hard cap look reasonable in the first place.
+            still = ", ".join(assessment.missing[:3])
+            response = (
+                "We're going in circles — the last round didn't add anything new. "
+                f"I can still write the spec, but I don't have: {still}. "
+                "Add any of that and I'll fold it in, or say 'go' and I'll build with what we have."
+            )
         return {
-            "response": "Got it — I have enough to write your spec.",
+            "response": response,
             "ready_to_spec": True,
-            "spec_summary": f"Idea: {idea[:200]}. User clarifications: {history_summary}. Latest: {user_message[:200]}.",
+            "context_sufficient": assessment.sufficient,
+            "context_missing": assessment.missing,
+            "context_rationale": assessment.rationale,
+            "spec_summary": (
+                f"Idea: {idea[:200]}. User clarifications: {history_summary}. "
+                f"Latest: {user_message[:200]}."
+            ),
         }
 
     # Format conversation history for the model

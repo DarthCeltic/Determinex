@@ -110,6 +110,54 @@ type SetupStep =
   | "ready"
   | "error";
 
+/** One row of `determinex_provider_setup.build_report()`. */
+type SetupOption = {
+  id: string;
+  title: string;
+  what_it_means: string;
+  effort: number;
+  effort_label: string;
+  ready: boolean;
+  action_label: string;
+  action: string;
+  url: string;
+  detail: string;
+  private: boolean;
+  /** verified | credentials_unverified | provider_refused | quota_exhausted | no_credentials | not_installed */
+  readiness: string;
+  signin: boolean;
+  /** "start_here" (never needs a key) vs "advanced" (bring your own key). */
+  group: string;
+  /** Names the sign-in option that already covers this vendor, if any. */
+  covered_by: string;
+};
+
+type ProviderSetupReport = {
+  options: SetupOption[];
+  ready_count: number;
+  recommended: SetupOption | null;
+  headline: string;
+};
+
+type ReaderPrescreen = {
+  question: string;
+  note: string;
+  needed: boolean;
+  /** technical | mixed | prose — how much detail this user asked to be shown. */
+  level: string;
+  choices: { id: string; label: string; blurb: string; recommended?: boolean }[];
+};
+
+/** The colour of a readiness state. `ready` is earned by a live call, never by a saved key. */
+const READINESS_TONE: Record<string, string> = {
+  verified: "border-emerald-500/40 bg-emerald-500/10",
+  credentials_unverified: "border-amber-500/30 bg-amber-500/5",
+  provider_refused: "border-rose-500/30 bg-rose-500/5",
+  quota_exhausted: "border-rose-500/30 bg-rose-500/5",
+  no_credentials: "border-slate-700/50 bg-slate-800/40",
+  not_installed: "border-slate-700/50 bg-slate-800/40",
+};
+
 interface HardwareProbe {
   total_vram_mb?: number | null;
   vram_budget_mb: number;
@@ -128,6 +176,13 @@ type SetupApiKeys = {
   mistral_key: string;
   kimi_key: string;
 };
+
+/** Peel the `{ok, data, error}` envelope the Rust onboarding commands return. */
+function unwrap<T>(res: unknown): T | null {
+  const env = res as { ok?: boolean; data?: T } | null;
+  if (env && typeof env === "object" && "ok" in env) return env.ok ? (env.data ?? null) : null;
+  return (res as T) ?? null;
+}
 
 export function SetupWizard() {
   const [step, setStep] = useState<SetupStep>("checking");
@@ -153,6 +208,17 @@ export function SetupWizard() {
   // null = not probed yet. Drives the OpenRouter card, which previously asserted the key was
   // already present without ever looking.
   const [openRouterKeyPresent, setOpenRouterKeyPresent] = useState<boolean | null>(null);
+  // What already works on this machine, so step 2 can lead with one action instead of seven
+  // blank password fields. Null while unknown -- and "unknown" renders as a probe, never as
+  // "you have nothing", which is the mistake that told a user with 38 local models to
+  // download another gigabyte.
+  const [setupReport, setSetupReport] = useState<ProviderSetupReport | null>(null);
+  const [verifying, setVerifying] = useState<string | null>(null);
+  const [verifyResult, setVerifyResult] = useState<Record<string, { ok: boolean; detail: string }>>(
+    {}
+  );
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [prescreen, setPrescreen] = useState<ReaderPrescreen | null>(null);
   const [apiKeys, setApiKeys] = useState<SetupApiKeys>({
     openai_key: "",
     anthropic_key: "",
@@ -164,6 +230,43 @@ export function SetupWizard() {
   });
 
   const isNative = isTauri();
+
+  const refreshSetupReport = useCallback(() => {
+    invoke("provider_setup_report")
+      .then((res) => setSetupReport(unwrap<ProviderSetupReport>(res)))
+      .catch(() => setSetupReport(null));
+  }, []);
+
+  /** Make one real call. A green check that never called anything is the bug, not the goal. */
+  const runVerify = useCallback(async (id: string) => {
+    setVerifying(id);
+    try {
+      const res = unwrap<{ ok: boolean; detail: string }>(
+        await invoke("provider_setup_verify", { payload: { id } })
+      );
+      setVerifyResult((prev) => ({
+        ...prev,
+        [id]: res ?? { ok: false, detail: "the check could not run" },
+      }));
+      if (res?.ok) refreshSetupReport();
+    } catch (err) {
+      setVerifyResult((prev) => ({ ...prev, [id]: { ok: false, detail: String(err) } }));
+    } finally {
+      setVerifying(null);
+    }
+  }, [refreshSetupReport]);
+
+  const chooseReaderLevel = useCallback(async (level: string) => {
+    // Record it, then get out of the way. A first-run screen that stalls on its own bookkeeping
+    // is the barrier this whole screen exists to remove, so a failed write is not fatal --
+    // the profile simply stays at the middle setting and the question comes back next time.
+    setPrescreen((prev) => (prev ? { ...prev, needed: false, level } : prev));
+    try {
+      await invoke("user_profile_set", { payload: { level } });
+    } catch (err) {
+      console.warn("[SetupWizard] could not save reader level:", err);
+    }
+  }, []);
 
   const beginSetupProbe = useCallback(() => {
     setCompleted(false);
@@ -198,13 +301,26 @@ export function SetupWizard() {
         setStep("welcome");
       });
 
+    // Ask how to talk to this person BEFORE saying anything substantial to them. The answer
+    // only changes wording and density, never capability, so a failed probe is not an error --
+    // it just means we never ask and everyone gets the middle setting.
+    //
+    // Deliberately NOT a step: this probe and the hardware probe race, and whichever resolved
+    // last would have won `setStep`. It is a gate rendered in front of whatever step is
+    // current, so the ordering cannot matter.
+    invoke("user_profile_get")
+      .then((res) => setPrescreen(unwrap<ReaderPrescreen>(res)))
+      .catch(() => setPrescreen(null));
+
+    refreshSetupReport();
+
     // Toolchain visibility is best-effort and never blocks setup -- a slow/failed probe just
     // means the card below shows nothing rather than failing the whole wizard over what is an
     // optional convenience, not a requirement to use Determinex at all.
     invoke("list_toolchains")
       .then((res) => setToolchains(res as Record<string, boolean>))
       .catch(() => setToolchains(null));
-  }, []);
+  }, [refreshSetupReport]);
 
   const installToolchain = useCallback(async (language: string) => {
     setInstallingToolchain(language);
@@ -391,6 +507,49 @@ export function SetupWizard() {
           </div>
         </div>
 
+        {/* THE PRESCREEN, IN FRONT OF EVERYTHING.
+            Ryan, 2026-08-03: "add a prescreen asking level of expertise for the user and just
+            explain that you can be more technical, middle tech (mix) or no tech but better on
+            prose, and lets drive the user session that way."
+            It gates rather than being a step because it and the hardware probe resolve in a
+            race, and a step would have been won by whichever finished last. It changes wording
+            and density only -- never what the tool can do -- and it is asked exactly once. */}
+        {prescreen?.needed ? (
+          <motion.div
+            key="prescreen"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col gap-5"
+          >
+            <div>
+              <h2 className="text-lg font-semibold text-slate-200">{prescreen.question}</h2>
+              <p className="mt-1 text-sm text-slate-400">{prescreen.note}</p>
+            </div>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              {prescreen.choices.map((choice) => (
+                <button
+                  key={choice.id}
+                  onClick={() => chooseReaderLevel(choice.id)}
+                  className={`relative flex flex-col items-start rounded-xl border p-5 text-left transition-all ${
+                    choice.recommended
+                      ? "border-indigo-500/60 bg-indigo-900/40 hover:border-indigo-400 hover:bg-indigo-900/60"
+                      : "border-slate-700/50 bg-slate-800/40 hover:border-indigo-500/50 hover:bg-slate-800/80"
+                  }`}
+                >
+                  {choice.recommended && (
+                    <div className="absolute -top-3 left-4 rounded-full bg-indigo-500 px-2 py-1 text-eyebrow font-bold uppercase tracking-wider text-white shadow-lg">
+                      Recommended
+                    </div>
+                  )}
+                  <span className="mt-1 font-semibold text-white">{choice.label}</span>
+                  <span className="mt-2 text-xs leading-relaxed text-slate-400">
+                    {choice.blurb}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        ) : (
         <AnimatePresence mode="wait">
           {step === "probing" && (
             <motion.div
@@ -512,59 +671,195 @@ export function SetupWizard() {
               className="flex flex-col gap-6"
             >
               <div>
-                <h2 className="text-lg font-semibold text-slate-200">
-                  Step 2: API Keys & Model Providers
-                </h2>
+                <h2 className="text-lg font-semibold text-slate-200">Step 2: Choose your AI</h2>
                 <p className="text-sm text-slate-400 mt-1">
-                  Add cloud provider keys now, or leave them blank for local-only setup. Keys are
-                  stored by the native Config Vault and can be changed later.
+                  {setupReport
+                    ? setupReport.headline
+                    : "Checking what already works on this computer..."}
                 </p>
               </div>
 
-              {/* OpenRouter free tier.
-                  This card used to render "OpenRouter Free Tier — Already Configured ✓" and
-                  "Your OPENROUTER_API_KEY is already in .env" UNCONDITIONALLY, with no key check
-                  of any kind, on step 2 of first-run setup. For anyone installing Determinex that
-                  is simply false twice over: they have entered no key, and neither .env nor
-                  litellm_config.yaml ships in the installer -- both are repository files. It is
-                  the same defect class as the "Registering Determinex model swarm" claim one
-                  screen later, and it is now driven by get_api_key_status. */}
-              {openRouterKeyPresent === true ? (
-                <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 flex gap-3">
-                  <Zap className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-semibold text-green-200 mb-1">
-                      OpenRouter key configured ✓
-                    </p>
-                    <p className="text-xs text-green-300/80 leading-relaxed">
-                      This unlocks OpenRouter&apos;s <strong>free tier</strong> at zero cost —
-                      including Qwen3 Coder 480B (1M context), NVIDIA Nemotron Ultra 550B, and Llama
-                      3.3 70B. No credit card required.
-                    </p>
-                  </div>
+              {/* WHAT ALREADY WORKS, FIRST.
+                  This step used to be seven blank password fields in alphabetical order, with
+                  no check of any kind -- so a machine with a Claude subscription, a ChatGPT
+                  subscription and 38 local models opened on "paste an API key". Ryan:
+                  "I'm giving the world a magic box. The magic believers will try it and
+                  something simple shouldn't fuck it up for them."
+                  The order below is by what the user must UNDERSTAND, not by model quality:
+                  already working > runs on this computer > sign in to an app you have > key. */}
+              {setupReport === null ? (
+                <div className="flex items-center gap-3 rounded-xl border border-slate-700/50 bg-slate-800/40 p-4 text-sm text-slate-400">
+                  <Loader2 className="w-4 h-4 animate-spin text-indigo-400" />
+                  Looking for AI you can already use...
                 </div>
               ) : (
-                <div className="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4 flex gap-3">
-                  <Zap className="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-semibold text-slate-200 mb-1">
-                      OpenRouter free tier — optional, and free
-                    </p>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      Adding an OpenRouter key below unlocks a set of <strong>free models</strong>{" "}
-                      at zero cost, including Qwen3 Coder 480B (1M context) and Llama 3.3 70B. No
-                      credit card required. Determinex runs entirely on local models without it —
-                      this only adds cloud options.
-                    </p>
-                  </div>
+                <div className="flex flex-col gap-3">
+                  {setupReport.options
+                    .filter((o) => o.group === "start_here")
+                    .map((option) => {
+                      const result = verifyResult[option.id];
+                      const tone =
+                        READINESS_TONE[option.readiness] ?? "border-slate-700/50 bg-slate-800/40";
+                      return (
+                        <div key={option.id} className={`rounded-xl border p-4 ${tone}`}>
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="min-w-0">
+                              <p className="flex items-center gap-2 text-sm font-semibold text-white">
+                                {option.ready ? (
+                                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                                ) : option.private ? (
+                                  <HardDrive className="w-4 h-4 text-emerald-400 shrink-0" />
+                                ) : (
+                                  <Cloud className="w-4 h-4 text-indigo-400 shrink-0" />
+                                )}
+                                {option.title}
+                                {option.private && (
+                                  <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-eyebrow font-bold uppercase tracking-wider text-emerald-300">
+                                    Stays on this computer
+                                  </span>
+                                )}
+                              </p>
+                              <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                                {option.what_it_means}
+                              </p>
+                              {option.detail && prescreen?.level !== "prose" && (
+                                <p className="mt-1 truncate text-xs text-slate-500">
+                                  {option.detail}
+                                </p>
+                              )}
+                            </div>
+                            <div className="shrink-0">
+                              {option.ready ? (
+                                <span
+                                  data-testid="provider-ready"
+                                  className="flex items-center gap-1.5 rounded-lg bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-300"
+                                >
+                                  <Check className="w-3.5 h-3.5" /> Ready
+                                </span>
+                              ) : option.action === "verify" ? (
+                                <button
+                                  onClick={() => runVerify(option.id)}
+                                  disabled={verifying === option.id}
+                                  className="flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+                                >
+                                  {verifying === option.id ? (
+                                    <>
+                                      <Loader2 className="w-3.5 h-3.5 animate-spin" /> Testing
+                                    </>
+                                  ) : (
+                                    "Test it"
+                                  )}
+                                </button>
+                              ) : option.url ? (
+                                <a
+                                  href={option.url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-indigo-500"
+                                >
+                                  {option.action_label} <ExternalLink className="w-3 h-3" />
+                                </a>
+                              ) : (
+                                <span className="rounded-lg bg-slate-700/50 px-3 py-1.5 text-xs font-medium text-slate-300">
+                                  {option.action_label}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          {/* The result of a REAL call -- including the real reason it refused.
+                              Google spent a week telling users three different wrong stories
+                              about one working key; whatever the provider actually said goes
+                              here, verbatim. */}
+                          {result && (
+                            <p
+                              className={`mt-3 flex items-start gap-2 rounded-lg px-3 py-2 text-xs leading-relaxed ${
+                                result.ok
+                                  ? "bg-emerald-500/10 text-emerald-200"
+                                  : "bg-rose-500/10 text-rose-200"
+                              }`}
+                            >
+                              {result.ok ? (
+                                <Check className="mt-0.5 w-3.5 h-3.5 shrink-0" />
+                              ) : (
+                                <AlertTriangle className="mt-0.5 w-3.5 h-3.5 shrink-0" />
+                              )}
+                              <span>
+                                {result.ok ? "It works — that was a real call." : result.detail}
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })}
                 </div>
               )}
 
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
-                  Optional: Add Paid Provider Keys
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <p className="text-xs leading-relaxed text-slate-500">
+                You can change any of this later, and you don&apos;t need more than one.
+              </p>
+
+
+              {/* TIER 3, COLLAPSED. A first-time user should reach a working system without
+                  ever meeting an API key. It is still here, in full, for the people who want
+                  it -- hiding a capability would be a different kind of barrier. */}
+              <button
+                onClick={() => setShowAdvanced((v) => !v)}
+                className="flex items-center gap-2 self-start text-xs font-semibold uppercase tracking-wider text-slate-500 transition-colors hover:text-slate-300"
+              >
+                <KeyRound className="w-3.5 h-3.5" />
+                {showAdvanced ? "Hide" : "I already have an API key"}
+              </button>
+
+              {showAdvanced && (
+                <div>
+                  {/* The OpenRouter free-tier card lives HERE, not at the top of the step.
+                      It used to be the first thing on the screen and its own copy said
+                      "adding an OpenRouter key below" while no key field was visible at all --
+                      it is a paragraph about a key, so it belongs with the keys. It also used
+                      to render "Already Configured ✓" unconditionally, with no key check of
+                      any kind, which is why it is now driven by get_api_key_status. */}
+                  {openRouterKeyPresent === true ? (
+                    <div className="mb-3 flex gap-3 rounded-xl border border-green-500/30 bg-green-500/10 p-4">
+                      <Zap className="mt-0.5 w-5 h-5 flex-shrink-0 text-green-400" />
+                      <div>
+                        <p className="mb-1 text-sm font-semibold text-green-200">
+                          OpenRouter key configured ✓
+                        </p>
+                        <p className="text-xs leading-relaxed text-green-300/80">
+                          This unlocks OpenRouter&apos;s <strong>free tier</strong> at zero cost
+                          — including Qwen3 Coder 480B (1M context) and Llama 3.3 70B. No credit
+                          card required.
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mb-3 flex gap-3 rounded-xl border border-slate-700/50 bg-slate-800/40 p-4">
+                      <Zap className="mt-0.5 w-5 h-5 flex-shrink-0 text-slate-400" />
+                      <div>
+                        <p className="mb-1 text-sm font-semibold text-slate-200">
+                          OpenRouter — one key, many models, several of them free
+                        </p>
+                        <p className="text-xs leading-relaxed text-slate-400">
+                          An OpenRouter key unlocks a set of <strong>free models</strong> at zero
+                          cost, including Qwen3 Coder 480B (1M context) and Llama 3.3 70B. No
+                          credit card required. Determinex runs entirely on local models without
+                          it — this only adds cloud options.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  {setupReport?.options
+                    .filter((o) => o.group === "advanced" && o.covered_by)
+                    .map((o) => (
+                      <p
+                        key={o.id}
+                        className="mb-3 rounded-lg border border-slate-700/50 bg-slate-800/40 px-3 py-2 text-xs leading-relaxed text-slate-400"
+                      >
+                        <strong className="text-slate-300">{o.title}:</strong>{" "}
+                        {o.what_it_means}
+                      </p>
+                    ))}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {[
                     ["anthropic_key", "Anthropic / Claude"],
                     ["openai_key", "OpenAI / ChatGPT"],
@@ -609,14 +904,9 @@ export function SetupWizard() {
                       />
                     </label>
                   ))}
+                  </div>
                 </div>
-              </div>
-
-              <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-sm leading-relaxed text-emerald-100/80">
-                <strong>Local</strong> means Ollama models run on this machine.{" "}
-                <strong>Cloaked</strong> means cloud calls are allowed only through privacy gates
-                that obfuscate identifiers and keep workspace boundaries explicit.
-              </div>
+              )}
 
               <div className="flex justify-end gap-3 mt-2">
                 <button
@@ -950,6 +1240,7 @@ export function SetupWizard() {
             </motion.div>
           )}
         </AnimatePresence>
+        )}
       </motion.div>
     </div>
   );

@@ -101,18 +101,36 @@ def amplify_enabled() -> bool:
     return os.environ.get("DETERMINEX_AMPLIFY", "") in ("1", "true", "yes", "on")
 
 
-def env_k(default: int = 6, *, backend: str = "", model: str = "") -> int:
+def env_k(
+    default: int = 6,
+    *,
+    backend: str = "",
+    model: str = "",
+    p: float | None = None,
+) -> int:
     """How many candidates to sample. Operator override > per-rig calibration > default.
 
     K is not a performance setting here -- `P = 1 - (1 - p)^K`, so it is the rate at which
-    correctness accrues, and the right value is a property of the machine. A single constant
-    is measurably wrong in both directions: on an AMD Radeon (vLLM, 7B) the measured optimum
-    is K=48 and this default wastes ~5x the available throughput; on a consumer box running
-    Ollama with a 1.5B it is K=12, and the default still leaves ~37% of the candidate rate
-    unused. See scripts/determinex_calibrate.py.
+    correctness accrues. It depends on TWO things, and for a while this function only knew
+    about one of them:
+
+      the rig   the measured wall-clock curve W(K). A single constant is wrong in both
+                directions: on an AMD Radeon (vLLM, 7B) the machine optimum is far above
+                this default; on a consumer box running Ollama with a 1.5B it is K=12.
+
+      the task  per-attempt success `p`. Measured live on a Radeon MI GPU on 2026-08-02:
+                the probe task had p = 1.00 -- the model solved it one-shot, five times out
+                of five -- and the machine-derived K was 16. Fifteen requests were burned to
+                buy nothing. Conversely a task at p = 0.005 wants K = 128 on that same GPU.
+
+    So when the caller can estimate `p`, K is re-derived from the stored curve by minimising
+    expected time to an oracle-verified solution. On the live Radeon curve that is between
+    1.9x and 11.6x faster than the machine optimum across p = 0.005 .. 1.0.
 
     Never silently guesses: an uncalibrated rig gets the conservative default AND a logged
     line saying so, mirroring the doctrine determinex_oracle enforces for a missing oracle.
+    A K chosen without `p` is logged as task-blind for the same reason -- that is precisely
+    the condition under which the 15 wasted requests looked like a healthy run.
     """
     explicit = os.environ.get("DETERMINEX_AMPLIFY_K")
     if explicit:
@@ -120,6 +138,14 @@ def env_k(default: int = 6, *, backend: str = "", model: str = "") -> int:
             return max(1, int(explicit))
         except ValueError:
             pass
+
+    if p is None:
+        env_p = os.environ.get("DETERMINEX_AMPLIFY_P")
+        if env_p:
+            try:
+                p = min(max(float(env_p), 0.0), 1.0)
+            except ValueError:
+                p = None
 
     if backend:
         try:
@@ -131,7 +157,7 @@ def env_k(default: int = 6, *, backend: str = "", model: str = "") -> int:
                 sys.path.insert(0, _s)
             from determinex_calibrate import optimal_k
 
-            k, provenance = optimal_k(backend, model, default=default)
+            k, provenance = optimal_k(backend, model, default=default, p=p)
             if not provenance.startswith("calibrated"):
                 print(f"  [amplify] K={k}: {provenance}")
             else:

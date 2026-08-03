@@ -267,8 +267,27 @@ def load(
     count_drift_actual = entry_count
     count_drift_expected = entry_count
     count_drift_stored_index = entry_count
-    pre_chain_valid = bool(pre.get("ledger_chain_valid", True))
-    pre_mutation_detected = bool(pre.get("mutation_detected", False))
+    # Integrity signals are REPORTED verbatim, never defaulted.
+    #
+    # These read `pre.get("ledger_chain_valid", True)` and `pre.get("mutation_detected",
+    # False)` -- so a checkpoint that said nothing about the hash chain was reported to the
+    # dashboard as "chain valid, no mutation detected". Both values are display-only (they
+    # feed the status object below and gate nothing), which is exactly why it mattered: the
+    # dashboard's only job is to state what the evidence says, and on absent evidence it
+    # stated the reassuring answer.
+    #
+    # Found 2026-08-02 by the same AST scan that found the authority-boundary hole. Latent,
+    # not live: the current reconciliation record carries both keys, which is what made this
+    # safe to tighten.
+    for _key in ("ledger_chain_valid", "mutation_detected"):
+        if _key not in pre:
+            return _block(
+                _token("BLOCKED_MALFORMED"),
+                f"post_claude_pre_reconciliation_checkpoint.{_key} is absent; ledger "
+                f"integrity cannot be reported from evidence that does not state it",
+            )
+    pre_chain_valid = bool(pre["ledger_chain_valid"])
+    pre_mutation_detected = bool(pre["mutation_detected"])
     pre_errors = pre.get("evidence_index_validation_errors") or []
 
     support = rec.get("support_depth_truth_preserved") or {}

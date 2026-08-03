@@ -535,7 +535,54 @@ def _load_alias_map() -> dict:
     return _alias_map
 
 
-def _resolve_model(alias: str) -> tuple[str, dict]:
+def _expand_env_refs(params: dict, *, require: bool = True) -> dict:
+    """Resolve `os.environ/VAR_NAME` values in litellm_params against the environment.
+
+    This is LiteLLM's own indirection syntax, but it is implemented by the litellm PROXY.
+    The hive calls `litellm.completion` directly with params read straight out of the YAML,
+    so before this the string was passed through verbatim and surfaced as:
+
+        InternalServerError: Hosted_vllmException - Request URL is missing an
+        'http://' or 'https://' protocol.
+
+    -- an error that says nothing about the actual cause. Found 2026-08-02 wiring a live
+    Radeon GPU in as the builder.
+
+    It matters because `litellm_config.yaml` is committed and published. An endpoint URL for
+    a cloud GPU instance is ephemeral (it changes every time the tunnel restarts) and an API
+    key is a credential; neither belongs in the repo. Without this, the only way to point a
+    role at a private endpoint is to write the endpoint into a tracked file.
+
+    An unset variable RAISES rather than silently dropping the key: dropping `api_base`
+    would send the request to whatever default the client picks -- most likely localhost --
+    and a request that quietly goes somewhere else is worse than one that fails.
+    """
+    import os
+
+    out: dict = {}
+    for key, value in params.items():
+        if isinstance(value, str) and value.startswith("os.environ/"):
+            var = value[len("os.environ/"):]
+            resolved = os.environ.get(var)
+            if not resolved:
+                if not require:
+                    # INSPECTION, not a call. Callers like `_required_ollama_models` only
+                    # want to know whether an alias resolves to an Ollama model; demanding a
+                    # cloud API key to answer that would make an offline, local-only run fail
+                    # on credentials it never intended to use. Drop the unresolved key --
+                    # the call path re-resolves with require=True and raises there.
+                    continue
+                raise RuntimeError(
+                    f"litellm_config.yaml sets {key}={value}, but ${var} is unset or empty. "
+                    f"Export it (e.g. {var}=... ) before using this alias."
+                )
+            out[key] = resolved
+        else:
+            out[key] = value
+    return out
+
+
+def _resolve_model(alias: str, *, require_env: bool = False) -> tuple[str, dict]:
     """
     Resolve alias → (real_model_string, extra_kwargs).
     Returns (alias, {}) if the alias is not in the map (treat as a native litellm model).
@@ -554,7 +601,7 @@ def _resolve_model(alias: str) -> tuple[str, dict]:
     if alias not in amap:
         return alias, {}
 
-    params = amap[alias]
+    params = _expand_env_refs(amap[alias], require=require_env)
     real_model = params["model"]
 
     # ── Cloud guard ────────────────────────────────────────────────────────
@@ -629,7 +676,10 @@ def api_call(
     import litellm
 
     if model:
-        real_model, extra = _resolve_model(model)
+        # require_env=True: this is the ONLY caller that consumes `extra` (api_base /
+        # api_key), so it is the only one for which an unresolved os.environ/ reference is
+        # fatal. Every other caller discards the extras with `_`.
+        real_model, extra = _resolve_model(model, require_env=True)
         kwargs = {**kwargs, "model": real_model, **extra}
         fn = litellm.completion
 

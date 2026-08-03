@@ -31,6 +31,7 @@ permissions = [
     "allow-agent-status-roster",
     "allow-analyze-workspace",
     "allow-apply-staged-diff",
+    "allow-assess-idea-context",
     "allow-build-idea",
     "allow-cancel-session",
     "allow-check-determinex-models",
@@ -142,6 +143,8 @@ permissions = [
     "allow-pause-session",
     "allow-preview-idea-oracle",
     "allow-probe-hardware",
+    "allow-provider-setup-report",
+    "allow-provider-setup-verify",
     "allow-pty-is-alive",
     "allow-pty-kill",
     "allow-pty-resize",
@@ -190,6 +193,8 @@ permissions = [
     "allow-sync-network-policy",
     "allow-toggle-todo",
     "allow-toggle-vanguard-telemetry",
+    "allow-user-profile-get",
+    "allow-user-profile-set",
     "allow-verify-temp-patch",
     "allow-write-file-content",
     "allow-write-spec-file",
@@ -290,6 +295,12 @@ identifier = "allow-apply-staged-diff"
 description = "Enables the apply_staged_diff command."
 [permission.commands]
 allow = ["apply_staged_diff"]
+
+[[permission]]
+identifier = "allow-assess-idea-context"
+description = "Enables the assess_idea_context command."
+[permission.commands]
+allow = ["assess_idea_context"]
 
 [[permission]]
 identifier = "allow-build-idea"
@@ -958,6 +969,18 @@ description = "Enables the probe_hardware command."
 allow = ["probe_hardware"]
 
 [[permission]]
+identifier = "allow-provider-setup-report"
+description = "Enables the provider_setup_report command."
+[permission.commands]
+allow = ["provider_setup_report"]
+
+[[permission]]
+identifier = "allow-provider-setup-verify"
+description = "Enables the provider_setup_verify command."
+[permission.commands]
+allow = ["provider_setup_verify"]
+
+[[permission]]
 identifier = "allow-pty-is-alive"
 description = "Enables the pty_is_alive command."
 [permission.commands]
@@ -1244,6 +1267,18 @@ identifier = "allow-toggle-vanguard-telemetry"
 description = "Enables the toggle_vanguard_telemetry command."
 [permission.commands]
 allow = ["toggle_vanguard_telemetry"]
+
+[[permission]]
+identifier = "allow-user-profile-get"
+description = "Enables the user_profile_get command."
+[permission.commands]
+allow = ["user_profile_get"]
+
+[[permission]]
+identifier = "allow-user-profile-set"
+description = "Enables the user_profile_set command."
+[permission.commands]
+allow = ["user_profile_set"]
 
 [[permission]]
 identifier = "allow-verify-temp-patch"

@@ -36,6 +36,28 @@ model_list:
       model: ollama/qwen2.5-coder:7b-instruct
       api_base: http://localhost:11434
 
+  # ── Remote GPU (vLLM) ────────────────────────────────────────────────────────
+  # Any vLLM endpoint: an AMD Radeon Cloud instance, a rented box, a workstation on
+  # the LAN. Pin it for one run without editing this file:
+  #
+  #   DETERMINEX_VLLM_BASE_URL=https://.../v1  DETERMINEX_VLLM_API_KEY=...  \
+  #   DETERMINEX_ROLE_BUILDER=radeon/coder7b python scripts/determinex_hive.py run-session ...
+  #
+  # Base URL and key are read from the environment, never written here: the URL of a
+  # cloud instance is ephemeral (it changes every time the tunnel restarts) and the key
+  # is a credential. A committed value would be both stale and a leak.
+  #
+  # The `hosted_vllm/` prefix is REQUIRED and is the whole model name, org included --
+  # `hosted_vllm/Qwen/Qwen2.5-Coder-7B-Instruct`, not `Qwen/...`. Passing the bare id is
+  # what LiteLLM reports as "LLM Provider NOT provided", and it is exactly what
+  # /v1/models hands you, so it is the natural thing to paste. See
+  # determinex_providers._vllm_qualify.
+  - model_name: radeon/coder7b       # measured 2026-08-02 on a live Radeon MI: ~34 candidates/s
+    litellm_params:
+      model: hosted_vllm/Qwen/Qwen2.5-Coder-7B-Instruct
+      api_base: os.environ/DETERMINEX_VLLM_BASE_URL
+      api_key: os.environ/DETERMINEX_VLLM_API_KEY
+
   # determinex/planner was offered in the IDE's role picker (aiRouting.ts) with no alias here, so
   # assigning it to a role yielded a model string litellm cannot route -- and `determinex/` is not a
   # provider it knows, so the failure is at call time, not at selection. Found 2026-07-31 by diffing

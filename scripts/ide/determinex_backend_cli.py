@@ -98,6 +98,36 @@ def main() -> int:
     if args.command in _MODEL_COMMANDS or kw.get("model_id"):
         config = _build_local_config(str(kw.get("model_id") or ""))
 
+    known = tuple(tauri_commands())
+    if args.command not in known:
+        # EXIT NON-ZERO, and say what IS available.
+        #
+        # The bridge already answers honestly -- status TAURI_COMMAND_BLOCKED_UNKNOWN -- but
+        # this CLI printed that and returned 0, so every caller that checks an exit code saw
+        # SUCCESS for a command that does not exist. Found 2026-08-02 by sweeping all 31
+        # names in backend_command_surface.py through this CLI: 24 of them are not on the
+        # bridge, and every one produced a well-formed envelope and exit 0.
+        #
+        # That gap is real and separate: this file's docstring promises "ANY frontend -- the
+        # Tauri shell, a VS Code extension, a web app, a shell script -- can call
+        # Determinex's governed backend commands the same way", and the bridge exposes 14 of
+        # 31. The Tauri desktop app reaches the rest through its own Rust commands, so the
+        # shortfall is invisible there and total for everyone else. Widening the bridge is a
+        # governance decision about which commands are safe to expose transport-agnostically;
+        # failing loudly is not, and it is what stops a caller acting on a success that
+        # never happened.
+        print(json.dumps({
+            "status": "TAURI_COMMAND_BLOCKED_UNKNOWN",
+            "payload": {},
+            "notes": [
+                f"unknown backend command {args.command!r}",
+                f"this CLI exposes {len(known)} commands: {', '.join(sorted(known))}",
+                "commands implemented in ide/backend_command_surface.py but not bridged here "
+                "are reachable only from the Tauri shell's Rust layer",
+            ],
+        }))
+        return 2
+
     try:
         res = TauriBackendBridge().call(args.command, config=config, **call_kw)
     except Exception as e:

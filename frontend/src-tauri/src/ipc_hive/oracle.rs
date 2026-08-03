@@ -4,7 +4,8 @@ use crate::win_process::HideConsoleExt;
 
 use crate::ipc_envelope::Envelope;
 use super::{
-    project_root, resolve_python_exe, ConverseIdeaPayload, DiscoverIdeaPayload,
+    project_root, resolve_python_exe, AssessIdeaContextPayload, ConverseIdeaPayload,
+    DiscoverIdeaPayload,
     GenerateSpecPayload, RefineSpecPayload,
 };
 
@@ -365,6 +366,66 @@ pub async fn discover_idea(
         return Ok(Envelope::err(err.to_string()));
     }
 
+    Ok(Envelope::ok(parsed))
+}
+
+/// Assess whether the interview has gathered enough context to build a real project.
+///
+/// Delegates to `scripts/idea_context.py`, which answers the only question that matters
+/// here: can a SOUND ORACLE be synthesized from what the user has told us? It uses the same
+/// synthesizer that later builds the oracle, so the interview's notion of "enough" cannot
+/// drift from the verifier's.
+///
+/// A failure returns an envelope the caller can act on rather than an Err: the Concept Lab
+/// treats an unavailable assessment as "proceed", because this check is an improvement to
+/// the interview and must never become a gate that traps the user.
+#[tauri::command]
+pub async fn assess_idea_context(
+    payload: AssessIdeaContextPayload,
+) -> Result<Envelope<serde_json::Value>, String> {
+    let script = project_root().join("scripts").join("idea_context.py");
+    if !script.exists() {
+        return Ok(Envelope::err("idea_context.py not found".to_string()));
+    }
+    let python = match resolve_python_exe() {
+        Ok(path) => path,
+        Err(e) => return Ok(Envelope::err(format!("python not resolvable: {}", e))),
+    };
+
+    let payload_json = serde_json::to_string(&payload)
+        .map_err(|e| format!("Failed to serialize assess payload: {}", e))?;
+
+    let mut child = Command::new(&python)
+        .hide_console()
+        .args([script.to_str().unwrap(), "--stdin"])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| format!("Failed to spawn idea_context.py: {}", e))?;
+
+    if let Some(mut stdin) = child.stdin.take() {
+        use std::io::Write;
+        stdin
+            .write_all(payload_json.as_bytes())
+            .map_err(|e| format!("Failed to write assess payload to stdin: {}", e))?;
+    }
+
+    let output = child
+        .wait_with_output()
+        .map_err(|e| format!("Failed to wait for idea_context.py: {}", e))?;
+
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Ok(Envelope::err(user_safe_process_error(
+            "Context assessment",
+            &stderr,
+        )));
+    }
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let parsed: serde_json::Value = serde_json::from_str(stdout.trim())
+        .map_err(|e| format!("Failed to parse assess output: {} — raw: {}", e, stdout.trim()))?;
     Ok(Envelope::ok(parsed))
 }
 

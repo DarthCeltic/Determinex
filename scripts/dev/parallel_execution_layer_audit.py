@@ -239,6 +239,18 @@ CLASSIFICATION_RULES: tuple[_Rule, ...] = (
         "inference. Left flagged for that owner decision rather than silently "
         "exempted.",
     ),
+    _Rule(
+        re.compile(r"^scripts/determinex_provider_setup\.py$"),
+        "LEGACY_EXEMPT_READ_ONLY",
+        "First-run setup helper. Its one execution site is `subprocess.run([exe, 'login'])` "
+        "where `exe` is `shutil.which(option_id)` for an option_id drawn from this module's "
+        "own hard-coded tuple of CLI names -- fixed argv, no shell, and no user- or "
+        "model-supplied string reaches it. The spawned CLI owns its own OAuth and opens a "
+        "browser; Determinex never handles the credential. Distinct from "
+        "`determinex_agents.py` next door, which is NEEDS_OWNER_DECISION because it "
+        "interpolates a TASK STRING into the argv -- there is no task here, only the literal "
+        "subcommand `login`.",
+    ),
     # ── Ops / infra utilities (fixed-argv, no user payload) ─────────────────
     _Rule(
         re.compile(r"^scripts/release/"),

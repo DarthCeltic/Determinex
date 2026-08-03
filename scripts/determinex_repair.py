@@ -75,6 +75,7 @@ def repair_workspace(
     opt_in: bool = False,
     k: int = 6,
     forced_language: str | None = None,
+    approved: bool = False,
 ) -> RepairResult:
     """Diagnose (always) and, with opt-in + a model, attempt an amplified fix.
 
@@ -95,6 +96,11 @@ def repair_workspace(
         notes = list(u.notes)
 
     # 1. run the real oracle
+    #
+    # Imported here rather than at module scope for the same reason `_oracle_for` is lazy:
+    # determinex_repair must stay importable on a machine with no oracle dependencies.
+    from determinex_oracle import OracleNeedsApproval, OracleTimedOut
+
     try:
         oracle = _oracle_for(lang)
         if not oracle.available():
@@ -108,7 +114,27 @@ def repair_workspace(
                 0,
                 notes=notes + [f"oracle toolchain for {lang} not installed"],
             )
-        result = oracle.verify(workspace)
+        result = oracle.verify(workspace, approved=approved)
+    except OracleNeedsApproval as e:
+        # NOT an error, and emphatically not a verdict about the repo. The oracle measured
+        # the job and is asking before spending the operator's time. Reported as its own
+        # status with the estimate attached so a frontend can prompt; folding it into
+        # "error" (as the generic handler below did) told the user their repository was
+        # broken because we declined to start.
+        return RepairResult(
+            False, lang, "needs_approval", 0, {}, {}, 0,
+            notes=notes + [
+                f"estimated {e.estimate_s / 60:.0f} min ({e.detail}); approval required",
+                str(e),
+            ],
+        )
+    except OracleTimedOut as e:
+        # We ran out of time. That is a fact about Determinex, not about the code, and it
+        # used to surface as a pytest "collection or environment error".
+        return RepairResult(
+            False, lang, "timed_out", 0, {}, {}, 0,
+            notes=notes + [f"verification exceeded {e.seconds}s; no verdict was reached", str(e)],
+        )
     except Exception as e:
         return RepairResult(
             False, lang, "error", 0, {}, {}, 0, notes=notes + [f"oracle error: {e}"]

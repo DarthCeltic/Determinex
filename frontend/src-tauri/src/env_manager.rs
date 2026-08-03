@@ -115,8 +115,18 @@ fn guard(workspace_root: &Path, target: &Path) -> Result<(), String> {
 pub struct ProjectRoot(pub std::sync::Mutex<Option<PathBuf>>);
 
 /// Record the project the user opened. Called by the frontend when the workspace changes.
+///
+/// Also grants the file browser access to it. On Windows the browse root is the SYSTEM drive,
+/// so a project on any other drive was unreadable and the explorer came up empty behind
+/// "outside workspace boundary 'C:\'". Granting happens here, and only here, because this is
+/// the one place that knows the user CHOSE this directory -- the widening is an explicit user
+/// action, not a blanket "all drives are fine".
 #[tauri::command]
-pub fn set_project_root(path: String, state: State<'_, ProjectRoot>) -> Result<(), String> {
+pub fn set_project_root(
+    path: String,
+    state: State<'_, ProjectRoot>,
+    workspace: State<'_, WorkspaceRoot>,
+) -> Result<(), String> {
     let candidate = PathBuf::from(&path);
     if !candidate.is_dir() {
         return Err(format!("not a directory: {path}"));
@@ -124,6 +134,7 @@ pub fn set_project_root(path: String, state: State<'_, ProjectRoot>) -> Result<(
     let resolved = candidate
         .canonicalize()
         .map_err(|e| format!("could not resolve {path}: {e}"))?;
+    workspace.grant(resolved.clone());
     let mut slot = state
         .0
         .lock()

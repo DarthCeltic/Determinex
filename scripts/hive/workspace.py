@@ -193,14 +193,30 @@ def sign_corpus_entry(entry: dict) -> None:
 
 
 def verify_corpus_entry(entry: dict) -> bool:
-    """#SEC-4: Verify HMAC signature on a corpus entry. Raises CorpusTamperError if invalid."""
+    """#SEC-4: Verify HMAC signature on a corpus entry. Raises CorpusTamperError if invalid.
+
+    An unavailable verifier is NOT a valid signature. This returned True when
+    `determinex_safety` could not be imported -- so on any machine where that import failed,
+    every corpus entry verified, including a tampered one. The log line said "verify
+    skipped" while the return value said "verified", and callers see return values.
+
+    Found 2026-08-02 by an AST scan for the shape `except ...: return <success>`, after the
+    same shape was found by hand in four other places that day. Signature checking is where
+    fail-open costs the most: the corpus is training data, and Layer 6 exists specifically to
+    catch tampering with signed corpus data.
+
+    Raising is correct rather than returning False: False means "this entry is forged", which
+    is also a claim we cannot support. "We could not check" is its own answer.
+    """
     try:
         from determinex_safety import verify_corpus_entry as _verify
-
-        return _verify(entry)
-    except ImportError:
-        log.warning("[SEC-4] determinex_safety unavailable — corpus entry verify skipped")
-        return True
+    except ImportError as e:
+        log.error("[SEC-4] determinex_safety unavailable — corpus entry CANNOT be verified")
+        raise RuntimeError(
+            "corpus HMAC verification is unavailable (determinex_safety could not be "
+            "imported); refusing to report an unverified entry as valid"
+        ) from e
+    return _verify(entry)
 
 
 # ── Workspace management ──────────────────────────────────────────────────────

@@ -977,3 +977,96 @@ def test_pty_sidecar_installs_and_gates(tmp_path):
     )
     ok2, _ = pty_candidate(rep)
     assert not ok2
+
+
+# ── synthesized-oracle element typing (found live on a Radeon GPU, 2026-08-02) ──────────
+
+
+def test_a_list_of_pairs_is_not_typed_as_a_list_of_ints():
+    """THE BUG. `_infer_input_type` returned bare "list" for every list literal, so an
+    interval merger taking list[tuple[int,int]] got the list-of-INTS fuzz strategy and the
+    emitted property test called merge([1, 2, 3]). Every correct implementation fails that.
+    Measured live: 16 sampled candidates all failed exactly one check and the run reported
+    'not solved' about a task the model may well have solved.
+
+    This is the same slop the 2026-07-20 fix was written for -- but a guard cannot be more
+    precise than the type lattice it compares against, and list[int] and list[tuple[int,int]]
+    were the same type as far as inference was concerned.
+    """
+    from determinex_synthesize import _infer_input_type, parse_spec
+
+    spec = parse_spec("merge([(1,3),(2,6)]) == [(1,6)]", "python")
+    assert _infer_input_type(spec) == "list[tuple2]"
+
+
+def test_a_plain_list_of_ints_is_still_a_plain_list():
+    """Negative control: refining the lattice must not reclassify what already worked."""
+    from determinex_synthesize import _infer_input_type, parse_spec
+
+    spec = parse_spec("dedupe([3,1,3]) == [1,3]", "python")
+    assert _infer_input_type(spec) == "list"
+
+
+def test_an_untypeable_element_yields_no_type_rather_than_a_wrong_one():
+    """`merge([])` is a real example that carries no element evidence, and a list of
+    strings has no strategy here. Both must return None so the caller SKIPS the property
+    test -- emitting one is precisely the slop this module exists to prevent."""
+    from determinex_synthesize import _infer_input_type, parse_spec
+
+    assert _infer_input_type(parse_spec("f([]) == []", "python")) is None
+    assert _infer_input_type(parse_spec("f(['a','b']) == ['a']", "python")) is None
+
+
+def test_the_sorted_template_uses_the_typed_strategy_not_a_hardcoded_one():
+    """The 2026-07-20 type-aware-strategy fix reached every template EXCEPT this one, which
+    kept a literal `st.lists(st.integers(-100, 100), max_size=20)`. A per-type strategy
+    table is worthless if a template ignores it, and nothing asserted the templates use it."""
+    from determinex_synthesize import _PROPERTY_TEMPLATES_HYPOTHESIS
+
+    for name, entry in _PROPERTY_TEMPLATES_HYPOTHESIS.items():
+        _types, body = entry
+        assert "st.integers(-100, 100)" not in body, (
+            f"template {name!r} hardcodes a strategy instead of using {{strategy}}"
+        )
+        if "@given(" in body:
+            assert "@given({strategy})" in body, f"template {name!r} must parameterise @given"
+
+
+def test_a_correct_interval_merger_passes_its_own_synthesized_oracle():
+    """End-to-end soundness. The oracle is only ground truth if a known-correct program
+    passes it; before the fix this failed 1 of 5 for every correct implementation, which is
+    an oracle rejecting the truth."""
+    import subprocess
+    import sys
+    import tempfile
+    from pathlib import Path
+
+    from determinex_synthesize import parse_spec, synthesize_oracle_tests
+
+    idea = (
+        "merge(intervals) takes a list of (start, end) integer tuples, drops any where "
+        "start > end, merges overlapping and touching intervals, and returns them sorted "
+        "ascending by start.\n\n"
+        "merge([(1,3),(2,6),(8,10),(15,18)]) == [(1,6),(8,10),(15,18)]\n"
+        "merge([(1,4),(4,5)]) == [(1,5)]\n"
+        "merge([(5,1),(2,3)]) == [(2,3)]\n"
+        "merge([]) == []\n"
+    )
+    code = synthesize_oracle_tests(parse_spec(idea, "python"))
+    impl = (
+        "def merge(intervals):\n"
+        "    xs = sorted((a, b) for a, b in intervals if a <= b)\n"
+        "    out = []\n"
+        "    for a, b in xs:\n"
+        "        if out and a <= out[-1][1]:\n"
+        "            out[-1] = (out[-1][0], max(out[-1][1], b))\n"
+        "        else:\n"
+        "            out.append((a, b))\n"
+        "    return out\n"
+    )
+    with tempfile.TemporaryDirectory() as d:
+        Path(d, "solution.py").write_text(impl, encoding="utf-8")
+        Path(d, "test_oracle.py").write_text(code, encoding="utf-8")
+        r = subprocess.run([sys.executable, "-m", "pytest", "-q", "test_oracle.py"],
+                           cwd=d, capture_output=True, text=True, timeout=300)
+    assert r.returncode == 0, f"a correct implementation failed its own oracle:\n{r.stdout[-1500:]}"

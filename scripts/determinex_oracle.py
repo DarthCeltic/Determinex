@@ -51,6 +51,7 @@ import os
 import re
 import shutil
 import subprocess
+import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -68,6 +69,54 @@ class OracleUnavailable(RuntimeError):
     """Raised when an oracle's toolchain is not installed. Carries the fix hint."""
 
 
+class OracleTimedOut(RuntimeError):
+    """Raised when a verification run exceeded its time budget.
+
+    A timeout is NOT a verdict about the code. Before this existed, `_run` rebuilt a
+    `subprocess.CompletedProcess` from the hardened runner's result and DISCARDED
+    `res.timed_out`, so every one of the 19 verify_fns fell through to its "non-zero exit
+    with no parsed failures" branch. Measured 2026-08-02 on a workspace containing a single
+    healthy test that merely slept:
+
+        passed=False
+        test_id=pytest  name=collection/run
+        "pytest exited -3 with no parsed test failures (collection or environment error)"
+
+    The repository was fine. Determinex ran out of patience and reported a defect in the
+    user's environment -- a check stating an outcome it never established, which is the one
+    thing this project forbids everywhere else.
+
+    Raising keeps the doctrine intact in both directions: it is not a pass, and it is not a
+    finding either. The caller is told what actually happened.
+    """
+
+    def __init__(self, message: str, *, seconds: int = 0, oracle: str = "") -> None:
+        super().__init__(message)
+        self.seconds = seconds
+        self.oracle = oracle
+
+
+class OracleNeedsApproval(RuntimeError):
+    """Raised when verification is predicted to cost more time than the caller allowed.
+
+    Ryan, 2026-08-02, on watching `repair_diagnose` block for ten minutes and then misreport
+    the result: "if it needs it it should tell you it will take that long, get permission to
+    run and then come back, if not not do it."
+
+    That is the correct shape. Silently blocking a UI for ten minutes is a bad experience;
+    silently blocking it and then reporting a fabricated defect is a correctness bug. Both
+    disappear if the system measures the job first, states the cost, and asks.
+
+    Carries `estimate_s` and `detail` so a frontend can render "this will take about N
+    minutes -- run it?" rather than inventing its own guess.
+    """
+
+    def __init__(self, message: str, *, estimate_s: float = 0.0, detail: str = "") -> None:
+        super().__init__(message)
+        self.estimate_s = estimate_s
+        self.detail = detail
+
+
 @dataclass
 class OracleResult:
     passed: bool
@@ -76,6 +125,46 @@ class OracleResult:
     oracle: str = ""
     total: int = 0
     n_passed: int = 0
+
+
+#: Per-oracle "hello world" that a working toolchain MUST verify. Deliberately minimal: the
+#: probe has to fail only when the toolchain is broken, never because the fixture was
+#: ambitious. An oracle with no entry is assumed healthy and says so, because inventing a
+#: health verdict is the error this whole mechanism exists to prevent.
+_TOOLCHAIN_SMOKE: dict[str, dict[str, str]] = {
+    "python": {
+        "solution.py": "def add(a, b):\n    return a + b\n",
+        "test_smoke.py": "from solution import add\n\ndef test_add():\n    assert add(1, 1) == 2\n",
+    },
+    "rust": {
+        "Cargo.toml": '[package]\nname = "smoke"\nversion = "0.1.0"\nedition = "2021"\n',
+        "src/lib.rs": "pub fn add(a: i32, b: i32) -> i32 { a + b }\n",
+    },
+    "go": {"go.mod": "module smoke\n\ngo 1.21\n",
+           "main.go": "package main\n\nfunc main() { _ = 1 }\n"},
+    "typescript": {
+        "tsconfig.json": '{"compilerOptions":{"noEmit":true,"target":"ES2020"},"include":["*.ts"]}',
+        "index.ts": "export const x: number = 1;\n",
+    },
+    "c": {"main.c": "int main(void) { return 0; }\n"},
+    "cpp": {"main.cpp": "int main() { return 0; }\n"},
+    "swift": {
+        "Package.swift": '// swift-tools-version:5.7\nimport PackageDescription\n'
+                         'let package = Package(name: "smoke", targets: [.target(name: "smoke")])\n',
+        "Sources/smoke/main.swift": "public func add(_ a: Int, _ b: Int) -> Int { a + b }\n",
+    },
+    "dotnet": {
+        "p.csproj": '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup>'
+                    "<TargetFramework>net8.0</TargetFramework></PropertyGroup></Project>",
+        "Program.cs": "public class P { public static int Add(int a, int b) => a + b; }\n",
+    },
+    "ruby": {"lib.rb": "def add(a, b)\n  a + b\nend\n"},
+    "php": {"lib.php": "<?php\nfunction add($a, $b) { return $a + $b; }\n"},
+}
+
+#: Process-lifetime cache of toolchain health. A toolchain cannot repair itself mid-run, and
+#: some of these probes cost ten seconds.
+_TOOLCHAIN_HEALTH: dict[str, tuple[bool, str]] = {}
 
 
 @dataclass
@@ -91,14 +180,370 @@ class Oracle:
     def available(self) -> bool:
         # Available if ANY probed tool is present. The JVM oracle, e.g., can
         # drive gradle OR maven OR plain javac — having any one is enough.
+        #
+        # NOTE this asks only whether the binary EXISTS. Whether it WORKS is a different
+        # question, answered by `toolchain_healthy()` -- see the note there for why the
+        # distinction is load-bearing.
         return any(shutil.which(p) is not None for p in self.probe)
 
-    def verify(self, workdir: Path) -> OracleResult:
+    def toolchain_healthy(self) -> tuple[bool, str]:
+        """(healthy, detail) — can this toolchain verify a known-good trivial program?
+
+        WHY THIS EXISTS. `available()` checks PATH. On 2026-08-02 this machine had
+        `swift.exe` on PATH and a broken Swift-on-Windows SDK: every build died with
+        `error: could not build C module 'SwiftOverlayShims'`, which has nothing to do with
+        the code under test. The oracle dutifully reported the USER'S program as failing.
+        A broken toolchain accusing the user's code is the same shape as the timeout that
+        reported "collection or environment error" -- our problem, described as theirs.
+
+        The probe is a minimal program the toolchain must accept. If it cannot compile hello
+        world, nothing it says about the user's code is evidence.
+
+        Cached per process: the answer cannot change mid-run, and some of these builds cost
+        ten seconds. Only consulted when a verification FAILS, so the happy path never pays.
+        """
+        if self.name in _TOOLCHAIN_HEALTH:
+            return _TOOLCHAIN_HEALTH[self.name]
+        smoke = _TOOLCHAIN_SMOKE.get(self.name)
+        if smoke is None:
+            # No probe defined: say so rather than claiming health we did not establish.
+            _TOOLCHAIN_HEALTH[self.name] = (True, "no smoke test defined for this oracle")
+            return _TOOLCHAIN_HEALTH[self.name]
+        import tempfile
+
+        ws = Path(tempfile.mkdtemp(prefix="dtx_smoke_"))
+        for rel, body in smoke.items():
+            p = ws / rel
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(body, encoding="utf-8")
+        try:
+            res = self.verify_fn(ws)
+            out = (True, "") if res.passed else (
+                False,
+                f"the {self.name} toolchain could not verify a trivial known-good program; "
+                f"{(res.raw or '').strip()[-300:]}",
+            )
+        except Exception as e:  # a toolchain that raises on hello world is not usable
+            out = (False, f"{type(e).__name__}: {str(e)[:200]}")
+        _TOOLCHAIN_HEALTH[self.name] = out
+        return out
+
+    def verify(self, workdir: Path, *, approved: bool = False) -> OracleResult:
+        """Verify `workdir`, refusing to start a job whose cost the caller has not accepted.
+
+        The gate exists because `repair_diagnose` on a real repository blocked a UI for ten
+        minutes with no output and then reported a fabricated defect. Both halves of that
+        are fixed by asking first: estimate the work, and if it exceeds the caller's budget
+        raise `OracleNeedsApproval` carrying the estimate, so a frontend can say "this will
+        take about N minutes -- run it?" instead of freezing or guessing.
+
+        `approved=True` (or DETERMINEX_ORACLE_APPROVED=1) is the caller saying yes. It skips
+        the gate, never the verification.
+        """
         if not self.available():
             raise OracleUnavailable(
                 f"oracle '{self.name}' needs one of {self.probe}. {self.install_hint}"
             )
-        return self.verify_fn(workdir)
+        if not (approved or os.environ.get("DETERMINEX_ORACLE_APPROVED") == "1"):
+            budget = _oracle_budget_s()
+            pf = preflight(self.name, workdir)
+            estimate = (
+                (pf.estimate_s, pf.summary()) if pf is not None
+                else estimate_work(self.name, workdir)
+            )
+            if estimate is not None and estimate[0] > budget:
+                secs, detail = estimate
+                extra = ""
+                if pf is not None and pf.broken_paths:
+                    # Say the cheap finding OUT LOUD at the moment of asking. A user deciding
+                    # whether to spend 44 minutes should know we already found files that do
+                    # not import -- that is often the answer they came for.
+                    first = ", ".join(path for path, _ in pf.broken_paths[:3])
+                    extra = (f" Already found without running anything: "
+                             f"{len(pf.broken_paths)} path(s) do not import ({first}).")
+                raise OracleNeedsApproval(
+                    f"verifying this workspace with the '{self.name}' oracle is estimated at "
+                    f"~{secs / 60:.0f} min ({detail}), over the {budget}s budget.{extra} "
+                    f"Approve to run it (approved=True / DETERMINEX_ORACLE_APPROVED=1), "
+                    f"narrow it (DETERMINEX_PYTEST_SCOPE), or raise "
+                    f"DETERMINEX_ORACLE_BUDGET_S.",
+                    estimate_s=secs,
+                    detail=detail,
+                )
+        result = self.verify_fn(workdir)
+        if not result.passed:
+            # Before blaming the code, check that the toolchain can verify anything at all.
+            # Measured 2026-08-02: `swift.exe` was on PATH with a broken Windows SDK, so
+            # every build died on `could not build C module 'SwiftOverlayShims'` and the
+            # oracle reported the USER'S program as failing. A toolchain that cannot compile
+            # hello world produces no evidence about anyone's code.
+            healthy, detail = self.toolchain_healthy()
+            if not healthy:
+                raise OracleUnavailable(
+                    f"oracle '{self.name}' is installed but not working, so its verdict is "
+                    f"not evidence about this code. {detail} {self.install_hint}"
+                )
+        return result
+
+
+# ---------------------------------------------------------------------------
+# Cost estimation — know what a job costs BEFORE starting it
+# ---------------------------------------------------------------------------
+#: Seconds of verification a caller gets without being asked. Deliberately short: the point
+#: is that anything longer becomes a decision the operator makes knowingly, not a UI freeze.
+_DEFAULT_ORACLE_BUDGET_S = 120
+
+#: Seconds per collected pytest test. Derived from this repository's own suite, which is the
+#: largest one on hand: 5,670 tests in 2,608s = 0.46 s/test. A rate is far more honest than a
+#: fixed guess -- it scales with the repo instead of pretending every project is the same
+#: size -- and it only has to be right to within a factor of two to answer "minutes or
+#: seconds?", which is the question the operator is actually being asked.
+_SECONDS_PER_PYTEST_TEST = 0.46
+
+
+def _oracle_budget_s() -> int:
+    try:
+        return max(1, int(os.environ.get("DETERMINEX_ORACLE_BUDGET_S", "")
+                          or _DEFAULT_ORACLE_BUDGET_S))
+    except ValueError:
+        return _DEFAULT_ORACLE_BUDGET_S
+
+
+#: Directory names that are somebody else's code or a build artifact. Collecting them means
+#: verifying dependencies instead of the project, and it is the single biggest reason a
+#: "quick check" turns into a 40-minute run. pytest's default `norecursedirs` catches `.*`,
+#: `build`, `dist` and `venv` -- it does NOT catch node_modules, vendor, third_party,
+#: site-packages reached by a symlink, or a corpus of vendored upstream checkouts.
+_NOISE_DIRS = (
+    "node_modules", "site-packages", "vendor", "third_party", "thirdparty",
+)
+#: Pruned from the walk but NOT reported. pytest never collects from these anyway, so
+#: listing them is output the reader has to skip past -- this repo produced 40 lines of
+#: `__pycache__` under a heading that said "vendored/generated path(s) excluded", which
+#: buries the one line that mattered.
+_PRUNE_ONLY_DIRS = ("__pycache__", ".tox", ".eggs", ".mypy_cache", ".pytest_cache")
+# DELIBERATELY NOT HERE: target, out, bin, obj.
+#
+# The first version included them and the result was 38 hits of `.../source/bin` on this
+# repo -- Rust's `src/bin` is REAL SOURCE, and excluding it would have hidden exactly the
+# code a user asked us to check. "It is probably a build directory" is not good enough for a
+# list whose job is to decide what does not get verified; every name here has to be one that
+# is never hand-written source. A false positive in this list is worse than a false negative,
+# because a slow check is annoying and an unverified file is a lie.
+
+
+@dataclass
+class Preflight:
+    """What a cheap look at a workspace establishes before anything expensive runs.
+
+    Ryan, 2026-08-02: "our onboard runtimes should tell us what compiles what doesn't from
+    the jump, we should filter what doesn't work. or what paths are clunky for looking at.
+    it's about finding the patterns, fixing and correcting."
+
+    The cost gate that preceded this was honest but blunt -- it priced the whole job and
+    asked permission to spend 44 minutes. The better answer is usually that 44 minutes was
+    never the right job: part of that tree does not import at all (which is a finding, and a
+    cheap one), and part of it is vendored code that was never ours to verify.
+    """
+
+    oracle: str
+    collectible: int = 0
+    #: (path, first line of the error) for files that could not even be imported. These are
+    #: real findings available in seconds -- "what compiles and what doesn't, from the jump".
+    broken_paths: list[tuple[str, str]] = field(default_factory=list)
+    #: Vendored / generated directories present in the tree that should not be verified.
+    noise_paths: list[str] = field(default_factory=list)
+    estimate_s: float = 0.0
+    notes: list[str] = field(default_factory=list)
+
+    @property
+    def actionable(self) -> bool:
+        """True when the cheap pass already found something worth showing a human."""
+        return bool(self.broken_paths or self.noise_paths)
+
+    def summary(self) -> str:
+        bits = [f"{self.collectible} tests collectible (~{self.estimate_s / 60:.0f} min)"]
+        if self.broken_paths:
+            bits.append(f"{len(self.broken_paths)} path(s) do not import")
+        if self.noise_paths:
+            bits.append(f"{len(self.noise_paths)} vendored/generated path(s) excluded")
+        return "; ".join(bits)
+
+
+def find_noise_paths(
+    workdir: Path,
+    limit: int = 40,
+    max_dirs: int = 20000,
+    max_depth: int = 6,
+    budget_s: float = 5.0,
+) -> list[str]:
+    """Vendored or generated directories under `workdir`, as workspace-relative paths.
+
+    Walked rather than globbed so a nested `node_modules` deep in a monorepo is found, and
+    pruned as it goes so it does not descend INTO the trees it is reporting.
+
+    BOUNDED, because the first version was not. This runs inside a "cheap look before the
+    expensive run", and on this repository -- which vendors ~155,000 files under `corpus/`,
+    a directory that is legitimately NOT in the noise list -- an unbounded walk took
+    `repair_diagnose` from 20s to 64s. A pre-flight that costs a minute is not a pre-flight.
+
+    Both bounds are deliberate rather than defensive: vendored trees live near the top of a
+    project (`node_modules`, `vendor`, `target`), so depth 6 finds them in any realistic
+    monorepo, and 20,000 directories is far more than any hand-written source tree while
+    being a small fraction of a vendored one. Hitting a bound is reported in the returned
+    list's absence, not concealed -- see `Preflight.notes` via `preflight_python`.
+    """
+    found: list[str] = []
+    base_depth = len(workdir.parts)
+    visited = 0
+    deadline = time.monotonic() + budget_s
+    for root, dirs, _files in os.walk(workdir):
+        visited += 1
+        # A WALL-CLOCK budget, because "cheap" is a statement about seconds and no count of
+        # directories predicts them. Measured on this repo: a 20,000-directory cap still let
+        # the walk run 50s once dot-directories were pruned, because it then descended into
+        # corpus/programbench/per_tool_overrides -- 142,750 files, ~420 of which are ours.
+        if visited > max_dirs or time.monotonic() > deadline:
+            break
+        if len(Path(root).parts) - base_depth >= max_depth:
+            dirs.clear()  # stop descending; do not walk a deep vendored tree looking for one
+            continue
+        # Never descend into a dot-directory. pytest's own `norecursedirs` default already
+        # excludes `.*`, so they cannot contribute collectible tests and reporting them as
+        # "excluded" tells the user nothing. It is also where the time went: this repo keeps
+        # a multi-gigabyte `.determinex_staging` tree of vendored checkouts, and walking it
+        # took the pre-flight to 192 SECONDS -- three times longer than the run it was
+        # supposed to be cheaper than.
+        for d in [x for x in dirs if x.startswith(".") or x in _PRUNE_ONLY_DIRS]:
+            dirs.remove(d)
+        pruned = []
+        for d in list(dirs):
+            if d in _NOISE_DIRS:
+                rel = os.path.relpath(os.path.join(root, d), workdir).replace("\\", "/")
+                if len(found) < limit:
+                    found.append(rel)
+                pruned.append(d)
+        for d in pruned:
+            dirs.remove(d)  # do not descend into it
+        if len(found) >= limit:
+            break
+    return sorted(found)
+
+
+def preflight_python(workdir: Path) -> Preflight:
+    """Collect-only pass: what runs, what does not import, what is not ours."""
+    pf = Preflight(oracle="python")
+    pf.noise_paths = find_noise_paths(workdir)
+    est = estimate_python_work(workdir, _collected=pf)
+    if est is not None:
+        pf.estimate_s = est[0]
+    return pf
+
+
+def estimate_python_work(
+    workdir: Path, _collected: Preflight | None = None
+) -> tuple[float, str] | None:
+    """(estimated seconds, human detail) for a pytest run, or None if unknowable.
+
+    Uses pytest's own collection, which is cheap relative to running the tests and is the
+    only source that knows how many there actually are. Collection is itself capped, and a
+    collection that blows the cap is reported as "too large to estimate" rather than as an
+    estimate of zero -- an unmeasurable job is exactly the one worth asking about.
+    """
+    from intake.hardened_runner import run as _hrun
+
+    # Exclude vendored/generated trees from the COLLECTION too, not just from the report.
+    # Counting somebody else's test suite and then quoting the operator a number based on it
+    # is a wrong estimate, not merely a noisy one.
+    ignores: list[str] = []
+    for rel in (_collected.noise_paths if _collected is not None else find_noise_paths(workdir)):
+        ignores += ["--ignore", rel]
+
+    try:
+        res = _hrun(
+            [_repo_python(workdir), "-m", "pytest", "--collect-only", "-q",
+             "-p", "no:cacheprovider", *ignores],
+            workspace=workdir, cwd=workdir, timeout=90,
+            allow_network=False, output_limit=None,
+        )
+    except Exception:
+        return None
+    if res.timed_out:
+        if _collected is not None:
+            _collected.notes.append("collection alone exceeded 90s; the tree is very large")
+        return (float("inf"), "test collection alone exceeded 90s; the suite is very large")
+    text = (res.stdout or "") + (res.stderr or "")
+
+    # WHAT DOES NOT IMPORT, reported from the cheap pass. pytest names each uncollectable
+    # file; those are real findings available in seconds, and before this they were invisible
+    # until (or unless) the full run finished.
+    if _collected is not None:
+        seen: set[str] = set()
+        for m in re.finditer(r"ERROR\s+(?:collecting\s+)?(\S+\.py)", text):
+            path = m.group(1).replace("\\", "/")
+            if path in seen:
+                continue
+            seen.add(path)
+            after = text[m.end(): m.end() + 400]
+            reason = next(
+                (ln.strip() for ln in after.splitlines()
+                 if ln.strip() and not ln.strip().startswith(("_", "="))),
+                "",
+            )
+            _collected.broken_paths.append((path, reason[:160]))
+
+    m = re.search(r"(\d+)\s+tests?\s+collected", text)
+    if not m:
+        m = re.search(r"collected\s+(\d+)\s+items?", text)
+    if not m:
+        return None
+    n = int(m.group(1))
+    if _collected is not None:
+        _collected.collectible = n
+    return (n * _SECONDS_PER_PYTEST_TEST, f"{n} tests collected")
+
+
+#: Per-oracle cost estimators. An oracle with no entry is NOT gated -- an absent estimate
+#: must never become a fabricated one, and gating on a number nobody measured would block
+#: work for a reason the system cannot defend. Python is measured; the rest are honest
+#: blanks until someone measures them.
+_WORK_ESTIMATORS: dict[str, Callable[[Path], tuple[float, str] | None]] = {
+    "python": estimate_python_work,
+}
+
+
+def estimate_work(oracle_name: str, workdir: Path) -> tuple[float, str] | None:
+    fn = _WORK_ESTIMATORS.get(oracle_name)
+    if fn is None:
+        return None
+    try:
+        return fn(workdir)
+    except Exception:
+        return None  # an estimator that fails must not block the real work
+
+
+#: Per-oracle cheap triage. Same rule as the estimators: no entry means no triage, never an
+#: invented one.
+_PREFLIGHTS: dict[str, Callable[[Path], Preflight]] = {
+    "python": preflight_python,
+}
+
+
+def preflight(oracle_name: str, workdir: Path) -> Preflight | None:
+    """Cheap look before an expensive run: what runs, what will not import, what is vendored.
+
+    Separated from `estimate_work` because the two answer different questions and only one
+    of them is about time. The estimate says "this costs 44 minutes"; the pre-flight says
+    "and 40 of those minutes are node_modules, and two of your files do not import" -- which
+    is usually the more useful sentence and is available just as cheaply.
+    """
+    fn = _PREFLIGHTS.get(oracle_name)
+    if fn is None:
+        return None
+    try:
+        return fn(workdir)
+    except Exception:
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -113,6 +558,22 @@ def _run(cmd: list[str], cwd: Path, timeout: int = 600) -> subprocess.CompletedP
     from intake.hardened_runner import run as _hrun
 
     res = _hrun(cmd, workspace=cwd, cwd=cwd, timeout=timeout, allow_network=True, output_limit=None)
+    if res.timed_out:
+        # RAISE, do not hand back a non-zero CompletedProcess.
+        #
+        # This flag used to be dropped on the floor here. Every verify_fn then saw a
+        # non-zero exit with no parsed test failures and reported it as a collection or
+        # environment error -- i.e. as a defect in the user's repository. There are 24 call
+        # sites in 19 verify functions and all of them had that bug, because none of them
+        # could see the one fact that distinguishes "your code is broken" from "we stopped
+        # waiting". Fixing it at the choke point fixes it everywhere at once.
+        raise OracleTimedOut(
+            f"verification exceeded its {timeout}s budget running {' '.join(cmd[:4])}...; "
+            f"this is a Determinex time limit, NOT a finding about the code. "
+            f"Narrow the run (DETERMINEX_PYTEST_SCOPE) or raise the budget "
+            f"(DETERMINEX_ORACLE_BUDGET_S).",
+            seconds=timeout,
+        )
     return subprocess.CompletedProcess(
         args=cmd, returncode=res.exit_code, stdout=res.stdout, stderr=res.stderr
     )
@@ -600,19 +1061,58 @@ def _verify_swift(workdir: Path) -> OracleResult:
 # Concrete oracle: C# / .NET (dotnet test, JUnit logger -> XML)
 # ---------------------------------------------------------------------------
 def _verify_dotnet(workdir: Path) -> OracleResult:
+    """BUILD first, then test. Measured 2026-08-02: this oracle certified code that does
+    not compile.
+
+    It ran only `dotnet test`. On a project that is not a test project, that restores and
+    exits 0 without building -- the captured output was literally two lines, "Determining
+    projects to restore..." and "Restored ...". No JUnit file, so `total=0`, no failures, and
+    `passed = cp.returncode == 0 and not hard` evaluated True. A class whose body was
+    `a + oops` came back VERIFIED, under a comment reading "never silent-pass".
+
+    `dotnet build` is the missing half: it fails on the undefined name regardless of whether
+    any tests exist, which is the property that makes this an oracle rather than a formality.
+    And when neither a build nor a test actually verified anything, this now refuses to
+    report a pass -- the same honesty `_verify_typescript` already applies when it finds no
+    tsconfig and no test script.
+    """
+    build = _run(["dotnet", "build", "--nologo"], workdir, timeout=1800)
+    if build.returncode != 0:
+        return OracleResult(
+            passed=False,
+            failures=[Failure("dotnet", "build", (build.stdout + build.stderr)[-2000:],
+                              status="failure")],
+            raw=build.stdout + build.stderr,
+            oracle="dotnet",
+        )
+
     xml = workdir / "_determinex_dotnet.xml"
-    cp = _run(["dotnet", "test", "--logger", f"junit;LogFilePath={xml}"], workdir, timeout=1800)
+    cp = _run(["dotnet", "test", "--no-build", "--logger", f"junit;LogFilePath={xml}"],
+              workdir, timeout=1800)
     failures = _junit_failures(xml) if xml.exists() else []
     total, n_passed = _junit_counts(xml) if xml.exists() else (0, 0)
     hard = [f for f in failures if f.status == "failure"]
-    # If the JUnit logger package isn't present, fall back to return code (never silent-pass).
-    passed = cp.returncode == 0 and not hard
-    if not passed and not failures:
-        failures = [Failure("dotnet", "test", (cp.stdout + cp.stderr)[:600], status="failure")]
+
+    if hard or (cp.returncode != 0 and failures):
+        return OracleResult(passed=False, failures=failures, raw=cp.stdout + cp.stderr,
+                            oracle="dotnet", total=total, n_passed=n_passed)
+
+    # A clean build with no tests is a REAL result -- the code compiles -- so it passes, but
+    # it passes on the strength of the build, which actually ran. What must never happen is
+    # the previous behaviour: passing when nothing ran at all.
+    if cp.returncode != 0 and not failures and total == 0:
+        combined = (cp.stdout + cp.stderr).lower()
+        if "no test" not in combined and "not a test project" not in combined:
+            return OracleResult(
+                passed=False,
+                failures=[Failure("dotnet", "test", (cp.stdout + cp.stderr)[-2000:],
+                                  status="failure")],
+                raw=cp.stdout + cp.stderr, oracle="dotnet", total=total, n_passed=n_passed,
+            )
     return OracleResult(
-        passed=passed,
+        passed=True,
         failures=failures,
-        raw=cp.stdout + cp.stderr,
+        raw=build.stdout + cp.stdout + cp.stderr,
         oracle="dotnet",
         total=total,
         n_passed=n_passed,

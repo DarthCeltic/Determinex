@@ -168,7 +168,17 @@ def _dispatch(command: str, args: dict[str, object]) -> dict[str, object]:
         "IDE_COMMAND_BLOCKED_NO_MODEL": "TAURI_COMMAND_BLOCKED_NO_MODEL",
         "IDE_COMMAND_BLOCKED_UNKNOWN_COMMAND": "TAURI_COMMAND_BLOCKED_UNKNOWN",
     }
-    status = inner_to_tauri.get(res.status, "TAURI_COMMAND_OK")
+    # An UNMAPPED status is translated mechanically, never defaulted to OK -- the same fix
+    # as tauri_backend_bridge.call, which this table mirrors. Found 2026-08-02 by an AST
+    # scan for `.get(..., <success literal>)` after the bridge's copy was fixed by hand:
+    # the duplicate here would have kept reporting every unmapped status as success, so the
+    # frontend's behaviour would have depended on which of the two paths it happened to
+    # take. A default that means "fine" makes every future omission a silent lie.
+    status = inner_to_tauri.get(res.status) or (
+        res.status.replace("IDE_COMMAND_", "TAURI_COMMAND_", 1)
+        if res.status.startswith("IDE_COMMAND_")
+        else (res.status or "TAURI_COMMAND_UNKNOWN_STATUS")
+    )
     return _respond(command, status, payload=res.payload, notes=tuple(res.notes))
 
 

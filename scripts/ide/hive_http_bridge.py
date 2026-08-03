@@ -310,6 +310,44 @@ class HTTPBridgeHandler(http.server.SimpleHTTPRequestHandler):
             stdin_data = json.dumps(payload.get("payload", {}))
             is_json_output = True
 
+        elif path == "/api/invoke/provider_setup_report":
+            # "Which button do I press?" -- what already works, and the ONE thing to do next.
+            script = os.path.join(PROJECT_ROOT, "scripts", "determinex_provider_setup.py")
+            cmd = [sys.executable, script, "report"]
+            stdin_data = ""
+            is_json_output = True
+
+        elif path == "/api/invoke/provider_setup_verify":
+            # A green check must mean a real call happened, so this makes one.
+            script = os.path.join(PROJECT_ROOT, "scripts", "determinex_provider_setup.py")
+            cmd = [sys.executable, script, "verify",
+                   "--id", str((payload.get("payload") or {}).get("id", ""))]
+            stdin_data = ""
+            is_json_output = True
+
+        elif path == "/api/invoke/user_profile_get":
+            script = os.path.join(PROJECT_ROOT, "scripts", "determinex_user_profile.py")
+            cmd = [sys.executable, script, "prescreen"]
+            stdin_data = ""
+            is_json_output = True
+
+        elif path == "/api/invoke/user_profile_set":
+            script = os.path.join(PROJECT_ROOT, "scripts", "determinex_user_profile.py")
+            cmd = [sys.executable, script, "set",
+                   "--level", str((payload.get("payload") or {}).get("level", ""))]
+            stdin_data = ""
+            is_json_output = True
+
+        elif path == "/api/invoke/assess_idea_context":
+            # "Do we know enough to build this yet?" -- answered by whether a SOUND ORACLE
+            # can be synthesized from the accumulated answers, not by counting questions.
+            # This is what lets the Concept Lab interview run past the old 4-question bank
+            # instead of generating a spec from whatever it happened to have.
+            script = os.path.join(PROJECT_ROOT, "scripts", "idea_context.py")
+            cmd = [sys.executable, script, "--stdin"]
+            stdin_data = json.dumps(payload.get("payload", {}))
+            is_json_output = True
+
         elif path == "/api/invoke/generate_spec":
             script = os.path.join(PROJECT_ROOT, "scripts", "spec_generator.py")
             cmd = [sys.executable, script, "--stdin"]

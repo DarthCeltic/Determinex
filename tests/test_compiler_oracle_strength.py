@@ -29,6 +29,7 @@ which is the exact failure this file exists to prevent.
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -126,15 +127,39 @@ def test_install_hint_reads_the_registry_without_executing_anything():
 
 
 def _docker_ok() -> bool:
+    """Is there a backend the ORACLE WILL ACTUALLY USE -- not merely one that exists.
+
+    The first version of this asked only whether a backend resolved, and accepted
+    ("docker", "wsl2", "direct"). But `validate_project` honours
+    DETERMINEX_REQUIRE_DOCKER, which defaults to 1 and REFUSES wsl2 and direct:
+
+        RuntimeError: DETERMINEX_REQUIRE_DOCKER=1 but backend resolved to WSL2.
+
+    So on a WSL2-only box -- which is exactly what this project's own dev machine is, per
+    CLAUDE.md -- the guard said "a backend is available", the runtime said "not that one",
+    and the tests FAILED where they should have skipped. A skip condition that does not ask
+    the same question the code asks is a check reporting an outcome it never established.
+    """
     try:
         from hive.compiler import _oracle_backend
 
-        return _oracle_backend() in ("docker", "wsl2", "direct")
+        backend = _oracle_backend()
     except Exception:
         return False
+    if backend not in ("docker", "wsl2", "direct"):
+        return False
+    # Mirror the runtime's own gate rather than restating it: if Docker is required, only
+    # Docker will do.
+    if os.environ.get("DETERMINEX_REQUIRE_DOCKER", "1") == "1":
+        return backend == "docker"
+    return True
 
 
-needs_sandbox = pytest.mark.skipif(not _docker_ok(), reason="no oracle execution backend available")
+needs_sandbox = pytest.mark.skipif(
+    not _docker_ok(),
+    reason="no oracle execution backend the runtime would accept "
+           "(DETERMINEX_REQUIRE_DOCKER=1 permits only docker)",
+)
 
 
 @needs_sandbox

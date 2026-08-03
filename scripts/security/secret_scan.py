@@ -60,6 +60,30 @@ _PLACEHOLDER_VALUES = frozenset(
     }
 )
 
+#: Adjudicated occurrences in HISTORY, keyed by `(commit_prefix, path)` — never by content.
+#:
+#: WHY NOT `_PLACEHOLDER_VALUES`. The private-key pattern matches only the HEADER
+#: (`-----BEGIN RSA PRIVATE KEY-----`); the body never reaches the allowlist. Putting that header
+#: in a content allowlist would blind this scanner to every real RSA key in the repository
+#: forever — exactly what the note above forbids. So the exemption is per-occurrence: one commit,
+#: one path, adjudicated once, with the reason recorded. Any NEW private-key header, anywhere,
+#: including in the same file, still fires.
+#:
+#: Each entry must state what was checked, not merely that it is fine.
+_ADJUDICATED_HISTORY = {
+    (
+        "7895020b9",
+        "tests/test_corpus_share_optin.py",
+    ): (
+        "Redaction-test fixture, not a credential: the key body is the literal string `abc` "
+        "(`-----BEGIN RSA PRIVATE KEY-----\\nabc\\n-----END RSA PRIVATE KEY-----`). The test's "
+        "whole purpose is to plant a key-shaped string and assert the corpus share path redacts "
+        "it. There is nothing to rotate. The working tree no longer contains the literal — it "
+        "builds the header by concatenation — so this exists only in the commit that predates "
+        "that change. Verified 2026-08-03 by reading the blob at that commit."
+    ),
+}
+
 
 def _scan_text(text: str) -> list[tuple[str, str]]:
     hits = []
@@ -254,6 +278,12 @@ def scan_history(remotes_only: bool, root: Path | None = None) -> dict:
         except GitUnavailable:
             continue
         hits = _scan_text(blob)
+        if hits and (commit[:9], rel) in _ADJUDICATED_HISTORY:
+            # Adjudicated once, with the reason recorded next to the entry. Skipped SILENTLY is
+            # wrong -- an exemption nobody can see is how one outlives its premise -- so it is
+            # reported in its own bucket instead of being folded into "clean".
+            out.setdefault("__adjudicated__", []).append((commit[:9], rel))
+            continue
         if hits:
             out.setdefault(rel, []).append((commit[:9], hits))
     return out
@@ -300,6 +330,7 @@ def main() -> int:
             print("\n=== verdict ===")
             print("  UNKNOWN: history scan did not complete, so nothing here clears the history.")
             return 2
+        adjudicated = hist.pop("__adjudicated__", [])
         if hist:
             for rel, recs in hist.items():
                 for commit, hits in recs:
@@ -310,6 +341,12 @@ def main() -> int:
                             pushed_bad = True
         else:
             print(f"  clean -- no secrets in {scope} history")
+        # Printed whether or not anything else was found. An exemption that is invisible is how
+        # one outlives its premise; this keeps each one, and its reason, in front of whoever
+        # reads the scan.
+        for commit, rel in adjudicated:
+            print(f"  {commit} {rel}: ADJUDICATED not a credential")
+            print(f"      {_ADJUDICATED_HISTORY[(commit, rel)]}")
 
     print("\n=== verdict ===")
     if tracked or pushed_bad:

@@ -80,6 +80,18 @@ class Agent:
     # --chat: without it the local participant runs under an edit-or-fail contract and cannot answer
     # a question without failing the turn.
     chat_flag: str | None = None
+    # Up to three models worth offering for this CLI, as (tier, model, label). Ryan, 2026-08-03:
+    # *"the multichat and the services need to have an easy way to figure out usage and changing
+    # between their different models -- claude has three, google like 4, open ai a few."* The
+    # chat panel used to render a FREE-TEXT BOX with a placeholder like "e.g. gemini-2.5-pro",
+    # which is a memory test, not a choice.
+    #
+    # `model` is the exact string this CLI's own --model flag accepts, and it is deliberately
+    # NOT `determinex_provider_setup.MODEL_CHOICES` -- those ids carry LiteLLM routing prefixes
+    # (`gemini/gemini-3-pro-preview`), and feeding one to `gemini --model` would fail. Same
+    # vocabulary, different values, and conflating them would break the picker for the one
+    # vendor whose setup story is already the hardest.
+    models: tuple[tuple[str, str, str], ...] = ()
 
     def available(self) -> bool:
         return shutil.which(self.probe) is not None
@@ -234,6 +246,7 @@ def register_agent(
     stdin_prompt: bool = False,
     model_flag: str | None = None,
     chat_flag: str | None = None,
+    models: tuple[tuple[str, str, str], ...] = (),
 ) -> None:
     """Host a coding agent. Provide a runner, or an argv_template using {task}."""
     resolved_template = argv_template or [probe, "{task}"]
@@ -249,6 +262,7 @@ def register_agent(
         stdin_prompt=stdin_prompt,
         model_flag=model_flag,
         chat_flag=chat_flag,
+        models=models,
     )
     for k in (name, *aliases):
         _AGENTS[k.lower()] = a
@@ -280,6 +294,11 @@ register_agent(
     aliases=("claude",),
     stdin_prompt=True,
     model_flag="--model",
+    models=(
+        ("fast", "haiku", "Haiku — quickest and cheapest"),
+        ("balanced", "sonnet", "Sonnet — the everyday choice"),
+        ("deep", "opus", "Opus — slowest, for the hard one"),
+    ),
 )
 # --skip-git-repo-check: `codex exec` refuses to run in a directory that isn't a
 # git repo ("Not inside a trusted directory and --skip-git-repo-check was not
@@ -314,6 +333,11 @@ register_agent(
     aliases=("openai-codex",),
     stdin_prompt=True,
     model_flag="--model",
+    models=(
+        ("fast", "gpt-5.5-mini", "Mini — quickest and cheapest"),
+        ("balanced", "gpt-5.5", "Standard — the everyday choice"),
+        ("deep", "gpt-5.5-pro", "Pro — slowest, for the hard one"),
+    ),
 )
 # --skip-trust: gemini-cli refuses to run non-interactively in a directory it
 # hasn't been trusted in (its own workspace-trust prompt, which nothing in a
@@ -331,6 +355,11 @@ register_agent(
     argv_template=["gemini", "-p", "{task}", "--skip-trust"],
     aliases=("gemini",),
     model_flag="--model",
+    models=(
+        ("fast", "gemini-3-flash-preview", "Flash — quickest and cheapest"),
+        ("balanced", "gemini-flash-latest", "Flash latest — the everyday choice"),
+        ("deep", "gemini-3-pro-preview", "Pro — slowest, for the hard one"),
+    ),
 )
 register_agent(
     "aider",
@@ -818,6 +847,14 @@ def _agents_json() -> list[dict]:
                 "supports_model": bool(a.model_flag)
                 or any("{model}" in t for t in (a.argv_template or [])),
                 "supports_chat_mode": bool(a.chat_flag),
+                # The models worth offering, in the one vocabulary used everywhere:
+                # fast / balanced / deep. An empty list means "this agent takes a model but we
+                # have no curated shortlist" -- the panel falls back to free text, which is
+                # correct for aider (it reaches hundreds of models) and wrong as a DEFAULT,
+                # which is what it used to be for all of them.
+                "models": [
+                    {"tier": t, "model": m, "label": lbl} for (t, m, lbl) in a.models
+                ],
             }
         )
     out.sort(key=lambda d: d["name"])

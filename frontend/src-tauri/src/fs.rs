@@ -8,21 +8,76 @@ use crate::win_process::HideConsoleExt;
 /// Resolved at startup to the platform home directory via `app.path().home_dir()`.
 /// Every `read_file_content` and `get_file_system_tree` call is validated against
 /// this root — prevents path traversal from a compromised WebView or malicious IPC payload.
-pub struct WorkspaceRoot(pub PathBuf);
+///
+/// PLUS the projects the user has explicitly opened. On Windows the base root is the SYSTEM
+/// DRIVE, so a project on any other drive was unreadable: the file explorer came up empty
+/// behind "Access denied: path 'T:\...' is outside workspace boundary 'C:\'", which is a
+/// correct sentence and a broken product for anyone who keeps code on a second drive, an
+/// external disk or a network share. (Determinex's own workspace is on `T:`, so this was
+/// live.)
+///
+/// The widening is deliberately the narrowest thing that fixes it: not "all drives", but the
+/// exact directory the user picked, registered by `set_project_root`. The base root already
+/// spans the whole system drive including `C:\Windows` and every user profile, so a second
+/// explicitly-chosen directory does not change the threat model — while "every drive root"
+/// would have, silently, for removable and network media.
+///
+/// AI-directed writes are NOT bounded by this; they are sandboxed separately by ipc_hive's
+/// session temp dirs, and credential reads are bounded more tightly still by
+/// `env_manager::project_guard`.
+pub struct WorkspaceRoot(pub PathBuf, pub std::sync::Mutex<Vec<PathBuf>>);
 
-/// Resolve symlinks and verify the target lives inside `root`.
+impl WorkspaceRoot {
+    pub fn new(root: PathBuf) -> Self {
+        Self(root, std::sync::Mutex::new(Vec::new()))
+    }
+
+    /// Grant access to a directory the user explicitly opened. Idempotent.
+    pub fn grant(&self, dir: PathBuf) {
+        if let Ok(mut extra) = self.1.lock() {
+            if !extra.contains(&dir) {
+                extra.push(dir);
+            }
+        }
+    }
+
+    /// Every root a path may live under: the base boundary plus granted projects.
+    fn roots(&self) -> Vec<PathBuf> {
+        let mut all = vec![self.0.clone()];
+        if let Ok(extra) = self.1.lock() {
+            all.extend(extra.iter().cloned());
+        }
+        all
+    }
+
+    pub fn allows(&self, target: &Path) -> bool {
+        self.roots().iter().any(|r| is_safe_path(r, target))
+    }
+}
+
+/// Resolve symlinks and verify the target lives inside one of the allowed roots.
 /// Returns the canonicalized path on success, or an access-denied error string.
-/// The root is also canonicalized so that symlinked home dirs (e.g. macOS /Users -> /private/var)
+/// Roots are canonicalized too, so symlinked home dirs (e.g. macOS /Users -> /private/var)
 /// don't produce false negatives on the `starts_with` check.
-fn safe_canonicalize(root: &Path, target_path: &str) -> Result<PathBuf, String> {
+fn safe_canonicalize(workspace: &WorkspaceRoot, target_path: &str) -> Result<PathBuf, String> {
     let canonical = fs::canonicalize(target_path)
         .map_err(|_| format!("Invalid or non-existent path: {}", target_path))?;
-    let canonical_root = fs::canonicalize(root).unwrap_or_else(|_| root.to_path_buf());
-    if !canonical.starts_with(&canonical_root) {
+    let roots: Vec<PathBuf> = workspace
+        .roots()
+        .into_iter()
+        .map(|r| fs::canonicalize(&r).unwrap_or(r))
+        .collect();
+    if !roots.iter().any(|r| canonical.starts_with(r)) {
+        // Name the fix, not just the refusal. "Outside the boundary" tells a user nothing they
+        // can act on; "open it as a project first" is the actual next step.
         return Err(format!(
-            "Access denied: path '{}' is outside workspace boundary '{}'",
+            "Access denied: '{}' is not inside {} or any project you have opened. \
+             Use Choose project to open it first.",
             canonical.display(),
-            canonical_root.display()
+            roots
+                .first()
+                .map(|r| r.display().to_string())
+                .unwrap_or_default()
         ));
     }
     Ok(canonical)
@@ -243,7 +298,7 @@ pub fn get_file_system_tree(
     workspace: tauri::State<'_, WorkspaceRoot>,
     target_path: String,
 ) -> Result<FsTreeResponse, String> {
-    let safe_path = safe_canonicalize(&workspace.0, &target_path)?;
+    let safe_path = safe_canonicalize(&workspace, &target_path)?;
     let mut tree = Vec::new();
 
     if let Ok(entries) = fs::read_dir(&safe_path) {
@@ -321,7 +376,7 @@ pub fn get_build_artifacts(
     workspace_path: String,
 ) -> Result<Vec<ArtifactEntry>, String> {
     let root = PathBuf::from(&workspace_path);
-    if !is_safe_path(&workspace.0, &root) {
+    if !workspace.allows(&root) {
         return Err(format!(
             "Access denied: '{}' is outside the file-browser boundary",
             workspace_path
@@ -394,7 +449,7 @@ pub async fn read_workspace_file(
     relative_path: String,
 ) -> Result<String, String> {
     let candidate = workspace.0.join(&relative_path);
-    let safe_path = safe_canonicalize(&workspace.0, &candidate.to_string_lossy())?;
+    let safe_path = safe_canonicalize(&workspace, &candidate.to_string_lossy())?;
     if !safe_path.is_file() {
         return Err(format!("'{}' is not a regular file", relative_path));
     }
@@ -408,7 +463,7 @@ pub fn read_file_content(
 ) -> Result<FileContentResponse, String> {
     // Canonicalize + workspace boundary check — prevents arbitrary file reads
     // via path traversal from a compromised WebView or malicious IPC payload.
-    let safe_path = safe_canonicalize(&workspace.0, &target_path)?;
+    let safe_path = safe_canonicalize(&workspace, &target_path)?;
 
     if !safe_path.is_file() {
         return Err("Target is not a file or does not exist".to_string());
@@ -428,9 +483,9 @@ pub fn write_file_content(
     content: String,
 ) -> Result<FileContentResponse, String> {
     let target = resolve_write_target(&path);
-    if !is_safe_path(&workspace.0, &target) {
+    if !workspace.allows(&target) {
         return Err(format!(
-            "Access denied: path '{}' is outside workspace boundary '{}'",
+            "Access denied: '{}' is not inside {} or any project you have opened.",
             target.display(),
             workspace.0.display()
         ));
@@ -522,9 +577,9 @@ pub fn create_path(
     if target.exists() {
         return Err(format!("'{}' already exists", target.display()));
     }
-    if !is_safe_path(&workspace.0, &target) {
+    if !workspace.allows(&target) {
         return Err(format!(
-            "Access denied: path '{}' is outside workspace boundary '{}'",
+            "Access denied: '{}' is not inside {} or any project you have opened.",
             target.display(),
             workspace.0.display()
         ));
@@ -556,7 +611,7 @@ pub fn rename_path(
     if to_target.exists() {
         return Err(format!("'{}' already exists", to_target.display()));
     }
-    if !is_safe_path(&workspace.0, &from_target) || !is_safe_path(&workspace.0, &to_target) {
+    if !workspace.allows(&from_target) || !workspace.allows(&to_target) {
         return Err(format!(
             "Access denied: path is outside workspace boundary '{}'",
             workspace.0.display()
@@ -574,9 +629,9 @@ pub fn delete_path(workspace: tauri::State<'_, WorkspaceRoot>, path: String) -> 
     if !target.exists() {
         return Err(format!("'{}' does not exist", target.display()));
     }
-    if !is_safe_path(&workspace.0, &target) {
+    if !workspace.allows(&target) {
         return Err(format!(
-            "Access denied: path '{}' is outside workspace boundary '{}'",
+            "Access denied: '{}' is not inside {} or any project you have opened.",
             target.display(),
             workspace.0.display()
         ));
@@ -702,5 +757,79 @@ mod tests {
         let root = tempfile::tempdir().expect("temp root");
         let target = root.path().join("file.txt");
         assert_eq!(resolve_write_target(&target.to_string_lossy()), target);
+    }
+
+    // ── granted project roots ───────────────────────────────────────────────────────────
+    // On Windows the base boundary is the SYSTEM DRIVE, so a project on any other drive read
+    // as a traversal attempt: the file explorer came up empty behind "Access denied: path
+    // 'T:\determinex-swebench-work' is outside workspace boundary 'C:\'". Correct sentence,
+    // broken product -- and live, since Determinex's own workspace is on T:.
+    //
+    // Both directions are tested, because a boundary that only proves it lets things through
+    // is not a boundary.
+
+    #[test]
+    fn a_project_outside_the_base_root_is_refused_until_it_is_opened() {
+        let base = tempfile::tempdir().expect("base");
+        let elsewhere = tempfile::tempdir().expect("elsewhere");
+        let file = elsewhere.path().join("main.rs");
+        std::fs::write(&file, "fn main() {}").expect("write");
+
+        let workspace = super::WorkspaceRoot::new(base.path().to_path_buf());
+        assert!(!workspace.allows(&file), "an ungranted path must stay refused");
+
+        workspace.grant(
+            elsewhere
+                .path()
+                .canonicalize()
+                .expect("canonicalize elsewhere"),
+        );
+        assert!(workspace.allows(&file), "the project the user opened must be readable");
+    }
+
+    #[test]
+    fn granting_one_project_does_not_open_its_neighbours() {
+        // The narrowest widening that fixes it: the chosen DIRECTORY, never its whole drive.
+        let base = tempfile::tempdir().expect("base");
+        let parent = tempfile::tempdir().expect("parent");
+        let opened = parent.path().join("opened");
+        let sibling = parent.path().join("sibling");
+        std::fs::create_dir_all(&opened).expect("mkdir opened");
+        std::fs::create_dir_all(&sibling).expect("mkdir sibling");
+        let secret = sibling.join("private.env");
+        std::fs::write(&secret, "KEY=value").expect("write");
+
+        let workspace = super::WorkspaceRoot::new(base.path().to_path_buf());
+        workspace.grant(opened.canonicalize().expect("canonicalize opened"));
+
+        assert!(
+            !workspace.allows(&secret),
+            "granting a project must not grant the directory next to it"
+        );
+    }
+
+    #[test]
+    fn granting_is_idempotent() {
+        let base = tempfile::tempdir().expect("base");
+        let project = tempfile::tempdir().expect("project");
+        let workspace = super::WorkspaceRoot::new(base.path().to_path_buf());
+        let p = project.path().canonicalize().expect("canonicalize");
+        workspace.grant(p.clone());
+        workspace.grant(p.clone());
+        workspace.grant(p);
+        assert_eq!(
+            workspace.1.lock().expect("lock").len(),
+            1,
+            "reopening the same project must not grow the allow-list without bound"
+        );
+    }
+
+    #[test]
+    fn the_base_root_still_works_with_no_grants() {
+        let base = tempfile::tempdir().expect("base");
+        let inside = base.path().join("src").join("main.rs");
+        let workspace = super::WorkspaceRoot::new(base.path().to_path_buf());
+        assert!(workspace.allows(&inside));
+        assert!(!workspace.allows(&base.path().parent().unwrap().join("escape.rs")));
     }
 }

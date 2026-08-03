@@ -18,6 +18,7 @@ use tauri::{AppHandle, Emitter, Manager};
 
 use crate::win_process::{HideConsoleExt, HideConsoleNewGroupExt};
 
+pub mod onboarding;
 pub mod oracle;
 pub mod roles;
 pub mod session;
@@ -28,6 +29,7 @@ pub mod workspace;
 // commands via a companion `__cmd__cmd_name` struct generated alongside each
 // `#[tauri::command]` fn. Named re-exports would bring the fn but not the struct;
 // `pub use submod::*` re-exports both.
+pub use onboarding::*;
 pub use oracle::*;
 pub use roles::*;
 pub use session::*;
@@ -186,6 +188,22 @@ pub struct DiscoverIdeaPayload {
 pub struct ConversationMessage {
     pub role: String,
     pub text: String,
+}
+
+/// "Do we know enough to build this yet?" — answered by whether a SOUND ORACLE can be
+/// synthesized from the answers gathered so far, not by counting questions.
+///
+/// This command exists because the Python side of the feature shipped without it. The
+/// Concept Lab prefers Tauri IPC and only falls back to the HTTP bridge, so an endpoint
+/// added to the bridge alone was unreachable in the desktop app: the frontend's
+/// `invokeSafe` failed, the caller's `if (!res.ok) buildSpec()` fallback fired, and the
+/// interview quietly stopped at the old four questions while every test passed.
+#[derive(Deserialize, Serialize)]
+pub struct AssessIdeaContextPayload {
+    pub idea: String,
+    pub answers: Vec<String>,
+    pub asked: Vec<String>,
+    pub previous_satisfied: Option<Vec<String>>,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -491,13 +509,45 @@ pub(crate) fn resolve_hive_binary() -> Option<PathBuf> {
     None
 }
 
+/// Should the repo's Python be used instead of the bundled sidecar?
+///
+/// True when the script exists and is NEWER than the binary built from it — i.e. someone is
+/// editing source in a dev checkout. `resolve_hive_binary` looks in
+/// `frontend/src-tauri/bin/` before anywhere else, so without this check a dev tree runs
+/// whatever sidecar happens to be sitting there and every Python edit is silently ignored.
+/// That is not hypothetical: the app was answering `list_coding_agents` from a sidecar built
+/// three days earlier, so a freshly added field was simply absent, the picker fell back to its
+/// free-text branch, and nothing anywhere said which copy of the code had run. The comment on
+/// the branch below called itself a "dev fallback", which reads as "source wins in a dev tree"
+/// and means the opposite: it only fires when the sidecar is missing entirely.
+///
+/// In a packaged install there is no `scripts/` directory, so this is always false and the
+/// sidecar is used unconditionally. `DETERMINEX_HELPER_FROM_SOURCE` forces either answer.
+fn prefer_source(script: &std::path::Path, binary: &std::path::Path) -> bool {
+    match std::env::var("DETERMINEX_HELPER_FROM_SOURCE").ok().as_deref() {
+        Some("1") | Some("true") => return script.exists(),
+        Some("0") | Some("false") => return false,
+        _ => {}
+    }
+    if !script.exists() {
+        return false;
+    }
+    let newer = |a: &std::path::Path, b: &std::path::Path| -> Option<bool> {
+        Some(a.metadata().ok()?.modified().ok()? > b.metadata().ok()?.modified().ok()?)
+    };
+    // Unreadable timestamps mean we cannot tell, and the sidecar stays authoritative --
+    // guessing "use source" would change behaviour in a packaged install on a filesystem
+    // that does not report mtimes.
+    newer(script, binary).unwrap_or(false)
+}
+
 /// A `Command` that runs a hive subcommand, preferring the bundled engine binary
 /// and falling back to `python scripts/determinex_hive.py` for a dev checkout.
 ///
 /// Returns the command plus whether it is the standalone binary, so callers can
 /// log which path they took rather than guessing.
 pub(crate) fn hive_command(subcommand: &str) -> Result<(Command, bool), String> {
-    if let Some(binary) = resolve_hive_binary() {
+    if let Some(binary) = resolve_hive_binary().filter(|b| !prefer_source(&hive_script(), b)) {
         let mut cmd = Command::new(binary);
         cmd.hide_console();
         cmd.arg(subcommand);
@@ -546,14 +596,15 @@ pub(crate) fn helper_command(script: &str) -> Result<(Command, bool), String> {
         .unwrap_or(script)
         .replace(['/', '\\'], ".");
 
-    if let Some(binary) = resolve_hive_binary() {
+    let path = project_root().join(script);
+    if let Some(binary) = resolve_hive_binary().filter(|b| !prefer_source(&path, b)) {
         let mut cmd = Command::new(binary);
         cmd.hide_console();
         cmd.arg("helper").arg(&module);
         return Ok((cmd, true));
     }
-    // Dev fallback: the repo's script through a resolved interpreter.
-    let path = project_root().join(script);
+    // The repo's script through a resolved interpreter: either no sidecar exists, or this
+    // script is newer than the one that was built (see `prefer_source`).
     if !path.exists() {
         return Err(format!(
             "Neither the bundled determinex-hive binary nor {} was found.              Build the engine with: python bundler/build_hive_sidecar.py",

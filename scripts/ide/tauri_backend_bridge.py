@@ -127,8 +127,24 @@ class TauriBackendBridge:
             "IDE_COMMAND_BLOCKED_NOT_OPTED_IN": "TAURI_COMMAND_BLOCKED_NOT_OPTED_IN",
             "IDE_COMMAND_BLOCKED_NO_MODEL": "TAURI_COMMAND_BLOCKED_NO_MODEL",
             "IDE_COMMAND_BLOCKED_UNKNOWN_COMMAND": "TAURI_COMMAND_BLOCKED_UNKNOWN",
+            "IDE_COMMAND_NEEDS_APPROVAL": "TAURI_COMMAND_NEEDS_APPROVAL",
+            "IDE_COMMAND_TIMED_OUT": "TAURI_COMMAND_TIMED_OUT",
         }
-        status = status_map.get(inner_res.status, "TAURI_COMMAND_OK")
+        # An UNMAPPED status is translated mechanically, never defaulted to OK.
+        #
+        # This was `status_map.get(inner_res.status, "TAURI_COMMAND_OK")`, so any status the
+        # surface grew that nobody remembered to add here was reported to the frontend as
+        # SUCCESS. Found 2026-08-02 when a new IDE_COMMAND_NEEDS_APPROVAL -- whose entire
+        # purpose is to stop the frontend acting as though work had been done -- arrived as
+        # TAURI_COMMAND_OK. A default that means "fine" turns every future omission into a
+        # silent lie; a mechanical prefix swap propagates the truth even when this table is
+        # out of date, and an unrecognisable status is surfaced verbatim rather than
+        # laundered.
+        status = status_map.get(inner_res.status) or (
+            inner_res.status.replace("IDE_COMMAND_", "TAURI_COMMAND_", 1)
+            if inner_res.status.startswith("IDE_COMMAND_")
+            else (inner_res.status or "TAURI_COMMAND_UNKNOWN_STATUS")
+        )
 
         return self._respond(
             command, status, payload=inner_res.payload, notes=tuple(inner_res.notes)

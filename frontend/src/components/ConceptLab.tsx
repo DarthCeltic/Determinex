@@ -11,6 +11,7 @@ import {
   generateSpec,
   refineSpec,
   startSession,
+  assessIdeaContext,
 } from "@/lib/api";
 import {
   Zap,
@@ -745,6 +746,11 @@ function ConceptLabInner({
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   const [guidedAnswers, setGuidedAnswers] = useState<{ q: string; a: string }[]>([]);
   const [freeFormMode, setFreeFormMode] = useState(false);
+  // What the interview has actually established, and what it still lacks. Carried across
+  // rounds so a round that satisfies nothing new can be recognised as stalled rather than
+  // answered with the same question in different words.
+  const [contextSatisfied, setContextSatisfied] = useState<string[]>([]);
+  const [contextMissing, setContextMissing] = useState<string[]>([]);
 
   // specReady step
   const [spec, setSpec] = useState("");
@@ -937,13 +943,26 @@ function ConceptLabInner({
         selectedModel
       );
 
+      // 180s, not 45s.
+      //
+      // Measured 2026-08-02 on this machine: a warm local 7B answers `discover_idea` in 21
+      // seconds, consistently, through this exact IPC path. A 45s budget left barely two
+      // seconds of margin over the real cost, so ordinary variance -- a cold Python spawn, a
+      // litellm import, another model briefly sharing the GPU -- tipped it over. The user
+      // was then told "Is the model loaded?" about a model that was loaded and working.
+      // Blaming the model for our own budget is the same error as reporting a timeout as a
+      // defect in the user's code.
       const timeoutPromise = new Promise<{ ok: boolean; data?: any; error?: string }>((_, reject) =>
         setTimeout(
           () =>
             reject(
-              new Error("Oracle took too long to respond (timeout after 45s). Is the model loaded?")
+              new Error(
+                "The Oracle did not answer within 3 minutes. A local model on modest " +
+                  "hardware can take 20-60s; if this keeps happening, choose a smaller " +
+                  "model in Settings or point Determinex at a faster endpoint."
+              )
             ),
-          45000
+          180000
         )
       );
 
@@ -1028,8 +1047,16 @@ function ConceptLabInner({
       const conversePromise = converseIdea(payload);
       const timeoutPromise = new Promise<{ ok: boolean; data?: any; error?: string }>((_, reject) =>
         setTimeout(
-          () => reject(new Error("Oracle took too long to respond (timeout after 45s).")),
-          45000
+          // Same 45s -> 180s correction as the discover call above; a conversational turn
+          // costs the same local model roughly the same time.
+          () =>
+            reject(
+              new Error(
+                "The Oracle did not answer within 3 minutes. A local model on modest " +
+                  "hardware can take 20-60s per turn."
+              )
+            ),
+          180000
         )
       );
 
@@ -1155,22 +1182,86 @@ function ConceptLabInner({
       const nextQ = guidedQuestions[nextIdx];
       typewriterAnimate(nextQ, setOracleTyping, pushOracleMessage);
     } else {
-      // All questions answered — build structured prompt and generate spec
-      setCurrentQuestionIdx(nextIdx); // beyond last = finished
-      const answersText = allAnswers.map(({ q, a }) => `Q: ${q}\nA: ${a}`).join("\n\n");
-      const finishMsg = "All set! Generating your specification now...";
-      typewriterAnimate(finishMsg, setOracleTyping, (text) => {
-        pushOracleMessage(text);
-        const contextPrompt =
-          `GUIDED SETUP COMPLETE\n\n` +
-          `Project type: ${guidedType}\n` +
-          `Original idea: ${idea}\n\n` +
-          `[GUIDED ANSWERS]\n${answersText}\n\n` +
-          `Based on these answers, generate the formal Determinex MD spec. ` +
-          `Be specific and concrete. Do not invent details beyond what was provided.`;
-        generateSpecFromContext(contextPrompt);
-      });
+      // The static bank is exhausted. That is NOT the same as knowing enough.
+      //
+      // This used to generate the spec here unconditionally, so four thoughtful answers
+      // that happened to contain no checkable behaviour still produced a spec, a build,
+      // and a green compiler oracle that proved nothing -- compiling is not the same as
+      // being what was asked for. Now we ask whether a SOUND ORACLE can actually be
+      // synthesized from what we have, and keep interviewing while the answer is no.
+      setCurrentQuestionIdx(nextIdx);
+      void continueUntilContextIsSufficient(allAnswers);
     }
+  };
+
+  /**
+   * Keep interviewing until the answers can produce a sound oracle.
+   *
+   * Termination is not a counter. It is one of three real conditions:
+   *   - the backend reports the context sufficient (a sound oracle is synthesizable);
+   *   - a whole round establishes nothing new (`stalled`) -- say so and offer to build;
+   *   - the assessment is unavailable, in which case proceed rather than trapping the user
+   *     behind a check that cannot run.
+   */
+  const continueUntilContextIsSufficient = async (
+    allAnswers: { q: string; a: string }[]
+  ) => {
+    const buildSpec = (note?: string) => {
+      const answersText = allAnswers
+        .filter(({ a }) => a && a !== "(skipped)")
+        .map(({ q, a }) => `Q: ${q}\nA: ${a}`)
+        .join("\n\n");
+      typewriterAnimate(
+        note ?? "All set — I have what I need. Generating your specification now...",
+        setOracleTyping,
+        (text) => {
+          pushOracleMessage(text);
+          generateSpecFromContext(
+            `GUIDED SETUP COMPLETE\n\n` +
+              `Project type: ${guidedType}\n` +
+              `Original idea: ${idea}\n\n` +
+              `[GUIDED ANSWERS]\n${answersText}\n\n` +
+              `Based on these answers, generate the formal Determinex MD spec. ` +
+              `Be specific and concrete. Do not invent details beyond what was provided.`
+          );
+        }
+      );
+    };
+
+    const res = await assessIdeaContext({
+      idea,
+      answers: allAnswers.map(({ a }) => a),
+      asked: allAnswers.map(({ q }) => q),
+      previous_satisfied: contextSatisfied,
+    });
+
+    if (!res.ok || !res.data) {
+      // The check is an improvement, not a gate to hold the user hostage to.
+      buildSpec();
+      return;
+    }
+
+    const a = res.data;
+    setContextSatisfied(a.satisfied);
+    setContextMissing(a.missing);
+
+    if (a.sufficient) {
+      buildSpec(`I have enough now — ${a.rationale}. Generating your specification...`);
+      return;
+    }
+
+    if (a.stalled || a.questions.length === 0) {
+      buildSpec(
+        "That last round didn't add anything new, so I'll stop asking and build with " +
+          `what we have. Note that I still don't have: ${a.missing.join(", ")}.`
+      );
+      return;
+    }
+
+    // Genuinely more to learn: extend the interview with questions derived from what is
+    // ABSENT, so a question can only be asked while the thing it asks for is missing.
+    setGuidedQuestions((prev) => [...prev, ...a.questions]);
+    typewriterAnimate(a.questions[0], setOracleTyping, pushOracleMessage);
   };
 
   const handleSkipQuestion = () => {
@@ -1186,19 +1277,10 @@ function ConceptLabInner({
       const nextQ = guidedQuestions[nextIdx];
       typewriterAnimate(nextQ, setOracleTyping, pushOracleMessage);
     } else {
-      const answersText = allAnswers
-        .filter(({ a }) => a !== "(skipped)")
-        .map(({ q, a }) => `Q: ${q}\nA: ${a}`)
-        .join("\n\n");
-      const finishMsg = "Generating your specification from the answers provided...";
-      typewriterAnimate(finishMsg, setOracleTyping, (text) => {
-        pushOracleMessage(text);
-        const contextPrompt =
-          `GUIDED SETUP COMPLETE\n\nProject type: ${guidedType}\nOriginal idea: ${idea}\n\n` +
-          `[GUIDED ANSWERS]\n${answersText}\n\n` +
-          `Generate the formal Determinex MD spec.`;
-        generateSpecFromContext(contextPrompt);
-      });
+      // Same completeness check as the answer path. Skipping four questions must not be a
+      // way to "complete" the interview -- a skipped answer contributes no context, so the
+      // assessment will simply keep asking for what is still genuinely missing.
+      void continueUntilContextIsSufficient(allAnswers);
     }
   };
 
@@ -1675,6 +1757,19 @@ function ConceptLabInner({
                   Q {currentQuestionIdx + 1}/{guidedQuestions.length}
                 </span>
               </div>
+              {/* WHY it is still asking.
+                  The interview no longer stops at a fixed count -- it runs until a sound
+                  oracle can be synthesized from the answers. An open-ended number of
+                  questions with no stated reason feels like an interrogation, so name what
+                  is still missing. This appears only once the static bank is exhausted,
+                  i.e. exactly when the old build would already have given up and
+                  generated a spec from whatever it had. */}
+              {contextMissing.length > 0 && currentQuestionIdx >= 4 && (
+                <div className="text-meta text-amber-500/80 mb-2 leading-relaxed">
+                  Still needed for a verifiable build:{" "}
+                  <span className="font-mono">{contextMissing.join(", ")}</span>
+                </div>
+              )}
               {/* Type badge + skip + free-form toggle */}
               <div className="flex items-center gap-2">
                 <span className="text-eyebrow font-bold uppercase tracking-widest text-cyan-500/60 px-1.5 py-0.5 rounded border border-cyan-800/30 bg-cyan-950/20">
