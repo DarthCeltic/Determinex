@@ -625,6 +625,17 @@ interface ConceptLabProps {
   onConsultingChange?: (active: boolean) => void;
   /** Pre-fill the idea textarea from outside (e.g. Zone 2 example clicks) */
   externalIdea?: string;
+  /**
+   * Fired when Quick Verify finishes, so the run can be recorded as evidence.
+   * Without it the verdict never leaves this component and the Proof ledger stays empty
+   * after a successful verified build.
+   */
+  onVerified?: (result: {
+    solved: boolean;
+    checks: number | null;
+    proof: string | null;
+    idea: string;
+  }) => void;
   /** Dominant colors extracted from user-attached images — used to tint the wireframe preview */
   onColorHintsChange?: (colors: string[]) => void;
   workReadiness?: WorkReadiness;
@@ -651,6 +662,7 @@ function ConceptLabInner({
   onAnsweredCountChange,
   onConsultingChange,
   externalIdea,
+  onVerified,
   onColorHintsChange,
   workReadiness,
   onOpenModelSettings,
@@ -716,13 +728,28 @@ function ConceptLabInner({
         setQuickError("Build is unavailable right now (native backend not reachable).");
         return;
       }
-      setQuickBuild({ status: res.status, ...(res.payload ?? {}) });
+      const built: Record<string, unknown> = { status: res.status, ...(res.payload ?? {}) };
+      setQuickBuild(built);
+      // Report the verdict OUT, so the run leaves evidence where the product says evidence
+      // lives. Until now this result stayed local to this component: a program that had
+      // genuinely passed a synthesized oracle produced no matrixLogs line and no
+      // agentStatus.verdict, so the Proof panel -- fed by exactly those two -- rendered "No
+      // runs yet / No evidence yet" immediately after a successful verified build. For a
+      // system whose whole claim is that nothing is accepted without proof, a verified build
+      // recording no proof is a gap, not a design choice.
+      const solved = built.solved === true || /solved|verified|passes/i.test(String(built.status ?? ""));
+      onVerified?.({
+        solved,
+        checks: typeof built.n_checks === "number" ? built.n_checks : null,
+        proof: typeof built.proof === "string" ? built.proof : null,
+        idea,
+      });
     } catch (e) {
       setQuickError(`Build failed: ${e}`);
     } finally {
       setQuickVerifying(null);
     }
-  }, [idea, selectedModel]);
+  }, [idea, selectedModel, onVerified]);
 
   // Sync externalIdea (from Zone 2 example clicks) into local idea state
   useEffect(() => {

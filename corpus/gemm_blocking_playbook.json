@@ -1,0 +1,44 @@
+{
+  "_doc": "How throughput is actually obtained on real memory hierarchies, distilled from Goto & van de Geijn, 'Anatomy of High-Performance Matrix Multiplication' (ACM TOMS 2008), with the secondary TUM seminar summary registered separately. Written independently; no text from either is reproduced. Registered for attribution at corpus/references/academic/goto_vandegeijn_gemm_toms_2008.txt.",
+  "schema_version": 1,
+  "generated_at": "2026-08-04",
+  "why_this_is_in_determinex": "The AMD Radeon claim is that GPU batch throughput becomes correctness: P(solve) = 1-(1-p)^K, so accuracy is bounded by how fast independent attempts arrive rather than by model quality. That makes throughput a correctness concern, not a performance footnote. This paper is the canonical account of where throughput actually comes from -- arranging data movement, not counting FLOPs -- and the submission's own prefix-cache result is the same argument one level up: 93.5% cache hits on a shared-prefix arm against ~1% when a single distinct token is prepended, measured by vLLM on the GPU. The access PATTERN was the optimisation there too.",
+  "entries": [
+    {
+      "id": "layered_decomposition_before_tuning",
+      "lesson": "Decompose the operation so the innermost kernels can hold their operands in a chosen level of the hierarchy, then optimise only those. Goto's structure is gemm -> gepp/gemp/gepm -> gebp/gepb/gepdot, on the argument that if the three lowest kernels reach near-peak, every case above inherits it.",
+      "generalised": "Find the smallest unit whose working set you can PLACE deliberately, make that fast, and let the outer layers be loops. Optimising the outer loops first is work spent where the memory system is not the binding constraint.",
+      "category": "memory_hierarchy"
+    },
+    {
+      "id": "pick_the_cache_level_on_purpose",
+      "lesson": "Choose which cache level the blocked operand lives in, explicitly. The paper argues for the layer FURTHEST from the registers that still satisfies its assumptions, because a larger block amortises RAM-to-cache movement over more arithmetic. L1 is the intuitive choice and the wrong one.",
+      "generalised": "Bigger working set in slower-but-larger storage can beat a smaller one in the fastest storage, because the ratio that matters is arithmetic per byte moved, not access latency. Latency intuition points the wrong way here.",
+      "category": "memory_hierarchy"
+    },
+    {
+      "id": "packing_pays_for_itself",
+      "lesson": "Copy operands into contiguous packed buffers before the kernel runs. The copy looks like pure overhead and is not: it buys unit-stride access and TLB behaviour worth many times its cost.",
+      "generalised": "A data-movement step that makes the ACCESS PATTERN regular can be cheaper than the irregular accesses it removes. Judge a copy by what it changes downstream, not by its own cost -- the same reason verified search sends K identical prefixes rather than K different prompts.",
+      "category": "data_layout"
+    },
+    {
+      "id": "parameters_tied_to_named_resources",
+      "lesson": "Every blocking parameter is derived from a specific hardware resource: register-block mr x nr against the register file, kc and mc against cache capacity and TLB reach.",
+      "generalised": "A tuned constant whose derivation you cannot name is a constant that will be wrong on the next machine. Determinex applies this to K: determinex_calibrate.py measures the box and derives K < kv_cache_tokens / max_model_len rather than shipping a hardcoded 6.",
+      "category": "calibration"
+    },
+    {
+      "id": "state_the_assumptions_the_model_needs",
+      "lesson": "The paper states assumptions (a)-(c) explicitly and its derivation depends on them, so it is clear when the model stops applying.",
+      "generalised": "A performance model without stated preconditions cannot be falsified, only believed. Naming the conditions is what lets someone else find where it breaks -- and finding where it breaks is the useful part.",
+      "category": "method"
+    },
+    {
+      "id": "measure_the_ceiling_do_not_read_it",
+      "lesson": "Blocking sizes are bounded by real capacities, and the boundary is found by reasoning about the hardware rather than by trusting a declared figure.",
+      "generalised": "Applied directly in the AMD submission: vLLM publishes a concurrency figure at boot, and the demo sweeps K = 8/16/32/64 by candidates-per-second instead of trusting it, because a number declared at start-up is not the thing that enforces the limit under load.",
+      "category": "calibration"
+    }
+  ]
+}

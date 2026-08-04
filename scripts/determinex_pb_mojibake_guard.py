@@ -42,11 +42,21 @@ _TEXT_EXT = (
 _MOJIBAKE = ("Ã©", "â€™", "â€œ", "â€", "Ã¨", "Ã ", "Ã¼", "Â ", "â€“")
 
 
-def _git_eol_rows() -> list[tuple[str, str, str, str]]:
-    """(index_eol, worktree_eol, attr, path) for every tracked file. Empty if not a git repo."""
+def _git_eol_rows(paths: list[str] | None = None) -> list[tuple[str, str, str, str]]:
+    """(index_eol, worktree_eol, attr, path) for tracked files. Empty if not a git repo.
+
+    `paths` is passed THROUGH to git as a pathspec rather than used to filter the result.
+    That distinction is the whole fix: `git ls-files --eol` with no pathspec enumerates every
+    tracked file, which here means the entire vendored corpus and takes over three minutes.
+    Filtering afterwards costs exactly the same as not filtering at all -- the first attempt
+    at this scoped the output and was still timing out at ten minutes.
+    """
+    cmd = ["git", "ls-files", "--eol"]
+    if paths:
+        cmd += ["--", *paths]
     try:
         out = subprocess.run(
-            ["git", "ls-files", "--eol"],
+            cmd,
             capture_output=True,
             text=True,
             cwd=Path(__file__).resolve().parent.parent,
@@ -64,11 +74,19 @@ def _git_eol_rows() -> list[tuple[str, str, str, str]]:
     return rows
 
 
-def committed_crlf_violations() -> list[str]:
+def committed_crlf_violations(only: set[str] | None = None) -> list[str]:
     """Files whose INDEX (committed bytes) is CRLF but whose policy is LF. This is the real bug
-    class -- worktree CRLF from autocrlf checkout is i/lf and is correctly never flagged."""
+    class -- worktree CRLF from autocrlf checkout is i/lf and is correctly never flagged.
+
+    `only` restricts the result to a given set of repo-relative paths. `git ls-files --eol`
+    enumerates every tracked file, which on this repo means walking the whole vendored corpus:
+    measured at over 180 seconds. Running that on EVERY invocation made a single-file
+    pre-commit check take three minutes, so a commit touching two files took ten -- which is
+    the practical reason these hooks went unrun for so long. The full sweep still happens in
+    --all / --crlf-report mode, where the cost is expected and paid once in CI.
+    """
     bad = []
-    for i_eol, _w, attr, path in _git_eol_rows():
+    for i_eol, _w, attr, path in _git_eol_rows(sorted(only) if only else None):
         if "crlf" not in i_eol and "mixed" not in i_eol:
             continue
         if path.lower().endswith(_CRLF_OK_EXT):
@@ -184,7 +202,8 @@ def main() -> int:
     if "--fix-crlf" in sys.argv:
         return fix_crlf()
     args = [a for a in sys.argv[1:] if a != "--all" and not a.startswith("--")]
-    if "--all" in sys.argv or not args:
+    scan_all = "--all" in sys.argv or not args
+    if scan_all:
         files = [p for p in Path("scripts").rglob("*") if p.suffix in _TEXT_EXT and not _skip(p)]
         # tool-level Determinex-authored .sh only (compile.sh/reimpl_compile.sh/build*.sh) --
         # NOT nested vendor trees (source/, t/ test suites have legit non-UTF-8/CRLF fixtures).
@@ -198,8 +217,10 @@ def main() -> int:
         iss = check_file(p)
         if iss:
             bad[str(p)] = iss
-    # committed-CRLF check is corpus-wide (git-aware), independent of the per-file content scan
-    for path in committed_crlf_violations():
+    # committed-CRLF check is git-aware and independent of the per-file content scan. Scoped
+    # to the given files when files were given, corpus-wide only in --all mode.
+    scope = None if scan_all else {Path(a).as_posix() for a in args}
+    for path in committed_crlf_violations(scope):
         bad.setdefault(path, []).append("committed CRLF (index) in an LF-policy file")
     if bad:
         print(f"MOJIBAKE/CRLF GUARD FAILED: {len(bad)} file(s) with encoding/line-ending issues:")

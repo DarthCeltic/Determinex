@@ -67,8 +67,16 @@ export function MissionControlPanel() {
   const nextGate = mission.gates.find((gate) => gate.status !== "passed") ?? mission.gates[0];
 
   return (
+    /* @container, and every breakpoint below is a CONTAINER query, because this panel is not
+       laid out against the viewport. It is hosted in `zone1-hosted-addon`, which is ~618px
+       wide while the window is 1600px — so viewport `lg:`/`xl:` breakpoints all fired at
+       full strength inside a column less than half that wide. The result was a 280px rail
+       plus a two-column split crammed into the ~330px that remained: "Clean-host install
+       proof" broke to four lines, the blocker text ran one word per line, and the panel grew
+       its own horizontal AND vertical scrollbars. Nothing was wrong with the values — they
+       were measured against the wrong box. */
     <section
-      className="flex h-full min-h-0 flex-col overflow-hidden bg-[#05070b] text-white"
+      className="@container flex h-full min-h-0 flex-col overflow-hidden bg-[#05070b] text-white"
       data-testid="mission-control-panel"
     >
       <div className="shrink-0 border-b border-white/10 bg-black/40 px-5 py-4">
@@ -106,7 +114,10 @@ export function MissionControlPanel() {
         </div>
       </div>
 
-      <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-[280px_1fr]">
+      {/* Side-by-side only once the PANEL is wide enough to seat a 280px rail beside readable
+          content — @3xl is 768px. Below that the rail stacks above, which is what the 618px
+          hosted zone gets. */}
+      <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden @3xl:grid-cols-[280px_1fr]">
         <aside className="min-h-0 overflow-y-auto border-b border-white/10 bg-white/[0.025] p-4 lg:border-b-0 lg:border-r">
           <div className="mb-3 text-eyebrow font-black uppercase tracking-widest text-gray-500">
             Guided missions
@@ -159,7 +170,9 @@ export function MissionControlPanel() {
           </div>
         </aside>
 
-        <div className="min-h-0 overflow-y-auto p-5">
+        {/* Its own container: the two card splits below must react to THIS column's width,
+            not the panel's and not the window's. */}
+        <div className="@container min-h-0 overflow-y-auto p-5">
           {/* The REAL root cause the @container fix below doesn't reach on its own: CSS Grid's
               default track sizing floors an `Nfr` column at its content's max-content width, not
               0 -- this grid's second column (mission-next-action-card) contains long
@@ -171,7 +184,7 @@ export function MissionControlPanel() {
               which is what makes the ellipsis/@container fixes on the first card meaningful at
               all. Found live 2026-07-27 by measuring getBoundingClientRect() down the ancestor
               chain after the @container-only fix still measured a 130px card. */}
-          <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
+          <div className="grid gap-4 @2xl:grid-cols-[1.05fr_0.95fr]">
             <article
               className="@container min-w-0 rounded-lg border border-white/10 bg-black/30 p-5"
               data-testid="mission-active-card"
@@ -274,8 +287,8 @@ export function MissionControlPanel() {
 
           {/* Same min-w-0 fix as the grid above -- defensive here even though this pair's
               content doesn't currently have unbreakable long strings, since the same
-              Nfr-floors-at-max-content trap applies to any xl:grid-cols split. */}
-          <div className="mt-4 grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+              Nfr-floors-at-max-content trap applies to any Nfr grid-cols split. */}
+          <div className="mt-4 grid gap-4 @2xl:grid-cols-[1.15fr_0.85fr]">
             <section className="@container min-w-0 rounded-lg border border-white/10 bg-white/[0.03] p-4">
               <div className="mb-3 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-[var(--determinex-accent)]">
                 <BookOpenCheck size={13} /> Gate checklist

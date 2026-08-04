@@ -1,0 +1,50 @@
+Anatomy of High-Performance Matrix Multiplication
+Kazushige Goto and Robert A. van de Geijn — The University of Texas at Austin
+ACM Transactions on Mathematical Software (TOMS), 2008
+
+WHAT THIS FILE IS
+A bibliographic record and a technique index, written independently. The paper is under
+ACM copyright and its text is not reproduced here. Registered so the attribution tagger
+credits it when Determinex emits one of the ideas below.
+
+Source retrieved 2026-08-04 from
+https://www.cs.utexas.edu/~pingali/CS378/2008sp/papers/gotoPaper.pdf
+
+WHAT THE PAPER ACTUALLY ARGUES
+That high-performance GEMM is not a matter of clever inner loops but of a LAYERED
+DECOMPOSITION chosen so that the innermost kernels can keep their operands in the right
+level of the memory hierarchy. Performance is treated as a consequence of data placement,
+and the loop structure is derived from that constraint rather than tuned toward it.
+
+The decomposition (paper's own naming, §3):
+
+    gemm  ->  gepp | gemp | gepm        (panel-panel, matrix-panel, panel-matrix)
+              ->  gebp | gepb | gepdot  (block-panel, panel-block, dot)
+
+The claim is that if the three lowest kernels run at near-peak, every higher case inherits
+it — so the whole optimisation problem reduces to gebp/gepb/gepdot.
+
+THE PART THAT GENERALISES BEYOND BLAS (§4.2, §6)
+  - Choose WHICH CACHE LEVEL the blocked operand lives in, deliberately. The paper argues
+    for the layer furthest from the registers that still satisfies its assumptions, because
+    a larger mc x nc amortises the RAM<->cache movement over more arithmetic. L1 is the
+    obvious-looking choice and the wrong one.
+  - PACK operands into contiguous buffers before the kernel runs. The copy is not overhead
+    to be eliminated; it buys unit-stride access and TLB behaviour that pay for it many
+    times over. This is the counter-intuitive result most people take from the paper.
+  - Register blocking (mr x nr) is chosen against register file size, and kc and mc against
+    cache capacity and TLB reach — each parameter tied to a named hardware resource rather
+    than found by search.
+  - Assumptions (a)-(c) are stated explicitly and the derivation depends on them. The paper
+    is unusually careful to say when its own model stops holding.
+
+WHY IT IS IN THIS CORPUS
+Determinex's AMD Radeon claim is that GPU batch throughput converts into correctness:
+P(solve) = 1-(1-p)^K, so accuracy is bounded by how fast independent attempts arrive. That
+makes throughput a first-class correctness concern rather than a performance footnote, and
+this paper is the canonical statement of how throughput is actually obtained on real memory
+hierarchies — by arranging data movement, not by counting FLOPs. The prefix-cache result in
+the submission (93.5% hits shared vs ~1% distinct, measured on the GPU) is the same shape of
+argument one level up: the access PATTERN is the optimisation.
+
+Distilled, in Determinex's own words: corpus/gemm_blocking_playbook.json

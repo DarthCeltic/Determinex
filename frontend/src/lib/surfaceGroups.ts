@@ -47,6 +47,16 @@ export interface SurfaceMember {
   /** One line: what it DOES for you. */
   does: string;
   /**
+   * Optional heading this member sits under inside its group's drawer.
+   *
+   * Exists because folding the tool-introspection surfaces into `system` made that one
+   * group ten members long, and the "keep groups scannable" guard correctly failed it: a
+   * single flat list of ten is the clutter moved, not removed. Sections let one rail icon
+   * hold a structured drawer, so the count guard applies per SECTION rather than being
+   * relaxed away.
+   */
+  section?: string;
+  /**
    * For `kind: "modal"`, which modal to open. Kept as a named union rather than
    * reusing `id` so the shell's handler cannot silently fall through.
    */
@@ -264,13 +274,6 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
         what: "Several agents in one shared conversation.",
         does: "Turn-taking chat where every edit is oracle-checked before the next agent goes.",
       },
-      {
-        id: "passport",
-        label: "Passport",
-        kind: "addon",
-        what: "CLI logins, connected profiles, and spend.",
-        does: "Shows which agent accounts are authenticated and what they are costing.",
-      },
     ],
   },
   {
@@ -311,14 +314,16 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
     ],
   },
   {
-    id: "learn",
-    label: "Learn",
-    icon: "GraduationCap",
-    tone: "violet",
-    blurb: "Understand the system and what it has already proven.",
+    id: "system",
+    label: "System",
+    icon: "Settings",
+    tone: "slate",
+    blurb: "Determinex itself — what it has learned, how it is doing, and its settings.",
     members: [
+
       {
         id: "learning",
+        section: "About Determinex",
         label: "Learning Studio",
         kind: "addon",
         what: "Teaching explanations grounded in the verified corpus.",
@@ -326,6 +331,7 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
       },
       {
         id: "benchmark",
+        section: "About Determinex",
         label: "Brain",
         kind: "sidebar",
         what: "Corpus, benchmarks, and accumulated knowledge.",
@@ -333,23 +339,25 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
       },
       {
         id: "guide",
+        section: "Setup",
         label: "Guide",
         kind: "modal",
         modal: "guide",
         what: "The context-aware walkthrough.",
         does: "Explains the screen you are on and what to do next.",
       },
-    ],
-  },
-  {
-    id: "system",
-    label: "System",
-    icon: "Settings",
-    tone: "slate",
-    blurb: "Configure the IDE itself.",
-    members: [
+      {
+        id: "passport",
+        section: "Setup",
+        label: "Passport",
+        kind: "addon",
+        what: "CLI logins, connected profiles, and spend.",
+        does: "Shows which agent accounts are authenticated and what they are costing.",
+      },
+
       {
         id: "extensions",
+        section: "Setup",
         label: "Tools",
         kind: "sidebar",
         what: "Providers, oracles, benchmarks, integrations, skins.",
@@ -357,6 +365,7 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
       },
       {
         id: "skin",
+        section: "Setup",
         label: "Skin",
         kind: "modal",
         modal: "skin",
@@ -365,6 +374,7 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
       },
       {
         id: "settings",
+        section: "Setup",
         label: "Settings",
         kind: "modal",
         modal: "settings",
@@ -373,6 +383,7 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
       },
       {
         id: "flywheel",
+        section: "About Determinex",
         label: "Flywheel",
         kind: "addon",
         what: "Training corpus and feedback feed.",
@@ -380,6 +391,7 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
       },
       {
         id: "mission",
+        section: "About Determinex",
         label: "Mission Control",
         kind: "addon",
         what: "Determinex's own release readiness.",
@@ -388,6 +400,7 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
       },
       {
         id: "roadmap",
+        section: "About Determinex",
         label: "Determinex Roadmap",
         kind: "addon",
         what: "Successor direction and exact blockers.",

@@ -1,0 +1,63 @@
+Apache NuttX — real-time operating system for deeply embedded systems
+Apache Software Foundation · Apache License 2.0 · https://nuttx.apache.org
+Retrieved 2026-08-04 from the project's own documentation.
+
+Permissively licensed, so unlike the ACM and Addison-Wesley entries in this corpus its
+material may be quoted and redistributed. Summarised here rather than mirrored because the
+docs are online, versioned, and better read at source.
+
+WHAT IT IS
+A POSIX/ANSI-conformant RTOS that scales from 8-bit microcontrollers to 64-bit systems.
+Simple applications run in ~32K total memory; richly featured builds land at 64-100K. It
+deliberately does not try to reproduce Linux's feature set — it implements the standard
+interfaces so that software written on Linux ports across, and stops there.
+
+Fully preemptible, with fixed-priority, round-robin and sporadic scheduling.
+
+SUBSYSTEMS
+Tasks, semaphores, signals, pthreads, watchdog timers, optionally memory-protected
+processes · VFS with FAT, NXFFS, SPIFFS, LittleFS, ROMFS, TMPFS and union mounts ·
+character/block drivers, USB host and device, serial, I2C, CAN, PWM, ADC/DAC, wireless ·
+IPv4/IPv6 TCP/IP with BSD sockets, DNS, DHCP, HTTP/FTP, 802.11, 802.15.4, Bluetooth LE ·
+framebuffer/LCD, the NX windowing system, NxWidgets · crypto, power management, audio.
+
+THE PART THAT MATTERS MOST TO DETERMINEX: THE INVIOLABLE PRINCIPLES
+NuttX publishes a short list of things it will never trade away, and — this is the unusual
+part — gives the reason for each in terms of what the trade would cost, not what the rule is.
+Paraphrased:
+
+  1. Strict POSIX compliance. Embedded work sometimes needs special support, but "the
+     portable interface must never be compromised only for the sake of expediency."
+     Performance or convenience does not buy an exception.
+  2. Modular architecture, held by formalised documented interfaces and a near-absence of
+     global variables at those boundaries.
+  3. One consistent coding style, changed only evolutionarily. "Personal or organizational
+     preference is not a justification for a coding style change."
+  4. A permissive licence, always. NuttX states it will never adopt a copyleft licence.
+  5. All users matter — Linux, Windows, macOS, Solaris and FreeBSD supported equally, and
+     an explicit refusal to drift into "a Linux-only, GCC-only, and ARM-only solution."
+  6. The name is trademarked and forks may not use it.
+
+WHY THAT IS IN THIS CORPUS
+Determinex runs on the same shape of commitment, and states it the same way: no model ever
+judges its own output; an oracle never silently passes; no claim without evidence; a verified
+build must leave proof. Those are inviolables, and like NuttX's they are worth something only
+because they are written down BEFORE the moment when breaking one would be convenient.
+
+Two specifics worth carrying over:
+
+  - Each NuttX principle names the pressure it exists to resist ("only for the sake of
+    expediency", "personal preference is not a justification"). A rule that names its own
+    failure mode is far harder to erode than one that just states a preference. Determinex's
+    strongest guards read the same way -- the compiler-oracle note explains that a lenient
+    pass was recorded as verification, which is why the rule exists.
+  - "All users matter" is a scope commitment: refusing to let the common case quietly become
+    the only supported case. The equivalent here is the model-agnostic contract —
+    generate(prompt, temp) -> str and verify(str) -> OracleResult, with nothing in the loop
+    knowing which model produced a candidate — which is what keeps a 1.5B local model a
+    first-class citizen alongside a frontier API.
+
+USE
+Read the docs at source. This file exists so the attribution tagger credits NuttX when
+Determinex emits something derived from it, and so the governance parallel above is recorded
+where the corpus can retrieve it.

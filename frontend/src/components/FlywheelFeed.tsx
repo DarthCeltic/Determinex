@@ -20,6 +20,11 @@ type FlywheelSummary = {
   // of it, so above a size threshold the backend estimates the total from the average
   // record length it actually observed in the tail. Rendering an estimate as a count
   // would be an overclaim, so these flags exist to be shown, not swallowed.
+  // Records in the scanned window whose metadata is empty. They are real training pairs
+  // and are counted in the totals, but they name no tool or test, so showing them as rows
+  // produced a feed of "unknown / unknown" that drowned the real ones. Omitted from
+  // `pairs` and reported here instead -- stated, not swallowed.
+  unidentified_in_window?: number;
   total_is_estimate?: boolean;
   added_today_is_partial?: boolean;
   corpus_bytes?: number;
@@ -155,6 +160,18 @@ export function FlywheelFeed() {
             )}
           </div>
         </div>
+
+        {/* Records omitted from the list, said out loud. They are counted in the totals above,
+            so silently dropping them would make the list and the count disagree with no
+            explanation on screen -- the same class of quiet mismatch the estimate flags exist
+            to prevent. */}
+        {(summary?.unidentified_in_window ?? 0) > 0 && (
+          <p className="mb-2 text-meta font-mono text-gray-600">
+            {summary?.unidentified_in_window} record
+            {summary?.unidentified_in_window === 1 ? "" : "s"} in this window carry no metadata —
+            counted in the totals, omitted here because they name no tool or test.
+          </p>
+        )}
 
         <div className="flex-1 overflow-y-auto no-scrollbar space-y-2">
           {loading && summary === null ? (

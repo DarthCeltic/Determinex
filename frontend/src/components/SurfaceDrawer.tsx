@@ -166,10 +166,33 @@ export function SurfaceDrawer({
       {/* Scrollbar deliberately visible. Three menus in this app hid theirs and
           silently swallowed their own tails -- that is how Review and Merge
           became unreachable. */}
+      {/* Members render under their `section` heading when the group declares any. The
+          System drawer holds ten surfaces since the tool-introspection ones were folded in,
+          and ten in a flat list is the clutter moved rather than removed -- headings are why
+          one rail icon can hold them without becoming the next dumping ground. Groups with
+          no sections render exactly as before. */}
       <div className="flex-1 space-y-1.5 overflow-y-auto p-2">
-        {members.map((m) => (
-          <MemberRow key={m.id} member={m} active={activeSurfaceId === m.id} onOpen={onOpen} />
-        ))}
+        {members.some((m) => m.section)
+          ? [...new Map(members.map((m) => [m.section ?? "", true])).keys()].map((section) => (
+              <div key={section} className="space-y-1.5">
+                <div className="px-1 pb-0.5 pt-2 text-eyebrow font-black uppercase tracking-widest text-gray-600">
+                  {section}
+                </div>
+                {members
+                  .filter((m) => (m.section ?? "") === section)
+                  .map((m) => (
+                    <MemberRow
+                      key={m.id}
+                      member={m}
+                      active={activeSurfaceId === m.id}
+                      onOpen={onOpen}
+                    />
+                  ))}
+              </div>
+            ))
+          : members.map((m) => (
+              <MemberRow key={m.id} member={m} active={activeSurfaceId === m.id} onOpen={onOpen} />
+            ))}
       </div>
     </div>
   );

@@ -90,9 +90,12 @@ function registryAddonIds(): string[] {
 }
 
 describe("surface taxonomy", () => {
-  it("has exactly nine groups", () => {
-    // Ryan asked for nine rail icons; more than that is the clutter we removed.
-    expect(SURFACE_GROUPS).toHaveLength(9);
+  it("has exactly eight groups", () => {
+    // Was nine. `learn` was dissolved into `system` 2026-08-04: Learning Studio, Brain
+    // and Guide are all about Determinex rather than about your code, and Ryan -- seeing
+    // that 76% of the IDE's controls were the tool inspecting itself -- said they "should
+    // all be in the systems tab ... NOT in the surfaces for the user".
+    expect(SURFACE_GROUPS).toHaveLength(8);
   });
 
   it("gives every surface exactly one home", () => {
@@ -162,7 +165,31 @@ describe("surface taxonomy", () => {
       expect(g.members.length, `${g.id} is empty`).toBeGreaterThan(0);
       // A group that grows past ~6 is a sign it needs splitting, which is how
       // the original rail got to 18 icons.
-      expect(g.members.length, `${g.id} has too many members`).toBeLessThanOrEqual(6);
+      //
+      // Measured per SECTION, not per group. When the tool-introspection surfaces were
+      // folded into `system` it reached ten members and this guard failed -- correctly,
+      // because a flat list of ten is the clutter moved rather than removed. The fix was
+      // to give that drawer headings, not to raise the number: an unsectioned group is
+      // still held to six, and a sectioned one is held to six PER HEADING, which is what
+      // "small enough to scan" actually means.
+      const sections = new Map<string, number>();
+      for (const m of g.members) {
+        const key = m.section ?? "";
+        sections.set(key, (sections.get(key) ?? 0) + 1);
+      }
+      for (const [name, count] of sections) {
+        expect(
+          count,
+          `${g.id}${name ? ` section "${name}"` : ""} has too many members`
+        ).toBeLessThanOrEqual(6);
+      }
+      // Every member sectioned, or none of them -- a half-sectioned drawer renders some
+      // items under a heading and the rest floating above it.
+      const sectioned = g.members.filter((m) => m.section).length;
+      expect(
+        sectioned === 0 || sectioned === g.members.length,
+        `${g.id} mixes sectioned and unsectioned members`
+      ).toBe(true);
     }
   });
 

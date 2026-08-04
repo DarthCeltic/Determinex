@@ -1,0 +1,44 @@
+Hacker's Delight, Second Edition
+Henry S. Warren, Jr. — Addison-Wesley, 2012 — ISBN 978-0-321-84268-8
+
+WHAT THIS FILE IS, AND WHAT IT IS NOT
+This is a bibliographic record and a technique index. It contains no text from the book.
+The book is under copyright and is not redistributed by this project; the techniques it
+surveys are long-standing, widely published computer-arithmetic results, and everything
+Determinex stores about them is written independently and stated as a contract rather than
+copied as prose or code. The purpose of registering it here is attribution: when Determinex
+generates output matching one of these techniques, the attribution tagger credits the work
+that popularised it.
+
+WHY THIS BOOK IS RELEVANT TO A VERIFICATION SYSTEM
+Determinex's difficulty is not generating code; it is obtaining a SOUND oracle. Most tasks
+have fuzzy specifications, so `determinex_synthesize.py` has to refuse when it cannot derive
+a checkable contract. Bit-manipulation routines are the opposite case, and that makes them
+unusually valuable to this system:
+
+  1. Each is a TOTAL function on fixed-width machine integers. There is no I/O, no clock, no
+     locale, no filesystem — nothing that makes a test environment-dependent.
+  2. Each has an EXACT reference implementation that is obviously correct and slow. That
+     reference IS the oracle; the fast form is the thing under test.
+  3. The input domain is small enough to attack directly. A u8 or u16 function can be
+     verified EXHAUSTIVELY — not sampled, not property-tested, but proved over every input.
+     u32 functions can be checked exhaustively over structured subsets plus randomised
+     sweeps against the reference.
+
+That combination is rare. It gives the verified-search loop a large supply of tasks where the
+oracle is sound by construction, which is exactly the regime the correctness amplifier needs
+to demonstrate p -> 1-(1-p)^K without any question about whether the test was slop.
+
+TECHNIQUE INDEX — the families Determinex draws on
+Manipulating rightmost bits; counting bits (population count) and leading/trailing zeros;
+searching words for bytes; arithmetic bounds and overflow detection; branchless selection,
+min/max, absolute value and sign; integer division and remainder by constants; integer
+square root and cube root; power-of-two rounding; bit reversal and permutation; gray code;
+Hilbert curves; error-correcting codes; and the transcendental-function approximations.
+
+HOW DETERMINEX USES THEM
+Distilled, in Determinex's own words and with reference implementations written here rather
+than copied, in `corpus/bit_techniques_playbook.json`. Each entry carries an exact contract,
+a naive reference the oracle can be synthesised from, and the class of optimisation the fast
+form belongs to. No fast implementations are stored: the point is for the system to derive
+them and be checked, not to look them up.

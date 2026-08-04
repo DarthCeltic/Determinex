@@ -8256,8 +8256,7 @@
     "cross_refs": [
       "amd_radeon_hackathon_FIELD_20260802",
       "hackathon_pr_discipline_2026_07_10"
-    ],
-    "SUPERSEDED_NOTE": "scoring line CORRECTED by amd_radeon_hackathon_SCORING_RUBRIC_VERBATIM_20260803 -- the README gives 60/40; the official rules doc gives 60/40/+20 bonus = 120, with a per-dimension breakdown the README does not contain."
+    ]
   },
   "amd_radeon_hackathon_FIELD_20260802": {
     "_doc": "The live competitive field, enumerated with `gh pr list --repo AMD-DEV-CONTEST/Radeon-hackathon-2026-07 --state all --limit 60` plus `gh pr view` on the leaders. Method matters: COMPETITIVE_LANDSCAPE's rule is scan with real commands, never assume. Checked 2026-08-02.",
@@ -8317,30 +8316,5 @@
       "learned_classes_quarantine_20260716"
     ],
     "why": "moved 2026-08-02 to keep the retrieval file small and fast; the brain is HuggingFace-hosted and loaded on every query, so bytes are latency. Nothing was deleted -- read build_knowledge_archive.json for these."
-  },
-  "amd_radeon_hackathon_SCORING_RUBRIC_VERBATIM_20260803": {
-    "_doc": "Track 2 rubric read from the OFFICIAL RULES DOC (docs.google.com/document/d/1TwgwBNUAv8fRNQbkcTZmcRR0__Oi4WMsBfkW38ALZp4), exported via /export?format=txt. The repo README does NOT contain this breakdown; a submission planned from the README alone is planned against an aggregate.",
-    "total": "120 points, not 100. 60 functional + 40 Radeon/ROCm + 20 OPTIONAL BONUS.",
-    "functional_60": [
-      "Clear task positioning and creative application scenarios: 20",
-      "Complete core capabilities including task decomposition, tool invocation, RAG and memory management: 20",
-      "Smooth multi-turn interaction experience: 20"
-    ],
-    "radeon_40": [
-      "Core inference running on AMD Radeon GPU: 20",
-      "Targeted optimization for inference speed: 20"
-    ],
-    "bonus_20_verbatim": "Core inference running Using Radeon cloud model API with quantization or distillation or other optimization methods.",
-    "minimum_functional": "At least 2 of 5, MORE EARNS EXTRA CREDIT: local knowledge retrieval (RAG); tool invocation; multi-step task planning; local multi-turn memory; clear permission control & privacy protection.",
-    "hard_constraints_verbatim": [
-      "Core inference processes shall be executed locally on AMD Radeon GPU; remote APIs are not allowed for core functions",
-      "It is not allowed to depend entirely on closed-source Agent platforms to implement core features",
-      "Solutions must be based on the AMD Radeon GPU of Radeon cloud and ROCm software stack"
-    ],
-    "deadline": "August 6 2026 -- 11:59 PM UTC+8 / 5:59 PM CEST / 8:59 AM US Pacific.",
-    "prizes": "per track: 1st $5,000 / 2nd $3,500 / 3rd $1,500.",
-    "eligibility_gates": "Luma registration AND AMD Developer Program membership are BOTH mandatory for prize eligibility -- not merely recommended. Teams up to 3.",
-    "why_it_matters": "Two dimensions map directly onto work already done and were previously invisible: 'Smooth multi-turn interaction experience' (20) is what the Concept Lab interview fix serves, and 'Targeted optimization for inference speed' (20) is what the K-calibration measurements serve. The 20-point bonus explicitly rewards using the Radeon CLOUD MODEL API, which the vLLM-on-Radeon path already does.",
-    "status": "READ 2026-08-03. Discord #devmaster-track2 also carries the submission repo link and this doc link; other channels (#amd-developer-cloud, #rocm, #project-showcase, #ask-an-expert) are unread context."
   }
 }

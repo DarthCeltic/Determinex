@@ -153,6 +153,9 @@ pub struct FlywheelPair {
 
 #[derive(Serialize)]
 pub struct FlywheelSummary {
+    /// Records in the scanned window with empty metadata -- real pairs, but they name
+    /// nothing, so they are omitted from `pairs` rather than shown as "unknown".
+    pub unidentified_in_window: u64,
     pub total_pairs: u64,
     pub added_today: u64,
     pub pairs: Vec<FlywheelPair>,
@@ -180,6 +183,7 @@ pub fn get_flywheel_feed(limit: Option<u64>) -> Result<FlywheelSummary, String> 
         return Ok(FlywheelSummary {
             total_pairs: 0, added_today: 0, pairs: vec![],
             total_is_estimate: false, added_today_is_partial: false, corpus_bytes: 0,
+            unidentified_in_window: 0,
         });
     }
 
@@ -200,6 +204,8 @@ pub fn get_flywheel_feed(limit: Option<u64>) -> Result<FlywheelSummary, String> 
     let mut added_today = 0u64;
     let mut pairs: Vec<FlywheelPair> = Vec::new();
     let mut reached_yesterday = false;
+    // Records whose metadata is empty: counted in the totals, omitted from the preview.
+    let mut unidentified = 0u64;
 
     // `lines` is already newest-first.
     for line in lines.iter() {
@@ -213,17 +219,30 @@ pub fn get_flywheel_feed(limit: Option<u64>) -> Result<FlywheelSummary, String> 
             // seen every one of today's, so added_today is a total and not a floor.
             reached_yesterday = true;
         }
-        if pairs.len() < limit {
+        // Some records carry a completely EMPTY metadata object -- measured 2026-08-04, 11 of
+        // 40 in the tail. They are real training pairs and are counted as such, but they
+        // identify nothing, and rendering them produced a feed of "unknown / unknown" rows
+        // that visually dominated the real ones. Skip them in the PREVIEW and report how many
+        // were skipped, so the panel can say what it left out rather than quietly dropping
+        // records or quietly showing placeholders.
+        let identified = meta.get("slug").and_then(|v| v.as_str()).is_some_and(|s| !s.is_empty());
+        if !identified {
+            unidentified += 1;
+        }
+        if identified && pairs.len() < limit {
             let verdict = meta
                 .get("verdict")
                 .and_then(|v| v.as_str())
                 .unwrap_or("")
                 .to_uppercase();
-            let tool = meta.get("slug").and_then(|v| v.as_str()).unwrap_or("unknown").to_string();
+            let tool = meta.get("slug").and_then(|v| v.as_str()).unwrap_or("").to_string();
+            // `implementation_language` is absent from older records; `module` is present in
+            // both generations, so fall back to it rather than printing "unknown".
             let lang = meta
                 .get("implementation_language")
                 .and_then(|v| v.as_str())
-                .unwrap_or("unknown")
+                .or_else(|| meta.get("module").and_then(|v| v.as_str()))
+                .unwrap_or("—")
                 .to_string();
             let test_id = meta.get("test_id").and_then(|v| v.as_str()).unwrap_or("").to_string();
             let error_preview = val
@@ -257,6 +276,7 @@ pub fn get_flywheel_feed(limit: Option<u64>) -> Result<FlywheelSummary, String> 
         total_is_estimate,
         added_today_is_partial: hit_cap && !reached_yesterday,
         corpus_bytes,
+        unidentified_in_window: unidentified,
     })
 }
 

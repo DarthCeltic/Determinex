@@ -52,6 +52,7 @@ import {
   BadgeCheck,
   type LucideIcon,
   PanelRight,
+  Sparkles,
 } from "lucide-react";
 import {
   injectSandboxContext,
@@ -892,6 +893,35 @@ export default function DeterminexIDE() {
   const [confirmedPath, setConfirmedPath] = useState<PathInfo | null>(null);
   const [oracleAnsweredCount, setOracleAnsweredCount] = useState(0);
   const [isOracleConsulting, setIsOracleConsulting] = useState(false);
+
+  /**
+   * Which of Ask / Plan / Build / Prove the operator is actually on (0-3).
+   *
+   * The cockpit's four cards used to be static prose: they restated the vocabulary while
+   * the panel beside them did the work, and they read the same before a run and after a
+   * verified one. Derived from real state they answer the question a new operator actually
+   * has -- not "what are the stages called" but "which one am I in, and what do I do now".
+   */
+  const cockpitStep = agentStatus.verdict
+    ? 3
+    : hiveSessionId || agentStatus.isExecuting
+      ? 2
+      : isOracleConsulting || hiveSpec.trim()
+        ? 1
+        : 0;
+
+  /**
+   * The ONE thing to do next, in plain words. Three surfaces can start work -- the Work
+   * panel, this cockpit, and the Agent Chat Room -- and nothing on screen said which to
+   * use, so the honest fix is to name a single next action rather than leave the operator
+   * to infer it from three competing affordances.
+   */
+  const cockpitNextAction = [
+    "Type what you want in the box on the left, then press Consult Oracle. If it is one function and you can give examples, press Quick Verify instead — it is faster and ends in a proof.",
+    "Answer the Oracle's questions on the left until it can write a spec. It is narrowing your idea to something a test can check.",
+    "The builder is working. Attach Terminal or Trace on the right to watch it, or wait — the verdict lands here.",
+    "Done. The verdict and its evidence are in Proof; open it from the rail to see the diff, logs and oracle output.",
+  ][cockpitStep];
   const [externalIdea, setExternalIdea] = useState("");
   const [colorHints, setColorHints] = useState<string[]>([]);
   const [showProjectLibrary, setShowProjectLibrary] = useState(false);
@@ -2901,6 +2931,31 @@ export default function DeterminexIDE() {
                     selectedProjectName={selectedProjectName}
                     projectPath={displayPath(explorerRoot)}
                     selectedModel={selectedModel}
+                    // A Quick Verify run is a real oracle-verified result, so record it as
+                    // evidence. The Proof panel reads matrixLogs and agentStatus.verdict and
+                    // nothing else; before this, only the hive path (handleInject) wrote
+                    // them, so Proof showed "No runs yet / No evidence yet" straight after a
+                    // successful verified build.
+                    onVerified={({ solved, checks, proof, idea }) => {
+                      const verdict = solved
+                        ? `VERIFIED — ${checks ?? "?"} oracle checks passed`
+                        : "REFUSED — no sound oracle could be synthesised";
+                      setMatrixLogs((prev) => [
+                        ...prev,
+                        `[QUICK VERIFY] ${idea.slice(0, 90)}`,
+                        `[ORACLE] ${verdict}`,
+                        ...(proof ? [`[PROOF] ${proof.slice(0, 200)}`] : []),
+                      ]);
+                      setAgentStatus((prev) => ({
+                        ...prev,
+                        currentAgent: null,
+                        isExecuting: false,
+                        verdict,
+                        accepted: solved,
+                        confidence: null,
+                        error: null,
+                      }));
+                    }}
                     onOpenProjectLibrary={() => setShowProjectLibrary(true)}
                     onSpecChange={(s) => {
                       setHiveSpec(s);
@@ -3169,24 +3224,59 @@ export default function DeterminexIDE() {
                         }}
                       >
                         <section className="rounded-2xl border border-white/8 bg-black/30 p-5">
+                          {/* min-w-0 on the growing side, shrink-0 on the badge. Without
+                              both, a narrow window squeezed the badge until "No verdict"
+                              rendered on top of "Attach What You Need" -- the collision
+                              visible in the 2026-08-03 screenshot. flex children default to
+                              min-width:auto, so the left block refuses to shrink and pushes
+                              the badge out of its own box instead. */}
                           <div className="mb-4 flex items-center justify-between gap-3">
-                            <div>
+                            <div className="min-w-0">
                               <div className="text-eyebrow font-black uppercase tracking-widest text-gray-600">
                                 Run State
                               </div>
-                              <div className="mt-1 text-2xl font-black text-white">
+                              <div className="mt-1 truncate text-2xl font-black text-white">
                                 {hiveSessionId ? "Running" : "Ready"}
                               </div>
                             </div>
-                            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-eyebrow font-black uppercase tracking-widest text-gray-500">
+                            <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-eyebrow font-black uppercase tracking-widest text-gray-500">
                               {agentStatus.verdict ?? "No verdict"}
                             </span>
+                          </div>
+
+                          {/* ONE next action, in plain words. Three surfaces can start work --
+                              this cockpit, the Work panel on the left, and the Agent Chat Room
+                              on the AGENTS rail -- and until now nothing said which to use, so a
+                              new operator faced two panels that both looked like the beginning,
+                              two primary buttons with no stated difference between them, and
+                              fourteen attachable tools. Naming a single next step is the whole
+                              fix; the alternative is a tour, and a tour is what you write when
+                              the screen will not say it itself. */}
+                          <div
+                            data-testid="cockpit-next-action"
+                            className="mb-4 rounded-xl border border-emerald-400/25 bg-emerald-950/15 px-4 py-3"
+                          >
+                            <div className="mb-1 flex items-center gap-2 text-eyebrow font-black uppercase tracking-widest text-emerald-300">
+                              <Sparkles size={11} /> Do this next
+                            </div>
+                            <p className="text-label leading-relaxed text-gray-200">
+                              {cockpitNextAction}
+                            </p>
                           </div>
 
                           {/* Always 2x2. This section is half of Zone 2 -- about 400px -- so four
                               columns gave each card ~85px and turned a one-line
                               description into a six-line stack. Four-up only ever
                               looked right when the text was too small to read. */}
+                          {/* These four were static divs: they DESCRIBED the panel on the
+                              left while sitting on the right, and read "1 2 3 4" identically
+                              whether you had done nothing or finished a verified build. Two
+                              panels both looking like the start, a numbered sequence that
+                              never moved, and no statement of which to use first -- that is
+                              the confusion, and a diagram that cannot be wrong is not a
+                              guide. They now track the real state and say which step you are
+                              on, so the screen answers "what do I do next" instead of
+                              restating the product's vocabulary. */}
                           <div className="grid grid-cols-2 gap-3">
                             {[
                               ["Ask", "Describe the app, fix, or imported repo outcome."],
@@ -3196,13 +3286,44 @@ export default function DeterminexIDE() {
                             ].map(([label, detail], index) => (
                               <div
                                 key={label}
-                                className="rounded-xl border border-white/8 bg-white/[0.03] p-3"
+                                data-testid={`cockpit-step-${label.toLowerCase()}`}
+                                data-state={
+                                  index < cockpitStep
+                                    ? "done"
+                                    : index === cockpitStep
+                                      ? "current"
+                                      : "todo"
+                                }
+                                className={`rounded-xl border p-3 transition-all ${
+                                  index === cockpitStep
+                                    ? "border-emerald-400/45 bg-emerald-950/20 shadow-[0_0_18px_rgba(53,255,138,0.10)]"
+                                    : index < cockpitStep
+                                      ? "border-white/10 bg-white/[0.02]"
+                                      : "border-white/8 bg-white/[0.03] opacity-55"
+                                }`}
                               >
-                                <div className="mb-2 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-emerald-300">
-                                  <span className="flex h-5 w-5 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-950/30 font-mono text-meta">
-                                    {index + 1}
+                                <div
+                                  className={`mb-2 flex items-center gap-2 text-meta font-black uppercase tracking-widest ${
+                                    index <= cockpitStep ? "text-emerald-300" : "text-gray-600"
+                                  }`}
+                                >
+                                  <span
+                                    className={`flex h-5 w-5 items-center justify-center rounded-full border font-mono text-meta ${
+                                      index < cockpitStep
+                                        ? "border-emerald-400/40 bg-emerald-500/20 text-emerald-300"
+                                        : index === cockpitStep
+                                          ? "border-emerald-400/60 bg-emerald-950/40"
+                                          : "border-white/10 bg-black/30 text-gray-600"
+                                    }`}
+                                  >
+                                    {index < cockpitStep ? "✓" : index + 1}
                                   </span>
                                   {label}
+                                  {index === cockpitStep && (
+                                    <span className="ml-auto text-eyebrow font-black text-emerald-400">
+                                      YOU ARE HERE
+                                    </span>
+                                  )}
                                 </div>
                                 <p className="text-eyebrow leading-relaxed text-gray-500">
                                   {detail}

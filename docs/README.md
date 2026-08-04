@@ -96,6 +96,7 @@ Benchmark results are not product support, not release support, and not product 
 | How many ProgramBench tools have been locked? | [`papers/PROGRAMBENCH.md`](papers/PROGRAMBENCH.md) + [`../corpus/programbench/README.md`](../corpus/programbench/README.md) (filesystem-of-record status board) |
 | What's the Universal 100 campaign? | [`programs/universal-100/`](programs/universal-100/) — start at the sector coverage scoreboard binding |
 | What does the Tauri product shell look like? | [`ide-frontend/DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE.md`](ide-frontend/DETERMINEX_LIVE_REACT_UNIFIED_PRODUCT_SHELL_FINAL_STATE.md) + [`workflows/`](workflows/) |
+| What screens does the IDE actually have, and what is inside each one? | [`ide-frontend/UI_SURFACE_MAP.md`](ide-frontend/UI_SURFACE_MAP.md) — **generated**, never hand-written: crawled from the running app by `frontend/scripts/ui_map_surfaces.mjs --sync`, so a new screen appears and a deleted one disappears on its own. `node frontend/scripts/ui_automap.mjs --check` (pre-commit) fails if it drifts. |
 | What governance prevents bad training rows / approvals / mutations? | [`policy/`](policy/) — see the gate / guard / boundary docs |
 | What evidence backs a specific claim? | [`proof/EVIDENCE_INDEX.md`](proof/EVIDENCE_INDEX.md) + [`assurance/evidence/`](../assurance/evidence/) |
 | Latest audit report? | [`audits/DETERMINEX_FULL_CATHEDRAL_RELEASE_PATH_AUDIT_20260529.md`](audits/DETERMINEX_FULL_CATHEDRAL_RELEASE_PATH_AUDIT_20260529.md) |

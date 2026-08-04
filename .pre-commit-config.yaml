@@ -165,6 +165,54 @@ repos:
         pass_filenames: false
         files: '^scripts/.*\.py$'
 
+      # ── Absorbed from the hand-written hook (2026-08-04) ───────────────────
+      # These three ran only from a bespoke `.git/hooks/pre-commit` shell script,
+      # which is to say they ran NOWHERE: `core.hooksPath` pointed at
+      # `C:\Dev\Citadel\.git\hooks`, a directory left behind by the rename that no
+      # longer exists, so this repo had no hooks at all for an unknown period --
+      # including the .env and API-key gates. pre-commit's migration mode cannot
+      # rescue the script either, because it invokes the legacy hook through
+      # `/bin/sh`, which does not exist on Windows. So the guards move here, where
+      # one config is the single source of truth for what runs at commit time.
+      #
+      # The shell version fired all three whenever eval_index.json was staged;
+      # `files:` expresses that same trigger declaratively.
+      - id: pb-board-guard
+        name: ProgramBench board is consistent with eval_index
+        language: system
+        entry: python scripts/pb_board_guard.py
+        pass_filenames: false
+        files: '^corpus/programbench/eval_index\.json$'
+
+      - id: pb-doc-count-check
+        name: ProgramBench doc counts match the index
+        language: system
+        entry: python scripts/pb_doc_count_check.py
+        pass_filenames: false
+        files: '^corpus/programbench/eval_index\.json$'
+
+      - id: pb-override-scan
+        name: No eval_override suppressing test collection in a strict lock
+        language: system
+        entry: python scripts/pb_override_scan.py --guard
+        pass_filenames: false
+        files: '^corpus/programbench/eval_index\.json$'
+
+      # ── IDE surface map stays true (2026-08-04) — automap, not hand-map ────
+      # The map of every IDE surface and every action inside it is CRAWLED from
+      # the running app, never written by hand, so a screen added to the product
+      # lands on the map and a deleted one leaves it. That only holds if the
+      # committed doc and the committed snapshot cannot drift apart -- a doc that
+      # is merely regenerable goes stale the first time someone skips the command,
+      # which is exactly how the parallel-execution audit doc rotted behind a
+      # green lock test. Refresh with: cd frontend && node scripts/ui_map_surfaces.mjs --sync
+      - id: ui-surface-map-in-sync
+        name: IDE surface map matches its crawled snapshot
+        language: system
+        entry: node frontend/scripts/ui_automap.mjs --check
+        pass_filenames: false
+        files: '^(frontend/ui-surface-map\.json|docs/ide-frontend/UI_SURFACE_MAP\.md|frontend/scripts/ui_automap\.mjs)$'
+
       # ── Secret hygiene (2026-06-14) — keep API keys / .env out of git ──────
       - id: no-env-file
         name: Reject committing .env (secrets stay on disk, never in git)
