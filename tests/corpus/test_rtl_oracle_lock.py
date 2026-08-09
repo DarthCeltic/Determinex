@@ -214,3 +214,110 @@ def test_the_candidate_is_written_and_the_gold_is_never_touched(tmp_path):
     )
     assert "changed" in seen["gate"]
     assert gold.read_text(encoding="utf-8") == original, "the golden reference was modified"
+
+
+# ── the runner, its flags, and the no-solve preflight ────────────────────────
+
+
+def test_toolchain_status_reports_per_tool_not_one_boolean():
+    """ "eqy failed" with no further detail sends someone debugging their design when the real
+    problem is that yosys is not installed. Different causes, different remedies."""
+    s = rtl.toolchain_status()
+    for tool in ("eqy", "yosys", "sby"):
+        assert tool in s and "found" in s[tool] and "path" in s[tool]
+    assert isinstance(s["ready"], bool)
+
+
+def test_a_missing_toolchain_refuses_with_an_actionable_message(tmp_path, monkeypatch):
+    """A bare FileNotFoundError several layers away makes the obvious next move the wrong one."""
+    monkeypatch.setattr(rtl.shutil, "which", lambda _n: None)
+    gold = tmp_path / "gold.v"
+    gold.write_text("module m; endmodule\n", encoding="utf-8")
+    r = rtl.make_verify_fn(gold, "m", tmp_path / "w")("module m; endmodule\n")
+    assert r.passed is False
+    assert r.verdict == rtl.ERROR
+    # Assert the EQY message specifically. "not on PATH" alone is satisfied by the yosys check
+    # too, so disabling the eqy check left this green -- one guard covering for another, which
+    # is the same masking that made an earlier test in this suite worthless.
+    assert "eqy is not on PATH" in r.detail
+    assert "Nothing was verified" in r.detail
+
+
+def test_yosys_absence_is_reported_separately_from_eqy(tmp_path, monkeypatch):
+    """eqy is a front-end for yosys and cannot run alone; saying so saves a wrong debug session."""
+    monkeypatch.setattr(rtl.shutil, "which", lambda n: "/usr/bin/eqy" if n == "eqy" else None)
+    gold = tmp_path / "gold.v"
+    gold.write_text("module m; endmodule\n", encoding="utf-8")
+    r = rtl.make_verify_fn(gold, "m", tmp_path / "w")("module m; endmodule\n")
+    assert "yosys is not on PATH" in r.detail
+
+
+def test_the_preflight_is_never_reported_as_a_pass(tmp_path, monkeypatch):
+    """`-m/--setup` builds partitions and stops before any solver. The plumbing works and
+    nothing has been verified -- reporting that as a pass would be the whole failure mode of
+    this module, arrived at from the cheap direction."""
+    monkeypatch.setattr(rtl.shutil, "which", lambda n: f"/usr/bin/{n}")
+
+    def fake(cmd, **kw):
+        # eqy -m writes partition files but decides nothing.
+        out = Path(cmd[cmd.index("-d") + 1])
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "status").write_text(
+            "partition p0 created\npartition p1 created\n", encoding="utf-8"
+        )
+
+        class P:
+            returncode = 0
+            stdout = "setup complete"
+            stderr = ""
+
+        return P()
+
+    monkeypatch.setattr(rtl.subprocess, "run", fake)
+    gold = tmp_path / "g.v"
+    gold.write_text("module m; endmodule\n", encoding="utf-8")
+    gate = tmp_path / "t.v"
+    gate.write_text("module m; endmodule\n", encoding="utf-8")
+    r = rtl.preflight(gold, gate, "m", tmp_path / "w")
+    assert r.passed is False, "a setup-only run was reported as a proof"
+    assert "preflight, no solver run" in r.detail
+
+
+def test_setup_only_passes_the_m_flag_and_normal_runs_do_not(tmp_path, monkeypatch):
+    """The flags were verified against eqy's own argument parser; this keeps them honest."""
+    monkeypatch.setattr(rtl.shutil, "which", lambda n: f"/usr/bin/{n}")
+    seen: list[list[str]] = []
+
+    def fake(cmd, **kw):
+        seen.append(list(cmd))
+
+        class P:
+            returncode = 0
+            stdout = ""
+            stderr = ""
+
+        return P()
+
+    monkeypatch.setattr(rtl.subprocess, "run", fake)
+    rtl._default_runner(tmp_path / "j.eqy", tmp_path / "o", setup_only=True)
+    rtl._default_runner(tmp_path / "j.eqy", tmp_path / "o", jobs=4)
+    assert "-m" in seen[0], "setup mode did not pass -m"
+    assert "-m" not in seen[1], "a normal run passed -m and would decide nothing"
+    assert seen[1][seen[1].index("-j") + 1] == "4"
+    for c in seen:
+        assert c[0] == "eqy" and "-f" in c and "-d" in c
+
+
+def test_a_timeout_is_undecided_not_a_design_failure(tmp_path, monkeypatch):
+    """A solver that ran out of time says nothing about the transformation. Reporting it as a
+    crash sends the next attempt at fixing code that may be perfectly correct."""
+    monkeypatch.setattr(rtl.shutil, "which", lambda n: f"/usr/bin/{n}")
+
+    def boom(cmd, **kw):
+        raise rtl.subprocess.TimeoutExpired(cmd, 1)
+
+    monkeypatch.setattr(rtl.subprocess, "run", boom)
+    rc, out = rtl._default_runner(tmp_path / "j.eqy", tmp_path / "o", timeout_s=1)
+    res = rtl.parse_result(out, rc)
+    assert res.verdict == rtl.UNKNOWN
+    assert res.partitions_unresolved >= 1

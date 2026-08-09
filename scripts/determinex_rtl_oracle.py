@@ -37,11 +37,13 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import subprocess
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 _HERE = str(Path(__file__).resolve().parent)
 if _HERE not in sys.path:
@@ -172,7 +174,20 @@ def _read_status_sources(outdir: Path) -> str:
     would look like "no failures found".
     """
     chunks: list[str] = []
-    for pattern in ("status", "status.*", "*.status", "logfile.txt", "*.log", "PASS", "FAIL"):
+    for pattern in (
+        "status",
+        "status.*",
+        "*.status",
+        "logfile.txt",
+        "*.log",
+        "PASS",
+        "FAIL",
+        # Markers this module writes itself. Omitting these made the timeout path silently
+        # broken: the runner recorded a timeout, nothing read the file, the parse came back
+        # empty, and an undecided run was reported as ERROR -- which routes to "fix your
+        # invocation" instead of "the proof did not close".
+        "determinex_*",
+    ):
         for p in sorted(outdir.glob(pattern)):
             if p.is_file():
                 try:
@@ -268,13 +283,47 @@ def parse_result(outdir: Path | str, returncode: int | None = None) -> RtlOracle
 # ── the oracle ───────────────────────────────────────────────────────────────
 
 
+def preflight(
+    gold: Path | str, gate: Path | str, top: str, workdir: Path | str, jobs: int = 1
+) -> RtlOracleResult:
+    """Validate the whole pipeline WITHOUT running a solver.
+
+    Uses eqy's `-m/--setup`: it reads both designs, matches signals and builds the partitions,
+    then stops. That exercises everything that usually goes wrong first -- a design that will not
+    elaborate, a top module name that does not exist, ports that do not match -- for a fraction of
+    the cost of a real proof.
+
+    The verdict is deliberately NOT a pass. No partition was decided, so `parse_result` reports
+    UNKNOWN, which is the truthful answer: the plumbing works and nothing has been verified.
+    """
+    work = Path(workdir)
+    work.mkdir(parents=True, exist_ok=True)
+    cfgp = work / "preflight.eqy"
+    outdir = work / "preflight_out"
+    try:
+        write_eqy_config(gold, gate, top, cfgp)
+        rc, produced = _default_runner(cfgp, outdir, jobs=jobs, setup_only=True, timeout_s=600)
+    except Exception as exc:
+        return RtlOracleResult(
+            passed=False,
+            verdict=ERROR,
+            detail=str(exc)[:400],
+            failures=[RtlFailure("eqy:preflight", "preflight", str(exc)[:400])],
+        )
+    res = parse_result(produced, rc)
+    res.detail = f"[preflight, no solver run] {res.detail}"
+    return res
+
+
 def make_verify_fn(
     gold: Path | str,
     top: str,
     workdir: Path | str,
-    run_fn: Callable[[Path, Path], tuple[int, Path]] | None = None,
+    run_fn: Callable[..., tuple[int, Path]] | None = None,
     strategy: str = "sat",
     depth: int = 10,
+    jobs: int = 1,
+    timeout_s: int = 3600,
 ) -> Callable[[str], RtlOracleResult]:
     """A `verify(candidate_rtl) -> OracleLike` for determinex_verified_search.
 
@@ -296,7 +345,13 @@ def make_verify_fn(
         try:
             gate.write_text(candidate_rtl, encoding="utf-8", newline="\n")
             write_eqy_config(gold_p, gate, top, cfgp, strategy=strategy, depth=depth)
-            rc, produced = runner(cfgp, outdir)
+            # Injected runners in tests take only (config, outdir); the real one accepts the
+            # tuning knobs. Passed positionally-compatible so both shapes work rather than
+            # forcing every test double to mirror the production signature.
+            if runner is _default_runner:
+                rc, produced = runner(cfgp, outdir, jobs=jobs, timeout_s=timeout_s)
+            else:
+                rc, produced = runner(cfgp, outdir)
         except Exception as exc:  # a broken run is a verdict, not an exception to leak upward
             return RtlOracleResult(
                 passed=False,
@@ -309,14 +364,89 @@ def make_verify_fn(
     return verify
 
 
-def _default_runner(config: Path, outdir: Path) -> tuple[int, Path]:
-    """Invoke eqy. Fixed argv -- no shell, and the only variable is a path we wrote."""
-    proc = subprocess.run(
-        ["eqy", "-f", "-d", str(outdir), str(config)],
-        capture_output=True,
-        text=True,
-        timeout=3600,
-    )
+def toolchain_status() -> dict[str, Any]:
+    """Which parts of the toolchain are actually present. Costs nothing to ask.
+
+    Reported per tool rather than as one boolean, because the remedies differ and "eqy failed"
+    with no further detail sends someone debugging their design when the real problem is that
+    yosys is not on PATH.
+    """
+    out: dict[str, Any] = {}
+    for tool, probe in (
+        ("eqy", ["eqy", "--help"]),
+        ("yosys", ["yosys", "-V"]),
+        ("sby", ["sby", "--help"]),
+    ):
+        exe = shutil.which(tool)
+        version = ""
+        if exe:
+            try:
+                p = subprocess.run(probe, capture_output=True, text=True, timeout=30)
+                version = (p.stdout or p.stderr or "").strip().splitlines()[0][:80]
+            except (OSError, subprocess.SubprocessError):
+                version = "present but did not respond"
+        out[tool] = {"found": bool(exe), "path": exe or "", "version": version}
+    out["ready"] = out["eqy"]["found"] and out["yosys"]["found"]
+    return out
+
+
+#: Flags verified against eqy's own argument parser (YosysHQ/eqy, src/eqy.py):
+#:   -f  remove the workdir if it already exists   -d  set the workdir name
+#:   -j  allow N parallel make jobs                -m  generate partitions and EXIT
+#:   -k  keep going when some targets fail
+#: `-m` is what makes a no-solve preflight possible: it builds the partitions and stops before
+#: any solver runs, so the whole pipeline can be validated for a fraction of the cost.
+def _default_runner(
+    config: Path, outdir: Path, jobs: int = 1, setup_only: bool = False, timeout_s: int = 3600
+) -> tuple[int, Path]:
+    """Invoke eqy. Fixed argv -- no shell; the only variables are paths we wrote.
+
+    Refuses up front when the toolchain is absent, with an actionable message. Without that the
+    failure surfaces as a bare FileNotFoundError several layers away, and the obvious next move
+    -- debugging the RTL -- is the wrong one.
+    """
+    if not shutil.which("eqy"):
+        raise RuntimeError(
+            "eqy is not on PATH. Install YosysHQ's OSS CAD Suite (which bundles yosys, eqy and "
+            "sby) or build eqy from https://github.com/YosysHQ/eqy. Nothing was verified."
+        )
+    if not shutil.which("yosys"):
+        raise RuntimeError(
+            "yosys is not on PATH; eqy is a front-end for it and cannot run alone. "
+            "Nothing was verified."
+        )
+
+    cmd = ["eqy", "-f", "-d", str(outdir)]
+    if jobs > 1:
+        cmd += ["-j", str(jobs)]
+    if setup_only:
+        # Build partitions and stop before any solver. A cheap structural check, not a proof --
+        # parse_result will correctly report UNKNOWN because no partition was decided.
+        cmd.append("-m")
+    cmd.append(str(config))
+
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout_s)
+    except subprocess.TimeoutExpired:
+        # A timeout is UNDECIDED, never a failure of the design. Surfacing it as a crash would
+        # send the next attempt at fixing a transformation that may be perfectly correct.
+        (outdir / "determinex_timeout").parent.mkdir(parents=True, exist_ok=True)
+        (outdir / "determinex_timeout").write_text(
+            f"partition timeout status: timeout after {timeout_s}s\n", encoding="utf-8"
+        )
+        return 1, outdir
+
+    # eqy's own stderr/stdout carries the reason when it fails before writing any status file.
+    # Kept alongside the outputs so parse_result can quote it rather than reporting silence.
+    try:
+        outdir.mkdir(parents=True, exist_ok=True)
+        (outdir / "determinex_invocation.log").write_text(
+            f"$ {' '.join(cmd)}\nexit={proc.returncode}\n\n"
+            f"--- stdout ---\n{proc.stdout or ''}\n--- stderr ---\n{proc.stderr or ''}\n",
+            encoding="utf-8",
+        )
+    except OSError:
+        pass
     return proc.returncode, outdir
 
 
