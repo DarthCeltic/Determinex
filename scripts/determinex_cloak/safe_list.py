@@ -359,7 +359,6 @@ _ALWAYS_SAFE: frozenset[str] = frozenset(
         "json",
         "headers",
         "cookies",
-        "params",
         # sqlalchemy
         "Column",
         "Integer",

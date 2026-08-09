@@ -12,8 +12,31 @@ function drag(startResize: (e: any) => void, from: number, to: number) {
   });
 }
 
+/**
+ * Set the viewport explicitly.
+ *
+ * These tests used to inherit jsdom's 1024px default silently, which was invisible right up until
+ * the width started depending on it. A test whose result turns on a value it never names is a
+ * test that will one day change meaning without anyone editing it.
+ */
+function setViewport(px: number) {
+  Object.defineProperty(window, "innerWidth", { value: px, configurable: true, writable: true });
+}
+
+function resizeWindowTo(px: number) {
+  act(() => {
+    setViewport(px);
+    window.dispatchEvent(new Event("resize"));
+  });
+}
+
 describe("usePanelWidth", () => {
-  beforeEach(() => localStorage.clear());
+  beforeEach(() => {
+    localStorage.clear();
+    // Wide enough that the viewport is not the binding constraint, so the min/max tests below
+    // measure min/max rather than accidentally measuring the fit.
+    setViewport(2400);
+  });
 
   it("starts at the default when nothing is stored", () => {
     const { result } = renderHook(() => usePanelWidth("zone1.hive", 460));
@@ -77,5 +100,51 @@ describe("usePanelWidth", () => {
       window.dispatchEvent(new PointerEvent("pointerup", { clientX: 50 }));
     });
     expect(localStorage.getItem(panelWidthStorageKey("zone1.hive"))).toBe("510");
+  });
+
+  // ── the width must also FIT ────────────────────────────────────────────────
+  //
+  // The panel renders at an inline pixel width with `shrink-0` inside an `overflow-hidden`
+  // ancestor. A remembered width wider than the window is therefore drawn past the edge and
+  // clipped -- no scrollbar, and the resize handle rides the panel's right edge so the one
+  // control that could fix it is off-screen too. Observed live: the Agent Chat Room's prose,
+  // agent evidence and combo buttons were all cut mid-line.
+
+  it("never restores a stored width wider than the window can show", () => {
+    setViewport(1000);
+    localStorage.setItem(panelWidthStorageKey("zone1.hive"), "900");
+    const { result } = renderHook(() => usePanelWidth("zone1.hive", 460));
+    expect(result.current.width).toBeLessThan(900);
+    expect(result.current.width).toBeLessThanOrEqual(1000);
+  });
+
+  it("re-fits when the window is made smaller", () => {
+    setViewport(2400);
+    const { result } = renderHook(() => usePanelWidth("zone1.hive", 460, { min: 300, max: 1200 }));
+    drag(result.current.startResize, 0, 700); // 1160, fine at 2400
+    expect(result.current.width).toBe(1160);
+
+    resizeWindowTo(900);
+    expect(result.current.width).toBeLessThan(1160);
+    expect(result.current.width).toBeLessThan(900);
+  });
+
+  it("does not let a temporary small window permanently shrink the stored width", () => {
+    setViewport(2400);
+    const { result } = renderHook(() => usePanelWidth("zone1.hive", 460, { min: 300, max: 1200 }));
+    drag(result.current.startResize, 0, 700);
+    expect(localStorage.getItem(panelWidthStorageKey("zone1.hive"))).toBe("1160");
+
+    // Shrinking the window adapts what is DISPLAYED; the user's deliberate choice survives.
+    resizeWindowTo(900);
+    expect(localStorage.getItem(panelWidthStorageKey("zone1.hive"))).toBe("1160");
+  });
+
+  it("still honours min when the window is absurdly narrow", () => {
+    // A panel narrower than min is unreadable, so min wins over the fit. Clipping is the lesser
+    // failure at that point -- there is genuinely no width that both fits and works.
+    setViewport(320);
+    const { result } = renderHook(() => usePanelWidth("zone1.hive", 460, { min: 300, max: 1200 }));
+    expect(result.current.width).toBe(300);
   });
 });

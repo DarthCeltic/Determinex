@@ -90,8 +90,6 @@ SLUG_LANGUAGE_MAP = {
     "elfcat": "rust",
     "entr": "c",
     "eva": "rust",
-    "fblog": "rust",
-    "flamelens": "rust",
     "fzf": "go",
     "genact": "rust",
     "git-trim": "go",
@@ -108,7 +106,6 @@ SLUG_LANGUAGE_MAP = {
     "json-tui": "rust",
     "jq": "c",
     "keifu": "rust",
-    "loop": "rust",
     "miniserve": "rust",
     "muffet": "go",
     "monolith": "rust",
@@ -119,7 +116,6 @@ SLUG_LANGUAGE_MAP = {
     "ov": "rust",
     "parqeye": "python",
     "pastel": "rust",
-    "pier": "rust",
     "pingu": "rust",
     "quickjs": "c",
     "rhit": "rust",
@@ -265,7 +261,7 @@ class ResourceMonitor:
         sample = {"ts": time.time()}
         # CPU & memory via psutil (fast, cross-platform)
         try:
-            import psutil
+            import psutil  # noqa: F401  - imported to test availability only
 
             sample["cpu_pct"] = psutil.cpu_percent(interval=1)
             mem = psutil.virtual_memory()
@@ -300,7 +296,9 @@ class ResourceMonitor:
                 errors="replace",
                 timeout=5,
             )
-            sample["docker_containers"] = len([l for l in r.stdout.splitlines() if l.strip()])
+            sample["docker_containers"] = len(
+                [line for line in r.stdout.splitlines() if line.strip()]
+            )
         except Exception:
             sample["docker_containers"] = 0
 
@@ -933,7 +931,7 @@ def main():
 
     # 3. psutil (optional but recommended)
     try:
-        import psutil
+        import psutil  # noqa: F401 - imported only to test availability
 
         print("  [OK] psutil available (accurate resource monitoring)")
     except ImportError:

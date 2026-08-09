@@ -1,0 +1,253 @@
+{
+ "entries": [
+  {
+   "id": "amd_track2_submission_2026_08",
+   "kind": "submission_record",
+   "pr": "AMD-DEV-CONTEST/Radeon-hackathon-2026-07#54",
+   "title": "Track 2, DarthCeltic, Determinex",
+   "state": "submitted, out of draft",
+   "deliverables": {
+    "spec_pdf": true,
+    "source_in_pr": true,
+    "demo_video_min": 3.52,
+    "poster_deck": true,
+    "self_verify_no_gpu": true
+   },
+   "gpu_claims": {
+    "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM 0.16.1",
+    "k6_throughput_x": 5.58,
+    "k6_wallclock_x": 1.07,
+    "reproduced_runs": 6,
+    "reproduced_instances": 5,
+    "single_stream_tok_s": [
+     26.1,
+     32.6
+    ],
+    "k6_aggregate_tok_s": [
+     163.0,
+     186.9
+    ],
+    "prefix_cache_hit_shared": 0.935,
+    "prefix_cache_hit_distinct": 0.01
+   },
+   "breadth_rows": [
+    {
+     "model": "tiiuae/Falcon3-1B-Instruct",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 0,
+     "per_attempt_p": 0.0,
+     "first_verified_at": null,
+     "solved": false,
+     "predicted_at_K": 0.0,
+     "wall_clock_s": 26.0,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T19:32:08+00:00"
+    },
+    {
+     "model": "deepseek-ai/deepseek-coder-1.3b-instruct",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 10,
+     "per_attempt_p": 0.625,
+     "first_verified_at": 1,
+     "solved": true,
+     "predicted_at_K": 1.0,
+     "wall_clock_s": 54.6,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T19:42:36+00:00"
+    },
+    {
+     "model": "Qwen/Qwen2.5-0.5B-Instruct",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 1,
+     "per_attempt_p": 0.062,
+     "first_verified_at": 4,
+     "solved": true,
+     "predicted_at_K": 0.6439,
+     "wall_clock_s": 13.0,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T19:14:29+00:00"
+    },
+    {
+     "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 1,
+     "per_attempt_p": 0.062,
+     "first_verified_at": 14,
+     "solved": true,
+     "predicted_at_K": 0.6439,
+     "wall_clock_s": 24.5,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T18:35:54+00:00"
+    },
+    {
+     "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 0,
+     "per_attempt_p": 0.0,
+     "first_verified_at": null,
+     "solved": false,
+     "predicted_at_K": 0.0,
+     "wall_clock_s": 12.0,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T19:27:46+00:00"
+    },
+    {
+     "model": "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 0,
+     "per_attempt_p": 0.0,
+     "first_verified_at": null,
+     "solved": false,
+     "predicted_at_K": 0.0,
+     "wall_clock_s": 17.3,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T19:07:35+00:00"
+    },
+    {
+     "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 1,
+     "per_attempt_p": 0.062,
+     "first_verified_at": 16,
+     "solved": true,
+     "predicted_at_K": 0.6439,
+     "wall_clock_s": 27.7,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T19:50:53+00:00"
+    },
+    {
+     "model": "Qwen/Qwen3-1.7B",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 2,
+     "per_attempt_p": 0.125,
+     "first_verified_at": 13,
+     "solved": true,
+     "predicted_at_K": 0.8819,
+     "wall_clock_s": 80.6,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T19:59:26+00:00"
+    },
+    {
+     "model": "Qwen/Qwen2.5-1.5B-Instruct",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 0,
+     "per_attempt_p": 0.0,
+     "first_verified_at": null,
+     "solved": false,
+     "predicted_at_K": 0.0,
+     "wall_clock_s": 34.7,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T20:20:56+00:00"
+    },
+    {
+     "model": "Qwen/Qwen2.5-Coder-7B-Instruct",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 16,
+     "per_attempt_p": 1.0,
+     "first_verified_at": 1,
+     "solved": true,
+     "predicted_at_K": 1.0,
+     "wall_clock_s": 64.3,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T19:23:04+00:00"
+    },
+    {
+     "model": "01-ai/Yi-Coder-1.5B-Chat",
+     "K": 16,
+     "attempts": 16,
+     "errors": 0,
+     "verified": 1,
+     "per_attempt_p": 0.062,
+     "first_verified_at": 13,
+     "solved": true,
+     "predicted_at_K": 0.6439,
+     "wall_clock_s": 70.0,
+     "hardware": "AMD Radeon Pro W7900 48GB, ROCm 7.2.1, vLLM (Radeon Cloud instance)",
+     "measured_over": "the instance's own HTTPS tunnel",
+     "ts": "2026-08-05T20:12:56+00:00"
+    }
+   ],
+   "known_limits": [
+    "ProgramBench honest score is 0/200 under the strict rule; deliberately excluded from the submission because it measures a different thing on different hardware.",
+    "No rocm-smi capture: the GPU is evidenced by what it serves, not a utilisation readout.",
+    "One measurement did not reproduce first time; the failed hypothesis ships beside the correction (spec 5.1b/5.1c).",
+    "Six roadmap capabilities are marked partial, one planned."
+   ],
+   "cannot_be_computed": "Whether this wins. There is no oracle for judge preference: the rubric gives categories, not weights, and no public data maps a submission to an outcome. Any number claiming to predict placement would be manufactured. The measurable part is coverage of stated criteria and completeness of required deliverables - both recorded above.",
+   "ts": "2026-08-05T20:25:39+00:00",
+   "breadth_summary": {
+    "models": 11,
+    "solved": 7,
+    "families": 7,
+    "p_range": [
+     0.0,
+     1.0
+    ],
+    "note": "Capability is not monotonic in parameters: Qwen2.5-1.5B scores 0.000 while Qwen2.5-Coder-1.5B at the same size scores 0.062 and solves. A 0.5B solves where a 1B does not. Only measurement shows this."
+   }
+  },
+  {
+   "id": "amd_track2_ranking_prediction_20260808",
+   "kind": "prediction",
+   "state": "open -- to be checked against announced results",
+   "made_at": "2026-08-08",
+   "field": "163 Track 2 entries live and out of draft; 333 PRs across all tracks",
+   "method": "Each entry scored from its PR body + public file manifest against the published 120-point rubric (.local/rubric_score.py), plus a deliverable check for the four required items. Nothing cloned, nothing a judge could not also see.",
+   "instrument_caveat": "The scorer measures how VISIBLE each criterion is, not how good the project is. It is our own regex set, and our PR body was written after reading the rubric, so our 120/120 is Goodhart's law and must not be read as a quality verdict. A terse PR over excellent work scores low here and deserves better.",
+   "predictions": {
+    "ours_54": "Strongest deliverable position in the field: 4/4 required items, both demo videos live and watchable. Real risk is that judges weight the 40-point ROCm axis toward hand-written kernels, where #42 has the stronger claim.",
+    "tiny_tim_9": "46/120, composite rank 10/163. 88th percentile on the Radeon axis, but 18/60 on functional -- a strong systems project in an agent track.",
+    "signalforge_16": "NO demo video, which is a REQUIRED deliverable. If judges enforce it, top-5 is not available to them regardless of packaging quality.",
+    "aetheris_42": "The genuine ROCm threat (custom RDNA3 HIP engine) but missing spec and supplementary; 2/4 on required items."
+   },
+   "field_facts": {
+    "all_four_deliverables": "29 of 163",
+    "no_demo_video": "64 of 163",
+    "median_functional_of_60": 13,
+    "median_radeon_of_40": 14
+   },
+   "prizes": {
+    "source": "Luma event page, supplied by the operator 2026-08-08",
+    "total_pool_usd": 30000,
+    "per_track": {
+     "1st": 5000,
+     "2nd": 3500,
+     "3rd": 1500
+    },
+    "tracks": 3,
+    "paying_spots_per_track": 3,
+    "note": "Only the top THREE of 163 Track 2 entries are paid. Rank 4 and rank 163 receive the same amount."
+   }
+  }
+ ]
+}

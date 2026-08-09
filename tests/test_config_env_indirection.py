@@ -28,7 +28,7 @@ _SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from hive.api_client import _expand_env_refs, _resolve_model  # noqa: E402
+from hive.api_client import _expand_env_refs  # noqa: E402
 
 
 def test_a_set_variable_is_substituted():

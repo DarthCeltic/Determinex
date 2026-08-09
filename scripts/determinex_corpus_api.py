@@ -71,6 +71,247 @@ GENERAL_PLAYBOOK_PATH = (
     Path(__file__).resolve().parent.parent / "corpus" / "general_engineering_playbook.json"
 )
 
+#: Domain knowledge for DESIGN decisions -- shapes, invariants, and the requirements a prompt
+#: leaves implicit. The rest of the corpus records what broke; this records what a thing needs
+#: in order to be right in the first place. Same load contract as the general playbook: a
+#: missing file is {} rather than an error, because it is additive value.
+MODEL_ARCH_PLAYBOOK_PATH = (
+    Path(__file__).resolve().parent.parent / "corpus" / "model_architecture_playbook.json"
+)
+_MODEL_ARCH_CACHE: dict[str, dict] | None = None
+
+#: How throughput is actually obtained on a real memory hierarchy (Goto & van de Geijn).
+#: Sibling of the model-architecture playbook: both answer "what does this need in order to be
+#: right/fast", which is a design question the failure corpus cannot reach. Was an orphan on
+#: disk until the census learned to see top-level corpus files (2026-08-07).
+GEMM_PLAYBOOK_PATH = (
+    Path(__file__).resolve().parent.parent / "corpus" / "gemm_blocking_playbook.json"
+)
+_GEMM_CACHE: dict[str, dict] | None = None
+
+
+#: THE REGISTRY OF TOP-LEVEL CORPUS ARTIFACTS.
+#:
+#: Every named loader above was added by hand, one per file, and the pattern failed exactly as you
+#: would expect: four artifacts holding 47 entries -- bit_techniques (12 verifiable oracle
+#: contracts), external_references (30 fetched sources), radeon_breadth_findings, and the AMD
+#: submission record -- were reachable from NO query path at all. Not searchable, not loadable,
+#: and therefore silently absent from anything the export would ever publish. The wiring census
+#: reported 72/72 wired throughout, because its own source was in its own haystack.
+#:
+#: Adding a file to corpus/ now means adding a ROW HERE, and `tests/corpus/
+#: test_corpus_reachability_lock.py` fails if a file exists with no row. Forgetting is the
+#: failure mode this table exists to make impossible.
+#:
+#:   searchable  -> its content can answer a query
+#:   exportable  -> it is general knowledge, safe and useful to publish
+#:
+#: `exportable=False` is a real decision, not an oversight: breadth findings and the submission
+#: record are OUR measurements of OUR hardware and OUR entry. They belong in the local corpus and
+#: not in a public dataset of transferable lessons.
+_ARTIFACT_REGISTRY: tuple[dict[str, Any], ...] = (
+    # `export_as` is the label a PUBLISHED row carries, and it is not the same thing as `kind`.
+    # All four of these are playbooks to the search layer, but a consumer of the dataset needs to
+    # know whether a row is a lesson distilled from real failures or reference knowledge that was
+    # never a failure at all. Deriving one from the other collapsed 16 engineering lessons into
+    # "design_knowledge" the moment this became registry-driven.
+    {
+        "file": "general_engineering_playbook.json",
+        "kind": "playbook",
+        "searchable": True,
+        "exportable": True,
+        "export_as": "engineering_lesson",
+    },
+    {
+        "file": "model_architecture_playbook.json",
+        "kind": "playbook",
+        "searchable": True,
+        "exportable": True,
+        "export_as": "design_knowledge",
+    },
+    {
+        "file": "gemm_blocking_playbook.json",
+        "kind": "playbook",
+        "searchable": True,
+        "exportable": True,
+        "export_as": "design_knowledge",
+    },
+    {
+        "file": "bit_techniques_playbook.json",
+        "kind": "playbook",
+        "searchable": True,
+        "exportable": True,
+        "export_as": "design_knowledge",
+    },
+    # Physical design -- the corpus's first domain outside software build failures. Exportable
+    # because it is knowledge about someone else's public tool, read from that tool's own
+    # documentation: no measurements of ours, nothing proprietary, nothing about a customer.
+    {
+        "file": "eda_openroad_playbook.json",
+        "kind": "playbook",
+        "searchable": True,
+        "exportable": True,
+        "export_as": "design_knowledge",
+    },
+    {
+        "file": "external_references.json",
+        "kind": "reference",
+        "searchable": True,
+        "exportable": False,
+    },
+    {
+        "file": "radeon_breadth_findings.json",
+        "kind": "measurement",
+        "searchable": True,
+        "exportable": False,
+    },
+    {
+        "file": "amd_submission_record.json",
+        "kind": "record",
+        "searchable": True,
+        "exportable": False,
+    },
+    {
+        "file": "REDISTRIBUTION_BOUNDARY.json",
+        "kind": "manifest",
+        "searchable": False,
+        "exportable": False,
+    },
+)
+
+_REGISTRY_CACHE: dict[str, dict[str, dict]] = {}
+
+
+def artifact_entries(file: str) -> dict[str, dict]:
+    """Entries from any registered top-level corpus artifact, keyed by a stable id.
+
+    One loader for every shape these files use -- `entries` as a list of dicts with an `id`, as a
+    dict keyed by id, or a bare mapping. Written generically because seven bespoke loaders is what
+    produced four orphans; the eighth would have been orphaned too.
+    """
+    if file in _REGISTRY_CACHE:
+        return _REGISTRY_CACHE[file]
+    path = Path(__file__).resolve().parent.parent / "corpus" / file
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    entries = data.get("entries", data) if isinstance(data, dict) else data
+    out: dict[str, dict] = {}
+    if isinstance(entries, list):
+        for e in entries:
+            if not isinstance(e, dict):
+                continue
+            key = str(e.get("id") or e.get("url") or e.get("name") or "")
+            if key:
+                out[key] = e
+    elif isinstance(entries, dict):
+        for k, v in entries.items():
+            if not str(k).startswith("_") and isinstance(v, dict):
+                out[str(k)] = v
+    _REGISTRY_CACHE[file] = out
+    return out
+
+
+def registered_artifacts(searchable_only: bool = False) -> tuple[dict[str, Any], ...]:
+    """The registry, optionally narrowed to what search() should consult."""
+    if searchable_only:
+        return tuple(a for a in _ARTIFACT_REGISTRY if a["searchable"])
+    return _ARTIFACT_REGISTRY
+
+
+def gemm_blocking_playbook(path: Path | None = None) -> dict[str, dict]:
+    """Entries from corpus/gemm_blocking_playbook.json, keyed by id."""
+    global _GEMM_CACHE
+    p = path or GEMM_PLAYBOOK_PATH
+    if path is None and _GEMM_CACHE is not None:
+        return _GEMM_CACHE
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    entries = data.get("entries", [])
+    if not isinstance(entries, list):
+        return {}
+    out = {e["id"]: e for e in entries if isinstance(e, dict) and "id" in e}
+    if path is None:
+        _GEMM_CACHE = out
+    return out
+
+
+def model_architecture_playbook(path: Path | None = None) -> dict[str, dict]:
+    """Entries from corpus/model_architecture_playbook.json, keyed by id."""
+    global _MODEL_ARCH_CACHE
+    p = path or MODEL_ARCH_PLAYBOOK_PATH
+    if path is None and _MODEL_ARCH_CACHE is not None:
+        return _MODEL_ARCH_CACHE
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    entries = data.get("entries", [])
+    if not isinstance(entries, list):
+        return {}
+    out = {e["id"]: e for e in entries if isinstance(e, dict) and "id" in e}
+    if path is None:
+        _MODEL_ARCH_CACHE = out
+    return out
+
+
+def sources() -> list[dict[str, Any]]:
+    """Every corpus file this API can read, and whether it currently resolves.
+
+    Deliberately reports RESOLVED ENTRY COUNTS, not just existence. A file that is present but
+    parses to zero entries is wired in name only, and that failure is invisible to a path check
+    -- which is the shape of every corpus gap found so far.
+    """
+    rows: list[dict[str, Any]] = []
+
+    def probe(name: str, path: Path, loader, kind: str) -> None:
+        exists = path.exists()
+        n, err = 0, ""
+        if exists:
+            try:
+                n = len(loader() or {})
+            except Exception as exc:  # a loader that throws is worse than a missing file
+                err = f"{type(exc).__name__}: {exc}"
+        rows.append(
+            {
+                "name": name,
+                "kind": kind,
+                "path": str(path.relative_to(Path(__file__).resolve().parent.parent))
+                if path.exists()
+                else str(path),
+                "exists": exists,
+                "entries": n,
+                "healthy": exists and n > 0 and not err,
+                "error": err,
+            }
+        )
+
+    probe("build_knowledge", DEFAULT_PATH, load_corpus, "primary")
+    probe(
+        "general_engineering_playbook",
+        GENERAL_PLAYBOOK_PATH,
+        general_engineering_playbook,
+        "playbook",
+    )
+    probe(
+        "model_architecture_playbook",
+        MODEL_ARCH_PLAYBOOK_PATH,
+        model_architecture_playbook,
+        "playbook",
+    )
+    probe("gemm_blocking_playbook", GEMM_PLAYBOOK_PATH, gemm_blocking_playbook, "playbook")
+    probe(
+        "canonical_tasks",
+        CANONICAL_TASKS_PATH,
+        lambda: json.loads(CANONICAL_TASKS_PATH.read_text(encoding="utf-8")),
+        "programbench",
+    )
+    return rows
+
+
 # Keys that are structural/bookkeeping, not searchable knowledge entries.
 _NON_ENTRY_KEYS = frozenset(
     {
@@ -232,6 +473,144 @@ def _tokens(text: str) -> set[str]:
     return set(re.findall(r"[a-z0-9_]+", text.lower()))
 
 
+@dataclass
+class FailureMatch:
+    """A recorded failure whose signature appears in an error we are looking at now."""
+
+    key: str
+    source: str  # "class_pattern" | "learned_class"
+    symptom: str
+    fix: str
+    score: float
+    evidence: list[str]  # the distinctive terms that actually matched
+
+
+#: A term shared by many entries is not evidence. `error`, `test`, `build` and `failed` appear
+#: everywhere in a corpus OF failures, so matching on them would pair any error with any lesson.
+#: Above this document frequency a term is treated as vocabulary rather than signal.
+_MATCH_MAX_DF = 12
+#: Two independent distinctive terms, or one very rare one. A single common-ish term is a
+#: coincidence; the cost of being wrong here is a confident irrelevant fix injected at the exact
+#: moment the model is already struggling, which is worse than saying nothing.
+_MATCH_MIN_EVIDENCE = 2
+_MATCH_MIN_SCORE = 1.5
+
+
+def _failure_index(corpus: dict[str, Any] | None = None) -> tuple[list[dict], dict[str, int]]:
+    """Every recorded failure signature, plus how many entries each term appears in."""
+    kn = corpus if corpus is not None else load_corpus()
+    entries: list[dict] = []
+
+    # Registered artifacts carry failure knowledge too, and this index could not see any of it.
+    # The EDA playbook records what a routing-congestion failure means and which knob to move,
+    # and `match_failure("route__congestion ... PLACE_DENSITY too high")` returned ZERO hits --
+    # the corpus could SEARCH the domain but could not RECALL a fix at the moment a failure in
+    # that domain occurred, which is the entire purpose of this function. Only the default
+    # corpus: an explicit `corpus=` asserts a boundary and these are separate files.
+    if corpus is None:
+        for artifact in registered_artifacts(searchable_only=True):
+            for key, v in artifact_entries(artifact["file"]).items():
+                if not isinstance(v, dict):
+                    continue
+                # Playbook vocabulary, mapped onto symptom/fix. `lesson` describes the situation
+                # and `implied_requirements` say what to do about it.
+                signature = " ".join(
+                    str(v.get(f) or "") for f in ("lesson", "used_when", "symptom", "detect")
+                )
+                req = v.get("implied_requirements")
+                fix = str(v.get("fix") or v.get("rule") or "")
+                if not fix and isinstance(req, list):
+                    fix = "; ".join(str(x) for x in req[:3])
+                if not fix:
+                    fix = str(v.get("why_it_generalizes") or "")
+                if signature.strip() and fix.strip():
+                    entries.append(
+                        {
+                            "key": key,
+                            "source": artifact["kind"],
+                            "symptom": signature.strip(),
+                            "fix": fix.strip(),
+                            "terms": {t for t in _tokens(signature) if len(t) > 3},
+                        }
+                    )
+
+    for source, book in (
+        ("class_pattern", kn.get("class_patterns") or {}),
+        ("learned_class", kn.get("learned_classes") or {}),
+    ):
+        for key, v in book.items():
+            if not isinstance(v, dict):
+                continue
+            signature = " ".join(str(v.get(f) or "") for f in ("symptom", "detect"))
+            fix = str(v.get("fix") or v.get("rule") or "")
+            if not signature.strip() or not fix.strip():
+                continue
+            entries.append(
+                {
+                    "key": key,
+                    "source": source,
+                    "symptom": signature.strip(),
+                    "fix": fix.strip(),
+                    "terms": {t for t in _tokens(signature) if len(t) > 3},
+                }
+            )
+    df: dict[str, int] = {}
+    for e in entries:
+        for t in e["terms"]:
+            df[t] = df.get(t, 0) + 1
+    return entries, df
+
+
+def match_failure(
+    error_text: str, limit: int = 3, corpus: dict[str, Any] | None = None
+) -> list[FailureMatch]:
+    """Failures we have already solved whose signature appears in THIS error.
+
+    The retry path is the moment the corpus is worth most -- unlike a build prompt, there is real
+    error text to match against -- and until now it consulted nothing. `prompt_builder` hand-coded
+    extractors for four Rust error shapes while 89 proven detect/fix classes went unread.
+
+    Precision over recall, deliberately. A wrong fix injected confidently while the model is
+    already failing is worse than silence: it spends the retry budget chasing our mistake. So a
+    match needs two independent DISTINCTIVE terms, where distinctive means the term is rare
+    across the corpus. Matching on `error`, `build` or `failed` would pair any error with any
+    lesson, which is how a knowledge layer becomes noise.
+
+    Honest scope: most recorded classes are ProgramBench build-environment failures, so a plain
+    Rust type error will legitimately match nothing today and get an empty list. That is the
+    correct answer, not a bug -- and it improves on its own as the flywheel records more.
+    """
+    etoks = {t for t in _tokens(error_text) if len(t) > 3}
+    if not etoks:
+        return []
+    entries, df = _failure_index(corpus)
+
+    out: list[FailureMatch] = []
+    for e in entries:
+        shared = e["terms"] & etoks
+        distinctive = sorted((t for t in shared if df.get(t, 0) <= _MATCH_MAX_DF), key=str)
+        if len(distinctive) < _MATCH_MIN_EVIDENCE:
+            continue
+        # Rarer terms carry more weight; a term in one entry is far stronger evidence than one
+        # in ten. Verified classes break ties, so a proven fix outranks an absorbed hint.
+        score = sum(1.0 / df.get(t, 1) ** 0.5 for t in distinctive) * len(distinctive) ** 0.5
+        if e["source"] == "class_pattern":
+            score *= 1.25
+        if score < _MATCH_MIN_SCORE:
+            continue
+        out.append(
+            FailureMatch(
+                key=e["key"],
+                source=e["source"],
+                symptom=e["symptom"][:200],
+                fix=e["fix"][:260],
+                score=round(score, 3),
+                evidence=distinctive[:6],
+            )
+        )
+    return sorted(out, key=lambda m: -m.score)[:limit]
+
+
 def search(query: str, limit: int = 10, corpus: dict[str, Any] | None = None) -> list[SearchHit]:
     """Token-overlap ranked search across topic-index summaries, class_patterns, verified
     learned_classes, and every top-level dated entry's stringified content. No embeddings, no
@@ -338,13 +717,134 @@ def search(query: str, limit: int = 10, corpus: dict[str, Any] | None = None) ->
     # any consumer building a {key: hit} index (hybrid_search below; any future one) silently
     # keeps whichever hit happened to sort last, which is the LOWER score, not the best one.
     # Found 2026-07-19 while hybrid_search was demoting entries that plain search() ranked #1.
+    # DESIGN playbooks, searched alongside the failure corpus. Loading them was not enough:
+    # they were reachable only by a direct call and invisible to search, which is the same
+    # loaded-but-not-queryable gap that left them orphaned in the first place. A knowledge base
+    # you have to know the name of is not a knowledge base.
+    #
+    # ONLY when answering from the default corpus. The playbooks are separate FILES with no
+    # corpus argument, so including them under an explicit `corpus=` would answer a scoped query
+    # with entries from outside the scope -- the identical leak BM25 caused when it was first
+    # wired in, and it is caught by the same test. A caller who supplies a corpus is asserting a
+    # boundary, and silently reaching past it makes every scoped result untrustworthy.
+    # Driven by _ARTIFACT_REGISTRY, not by a hand-written list. The hand-written list named three
+    # files and there were seven; the four it omitted were unsearchable and unpublishable and
+    # nothing said so.
+    for label, book in (
+        ()
+        if corpus is not None
+        else tuple(
+            (a["kind"], artifact_entries(a["file"]))
+            for a in registered_artifacts(searchable_only=True)
+        )
+    ):
+        for pkey, entry in book.items():
+            if not isinstance(entry, dict):
+                continue
+            # Every field these artifacts actually use to carry meaning. A playbook says `lesson`,
+            # a bit-technique says `contract`, a measurement says `claim`, a reference says
+            # `relevance` -- reading only the playbook vocabulary is how a registered artifact
+            # stays unsearchable while appearing to be wired.
+            # The id BOTH ways. `_tokens` keeps underscores, so `population_count` is a single
+            # token and a search for "population count" -- the words a person would actually
+            # type -- could never match it. Adding the spaced form costs nothing and makes every
+            # snake_case id findable by its own words.
+            blob = pkey.replace("_", " ") + " "
+            blob += " ".join(
+                str(entry.get(f, ""))
+                for f in (
+                    "id",
+                    "lesson",
+                    "why_it_generalizes",
+                    "generalised",
+                    "category",
+                    "used_when",
+                    "contract",
+                    "optimisation_class",
+                    "edge_cases",
+                    "claim",
+                    "lessons",
+                    "hardware",
+                    "relevance",
+                    "claims_touched",
+                    "url",
+                    "kind",
+                    "state",
+                    "known_limits",
+                )
+            )
+            pscore = len(qtoks & _tokens(blob))
+            if pscore:
+                # A hit whose snippet is empty is unreadable, and `lesson` is only one artifact's
+                # word for its own content. Fall through the alternatives so every registered
+                # kind returns something a person can judge.
+                snippet = next(
+                    (
+                        str(entry[f])
+                        for f in ("lesson", "contract", "claim", "relevance", "state", "url")
+                        if entry.get(f)
+                    ),
+                    "",
+                )
+                hits.append(
+                    SearchHit(
+                        label,
+                        pkey,
+                        pkey.replace("_", " "),
+                        snippet[:220],
+                        pscore,
+                        str(entry.get("category", "") or entry.get("optimisation_class", "")),
+                    )
+                )
+
     best_by_key: dict[str, SearchHit] = {}
     for h in hits:
         prior = best_by_key.get(h.key)
         if prior is None or h.score > prior.score:
             best_by_key[h.key] = h
-    deduped = sorted(best_by_key.values(), key=lambda h: h.score, reverse=True)
-    return deduped[:limit]
+
+    # RANK CORRECTIONS ABOVE WHAT THEY CORRECTED.
+    #
+    # Ranking was pure token overlap, so an entry the corpus itself flags as invalidated ranked
+    # exactly as high as the audit that invalidated it. The ProgramBench lock counts are the
+    # standing example: 71 June entries assert figures the 2026-06-30 provenance audit demolished,
+    # and a reader asking "how many locks do we have" met them on equal footing with the
+    # correction. find_superseded_claims() already identifies these; it just never reached
+    # ranking.
+    #
+    # NOT age decay, deliberately. A proven class from June is exactly as true as one from
+    # August, and decaying by date would quietly bury the compiler-verified core of this corpus
+    # in favour of whatever was written most recently. Supersession is EVIDENCE -- the entry says
+    # of itself that it was corrected -- so it demotes; recency only breaks ties.
+    try:
+        flagged = {f.key for f in find_superseded_claims(kn)}
+    except Exception:
+        flagged = set()
+
+    def rank(h: SearchHit) -> tuple:
+        return (
+            -(h.score * (0.55 if h.key in flagged else 1.0)),
+            -_key_recency(h.key),
+            h.key,
+        )
+
+    return sorted(best_by_key.values(), key=rank)[:limit]
+
+
+def _key_recency(key: str) -> float:
+    """A sortable date parsed out of an entry key, or 0 when it carries none.
+
+    Only a TIE-BREAKER. Two entries that match a query equally well are more usefully ordered
+    newest-first, but this must never outrank relevance or supersession -- see the note in
+    search().
+    """
+    m = _DATE_IN_KEY_RE.search(key)
+    if not m:
+        return 0.0
+    try:
+        return float(f"{m.group(1)}{m.group(2)}{m.group(3)}")
+    except (TypeError, ValueError):
+        return 0.0
 
 
 # corpus_embeddings._entries() (and corpus_fts, which reuses it) namespace class_pattern and
@@ -1018,6 +1518,18 @@ def ask(query: str, corpus: dict[str, Any] | None = None) -> AskResult:
                 f"'{h.key}' contains {superseded_keys[h.key]!r} correction/supersession language -- "
                 "read the full entry before trusting it; it may describe its OWN earlier mistake."
             )
+    # A question the corpus answered badly is the sharpest signal it has about its own edge, and
+    # it was discarded on every call. Recorded here rather than at each call site because callers
+    # cannot be relied on to remember, and a gap log with holes in it invites the wrong
+    # conclusion -- "nobody asks about X" reads identically to "nobody recorded asking about X".
+    if len(hits) < 3:
+        try:
+            from corpus.corpus_feedback import note_gap
+
+            note_gap(query, len(hits), "ask", float(hits[0].score) if hits else 0.0)
+        except Exception:
+            pass
+
     return AskResult(query=query, hits=hits, top_hit_related=top_related, warnings=warnings)
 
 
@@ -1194,6 +1706,7 @@ def format_brief(hits: list[BriefHit], paths: list[str]) -> str:
 def main(argv: list[str]) -> int:
     usage = (
         "usage: determinex_corpus_api.py <brief PATH... | search QUERY | topics | topic TOPIC | stats | "
+        "sources | packets [BUDGET] | "
         "maturity [TOPIC] | related KEY | superseded | ask QUERY | timeline [TOPIC] | "
         "provenance TASK_ID_OR_SLUG_OR_REPO | tool SLUG | stale [DAYS] | "
         "swebench-stats | swebench-repo OWNER/REPO | "
@@ -1211,6 +1724,35 @@ def main(argv: list[str]) -> int:
         text = format_brief(hits, paths)
         if text:
             print(text)
+        return 0
+    if cmd == "sources":
+        rows = sources()
+        bad = [r for r in rows if not r["healthy"]]
+        print(json.dumps({"sources": rows, "unhealthy": len(bad)}, indent=2))
+        return 1 if bad else 0
+    if cmd == "packets":
+        # What the corpus actually CARRIES into a build prompt, computed live rather than read
+        # from a generated file. A derived artifact on disk would be one more thing that can
+        # drift from its inputs and be believed anyway -- the exact failure this corpus keeps
+        # finding in itself. Show a budget to see what a real prompt of that size receives.
+        from corpus.corpus_compact import compact, for_prompt
+
+        pk = compact()
+        budget = int(argv[2]) if len(argv) > 2 and argv[2].isdigit() else 0
+        if budget:
+            print(json.dumps({"budget_chars": budget, "carried": for_prompt(budget)}, indent=2))
+        else:
+            print(
+                json.dumps(
+                    {
+                        "packets": len(pk),
+                        "entries_covered": sum(p["covers"] for p in pk),
+                        "carried_at_700_chars": len(for_prompt(700)),
+                        "entries": pk,
+                    },
+                    indent=2,
+                )
+            )
         return 0
     if cmd == "stats":
         s = stats()

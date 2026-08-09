@@ -37,6 +37,22 @@ PB = (
 # Archival / write-only / historical artifacts that legitimately have no code consumer.
 # Add here ONLY with a reason -- an unexplained allowlist row defeats the census.
 _ALLOWLIST: dict[str, str] = {
+    "amd_submission_record.json": "record of the AMD DevMaster submission (2026-08-06); a historical snapshot, not queryable knowledge -- wiring a static record into the query surface makes search noisier without making it better.",
+    "radeon_breadth_findings.json": "raw 31-model breadth results from the Radeon run; evidence behind the published table, kept as record. The LESSONS from it belong in a playbook, the measurements belong here.",
+    "repair_rehearsal.jsonl": "rehearsal log, historical signal with no live consumer.",
+    "gap_gen_bash_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_cpp_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_csharp_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_go_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_javascript_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_kotlin_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_python_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_ruby_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_rust_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_scala_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_sql_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_swift_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
+    "gap_gen_typescript_2k.jsonl": 'training corpus; consumed by dataset_generation/gen_all_languages.py via f"gap_gen_{lang}_2k.jsonl" -- the name is BUILT, so a substring census cannot see it. Verified 2026-08-07.',
     "OVERNIGHT_RESULTS.json": "historical overnight snapshot (read by humans)",
     "OVERNIGHT_RESULTS_wave4.json": "historical overnight snapshot",
     "OVERNIGHT_RESULTS_wave5.json": "historical overnight snapshot",
@@ -68,6 +84,13 @@ def _artifacts() -> list[Path]:
     out = []
     if not CORPUS_DIR.is_dir():
         return out
+    # Files sitting directly in corpus/ -- the playbooks. These were invisible to this census,
+    # which only walked subdirectories, so a top-level artifact could be added and never wired
+    # and nothing would say so. Found 2026-08-07: bit_techniques_playbook.json had been an
+    # orphan the whole time, loaded by nothing.
+    for p in sorted(CORPUS_DIR.iterdir()):
+        if p.is_file() and p.suffix in _ARTIFACT_SUFFIXES:
+            out.append(p)
     for subcorpus in sorted(CORPUS_DIR.iterdir()):
         if not subcorpus.is_dir():
             continue
@@ -84,6 +107,12 @@ def _scan_sources() -> str:
     for base, pat in (
         (ROOT / "scripts", "**/*.py"),
         (ROOT / "tests", "**/*.py"),
+        # Training data is consumed OUTSIDE scripts/. Without these two the census reported
+        # fifteen gap_gen_*.jsonl files as orphans the instant top-level artifacts became
+        # visible -- all of them read by dataset_generation/. A census that cries wolf is a
+        # census nobody reads.
+        (ROOT / "dataset_generation", "**/*.py"),
+        (ROOT / "determinex_trainer", "**/*.py"),
         (ROOT / "frontend", "**/*.rs"),
         (ROOT / "frontend", "**/*.ts"),
     ):
@@ -92,6 +121,14 @@ def _scan_sources() -> str:
         for f in base.glob(pat):
             sp = str(f).replace("\\", "/")
             if any(x in sp for x in ("node_modules", "/target/", "__pycache__", "/.next/")):
+                continue
+            # NEVER count this file. The census lives under scripts/, so its own source was in
+            # its own haystack, and every artifact it names -- in the allowlist, in a comment, in
+            # an example -- counted as a consumer of itself. Three real orphans passed that way:
+            # bit_techniques_playbook.json, radeon_breadth_findings.json and
+            # amd_submission_record.json were reachable from NO query surface while the guard
+            # reported 72/72 wired. A check satisfied by its own existence establishes nothing.
+            if Path(sp).resolve() == Path(__file__).resolve():
                 continue
             try:
                 hay.append(f.read_text(encoding="utf-8", errors="replace"))

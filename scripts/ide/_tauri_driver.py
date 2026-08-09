@@ -112,6 +112,11 @@ def _dispatch(command: str, args: dict[str, object]) -> dict[str, object]:
         inner = "repair_diagnose"
     elif command == "get_governance_status":
         inner = "get_governance_status"
+    # Liveness (2026-08-06). Read-only: process table + last-write timestamps. Answers the
+    # question the event log cannot -- a job that hung writes no events, so silence in the log
+    # is ambiguous between "finished" and "wedged".
+    elif command == "get_liveness_status":
+        inner = "get_liveness_status"
     # DETERMINEX_TAURI_UNIFIED_PRODUCT_COMMAND_SURFACE_LOCK_001 (rung 1).
     # Read-only unified-product view-model commands. Tauri verb maps
     # 1:1 to the inner surface command (command_name_matches_behavior).

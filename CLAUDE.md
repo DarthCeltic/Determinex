@@ -636,6 +636,45 @@ nothing vendored leaks out, and the knowledge layer is not filtered into useless
 *Determinex · Ryan Gurganious · June 2026 (identifier rename finalized 2026-07-26)*
 
 ---
+## Determinex 1.0 — shipped 2026-08-04
+
+The AMD Radeon Hackathon Track 2 submission is **submitted and out of draft**:
+[AMD-DEV-CONTEST/Radeon-hackathon-2026-07#54](https://github.com/AMD-DEV-CONTEST/Radeon-hackathon-2026-07/pull/54),
+titled `Track 2, DarthCeltic, Determinex`. Judging deadline was 2026-08-06 08:59 US Pacific.
+Source published to `DarthCeltic/Determinex` via `scripts/publish_mirror.py` (6,474 files,
+remote tree verified after push — **never `git push origin`**, this checkout's history is
+unrelated to the mirror's and GitHub answers HTTP 500).
+
+What that submission actually rests on, so it can be written up later without re-deriving it:
+
+* **The GPU claim.** K=6 verified candidates cost 5.58× the aggregate throughput of one for
+  1.07× the wall clock, reproduced over six runs on five instances (single 26.1–32.6 tok/s,
+  K=6 aggregate 163.0–186.9 tok/s). The *ratio* is the claim; absolute rates move with load.
+  Plus 93.5% prefix-cache hits vs ~1% when one distinct token is prepended per request, read
+  from vLLM's own counters. Raw output in `assurance/`-style evidence under the submission's
+  `amd_gpu_evidence/`.
+* **The self-verification.** `verify.sh` proves the oracle rejects broken code as well as
+  accepting correct code, that an unverifiable request is refused before a model is called,
+  and that shipped references are exact over all 256 u8 inputs — offline, no GPU, ~2s.
+  `verify.sh --selftest` breaks each check on purpose and **refuses to credit a sabotage that
+  did not change anything**, which is the part that matters: three mutations written for it
+  silently no-opped and were indistinguishable from catches.
+* **ProgramBench stays out of the public narrative.** It measures a different thing on
+  different hardware and the honest score under the strict rule is 0/200 (see the provenance
+  correction above). It was removed from all four submission documents deliberately; a
+  narration line reintroducing it was caught and cut before recording. Do not put it back.
+
+**White paper + announcement are the open follow-ups**, deferred by the author to a later
+session. The numbers above are the ones to cite.
+
+---
 ## Active Campaign
 
 Active campaign: read CAMPAIGN_DIRECTIVE_001.md every session before acting. Role: DRIVER.
+
+> **Paused 2026-08-04.** CAMPAIGN_DIRECTIVE_001 is the ProgramBench "path to 65 audited
+> strict" campaign, and its premise was invalidated by the 2026-06-30 provenance audit that
+> put the honest count at 0/200. It is retained as history. The author's stated next project
+> is the **Vesuvius Challenge**, which needs its own directive — and note that the correctness
+> substrate does not transfer unexamined: ink detection has no compiler, ground truth is
+> human-labelled and contested, and verified search is only sound when the oracle is.

@@ -66,6 +66,7 @@ ignore = [
 ]
 
 [lint.per-file-ignores]
+"scripts/rosetta_softprefix_smoke.py" = ["F821"]  # closure ruff cannot resolve
 "scripts/hive/*.py" = ["B"]
 "dataset_generation/*.py" = ["ALL"]
 

@@ -44,6 +44,25 @@ export function usePanelWidth(
 
   const [width, setWidth] = useState(defaultWidth);
   const [resizing, setResizing] = useState(false);
+
+  // The remembered width must also FIT. `max` is a constant with no knowledge of the window, and
+  // the panel renders at an inline pixel width with `shrink-0` inside an `overflow-hidden`
+  // ancestor -- so a width dragged wide on a large window, or restored from a layout saved on a
+  // bigger display, is drawn past the edge and simply cut. No scrollbar appears, and the resize
+  // handle rides the panel's right edge, so the one control that could fix it is off-screen too.
+  //
+  // Reserved space, not the whole window: the rail, the cockpit beside it and the panel's own
+  // padding all need room, and a panel allowed to occupy every pixel is a panel that hides the
+  // thing it sits next to.
+  const RESERVED_PX = 420;
+  const fit = useCallback(
+    (n: number) => {
+      const room =
+        typeof window === "undefined" ? max : Math.max(min, window.innerWidth - RESERVED_PX);
+      return Math.min(max, room, Math.max(min, n));
+    },
+    [min, max]
+  );
   // Read the stored value in an effect, not in useState's initializer:
   // localStorage is unavailable during SSR, and reading it while rendering
   // would desync the server and client markup.
@@ -52,15 +71,25 @@ export function usePanelWidth(
     const read = () => {
       const raw = window.localStorage.getItem(STORAGE_PREFIX + key);
       const n = raw ? Number(raw) : NaN;
-      setWidth(Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : defaultWidth);
+      setWidth(fit(Number.isFinite(n) ? n : defaultWidth));
     };
     read();
+    // Re-fit when the window changes. Without this a panel sized on a maximised window stays
+    // that wide after a restore-down, and the overflow is invisible rather than absent -- the
+    // content is drawn, then clipped, so it reads as a rendering bug rather than a size problem.
+    // The stored value is deliberately NOT rewritten here: a temporary small window should not
+    // permanently shrink a panel the user sized on purpose.
+    const onWindowResize = () => setWidth((w) => fit(w));
+    window.addEventListener("resize", onWindowResize);
     // Restoring a named layout rewrites these keys underneath us. Without this the
     // stored value would change and the panel would keep its old width until a
     // reload -- a restore that appears to do nothing.
     window.addEventListener(LAYOUT_RESTORED_EVENT, read);
-    return () => window.removeEventListener(LAYOUT_RESTORED_EVENT, read);
-  }, [key, defaultWidth, min, max]);
+    return () => {
+      window.removeEventListener("resize", onWindowResize);
+      window.removeEventListener(LAYOUT_RESTORED_EVENT, read);
+    };
+  }, [key, defaultWidth, min, max, fit]);
 
   // Keep the live value out of the drag closure so a fast drag can't read a
   // stale width between renders -- same reason the dock keeps a ref.
@@ -84,7 +113,7 @@ export function usePanelWidth(
       setResizing(true);
 
       const onMove = (ev: PointerEvent) => {
-        const next = Math.min(max, Math.max(min, startWidth + (ev.clientX - startX)));
+        const next = fit(startWidth + (ev.clientX - startX));
         widthRef.current = next;
         setWidth(next);
       };
@@ -102,7 +131,9 @@ export function usePanelWidth(
       window.addEventListener("pointermove", onMove);
       window.addEventListener("pointerup", onUp);
     },
-    [key, min, max]
+    // `min`/`max` are no longer read directly here -- `fit` closes over both and is itself
+    // memoised on them, so listing them again is a dependency the linter can prove is dead.
+    [key, fit]
   );
 
   return { width, startResize, resizing };

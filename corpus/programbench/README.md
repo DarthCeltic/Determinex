@@ -2,12 +2,12 @@
 name: programbench-master-catalog
 description: One-stop reference for all 200 ProgramBench tools — scores, tiers, paths, descriptions, cluster siblings, ceilings.
 generated: auto — run `python3 scripts/gen_pb_readme.py` to refresh
-last_updated: 2026-06-29T14:48:31Z
+last_updated: 2026-08-05T21:16:04Z
 ---
 
 # ProgramBench Master Catalog
 
-> **Generated:** 2026-06-29  
+> **Generated:** 2026-08-05  
 > **Source of truth:** `corpus/programbench/eval_index.json`  
 > **Do not edit by hand** — run `python3 scripts/gen_pb_readme.py` to regenerate.
 
@@ -15,10 +15,10 @@ last_updated: 2026-06-29T14:48:31Z
 
 | Metric | Value |
 |--------|-------|
-| **T1 strict locks** | **66 / 200** (33.0%) |
+| **T1 strict locks** | **0 / 200** (0.0%) |
 | **T2 ceiling certified** | **16** |
-| T3 open (needs work) | 118 |
-| Total tests covered (T1 only) | 95,451 |
+| T3 open (needs work) | 184 |
+| Total tests covered (T1 only) | 0 |
 | Total tests in catalog | 491,684 |
 | Aliases / duplicates (not counted) | 31 |
 
@@ -70,6 +70,7 @@ Completing a tool often transfers directly to its siblings. Key clusters:
 - **build_broken_rc127** — DETECT rc=127 / <5% pass -> determinex_pb_autofix triage classifies (toolchain/cgo/build-target/source-gap) -> applies the class fix -> re-eval. AUTOMATABLE.
 - **disk_full** — disk_guard daemon prunes unused docker images >82%. mem rotation via memguard. AUTOMATED on the eval box.
 - **tool_invocation_hang** — DETECT eval slow/no-results + tool blocked on stdin/tmux (host py-spy via /proc cgroup) -> FIX inject determinex_subprocess_guard (stdin DEVNULL + killpg + escaper-kill + watchdog) -> re-eval completes+scores. HARD_CAP + orphan_reaper are always-on nets. See class_patterns.tool_invocation_hang. AUTOMATABLE: determinex_pb_inject_guard --all.
+- **churn_timeout_retry_loop** — DETECT pb_churn_state latest run has executed=true and recent rc=124/nonzero/no-command hold, while eval_index still ranks the slug high (jplot class). FIX queue cooldown for only no-progress results; do NOT cooldown rc=0 stage transitions because spec->reimpl->oracle must advance immediately. Implemented in determinex_pb_churn.should_cool_down_run with tests in test_pb_churn_lock.
 
 ### Remaining PB work
 
@@ -93,72 +94,6 @@ Completing a tool often transfers directly to its siblings. Key clusters:
 
 | Slug | Description | Lang | Tests | Tarball | Eval Report | Override | Lessons | Cluster siblings |
 |------|-------------|------|-------|---------|-------------|----------|---------|------------------|
-| `angle-grinder` | Log parsing & aggregation DSL; filter/group-by/sum on log lines | rs | 1143/1143 (100.0%) | Y | `corpus/programbench/locked/angle-grinder/eval_report.json` | — | — | `rhit`, `fblog` |
-| `ariga__atlas` | Database schema management and migration tool (Ent/SQL) | go | 3476/3476 (100.0%) | Y | `corpus/programbench/locked/ariga__atlas.6d81150/eval_report.json` | `ariga__atlas` | — | — |
-| `ascii-image-converter` | Converts images to ASCII art in terminal | go | 488/488 (100.0%) | Y | `corpus/programbench/locked/ascii-image-converter/eval_report.json` | — | — | — |
-| `bore` | TCP tunnel — exposes local ports through a remote server | rs | 900/900 (100.0%) | Y | `corpus/programbench/locked/bore/eval_report.json` | — | — | `miniserve`, `muffet` |
-| `boyter__scc.515f91c` | Code counter — lines of code/comments/blanks per language (scc) | go | 476/476 (100.0%) | Y | `corpus/programbench/locked/boyter__scc.515f91c/eval_report.json` | `boyter__scc.515f91c` | — | — |
-| `chmln__handlr` | XDG MIME handler replacement for xdg-open | rs | 1812/1812 (100.0%) | Y | `corpus/programbench/locked/chmln__handlr.90e78ba/eval_report.json` | `chmln__handlr` | — | — |
-| `clog-cli` | Changelog generator from conventional commit history | rs | 1556/1556 (100.0%) | Y | `corpus/programbench/locked/clog-cli/eval_report.json` | — | — | `git-trim` |
-| `cmatrix` | Matrix-style falling-character terminal animation | c | 769/769 (100.0%) | Y | `corpus/programbench/locked/cmatrix/eval_report.json` | — | — | `genact` |
-| `cmatsuoka__figlet` | Large ASCII art text banners from fonts | c | 2088/2088 (100.0%) | Y | `corpus/programbench/locked/cmatsuoka__figlet.202a0a8/eval_report.json` | `cmatsuoka__figlet.202a0a8` | — | — |
-| `code-minimap` | Terminal minimap of source code scrollbar | rs | 738/738 (100.0%) | Y | `corpus/programbench/locked/code-minimap/eval_report.json` | — | — | — |
-| `crowdagger__crowbook` | Markdown-to-book converter (EPUB/HTML/PDF) | rs | 1774/1774 (100.0%) | Y | `corpus/programbench/locked/crowdagger__crowbook.ea214d7/eval_report.json` | `crowdagger__crowbook.ea214d7` | — | — |
-| `curlie` | HTTP client combining curl flags with httpie-style output | go | 1482/1482 (100.0%) | Y | `corpus/programbench/locked/curlie/eval_report.json` | — | — | `muffet` |
-| `deadnix` | Nix file analyzer; finds unused variables in Nix expressions | rs | 1418/1418 (100.0%) | Y | `corpus/programbench/locked/deadnix/eval_report.json` | — | Y | — |
-| `diffr` | Diff viewer with character-level highlighting | rs | 1524/1524 (100.0%) | Y | `corpus/programbench/locked/diffr/eval_report.json` | — | — | — |
-| `direnv__direnv` | Shell extension to load/unload env vars per directory | go | 1946/1946 (100.0%) | Y | `corpus/programbench/locked/direnv__direnv.02040c7/eval_report.json` | `direnv__direnv.02040c7` | — | — |
-| `dsq` | SQL queries over CSV/JSON/Parquet; multi-format join | go | 1532/1532 (100.0%) | — | `corpus/programbench/locked/multiprocessio__dsq.c3ae0ba/eval_report.json` | — | — | `jq`, `trdsql` |
-| `dupl` | Source code duplicate detector across files | go | 900/900 (100.0%) | Y | `corpus/programbench/locked/dupl/eval_report.json` | — | — | — |
-| `eliukblau__pixterm` | Renders images as colored ASCII art in terminal | go | 922/922 (100.0%) | Y | `C:/tmp/a3_harvest/eliukblau__pixterm.1a93fd5.eval.json` | `eliukblau__pixterm.1a93fd5` | — | `ascii-image-converter`, `hpjansson__chafa.dd4d4c1` |
-| `entr` | File watcher — re-runs commands when files change | c | 1482/1482 (100.0%) | — | `corpus/programbench/locked/eradman__entr.8e2e8b4/eval_report.json` | — | — | — |
-| `errcheck` | — | ? | 1064/1064 (100.0%) | — | `corpus/programbench/locked/kisielk__errcheck.dacab89/kisielk__errcheck.dacab89.eval.json` | — | — | — |
-| `eureka` | TUI note-taking app for capturing ideas quickly | rs | 800/800 (100.0%) | — | `corpus/programbench/locked/simeg__eureka.df3796c/eval_report.json` | — | — | — |
-| `eva` | Calculator REPL with variable support and arbitrary precision | rs | 963/963 (100.0%) | Y | `corpus/programbench/locked/eva/eval_report.json` | — | — | — |
-| `fasttext` | Facebook's text classification and word vector library | c++ | 708/708 (100.0%) | — | `corpus/programbench/locked/facebookresearch__fasttext.1142dc4/eval_report.json` | — | — | — |
-| `fblog` | JSON log viewer with color highlighting and field filtering | rs | 2254/2254 (100.0%) | Y | `corpus/programbench/locked/fblog/eval_report.json` | — | — | `angle-grinder`, `rhit` |
-| `flamelens` | Interactive flamegraph viewer in terminal | rs | 622/622 (100.0%) | Y | `corpus/programbench/locked/flamelens/eval_report.json` | — | — | — |
-| `genact` | Fake activity simulator — makes terminal look busy | rs | 237/237 (100.0%) | Y | `corpus/programbench/locked/genact/eval_report.json` | — | — | `cmatrix` |
-| `git-trim` | Trims merged/stale git branches automatically | rs | 1422/1422 (100.0%) | Y | `corpus/programbench/locked/git-trim/eval_report.json` | — | — | `clog-cli` |
-| `go-mod-outdated` | Lists outdated Go module dependencies | go | 342/342 (100.0%) | Y | `corpus/programbench/locked/go-mod-outdated/eval_report.json` | — | — | — |
-| `google__brotli` | Brotli compression algorithm CLI encoder/decoder | c | 1212/1212 (100.0%) | Y | `corpus/programbench/locked/google__brotli.b3dc9cc/eval_report.json` | `google__brotli.b3dc9cc` | — | `madler__pigz` |
-| `grex` | Generates minimal regex patterns from user-provided examples | rs | 3036/3036 (100.0%) | Y | `corpus/programbench/locked/grex/eval_report.json` | — | — | — |
-| `gron` | Flattens JSON to greppable discrete assignments | go | 233/233 (100.0%) | Y | `corpus/programbench/locked/gron/eval_report.json` | — | — | `jq` |
-| `guumaster__hostctl` | Hosts file manager — enable/disable groups of host entries | go | 2750/2750 (100.0%) | Y | `corpus/programbench/locked/guumaster__hostctl.d6d9699/eval_report.json` | `guumaster__hostctl.d6d9699` | — | — |
-| `hck` | Field-splitting like cut but with regex delimiters | rs | 1768/1768 (100.0%) | Y | `corpus/programbench/locked/sstadick__hck.b66c751/eval_report.json` | — | — | — |
-| `hex` | Hex dump viewer with color and multiple display modes | rs | 1754/1754 (100.0%) | Y | `corpus/programbench/locked/hex/eval_report.json` | — | — | — |
-| `hooklift__gowsdl` | WSDL-to-Go code generator for SOAP web services | go | 846/846 (100.0%) | Y | `T:/determinex-programbench/hetzner_results/a3_cap_26_harvest/determinex_pb_hooklift_gowsdl_2a06cec/hooklift__gowsdl.2a06cec/hooklift__gowsdl.2a06cec.eval.json` | `hooklift__gowsdl.2a06cec` | — | — |
-| `hyperfine` | Benchmarking tool — runs commands N times, stats on timing | rs | 298/298 (100.0%) | Y | `corpus/programbench/locked/hyperfine/eval_report.json` | — | — | — |
-| `i3-style` | Applies color themes to i3/Sway window manager configs | rs | 1500/1500 (100.0%) | Y | `corpus/programbench/locked/i3-style/eval_report.json` | — | — | — |
-| `igrep` | Searches regex in files; opens matches in vim/nvim (TUI) | rs | 1408/1408 (100.0%) | — | `corpus/programbench/locked/konradsz__igrep.aa75630/eval_report.json` | — | — | `ripgrep` |
-| `isona__dirble` | Fast web directory brute-forcer / content discovery | rs | 2216/2216 (100.0%) | Y | `corpus/programbench/locked/isona__dirble.e2dea9f/eval_report.json` | `isona__dirble.e2dea9f` | — | — |
-| `ivanceras__svgbob` | ASCII diagram-to-SVG converter | rs | 948/948 (100.0%) | Y | `corpus/programbench/locked/ivanceras__svgbob.6d00ad9/eval_report.json` | `ivanceras__svgbob.6d00ad9` | — | `stathissideris__ditaa` |
-| `jq` | JSON processor — filters, transforms, queries JSON streams | c | 6874/6874 (100.0%) | Y | `corpus/programbench/locked/jq/eval_report.json` | — | — | `yq`, `xq`, `dsq`, `gron` |
-| `junegunn__fzf.b56d614` | General-purpose fuzzy finder for terminal (most widely used TUI) | go | 4156/4156 (100.0%) | Y | `corpus/programbench/locked/junegunn__fzf.b56d614/eval_report.json` | `junegunn__fzf.b56d614` | — | `peco`, `skim` |
-| `loop` | Runs commands in a loop with delay/count/until options | rs | 1556/1556 (100.0%) | Y | `corpus/programbench/locked/loop/eval_report.json` | — | — | `entr` |
-| `madler__pigz` | Parallel gzip compressor — multi-threaded gzip replacement | c | 1876/1876 (100.0%) | Y | `corpus/programbench/locked/madler__pigz.fe4894f/eval_report.json` | `madler__pigz` | — | — |
-| `mgechev__revive` | Fast, extensible Go linter with configurable rules | go | 1772/1772 (100.0%) | Y | `corpus/programbench/locked/mgechev__revive.201451e/eval_report.json` | `mgechev__revive.201451e` | — | — |
-| `miniserve` | Minimal HTTP file server — serve a directory over HTTP | rs | 880/880 (100.0%) | Y | `corpus/programbench/locked/miniserve/eval_report.json` | — | — | `bore`, `muffet` |
-| `muffet` | Fast website link checker; crawls for broken links | go | 864/864 (100.0%) | Y | `corpus/programbench/locked/muffet/eval_report.json` | — | Y | `miniserve` |
-| `ngrrram` | Typing speed trainer for command-line users | rs | 664/664 (100.0%) | — | `corpus/programbench/locked/wintermute-cell__ngrrram.8ea13c3/eval_report.json` | — | — | `thokr` |
-| `nomino` | Bulk file renamer with regex patterns | rs | 676/676 (100.0%) | Y | `corpus/programbench/locked/nomino/eval_report.json` | — | — | `rnr` |
-| `pastel` | Color manipulation CLI — convert, mix, lighten/darken colors | rs | 1256/1256 (100.0%) | Y | `corpus/programbench/locked/pastel/eval_report.json` | — | — | — |
-| `pier` | Command alias manager — save and run frequently-used commands | rs | 1556/1556 (100.0%) | Y | `corpus/programbench/locked/pier/eval_report.json` | — | — | — |
-| `rhit` | Apache/Nginx log analyzer with fast path stats | rs | 2176/2176 (100.0%) | — | `corpus/programbench/locked/canop__rhit.ae90bcb/eval_report.json` | — | — | `angle-grinder`, `fblog` |
-| `ripsecrets` | Scans files/git history for hardcoded secrets and API keys | rs | 937/937 (100.0%) | Y | `corpus/programbench/locked/ripsecrets/eval_report.json` | — | Y | — |
-| `rnr` | Recursive bulk file/directory renamer with regex support | rs | 1480/1480 (100.0%) | Y | `corpus/programbench/locked/rnr/eval_report.json` | — | — | `nomino` |
-| `seqtk` | Fast FASTQ/FASTA sequence processing toolkit | c | 880/880 (100.0%) | Y | `corpus/programbench/locked/seqtk/eval_report.json` | — | — | — |
-| `shellharden` | Shell script linter/formatter; hardens quoting and variable handling | rs | 1292/1292 (100.0%) | Y | `corpus/programbench/locked/shellharden/eval_report.json` | — | — | `ripgrep` |
-| `stathissideris__ditaa` | Converts ASCII art diagrams to PNG/SVG images | java | 681/681 (100.0%) | Y | `corpus/programbench/locked/stathissideris__ditaa/eval_report.json` | `stathissideris__ditaa.f2286c4` | — | — |
-| `tailspin` | Log file highlighter — colorizes log levels, IPs, paths, dates | rs | 1570/1570 (100.0%) | — | `corpus/programbench/locked/bensadeh__tailspin.6278437/eval_report.json` | — | — | `fblog` |
-| `tex-fmt` | LaTeX formatter — consistent indentation for TeX/LaTeX files | rs | 990/990 (100.0%) | Y | `corpus/programbench/locked/tex-fmt/eval_report.json` | — | — | — |
-| `thokr` | Terminal typing test with WPM/accuracy stats | rs | 507/507 (100.0%) | Y | `corpus/programbench/locked/thokr/eval_report.json` | — | — | `ngrrram` |
-| `tparse` | Formats and colorizes go test output with pass/fail/coverage stats | go | 1112/1112 (100.0%) | Y | `corpus/programbench/locked/tparse/eval_report.json` | — | — | — |
-| `trasta298__keifu.3331426` | TUI bookmark/note manager with sqlite backend | rs | 826/826 (100.0%) | Y | `corpus/programbench/locked/trasta298__keifu.3331426/eval_report.json` | `trasta298__keifu.3331426` | — | — |
-| `trdsql` | SQL queries over CSV/TSV/JSON/LTSV; supports MySQL/PG syntax | go | 2806/2806 (100.0%) | Y | `corpus/programbench/locked/trdsql/eval_report.json` | — | — | `dsq` |
-| `xsv` | Fast CSV toolkit — slice, select, join, search, stats on CSV | rs | 2634/2634 (100.0%) | Y | `corpus/programbench/locked/burntsushi__xsv.f430466/eval_report.json` | — | — | `dsq`, `trdsql` |
-| `yq` | YAML/JSON/TOML processor; jq-syntax queries for YAML | go | 2046/2046 (100.0%) | Y | `corpus/programbench/locked/yq/eval_report.json` | — | — | `jq`, `xq` |
-| `zoxide` | Smarter cd; learns frecency-ranked directory jumps | rs | 577/577 (100.0%) | Y | `corpus/programbench/locked/zoxide/eval_report.json` | — | Y | `nomino`, `rnr` |
 
 ## T2 Ceiling Certified (f=0, nr=0, sk>0, CEILING_CERT.md present)
 
@@ -208,8 +143,7 @@ Completing a tool often transfers directly to its siblings. Key clusters:
 
 | Slug | Description | Lang | Score | f/nr/sk | Override | Eval report | Next action | Ceiling/notes |
 |------|-------------|------|-------|---------|----------|-------------|-------------|---------------|
-| `rs__jplot.2a54bcc` | Real-time terminal plot of stdin data streams | go | 2157/2157 (100.0%) ⚠PHANTOM(submetric) | — | `rs__jplot.2a54bcc` | `corpus/programbench/locked
-s__jplot.2a54bcc/eval_report.json` | Verify → archive → T1 |  |
+| `rs__jplot.2a54bcc` | Real-time terminal plot of stdin data streams | go | 2157/2157 (100.0%) ⚠PHANTOM(submetric) | — | `rs__jplot.2a54bcc` | `corpus/programbench/lockeds__jplot.2a54bcc/eval_report.json` | Verify → archive → T1 |  |
 | `nsh` | Experimental shell with Lisp-inspired syntax | rs | 4584/4588 (99.9%) | f=4 | — | `corpus/programbench/locked/nsh/eval_report.json` | Fix 4 fail (0.1%) → T1 | nsh_v3 4574/4578: Ctrl+E (cursor to end) ignored by nsh line editor; Escape from |
 | `hpjansson__chafa.dd4d4c1` | Terminal graphics with tmux support (chafa) | c | 5544/5552 (99.9%) | f=8 | `hpjansson__chafa.dd4d4c1` | `—` | Fix 8 fail (0.1%) → T1 | 8 tmux tests not_run because tmux is unavailable in the Docker eval environment, |
 | `elkowar__pipr` | TUI pipeline builder — compose shell pipes interactively | rs | 1636/1655 (98.9%) | f=15 sk=4 | `elkowar__pipr.fae0b17` | `—` | Fix 15 fail (0.9%) → near-lock |  |
@@ -327,6 +261,77 @@ s__jplot.2a54bcc/eval_report.json` | Verify → archive → T1 |  |
 | `hairyhenderson__gomplate` | Template renderer using Go templates; substitutes env vars/data | go | 5270/7084 (74.4%) | f=1772 sk=42 | `hairyhenderson__gomplate.05eb3aa` | `—` | Fix 1772 fail (25.0%) — large effort |  |
 | `gromacs__gromacs` | Molecular dynamics simulation package (gmx CLI) | c++ | 40/2764 (1.4%) | f=2666 sk=58 | `gromacs__gromacs.665ea4c` | `—` | Fix 2666 fail (96.5%) — large effort |  |
 
+### T3 unclassified
+
+| Slug | Description | Lang | Score | f/nr/sk | Override | Eval report | Next action | Ceiling/notes |
+|------|-------------|------|-------|---------|----------|-------------|-------------|---------------|
+| `angle-grinder` | Log parsing & aggregation DSL; filter/group-by/sum on log lines | rs | 1143/1143 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/angle-grinder/eval_report.json` | Verify → archive → T1 |  |
+| `ascii-image-converter` | Converts images to ASCII art in terminal | go | 488/488 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/ascii-image-converter/eval_report.json` | Verify → archive → T1 |  |
+| `bore` | TCP tunnel — exposes local ports through a remote server | rs | 900/900 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/bore/eval_report.json` | Verify → archive → T1 |  |
+| `boyter__scc.515f91c` | Code counter — lines of code/comments/blanks per language (scc) | go | 476/476 (100.0%) ⚠PHANTOM(unresolved) | — | `boyter__scc.515f91c` | `corpus/programbench/locked/boyter__scc.515f91c/eval_report.json` | Verify → archive → T1 |  |
+| `chmln__handlr` | XDG MIME handler replacement for xdg-open | rs | 1812/1812 (100.0%) ⚠PHANTOM(unresolved) | — | `chmln__handlr` | `corpus/programbench/locked/chmln__handlr.90e78ba/eval_report.json` | Verify → archive → T1 |  |
+| `clog-cli` | Changelog generator from conventional commit history | rs | 1556/1556 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/clog-cli/eval_report.json` | Verify → archive → T1 |  |
+| `cmatrix` | Matrix-style falling-character terminal animation | c | 769/769 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/cmatrix/eval_report.json` | Verify → archive → T1 |  |
+| `cmatsuoka__figlet` | Large ASCII art text banners from fonts | c | 2088/2088 (100.0%) ⚠PHANTOM(unresolved) | — | `cmatsuoka__figlet.202a0a8` | `corpus/programbench/locked/cmatsuoka__figlet.202a0a8/eval_report.json` | Verify → archive → T1 |  |
+| `code-minimap` | Terminal minimap of source code scrollbar | rs | 738/738 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/code-minimap/eval_report.json` | Verify → archive → T1 |  |
+| `crowdagger__crowbook` | Markdown-to-book converter (EPUB/HTML/PDF) | rs | 1774/1774 (100.0%) ⚠PHANTOM(unresolved) | — | `crowdagger__crowbook.ea214d7` | `corpus/programbench/locked/crowdagger__crowbook.ea214d7/eval_report.json` | Verify → archive → T1 |  |
+| `curlie` | HTTP client combining curl flags with httpie-style output | go | 1482/1482 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/curlie/eval_report.json` | Verify → archive → T1 |  |
+| `deadnix` | Nix file analyzer; finds unused variables in Nix expressions | rs | 1418/1418 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/deadnix/eval_report.json` | Verify → archive → T1 |  |
+| `diffr` | Diff viewer with character-level highlighting | rs | 1524/1524 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/diffr/eval_report.json` | Verify → archive → T1 |  |
+| `direnv__direnv` | Shell extension to load/unload env vars per directory | go | 1946/1946 (100.0%) ⚠PHANTOM(unresolved) | — | `direnv__direnv.02040c7` | `corpus/programbench/locked/direnv__direnv.02040c7/eval_report.json` | Verify → archive → T1 | [CORRECTED 2026-06-13 Driver: fabricated note removed. Real best eval (determine |
+| `dsq` | SQL queries over CSV/JSON/Parquet; multi-format join | go | 1532/1532 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/multiprocessio__dsq.c3ae0ba/eval_report.json` | Verify → archive → T1 |  |
+| `dupl` | Source code duplicate detector across files | go | 900/900 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/dupl/eval_report.json` | Verify → archive → T1 |  |
+| `entr` | File watcher — re-runs commands when files change | c | 1482/1482 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/eradman__entr.8e2e8b4/eval_report.json` | Verify → archive → T1 |  |
+| `errcheck` | — | ? | 1064/1064 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/kisielk__errcheck.dacab89/kisielk__errcheck.dacab89.eval.json` | Verify → archive → T1 |  |
+| `eureka` | TUI note-taking app for capturing ideas quickly | rs | 800/800 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/simeg__eureka.df3796c/eval_report.json` | Verify → archive → T1 |  |
+| `eva` | Calculator REPL with variable support and arbitrary precision | rs | 963/963 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/eva/eval_report.json` | Verify → archive → T1 |  |
+| `fasttext` | Facebook's text classification and word vector library | c++ | 708/708 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/facebookresearch__fasttext.1142dc4/eval_report.json` | Verify → archive → T1 |  |
+| `fblog` | JSON log viewer with color highlighting and field filtering | rs | 2254/2254 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/fblog/eval_report.json` | Verify → archive → T1 |  |
+| `flamelens` | Interactive flamegraph viewer in terminal | rs | 622/622 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/flamelens/eval_report.json` | Verify → archive → T1 |  |
+| `genact` | Fake activity simulator — makes terminal look busy | rs | 237/237 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/genact/eval_report.json` | Verify → archive → T1 |  |
+| `git-trim` | Trims merged/stale git branches automatically | rs | 1422/1422 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/git-trim/eval_report.json` | Verify → archive → T1 |  |
+| `go-mod-outdated` | Lists outdated Go module dependencies | go | 342/342 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/go-mod-outdated/eval_report.json` | Verify → archive → T1 |  |
+| `grex` | Generates minimal regex patterns from user-provided examples | rs | 3036/3036 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/grex/eval_report.json` | Verify → archive → T1 |  |
+| `gron` | Flattens JSON to greppable discrete assignments | go | 233/233 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/gron/eval_report.json` | Verify → archive → T1 |  |
+| `guumaster__hostctl` | Hosts file manager — enable/disable groups of host entries | go | 2750/2750 (100.0%) ⚠PHANTOM(unresolved) | — | `guumaster__hostctl.d6d9699` | `corpus/programbench/locked/guumaster__hostctl.d6d9699/eval_report.json` | Verify → archive → T1 |  |
+| `hck` | Field-splitting like cut but with regex delimiters | rs | 1768/1768 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/sstadick__hck.b66c751/eval_report.json` | Verify → archive → T1 |  |
+| `hex` | Hex dump viewer with color and multiple display modes | rs | 1754/1754 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/hex/eval_report.json` | Verify → archive → T1 |  |
+| `hooklift__gowsdl` | WSDL-to-Go code generator for SOAP web services | go | 846/846 (100.0%) ⚠PHANTOM(unresolved) | — | `hooklift__gowsdl.2a06cec` | `T:/determinex-programbench/hetzner_results/a3_cap_26_harvest/determinex_pb_hooklift_gowsdl_2a06cec/hooklift__gowsdl.2a06cec/hooklift__gowsdl.2a06cec.eval.json` | Verify → archive → T1 |  |
+| `hyperfine` | Benchmarking tool — runs commands N times, stats on timing | rs | 298/298 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/hyperfine/eval_report.json` | Verify → archive → T1 |  |
+| `i3-style` | Applies color themes to i3/Sway window manager configs | rs | 1500/1500 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/i3-style/eval_report.json` | Verify → archive → T1 |  |
+| `igrep` | Searches regex in files; opens matches in vim/nvim (TUI) | rs | 1408/1408 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/konradsz__igrep.aa75630/eval_report.json` | Verify → archive → T1 | 49 TUI tests (test_tui_*) not_run in Docker — interactive terminal ceiling |
+| `isona__dirble` | Fast web directory brute-forcer / content discovery | rs | 2216/2216 (100.0%) ⚠PHANTOM(unresolved) | — | `isona__dirble.e2dea9f` | `corpus/programbench/locked/isona__dirble.e2dea9f/eval_report.json` | Verify → archive → T1 | Hetzner 2204/2216: 12 failures (6 unique env failures; DNS timeouts/port conflic |
+| `ivanceras__svgbob` | ASCII diagram-to-SVG converter | rs | 948/948 (100.0%) ⚠PHANTOM(unresolved) | — | `ivanceras__svgbob.6d00ad9` | `corpus/programbench/locked/ivanceras__svgbob.6d00ad9/eval_report.json` | Verify → archive → T1 |  |
+| `jq` | JSON processor — filters, transforms, queries JSON streams | c | 6874/6874 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/jq/eval_report.json` | Verify → archive → T1 |  |
+| `junegunn__fzf.b56d614` | General-purpose fuzzy finder for terminal (most widely used TUI) | go | 4156/4156 (100.0%) ⚠PHANTOM(Sec5-FAIL) | — | `junegunn__fzf.b56d614` | `corpus/programbench/locked/junegunn__fzf.b56d614/eval_report.json` | Verify → archive → T1 |  |
+| `loop` | Runs commands in a loop with delay/count/until options | rs | 1556/1556 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/loop/eval_report.json` | Verify → archive → T1 |  |
+| `madler__pigz` | Parallel gzip compressor — multi-threaded gzip replacement | c | 1876/1876 (100.0%) ⚠PHANTOM(unresolved) | — | `madler__pigz` | `corpus/programbench/locked/madler__pigz.fe4894f/eval_report.json` | Verify → archive → T1 |  |
+| `mgechev__revive` | Fast, extensible Go linter with configurable rules | go | 1772/1772 (100.0%) ⚠PHANTOM(unresolved) | — | `mgechev__revive.201451e` | `corpus/programbench/locked/mgechev__revive.201451e/eval_report.json` | Verify → archive → T1 |  |
+| `miniserve` | Minimal HTTP file server — serve a directory over HTTP | rs | 880/880 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/miniserve/eval_report.json` | Verify → archive → T1 |  |
+| `muffet` | Fast website link checker; crawls for broken links | go | 864/864 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/muffet/eval_report.json` | Verify → archive → T1 |  |
+| `ngrrram` | Typing speed trainer for command-line users | rs | 664/664 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/wintermute-cell__ngrrram.8ea13c3/eval_report.json` | Verify → archive → T1 |  |
+| `nomino` | Bulk file renamer with regex patterns | rs | 676/676 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/nomino/eval_report.json` | Verify → archive → T1 |  |
+| `pastel` | Color manipulation CLI — convert, mix, lighten/darken colors | rs | 1256/1256 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/pastel/eval_report.json` | Verify → archive → T1 |  |
+| `pier` | Command alias manager — save and run frequently-used commands | rs | 1556/1556 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/pier/eval_report.json` | Verify → archive → T1 |  |
+| `rhit` | Apache/Nginx log analyzer with fast path stats | rs | 2176/2176 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/canop__rhit.ae90bcb/eval_report.json` | Verify → archive → T1 |  |
+| `ripsecrets` | Scans files/git history for hardcoded secrets and API keys | rs | 937/937 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/ripsecrets/eval_report.json` | Verify → archive → T1 |  |
+| `rnr` | Recursive bulk file/directory renamer with regex support | rs | 1480/1480 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/rnr/eval_report.json` | Verify → archive → T1 |  |
+| `seqtk` | Fast FASTQ/FASTA sequence processing toolkit | c | 880/880 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/seqtk/eval_report.json` | Verify → archive → T1 |  |
+| `shellharden` | Shell script linter/formatter; hardens quoting and variable handling | rs | 1292/1292 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/shellharden/eval_report.json` | Verify → archive → T1 |  |
+| `stathissideris__ditaa` | Converts ASCII art diagrams to PNG/SVG images | java | 681/681 (100.0%) ⚠PHANTOM(unresolved) | — | `stathissideris__ditaa.f2286c4` | `corpus/programbench/locked/stathissideris__ditaa/eval_report.json` | Verify → archive → T1 |  |
+| `tailspin` | Log file highlighter — colorizes log levels, IPs, paths, dates | rs | 1570/1570 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/bensadeh__tailspin.6278437/eval_report.json` | Verify → archive → T1 |  |
+| `tex-fmt` | LaTeX formatter — consistent indentation for TeX/LaTeX files | rs | 990/990 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/tex-fmt/eval_report.json` | Verify → archive → T1 |  |
+| `thokr` | Terminal typing test with WPM/accuracy stats | rs | 507/507 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/thokr/eval_report.json` | Verify → archive → T1 |  |
+| `tparse` | Formats and colorizes go test output with pass/fail/coverage stats | go | 1112/1112 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/tparse/eval_report.json` | Verify → archive → T1 |  |
+| `trasta298__keifu.3331426` | TUI bookmark/note manager with sqlite backend | rs | 826/826 (100.0%) ⚠PHANTOM(unresolved) | — | `trasta298__keifu.3331426` | `corpus/programbench/locked/trasta298__keifu.3331426/eval_report.json` | Verify → archive → T1 |  |
+| `trdsql` | SQL queries over CSV/TSV/JSON/LTSV; supports MySQL/PG syntax | go | 2806/2806 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/trdsql/eval_report.json` | Verify → archive → T1 |  |
+| `xsv` | Fast CSV toolkit — slice, select, join, search, stats on CSV | rs | 2634/2634 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/burntsushi__xsv.f430466/eval_report.json` | Verify → archive → T1 |  |
+| `yq` | YAML/JSON/TOML processor; jq-syntax queries for YAML | go | 2046/2046 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/yq/eval_report.json` | Verify → archive → T1 |  |
+| `zoxide` | Smarter cd; learns frecency-ranked directory jumps | rs | 577/577 (100.0%) ⚠PHANTOM(unresolved) | — | — | `corpus/programbench/locked/zoxide/eval_report.json` | Verify → archive → T1 |  |
+| `eliukblau__pixterm` | Renders images as colored ASCII art in terminal | go | 922/922 (100.0%) ⚠PHANTOM(unresolved) | — | `eliukblau__pixterm.1a93fd5` | `C:/tmp/a3_harvest/eliukblau__pixterm.1a93fd5.eval.json` | Verify → archive → T1 |  |
+| `google__brotli` | Brotli compression algorithm CLI encoder/decoder | c | 1212/1212 (100.0%) ⚠PHANTOM(unresolved) | — | `google__brotli.b3dc9cc` | `corpus/programbench/locked/google__brotli.b3dc9cc/eval_report.json` | Verify → archive → T1 |  |
+| `ariga__atlas` | Database schema management and migration tool (Ent/SQL) | go | 3476/3476 (100.0%) ⚠PHANTOM(unresolved) | — | `ariga__atlas` | `corpus/programbench/locked/ariga__atlas.6d81150/eval_report.json` | Verify → archive → T1 | ceiling 3474/3476=99.94%. The 2-fail gap is one test (bidir pair) test_migrate_a |
+
 ## Alias Rows (not counted in totals)
 
 These eval_index rows map to the same ProgramBench task as a canonical row above.
@@ -342,28 +347,28 @@ These eval_index rows map to the same ProgramBench task as a canonical row above
 | `ducaale__xh.4a6e44f` | `ducaale__xh` | 2542 | 2532/2542 (99.6%) |
 | `dundee__gdu.ede21d2` | `dundee__gdu` | 3105 | 1979/3105 (63.7%) |
 | `ekzhang__bore.8e059cd.eval` | `bore` | ? | ?/? |
-| `eliukblau__pixterm.1a93fd5` | `eliukblau__pixterm` | 922 | 922/922 (100.0%) |
-| `hooklift__gowsdl.2a06cec` | `hooklift__gowsdl` | 846 | 846/846 (100.0%) |
+| `eliukblau__pixterm.1a93fd5` | `eliukblau__pixterm` | 922 | 922/922 (100.0%) ⚠PHANTOM(unresolved) |
+| `hooklift__gowsdl.2a06cec` | `hooklift__gowsdl` | 846 | 846/846 (100.0%) ⚠PHANTOM(unresolved) |
 | `jplot` | `rs__jplot.2a54bcc` | 2021 | 2021/2021 (100.0%) |
 | `jq_native` | `jq` | 6874 | 6874/6874 (100.0%) |
 | `keifu` | `trasta298__keifu.3331426` | 625 | 548/625 (87.7%) |
-| `kisielk__errcheck` | `errcheck` | 1064 | 1064/1064 (100.0%) |
+| `kisielk__errcheck` | `errcheck` | 1064 | 1064/1064 (100.0%) ⚠PHANTOM(unresolved) |
 | `lymphatus__caesium-clt.a529b2e` | `lymphatus__caesium-clt` | 1240 | 1238/1240 (99.8%) |
-| `oppiliappan__eva.41ae245` | `eva` | 1926 | 1926/1926 (100.0%) |
+| `oppiliappan__eva.41ae245` | `eva` | 1926 | 1926/1926 (100.0%) ⚠PHANTOM(unresolved) |
 | `pastel_native` | `pastel` | 1256 | 1256/1256 (100.0%) |
 | `pemistahl__grex.fa3e8ed` | `grex` | ? | ?/? |
 | `quickjs` | `bellard__quickjs.d7ae12a` | 3044 | 3038/3044 (99.8%) |
 | `ripsecrets_native` | `ripsecrets` | 937 | 937/937 (100.0%) |
 | `sd` | `chmln__sd.87d1ba5` | 1738 | 1728/1738 (99.4%) |
-| `sharkdp__hyperfine.327d5f4` | `hyperfine` | 596 | 596/596 (100.0%) |
+| `sharkdp__hyperfine.327d5f4` | `hyperfine` | 596 | 596/596 (100.0%) ⚠PHANTOM(unresolved) |
 | `shellharden_native` | `shellharden` | 1292 | 1292/1292 (100.0%) |
-| `sitkevij__hex.61ae69b` | `hex` | 1754 | 1754/1754 (100.0%) |
-| `stathissideris__ditaa.f2286c4` | `stathissideris__ditaa` | 681 | 681/681 (100.0%) |
-| `thezoraiz__ascii-image-converter.d05a757` | `ascii-image-converter` | 976 | 976/976 (100.0%) |
+| `sitkevij__hex.61ae69b` | `hex` | 1754 | 1754/1754 (100.0%) ⚠PHANTOM(unresolved) |
+| `stathissideris__ditaa.f2286c4` | `stathissideris__ditaa` | 681 | 681/681 (100.0%) ⚠PHANTOM(unresolved) |
+| `thezoraiz__ascii-image-converter.d05a757` | `ascii-image-converter` | 976 | 976/976 (100.0%) ⚠PHANTOM(unresolved) |
 | `trdsql-d8c5ff6` | `trdsql` | 2806 | 2806/2806 (100.0%) |
-| `wfxr__code-minimap.0ddeea5` | `code-minimap` | 738 | 738/738 (100.0%) |
+| `wfxr__code-minimap.0ddeea5` | `code-minimap` | 738 | 738/738 (100.0%) ⚠PHANTOM(unresolved) |
 | `yq_native` | `yq` | 2046 | 2046/2046 (100.0%) |
 | `zoxide_native` | `zoxide` | 577 | 577/577 (100.0%) |
 
 ---
-*Generated by `scripts/gen_pb_readme.py` · 2026-06-29*
+*Generated by `scripts/gen_pb_readme.py` · 2026-08-05*

@@ -260,6 +260,7 @@ import { AiRouteSelect, AiRouteSummary } from "@/components/AiRouteSelect";
 import { routeKeyReady, type ApiKeyStatus } from "@/lib/aiRouting";
 import { BootOverlay } from "@/components/modals/BootOverlay";
 import { HelpModal } from "@/components/modals/HelpModal";
+import { LivenessPopout } from "@/components/LivenessPopout";
 import { ServiceLoginModal } from "@/components/modals/ServiceLoginModal";
 import { SettingsModal } from "@/components/modals/SettingsModal";
 import { useBootstrap } from "@/hooks/useBootstrap";
@@ -599,6 +600,9 @@ export default function DeterminexIDE() {
 
   // Tactical Guidance State
   const [helpModal, setHelpModal] = useState<{ title: string; desc: string } | null>(null);
+  // Liveness: process + last-write truth, for when the event log is silent and it is
+  // not clear whether that means finished or wedged.
+  const [livenessOpen, setLivenessOpen] = useState(false);
   const [lastPrompt, setLastPrompt] = useState("");
   // Seeded from the Guide's "Ask an Agent about this screen" button -- handed
   // to AgentsPanel as its initial task so a real installed agent CLI can
@@ -2422,21 +2426,20 @@ export default function DeterminexIDE() {
             2026-08-02 by driving the running app over CDP), so a screen-reader user
             could not skip the navigation or jump to content. */}
         <main className="contents">
-
-        {/* The nine-group drawer. Sits beside the rail, in-flow -- not a portal
+          {/* The nine-group drawer. Sits beside the rail, in-flow -- not a portal
             and not a floating overlay, so it can never cover another surface
             the way the advisor pill and the multichat popout did. */}
-        {openGroupId && (
-          <SurfaceDrawer
-            group={SURFACE_GROUPS.find((g) => g.id === openGroupId)!}
-            activeSurfaceId={addonDockOpen ? activeAddon : activeSidebar}
-            showInternal={isInternalBuild()}
-            onOpen={openSurface}
-            onClose={() => setOpenGroupId(null)}
-          />
-        )}
+          {openGroupId && (
+            <SurfaceDrawer
+              group={SURFACE_GROUPS.find((g) => g.id === openGroupId)!}
+              activeSurfaceId={addonDockOpen ? activeAddon : activeSidebar}
+              showInternal={isInternalBuild()}
+              onOpen={openSurface}
+              onClose={() => setOpenGroupId(null)}
+            />
+          )}
 
-        {/* Zone 1: Left Brain -- hidden whenever ANY addon is attached (not just
+          {/* Zone 1: Left Brain -- hidden whenever ANY addon is attached (not just
             while maximized). Used to key off !addonDockMaximized, but that's now
             per-tool remembered state -- switching from a tool that remembers
             "maximized" to one that remembers "restored, dragged to a corner"
@@ -2447,141 +2450,141 @@ export default function DeterminexIDE() {
             floating tool never helped anyway -- just added clutter. Simple,
             predictable rule instead: attaching a tool hides this panel; closing
             the tool brings it back. */}
-        <AnimatePresence mode="wait">
-          {(panelAddon ||
-            (activeSidebar !== "none" &&
-              activeSidebar !== "hub" &&
-              activeSidebar !== "extensions" &&
-              !addonDockOpen)) && (
-            <motion.div
-              key={panelAddon ?? activeSidebar}
-              initial={{ opacity: 0, x: -20, scale: 0.98 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: -20, scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30, mass: 0.75 }}
-              // willChange -- see the matching note on Zone 2's motion.div below;
-              // same stale-compositing symptom reproduced on this panel too (Proof's
-              // narrow left card mounted blank until a resize forced a repaint).
-              // Deliberately NOT `transform-gpu`: that Tailwind class sets `transform`,
-              // which framer-motion's own inline style (driving x/scale here) silently
-              // overrides every frame.
-              className="relative flex h-full shrink-0 flex-col border backdrop-blur-2xl"
-              style={{
-                width: zone1.width,
-                background: "var(--determinex-panel-glass)",
-                borderColor: "var(--determinex-border)",
-                borderRadius: "var(--determinex-radius)",
-                boxShadow: "0 0 30px rgba(0,0,0,0.6)",
-                willChange: "transform, opacity",
-              }}
-            >
-              {/* Resize handle. The panel is `relative` so this rides its right
+          <AnimatePresence mode="wait">
+            {(panelAddon ||
+              (activeSidebar !== "none" &&
+                activeSidebar !== "hub" &&
+                activeSidebar !== "extensions" &&
+                !addonDockOpen)) && (
+              <motion.div
+                key={panelAddon ?? activeSidebar}
+                initial={{ opacity: 0, x: -20, scale: 0.98 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -20, scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30, mass: 0.75 }}
+                // willChange -- see the matching note on Zone 2's motion.div below;
+                // same stale-compositing symptom reproduced on this panel too (Proof's
+                // narrow left card mounted blank until a resize forced a repaint).
+                // Deliberately NOT `transform-gpu`: that Tailwind class sets `transform`,
+                // which framer-motion's own inline style (driving x/scale here) silently
+                // overrides every frame.
+                className="relative flex h-full shrink-0 flex-col border backdrop-blur-2xl"
+                style={{
+                  width: zone1.width,
+                  background: "var(--determinex-panel-glass)",
+                  borderColor: "var(--determinex-border)",
+                  borderRadius: "var(--determinex-radius)",
+                  boxShadow: "0 0 30px rgba(0,0,0,0.6)",
+                  willChange: "transform, opacity",
+                }}
+              >
+                {/* Resize handle. The panel is `relative` so this rides its right
                     edge; the hit area is wider than the visible line so it is
                     actually grabbable. Persisted per surface on pointer-up. */}
-              <div
-                onPointerDown={zone1.startResize}
-                data-testid="zone1-resize"
-                title="Drag to resize — width is remembered per panel"
-                className={`absolute -right-1 top-0 z-30 h-full w-2 cursor-ew-resize transition-colors ${
-                  zone1.resizing
-                    ? "bg-[var(--determinex-accent)]/40"
-                    : "hover:bg-[var(--determinex-accent)]/25"
-                }`}
-              />
-              <div className="px-5 py-3 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)]/50 rounded-t-2xl flex-shrink-0 flex items-center justify-between">
-                <span className="text-meta uppercase text-gray-300 font-black tracking-widest flex items-center gap-2 drop-shadow-md">
-                  {/* A panel-hosted surface names ITSELF. Without this the
+                <div
+                  onPointerDown={zone1.startResize}
+                  data-testid="zone1-resize"
+                  title="Drag to resize — width is remembered per panel"
+                  className={`absolute -right-1 top-0 z-30 h-full w-2 cursor-ew-resize transition-colors ${
+                    zone1.resizing
+                      ? "bg-[var(--determinex-accent)]/40"
+                      : "hover:bg-[var(--determinex-accent)]/25"
+                  }`}
+                />
+                <div className="px-5 py-3 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)]/50 rounded-t-2xl flex-shrink-0 flex items-center justify-between">
+                  <span className="text-meta uppercase text-gray-300 font-black tracking-widest flex items-center gap-2 drop-shadow-md">
+                    {/* A panel-hosted surface names ITSELF. Without this the
                         header kept showing whatever left workspace happened to
                         be active -- so opening Agent Chat Room into the panel
                         produced a box labelled "Work" containing a chat room. */}
-                  {panelAddon && panelHostedAddon && (
-                    <>
-                      <panelHostedAddon.icon size={13} className={panelHostedAddon.tone} />{" "}
-                      {panelHostedAddon.label}
-                    </>
-                  )}
-                  {!panelAddon && activeSidebar === "pipeline" && (
-                    <>
-                      <Activity size={13} className="text-amber-500" /> Build Pipeline
-                    </>
-                  )}
-                  {activeSidebar === "explorer" && (
-                    <>
-                      <Folder size={13} className="text-purple-400" /> Workspace
-                    </>
-                  )}
-                  {activeSidebar === "git" && (
-                    <>
-                      <GitPullRequest size={13} className="text-green-400" /> Source
-                    </>
-                  )}
-                  {activeSidebar === "hive" && (
-                    <>
-                      <Zap size={13} className="text-emerald-400" /> Work
-                    </>
-                  )}
-                  {activeSidebar === "benchmark" && (
-                    <>
-                      <Database size={13} className="text-orange-400" /> Brain
-                    </>
-                  )}
-                  {activeSidebar === "proof" && (
-                    <>
-                      <Eye size={13} className="text-cyan-400" /> Proof
-                    </>
-                  )}
-                  {activeSidebar === "audit" && (
-                    <>
-                      <ShieldCheck size={13} className="text-red-400" /> Audit
-                    </>
-                  )}
-                </span>
-                <div className="flex items-center gap-2">
-                  {/* Moving a panel-hosted surface to the dock without going
+                    {panelAddon && panelHostedAddon && (
+                      <>
+                        <panelHostedAddon.icon size={13} className={panelHostedAddon.tone} />{" "}
+                        {panelHostedAddon.label}
+                      </>
+                    )}
+                    {!panelAddon && activeSidebar === "pipeline" && (
+                      <>
+                        <Activity size={13} className="text-amber-500" /> Build Pipeline
+                      </>
+                    )}
+                    {activeSidebar === "explorer" && (
+                      <>
+                        <Folder size={13} className="text-purple-400" /> Workspace
+                      </>
+                    )}
+                    {activeSidebar === "git" && (
+                      <>
+                        <GitPullRequest size={13} className="text-green-400" /> Source
+                      </>
+                    )}
+                    {activeSidebar === "hive" && (
+                      <>
+                        <Zap size={13} className="text-emerald-400" /> Work
+                      </>
+                    )}
+                    {activeSidebar === "benchmark" && (
+                      <>
+                        <Database size={13} className="text-orange-400" /> Brain
+                      </>
+                    )}
+                    {activeSidebar === "proof" && (
+                      <>
+                        <Eye size={13} className="text-cyan-400" /> Proof
+                      </>
+                    )}
+                    {activeSidebar === "audit" && (
+                      <>
+                        <ShieldCheck size={13} className="text-red-400" /> Audit
+                      </>
+                    )}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {/* Moving a panel-hosted surface to the dock without going
                         back through the drawer -- the destination is meant to be
                         the user's, changeable, not a one-way trip. */}
-                  {panelAddon && (
+                    {panelAddon && (
+                      <button
+                        onClick={() => {
+                          const addon = panelAddon;
+                          setPanelAddon(null);
+                          handleAddonLaunch(addon);
+                        }}
+                        data-testid="zone1-move-to-dock"
+                        aria-label="Move this panel to the floating dock"
+                        className="flex h-6 w-6 items-center justify-center rounded text-gray-600 transition-colors hover:bg-white/5 hover:text-gray-300"
+                        title="Move to the floating dock"
+                      >
+                        <PanelRight size={13} />
+                      </button>
+                    )}
                     <button
                       onClick={() => {
-                        const addon = panelAddon;
-                        setPanelAddon(null);
-                        handleAddonLaunch(addon);
+                        if (panelAddon) {
+                          setPanelAddon(null);
+                          // Give the panel back to whatever workspace was there
+                          // before, rather than leaving an empty column.
+                          setActiveSidebar(
+                            lastWorkbenchSidebar === "none" || lastWorkbenchSidebar === "extensions"
+                              ? "hub"
+                              : lastWorkbenchSidebar
+                          );
+                          return;
+                        }
+                        setActiveSidebar("none");
+                        setPreviewedPath(null);
                       }}
-                      data-testid="zone1-move-to-dock"
-                      aria-label="Move this panel to the floating dock"
+                      data-testid="zone1-close"
+                      aria-label="Close panel"
                       className="flex h-6 w-6 items-center justify-center rounded text-gray-600 transition-colors hover:bg-white/5 hover:text-gray-300"
-                      title="Move to the floating dock"
+                      title="Close panel"
                     >
-                      <PanelRight size={13} />
+                      <span className="text-title leading-none">✕</span>
                     </button>
-                  )}
-                  <button
-                    onClick={() => {
-                      if (panelAddon) {
-                        setPanelAddon(null);
-                        // Give the panel back to whatever workspace was there
-                        // before, rather than leaving an empty column.
-                        setActiveSidebar(
-                          lastWorkbenchSidebar === "none" || lastWorkbenchSidebar === "extensions"
-                            ? "hub"
-                            : lastWorkbenchSidebar
-                        );
-                        return;
-                      }
-                      setActiveSidebar("none");
-                      setPreviewedPath(null);
-                    }}
-                    data-testid="zone1-close"
-                    aria-label="Close panel"
-                    className="flex h-6 w-6 items-center justify-center rounded text-gray-600 transition-colors hover:bg-white/5 hover:text-gray-300"
-                    title="Close panel"
-                  >
-                    <span className="text-title leading-none">✕</span>
-                  </button>
+                  </div>
                 </div>
-              </div>
 
-              {/* This whole panel (Zone 1) already only mounts when !addonDockOpen
+                {/* This whole panel (Zone 1) already only mounts when !addonDockOpen
                 (see the AnimatePresence condition above) -- checking
                 addonDockMaximized here too was dead/redundant logic from
                 before that rule existed, and became actively harmful once
@@ -2589,662 +2592,663 @@ export default function DeterminexIDE() {
                 hid this panel's entire body (including ConceptLab's textarea)
                 from first load, even with no addon ever opened. Ryan: "the
                 type in area is now gone on the work?" */}
-              <div className="flex-1 overflow-y-auto no-scrollbar relative flex flex-col">
-                {/* min-h-0 so a tall surface scrolls inside the panel instead of
+                <div className="flex-1 overflow-y-auto no-scrollbar relative flex flex-col">
+                  {/* min-h-0 so a tall surface scrolls inside the panel instead of
                       pushing its own header off the top. */}
-                {panelAddon && panelHostedAddon && (
-                  <div className="flex min-h-0 flex-1 flex-col" data-testid="zone1-hosted-addon">
-                    {panelHostedAddon.panel}
-                  </div>
-                )}
-                {!panelAddon && activeSidebar === "pipeline" && (
-                  <PipelineDashboard
-                    showWarRoom={showWarRoom}
-                    setShowWarRoom={setShowWarRoom}
-                    lastPrompt={lastPrompt}
-                    sessionId={hiveSessionId}
-                  />
-                )}
-
-                {activeSidebar === "explorer" && (
-                  <div className="flex flex-col h-full">
-                    <div className="p-4 bg-purple-950/20 border-b border-[var(--dtx-code-border)] relative flex-shrink-0 flex justify-between items-start">
-                      <div>
-                        <h3 className="text-meta uppercase font-bold text-purple-400 mb-2 tracking-widest flex items-center gap-2">
-                          Project Map
-                        </h3>
-                        <p className="text-label text-purple-300/60 leading-relaxed font-mono">
-                          Bound files, source state, scan actions, and runs for this project.
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => {
-                          getFileSystemTree(explorerRoot)
-                            .then((res) => {
-                              if (res && res.tree) setFileTree(res.tree);
-                            })
-                            .catch((err) => showError(`Could not load file system: ${err}`));
-                        }}
-                        className="p-1.5 border border-purple-500/20 bg-purple-900/20 hover:bg-purple-900/60 text-purple-400 rounded-lg transition-colors cursor-pointer"
-                        title="Refresh File System"
-                      >
-                        <RefreshCw size={14} />
-                      </button>
+                  {panelAddon && panelHostedAddon && (
+                    <div className="flex min-h-0 flex-1 flex-col" data-testid="zone1-hosted-addon">
+                      {panelHostedAddon.panel}
                     </div>
-                    <div className="grid grid-cols-4 gap-1.5 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg-deep)] p-2">
-                      {[
-                        ["overview", "Overview", Gauge],
-                        ["files", "Files", Files],
-                        ["source", "Source", GitPullRequest],
-                        ["runs", "Runs", Activity],
-                      ].map(([id, label, Icon]) => {
-                        const TabIcon = Icon as typeof Gauge;
-                        return (
-                          <button
-                            key={id as string}
-                            type="button"
-                            data-testid={`workspace-tab-${id as string}`}
-                            onClick={() => setWorkspaceView(id as typeof workspaceView)}
-                            className={`flex items-center justify-center gap-1 rounded-md border px-1.5 py-1.5 text-eyebrow font-black uppercase tracking-widest transition ${
-                              workspaceView === id
-                                ? "border-purple-400/50 bg-purple-500/15 text-purple-200"
-                                : "border-white/10 bg-white/[0.025] text-gray-600 hover:text-gray-300"
-                            }`}
-                          >
-                            <TabIcon size={10} /> {label as string}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <div className="flex-1 overflow-y-auto w-full p-4 flex flex-col h-full bg-[var(--dtx-code-bg-deep)]">
-                      {workspaceView === "overview" && (
-                        <div className="space-y-3">
-                          <div className="rounded-lg border border-purple-500/20 bg-purple-950/20 p-3">
-                            <div className="text-meta font-black uppercase tracking-widest text-purple-300">
-                              {selectedProjectName}
-                            </div>
-                            <div className="mt-2 font-mono text-label text-gray-500">
-                              {displayPath(explorerRoot) || "No workspace path bound yet."}
-                            </div>
-                          </div>
-                          {[
-                            [
-                              "Inspect files",
-                              "Browse the project tree and generated output files.",
-                              "files",
-                            ],
-                            [
-                              "Review source",
-                              "See Git remote, branch, dirty state, and staged intent.",
-                              "source",
-                            ],
-                            [
-                              "Check runs",
-                              "Open a run log or jump to the Work tab to start a session.",
-                              "runs",
-                            ],
-                          ].map(([title, text, target]) => (
-                            <button
-                              key={title}
-                              type="button"
-                              data-testid={`workspace-action-${target as string}`}
-                              onClick={() => setWorkspaceView(target as typeof workspaceView)}
-                              className="group w-full rounded-lg border border-white/10 bg-white/[0.03] p-3 text-left transition hover:border-purple-400/50 hover:bg-purple-500/10"
-                            >
-                              <div className="flex items-center justify-between gap-2">
-                                <span className="text-meta font-black uppercase tracking-widest text-gray-200">
-                                  {title}
-                                </span>
-                                <ChevronRight
-                                  size={12}
-                                  className="text-gray-600 group-hover:text-purple-300"
-                                />
-                              </div>
-                              <p className="mt-1 text-label leading-relaxed text-gray-500">
-                                {text}
-                              </p>
-                            </button>
-                          ))}
-                        </div>
-                      )}
+                  )}
+                  {!panelAddon && activeSidebar === "pipeline" && (
+                    <PipelineDashboard
+                      showWarRoom={showWarRoom}
+                      setShowWarRoom={setShowWarRoom}
+                      lastPrompt={lastPrompt}
+                      sessionId={hiveSessionId}
+                    />
+                  )}
 
-                      {workspaceView === "files" && (
-                        <>
-                          {explorerRoot !== "" && (
-                            <div
-                              onClick={() => setExplorerRoot("")}
-                              className="flex items-center gap-1 text-label font-bold text-cyan-400 hover:bg-[var(--dtx-code-border)] p-1.5 mb-2 cursor-pointer bg-cyan-950/20 border border-cyan-500/20 rounded"
-                            >
-                              <span className="mr-1">&lt; Back</span>
-                              <span className="text-gray-400 capitalize opacity-70">to Root</span>
-                            </div>
-                          )}
-                          <div
-                            onClick={() => setExplorerRoot("")}
-                            className="flex items-center gap-1 text-label font-bold text-gray-300 hover:bg-[var(--dtx-code-border)] p-1 mb-1 cursor-pointer"
-                          >
-                            <ChevronRight size={14} className="rotate-90" />{" "}
-                            {explorerRoot.split(/[\\/]/).pop() || "Explorer"}
-                          </div>
-                          {fileTree.length > 0 ? (
-                            <div className="flex flex-col gap-1">
-                              {fileTree.map((node, i) => (
-                                <FileSystemNode
-                                  key={i}
-                                  node={node}
-                                  activeContexts={activeContexts}
-                                  toggleContext={toggleContext}
-                                  setExplorerRoot={setExplorerRoot}
-                                  handleOpenFile={handleOpenFile}
-                                  gitStatusMap={explorerGitStatusMap}
-                                  onFsError={(msg) => showError(msg)}
-                                />
-                              ))}
-                            </div>
-                          ) : (
-                            <div className="text-label text-gray-600 font-mono italic">
-                              {isTauri()
-                                ? "Scanning system..."
-                                : "Browser mode cannot scan the real file tree."}
-                            </div>
-                          )}
-                          {sandboxFiles.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-[var(--dtx-code-border)]">
-                              <div className="text-eyebrow uppercase font-bold text-purple-400 tracking-widest mb-2 flex items-center gap-1.5">
-                                <Code2 size={9} /> Workspace Output
-                              </div>
-                              {sandboxFiles.map((f, i) => (
-                                <div
-                                  key={i}
-                                  onClick={() => {
-                                    setGeneratedFile(f.name);
-                                    setActiveSidebar("none");
-                                  }}
-                                  className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white/5 cursor-pointer group"
-                                >
-                                  <span className="text-label font-mono text-gray-400 group-hover:text-gray-200 truncate">
-                                    {f.name}
-                                  </span>
-                                  <span className="text-meta font-mono text-gray-700 shrink-0 ml-2">
-                                    {f.modified}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </>
-                      )}
-
-                      {workspaceView === "source" && (
-                        <div className="space-y-3">
-                          {[
-                            ["Provider", "GitHub or local Git"],
-                            ["Remote", "Connected remote appears here after read-only scan."],
-                            ["Branch", "Current branch and ahead/behind belong here."],
-                            ["Mutation", "Source apply stays gated until verified approval."],
-                          ].map(([label, text]) => (
-                            <div
-                              key={label}
-                              className="rounded-lg border border-white/10 bg-white/[0.03] p-3"
-                            >
-                              <div className="text-eyebrow font-black uppercase tracking-widest text-green-300">
-                                {label}
-                              </div>
-                              <p className="mt-1 text-label leading-relaxed text-gray-500">
-                                {text}
-                              </p>
-                            </div>
-                          ))}
-                          <button
-                            type="button"
-                            data-testid="workspace-source-view-runs"
-                            onClick={() => setWorkspaceView("runs")}
-                            className="w-full rounded-lg border border-green-500/30 bg-green-500/10 px-3 py-2 text-meta font-black uppercase tracking-widest text-green-300"
-                          >
-                            View runs for this source
-                          </button>
-                        </div>
-                      )}
-
-                      {workspaceView === "runs" && (
-                        <div className="flex flex-col items-center justify-center h-full gap-3 text-center py-12">
-                          <Activity size={24} className="text-gray-700" />
-                          <p className="text-label font-mono text-gray-600 leading-relaxed">
-                            Build run history lives in{" "}
-                            <strong className="text-amber-400/70">Work</strong>.<br />
-                            Open a hive session to see live output.
+                  {activeSidebar === "explorer" && (
+                    <div className="flex flex-col h-full">
+                      <div className="p-4 bg-purple-950/20 border-b border-[var(--dtx-code-border)] relative flex-shrink-0 flex justify-between items-start">
+                        <div>
+                          <h3 className="text-meta uppercase font-bold text-purple-400 mb-2 tracking-widest flex items-center gap-2">
+                            Project Map
+                          </h3>
+                          <p className="text-label text-purple-300/60 leading-relaxed font-mono">
+                            Bound files, source state, scan actions, and runs for this project.
                           </p>
-                          <button
-                            type="button"
-                            onClick={() => setActiveSidebar("hive")}
-                            className="mt-2 rounded-lg border border-emerald-500/30 bg-emerald-950/20 px-4 py-2 text-meta font-black uppercase tracking-widest text-emerald-400 transition-all hover:bg-emerald-900/30"
-                          >
-                            Go to Work
-                          </button>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {activeSidebar === "git" && <GitPanel workspacePath={explorerRoot} />}
-
-                {activeSidebar === "audit" && <ProjectAuditPanel workspacePath={explorerRoot} />}
-
-                {activeSidebar === "benchmark" && <BenchmarkRunner />}
-
-                {activeSidebar === "proof" && (
-                  <div className="flex flex-col gap-3 p-4">
-                    <div
-                      className={`rounded-xl border p-3 ${
-                        agentStatus.verdict && agentStatus.accepted
-                          ? "border-emerald-500/25 bg-emerald-950/20"
-                          : agentStatus.verdict && !agentStatus.accepted
-                            ? "border-red-500/25 bg-red-950/20"
-                            : "border-white/8 bg-white/[0.03]"
-                      }`}
-                    >
-                      <div className="text-eyebrow uppercase font-bold tracking-widest text-gray-600 mb-1.5">
-                        Last Verdict
+                        <button
+                          onClick={() => {
+                            getFileSystemTree(explorerRoot)
+                              .then((res) => {
+                                if (res && res.tree) setFileTree(res.tree);
+                              })
+                              .catch((err) => showError(`Could not load file system: ${err}`));
+                          }}
+                          className="p-1.5 border border-purple-500/20 bg-purple-900/20 hover:bg-purple-900/60 text-purple-400 rounded-lg transition-colors cursor-pointer"
+                          title="Refresh File System"
+                        >
+                          <RefreshCw size={14} />
+                        </button>
                       </div>
-                      <div
-                        className={`text-xl font-black ${
-                          agentStatus.verdict && agentStatus.accepted
-                            ? "text-emerald-400"
-                            : agentStatus.verdict && !agentStatus.accepted
-                              ? "text-red-400"
-                              : "text-gray-700"
-                        }`}
-                      >
-                        {agentStatus.verdict ?? "No runs yet"}
-                      </div>
-                      {agentStatus.confidence !== null && agentStatus.confidence !== undefined && (
-                        <div className="text-label text-gray-500 mt-0.5">
-                          {(agentStatus.confidence * 100).toFixed(0)}% confidence ·{" "}
-                          {retryCount > 0 ? `${retryCount} retries` : "first attempt"}
-                        </div>
-                      )}
-                    </div>
-
-                    {generatedFile && (
-                      <div className="rounded-xl border border-purple-500/20 bg-purple-950/20 p-3">
-                        <div className="text-eyebrow uppercase font-bold tracking-widest text-purple-400 mb-1.5">
-                          Last File
-                        </div>
-                        <div className="text-label font-mono text-gray-300 break-all leading-relaxed">
-                          {generatedFile}
-                        </div>
-                      </div>
-                    )}
-
-                    {threadHistory.length > 0 && (
-                      <div>
-                        <div className="text-eyebrow uppercase font-bold tracking-widest text-gray-600 mb-2 mt-1">
-                          Session History
-                        </div>
-                        <div className="flex flex-col gap-1.5">
-                          {threadHistory.slice(0, 8).map((t) => (
-                            <div
-                              key={t.id}
-                              onClick={() => {
-                                setActiveThreadId(t.id);
-                                setActiveSidebar("hive");
-                              }}
-                              className={`rounded-lg border p-2.5 cursor-pointer transition-colors ${
-                                activeThreadId === t.id
-                                  ? "border-cyan-500/30 bg-cyan-950/20 text-cyan-300"
-                                  : "border-white/5 bg-white/[0.02] text-gray-500 hover:border-white/10 hover:text-gray-300"
+                      <div className="grid grid-cols-4 gap-1.5 border-b border-[var(--dtx-code-border)] bg-[var(--dtx-code-bg-deep)] p-2">
+                        {[
+                          ["overview", "Overview", Gauge],
+                          ["files", "Files", Files],
+                          ["source", "Source", GitPullRequest],
+                          ["runs", "Runs", Activity],
+                        ].map(([id, label, Icon]) => {
+                          const TabIcon = Icon as typeof Gauge;
+                          return (
+                            <button
+                              key={id as string}
+                              type="button"
+                              data-testid={`workspace-tab-${id as string}`}
+                              onClick={() => setWorkspaceView(id as typeof workspaceView)}
+                              className={`flex items-center justify-center gap-1 rounded-md border px-1.5 py-1.5 text-eyebrow font-black uppercase tracking-widest transition ${
+                                workspaceView === id
+                                  ? "border-purple-400/50 bg-purple-500/15 text-purple-200"
+                                  : "border-white/10 bg-white/[0.025] text-gray-600 hover:text-gray-300"
                               }`}
                             >
-                              <div className="text-label font-bold truncate">
-                                {t.title || "Untitled session"}
+                              <TabIcon size={10} /> {label as string}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <div className="flex-1 overflow-y-auto w-full p-4 flex flex-col h-full bg-[var(--dtx-code-bg-deep)]">
+                        {workspaceView === "overview" && (
+                          <div className="space-y-3">
+                            <div className="rounded-lg border border-purple-500/20 bg-purple-950/20 p-3">
+                              <div className="text-meta font-black uppercase tracking-widest text-purple-300">
+                                {selectedProjectName}
                               </div>
-                              <div className="flex items-center justify-between mt-0.5">
-                                <span className="text-meta text-gray-700">{t.updated}</span>
-                                <span className="text-meta text-gray-600">open →</span>
+                              <div className="mt-2 font-mono text-label text-gray-500">
+                                {displayPath(explorerRoot) || "No workspace path bound yet."}
                               </div>
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {threadHistory.length === 0 && !agentStatus.verdict && (
-                      <div className="text-center py-8">
-                        <Eye size={24} className="text-gray-700 mx-auto mb-3" />
-                        <p className="text-label text-gray-600 font-mono leading-relaxed">
-                          Run a hive session to see proof, logs, diffs, and build output.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {activeSidebar === "hive" && (
-                  // workReadiness is wired below as of 2026-07-30. ConceptLab has always gated
-                  // spec generation on specGenerationBlockMessage(workReadiness), but the prop was
-                  // never passed and that helper returns null for undefined -- so the branch was
-                  // dead. The Work tab would generate a spec and launch a hive session on an
-                  // install whose Builder and Monitor roles resolve to absent models, with no
-                  // warning at all; "Missing local model coverage for N roles" could never appear.
-                  <ConceptLab
-                    selectedProjectName={selectedProjectName}
-                    projectPath={displayPath(explorerRoot)}
-                    selectedModel={selectedModel}
-                    // A Quick Verify run is a real oracle-verified result, so record it as
-                    // evidence. The Proof panel reads matrixLogs and agentStatus.verdict and
-                    // nothing else; before this, only the hive path (handleInject) wrote
-                    // them, so Proof showed "No runs yet / No evidence yet" straight after a
-                    // successful verified build.
-                    onVerified={({ solved, checks, proof, idea }) => {
-                      const verdict = solved
-                        ? `VERIFIED — ${checks ?? "?"} oracle checks passed`
-                        : "REFUSED — no sound oracle could be synthesised";
-                      setMatrixLogs((prev) => [
-                        ...prev,
-                        `[QUICK VERIFY] ${idea.slice(0, 90)}`,
-                        `[ORACLE] ${verdict}`,
-                        ...(proof ? [`[PROOF] ${proof.slice(0, 200)}`] : []),
-                      ]);
-                      setAgentStatus((prev) => ({
-                        ...prev,
-                        currentAgent: null,
-                        isExecuting: false,
-                        verdict,
-                        accepted: solved,
-                        confidence: null,
-                        error: null,
-                      }));
-                    }}
-                    onOpenProjectLibrary={() => setShowProjectLibrary(true)}
-                    onSpecChange={(s) => {
-                      setHiveSpec(s);
-                      setHiveProjectName(s.match(/^#\s+(.+)/m)?.[1]?.trim() ?? "");
-                    }}
-                    onSessionLaunched={(id) => {
-                      setHiveSessionId(id);
-                      setHiveAutoRun(true);
-                      setHiveSpec("");
-                      setActiveSidebar("none");
-                      setIsOracleConsulting(false);
-                    }}
-                    onPathPreview={(path) => {
-                      setPreviewedPath(path);
-                      if (!path) setConfirmedPath(null);
-                    }}
-                    confirmedPath={confirmedPath}
-                    onAnsweredCountChange={setOracleAnsweredCount}
-                    onConsultingChange={setIsOracleConsulting}
-                    externalIdea={externalIdea}
-                    onColorHintsChange={setColorHints}
-                    workReadiness={workReadiness}
-                    onOpenModelSettings={() => {
-                      setSettingsTab("roles");
-                      setShowSettings(true);
-                    }}
-                    modelPicker={
-                      <WorkModelPicker
-                        selectedModel={selectedModel}
-                        keyStatus={keyStatus}
-                        onChange={setSelectedModel}
-                        onOpenSettings={() => {
-                          setSettingsTab("roles");
-                          setShowSettings(true);
-                        }}
-                      />
-                    }
-                  />
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Zone 2: Center Arena */}
-        <AnimatePresence mode="wait">
-          {activeSidebar !== "none" && (
-            <motion.div
-              key={
-                activeSidebar +
-                "-" +
-                (hiveSessionId || "") +
-                "-" +
-                isOracleConsulting +
-                "-" +
-                (previewedPath ? "prev" : "") +
-                (confirmedPath ? "conf" : "") +
-                (hiveSpec ? "spec" : "")
-              }
-              initial={{ opacity: 0, scale: 0.98, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.98, y: -10 }}
-              transition={{ type: "spring", stiffness: 260, damping: 28, mass: 0.85 }}
-              // Without a GPU-layer hint, Proof and Brain would mount fully blank --
-              // just the SkinBackdrop canvas showing through -- until something else
-              // (any window resize) forced a repaint; the real content was always
-              // there, never painted. Reproduced live 2026-07-19, isolated with a
-              // plain OS window resize (no devtools) as the only variable: same
-              // content appeared instantly once the browser was forced to
-              // recomposite. Classic Chromium/WebView2 stale-compositing bug: an
-              // element with backdrop-filter (backdrop-blur-3xl) that remounts via
-              // animation (AnimatePresence's key changes on every tab switch) sits
-              // above a canvas using mixBlendMode (SkinBackdrop) and sometimes never
-              // gets its first real paint. First attempt used the `transform-gpu`
-              // Tailwind class, but framer-motion sets its own inline `transform`
-              // for x/y/scale on every frame, which silently overrides a
-              // class-based transform -- content stayed a barely-visible ghost.
-              // `willChange` is a separate CSS property framer-motion never
-              // touches, so it survives.
-              className="relative flex h-full flex-1 flex-col overflow-hidden border backdrop-blur-3xl group"
-              style={{
-                background: "var(--determinex-panel-glass)",
-                borderColor: "var(--determinex-border)",
-                borderRadius: "var(--determinex-radius)",
-                boxShadow: "var(--determinex-shell-shadow)",
-                willChange: "transform, opacity",
-              }}
-            >
-              <button
-                onClick={() => setActiveSidebar("none")}
-                className="absolute top-4 right-4 z-[100] h-8 w-8 flex items-center justify-center rounded-full bg-black/20 border border-white/10 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/40 hover:text-white"
-                title="Close panel to view background"
-                aria-label="Close panel to view background"
-              >
-                <X size={16} />
-              </button>
-
-              <div
-                data-testid="workbench-primary-surface"
-                className="relative min-h-0 flex-1 overflow-hidden"
-              >
-                {hiveSessionId ? (
-                  <HiveBuildLoop
-                    sessionId={hiveSessionId}
-                    projectName={hiveProjectName}
-                    autoRun={hiveAutoRun}
-                    autoRetry={hiveAutoRetry}
-                    onBack={() => {
-                      setHiveSessionId(null);
-                      setHiveProjectName("");
-                      setHiveAutoRun(false);
-                      setHiveAutoRetry(false);
-                      setActiveSidebar("hub");
-                    }}
-                    onComplete={(result: HiveBuildCompletionResult) => {
-                      // Distinct verdict vocabulary from the MoA/Observer audit path
-                      // (CLEAN/HALLUCINATION/PARTIAL) -- this is a DIFFERENT, ground-truth
-                      // compiler-oracle verdict, not an LLM audit. Never conflate the two.
-                      const accepted = result.phase === "done";
-                      setAgentStatus({
-                        currentAgent: null,
-                        isExecuting: false,
-                        verdict: accepted ? "COMPILER_VERIFIED_PASS" : "COMPILER_VERIFIED_FAIL",
-                        confidence: accepted ? 1 : 0,
-                        accepted,
-                        error: accepted
-                          ? null
-                          : {
-                              stage: "hive_build",
-                              message: `${result.failedCount} of ${result.stepCount} step(s) failed compiler verification`,
-                            },
-                      });
-                      setMatrixLogs((prev) => [
-                        ...prev,
-                        accepted
-                          ? `[HIVE] PASS Build session ${result.sessionId} — all ${result.stepCount} step(s) compiler-verified.`
-                          : `[HIVE] FAIL Build session ${result.sessionId} — ${result.failedCount} of ${result.stepCount} step(s) failed compiler verification.`,
-                      ]);
-                    }}
-                  />
-                ) : activeSidebar === "hive" && isOracleConsulting ? (
-                  <OracleArena />
-                ) : activeSidebar === "hive" && previewedPath ? (
-                  <PathDetailPanel
-                    path={previewedPath}
-                    onChoose={(path) => {
-                      setConfirmedPath(path);
-                      setPreviewedPath(null);
-                    }}
-                    onBack={() => setPreviewedPath(null)}
-                    colorOverride={colorHints[0]}
-                  />
-                ) : activeSidebar === "hive" && confirmedPath && !hiveSpec ? (
-                  <DiscoveryProgressView
-                    path={confirmedPath}
-                    answeredCount={oracleAnsweredCount}
-                    colorOverride={colorHints[0]}
-                  />
-                ) : activeSidebar === "hive" && hiveSpec ? (
-                  <SpecBreakdownView spec={hiveSpec} path={confirmedPath} />
-                ) : activeSidebar === "hive" ? (
-                  <div className="flex h-full min-h-0 flex-col overflow-hidden">
-                    <div className="shrink-0 border-b border-white/10 p-6">
-                      <div className="mb-2 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-emerald-300">
-                        <Zap size={13} /> Work Cockpit
-                      </div>
-                      <div className="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                          <h2
-                            className="text-3xl font-black leading-tight text-[var(--determinex-text)]"
-                            style={{ fontFamily: "var(--determinex-font-display)" }}
-                          >
-                            Ask. Plan. Build. Prove.
-                          </h2>
-                          <p className="mt-2 max-w-3xl text-body leading-relaxed text-[var(--determinex-muted)]">
-                            The left panel captures the request. This screen shows what will happen
-                            next, which tools are attached, and where proof will appear.
-                          </p>
-                        </div>
-                        <div className="rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-right">
-                          <div className="text-eyebrow font-black uppercase tracking-widest text-gray-600">
-                            Workspace
+                            {[
+                              [
+                                "Inspect files",
+                                "Browse the project tree and generated output files.",
+                                "files",
+                              ],
+                              [
+                                "Review source",
+                                "See Git remote, branch, dirty state, and staged intent.",
+                                "source",
+                              ],
+                              [
+                                "Check runs",
+                                "Open a run log or jump to the Work tab to start a session.",
+                                "runs",
+                              ],
+                            ].map(([title, text, target]) => (
+                              <button
+                                key={title}
+                                type="button"
+                                data-testid={`workspace-action-${target as string}`}
+                                onClick={() => setWorkspaceView(target as typeof workspaceView)}
+                                className="group w-full rounded-lg border border-white/10 bg-white/[0.03] p-3 text-left transition hover:border-purple-400/50 hover:bg-purple-500/10"
+                              >
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className="text-meta font-black uppercase tracking-widest text-gray-200">
+                                    {title}
+                                  </span>
+                                  <ChevronRight
+                                    size={12}
+                                    className="text-gray-600 group-hover:text-purple-300"
+                                  />
+                                </div>
+                                <p className="mt-1 text-label leading-relaxed text-gray-500">
+                                  {text}
+                                </p>
+                              </button>
+                            ))}
                           </div>
-                          <div className="mt-1 max-w-[260px] truncate text-label font-bold text-gray-200">
-                            {selectedProjectName}
+                        )}
+
+                        {workspaceView === "files" && (
+                          <>
+                            {explorerRoot !== "" && (
+                              <div
+                                onClick={() => setExplorerRoot("")}
+                                className="flex items-center gap-1 text-label font-bold text-cyan-400 hover:bg-[var(--dtx-code-border)] p-1.5 mb-2 cursor-pointer bg-cyan-950/20 border border-cyan-500/20 rounded"
+                              >
+                                <span className="mr-1">&lt; Back</span>
+                                <span className="text-gray-400 capitalize opacity-70">to Root</span>
+                              </div>
+                            )}
+                            <div
+                              onClick={() => setExplorerRoot("")}
+                              className="flex items-center gap-1 text-label font-bold text-gray-300 hover:bg-[var(--dtx-code-border)] p-1 mb-1 cursor-pointer"
+                            >
+                              <ChevronRight size={14} className="rotate-90" />{" "}
+                              {explorerRoot.split(/[\\/]/).pop() || "Explorer"}
+                            </div>
+                            {fileTree.length > 0 ? (
+                              <div className="flex flex-col gap-1">
+                                {fileTree.map((node, i) => (
+                                  <FileSystemNode
+                                    key={i}
+                                    node={node}
+                                    activeContexts={activeContexts}
+                                    toggleContext={toggleContext}
+                                    setExplorerRoot={setExplorerRoot}
+                                    handleOpenFile={handleOpenFile}
+                                    gitStatusMap={explorerGitStatusMap}
+                                    onFsError={(msg) => showError(msg)}
+                                  />
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="text-label text-gray-600 font-mono italic">
+                                {isTauri()
+                                  ? "Scanning system..."
+                                  : "Browser mode cannot scan the real file tree."}
+                              </div>
+                            )}
+                            {sandboxFiles.length > 0 && (
+                              <div className="mt-4 pt-4 border-t border-[var(--dtx-code-border)]">
+                                <div className="text-eyebrow uppercase font-bold text-purple-400 tracking-widest mb-2 flex items-center gap-1.5">
+                                  <Code2 size={9} /> Workspace Output
+                                </div>
+                                {sandboxFiles.map((f, i) => (
+                                  <div
+                                    key={i}
+                                    onClick={() => {
+                                      setGeneratedFile(f.name);
+                                      setActiveSidebar("none");
+                                    }}
+                                    className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-white/5 cursor-pointer group"
+                                  >
+                                    <span className="text-label font-mono text-gray-400 group-hover:text-gray-200 truncate">
+                                      {f.name}
+                                    </span>
+                                    <span className="text-meta font-mono text-gray-700 shrink-0 ml-2">
+                                      {f.modified}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </>
+                        )}
+
+                        {workspaceView === "source" && (
+                          <div className="space-y-3">
+                            {[
+                              ["Provider", "GitHub or local Git"],
+                              ["Remote", "Connected remote appears here after read-only scan."],
+                              ["Branch", "Current branch and ahead/behind belong here."],
+                              ["Mutation", "Source apply stays gated until verified approval."],
+                            ].map(([label, text]) => (
+                              <div
+                                key={label}
+                                className="rounded-lg border border-white/10 bg-white/[0.03] p-3"
+                              >
+                                <div className="text-eyebrow font-black uppercase tracking-widest text-green-300">
+                                  {label}
+                                </div>
+                                <p className="mt-1 text-label leading-relaxed text-gray-500">
+                                  {text}
+                                </p>
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              data-testid="workspace-source-view-runs"
+                              onClick={() => setWorkspaceView("runs")}
+                              className="w-full rounded-lg border border-green-500/30 bg-green-500/10 px-3 py-2 text-meta font-black uppercase tracking-widest text-green-300"
+                            >
+                              View runs for this source
+                            </button>
                           </div>
-                          <div className="mt-0.5 max-w-[260px] truncate font-mono text-meta text-gray-600">
-                            {displayPath(explorerRoot) || "No workspace path bound."}
+                        )}
+
+                        {workspaceView === "runs" && (
+                          <div className="flex flex-col items-center justify-center h-full gap-3 text-center py-12">
+                            <Activity size={24} className="text-gray-700" />
+                            <p className="text-label font-mono text-gray-600 leading-relaxed">
+                              Build run history lives in{" "}
+                              <strong className="text-amber-400/70">Work</strong>.<br />
+                              Open a hive session to see live output.
+                            </p>
+                            <button
+                              type="button"
+                              onClick={() => setActiveSidebar("hive")}
+                              className="mt-2 rounded-lg border border-emerald-500/30 bg-emerald-950/20 px-4 py-2 text-meta font-black uppercase tracking-widest text-emerald-400 transition-all hover:bg-emerald-900/30"
+                            >
+                              Go to Work
+                            </button>
                           </div>
-                        </div>
+                        )}
                       </div>
                     </div>
+                  )}
 
-                    <div className="min-h-0 flex-1 overflow-y-auto p-6 pb-28 no-scrollbar">
-                      {/* Release-readiness banner -- the one piece of real value Home/
+                  {activeSidebar === "git" && <GitPanel workspacePath={explorerRoot} />}
+
+                  {activeSidebar === "audit" && <ProjectAuditPanel workspacePath={explorerRoot} />}
+
+                  {activeSidebar === "benchmark" && <BenchmarkRunner />}
+
+                  {activeSidebar === "proof" && (
+                    <div className="flex flex-col gap-3 p-4">
+                      <div
+                        className={`rounded-xl border p-3 ${
+                          agentStatus.verdict && agentStatus.accepted
+                            ? "border-emerald-500/25 bg-emerald-950/20"
+                            : agentStatus.verdict && !agentStatus.accepted
+                              ? "border-red-500/25 bg-red-950/20"
+                              : "border-white/8 bg-white/[0.03]"
+                        }`}
+                      >
+                        <div className="text-eyebrow uppercase font-bold tracking-widest text-gray-600 mb-1.5">
+                          Last Verdict
+                        </div>
+                        <div
+                          className={`text-xl font-black ${
+                            agentStatus.verdict && agentStatus.accepted
+                              ? "text-emerald-400"
+                              : agentStatus.verdict && !agentStatus.accepted
+                                ? "text-red-400"
+                                : "text-gray-700"
+                          }`}
+                        >
+                          {agentStatus.verdict ?? "No runs yet"}
+                        </div>
+                        {agentStatus.confidence !== null &&
+                          agentStatus.confidence !== undefined && (
+                            <div className="text-label text-gray-500 mt-0.5">
+                              {(agentStatus.confidence * 100).toFixed(0)}% confidence ·{" "}
+                              {retryCount > 0 ? `${retryCount} retries` : "first attempt"}
+                            </div>
+                          )}
+                      </div>
+
+                      {generatedFile && (
+                        <div className="rounded-xl border border-purple-500/20 bg-purple-950/20 p-3">
+                          <div className="text-eyebrow uppercase font-bold tracking-widest text-purple-400 mb-1.5">
+                            Last File
+                          </div>
+                          <div className="text-label font-mono text-gray-300 break-all leading-relaxed">
+                            {generatedFile}
+                          </div>
+                        </div>
+                      )}
+
+                      {threadHistory.length > 0 && (
+                        <div>
+                          <div className="text-eyebrow uppercase font-bold tracking-widest text-gray-600 mb-2 mt-1">
+                            Session History
+                          </div>
+                          <div className="flex flex-col gap-1.5">
+                            {threadHistory.slice(0, 8).map((t) => (
+                              <div
+                                key={t.id}
+                                onClick={() => {
+                                  setActiveThreadId(t.id);
+                                  setActiveSidebar("hive");
+                                }}
+                                className={`rounded-lg border p-2.5 cursor-pointer transition-colors ${
+                                  activeThreadId === t.id
+                                    ? "border-cyan-500/30 bg-cyan-950/20 text-cyan-300"
+                                    : "border-white/5 bg-white/[0.02] text-gray-500 hover:border-white/10 hover:text-gray-300"
+                                }`}
+                              >
+                                <div className="text-label font-bold truncate">
+                                  {t.title || "Untitled session"}
+                                </div>
+                                <div className="flex items-center justify-between mt-0.5">
+                                  <span className="text-meta text-gray-700">{t.updated}</span>
+                                  <span className="text-meta text-gray-600">open →</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {threadHistory.length === 0 && !agentStatus.verdict && (
+                        <div className="text-center py-8">
+                          <Eye size={24} className="text-gray-700 mx-auto mb-3" />
+                          <p className="text-label text-gray-600 font-mono leading-relaxed">
+                            Run a hive session to see proof, logs, diffs, and build output.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {activeSidebar === "hive" && (
+                    // workReadiness is wired below as of 2026-07-30. ConceptLab has always gated
+                    // spec generation on specGenerationBlockMessage(workReadiness), but the prop was
+                    // never passed and that helper returns null for undefined -- so the branch was
+                    // dead. The Work tab would generate a spec and launch a hive session on an
+                    // install whose Builder and Monitor roles resolve to absent models, with no
+                    // warning at all; "Missing local model coverage for N roles" could never appear.
+                    <ConceptLab
+                      selectedProjectName={selectedProjectName}
+                      projectPath={displayPath(explorerRoot)}
+                      selectedModel={selectedModel}
+                      // A Quick Verify run is a real oracle-verified result, so record it as
+                      // evidence. The Proof panel reads matrixLogs and agentStatus.verdict and
+                      // nothing else; before this, only the hive path (handleInject) wrote
+                      // them, so Proof showed "No runs yet / No evidence yet" straight after a
+                      // successful verified build.
+                      onVerified={({ solved, checks, proof, idea }) => {
+                        const verdict = solved
+                          ? `VERIFIED — ${checks ?? "?"} oracle checks passed`
+                          : "REFUSED — no sound oracle could be synthesised";
+                        setMatrixLogs((prev) => [
+                          ...prev,
+                          `[QUICK VERIFY] ${idea.slice(0, 90)}`,
+                          `[ORACLE] ${verdict}`,
+                          ...(proof ? [`[PROOF] ${proof.slice(0, 200)}`] : []),
+                        ]);
+                        setAgentStatus((prev) => ({
+                          ...prev,
+                          currentAgent: null,
+                          isExecuting: false,
+                          verdict,
+                          accepted: solved,
+                          confidence: null,
+                          error: null,
+                        }));
+                      }}
+                      onOpenProjectLibrary={() => setShowProjectLibrary(true)}
+                      onSpecChange={(s) => {
+                        setHiveSpec(s);
+                        setHiveProjectName(s.match(/^#\s+(.+)/m)?.[1]?.trim() ?? "");
+                      }}
+                      onSessionLaunched={(id) => {
+                        setHiveSessionId(id);
+                        setHiveAutoRun(true);
+                        setHiveSpec("");
+                        setActiveSidebar("none");
+                        setIsOracleConsulting(false);
+                      }}
+                      onPathPreview={(path) => {
+                        setPreviewedPath(path);
+                        if (!path) setConfirmedPath(null);
+                      }}
+                      confirmedPath={confirmedPath}
+                      onAnsweredCountChange={setOracleAnsweredCount}
+                      onConsultingChange={setIsOracleConsulting}
+                      externalIdea={externalIdea}
+                      onColorHintsChange={setColorHints}
+                      workReadiness={workReadiness}
+                      onOpenModelSettings={() => {
+                        setSettingsTab("roles");
+                        setShowSettings(true);
+                      }}
+                      modelPicker={
+                        <WorkModelPicker
+                          selectedModel={selectedModel}
+                          keyStatus={keyStatus}
+                          onChange={setSelectedModel}
+                          onOpenSettings={() => {
+                            setSettingsTab("roles");
+                            setShowSettings(true);
+                          }}
+                        />
+                      }
+                    />
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Zone 2: Center Arena */}
+          <AnimatePresence mode="wait">
+            {activeSidebar !== "none" && (
+              <motion.div
+                key={
+                  activeSidebar +
+                  "-" +
+                  (hiveSessionId || "") +
+                  "-" +
+                  isOracleConsulting +
+                  "-" +
+                  (previewedPath ? "prev" : "") +
+                  (confirmedPath ? "conf" : "") +
+                  (hiveSpec ? "spec" : "")
+                }
+                initial={{ opacity: 0, scale: 0.98, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98, y: -10 }}
+                transition={{ type: "spring", stiffness: 260, damping: 28, mass: 0.85 }}
+                // Without a GPU-layer hint, Proof and Brain would mount fully blank --
+                // just the SkinBackdrop canvas showing through -- until something else
+                // (any window resize) forced a repaint; the real content was always
+                // there, never painted. Reproduced live 2026-07-19, isolated with a
+                // plain OS window resize (no devtools) as the only variable: same
+                // content appeared instantly once the browser was forced to
+                // recomposite. Classic Chromium/WebView2 stale-compositing bug: an
+                // element with backdrop-filter (backdrop-blur-3xl) that remounts via
+                // animation (AnimatePresence's key changes on every tab switch) sits
+                // above a canvas using mixBlendMode (SkinBackdrop) and sometimes never
+                // gets its first real paint. First attempt used the `transform-gpu`
+                // Tailwind class, but framer-motion sets its own inline `transform`
+                // for x/y/scale on every frame, which silently overrides a
+                // class-based transform -- content stayed a barely-visible ghost.
+                // `willChange` is a separate CSS property framer-motion never
+                // touches, so it survives.
+                className="relative flex h-full flex-1 flex-col overflow-hidden border backdrop-blur-3xl group"
+                style={{
+                  background: "var(--determinex-panel-glass)",
+                  borderColor: "var(--determinex-border)",
+                  borderRadius: "var(--determinex-radius)",
+                  boxShadow: "var(--determinex-shell-shadow)",
+                  willChange: "transform, opacity",
+                }}
+              >
+                <button
+                  onClick={() => setActiveSidebar("none")}
+                  className="absolute top-4 right-4 z-[100] h-8 w-8 flex items-center justify-center rounded-full bg-black/20 border border-white/10 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/40 hover:text-white"
+                  title="Close panel to view background"
+                  aria-label="Close panel to view background"
+                >
+                  <X size={16} />
+                </button>
+
+                <div
+                  data-testid="workbench-primary-surface"
+                  className="relative min-h-0 flex-1 overflow-hidden"
+                >
+                  {hiveSessionId ? (
+                    <HiveBuildLoop
+                      sessionId={hiveSessionId}
+                      projectName={hiveProjectName}
+                      autoRun={hiveAutoRun}
+                      autoRetry={hiveAutoRetry}
+                      onBack={() => {
+                        setHiveSessionId(null);
+                        setHiveProjectName("");
+                        setHiveAutoRun(false);
+                        setHiveAutoRetry(false);
+                        setActiveSidebar("hub");
+                      }}
+                      onComplete={(result: HiveBuildCompletionResult) => {
+                        // Distinct verdict vocabulary from the MoA/Observer audit path
+                        // (CLEAN/HALLUCINATION/PARTIAL) -- this is a DIFFERENT, ground-truth
+                        // compiler-oracle verdict, not an LLM audit. Never conflate the two.
+                        const accepted = result.phase === "done";
+                        setAgentStatus({
+                          currentAgent: null,
+                          isExecuting: false,
+                          verdict: accepted ? "COMPILER_VERIFIED_PASS" : "COMPILER_VERIFIED_FAIL",
+                          confidence: accepted ? 1 : 0,
+                          accepted,
+                          error: accepted
+                            ? null
+                            : {
+                                stage: "hive_build",
+                                message: `${result.failedCount} of ${result.stepCount} step(s) failed compiler verification`,
+                              },
+                        });
+                        setMatrixLogs((prev) => [
+                          ...prev,
+                          accepted
+                            ? `[HIVE] PASS Build session ${result.sessionId} — all ${result.stepCount} step(s) compiler-verified.`
+                            : `[HIVE] FAIL Build session ${result.sessionId} — ${result.failedCount} of ${result.stepCount} step(s) failed compiler verification.`,
+                        ]);
+                      }}
+                    />
+                  ) : activeSidebar === "hive" && isOracleConsulting ? (
+                    <OracleArena />
+                  ) : activeSidebar === "hive" && previewedPath ? (
+                    <PathDetailPanel
+                      path={previewedPath}
+                      onChoose={(path) => {
+                        setConfirmedPath(path);
+                        setPreviewedPath(null);
+                      }}
+                      onBack={() => setPreviewedPath(null)}
+                      colorOverride={colorHints[0]}
+                    />
+                  ) : activeSidebar === "hive" && confirmedPath && !hiveSpec ? (
+                    <DiscoveryProgressView
+                      path={confirmedPath}
+                      answeredCount={oracleAnsweredCount}
+                      colorOverride={colorHints[0]}
+                    />
+                  ) : activeSidebar === "hive" && hiveSpec ? (
+                    <SpecBreakdownView spec={hiveSpec} path={confirmedPath} />
+                  ) : activeSidebar === "hive" ? (
+                    <div className="flex h-full min-h-0 flex-col overflow-hidden">
+                      <div className="shrink-0 border-b border-white/10 p-6">
+                        <div className="mb-2 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-emerald-300">
+                          <Zap size={13} /> Work Cockpit
+                        </div>
+                        <div className="flex flex-wrap items-start justify-between gap-4">
+                          <div>
+                            <h2
+                              className="text-3xl font-black leading-tight text-[var(--determinex-text)]"
+                              style={{ fontFamily: "var(--determinex-font-display)" }}
+                            >
+                              Ask. Plan. Build. Prove.
+                            </h2>
+                            <p className="mt-2 max-w-3xl text-body leading-relaxed text-[var(--determinex-muted)]">
+                              The left panel captures the request. This screen shows what will
+                              happen next, which tools are attached, and where proof will appear.
+                            </p>
+                          </div>
+                          <div className="rounded-xl border border-white/10 bg-black/35 px-4 py-3 text-right">
+                            <div className="text-eyebrow font-black uppercase tracking-widest text-gray-600">
+                              Workspace
+                            </div>
+                            <div className="mt-1 max-w-[260px] truncate text-label font-bold text-gray-200">
+                              {selectedProjectName}
+                            </div>
+                            <div className="mt-0.5 max-w-[260px] truncate font-mono text-meta text-gray-600">
+                              {displayPath(explorerRoot) || "No workspace path bound."}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="min-h-0 flex-1 overflow-y-auto p-6 pb-28 no-scrollbar">
+                        {/* Release-readiness banner -- the one piece of real value Home/
                     Command Center had (a contextual "what should I do next")
                     that didn't already duplicate the StatusBar or Audit screen.
                     Home itself was cut (2026-07-19): its Model Route and Audit
                     Score readouts were exact duplicates living elsewhere; this
                     banner is what's left once the redundancy is gone, folded
                     into the screen that's now the app's landing point. */}
-                      <div
-                        className={`mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4 ${
-                          explorerGitFiles.length > 0
-                            ? "border-amber-500/25 bg-amber-950/10"
-                            : "border-emerald-500/20 bg-emerald-950/10"
-                        }`}
-                      >
-                        <div className="flex items-center gap-3">
-                          {explorerGitUnavailable ? (
-                            <AlertTriangle size={18} className="shrink-0 text-amber-400" />
-                          ) : explorerGitFiles.length > 0 ? (
-                            <FileCode size={18} className="shrink-0 text-amber-400" />
-                          ) : (
-                            <Check size={18} className="shrink-0 text-emerald-400" />
-                          )}
-                          <div>
-                            <div className="text-label font-black text-white">
-                              {explorerGitUnavailable
-                                ? "Git status unavailable"
-                                : explorerGitFiles.length > 0
-                                  ? `${explorerGitFiles.length} uncommitted change${explorerGitFiles.length === 1 ? "" : "s"}`
-                                  : "Working tree clean"}
-                            </div>
-                            <div className="font-mono text-meta text-gray-500">
-                              {explorerGitUnavailable
-                                ? "could not read this repository"
-                                : gitBranch || "no repo"}
-                              {explorerGitMeta.upstream ? ` · ${explorerGitMeta.upstream}` : ""}
+                        <div
+                          className={`mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-4 ${
+                            explorerGitFiles.length > 0
+                              ? "border-amber-500/25 bg-amber-950/10"
+                              : "border-emerald-500/20 bg-emerald-950/10"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            {explorerGitUnavailable ? (
+                              <AlertTriangle size={18} className="shrink-0 text-amber-400" />
+                            ) : explorerGitFiles.length > 0 ? (
+                              <FileCode size={18} className="shrink-0 text-amber-400" />
+                            ) : (
+                              <Check size={18} className="shrink-0 text-emerald-400" />
+                            )}
+                            <div>
+                              <div className="text-label font-black text-white">
+                                {explorerGitUnavailable
+                                  ? "Git status unavailable"
+                                  : explorerGitFiles.length > 0
+                                    ? `${explorerGitFiles.length} uncommitted change${explorerGitFiles.length === 1 ? "" : "s"}`
+                                    : "Working tree clean"}
+                              </div>
+                              <div className="font-mono text-meta text-gray-500">
+                                {explorerGitUnavailable
+                                  ? "could not read this repository"
+                                  : gitBranch || "no repo"}
+                                {explorerGitMeta.upstream ? ` · ${explorerGitMeta.upstream}` : ""}
+                              </div>
                             </div>
                           </div>
+                          {explorerGitFiles.length > 0 ? (
+                            <button
+                              type="button"
+                              onClick={() => setActiveSidebar("git")}
+                              className="rounded-lg border border-amber-400/30 bg-amber-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-amber-300 transition hover:bg-amber-900/30"
+                            >
+                              Open Source Control
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setActiveSidebar("audit")}
+                              className="rounded-lg border border-emerald-400/25 bg-emerald-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-emerald-300 transition hover:bg-emerald-900/30"
+                            >
+                              Run Release Audit
+                            </button>
+                          )}
                         </div>
-                        {explorerGitFiles.length > 0 ? (
-                          <button
-                            type="button"
-                            onClick={() => setActiveSidebar("git")}
-                            className="rounded-lg border border-amber-400/30 bg-amber-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-amber-300 transition hover:bg-amber-900/30"
-                          >
-                            Open Source Control
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => setActiveSidebar("audit")}
-                            className="rounded-lg border border-emerald-400/25 bg-emerald-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-emerald-300 transition hover:bg-emerald-900/30"
-                          >
-                            Run Release Audit
-                          </button>
-                        )}
-                      </div>
 
-                      {/* The cockpit split. Was a hard-coded
+                        {/* The cockpit split. Was a hard-coded
                           `xl:grid-cols-[1.1fr_0.9fr]`, so the only way to change
                           it was to edit this file -- the last genuinely locked box
                           in the shell. Now a drag handle with a persisted ratio.
                           Ratio, not pixels: this grid sits inside Zone 2, which is
                           itself `flex-1` and grows as Zone 1 shrinks, so a stored
                           width would stop matching the moment either changed. */}
-                      <div
-                        ref={cockpitGridRef}
-                        className="grid gap-4"
-                        style={{
-                          gridTemplateColumns: `minmax(0, ${cockpitSplit.ratio}fr) 6px minmax(0, ${
-                            1 - cockpitSplit.ratio
-                          }fr)`,
-                        }}
-                      >
-                        <section className="rounded-2xl border border-white/8 bg-black/30 p-5">
-                          {/* min-w-0 on the growing side, shrink-0 on the badge. Without
+                        <div
+                          ref={cockpitGridRef}
+                          className="grid gap-4"
+                          style={{
+                            gridTemplateColumns: `minmax(0, ${cockpitSplit.ratio}fr) 6px minmax(0, ${
+                              1 - cockpitSplit.ratio
+                            }fr)`,
+                          }}
+                        >
+                          <section className="rounded-2xl border border-white/8 bg-black/30 p-5">
+                            {/* min-w-0 on the growing side, shrink-0 on the badge. Without
                               both, a narrow window squeezed the badge until "No verdict"
                               rendered on top of "Attach What You Need" -- the collision
                               visible in the 2026-08-03 screenshot. flex children default to
                               min-width:auto, so the left block refuses to shrink and pushes
                               the badge out of its own box instead. */}
-                          <div className="mb-4 flex items-center justify-between gap-3">
-                            <div className="min-w-0">
-                              <div className="text-eyebrow font-black uppercase tracking-widest text-gray-600">
-                                Run State
+                            <div className="mb-4 flex items-center justify-between gap-3">
+                              <div className="min-w-0">
+                                <div className="text-eyebrow font-black uppercase tracking-widest text-gray-600">
+                                  Run State
+                                </div>
+                                <div className="mt-1 truncate text-2xl font-black text-white">
+                                  {hiveSessionId ? "Running" : "Ready"}
+                                </div>
                               </div>
-                              <div className="mt-1 truncate text-2xl font-black text-white">
-                                {hiveSessionId ? "Running" : "Ready"}
-                              </div>
+                              <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-eyebrow font-black uppercase tracking-widest text-gray-500">
+                                {agentStatus.verdict ?? "No verdict"}
+                              </span>
                             </div>
-                            <span className="shrink-0 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-eyebrow font-black uppercase tracking-widest text-gray-500">
-                              {agentStatus.verdict ?? "No verdict"}
-                            </span>
-                          </div>
 
-                          {/* ONE next action, in plain words. Three surfaces can start work --
+                            {/* ONE next action, in plain words. Three surfaces can start work --
                               this cockpit, the Work panel on the left, and the Agent Chat Room
                               on the AGENTS rail -- and until now nothing said which to use, so a
                               new operator faced two panels that both looked like the beginning,
@@ -3252,23 +3256,23 @@ export default function DeterminexIDE() {
                               fourteen attachable tools. Naming a single next step is the whole
                               fix; the alternative is a tour, and a tour is what you write when
                               the screen will not say it itself. */}
-                          <div
-                            data-testid="cockpit-next-action"
-                            className="mb-4 rounded-xl border border-emerald-400/25 bg-emerald-950/15 px-4 py-3"
-                          >
-                            <div className="mb-1 flex items-center gap-2 text-eyebrow font-black uppercase tracking-widest text-emerald-300">
-                              <Sparkles size={11} /> Do this next
+                            <div
+                              data-testid="cockpit-next-action"
+                              className="mb-4 rounded-xl border border-emerald-400/25 bg-emerald-950/15 px-4 py-3"
+                            >
+                              <div className="mb-1 flex items-center gap-2 text-eyebrow font-black uppercase tracking-widest text-emerald-300">
+                                <Sparkles size={11} /> Do this next
+                              </div>
+                              <p className="text-label leading-relaxed text-gray-200">
+                                {cockpitNextAction}
+                              </p>
                             </div>
-                            <p className="text-label leading-relaxed text-gray-200">
-                              {cockpitNextAction}
-                            </p>
-                          </div>
 
-                          {/* Always 2x2. This section is half of Zone 2 -- about 400px -- so four
+                            {/* Always 2x2. This section is half of Zone 2 -- about 400px -- so four
                               columns gave each card ~85px and turned a one-line
                               description into a six-line stack. Four-up only ever
                               looked right when the text was too small to read. */}
-                          {/* These four were static divs: they DESCRIBED the panel on the
+                            {/* These four were static divs: they DESCRIBED the panel on the
                               left while sitting on the right, and read "1 2 3 4" identically
                               whether you had done nothing or finished a verified build. Two
                               panels both looking like the start, a numbered sequence that
@@ -3277,600 +3281,614 @@ export default function DeterminexIDE() {
                               guide. They now track the real state and say which step you are
                               on, so the screen answers "what do I do next" instead of
                               restating the product's vocabulary. */}
-                          <div className="grid grid-cols-2 gap-3">
-                            {[
-                              ["Ask", "Describe the app, fix, or imported repo outcome."],
-                              ["Plan", "Oracle turns the request into choices and a spec."],
-                              ["Build", "Builder writes code against the chosen plan."],
-                              ["Prove", "Compiler, logs, diffs, and verifier output are recorded."],
-                            ].map(([label, detail], index) => (
-                              <div
-                                key={label}
-                                data-testid={`cockpit-step-${label.toLowerCase()}`}
-                                data-state={
-                                  index < cockpitStep
-                                    ? "done"
-                                    : index === cockpitStep
-                                      ? "current"
-                                      : "todo"
-                                }
-                                className={`rounded-xl border p-3 transition-all ${
-                                  index === cockpitStep
-                                    ? "border-emerald-400/45 bg-emerald-950/20 shadow-[0_0_18px_rgba(53,255,138,0.10)]"
-                                    : index < cockpitStep
-                                      ? "border-white/10 bg-white/[0.02]"
-                                      : "border-white/8 bg-white/[0.03] opacity-55"
-                                }`}
-                              >
+                            <div className="grid grid-cols-2 gap-3">
+                              {[
+                                ["Ask", "Describe the app, fix, or imported repo outcome."],
+                                ["Plan", "Oracle turns the request into choices and a spec."],
+                                ["Build", "Builder writes code against the chosen plan."],
+                                [
+                                  "Prove",
+                                  "Compiler, logs, diffs, and verifier output are recorded.",
+                                ],
+                              ].map(([label, detail], index) => (
                                 <div
-                                  className={`mb-2 flex items-center gap-2 text-meta font-black uppercase tracking-widest ${
-                                    index <= cockpitStep ? "text-emerald-300" : "text-gray-600"
+                                  key={label}
+                                  data-testid={`cockpit-step-${label.toLowerCase()}`}
+                                  data-state={
+                                    index < cockpitStep
+                                      ? "done"
+                                      : index === cockpitStep
+                                        ? "current"
+                                        : "todo"
+                                  }
+                                  className={`rounded-xl border p-3 transition-all ${
+                                    index === cockpitStep
+                                      ? "border-emerald-400/45 bg-emerald-950/20 shadow-[0_0_18px_rgba(53,255,138,0.10)]"
+                                      : index < cockpitStep
+                                        ? "border-white/10 bg-white/[0.02]"
+                                        : "border-white/8 bg-white/[0.03] opacity-55"
                                   }`}
                                 >
-                                  <span
-                                    className={`flex h-5 w-5 items-center justify-center rounded-full border font-mono text-meta ${
-                                      index < cockpitStep
-                                        ? "border-emerald-400/40 bg-emerald-500/20 text-emerald-300"
-                                        : index === cockpitStep
-                                          ? "border-emerald-400/60 bg-emerald-950/40"
-                                          : "border-white/10 bg-black/30 text-gray-600"
+                                  <div
+                                    className={`mb-2 flex items-center gap-2 text-meta font-black uppercase tracking-widest ${
+                                      index <= cockpitStep ? "text-emerald-300" : "text-gray-600"
                                     }`}
                                   >
-                                    {index < cockpitStep ? "✓" : index + 1}
-                                  </span>
-                                  {label}
-                                  {index === cockpitStep && (
-                                    <span className="ml-auto text-eyebrow font-black text-emerald-400">
-                                      YOU ARE HERE
+                                    <span
+                                      className={`flex h-5 w-5 items-center justify-center rounded-full border font-mono text-meta ${
+                                        index < cockpitStep
+                                          ? "border-emerald-400/40 bg-emerald-500/20 text-emerald-300"
+                                          : index === cockpitStep
+                                            ? "border-emerald-400/60 bg-emerald-950/40"
+                                            : "border-white/10 bg-black/30 text-gray-600"
+                                      }`}
+                                    >
+                                      {index < cockpitStep ? "✓" : index + 1}
                                     </span>
-                                  )}
+                                    {label}
+                                    {index === cockpitStep && (
+                                      <span className="ml-auto text-eyebrow font-black text-emerald-400">
+                                        YOU ARE HERE
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-eyebrow leading-relaxed text-gray-500">
+                                    {detail}
+                                  </p>
                                 </div>
-                                <p className="text-eyebrow leading-relaxed text-gray-500">
-                                  {detail}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </section>
+                              ))}
+                            </div>
+                          </section>
 
-                        {/* Drag handle. Wider hit area than the visible line so it
+                          {/* Drag handle. Wider hit area than the visible line so it
                             is actually grabbable; double-click restores the
                             default. */}
-                        <div
-                          onPointerDown={cockpitSplit.startResize}
-                          onDoubleClick={cockpitSplit.reset}
-                          data-testid="cockpit-split-resize"
-                          role="separator"
-                          aria-orientation="vertical"
-                          aria-label="Resize the cockpit columns (double-click to reset)"
-                          title="Drag to resize — double-click to reset"
-                          className={`-mx-2 w-[6px] cursor-ew-resize rounded-full transition-colors ${
-                            cockpitSplit.resizing
-                              ? "bg-[var(--determinex-accent)]/50"
-                              : "bg-transparent hover:bg-[var(--determinex-accent)]/25"
-                          }`}
-                        />
+                          <div
+                            onPointerDown={cockpitSplit.startResize}
+                            onDoubleClick={cockpitSplit.reset}
+                            data-testid="cockpit-split-resize"
+                            role="separator"
+                            aria-orientation="vertical"
+                            aria-label="Resize the cockpit columns (double-click to reset)"
+                            title="Drag to resize — double-click to reset"
+                            className={`-mx-2 w-[6px] cursor-ew-resize rounded-full transition-colors ${
+                              cockpitSplit.resizing
+                                ? "bg-[var(--determinex-accent)]/50"
+                                : "bg-transparent hover:bg-[var(--determinex-accent)]/25"
+                            }`}
+                          />
 
-                        <section className="rounded-2xl border border-white/8 bg-black/30 p-5">
-                          <div className="mb-4 text-eyebrow font-black uppercase tracking-widest text-gray-600">
-                            Attach What You Need
-                          </div>
-                          <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
-                            {(
-                              [
+                          <section className="rounded-2xl border border-white/8 bg-black/30 p-5">
+                            <div className="mb-4 text-eyebrow font-black uppercase tracking-widest text-gray-600">
+                              Attach What You Need
+                            </div>
+                            <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+                              {(
                                 [
-                                  "Terminal",
-                                  "terminal",
-                                  TerminalIcon,
-                                  "Run commands beside this screen",
-                                ],
-                                ["Code", "editor", Code2, "Inspect generated files and source"],
-                                ["Build", "build", Gauge, "Watch tasks, tests, and output"],
-                                [
-                                  "Trace",
-                                  "trace",
-                                  GitBranch,
-                                  "Follow worker events and run history",
-                                ],
-                                ["Search", "search", Search, "Find project context"],
-                                [
-                                  "Find in Files",
-                                  "findfiles",
-                                  FileSearch,
-                                  "Literal text search across the workspace",
-                                ],
-                                ["Health", "health", LayoutGrid, "Check oracle and file readiness"],
-                                // Real, oracle-verified, lock-audited surfaces (see
-                                // DETERMINEX_REACT_{LEARNING_STUDIO,REPO_CLINIC,
-                                // MAINTENANCE_BAY}_PANEL_LOCK_001) that previously had
-                                // NO visible entry point anywhere a normal user would
-                                // look -- only reachable via the command palette
-                                // (Ctrl+K) or the addon-dock's own switcher dropdown,
-                                // which itself only appears once some OTHER addon is
-                                // already open. Ryan: "i dont understand why the main
-                                // functionality is buried in favor of... a watered
-                                // down version of something else on the side" --
-                                // this was that exact pattern, just in a different
-                                // corner of the shell than the Idea Lab one already
-                                // fixed earlier this session.
-                                [
-                                  "Learning Studio",
-                                  "learning",
-                                  Brain,
-                                  "Non-authorizing teaching explanations grounded in the verified corpus",
-                                ],
-                                [
-                                  "Repo Clinic",
-                                  "repoclinic",
-                                  Activity,
-                                  "Live oracle-backed diagnosis of the open workspace",
-                                ],
-                                [
-                                  "Maintenance Bay",
-                                  "maintenancebay",
-                                  ShieldCheck,
-                                  "Live dependency/secret/license/container security scan",
-                                ],
-                                // Round 2 of the same fix -- see quickAttachIds' comment.
-                                [
-                                  "Mission Control",
-                                  "mission",
-                                  GraduationCap,
-                                  "Determinex's own release readiness -- not your project's",
-                                ],
-                                [
-                                  "Determinex Roadmap",
-                                  "roadmap",
-                                  ShieldCheck,
-                                  "Successor direction, exact blockers, release locks",
-                                ],
-                                [
-                                  "Flywheel",
-                                  "flywheel",
-                                  RefreshCcw,
-                                  "Training corpus and feedback feed",
-                                ],
-                                [
-                                  "Runtime",
-                                  "execution",
-                                  Cpu,
-                                  "Active hive sessions and local service status",
-                                ],
-                                ["Merge", "merge", GitMerge, "Resolve git merge conflicts"],
-                                // `satisfies` so the second element is checked against
-                                // WorkspaceAddon at COMPILE time. Without it these tuples
-                                // infer as plain string and the launch call below needed an
-                                // `as WorkspaceAddon` cast, which silenced the checker
-                                // completely: "Product Surfaces" sat here as a dead button
-                                // for one addon-id that had been deliberately retired
-                                // (d0d979a280 removed the duplicate but missed this call
-                                // site), compiling cleanly and doing nothing when clicked.
-                              ] satisfies [string, WorkspaceAddon, LucideIcon, string][]
-                            )
-                              .filter(
-                                ([, addon]) =>
-                                  isInternalBuild() || (addon !== "mission" && addon !== "roadmap")
+                                  [
+                                    "Terminal",
+                                    "terminal",
+                                    TerminalIcon,
+                                    "Run commands beside this screen",
+                                  ],
+                                  ["Code", "editor", Code2, "Inspect generated files and source"],
+                                  ["Build", "build", Gauge, "Watch tasks, tests, and output"],
+                                  [
+                                    "Trace",
+                                    "trace",
+                                    GitBranch,
+                                    "Follow worker events and run history",
+                                  ],
+                                  ["Search", "search", Search, "Find project context"],
+                                  [
+                                    "Find in Files",
+                                    "findfiles",
+                                    FileSearch,
+                                    "Literal text search across the workspace",
+                                  ],
+                                  [
+                                    "Health",
+                                    "health",
+                                    LayoutGrid,
+                                    "Check oracle and file readiness",
+                                  ],
+                                  // Real, oracle-verified, lock-audited surfaces (see
+                                  // DETERMINEX_REACT_{LEARNING_STUDIO,REPO_CLINIC,
+                                  // MAINTENANCE_BAY}_PANEL_LOCK_001) that previously had
+                                  // NO visible entry point anywhere a normal user would
+                                  // look -- only reachable via the command palette
+                                  // (Ctrl+K) or the addon-dock's own switcher dropdown,
+                                  // which itself only appears once some OTHER addon is
+                                  // already open. Ryan: "i dont understand why the main
+                                  // functionality is buried in favor of... a watered
+                                  // down version of something else on the side" --
+                                  // this was that exact pattern, just in a different
+                                  // corner of the shell than the Idea Lab one already
+                                  // fixed earlier this session.
+                                  [
+                                    "Learning Studio",
+                                    "learning",
+                                    Brain,
+                                    "Non-authorizing teaching explanations grounded in the verified corpus",
+                                  ],
+                                  [
+                                    "Repo Clinic",
+                                    "repoclinic",
+                                    Activity,
+                                    "Live oracle-backed diagnosis of the open workspace",
+                                  ],
+                                  [
+                                    "Maintenance Bay",
+                                    "maintenancebay",
+                                    ShieldCheck,
+                                    "Live dependency/secret/license/container security scan",
+                                  ],
+                                  // Round 2 of the same fix -- see quickAttachIds' comment.
+                                  [
+                                    "Mission Control",
+                                    "mission",
+                                    GraduationCap,
+                                    "Determinex's own release readiness -- not your project's",
+                                  ],
+                                  [
+                                    "Determinex Roadmap",
+                                    "roadmap",
+                                    ShieldCheck,
+                                    "Successor direction, exact blockers, release locks",
+                                  ],
+                                  [
+                                    "Flywheel",
+                                    "flywheel",
+                                    RefreshCcw,
+                                    "Training corpus and feedback feed",
+                                  ],
+                                  [
+                                    "Runtime",
+                                    "execution",
+                                    Cpu,
+                                    "Active hive sessions and local service status",
+                                  ],
+                                  ["Merge", "merge", GitMerge, "Resolve git merge conflicts"],
+                                  // `satisfies` so the second element is checked against
+                                  // WorkspaceAddon at COMPILE time. Without it these tuples
+                                  // infer as plain string and the launch call below needed an
+                                  // `as WorkspaceAddon` cast, which silenced the checker
+                                  // completely: "Product Surfaces" sat here as a dead button
+                                  // for one addon-id that had been deliberately retired
+                                  // (d0d979a280 removed the duplicate but missed this call
+                                  // site), compiling cleanly and doing nothing when clicked.
+                                ] satisfies [string, WorkspaceAddon, LucideIcon, string][]
                               )
-                              .map(([label, addon, Icon, detail]) => {
-                                const ActionIcon = Icon as typeof TerminalIcon;
-                                return (
-                                  <button
-                                    key={label as string}
-                                    type="button"
-                                    onClick={() => handleAddonLaunch(addon)}
-                                    className="group rounded-xl border border-white/8 bg-white/[0.03] p-3 text-left transition hover:border-emerald-400/40 hover:bg-emerald-500/10"
-                                  >
-                                    <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-white">
-                                      <ActionIcon size={13} className="text-emerald-300" />{" "}
-                                      {label as string}
-                                    </div>
-                                    <p className="mt-1 text-eyebrow leading-relaxed text-gray-600 group-hover:text-gray-500">
-                                      {detail as string}
-                                    </p>
-                                  </button>
-                                );
-                              })}
-                          </div>
-                        </section>
-                      </div>
+                                .filter(
+                                  ([, addon]) =>
+                                    isInternalBuild() ||
+                                    (addon !== "mission" && addon !== "roadmap")
+                                )
+                                .map(([label, addon, Icon, detail]) => {
+                                  const ActionIcon = Icon as typeof TerminalIcon;
+                                  return (
+                                    <button
+                                      key={label as string}
+                                      type="button"
+                                      onClick={() => handleAddonLaunch(addon)}
+                                      className="group rounded-xl border border-white/8 bg-white/[0.03] p-3 text-left transition hover:border-emerald-400/40 hover:bg-emerald-500/10"
+                                    >
+                                      <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-white">
+                                        <ActionIcon size={13} className="text-emerald-300" />{" "}
+                                        {label as string}
+                                      </div>
+                                      <p className="mt-1 text-eyebrow leading-relaxed text-gray-600 group-hover:text-gray-500">
+                                        {detail as string}
+                                      </p>
+                                    </button>
+                                  );
+                                })}
+                            </div>
+                          </section>
+                        </div>
 
-                      {/* "Project contract" (workspace path) is already shown in the
+                        {/* "Project contract" (workspace path) is already shown in the
                     header's Workspace card above; "Proof boundary" was static
                     boilerplate text that never changed with real state -- both
                     cut as pure redundancy. Current Input is the only one of the
                     three that carried unique, real information. */}
-                      <div className="mt-4 rounded-xl border border-white/8 bg-white/[0.025] p-4">
-                        <div className="text-eyebrow font-black uppercase tracking-widest text-gray-600">
-                          Current input
-                        </div>
-                        <div className="mt-2 text-label leading-relaxed text-gray-400">
-                          {inputVal || "Use the left Work panel to describe what to build."}
+                        <div className="mt-4 rounded-xl border border-white/8 bg-white/[0.025] p-4">
+                          <div className="text-eyebrow font-black uppercase tracking-widest text-gray-600">
+                            Current input
+                          </div>
+                          <div className="mt-2 text-label leading-relaxed text-gray-400">
+                            {inputVal || "Use the left Work panel to describe what to build."}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ) : activeSidebar === "hub" ? (
-                  <ProjectHub
-                    selectedProjectName={selectedProjectName}
-                    onSelectProject={handleProjectSelect}
-                    onNavigate={handleProjectHubNavigate}
-                    onOpenLibrary={() => setShowProjectLibrary(true)}
-                  />
-                ) : activeSidebar === "extensions" ? (
-                  <div className="flex h-full min-h-0 flex-col overflow-hidden">
-                    <div className="shrink-0 border-b border-white/10 p-6">
-                      <div className="mb-2 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-pink-300">
-                        <Package size={13} /> Tools Panel
-                      </div>
-                      <h2
-                        className="text-3xl font-black leading-tight text-[var(--determinex-text)]"
-                        style={{ fontFamily: "var(--determinex-font-display)" }}
-                      >
-                        Tools, Providers, and Add-ons
-                      </h2>
-                      <p className="mt-2 max-w-3xl text-body leading-relaxed text-[var(--determinex-muted)]">
-                        Manage installed tools, model providers, connectors, and IDE panes here.
-                        Terminal, Code, Build, Trace, Search, and Health attach to the active screen
-                        instead of opening as disconnected pages.
-                      </p>
-                    </div>
-                    <div className="min-h-0 flex-1 overflow-hidden">
-                      <ToolsHub
-                        toolCatalog={toolCatalog}
-                        toolCoverage={toolCoverage}
-                        activeTool={addonDockOpen ? activeAddon : null}
-                        onLaunchTool={handleAddonLaunch}
-                        onOpenBrain={() => handleProjectHubNavigate("brain")}
-                        onShowServiceLogin={(id) => {
-                          setShowServiceLogin(id);
-                          setServiceKeyInput("");
-                        }}
-                      />
-                    </div>
-                  </div>
-                ) : activeSidebar === "pipeline" ? (
-                  <PipelineDashboard
-                    showWarRoom={showWarRoom}
-                    setShowWarRoom={setShowWarRoom}
-                    lastPrompt={lastPrompt}
-                    sessionId={hiveSessionId}
-                  />
-                ) : activeSidebar === "explorer" ? (
-                  <div className="relative flex h-full min-h-0 flex-col overflow-hidden">
-                    {/* Ambient bg */}
-                    <div className="pointer-events-none absolute inset-0 opacity-20">
-                      <div className="matrix-rain absolute inset-0" />
-                    </div>
-                    <div className="relative z-10 flex min-h-0 flex-1 flex-col p-6">
-                      <div className="border-b border-white/10 pb-5">
-                        <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-purple-300 mb-2">
-                          <Folder size={13} /> Workspace Stage
+                  ) : activeSidebar === "hub" ? (
+                    <ProjectHub
+                      selectedProjectName={selectedProjectName}
+                      onSelectProject={handleProjectSelect}
+                      onNavigate={handleProjectHubNavigate}
+                      onOpenLibrary={() => setShowProjectLibrary(true)}
+                    />
+                  ) : activeSidebar === "extensions" ? (
+                    <div className="flex h-full min-h-0 flex-col overflow-hidden">
+                      <div className="shrink-0 border-b border-white/10 p-6">
+                        <div className="mb-2 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-pink-300">
+                          <Package size={13} /> Tools Panel
                         </div>
                         <h2
                           className="text-3xl font-black leading-tight text-[var(--determinex-text)]"
                           style={{ fontFamily: "var(--determinex-font-display)" }}
                         >
-                          {selectedProjectName}
+                          Tools, Providers, and Add-ons
                         </h2>
-                        <p className="mt-2 max-w-2xl font-mono text-body leading-relaxed text-[var(--determinex-muted)]">
-                          {displayPath(explorerRoot) || "No workspace path bound yet."}
+                        <p className="mt-2 max-w-3xl text-body leading-relaxed text-[var(--determinex-muted)]">
+                          Manage installed tools, model providers, connectors, and IDE panes here.
+                          Terminal, Code, Build, Trace, Search, and Health attach to the active
+                          screen instead of opening as disconnected pages.
                         </p>
                       </div>
-
-                      <div className="grid min-h-0 flex-1 grid-cols-1 gap-5 py-6 xl:grid-cols-2">
-                        <div className="rounded-2xl border border-white/10 bg-black/25 p-6">
-                          <div className="mb-4 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-emerald-300">
-                            <GitPullRequest size={14} /> Source
+                      <div className="min-h-0 flex-1 overflow-hidden">
+                        <ToolsHub
+                          toolCatalog={toolCatalog}
+                          toolCoverage={toolCoverage}
+                          activeTool={addonDockOpen ? activeAddon : null}
+                          onLaunchTool={handleAddonLaunch}
+                          onOpenBrain={() => handleProjectHubNavigate("brain")}
+                          onShowServiceLogin={(id) => {
+                            setShowServiceLogin(id);
+                            setServiceKeyInput("");
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ) : activeSidebar === "pipeline" ? (
+                    <PipelineDashboard
+                      showWarRoom={showWarRoom}
+                      setShowWarRoom={setShowWarRoom}
+                      lastPrompt={lastPrompt}
+                      sessionId={hiveSessionId}
+                    />
+                  ) : activeSidebar === "explorer" ? (
+                    <div className="relative flex h-full min-h-0 flex-col overflow-hidden">
+                      {/* Ambient bg */}
+                      <div className="pointer-events-none absolute inset-0 opacity-20">
+                        <div className="matrix-rain absolute inset-0" />
+                      </div>
+                      <div className="relative z-10 flex min-h-0 flex-1 flex-col p-6">
+                        <div className="border-b border-white/10 pb-5">
+                          <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-purple-300 mb-2">
+                            <Folder size={13} /> Workspace Stage
                           </div>
-                          {gitBranch ? (
-                            <div className="space-y-2 font-mono text-label text-gray-300">
-                              <div>
-                                branch <span className="text-white">{gitBranch}</span>
-                              </div>
-                              <div>
-                                upstream{" "}
-                                <span className="text-white">
-                                  {explorerGitMeta.upstream ?? "none"}
-                                </span>
-                              </div>
-                              {(explorerGitMeta.ahead > 0 || explorerGitMeta.behind > 0) && (
-                                <div className="text-amber-300">
-                                  {explorerGitMeta.ahead > 0 && `${explorerGitMeta.ahead} ahead`}
-                                  {explorerGitMeta.ahead > 0 && explorerGitMeta.behind > 0 && " · "}
-                                  {explorerGitMeta.behind > 0 && `${explorerGitMeta.behind} behind`}
-                                </div>
-                              )}
-                              <div>
-                                {explorerGitFiles.length > 0 ? (
-                                  <span className="text-amber-300">
-                                    {explorerGitFiles.length} uncommitted change
-                                    {explorerGitFiles.length === 1 ? "" : "s"}
-                                  </span>
-                                ) : (
-                                  <span className="text-gray-500">working tree clean</span>
-                                )}
-                              </div>
+                          <h2
+                            className="text-3xl font-black leading-tight text-[var(--determinex-text)]"
+                            style={{ fontFamily: "var(--determinex-font-display)" }}
+                          >
+                            {selectedProjectName}
+                          </h2>
+                          <p className="mt-2 max-w-2xl font-mono text-body leading-relaxed text-[var(--determinex-muted)]">
+                            {displayPath(explorerRoot) || "No workspace path bound yet."}
+                          </p>
+                        </div>
+
+                        <div className="grid min-h-0 flex-1 grid-cols-1 gap-5 py-6 xl:grid-cols-2">
+                          <div className="rounded-2xl border border-white/10 bg-black/25 p-6">
+                            <div className="mb-4 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-emerald-300">
+                              <GitPullRequest size={14} /> Source
                             </div>
-                          ) : (
-                            <p className="text-label text-gray-500">
-                              Not a git repository, or status could not be read.
+                            {gitBranch ? (
+                              <div className="space-y-2 font-mono text-label text-gray-300">
+                                <div>
+                                  branch <span className="text-white">{gitBranch}</span>
+                                </div>
+                                <div>
+                                  upstream{" "}
+                                  <span className="text-white">
+                                    {explorerGitMeta.upstream ?? "none"}
+                                  </span>
+                                </div>
+                                {(explorerGitMeta.ahead > 0 || explorerGitMeta.behind > 0) && (
+                                  <div className="text-amber-300">
+                                    {explorerGitMeta.ahead > 0 && `${explorerGitMeta.ahead} ahead`}
+                                    {explorerGitMeta.ahead > 0 &&
+                                      explorerGitMeta.behind > 0 &&
+                                      " · "}
+                                    {explorerGitMeta.behind > 0 &&
+                                      `${explorerGitMeta.behind} behind`}
+                                  </div>
+                                )}
+                                <div>
+                                  {explorerGitFiles.length > 0 ? (
+                                    <span className="text-amber-300">
+                                      {explorerGitFiles.length} uncommitted change
+                                      {explorerGitFiles.length === 1 ? "" : "s"}
+                                    </span>
+                                  ) : (
+                                    <span className="text-gray-500">working tree clean</span>
+                                  )}
+                                </div>
+                              </div>
+                            ) : (
+                              <p className="text-label text-gray-500">
+                                Not a git repository, or status could not be read.
+                              </p>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => setActiveSidebar("git")}
+                              className="mt-4 rounded-lg border border-emerald-400/25 bg-emerald-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-emerald-300 transition hover:bg-emerald-900/30"
+                            >
+                              Open Source Control
+                            </button>
+                          </div>
+
+                          <div className="rounded-2xl border border-white/10 bg-black/25 p-6">
+                            <div className="mb-4 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-blue-300">
+                              <Files size={14} /> Files
+                            </div>
+                            <p className="font-mono text-label text-gray-300">
+                              {fileTree.length > 0
+                                ? `${fileTree.length} top-level entr${fileTree.length === 1 ? "y" : "ies"} scanned`
+                                : isTauri()
+                                  ? "Scanning workspace..."
+                                  : "Browser mode cannot scan the real file tree."}
                             </p>
-                          )}
-                          <button
-                            type="button"
-                            onClick={() => setActiveSidebar("git")}
-                            className="mt-4 rounded-lg border border-emerald-400/25 bg-emerald-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-emerald-300 transition hover:bg-emerald-900/30"
-                          >
-                            Open Source Control
-                          </button>
-                        </div>
+                            <div className="mt-4 flex flex-wrap gap-2">
+                              <button
+                                type="button"
+                                onClick={() => setWorkspaceView("files")}
+                                className="rounded-lg border border-blue-400/25 bg-blue-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-blue-300 transition hover:bg-blue-900/30"
+                              >
+                                Browse Tree
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleAddonLaunch("findfiles")}
+                                className="rounded-lg border border-blue-400/25 bg-blue-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-blue-300 transition hover:bg-blue-900/30"
+                              >
+                                Find in Files
+                              </button>
+                            </div>
+                          </div>
 
-                        <div className="rounded-2xl border border-white/10 bg-black/25 p-6">
-                          <div className="mb-4 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-blue-300">
-                            <Files size={14} /> Files
-                          </div>
-                          <p className="font-mono text-label text-gray-300">
-                            {fileTree.length > 0
-                              ? `${fileTree.length} top-level entr${fileTree.length === 1 ? "y" : "ies"} scanned`
-                              : isTauri()
-                                ? "Scanning workspace..."
-                                : "Browser mode cannot scan the real file tree."}
-                          </p>
-                          <div className="mt-4 flex flex-wrap gap-2">
+                          <div className="rounded-2xl border border-white/10 bg-black/25 p-6">
+                            <div className="mb-4 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-amber-300">
+                              <Activity size={14} /> Runs
+                            </div>
+                            <p className="text-label text-gray-500">
+                              {hiveSessionId
+                                ? `Active session: ${hiveSessionId}`
+                                : "No active Hive session. Start one from Work."}
+                            </p>
                             <button
                               type="button"
-                              onClick={() => setWorkspaceView("files")}
-                              className="rounded-lg border border-blue-400/25 bg-blue-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-blue-300 transition hover:bg-blue-900/30"
+                              onClick={() => handleSidebarLaunch("hive")}
+                              className="mt-4 rounded-lg border border-amber-400/25 bg-amber-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-amber-300 transition hover:bg-amber-900/30"
                             >
-                              Browse Tree
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleAddonLaunch("findfiles")}
-                              className="rounded-lg border border-blue-400/25 bg-blue-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-blue-300 transition hover:bg-blue-900/30"
-                            >
-                              Find in Files
+                              Go to Work
                             </button>
                           </div>
-                        </div>
 
-                        <div className="rounded-2xl border border-white/10 bg-black/25 p-6">
-                          <div className="mb-4 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-amber-300">
-                            <Activity size={14} /> Runs
-                          </div>
-                          <p className="text-label text-gray-500">
-                            {hiveSessionId
-                              ? `Active session: ${hiveSessionId}`
-                              : "No active Hive session. Start one from Work."}
-                          </p>
-                          <button
-                            type="button"
-                            onClick={() => handleSidebarLaunch("hive")}
-                            className="mt-4 rounded-lg border border-amber-400/25 bg-amber-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-amber-300 transition hover:bg-amber-900/30"
-                          >
-                            Go to Work
-                          </button>
-                        </div>
-
-                        <div className="rounded-2xl border border-white/10 bg-black/25 p-6">
-                          <div className="mb-4 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-purple-300">
-                            <Gauge size={14} /> Quick Attach
-                          </div>
-                          <p className="text-label text-gray-500">
-                            Attach a tool beside this screen instead of switching away from it.
-                          </p>
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            <button
-                              type="button"
-                              onClick={() => handleAddonLaunch("terminal")}
-                              className="rounded-lg border border-purple-400/25 bg-purple-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-purple-300 transition hover:bg-purple-900/30"
-                            >
-                              Terminal
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleAddonLaunch("editor")}
-                              className="rounded-lg border border-purple-400/25 bg-purple-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-purple-300 transition hover:bg-purple-900/30"
-                            >
-                              Code
-                            </button>
+                          <div className="rounded-2xl border border-white/10 bg-black/25 p-6">
+                            <div className="mb-4 flex items-center gap-2 text-meta font-black uppercase tracking-widest text-purple-300">
+                              <Gauge size={14} /> Quick Attach
+                            </div>
+                            <p className="text-label text-gray-500">
+                              Attach a tool beside this screen instead of switching away from it.
+                            </p>
+                            <div className="mt-4 flex flex-wrap gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handleAddonLaunch("terminal")}
+                                className="rounded-lg border border-purple-400/25 bg-purple-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-purple-300 transition hover:bg-purple-900/30"
+                              >
+                                Terminal
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleAddonLaunch("editor")}
+                                className="rounded-lg border border-purple-400/25 bg-purple-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-purple-300 transition hover:bg-purple-900/30"
+                              >
+                                Code
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ) : activeSidebar === "benchmark" ? (
-                  <BrainStage
-                    selectedModel={selectedModel}
-                    modelTiers={modelTiers}
-                    tandemPresets={tandemPresets}
-                    onSelectModel={(id) => setSelectedModel(id)}
-                    onModelAdded={refreshModelsRegistry}
-                    matrixLogs={matrixLogs}
-                    onOpenModelSlots={() => {
-                      setSettingsTab("roles");
-                      setShowSettings(true);
-                    }}
-                    onOpenProof={() => setActiveSidebar("proof")}
-                  />
-                ) : activeSidebar === "proof" ? (
-                  <div className="flex flex-col h-full overflow-hidden">
-                    {/* Header */}
-                    <div
-                      className="border-b shrink-0 p-6"
-                      style={{ borderColor: "var(--determinex-border)" }}
-                    >
-                      <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-cyan-400 mb-2">
-                        <Eye size={13} /> Project Proof
-                      </div>
-                      <h2
-                        className="text-2xl font-black text-white"
-                        style={{ fontFamily: "var(--determinex-font-display)" }}
+                  ) : activeSidebar === "benchmark" ? (
+                    <BrainStage
+                      selectedModel={selectedModel}
+                      modelTiers={modelTiers}
+                      tandemPresets={tandemPresets}
+                      onSelectModel={(id) => setSelectedModel(id)}
+                      onModelAdded={refreshModelsRegistry}
+                      matrixLogs={matrixLogs}
+                      onOpenModelSlots={() => {
+                        setSettingsTab("roles");
+                        setShowSettings(true);
+                      }}
+                      onOpenProof={() => setActiveSidebar("proof")}
+                    />
+                  ) : activeSidebar === "proof" ? (
+                    <div className="flex flex-col h-full overflow-hidden">
+                      {/* Header */}
+                      <div
+                        className="border-b shrink-0 p-6"
+                        style={{ borderColor: "var(--determinex-border)" }}
                       >
-                        {selectedProjectName} Proof
-                      </h2>
-                      <p
-                        className="mt-1 text-body leading-relaxed"
-                        style={{ color: "var(--determinex-muted)" }}
-                      >
-                        Project-scoped run history, build output, trace logs, code diffs, verifier
-                        results, and release gates. Empty states explain exactly what proof is
-                        missing.
-                      </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        <button
-                          type="button"
-                          onClick={() => setShowProjectLibrary(true)}
-                          className="rounded-lg border border-cyan-400/25 bg-cyan-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-cyan-300 transition-all hover:bg-cyan-900/30"
+                        <div className="flex items-center gap-2 text-meta font-black uppercase tracking-widest text-cyan-400 mb-2">
+                          <Eye size={13} /> Project Proof
+                        </div>
+                        <h2
+                          className="text-2xl font-black text-white"
+                          style={{ fontFamily: "var(--determinex-font-display)" }}
                         >
-                          Session Library
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleAddonLaunch("build")}
-                          className="rounded-lg border border-orange-400/25 bg-orange-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-orange-300 transition-all hover:bg-orange-900/30"
+                          {selectedProjectName} Proof
+                        </h2>
+                        <p
+                          className="mt-1 text-body leading-relaxed"
+                          style={{ color: "var(--determinex-muted)" }}
                         >
-                          Builds
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleAddonLaunch("trace")}
-                          className="rounded-lg border border-violet-400/25 bg-violet-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-violet-300 transition-all hover:bg-violet-900/30"
-                        >
-                          Trace
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleAddonLaunch("review")}
-                          className="rounded-lg border border-blue-400/25 bg-blue-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-blue-300 transition-all hover:bg-blue-900/30"
-                        >
-                          Review
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleAddonLaunch("health")}
-                          className="rounded-lg border border-teal-400/25 bg-teal-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-teal-300 transition-all hover:bg-teal-900/30"
-                        >
-                          Gates
-                        </button>
+                          Project-scoped run history, build output, trace logs, code diffs, verifier
+                          results, and release gates. Empty states explain exactly what proof is
+                          missing.
+                        </p>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setShowProjectLibrary(true)}
+                            className="rounded-lg border border-cyan-400/25 bg-cyan-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-cyan-300 transition-all hover:bg-cyan-900/30"
+                          >
+                            Session Library
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleAddonLaunch("build")}
+                            className="rounded-lg border border-orange-400/25 bg-orange-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-orange-300 transition-all hover:bg-orange-900/30"
+                          >
+                            Builds
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleAddonLaunch("trace")}
+                            className="rounded-lg border border-violet-400/25 bg-violet-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-violet-300 transition-all hover:bg-violet-900/30"
+                          >
+                            Trace
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleAddonLaunch("review")}
+                            className="rounded-lg border border-blue-400/25 bg-blue-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-blue-300 transition-all hover:bg-blue-900/30"
+                          >
+                            Review
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleAddonLaunch("health")}
+                            className="rounded-lg border border-teal-400/25 bg-teal-950/20 px-3 py-2 text-meta font-black uppercase tracking-widest text-teal-300 transition-all hover:bg-teal-900/30"
+                          >
+                            Gates
+                          </button>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="flex-1 overflow-y-auto p-6 no-scrollbar">
-                      {/* Main verdict card */}
-                      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 mb-6">
-                        <div
-                          className={`rounded-2xl border p-5 ${
-                            agentStatus.verdict && agentStatus.accepted
-                              ? "border-emerald-500/25 bg-emerald-950/15"
-                              : agentStatus.verdict && !agentStatus.accepted
-                                ? "border-red-500/25 bg-red-950/15"
-                                : "border-white/8 bg-white/[0.03]"
-                          }`}
-                        >
-                          <div className="text-eyebrow uppercase font-bold tracking-widest text-gray-500 mb-2">
-                            Oracle Verdict
-                          </div>
+                      <div className="flex-1 overflow-y-auto p-6 no-scrollbar">
+                        {/* Main verdict card */}
+                        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 mb-6">
                           <div
-                            className={`text-4xl font-black mb-2 ${
+                            className={`rounded-2xl border p-5 ${
                               agentStatus.verdict && agentStatus.accepted
-                                ? "text-emerald-400"
+                                ? "border-emerald-500/25 bg-emerald-950/15"
                                 : agentStatus.verdict && !agentStatus.accepted
-                                  ? "text-red-400"
-                                  : "text-gray-700"
+                                  ? "border-red-500/25 bg-red-950/15"
+                                  : "border-white/8 bg-white/[0.03]"
                             }`}
                           >
-                            {agentStatus.verdict ?? "-"}
-                          </div>
-                          {agentStatus.confidence !== null &&
-                          agentStatus.confidence !== undefined ? (
-                            <div className="space-y-1">
-                              <div className="flex items-center justify-between text-label text-gray-500">
-                                <span>Confidence</span>
-                                <span className="font-mono font-bold text-white">
-                                  {(agentStatus.confidence * 100).toFixed(0)}%
-                                </span>
-                              </div>
-                              <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                                <div
-                                  className={`h-full rounded-full transition-all ${agentStatus.accepted ? "bg-emerald-400" : "bg-red-400"}`}
-                                  style={{ width: `${(agentStatus.confidence * 100).toFixed(0)}%` }}
-                                />
-                              </div>
+                            <div className="text-eyebrow uppercase font-bold tracking-widest text-gray-500 mb-2">
+                              Oracle Verdict
                             </div>
-                          ) : (
-                            <p className="text-label text-gray-600 font-mono">
-                              No pipeline run yet. Go to Work, describe your change, then
-                              orchestrate.
-                            </p>
-                          )}
-                        </div>
-
-                        <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-5">
-                          <div className="text-eyebrow uppercase font-bold tracking-widest text-gray-500 mb-2">
-                            Pipeline State
-                          </div>
-                          <div className="space-y-2 mt-3">
-                            {[
-                              {
-                                label: "Generated file",
-                                value: generatedFile ?? "-",
-                                color: generatedFile ? "text-purple-300" : "text-gray-700",
-                              },
-                              {
-                                label: "Retry count",
-                                value: retryCount > 0 ? String(retryCount) : "-",
-                                color: retryCount > 0 ? "text-amber-400" : "text-gray-700",
-                              },
-                              {
-                                label: "Accepted",
-                                value:
-                                  agentStatus.accepted === true
-                                    ? "Yes"
-                                    : agentStatus.accepted === false
-                                      ? "No"
-                                      : "-",
-                                color:
-                                  agentStatus.accepted === true
-                                    ? "text-emerald-400"
-                                    : agentStatus.accepted === false
-                                      ? "text-red-400"
-                                      : "text-gray-700",
-                              },
-                              {
-                                label: "Error",
-                                value: agentStatus.error
-                                  ? `${agentStatus.error.stage}: ${agentStatus.error.message.slice(0, 60)}`
-                                  : "-",
-                                color: agentStatus.error ? "text-red-400" : "text-gray-700",
-                              },
-                            ].map(({ label, value, color }) => (
-                              <div key={label} className="flex items-start justify-between gap-3">
-                                <span className="text-label text-gray-600 shrink-0">{label}</span>
-                                <span
-                                  className={`text-label font-mono font-bold text-right truncate ${color}`}
-                                >
-                                  {value}
-                                </span>
+                            <div
+                              className={`text-4xl font-black mb-2 ${
+                                agentStatus.verdict && agentStatus.accepted
+                                  ? "text-emerald-400"
+                                  : agentStatus.verdict && !agentStatus.accepted
+                                    ? "text-red-400"
+                                    : "text-gray-700"
+                              }`}
+                            >
+                              {agentStatus.verdict ?? "-"}
+                            </div>
+                            {agentStatus.confidence !== null &&
+                            agentStatus.confidence !== undefined ? (
+                              <div className="space-y-1">
+                                <div className="flex items-center justify-between text-label text-gray-500">
+                                  <span>Confidence</span>
+                                  <span className="font-mono font-bold text-white">
+                                    {(agentStatus.confidence * 100).toFixed(0)}%
+                                  </span>
+                                </div>
+                                <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full transition-all ${agentStatus.accepted ? "bg-emerald-400" : "bg-red-400"}`}
+                                    style={{
+                                      width: `${(agentStatus.confidence * 100).toFixed(0)}%`,
+                                    }}
+                                  />
+                                </div>
                               </div>
-                            ))}
+                            ) : (
+                              <p className="text-label text-gray-600 font-mono">
+                                No pipeline run yet. Go to Work, describe your change, then
+                                orchestrate.
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-5">
+                            <div className="text-eyebrow uppercase font-bold tracking-widest text-gray-500 mb-2">
+                              Pipeline State
+                            </div>
+                            <div className="space-y-2 mt-3">
+                              {[
+                                {
+                                  label: "Generated file",
+                                  value: generatedFile ?? "-",
+                                  color: generatedFile ? "text-purple-300" : "text-gray-700",
+                                },
+                                {
+                                  label: "Retry count",
+                                  value: retryCount > 0 ? String(retryCount) : "-",
+                                  color: retryCount > 0 ? "text-amber-400" : "text-gray-700",
+                                },
+                                {
+                                  label: "Accepted",
+                                  value:
+                                    agentStatus.accepted === true
+                                      ? "Yes"
+                                      : agentStatus.accepted === false
+                                        ? "No"
+                                        : "-",
+                                  color:
+                                    agentStatus.accepted === true
+                                      ? "text-emerald-400"
+                                      : agentStatus.accepted === false
+                                        ? "text-red-400"
+                                        : "text-gray-700",
+                                },
+                                {
+                                  label: "Error",
+                                  value: agentStatus.error
+                                    ? `${agentStatus.error.stage}: ${agentStatus.error.message.slice(0, 60)}`
+                                    : "-",
+                                  color: agentStatus.error ? "text-red-400" : "text-gray-700",
+                                },
+                              ].map(({ label, value, color }) => (
+                                <div key={label} className="flex items-start justify-between gap-3">
+                                  <span className="text-label text-gray-600 shrink-0">{label}</span>
+                                  <span
+                                    className={`text-label font-mono font-bold text-right truncate ${color}`}
+                                  >
+                                    {value}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Compiler warning */}
-                      {compilerWarning && (
-                        <div className="mb-4 flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-950/20 px-4 py-3">
-                          <span className="text-amber-400 text-meta font-black uppercase tracking-widest shrink-0 mt-px">
-                            Compiler
-                          </span>
-                          <span className="text-label text-amber-300/80 font-mono leading-relaxed">
-                            {compilerWarning}
-                          </span>
-                        </div>
-                      )}
+                        {/* Compiler warning */}
+                        {compilerWarning && (
+                          <div className="mb-4 flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-950/20 px-4 py-3">
+                            <span className="text-amber-400 text-meta font-black uppercase tracking-widest shrink-0 mt-px">
+                              Compiler
+                            </span>
+                            <span className="text-label text-amber-300/80 font-mono leading-relaxed">
+                              {compilerWarning}
+                            </span>
+                          </div>
+                        )}
 
-                      {/* Live MoA pipeline view.
+                        {/* Live MoA pipeline view.
                           Mounted 2026-07-29. MatrixExecutionDisplay had existed unrendered:
                           page.tsx imported only its AgentStatus TYPE, so the three-agent
                           Sentinel -> Engineer -> Observer pipeline was never shown anywhere,
@@ -3879,113 +3897,113 @@ export default function DeterminexIDE() {
                           surface showed the verdict and a log tail but never which agent
                           held the run. Placed above the log tail so the pipeline state and
                           the lines it produced read together. */}
-                      {(agentStatus.isExecuting || agentStatus.verdict) && (
-                        <div className="mb-4">
-                          <MatrixExecutionDisplay
-                            agentStatus={agentStatus}
-                            logs={matrixLogs}
-                            onAbort={() => void executeAbort()}
-                            retryCount={retryCount}
-                          />
-                        </div>
-                      )}
+                        {(agentStatus.isExecuting || agentStatus.verdict) && (
+                          <div className="mb-4">
+                            <MatrixExecutionDisplay
+                              agentStatus={agentStatus}
+                              logs={matrixLogs}
+                              onAbort={() => void executeAbort()}
+                              retryCount={retryCount}
+                            />
+                          </div>
+                        )}
 
-                      {/* Log tail */}
-                      {matrixLogs.length > 0 && (
-                        <div className="rounded-2xl border border-white/8 bg-black/40 overflow-hidden mb-4">
-                          <div className="px-4 py-2.5 border-b border-white/5 flex items-center justify-between">
-                            <span className="text-eyebrow uppercase font-bold tracking-widest text-gray-500">
-                              Session Log
-                            </span>
-                            <span className="text-meta font-mono text-gray-700">
-                              {matrixLogs.length} lines
-                            </span>
+                        {/* Log tail */}
+                        {matrixLogs.length > 0 && (
+                          <div className="rounded-2xl border border-white/8 bg-black/40 overflow-hidden mb-4">
+                            <div className="px-4 py-2.5 border-b border-white/5 flex items-center justify-between">
+                              <span className="text-eyebrow uppercase font-bold tracking-widest text-gray-500">
+                                Session Log
+                              </span>
+                              <span className="text-meta font-mono text-gray-700">
+                                {matrixLogs.length} lines
+                              </span>
+                            </div>
+                            <div className="p-4 font-mono text-label leading-relaxed space-y-0.5 max-h-48 overflow-y-auto no-scrollbar">
+                              {matrixLogs.slice(-20).map((line, i) => (
+                                <div
+                                  key={i}
+                                  className={
+                                    line.includes("[ERROR]")
+                                      ? "text-red-400"
+                                      : line.includes("[OBSERVER]")
+                                        ? "text-violet-400"
+                                        : line.includes("[DETERMINEX]")
+                                          ? "text-cyan-400"
+                                          : line.includes("[USER]")
+                                            ? "text-emerald-400"
+                                            : "text-gray-600"
+                                  }
+                                >
+                                  {line}
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                          <div className="p-4 font-mono text-label leading-relaxed space-y-0.5 max-h-48 overflow-y-auto no-scrollbar">
-                            {matrixLogs.slice(-20).map((line, i) => (
-                              <div
-                                key={i}
-                                className={
-                                  line.includes("[ERROR]")
-                                    ? "text-red-400"
-                                    : line.includes("[OBSERVER]")
-                                      ? "text-violet-400"
-                                      : line.includes("[DETERMINEX]")
-                                        ? "text-cyan-400"
-                                        : line.includes("[USER]")
-                                          ? "text-emerald-400"
-                                          : "text-gray-600"
-                                }
-                              >
-                                {line}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+                        )}
 
-                      {/* Empty state */}
-                      {matrixLogs.length === 0 && !agentStatus.verdict && (
-                        <div className="flex flex-col items-center justify-center py-16 text-center">
-                          <div className="h-16 w-16 rounded-2xl border border-white/8 bg-white/[0.03] flex items-center justify-center mb-4">
-                            <Eye size={28} className="text-gray-700" />
+                        {/* Empty state */}
+                        {matrixLogs.length === 0 && !agentStatus.verdict && (
+                          <div className="flex flex-col items-center justify-center py-16 text-center">
+                            <div className="h-16 w-16 rounded-2xl border border-white/8 bg-white/[0.03] flex items-center justify-center mb-4">
+                              <Eye size={28} className="text-gray-700" />
+                            </div>
+                            <p className="text-body font-bold text-gray-600">No evidence yet</p>
+                            <p className="mt-2 text-label text-gray-700 font-mono leading-relaxed max-w-xs">
+                              Open Work, describe a change, and run the Hive. Oracle verdicts, file
+                              diffs, and compiler results will appear here.
+                            </p>
+                            <button
+                              onClick={() => setActiveSidebar("hive")}
+                              className="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-950/20 px-5 py-2.5 text-meta font-black uppercase tracking-widest text-emerald-400 transition-all hover:bg-emerald-900/30"
+                            >
+                              Go to Work
+                            </button>
                           </div>
-                          <p className="text-body font-bold text-gray-600">No evidence yet</p>
-                          <p className="mt-2 text-label text-gray-700 font-mono leading-relaxed max-w-xs">
-                            Open Work, describe a change, and run the Hive. Oracle verdicts, file
-                            diffs, and compiler results will appear here.
-                          </p>
-                          <button
-                            onClick={() => setActiveSidebar("hive")}
-                            className="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-950/20 px-5 py-2.5 text-meta font-black uppercase tracking-widest text-emerald-400 transition-all hover:bg-emerald-900/30"
-                          >
-                            Go to Work
-                          </button>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ) : activeSidebar === "git" || activeSidebar === "audit" ? (
-                  // git/audit put their full real content in the left strip and never
-                  // wired a main-pane view -- this used to fall through to the generic
-                  // "Select a panel to begin" placeholder even though a panel WAS
-                  // selected (it's rendering, just to the left). Found live 2026-07-19
-                  // during the same sweep as the Quick Attach fix below -- honest fix
-                  // is to say what this space is for rather than lie about nothing
-                  // being chosen.
-                  <div className="flex h-full flex-col items-center justify-center gap-3 text-center opacity-40">
-                    <p className="text-body font-mono text-gray-600">
-                      {activeSidebar === "git" ? "Source Control" : "Audit"} detail is in the panel
-                      on the left.
-                    </p>
-                    <p className="max-w-xs text-label text-gray-700">
-                      This space is free for a tool -- use + Attach in the status bar to bring in
-                      Terminal, Code, or another panel beside it.
-                    </p>
-                    <button
-                      onClick={() => setActiveSidebar("none")}
-                      className="text-meta uppercase font-bold text-gray-500 hover:text-white"
-                    >
-                      Close
-                    </button>
-                  </div>
-                ) : activeSidebar ? (
-                  <div className="flex flex-col items-center justify-center h-full gap-3 text-center opacity-40">
-                    <p className="text-body font-mono text-gray-600">
-                      Select a panel from the rail to begin.
-                    </p>
-                    <button
-                      onClick={() => setActiveSidebar("none")}
-                      className="text-meta uppercase font-bold text-gray-500 hover:text-white"
-                    >
-                      Close
-                    </button>
-                  </div>
-                ) : null}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                  ) : activeSidebar === "git" || activeSidebar === "audit" ? (
+                    // git/audit put their full real content in the left strip and never
+                    // wired a main-pane view -- this used to fall through to the generic
+                    // "Select a panel to begin" placeholder even though a panel WAS
+                    // selected (it's rendering, just to the left). Found live 2026-07-19
+                    // during the same sweep as the Quick Attach fix below -- honest fix
+                    // is to say what this space is for rather than lie about nothing
+                    // being chosen.
+                    <div className="flex h-full flex-col items-center justify-center gap-3 text-center opacity-40">
+                      <p className="text-body font-mono text-gray-600">
+                        {activeSidebar === "git" ? "Source Control" : "Audit"} detail is in the
+                        panel on the left.
+                      </p>
+                      <p className="max-w-xs text-label text-gray-700">
+                        This space is free for a tool -- use + Attach in the status bar to bring in
+                        Terminal, Code, or another panel beside it.
+                      </p>
+                      <button
+                        onClick={() => setActiveSidebar("none")}
+                        className="text-meta uppercase font-bold text-gray-500 hover:text-white"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  ) : activeSidebar ? (
+                    <div className="flex flex-col items-center justify-center h-full gap-3 text-center opacity-40">
+                      <p className="text-body font-mono text-gray-600">
+                        Select a panel from the rail to begin.
+                      </p>
+                      <button
+                        onClick={() => setActiveSidebar("none")}
+                        className="text-meta uppercase font-bold text-gray-500 hover:text-white"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </main>
       </div>
 
@@ -4268,6 +4286,14 @@ export default function DeterminexIDE() {
             <div className="truncate text-body font-bold text-white">Verified build cockpit</div>
           </div>
           <button
+            onClick={() => setLivenessOpen(true)}
+            className="rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] p-2 text-gray-400 transition hover:border-emerald-400/40 hover:text-emerald-300"
+            title="Liveness — is anything actually running?"
+            aria-label="Liveness"
+          >
+            <Activity size={16} />
+          </button>
+          <button
             onClick={() => setShowSettings(true)}
             className="rounded-lg border border-[var(--dtx-code-border)] bg-[var(--dtx-code-panel)] p-2 text-gray-400"
             title="Settings"
@@ -4466,6 +4492,7 @@ export default function DeterminexIDE() {
       </AnimatePresence>
 
       <HelpModal helpModal={helpModal} onClose={() => setHelpModal(null)} />
+      {livenessOpen && <LivenessPopout onClose={() => setLivenessOpen(false)} />}
     </div>
   );
 }

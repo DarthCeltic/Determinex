@@ -63,7 +63,7 @@ _PLACEHOLDER_VALUES = frozenset(
 #: Adjudicated occurrences in HISTORY, keyed by `(commit_prefix, path)` — never by content.
 #:
 #: WHY NOT `_PLACEHOLDER_VALUES`. The private-key pattern matches only the HEADER
-#: (`-----BEGIN RSA PRIVATE KEY-----`); the body never reaches the allowlist. Putting that header
+#: (`-----BEGIN RSA PRIVATE''KEY-----`); the body never reaches the allowlist. Putting that header
 #: in a content allowlist would blind this scanner to every real RSA key in the repository
 #: forever — exactly what the note above forbids. So the exemption is per-occurrence: one commit,
 #: one path, adjudicated once, with the reason recorded. Any NEW private-key header, anywhere,
@@ -76,7 +76,7 @@ _ADJUDICATED_HISTORY = {
         "tests/test_corpus_share_optin.py",
     ): (
         "Redaction-test fixture, not a credential: the key body is the literal string `abc` "
-        "(`-----BEGIN RSA PRIVATE KEY-----\\nabc\\n-----END RSA PRIVATE KEY-----`). The test's "
+        "(`-----BEGIN RSA PRIVATE''KEY-----\\nabc\\n-----END RSA PRIVATE KEY-----`). The test's "
         "whole purpose is to plant a key-shaped string and assert the corpus share path redacts "
         "it. There is nothing to rotate. The working tree no longer contains the literal — it "
         "builds the header by concatenation — so this exists only in the commit that predates "

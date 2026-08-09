@@ -223,15 +223,35 @@ def _fix_diff(before: str, after: str, slug: str = "") -> list[str]:
     return out[:20]
 
 
-def learn_class(
-    slug: str, failures_text: str, before_sh: str, after_sh: str, knowledge_path: Path | None = None
+def learn_from_failure(
+    symptom: str,
+    fix: str,
+    source: str,
+    knowledge_path: Path | None = None,
 ) -> dict:
-    """THE FLYWHEEL: when a VERIFIED fix improved a tool via a NOVEL compile.sh change, distill it
-    into a learned class (symptom -> the exact fix that worked) and append to
-    build_knowledge.learned_classes, so the grounded fixer applies it FIRST-shot on the next tool
-    with that symptom. Sound: the fix is oracle-verified and the next use is oracle-gated, so a
-    learned class can only HELP (a wrong hint fails verification, no harm). Dedup by signature hash;
-    bounded to 60. Returns {learned, key|why}."""
+    """Record an oracle-verified (symptom -> fix) pair from ANY build loop, not just ProgramBench.
+
+    `learn_class` below is shaped around a compile.sh diff, which is a ProgramBench artifact -- so
+    for its entire life the flywheel had exactly one caller, `determinex_pb_autodrive`. Every hive
+    build that failed, was corrected, and then passed the Compiler Oracle produced precisely the
+    (error, fix) pair this project exists to harvest, and threw it away.
+
+    Same soundness argument as learn_class: the fix was oracle-verified when it was recorded and
+    the next use is oracle-gated, so a wrong hint costs one attempt and can never produce a false
+    pass. Both paths write through _record_learned so `verified: True` still has a single writer.
+    """
+    sig = " ".join(str(symptom).split())[:400]
+    if len(sig) < 12:
+        return {"learned": False, "why": "weak-signature"}
+    if not str(fix).strip():
+        return {"learned": False, "why": "no-fix"}
+    return _record_learned(sig, str(fix), source, knowledge_path)
+
+
+def _record_learned(
+    sig: str, fixtext: str, source: str, knowledge_path: Path | None = None
+) -> dict:
+    """The single writer of a verified learned class. Dedup by signature hash; bounded to 60."""
     import hashlib as _hl
     import json as _json
     import time as _t
@@ -239,13 +259,6 @@ def learn_class(
     kp = knowledge_path or (
         Path(__file__).resolve().parent.parent / "corpus/programbench/build_knowledge.json"
     )
-    diff = _fix_diff(before_sh, after_sh, slug)
-    if not diff:
-        return {"learned": False, "why": "no-diff"}
-    sig = _normalize_signature(failures_text, slug)
-    if not sig or len(sig) < 12:
-        return {"learned": False, "why": "weak-signature"}
-    fixtext = "\n".join(diff)
     key = "learned_" + _hl.sha256((sig + "||" + fixtext).encode("utf-8")).hexdigest()[:10]
     try:
         kn = _json.loads(kp.read_text(encoding="utf-8"))
@@ -260,7 +273,7 @@ def learn_class(
             "detect": sig,
             "symptom": sig,
             "fix": fixtext[:800],
-            "source_tool": slug,
+            "source_tool": source,
             "verified": True,
             "learned": _t.strftime("%Y-%m-%d"),
             "uses": 0,
@@ -268,9 +281,9 @@ def learn_class(
         if len(lc) > 60:  # bound build_knowledge growth (drop oldest)
             # verified (oracle-confirmed flywheel) entries are NEVER dropped ahead of an
             # unverified one, regardless of date -- mirrors determinex_pb_absorb._bound_and_write.
-            # Learned entries in this registry are all verified=True by construction (this function
-            # is the only writer of `verified: True`), so in practice this only ever drops by date;
-            # the sort key stays defensive in case a future writer ever mixes in verified=False rows.
+            # Entries written HERE are verified=True by construction, so in practice this drops by
+            # date; the sort key stays defensive because determinex_pb_absorb also writes to this
+            # registry with verified=false.
             drop_order = sorted(
                 lc, key=lambda x: (bool(lc[x].get("verified")), str(lc[x].get("learned", "")))
             )
@@ -283,6 +296,28 @@ def learn_class(
     except Exception as e:
         return {"learned": False, "why": f"kn-write: {e}"}
     return {"learned": is_new, "key": key, "signature": sig, "uses": lc[key].get("uses", 0)}
+
+
+def learn_class(
+    slug: str, failures_text: str, before_sh: str, after_sh: str, knowledge_path: Path | None = None
+) -> dict:
+    """THE FLYWHEEL (ProgramBench path): when a VERIFIED fix improved a tool via a NOVEL
+    compile.sh change, distill it into a learned class (symptom -> the exact fix that worked) so
+    the grounded fixer applies it FIRST-shot on the next tool with that symptom. Sound: the fix is
+    oracle-verified and the next use is oracle-gated, so a learned class can only HELP (a wrong
+    hint fails verification, no harm).
+
+    The compile.sh diff and the signature normalisation are the ProgramBench-shaped half and stay
+    here; the registry write is shared with learn_from_failure via _record_learned, so the bound,
+    the dedup and the `verified: True` invariant cannot drift between the two paths.
+    Returns {learned, key|why}."""
+    diff = _fix_diff(before_sh, after_sh, slug)
+    if not diff:
+        return {"learned": False, "why": "no-diff"}
+    sig = _normalize_signature(failures_text, slug)
+    if not sig or len(sig) < 12:
+        return {"learned": False, "why": "weak-signature"}
+    return _record_learned(sig, "\n".join(diff), slug, knowledge_path)
 
 
 def build_fix_prompt(slug: str, compile_sh: str, failures: list) -> str:

@@ -198,6 +198,25 @@ const FALLBACK_PALETTE = [
   { text: "text-rose-300", border: "border-rose-400/30", bg: "bg-rose-950/15", dot: "bg-rose-400" },
 ];
 // See the "corpus" exception note above export function AgentChatPanel.
+/**
+ * A compact "when", so two sessions with identical participants can be told apart.
+ *
+ * Returns "" rather than "Invalid Date" or "NaNm" for anything unparseable: a session picker that
+ * renders garbage next to a real choice is worse than one that renders nothing, because the user
+ * cannot tell whether the garbage means something.
+ */
+function shortWhen(iso: string): string {
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return "";
+  const mins = Math.floor((Date.now() - t) / 60000);
+  if (mins < 0) return "";
+  if (mins < 1) return "now";
+  if (mins < 60) return `${mins}m`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h`;
+  return `${Math.floor(hrs / 24)}d`;
+}
+
 const CORPUS_AGENT: CodingAgentInfo = {
   name: "corpus",
   probe: "",
@@ -753,7 +772,12 @@ export function AgentChatPanel({ workspacePath = "" }: Props) {
                         : "border-white/8 bg-white/[0.02] text-gray-500 hover:bg-white/[0.05]"
                     }`}
                   >
+                    {/* Participants alone do NOT identify a session. Four sessions with the same
+                        line-up all rendered "claude-code+codex+local-ollama (0)" -- the picker
+                        offered four buttons a user had no way to tell apart, which makes choosing
+                        one guesswork. The last-active time is what actually distinguishes them. */}
                     {s.participants.join("+")} ({s.turnCount})
+                    <span className="ml-1.5 opacity-60">{shortWhen(s.lastActive)}</span>
                   </button>
                 ))}
                 <button
@@ -794,8 +818,8 @@ export function AgentChatPanel({ workspacePath = "" }: Props) {
                   )}
                   {agents !== null && !agentsError && agents.length <= 1 && (
                     <div className="rounded-lg border border-white/8 bg-white/[0.02] px-3 py-2 text-meta leading-relaxed text-gray-500">
-                      No coding agents are installed yet. Install Claude Code, Codex, Gemini CLI
-                      or Ollama and they will appear here automatically.
+                      No coding agents are installed yet. Install Claude Code, Codex, Gemini CLI or
+                      Ollama and they will appear here automatically.
                     </div>
                   )}
                   {(agents ?? []).map((a) => {
@@ -1262,7 +1286,7 @@ function AgentRosterBar({
         return (
           <div
             key={a.name}
-            className={`flex min-w-0 flex-col gap-1 rounded-xl border px-2.5 py-2 ${c.border} ${c.bg}`}
+            className={`flex min-w-0 flex-1 basis-[min(100%,17rem)] flex-col gap-1 rounded-xl border px-2.5 py-2 ${c.border} ${c.bg}`}
           >
             <div className="flex items-center gap-1.5">
               <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${dotClass}`} />
@@ -1289,16 +1313,19 @@ function AgentRosterBar({
             </div>
             {!isProbing && !result && (s?.readinessEvidence || s?.detail) && (
               // The evidence, not just the verdict. A state of "provider refused" is only actionable
-              // if it also says what the provider said and when.
+              // if it also says what the provider said and when -- and `truncate` was defeating
+              // exactly that: it forces one line, so "live probe ...: replied OK in 5.4s through
+              // the chat resolve+spawn path" was clipped to nothing the status dot did not already
+              // say. Two wrapped lines, full text still on hover.
               <p
-                className="truncate text-meta text-gray-600"
+                className="line-clamp-2 break-words text-meta leading-relaxed text-gray-600"
                 title={s?.readinessEvidence || s?.detail}
               >
                 {s?.readinessEvidence || s?.detail}
               </p>
             )}
             {isProbing && (
-              <pre className="max-h-16 max-w-[220px] overflow-y-auto whitespace-pre-wrap font-mono text-meta text-gray-500">
+              <pre className="max-h-24 w-full overflow-y-auto whitespace-pre-wrap break-words font-mono text-meta text-gray-500">
                 {(probeLive[a.name] ?? "").slice(-500) || "waiting for response…"}
               </pre>
             )}
@@ -1317,7 +1344,7 @@ function AgentRosterBar({
                 ) : (
                   <AlertTriangle size={10} className="mt-px shrink-0" />
                 )}
-                <span className="max-w-[200px]">
+                <span className="min-w-0 break-words">
                   <span className="font-bold uppercase tracking-wide">
                     {result.status.replace("_", " ")}
                   </span>

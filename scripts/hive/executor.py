@@ -54,7 +54,6 @@ from hive.compiler import (
 from hive.constants import (
     MAX_CHALLENGES_PER_STEP,
     MAX_ESCALATIONS_PER_STEP,
-    MAX_LINES_BEFORE_FORCE_REPLACE,
     MAX_RETRIES_PER_STEP,
     MIN_CHALLENGE_DELTA,
     MONITOR_TIMEOUT_SECONDS,
@@ -375,13 +374,10 @@ def _preflight_builder_health(
 log = logging.getLogger("hive")
 
 # ── Build loop constants ──────────────────────────────────────────────────────
-MAX_RETRIES_PER_STEP = 3
-MAX_CHALLENGES_PER_STEP = 2
-MIN_CHALLENGE_DELTA = 0.1
-MAX_ESCALATIONS_PER_STEP = 1
-MONITOR_TIMEOUT_SECONDS = 90
-OSCILLATION_THRESHOLD = 3  # same file hash this many times = DAG cycle
-MAX_LINES_BEFORE_FORCE_REPLACE = 300  # above this, force replace_file semantics
+# The seven step-budget constants live in hive/constants.py and are imported at the top of
+# this file. They were ALSO hardcoded here, which meant the import did nothing and any edit
+# to constants.py would have been silently ignored. All seven values were identical, so
+# removing the shadow copies changes no behaviour - it just makes the config load real.
 
 # ── Oscillation detection state (per session, in-memory) ─────────────────────
 _file_hash_history: dict[str, dict[str, list[str]]] = {}
@@ -540,6 +536,71 @@ def _correctness_allows_completion(
     )
 
 
+#: A correction bigger than this is a rewrite, not a lesson. A whole-file replacement tells the
+#: next build nothing transferable, and stored as a "fix" it would be surfaced as advice by
+#: match_failure -- filling the corpus with one project's source in the name of learning.
+_MAX_LESSON_DIFF_CHARS = 600
+#: Below this the "correction" is cosmetic (whitespace, a renamed local) and the error it is
+#: paired with was almost certainly resolved by something else.
+_MIN_LESSON_DIFF_CHARS = 12
+#: Determinex-authored repairs. `quality` is already set to these when OUR safety nets patched the
+#: code (the E0601 fn-main stub, the serde derive), specifically so Determinex output does not
+#: auto-ingest into training. Learning from them would teach the model that our repairs are its
+#: fixes, and the corpus would slowly fill with our own scaffolding.
+_NOT_TRAINING_ELIGIBLE = frozenset({"inconclusive", "compile_hacked"})
+
+
+def _record_hive_lesson(
+    session: ManifestSession,
+    step: StepRecord,
+    compiler_error: str,
+    failed_code: str,
+    passing_code: str,
+    attempt: int,
+) -> dict:
+    """Record one oracle-verified (compiler error -> the change that fixed it) pair.
+
+    Called only after the Compiler Oracle passed, so the fix is verified at the moment it is
+    written; the next use is oracle-gated too, so a wrong lesson costs one attempt and can never
+    produce a false pass. Returns the writer's verdict for logging/testing; callers treat any
+    exception as "did not learn", never as a build failure.
+    """
+    import difflib
+
+    if step.quality in _NOT_TRAINING_ELIGIBLE:
+        return {"learned": False, "why": f"quality={step.quality}"}
+
+    diff = "\n".join(
+        line
+        for line in difflib.unified_diff(
+            failed_code.splitlines(), passing_code.splitlines(), lineterm="", n=1
+        )
+        if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))
+    )
+    if len(diff) > _MAX_LESSON_DIFF_CHARS:
+        return {"learned": False, "why": "rewrite-not-lesson"}
+    # Whitespace-only changes are not lessons, and a length floor cannot see that: a one-character
+    # edit still emits a `-`/`+` pair worth twice the line, which sails over any threshold small
+    # enough to be safe. Compare the two versions with whitespace collapsed instead -- if they are
+    # then identical, the compiler error was resolved by something other than this change and
+    # pairing the two would teach a false cause.
+    if " ".join(failed_code.split()) == " ".join(passing_code.split()):
+        return {"learned": False, "why": "whitespace-only"}
+    if len(diff) < _MIN_LESSON_DIFF_CHARS:
+        return {"learned": False, "why": "diff-too-small"}
+
+    from determinex_pb_amplified_fix import learn_from_failure
+
+    result = learn_from_failure(
+        compiler_error,
+        diff,
+        f"hive:{session.lang}:step{step.id}:attempt{attempt + 1}",
+    )
+    if result.get("learned"):
+        log.info("  [flywheel] learned a new %s failure class from this correction", session.lang)
+    return result
+
+
 def execute_step(
     session: ManifestSession,
     step: StepRecord,
@@ -568,6 +629,9 @@ def execute_step(
 
     workspace = Path(session.project_root)
     last_compiler_error = ""
+    # The code of the most recent FAILED attempt, so a later PASS can be recorded as a bounded
+    # diff rather than as a whole file. None until something has actually failed.
+    last_failed_code: str | None = None
     last_builder_output = ""
     monitor_notes = ""
     _rosetta_monitor_h = None  # Monitor hidden state for next-retry Rosetta injection
@@ -1013,7 +1077,7 @@ def execute_step(
         # This fires when the Builder correctly writes helper functions but forgets the
         # entry point — a common 1.5B model failure for the first step of a binary crate.
         if not passed and session.lang == "rust" and _is_rust_missing_main_error(compiler_output):
-            error_lines = [l for l in compiler_output.splitlines() if "error[" in l]
+            error_lines = [line for line in compiler_output.splitlines() if "error[" in line]
             if len(error_lines) <= 1 and step.target_file and "main.rs" in step.target_file:
                 _main_path = workspace / step.target_file
                 if _main_path.exists():
@@ -1177,11 +1241,37 @@ def execute_step(
             error_hash = hash_compiler_error(compiler_output, workspace)
             step.compiler_error_hashes.append(error_hash)
             last_compiler_error = sanitized[:1500]  # L13-A: was 800
+            # Kept so a later PASS can be recorded as a (error -> the change that fixed it) pair
+            # rather than as a whole file. See the flywheel block below.
+            last_failed_code = code
             log.warning("  Compiler FAIL (attempt %d, hash=%s)", attempt + 1, error_hash)
             continue  # retry with error injected
 
         # ── Compiler PASS ─────────────────────────────────────────────────
         log.info("  Compiler PASS on attempt %d", attempt + 1)
+
+        # THE FLYWHEEL, for the hive. This is the exact pair the architecture exists to harvest:
+        # a real compiler error, and the change that an oracle then confirmed fixed it. Until now
+        # only ProgramBench ever fed it -- learn_class is shaped around a compile.sh diff, so its
+        # single caller was determinex_pb_autodrive, and every hive correction was discarded.
+        #
+        # A DIFF, never the file. The passing `code` is the whole target file; storing that as a
+        # "fix" would fill the corpus with per-project source that transfers to nothing and that
+        # match_failure would then surface as advice. Only a small, localised change is a lesson,
+        # so a large rewrite is skipped rather than recorded badly.
+        #
+        # Honours the step's existing training eligibility. `quality` is set to "inconclusive"
+        # when Determinex itself authored the repair (the E0601 fn-main stub, the serde derive
+        # patch) precisely so its own output never auto-ingests -- learning from those would teach
+        # the model that our safety nets are its fixes.
+        if attempt > 0 and last_compiler_error and last_failed_code is not None:
+            try:
+                _record_hive_lesson(
+                    session, step, last_compiler_error, last_failed_code, code, attempt
+                )
+            except Exception:  # a knowledge write must never fail a green build
+                pass
+
         last_compiler_error = ""
 
         # Snapshot public API

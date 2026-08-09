@@ -1,0 +1,93 @@
+{
+  "_doc": "Physical-design knowledge for the OpenROAD / OpenLane / Yosys flow, recorded so Determinex can reason about chip-design automation rather than guess at it. Ingested 2026-08-08 after a fabless SoC company asked directly whether Determinex could drive OpenROAD.\n\nWHY THIS BELONGS IN THE CORPUS. Determinex's whole architecture is 'correctness bounded by a sound oracle', and the hard part in almost every domain is that no sound oracle exists -- ProgramBench had to synthesize them. EDA is the rare field where the oracle already exists, is already structured, and is already trusted by the people who use it. That inverts the usual difficulty and makes this the cheapest high-value domain the system can enter.\n\nEVERY ENTRY CARRIES ITS SOURCE. These are claims about someone else's tool, read from that tool's own documentation, not from recollection. `verified_by` states what was actually done. Nothing here has been executed against a real flow yet, and entries say so.",
+  "schema_version": 1,
+  "generated_at": "2026-08-08",
+  "why_these_matter": "A request to 'automate our input specifications' is a request to search a configuration space where every candidate can be objectively scored. That is exactly the shape of verified search, and none of it requires generating a line of Verilog.",
+  "verification_policy": "Facts about flow variables, metrics files and tunable ranges are read from the OpenROAD-flow-scripts documentation. Prior-art results are read from the paper that reports them. NOTHING here has been confirmed by running a flow on this machine -- that is the next step, and until it happens every entry is documentation, not measurement.",
+  "entries": [
+    {
+      "id": "orfs_metrics_are_an_existing_sound_oracle",
+      "category": "eda_oracle",
+      "lesson": "OpenROAD-flow-scripts already emits structured per-run quality data and already compares it against a golden baseline. Each design folder carries `metadata-base-ok.json` (the last known-good execution) and `rules.json` (the tolerances a new run is judged against); `make metadata` regenerates and compares. The evaluation explicitly checks worst slack and DRC violation count so that a change 'does not degrade too much with respect to the golden values'.",
+      "why_it_generalizes": "This is a sound oracle that someone else built, maintains, and already trusts. Determinex normally has to synthesize an oracle before it can amplify anything; here the verify half of `generate/verify` is a file read. It means an OpenROAD config agent needs NO Verilog support, NO synthesis checker and NO HDL parsing -- the entire hardware-language gap is irrelevant to this application.",
+      "implied_requirements": [
+        "verify() = run the flow, parse the metrics, compare against rules.json tolerances",
+        "a run that fails to complete is a distinct outcome from a run that completes with bad PPA -- do not collapse them",
+        "`make update_ok` / `update_metadata` / `update_rules` rewrite the golden baseline; an agent must never call them, or it moves the goalposts it is being judged against"
+      ],
+      "used_when": "Any request to automate, tune or optimise an OpenROAD/ORFS flow.",
+      "source": "OpenROAD Flow Scripts documentation, contrib/Metrics.html, read 2026-08-08.",
+      "verified_by": "Documentation read directly. NOT yet executed -- no flow has been run on this machine, so the exact emitted key names are unconfirmed."
+    },
+    {
+      "id": "orfs_ppa_tunable_parameters",
+      "category": "eda_config",
+      "lesson": "The configuration surface that materially moves power/performance/area is small and well documented. Floorplan: CORE_UTILIZATION (percent of core occupied, sets die size), CORE_ASPECT_RATIO (default 1.0), CORE_MARGIN (default 1.0um). Placement: PLACE_DENSITY (1.0 dense, 0.0 sparse -- the single most consequential knob), GPL_TIMING_DRIVEN (default 1), GPL_ROUTABILITY_DRIVEN (default 1), CELL_PAD_IN_SITES_GLOBAL_PLACEMENT. CTS: CTS_BUF_DISTANCE, CTS_CLUSTER_SIZE, CTS_CLUSTER_DIAMETER, CTS_BUF_LIST. Routing/timing: ROUTING_LAYER_ADJUSTMENT (default 0.5, lower reduces global-route failures), TNS_END_PERCENT (default 100; reducing to 5 accelerates builds), SETUP_SLACK_MARGIN, MIN/MAX_ROUTING_LAYER, DETAILED_ROUTE_END_ITERATION (default 64). Synthesis: SYNTH_HIERARCHICAL (default 0), SYNTH_MEMORY_MAX_BITS (default 4096).",
+      "why_it_generalizes": "A search space of a dozen named, bounded, numeric parameters with a scoreable outcome is the ideal case for best-of-K verified search. It is small enough to explore honestly and large enough that hand-tuning genuinely costs engineers days.",
+      "implied_requirements": [
+        "several of these trade against each other -- TNS_END_PERCENT and SKIP_CTS_REPAIR_TIMING buy build speed by giving up timing quality, so a run that got faster may simply have stopped trying",
+        "PLACE_DENSITY too high causes routing congestion failures rather than a worse-but-valid result",
+        "defaults are platform-specific for PLACE_DENSITY; do not hardcode one across PDKs"
+      ],
+      "used_when": "Proposing or mutating an ORFS config.mk.",
+      "source": "OpenROAD Flow Scripts documentation, user/FlowVariables.html, read 2026-08-08.",
+      "verified_by": "Names, defaults and semantics read from the tool's own variable reference. Interaction effects noted above are inference from the documented semantics, not measurement."
+    },
+    {
+      "id": "orfs_autotuner_is_the_incumbent_baseline",
+      "category": "eda_prior_art",
+      "lesson": "OpenROAD already ships AutoTuner: a Ray/Tune-based no-human-in-loop parameter tuner. Search space is declared as JSON -- {\"PARAM\": {\"type\": \"float\"|\"int\", \"minmax\": [lo, hi], \"step\": 0}} -- and it reads METRICS2.1 to compute a reward from user-weighted coefficients (coeff_perform, coeff_power, coeff_area). It exposes SDC parameters (_SDC_CLK_PERIOD, _SDC_UNCERTAINTY, _SDC_IO_DELAY) and global-routing parameters (_FR_LAYER_ADJUST, _FR_GR_SEED), and states that any command-line-settable variable can be tuned or swept.",
+      "why_it_generalizes": "Blind hyperparameter search over this space is SOLVED and shipped by the tool vendor. Pitching 'an agent that searches ORFS configs' to an OpenROAD user proposes something they already have. Any credible contribution has to be the part AutoTuner cannot do -- reasoning about WHY a specific run failed and what to change because of it, rather than sampling the space more cleverly.",
+      "implied_requirements": [
+        "never present config search as novel to anyone who uses ORFS",
+        "the honest differentiator is diagnosis and cross-design memory, not sampling",
+        "AutoTuner's JSON search-space format is a reasonable interface to adopt rather than invent"
+      ],
+      "used_when": "Positioning any OpenROAD automation work, or choosing what to build first.",
+      "source": "OpenROAD Flow Scripts documentation, user/InstructionsForAutoTuner.html, read 2026-08-08.",
+      "verified_by": "Parameter names, JSON schema and reward-coefficient names read from the tool's own AutoTuner instructions."
+    },
+    {
+      "id": "orfs_agent_prior_art_and_its_open_weakness",
+      "category": "eda_prior_art",
+      "lesson": "ORFS-agent (arXiv 2506.08332) already applied an LLM to exactly this problem. It ran Claude 3.5 Sonnet at temperature 0.1 with structured JSON output over a seven-stage loop (run parallel jobs, read metrics, collate, inspect, optimise, agglomerate, alter configs), tuning four core parameters (Core Utilization, TNS End Percent, LB Add On Place Density, Clock Period) or twelve in the extended set. Reported against OpenROAD's AutoTuner: comparable or better results in 600 iterations rather than 1000 (40% fewer), at least 13% improvement in wirelength and effective clock period single-objective, and 11.3% ECP with 10.5% wirelength simultaneously multi-objective. It won on 12 of 24 metrics single-objective. It used CTS metrics as a surrogate when full routing timed out.",
+      "why_it_generalizes": "The state of the art is published, quantified, and model-agnostic by design. Two consequences. First, arriving without knowing this reads as not having done the reading, in a field where the practitioners have. Second, and more usefully, the authors name their own weakness: they raise concerns about LLM memorisation through data exposure and tested robustness by OBFUSCATING CIRCUITS. That is the gap Project Cloak already fills -- AST-level identifier obfuscation with an audited leak check -- and it is worth more here than any tuning improvement, because a fabless company cannot send proprietary RTL to a cloud API at all.",
+      "implied_requirements": [
+        "cite the paper before proposing anything in this space",
+        "the differentiators that survive contact with it: local models (no API), Cloak (no exposure), failure diagnosis, and knowledge that accumulates across designs -- their loop does not carry learning between runs",
+        "their stated future work includes retrieval over documentation, which the corpus already provides"
+      ],
+      "used_when": "Any conversation or design work about agentic optimisation of a chip-design flow.",
+      "source": "ORFS-agent: Tool-Using Agents for Chip Design Optimization, arXiv 2506.08332, read 2026-08-08.",
+      "verified_by": "Figures and method read from the paper. NOT independently reproduced -- these are the authors' reported numbers, and should be attributed to them rather than repeated as established fact."
+    },
+    {
+      "id": "physical_design_failure_is_not_one_outcome",
+      "category": "eda_failure_classes",
+      "lesson": "A physical-design run has several distinct bad endings and they demand opposite responses. Routing congestion (global route cannot fit) is usually PLACE_DENSITY too high or ROUTING_LAYER_ADJUSTMENT too aggressive -- loosen. Timing failure (negative worst slack) wants a longer clock period, more timing-driven effort, or higher TNS_END_PERCENT -- which costs runtime. DRC violations after detailed routing may need more DETAILED_ROUTE_END_ITERATION or a placement change. A run that never finished is not a bad result, it is no result. And a run that finished FAST may have finished fast because TNS_END_PERCENT or SKIP_CTS_REPAIR_TIMING told it to stop trying.",
+      "why_it_generalizes": "This is the same shape as Determinex's existing distinction between a compile failure, a test failure and a toolchain failure -- and the same trap: an optimiser that scores only the final number rewards a config that gave up early. Any reward function over ORFS metrics must treat 'stopped trying' as a failure mode, not a fast win.",
+      "implied_requirements": [
+        "classify the failure before proposing a fix; congestion and timing pull the same knobs in opposite directions",
+        "never score a run purely on wall-clock or on a single metric",
+        "a timeout and a violation are different verdicts and must not share a code path"
+      ],
+      "used_when": "Building a reward function or a diagnosis step over a physical-design flow.",
+      "source": "Derived from the documented semantics of TNS_END_PERCENT, SKIP_CTS_REPAIR_TIMING, PLACE_DENSITY and ROUTING_LAYER_ADJUSTMENT (FlowVariables.html), plus ORFS-agent's use of CTS metrics as a timeout surrogate.",
+      "verified_by": "Reasoning from documented parameter semantics. NOT observed on a real failing run -- this is a hypothesis to test against the first real flow, not a finding."
+    },
+    {
+      "id": "eda_needs_no_hdl_oracle_to_start",
+      "category": "eda_scope",
+      "lesson": "Determinex has no Verilog, SystemVerilog or VHDL oracle -- its registry covers python, rust, go, typescript, c, cpp, swift, dotnet, ruby and php. That gap is real and it does not block flow-configuration work at all, because the artifact being generated is a config file and the thing being verified is a metrics report. RTL generation is the application that WOULD need an HDL oracle (and a formal equivalence check, not merely a synthesis run, since synthesizable and correct are different claims).",
+      "why_it_generalizes": "It separates a cheap first application from an expensive one that looks adjacent. Config optimisation is reachable now; RTL generation needs a new oracle, and the honest oracle for it is formal equivalence (yosys + eqy/SymbiYosys) rather than 'it synthesised'.",
+      "implied_requirements": [
+        "first target: config search against metrics -- no HDL support required",
+        "if RTL generation is ever attempted, the oracle is equivalence checking against a reference, because a synthesizable netlist can be functionally wrong",
+        "Cloak covers 10 languages and Verilog is not among them; cloaking RTL would need a new extractor"
+      ],
+      "used_when": "Scoping any chip-design engagement, or answering what Determinex can do in EDA today.",
+      "source": "Determinex's own oracle registry (scripts/determinex_oracle.py) and Cloak language list, read 2026-08-08.",
+      "verified_by": "Read directly from this repository's source. The absence of HDL support is a fact about our code, confirmed by grep."
+    }
+  ]
+}

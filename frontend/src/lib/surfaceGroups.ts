@@ -320,7 +320,6 @@ export const SURFACE_GROUPS: SurfaceGroup[] = [
     tone: "slate",
     blurb: "Determinex itself — what it has learned, how it is doing, and its settings.",
     members: [
-
       {
         id: "learning",
         section: "About Determinex",

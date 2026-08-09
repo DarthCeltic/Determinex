@@ -45,16 +45,6 @@ TOOL_META = {
         "lang": "go",
         "cluster": ["jq", "yq"],
     },
-    "gron": {
-        "desc": "Flattens JSON to greppable lines; makes JSON greppable",
-        "lang": "go",
-        "cluster": ["jq"],
-    },
-    "dsq": {
-        "desc": "SQL queries over CSV/JSON/Parquet files; multi-format join",
-        "lang": "go",
-        "cluster": ["jq", "trdsql"],
-    },
     "trdsql": {
         "desc": "SQL queries over CSV/TSV/JSON/LTSV; supports MySQL/PG syntax",
         "lang": "go",
@@ -64,11 +54,6 @@ TOOL_META = {
         "desc": "Log parsing & aggregation DSL; filter/group-by/sum on log lines",
         "lang": "rs",
         "cluster": ["rhit", "fblog"],
-    },
-    "ripgrep": {
-        "desc": "Regex search across files; respects .gitignore; faster than grep",
-        "lang": "rs",
-        "cluster": ["shellharden", "diffr"],
     },
     "shellharden": {
         "desc": "Shell script linter/formatter; hardens quoting and variable handling",
@@ -192,7 +177,6 @@ TOOL_META = {
         "lang": "rs",
         "cluster": ["angle-grinder", "rhit"],
     },
-    "flamelens": {"desc": "Interactive flamegraph viewer in terminal", "lang": "rs", "cluster": []},
     "git-trim": {
         "desc": "Trims merged/stale git branches automatically",
         "lang": "rs",
@@ -424,11 +408,6 @@ TOOL_META = {
         "lang": "go",
         "cluster": [],
     },
-    "pls-rs__pls": {
-        "desc": "ls replacement with git-awareness and detailed file info",
-        "lang": "rs",
-        "cluster": [],
-    },
     "mgechev__revive": {
         "desc": "Fast, extensible Go linter with configurable rules",
         "lang": "go",
@@ -526,11 +505,6 @@ TOOL_META = {
         "lang": "rs",
         "cluster": ["sd"],
     },
-    "canop__broot": {
-        "desc": "Interactive directory tree navigator with fuzzy search",
-        "lang": "rs",
-        "cluster": ["antonmedv__walk"],
-    },
     "rust-ethereum__ethabi": {
         "desc": "Ethereum ABI encoder/decoder CLI",
         "lang": "rs",
@@ -556,11 +530,6 @@ TOOL_META = {
         "lang": "c++",
         "cluster": [],
     },
-    "gabotechs__dep-tree": {
-        "desc": "Dependency tree visualizer for code files (TUI)",
-        "lang": "rs",
-        "cluster": [],
-    },
     "astaxie__bat": {
         "desc": "Go rewrite of cat with syntax highlighting (github.com/astaxie)",
         "lang": "go",
@@ -575,11 +544,6 @@ TOOL_META = {
         "desc": "Fast, feature-rich TUI file manager",
         "lang": "c",
         "cluster": ["kyoheiu__felix"],
-    },
-    "jesseduffield__lazygit": {
-        "desc": "TUI git client — stage/commit/branch/diff visually",
-        "lang": "go",
-        "cluster": [],
     },
     "google__brotli": {
         "desc": "Brotli compression algorithm CLI encoder/decoder",
@@ -811,20 +775,10 @@ TOOL_META = {
         "lang": "rs",
         "cluster": [],
     },
-    "byron__dua-cli": {
-        "desc": "Disk Usage Analyzer TUI — fast du with interactive browser",
-        "lang": "rs",
-        "cluster": ["bootandy__dust", "dundee__gdu"],
-    },
     "tomarrell__wrapcheck": {
         "desc": "Go linter that checks errors are wrapped on return",
         "lang": "go",
         "cluster": ["kisielk__errcheck"],
-    },
-    "hpjansson__chafa.dd4d4c1": {
-        "desc": "Terminal graphics — renders images/video as colored unicode/braille",
-        "lang": "c",
-        "cluster": ["ascii-image-converter", "cslarsen__jp2a"],
     },
     "htop-dev__htop": {
         "desc": "Interactive process viewer TUI — top replacement",
@@ -891,11 +845,6 @@ TOOL_META = {
         "desc": "Hex viewer with colorized output and multiple displays",
         "lang": "rs",
         "cluster": ["hex"],
-    },
-    "sayanarijit__xplr": {
-        "desc": "Hackable TUI file explorer with Lua scripting",
-        "lang": "rs",
-        "cluster": ["antonmedv__walk", "kyoheiu__felix"],
     },
     "nikolassv__bartib": {
         "desc": "TUI time tracker with start/stop/list commands",
@@ -1326,7 +1275,7 @@ def section_t2(tools: list[dict], residual_langs: dict) -> list[str]:
         sk = e.get("official_skipped", 0) or 0
         lfiles = locked_files(slug)
         has_cert = "Y" if "CEILING_CERT.md" in lfiles else "—"
-        eval_rpt = eval_report_display(e)
+        eval_rpt = eval_report_display(e)  # noqa: F841 - kept for parity with section_t1; the call may matter, the binding does not
         od = find_override_dir(slug)
         override_str = f"`{od.name}`" if od else "—"
         lang = get_lang(slug, residual_langs)

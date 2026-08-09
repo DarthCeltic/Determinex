@@ -1,6 +1,17 @@
 import json
 from pathlib import Path
 
+import pytest
+
+#: These assert against campaign artifacts under logs/ that publish_mirror.py deliberately
+#: withholds from the public repository. Skipping when the data is absent is correct;
+#: failing leaves CI permanently red for behaving exactly as designed, and a CI that is
+#: always red is a CI nobody reads.
+pytestmark = pytest.mark.skipif(
+    not (Path(__file__).resolve().parents[3] / "logs" / "programbench_factory").exists(),
+    reason="ProgramBench campaign artifacts are not published to the mirror",
+)
+
 ROOT = Path(__file__).resolve().parents[3]
 PACKET = ROOT / "assurance" / "evidence" / "programbench_200_lock_campaign"
 BOARD = ROOT / "logs" / "programbench_lock_board.json"

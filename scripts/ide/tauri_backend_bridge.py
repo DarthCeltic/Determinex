@@ -46,6 +46,8 @@ _TAURI_COMMANDS: tuple[str, ...] = (
     "repair_diagnose",
     # Proof Center (2026-06-14): live no-overclaim governance state.
     "get_governance_status",
+    # Liveness popout (2026-08-06): is anything actually running, and is it producing?
+    "get_liveness_status",
 )
 
 
@@ -105,6 +107,7 @@ class TauriBackendBridge:
             "build_idea": "build_from_idea_opt_in",
             "repair_diagnose": "repair_diagnose",
             "get_governance_status": "get_governance_status",
+            "get_liveness_status": "get_liveness_status",
         }
         inner_cmd = inner_map[command]
         inner_res = self._surface.call(

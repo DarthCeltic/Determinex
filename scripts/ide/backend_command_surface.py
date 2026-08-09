@@ -48,6 +48,10 @@ from .human_approval_ui_model import build_packet
 _COMMANDS = frozenset(
     {
         "inspect_workspace",
+        # Liveness (2026-08-06). Read-only process + last-write inspection, so the UI can
+        # answer "is anything actually running, or did it die quietly" without reading the
+        # event log -- a hung job writes no events, which is exactly when you need to know.
+        "get_liveness_status",
         "source_apply_dry_run",
         "route_model",
         # Greenfield Idea Lab seam (2026-06-14). Both commands are thin delegates to
@@ -163,6 +167,7 @@ _COMMANDS = frozenset(
 
 UNIFIED_PRODUCT_READ_ONLY_COMMANDS = frozenset(
     {
+        "get_liveness_status",
         "get_unified_product_navigation_model",
         "get_idea_lab_workflow_state",
         "get_repo_clinic_workflow_state",
@@ -212,6 +217,9 @@ class IDEBackendCommandSurface:
 
         if command == "inspect_workspace":
             return self._inspect(workspace)
+
+        if command == "get_liveness_status":
+            return self._liveness()
 
         if command == "synthesize_oracle_preview":
             return self._synthesize_oracle_preview(idea_text)
@@ -294,6 +302,42 @@ class IDEBackendCommandSurface:
     # ------------------------------------------------------------------
     # Individual commands
     # ------------------------------------------------------------------
+
+    def _liveness(self) -> CommandResult:
+        """Process + last-write snapshot. Thin delegate; owns no logic of its own.
+
+        determinex_liveness.verdict() is the single home for the stalled/working classifier.
+        Reimplementing the thresholds here is how the popout and the CLI would start giving
+        different answers about the same process.
+        """
+        try:
+            from determinex_liveness import snapshot
+        except Exception as exc:  # module missing or import-time failure
+            return self._result(
+                "get_liveness_status",
+                "IDE_COMMAND_UNAVAILABLE",
+                notes=(f"liveness module unavailable: {type(exc).__name__}",),
+            )
+        try:
+            snap = snapshot()
+        except Exception as exc:
+            # A monitor that reports "all clear" when it failed to look is worse than no
+            # monitor, so a failure is surfaced as a failure.
+            return self._result(
+                "get_liveness_status",
+                "IDE_COMMAND_FAILED",
+                notes=(f"liveness snapshot failed: {type(exc).__name__}: {exc}",),
+            )
+        return self._result(
+            "get_liveness_status",
+            "IDE_COMMAND_OK",
+            payload=snap,
+            notes=(
+                f"{snap['counts']['running']} process(es), "
+                f"{snap['counts']['ours']} ours, "
+                f"{snap['counts']['stalled']} stalled",
+            ),
+        )
 
     def _inspect(self, workspace: Path | None) -> CommandResult:
         if workspace is None or not Path(workspace).is_dir():

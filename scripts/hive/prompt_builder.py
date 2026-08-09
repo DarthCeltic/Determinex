@@ -65,6 +65,28 @@ def _build_builder_messages(
         f"Do not include tests unless the step explicitly asks for them.\n"
         f"Write_mode: {step.write_mode}. Target file: {step.target_file}."
     )
+
+    # ACCUMULATED KNOWLEDGE. The flywheel has been learning from every failure since the project
+    # started, and until now none of it reached the Builder -- the ProgramBench fixer grounded
+    # its prompts in class_patterns while the hive, which GENERATES the code, was prompted with
+    # nothing. A corpus consulted only after a failure is a corpus that never prevents one.
+    #
+    # Compacted packets rather than raw entries: 381 learned items do not fit a prompt, and
+    # truncating them would surface whichever happened to sort first rather than whichever
+    # repeats most. Best-effort -- a knowledge layer that can break a build is worse than none.
+    try:
+        from corpus.corpus_compact import for_prompt
+
+        _packets = for_prompt(budget_chars=700)
+        if _packets:
+            system_msg += (
+                "\n\nKNOWN FAILURE CLASSES (accumulated from real builds -- if the situation "
+                "matches, apply the known fix rather than inventing one):\n"
+                + "\n".join(_packets[:8])
+            )
+    except Exception:
+        pass
+
     if session.lang == "rust":
         if _available_crates:
             system_msg += (
@@ -306,6 +328,28 @@ def _build_builder_messages(
                 "Remove ALL `use serde::...`, `use serde_json::...`, `#[derive(Serialize)]`, and `#[derive(Deserialize)]` lines. "
                 "To output JSON, use `println!` with format strings — no external crates needed."
             )
+
+        # HAVE WE SOLVED THIS BEFORE? Retry is the moment the corpus is worth most: unlike the
+        # initial prompt there is real error text to match against. The four extractors above
+        # are hand-written for four Rust error shapes, while the corpus holds hundreds of
+        # recorded failures with their proven fixes and none of them were ever consulted here.
+        #
+        # match_failure is precision-first: two independent rare terms or nothing. An unrelated
+        # fix injected while the model is already failing is worse than silence -- it spends the
+        # remaining retry budget chasing our mistake. An empty result is the common, correct
+        # outcome and is left unsaid rather than padded.
+        try:
+            from determinex_corpus_api import match_failure
+
+            _known = match_failure(compiler_error, limit=2)
+            if _known:
+                system_msg += (
+                    "\n\nWE HAVE SEEN THIS BEFORE — apply the recorded fix before improvising:"
+                )
+                for _m in _known:
+                    system_msg += f"\n  * WHEN {_m.symptom[:180]}\n    FIX  {_m.fix[:240]}"
+        except Exception:
+            pass
     if prune_context and compiler_error:
         # #7: On pruned retry, make the error injection explicit so the
         # model knows exactly what it needs to fix without the noise of

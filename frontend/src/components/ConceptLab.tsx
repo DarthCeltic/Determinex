@@ -737,7 +737,8 @@ function ConceptLabInner({
       // runs yet / No evidence yet" immediately after a successful verified build. For a
       // system whose whole claim is that nothing is accepted without proof, a verified build
       // recording no proof is a gap, not a design choice.
-      const solved = built.solved === true || /solved|verified|passes/i.test(String(built.status ?? ""));
+      const solved =
+        built.solved === true || /solved|verified|passes/i.test(String(built.status ?? ""));
       onVerified?.({
         solved,
         checks: typeof built.n_checks === "number" ? built.n_checks : null,
@@ -1105,7 +1106,9 @@ function ConceptLabInner({
         // bug rather than as the system listening.
         const narrowed = res.data.paths;
         if (narrowed && narrowed.length > 0) {
-          setPaths((prev) => (narrowed.length < prev.length || prev.length === 0 ? narrowed : prev));
+          setPaths((prev) =>
+            narrowed.length < prev.length || prev.length === 0 ? narrowed : prev
+          );
           const dropped = res.data.ruled_out ?? [];
           if (dropped.length > 0) {
             setRuledOut(dropped);
@@ -1248,9 +1251,7 @@ function ConceptLabInner({
    *   - the assessment is unavailable, in which case proceed rather than trapping the user
    *     behind a check that cannot run.
    */
-  const continueUntilContextIsSufficient = async (
-    allAnswers: { q: string; a: string }[]
-  ) => {
+  const continueUntilContextIsSufficient = async (allAnswers: { q: string; a: string }[]) => {
     const buildSpec = (note?: string) => {
       const answersText = allAnswers
         .filter(({ a }) => a && a !== "(skipped)")

@@ -205,7 +205,10 @@ export default function GitPanel({ workspacePath }: Props) {
   // Three states, three answers, and a way out of each.
   if (!status && error) {
     return (
-      <div data-testid="git-panel-error" className="flex-1 flex flex-col items-center justify-center gap-3 p-4 bg-[var(--dtx-code-bg)] text-center">
+      <div
+        data-testid="git-panel-error"
+        className="flex-1 flex flex-col items-center justify-center gap-3 p-4 bg-[var(--dtx-code-bg)] text-center"
+      >
         <div className="flex items-center gap-2 text-label font-mono text-amber-300">
           <AlertCircle className="h-3.5 w-3.5" />
           Could not read this repository

@@ -52,7 +52,7 @@ def _pick_target_model_path() -> tuple[Path | None, str]:
     Returns (None, '') if none do."""
     from rosetta.model_registry import current_family
 
-    for role, m in current_family().items():
+    for _role, m in current_family().items():
         if m.gguf_path and Path(m.gguf_path).is_file():
             return Path(m.gguf_path), m.name
     return None, ""
@@ -162,6 +162,11 @@ def run_smoke(
         ctx_ptr = llm._ctx.ctx
         get_logits = llama_cpp.llama_get_logits_ith
 
+        # ruff reports F821 for `llm` throughout this closure. It is wrong: Python's own
+        # symbol table resolves llm as free=True here and local+assigned in run_smoke, so it
+        # is an ordinary closure read. Ruff cannot follow the binding out of the enclosing
+        # try block. Suppressed rather than rewritten - the code is correct and restructuring
+        # working code to satisfy a linter's blind spot is the wrong trade.
         def complete(prefix_floats=None) -> tuple[str, int]:
             llm.reset()
             if prefix_floats is not None:

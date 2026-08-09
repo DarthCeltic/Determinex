@@ -28,6 +28,8 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from determinex_reply_shapes import extract_code
+
 Contract = Callable[[str], "tuple[bool, str]"]
 GenerateFn = Callable[[str, float], str]
 
@@ -142,8 +144,60 @@ def all_of(*contracts: Contract) -> Contract:
 
 
 def _strip_fence(text: str) -> str:
-    m = re.search(r"```(?:\w+)?\s*(.+?)```", text, re.S)
-    return m.group(1) if m else text
+    """Delegate to the canonical extractor.
+
+    This used to be a bare fence regex, and it had a bug that only shows up on reasoning
+    models: it never removed a <think> block, so it happily matched a fenced candidate INSIDE
+    the scratchpad -- scoring a draft the model had itself gone on to reject. It also could not
+    find code a model emitted with no fence at all. Both cost real measurements on the Radeon
+    breadth run, so extraction now lives in exactly one place.
+    """
+    return extract_code(text)
+
+
+def function_contract(name: str) -> Contract:
+    """Require a DEFINED, CALLABLE function of this name -- not a printed answer.
+
+    The gap this closes was found by measurement, not review. A 135M model asked for
+    `join_path` emitted a script that computed the values and PRINTED them at module level.
+    Every existing contract passed it: the text is non-empty, it is valid Python, it parses.
+    Only the oracle rejected it, one expensive call later, and the run read as "the model
+    cannot write this function" when the truth was "the model ignored the output contract".
+
+    Checked by execution rather than by AST alone, because `def` appearing in the source does
+    not mean the name survives to module scope (nested defs, a conditional that never fires,
+    an exception part-way down the file).
+    """
+
+    def _c(text: str) -> tuple[bool, str]:
+        code = extract_code(text)
+        if not code.strip():
+            return False, "empty output"
+        try:
+            ast.parse(code)
+        except SyntaxError as e:
+            return False, f"python syntax error: {e}"
+        ns: dict = {}
+        try:
+            exec(code, ns)  # noqa: S102 - candidate code, already sandboxed by the caller
+        except Exception as e:
+            return False, f"candidate raised on import: {type(e).__name__}: {e}"
+        fn = ns.get(name)
+        if fn is None:
+            defined = sorted(k for k, v in ns.items() if callable(v) and not k.startswith("__"))
+            return False, (
+                f"no function named {name!r} defined"
+                + (
+                    f" (defined instead: {', '.join(defined[:4])})"
+                    if defined
+                    else " - output computed a value instead of defining the function"
+                )
+            )
+        if not callable(fn):
+            return False, f"{name!r} is {type(fn).__name__}, not callable"
+        return True, f"defines callable {name!r}"
+
+    return _c
 
 
 # language -> contract, so the Ingester's detected language picks the floor

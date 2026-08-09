@@ -399,3 +399,13 @@ bundler/sidecar/
 # bare `.build/.lock` matches only a repo-root one and left all three nested files un-ignored.
 # Confirmed with `git check-ignore -v`, which still reported the negation as the winning rule.
 **/.build/.lock
+
+# cargo build output inside vendored PB checkouts. 2.09 GB of .rlib/.rmeta was
+# tracked here: regenerable from source, and it made .git several GB heavier for
+# nothing. The vendored SOURCE stays tracked; its build products do not.
+corpus/programbench/per_tool_overrides/*/target/
+
+# Local-only competitive tracking. A read of other entrants belongs on this machine
+# and nowhere else - a file like this was once committed to the public submission by
+# accident and had to be purged from every commit.
+.local/

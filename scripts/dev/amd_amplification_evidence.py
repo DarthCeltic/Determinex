@@ -18,11 +18,18 @@ without the context that makes it checkable.
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
-OUT = Path(
-    "C:/Dev/Radeon-hackathon-2026-07/Determinex/amd_gpu_evidence/"
-    "radeon_amplification_2026-08-03.json"
+#: Sibling checkout, derived rather than written out. A literal repo path resolves on exactly
+#: one machine, which is what the no-hardcoded-paths hook exists to catch - and it caught this.
+OUT = (
+    Path(
+        os.environ.get("DETERMINEX_SUBMISSION_DIR")
+        or Path(__file__).resolve().parents[2] / "Radeon-hackathon-2026-07" / "Determinex"
+    )
+    / "amd_gpu_evidence"
+    / "radeon_amplification_2026-08-03.json"
 )
 
 

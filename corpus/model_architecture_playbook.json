@@ -1,0 +1,63 @@
+{
+  "_doc": "Domain knowledge about model internals, for DESIGN decisions rather than failure recovery. The rest of the corpus records what broke and how it was fixed; that is necessary and it cannot answer 'what does this request actually require?'. When a prompt says 'build me a transformer' or 'add position encoding', the system needs the shapes, the invariants, and the things a user means but does not say. An entry belongs here when knowing it changes what gets built, not merely how a build is repaired.\n\nEVERY ENTRY CARRIES ITS SOURCE. This is reference knowledge, so it is only as good as where it came from and whether it was checked. `verified_by` states what was actually done to confirm it -- an entry nobody checked is a claim, not corpus.",
+  "schema_version": 1,
+  "generated_at": "2026-08-07",
+  "why_these_matter": "A build request is usually under-specified. 'A transformer' silently requires a residual stream of constant width, a scaled dot-product, and a position signal; omit any one and it compiles, trains, and is wrong. These entries name the requirements a prompt leaves implicit so they can be checked rather than assumed.",
+  "verification_policy": "Mathematical claims are checked by derivation and, where practical, by executing the reference implementation against worked cases. `verified_by` records which. Nothing is admitted on the strength of having been read somewhere.",
+  "entries": [
+    {
+      "id": "transformer_residual_stream_invariant",
+      "category": "model_architecture",
+      "lesson": "Every sublayer of a transformer block reads and writes the SAME tensor shape [seq_len, d_model]. Attention projects out to d_model and the MLP projects up to d_ff then back down to d_model, specifically so the residual stream width never changes. The stack is N identical blocks composed on an unchanging carrier.",
+      "why_it_generalizes": "It converts an architecture question into a checkable invariant: any block that does not return [seq_len, d_model] is wrong regardless of what it computes internally. That is testable without a corpus of examples and without training anything, so it is a cheap oracle for generated model code.",
+      "shapes": {
+        "embedded_input": "[seq_len, d_model]",
+        "W_Q / W_K / W_V": "[d_model, d_model]",
+        "Q, K, V": "[seq_len, d_model], split per head to [seq_len, d_head]",
+        "attention_scores": "[n_heads, seq_len, seq_len]",
+        "W_1 (up)": "[d_model, d_ff]",
+        "W_2 (down)": "[d_ff, d_model]",
+        "block_output": "[seq_len, d_model]"
+      },
+      "implied_requirements": [
+        "scores scaled by 1/sqrt(d_head), not 1/sqrt(d_model) -- the scale follows the head, not the model",
+        "d_model must divide evenly by n_heads or the per-head split is silently ragged",
+        "output projection W_O exists to bring concatenated heads back to d_model; omitting it appears to work at n_heads=1"
+      ],
+      "used_when": "A request names a transformer, attention, an encoder or decoder block, or asks to add or resize heads.",
+      "source": "Diagram by Daine Ball (Harold/GoSpark), shared 2026-08-06; standard architecture, independently derivable.",
+      "verified_by": "Shape algebra checked end to end against the diagram and against the reference formulation; no execution required for a shape invariant."
+    },
+    {
+      "id": "rope_rotary_position_encoding",
+      "category": "model_architecture",
+      "lesson": "RoPE encodes position by ROTATING each consecutive pair of dimensions rather than adding a position vector. For pair i at position m: theta_i = base^(-2i/d), angle = m * theta_i, and (x0, x1) -> (x0*cos - x1*sin, x0*sin + x1*cos). Applied to Q and K before the dot product, so d/2 independent 2D rotations per token.",
+      "why_it_generalizes": "Three consequences follow from the rotation being orthogonal, and each is a design constraint rather than a detail: position becomes RELATIVE (the QK dot product depends on m-n, not on m and n separately), vector MAGNITUDE is preserved (so it cannot destabilise attention the way an additive signal can), and it adds NO learned parameters.",
+      "implied_requirements": [
+        "apply to Q and K only -- rotating V destroys the values being averaged",
+        "apply before the dot product, not after; rotating scores is not the same operation",
+        "d_head must be even, since the scheme consumes dimensions in pairs",
+        "base (commonly 10000) sets the frequency spread and therefore the usable context length"
+      ],
+      "reference": "theta_i = base ** (-2*i/d);  angle = m * theta_i;  x0' = x0*cos(angle) - x1*sin(angle);  x1' = x0*sin(angle) + x1*cos(angle)",
+      "used_when": "A request mentions position encoding, context length, RoPE, sequence extrapolation, or asks why a model degrades past its trained length.",
+      "source": "Diagram by Daine Ball (Harold/GoSpark), shared 2026-08-06, showing the Go -> cgo -> rope kernel -> attention path.",
+      "verified_by": "Rotation matrix derived and checked: the form given is the standard 2x2 rotation, orthogonality confirmed (magnitude preserved), and the relative-position property follows from R(m)^T R(n) = R(n-m). Executed over worked pairs to confirm the sign convention matches."
+    },
+    {
+      "id": "under_specified_model_request",
+      "category": "requirements",
+      "lesson": "A request for a model component names roughly a third of what the component requires. 'Add attention' does not say causal or bidirectional, how many heads, whether positions are encoded, or what happens at the sequence boundary -- yet each choice changes the output and none of them cause an error.",
+      "why_it_generalizes": "This is the general shape of an under-specified build request, not a fact about transformers. The correct response is to enumerate the implied requirements and confirm or default them EXPLICITLY, because the failure mode is a component that runs, trains, and is quietly wrong -- which no compiler oracle catches.",
+      "implied_requirements": [
+        "masking: causal or full, and what the padding positions do",
+        "position signal: none, learned, sinusoidal, or rotary",
+        "head count and whether d_model divides by it",
+        "normalisation placement: pre-norm or post-norm, which changes training stability"
+      ],
+      "used_when": "Any generated-code request naming a model component, before generation rather than after a failure.",
+      "source": "Distilled from the two diagrams above plus the pattern the oracle work already documents.",
+      "verified_by": "Not a mathematical claim; recorded as a requirements heuristic. Its value is testable in use: does naming these before generation reduce silently-wrong output."
+    }
+  ]
+}
