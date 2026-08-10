@@ -36,10 +36,290 @@ _COMMENT_STRIP: dict[str, re.Pattern] = {
     "php": re.compile(r"//[^\n]*|#[^\n]*|/\*.*?\*/", re.DOTALL),
     "c": re.compile(r"//[^\n]*|/\*.*?\*/", re.DOTALL),
     "cpp": re.compile(r"//[^\n]*|/\*.*?\*/", re.DOTALL),
+    "verilog": re.compile(r"//[^\n]*|/\*.*?\*/", re.DOTALL),
 }
 _STR_STRIP = re.compile(r'"(?:[^"\\]|\\.)*"|\'(?:[^\'\\]|\\.)*\'|`[^`]*`')
 
+#: Verilog's own literal stripper. The shared one above is WRONG here, in the direction that
+#: loses identifiers rather than the direction that keeps too many:
+#:
+#:   backtick      -- a macro/directive prefix (`define, `include, `timescale), NOT a string
+#:                    delimiter. The shared pattern blanks everything between two directives.
+#:   single-quote  -- introduces a sized literal (8'hFF, 4'b1010, '0), NOT a string. The shared
+#:                    pattern blanks everything between two literals.
+#:
+#: Either mistake silently removes real declarations from the text being scanned, so those
+#: identifiers never enter the forward map -- and an identifier that was never captured cannot
+#: be obfuscated and cannot be reported as a leak. It simply leaves in the clear.
+#:
+#: Only double-quoted strings are strings in Verilog.
+_VERILOG_STR_STRIP = re.compile(r'"(?:[^"\\\n]|\\.)*"')
+
+#: Foundry standard-cell and PDK names. These belong to the fab, not the customer: obfuscating
+#: them protects nothing, breaks synthesis, and makes the cloaked output useless. Matched as a
+#: prefix because a PDK ships thousands of cells under a handful of stems.
+_PDK_PREFIXES: tuple[str, ...] = (
+    "sky130_",
+    "sg13g2_",
+    "gf180mcu_",
+    "gf180_",
+    "ihp_",
+    "asap7_",
+    "freepdk",
+    "nangate",
+    "scs8",
+    "sc7p5t",
+    "tt_um_",
+)
+
+
+def _is_pdk_cell(name: str) -> bool:
+    """A foundry cell name, which is never proprietary to the design being cloaked."""
+    low = name.lower()
+    return any(low.startswith(p) for p in _PDK_PREFIXES)
+
+
 _LANG_KEYWORDS: dict[str, frozenset] = {
+    "verilog": frozenset(
+        {
+            # Verilog-2005 reserved words
+            "always",
+            "and",
+            "assign",
+            "automatic",
+            "begin",
+            "buf",
+            "bufif0",
+            "bufif1",
+            "case",
+            "casex",
+            "casez",
+            "cell",
+            "cmos",
+            "config",
+            "deassign",
+            "default",
+            "defparam",
+            "design",
+            "disable",
+            "edge",
+            "else",
+            "end",
+            "endcase",
+            "endconfig",
+            "endfunction",
+            "endgenerate",
+            "endmodule",
+            "endprimitive",
+            "endspecify",
+            "endtable",
+            "endtask",
+            "event",
+            "for",
+            "force",
+            "forever",
+            "fork",
+            "function",
+            "generate",
+            "genvar",
+            "highz0",
+            "highz1",
+            "if",
+            "ifnone",
+            "incdir",
+            "include",
+            "initial",
+            "inout",
+            "input",
+            "instance",
+            "integer",
+            "join",
+            "large",
+            "liblist",
+            "library",
+            "localparam",
+            "macromodule",
+            "medium",
+            "module",
+            "nand",
+            "negedge",
+            "nmos",
+            "nor",
+            "noshowcancelled",
+            "not",
+            "notif0",
+            "notif1",
+            "or",
+            "output",
+            "parameter",
+            "pmos",
+            "posedge",
+            "primitive",
+            "pull0",
+            "pull1",
+            "pulldown",
+            "pullup",
+            "pulsestyle_ondetect",
+            "pulsestyle_onevent",
+            "rcmos",
+            "real",
+            "realtime",
+            "reg",
+            "release",
+            "repeat",
+            "rnmos",
+            "rpmos",
+            "rtran",
+            "rtranif0",
+            "rtranif1",
+            "scalared",
+            "showcancelled",
+            "signed",
+            "small",
+            "specify",
+            "specparam",
+            "strong0",
+            "strong1",
+            "supply0",
+            "supply1",
+            "table",
+            "task",
+            "time",
+            "tran",
+            "tranif0",
+            "tranif1",
+            "tri",
+            "tri0",
+            "tri1",
+            "triand",
+            "trior",
+            "trireg",
+            "unsigned",
+            "use",
+            "vectored",
+            "wait",
+            "wand",
+            "weak0",
+            "weak1",
+            "while",
+            "wire",
+            "wor",
+            "xnor",
+            "xor",
+            # SystemVerilog additions
+            "alias",
+            "always_comb",
+            "always_ff",
+            "always_latch",
+            "assert",
+            "assume",
+            "before",
+            "bind",
+            "bins",
+            "binsof",
+            "bit",
+            "break",
+            "byte",
+            "chandle",
+            "class",
+            "clocking",
+            "const",
+            "constraint",
+            "context",
+            "continue",
+            "cover",
+            "covergroup",
+            "coverpoint",
+            "cross",
+            "dist",
+            "do",
+            "endclass",
+            "endclocking",
+            "endgroup",
+            "endinterface",
+            "endpackage",
+            "endprogram",
+            "endproperty",
+            "endsequence",
+            "enum",
+            "expect",
+            "export",
+            "extends",
+            "extern",
+            "final",
+            "first_match",
+            "foreach",
+            "forkjoin",
+            "iff",
+            "ignore_bins",
+            "illegal_bins",
+            "import",
+            "inside",
+            "int",
+            "interface",
+            "intersect",
+            "join_any",
+            "join_none",
+            "local",
+            "logic",
+            "longint",
+            "matches",
+            "modport",
+            "new",
+            "null",
+            "package",
+            "packed",
+            "priority",
+            "program",
+            "property",
+            "protected",
+            "pure",
+            "rand",
+            "randc",
+            "randcase",
+            "randsequence",
+            "ref",
+            "return",
+            "sequence",
+            "shortint",
+            "shortreal",
+            "solve",
+            "static",
+            "string",
+            "struct",
+            "super",
+            "tagged",
+            "this",
+            "throughout",
+            "timeprecision",
+            "timeunit",
+            "type",
+            "typedef",
+            "union",
+            "unique",
+            "var",
+            "virtual",
+            "void",
+            "wait_order",
+            "with",
+            "within",
+            # Directives (appear after a backtick, which the tokenizer will have dropped)
+            "define",
+            "ifdef",
+            "ifndef",
+            "endif",
+            "elsif",
+            "undef",
+            "timescale",
+            "resetall",
+            "celldefine",
+            "endcelldefine",
+            "default_nettype",
+            "line",
+            "unconnected_drive",
+            "nounconnected_drive",
+        }
+    ),
     "java": frozenset(
         [
             "abstract",
@@ -687,6 +967,69 @@ _LANG_KEYWORDS: dict[str, frozenset] = {
 }
 
 _LANG_DEF_PATTERNS: dict[str, list[re.Pattern]] = {
+    "verilog": [
+        # module / interface / package / program declarations -- the top-level names
+        re.compile(r"\b(?:module|macromodule|interface|package|program|primitive)\s+(\w+)"),
+        # function / task
+        # A return type AND a bit range can both sit between the keyword and the name:
+        #   function automatic [7:0] rotate_left;
+        # A pattern without the range clause silently loses every width-returning function.
+        re.compile(
+            r"\b(?:function|task)\s+"
+            r"(?:automatic\s+|static\s+)?"
+            r"(?:(?:signed|unsigned)\s+)?"
+            r"(?:\w+\s+)?"
+            r"(?:\[[^\]]*\]\s*)*"
+            r"(\w+)\s*[\(;]"
+        ),
+        # net and variable declarations, with optional signedness and a bit range.
+        # The range is skipped rather than parsed: `wire [WIDTH-1:0] name` must yield `name`,
+        # and a pattern that stops at the bracket yields nothing at all.
+        re.compile(
+            r"\b(?:wire|reg|logic|bit|byte|int|integer|shortint|longint|real|realtime|time|"
+            r"tri|triand|trior|tri0|tri1|wand|wor|supply0|supply1|uwire)\b"
+            r"(?:\s+(?:signed|unsigned))?"
+            r"(?:\s*\[[^\]]*\])*"
+            r"\s+(\w+)"
+        ),
+        # ports in ANSI-style headers: input/output/inout, optional type, optional range
+        re.compile(
+            r"\b(?:input|output|inout)\b"
+            r"(?:\s+(?:wire|reg|logic|bit|signed|unsigned))*"
+            r"(?:\s*\[[^\]]*\])*"
+            r"\s+(\w+)"
+        ),
+        # parameters and localparams
+        re.compile(r"\b(?:parameter|localparam|specparam|genvar)\b(?:\s*\[[^\]]*\])?\s+(\w+)"),
+        # typedef ... name;  -- the trailing identifier is the new type.
+        # A packed struct/union body CONTAINS semicolons:
+        #     typedef struct packed { logic [7:0] a; logic b; } zzq_pkt_t;
+        # so a [^;]*? body stops at the first inner one and never reaches the type name.
+        # Braced forms are matched separately, allowing semicolons inside the braces.
+        re.compile(r"\btypedef\s+(?:struct|union|enum)\b[^{]*\{[^}]*\}\s*(\w+)\s*;", re.DOTALL),
+        re.compile(r"\btypedef\b[^;{]*?\b(\w+)\s*;"),
+        # Implicitly-declared nets. Verilog lets a name spring into existence on assignment:
+        #     assign zzq_sig = ...;   always_comb zzq_sig = ...;
+        # There is no declaration to match, and an obfuscator that only reads declarations
+        # leaves every implicit net in the clear.
+        re.compile(r"\bassign\s+(\w+)\s*(?:\[[^\]]*\]\s*)?="),
+        re.compile(r"\balways(?:_comb|_ff|_latch)?\b[^;\n]*?\b(\w+)\s*<?=[^=]"),
+        # enum members and struct fields are declared inside braces; catch simple cases
+        re.compile(r"\b(?:enum|struct|union)\b[^;{]*\{[^}]*?\b(\w+)\s*[,}]"),
+        # module INSTANTIATION: `my_module #(...) u_inst (...)` -- both names matter, and the
+        # instance name is frequently the most descriptive thing in a netlist.
+        re.compile(r"^\s*(\w+)\s+(?:#\s*\((?:[^()]|\([^()]*\))*\)\s*)?\w+\s*\(", re.MULTILINE),
+        re.compile(r"^\s*\w+\s+(?:#\s*\((?:[^()]|\([^()]*\))*\)\s*)?(\w+)\s*\(", re.MULTILINE),
+        # named port connections: .port_name(signal_name) -- capture both
+        re.compile(r"\.(\w+)\s*\("),
+        re.compile(r"\.\w+\s*\(\s*(\w+)"),
+        # `define MACRO_NAME
+        re.compile(r"`define\s+(\w+)"),
+        # generate-block and named-block labels: begin : name
+        re.compile(r"\bbegin\s*:\s*(\w+)"),
+        # class / modport / clocking / covergroup names
+        re.compile(r"\b(?:class|modport|clocking|covergroup|property|sequence)\s+(\w+)"),
+    ],
     "java": [
         re.compile(r"\bclass\s+([A-Za-z_]\w*)"),
         re.compile(r"\binterface\s+([A-Za-z_]\w*)"),
@@ -744,6 +1087,22 @@ _LANG_DEF_PATTERNS: dict[str, list[re.Pattern]] = {
 _SINGLE_CHAR_RE = re.compile(r"^[a-zA-Z_]$")
 
 
+def _verilog_enum_members(cleaned: str) -> set[str]:
+    """Every member of every enum body, not just the first.
+
+    A per-pattern regex returns one capture group per match, so `{ A, B, C }` yields only A --
+    and enum members are STATE NAMES. IDLE/LOADING/CRUNCHING describes what a design does more
+    plainly than most signal names do, so capturing one in three is a leak with a tidy count
+    beside it. Handled as a pass over the whole body rather than as another pattern, because
+    this is the shape a pattern list cannot express.
+    """
+    out: set[str] = set()
+    for body in re.finditer(r"\benum\b[^{]*\{([^}]*)\}", cleaned, re.DOTALL):
+        for token in re.finditer(r"\b([A-Za-z_]\w*)\b", body.group(1)):
+            out.add(token.group(1))
+    return out
+
+
 def _extract_lang_identifiers(
     source: str,
     language: str,
@@ -755,7 +1114,10 @@ def _extract_lang_identifiers(
     """
     strip_re = _COMMENT_STRIP.get(language)
     cleaned = strip_re.sub(" ", source) if strip_re else source
-    cleaned = _STR_STRIP.sub('""', cleaned)
+    # Verilog gets its own literal stripper -- see _VERILOG_STR_STRIP. Using the shared one
+    # here blanks code between macro directives and between sized literals, and every
+    # identifier lost that way leaves the repository unobfuscated.
+    cleaned = (_VERILOG_STR_STRIP if language == "verilog" else _STR_STRIP).sub('""', cleaned)
 
     keywords = _LANG_KEYWORDS.get(language, frozenset())
     patterns = _LANG_DEF_PATTERNS.get(language, [])
@@ -772,9 +1134,61 @@ def _extract_lang_identifiers(
                 continue
             if name in keywords or name in safe:
                 continue
+            if language == "verilog" and _is_pdk_cell(name):
+                continue
             found.add(name)
 
+    if language == "verilog":
+        for name in _verilog_enum_members(cleaned):
+            if (
+                len(name) >= 3
+                and name not in keywords
+                and name not in safe
+                and not _is_pdk_cell(name)
+            ):
+                found.add(name)
+
     return frozenset(found)
+
+
+#: Cloak's own output token. Deliberately unlike any identifier a human writes, which is what
+#: makes an already-cloaked file detectable rather than a judgement call.
+_CLOAK_TOKEN_RE = re.compile(r"\bx_\d{4}\b")
+
+#: Below this, a match is more likely a coincidence in a real design than a cloaked file.
+_CLOAK_TOKEN_MIN = 3
+
+
+def already_cloaked(text: str) -> int:
+    """How many distinct Cloak tokens a file contains."""
+    return len(set(_CLOAK_TOKEN_RE.findall(text or "")))
+
+
+def assert_not_already_cloaked(hits: dict[str, int]) -> None:
+    """Fail closed if any source already carries Cloak output.
+
+    `hits` maps a file name to its distinct-token count, accumulated by the caller as it scans.
+    Counts rather than text, so a large repo is not held in memory to answer a cheap question.
+
+    Cloaking a cloaked file maps `x_0001` as though it were a design name. Restoration then
+    returns text that is NEITHER the original NOR valid source -- real names in some places,
+    stale tokens in others -- and a patch built from it carries `x_0001` into the customer's
+    design. A leak audit does not catch it, because the tokens are legitimately in that run's
+    forward map.
+
+    Raising is the only safe answer. Skipping the file quietly would leave a design half
+    obfuscated against a map that does not describe it.
+    """
+    hits = {k: v for k, v in hits.items() if v >= _CLOAK_TOKEN_MIN}
+    if not hits:
+        return
+    listing = ", ".join(f"{k} ({v} tokens)" for k, v in sorted(hits.items())[:5])
+    raise ValueError(
+        "refusing to cloak: these files already contain Cloak output -- "
+        f"{listing}. Cloaking them a second time maps x_NNNN tokens as if they were design "
+        "names, and restoration then returns text that is neither the original nor valid "
+        "source. Remove the cloaked artifacts from the workspace and re-run."
+    )
 
 
 def _build_cloak_context_nonpython(
@@ -812,6 +1226,9 @@ def _build_cloak_context_nonpython(
         "go": [".go"],
         "typescript": [".ts", ".tsx"],
         "javascript": [".js", ".jsx"],
+        # .vh and .svh are header files; leaving them out would miss every shared `define,
+        # parameter and typedef -- which is where a design's most identifying names live.
+        "verilog": [".v", ".sv", ".vh", ".svh"],
     }
     extensions = _EXT_MAP.get(language, [])
     safe: frozenset[str] = frozenset()
@@ -822,6 +1239,7 @@ def _build_cloak_context_nonpython(
     ts_hits = 0
     regex_hits = 0
 
+    _cloaked_files: dict[str, int] = {}
     for ext in extensions:
         for src_file in repo_path.rglob(f"*{ext}"):
             if any(part in _SKIP for part in src_file.parts):
@@ -831,6 +1249,13 @@ def _build_cloak_context_nonpython(
             try:
                 source = src_file.read_text(encoding="utf-8", errors="replace")
                 files_scanned += 1
+
+                # Accumulated here, raised AFTER the loop. The `except Exception` below is
+                # broad on purpose -- one unparseable file must not abort a repo scan -- and it
+                # would swallow this, turning a fail-closed guard into a debug log line.
+                n_tokens = already_cloaked(source)
+                if n_tokens >= _CLOAK_TOKEN_MIN:
+                    _cloaked_files[src_file.name] = n_tokens
 
                 if ts_available:
                     ids = extract_treesitter_identifiers(source, language, safe)
@@ -844,6 +1269,8 @@ def _build_cloak_context_nonpython(
                 regex_hits += 1
             except Exception as e:
                 log.debug("Cloak(%s): skipping %s: %s", language, src_file.name, e)
+
+    assert_not_already_cloaked(_cloaked_files)
 
     backend = "tree-sitter" if ts_available else "regex"
     if ts_available and regex_hits:
@@ -928,7 +1355,13 @@ def build_cloak_context(
 
     lang_norm = {"ts": "typescript", "js": "javascript", "c++": "cpp"}.get(language, language)
 
-    if lang_norm in ("java", "rust", "ruby", "php", "c", "cpp"):
+    # A language missing from this tuple does not error -- it falls through to the PYTHON
+    # scanner at the bottom of this function, which finds nothing in non-Python source and
+    # returns an EMPTY symbol map. obfuscate_source() then returns the text unchanged and the
+    # caller ships plaintext believing it was cloaked. That is a leak wearing the costume of a
+    # routing bug, and it is exactly what happened to verilog: single-file extraction was
+    # correct while whole-repo cloaking silently produced zero mappings.
+    if lang_norm in ("java", "rust", "ruby", "php", "c", "cpp", "verilog"):
         return _build_cloak_context_nonpython(instance_id, repo_path, lang_norm)
 
     if lang_norm == "go":
@@ -940,6 +1373,16 @@ def build_cloak_context(
         if _TS_AVAILABLE and lang_norm in TS_SUPPORTED_LANGUAGES:
             return _build_cloak_context_nonpython(instance_id, repo_path, lang_norm)
         return _build_cloak_context_ts(instance_id, repo_path)
+
+    # FAIL CLOSED. Everything below is the Python AST scanner. Arriving here with any other
+    # language means a routing gap, and the failure mode is silent plaintext -- so refuse
+    # rather than return an empty map that looks like a clean run.
+    if lang_norm != "python":
+        raise ValueError(
+            f"Cloak has no context builder for language {lang_norm!r}; it would fall through to "
+            "the Python scanner, find nothing, and return an empty symbol map -- which reads as "
+            "a successful cloak and ships plaintext. Add it to the dispatch above."
+        )
 
     safe_names = _build_safe_list(repo_path)
     log.info("Cloak: safe-list = %d names", len(safe_names))

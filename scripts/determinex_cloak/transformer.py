@@ -90,15 +90,31 @@ def _strip_inline_comment(line: str) -> str:
     return line
 
 
-def _process_source_text(source: str, forward: dict[str, str]) -> str:
+def _process_source_text(source: str, forward: dict[str, str], language: str = "python") -> str:
     """
     Option D docstring handling:
       - Strip inline # comments
       - Substitute private identifier tokens in triple-quoted strings
 
     Operates line-by-line. Tracks triple-quote state.
+
+    PYTHON ONLY for the comment/docstring phase. `#` starts a comment and `'` opens a string
+    in Python; in Verilog `#(...)` is parameter syntax and `32'd0` is a sized literal, so
+    running this phase over RTL truncates every parameterised module declaration and swallows
+    the remainder of any line containing a literal. The output stops being valid source at all,
+    which is a louder failure than a missed identifier but a fatal one for the same reason:
+    what gets sent is not what was meant.
+
+    Any language other than python skips straight to substitution, which is language-agnostic.
     """
     if not forward:
+        return source
+    if language != "python":
+        # Return the text untouched. obfuscate_source() runs a word-boundary substitution over
+        # every mapped name immediately after this, so doing it here as well was a redundant
+        # second pass -- and a negative control proved it: disabling the substitution in this
+        # branch changed nothing, because the outer loop still did the work. What matters is
+        # that the PYTHON comment/docstring phase below never runs on non-Python source.
         return source
 
     sorted_keys = sorted(forward.keys(), key=len, reverse=True)
@@ -155,7 +171,7 @@ def _process_source_text(source: str, forward: dict[str, str]) -> str:
     return "".join(result)
 
 
-def obfuscate_source(source: str, symbol_map: SymbolMap) -> str:
+def obfuscate_source(source: str, symbol_map: SymbolMap, language: str = "python") -> str:
     """
     Format-preserving obfuscation pipeline for one Python source file.
     Phase 1: comment stripping + docstring token substitution (text-level)
@@ -169,7 +185,7 @@ def obfuscate_source(source: str, symbol_map: SymbolMap) -> str:
     # and ProgramBench agent loops) are required to catch this and abort the API
     # call rather than send unredacted source.
     try:
-        processed = _process_source_text(source, symbol_map.forward)
+        processed = _process_source_text(source, symbol_map.forward, language)
         if not symbol_map.forward:
             return processed
         sorted_keys = sorted(symbol_map.forward.keys(), key=len, reverse=True)

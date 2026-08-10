@@ -164,6 +164,118 @@ def check_file(p: Path) -> list[str]:
     return issues
 
 
+# ── the other side of the pipe ───────────────────────────────────────────────
+
+#: Ways a module can guarantee its stdout carries non-ASCII intact. Any one is enough.
+_UTF8_STDOUT_MARKERS = (
+    "reconfigure(encoding",
+    "PYTHONUTF8",
+    "PYTHONIOENCODING",
+    "TextIOWrapper",
+)
+
+
+def _console_literals(tree):
+    """Every string literal that can reach a terminal, with its source span.
+
+    Two sources, because either alone misses real defects. `print(...)` and
+    `sys.std{out,err}.write(...)` catch the direct case. EVERY f-string catches the indirect
+    one -- the defect that started all this was `parts.append(f"GPU={x}<deg>C")`, built in one
+    place and printed in another, which an AST walk rooted at `print` never reaches.
+
+    Spans, not single line numbers: a multi-line f-string reports one `lineno` for the whole
+    part, and the value cannot be split on newlines to recover the rest, because an escaped
+    `\n` is one character of value and ZERO source lines.
+    """
+    import ast
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call):
+            f = node.func
+            direct = (isinstance(f, ast.Name) and f.id == "print") or (
+                isinstance(f, ast.Attribute)
+                and f.attr == "write"
+                and isinstance(f.value, ast.Attribute)
+                and f.value.attr in ("stdout", "stderr")
+            )
+            if direct:
+                for arg in node.args:
+                    for sub in ast.walk(arg):
+                        if isinstance(sub, ast.Constant) and isinstance(sub.value, str):
+                            yield sub.lineno, sub.lineno, sub.value
+        elif isinstance(node, ast.JoinedStr):
+            for part in node.values:
+                if isinstance(part, ast.Constant) and isinstance(part.value, str):
+                    yield part.lineno, getattr(part, "end_lineno", part.lineno), part.value
+
+
+def _is_entrypoint(tree) -> bool:
+    """Whether this module runs as a program, and therefore owns the process's stdout."""
+    import ast
+
+    for n in ast.walk(tree):
+        if isinstance(n, ast.If) and isinstance(n.test, ast.Compare):
+            left = getattr(n.test.left, "id", "")
+            if left == "__name__":
+                return True
+    return False
+
+
+def check_console_encoding(path: Path) -> list[str]:
+    """Non-ASCII headed for a console from a module that never secured the stream.
+
+    Returns findings for ENTRYPOINTS only. A library that prints a box-drawing character is
+    fine; the process that runs it is what decides whether the byte survives, and that process
+    is the entrypoint. Flagging libraries would move the report away from the file where the
+    fix goes.
+    """
+    import ast
+    import unicodedata
+
+    if path.suffix != ".py" or path.resolve() == Path(__file__).resolve():
+        return []
+    try:
+        text = path.read_text(encoding="utf-8")
+        tree = ast.parse(text)
+    except (OSError, SyntaxError, UnicodeDecodeError):
+        return []
+    if any(m in text for m in _UTF8_STDOUT_MARKERS):
+        return []  # the stream is secured; the characters are then harmless
+    if not _is_entrypoint(tree):
+        return []
+
+    srclines = text.split("\n")
+    seen: set[tuple[int, str]] = set()
+    out: list[str] = []
+    for a, b, value in _console_literals(tree):
+        bad = {c for c in value if ord(c) > 126}
+        if not bad:
+            continue
+        # The VALUE says which characters are wrong; the SPAN says where. Scanning the span is
+        # the only resolution that survives both escaped newlines and real line breaks.
+        line = next(
+            (
+                i
+                for i in range(a, min(b, len(srclines)) + 1)
+                if any(c in srclines[i - 1] for c in bad)
+            ),
+            a,
+        )
+        key = (line, "".join(sorted(bad)))
+        if key in seen:
+            continue
+        seen.add(key)
+        # CODEPOINTS, NEVER THE CHARACTER. Echoing it makes this guard's own report render as
+        # mojibake on the console it is warning about -- and this file is excluded from its own
+        # scan, so nothing would flag that.
+        names = ", ".join(f"U+{ord(c):04X} ({unicodedata.name(c, 'unnamed')})" for c in sorted(bad))
+        out.append(
+            f"line {line}: non-ASCII to console ({names}) with no UTF-8 stdout guarantee "
+            f"-- mangles on a cp1252 terminal; add sys.stdout.reconfigure(encoding='utf-8')"
+        )
+    return out
+
+
 # ML/model artifacts have legitimate byte-level tokens that LOOK like mojibake; skip them.
 _SKIP = (
     "fine_tuning",
@@ -196,7 +308,39 @@ def _skip(p):
     return any(k in s for k in _SKIP)
 
 
+def console_report(paths: list[str] | None = None) -> int:
+    """Report the console side. Separate mode, not folded into the file scan.
+
+    Deliberately its own exit path: 103 entrypoints in this repo currently trip it, so wiring it
+    into the default gate would fail every commit on a pre-existing condition and get the whole
+    guard disabled. It reports, loudly and specifically, and the count is the backlog.
+    """
+    roots = [Path(p) for p in paths] if paths else [Path("scripts")]
+    findings = 0
+    files = 0
+    for root in roots:
+        candidates = sorted(root.rglob("*.py")) if root.is_dir() else [root]
+        for p in candidates:
+            if "__pycache__" in p.parts or _skip(p):
+                continue
+            issues = check_console_encoding(p)
+            if issues:
+                files += 1
+                findings += len(issues)
+                print(f"{p}:")
+                for i in issues:
+                    print(f"  {i}")
+    if findings:
+        print(f"\nconsole encoding: {findings} finding(s) across {files} entrypoint(s)")
+        return 1
+    print("console encoding: clean")
+    return 0
+
+
 def main() -> int:
+    if "--console" in sys.argv:
+        rest = [a for a in sys.argv[2:] if not a.startswith("--")]
+        return console_report(rest or None)
     if "--crlf-report" in sys.argv:
         return crlf_report()
     if "--fix-crlf" in sys.argv:
