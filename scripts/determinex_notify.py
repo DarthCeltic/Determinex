@@ -121,7 +121,9 @@ def desktop(msg: str, level: str = "info", title: str = "Determinex") -> bool:
         try:
             subprocess.run(
                 ["powershell", "-NoProfile", "-NonInteractive", "-Command", script],
-                capture_output=True, timeout=30, check=False,
+                capture_output=True,
+                timeout=30,
+                check=False,
             )
             return True
         except Exception as e:  # noqa: BLE001
@@ -138,7 +140,9 @@ def desktop(msg: str, level: str = "info", title: str = "Determinex") -> bool:
         try:
             subprocess.run(
                 ["osascript", "-e", f'display notification "{safe}" with title "{safe_title}"'],
-                capture_output=True, timeout=20, check=False,
+                capture_output=True,
+                timeout=20,
+                check=False,
             )
             return True
         except Exception:  # noqa: BLE001
@@ -147,9 +151,10 @@ def desktop(msg: str, level: str = "info", title: str = "Determinex") -> bool:
     if shutil.which("notify-send"):
         try:
             subprocess.run(
-                ["notify-send", "-u", "critical" if level == "critical" else "normal",
-                 title, flat],
-                capture_output=True, timeout=20, check=False,
+                ["notify-send", "-u", "critical" if level == "critical" else "normal", title, flat],
+                capture_output=True,
+                timeout=20,
+                check=False,
             )
             return True
         except Exception:  # noqa: BLE001
@@ -195,8 +200,10 @@ def main():
     if not args.url:
         shown = desktop(msg, args.level)
         if shown:
-            print("notified on this desktop (no webhook configured -- set "
-                  "DETERMINEX_NOTIFY_URL to also reach your phone)")
+            print(
+                "notified on this desktop (no webhook configured -- set "
+                "DETERMINEX_NOTIFY_URL to also reach your phone)"
+            )
             return 0
         sys.stderr.write(
             "nowhere to send this: no desktop notifier available and no webhook URL.\n"
@@ -218,4 +225,5 @@ def main():
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(main())

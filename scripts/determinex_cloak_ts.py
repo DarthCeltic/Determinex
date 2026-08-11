@@ -447,6 +447,7 @@ def validate_ts_file(file_path: Path) -> tuple[bool, str]:
 # ── Standalone test ────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     if len(sys.argv) < 2:
         print("Usage: determinex_cloak_ts.py <path/to/file.ts>")
         sys.exit(1)

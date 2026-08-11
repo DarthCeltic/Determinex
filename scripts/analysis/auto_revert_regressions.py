@@ -193,7 +193,7 @@ def main():
     revert_list_path = Path("c:/tmp/revert_list.txt")
     with revert_list_path.open("w", encoding="utf-8", newline="\n") as f:
         reverted = 0
-        for tk, base, cur, d in regressed:
+        for tk, base, cur, _d in regressed:
             if revert_one(tk):
                 reverted += 1
                 f.write(f"{tk}\n")
@@ -227,4 +227,7 @@ def main():
 
 
 if __name__ == "__main__":
+    import sys
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

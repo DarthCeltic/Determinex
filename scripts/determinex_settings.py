@@ -518,4 +518,5 @@ def _main() -> int:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(_main())

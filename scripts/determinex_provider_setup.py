@@ -359,30 +359,49 @@ def build_report() -> SetupReport:
                 "Runs the AI on this machine. No account, no card, no key — and nothing you "
                 "write ever leaves the computer. This is the recommended way to start."
             ),
-            effort=EFFORT_NOTHING if models else (EFFORT_NO_ACCOUNT if has_ollama else EFFORT_NO_ACCOUNT),
+            effort=EFFORT_NOTHING
+            if models
+            else (EFFORT_NO_ACCOUNT if has_ollama else EFFORT_NO_ACCOUNT),
             ready=bool(models),
             action_label=(
-                f"Ready — {len(models)} model(s) installed" if models
-                else ("Download a model (about 1 GB)" if has_ollama else "Install local AI, then download a model")
+                f"Ready — {len(models)} model(s) installed"
+                if models
+                else (
+                    "Download a model (about 1 GB)"
+                    if has_ollama
+                    else "Install local AI, then download a model"
+                )
             ),
             action="install_local" if not models else "",
             url="" if has_ollama else "https://ollama.com/download",
             signin=False,
             group="start_here",
             private=True,
-            detail=(", ".join(models[:3]) if models else
-                    ("" if ollama_up else "the local AI service is not running")),
-            readiness=("verified" if models else
-                       ("credentials_unverified" if ollama_up else "not_installed")),
+            detail=(
+                ", ".join(models[:3])
+                if models
+                else ("" if ollama_up else "the local AI service is not running")
+            ),
+            readiness=(
+                "verified"
+                if models
+                else ("credentials_unverified" if ollama_up else "not_installed")
+            ),
         )
     )
 
     # ── tier 2: sign in with something already installed ────────────────────────────────
     for cli, title, note in (
-        ("claude-code", "Sign in with Claude",
-         "Uses your existing Claude subscription. Opens a browser once; we never see or store a key."),
-        ("codex", "Sign in with ChatGPT",
-         "Uses your existing ChatGPT subscription. Opens a browser once; we never see or store a key."),
+        (
+            "claude-code",
+            "Sign in with Claude",
+            "Uses your existing Claude subscription. Opens a browser once; we never see or store a key.",
+        ),
+        (
+            "codex",
+            "Sign in with ChatGPT",
+            "Uses your existing ChatGPT subscription. Opens a browser once; we never see or store a key.",
+        ),
     ):
         readiness, detail = _cli_readiness(cli)
         installed = shutil.which(cli) is not None or readiness not in ("", "not_installed")
@@ -408,8 +427,13 @@ def build_report() -> SetupReport:
                 effort=EFFORT_NOTHING if ready else EFFORT_SIGN_IN,
                 ready=ready,
                 action_label=label,
-                action="" if ready else ("verify" if readiness == "credentials_unverified"
-                                         else ("cli_login" if installed else "install_cli")),
+                action=""
+                if ready
+                else (
+                    "verify"
+                    if readiness == "credentials_unverified"
+                    else ("cli_login" if installed else "install_cli")
+                ),
                 detail=detail,
                 readiness=readiness or "not_installed",
                 signin=True,
@@ -424,16 +448,31 @@ def build_report() -> SetupReport:
     # ── tier 3: paste a key. Collapsed by default in the UI. ────────────────────────────
     signed_in = {o.id for o in opts if o.signin and o.ready}
     for pid, title, envs, url, note, covered in (
-        ("openai", "OpenAI", ("OPENAI_API_KEY",),
-         "https://platform.openai.com/api-keys",
-         "Pay as you go, billed per request.", "codex"),
-        ("anthropic", "Anthropic", ("ANTHROPIC_API_KEY",),
-         "https://console.anthropic.com/settings/keys",
-         "Pay as you go, billed per request.", "claude-code"),
-        ("openrouter", "OpenRouter", ("OPENROUTER_API_KEY",),
-         "https://openrouter.ai/keys",
-         "Sign in with Google or GitHub to create a key. One key reaches many models, "
-         "including several that are free.", ""),
+        (
+            "openai",
+            "OpenAI",
+            ("OPENAI_API_KEY",),
+            "https://platform.openai.com/api-keys",
+            "Pay as you go, billed per request.",
+            "codex",
+        ),
+        (
+            "anthropic",
+            "Anthropic",
+            ("ANTHROPIC_API_KEY",),
+            "https://console.anthropic.com/settings/keys",
+            "Pay as you go, billed per request.",
+            "claude-code",
+        ),
+        (
+            "openrouter",
+            "OpenRouter",
+            ("OPENROUTER_API_KEY",),
+            "https://openrouter.ai/keys",
+            "Sign in with Google or GitHub to create a key. One key reaches many models, "
+            "including several that are free.",
+            "",
+        ),
     ):
         have = _env_key(*envs)
         # A key on disk is not a working provider. Determinex proved that on itself: a valid
@@ -453,8 +492,9 @@ def build_report() -> SetupReport:
                 group="advanced",
                 covered_by=covered if covered in signed_in else "",
                 what_it_means=(
-                    note if covered not in signed_in else
-                    f"{note} You are already signed in to this provider, so you do not need "
+                    note
+                    if covered not in signed_in
+                    else f"{note} You are already signed in to this provider, so you do not need "
                     f"a key unless you want to run Determinex unattended."
                 ),
             )
@@ -470,13 +510,18 @@ def build_report() -> SetupReport:
     # cheapest unfinished option, so a machine with Claude, ChatGPT and 38 local models still
     # led with "Get a key" -- turning a finished setup into a chore list. A setup screen's job
     # is to end, not to keep selling.
-    recommended = (min(todo, key=lambda o: (o.effort, 0 if o.id == "local" else 1))
-                   if todo and not ready else None)
+    recommended = (
+        min(todo, key=lambda o: (o.effort, 0 if o.id == "local" else 1))
+        if todo and not ready
+        else None
+    )
 
     if ready:
         names = ", ".join(o.title for o in ready[:3])
-        headline = (f"You're ready to go — {names} "
-                    f"{'is' if len(ready) == 1 else 'are'} working. Nothing else is required.")
+        headline = (
+            f"You're ready to go — {names} "
+            f"{'is' if len(ready) == 1 else 'are'} working. Nothing else is required."
+        )
     elif recommended is not None:
         headline = f"One step to a working setup: {recommended.action_label.lower()}."
     else:
@@ -485,8 +530,11 @@ def build_report() -> SetupReport:
     return SetupReport(
         options=[{**asdict(o), "effort_label": o.effort_label} for o in opts],
         ready_count=len(ready),
-        recommended=({**asdict(recommended), "effort_label": recommended.effort_label}
-                     if recommended else None),
+        recommended=(
+            {**asdict(recommended), "effort_label": recommended.effort_label}
+            if recommended
+            else None
+        ),
         headline=headline,
     )
 
@@ -510,8 +558,11 @@ def verify(option_id: str) -> dict:
         "openrouter": ("openrouter", None),
     }
     if option_id not in mapping:
-        return {"id": option_id, "ok": False,
-                "detail": "this option is verified by signing in, not by a test call"}
+        return {
+            "id": option_id,
+            "ok": False,
+            "detail": "this option is verified by signing in, not by a test call",
+        }
     provider, model = mapping[option_id]
     try:
         out = get_generator(provider, model)("Reply with exactly: OK", 0.0)
@@ -524,8 +575,11 @@ def verify(option_id: str) -> dict:
         except Exception:
             pass
         return {"id": option_id, "ok": False, "detail": detail[:400]}
-    return {"id": option_id, "ok": bool(out and out.strip()),
-            "detail": (out or "").strip()[:120] or "the provider returned nothing"}
+    return {
+        "id": option_id,
+        "ok": bool(out and out.strip()),
+        "detail": (out or "").strip()[:120] or "the provider returned nothing",
+    }
 
 
 def run_action(option_id: str, action: str) -> dict:
@@ -535,8 +589,10 @@ def run_action(option_id: str, action: str) -> dict:
         try:
             # The CLI owns its own OAuth and opens a browser. We never handle the credential.
             p = subprocess.run([exe, "login"], capture_output=True, text=True, timeout=300)
-            return {"ok": p.returncode == 0,
-                    "detail": (p.stdout or p.stderr or "").strip()[-300:] or "login flow finished"}
+            return {
+                "ok": p.returncode == 0,
+                "detail": (p.stdout or p.stderr or "").strip()[-300:] or "login flow finished",
+            }
         except FileNotFoundError:
             return {"ok": False, "detail": f"{option_id} is not installed"}
         except subprocess.TimeoutExpired:
@@ -551,13 +607,20 @@ def run_action(option_id: str, action: str) -> dict:
         # Google from being the one vendor whose row says "paste an API key".
         email, _ = _google_identity()
         who = f" You should already be signed in as {email}." if email else ""
-        return {"ok": True,
-                "detail": ("Opening Google AI Studio." + who +
-                           " Press 'Create API key', copy it, and paste it below — it is free "
-                           "and needs no card.")}
+        return {
+            "ok": True,
+            "detail": (
+                "Opening Google AI Studio."
+                + who
+                + " Press 'Create API key', copy it, and paste it below — it is free "
+                "and needs no card."
+            ),
+        }
     if action == "install_local":
-        return {"ok": True,
-                "detail": "install Ollama from https://ollama.com/download, then pull a model"}
+        return {
+            "ok": True,
+            "detail": "install Ollama from https://ollama.com/download, then pull a model",
+        }
     return {"ok": False, "detail": f"unknown action {action!r}"}
 
 
@@ -577,6 +640,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     raise SystemExit(main())
 
 
@@ -625,8 +689,16 @@ MODEL_CHOICES: dict[str, list[dict]] = {
         {"tier": DEEP, "id": "gemini/gemini-3-pro-preview", "label": "Pro"},
     ],
     "openrouter": [
-        {"tier": FAST, "id": "openrouter/anthropic/claude-haiku-4.5", "label": "Haiku via OpenRouter"},
-        {"tier": BALANCED, "id": "openrouter/anthropic/claude-sonnet-5", "label": "Sonnet via OpenRouter"},
+        {
+            "tier": FAST,
+            "id": "openrouter/anthropic/claude-haiku-4.5",
+            "label": "Haiku via OpenRouter",
+        },
+        {
+            "tier": BALANCED,
+            "id": "openrouter/anthropic/claude-sonnet-5",
+            "label": "Sonnet via OpenRouter",
+        },
         {"tier": DEEP, "id": "openrouter/openai/gpt-5.5-pro", "label": "GPT Pro via OpenRouter"},
     ],
 }

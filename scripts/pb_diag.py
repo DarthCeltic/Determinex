@@ -472,9 +472,9 @@ def cmd_diagnose(slug: str, full: bool = False):
             print(text[:1500])
         else:
             # Show first 3 meaningful lines
-            lines = [l for l in text.splitlines() if l.strip() and not l.startswith(" ")]
-            for l in lines[:4]:
-                print(f"    {l}")
+            lines = [ln for ln in text.splitlines() if ln.strip() and not ln.startswith(" ")]
+            for ln in lines[:4]:
+                print(f"    {ln}")
         print()
 
     if len(failures) > 20:
@@ -558,6 +558,7 @@ def cmd_cluster(args):
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     args = sys.argv[1:]
     if not args:
         print(__doc__)

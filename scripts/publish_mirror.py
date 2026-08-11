@@ -33,6 +33,7 @@ Default is a dry run. Nothing is pushed without `--push`.
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shutil
 import subprocess
@@ -335,6 +336,97 @@ def secret_scan(root: Path) -> None:
         )
 
 
+# ── operator-gated material ──────────────────────────────────────────────────
+#
+# Held back until the operator explicitly releases it with --allow-withheld. This is a
+# commercial boundary, not a secret-hygiene one: the secret scanner and the NEVER list handle
+# secrets, and these files contain none. They are withheld because they are the differentiator
+# in an active commercial conversation.
+
+#: Exact paths never published while the gate is on.
+WITHHELD_PATHS: frozenset[str] = frozenset(
+    {
+        "corpus/rtl_engineering_playbook.json",
+        "scripts/determinex_rtl_demo.py",
+    }
+)
+
+#: Content that must not appear in ANY published file while the gate is on. This is the half a
+#: path list cannot express: a withheld capability can be an ADDITION to a file that is already
+#: public in an earlier form, so the file may publish and the content may not.
+#:
+#: LOADED FROM , NOT LITERAL HERE. This module publishes. A literal list would
+#: announce in the public repo exactly which capabilities are being held back and what their
+#: symbols are called -- the withheld work would be named by the very mechanism withholding it.
+#:  is on NEVER, so the list travels nowhere.
+def _load_withheld_content() -> tuple[tuple[str, str], ...]:
+    src = REPO / ".determinex" / "withheld_content.json"
+    try:
+        data = json.loads(src.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return ()
+    return tuple((d["token"], d["why"]) for d in data if d.get("token"))
+
+
+WITHHELD_CONTENT: tuple[tuple[str, str], ...] = _load_withheld_content()
+
+#: Text files worth scanning. A .png cannot carry a Python symbol name.
+_SCANNABLE = (".py", ".md", ".json", ".txt", ".yaml", ".yml", ".toml", ".sh", ".tcl", ".v", ".sv")
+
+
+def check_withheld(files: list[str], repo: Path, allow: bool) -> None:
+    """Refuse the publish if gated material is in the set. Never silently drops."""
+    if allow:
+        present = [f for f in files if f.replace("\\", "/") in WITHHELD_PATHS]
+        print("      --allow-withheld: the operator gate is OFF for this run")
+        for f in present:
+            print(f"        releasing {f}")
+        return
+
+    hits_path = sorted(f for f in files if f.replace("\\", "/") in WITHHELD_PATHS)
+    hits_content: list[str] = []
+    self_rel = Path(__file__).resolve().relative_to(REPO).as_posix()
+    for rel in files:
+        if not rel.lower().endswith(_SCANNABLE):
+            continue
+        # This module DEFINES the tokens it hunts, so it always matches itself. Excluding it is
+        # the same self-match false positive that made an earlier audit tool useless. The cost
+        # is accepted knowingly: a publish tool will never legitimately carry a Cadence reader,
+        # so nothing real is lost by not scanning it.
+        if rel.replace(chr(92), "/") == self_rel:
+            continue
+        fp = repo / rel
+        try:
+            text = fp.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        for token, why in WITHHELD_CONTENT:
+            if token in text:
+                hits_content.append(f"{rel}  --  {why} ({token})")
+                break
+
+    if not hits_path and not hits_content:
+        return
+
+    lines = ["", "  PUBLISH REFUSED -- operator-gated material is in the publish set.", ""]
+    if hits_path:
+        lines.append("  Withheld paths:")
+        lines += [f"    {h}" for h in hits_path]
+    if hits_content:
+        lines.append("  Withheld content:")
+        lines += [f"    {h}" for h in sorted(hits_content)]
+    lines += [
+        "",
+        "  Nothing was pushed. This refuses the WHOLE publish rather than dropping these",
+        "  quietly, because this tool deletes files present on the mirror and absent locally --",
+        "  so a silent skip would DELETE an already-published file from the remote.",
+        "",
+        "  To publish anyway:  --allow-withheld",
+        "",
+    ]
+    raise SystemExit("\n".join(lines))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -350,6 +442,11 @@ def main() -> int:
         help="Publish a top-level path the mirror does not already have. Deliberate act.",
     )
     ap.add_argument("--keep", action="store_true", help="Keep the staging worktree for inspection")
+    ap.add_argument(
+        "--allow-withheld",
+        action="store_true",
+        help="Release operator-gated material (BigEndian/Cadence work). Deliberate act.",
+    )
     args = ap.parse_args()
 
     print(f"[1/5] Reading the mirror's own tree from {args.remote}/{args.branch} ...")
@@ -388,6 +485,7 @@ def main() -> int:
     print("[2/5] Resolving to tracked files in this checkout ...")
     files, skipped = collect(allowlist, bool(args.allow_new_path))
     print(f"      {len(files)} tracked files to publish")
+    check_withheld(files, REPO, args.allow_withheld)
     for s in skipped:
         print(f"      - skipped {s}")
 

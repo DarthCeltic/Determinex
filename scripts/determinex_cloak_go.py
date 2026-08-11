@@ -412,6 +412,7 @@ def validate_go_tests(
 # ── Standalone test ────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     import sys
 
     if len(sys.argv) < 2:

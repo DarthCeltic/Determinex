@@ -279,8 +279,11 @@ def narrow_paths(paths: list, idea: str, answers: list) -> dict:
         """
         if name in negated:
             return True
-        return any(part in name for part in ("Mobile", "Web", "CLI") if f"{part} App" in negated
-                   or (part == "CLI" and "CLI Tool" in negated))
+        return any(
+            part in name
+            for part in ("Mobile", "Web", "CLI")
+            if f"{part} App" in negated or (part == "CLI" and "CLI Tool" in negated)
+        )
 
     ruled_out = []
     survivors = []
@@ -624,4 +627,5 @@ def main():
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

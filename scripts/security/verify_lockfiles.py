@@ -378,6 +378,7 @@ def run(repo_root: Path | None = None) -> LockfileReport:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     logging.basicConfig(level=logging.INFO)
     r = run()
     print(f"Files checked: {r.files_checked}")

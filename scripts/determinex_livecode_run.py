@@ -169,7 +169,6 @@ def _run_test_cases(
     for i, tc in enumerate(test_cases):
         tc_input = tc.get("input", "")
         tc_output = tc.get("output", "").strip()
-        tc_type = tc.get("testtype", "stdin")
 
         with tempfile.NamedTemporaryFile(
             suffix=".py",
@@ -534,4 +533,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

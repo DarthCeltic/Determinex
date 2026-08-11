@@ -174,7 +174,7 @@ def rag_retrieve(slug: str, query_text: str, k: int = 3) -> list[dict]:
             rows.extend(cur.fetchall())
         conn.close()
         out = []
-        for meta, text, sim in rows:
+        for meta, _text, sim in rows:
             m = meta if isinstance(meta, dict) else json.loads(meta)
             out.append(
                 {
@@ -379,7 +379,7 @@ def _patch_runner(path: Path, candidate: Path) -> str | None:
         pattern = rf"^{vn}\s*=\s*[^\n]+$"
         new_repl = f'{vn} = {path_cls}(r"{candidate_str}")'
         before = patched
-        patched = re.sub(pattern, lambda _m: new_repl, patched, count=1, flags=re.M)
+        patched = re.sub(pattern, lambda _m, _r=new_repl: _r, patched, count=1, flags=re.M)
         if patched != before:
             changed = True
 
@@ -758,4 +758,5 @@ def main():
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

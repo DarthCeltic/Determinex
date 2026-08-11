@@ -154,7 +154,7 @@ def process_file(batch_path: Path) -> dict:
             ok, err, stdout = run_probe(code, probe)
         else:
             # No compile harness for this language — accept non-empty code
-            ok, err, stdout = True, "", ""
+            ok, err = True, ""
         elapsed = round(time.time() - t0, 2)
 
         status = "PASS" if ok else "FAIL"
@@ -205,7 +205,7 @@ def merge_to_jsonl(all_results: dict[str, list]) -> Path:
     seen = set()
     training_pairs = []
 
-    for model_name, results in all_results.items():
+    for _model_name, results in all_results.items():
         for r in results:
             if not r["passed"]:
                 continue
@@ -313,4 +313,5 @@ def main():
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

@@ -203,7 +203,7 @@ def _cli() -> int:
     run.add_argument("--model", default="Qwen/Qwen2.5-Coder-32B-Instruct")
     run.add_argument("--fuzz", type=int, default=10)
 
-    health = sub.add_parser("health", help="Check Modal function health")
+    sub.add_parser("health", help="Check Modal function health")
 
     args = ap.parse_args()
 
@@ -238,5 +238,7 @@ def _cli() -> int:
 
 if __name__ == "__main__":
     import sys
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
     sys.exit(_cli())

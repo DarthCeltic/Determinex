@@ -199,7 +199,6 @@ def main() -> None:
     # historical reference but do NOT claim an official lock — the guard must
     # not block them (they'll be re-evaluated with caps removed separately).
     official_slugs = {e["base_slug"] for e in board if e.get("official_full_suite_resolved")}
-    slug_to_entry = {e["base_slug"]: e for e in board}
 
     results: list[dict] = []
 
@@ -337,4 +336,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

@@ -234,7 +234,7 @@ def xray(report_path: str, tasks_dir: str | None = None) -> dict:
                 if isinstance(x.get("extra"), dict)
                 else ""
             )
-            ls = [l for l in t.splitlines() if l.strip()]
+            ls = [ln for ln in t.splitlines() if ln.strip()]
             funcs[fn][1] = ls[-1][:80] if ls else ""
             funcs[fn][2] = categorize(t)
     cat_counts = Counter(v[2] for v in funcs.values())
@@ -320,4 +320,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    import sys
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     raise SystemExit(main())

@@ -22,7 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 STATE = Path(__file__).resolve().parent.parent.parent / ".determinex" / "watch_alert.json"
@@ -64,11 +64,172 @@ def collect(repos: list[str]) -> dict[str, list[str]]:
     return snap
 
 
+#: Append-only observation log. Never rewritten -- an hourly series whose history can be edited
+#: by the next run is not a series.
+PULSE = Path(__file__).resolve().parent.parent.parent / ".determinex" / "repo_pulse.jsonl"
+
+
+def _gh_json(path: str):
+    """One GitHub API call returning parsed JSON, or None. A monitor must not crash."""
+    try:
+        r = subprocess.run(
+            ["gh", "api", path],
+            capture_output=True,
+            text=True,
+            timeout=90,
+            check=False,
+        )
+        if r.returncode != 0 or not r.stdout.strip():
+            return None
+        return json.loads(r.stdout)
+    except Exception:
+        return None
+
+
+def traffic(repo: str) -> dict:
+    """Clones, views, referrers and paths as GitHub currently reports them.
+
+    Values are per-DAY buckets; the day in progress is a running total, which is what makes
+    hourly differencing possible. A missing section is recorded as None rather than {} so that
+    "the API did not answer" stays distinguishable from "the answer was zero" -- collapsing
+    those two is how a monitor reports calm during an outage.
+    """
+    out: dict = {"repo": repo}
+
+    clones = _gh_json(f"repos/{repo}/traffic/clones")
+    out["clones"] = (
+        {
+            c["timestamp"][:10]: {"count": c["count"], "uniques": c["uniques"]}
+            for c in clones["clones"]
+        }
+        if isinstance(clones, dict) and "clones" in clones
+        else None
+    )
+    views = _gh_json(f"repos/{repo}/traffic/views")
+    out["views"] = (
+        {
+            v["timestamp"][:10]: {"count": v["count"], "uniques": v["uniques"]}
+            for v in views["views"]
+        }
+        if isinstance(views, dict) and "views" in views
+        else None
+    )
+    refs = _gh_json(f"repos/{repo}/traffic/popular/referrers")
+    out["referrers"] = (
+        {x["referrer"]: {"count": x["count"], "uniques": x["uniques"]} for x in refs}
+        if isinstance(refs, list)
+        else None
+    )
+    paths = _gh_json(f"repos/{repo}/traffic/popular/paths")
+    out["paths"] = (
+        {x["path"]: {"count": x["count"], "uniques": x["uniques"]} for x in paths[:15]}
+        if isinstance(paths, list)
+        else None
+    )
+    meta = _gh_json(f"repos/{repo}")
+    out["stars"] = meta.get("stargazers_count") if isinstance(meta, dict) else None
+    out["forks"] = meta.get("forks_count") if isinstance(meta, dict) else None
+    return out
+
+
+def record_pulse(repos: list[str]) -> dict:
+    """Append one observation per repo. Returns the observation written."""
+    obs = {
+        "observed_at": datetime.now(UTC).isoformat(),
+        "repos": [traffic(r) for r in repos],
+    }
+    PULSE.parent.mkdir(parents=True, exist_ok=True)
+    with PULSE.open("a", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps(obs) + "\n")
+    return obs
+
+
+def _load_pulse() -> list[dict]:
+    if not PULSE.is_file():
+        return []
+    rows = []
+    for line in PULSE.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            rows.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue  # a torn final line during a crash must not kill the report
+    return rows
+
+
+def pulse_report(hours: float) -> list[str]:
+    """Per-interval deltas over the requested window, derived by differencing observations."""
+    rows = _load_pulse()
+    if len(rows) < 2:
+        return [
+            f"  only {len(rows)} observation(s) recorded -- a delta needs two.",
+            "  Nothing is being claimed about activity yet; run again in an hour.",
+        ]
+    cutoff = datetime.now(UTC) - timedelta(hours=hours)
+    out: list[str] = []
+    for a, b in zip(rows, rows[1:]):
+        t_b = datetime.fromisoformat(b["observed_at"])
+        if t_b < cutoff:
+            continue
+        t_a = datetime.fromisoformat(a["observed_at"])
+        gap = (t_b - t_a).total_seconds() / 3600
+        for ra, rb in zip(a.get("repos", []), b.get("repos", [])):
+            if ra.get("repo") != rb.get("repo"):
+                continue
+            bits = []
+            for field in ("clones", "views"):
+                da, db = ra.get(field), rb.get(field)
+                if not isinstance(da, dict) or not isinstance(db, dict):
+                    bits.append(f"{field}=n/a")
+                    continue
+                # Difference every day bucket, so a late-appearing day is not missed.
+                d_count = sum(v["count"] - da.get(k, {}).get("count", 0) for k, v in db.items())
+                d_uniq = sum(v["uniques"] - da.get(k, {}).get("uniques", 0) for k, v in db.items())
+                bits.append(f"{field} +{d_count} (+{d_uniq}u)")
+            ds = (rb.get("stars") or 0) - (ra.get("stars") or 0)
+            df = (rb.get("forks") or 0) - (ra.get("forks") or 0)
+            if ds:
+                bits.append(f"STARS +{ds}")
+            if df:
+                bits.append(f"FORKS +{df}")
+            out.append(f"  {t_b.strftime('%m-%d %H:%M')}Z  (+{gap:.1f}h)  " + "  ".join(bits))
+    if not out:
+        out = [f"  no observation pairs inside the last {hours:g}h."]
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--json", action="store_true", help="emit JSON instead of prose")
     ap.add_argument("--repos", nargs="*", default=REPOS)
+    ap.add_argument(
+        "--pulse",
+        action="store_true",
+        help="also record a traffic observation (clones/views/referrers/paths)",
+    )
+    ap.add_argument(
+        "--report",
+        type=float,
+        metavar="HOURS",
+        default=None,
+        help="print per-interval traffic deltas over the last N hours and exit",
+    )
     args = ap.parse_args()
+
+    if args.report is not None:
+        print(f"\n  repo pulse -- last {args.report:g}h (deltas between observations)\n")
+        for line in pulse_report(args.report):
+            print(line)
+        print(
+            "\n  Note: GitHub reports traffic per DAY and lags behind live activity, so a delta"
+            "\n  is attributed to when it was OBSERVED, not when the clone happened.\n"
+        )
+        return 0
+
+    if args.pulse:
+        record_pulse(args.repos)
 
     now = collect(args.repos)
     prev = {}

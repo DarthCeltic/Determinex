@@ -354,6 +354,7 @@ def main():
 
 if __name__ == "__main__":
     # Load .env if present
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     env_path = Path(__file__).resolve().parent.parent / ".env"
     if env_path.exists():
         for line in env_path.read_text().splitlines():

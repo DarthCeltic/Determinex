@@ -366,7 +366,7 @@ def _probe_nvidia() -> tuple[float, int]:
     )
     if r.returncode != 0:
         return 0.0, 0
-    values = [int(l.strip()) for l in r.stdout.strip().splitlines() if l.strip().isdigit()]
+    values = [int(ln.strip()) for ln in r.stdout.strip().splitlines() if ln.strip().isdigit()]
     return (max(values) / 1024, len(values)) if values else (0.0, 0)
 
 
@@ -990,6 +990,8 @@ def generate_modelfile(
 
 if __name__ == "__main__":
     import sys
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
     hw = profile_hardware()
     print(f"Tier: {hw.tier} ({hw.tier_label})")

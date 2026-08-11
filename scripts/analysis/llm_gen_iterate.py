@@ -160,7 +160,6 @@ def run_local_eval(
         print(f"  eval timeout after {timeout_sec}s")
         return None
     # Find the eval.json and parse
-    slug = filter_str
     # The eval writes to {scaffold_root}/<instance_id>/<instance_id>.eval.json
     # We don't know the exact instance_id here, so find latest matching slug.
     return None  # caller will re-read via find_eval_json
@@ -195,7 +194,6 @@ def iterate_tool(tool_key: str, max_attempts: int = 2, model: str = "claude-opus
         return state
 
     best_pct = state["pre_score"]
-    best_override_md5 = state["override_md5"]
 
     for attempt in range(1, max_attempts + 1):
         print(f"\n  --- attempt {attempt}/{max_attempts} ---")
@@ -284,4 +282,5 @@ def main():
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

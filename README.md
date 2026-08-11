@@ -24,17 +24,67 @@
 
 ---
 
-Determinex is a **local-first, privacy-sovereign, self-improving multi-agent AI coding system**. Three specialist models — Engineer, Observer, Sentinel — coordinate through a shared latent space to break complex engineering tasks into compiler-verified build steps. Failure-to-training conversion is separately gated: `training_eligible = false` by default and no raw user code training by default. The system gets smarter from operator-approved, compiler-verified evidence without leaving your machine.
+Determinex makes any AI model's output **verifiably correct** by letting a compiler, a test
+suite, or a formal equivalence checker decide whether the work is right — not the model, and not
+a second model reviewing the first.
 
-**The core idea (2026-06 architecture):** correctness is bounded by a deterministic **oracle** (real compilers/tests), not by trusting the model. The model proposes; the oracle disposes. This makes Determinex **un-hallucinatable wherever ground truth exists** and lets *any* AI — a 1.5B local model, a frontier cloud model, an agent CLI, or a future one — plug in and be made correct. The **Correctness Amplifier** turns a model with per-attempt success `p` into a system that succeeds with `1−(1−p)^K` by sampling against the oracle: any `p > 0` is driven toward correct. On top of the build loop, Determinex can now **build a verified program from a plain-language idea** (synthesizes a sound test-oracle first), **diagnose and repair any repo** (honest CODE / ENVIRONMENT / TEST blame), and **host any AI model or coding agent** (Claude / Codex / Gemini / local / addons) — each verified through the same oracle, so a hallucinating model or agent is *rejected*. A reproducible 40-case meta-bench (`tests/test_autofix_pipeline.py`) scores the system's own reasoning. See [`docs/DETERMINEX_DEEP_AUDIT.md`](docs/DETERMINEX_DEEP_AUDIT.md) for the grounded end-to-end account.
+**The model proposes. The oracle disposes.** Sample a model `K` times against a sound oracle and
+a per-attempt success rate of `p` becomes `1 − (1 − p)^K` — so a model right one time in five is
+right 74% of the time at K=6, and 99% at K=20. The model did not improve; the system did. On a
+GPU those K candidates share a prompt prefix, so **K=6 costs ~1.07× the wall clock of one**.
 
-Current readiness boundary: the release-cell registry contains 13 exact release-supported cells and 0 release-supported families. These are proof cells, not broad support. Batch 003 verifies the rebuilt staged installed-app Proof Center route at `/proof-center` with screenshot/transcript evidence. Batch 004 archives `trasta298__keifu` as a strict ProgramBench lock and promotes exactly one narrow all-gap row: the deterministic day-one claim scanner guard. Full monolithic `tests/status`, all gaps closed, family support, ProgramBench total-100, open availability remains false, and `PATENT_FILED` remains unclaimed.
+### See it in two minutes
 
-**The current SWE-bench boundary**: The May 2026 B-Uncloaked run resolved **14.0% of SWE-bench Lite** (42/300, zero errored), but it is an audited snapshot, not the final publication baseline. The Cloak-on / region-mode configurations are currently reported as lower bounds because disk-pressured Docker workers produced per-instance image-export errors: E-RegionControl **>=6.0%**, B-Cloaked RosettaOFF **>=2.3%**, D-Cloaked **>=3.3%**. Fresh B-Uncloaked and E-RegionControl reruns are required before publishing privacy-cost claims.
+[**▶ Demo — the loop end to end**](https://youtu.be/eI_AE5k_yv8) &nbsp;·&nbsp;
+[**▶ Demo — walkthrough**](https://youtu.be/-RR2YlUERfQ)
 
-**Plus, on [ProgramBench](docs/papers/PROGRAMBENCH.md)** — the 200-tool benchmark where every frontier model currently scores 0–0.5% fully resolved — Determinex's honest headline (corrected 2026-06-30) is **0/200 legitimate locks**, matching public leaderboard reality. A full provenance audit found the historical, prior "65 confirmed full-suite locks / 32.5%" claim counted upstream source builds (`go.mod`/`Cargo.toml` identity matching the real project verbatim), not native reimplementations. The 62 archived builds under `corpus/programbench/locked/<tool>/` are retained as reference corpus for the Native Reimplementation Loop — the legitimate path to a real lock — not counted as solves. Source of truth: `corpus/programbench/eval_index.json`. Benchmark results are not product support, not release support, and not product readiness.
+### Or check it yourself in ten seconds
+
+[`verify.sh`](https://github.com/DarthCeltic/Radeon-hackathon-2026-07/blob/track2-determinex/Determinex/verify.sh)
+runs **offline, with no GPU, in about two seconds**. It proves the oracle *rejects* broken code —
+not merely that it accepts correct code — refuses an unverifiable request before any model is
+called, and checks the shipped references are exact over all 256 `u8` inputs. `--selftest` breaks
+each check on purpose and **refuses to credit a sabotage that did not change anything**.
+
+### What it is for
+
+- **Proprietary hardware design.** Send RTL to a frontier model without the design leaving your
+  network — every identifier is obfuscated first — and let **your own equivalence checker**
+  (Conformal, or `eqy`) be the thing that decides. Measured on a real 1,863-line AES core: 189
+  identifiers replaced, **0 leaked**, 5/5 files restored byte-identical.
+- **Repairing any repository.** Honest CODE / ENVIRONMENT / TEST blame, with the compiler as
+  arbiter rather than a model's opinion of a stack trace.
+- **Building from an idea.** Synthesises a sound test-oracle *first*, then solves against it, so
+  there is something to be correct against before a line is written.
+
+Any model plugs in — a 1.5B running locally, a frontier API, a coding-agent CLI — behind one
+`generate(prompt, temperature) -> str`. Nothing downstream knows which one answered.
+
+For the grounded end-to-end account see [`docs/DETERMINEX_DEEP_AUDIT.md`](docs/DETERMINEX_DEEP_AUDIT.md); a reproducible 40-case meta-bench (`tests/test_autofix_pipeline.py`) scores the system's own reasoning.
+
+**→ [Status: what holds, and what is still open](#status-what-holds-and-what-is-still-open)** —
+five measured results, and the open items tracked on the roadmap.
 
 ---
+
+## Status: what holds, and what is still open
+
+**Measured, reproducible, and current.** Each of these is a number produced by running something,
+with the method stated so it can be repeated or disputed:
+
+| What | Result | Method |
+|---|---|---|
+| Obfuscation on real RTL | **189 identifiers replaced, 0 leaked**, 5/5 files restored byte-identical | A 1,863-line AES core across five files; leaks *searched for* on word boundaries, not asserted |
+| Reading a formal equivalence run | **6 production Conformal transcripts**, each parse matching the count the log states about itself | Independent derivation — the table total is compared against the log's own prose figure |
+| Refusing a partial proof | A real run with **51 unresolved points** returns `UNKNOWN`, not a pass | Aborts, not-compared and unmapped points all block the verdict |
+| Sampling cost on a GPU | **K=6 costs 1.07× the wall clock** of one candidate, for 5.58× aggregate throughput | Six runs across five instances; prefix-cache hit 93.5% shared vs 1% distinct |
+| The oracle rejects, not just accepts | `verify.sh` — offline, no GPU, ~2 s | `--selftest` breaks each check on purpose and refuses to credit a sabotage that changed nothing |
+
+**Open work is tracked on the [roadmap](#roadmap), not hidden.** Three items there carry numbers
+worth reading before forming a view: the SWE-bench baseline is an audited snapshot rather than a
+publication figure, ProgramBench stands at **0/200** under the strict native-reimplementation
+rule, and release readiness is deliberately narrow. Each row says what closes it.
+
 
 ## What Makes This Different
 
@@ -518,6 +568,9 @@ rosetta/                     # Rosetta Stone training artifacts
 | Correctness substrate | **Built (2026-06)** | Correctness Amplifier · Adjudicator · Test Validator · build-from-idea · repair · any-AI/agent host · governance |
 | Editor surface | In progress | VS Code extension bridge; standalone Determinex IDE roadmap + Tauri shell; release blockers remain explicit |
 | Next | Planned | Rosetta Layer 2 · model re-eval · Docker-scale field-prove · KV cache broadcast |
+| SWE-bench baseline | Re-run required | May 2026 B-Uncloaked resolved **14.0% of SWE-bench Lite** (42/300, zero errored) — an audited snapshot, not a publication baseline. Cloak-on and region-mode runs are reported as **lower bounds** (E-RegionControl ≥6.0%, B-Cloaked RosettaOFF ≥2.3%, D-Cloaked ≥3.3%) because disk-pressured Docker workers produced per-instance image-export errors. **Closes when:** fresh B-Uncloaked and E-RegionControl runs complete on larger-disk workers. No privacy-cost claim is published until then. |
+| ProgramBench | **0/200**, native loop in progress | Under the strict rule — rebuild the tool in its own language, compiler-verified, no upstream source — the honest count is **0 of 200**, matching public leaderboard reality where every frontier model scores 0–0.5%. A 2026-06-30 provenance audit found the earlier "65 locks / 32.5%" figure counted upstream source builds. The 62 archived builds are retained as **reference corpus** for the Native Reimplementation Loop, not as solves. **Closes when:** the loop produces a lock that passes provenance. |
+| Release readiness | Deliberately narrow | The release-cell registry holds **13 exact release-supported cells and 0 supported families** — proof cells, not broad support. Open availability and `PATENT_FILED` remain `false`. **Closes when:** family support and the full monolithic `tests/status` are earned, not asserted. |
 
 > No released versions exist yet. "Built" means implemented + tested in-repo; it is not a claim of launch/release/production readiness, which remain governed by the no-overclaim authority anchors (all `false`).
 

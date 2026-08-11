@@ -30,7 +30,6 @@ import re
 import subprocess
 import sys
 import tempfile
-import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -517,7 +516,6 @@ def run_benchmark(
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     results: list[dict] = []
-    start = time.time()
 
     with ThreadPoolExecutor(max_workers=workers) as pool:
         futures = {
@@ -591,4 +589,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

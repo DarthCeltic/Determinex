@@ -643,6 +643,9 @@ def observer_diagnose(
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    import sys
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     import argparse
 
     parser = argparse.ArgumentParser(description="Pytest probe a single ProgramBench submission")

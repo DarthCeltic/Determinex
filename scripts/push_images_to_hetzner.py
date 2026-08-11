@@ -58,21 +58,22 @@ def local_image_for_slug(slug: str) -> str | None:
         return None
     author, rest = slug.split("__", 1)
     short = rest.split(".")[0]
-    slug_img = slug.replace("__", "_1776_")
 
     r = subprocess.run(
         ["docker", "images", "--format", "{{.Repository}}:{{.Tag}}"], capture_output=True, text=True
     )
     lines = [
-        l
-        for l in r.stdout.splitlines()
-        if short.lower() in l.lower() and "programbench/" in l and "programbench-compiled" not in l
+        ln
+        for ln in r.stdout.splitlines()
+        if short.lower() in ln.lower()
+        and "programbench/" in ln
+        and "programbench-compiled" not in ln
     ]
     # prefer :task over :task_cleanroom_v6
-    plain = [l for l in lines if l.endswith(":task")]
+    plain = [ln for ln in lines if ln.endswith(":task")]
     if plain:
         return plain[0]
-    cleanroom = [l for l in lines if "cleanroom" in l]
+    cleanroom = [ln for ln in lines if "cleanroom" in ln]
     if cleanroom:
         return cleanroom[0]
     return None
@@ -155,4 +156,7 @@ def main():
 
 
 if __name__ == "__main__":
+    import sys
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

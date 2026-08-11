@@ -173,7 +173,7 @@ def search_kb(kb: dict, term: str) -> list[dict]:
             if term_lower in content.lower():
                 # Find the matching line(s)
                 lines = content.splitlines()
-                matching = [l for l in lines if term_lower in l.lower()]
+                matching = [ln for ln in lines if term_lower in ln.lower()]
                 hits.append(
                     {
                         "tool": tool_name,
@@ -274,6 +274,7 @@ def cmd_record(args):
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     args = sys.argv[1:]
     if not args or args[0] == "build":
         cmd_build(args[1:])

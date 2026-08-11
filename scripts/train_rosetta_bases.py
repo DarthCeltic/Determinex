@@ -241,7 +241,7 @@ def check_gated_access(hf_token: str) -> None:
     gated = [(arch, info) for arch, info in BASE_MODELS.items() if info["gated"]]
     failed = []
 
-    for arch, info in gated:
+    for _arch, info in gated:
         hf_id = info["hf_id"]
         try:
             # Try downloading config.json (tiny, ~1KB) to a temp dir — real access probe
@@ -1321,4 +1321,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

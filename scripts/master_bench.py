@@ -272,6 +272,7 @@ def run_swebench_lite(model="determinex-engineer:latest", data_dir=None, observe
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Determinex Master API Benchmark Runner")
     parser.add_argument(
         "--model", type=str, default="determinex-engineer:latest", help="Ollama model string"

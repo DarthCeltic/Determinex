@@ -672,7 +672,6 @@ def prefetch_next_task_image(next_slug: str) -> None:
     Ask Hetzner to docker pull the :task image for the next slug so the churn
     loop finds it warm.  Best-effort; never blocks the conveyor.
     """
-    short = next_slug.split("__")[-1].split(".")[0]
     # ProgramBench image name convention
     slug_img = next_slug.replace("__", "_1776_")
     image = f"programbench/{slug_img}:task"
@@ -894,4 +893,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     raise SystemExit(main())

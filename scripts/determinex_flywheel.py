@@ -467,6 +467,7 @@ def _ollama_hot_swap(target_alias: str, new_model: str, run_dir: Path) -> int:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     if len(sys.argv) > 1 and sys.argv[1] == "trigger":
         # Manual trigger: explicit invocation honoring all guards.
         result = maybe_trigger_auto_retrain()

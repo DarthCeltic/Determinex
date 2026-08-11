@@ -127,8 +127,9 @@ def main() -> int:
 
     ap = argparse.ArgumentParser(description="Cockpit status, phone-sized.")
     ap.add_argument("command", choices=["status", "notify"])
-    ap.add_argument("--if-needed", action="store_true",
-                    help="send only when the state is DONE or BLOCKED")
+    ap.add_argument(
+        "--if-needed", action="store_true", help="send only when the state is DONE or BLOCKED"
+    )
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()
 
@@ -146,8 +147,7 @@ def main() -> int:
         print(
             "DETERMINEX_NOTIFY_URL is not set, so there is nowhere to send this.\n"
             "Set it to a Discord/Slack/Telegram webhook in .env and this will reach your "
-            "phone:\n  DETERMINEX_NOTIFY_URL=https://discord.com/api/webhooks/...\n\n"
-            + c.as_text()
+            "phone:\n  DETERMINEX_NOTIFY_URL=https://discord.com/api/webhooks/...\n\n" + c.as_text()
         )
         return 1
 
@@ -160,4 +160,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     raise SystemExit(main())

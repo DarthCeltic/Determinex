@@ -529,6 +529,7 @@ def _run_daemon(interval: int, danger_gpu: float, danger_cpu: float) -> None:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     import argparse
 
     p = argparse.ArgumentParser(description="Determinex thermal monitor daemon")

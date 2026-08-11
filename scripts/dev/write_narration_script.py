@@ -105,4 +105,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    import sys
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     raise SystemExit(main())

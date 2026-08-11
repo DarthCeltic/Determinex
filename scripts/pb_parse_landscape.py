@@ -236,10 +236,10 @@ def process_tool(slug: str) -> dict | None:
 
 
 def build_campaign_landscape(landscapes: list[dict]) -> dict:
-    locks = [l for l in landscapes if l["outcome"] in ("STRICT_LOCK", "UPSTREAM_SKIPS")]
-    partials = [l for l in landscapes if l["outcome"] == "PARTIAL"]
-    regressions = [l for l in landscapes if l.get("outcome") == "REGRESSION"]
-    errors = [l for l in landscapes if l.get("outcome") == "ERROR"]
+    locks = [ln for ln in landscapes if ln["outcome"] in ("STRICT_LOCK", "UPSTREAM_SKIPS")]
+    partials = [ln for ln in landscapes if ln["outcome"] == "PARTIAL"]
+    regressions = [ln for ln in landscapes if ln.get("outcome") == "REGRESSION"]
+    errors = [ln for ln in landscapes if ln.get("outcome") == "ERROR"]
 
     # Cross-tool failure patterns
     # For each category, which tools and how many tests
@@ -247,12 +247,12 @@ def build_campaign_landscape(landscapes: list[dict]) -> dict:
     cat_test_counts: dict[str, int] = collections.defaultdict(int)
     cat_examples: dict[str, str] = {}
 
-    for l in partials:
-        for cat, count in l.get("failure_categories", {}).items():
-            cat_tools[cat].append(l["slug"])
+    for ln in partials:
+        for cat, count in ln.get("failure_categories", {}).items():
+            cat_tools[cat].append(ln["slug"])
             cat_test_counts[cat] += count
-            if cat not in cat_examples and l.get("top_failures"):
-                for f in l["top_failures"]:
+            if cat not in cat_examples and ln.get("top_failures"):
+                for f in ln["top_failures"]:
                     if f["category"] == cat:
                         cat_examples[cat] = f["message"][:200]
                         break
@@ -278,15 +278,15 @@ def build_campaign_landscape(landscapes: list[dict]) -> dict:
     cross_patterns.sort(key=lambda x: -x["test_count_total"])
 
     # Per-tool repair cost ranking
-    repair_queue = sorted(partials, key=lambda l: l.get("repair_score", 999))
+    repair_queue = sorted(partials, key=lambda ln: ln.get("repair_score", 999))
 
     # Dominant cluster per tool
     tool_clusters: dict[str, str] = {}
-    for l in partials:
-        cats = l.get("failure_categories", {})
+    for ln in partials:
+        cats = ln.get("failure_categories", {})
         if cats:
             dominant = max(cats, key=cats.get)
-            tool_clusters[l["slug"]] = dominant
+            tool_clusters[ln["slug"]] = dominant
 
     # Cluster grouping
     clusters: dict[str, list[str]] = collections.defaultdict(list)
@@ -296,36 +296,36 @@ def build_campaign_landscape(landscapes: list[dict]) -> dict:
     return {
         "generated_at": datetime.now(UTC).isoformat(),
         "summary": {
-            "strict_locks": len([l for l in locks if l["outcome"] == "STRICT_LOCK"]),
-            "upstream_skips": len([l for l in locks if l["outcome"] == "UPSTREAM_SKIPS"]),
+            "strict_locks": len([ln for ln in locks if ln["outcome"] == "STRICT_LOCK"]),
+            "upstream_skips": len([ln for ln in locks if ln["outcome"] == "UPSTREAM_SKIPS"]),
             "partial": len(partials),
             "regressions": len(regressions),
             "errors": len(errors),
             "total_tools": len(landscapes),
         },
-        "new_locks": [l["slug"] for l in locks],
+        "new_locks": [ln["slug"] for ln in locks],
         "cross_tool_patterns": cross_patterns,
         "repair_queue": [
             {
-                "slug": l["slug"],
-                "failed": l["failed"],
-                "total": l["total"],
-                "score_pct": l["score_pct"],
-                "repair_score": l["repair_score"],
-                "dominant_category": max(l["failure_categories"], key=l["failure_categories"].get)
-                if l["failure_categories"]
+                "slug": ln["slug"],
+                "failed": ln["failed"],
+                "total": ln["total"],
+                "score_pct": ln["score_pct"],
+                "repair_score": ln["repair_score"],
+                "dominant_category": max(ln["failure_categories"], key=ln["failure_categories"].get)
+                if ln["failure_categories"]
                 else "UNKNOWN",
-                "dominant_count": max(l["failure_categories"].values())
-                if l["failure_categories"]
+                "dominant_count": max(ln["failure_categories"].values())
+                if ln["failure_categories"]
                 else 0,
             }
-            for l in repair_queue
+            for ln in repair_queue
         ],
         "tool_clusters": {
             cat: tools for cat, tools in sorted(clusters.items(), key=lambda x: -len(x[1]))
         },
-        "regression_slugs": [l["slug"] for l in regressions],
-        "error_slugs": [l["slug"] for l in errors],
+        "regression_slugs": [ln["slug"] for ln in regressions],
+        "error_slugs": [ln["slug"] for ln in errors],
     }
 
 
@@ -574,36 +574,37 @@ def main() -> int:
     print(f"\nCampaign landscape written to: {campaign_path}")
 
     # Write repair tickets for partial results
-    partial_landscapes = [l for l in landscapes if l.get("outcome") == "PARTIAL"]
+    partial_landscapes = [ln for ln in landscapes if ln.get("outcome") == "PARTIAL"]
     print(f"Writing {len(partial_landscapes)} repair tickets...")
-    for l in partial_landscapes:
-        write_repair_ticket(l, campaign)
+    for ln in partial_landscapes:
+        write_repair_ticket(ln, campaign)
 
     # Log regressions
-    regression_landscapes = [l for l in landscapes if l.get("outcome") == "REGRESSION"]
+    regression_landscapes = [ln for ln in landscapes if ln.get("outcome") == "REGRESSION"]
     if regression_landscapes:
         LOG_DIR.mkdir(exist_ok=True)
         with open(REGRESSIONS_LOG, "a", encoding="utf-8") as f:
-            for l in regression_landscapes:
+            for ln in regression_landscapes:
                 f.write(
                     json.dumps(
                         {
-                            "slug": l["slug"],
+                            "slug": ln["slug"],
                             "timestamp": datetime.now(UTC).isoformat(),
-                            "new_passed": l.get("passed", 0),
-                            "new_total": l.get("total", 0),
+                            "new_passed": ln.get("passed", 0),
+                            "new_total": ln.get("total", 0),
                         }
                     )
                     + "\n"
                 )
         print(f"\nWARNING: {len(regression_landscapes)} REGRESSIONS logged to {REGRESSIONS_LOG}")
-        for l in regression_landscapes:
-            prev = prev_bests.get(l["slug"], 0)
-            print(f"  ⚠️  {l['slug']}: {prev} → {l.get('passed', 0)}")
+        for ln in regression_landscapes:
+            prev = prev_bests.get(ln["slug"], 0)
+            print(f"  ⚠️  {ln['slug']}: {prev} → {ln.get('passed', 0)}")
 
     print_summary(campaign)
     return 0
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(main())

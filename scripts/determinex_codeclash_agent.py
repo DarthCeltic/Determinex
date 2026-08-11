@@ -142,7 +142,7 @@ class ArenaState:
     def load_history(self) -> list[dict]:
         if not self.round_log.exists():
             return []
-        return [json.loads(l) for l in self.round_log.open(encoding="utf-8") if l.strip()]
+        return [json.loads(ln) for ln in self.round_log.open(encoding="utf-8") if ln.strip()]
 
     def record_round(self, round_num: int, outcome: dict):
         with self.round_log.open("a", encoding="utf-8") as f:
@@ -413,7 +413,7 @@ def main():
     log.info("Backend: %s", _BACKEND)
 
     for round_num in range(start_round, args.rounds + 1):
-        outcome = run_round(state, args.goal, round_num)
+        run_round(state, args.goal, round_num)
 
         # In automated mode: competition happens externally, result injected via file
         result_file = workspace / f"result_round_{round_num}.txt"
@@ -438,4 +438,5 @@ def main():
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()

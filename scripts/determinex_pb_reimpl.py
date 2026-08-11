@@ -796,12 +796,12 @@ def _image_for(slug: str) -> str | None:
     out = subprocess.run(
         ["docker", "images", "--format", "{{.Repository}}:{{.Tag}}"], capture_output=True, text=True
     ).stdout
-    lines = [l for l in out.splitlines() if short in l.lower()]
+    lines = [ln for ln in out.splitlines() if short in ln.lower()]
     # prefer the plain :task image; fall back to task_cleanroom_v6 (also has /workspace/executable
     # -- it's the inference image -- so observe works there too; many tools are cleanroom-only).
-    cands = [l for l in lines if l.endswith(":task") and "cleanroom" not in l]
+    cands = [ln for ln in lines if ln.endswith(":task") and "cleanroom" not in ln]
     if not cands:
-        cands = [l for l in lines if l.endswith("task_cleanroom_v6")]
+        cands = [ln for ln in lines if ln.endswith("task_cleanroom_v6")]
     return cands[0] if cands else None
 
 
@@ -1854,4 +1854,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     raise SystemExit(main())

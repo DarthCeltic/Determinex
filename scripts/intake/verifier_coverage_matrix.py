@@ -37,7 +37,7 @@ from enum import Enum
 from pathlib import Path
 
 
-class CoverageStatus(str, Enum):
+class CoverageStatus(str, Enum):  # noqa: UP042  StrEnum changes str()/format on members
     BACKED = "backed"
     PARTIAL = "partial"
     MISSING = "missing"
@@ -420,6 +420,9 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
+    import sys
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     import sys as _sys
 
     _sys.exit(main())

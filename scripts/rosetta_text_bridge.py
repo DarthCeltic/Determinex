@@ -542,8 +542,10 @@ def warmup_bridge(
 # ── Standalone smoke test ─────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    import argparse
     import sys
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    import argparse
 
     ap = argparse.ArgumentParser(description="RosettaTextBridge smoke test")
     ap.add_argument("--model", default="determinex-engineer", help="Ollama model name")

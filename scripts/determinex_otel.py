@@ -103,6 +103,7 @@ def phase_span(phase: str, **attrs):
 
 if __name__ == "__main__":
     # Smoke test
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     tracer = get_tracer()
     print(f"tracer={tracer}, endpoint={OTLP_ENDPOINT}")
     with eval_span("smoke_test", iteration=99, lang="rust") as span:

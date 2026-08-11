@@ -1221,6 +1221,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = _build_parser()
     args = parser.parse_args()
     args.func(args)
