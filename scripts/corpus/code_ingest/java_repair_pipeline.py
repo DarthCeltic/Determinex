@@ -8,7 +8,7 @@ Wraps JavaTaskExtractor with:
   - Injectable executor: subprocess calls are replaceable for testing
 
 Usage (production):
-    cm = CorpusManager(root=Path("T:/determinex_corpus"))
+    cm = CorpusManager(root=Path("T:/determinex/corpus"))
     pipeline = JavaRepairPipeline(corpus_manager=cm)
     count = pipeline.process_repo(Path("/repos/my-project"), "java_corpus")
 

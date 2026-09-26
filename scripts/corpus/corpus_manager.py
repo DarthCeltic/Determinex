@@ -78,7 +78,7 @@ def _assert_writes_allowed() -> None:
 # T: drive root layout
 # ---------------------------------------------------------------------------
 
-_DEFAULT_ROOT = Path(os.environ.get("DETERMINEX_CORPUS_ROOT", "T:/determinex_corpus"))
+_DEFAULT_ROOT = Path(os.environ.get("DETERMINEX_CORPUS_ROOT", "T:/determinex/corpus"))
 
 _CORPUS_SUBDIRS = {
     CorpusType.CODE_VERDICT: "code_verdict",

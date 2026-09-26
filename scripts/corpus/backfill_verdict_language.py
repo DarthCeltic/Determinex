@@ -40,7 +40,7 @@ import determinex_corpus_api as api  # noqa: E402
 
 from corpus.corpus_manager import _verify_signature, resign_record  # noqa: E402
 
-CODE_VERDICT_DIR = Path("T:/determinex_corpus/code_verdict")
+CODE_VERDICT_DIR = Path("T:/determinex/corpus/code_verdict")
 TASK_ID_RE = re.compile(r"^pb_(.+?)_(?:eval\.tests|tests)\.")
 OVERRIDES_DIR = ROOT / "corpus" / "programbench" / "per_tool_overrides"
 

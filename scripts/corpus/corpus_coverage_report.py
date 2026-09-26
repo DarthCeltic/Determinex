@@ -25,7 +25,7 @@ if str(_SCRIPTS) not in sys.path:
 from corpus.corpus_manager import hmac_key_scope, verify_signature
 
 DEFAULT_ROOTS = [
-    Path("T:/determinex_corpus"),
+    Path("T:/determinex/corpus"),
     Path("corpus/programbench/training_corpus"),
 ]
 

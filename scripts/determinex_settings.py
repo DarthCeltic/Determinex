@@ -98,7 +98,7 @@ def _resolve_path(
         # available" and hands every consumer an empty directory instead.
         #
         # Found live 2026-07-28: .env carried DETERMINEX_CORPUS_ROOT=T:/citadel_corpus
-        # from before the rename. T:/determinex_corpus exists and is populated,
+        # from before the rename. T:/determinex/corpus exists and is populated,
         # T:/citadel_corpus does not exist at all, and every reader of
         # settings.corpus_root was quietly pointed at the dead path. This is the
         # same split-brain that corpus_wiring_census.py records as "healed
@@ -311,7 +311,7 @@ class DeterminexSettings(BaseSettings):
     def corpus_root(self) -> Path:
         return _resolve_path(
             "DETERMINEX_CORPUS_ROOT",
-            "T:/determinex_corpus",
+            "T:/determinex/corpus",
             local_fallback="corpus",
         )
 

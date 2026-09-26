@@ -10,7 +10,7 @@ Factory stages:
   6. Corpus write         — HMAC-signed RustRepairTask records
 
 Usage (production):
-    cm = CorpusManager(root=Path("T:/determinex_corpus"))
+    cm = CorpusManager(root=Path("T:/determinex/corpus"))
     pipeline = RustRepairPipeline(corpus_manager=cm)
     result = pipeline.process_repo(Path("/repos/angle-grinder"), "programbench")
 

@@ -23,10 +23,10 @@ from corpus.code_ingest.secret_scanner import is_clean as secrets_clean
 from corpus.code_ingest.source_fetcher import stage_local_source
 
 DEFAULT_STAGING = Path(
-    os.environ.get("DETERMINEX_CODE_INGEST_STAGING", "T:/determinex_corpus/intake_sources")
+    os.environ.get("DETERMINEX_CODE_INGEST_STAGING", "T:/determinex/corpus/intake_sources")
 )
 DEFAULT_MANIFEST_DIR = Path(
-    os.environ.get("DETERMINEX_CODE_INGEST_MANIFESTS", "T:/determinex_corpus/intake_manifests")
+    os.environ.get("DETERMINEX_CODE_INGEST_MANIFESTS", "T:/determinex/corpus/intake_manifests")
 )
 
 

@@ -336,7 +336,7 @@ def main() -> int:
     )
     parser.add_argument("--source-run", default="")
     parser.add_argument("--max-records", type=int, default=0)
-    parser.add_argument("--corpus-root", type=Path, default=Path("T:/determinex_corpus"))
+    parser.add_argument("--corpus-root", type=Path, default=Path("T:/determinex/corpus"))
     parser.add_argument(
         "--summary-out",
         type=Path,

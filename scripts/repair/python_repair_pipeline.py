@@ -13,7 +13,7 @@ The setup.py gate matters because setup.py runs arbitrary Python code during
 `pip install`. A malicious setup.py could exfiltrate secrets or execute payloads.
 
 Usage (production):
-    cm = CorpusManager(root=Path("T:/determinex_corpus"))
+    cm = CorpusManager(root=Path("T:/determinex/corpus"))
     pipeline = PythonRepairPipeline(corpus_manager=cm)
     result = pipeline.process_repo(Path("/repos/my-project"), "swebench")
 
