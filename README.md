@@ -4,7 +4,7 @@
 
 # Determinex
 
-**Compiler-verified multi-agent AI that gets smarter from its own failures.**
+**Multi-agent coding system with compiler- and test-gated results.**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org)
@@ -24,14 +24,18 @@
 
 ---
 
-Determinex makes any AI model's output **verifiably correct** by letting a compiler, a test
-suite, or a formal equivalence checker decide whether the work is right — not the model, and not
-a second model reviewing the first.
+Determinex checks generated work against a configured compiler, test suite, or supported formal
+equivalence result. A pass establishes only the properties those checks encode and evaluate; it
+does not prove general correctness. Formal equivalence applies only when an external, supported
+checker completes a full pass for the declared equivalence relation.
 
-**The model proposes. The oracle disposes.** Sample a model `K` times against a sound oracle and
-a per-attempt success rate of `p` becomes `1 − (1 − p)^K` — so a model right one time in five is
-right 74% of the time at K=6, and 99% at K=20. The model did not improve; the system did. On a
-GPU those K candidates share a prompt prefix, so **K=6 costs ~1.07× the wall clock of one**.
+**The model proposes; configured checks filter candidates.** If each independently sampled
+candidate has probability `p` of passing those checks, the chance of at least one pass among `K`
+attempts is `1 − (1 − p)^K`. For `p=1/5`, that is 74% at K=6 and 99% at K=20. This is a
+conditional acceptance model: it assumes independent draws and stable `p`, and implies task
+correctness only where the oracle is sound for the declared property. In one measured GPU setup,
+K=6 took **1.07× the wall clock** of one candidate; hardware, model, workload, batching, and cache
+behavior change the result.
 
 ### See it in two minutes
 
@@ -41,24 +45,28 @@ GPU those K candidates share a prompt prefix, so **K=6 costs ~1.07× the wall cl
 ### Or check it yourself in ten seconds
 
 [`verify.sh`](https://github.com/DarthCeltic/Radeon-hackathon-2026-07/blob/track2-determinex/Determinex/verify.sh)
-runs **offline, with no GPU, in about two seconds**. It proves the oracle *rejects* broken code —
-not merely that it accepts correct code — refuses an unverifiable request before any model is
-called, and checks the shipped references are exact over all 256 `u8` inputs. `--selftest` breaks
-each check on purpose and **refuses to credit a sabotage that did not change anything**.
+runs **offline, with no GPU, in about two seconds**. Its fixture-based `--selftest` demonstrates
+that the bundled oracle rejects selected intentionally broken cases, refuses an unverifiable
+request before a model call, and checks the shipped references for all 256 `u8` inputs. These are
+checks of the listed fixtures and properties, not general code correctness. The self-test also
+confirms each injected sabotage changes the expected check result.
 
 ### What it is for
 
-- **Proprietary hardware design.** Send RTL to a frontier model without the design leaving your
-  network — every identifier is obfuscated first — and let **your own equivalence checker**
-  (Conformal, or `eqy`) be the thing that decides. Measured on a real 1,863-line AES core: 189
-  identifiers replaced, **0 leaked**, 5/5 files restored byte-identical.
+- **Proprietary hardware design.** For a configured cloak run, identifiers covered by its mapping
+  can be obfuscated before a cloud call; the user's own equivalence checker (such as Conformal or
+  `eqy`) can check the declared design-equivalence property. One audited AES sample contained
+  1,863 lines: 189 identifiers were replaced, searches found **0 leaks**, and 5/5 files were
+  restored byte-identically. This is scoped evidence, not a guarantee that no source or sensitive
+  information can reach a provider.
 - **Repairing any repository.** Honest CODE / ENVIRONMENT / TEST blame, with the compiler as
   arbiter rather than a model's opinion of a stack trace.
 - **Building from an idea.** Synthesises a sound test-oracle *first*, then solves against it, so
   there is something to be correct against before a line is written.
 
-Any model plugs in — a 1.5B running locally, a frontier API, a coding-agent CLI — behind one
-`generate(prompt, temperature) -> str`. Nothing downstream knows which one answered.
+Compatible model providers and coding-agent CLIs can use one
+`generate(prompt, temperature) -> str` interface. The configured checks and their limits remain
+the basis for acceptance.
 
 For the grounded end-to-end account see [`docs/DETERMINEX_DEEP_AUDIT.md`](docs/DETERMINEX_DEEP_AUDIT.md); a reproducible 40-case meta-bench (`tests/test_autofix_pipeline.py`) scores the system's own reasoning.
 
@@ -69,8 +77,8 @@ five measured results, and the open items tracked on the roadmap.
 
 ## Status: what holds, and what is still open
 
-**Measured, reproducible, and current.** Each of these is a number produced by running something,
-with the method stated so it can be repeated or disputed:
+**Reported measurements with reproducible methods.** Each number comes from a stated run or
+artifact and includes enough method detail to check its scope:
 
 | What | Result | Method |
 |---|---|---|
@@ -86,15 +94,15 @@ publication figure, ProgramBench stands at **0/200** under the strict native-rei
 rule, and release readiness is deliberately narrow. Each row says what closes it.
 
 
-## What Makes This Different
+## How This Differs
 
-| Property | Determinex | Typical agent system |
+| Property | Determinex | Other systems (varies by product) |
 |---|---|---|
-| **Reward model** | `rustc` / `go build` / `python` / `tsc` — deterministic, zero hallucination | LLM judge (circular) |
-| **Privacy** | Identifiers AST-obfuscated before any cloud call; raw source is never exported (audit: `CLOAK_HASH_CHAIN_AND_LEAK_AUDIT_PASSED`, no leak found in the audited run) | Source code sent to cloud |
-| **Training signal** | Every session failure → labeled corpus → next retrain | Static weights |
-| **Model size** | 1.5B + 3B + 7B, runs on 6GB VRAM | 70B+ cloud-only |
-| **Architecture** | DAG build loop, compiler gate, WAL, oscillation detector | Linear chain |
+| **Acceptance checks** | Compilers and tests give deterministic results for the properties they check; this is not a general semantic proof | Evaluation methods vary by product |
+| **Privacy** | One audited run recorded `raw_source_exported: false`; searches found no identifier leak within that audit's scope. This is run-scoped evidence, not a universal privacy guarantee. | Data flows vary by system and configuration |
+| **Training signal** | Selected, eligible session outcomes may be labeled for later training; not every session becomes a training example | Training practices vary |
+| **Model size** | Local model options include 1.5B, 3B, and 7B variants; hardware fit depends on quantization and configuration | Model sizes and hosting vary |
+| **Architecture** | DAG build loop, configured checks, WAL, oscillation detector | Architectures vary |
 
 > **Privacy claim boundary (corrected 2026-07-28).** This row previously read
 > "100% of repo identifiers obfuscated". That overstated the evidence and
@@ -105,9 +113,9 @@ rule, and release readiness is deliberately narrow. Each row says what closes it
 > "100%" is a universal claim a single counterexample would destroy, and it was
 > never what the audit established. Re-run with `DETERMINEX_CLOAK_AUDIT=1` to
 > produce a current artifact before making any stronger statement.
-| **Any model correct** | Verified search: `1−(1−p)^K` against a sound oracle | Best single shot |
-| **Bring your own AI** | Claude / Codex / Gemini / local / agents — all oracle-verified | Locked to one vendor |
-| **No cop-out / no slop** | Adjudicator proves impossibility; Validator proves a test is slop | Gives up or guesses |
+| **Best-of-K search** | Samples candidates and returns one accepted by configured checks; correctness depends on oracle soundness and the declared property | Single-response systems may use different selection methods |
+| **Provider choice** | Compatible hosted and local providers can be configured; accepted outputs still depend on the selected checks | Provider options vary |
+| **Adjudication** | Tools can classify recorded evidence and flag test issues; the result depends on declared inputs and checks, not a universal proof | Methods vary |
 
 ---
 
@@ -115,9 +123,9 @@ rule, and release readiness is deliberately narrow. Each row says what closes it
 
 The same oracle-bounded engine now powers three things any developer can use directly:
 
-- **Build from an idea** — `python scripts/determinex_build_from_idea.py --idea idea.md --provider local` synthesizes a *sound* test-oracle from your description (exact examples + type-aware property tests, validated to run), then drives any model with verified search until a program **passes those tests**. Proven live: a 1.9 GB local model produced a verified `rle` implementation.
-- **Repair any repo** — `python scripts/determinex_repair.py path/to/repo` ingests the project, runs its real oracle, and reports honest blame (**CODE / ENVIRONMENT / TEST**) + whether a failing test is provable *slop*; with opt-in it amplified-fixes to oracle pass.
-- **Host any AI or agent** — `determinex_providers.py` exposes Claude/Codex/Gemini/DeepSeek/local behind one `generate(prompt, temperature)` contract (with an **auto-establishing, rotating rate limiter**); `determinex_agents.py` hosts coding-agent CLIs (Codex CLI, Claude Code, …) whose edits are **verified through the oracle** — a no-op or hallucinating agent is rejected. New providers/oracles/commands plug in via `determinex_extensions.py`.
+- **Build from an idea** — `python scripts/determinex_build_from_idea.py --idea idea.md --provider local` generates exact-example and type-aware property checks from your description and confirms they run, then samples a model until a program **passes those checks**. A 1.9 GB local model produced an `rle` implementation that passed its generated checks in a recorded demonstration; the checks still need review against the intended behavior.
+- **Repair a repository** — `python scripts/determinex_repair.py path/to/repo` runs the configured checks and reports a CODE / ENVIRONMENT / TEST classification with the evidence it observed. With opt-in it proposes and applies candidate fixes until those checks pass; a pass is limited to the checks used.
+- **Host compatible AI providers or agent CLIs** — `determinex_providers.py` and `determinex_agents.py` connect supported providers and coding agents to the configured checks. An edit that fails those checks can be rejected; an incomplete test suite may still accept a defective edit. New providers, oracles, and commands plug in via `determinex_extensions.py.
 - **In your editor now, and toward its own IDE** — a compiling, packaged VS Code extension (`frontend/vscode-extension/`) remains the bridge for developers who live in VS Code. The standalone Tauri/Next Determinex IDE is the successor direction: proof-native workbench, agent lanes, oracle evidence, privacy policy, and release gates in one product surface. Current status and blockers are tracked in [`docs/ide-frontend/DETERMINEX_IDE_SUCCESSOR_ROADMAP.md`](docs/ide-frontend/DETERMINEX_IDE_SUCCESSOR_ROADMAP.md).
 
 Full grounded account, including the honest safety/unsafe surface and the teaching model: [`docs/DETERMINEX_DEEP_AUDIT.md`](docs/DETERMINEX_DEEP_AUDIT.md).
@@ -140,9 +148,9 @@ All three run locally via Ollama. No subscription. No cloud required for the cor
 
 ## Benchmarks
 
-### Model Quality (Compiler-Validated, Post-DSL Fine-Tune)
+### Model Checks (Compiler-Validated, Post-DSL Fine-Tune)
 
-135 probes across 9 task types × 3 models. Every probe passes a real compiler — no LLM judges.
+135 probes across 9 task types × 3 models. Every probe passes a real compiler — no LLM judges. This measures compileability for the declared cases, not general program correctness.
 
 > **Corrected 2026-07-28.** This table previously credited the shipped
 > v11/v6 models with scores that were measured on the *previous* generation:
@@ -172,7 +180,7 @@ unevaluated, any total would be part measurement and part assumption.
 
 ### SWE-bench Lite (300 instances, post-hardening ablation)
 
-Real software engineering tasks from production repositories. Patches verified by each repo's own test suite in Docker.
+Real software engineering tasks from production repositories. Patches are checked by each repository's own test suite in Docker; passing those suites records the benchmark criterion, not general program correctness.
 
 | Config | Architect | Builder | Cloak | Resolved | Status |
 |--------|-----------|---------|-------|----------|--------|
@@ -190,7 +198,7 @@ B-Cloaked >=2.3%       -> lower-bound sovereignty result
 D-Cloaked >=3.3%       -> lower-bound hybrid Architect result
 ```
 
-*Privacy audit: B-Cloaked run verified 1,813,760 identifiers across 300 instances - 0 restoration failures, 0 privacy leaks. Cryptographic proof artifact via `DETERMINEX_CLOAK_AUDIT=1`. TinyCorpusReplay, when referenced, is an answer-key corpus replay diagnostic for eval-path mechanics only; it is not a clean benchmark score, not a model score, and not training-eligible.*
+*Privacy audit: the B-Cloaked run inspected 1,813,760 identifiers across 300 instances; its artifact recorded 0 restoration failures and no leak findings within the search scope. This is evidence about that run and detector, not a universal privacy guarantee. The cryptographic artifact is generated with `DETERMINEX_CLOAK_AUDIT=1`. TinyCorpusReplay, when referenced, is an answer-key corpus replay diagnostic for eval-path mechanics only; it is not a clean benchmark score, not a model score, and not training-eligible.*
 
 ---
 
@@ -200,34 +208,34 @@ D-Cloaked >=3.3%       -> lower-bound hybrid Architect result
 User writes a Markdown spec (Goal, Language, Constraints, Files)
         ↓
 C7 Architect — reads spec, emits DAG of ordered build steps via Semantic DSL
-        ↓  [6× more token-efficient than prose]
+        ↓  [structured messages intended to reduce token use; ratio depends on task and model]
 C1 Builder — executes each step; writes code to the workspace
         ↓
-Compiler Oracle  ──  rustc / go build / python / tsc  ──  ground truth
+Configured checks  ──  rustc / go build / python / tsc  ──  declared pass/fail properties
    PASS → lock step to WAL → next step
    FAIL → inject exact error → Builder retries (max 3×, escalating temperature)
         → Architect re-plans on 3rd failure
         ↓
 C3 Monitor — scores output; submits competing approach if score gap > 0.1
         ↓
-Every session → training queue → flywheel retrain → smarter models
+Selected, eligible outcomes → training queue → candidate retraining data
 ```
 
-### Project Cloak — Privacy-Sovereign Cloud AI
+### Project Cloak — Identifier obfuscation for selected cloud workflows
 
-Before any cloud API call, Determinex transforms every private identifier in the entire repository into an opaque `x_NNNN` token. The cloud AI solves the problem in obfuscated space. Patches are restored to real identifiers locally before application.
+When enabled for a supported workflow, Project Cloak attempts to transform identifiers covered by its parser and mapping before a cloud request, then restores returned patches locally. Coverage depends on supported languages, parsed files, and configuration. Audit the exact input and payload before relying on obfuscation for sensitive work; a run-scoped audit does not establish complete repository privacy or show that no sensitive content can be sent.
 
 ```
-Source repo  →  [AST obfuscation]  →  x_NNNN tokens  →  Cloud API
-                                                              ↓
-Real patch  ←  [symbol restoration]  ←  obfuscated patch  ←──┘
+Supported source and mapped identifiers  →  [configured parsing and obfuscation]  →  tokens  →  Cloud API
+                                                                                          ↓
+Restored patch  ←  [local symbol restoration]  ←  returned patch  ←────────────────────────┘
 ```
 
-The cloud model never sees `authenticate_user`, `validate_payment`, or any other business-critical symbol — only `x_4421`, `x_9103`. **Privacy cost measured directly**: B-Cloaked vs E-RegionControl in the 5-config ablation.
+One audit's search found no original identifiers in its inspected outputs; that result does not prove that a provider received no other sensitive content. The reported ablation results are workload-specific: the current roadmap marks several as lower bounds and requires fresh runs before broader privacy-cost comparisons.
 
 ### The Rosetta Stone — Latent-Space Model Communication
 
-`rosetta_v1.pt` — MLP encoder/decoder pairs bridging C1, C3, and C7 embedding spaces into a shared 4096-dim semantic space. Models communicate via compressed latent vectors rather than prose — 6× more token-efficient, lossless for structured intent.
+`rosetta_v1.pt` — MLP encoder/decoder pairs bridging C1, C3, and C7 embedding spaces into a shared 4096-dim semantic space. Models can use structured messages instead of verbose prose. The README does not claim a universal token-savings ratio or lossless meaning transfer.
 
 - **Layer 1 (active)**: Semantic DSL — structured inter-model messages
 - **Layer 2 (v1.5)**: Soft prefix injection via llama-cpp-python
@@ -318,17 +326,19 @@ python scripts/determinex_build_from_idea.py --idea idea.md --provider vllm --k 
 
 **Measured 2026-07-31** on Qwen2.5-Coder-7B-Instruct (ROCm 7.2.1, vLLM 0.16.1):
 30.0 tok/s single-stream vs **166.9 tok/s aggregate at K=6 concurrent** — 5.56× the
-throughput for 1.08× the wall clock. Sampling six verified-search candidates costs 8%
-more time than sampling one, so correctness amplification is close to free on this
-hardware. Re-measure per GPU; this is a batching property, not a constant.
+throughput for 1.08× the wall clock. In this setup, sampling six candidates took about 8%
+more time than one; correctness amplification applies only to the configured checks. These
+figures are workload- and hardware-specific; re-measure per GPU.
 
 #### Path B — AMD's free shared Model API (NOT VERIFIED)
 
 `litellm_config.yaml` carries `amd/qwen3-35b` and `amd/deepseek-flash` pointing at AMD's
 shared Token Factory endpoint. These have **never been executed from this repo** — the
 portal requires a China-registered account. They are wired and labelled, not claimed.
-They read `AMD_FREE_API_KEY`, deliberately separate from `AMD_API_KEY`, so a
-dedicated-instance key is never transmitted to a third-party host.
+They read `AMD_FREE_API_KEY`, a separate configuration name from `AMD_API_KEY`.
+That separation in configuration does not by itself establish which credentials
+are sent on a provider request; inspect the selected route before relying on it
+for sensitive work.
 
 #### Path C — local Ollama on an AMD Radeon GPU (ROCm)
 
@@ -447,7 +457,7 @@ Use the installer above unless you already have the weights — it needs no conf
 
 ### Smallest thing that proves it works
 
-One idea file, one command, one oracle-verified program. No spec DAG, no session.
+One idea file, one command, one program that passes its generated checks. No spec DAG, no session.
 
 ```bash
 cat > idea.md << 'EOF'
@@ -469,12 +479,13 @@ determinex build --idea idea.md --provider local --k 4
 [vs] r1 s1/4 t=0.0 gen 12s verify 1s -> PASS (score 0.00)
 synthesized oracle: 4 checks
 result: SOLVED  samples=1
-proof: program PASSES all 4 synthesized checks (oracle-verified, 1 samples).
+checks: program passed all 4 synthesized checks (1 sample).
 ```
 
-Determinex reads the examples, **synthesizes an oracle** from them, then samples the model until
-something passes it. `SOLVED` is only ever printed because a real test run passed — the candidate
-executes inside a workspace-bounded sandbox with the network denied, never a raw subprocess.
+Determinex reads the examples, generates checks from them, then samples the model until a candidate
+passes those checks. `SOLVED` records that a test run passed; it does not prove the checks capture
+every intended behavior. For this example, the candidate executes inside the configured
+workspace-bounded sandbox, which denies network access.
 
 If the generator cannot be reached at all, you get `NOT ATTEMPTED` and the underlying error —
 never a correctness verdict on a model that was never called.
@@ -525,18 +536,18 @@ scripts/
   determinex_hive.py            # Main orchestrator (DAG build loop)
   determinex_swebench_agent.py  # SWE-bench solve loop with Cloak
 
-  # Correctness substrate (2026-06) — oracle-bounded, makes any model correct
-  determinex_oracle.py          # Universal pluggable ground-truth oracle (+ synthesizer)
+  # Oracle-bounded search (2026-06) — finds candidates accepted by configured checks
+  determinex_oracle.py          # Pluggable oracle interface and check generator
   determinex_verified_search.py # The amplifier core: best-of-K vs the oracle
   determinex_amplified_solve.py # Decompose + route + verified search (brownfield)
-  determinex_adjudicator.py     # No cop-out: ROUTE/MATCH/UNBLOCK/IMPOSSIBLE gate
-  determinex_test_validator.py  # No slop: is the TEST itself correct?
+  determinex_adjudicator.py     # Classifies recorded evidence and routes unresolved cases
+  determinex_test_validator.py  # Flags detectable test issues; cannot prove general adequacy
   determinex_explainer.py       # Per-failure blame (CODE/ENV/TEST) + delta + proof
-  determinex_synthesize.py      # Idea -> sound test-oracle
-  determinex_build_from_idea.py # Greenfield: idea -> verified program
-  determinex_repair.py          # Brownfield: diagnose + amplified-fix any repo
+  determinex_synthesize.py      # Idea -> generated example/property checks; review required
+  determinex_build_from_idea.py # Greenfield: idea -> program passing generated checks
+  determinex_repair.py          # Brownfield: diagnose and propose fixes against configured checks
   determinex_providers.py       # Any AI model behind one generate() contract
-  determinex_agents.py          # Host coding-agent CLIs, oracle-verified
+  determinex_agents.py          # Host coding-agent CLIs checked against configured tests
   determinex_extensions.py      # Addon protocol (providers/oracles/commands)
   determinex_ratelimit.py       # Auto-establishing rotating per-model rate limit
   governance/                # No-overclaim authority anchors + guard
@@ -615,6 +626,9 @@ Consulting and private deployment help: **Darthceltic1985@gmail.com**
 }
 ```
 
+The existing citation title is retained for attribution; “Privacy-Sovereign” is
+not a universal implementation guarantee.
+
 ---
 
 ## The corpus
@@ -671,3 +685,4 @@ above.
 *Determinex · DarthCeltic · 2026*
 
 </div>
+
