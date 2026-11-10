@@ -6,6 +6,8 @@
 
 **Compiler-verified multi-agent AI that gets smarter from its own failures.**
 
+[▶ Watch the walkthrough](https://youtu.be/-RR2YlUERfQ) · [📄 Read the white paper](docs/papers/WHITE_PAPER.md)
+
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org)
 [![Rust](https://img.shields.io/badge/Rust-1.75%2B-orange)](https://rustup.rs)
