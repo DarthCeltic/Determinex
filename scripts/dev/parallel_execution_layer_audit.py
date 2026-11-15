@@ -226,6 +226,22 @@ CLASSIFICATION_RULES: tuple[_Rule, ...] = (
         "isolated silicon kernel testing, and delegates all other verify calls "
         "to the sandboxed intake.hardened_runner.",
     ),
+    _Rule(
+        re.compile(r"^scripts/determinex_eda_drive\.py$"),
+        "NEEDS_OWNER_DECISION",
+        "The real EDA runner writes candidate-generated configuration into a flow tree and "
+        "invokes its Makefile with fixed argv, but the flow is not isolated by this helper. "
+        "An owner must decide whether this local toolchain boundary is acceptable or must be "
+        "moved behind the hardened runner before it can be treated as an exemption.",
+    ),
+    _Rule(
+        re.compile(r"^scripts/determinex_rtl_oracle\.py$"),
+        "NEEDS_OWNER_DECISION",
+        "The RTL oracle invokes EQY/Yosys on candidate-generated RTL and configuration with "
+        "fixed argv and no shell, but this helper does not provide process isolation. An owner "
+        "must decide whether the local hardware-toolchain boundary is acceptable or must be "
+        "moved behind the hardened runner before it can be treated as an exemption.",
+    ),
     # ── Agent registry (external coding-agent CLI runner) ───────────────────
     _Rule(
         re.compile(r"^scripts/determinex_agents\.py$"),
