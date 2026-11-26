@@ -177,6 +177,8 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
+      - name: Audit frontend dependencies
+        run: npm audit
       - name: ESLint
         run: npx eslint .
       - name: Prettier check

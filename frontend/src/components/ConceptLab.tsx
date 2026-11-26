@@ -458,6 +458,27 @@ function userSafeSpecError(error: string | undefined): string {
 // PATH CARD
 // ─────────────────────────────────────────────────────────────────────────────
 
+function IdeaAction({
+  label,
+  detail,
+  onClick,
+}: {
+  label: string;
+  detail: string;
+  onClick?: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-lg border border-white/8 bg-black/25 px-2 py-2 text-left transition-colors hover:border-cyan-500/40 hover:bg-cyan-950/20"
+    >
+      <div className="text-eyebrow font-black uppercase tracking-widest text-gray-300">{label}</div>
+      <div className="mt-1 text-meta leading-snug text-gray-600">{detail}</div>
+    </button>
+  );
+}
+
 function PathCard({
   path,
   selected,
@@ -1438,45 +1459,21 @@ function ConceptLabInner({
               )}
             </div>
             <div className="mt-3 grid grid-cols-3 gap-1.5">
-              {(
-                [
-                  [
-                    "New idea",
-                    "Describe the product or fix.",
-                    () => ideaTextareaRef.current?.focus(),
-                  ],
-                  [
-                    "Existing repo",
-                    "Select a project or folder first.",
-                    () => onOpenProjectLibrary?.(),
-                  ],
-                  [
-                    "Imported app",
-                    "Paste docs, URL notes, or screenshots.",
-                    // Previously identical to "New idea" (just focused the
-                    // textarea) despite promising screenshot import -- the
-                    // attach picker already exists (the Paperclip button
-                    // below, wired to ideaFileRef) but this tile never
-                    // triggered it. "Docs"/"URL notes" are still just
-                    // free text in the same textarea (honest: no doc/URL
-                    // parser exists), but "screenshots" now does something
-                    // real and distinct from "New idea".
-                    () => ideaFileRef.current?.click(),
-                  ],
-                ] as const
-              ).map(([label, detail, onTileClick]) => (
-                <button
-                  key={label}
-                  type="button"
-                  onClick={onTileClick}
-                  className="rounded-lg border border-white/8 bg-black/25 px-2 py-2 text-left transition-colors hover:border-cyan-500/40 hover:bg-cyan-950/20"
-                >
-                  <div className="text-eyebrow font-black uppercase tracking-widest text-gray-300">
-                    {label}
-                  </div>
-                  <div className="mt-1 text-meta leading-snug text-gray-600">{detail}</div>
-                </button>
-              ))}
+              <IdeaAction
+                label="New idea"
+                detail="Describe the product or fix."
+                onClick={() => ideaTextareaRef.current?.focus()}
+              />
+              <IdeaAction
+                label="Existing repo"
+                detail="Select a project or folder first."
+                onClick={onOpenProjectLibrary}
+              />
+              <IdeaAction
+                label="Imported app"
+                detail="Paste docs, URL notes, or screenshots."
+                onClick={() => ideaFileRef.current?.click()}
+              />
             </div>
           </div>
 

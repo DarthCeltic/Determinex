@@ -95,22 +95,8 @@ fi
 "$SIDECAR_VENV/bin/python" bundler/build_hive_sidecar.py --triple x86_64-unknown-linux-gnu
 
 cd /workspace/frontend
-# Strict install first, because a lockfile-exact tree is what makes a release build
-# reproducible. Fall back to `npm install` when the lock cannot satisfy this platform.
-#
-# WHY THE FALLBACK EXISTS (2026-07-29): `npm ci` fails here with ~11 "Missing from lock
-# file" errors. The committed lock is generated on Windows and resolves 787 packages; a
-# Linux resolve wants 804, dropping 26 that Windows includes (abbrev, @npmcli/*,
-# @isaacs/fs-minipass) and adding 43 (@emnapi/*, wasm32-wasi bindings). Neither lock is
-# cross-platform complete, so npm ci can only ever succeed on the platform that generated
-# it. The divergence is entirely in transitive OPTIONAL deps of dev tooling (cyclonedx-npm,
-# oxc/rolldown wasm bindings) -- nothing the shipped app links against -- so falling back
-# is materially safe here. The GitHub ubuntu-24.04 job runs bare `npm ci` and will hit the
-# same wall until the lock is made cross-platform.
-if ! npm ci --no-audit --no-fund; then
-  echo "[build_linux_packages] npm ci could not satisfy the lock on linux; falling back to npm install" >&2
-  npm install --no-audit --no-fund
-fi
+# Require the committed frontend dependency tree before packaging.
+npm ci --no-audit --no-fund
 npm run tauri -- build --bundles appimage,deb,rpm
 
 cd /workspace
