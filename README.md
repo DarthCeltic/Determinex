@@ -26,27 +26,32 @@
 
 ---
 
-Determinex makes any AI model's output **verifiably correct** by letting a compiler, a test
-suite, or a formal equivalence checker decide whether the work is right — not the model, and not
-a second model reviewing the first.
+Determinex checks code proposed by an AI agent with a compiler, tests, or a formal equivalence
+checker. The agent can use a failure to revise its patch. Each verdict covers the properties
+that the selected check actually exercises.
 
-**The model proposes. The oracle disposes.** Sample a model `K` times against a sound oracle and
-a per-attempt success rate of `p` becomes `1 − (1 − p)^K` — so a model right one time in five is
-right 74% of the time at K=6, and 99% at K=20. The model did not improve; the system did. On a
-GPU those K candidates share a prompt prefix, so **K=6 costs ~1.07× the wall clock of one**.
+If attempts are independent and each passes the check with probability `p`, the chance
+of at least one pass in `K` attempts is `1 − (1 − p)^K`. For `p = 0.2`, that gives
+about 74% at K=6 and 99% at K=20. When candidates repeat the same mistake, the independence
+assumption breaks down.
 
 ### See it in two minutes
 
 [**▶ Demo — the loop end to end**](https://youtu.be/eI_AE5k_yv8) &nbsp;·&nbsp;
 [**▶ Demo — walkthrough**](https://youtu.be/-RR2YlUERfQ)
 
-### Or check it yourself in ten seconds
+### Run the offline verification
 
-[`verify.sh`](https://github.com/DarthCeltic/Radeon-hackathon-2026-07/blob/track2-determinex/Determinex/verify.sh)
-runs **offline, with no GPU, in about two seconds**. It proves the oracle *rejects* broken code —
-not merely that it accepts correct code — refuses an unverifiable request before any model is
-called, and checks the shipped references are exact over all 256 `u8` inputs. `--selftest` breaks
-each check on purpose and **refuses to credit a sabotage that did not change anything**.
+The [offline demo and setup instructions](https://github.com/DarthCeltic/Radeon-hackathon-2026-07/blob/e264d1622f1f9f89e0ebe130b4a17cc141f4193e/Determinex/README.md#run-the-offline-verification)
+show how to run the project’s local verifier against three programs. One returns the expected
+output, one has a syntax error, and one runs but returns the wrong answer. A second check
+examines the tests the synthesizer can derive from a vague specification and one with examples.
+A third compares four named bit functions against independent expectations for all 256 unsigned
+8-bit inputs. The demo uses fixed fixtures and makes no model calls.
+
+Run `python verify.py --selftest` in the demo directory to introduce three faults one at a
+time. Each must produce its expected failure while the other two checks still pass.
+[Read the verification code](https://github.com/DarthCeltic/Radeon-hackathon-2026-07/blob/e264d1622f1f9f89e0ebe130b4a17cc141f4193e/Determinex/verify.py).
 
 ### What it is for
 
@@ -80,7 +85,7 @@ with the method stated so it can be repeated or disputed:
 | Reading a formal equivalence run | **6 production Conformal transcripts**, each parse matching the count the log states about itself | Independent derivation — the table total is compared against the log's own prose figure |
 | Refusing a partial proof | A real run with **51 unresolved points** returns `UNKNOWN`, not a pass | Aborts, not-compared and unmapped points all block the verdict |
 | Sampling cost on a GPU | **K=6 costs 1.07× the wall clock** of one candidate, for 5.58× aggregate throughput | Six runs across five instances; prefix-cache hit 93.5% shared vs 1% distinct |
-| The oracle rejects, not just accepts | `verify.sh` — offline, no GPU, ~2 s | `--selftest` breaks each check on purpose and refuses to credit a sabotage that changed nothing |
+| The local oracle accepts and rejects fixed examples | `python verify.py` in the linked demo | `--selftest` requires the specific failure expected for each of three mutations |
 
 **Open work is tracked on the [roadmap](#roadmap), not hidden.** Three items there carry numbers
 worth reading before forming a view: the SWE-bench baseline is an audited snapshot rather than a
@@ -92,7 +97,7 @@ rule, and release readiness is deliberately narrow. Each row says what closes it
 
 | Property | Determinex | Typical agent system |
 |---|---|---|
-| **Reward model** | `rustc` / `go build` / `python` / `tsc` — deterministic, zero hallucination | LLM judge (circular) |
+| **Verification** | Compiler diagnostics and test results from the selected toolchain | Model-generated review |
 | **Privacy** | Identifiers AST-obfuscated before any cloud call; raw source is never exported (audit: `CLOAK_HASH_CHAIN_AND_LEAK_AUDIT_PASSED`, no leak found in the audited run) | Source code sent to cloud |
 | **Training signal** | Every session failure → labeled corpus → next retrain | Static weights |
 | **Model size** | 1.5B + 3B + 7B, runs on 6GB VRAM | 70B+ cloud-only |
