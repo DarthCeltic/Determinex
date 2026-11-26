@@ -142,10 +142,24 @@ jobs:
           name: coverage-report
           path: .coverage
           retention-days: 7
-      - name: Compiler Oracle limits test
+      - name: Verify Python compiler verdicts with Docker
         env:
-          DETERMINEX_ROOT: ${{ github.workspace }}
-        run: python scripts/determinex_limits_test.py
+          DETERMINEX_REQUIRE_DOCKER: "1"
+        run: |
+          docker info > /dev/null
+          python -m pytest -m slow -q --junitxml="$RUNNER_TEMP/compiler-oracle.xml" \
+            tests/test_compiler_oracle_strength.py::test_python_syntax_error_fails \
+            tests/test_compiler_oracle_strength.py::test_python_runs_shipped_tests_and_a_failing_one_fails \
+            tests/test_compiler_oracle_strength.py::test_python_passing_tests_pass
+          python - "$RUNNER_TEMP/compiler-oracle.xml" <<'PY'
+          import sys
+          from xml.etree import ElementTree
+
+          cases = ElementTree.parse(sys.argv[1]).findall(".//testcase")
+          statuses = ("failure", "error", "skipped")
+          if len(cases) != 3 or any(case.find(tag) is not None for case in cases for tag in statuses):
+              raise SystemExit("All three compiler checks must execute against Docker.")
+          PY
 
   frontend-quality:
     name: Frontend (ESLint + Prettier + Vitest)
@@ -162,14 +176,7 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - name: Install dependencies
-        # `npm install`, not `npm ci`. The lockfile is generated on the Windows dev box, and
-        # npm resolves some transitive natives differently per platform -- ci reported
-        # "Missing: unique-slug@4.0.0 / isexe@3.1.5 / minipass@3.3.6 from lock file", all
-        # node-gyp internals that a Windows resolution omits. `npm ci` demands byte-exact
-        # cross-platform parity and fails closed on that skew; `npm install` reconciles it.
-        # The correct long-term fix is to generate the lockfile on Linux (a container or a
-        # CI job that commits it), at which point this can go back to `npm ci`.
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: ESLint
         run: npx eslint .
       - name: Prettier check
