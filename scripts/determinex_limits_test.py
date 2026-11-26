@@ -290,6 +290,10 @@ python
 # ── Hive runner ───────────────────────────────────────────────────────────────
 
 
+def completed_steps(steps: list) -> bool:
+    return bool(steps) and all(step.get("status") == "complete" for step in steps)
+
+
 def run_hive_build(spec_content: str, lang: str, timeout: int) -> dict:
     """
     Full build via determinex_hive.py subcommands:
@@ -381,21 +385,21 @@ def run_hive_build(spec_content: str, lang: str, timeout: int) -> dict:
             step_timeout=timeout,
         )
 
-        # Read final manifest for step-level detail
-        session_dir = REPO_ROOT / "sessions" / session_id
-        manifest_path = session_dir / "manifest.json"
-        steps = []
-        final_status = "complete" if rc == 0 else "failed"
-        if manifest_path.exists():
-            try:
-                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-                steps = manifest.get("steps", [])
-                final_status = manifest.get("status", final_status)
-            except Exception:
-                pass
+        # The Hive CLI can return zero for an empty plan. Read the same persisted
+        # manifest Hive uses and require evidence that every step actually finished.
+        from hive.manifest import resolve_repo_root
+
+        manifest_path = resolve_repo_root() / "sessions" / session_id / "manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        steps = manifest["steps"]
+        complete = (
+            rc == 0 and manifest.get("status", "complete") == "complete" and completed_steps(steps)
+        )
+        final_status = "complete" if complete else "failed"
 
         return {
-            "ok": final_status == "complete",
+            "ok": complete,
+            "error": "" if complete else f"run-session incomplete (rc={rc})",
             "session_id": session_id,
             "status": final_status,
             "steps": steps,
@@ -459,10 +463,13 @@ def _run_via_http(spec_content: str, lang: str, timeout: int, level_id: int) -> 
             status = get(f"/session/status/{session_id}")
             data = status.get("data", {})
             if data.get("status") in ("complete", "failed"):
+                steps = data.get("steps", [])
+                complete = data["status"] == "complete" and completed_steps(steps)
                 return {
-                    "ok": data["status"] == "complete",
+                    "ok": complete,
+                    "error": "" if complete else "Session failed or lacks completed steps",
                     "session_id": session_id,
-                    "steps": data.get("steps", []),
+                    "steps": steps,
                     "status": data["status"],
                 }
             time.sleep(3)
@@ -533,7 +540,7 @@ def print_result(level: dict, result: dict, elapsed: float):
             print(f"  {DIM}step {sid}: {colour}{st}{RESET}{DIM}{comp_str}{RESET}")
 
 
-def print_summary(results: list[dict]):
+def print_summary(results: list[dict], requested_count: int):
     print(f"\n{BOLD}{CYAN}{'-' * 60}{RESET}")
     print(f"{BOLD}  Results Summary{RESET}\n")
 
@@ -556,7 +563,11 @@ def print_summary(results: list[dict]):
         f"Total retries: {total_retries}"
     )
 
-    if passed == total:
+    if total < requested_count:
+        print(
+            f"\n  {YELLOW}Incomplete run: finished {total} of {requested_count} requested levels.{RESET}"
+        )
+    elif passed == total:
         print(f"\n  {GREEN}{BOLD}All levels passed — compiler loop fully functional.{RESET}")
     elif passed >= 4:
         print(f"\n  {YELLOW}{BOLD}Core loop working. Higher-complexity levels struggling.{RESET}")
@@ -569,7 +580,7 @@ def print_summary(results: list[dict]):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 
-def main():
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Determinex Hive Mind limits test")
     parser.add_argument(
         "--levels", default="1,2,3,4,5,6", help="Comma-separated level IDs to run (default: all)"
@@ -583,10 +594,16 @@ def main():
     parser.add_argument(
         "--no-rosetta", action="store_true", help="Disable Rosetta bridge for this run"
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
-    selected_ids = {int(x.strip()) for x in args.levels.split(",")}
+    try:
+        selected_ids = {int(item.strip()) for item in args.levels.split(",")}
+    except ValueError:
+        parser.error("--levels requires comma-separated integer IDs")
     levels = LEVELS_RUST if args.lang == "rust" else LEVELS_PYTHON
+    unknown = selected_ids - {level["id"] for level in levels}
+    if unknown:
+        parser.error(f"unknown level IDs: {sorted(unknown)}")
     levels = [level_item for level_item in levels if level_item["id"] in selected_ids]
 
     if args.no_rosetta:
@@ -603,6 +620,7 @@ def main():
     print()
 
     all_results = []
+    interrupted = False
 
     for level in levels:
         print_level_header(level)
@@ -611,6 +629,7 @@ def main():
         try:
             result = fallback_run(level["spec"], args.lang, args.timeout, level["id"])
         except KeyboardInterrupt:
+            interrupted = True
             print(f"\n  {YELLOW}Interrupted at level {level['id']}{RESET}")
             break
         except Exception as e:
@@ -637,8 +656,7 @@ def main():
             )
             break
 
-    if all_results:
-        print_summary(all_results)
+    print_summary(all_results, requested_count=len(levels))
 
     # Write JSON report
     report_path = REPO_ROOT / "determinex_limits_report.json"
@@ -655,6 +673,12 @@ def main():
         )
     print(f"\n  {DIM}Report written to {report_path}{RESET}\n")
 
+    if interrupted:
+        return 130
+    if not all_results or len(all_results) != len(levels):
+        return 1
+    return 0 if all(row["result"].get("ok") is True for row in all_results) else 1
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

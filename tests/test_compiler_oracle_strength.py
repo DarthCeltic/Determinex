@@ -164,8 +164,9 @@ needs_sandbox = pytest.mark.skipif(
 
 @needs_sandbox
 def test_python_syntax_error_fails(tmp_path):
-    passed, _ = validate_project(_ws(tmp_path, {"bad.py": "def f(:\n"}), "python")
+    passed, diagnostic = validate_project(_ws(tmp_path, {"bad.py": "def f(:\n"}), "python")
     assert passed is False
+    assert "bad.py" in diagnostic and "SyntaxError" in diagnostic, diagnostic
 
 
 @needs_sandbox
@@ -190,8 +191,9 @@ def test_python_valid_code_with_no_tests_passes(tmp_path):
 def test_python_runs_shipped_tests_and_a_failing_one_fails(tmp_path):
     """The strongest stage: real behaviour. add() returns a - b, the test wants 5."""
     ws = _ws(tmp_path, {"ok.py": ADD_WRONG, "test_ok.py": TEST_ADD})
-    passed, _ = validate_project(ws, "python")
+    passed, diagnostic = validate_project(ws, "python")
     assert passed is False, "a failing unittest was reported as verified"
+    assert "test_ok.T.test_a" in diagnostic and "AssertionError: -1 != 5" in diagnostic, diagnostic
 
 
 @needs_sandbox
