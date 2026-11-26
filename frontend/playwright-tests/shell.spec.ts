@@ -75,6 +75,18 @@ async function bootToShell(page: Page) {
 }
 
 test.describe("shell", () => {
+  test("the mobile activity dialog explains browser limits and closes with Escape", async ({
+    page,
+  }) => {
+    await bootToShell(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.getByRole("button", { name: "Liveness", exact: true }).click();
+    const dialog = page.getByRole("dialog", { name: "Hive session activity" });
+    await expect(dialog).toContainText("Open the desktop app to check local workers.");
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+  });
+
   test("boots to an interactive shell rather than hanging on the splash", async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
