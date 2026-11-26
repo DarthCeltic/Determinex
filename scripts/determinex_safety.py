@@ -2048,6 +2048,11 @@ def _cli() -> int:
         help="record current sha256 of the safety layer files as the trusted baseline",
     )
     ap.add_argument(
+        "--check-integrity",
+        action="store_true",
+        help="verify the safety files against the recorded manifest",
+    )
+    ap.add_argument(
         "--verify-wal", action="store_true", help="walk the WAL hash chain and report integrity"
     )
     ap.add_argument("--status", metavar="SUBJECT_ID", help="print escalation state for a subject")
@@ -2067,6 +2072,11 @@ def _cli() -> int:
         print(f"Wrote {_INTEGRITY_MANIFEST}:")
         print(json.dumps(m, indent=2))
         return 0
+
+    if args.check_integrity:
+        verdict = check_runtime_integrity()
+        print("Safety layer integrity verified." if verdict.safe else verdict.reason)
+        return 0 if verdict.safe else 1
 
     if args.verify_wal:
         ok, detail = verify_wal_integrity()

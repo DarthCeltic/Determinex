@@ -19,6 +19,7 @@ Three properties, each of which has been a real incident somewhere:
 from __future__ import annotations
 
 import sys
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -80,12 +81,56 @@ def test_ordinary_technical_prose_is_not_mangled():
 def test_payload_carries_only_generalized_classes():
     """`per_tool` recipes and `absorbed_sources` provenance are ours, do not generalize, and
     raise the chance of leaking something machine-specific. They must not be in the payload."""
-    p = CS.build_payload()
-    assert p["schema"] == "determinex-corpus-share-v1"
-    assert p["n_classes"] > 0
-    assert set(p) == {"schema", "generated_at", "n_classes", "sha256", "classes"}
-    for body in p["classes"].values():
-        assert set(body) <= {"detect", "symptom", "fix", "rule", "measured", "scope", "trap"}
+    payload = CS.build_payload()
+    assert payload["schema"] == "determinex-corpus-share-v2"
+    assert set(payload) == {
+        "schema",
+        "generated_at",
+        "n_rows",
+        "n_verified",
+        "by_source",
+        "sha256",
+        "rows",
+    }
+    rows = payload["rows"]
+    assert payload["n_rows"] == len(rows) > 0
+    assert payload["n_verified"] == sum(row["verified"] for row in rows)
+    assert payload["by_source"] == Counter(row["source"] for row in rows)
+
+    metadata = {"id", "source", "confidence", "verified"}
+    fields = {
+        "class_pattern": {
+            "detect",
+            "symptom",
+            "fix",
+            "rule",
+            "measured",
+            "scope",
+            "trap",
+            "applies_to",
+            "proven",
+        },
+        "learned_class": {"detect", "symptom", "fix", "learned", "uses"},
+        "engineering_lesson": {
+            "lesson",
+            "why_it_generalizes",
+            "category",
+            "source_pattern",
+            "used_when",
+        },
+        "design_knowledge": {
+            "lesson",
+            "why_it_generalizes",
+            "category",
+            "used_when",
+            "reference",
+            "verified_by",
+        },
+    }
+    for row in rows:
+        assert metadata <= row.keys()
+        assert isinstance(row["verified"], bool)
+        assert row.keys() - metadata <= fields[row["source"]]
 
 
 def test_payload_is_content_addressed():
