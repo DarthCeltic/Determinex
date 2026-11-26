@@ -176,6 +176,10 @@ jobs:
         run: npm run format-check
       - name: Vitest smoke tests (≥10 tests)
         run: npm test
+      - name: Type-check the application
+        run: npx --no-install tsc --noEmit
+      - name: Build the production frontend
+        run: npm run build
       # Shell smoke specs. @playwright/test was a dependency with zero specs for
       # months, so every UI check was a manual screenshot; these cover boot,
       # rail reachability, drawer navigation and content clipping.
