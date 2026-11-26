@@ -119,6 +119,8 @@ jobs:
           pip install -e .[dev,cloak]
       - name: Pytest with coverage (gate ≥2%)
         env:
+          # Public CI checks out the source mirror. Full checkouts require their private run records.
+          DETERMINEX_FILTERED_CHECKOUT: "1"
           DETERMINEX_ROOT: ${{ github.workspace }}
         # Gate is set at 2% — the CI environment lacks T:/ drive, Ollama, and GPU,
         # so most scripts are excluded by the "not integration and not slow" marks.
@@ -283,6 +285,7 @@ jobs:
             --json _ci_artifacts/architecture_regression_gauntlet.json
       - name: Run focused architecture / intake / repair safety tests
         env:
+          DETERMINEX_FILTERED_CHECKOUT: "1"
           DETERMINEX_ROOT: ${{ github.workspace }}
           DETERMINEX_NO_CORPUS_WRITE: "1"
         run: |

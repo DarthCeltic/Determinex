@@ -27,7 +27,7 @@ from pathlib import Path
 
 import pytest
 
-from tests.conftest import evidence_tree_present
+from tests.conftest import missing_private_evidence
 
 _SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 for _p in (str(_SCRIPTS), str(_SCRIPTS / "ide")):
@@ -65,14 +65,18 @@ def test_documented_boundary_flags_pass(tmp_path):
     assert M.load(flagship_dir=flagship, export_dir=export).decision.endswith("PASSED")
 
 
-@pytest.mark.skipif(not evidence_tree_present(), reason="full evidence archive is not distributed")
+@pytest.mark.skipif(
+    missing_private_evidence(), reason="declared public mirror omits the private evidence archive"
+)
 def test_the_real_evidence_still_passes():
     """The load-bearing negative control. Tightening a release gate is only safe if the
     genuine artifacts still clear it, and that has to be asserted, not assumed."""
     assert M.load().decision.endswith("PASSED")
 
 
-@pytest.mark.skipif(not evidence_tree_present(), reason="full evidence archive is not distributed")
+@pytest.mark.skipif(
+    missing_private_evidence(), reason="declared public mirror omits the private evidence archive"
+)
 def test_all_six_required_flags_are_actually_present_in_the_real_evidence():
     """Documents WHY the fix was safe. If a future evidence generator stops emitting one of
     these, this test says so directly instead of the gate mysteriously starting to block."""

@@ -23,7 +23,7 @@ from pathlib import Path
 
 import pytest
 
-from tests.conftest import evidence_tree_present
+from tests.conftest import missing_private_evidence
 
 _SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 if str(_SCRIPTS) not in sys.path:
@@ -57,13 +57,17 @@ def test_missing_checkpoint_waits_for_evidence(tmp_path):
     assert M.load(reconciliation_dir=tmp_path).decision.endswith("AWAITING_EVIDENCE")
 
 
-@pytest.mark.skipif(not evidence_tree_present(), reason="full evidence archive is not distributed")
+@pytest.mark.skipif(
+    missing_private_evidence(), reason="declared public mirror omits the private evidence archive"
+)
 def test_the_live_dashboard_still_passes():
     """Load-bearing negative control: tightening a reporting gate must not move it."""
     assert M.load().decision.endswith("PASSED")
 
 
-@pytest.mark.skipif(not evidence_tree_present(), reason="full evidence archive is not distributed")
+@pytest.mark.skipif(
+    missing_private_evidence(), reason="declared public mirror omits the private evidence archive"
+)
 def test_the_real_checkpoint_carries_both_integrity_keys():
     """Documents why the fix was safe, and fails loudly if an evidence generator stops
     emitting them -- instead of the dashboard silently starting to block."""
