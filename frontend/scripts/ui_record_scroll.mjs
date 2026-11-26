@@ -27,22 +27,36 @@ fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.connectOverCDP(process.env.DTX_CDP || "http://localhost:9223");
-const page = browser.contexts()[0].pages().find((p) => p.url().includes("localhost:3000"));
+const page = browser
+  .contexts()[0]
+  .pages()
+  .find((p) => p.url().includes("localhost:3000"));
 
 const click = async (t) => {
   const l = page.locator(`[data-testid="${t}"]`);
   if (!(await l.count())) return false;
-  await l.first().click({ timeout: 5000 }).catch(() => {});
+  await l
+    .first()
+    .click({ timeout: 5000 })
+    .catch(() => {});
   return true;
 };
 
 for (let i = 0; i < 4; i++) {
   const x = page.getByTitle("Close add-on");
   if (!(await x.count().catch(() => 0))) break;
-  await x.first().click({ timeout: 2000 }).catch(() => {});
+  await x
+    .first()
+    .click({ timeout: 2000 })
+    .catch(() => {});
   await page.waitForTimeout(220);
 }
-if (await page.locator('[data-testid="guide-overlay"]').count().catch(() => 0)) {
+if (
+  await page
+    .locator('[data-testid="guide-overlay"]')
+    .count()
+    .catch(() => 0)
+) {
   await page.evaluate(() => document.querySelector('[data-testid="guide-overlay"]')?.remove());
 }
 

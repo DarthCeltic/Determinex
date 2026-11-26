@@ -47,7 +47,11 @@ if (Array.isArray(agents)) {
     );
   }
   const withShortlist = agents.filter((a) => (a.models ?? []).length > 0);
-  note(withShortlist.length >= 3, "the cloud CLIs all carry a shortlist", `${withShortlist.length}`);
+  note(
+    withShortlist.length >= 3,
+    "the cloud CLIs all carry a shortlist",
+    `${withShortlist.length}`
+  );
 
   // The same three words for every provider, so the vocabulary is learned once.
   for (const a of withShortlist) {
@@ -59,15 +63,22 @@ if (Array.isArray(agents)) {
     );
     // A label that is just the model string is the memory test wearing a dropdown.
     const raw = a.models.filter((m) => m.label === m.model);
-    note(raw.length === 0, `${a.name} labels are human, not raw ids`, raw.map((m) => m.model).join(","));
+    note(
+      raw.length === 0,
+      `${a.name} labels are human, not raw ids`,
+      raw.map((m) => m.model).join(",")
+    );
   }
 
   // `gemini --model gemini/gemini-3-pro-preview` fails: those prefixes are for LiteLLM
   // routing, not for the CLI's own flag. Conflating the two would break the picker for the
   // one vendor whose setup story is already the hardest.
   const prefixed = agents.flatMap((a) => (a.models ?? []).filter((m) => m.model.includes("/")));
-  note(prefixed.length === 0, "no LiteLLM routing prefix leaked into a CLI model string",
-    prefixed.map((m) => m.model).join(","));
+  note(
+    prefixed.length === 0,
+    "no LiteLLM routing prefix leaked into a CLI model string",
+    prefixed.map((m) => m.model).join(",")
+  );
 }
 
 console.log("\n[2] the picker as the user meets it");
@@ -75,7 +86,11 @@ console.log("\n[2] the picker as the user meets it");
 // guessing a "CHAT" dock button, which is what an earlier version of this script did -- and it
 // then reported the picker missing when it had simply never opened the panel.
 // A first-run modal ("Workspace Detected") sits over the rail; dismiss it if present.
-await page.locator("button", { hasText: /^Dismiss$/ }).first().click({ timeout: 4000 }).catch(() => {});
+await page
+  .locator("button", { hasText: /^Dismiss$/ })
+  .first()
+  .click({ timeout: 4000 })
+  .catch(() => {});
 await page.waitForTimeout(500);
 
 /** Click `opener` only if `target` is not already showing.

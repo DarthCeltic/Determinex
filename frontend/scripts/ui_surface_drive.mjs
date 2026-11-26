@@ -53,16 +53,24 @@ await page
     window.localStorage.removeItem("activeContexts");
   })
   .catch(() => {});
-await page.getByTitle("Close add-on").first().click({ timeout: 4000 }).catch(() => {});
+await page
+  .getByTitle("Close add-on")
+  .first()
+  .click({ timeout: 4000 })
+  .catch(() => {});
 await page.waitForTimeout(1500);
 
 const errors = [];
 const failed = [];
-page.on("console", (m) => m.type() === "error" && errors.push(m.text().replace(/\s+/g, " ").slice(0, 170)));
+page.on(
+  "console",
+  (m) => m.type() === "error" && errors.push(m.text().replace(/\s+/g, " ").slice(0, 170))
+);
 page.on("pageerror", (e) => errors.push("PAGEERROR " + String(e).slice(0, 170)));
 page.on("requestfailed", (r) => {
   const t = r.failure()?.errorText ?? "";
-  if (!/ERR_ABORTED|NS_BINDING_ABORTED/.test(t)) failed.push(`${r.method()} ${r.url().slice(0, 80)} :: ${t}`);
+  if (!/ERR_ABORTED|NS_BINDING_ABORTED/.test(t))
+    failed.push(`${r.method()} ${r.url().slice(0, 80)} :: ${t}`);
 });
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -102,7 +110,11 @@ async function openTo(target, opener) {
 async function openSurface(rail, id) {
   await unobstructed();
   // A first-run modal can sit over the rail.
-  await page.getByRole("button", { name: /^Dismiss$/ }).first().click({ timeout: 3000 }).catch(() => {});
+  await page
+    .getByRole("button", { name: /^Dismiss$/ })
+    .first()
+    .click({ timeout: 3000 })
+    .catch(() => {});
   const member = page.locator(`[data-testid="surface-member-${id}"]`).first();
   await openTo(member, page.getByRole("button", { name: new RegExp(`^${rail}$`, "i") }).first());
   await unobstructed();
@@ -175,7 +187,9 @@ console.log("\n== multichat (AGENTS -> Agent Chat Room) ==");
       .catch(() => false);
     if (!gotParticipants) {
       const status = await page
-        .locator("text=/Looking for agents|Could not read the list|did not answer in time|No coding agents/i")
+        .locator(
+          "text=/Looking for agents|Could not read the list|did not answer in time|No coding agents/i"
+        )
         .first()
         .innerText()
         .catch(() => "");
@@ -194,7 +208,11 @@ console.log("\n== multichat (AGENTS -> Agent Chat Room) ==");
       note("multichat", "FAIL", "no Start Session control -- the room cannot be used");
     } else {
       // Put someone in the room first; starting an empty one proves nothing.
-      await page.locator("text=/probe: claude/i").first().click({ timeout: 6000 }).catch(() => {});
+      await page
+        .locator("text=/probe: claude/i")
+        .first()
+        .click({ timeout: 6000 })
+        .catch(() => {});
       await sleep(600);
       await start.click({ timeout: 10000 }).catch(() => {});
       await sleep(6000);
@@ -236,7 +254,10 @@ console.log("\n== multichat (AGENTS -> Agent Chat Room) ==");
         const msg = String(e);
         // An argument complaint proves the command is registered and reachable; "not allowed"
         // or "not found" proves it is not.
-        return { reached: !/not allowed|not found|unknown command/i.test(msg), msg: msg.slice(0, 140) };
+        return {
+          reached: !/not allowed|not found|unknown command/i.test(msg),
+          msg: msg.slice(0, 140),
+        };
       }
     });
     console.log(`    agent_chat_resync_plan: ${JSON.stringify(probeRes)}`);
@@ -280,7 +301,11 @@ async function backToWork() {
   // and sized -- so Playwright calls them visible -- while every click lands on the tool's own
   // table instead. Six surfaces were reported broken purely because Trace was still on top.
   // Dismiss the add-on first ("Close add-on" is its own header control), then restore Work.
-  await page.getByTitle("Close add-on").first().click({ timeout: 4000 }).catch(() => {});
+  await page
+    .getByTitle("Close add-on")
+    .first()
+    .click({ timeout: 4000 })
+    .catch(() => {});
   await sleep(600);
   await openSurface("WORK", "hive");
   await sleep(1200);
@@ -314,7 +339,17 @@ await backToWork();
 // ── 3. build tools under ATTACH WHAT YOU NEED ───────────────────────────────────────────
 console.log("\n== build tool cards ==");
 {
-  const cards = ["CODE", "BUILD", "TRACE", "SEARCH", "FIND IN FILES", "HEALTH", "LEARNING STUDIO", "REPO CLINIC", "MAINTENANCE BAY"];
+  const cards = [
+    "CODE",
+    "BUILD",
+    "TRACE",
+    "SEARCH",
+    "FIND IN FILES",
+    "HEALTH",
+    "LEARNING STUDIO",
+    "REPO CLINIC",
+    "MAINTENANCE BAY",
+  ];
   for (const card of cards) {
     const before = errors.length;
     const beforeReq = failed.length;
@@ -325,7 +360,10 @@ console.log("\n== build tool cards ==");
     const target = page.getByRole("button", { name: new RegExp(`^${card}`, "i") }).first();
     // Distinguish "the control is missing" from "the click failed" from "it is covered".
     // "did not open" collapsed all three into one useless word.
-    const exists = await target.count().then((n) => n > 0).catch(() => false);
+    const exists = await target
+      .count()
+      .then((n) => n > 0)
+      .catch(() => false);
     const visible = exists ? await target.isVisible().catch(() => false) : false;
     let clickErr = "";
     const ok = await target
@@ -341,12 +379,17 @@ console.log("\n== build tool cards ==");
     const t = await textNow();
     const e = errors.slice(before);
     const f = failed.slice(beforeReq);
-    console.log(`    ${card.padEnd(18)} exists=${exists ? "y" : "n"} visible=${visible ? "y" : "n"} click=${ok ? "y" : "n"}  chars=${t.length}  err=${e.length}${f.length ? ` req=${f.length}` : ""}`);
+    console.log(
+      `    ${card.padEnd(18)} exists=${exists ? "y" : "n"} visible=${visible ? "y" : "n"} click=${ok ? "y" : "n"}  chars=${t.length}  err=${e.length}${f.length ? ` req=${f.length}` : ""}`
+    );
     if (!exists) note("build-tools", "FAIL", `${card}: no such control on the cockpit`);
-    else if (!ok) note("build-tools", "FAIL", `${card}: present and visible but unclickable -- ${clickErr}`);
+    else if (!ok)
+      note("build-tools", "FAIL", `${card}: present and visible but unclickable -- ${clickErr}`);
     for (const x of e) note("build-tools", "ERR", `${card}: ${x}`);
     for (const x of f) note("build-tools", "ERR", `${card}: REQ ${x}`);
-    await page.screenshot({ path: `C:/tmp/surface_tool_${card.replace(/\W+/g, "_")}.png` }).catch(() => {});
+    await page
+      .screenshot({ path: `C:/tmp/surface_tool_${card.replace(/\W+/g, "_")}.png` })
+      .catch(() => {});
   }
 }
 
@@ -356,8 +399,13 @@ if (!findings.length) console.log("    (none)");
 const bySurface = {};
 for (const f of findings) (bySurface[f.surface] ||= []).push(f);
 for (const [s, list] of Object.entries(bySurface)) {
-  console.log(`  ${s}: ${list.filter((x) => x.level === "FAIL").length} FAIL, ${list.filter((x) => x.level === "ERR").length} ERR, ${list.filter((x) => x.level === "WARN").length} WARN`);
+  console.log(
+    `  ${s}: ${list.filter((x) => x.level === "FAIL").length} FAIL, ${list.filter((x) => x.level === "ERR").length} ERR, ${list.filter((x) => x.level === "WARN").length} WARN`
+  );
 }
-fs.writeFileSync("C:/tmp/surface_findings.json", JSON.stringify({ findings, errors, failed }, null, 2));
+fs.writeFileSync(
+  "C:/tmp/surface_findings.json",
+  JSON.stringify({ findings, errors, failed }, null, 2)
+);
 console.log("\n  wrote C:/tmp/surface_findings.json");
 await browser.close();

@@ -39,11 +39,15 @@ if (!/determinex/i.test(title)) {
 
 const errors = [];
 const failed = [];
-page.on("console", (m) => m.type() === "error" && errors.push(m.text().replace(/\s+/g, " ").slice(0, 170)));
+page.on(
+  "console",
+  (m) => m.type() === "error" && errors.push(m.text().replace(/\s+/g, " ").slice(0, 170))
+);
 page.on("pageerror", (e) => errors.push("PAGEERROR " + String(e).slice(0, 170)));
 page.on("requestfailed", (r) => {
   const t = r.failure()?.errorText ?? "";
-  if (!/ERR_ABORTED|NS_BINDING_ABORTED/.test(t)) failed.push(`${r.method()} ${r.url().slice(0, 80)} :: ${t}`);
+  if (!/ERR_ABORTED|NS_BINDING_ABORTED/.test(t))
+    failed.push(`${r.method()} ${r.url().slice(0, 80)} :: ${t}`);
 });
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -75,11 +79,18 @@ async function snapshot() {
 }
 
 const rows = [];
-console.log(`  ${"rail".padEnd(8)}${"panel".padEnd(30)}${"chars".padEnd(7)}${"signals".padEnd(28)}err`);
+console.log(
+  `  ${"rail".padEnd(8)}${"panel".padEnd(30)}${"chars".padEnd(7)}${"signals".padEnd(28)}err`
+);
 for (const rail of RAILS) {
   await unobstructed();
   const railBtn = page.getByRole("button", { name: new RegExp(`^${rail}$`, "i") }).first();
-  if (!(await railBtn.click({ timeout: 20000 }).then(() => true).catch(() => false))) {
+  if (
+    !(await railBtn
+      .click({ timeout: 20000 })
+      .then(() => true)
+      .catch(() => false))
+  ) {
     console.log(`  ${rail.padEnd(8)}[rail click failed]`);
     continue;
   }
@@ -89,24 +100,28 @@ for (const rail of RAILS) {
   // Title Case labels, distinct from the ALL-CAPS rail buttons themselves.
   const items = await page.evaluate(() => {
     const btns = [...document.querySelectorAll("button, [role='button']")];
-    return [...new Set(
-      btns
-        .map((b) => (b.innerText || "").trim().split("\n")[0])
-        .filter(
-          (t) =>
-            t &&
-            t.length > 3 &&
-            t.length < 32 &&
-            /[a-z]/.test(t) &&
-            !/^(Describe|Select|Paste|Start|Choose|Open|Request|Your answer|Skip)/i.test(t)
-        )
-    )].slice(0, 8);
+    return [
+      ...new Set(
+        btns
+          .map((b) => (b.innerText || "").trim().split("\n")[0])
+          .filter(
+            (t) =>
+              t &&
+              t.length > 3 &&
+              t.length < 32 &&
+              /[a-z]/.test(t) &&
+              !/^(Describe|Select|Paste|Start|Choose|Open|Request|Your answer|Skip)/i.test(t)
+          )
+      ),
+    ].slice(0, 8);
   });
 
   if (items.length === 0) {
     const s = await snapshot();
     rows.push({ rail, panel: "(no submenu)", ...s, errors: [], failed: [] });
-    console.log(`  ${rail.padEnd(8)}${"(no submenu)".padEnd(30)}${String(s.chars).padEnd(7)}${s.signs.join(",").padEnd(28).slice(0, 28)}0`);
+    console.log(
+      `  ${rail.padEnd(8)}${"(no submenu)".padEnd(30)}${String(s.chars).padEnd(7)}${s.signs.join(",").padEnd(28).slice(0, 28)}0`
+    );
     continue;
   }
 
@@ -132,7 +147,9 @@ for (const rail of RAILS) {
         .slice(0, 28)}${e.length}${f.length ? `+${f.length}r` : ""}${ok ? "" : " [no click]"}`
     );
     await page
-      .screenshot({ path: `C:/tmp/panel_${rail}_${item.replace(/[^A-Za-z0-9]+/g, "_").slice(0, 24)}.png` })
+      .screenshot({
+        path: `C:/tmp/panel_${rail}_${item.replace(/[^A-Za-z0-9]+/g, "_").slice(0, 24)}.png`,
+      })
       .catch(() => {});
   }
 }

@@ -30,7 +30,10 @@ const OUT = `${process.env.DTX_OUT || "C:/tmp/uimap"}/${WIDTH || "native"}`;
 fs.mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.connectOverCDP(CDP);
-const page = browser.contexts()[0].pages().find((p) => p.url().includes("localhost:3000"));
+const page = browser
+  .contexts()[0]
+  .pages()
+  .find((p) => p.url().includes("localhost:3000"));
 
 // Resize the REAL window rather than setting a device-metrics override. The override
 // outlived the run: a later "native" sweep inherited 960 without saying so, and its
@@ -59,7 +62,11 @@ const primaryText = () => page.evaluate(() => document.body.innerText || "");
 
 /** Lines present after the click that were not there before. This is the real evidence. */
 const newLines = (before, after) => {
-  const split = (t) => t.split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+  const split = (t) =>
+    t
+      .split(/\r?\n/)
+      .map((x) => x.trim())
+      .filter(Boolean);
   const b = new Set(split(before));
   return split(after).filter((x) => !b.has(x));
 };
@@ -108,7 +115,10 @@ const overlapsIn = (sel) =>
      */
     const paintedRect = (e) => {
       let r = e.getBoundingClientRect();
-      let top = r.top, left = r.left, right = r.right, bottom = r.bottom;
+      let top = r.top,
+        left = r.left,
+        right = r.right,
+        bottom = r.bottom;
       for (let p = e.parentElement; p && p !== document.body; p = p.parentElement) {
         const st = getComputedStyle(p);
         if (st.overflow === "visible" && st.overflowX === "visible" && st.overflowY === "visible") {
@@ -220,14 +230,18 @@ const settledIn = (sel) =>
       .map((l) => l.trim())
       .find((l) => /^(scanning|loading|fetching|initializing|please wait)[.…\s]*$/i.test(l));
     if (waiting) return { settled: false, why: `"${waiting}" still showing`, chars: text.length };
-    if (text.length < 40) return { settled: false, why: `only ${text.length} chars`, chars: text.length };
+    if (text.length < 40)
+      return { settled: false, why: `only ${text.length} chars`, chars: text.length };
     return { settled: true, why: "", chars: text.length };
   }, sel);
 
 const clickTid = async (tid, ms = 4000) => {
   const l = page.locator(`[data-testid="${tid}"]`);
   if (!(await l.count())) return false;
-  await l.first().click({ timeout: ms }).catch(() => {});
+  await l
+    .first()
+    .click({ timeout: ms })
+    .catch(() => {});
   return true;
 };
 
@@ -251,7 +265,10 @@ async function dismissOverlays() {
 
     const x = page.getByTitle("Close add-on");
     if (await x.count().catch(() => 0)) {
-      await x.first().click({ timeout: 2000 }).catch(() => {});
+      await x
+        .first()
+        .click({ timeout: 2000 })
+        .catch(() => {});
       acted = true;
       await page.waitForTimeout(250);
     }
@@ -286,7 +303,10 @@ async function dismissOverlays() {
     if (open) {
       const close = page.getByRole("button", { name: /close config/i });
       if (await close.count().catch(() => 0)) {
-        await close.first().click({ timeout: 2000 }).catch(() => {});
+        await close
+          .first()
+          .click({ timeout: 2000 })
+          .catch(() => {});
       } else {
         await page.keyboard.press("Escape").catch(() => {});
       }
@@ -379,8 +399,13 @@ if (process.argv.includes("--selftest")) {
   await page.waitForTimeout(400);
   const dirty = await overlapsIn(root);
   const caught = dirty.some((o) => o.includes("SELFTEST"));
-  console.log(`  overlap detector: clean=${clean.length} injected=${dirty.length} caught=${caught}`);
-  if (!caught) { console.log("  FAIL overlap detector did not see a real collision"); bad++; }
+  console.log(
+    `  overlap detector: clean=${clean.length} injected=${dirty.length} caught=${caught}`
+  );
+  if (!caught) {
+    console.log("  FAIL overlap detector did not see a real collision");
+    bad++;
+  }
   await page.evaluate(() => document.querySelectorAll(".__selftest").forEach((e) => e.remove()));
 
   // 1b. …and must NOT report a collision between elements that are scrolled out of their
@@ -390,7 +415,8 @@ if (process.argv.includes("--selftest")) {
     const r = document.querySelector(s);
     const box = document.createElement("div");
     box.className = "__selftest";
-    box.style.cssText = "position:absolute;top:60px;left:20px;width:240px;height:60px;overflow-y:auto";
+    box.style.cssText =
+      "position:absolute;top:60px;left:20px;width:240px;height:60px;overflow-y:auto";
     const tall = document.createElement("div");
     tall.style.cssText = "height:600px;position:relative";
     const far = document.createElement("div");
@@ -404,7 +430,10 @@ if (process.argv.includes("--selftest")) {
   const clipped = await overlapsIn(root);
   const phantom = clipped.some((o) => o.includes("SCROLLED AWAY"));
   console.log(`  clipped-element filter: phantom reported=${phantom}`);
-  if (phantom) { console.log("  FAIL a scrolled-out element was reported as colliding"); bad++; }
+  if (phantom) {
+    console.log("  FAIL a scrolled-out element was reported as colliding");
+    bad++;
+  }
   await page.evaluate(() => document.querySelectorAll(".__selftest").forEach((e) => e.remove()));
 
   // 1c. The settle assertion must go red on a spinner and on a bare "Scanning..." line, and
@@ -455,7 +484,10 @@ if (process.argv.includes("--selftest")) {
   await page.waitForTimeout(1200);
   const again = newLines(a, await primaryText()).length;
   console.log(`  no-new-content assertion: reopening the same surface -> ${again} new lines`);
-  if (again >= 3) { console.log("  FAIL re-opening one surface looked like fresh content"); bad++; }
+  if (again >= 3) {
+    console.log("  FAIL re-opening one surface looked like fresh content");
+    bad++;
+  }
 
   console.log(bad ? `\nSELFTEST FAILED (${bad})` : "\nSELFTEST PASSED — both assertions can fail");
   await browser.close();
@@ -484,8 +516,19 @@ for (const g of groups) {
   console.log(`  ${g}  (${members.length} members: ${members.join(", ") || "none"})`);
 
   for (const m of members) {
-    const rec = { group: g, member: m, opened: false, changed: false, chars: 0, err: "",
-                  overlap: [], actions: [], modes: [], renderedIn: "", pivot: "" };
+    const rec = {
+      group: g,
+      member: m,
+      opened: false,
+      changed: false,
+      chars: 0,
+      err: "",
+      overlap: [],
+      actions: [],
+      modes: [],
+      renderedIn: "",
+      pivot: "",
+    };
 
     // Park on a known DIFFERENT surface first, so `before` is that screen and not this one.
     rec.pivot = await pivotAwayFrom(m);
@@ -591,7 +634,9 @@ await dismissOverlays();
 // criteria, forgot the settle check the moment it was added, and printed "33/33 clean" on a
 // run that had just reported a FAIL three lines above it.
 const fails = map.filter((r) => !verdict(r).ok);
-console.log(`\n  ${map.length - fails.length}/${map.length} surfaces clean at width ${WIDTH || "native"}`);
+console.log(
+  `\n  ${map.length - fails.length}/${map.length} surfaces clean at width ${WIDTH || "native"}`
+);
 fs.writeFileSync(`${OUT}/map.json`, JSON.stringify(map, null, 2));
 console.log(`  map -> ${OUT}/map.json`);
 

@@ -79,7 +79,11 @@ if (Array.isArray(report?.options)) {
   );
   // A saved credential is not a working provider. Nothing may claim ready without a live call.
   const liars = report.options.filter((o) => o.ready && o.readiness !== "verified");
-  note(liars.length === 0, "nothing claims ready without a verified live call", liars.map((o) => o.id).join(","));
+  note(
+    liars.length === 0,
+    "nothing claims ready without a verified live call",
+    liars.map((o) => o.id).join(",")
+  );
 }
 
 console.log(`\n${fail.length === 0 ? "ALL PASS" : `${fail.length} FAILED: ${fail.join(", ")}`}`);

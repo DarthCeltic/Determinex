@@ -20,7 +20,10 @@ const W = Number(process.argv[2] || 1600);
 const H = Number(process.argv[3] || 1000);
 
 const browser = await chromium.connectOverCDP(process.env.DTX_CDP || "http://localhost:9223");
-const page = browser.contexts()[0].pages().find((p) => p.url().includes("localhost:3000"));
+const page = browser
+  .contexts()[0]
+  .pages()
+  .find((p) => p.url().includes("localhost:3000"));
 const cdp = await page.context().newCDPSession(page);
 
 // A pinned emulation override would win over the real window size, so drop it first.

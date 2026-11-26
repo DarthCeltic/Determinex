@@ -40,7 +40,10 @@ console.log(`  native viewport: ${vp}`);
 const click = async (tid, ms = 4000) => {
   const l = page.locator(`[data-testid="${tid}"]`);
   if (!(await l.count())) return false;
-  await l.first().click({ timeout: ms }).catch(() => {});
+  await l
+    .first()
+    .click({ timeout: ms })
+    .catch(() => {});
   return true;
 };
 
@@ -50,15 +53,21 @@ async function clearOverlays() {
     let acted = false;
     const x = page.getByTitle("Close add-on");
     if (await x.count().catch(() => 0)) {
-      await x.first().click({ timeout: 2000 }).catch(() => {});
+      await x
+        .first()
+        .click({ timeout: 2000 })
+        .catch(() => {});
       acted = true;
       await page.waitForTimeout(250);
     }
-    if (await page.locator('[data-testid="guide-overlay"]').count().catch(() => 0)) {
+    if (
+      await page
+        .locator('[data-testid="guide-overlay"]')
+        .count()
+        .catch(() => 0)
+    ) {
       await page.keyboard.press("Escape").catch(() => {});
-      await page.evaluate(() =>
-        document.querySelector('[data-testid="guide-overlay"]')?.remove()
-      );
+      await page.evaluate(() => document.querySelector('[data-testid="guide-overlay"]')?.remove());
       acted = true;
       await page.waitForTimeout(250);
     }
@@ -70,7 +79,11 @@ async function clearOverlays() {
       .catch(() => false);
     if (modalOpen) {
       const close = page.getByRole("button", { name: /close config/i });
-      if (await close.count().catch(() => 0)) await close.first().click({ timeout: 2000 }).catch(() => {});
+      if (await close.count().catch(() => 0))
+        await close
+          .first()
+          .click({ timeout: 2000 })
+          .catch(() => {});
       else await page.keyboard.press("Escape").catch(() => {});
       acted = true;
       await page.waitForTimeout(300);
