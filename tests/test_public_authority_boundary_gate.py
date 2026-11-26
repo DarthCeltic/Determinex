@@ -38,24 +38,31 @@ import public_authority_boundary_status as M  # noqa: E402
 
 
 def _staged(tmp_path, mutate_flagship=None, mutate_export=None) -> tuple[Path, Path]:
-    """Build example evidence from the public contracts in the shape the API consumes."""
+    """Stage a copy of the latest receipt or its published contract in the filtered mirror."""
     dirs = []
-    for name, mutate in (
-        ("PUBLIC_TIDAL_WAVE_FLAGSHIP_FLOW_CERTIFICATION", mutate_flagship),
-        ("PUBLIC_PROOF_REPORT_EXPORT", mutate_export),
+    for name, source, mutate in (
+        ("PUBLIC_TIDAL_WAVE_FLAGSHIP_FLOW_CERTIFICATION", M._FLAGSHIP_DIR, mutate_flagship),
+        ("PUBLIC_PROOF_REPORT_EXPORT", M._EXPORT_DIR, mutate_export),
     ):
-        manifest = _SCRIPTS.parent / "locks" / "sentinel" / f"DETERMINEX_{name}_LOCK_001.json"
-        contract = json.loads(manifest.read_text(encoding="utf-8"))
-        blob = {
-            "status": contract["status"],
-            "authority": contract["scope_discipline"],
-            "authority_boundary": contract["claim_boundary"],
-        }
+        if missing_private_evidence():
+            manifest = _SCRIPTS.parent / "locks" / "sentinel" / f"DETERMINEX_{name}_LOCK_001.json"
+            contract = json.loads(manifest.read_text(encoding="utf-8"))
+            blob = {
+                "status": contract["status"],
+                "authority": contract["scope_discipline"],
+                "authority_boundary": contract["claim_boundary"],
+            }
+            filename = "run_fixture.json"
+        else:
+            latest = M._locate_latest_evidence(source)
+            assert latest is not None, f"no evidence in {source}"
+            blob = json.loads(latest.read_text(encoding="utf-8"))
+            filename = latest.name
         if mutate:
             mutate(blob)
         directory = tmp_path / name
         directory.mkdir()
-        (directory / "run_fixture.json").write_text(json.dumps(blob), encoding="utf-8")
+        (directory / filename).write_text(json.dumps(blob), encoding="utf-8")
         dirs.append(directory)
     return dirs[0], dirs[1]
 

@@ -33,16 +33,23 @@ from ide import public_readiness_spine_dashboard_status as M  # noqa: E402
 
 
 def _stage(tmp_path, mutate=None) -> Path:
-    record = {
-        "status": "TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_010_PASSED",
-        "post_claude_pre_reconciliation_checkpoint": {
-            "ledger_chain_valid": True,
-            "mutation_detected": False,
-        },
-    }
+    if missing_private_evidence():
+        record = {
+            "status": "TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_010_PASSED",
+            "post_claude_pre_reconciliation_checkpoint": {
+                "ledger_chain_valid": True,
+                "mutation_detected": False,
+            },
+        }
+        filename = "run_fixture.json"
+    else:
+        latest = M._locate_latest_evidence(M._RECON_010_DIR)
+        assert latest is not None, f"no evidence in {M._RECON_010_DIR}"
+        record = json.loads(latest.read_text(encoding="utf-8"))
+        filename = latest.name
     if mutate:
         mutate(record["post_claude_pre_reconciliation_checkpoint"])
-    (tmp_path / "run_fixture.json").write_text(json.dumps(record), encoding="utf-8")
+    (tmp_path / filename).write_text(json.dumps(record), encoding="utf-8")
     return tmp_path
 
 
