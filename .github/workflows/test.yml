@@ -147,7 +147,8 @@ jobs:
 
   frontend-quality:
     name: Frontend (ESLint + Prettier + Vitest)
-    runs-on: ubuntu-latest
+    # Playwright 1.60 ships Chromium for Noble. ubuntu-latest now resolves to 26.04.
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: frontend
