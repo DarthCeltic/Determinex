@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
 from corpus.programbench.programbench_campaign_platform import (
     DOXYGEN_DIGEST,
     DOXYGEN_IMAGE,
@@ -13,6 +14,8 @@ from corpus.programbench.programbench_campaign_platform import (
     _missing_image_state,
 )
 from corpus.programbench.programbench_platform_record import verify_platform_record
+
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
 
 
 def _platform(*, write_records: bool = False) -> ProgramBenchCampaignPlatform:

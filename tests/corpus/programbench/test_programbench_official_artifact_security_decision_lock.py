@@ -3,6 +3,10 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
+from tests.conftest import missing_private_evidence
+
 _ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
@@ -22,10 +26,14 @@ IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
 
 
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
+
+
 def _runner(tmp_path: Path):
     return ProgramBenchOfficialArtifactSecurityDecision(
         OfficialArtifactSecurityDecisionConfig(
-            root=_ROOT, output_dir=tmp_path / "security_decisions"
+            root=Path.cwd() if missing_private_evidence() else _ROOT,
+            output_dir=tmp_path / "security_decisions",
         )
     )
 

@@ -1,6 +1,17 @@
 from __future__ import annotations
 
+import json
+import shutil
+import subprocess
+from pathlib import Path
+
+import pytest
 from corpus.programbench.commit_provenance_repair_audit import (
+    AUDITED_COMMIT,
+    AUDITED_COMMIT_SUBJECT,
+    FRONTEND_CODE_PATHS,
+    PROGRAMBENCH_CODE_PATHS,
+    PROGRAMBENCH_LOCKS,
     CommitProvenanceAuditConfig,
     ProgramBenchCommitProvenanceRepairAudit,
     classify_commit_path,
@@ -9,6 +20,51 @@ from corpus.programbench.commit_provenance_repair_audit import (
 from corpus.programbench.commit_provenance_repair_audit_record import (
     verify_commit_provenance_audit_record,
 )
+
+from tests.conftest import missing_private_evidence
+
+
+@pytest.fixture
+def commit_audit_config(public_batch_workspace):
+    if public_batch_workspace is None:
+        return CommitProvenanceAuditConfig(write_record=False)
+
+    root = Path.cwd()
+    source = Path(__file__).resolve().parents[3]
+    locks = [Path("locks/sentinel") / f"{name}.json" for name in PROGRAMBENCH_LOCKS]
+    for path in [*locks, *PROGRAMBENCH_CODE_PATHS, *FRONTEND_CODE_PATHS]:
+        (root / path).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source / path, root / path)
+    index = root / "assurance/evidence/evidence_index.json"
+    index.write_text(
+        json.dumps(
+            {
+                "entries": [{"manifest_path": item.as_posix()} for item in locks],
+                "validation_errors": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    def git(*args):
+        return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True, text=True)
+
+    git("init", "--quiet")
+    git("add", "--", str(PROGRAMBENCH_CODE_PATHS[0]), str(FRONTEND_CODE_PATHS[0]))
+    git(
+        "-c",
+        "user.name=Test",
+        "-c",
+        "user.email=test@example.invalid",
+        "-c",
+        "commit.gpgsign=false",
+        "commit",
+        "-qm",
+        AUDITED_COMMIT_SUBJECT,
+    )
+    return CommitProvenanceAuditConfig(
+        root=root, commit=git("rev-parse", "HEAD").stdout.strip(), write_record=False
+    )
 
 
 def test_commit_path_classifier_separates_lanes() -> None:
@@ -45,10 +101,8 @@ def test_classify_paths_keeps_all_required_buckets() -> None:
     assert classified["NEEDS_REVIEW"] == []
 
 
-def test_live_mixed_commit_audit_passes_with_label_warning() -> None:
-    record = ProgramBenchCommitProvenanceRepairAudit(
-        CommitProvenanceAuditConfig(write_record=False)
-    ).run()
+def test_mixed_commit_audit_passes_with_label_warning(commit_audit_config) -> None:
+    record = ProgramBenchCommitProvenanceRepairAudit(commit_audit_config).run()
 
     assert record["status"] == "PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED_WITH_LABEL_WARNING"
     assert verify_commit_provenance_audit_record(record)
@@ -64,10 +118,8 @@ def test_live_mixed_commit_audit_passes_with_label_warning() -> None:
     assert record["training_rows_written"] is False
 
 
-def test_audit_finds_unknown_commit_file() -> None:
-    record = ProgramBenchCommitProvenanceRepairAudit(
-        CommitProvenanceAuditConfig(write_record=False)
-    ).run(
+def test_audit_finds_unknown_commit_file(commit_audit_config) -> None:
+    record = ProgramBenchCommitProvenanceRepairAudit(commit_audit_config).run(
         commit_files=[
             "scripts/corpus/programbench/batch001_import_scan_pipeline.py",
             "mystery/file.txt",
@@ -79,10 +131,8 @@ def test_audit_finds_unknown_commit_file() -> None:
     assert record["classification"]["NEEDS_REVIEW"] == ["mystery/file.txt"]
 
 
-def test_audit_label_warning_does_not_create_execution_authority() -> None:
-    record = ProgramBenchCommitProvenanceRepairAudit(
-        CommitProvenanceAuditConfig(write_record=False)
-    ).run()
+def test_audit_label_warning_does_not_create_execution_authority(commit_audit_config) -> None:
+    record = ProgramBenchCommitProvenanceRepairAudit(commit_audit_config).run()
     flags = record["operation_check"]["authorization_flags"]
 
     assert flags["docker_execution_authorized"] is False
@@ -91,3 +141,16 @@ def test_audit_label_warning_does_not_create_execution_authority() -> None:
     assert flags["remediation_authorized"] is False
     assert flags["policy_exception_granted"] is False
     assert flags["training_eligible"] is False
+
+
+@pytest.mark.skipif(
+    missing_private_evidence(),
+    reason="Original mixed commit and historical signed records are omitted from the public mirror; the offline test uses a fresh Git repository.",
+)
+def test_archived_mixed_commit_has_original_attestation():
+    record = ProgramBenchCommitProvenanceRepairAudit(
+        CommitProvenanceAuditConfig(commit=AUDITED_COMMIT, write_record=False)
+    ).run()
+    assert record["commit"] == AUDITED_COMMIT
+    assert record["commit_subject"] == AUDITED_COMMIT_SUBJECT
+    assert record["status"] == "PROGRAMBENCH_COMMIT_PROVENANCE_AUDIT_PASSED_WITH_LABEL_WARNING"

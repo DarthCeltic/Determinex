@@ -3,6 +3,10 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
+from tests.conftest import missing_private_evidence
+
 _ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
@@ -45,6 +49,9 @@ TRIAGE = Path(
 )
 
 
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
+
+
 def _runner(
     tmp_path: Path,
     *,
@@ -53,7 +60,7 @@ def _runner(
 ):
     return ProgramBenchUpstreamArtifactAuthorityRecheck(
         UpstreamArtifactAuthorityRecheckConfig(
-            root=_ROOT,
+            root=Path.cwd() if missing_private_evidence() else _ROOT,
             output_dir=tmp_path / "upstream_recheck",
             instance_id=INSTANCE_ID,
             expected_digest=expected_digest,
@@ -81,7 +88,7 @@ def test_doxygen_instance_maps_to_expected_task_cleanroom_image():
     assert image_name(INSTANCE_ID) == IMAGE
 
 
-def test_live_recheck_admits_upstream_artifact_authority_present_metadata_only(tmp_path):
+def test_recheck_admits_upstream_artifact_authority_present_metadata_only(tmp_path):
     record = _recheck(tmp_path)["record"]
     assert record["upstream_benchmark_artifact_authority"] == AuthorityValue.PRESENT.value
     assert (
@@ -163,7 +170,7 @@ def test_provider_registry_exact_path_is_recorded_without_authorizing_execution(
     assert record["authorization"]["hydration_authorized"] is False
 
 
-def test_missing_local_programbench_authority_evidence_makes_authority_inconclusive(tmp_path):
+def test_missing_local_distribution_docs_leave_artifact_authority_inconclusive(tmp_path):
     missing_doc = tmp_path / "empty_authority.md"
     missing_doc.write_text("no image model here\n", encoding="utf-8")
     runner = _runner(tmp_path, authority_paths=[missing_doc])

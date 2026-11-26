@@ -5,6 +5,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
 from corpus.programbench.operator_ready_platform import (
     DOXYGEN_DIGEST,
     DOXYGEN_IMAGE,
@@ -17,6 +18,8 @@ from corpus.programbench.operator_ready_platform import (
     validate_operator_packet,
 )
 from corpus.programbench.programbench_platform_record import verify_platform_record
+
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
 
 
 def _platform(
@@ -264,7 +267,14 @@ def test_operator_cli_smoke_status_actions_packets_simulation_graph(tmp_path: Pa
     ]
     for command in commands:
         result = subprocess.run(
-            [sys.executable, "scripts/corpus/programbench/programbench_operator_cli.py", *command],
+            [
+                sys.executable,
+                str(
+                    Path(__file__).resolve().parents[3]
+                    / "scripts/corpus/programbench/programbench_operator_cli.py"
+                ),
+                *command,
+            ],
             check=True,
             capture_output=True,
             text=True,

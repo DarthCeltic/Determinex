@@ -4,6 +4,8 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[3]
 SCRIPTS = ROOT / "scripts"
 if str(SCRIPTS) not in sys.path:
@@ -19,6 +21,9 @@ from corpus.programbench.programbench_next_unblock_decision_record import (
 
 LOCK_PATH = ROOT / "locks" / "sentinel" / "PROGRAMBENCH_NEXT_UNBLOCK_DECISION_LOCK_001.json"
 EVIDENCE_INDEX = ROOT / "assurance" / "evidence" / "evidence_index.json"
+
+
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
 
 
 def test_programbench_next_unblock_recommends_batch001_one_target() -> None:

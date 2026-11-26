@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 from corpus.programbench.artifact_import_operator_guide import (
     ACCEPTABLE_FORMS,
     REJECTED_FORMS,
@@ -10,6 +11,8 @@ from corpus.programbench.artifact_import_operator_guide import (
 from corpus.programbench.artifact_import_operator_guide_record import (
     verify_artifact_import_operator_guide_record,
 )
+
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
 
 
 def _guide() -> dict[str, object]:

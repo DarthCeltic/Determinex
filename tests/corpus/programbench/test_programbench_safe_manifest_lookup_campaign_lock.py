@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
+import pytest
 from corpus.programbench.batch001_live_manifest_metadata_lookup import (
     Batch001LiveManifestLookupConfig,
     ProgramBenchBatch001LiveManifestLookupCampaign,
@@ -16,6 +17,8 @@ from corpus.programbench.safe_registry_manifest_client import (
     parse_image_reference,
 )
 from corpus.programbench.safe_registry_manifest_record import verify_safe_registry_manifest_record
+
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
 
 
 class FixtureTransport:

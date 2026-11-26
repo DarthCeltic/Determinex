@@ -4,6 +4,10 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
+from tests.conftest import missing_private_evidence
+
 _ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_ROOT / "scripts"))
 
@@ -18,9 +22,13 @@ from corpus.programbench.codex_completion_campaign_record import (
     verify_campaign_record,  # noqa: E402
 )
 
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
+
 
 def _campaign():
-    return ProgramBenchCodexCompletionCampaign(CampaignConfig(root=_ROOT))
+    return ProgramBenchCodexCompletionCampaign(
+        CampaignConfig(root=Path.cwd() if missing_private_evidence() else _ROOT)
+    )
 
 
 def test_sandbox_requirements_are_complete_and_non_executing():
@@ -57,13 +65,16 @@ def test_policy_exception_request_is_request_not_approval():
     assert request["status"] == "SECURITY_POLICY_EXCEPTION_REQUEST_WRITTEN"
     assert request["image_reference"] == IMAGE
     assert request["image_digest"] == DIGEST
-    assert request["scan_summary"] == {
+    expected_counts = {
         "critical": 38,
         "high": 617,
         "medium": 2729,
         "low": 154,
         "total": 3538,
     }
+    if missing_private_evidence():
+        expected_counts = {"critical": 1, "high": 2, "medium": 3, "low": 4, "total": 10}
+    assert request["scan_summary"] == expected_counts
     assert request["dominant_risk_category"] == "language_runtime"
     assert request["human_operator_approval_required"] is True
     assert request["authorization"]["docker_execution_authorized"] is False
