@@ -23,8 +23,11 @@ from __future__ import annotations
 
 import json
 import sys
-import tempfile
 from pathlib import Path
+
+import pytest
+
+from tests.conftest import evidence_tree_present
 
 _SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 for _p in (str(_SCRIPTS), str(_SCRIPTS / "ide")):
@@ -34,27 +37,42 @@ for _p in (str(_SCRIPTS), str(_SCRIPTS / "ide")):
 import public_authority_boundary_status as M  # noqa: E402
 
 
-def _staged(mutate_flagship=None, mutate_export=None) -> tuple[Path, Path]:
-    """Copy the real evidence into temp dirs, optionally mutating it."""
-    out = []
-    for src_dir, mutate in ((M._FLAGSHIP_DIR, mutate_flagship), (M._EXPORT_DIR, mutate_export)):
-        dst = Path(tempfile.mkdtemp())
-        chosen = M._locate_latest_evidence(src_dir)
-        assert chosen is not None, f"no evidence in {src_dir}"
-        blob = json.loads(chosen.read_text(encoding="utf-8"))
+def _staged(tmp_path, mutate_flagship=None, mutate_export=None) -> tuple[Path, Path]:
+    """Build example evidence from the public contracts in the shape the API consumes."""
+    dirs = []
+    for name, mutate in (
+        ("PUBLIC_TIDAL_WAVE_FLAGSHIP_FLOW_CERTIFICATION", mutate_flagship),
+        ("PUBLIC_PROOF_REPORT_EXPORT", mutate_export),
+    ):
+        manifest = _SCRIPTS.parent / "locks" / "sentinel" / f"DETERMINEX_{name}_LOCK_001.json"
+        contract = json.loads(manifest.read_text(encoding="utf-8"))
+        blob = {
+            "status": contract["status"],
+            "authority": contract["scope_discipline"],
+            "authority_boundary": contract["claim_boundary"],
+        }
         if mutate:
             mutate(blob)
-        (dst / chosen.name).write_text(json.dumps(blob), encoding="utf-8")
-        out.append(dst)
-    return out[0], out[1]
+        directory = tmp_path / name
+        directory.mkdir()
+        (directory / "run_fixture.json").write_text(json.dumps(blob), encoding="utf-8")
+        dirs.append(directory)
+    return dirs[0], dirs[1]
 
 
+def test_documented_boundary_flags_pass(tmp_path):
+    flagship, export = _staged(tmp_path)
+    assert M.load(flagship_dir=flagship, export_dir=export).decision.endswith("PASSED")
+
+
+@pytest.mark.skipif(not evidence_tree_present(), reason="full evidence archive is not distributed")
 def test_the_real_evidence_still_passes():
     """The load-bearing negative control. Tightening a release gate is only safe if the
     genuine artifacts still clear it, and that has to be asserted, not assumed."""
     assert M.load().decision.endswith("PASSED")
 
 
+@pytest.mark.skipif(not evidence_tree_present(), reason="full evidence archive is not distributed")
 def test_all_six_required_flags_are_actually_present_in_the_real_evidence():
     """Documents WHY the fix was safe. If a future evidence generator stops emitting one of
     these, this test says so directly instead of the gate mysteriously starting to block."""
@@ -65,13 +83,14 @@ def test_all_six_required_flags_are_actually_present_in_the_real_evidence():
         assert not missing, f"{src_dir.name} evidence is missing {missing}"
 
 
-def test_an_absent_required_flag_blocks_rather_than_being_assumed_true():
+def test_an_absent_required_flag_blocks_rather_than_being_assumed_true(tmp_path):
     """THE BUG. `if k in ab and ...` meant a missing flag was never checked, and the status
     it fed defaulted to True."""
     fdir, edir = _staged(
+        tmp_path,
         mutate_flagship=lambda b: b["authority_boundary"].pop(
             "training_eligibility_remains_false", None
-        )
+        ),
     )
     st = M.load(flagship_dir=fdir, export_dir=edir)
     assert "BLOCKED" in st.decision, st.decision
@@ -79,34 +98,35 @@ def test_an_absent_required_flag_blocks_rather_than_being_assumed_true():
     assert any("cannot be assumed" in str(n) for n in st.notes), st.notes
 
 
-def test_a_required_flag_set_to_false_still_blocks():
+def test_a_required_flag_set_to_false_still_blocks(tmp_path):
     """The original check did catch this case. Keeping it pinned so the presence fix does
     not accidentally replace the value check instead of adding to it."""
     fdir, edir = _staged(
+        tmp_path,
         mutate_flagship=lambda b: b["authority_boundary"].update(
             {"broad_claims_remain_false": False}
-        )
+        ),
     )
     st = M.load(flagship_dir=fdir, export_dir=edir)
     assert "BLOCKED" in st.decision
     assert any("broad_claims_remain_false" in str(n) for n in st.notes)
 
 
-def test_the_export_side_is_checked_too_not_only_the_flagship():
+def test_the_export_side_is_checked_too_not_only_the_flagship(tmp_path):
     """The loop covers both sources; an asymmetry here would mean half the evidence was
     unguarded while the report still said PASSED."""
     fdir, edir = _staged(
+        tmp_path,
         mutate_export=lambda b: b["authority_boundary"].pop(
             "source_mutation_remains_unauthorized", None
-        )
+        ),
     )
     st = M.load(flagship_dir=fdir, export_dir=edir)
     assert "BLOCKED" in st.decision, st.decision
     assert any("export" in str(n) for n in st.notes), st.notes
 
 
-def test_absent_evidence_is_awaiting_not_passing():
+def test_absent_evidence_is_awaiting_not_passing(tmp_path):
     """A missing evidence directory must never read as compliance."""
-    empty = Path(tempfile.mkdtemp())
-    st = M.load(flagship_dir=empty, export_dir=empty)
-    assert not st.decision.endswith("PASSED"), st.decision
+    st = M.load(flagship_dir=tmp_path, export_dir=tmp_path)
+    assert st.decision.endswith("AWAITING_EVIDENCE"), st.decision
