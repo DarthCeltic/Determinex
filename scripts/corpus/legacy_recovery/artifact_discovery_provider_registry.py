@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
 
-class ProviderDecisionStatus(str, Enum):
+class ProviderDecisionStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     PROVIDER_ALLOWED = "PROVIDER_ALLOWED"
     PROVIDER_REJECTED = "PROVIDER_REJECTED"
     PROVIDER_NEEDS_EXACT_REFERENCE = "PROVIDER_NEEDS_EXACT_REFERENCE"

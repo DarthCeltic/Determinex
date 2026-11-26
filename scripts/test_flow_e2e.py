@@ -50,9 +50,9 @@ MANIFEST = Path(
 )
 _manifest = json.load(open(MANIFEST))
 _gguf_digest = next(
-    l["digest"].replace("sha256:", "sha256-")
-    for l in _manifest["layers"]
-    if "model" in l.get("mediaType", "")
+    layer["digest"].replace("sha256:", "sha256-")
+    for layer in _manifest["layers"]
+    if "model" in layer.get("mediaType", "")
 )
 GGUF_PATH = Path(f"T:/OllamaModels/models/blobs/{_gguf_digest}")
 
@@ -147,7 +147,7 @@ def state_vec(extracted_state):
     compressor = KVCompressor()
     store = KVStore(str(DB_PATH))
     cs = compressor.compress(extracted_state, family="qwen", layer_idx=14, context_text=CONTEXT)
-    row_id = store.store(CONTEXT, "qwen", cs)
+    store.store(CONTEXT, "qwen", cs)
     ctx_hash = hashlib.sha256(CONTEXT.encode()).hexdigest()
     cs_back = store.retrieve_by_hash(ctx_hash)
     state_back = compressor.decompress(cs_back)

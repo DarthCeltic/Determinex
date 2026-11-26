@@ -428,13 +428,15 @@ def render_prompt_block(short: str, max_chars: int = 2600, observations: list | 
         hard = rec.get("hard_behaviors") or []
         if hard:  # tool-specific learned pitfalls -- high value, keep ahead of generic content
             block.append(
-                "## Behaviors that were HARD last time (get these RIGHT)\n%s"
-                % "\n".join(f"- {h}" for h in hard[:20])
+                "## Behaviors that were HARD last time (get these RIGHT)\n{}".format(
+                    "\n".join(f"- {h}" for h in hard[:20])
+                )
             )
         if spec:
             block.append(
-                "## What Determinex already knows about `%s` (discovered)\n%s"
-                % (short, "\n".join(f"- {s}" for s in spec[:20]))
+                "## What Determinex already knows about `{}` (discovered)\n{}".format(
+                    short, "\n".join(f"- {s}" for s in spec[:20])
+                )
             )
     block.append(CROSS_TOOL_PITFALLS)  # generic, applies everywhere -- truncate first if tight
     return "\n\n".join(block)[:max_chars]

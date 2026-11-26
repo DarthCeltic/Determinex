@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -21,7 +21,10 @@ from corpus.programbench.operator_artifact_admission_record import (
 )
 
 
-class OperatorArtifactAdmissionStatus(str, Enum):
+class OperatorArtifactAdmissionStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     OPERATOR_ARTIFACT_ADMISSION_READY = "OPERATOR_ARTIFACT_ADMISSION_READY"
     OPERATOR_ARTIFACT_ADMISSION_ACCEPTED = "OPERATOR_ARTIFACT_ADMISSION_ACCEPTED"
     OPERATOR_ARTIFACT_ADMISSION_REJECTED = "OPERATOR_ARTIFACT_ADMISSION_REJECTED"

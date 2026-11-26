@@ -700,7 +700,9 @@ class ShadowCompiler:
         lines = raw.splitlines()
         # Filter out noise
         relevant = [
-            l for l in lines if not any(x in l for x in ("DeprecationWarning", "site-packages"))
+            text_line
+            for text_line in lines
+            if not any(x in text_line for x in ("DeprecationWarning", "site-packages"))
         ]
         return "\n".join(relevant[-60:])[:3000]
 
@@ -1032,7 +1034,9 @@ class PatchPipeline:
 
                 if total <= 200:
                     # Small file: show the whole thing
-                    numbered = "\n".join(f"{i + 1:4d}: {l}" for i, l in enumerate(all_lines))
+                    numbered = "\n".join(
+                        f"{i + 1:4d}: {text_line}" for i, text_line in enumerate(all_lines)
+                    )
                     file_summaries.append(f"=== {rel} ({total} lines) ===\n{numbered}")
                 else:
                     # Large file: signature index + targeted region
@@ -1069,9 +1073,12 @@ class PatchPipeline:
 
                     # 4) If no anchors, show first 40 + last 20 lines
                     if not region_parts:
-                        head = "\n".join(f"{i + 1:4d}: {l}" for i, l in enumerate(all_lines[:40]))
+                        head = "\n".join(
+                            f"{i + 1:4d}: {text_line}" for i, text_line in enumerate(all_lines[:40])
+                        )
                         tail = "\n".join(
-                            f"{total - 20 + i + 1:4d}: {l}" for i, l in enumerate(all_lines[-20:])
+                            f"{total - 20 + i + 1:4d}: {text_line}"
+                            for i, text_line in enumerate(all_lines[-20:])
                         )
                         region_parts.append(f"  [head: lines 1–40]\n{head}")
                         region_parts.append(f"  [tail: lines {total - 19}–{total}]\n{tail}")
@@ -1164,12 +1171,12 @@ class PatchPipeline:
         if len(lines) > self._REGION_THRESHOLD:
             # Region mode: only show the relevant section
             r_start, r_end = self._extract_target_region(
-                [l.rstrip("\n") for l in lines],
+                [text_line.rstrip("\n") for text_line in lines],
                 step.get("description", ""),
                 shadow_trace,
                 step["file"],
             )
-            region = [l.rstrip("\n") for l in lines[r_start:r_end]]
+            region = [text_line.rstrip("\n") for text_line in lines[r_start:r_end]]
             numbered = "\n".join(f"{r_start + i + 1:4d} | {line}" for i, line in enumerate(region))
             prompt = (
                 f"Fix this section of the file to resolve the bug.\n\n"
@@ -1183,8 +1190,8 @@ class PatchPipeline:
                 f"No line numbers. No markdown fences. No explanations."
             )
         else:
-            plain = [l.rstrip("\n") for l in lines]
-            numbered = "\n".join(f"{i + 1:4d} | {l}" for i, l in enumerate(plain))
+            plain = [text_line.rstrip("\n") for text_line in lines]
+            numbered = "\n".join(f"{i + 1:4d} | {text_line}" for i, text_line in enumerate(plain))
             prompt = (
                 f"Fix this file to resolve the bug.\n\n"
                 f"Bug:\n{issue_text[:1500]}\n\n"

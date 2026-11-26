@@ -79,7 +79,7 @@ def main() -> int:
             "1",
             "--skip-eval",
         ]
-        p = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
+        subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
         gate_json = run_root / "gate_result.json"
         if not gate_json.is_file():
             errors.append((slug, "gate produced no gate_result.json"))

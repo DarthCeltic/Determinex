@@ -215,7 +215,7 @@ def test_missing_llama_cpp_raises_actionable_error(tmp_path):
     ):
         try:
             collect_states_gguf(gguf, SHARED_PROMPTS[:1], "testfamily", tmp_path / "out")
-            assert False, "expected LlamaCppUnavailable"
+            raise AssertionError("expected LlamaCppUnavailable")
         except LlamaCppUnavailable as e:
             assert "pip install llama-cpp-python" in str(e)
 
@@ -268,7 +268,7 @@ def test_run_collection_gguf_propagates_missing_dependency_instead_of_recording_
     ):
         try:
             run_collection_gguf(out_dir, single=("testfamily", gguf))
-            assert False, "expected LlamaCppUnavailable to propagate"
+            raise AssertionError("expected LlamaCppUnavailable to propagate")
         except LlamaCppUnavailable:
             pass
 

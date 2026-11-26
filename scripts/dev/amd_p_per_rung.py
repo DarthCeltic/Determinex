@@ -35,8 +35,8 @@ sys.path.insert(0, str(_ROOT / "scripts"))
 sys.path.insert(0, str(_ROOT / "scripts" / "dev"))
 
 TASK = (
-    'solution(s) evaluates an arithmetic expression string containing non-negative integers, '
-    '+ - * /, and parentheses, using normal precedence, where / is integer division '
+    "solution(s) evaluates an arithmetic expression string containing non-negative integers, "
+    "+ - * /, and parentheses, using normal precedence, where / is integer division "
     'truncating toward zero. For example solution("2+3*4") returns 14, solution("(2+3)*4") '
     'returns 20, solution("7/2") returns 3, solution("-7/2") returns -3, '
     'solution("2*(3+4)-5") returns 9, and solution("10") returns 10.'
@@ -88,8 +88,11 @@ def main() -> int:
             "distinct": len(set(outs)),
             "wall_s": round(time.monotonic() - t0, 1),
         }
-        print(f"  t={temp:<4} p={p:.3f}  ({passes}/{a.n})  distinct={len(set(outs))}/{len(outs)}"
-              f"  {rungs[str(temp)]['wall_s']}s", flush=True)
+        print(
+            f"  t={temp:<4} p={p:.3f}  ({passes}/{a.n})  distinct={len(set(outs))}/{len(outs)}"
+            f"  {rungs[str(temp)]['wall_s']}s",
+            flush=True,
+        )
 
     # The three numbers, side by side.
     ps = [rungs[str(t)]["p"] for t in LADDER]

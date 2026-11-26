@@ -43,26 +43,43 @@ const GROUPS = {
 
 async function unobstructed() {
   await page
-    .waitForFunction(() => !document.querySelector('div.absolute.inset-0[class*="z-[110]"]'), null, {
-      timeout: 180000,
-      polling: 400,
-    })
+    .waitForFunction(
+      () => !document.querySelector('div.absolute.inset-0[class*="z-[110]"]'),
+      null,
+      {
+        timeout: 180000,
+        polling: 400,
+      }
+    )
     .catch(() => {});
 }
 
 async function open(rail, id) {
   await unobstructed();
-  await page.getByTitle("Close add-on").first().click({ timeout: 2500 }).catch(() => {});
-  await page.getByRole("button", { name: /^Dismiss$/ }).first().click({ timeout: 2000 }).catch(() => {});
+  await page
+    .getByTitle("Close add-on")
+    .first()
+    .click({ timeout: 2500 })
+    .catch(() => {});
+  await page
+    .getByRole("button", { name: /^Dismiss$/ })
+    .first()
+    .click({ timeout: 2000 })
+    .catch(() => {});
   const member = page.locator(`[data-testid="surface-member-${id}"]`).first();
   if (!(await member.isVisible().catch(() => false))) {
-    await page.getByRole("button", { name: new RegExp(`^${rail}$`, "i") }).first().click({ timeout: 12000 }).catch(() => {});
+    await page
+      .getByRole("button", { name: new RegExp(`^${rail}$`, "i") })
+      .first()
+      .click({ timeout: 12000 })
+      .catch(() => {});
     await sleep(900);
   }
   const panelBtn = page.locator(`[data-testid="surface-open-${id}-panel"]`).first();
   const modalBtn = page.locator(`[data-testid="surface-open-${id}"]`).first();
   const any = async () =>
-    (await panelBtn.isVisible().catch(() => false)) || (await modalBtn.isVisible().catch(() => false));
+    (await panelBtn.isVisible().catch(() => false)) ||
+    (await modalBtn.isVisible().catch(() => false));
   if (!(await any())) {
     await member.click({ timeout: 10000 }).catch(() => {});
     await sleep(900);
@@ -96,7 +113,11 @@ async function layout() {
       if (r.bottom > window.innerHeight + 2 && r.top < window.innerHeight) {
         const t = (el.textContent || "").trim().slice(0, 40);
         if (t && el.childElementCount === 0)
-          clipped.push({ overflow: "below-fold", by: Math.round(r.bottom - window.innerHeight), text: t });
+          clipped.push({
+            overflow: "below-fold",
+            by: Math.round(r.bottom - window.innerHeight),
+            text: t,
+          });
       }
     }
     return {
@@ -121,15 +142,23 @@ for (const [rail, ids] of Object.entries(GROUPS)) {
       (lay.clipped?.length ?? 0) > 0 ? `CLIPPED x${lay.clipped.length}` : "",
       how ? "" : "NOT-OPENED",
     ].filter(Boolean);
-    console.log(`  ${rail.padEnd(7)} ${id.padEnd(16)} ${(how ?? "-").padEnd(6)} ${flags.join("  ")}`);
+    console.log(
+      `  ${rail.padEnd(7)} ${id.padEnd(16)} ${(how ?? "-").padEnd(6)} ${flags.join("  ")}`
+    );
   }
 }
 fs.writeFileSync(`${OUT}/manifest.json`, JSON.stringify(manifest, null, 2));
-const flagged = manifest.filter((m) => m.pageScrollsSideways || (m.clipped?.length ?? 0) > 0 || !m.how);
+const flagged = manifest.filter(
+  (m) => m.pageScrollsSideways || (m.clipped?.length ?? 0) > 0 || !m.how
+);
 console.log(`\n  ${manifest.length} shots -> ${OUT}`);
 console.log(`  ${flagged.length} flagged for a look:`);
 for (const f of flagged) {
-  const why = f.pageScrollsSideways ? "sideways scroll" : !f.how ? "did not open" : `${f.clipped.length} clipped`;
+  const why = f.pageScrollsSideways
+    ? "sideways scroll"
+    : !f.how
+      ? "did not open"
+      : `${f.clipped.length} clipped`;
   console.log(`    ${f.rail}/${f.id}  ${why}`);
   for (const c of f.clipped ?? []) console.log(`        ${c.overflow} by ${c.by}px: ${c.text}`);
 }

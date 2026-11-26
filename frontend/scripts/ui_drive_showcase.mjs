@@ -69,7 +69,11 @@ async function openTo(target, opener) {
 
 async function openSurface(rail, id) {
   await unobstructed();
-  await page.getByRole("button", { name: /^Dismiss$/ }).first().click({ timeout: 3000 }).catch(() => {});
+  await page
+    .getByRole("button", { name: /^Dismiss$/ })
+    .first()
+    .click({ timeout: 3000 })
+    .catch(() => {});
   const member = page.locator(`[data-testid="surface-member-${id}"]`).first();
   await openTo(member, page.getByRole("button", { name: new RegExp(`^${rail}$`, "i") }).first());
   await unobstructed();
@@ -81,7 +85,11 @@ async function openSurface(rail, id) {
 
 /** Dismiss a maximised attached tool so the next surface is actually reachable. */
 async function dropAddon() {
-  await page.getByTitle("Close add-on").first().click({ timeout: 4000 }).catch(() => {});
+  await page
+    .getByTitle("Close add-on")
+    .first()
+    .click({ timeout: 4000 })
+    .catch(() => {});
   await sleep(800);
 }
 
@@ -91,8 +99,8 @@ async function dropAddon() {
 const geom = await page.evaluate(() => ({
   inner: [window.innerWidth, window.innerHeight],
   statusBarBottom: (() => {
-    const el = [...document.querySelectorAll("*")].find((e) =>
-      /Oracle Ready/i.test(e.textContent || "") && e.children.length < 8
+    const el = [...document.querySelectorAll("*")].find(
+      (e) => /Oracle Ready/i.test(e.textContent || "") && e.children.length < 8
     );
     return el ? Math.round(el.getBoundingClientRect().bottom) : null;
   })(),
@@ -263,7 +271,9 @@ try {
   }, EXAMPLES);
   console.log(`    solved=${built?.solved}  checks=${built?.n_checks}  samples=${built?.samples}`);
   console.log(`    "${String(built?.proof ?? built?.error ?? "").slice(0, 220)}"`);
-  for (const line of String(built?.program ?? "").split("\n").slice(0, 8)) {
+  for (const line of String(built?.program ?? "")
+    .split("\n")
+    .slice(0, 8)) {
     console.log(`      ${line}`);
   }
   await beat(5000);
@@ -305,7 +315,11 @@ try {
       .catch(() => {});
     // Three of them, so "in tandem" is literally what is on screen.
     for (const who of ["probe: claude", "probe: codex", "probe: ollama"]) {
-      await page.locator(`text=/${who}/i`).first().click({ timeout: 6000 }).catch(() => {});
+      await page
+        .locator(`text=/${who}/i`)
+        .first()
+        .click({ timeout: 6000 })
+        .catch(() => {});
       await sleep(700);
     }
     await beat(2000);
@@ -322,7 +336,10 @@ try {
   // Show the model choice being made in the shared vocabulary, on camera.
   const picker = page.locator("select").first();
   if (await picker.isVisible().catch(() => false)) {
-    const opts = await picker.locator("option").allInnerTexts().catch(() => []);
+    const opts = await picker
+      .locator("option")
+      .allInnerTexts()
+      .catch(() => []);
     console.log(`      model choices on screen: ${opts.join(" | ")}`);
     await picker.selectOption({ index: Math.min(2, Math.max(0, opts.length - 2)) }).catch(() => {});
     await beat(1800);

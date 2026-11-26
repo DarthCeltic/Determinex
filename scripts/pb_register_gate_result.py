@@ -79,7 +79,7 @@ def _load_gate(path: Path) -> dict[str, Any]:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except Exception as e:
-        raise SystemExit(f"could not parse gate_result.json: {e}")
+        raise SystemExit(f"could not parse gate_result.json: {e}") from e
 
 
 def append_row(row: dict[str, Any]) -> Path:

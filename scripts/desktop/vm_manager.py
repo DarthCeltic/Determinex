@@ -98,7 +98,7 @@ class VMManager:
 
     def _vbox_start(self, vm_id: str) -> VMInfo:
         try:
-            result = subprocess.run(
+            subprocess.run(
                 ["VBoxManage", "startvm", vm_id, "--type", "headless"],
                 capture_output=True,
                 text=True,
@@ -107,10 +107,10 @@ class VMManager:
             info = VMInfo(vm_id=vm_id, provider="virtualbox", state="running")
             self._active_vms[vm_id] = info
             return info
-        except FileNotFoundError:
+        except FileNotFoundError as exc:
             raise RuntimeError(
                 "VBoxManage not found. Install VirtualBox or set DETERMINEX_REQUIRE_VM=0."
-            )
+            ) from exc
         except subprocess.CalledProcessError as exc:
             raise RuntimeError(f"VBoxManage startvm failed: {exc.stderr}") from exc
 

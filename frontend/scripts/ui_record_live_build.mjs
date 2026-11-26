@@ -24,12 +24,18 @@ fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.connectOverCDP(process.env.DTX_CDP || "http://localhost:9223");
-const page = browser.contexts()[0].pages().find((p) => p.url().includes("localhost:3000"));
+const page = browser
+  .contexts()[0]
+  .pages()
+  .find((p) => p.url().includes("localhost:3000"));
 
 const click = async (t) => {
   const l = page.locator(`[data-testid="${t}"]`);
   if (!(await l.count())) return false;
-  await l.first().click({ timeout: 4000 }).catch(() => {});
+  await l
+    .first()
+    .click({ timeout: 4000 })
+    .catch(() => {});
   return true;
 };
 
@@ -38,10 +44,18 @@ const click = async (t) => {
 for (let i = 0; i < 4; i++) {
   const x = page.getByTitle("Close add-on");
   if (!(await x.count().catch(() => 0))) break;
-  await x.first().click({ timeout: 2000 }).catch(() => {});
+  await x
+    .first()
+    .click({ timeout: 2000 })
+    .catch(() => {});
   await page.waitForTimeout(250);
 }
-if (await page.locator('[data-testid="guide-overlay"]').count().catch(() => 0)) {
+if (
+  await page
+    .locator('[data-testid="guide-overlay"]')
+    .count()
+    .catch(() => 0)
+) {
   await page.evaluate(() => document.querySelector('[data-testid="guide-overlay"]')?.remove());
 }
 await click("rail-group-work");
@@ -64,9 +78,7 @@ await box.fill("");
 
 let n = 0;
 const shoot = async () => {
-  await page
-    .screenshot({ path: `${OUT}/f${String(n).padStart(5, "0")}.png` })
-    .catch(() => {});
+  await page.screenshot({ path: `${OUT}/f${String(n).padStart(5, "0")}.png` }).catch(() => {});
   n++;
 };
 
@@ -119,11 +131,18 @@ await page.waitForTimeout(2500);
 const clickTid = async (t) => {
   const l = page.locator(`[data-testid="${t}"]`);
   if (!(await l.count())) return false;
-  await l.first().click({ timeout: 4000 }).catch(() => {});
+  await l
+    .first()
+    .click({ timeout: 4000 })
+    .catch(() => {});
   return true;
 };
 const x2 = page.getByTitle("Close add-on");
-if (await x2.count().catch(() => 0)) await x2.first().click({ timeout: 2000 }).catch(() => {});
+if (await x2.count().catch(() => 0))
+  await x2
+    .first()
+    .click({ timeout: 2000 })
+    .catch(() => {});
 await clickTid("rail-group-prove");
 await page.waitForTimeout(700);
 await clickTid("surface-member-proof");
@@ -135,7 +154,9 @@ clearInterval(grabber);
 await shoot();
 
 const secs = (Date.now() - t0) / 1000;
-console.log(`frames: ${n}  build wall clock: ${secs.toFixed(1)}s  verdict matched: ${verdict || "(none)"}`);
+console.log(
+  `frames: ${n}  build wall clock: ${secs.toFixed(1)}s  verdict matched: ${verdict || "(none)"}`
+);
 fs.writeFileSync(
   `${OUT}/run.json`,
   JSON.stringify({ frames: n, fps: FPS, seconds: secs, verdict, idea: IDEA }, null, 2)

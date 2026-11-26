@@ -96,8 +96,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 def _try_import_tree_sitter():
     try:
-        import tree_sitter
-        from tree_sitter import Language, Parser
+        from tree_sitter import Parser
 
         return Parser
     except ImportError:

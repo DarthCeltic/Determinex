@@ -288,7 +288,7 @@ def main():
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
     written = 0
     for t in inscope:
-        path = scaffold(
+        scaffold(
             instance_id=t["instance_id"],
             lang=t.get("lang", "?"),
             tests=t.get("tests", 0),

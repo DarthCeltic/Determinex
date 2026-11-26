@@ -149,7 +149,6 @@ class ProgramBenchCommitProvenanceRepairAudit:
         dirty_state = self._git_status()
 
         programbench_files = classified["CODEX_PROGRAMBENCH"]
-        frontend_files = classified["CLAUDE_FRONTEND"]
         has_label_warning = commit_subject.startswith("FRONTEND_") and bool(programbench_files)
         cross_lane_imports_found = bool(
             programbench_imports["matches"] or frontend_imports["matches"]

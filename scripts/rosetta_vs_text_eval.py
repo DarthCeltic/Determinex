@@ -473,7 +473,7 @@ def run_text_pipeline_step(
     last_error = ""
     start = time.perf_counter()
 
-    for attempt in range(max_retries):
+    for _attempt in range(max_retries):
         prompt = context_prompt
         if last_error:
             prompt += f"\n\nPrevious attempt failed with:\n{last_error}\nFix the error."
@@ -550,7 +550,7 @@ def run_rosetta_pipeline_step(
     last_error = ""
     start = time.perf_counter()
 
-    for attempt in range(max_retries):
+    for _attempt in range(max_retries):
         prompt = context_prompt
         if last_error:
             prompt += f"\n\nCOMPILER ERROR:\n{last_error}\nFix the error."
@@ -730,7 +730,7 @@ def detect_dilution(task_results: list[TaskResult]) -> tuple[bool, int | None]:
         for s in tr.text_steps:
             paired.setdefault(s.step_id, {})["text"] = s
 
-        for sid, pair in paired.items():
+        for _sid, pair in paired.items():
             if "rosetta" not in pair or "text" not in pair:
                 continue
             bucket = (pair["rosetta"].context_tokens // 128) * 128  # 128-token bucket width

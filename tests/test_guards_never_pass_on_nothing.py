@@ -119,15 +119,34 @@ def test_the_provenance_guard_reports_unscannable_locks():
     )
 
 
-def test_the_provenance_guard_fails_when_a_lock_cannot_be_examined(monkeypatch, tmp_path):
-    """End to end: a registry naming a tool with no artifacts must not exit 0."""
+@pytest.mark.parametrize(
+    ("filtered", "has_one_source", "expected_exit", "expected_verdict"),
+    [
+        (False, False, 1, "PROVENANCE GUARD FAILED"),
+        (True, False, 0, "PROVENANCE GUARD CANNOT VERIFY"),
+        (True, True, 1, "PROVENANCE GUARD FAILED"),
+    ],
+    ids=["strict-missing", "declared-filtered", "partially-missing"],
+)
+def test_provenance_for_missing_archives(
+    monkeypatch, tmp_path, capsys, filtered, has_one_source, expected_exit, expected_verdict
+):
     import determinex_pb_provenance_guard as pg
 
     reg = tmp_path / "verified_locks.json"
-    reg.write_text('{"locks": ["tool-with-no-archive-anywhere"]}', encoding="utf-8")
+    reg.write_text('{"locks": ["one", "two"]}', encoding="utf-8")
+    locked = tmp_path / "locked"
+    if has_one_source:
+        source = locked / "one" / "source"
+        source.mkdir(parents=True)
+        (source / "main.py").write_text("print(1)\\n", encoding="utf-8")
+    if filtered:
+        monkeypatch.setenv("DETERMINEX_FILTERED_CHECKOUT", "1")
+    else:
+        monkeypatch.delenv("DETERMINEX_FILTERED_CHECKOUT", raising=False)
     monkeypatch.setattr(pg, "REG", reg)
-    monkeypatch.setattr(pg, "LOCKED", tmp_path / "locked-that-does-not-exist")
+    monkeypatch.setattr(pg, "LOCKED", locked)
     monkeypatch.setattr(sys, "argv", ["prog", "--guard"])
 
-    code = pg.main()
-    assert code != 0, "a lock with no archive on disk was certified clean"
+    assert pg.main() == expected_exit
+    assert expected_verdict in capsys.readouterr().out

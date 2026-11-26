@@ -70,10 +70,10 @@ def _decrypt_envelope(key_bytes: bytes, encoded: str) -> str:
     """
     try:
         from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-    except ImportError:
+    except ImportError as exc:
         raise ImportError(
             "[FORGE] 'cryptography' package required.\n       pip install cryptography"
-        )
+        ) from exc
 
     envelope = base64.b64decode(encoded.strip())
     if len(envelope) < 28:  # 12 nonce + 16 tag minimum

@@ -182,3 +182,47 @@ def test_every_configured_image_either_is_pullable_or_ships_a_build_hint():
                 f"{lang} uses locally-built image {image} but has no build hint, so a "
                 f"missing image cannot report how to obtain it"
             )
+
+
+def test_python_staging_limits_links_and_skips_generated_trees(tmp_path, monkeypatch):
+    workspace = tmp_path / "source"
+    workspace.mkdir()
+    external = tmp_path / "outside"
+    external.mkdir()
+    internal = workspace / "inner"
+    internal.mkdir()
+    (workspace / ".venv").mkdir()
+    try:
+        (workspace / "linked").symlink_to("inner", target_is_directory=True)
+    except OSError as exc:
+        if getattr(exc, "winerror", None) != 1314:
+            raise
+        pytest.skip(f"test host cannot create a directory symlink: {exc}")
+
+    def inspect_staging(staged, lang):
+        link = staged / "linked"
+        assert link.is_symlink()
+        assert link.readlink() == (workspace / "linked").readlink()
+        assert not (staged / ".venv").exists()
+        return True, ""
+
+    monkeypatch.setattr(C, "_oracle_backend", lambda: "docker")
+    monkeypatch.setattr(C, "_validate_python_workspace", inspect_staging)
+    assert C._validate_python(workspace, "python") == (True, "")
+    (workspace / "external").symlink_to(external, target_is_directory=True)
+    passed, diagnostic = C._validate_python(workspace, "python")
+    assert not passed and "outside its source" in diagnostic
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="NTFS reparse points are Windows-specific")
+def test_python_staging_refuses_windows_directory_junction(tmp_path, monkeypatch):
+    import _winapi
+
+    source = tmp_path / "source"
+    source.mkdir()
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    _winapi.CreateJunction(str(outside), str(source / "junction"))
+    monkeypatch.setattr(C, "_oracle_backend", lambda: "docker")
+    passed, diagnostic = C._validate_python(source, "python")
+    assert not passed and "directory reparse point" in diagnostic

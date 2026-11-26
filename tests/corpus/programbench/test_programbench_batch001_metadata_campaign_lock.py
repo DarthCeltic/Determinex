@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 from corpus.programbench.batch001_metadata_campaign import (
     Batch001MetadataCampaignConfig,
     ProgramBenchBatch001MetadataCampaign,
@@ -8,6 +9,8 @@ from corpus.programbench.batch001_metadata_campaign import (
 )
 from corpus.programbench.batch001_metadata_campaign_record import verify_metadata_campaign_record
 from corpus.programbench.operator_ready_platform import DOXYGEN_INSTANCE
+
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
 
 
 def _campaign() -> ProgramBenchBatch001MetadataCampaign:

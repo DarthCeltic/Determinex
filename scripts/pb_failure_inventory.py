@@ -90,7 +90,7 @@ def _patch_runner(path: Path, candidate: Path) -> str | None:
     for var_name in _EXE_VAR_NAMES:
         pattern = rf"^{var_name}\s*=\s*[^\n]+$"
         repl = f'{var_name} = {path_cls}(r"{candidate_str}")'
-        patched = re.sub(pattern, lambda _m: repl, patched, count=1, flags=re.M)
+        patched = re.sub(pattern, lambda _m, repl=repl: repl, patched, count=1, flags=re.M)
         patched = re.sub(
             rf"subprocess\.run\(\s*\[\s*{var_name}\b",
             lambda _m, v=var_name: f"subprocess.run([sys.executable, str({v})",

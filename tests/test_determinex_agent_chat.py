@@ -91,7 +91,7 @@ def test_create_session_rejects_invalid_turn_mode(tmp_path, monkeypatch):
     _rewire(monkeypatch, tmp_path)
     try:
         chat.create_session("sess-b", "C:/ws", ["codex"], "chaos")
-        assert False, "expected ValueError"
+        raise AssertionError("expected ValueError")
     except ValueError:
         pass
 

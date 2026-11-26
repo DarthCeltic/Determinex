@@ -6,7 +6,7 @@ import json
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -42,20 +42,29 @@ INSTANCE_ID = "doxygen__doxygen.966d98e"
 EXPECTED_DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
 
 
-class AuthorityValue(str, Enum):
+class AuthorityValue(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     PRESENT = "PRESENT"
     ABSENT = "ABSENT"
     INCONCLUSIVE = "INCONCLUSIVE"
 
 
-class ExecutionSecurityPolicy(str, Enum):
+class ExecutionSecurityPolicy(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     ALLOWED = "ALLOWED"
     BLOCKED_SCAN_FAILED = "BLOCKED_SCAN_FAILED"
     BLOCKED_POLICY_REVIEW_REQUIRED = "BLOCKED_POLICY_REVIEW_REQUIRED"
     INCONCLUSIVE = "INCONCLUSIVE"
 
 
-class UpstreamArtifactAuthorityRecheckStatus(str, Enum):
+class UpstreamArtifactAuthorityRecheckStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_COMPLETED = "UPSTREAM_ARTIFACT_AUTHORITY_RECHECK_COMPLETED"
     UPSTREAM_ARTIFACT_AUTHORITY_PRESENT = "UPSTREAM_ARTIFACT_AUTHORITY_PRESENT"
     UPSTREAM_ARTIFACT_AUTHORITY_ABSENT = "UPSTREAM_ARTIFACT_AUTHORITY_ABSENT"
@@ -125,7 +134,6 @@ class ProgramBenchUpstreamArtifactAuthorityRecheck:
         decision_record = records["rebuild_quarantine_decision"]
         scan = records["scan_record"]
         hydration = records["hydration_record"]
-        provider_lock = records.get("provider_registry_lock", {})
         local_usage = self._local_authority_evidence(expected_image)
 
         image_reference = _first_text(

@@ -119,10 +119,13 @@ def run_repo(cfg: dict) -> dict:
                 cwd=d,
             )
         res["resolved_sha"] = sh("git rev-parse --short HEAD", cwd=d)[1].strip()
+
         # Run install+test TOGETHER per phase in ONE container — gem/bundler/venv environments do
         # not carry across separate `docker run` invocations. Deps are cached in the mounted dir
         # (vendor/bundle, node_modules, .m2) so the re-install on phases 2-3 is near-instant.
-        phase = lambda: runner("(%s) >/tmp/_inst.log 2>&1; %s" % (cfg["install"], cfg["test"]))
+        def phase():
+            return runner("({}) >/tmp/_inst.log 2>&1; {}".format(cfg["install"], cfg["test"]))
+
         rc_b, out_b = phase()
         res["baseline_rc"] = rc_b
         res["baseline_count"] = count_from(out_b)

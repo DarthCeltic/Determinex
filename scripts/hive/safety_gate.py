@@ -33,9 +33,13 @@ if str(_SCRIPTS) not in sys.path:
 
 try:
     from determinex_safety import (
-        CorpusTamperError,
+        CorpusTamperError as CorpusTamperError,
+    )
+    from determinex_safety import (
         SafetyDenied,
-        SafetyVerdict,
+    )
+    from determinex_safety import (
+        SafetyVerdict as SafetyVerdict,
     )
     from determinex_safety import (
         check_egress as _check_egress,

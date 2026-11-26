@@ -150,8 +150,6 @@ def main():
     fails = load_tool_failures()
     meta = load_task_meta()
 
-    # Snippet library: bucket -> list of source records
-    library = defaultdict(list)
     # All extracted snippets — one file per bucket with provenance
     extracted_by_bucket = defaultdict(list)
 

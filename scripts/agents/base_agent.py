@@ -9,7 +9,7 @@ import hashlib
 import json
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from enum import Enum
+from enum import Enum, StrEnum
 from typing import Any
 
 SCHEMA_VERSION = "determinex-agent-trace-v1"
@@ -20,7 +20,10 @@ SCHEMA_VERSION = "determinex-agent-trace-v1"
 # ---------------------------------------------------------------------------
 
 
-class EnvType(str, Enum):
+class EnvType(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CODE = "code"
     TERMINAL = "terminal"
     VISION = "vision"
@@ -37,7 +40,10 @@ class EnvType(str, Enum):
 # ---------------------------------------------------------------------------
 
 
-class ActionType(str, Enum):
+class ActionType(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     # Observation (read-only)
     READ_SCREEN = "READ_SCREEN"
     READ_DOM = "READ_DOM"
@@ -83,7 +89,10 @@ class ActionType(str, Enum):
 # ---------------------------------------------------------------------------
 
 
-class OracleType(str, Enum):
+class OracleType(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     COMPILER = "compiler"
     TEST = "test"
     TERMINAL = "terminal"
@@ -104,7 +113,10 @@ class OracleType(str, Enum):
 # ---------------------------------------------------------------------------
 
 
-class CorpusType(str, Enum):
+class CorpusType(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CODE_VERDICT = "code_verdict"
     TERMINAL_TRACE = "terminal_trace"
     BROWSER_TRACE = "browser_trace"

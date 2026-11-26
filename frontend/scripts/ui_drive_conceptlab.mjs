@@ -47,7 +47,10 @@ async function waitUnobstructed(page, label = "") {
     { timeout: 180000, polling: 400 }
   );
   const waited = (Date.now() - t0) / 1000;
-  if (waited > 1) console.log(`   waited ${waited.toFixed(1)}s for the boot overlay${label ? ` (${label})` : ""}`);
+  if (waited > 1)
+    console.log(
+      `   waited ${waited.toFixed(1)}s for the boot overlay${label ? ` (${label})` : ""}`
+    );
 }
 
 const browser = await chromium.connectOverCDP("http://localhost:9223");
@@ -188,7 +191,13 @@ console.log("   discovery reached:", sawQuestion);
 await shot("03_discovery");
 if (!sawQuestion) {
   console.log("   NOTE: never reached the guided interview; text was:");
-  console.log((await visibleText()).split("\n").slice(0, 25).map((l) => "     " + l).join("\n"));
+  console.log(
+    (await visibleText())
+      .split("\n")
+      .slice(0, 25)
+      .map((l) => "     " + l)
+      .join("\n")
+  );
   await browser.close();
   process.exit(1);
 }

@@ -83,7 +83,9 @@ li:before { content: "\\2192"; position: absolute; left: 0; color: #0d9488; font
 def slide(body: str, dark: bool = False, n: int = 0) -> str:
     foot = (
         f'<div class="foot"><span>Determinex &middot; AMD Radeon Hackathon Track 2 '
-        f'&middot; DarthCeltic</span><span>{n}</span></div>' if n else ""
+        f"&middot; DarthCeltic</span><span>{n}</span></div>"
+        if n
+        else ""
     )
     return f'<div class="s{" dark" if dark else ""}">{body}{foot}</div>'
 
@@ -98,226 +100,266 @@ def build() -> str:
         logo = f'<img src="data:image/png;base64,{b64}" style="height:52px;margin-bottom:9mm;">'
 
     # 1 — cover
-    S.append(slide(
-        f'{logo}<h1>Determinex</h1>'
-        '<div class="lede" style="margin-top:5mm;font-size:15pt;color:#3ddc97;">'
-        "Compiler-verified AI agents.<br>Private, local, and measured on AMD Radeon.</div>"
-        '<div class="spacer"></div>'
-        '<div class="sub" style="font-size:9.5pt;line-height:1.7;">'
-        "Track 2 &middot; Development &amp; Local Deployment of Private AI Agents<br>"
-        "github.com/DarthCeltic/Determinex &middot; huggingface.co/darthceltic85 "
-        "&middot; AGPL-3.0-or-later</div>",
-        dark=True))
+    S.append(
+        slide(
+            f"{logo}<h1>Determinex</h1>"
+            '<div class="lede" style="margin-top:5mm;font-size:15pt;color:#3ddc97;">'
+            "Compiler-verified AI agents.<br>Private, local, and measured on AMD Radeon.</div>"
+            '<div class="spacer"></div>'
+            '<div class="sub" style="font-size:9.5pt;line-height:1.7;">'
+            "Track 2 &middot; Development &amp; Local Deployment of Private AI Agents<br>"
+            "github.com/DarthCeltic/Determinex &middot; huggingface.co/darthceltic85 "
+            "&middot; AGPL-3.0-or-later</div>",
+            dark=True,
+        )
+    )
 
     # 2 — the problem
-    S.append(slide(
-        '<div class="kicker">The problem</div>'
-        "<h2>Both options are unacceptable</h2>"
-        '<div class="cols">'
-        '<div class="col"><div class="card"><h3>Cloud coding assistants</h3>'
-        "<p>Require shipping proprietary source to a third party, with no guarantee about "
-        "retention, training use, or jurisdiction. For regulated and IP-sensitive work that "
-        "is not a trade-off &mdash; it is a disqualifier.</p></div></div>"
-        '<div class="col"><div class="card"><h3>Local assistants</h3>'
-        "<p>Hand you one small model with nothing checking its work. A 1.5B model that is "
-        "<i>confidently</i> wrong costs more review time than no assistant at all.</p></div>"
-        "</div></div>"
-        '<div class="lede" style="margin-top:5mm;">Determinex refuses both. It runs on your '
-        "own hardware, and it never trusts a model&rsquo;s self-assessment &mdash; "
-        "<b>a real compiler or a real test suite is the only judge.</b></div>", n=2))
+    S.append(
+        slide(
+            '<div class="kicker">The problem</div>'
+            "<h2>Both options are unacceptable</h2>"
+            '<div class="cols">'
+            '<div class="col"><div class="card"><h3>Cloud coding assistants</h3>'
+            "<p>Require shipping proprietary source to a third party, with no guarantee about "
+            "retention, training use, or jurisdiction. For regulated and IP-sensitive work that "
+            "is not a trade-off &mdash; it is a disqualifier.</p></div></div>"
+            '<div class="col"><div class="card"><h3>Local assistants</h3>'
+            "<p>Hand you one small model with nothing checking its work. A 1.5B model that is "
+            "<i>confidently</i> wrong costs more review time than no assistant at all.</p></div>"
+            "</div></div>"
+            '<div class="lede" style="margin-top:5mm;">Determinex refuses both. It runs on your '
+            "own hardware, and it never trusts a model&rsquo;s self-assessment &mdash; "
+            "<b>a real compiler or a real test suite is the only judge.</b></div>",
+            n=2,
+        )
+    )
 
     # 3 — the mechanism
-    S.append(slide(
-        '<div class="kicker">The mechanism</div>'
-        "<h2>Correctness is bought with GPU throughput</h2>"
-        '<div class="lede">A model succeeds on some attempt with probability <code>p</code>. '
-        "Sample <code>K</code> candidates, verify each against a sound oracle, keep what "
-        "passes:</div>"
-        '<div class="big" style="margin:7mm 0 2mm 0;">P = 1 &minus; (1 &minus; p)<sup>K</sup>'
-        "</div>"
-        '<div class="lede">Any <code>p &gt; 0</code> is driven toward correct by raising K. '
-        "The model supplies search; the oracle supplies truth.</div>"
-        '<div class="card" style="margin-top:6mm;"><h3>So accuracy is bounded by batch '
-        "throughput, not by model quality</h3><p>That makes this one of the few agent "
-        "architectures where a GPU property converts <i>directly</i> into a correctness "
-        "property. It is the reason this project belongs on this hardware rather than merely "
-        "running on it.</p></div>", n=3))
+    S.append(
+        slide(
+            '<div class="kicker">The mechanism</div>'
+            "<h2>Correctness is bought with GPU throughput</h2>"
+            '<div class="lede">A model succeeds on some attempt with probability <code>p</code>. '
+            "Sample <code>K</code> candidates, verify each against a sound oracle, keep what "
+            "passes:</div>"
+            '<div class="big" style="margin:7mm 0 2mm 0;">P = 1 &minus; (1 &minus; p)<sup>K</sup>'
+            "</div>"
+            '<div class="lede">Any <code>p &gt; 0</code> is driven toward correct by raising K. '
+            "The model supplies search; the oracle supplies truth.</div>"
+            '<div class="card" style="margin-top:6mm;"><h3>So accuracy is bounded by batch '
+            "throughput, not by model quality</h3><p>That makes this one of the few agent "
+            "architectures where a GPU property converts <i>directly</i> into a correctness "
+            "property. It is the reason this project belongs on this hardware rather than merely "
+            "running on it.</p></div>",
+            n=3,
+        )
+    )
 
     # 4 — THE measurement
-    S.append(slide(
-        '<div class="kicker">The AMD argument &mdash; measured five times</div>'
-        "<h2>The sixth candidate is nearly free</h2>"
-        "<table><tr><th>Run</th><th>Instance</th><th class='num'>Single</th>"
-        "<th class='num'>K=6 aggregate</th><th class='num'>Gain</th>"
-        "<th class='num'>Wall clock</th></tr>"
-        "<tr><td>1</td><td>vLLM Model API</td><td class='num'>30.0</td>"
-        "<td class='num'>166.9</td><td class='num hl'>5.56&times;</td>"
-        "<td class='num'>1.08&times;</td></tr>"
-        "<tr><td>2</td><td>Notebook, local vLLM</td><td class='num'>31.9</td>"
-        "<td class='num'>179.0</td><td class='num hl'>5.61&times;</td>"
-        "<td class='num'>1.07&times;</td></tr>"
-        "<tr><td>3</td><td>Notebook (on camera)</td><td class='num'>32.6</td>"
-        "<td class='num'>186.9</td><td class='num hl'>5.73&times;</td>"
-        "<td class='num'>1.05&times;</td></tr>"
-        "<tr><td>4</td><td>Token Factory</td><td class='num'>26.1</td>"
-        "<td class='num'>&mdash;</td><td class='num'>&mdash;</td>"
-        "<td class='num'>quota wall</td></tr>"
-        "<tr><td>5</td><td><b>Live, recording</b></td><td class='num'>29.5</td>"
-        "<td class='num'>163.0</td><td class='num hl'>5.61&times;</td>"
-        "<td class='num'>1.07&times;</td></tr></table>"
-        '<div class="lede" style="margin-top:5mm;">Absolute rates move with instance load. '
-        "<b>The ratio does not</b> &mdash; and the ratio is the claim, not any single "
-        "figure.</div>", n=4))
+    S.append(
+        slide(
+            '<div class="kicker">The AMD argument &mdash; measured five times</div>'
+            "<h2>The sixth candidate is nearly free</h2>"
+            "<table><tr><th>Run</th><th>Instance</th><th class='num'>Single</th>"
+            "<th class='num'>K=6 aggregate</th><th class='num'>Gain</th>"
+            "<th class='num'>Wall clock</th></tr>"
+            "<tr><td>1</td><td>vLLM Model API</td><td class='num'>30.0</td>"
+            "<td class='num'>166.9</td><td class='num hl'>5.56&times;</td>"
+            "<td class='num'>1.08&times;</td></tr>"
+            "<tr><td>2</td><td>Notebook, local vLLM</td><td class='num'>31.9</td>"
+            "<td class='num'>179.0</td><td class='num hl'>5.61&times;</td>"
+            "<td class='num'>1.07&times;</td></tr>"
+            "<tr><td>3</td><td>Notebook (on camera)</td><td class='num'>32.6</td>"
+            "<td class='num'>186.9</td><td class='num hl'>5.73&times;</td>"
+            "<td class='num'>1.05&times;</td></tr>"
+            "<tr><td>4</td><td>Token Factory</td><td class='num'>26.1</td>"
+            "<td class='num'>&mdash;</td><td class='num'>&mdash;</td>"
+            "<td class='num'>quota wall</td></tr>"
+            "<tr><td>5</td><td><b>Live, recording</b></td><td class='num'>29.5</td>"
+            "<td class='num'>163.0</td><td class='num hl'>5.61&times;</td>"
+            "<td class='num'>1.07&times;</td></tr></table>"
+            '<div class="lede" style="margin-top:5mm;">Absolute rates move with instance load. '
+            "<b>The ratio does not</b> &mdash; and the ratio is the claim, not any single "
+            "figure.</div>",
+            n=4,
+        )
+    )
 
     # 5 — the cliff and the rule
-    S.append(slide(
-        '<div class="kicker">Choosing K</div>'
-        "<h2>Swept, not guessed &mdash; and the cliff is predictable</h2>"
-        '<div class="cols"><div class="col">'
-        "<table><tr><th>K</th><th class='num'>agg tok/s</th><th class='num'>vs K=1</th></tr>"
-        "<tr><td>1</td><td class='num'>28.7</td><td class='num'>&mdash;</td></tr>"
-        "<tr><td>8</td><td class='num'>220.3</td><td class='num'>1.04&times; time</td></tr>"
-        "<tr><td>16</td><td class='num'>413.5</td><td class='num'>1.11&times; time</td></tr>"
-        "<tr><td><b>32</b></td><td class='num hl'>739.9</td>"
-        "<td class='num hl'>1.21&times; time</td></tr>"
-        "<tr><td>48</td><td class='num'>849.7</td><td class='num'>1.53&times; time</td></tr>"
-        "<tr><td>64</td><td class='num'>512.6 &darr;</td><td class='num'>collapse</td></tr>"
-        "</table></div>"
-        '<div class="col"><div class="card"><h3>vLLM announced the limit at boot</h3>'
-        "<p><code>Maximum concurrency: 61.83&times;</code> &mdash; and the measured collapse "
-        "lands exactly where the KV arithmetic says it must.</p></div>"
-        '<div class="card"><h3>A rule any Radeon owner can apply</h3>'
-        "<p>Keep K below <code>kv_cache_tokens / max_model_len</code>. Here 506,544 / 8,192 "
-        "= 61, and 64 broke.</p></div>"
-        '<div class="card"><h3>The rule is code, not prose</h3>'
-        "<p><code>determinex_calibrate.py</code> derives K from the machine it is actually "
-        "on. An uncalibrated rig is <i>told</i> it is uncalibrated rather than handed a "
-        "confident default.</p></div></div></div>", n=5))
+    S.append(
+        slide(
+            '<div class="kicker">Choosing K</div>'
+            "<h2>Swept, not guessed &mdash; and the cliff is predictable</h2>"
+            '<div class="cols"><div class="col">'
+            "<table><tr><th>K</th><th class='num'>agg tok/s</th><th class='num'>vs K=1</th></tr>"
+            "<tr><td>1</td><td class='num'>28.7</td><td class='num'>&mdash;</td></tr>"
+            "<tr><td>8</td><td class='num'>220.3</td><td class='num'>1.04&times; time</td></tr>"
+            "<tr><td>16</td><td class='num'>413.5</td><td class='num'>1.11&times; time</td></tr>"
+            "<tr><td><b>32</b></td><td class='num hl'>739.9</td>"
+            "<td class='num hl'>1.21&times; time</td></tr>"
+            "<tr><td>48</td><td class='num'>849.7</td><td class='num'>1.53&times; time</td></tr>"
+            "<tr><td>64</td><td class='num'>512.6 &darr;</td><td class='num'>collapse</td></tr>"
+            "</table></div>"
+            '<div class="col"><div class="card"><h3>vLLM announced the limit at boot</h3>'
+            "<p><code>Maximum concurrency: 61.83&times;</code> &mdash; and the measured collapse "
+            "lands exactly where the KV arithmetic says it must.</p></div>"
+            '<div class="card"><h3>A rule any Radeon owner can apply</h3>'
+            "<p>Keep K below <code>kv_cache_tokens / max_model_len</code>. Here 506,544 / 8,192 "
+            "= 61, and 64 broke.</p></div>"
+            '<div class="card"><h3>The rule is code, not prose</h3>'
+            "<p><code>determinex_calibrate.py</code> derives K from the machine it is actually "
+            "on. An uncalibrated rig is <i>told</i> it is uncalibrated rather than handed a "
+            "confident default.</p></div></div></div>",
+            n=5,
+        )
+    )
 
     # 6 — the three regimes
-    S.append(slide(
-        '<div class="kicker">Where it works, and where it does not</div>'
-        "<h2>1,152 generations. Two models. Three regimes.</h2>"
-        "<table><tr><th>Task</th><th class='num'>7B p</th><th class='num'>32B p</th>"
-        "<th>Regime</th></tr>"
-        "<tr><td>rle</td><td class='num'>1.000</td><td class='num'>1.000</td>"
-        "<td>saturated &mdash; K adds nothing</td></tr>"
-        "<tr><td>gron, 5 checks</td><td class='num'>0.005</td><td class='num'>0.943</td>"
-        "<td>K only trims the tail</td></tr>"
-        "<tr><td><b>gron, 6 checks</b></td><td class='num'>0.000</td>"
-        "<td class='num hl'>0.490</td><td><b>the productive middle</b></td></tr></table>"
-        '<div class="lede" style="margin-top:5mm;">At <code>p = 0.490</code> the model fails '
-        "<b>more than half</b> its attempts. K=8 takes it to <span class='hl'>99.54%</span> "
-        "for <span class='hl'>1.04&times;</span> the wall clock.</div>"
-        '<div class="card" style="margin-top:5mm;"><h3>The outer rows are what make the '
-        "middle one credible</h3><p>At p=1 there is nothing to amplify &mdash; including on "
-        "<i>our own demo task</i>, which this model solves 192/192. At p=0 no K helps at all, "
-        "because 1&minus;(1&minus;0)<sup>K</sup> = 0. Verified search multiplies capability; "
-        "it cannot manufacture it. Both boundaries are measured, not assumed.</p></div>", n=6))
+    S.append(
+        slide(
+            '<div class="kicker">Where it works, and where it does not</div>'
+            "<h2>1,152 generations. Two models. Three regimes.</h2>"
+            "<table><tr><th>Task</th><th class='num'>7B p</th><th class='num'>32B p</th>"
+            "<th>Regime</th></tr>"
+            "<tr><td>rle</td><td class='num'>1.000</td><td class='num'>1.000</td>"
+            "<td>saturated &mdash; K adds nothing</td></tr>"
+            "<tr><td>gron, 5 checks</td><td class='num'>0.005</td><td class='num'>0.943</td>"
+            "<td>K only trims the tail</td></tr>"
+            "<tr><td><b>gron, 6 checks</b></td><td class='num'>0.000</td>"
+            "<td class='num hl'>0.490</td><td><b>the productive middle</b></td></tr></table>"
+            '<div class="lede" style="margin-top:5mm;">At <code>p = 0.490</code> the model fails '
+            "<b>more than half</b> its attempts. K=8 takes it to <span class='hl'>99.54%</span> "
+            "for <span class='hl'>1.04&times;</span> the wall clock.</div>"
+            '<div class="card" style="margin-top:5mm;"><h3>The outer rows are what make the '
+            "middle one credible</h3><p>At p=1 there is nothing to amplify &mdash; including on "
+            "<i>our own demo task</i>, which this model solves 192/192. At p=0 no K helps at all, "
+            "because 1&minus;(1&minus;0)<sup>K</sup> = 0. Verified search multiplies capability; "
+            "it cannot manufacture it. Both boundaries are measured, not assumed.</p></div>",
+            n=6,
+        )
+    )
 
     # 7 — the honesty slide
-    S.append(slide(
-        '<div class="kicker">Where the prediction missed</div>'
-        "<h2>The equation was handed the wrong K</h2>"
-        '<div class="lede">Measured <code>p = 0.0625</code>, K=8. The equation predicted '
-        "<b>0.403</b>. Six real searches returned <b>0.167</b>. So we measured p at every rung "
-        "of the temperature ladder, on the GPU:</div>"
-        "<table style='margin-top:4mm;'><tr><th>rung</th><th class='num'>t=0.0</th>"
-        "<th class='num'>0.2</th><th class='num'>0.4</th><th class='num'>0.6</th>"
-        "<th class='num'>0.8</th><th class='num'>1.0</th></tr>"
-        "<tr><td>p</td><td class='num'>0.00</td><td class='num'>0.00</td>"
-        "<td class='num'>0.00</td><td class='num'>0.00</td><td class='num hl'>0.10</td>"
-        "<td class='num hl'>0.10</td></tr></table>"
-        '<div class="lede" style="margin-top:4mm;">Every draw at t &le; 0.6 has '
-        "<b>p = 0.00</b>. Four of the eight samples could not pass, so a <b>nominal K of 8 was "
-        "an effective K of 4</b> &mdash; and the corrected prediction, 0.185&ndash;0.344, "
-        "brackets the 0.167 observed.</div>"
-        '<div class="card" style="margin-top:4mm;"><h3>Reported because it missed, not '
-        "despite it</h3><p>The per-rung hypothesis was <i>wrong</i> too, and that is in the "
-        "document as well. A section that shows only the explanation that worked is "
-        "indistinguishable from one that went looking for a flattering number.</p></div>",
-        n=7))
+    S.append(
+        slide(
+            '<div class="kicker">Where the prediction missed</div>'
+            "<h2>The equation was handed the wrong K</h2>"
+            '<div class="lede">Measured <code>p = 0.0625</code>, K=8. The equation predicted '
+            "<b>0.403</b>. Six real searches returned <b>0.167</b>. So we measured p at every rung "
+            "of the temperature ladder, on the GPU:</div>"
+            "<table style='margin-top:4mm;'><tr><th>rung</th><th class='num'>t=0.0</th>"
+            "<th class='num'>0.2</th><th class='num'>0.4</th><th class='num'>0.6</th>"
+            "<th class='num'>0.8</th><th class='num'>1.0</th></tr>"
+            "<tr><td>p</td><td class='num'>0.00</td><td class='num'>0.00</td>"
+            "<td class='num'>0.00</td><td class='num'>0.00</td><td class='num hl'>0.10</td>"
+            "<td class='num hl'>0.10</td></tr></table>"
+            '<div class="lede" style="margin-top:4mm;">Every draw at t &le; 0.6 has '
+            "<b>p = 0.00</b>. Four of the eight samples could not pass, so a <b>nominal K of 8 was "
+            "an effective K of 4</b> &mdash; and the corrected prediction, 0.185&ndash;0.344, "
+            "brackets the 0.167 observed.</div>"
+            '<div class="card" style="margin-top:4mm;"><h3>Reported because it missed, not '
+            "despite it</h3><p>The per-rung hypothesis was <i>wrong</i> too, and that is in the "
+            "document as well. A section that shows only the explanation that worked is "
+            "indistinguishable from one that went looking for a flattering number.</p></div>",
+            n=7,
+        )
+    )
 
     # 8 — real repo
-    S.append(slide(
-        '<div class="kicker">Application value</div>'
-        "<h2>A real repository, repaired on the GPU</h2>"
-        '<div class="lede"><code>mwaskom__seaborn-3010</code> from SWE-bench Lite &mdash; a '
-        "real reported issue, with the project&rsquo;s own test as the judge.</div>"
-        '<div class="cols" style="margin-top:5mm;"><div class="col">'
-        '<div class="card"><h3>The blame is earned</h3><p><code>CODE</code> &mdash; not '
-        "ENVIRONMENT, not TEST &mdash; and <code>proven_slop: 0</code>. It did not take the "
-        "easy exit of declaring the failing test wrong.</p></div>"
-        '<div class="card"><h3>The oracle is theirs, not ours</h3><p>The repository&rsquo;s '
-        "own pytest, run with its own interpreter. Nothing Determinex wrote decides whether "
-        "this passed.</p></div></div>"
-        '<div class="col"><div class="card"><h3>There is a control</h3><p>SWE-bench&rsquo;s '
-        "official gold patch also passes this oracle. Without that control, a pass proves much "
-        "less.</p></div>"
-        '<div class="card"><h3>27 seconds, end to end</h3>'
-        "<p><code>p = np.polyfit(x.dropna(), y.dropna(), self.order)</code></p></div>"
-        "</div></div>", n=8))
+    S.append(
+        slide(
+            '<div class="kicker">Application value</div>'
+            "<h2>A real repository, repaired on the GPU</h2>"
+            '<div class="lede"><code>mwaskom__seaborn-3010</code> from SWE-bench Lite &mdash; a '
+            "real reported issue, with the project&rsquo;s own test as the judge.</div>"
+            '<div class="cols" style="margin-top:5mm;"><div class="col">'
+            '<div class="card"><h3>The blame is earned</h3><p><code>CODE</code> &mdash; not '
+            "ENVIRONMENT, not TEST &mdash; and <code>proven_slop: 0</code>. It did not take the "
+            "easy exit of declaring the failing test wrong.</p></div>"
+            '<div class="card"><h3>The oracle is theirs, not ours</h3><p>The repository&rsquo;s '
+            "own pytest, run with its own interpreter. Nothing Determinex wrote decides whether "
+            "this passed.</p></div></div>"
+            '<div class="col"><div class="card"><h3>There is a control</h3><p>SWE-bench&rsquo;s '
+            "official gold patch also passes this oracle. Without that control, a pass proves much "
+            "less.</p></div>"
+            '<div class="card"><h3>27 seconds, end to end</h3>'
+            "<p><code>p = np.polyfit(x.dropna(), y.dropna(), self.order)</code></p></div>"
+            "</div></div>",
+            n=8,
+        )
+    )
 
     # 9 — boundaries
-    S.append(slide(
-        '<div class="kicker">Boundaries</div>'
-        "<h2>What this does <i>not</i> do</h2>"
-        '<div class="lede">The design rule is that a check must never report an outcome it '
-        "did not establish. Applied to a submission, the limits belong in it at the same "
-        "volume as the results.</div>"
-        "<ul>"
-        "<li><b>Verified search cannot manufacture capability.</b> Measured 0/192 at p=0. "
-        "No K rescues a model that cannot do the task.</li>"
-        "<li><b>A sound-but-wrong oracle is not detectable from inside the system.</b></li>"
-        "<li><b>Our own demo task is trivial</b> &mdash; 192/192 one-shot. Amplification "
-        "contributes nothing there, and we would rather say so than let it be inferred.</li>"
-        "<li><b>Path B is documented, not measured.</b> No physical Radeon card ran it.</li>"
-        "<li><b>The p/K validation is consistent with the law, not strong evidence for "
-        "it</b> &mdash; 10 draws per rung, 6 trials.</li>"
-        "<li><b>Three execution sites are trusted-by-design</b> rather than sandboxed, and "
-        "left flagged rather than silently exempted.</li>"
-        "</ul>", n=9))
+    S.append(
+        slide(
+            '<div class="kicker">Boundaries</div>'
+            "<h2>What this does <i>not</i> do</h2>"
+            '<div class="lede">The design rule is that a check must never report an outcome it '
+            "did not establish. Applied to a submission, the limits belong in it at the same "
+            "volume as the results.</div>"
+            "<ul>"
+            "<li><b>Verified search cannot manufacture capability.</b> Measured 0/192 at p=0. "
+            "No K rescues a model that cannot do the task.</li>"
+            "<li><b>A sound-but-wrong oracle is not detectable from inside the system.</b></li>"
+            "<li><b>Our own demo task is trivial</b> &mdash; 192/192 one-shot. Amplification "
+            "contributes nothing there, and we would rather say so than let it be inferred.</li>"
+            "<li><b>Path B is documented, not measured.</b> No physical Radeon card ran it.</li>"
+            "<li><b>The p/K validation is consistent with the law, not strong evidence for "
+            "it</b> &mdash; 10 draws per rung, 6 trials.</li>"
+            "<li><b>Three execution sites are trusted-by-design</b> rather than sandboxed, and "
+            "left flagged rather than silently exempted.</li>"
+            "</ul>",
+            n=9,
+        )
+    )
 
     # 10 — run it
-    S.append(slide(
-        '<div class="kicker">Verify it yourself</div>'
-        "<h2>Four commands, about two minutes</h2>"
-        '<div class="card" style="background:#0d1117;border-color:#0d1117;">'
-        '<p style="font-family:Cascadia Mono,Consolas,monospace;color:#3ddc97;'
-        'font-size:10.5pt;line-height:1.85;">'
-        "git clone https://github.com/DarthCeltic/Determinex &amp;&amp; cd Determinex<br>"
-        "pip install -r scripts/requirements.txt<br>"
-        "export DETERMINEX_VLLM_BASE_URL=http://127.0.0.1:8000/v1<br>"
-        "python scripts/determinex_build_from_idea.py --idea idea.md --provider vllm --k 32"
-        "</p></div>"
-        '<div class="lede">Verified from a clean clone: it returns <b>SOLVED</b>, three '
-        "synthesized checks, oracle-verified.</div>"
-        '<div class="lede" style="margin-top:4mm;">Then point it at something that cannot be '
-        "verified &mdash; <code>improve the code quality of my project</code> &mdash; and it "
-        "<b>refuses</b>: <i>&ldquo;no example or typeable invariant could be derived&hellip; "
-        "that cannot verify behaviour.&rdquo;</i> <b>That refusal is the product.</b></div>",
-        n=10))
+    S.append(
+        slide(
+            '<div class="kicker">Verify it yourself</div>'
+            "<h2>Four commands, about two minutes</h2>"
+            '<div class="card" style="background:#0d1117;border-color:#0d1117;">'
+            '<p style="font-family:Cascadia Mono,Consolas,monospace;color:#3ddc97;'
+            'font-size:10.5pt;line-height:1.85;">'
+            "git clone https://github.com/DarthCeltic/Determinex &amp;&amp; cd Determinex<br>"
+            "pip install -r scripts/requirements.txt<br>"
+            "export DETERMINEX_VLLM_BASE_URL=http://127.0.0.1:8000/v1<br>"
+            "python scripts/determinex_build_from_idea.py --idea idea.md --provider vllm --k 32"
+            "</p></div>"
+            '<div class="lede">Verified from a clean clone: it returns <b>SOLVED</b>, three '
+            "synthesized checks, oracle-verified.</div>"
+            '<div class="lede" style="margin-top:4mm;">Then point it at something that cannot be '
+            "verified &mdash; <code>improve the code quality of my project</code> &mdash; and it "
+            "<b>refuses</b>: <i>&ldquo;no example or typeable invariant could be derived&hellip; "
+            "that cannot verify behaviour.&rdquo;</i> <b>That refusal is the product.</b></div>",
+            n=10,
+        )
+    )
 
     # 11 — close
-    S.append(slide(
-        '<div class="kicker">In one line</div>'
-        "<h2 style='font-size:27pt;line-height:1.25;'>A local agent whose accuracy is bounded "
-        "by what an AMD Radeon can verify per second &mdash; and which refuses to claim "
-        "anything it cannot prove.</h2>"
-        '<div class="spacer"></div>'
-        '<div class="cols">'
-        "<div class='col'><div class='big' style='font-size:38pt;'>5.61&times;</div>"
-        "<div class='sub'>throughput at 1.07&times; wall clock, confirmed on five "
-        "instances</div></div>"
-        "<div class='col'><div class='big' style='font-size:38pt;'>99.54%</div>"
-        "<div class='sub'>solve rate from a coin-flip model, for 4% more time</div></div>"
-        "<div class='col'><div class='big' style='font-size:38pt;'>0</div>"
-        "<div class='sub'>claims without a passing oracle result and a proof</div></div>"
-        "</div>"
-        '<div class="sub" style="margin-top:9mm;font-size:9pt;">'
-        "github.com/DarthCeltic/Determinex &middot; huggingface.co/darthceltic85 &middot; "
-        "AGPL-3.0-or-later</div>",
-        dark=True))
+    S.append(
+        slide(
+            '<div class="kicker">In one line</div>'
+            "<h2 style='font-size:27pt;line-height:1.25;'>A local agent whose accuracy is bounded "
+            "by what an AMD Radeon can verify per second &mdash; and which refuses to claim "
+            "anything it cannot prove.</h2>"
+            '<div class="spacer"></div>'
+            '<div class="cols">'
+            "<div class='col'><div class='big' style='font-size:38pt;'>5.61&times;</div>"
+            "<div class='sub'>throughput at 1.07&times; wall clock, confirmed on five "
+            "instances</div></div>"
+            "<div class='col'><div class='big' style='font-size:38pt;'>99.54%</div>"
+            "<div class='sub'>solve rate from a coin-flip model, for 4% more time</div></div>"
+            "<div class='col'><div class='big' style='font-size:38pt;'>0</div>"
+            "<div class='sub'>claims without a passing oracle result and a proof</div></div>"
+            "</div>"
+            '<div class="sub" style="margin-top:9mm;font-size:9pt;">'
+            "github.com/DarthCeltic/Determinex &middot; huggingface.co/darthceltic85 &middot; "
+            "AGPL-3.0-or-later</div>",
+            dark=True,
+        )
+    )
 
     return (
         f"<!doctype html><html><head><meta charset='utf-8'><style>{CSS}</style></head>"
@@ -345,7 +387,10 @@ def main() -> int:
     )
     r = subprocess.run(
         ["node", str(js), str(html), str(Path(a.out).resolve())],
-        cwd=str(_ROOT / "frontend"), capture_output=True, text=True, timeout=300,
+        cwd=str(_ROOT / "frontend"),
+        capture_output=True,
+        text=True,
+        timeout=300,
     )
     js.unlink(missing_ok=True)
     html.unlink(missing_ok=True)

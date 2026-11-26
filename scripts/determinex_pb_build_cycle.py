@@ -56,7 +56,7 @@ def cmd_start(slug: str) -> None:
     pt = shot.get("per_tool")
     if pt:
         print("CORPUS per_tool (concrete, incl. prior VERIFIED fixes):")
-        for k, v in pt.items():
+        for _k, v in pt.items():
             print("  ", json.dumps(v)[:400])
     print("CORPUS prescription (what to do, ordered):")
     for line in shot.get("prescription", [])[:8]:

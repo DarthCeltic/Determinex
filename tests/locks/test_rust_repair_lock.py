@@ -341,7 +341,6 @@ class TestRustLicenseGate:
 class TestRustBaselineEnforcement:
     def test_extractor_returns_empty_when_baseline_fails(self, tmp_path):
         repo = _make_rust_repo(tmp_path)
-        extractor = RustTaskExtractor(repo / "src" if (repo / "src").exists() else repo)
         extractor_root = RustTaskExtractor(repo)
         extractor_root._run = lambda cmd, cwd=None: (1, "", "error: could not compile")
         tasks = extractor_root.extract_tasks(max_tasks=5)

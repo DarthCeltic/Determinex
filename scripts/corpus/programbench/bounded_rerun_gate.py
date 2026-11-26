@@ -6,7 +6,7 @@ import json
 import sys
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -23,7 +23,10 @@ from corpus.programbench.root_cause_packet_gate import RootCausePacketGate
 from corpus.programbench.root_cause_packet_schema import RootCausePacketStatus
 
 
-class BoundedRerunStatus(str, Enum):
+class BoundedRerunStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     BOUNDED_RERUN_READY = "BOUNDED_RERUN_READY"
     BOUNDED_RERUN_AUTHORIZED = "BOUNDED_RERUN_AUTHORIZED"
     BOUNDED_RERUN_BLOCKED_NO_PACKET = "BOUNDED_RERUN_BLOCKED_NO_PACKET"

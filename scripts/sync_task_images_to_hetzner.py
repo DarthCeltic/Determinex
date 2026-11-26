@@ -33,7 +33,7 @@ def ssh_lines(cmd: str) -> list[str]:
         text=True,
         timeout=30,
     )
-    return [l.strip() for l in r.stdout.splitlines() if l.strip()]
+    return [text_line.strip() for text_line in r.stdout.splitlines() if text_line.strip()]
 
 
 def local_images() -> list[str]:
@@ -51,9 +51,10 @@ def local_images() -> list[str]:
 def remote_images() -> set[str]:
     lines = ssh_lines("docker images --format '{{.Repository}}:{{.Tag}}'")
     return {
-        l
-        for l in lines
-        if l.startswith("programbench/") and not l.startswith("programbench-compiled/")
+        text_line
+        for text_line in lines
+        if text_line.startswith("programbench/")
+        and not text_line.startswith("programbench-compiled/")
     }
 
 

@@ -117,7 +117,7 @@ def extract_failures_with_source(eval_path: Path, limit: int = 8) -> list[dict]:
     # Pick top clusters by count, 1 sample each
     sorted_clusters = sorted(by_cluster.items(), key=lambda kv: -len(kv[1]))
     picks = []
-    for sig, items in sorted_clusters:
+    for _sig, items in sorted_clusters:
         if len(picks) >= limit:
             break
         # Take the first (smallest-name) sample

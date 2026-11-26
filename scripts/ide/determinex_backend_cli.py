@@ -116,16 +116,20 @@ def main() -> int:
         # governance decision about which commands are safe to expose transport-agnostically;
         # failing loudly is not, and it is what stops a caller acting on a success that
         # never happened.
-        print(json.dumps({
-            "status": "TAURI_COMMAND_BLOCKED_UNKNOWN",
-            "payload": {},
-            "notes": [
-                f"unknown backend command {args.command!r}",
-                f"this CLI exposes {len(known)} commands: {', '.join(sorted(known))}",
-                "commands implemented in ide/backend_command_surface.py but not bridged here "
-                "are reachable only from the Tauri shell's Rust layer",
-            ],
-        }))
+        print(
+            json.dumps(
+                {
+                    "status": "TAURI_COMMAND_BLOCKED_UNKNOWN",
+                    "payload": {},
+                    "notes": [
+                        f"unknown backend command {args.command!r}",
+                        f"this CLI exposes {len(known)} commands: {', '.join(sorted(known))}",
+                        "commands implemented in ide/backend_command_surface.py but not bridged here "
+                        "are reachable only from the Tauri shell's Rust layer",
+                    ],
+                }
+            )
+        )
         return 2
 
     try:

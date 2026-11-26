@@ -32,10 +32,18 @@ function report(name, before, after, ok) {
 }
 
 async function openSurface(rail, id) {
-  await page.getByTitle("Close add-on").first().click({ timeout: 2500 }).catch(() => {});
+  await page
+    .getByTitle("Close add-on")
+    .first()
+    .click({ timeout: 2500 })
+    .catch(() => {});
   const member = page.locator(`[data-testid="surface-member-${id}"]`).first();
   if (!(await member.isVisible().catch(() => false))) {
-    await page.getByRole("button", { name: new RegExp(`^${rail}$`, "i") }).first().click({ timeout: 12000 }).catch(() => {});
+    await page
+      .getByRole("button", { name: new RegExp(`^${rail}$`, "i") })
+      .first()
+      .click({ timeout: 12000 })
+      .catch(() => {});
     await sleep(900);
   }
   const panelBtn = page.locator(`[data-testid="surface-open-${id}-panel"]`).first();
@@ -98,7 +106,7 @@ await openSurface("SOURCE", "git");
       "the last speaker won by default",
     has
       ? "determinex_foreman.py: ORACLE > CORPUS > REFUTED > PROSE, later wins within a tier, " +
-        "UNSTICK/ESCALATE on a stall, reachable as `determinex_agent_chat.py foreman <id>`"
+          "UNSTICK/ESCALATE on a stall, reachable as `determinex_agent_chat.py foreman <id>`"
       : "missing",
     has
   );

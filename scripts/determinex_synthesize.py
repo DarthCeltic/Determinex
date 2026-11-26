@@ -157,11 +157,40 @@ _INVARIANT_KEYS = {
 
 #: Words that follow "function"/"def" in ordinary English but are never a function name.
 #: Without this, "a function that takes a list" named the function `that`.
-_NOT_A_NAME = frozenset({
-    "called", "named", "that", "which", "to", "for", "the", "a", "an", "and", "with",
-    "in", "of", "it", "is", "will", "should", "must", "can", "taking", "takes", "take",
-    "returning", "returns", "return", "accepting", "accepts", "given", "using", "who",
-})
+_NOT_A_NAME = frozenset(
+    {
+        "called",
+        "named",
+        "that",
+        "which",
+        "to",
+        "for",
+        "the",
+        "a",
+        "an",
+        "and",
+        "with",
+        "in",
+        "of",
+        "it",
+        "is",
+        "will",
+        "should",
+        "must",
+        "can",
+        "taking",
+        "takes",
+        "take",
+        "returning",
+        "returns",
+        "return",
+        "accepting",
+        "accepts",
+        "given",
+        "using",
+        "who",
+    }
+)
 
 
 def parse_spec(text: str, language: str = "python") -> Spec:

@@ -178,6 +178,10 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
 
   const quickCommands = ["git status", "npm run build", "ls"];
 
+  function runQuickCommand(event: React.MouseEvent<HTMLButtonElement>) {
+    sendCommandRef.current(event.currentTarget.value);
+  }
+
   return (
     <div
       className="flex h-full min-h-0 flex-col overflow-hidden"
@@ -193,7 +197,8 @@ export function TerminalPanel({ workspacePath = "C:\\Dev\\Determinex" }: Props) 
               <button
                 key={command}
                 type="button"
-                onClick={() => sendCommandRef.current(command)}
+                value={command}
+                onClick={runQuickCommand}
                 className="rounded-md border border-white/8 bg-white/[0.03] px-2 py-1 text-meta font-bold text-gray-500 transition hover:border-emerald-400/30 hover:text-emerald-300"
               >
                 {command}

@@ -210,6 +210,11 @@ def evidence_tree_present(index: Path | None = None) -> bool:
         return False
 
 
+def missing_private_evidence() -> bool:
+    """Only a declared public mirror may omit the complete private evidence archive."""
+    return os.environ.get("DETERMINEX_FILTERED_CHECKOUT") == "1" and not evidence_tree_present()
+
+
 def _module_missing_data_paths(module) -> list[Path]:
     """assurance/ paths a test module DECLARES that this checkout does not have.
 
@@ -262,7 +267,7 @@ def pytest_collection_modifyitems(config, items):  # noqa: ARG001
     exemption exists for a checkout with NO evidence tree, not for a module that names a
     directory it does not need.
     """
-    if evidence_tree_present():
+    if not missing_private_evidence():
         return
     cache: dict[str, list[Path]] = {}
     for item in items:

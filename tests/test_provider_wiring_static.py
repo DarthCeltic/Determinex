@@ -256,7 +256,9 @@ def test_every_provider_offers_the_same_three_shapes():
     for pid in S.MODEL_CHOICES:
         tiers = [c["tier"] for c in S.model_choices(pid)]
         assert tiers == [S.FAST, S.BALANCED, S.DEEP], f"{pid} offers {tiers}"
-        assert sum(1 for c in S.model_choices(pid) if c["default"]) == 1, f"{pid} needs exactly one default"
+        assert sum(1 for c in S.model_choices(pid) if c["default"]) == 1, (
+            f"{pid} needs exactly one default"
+        )
 
 
 def test_every_choice_explains_itself_without_a_model_name():

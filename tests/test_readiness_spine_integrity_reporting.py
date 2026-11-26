@@ -19,8 +19,11 @@ from __future__ import annotations
 
 import json
 import sys
-import tempfile
 from pathlib import Path
+
+import pytest
+
+from tests.conftest import missing_private_evidence
 
 _SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 if str(_SCRIPTS) not in sys.path:
@@ -28,27 +31,50 @@ if str(_SCRIPTS) not in sys.path:
 
 from ide import public_readiness_spine_dashboard_status as M  # noqa: E402
 
-_RECON_PARAM = next(
-    (p for p in __import__("inspect").signature(M.load).parameters if "recon" in p.lower()),
-    None,
+
+def _stage(tmp_path, mutate=None) -> Path:
+    if missing_private_evidence():
+        record = {
+            "status": "TANDEM_POST_CLAUDE_BINDING_RECONCILIATION_010_PASSED",
+            "post_claude_pre_reconciliation_checkpoint": {
+                "ledger_chain_valid": True,
+                "mutation_detected": False,
+            },
+        }
+        filename = "run_fixture.json"
+    else:
+        latest = M._locate_latest_evidence(M._RECON_010_DIR)
+        assert latest is not None, f"no evidence in {M._RECON_010_DIR}"
+        record = json.loads(latest.read_text(encoding="utf-8"))
+        filename = latest.name
+    if mutate:
+        mutate(record["post_claude_pre_reconciliation_checkpoint"])
+    (tmp_path / filename).write_text(json.dumps(record), encoding="utf-8")
+    return tmp_path
+
+
+def test_complete_checkpoint_reports_observed_values(tmp_path):
+    st = M.load(reconciliation_dir=_stage(tmp_path))
+    assert st.decision.endswith("PASSED"), st.decision
+    assert st.ledger_chain_valid is True
+    assert st.mutation_detected is False
+
+
+def test_missing_checkpoint_waits_for_evidence(tmp_path):
+    assert M.load(reconciliation_dir=tmp_path).decision.endswith("AWAITING_EVIDENCE")
+
+
+@pytest.mark.skipif(
+    missing_private_evidence(), reason="declared public mirror omits the private evidence archive"
 )
-
-
-def _stage(mutate) -> Path:
-    chosen = M._locate_latest_evidence(M._RECON_010_DIR)
-    assert chosen is not None
-    blob = json.loads(chosen.read_text(encoding="utf-8"))
-    mutate(blob)
-    d = Path(tempfile.mkdtemp())
-    (d / chosen.name).write_text(json.dumps(blob), encoding="utf-8")
-    return d
-
-
 def test_the_live_dashboard_still_passes():
     """Load-bearing negative control: tightening a reporting gate must not move it."""
     assert M.load().decision.endswith("PASSED")
 
 
+@pytest.mark.skipif(
+    missing_private_evidence(), reason="declared public mirror omits the private evidence archive"
+)
 def test_the_real_checkpoint_carries_both_integrity_keys():
     """Documents why the fix was safe, and fails loudly if an evidence generator stops
     emitting them -- instead of the dashboard silently starting to block."""
@@ -58,32 +84,16 @@ def test_the_real_checkpoint_carries_both_integrity_keys():
         assert key in pre, f"reconciliation evidence no longer states {key}"
 
 
-def test_a_checkpoint_without_chain_validity_blocks_instead_of_claiming_valid():
-    assert _RECON_PARAM, "load() must expose the reconciliation dir for testing"
-    d = _stage(lambda b: b["post_claude_pre_reconciliation_checkpoint"].pop("ledger_chain_valid"))
-    st = M.load(**{_RECON_PARAM: d})
+@pytest.mark.parametrize("key", ["ledger_chain_valid", "mutation_detected"])
+def test_missing_integrity_key_blocks(tmp_path, key):
+    st = M.load(reconciliation_dir=_stage(tmp_path, lambda pre: pre.pop(key)))
     assert "BLOCKED" in st.decision, st.decision
-    assert any("ledger_chain_valid" in str(n) for n in st.notes)
+    assert any(key in note for note in st.notes), st.notes
 
 
-def test_a_checkpoint_without_mutation_status_blocks_instead_of_claiming_none():
-    """`mutation_detected` defaulted to False -- 'no tampering seen' asserted from silence."""
-    assert _RECON_PARAM
-    d = _stage(lambda b: b["post_claude_pre_reconciliation_checkpoint"].pop("mutation_detected"))
-    st = M.load(**{_RECON_PARAM: d})
-    assert "BLOCKED" in st.decision, st.decision
-    assert any("mutation_detected" in str(n) for n in st.notes)
-
-
-def test_a_genuinely_invalid_chain_is_reported_as_invalid_not_blocked():
-    """Negative control for the fix: present-and-False must still flow through as a real
-    reported value. Converting every falsy integrity signal into a block would hide the very
-    finding the dashboard exists to show."""
-    assert _RECON_PARAM
-    d = _stage(
-        lambda b: b["post_claude_pre_reconciliation_checkpoint"].update(
-            {"ledger_chain_valid": False}
-        )
+def test_a_genuinely_invalid_chain_is_reported_as_invalid_not_blocked(tmp_path):
+    st = M.load(
+        reconciliation_dir=_stage(tmp_path, lambda pre: pre.update(ledger_chain_valid=False))
     )
-    st = M.load(**{_RECON_PARAM: d})
-    assert "ledger_chain_valid is absent" not in str(st.notes)
+    assert st.decision.endswith("PASSED"), st.decision
+    assert st.ledger_chain_valid is False

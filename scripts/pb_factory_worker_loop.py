@@ -382,7 +382,6 @@ def build_prompt(
     lessons_paths: list[Path],
     source_context_md: str = "",
 ) -> str:
-    short = _short_name(slug)
     allowed = ALLOWED_PREFIX_TEMPLATE.format(slug=slug)
 
     # Detect upstream native language from override file extensions.

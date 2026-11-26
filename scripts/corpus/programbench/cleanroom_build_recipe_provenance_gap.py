@@ -6,7 +6,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -26,7 +26,10 @@ from corpus.programbench.cleanroom_image_remediation_plan_record import (
 )
 
 
-class BuildRecipeProvenanceGapStatus(str, Enum):
+class BuildRecipeProvenanceGapStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     BUILD_RECIPE_PROVENANCE_GAP_READY = "BUILD_RECIPE_PROVENANCE_GAP_READY"
     BUILD_RECIPE_PROVENANCE_GAP_WRITTEN = "BUILD_RECIPE_PROVENANCE_GAP_WRITTEN"
     BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_PLAN = "BUILD_RECIPE_PROVENANCE_GAP_BLOCKED_NO_PLAN"

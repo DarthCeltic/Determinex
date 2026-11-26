@@ -36,7 +36,6 @@ from pathlib import Path
 try:
     from rich.console import Console
     from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
-    from rich.table import Table
 
     _rich = True
 except ImportError:
@@ -404,9 +403,9 @@ def phase_upload(ready_tools: list[dict], nodes: list[dict]) -> dict[str, list[d
         # Create remote dirs
         ssh(node, f"mkdir -p {work_dir}/submissions {work_dir}/workspace {work_dir}/results")
 
-        def _do_upload(progress=None, task_id=None):
+        def _do_upload(node_tools, work_dir, node, progress=None, task_id=None):
             uploaded = 0
-            for i, entry in enumerate(node_tools):
+            for _i, entry in enumerate(node_tools):
                 slug = entry["slug"]
                 tool_dir = find_tool_dir(slug)
                 if tool_dir is None:
@@ -440,9 +439,9 @@ def phase_upload(ready_tools: list[dict], nodes: list[dict]) -> dict[str, list[d
                 console=console,
             ) as progress:
                 task = progress.add_task(f"[cyan]Uploading to {node['ip']}", total=len(node_tools))
-                uploaded = _do_upload(progress=progress, task_id=task)
+                uploaded = _do_upload(node_tools, work_dir, node, progress, task)
         else:
-            uploaded = _do_upload()
+            uploaded = _do_upload(node_tools, work_dir, node)
 
         print(f"  Uploaded {uploaded} tarballs to {node['ip']}")
 

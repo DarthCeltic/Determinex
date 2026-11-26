@@ -53,7 +53,7 @@ import re
 import subprocess
 import sys
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 
 _HERE = str(Path(__file__).resolve().parent)
@@ -67,7 +67,10 @@ from determinex_adjudicator import (  # noqa: E402
 )
 
 
-class TestVerdict(str, Enum):
+class TestVerdict(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     __test__ = False  # not a pytest test class despite the name
     CORRECT = "CORRECT"  # no slop signature -> fix the code, not the test
     SLOP = "SLOP"  # proven wrong test -> do not chase it
@@ -414,10 +417,10 @@ def auto_reference_check(
             needle, stream_name = inv["expect"][1], inv["expect"][2]
             stream = cp.stdout if stream_name == "stdout" else cp.stderr
             ref_fails = needle not in stream
-            detail = "reference %s=%r lacks %r" % (stream_name, stream[:50], needle)
+            detail = f"reference {stream_name}={stream[:50]!r} lacks {needle!r}"
         elif kind == "rc":
             ref_fails = cp.returncode != inv["expect"][1]
-            detail = "reference rc=%d != golden %d" % (cp.returncode, inv["expect"][1])
+            detail = f"reference rc={cp.returncode} != golden {inv['expect'][1]}"
         if ref_fails:
             out.append(
                 Judgement(

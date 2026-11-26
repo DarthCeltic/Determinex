@@ -90,7 +90,7 @@ if hasattr(sys.stdout, "reconfigure"):
 try:
     from extract_midlayer import MidLayerExtractor
     from kv_compress import CompressedState, KVCompressor
-    from kv_store import KVStore
+    from kv_store import KVStore as KVStore
     from train_rosetta import RosettaStone
 except ImportError:
     sys.path.insert(0, str(Path(__file__).parent))

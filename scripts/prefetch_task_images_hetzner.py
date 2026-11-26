@@ -47,7 +47,7 @@ def ssh(cmd: str, timeout: int = 30) -> str:
 
 def remote_image_set() -> set[str]:
     out = ssh("docker images --format '{{.Repository}}:{{.Tag}}'", timeout=30)
-    return {l.strip() for l in out.splitlines() if "programbench/" in l}
+    return {line.strip() for line in out.splitlines() if "programbench/" in line}
 
 
 def slug_to_image(slug: str) -> str:
@@ -79,8 +79,7 @@ def main():
     print(f"[prefetch] {len(missing)} images to pull", flush=True)
 
     ok = 0
-    fail = 0
-    for i, (slug, img) in enumerate(missing):
+    for i, (_slug, img) in enumerate(missing):
         print(f"\n[prefetch] {i + 1}/{len(missing)}: {img}", flush=True)
         # Fire background pull on Hetzner (non-blocking, each pull runs in background)
         cmd = f"nohup docker pull {img} >> /root/pb_image_pull.log 2>&1 &"

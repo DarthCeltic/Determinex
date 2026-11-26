@@ -28,7 +28,6 @@ const RAIL_GROUPS = [
   "prove",
   "agents",
   "trust",
-  "learn",
   "system",
 ] as const;
 
@@ -75,6 +74,18 @@ async function bootToShell(page: Page) {
 }
 
 test.describe("shell", () => {
+  test("the mobile activity dialog explains browser limits and closes with Escape", async ({
+    page,
+  }) => {
+    await bootToShell(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.getByRole("button", { name: "Liveness", exact: true }).click();
+    const dialog = page.getByRole("dialog", { name: "Hive session activity" });
+    await expect(dialog).toContainText("Open the desktop app to check local workers.");
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+  });
+
   test("boots to an interactive shell rather than hanging on the splash", async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
@@ -87,9 +98,10 @@ test.describe("shell", () => {
     expect(errors, `uncaught page errors: ${errors.join(" | ")}`).toEqual([]);
   });
 
-  test("all nine rail groups are present and none is clipped out of view", async ({ page }) => {
+  test("all eight rail groups are present and none is clipped out of view", async ({ page }) => {
     await bootToShell(page);
 
+    await expect(page.getByTestId(/^rail-group-/)).toHaveCount(RAIL_GROUPS.length);
     const viewport = page.viewportSize()!;
     for (const id of RAIL_GROUPS) {
       const el = page.getByTestId(`rail-group-${id}`);
@@ -182,7 +194,7 @@ test.describe("shell", () => {
 });
 
 test.describe("keyboard", () => {
-  test("Ctrl+1..9 opens each rail group and Escape closes the drawer", async ({ page }) => {
+  test("Ctrl+1..8 opens each rail group and Escape closes the drawer", async ({ page }) => {
     await bootToShell(page);
     const drawer = page.getByTestId("surface-drawer");
 
@@ -307,11 +319,11 @@ test.describe("no dead drawer entries", () => {
     // Assert on the dialog itself, not on guessed copy: a text regex that happens
     // not to match reports "opened nothing" for a modal that opened fine, which is
     // exactly what the first version of this spec did.
-    // Each surface lives in its own group -- Guide is under Learn, not System.
+    // The System group contains all three modal entries.
     for (const [group, id, testid] of [
       ["system", "settings", "settings-modal"],
       ["system", "skin", "settings-modal"],
-      ["learn", "guide", "guide-overlay"],
+      ["system", "guide", "guide-overlay"],
     ] as const) {
       await page.getByTestId(`rail-group-${group}`).click();
       const member = page.getByTestId(`surface-member-${id}`);
@@ -359,7 +371,7 @@ test.describe("opening a surface actually shows it", () => {
 
     // ...then pick a SIDEBAR surface. The addon used to keep rendering, so asking
     // for Brain showed Agent Chat Room.
-    await page.getByTestId("rail-group-learn").click();
+    await page.getByTestId("rail-group-system").click();
     await page.getByTestId("surface-member-benchmark").click();
     await page.getByTestId("surface-open-benchmark-panel").click();
     await page.waitForTimeout(600);

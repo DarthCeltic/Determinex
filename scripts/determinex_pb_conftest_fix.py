@@ -171,7 +171,7 @@ def main() -> int:
 
     ap = argparse.ArgumentParser(description="Determinex conftest validate+repair")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    s = sub.add_parser("scan")  # scan all overrides
+    sub.add_parser("scan")  # scan all overrides
     f = sub.add_parser("fix")
     f.add_argument("slug", nargs="?")  # fix one or all
     f.add_argument("--apply", action="store_true")

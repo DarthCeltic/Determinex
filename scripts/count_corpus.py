@@ -21,8 +21,8 @@ for f in sorted(glob.glob(os.path.join(DIR, "*.jsonl"))):
         ).hexdigest()
         if k not in seen:
             seen.add(k)
-            l = obj.get("meta", {}).get("lang", "unk")
-            lang[l] = lang.get(l, 0) + 1
+            language = obj.get("meta", {}).get("lang", "unk")
+            lang[language] = lang.get(language, 0) + 1
 total = len(seen)
 print("=== FINAL CORPUS STATS ===")
 print("UNIQUE TOTAL:", total)

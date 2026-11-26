@@ -81,7 +81,8 @@ export function diffMaps(prev, next) {
     const pv = verdict(p);
     const nv = verdict(n);
     if (pv.ok !== nv.ok) notes.push(nv.ok ? "FIXED" : `REGRESSED (${nv.bad.join(" · ")})`);
-    else if (pv.bad.join("|") !== nv.bad.join("|")) notes.push(`status ${nv.bad.join(" · ") || "ok"}`);
+    else if (pv.bad.join("|") !== nv.bad.join("|"))
+      notes.push(`status ${nv.bad.join(" · ") || "ok"}`);
 
     if ((p.renderedIn || "") !== (n.renderedIn || "")) {
       notes.push(`renders in ${n.renderedIn || "?"} (was ${p.renderedIn || "?"})`);

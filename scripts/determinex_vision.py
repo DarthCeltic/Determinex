@@ -316,7 +316,7 @@ def main(argv: list[str] | None = None) -> int:
     p_c = sub.add_parser("classify", help="Screenshot triage")
     p_c.add_argument("image", type=Path)
 
-    p_r = sub.add_parser("report", help="Config + availability check (no model call)")
+    sub.add_parser("report", help="Config + availability check (no model call)")
 
     args = parser.parse_args(argv)
 

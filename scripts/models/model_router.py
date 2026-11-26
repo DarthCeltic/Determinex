@@ -39,7 +39,10 @@ from .model_router_record import RouteRecord
 # ---------------------------------------------------------------------------
 
 
-class TaskClass(str, enum.Enum):
+class TaskClass(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     REPO_TRIAGE = "REPO_TRIAGE"
     BUILD_DIAGNOSIS = "BUILD_DIAGNOSIS"
     TEST_FAILURE_LOCALIZATION = "TEST_FAILURE_LOCALIZATION"
@@ -52,7 +55,10 @@ class TaskClass(str, enum.Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class ModelRole(str, enum.Enum):
+class ModelRole(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     FAST_LOCAL = "FAST_LOCAL"
     STRONG_LOCAL = "STRONG_LOCAL"
     CODE_SPECIALIST = "CODE_SPECIALIST"
@@ -60,7 +66,10 @@ class ModelRole(str, enum.Enum):
     NO_MODEL = "NO_MODEL"
 
 
-class RouteDecision(str, enum.Enum):
+class RouteDecision(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     ROUTE_SELECTED = "ROUTE_SELECTED"
     ROUTE_DRY_RUN_SELECTED = "ROUTE_DRY_RUN_SELECTED"
     ROUTE_BLOCKED_NO_AVAILABLE_MODEL = "ROUTE_BLOCKED_NO_AVAILABLE_MODEL"
@@ -70,7 +79,10 @@ class RouteDecision(str, enum.Enum):
     ROUTE_NO_MODEL_REQUIRED = "ROUTE_NO_MODEL_REQUIRED"
 
 
-class RouterMode(str, enum.Enum):
+class RouterMode(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     DRY_RUN = "dry_run"
     LIVE = "live"
 

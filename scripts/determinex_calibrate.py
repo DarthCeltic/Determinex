@@ -141,8 +141,7 @@ _ROOT = Path(__file__).resolve().parent.parent
 # Per-rig, NOT in the repo: a calibration is a fact about one machine and must never be
 # committed or published as if it were a property of Determinex.
 PROFILE_PATH = Path(
-    os.environ.get("DETERMINEX_CALIBRATION")
-    or (Path.home() / ".determinex" / "calibration.json")
+    os.environ.get("DETERMINEX_CALIBRATION") or (Path.home() / ".determinex" / "calibration.json")
 )
 
 # Conservative fallback when nothing is calibrated. Deliberately small: an uncalibrated rig
@@ -231,7 +230,7 @@ def _vllm_declared_k(base_url: str, max_model_len: int = 8192) -> int | None:
             body = r.read().decode("utf-8", "replace")
     except Exception:
         return None
-    m = re.search(r'vllm:cache_config_info\{([^}]*)\}', body)
+    m = re.search(r"vllm:cache_config_info\{([^}]*)\}", body)
     if not m:
         return None
     fields = dict(re.findall(r'(\w+)="([^"]*)"', m.group(1)))
@@ -304,8 +303,14 @@ def sweep(
         w = statistics.median(walls)
         t = int(statistics.median(toks))
         e = int(statistics.median(errs))
-        pt = KPoint(k, round(w, 3), t, round(t / w, 1) if w else 0.0,
-                    round(k / w, 3) if w else 0.0, errors=e)
+        pt = KPoint(
+            k,
+            round(w, 3),
+            t,
+            round(t / w, 1) if w else 0.0,
+            round(k / w, 3) if w else 0.0,
+            errors=e,
+        )
         out.append(pt)
         if on_point is not None:
             on_point(pt)
@@ -474,9 +479,7 @@ def free_k(points: list[KPoint], factor: float = 2.0) -> int:
     return max(affordable) if affordable else usable[0].k
 
 
-def optimal_k_for(
-    points: list[KPoint], p: float, verify_s: float = 0.0
-) -> tuple[int, float]:
+def optimal_k_for(points: list[KPoint], p: float, verify_s: float = 0.0) -> tuple[int, float]:
     """(K, expected seconds) minimising time to a verified solution for difficulty `p`.
 
     This is the function that should have existed on the first live run. It answers K=1 for
@@ -541,8 +544,10 @@ def optimal_k(
     pts = [KPoint(**d) for d in entry.get("points", []) if isinstance(d, dict)]
     if p is not None and pts:
         k, secs = optimal_k_for(pts, p)
-        return k, (f"calibrated {when}, K re-derived for p={p:.3g} "
-                   f"(expected {secs:.1f}s to a verified solution)")
+        return k, (
+            f"calibrated {when}, K re-derived for p={p:.3g} "
+            f"(expected {secs:.1f}s to a verified solution)"
+        )
     if p is not None:
         return int(entry["optimal_k"]), (
             f"calibrated {when} but the profile predates curve storage; K is task-blind. "
@@ -571,13 +576,18 @@ def _ollama_generator(model: str, base_url: str, num_predict: int) -> Callable[[
     import urllib.request
 
     def gen() -> int:
-        body = json.dumps({
-            "model": model, "prompt": _PROBE_PROMPT, "stream": False,
-            "options": {"num_predict": num_predict, "temperature": 0.4, "num_ctx": 4096},
-        }).encode()
+        body = json.dumps(
+            {
+                "model": model,
+                "prompt": _PROBE_PROMPT,
+                "stream": False,
+                "options": {"num_predict": num_predict, "temperature": 0.4, "num_ctx": 4096},
+            }
+        ).encode()
         req = urllib.request.Request(
             base_url.rstrip("/") + "/api/generate",
-            data=body, headers={"Content-Type": "application/json"},
+            data=body,
+            headers={"Content-Type": "application/json"},
         )
         with urllib.request.urlopen(req, timeout=300) as r:
             return int(json.loads(r.read()).get("eval_count", 0))
@@ -591,21 +601,26 @@ def _openai_generator(
     import urllib.request
 
     def gen() -> int:
-        body = json.dumps({
-            "model": model,
-            "messages": [{"role": "user", "content": _PROBE_PROMPT}],
-            "max_tokens": num_predict, "temperature": 0.4,
-            # Reasoning models otherwise spend the entire budget thinking and return no
-            # content -- measured on AMD's Qwen3.6-35B-A3B: 199 of 200 tokens at
-            # max_tokens=200. For calibration that is not merely empty output, it silently
-            # changes what is being timed from "generate an answer" to "think until cut off".
-            "chat_template_kwargs": {"enable_thinking": False},
-        }).encode()
+        body = json.dumps(
+            {
+                "model": model,
+                "messages": [{"role": "user", "content": _PROBE_PROMPT}],
+                "max_tokens": num_predict,
+                "temperature": 0.4,
+                # Reasoning models otherwise spend the entire budget thinking and return no
+                # content -- measured on AMD's Qwen3.6-35B-A3B: 199 of 200 tokens at
+                # max_tokens=200. For calibration that is not merely empty output, it silently
+                # changes what is being timed from "generate an answer" to "think until cut off".
+                "chat_template_kwargs": {"enable_thinking": False},
+            }
+        ).encode()
         req = urllib.request.Request(
             base_url.rstrip("/") + "/chat/completions",
             data=body,
-            headers={"Content-Type": "application/json",
-                     "Authorization": "Bearer " + os.environ.get(key_env, "none")},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + os.environ.get(key_env, "none"),
+            },
         )
         with urllib.request.urlopen(req, timeout=300) as r:
             d = json.loads(r.read())
@@ -634,8 +649,10 @@ def main() -> int:
         print(f"{PROFILE_PATH}:")
         for k, v in prof.items():
             print(f"  {k}")
-            print(f"      optimal K={v['optimal_k']}  ({v['cand_per_s']} cand/s)"
-                  f"  collapse={v.get('collapsed_at')}  measured {v.get('measured_at')}")
+            print(
+                f"      optimal K={v['optimal_k']}  ({v['cand_per_s']} cand/s)"
+                f"  collapse={v.get('collapsed_at')}  measured {v.get('measured_at')}"
+            )
         return 0
 
     # AMD's Radeon Token Factory is a THIRD ceiling shape: not KV-cache (vLLM) and not CPU
@@ -670,8 +687,10 @@ def main() -> int:
     if args.backend == "vllm":
         hint = _vllm_declared_k(base, args.max_model_len)
         if hint:
-            print(f"  backend declares capacity for ~{hint} concurrent requests "
-                  f"(a hint that bounds the sweep; the measurement decides)")
+            print(
+                f"  backend declares capacity for ~{hint} concurrent requests "
+                f"(a hint that bounds the sweep; the measurement decides)"
+            )
 
     if args.ks:
         ks = [int(x) for x in args.ks.split(",") if x.strip()]
@@ -707,8 +726,11 @@ def main() -> int:
         # Printed AS MEASURED, not after the sweep: a 12-point sweep that died at K=640
         # through a flaky tunnel discarded eleven good points and printed nothing.
         flag = "" if p.usable else "  <- excluded, link degraded"
-        print(f"  {p.k:<5}{p.wall_s:<10}{p.tokens:<9}{p.agg_tok_s:<12}"
-              f"{p.cand_per_s:<10}{p.errors:<8}{flag}", flush=True)
+        print(
+            f"  {p.k:<5}{p.wall_s:<10}{p.tokens:<9}{p.agg_tok_s:<12}"
+            f"{p.cand_per_s:<10}{p.errors:<8}{flag}",
+            flush=True,
+        )
 
     pts = sweep(gen, ks, repeats=args.repeats, on_point=_show)
     if not any(p.usable for p in pts):
@@ -718,21 +740,27 @@ def main() -> int:
     best, collapsed = pick_optimal(pts)
     kind, ceiling_k = detect_ceiling(pts)
     cal = Calibration(
-        backend=args.backend, model=args.model, host=host_fingerprint(),
+        backend=args.backend,
+        model=args.model,
+        host=host_fingerprint(),
         optimal_k=best,
         cand_per_s=max(p.cand_per_s for p in pts if p.usable),
-        collapsed_at=collapsed, declared_hint=hint,
+        collapsed_at=collapsed,
+        declared_hint=hint,
         points=[asdict(p) for p in pts],
         measured_at=time.strftime("%Y-%m-%dT%H:%M:%S"),
-        ceiling_kind=kind, ceiling_k=ceiling_k,
+        ceiling_kind=kind,
+        ceiling_k=ceiling_k,
     )
     save_calibration(cal)
     print(f"\n  {cal.summary()}")
     if kind == "collapse":
         print(f"  throughput FELL past K={ceiling_k} -- the hardware's hard ceiling.")
     elif kind == "saturation":
-        print(f"  throughput FLATTENED past K={ceiling_k}: beyond it, more concurrency buys "
-              f"under 15% per doubling while latency keeps growing.")
+        print(
+            f"  throughput FLATTENED past K={ceiling_k}: beyond it, more concurrency buys "
+            f"under 15% per doubling while latency keeps growing."
+        )
     else:
         # "No ceiling" is only true if the sweep actually REACHED max(ks). When the higher K
         # points were excluded because their requests failed, the sweep did not run out of
@@ -743,22 +771,27 @@ def main() -> int:
         # used" -- the exact opposite of what the rig had just demonstrated.
         refused = [p.k for p in pts if not p.usable and getattr(p, "errors", 0) > 0]
         if refused:
-            print(f"  no throughput ceiling among the points that RAN, but K>={min(refused)} "
-                  f"could not be measured: the backend refused "
-                  f"{sum(getattr(p, 'errors', 0) for p in pts if p.k in refused)} of "
-                  f"{sum(p.k for p in pts if p.k in refused)} requests. That is a ceiling too --"
-                  f" a quota or connection limit rather than a hardware one -- so this rig has "
-                  f"LESS headroom than the sweep asked for, not more.")
+            print(
+                f"  no throughput ceiling among the points that RAN, but K>={min(refused)} "
+                f"could not be measured: the backend refused "
+                f"{sum(getattr(p, 'errors', 0) for p in pts if p.k in refused)} of "
+                f"{sum(p.k for p in pts if p.k in refused)} requests. That is a ceiling too --"
+                f" a quota or connection limit rather than a hardware one -- so this rig has "
+                f"LESS headroom than the sweep asked for, not more."
+            )
         else:
-            print(f"  no ceiling within K<={max(ks)}; this rig has more headroom "
-                  f"than the sweep used.")
+            print(
+                f"  no ceiling within K<={max(ks)}; this rig has more headroom than the sweep used."
+            )
 
     # The curve, not the constant. This table is the actual deliverable: it says what to do
     # for work of a given difficulty, and it is what makes K=1 the right answer for a task
     # the model already solves -- the case a machine-only optimum gets exactly backwards.
     if hint:
-        print(f"\n  (backend declared ~{hint} concurrent; measured optimum {best}"
-              f"{' -- the declaration was pessimistic' if best > hint else ''})")
+        print(
+            f"\n  (backend declared ~{hint} concurrent; measured optimum {best}"
+            f"{' -- the declaration was pessimistic' if best > hint else ''})"
+        )
     print("\n  K implied by this rig's curve, per task difficulty:")
     print(f"    {'p (one-shot)':<16}{'K':<8}{'E[time to verified]':<22}")
     for probe_p in (1.0, 0.5, 0.25, 0.1, 0.05, 0.02, 0.005):

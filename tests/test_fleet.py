@@ -31,7 +31,7 @@ def test_wrong_key_cannot_open():
     pub, _ = crypto.generate_node_keypair()
     _, other_priv = crypto.generate_node_keypair()
     env = crypto.seal(pub, b"secret")
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError, match="sealed to a different node key"):
         crypto.open_sealed(other_priv, env)
 
 

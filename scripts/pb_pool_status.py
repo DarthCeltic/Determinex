@@ -33,8 +33,7 @@ def capture(cmd: list[str]) -> str:
             cmd,
             cwd=str(ROOT),
             text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             timeout=45,
         ).stdout
     except Exception as exc:

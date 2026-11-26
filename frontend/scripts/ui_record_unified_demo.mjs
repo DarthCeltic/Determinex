@@ -38,7 +38,10 @@ fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.connectOverCDP(process.env.DTX_CDP || "http://localhost:9223");
-const page = browser.contexts()[0].pages().find((p) => p.url().includes("localhost:3000"));
+const page = browser
+  .contexts()[0]
+  .pages()
+  .find((p) => p.url().includes("localhost:3000"));
 if (!page) {
   console.log("FAIL: no localhost:3000 page — is `npm run tauri dev` running?");
   process.exit(1);
@@ -47,7 +50,10 @@ if (!page) {
 const click = async (t, ms = 4000) => {
   const l = page.locator(`[data-testid="${t}"]`);
   if (!(await l.count())) return false;
-  await l.first().click({ timeout: ms }).catch(() => {});
+  await l
+    .first()
+    .click({ timeout: ms })
+    .catch(() => {});
   return true;
 };
 
@@ -56,11 +62,19 @@ async function clearOverlays() {
     let acted = false;
     const x = page.getByTitle("Close add-on");
     if (await x.count().catch(() => 0)) {
-      await x.first().click({ timeout: 2000 }).catch(() => {});
+      await x
+        .first()
+        .click({ timeout: 2000 })
+        .catch(() => {});
       acted = true;
       await page.waitForTimeout(250);
     }
-    if (await page.locator('[data-testid="guide-overlay"]').count().catch(() => 0)) {
+    if (
+      await page
+        .locator('[data-testid="guide-overlay"]')
+        .count()
+        .catch(() => 0)
+    ) {
       await page.evaluate(() => document.querySelector('[data-testid="guide-overlay"]')?.remove());
       acted = true;
       await page.waitForTimeout(200);
@@ -92,7 +106,10 @@ await page.waitForTimeout(1500);
 for (const name of ["Restore", "Restore down", "Restore window"]) {
   const b = page.getByTitle(name);
   if (await b.count().catch(() => 0)) {
-    await b.first().click({ timeout: 2500 }).catch(() => {});
+    await b
+      .first()
+      .click({ timeout: 2500 })
+      .catch(() => {});
     break;
   }
 }
@@ -113,7 +130,9 @@ const layout = await page.evaluate(() => {
     vw: window.innerWidth,
   };
 });
-console.log(`layout: dock=${layout.dock} cockpit=${layout.cockpit} coversAll=${layout.dockCoversAll}`);
+console.log(
+  `layout: dock=${layout.dock} cockpit=${layout.cockpit} coversAll=${layout.dockCoversAll}`
+);
 if (!layout.dock) {
   console.log("FAIL: no terminal dock on screen");
   await browser.close();
@@ -145,7 +164,9 @@ for (let i = 0; i < 30; i++) {
 }
 console.log(`PTY shell up: ${shell}`);
 if (!shell) {
-  console.log("FAIL: the shell never came up — stale backend? check pty_spawn exists in the running exe");
+  console.log(
+    "FAIL: the shell never came up — stale backend? check pty_spawn exists in the running exe"
+  );
   await browser.close();
   process.exit(1);
 }
@@ -163,7 +184,10 @@ const grabber = setInterval(shoot, Math.round(1000 / FPS));
 
 // The PTY hosts a persistent PowerShell, so env is set by typing it — there is no env
 // parameter on pty_spawn and none is needed.
-await page.keyboard.type(`$env:DETERMINEX_VLLM_BASE_URL='${BASE}'; $env:DETERMINEX_VLLM_API_KEY='${KEY}'`, { delay: 8 });
+await page.keyboard.type(
+  `$env:DETERMINEX_VLLM_BASE_URL='${BASE}'; $env:DETERMINEX_VLLM_API_KEY='${KEY}'`,
+  { delay: 8 }
+);
 await page.keyboard.press("Enter");
 await page.waitForTimeout(1200);
 await page.keyboard.type("cd C:\\Dev\\Determinex", { delay: 8 });

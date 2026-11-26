@@ -105,7 +105,7 @@ def _parse_eval(eval_path: Path) -> dict[str, Any]:
     try:
         data = json.loads(eval_path.read_text(encoding="utf-8", errors="replace"))
     except Exception as e:
-        raise SystemExit(f"failed to parse eval JSON: {e}")
+        raise SystemExit(f"failed to parse eval JSON: {e}") from e
     if data.get("error_code"):
         raise SystemExit(f"eval reports error_code={data['error_code']}; refusing to archive")
     tr = data.get("test_results") or []
@@ -298,8 +298,7 @@ def _run_refresh() -> list[dict[str, Any]]:
             cmd,
             cwd=str(ROOT),
             text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             check=False,
         )
         steps.append(

@@ -5,7 +5,10 @@
 import { chromium } from "playwright";
 
 const browser = await chromium.connectOverCDP(process.env.DTX_CDP || "http://localhost:9223");
-const page = browser.contexts()[0].pages().find((p) => p.url().includes("localhost:3000"));
+const page = browser
+  .contexts()[0]
+  .pages()
+  .find((p) => p.url().includes("localhost:3000"));
 
 const info = await page.evaluate(() => {
   const vp = { w: window.innerWidth, h: window.innerHeight, dpr: devicePixelRatio };

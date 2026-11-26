@@ -61,7 +61,7 @@ from __future__ import annotations
 
 import sys
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
@@ -89,7 +89,10 @@ class Authority(int, Enum):
         }[self]
 
 
-class Move(str, Enum):
+class Move(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     PROCEED = "PROCEED"  # healthy: hand the next turn to someone
     ARBITRATE = "ARBITRATE"  # two claims conflict; the foreman rules
     UNSTICK = "UNSTICK"  # nobody is progressing; force a different mover
@@ -180,7 +183,9 @@ class Foreman:
         top = self.authoritative()
         if top is None:
             return None
-        peers = [c for c in self.claims if c.authority == top.authority and c.speaker != top.speaker]
+        peers = [
+            c for c in self.claims if c.authority == top.authority and c.speaker != top.speaker
+        ]
         return (top, peers[-1]) if peers else None
 
     # ── who goes next ───────────────────────────────────────────────────────────────────
@@ -249,9 +254,11 @@ class Foreman:
         return Ruling(
             Move.PROCEED,
             nxt,
-            (f"the room is still removing failures ({self._rate.reason()})"
-             if self._rate._round_errors
-             else "no verified work yet; continuing"),
+            (
+                f"the room is still removing failures ({self._rate.reason()})"
+                if self._rate._round_errors
+                else "no verified work yet; continuing"
+            ),
             top,
         )
 
@@ -268,21 +275,34 @@ def main() -> int:
     from determinex_agent_chat import get_session, read_transcript
 
     sess = get_session(a.session_id) or {}
-    parts = [p for p in (a.participants.split(",") if a.participants else sess.get("participants", [])) if p]
+    parts = [
+        p
+        for p in (a.participants.split(",") if a.participants else sess.get("participants", []))
+        if p
+    ]
     fm = Foreman()
     for t in read_transcript(a.session_id):
         fm.observe(t)
     r = fm.next_move(parts)
-    print(json.dumps({
-        "directive": r.directive.value,
-        "assign_to": r.assign_to,
-        "because": r.because,
-        "authoritative": (None if r.winning is None else {
-            "speaker": r.winning.speaker,
-            "authority": r.winning.authority.name,
-            "at": r.winning.at,
-        }),
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "directive": r.directive.value,
+                "assign_to": r.assign_to,
+                "because": r.because,
+                "authoritative": (
+                    None
+                    if r.winning is None
+                    else {
+                        "speaker": r.winning.speaker,
+                        "authority": r.winning.authority.name,
+                        "at": r.winning.at,
+                    }
+                ),
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

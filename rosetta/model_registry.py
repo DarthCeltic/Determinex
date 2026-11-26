@@ -100,13 +100,16 @@ class RosettaModelUnknown(Exception):
 # ---------------------------------------------------------------------------
 
 
-class BridgeStatus(str, enum.Enum):
+class BridgeStatus(enum.StrEnum):
     """Result classifier for a Rosetta-mediated generation attempt.
 
     Eval reports MUST distinguish these. A run that fell back to text but
     reports as "rosetta_projected" is a fake-good number that pollutes A/B
     results — see the Rosetta acceptance line.
     """
+
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
 
     ROSETTA_PROJECTED = "rosetta_projected"
     DIRECT_SELF_INJECTION = "direct_self_injection"
@@ -433,7 +436,7 @@ def _cli():
             print(json.dumps(get_arch(args.arch).to_dict(), indent=2))
         except RosettaArchUnknown as e:
             print(json.dumps({"error": str(e), "known": e.known}, indent=2))
-            raise SystemExit(2)
+            raise SystemExit(2) from e
         return
 
     print(json.dumps(snapshot(), indent=2))

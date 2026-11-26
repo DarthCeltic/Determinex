@@ -94,7 +94,10 @@ class TestJavaRepairRejectsUnlicensedSource:
 
     def test_apache_license_passes_gate(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
-        executor = lambda cmd, cwd, timeout: (0, "BUILD SUCCESS", "")
+
+        def executor(cmd, cwd, timeout):
+            return (0, "BUILD SUCCESS", "")
+
         pipeline = JavaRepairPipeline(corpus_manager=cm, executor=executor)
         repo = _make_repo(tmp_path, "Apache License\nVersion 2.0, January 2004")
         result = pipeline.process_repo(repo, "java_corpus")

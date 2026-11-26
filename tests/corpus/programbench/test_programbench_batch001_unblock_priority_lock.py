@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import pytest
 from corpus.programbench.batch001_unblock_priority import (
     PriorityConfig,
     ProgramBenchBatch001UnblockPriority,
 )
 from corpus.programbench.batch001_unblock_priority_record import verify_priority_record
 from corpus.programbench.operator_ready_platform import DOXYGEN_INSTANCE
+
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
 
 
 def _record() -> dict:

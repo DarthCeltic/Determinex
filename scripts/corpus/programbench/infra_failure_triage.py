@@ -7,7 +7,7 @@ import re
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -25,7 +25,10 @@ from corpus.programbench.infra_failure_triage_record import (
 from corpus.programbench.real_bounded_rerun_record import verify_real_rerun_record
 
 
-class InfraFailureTriageStatus(str, Enum):
+class InfraFailureTriageStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     INFRA_FAILURE_TRIAGED = "INFRA_FAILURE_TRIAGED"
     INFRA_FAILURE_UNRECOGNIZED = "INFRA_FAILURE_UNRECOGNIZED"
     MISSING_CLEANROOM_IMAGE = "MISSING_CLEANROOM_IMAGE"

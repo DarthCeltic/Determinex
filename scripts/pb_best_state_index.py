@@ -360,7 +360,7 @@ def build_index(roots: list[Path], *, include_hashes: bool = True) -> dict[str, 
                     )
                     discovered["conveyor_packets"] += 1
 
-    for slug, row in by_tool.items():
+    for _slug, row in by_tool.items():
         row["states"].sort(key=rank_key, reverse=True)
         row["tarballs"].sort(key=lambda r: str(r.get("mtime") or ""), reverse=True)
         row["overrides"].sort(key=lambda r: str(r.get("mtime") or ""), reverse=True)

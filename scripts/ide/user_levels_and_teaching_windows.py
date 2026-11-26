@@ -166,7 +166,7 @@ def build_record() -> UserLevelsAndTeachingWindowsRecord:
 
     # 1) All required levels present.
     seen = {p.level for p in profiles}
-    missing = [l for l in USER_LEVELS if l not in seen]
+    missing = [level_item for level_item in USER_LEVELS if level_item not in seen]
     if missing:
         return _block(
             "USER_LEVELS_BLOCKED_PROOF_HIDDEN",

@@ -113,15 +113,7 @@ def remove_caps(compile_sh: str) -> tuple[str, int]:
 
 def apply_semantic_filter(compile_sh: str) -> tuple[str, bool]:
     """Replace keyword-based TUI filter with semantic classification if present."""
-    # Find the block: from "if any(s in nodeid" through "items[:] = keep"
-    # We look for the broader pattern of the keyword filter block
-    block_pattern = re.compile(
-        r"(\s*)(?:keep\s*=\s*\[\]\s*\n\s*for item in items:\s*\n\s*nodeid[^\n]*\n\s*"
-        r"if any\(s in nodeid[^\n]*\n[^\n]*\n\s*continue\s*\n\s*keep\.append[^\n]*\n"
-        r"\s*items\[:?\]\s*=\s*keep)",
-        re.DOTALL,
-    )
-    # Simpler replacement: if the keyword filter one-liner is present
+    # Replace the keyword filter only when the original pattern is present.
     old_oneliner = re.compile(
         r'\s*nodeid\s*=\s*\(getattr\(item,\s*[\'"]nodeid[\'"],[^\n]*\)\.lower\(\)\s*\n'
         r"\s*if any\(s in nodeid for s in[^\n]+\):\s*\n"
@@ -251,8 +243,16 @@ def uncap_tool(tool_slug: str, output_dir: Path | None = None) -> bool:
 
     # Show diff summary
     if diff_text:
-        add = sum(1 for l in diff_lines if l.startswith("+") and not l.startswith("+++"))
-        rem = sum(1 for l in diff_lines if l.startswith("-") and not l.startswith("---"))
+        add = sum(
+            1
+            for text_line in diff_lines
+            if text_line.startswith("+") and not text_line.startswith("+++")
+        )
+        rem = sum(
+            1
+            for text_line in diff_lines
+            if text_line.startswith("-") and not text_line.startswith("---")
+        )
         print(f"  Diff: +{add} lines added, -{rem} lines removed")
         # Show just the cap/filter removals
         for line in diff_lines:

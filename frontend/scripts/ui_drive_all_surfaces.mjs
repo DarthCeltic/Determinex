@@ -66,15 +66,23 @@ const GROUPS = {
 
 async function unobstructed() {
   await page
-    .waitForFunction(() => !document.querySelector('div.absolute.inset-0[class*="z-[110]"]'), null, {
-      timeout: 180000,
-      polling: 400,
-    })
+    .waitForFunction(
+      () => !document.querySelector('div.absolute.inset-0[class*="z-[110]"]'),
+      null,
+      {
+        timeout: 180000,
+        polling: 400,
+      }
+    )
     .catch(() => {});
 }
 
 async function dropAddon() {
-  await page.getByTitle("Close add-on").first().click({ timeout: 3000 }).catch(() => {});
+  await page
+    .getByTitle("Close add-on")
+    .first()
+    .click({ timeout: 3000 })
+    .catch(() => {});
   await sleep(500);
 }
 
@@ -87,7 +95,11 @@ async function openTo(target, opener) {
 
 async function open(rail, id) {
   await unobstructed();
-  await page.getByRole("button", { name: /^Dismiss$/ }).first().click({ timeout: 2000 }).catch(() => {});
+  await page
+    .getByRole("button", { name: /^Dismiss$/ })
+    .first()
+    .click({ timeout: 2000 })
+    .catch(() => {});
   const member = page.locator(`[data-testid="surface-member-${id}"]`).first();
   const gotMember = await openTo(
     member,
@@ -107,7 +119,8 @@ async function open(rail, id) {
   // the three modal surfaces as BLOCKED twice: once for expecting a Panel button they never
   // have, and once for looking for their Open button before it was rendered.
   const anyBtn = async () =>
-    (await panelBtn.isVisible().catch(() => false)) || (await modalBtn.isVisible().catch(() => false));
+    (await panelBtn.isVisible().catch(() => false)) ||
+    (await modalBtn.isVisible().catch(() => false));
   if (!(await anyBtn())) {
     await member.click({ timeout: 10000 }).catch(() => {});
     await sleep(1000);
@@ -124,7 +137,10 @@ async function open(rail, id) {
     }
     return { reached: false, why: "neither a Panel nor an Open control appeared" };
   }
-  const clicked = await panelBtn.click({ timeout: 10000 }).then(() => true).catch(() => false);
+  const clicked = await panelBtn
+    .click({ timeout: 10000 })
+    .then(() => true)
+    .catch(() => false);
   if (!clicked) return { reached: false, why: "Panel control did not accept a click" };
   await sleep(2600);
   return { reached: true };
@@ -154,26 +170,34 @@ for (const [rail, ids] of Object.entries(GROUPS)) {
     const beforeReq = failedReq.length;
     await dropAddon();
     const opened = await open(rail, id);
-    let verdict, detail = "";
+    let verdict,
+      detail = "";
     if (!opened.reached) {
       verdict = "BLOCKED";
       detail = opened.why;
     } else if (opened.modal) {
       // A modal renders OVER the shell, so the panel host is the wrong place to look.
       const info = await page.evaluate(() => {
-        const dlg = document.querySelector('[role=dialog]')
-          || [...document.querySelectorAll("div")].filter((d) => {
-               const s = getComputedStyle(d);
-               return s.position === "fixed" && d.innerText && d.innerText.length > 40;
-             }).pop();
+        const dlg =
+          document.querySelector("[role=dialog]") ||
+          [...document.querySelectorAll("div")]
+            .filter((d) => {
+              const s = getComputedStyle(d);
+              return s.position === "fixed" && d.innerText && d.innerText.length > 40;
+            })
+            .pop();
         if (!dlg) return { found: false };
         const text = (dlg.innerText || "").replace(/\s+/g, " ").trim();
-        return { found: true, chars: text.length,
-                 controls: dlg.querySelectorAll("button,input,select,textarea").length };
+        return {
+          found: true,
+          chars: text.length,
+          controls: dlg.querySelectorAll("button,input,select,textarea").length,
+        };
       });
       verdict = !info.found ? "BLOCKED" : info.chars < 40 ? "EMPTY" : "ALIVE";
-      detail = info.found ? `modal: ${info.chars} chars, ${info.controls} controls`
-                          : "modal did not render";
+      detail = info.found
+        ? `modal: ${info.chars} chars, ${info.controls} controls`
+        : "modal did not render";
       await page.keyboard.press("Escape").catch(() => {});
       await sleep(600);
     } else {
@@ -193,7 +217,8 @@ for (const [rail, ids] of Object.entries(GROUPS)) {
         verdict = "ALIVE";
         detail = `${info.chars} chars, ${info.controls} controls`;
       }
-      if (newReq.length && verdict === "ALIVE") detail += ` | failed req: ${newReq[0].slice(0, 60)}`;
+      if (newReq.length && verdict === "ALIVE")
+        detail += ` | failed req: ${newReq[0].slice(0, 60)}`;
     }
     rows.push({ rail, id, verdict, detail });
     const mark = { ALIVE: "  ok  ", EMPTY: " EMPTY", ERROR: " ERROR", BLOCKED: "BLOCKD" }[verdict];
@@ -202,7 +227,12 @@ for (const [rail, ids] of Object.entries(GROUPS)) {
 }
 
 const tally = rows.reduce((a, r) => ((a[r.verdict] = (a[r.verdict] || 0) + 1), a), {});
-console.log(`\n  ${rows.length} surfaces: ` + Object.entries(tally).map(([k, v]) => `${k}=${v}`).join("  "));
+console.log(
+  `\n  ${rows.length} surfaces: ` +
+    Object.entries(tally)
+      .map(([k, v]) => `${k}=${v}`)
+      .join("  ")
+);
 const bad = rows.filter((r) => r.verdict !== "ALIVE");
 if (bad.length) {
   console.log("\n  not alive:");

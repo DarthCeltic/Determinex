@@ -25,7 +25,10 @@ import { chromium } from "playwright";
 
 const CDP = process.env.DTX_CDP || "http://localhost:9223";
 const browser = await chromium.connectOverCDP(CDP);
-const page = browser.contexts()[0].pages().find((p) => p.url().includes("localhost:3000"));
+const page = browser
+  .contexts()[0]
+  .pages()
+  .find((p) => p.url().includes("localhost:3000"));
 if (!page) {
   console.log("FAIL: no localhost:3000 page on the CDP endpoint");
   process.exit(1);
@@ -38,7 +41,10 @@ export async function clearOverlays(p) {
 
     const x = p.getByTitle("Close add-on");
     if (await x.count().catch(() => 0)) {
-      await x.first().click({ timeout: 2000 }).catch(() => {});
+      await x
+        .first()
+        .click({ timeout: 2000 })
+        .catch(() => {});
       acted = true;
       await p.waitForTimeout(250);
     }
@@ -54,7 +60,10 @@ export async function clearOverlays(p) {
     if (open) {
       const close = p.getByRole("button", { name: /close config/i });
       if (await close.count().catch(() => 0)) {
-        await close.first().click({ timeout: 2000 }).catch(() => {});
+        await close
+          .first()
+          .click({ timeout: 2000 })
+          .catch(() => {});
       } else {
         await p.keyboard.press("Escape").catch(() => {});
       }
@@ -88,14 +97,24 @@ const cleared = await page.evaluate(() => {
 //    of background, so "no panel" is not a neutral starting state.
 const rail = page.locator('[data-testid="rail-group-work"]');
 if (await rail.count()) {
-  await rail.first().click({ timeout: 3000 }).catch(() => {});
+  await rail
+    .first()
+    .click({ timeout: 3000 })
+    .catch(() => {});
   await page.waitForTimeout(600);
   const m = page.locator('[data-testid="surface-member-hive"]');
   if (await m.count()) {
-    await m.first().click({ timeout: 3000 }).catch(() => {});
+    await m
+      .first()
+      .click({ timeout: 3000 })
+      .catch(() => {});
     await page.waitForTimeout(400);
     const pnl = page.locator('[data-testid="surface-open-hive-panel"]');
-    if (await pnl.count()) await pnl.first().click({ timeout: 3000 }).catch(() => {});
+    if (await pnl.count())
+      await pnl
+        .first()
+        .click({ timeout: 3000 })
+        .catch(() => {});
   }
 }
 await page.waitForTimeout(1500);

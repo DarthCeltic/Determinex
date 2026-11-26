@@ -113,21 +113,76 @@ REQUIREMENTS: tuple[Requirement, ...] = (
 _REQ_BY_KEY = {r.key: r for r in REQUIREMENTS}
 
 _LANG_WORDS = (
-    "python", "rust", "go ", "golang", "typescript", "javascript", "java", "kotlin",
-    "swift", "c++", "cpp", " c#", "csharp", "ruby", "php", "bash", "shell",
+    "python",
+    "rust",
+    "go ",
+    "golang",
+    "typescript",
+    "javascript",
+    "java",
+    "kotlin",
+    "swift",
+    "c++",
+    "cpp",
+    " c#",
+    "csharp",
+    "ruby",
+    "php",
+    "bash",
+    "shell",
 )
 _EDGE_WORDS = (
-    "empty", "none", "null", "zero", "invalid", "error", "duplicate", "missing",
-    "negative", "malformed", "edge case", "fail", "raise", "throw", "unicode",
+    "empty",
+    "none",
+    "null",
+    "zero",
+    "invalid",
+    "error",
+    "duplicate",
+    "missing",
+    "negative",
+    "malformed",
+    "edge case",
+    "fail",
+    "raise",
+    "throw",
+    "unicode",
 )
 _INTERFACE_WORDS = (
-    "function", "cli", "command", "endpoint", "api", "http", "library", "import",
-    "argument", "flag", "stdin", "script", "module", "class", "route",
+    "function",
+    "cli",
+    "command",
+    "endpoint",
+    "api",
+    "http",
+    "library",
+    "import",
+    "argument",
+    "flag",
+    "stdin",
+    "script",
+    "module",
+    "class",
+    "route",
 )
 _CONSTRAINT_WORDS = (
-    "no dependencies", "stdlib", "standard library", "must not", "must use", "only use",
-    "offline", "performance", "memory", "platform", "windows", "linux", "macos",
-    "without", "constraint", "limit", "requirement",
+    "no dependencies",
+    "stdlib",
+    "standard library",
+    "must not",
+    "must use",
+    "only use",
+    "offline",
+    "performance",
+    "memory",
+    "platform",
+    "windows",
+    "linux",
+    "macos",
+    "without",
+    "constraint",
+    "limit",
+    "requirement",
 )
 
 #: An example is a concrete input paired with a concrete output. Prose promising one
@@ -136,7 +191,10 @@ _EXAMPLE_PATTERNS = (
     re.compile(r"\w+\s*\([^)]*\)\s*(?:==|=>|->|returns?|gives?|yields?)\s*\S+", re.I),
     re.compile(r"\binput\b.{0,60}\boutput\b", re.I | re.DOTALL),
     re.compile(r"\bgiven\b.{0,60}\b(?:then|expect|should (?:be|return|give))\b", re.I | re.DOTALL),
-    re.compile(r"\bfor\b\s+\S+\s*,?\s*(?:it |we |you )?(?:should |must )?(?:return|output|print|give)\b", re.I),
+    re.compile(
+        r"\bfor\b\s+\S+\s*,?\s*(?:it |we |you )?(?:should |must )?(?:return|output|print|give)\b",
+        re.I,
+    ),
 )
 
 
@@ -179,8 +237,9 @@ def _oracle_is_vacuous(text: str) -> bool:
         return not _has_example(text)
 
 
-def assess(idea: str, answers: list[str] | None = None,
-           asked: list[str] | None = None) -> ContextAssessment:
+def assess(
+    idea: str, answers: list[str] | None = None, asked: list[str] | None = None
+) -> ContextAssessment:
     """Decide whether the interview has gathered enough to build a real project."""
     answers = [a for a in (answers or []) if a and a.strip() and a.strip() != "(skipped)"]
     asked = asked or []
@@ -209,9 +268,7 @@ def assess(idea: str, answers: list[str] | None = None,
     # build of the wrong thing.
     sufficient = (not vacuous) and not ({"goal", "language", "example"} - set(satisfied))
 
-    questions = [
-        _REQ_BY_KEY[k].question for k in missing if _REQ_BY_KEY[k].question not in asked
-    ]
+    questions = [_REQ_BY_KEY[k].question for k in missing if _REQ_BY_KEY[k].question not in asked]
     if vacuous and _REQ_BY_KEY["example"].question not in questions:
         # Ask for the example even if the checklist thought it saw one: the synthesizer is
         # the authority, and it says nothing checkable was extractable.
@@ -225,9 +282,9 @@ def assess(idea: str, answers: list[str] | None = None,
         )
     else:
         why = "; ".join(f"{_REQ_BY_KEY[k].label} ({_REQ_BY_KEY[k].why})" for k in missing[:2])
-        rationale = (
-            "not yet -- the oracle would check nothing" if vacuous else "not yet"
-        ) + (f"; still missing: {why}" if missing else "")
+        rationale = ("not yet -- the oracle would check nothing" if vacuous else "not yet") + (
+            f"; still missing: {why}" if missing else ""
+        )
 
     return ContextAssessment(
         sufficient=sufficient,
@@ -239,8 +296,9 @@ def assess(idea: str, answers: list[str] | None = None,
     )
 
 
-def assess_round(idea: str, answers: list[str], asked: list[str],
-                 previous_satisfied: list[str] | None = None) -> ContextAssessment:
+def assess_round(
+    idea: str, answers: list[str], asked: list[str], previous_satisfied: list[str] | None = None
+) -> ContextAssessment:
     """`assess`, plus whether the last round actually moved anything forward.
 
     The cap this replaces existed because a small model looped. Detecting a stalled round

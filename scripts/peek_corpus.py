@@ -40,7 +40,7 @@ for fname in files:
 
                     # Language detection from keywords in instruction
                     lang = "unknown"
-                    for kw, l in [
+                    for kw, language in [
                         ("rust", "rust"),
                         ("golang", "go"),
                         (" go ", "go"),
@@ -81,7 +81,7 @@ for fname in files:
                         ("wasm", "wasm"),
                     ]:
                         if kw in instruction:
-                            lang = l
+                            lang = language
                             break
 
                     # Fallback: detect from output code markers

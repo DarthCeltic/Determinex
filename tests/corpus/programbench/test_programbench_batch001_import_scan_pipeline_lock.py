@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 from corpus.programbench.batch001_import_scan_pipeline import (
     Batch001ImportScanConfig,
     ProgramBenchBatch001ImportScanPipeline,
@@ -10,6 +11,8 @@ from corpus.programbench.batch001_import_scan_pipeline import (
 from corpus.programbench.batch001_import_scan_pipeline_record import (
     verify_import_scan_pipeline_record,
 )
+
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
 
 
 def _campaign(**kwargs: object) -> ProgramBenchBatch001ImportScanPipeline:

@@ -351,6 +351,7 @@ WITHHELD_PATHS: frozenset[str] = frozenset(
     }
 )
 
+
 #: Content that must not appear in ANY published file while the gate is on. This is the half a
 #: path list cannot express: a withheld capability can be an ADDITION to a file that is already
 #: public in an earlier form, so the file may publish and the content may not.

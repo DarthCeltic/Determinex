@@ -1,9 +1,12 @@
 from __future__ import annotations
 
-from enum import Enum
+from enum import Enum, StrEnum
 
 
-class RootCausePacketStatus(str, Enum):
+class RootCausePacketStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     ROOT_CAUSE_PACKET_READY = "ROOT_CAUSE_PACKET_READY"
     ROOT_CAUSE_PACKET_INCOMPLETE = "ROOT_CAUSE_PACKET_INCOMPLETE"
     ROOT_CAUSE_PACKET_CONFLICT = "ROOT_CAUSE_PACKET_CONFLICT"

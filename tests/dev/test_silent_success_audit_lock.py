@@ -45,15 +45,25 @@ def test_strict_mode_exits_non_zero_when_something_is_undeclared(tmp_path, monke
         encoding="utf-8",
     )
     try:
-        p = subprocess.run([sys.executable, str(_AUDIT), "--strict"],
-                           capture_output=True, text=True, timeout=600, cwd=str(_ROOT))
+        p = subprocess.run(
+            [sys.executable, str(_AUDIT), "--strict"],
+            capture_output=True,
+            text=True,
+            timeout=600,
+            cwd=str(_ROOT),
+        )
         assert p.returncode != 0, "a planted silent success must fail --strict"
         assert "_silent_success_audit_probe" in p.stdout
     finally:
         plant.unlink(missing_ok=True)
 
-    clean = subprocess.run([sys.executable, str(_AUDIT), "--strict"],
-                           capture_output=True, text=True, timeout=600, cwd=str(_ROOT))
+    clean = subprocess.run(
+        [sys.executable, str(_AUDIT), "--strict"],
+        capture_output=True,
+        text=True,
+        timeout=600,
+        cwd=str(_ROOT),
+    )
     assert clean.returncode == 0, "and must pass again once it is removed"
 
 

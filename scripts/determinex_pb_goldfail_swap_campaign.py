@@ -97,7 +97,10 @@ def official(iid, data):
         for t in i.get("ignored_tests") or []:
             ign.add(f"{b}/{t['name']}")
     tr = data.get("test_results") or []
-    f = lambda t: f"{t['branch']}/{t['name']}" if t.get("branch") else t["name"]
+
+    def f(t):
+        return f"{t['branch']}/{t['name']}" if t.get("branch") else t["name"]
+
     off = [t for t in tr if t["branch"] in active and f(t) not in ign]
     npass = sum(1 for t in off if t["status"] == "passed")
     return npass, len(off), [f(t) for t in off if t["status"] != "passed"]

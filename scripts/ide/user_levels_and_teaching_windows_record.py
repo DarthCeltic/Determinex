@@ -62,7 +62,7 @@ class UserLevelsAndTeachingWindowsRecord:
 
     def to_dict(self) -> dict[str, object]:
         d = asdict(self)
-        d["levels"] = [l.to_dict() for l in self.levels]
+        d["levels"] = [level_item.to_dict() for level_item in self.levels]
         d["notes"] = list(self.notes)
         return d
 

@@ -29,7 +29,7 @@ _LINE_NUM_PREFIX_RE = re.compile(r"^\s*\d+\s*\|\s?")
 def _normalize_for_match(s: str) -> str:
     """Normalize a code string for fuzzy matching: CRLF→LF, trailing spaces stripped per line."""
     s = s.replace("\r\n", "\n").replace("\r", "\n")
-    return "\n".join(l.rstrip() for l in s.split("\n"))
+    return "\n".join(line.rstrip() for line in s.split("\n"))
 
 
 def _strip_block_fences(text: str) -> str:
@@ -48,13 +48,15 @@ def _strip_line_number_prefixes(text: str) -> str:
     e.g. `  60 |     separable_matrix = ...` → `    separable_matrix = ...`
     """
     lines = text.split("\n")
-    non_empty = [l for l in lines if l.strip()]
+    non_empty = [line for line in lines if line.strip()]
     if not non_empty:
         return text
-    if any(_LINE_NUM_PREFIX_RE.match(l) for l in non_empty):
+    if any(_LINE_NUM_PREFIX_RE.match(line) for line in non_empty):
         return "\n".join(
-            _LINE_NUM_PREFIX_RE.sub("", l) if l.strip() and _LINE_NUM_PREFIX_RE.match(l) else l
-            for l in lines
+            _LINE_NUM_PREFIX_RE.sub("", line)
+            if line.strip() and _LINE_NUM_PREFIX_RE.match(line)
+            else line
+            for line in lines
         )
     return text
 
@@ -210,7 +212,7 @@ def _apply_search_replace_blocks(
         # 5. First-line anchor window (two passes)
         #    Pass 1: exact anchor, 60% threshold
         #    Pass 2: paren-stripped anchor, 50% threshold, ≥2 lines
-        search_lines_ne = [l for l in search.split("\n") if l.strip()]
+        search_lines_ne = [line for line in search.split("\n") if line.strip()]
         anchor_matched = False
         _MIN_ANCHOR_BASE = 8
 
@@ -299,7 +301,7 @@ def _apply_search_replace_blocks(
         #    a comment back).
         _COMMENT_LINE_RE = re.compile(r"^\s*(?:#|//|/\*|\*)")
         search_no_comments = "\n".join(
-            l for l in search.split("\n") if not _COMMENT_LINE_RE.match(l)
+            line for line in search.split("\n") if not _COMMENT_LINE_RE.match(line)
         )
         if search_no_comments.strip() and search_no_comments != search:
             if search_no_comments in result:

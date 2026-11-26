@@ -79,8 +79,7 @@ def test_no_test_inserts_a_directory_that_shadows_a_package():
             # Resolve the literal directory names mentioned in the expression. This is
             # deliberately textual: the expression is usually `str(_SCRIPTS / "hive")`, and
             # evaluating it would mean importing the test module we are auditing.
-            for sub in re.findall(r'"([A-Za-z_][A-Za-z0-9_]*)"|\'([A-Za-z_][A-Za-z0-9_]*)\'',
-                                  expr):
+            for sub in re.findall(r'"([A-Za-z_][A-Za-z0-9_]*)"|\'([A-Za-z_][A-Za-z0-9_]*)\'', expr):
                 name = sub[0] or sub[1]
                 candidate = _SCRIPTS / name
                 if not candidate.is_dir():

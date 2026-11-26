@@ -13,6 +13,8 @@ concurrency:
 env:
   # Offline: no cloud AI calls during CI; local Ollama unavailable in GH runners.
   DETERMINEX_NETWORK_POLICY: "offline"
+  # This public checkout omits private historical evidence.
+  DETERMINEX_FILTERED_CHECKOUT: "1"
   # No corpus HMAC key in CI — ephemeral key is acceptable for tests.
   # Safety WAL and escalation state are temp-dir scoped by test fixtures.
   PYTHONPATH: scripts
@@ -45,21 +47,9 @@ jobs:
       - name: Install lint deps
         run: uv pip install --system ruff
       - name: ruff check
-        # W503 is a FLAKE8 rule ruff never implemented, so this command failed instantly
-        # ("Unknown rule selector `W503`") on every run since it was written -- it lints
-        # nothing, and it skips every downstream job. It only became visible as `failure`
-        # rather than `startup_failure` once billing let CI actually run.
-        #
-        # Gating on E,F,W,I would fail on 2412 pre-existing findings, so it would go
-        # straight back to permanently-red and stop being a signal. E9/F63/F7 (syntax
-        # errors, broken comparisons, misplaced statements) is green today and is a real
-        # gate: anything it catches is a bug, not a style opinion.
-        #
-        # DEFERRED, not dropped: F82 (undefined name) reports 85 findings, 76 of them in
-        # determinex_projector.py / determinex_rosetta.py / rosetta_softprefix_smoke.py.
-        # Those are real -- determinex_projector.py does not import at all
-        # (NameError: PROJECTION_SAVE). Fix those, then add F82 here.
-        run: ruff check scripts/ --select E9,F63,F7 --ignore E501
+        # Catch invalid syntax, broken comparisons, misplaced statements, and undefined
+        # names before installing test dependencies. The CI workflow runs the full hooks.
+        run: ruff check scripts/ --select E9,F63,F7,F82
 
   unit-tests:
     name: Unit Tests (fast)
@@ -74,47 +64,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install dependencies
-        run: |
-          uv pip install --system \
-            pytest pytest-timeout \
-            pydantic>=2.0 \
-            structlog \
-            hypothesis \
-            duckdb \
-            pyyaml \
-            fastembed \
-            numpy \
-            psutil \
-            httpx \
-            litellm \
-            tenacity \
-            cryptography \
-            click \
-            pydantic-settings \
-            requests \
-            tqdm \
-            tree-sitter \
-            tree-sitter-rust tree-sitter-ruby tree-sitter-php tree-sitter-java \
-            tree-sitter-javascript tree-sitter-typescript tree-sitter-python \
-            tree-sitter-go tree-sitter-c tree-sitter-cpp
-          # These are the module-level third-party imports reachable from tests/ that were
-          # NOT installed here. `tenacity` surfaced first as a collection ImportError, and
-          # finding the rest one CI round trip at a time would have taken five more pushes,
-          # so the set was computed by walking module-level imports across scripts/ and
-          # subtracting stdlib, first-party and this list.
-          #
-          # Deliberately EXCLUDED: torch, transformers, peft, datasets. They are multi-GB
-          # and belong to training paths; any test needing them should carry a `slow` or
-          # `integration` marker, which this job already filters out. Installing them to
-          # make a fast lane pass would make it not a fast lane.
-          #
-          # The tree-sitter grammars ARE installed, and that is not inconsistent with the
-          # above. Project Cloak's whole claim is that it obfuscates 10 languages, and
-          # without the grammars it degrades to no obfuscation -- CI reported exactly that
-          # as "rust: identifiers leaked in plaintext: ['zzq_field', 'zzq_param']" across 8
-          # languages. A privacy claim that CI cannot check is the one claim that must not
-          # be skipped, and the wheels are small.
+      - name: Install test dependencies
+        run: uv pip install --system -r requirements-ci-fast.txt
       - name: Run fast unit tests
         run: |
           python -m pytest tests/ \
@@ -162,11 +113,13 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install deps
-        run: uv pip install --system hypothesis pytest
+        run: uv pip install --system hypothesis pytest pytest-timeout
       - name: Run synthesizer on canonical fixtures
         run: |
-          python -m pytest tests/corpus/programbench/test_synthesize.py \
-            -x -q --timeout=30 || true
+          python -m pytest -q --timeout=30 \
+            tests/test_oracle_soundness_claims.py \
+            tests/test_autofix_pipeline.py::test_synthesizer_extracts_examples_and_validates \
+            tests/test_autofix_pipeline.py::test_a_correct_interval_merger_passes_its_own_synthesized_oracle
 
   safety-smoke:
     name: Safety Layer Smoke
@@ -182,8 +135,8 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install deps
-        run: uv pip install --system pyyaml
+        run: uv pip install --system -r requirements-ci-fast.txt
       - name: Safety layer self-test
-        run: python -m pytest tests/ -k "safety" -x -q --timeout=30 || true
+        run: python -m pytest tests/ -k "safety" -q --timeout=30
       - name: Safety integrity check
-        run: python scripts/determinex_safety.py integrity || true
+        run: python scripts/determinex_safety.py --check-integrity

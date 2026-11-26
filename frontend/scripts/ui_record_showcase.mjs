@@ -24,7 +24,10 @@ fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.connectOverCDP(process.env.DTX_CDP || "http://localhost:9223");
-const page = browser.contexts()[0].pages().find((p) => p.url().includes("localhost:3000"));
+const page = browser
+  .contexts()[0]
+  .pages()
+  .find((p) => p.url().includes("localhost:3000"));
 if (!page) {
   console.log("FAIL: no localhost:3000 page — is `npm run tauri dev` running?");
   process.exit(1);
@@ -33,7 +36,10 @@ if (!page) {
 const click = async (t, ms = 5000) => {
   const l = page.locator(`[data-testid="${t}"]`);
   if (!(await l.count())) return false;
-  await l.first().click({ timeout: ms }).catch(() => {});
+  await l
+    .first()
+    .click({ timeout: ms })
+    .catch(() => {});
   return true;
 };
 
@@ -42,11 +48,19 @@ async function clearOverlays() {
     let acted = false;
     const x = page.getByTitle("Close add-on");
     if (await x.count().catch(() => 0)) {
-      await x.first().click({ timeout: 2000 }).catch(() => {});
+      await x
+        .first()
+        .click({ timeout: 2000 })
+        .catch(() => {});
       acted = true;
       await page.waitForTimeout(220);
     }
-    if (await page.locator('[data-testid="guide-overlay"]').count().catch(() => 0)) {
+    if (
+      await page
+        .locator('[data-testid="guide-overlay"]')
+        .count()
+        .catch(() => 0)
+    ) {
       await page.evaluate(() => document.querySelector('[data-testid="guide-overlay"]')?.remove());
       acted = true;
       await page.waitForTimeout(200);
@@ -59,7 +73,11 @@ async function clearOverlays() {
       .catch(() => false);
     if (modal) {
       const c = page.getByRole("button", { name: /close config/i });
-      if (await c.count().catch(() => 0)) await c.first().click({ timeout: 2000 }).catch(() => {});
+      if (await c.count().catch(() => 0))
+        await c
+          .first()
+          .click({ timeout: 2000 })
+          .catch(() => {});
       else await page.keyboard.press("Escape").catch(() => {});
       acted = true;
       await page.waitForTimeout(300);
@@ -93,7 +111,9 @@ async function settled() {
     if (
       text
         .split(/\r?\n/)
-        .some((l) => /^(scanning|loading|fetching|initializing|please wait)[.…\s]*$/i.test(l.trim()))
+        .some((l) =>
+          /^(scanning|loading|fetching|initializing|please wait)[.…\s]*$/i.test(l.trim())
+        )
     )
       return false;
     return text.length >= 40;
@@ -119,9 +139,7 @@ async function captureStop(member, seconds) {
   fs.mkdirSync(dir, { recursive: true });
   const shots = Math.max(2, Math.round(seconds * FPS));
   for (let i = 0; i < shots; i++) {
-    await page
-      .screenshot({ path: `${dir}/f${String(i).padStart(4, "0")}.png` })
-      .catch(() => {});
+    await page.screenshot({ path: `${dir}/f${String(i).padStart(4, "0")}.png` }).catch(() => {});
     total++;
     // SCROLL while filming. Six seconds of footage under fifteen seconds of narration
     // means nine seconds of a frozen panel, which is the same "nothing really changes on

@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -21,7 +21,10 @@ from corpus.programbench.infra_failure_triage import InfraFailureTriageStatus
 from corpus.programbench.infra_failure_triage_record import verify_infra_failure_triage_record
 
 
-class DockerHubManifestProvenanceStatus(str, Enum):
+class DockerHubManifestProvenanceStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     DOCKERHUB_MANIFEST_PROVENANCE_READY = "DOCKERHUB_MANIFEST_PROVENANCE_READY"
     EXACT_REMOTE_MANIFEST_FOUND = "EXACT_REMOTE_MANIFEST_FOUND"
     OPERATOR_CLAIM_CREATED = "OPERATOR_CLAIM_CREATED"

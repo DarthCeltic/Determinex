@@ -231,8 +231,12 @@ def main() -> None:
             # Linux-ism detection on the generated patch
             isms = detect_linux_isms(patch)
             if isms:
-                print(f"    WARN: {len(isms)} Linux-ism(s): {', '.join(l for _, l in isms)}")
-                linux_ism_report.append({"instance_id": iid, "linux_isms": [l for _, l in isms]})
+                print(
+                    f"    WARN: {len(isms)} Linux-ism(s): {', '.join(item_label for _, item_label in isms)}"
+                )
+                linux_ism_report.append(
+                    {"instance_id": iid, "linux_isms": [item_label for _, item_label in isms]}
+                )
 
             predictions.append(
                 {

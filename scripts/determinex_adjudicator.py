@@ -53,11 +53,14 @@ import re
 import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 
 
-class Verdict(str, Enum):
+class Verdict(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     ROUTE = "ROUTE"  # context differs -> detect & route, don't quit
     MATCH = "MATCH"  # environment mismatch -> reproduce reference env
     UNBLOCK = "UNBLOCK"  # self-inflicted blocker -> remove it

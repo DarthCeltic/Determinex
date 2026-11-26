@@ -81,7 +81,8 @@ for (const p of candidates) {
 }
 if (!page) {
   const seen = [];
-  for (const p of candidates) seen.push(`${await p.title().catch(() => "?")} :: ${p.url().slice(0, 70)}`);
+  for (const p of candidates)
+    seen.push(`${await p.title().catch(() => "?")} :: ${p.url().slice(0, 70)}`);
   log(`  attached to ${CDP}, but no Determinex page is there. Saw:`);
   seen.forEach((s) => log("    " + s));
   log(`\n  Start the app with WebView2 debugging enabled:`);
@@ -137,7 +138,9 @@ log(`  landmarks: ${JSON.stringify(report.landmarks)}`);
 if (missing.length) {
   log(`    MISSING (required): ${missing.join(", ")} -- assistive tech cannot navigate this`);
 } else {
-  log(`    required landmarks present${optionalAbsent.length ? ` (optional absent: ${optionalAbsent.join(", ")})` : ""}`);
+  log(
+    `    required landmarks present${optionalAbsent.length ? ` (optional absent: ${optionalAbsent.join(", ")})` : ""}`
+  );
 }
 if (report.landmarks.h1 > 1) {
   log(`    note: ${report.landmarks.h1} h1 elements -- one per document is the convention`);
@@ -146,15 +149,21 @@ if (report.landmarks.h1 > 1) {
 const railNames = [];
 for (const el of await page.locator("button").all()) {
   const t = (await el.innerText().catch(() => "")).replace(/\s+/g, " ").trim();
-  if (/^(WORK|CODE|SOURCE|RUN|PROVE|AGENTS|TRUST|LEARN|SYSTEM)$/i.test(t)) railNames.push(t.toUpperCase());
+  if (/^(WORK|CODE|SOURCE|RUN|PROVE|AGENTS|TRUST|LEARN|SYSTEM)$/i.test(t))
+    railNames.push(t.toUpperCase());
 }
 report.rails = [...new Set(railNames)];
 log(`  rail groups (${report.rails.length}): ${report.rails.join(", ")}`);
 
 const names = [];
 for (const b of (await page.getByRole("button").all()).slice(0, 80)) {
-  const n = ((await b.getAttribute("aria-label").catch(() => null)) ||
-    (await b.innerText().catch(() => "")) || "").replace(/\s+/g, " ").trim();
+  const n = (
+    (await b.getAttribute("aria-label").catch(() => null)) ||
+    (await b.innerText().catch(() => "")) ||
+    ""
+  )
+    .replace(/\s+/g, " ")
+    .trim();
   if (n && n.length < 60) names.push(n);
 }
 report.namedControls = [...new Set(names)];

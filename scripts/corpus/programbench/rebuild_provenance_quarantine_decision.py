@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -31,7 +31,10 @@ from corpus.programbench.rebuild_provenance_quarantine_decision_record import (
 )
 
 
-class RebuildProvenanceQuarantineDecisionStatus(str, Enum):
+class RebuildProvenanceQuarantineDecisionStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     REBUILD_QUARANTINE_DECISION_READY = "REBUILD_QUARANTINE_DECISION_READY"
     REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY = "REBUILD_QUARANTINE_DECISION_PARTIAL_ONLY"
     REBUILD_QUARANTINE_DECISION_BLOCKED = "REBUILD_QUARANTINE_DECISION_BLOCKED"

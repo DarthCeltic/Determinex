@@ -76,8 +76,8 @@ for pass_num in range(start_pass, end_pass + 1):
         print(stderr[-500:])
         continue
 
-    lines = [l for l in stdout.splitlines() if l.strip()]
-    summary = next((l for l in lines if "unique examples" in l), "")
+    lines = [text_line for text_line in stdout.splitlines() if text_line.strip()]
+    summary = next((text_line for text_line in lines if "unique examples" in text_line), "")
     current = count_unique_across_all()
     pct = round(current / TARGET * 100, 1)
 

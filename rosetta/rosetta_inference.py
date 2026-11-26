@@ -176,12 +176,12 @@ class RosettaInferenceBridge:
                     target_model=str(self.model_path),
                     target_arch=target_family,
                 )
-            except ImportError:
+            except ImportError as exc:
                 # Registry not on path — fall back to RuntimeError so we still fail loud
                 raise RuntimeError(
                     f"GGUF embedding dim ({n_embd}) != RosettaStone target dim ({self.target_dim}) "
                     f"for family {target_family!r}. Refusing to project through wrong-sized stone."
-                )
+                ) from exc
         self.n_embd = n_embd
 
         print(

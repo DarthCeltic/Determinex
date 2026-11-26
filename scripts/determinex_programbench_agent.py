@@ -1641,7 +1641,7 @@ Rules:
         matches = list(_re.finditer(pat, text, _re.DOTALL))
         print(f"  [DEBUG] regex matches: {len(matches)}")
         # Show all <file occurrences with 120 chars
-        for i, m in enumerate(_re.finditer(r"<file", text)):
+        for _i, m in enumerate(_re.finditer(r"<file", text)):
             snippet = text[m.start() : m.start() + 120]
             print(f"  [DEBUG] <file at {m.start()}: {repr(snippet)}")
         # Show last 200 chars (closing tags)

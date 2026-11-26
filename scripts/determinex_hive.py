@@ -176,7 +176,6 @@ def cmd_new_session(args) -> None:
     # (semantic reframing detection) on the raw spec text.
     spec_text = spec.read_text(encoding="utf-8", errors="replace")
     try:
-        from determinex_safety import SafetyDenied
         from hive.safety_gate import pre_spec_gate
 
         pre_spec_gate(spec_text, source="cli")
@@ -234,7 +233,7 @@ def cmd_new_session(args) -> None:
 def cmd_run_session(args) -> None:
     """CLI handler for 'run-session': load manifest and execute the DAG."""
     try:
-        session = load_manifest(args.session)
+        load_manifest(args.session)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         log.error("Session not found or corrupted: %s", e)
         sys.exit(1)

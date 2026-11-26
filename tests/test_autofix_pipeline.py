@@ -1067,6 +1067,11 @@ def test_a_correct_interval_merger_passes_its_own_synthesized_oracle():
     with tempfile.TemporaryDirectory() as d:
         Path(d, "solution.py").write_text(impl, encoding="utf-8")
         Path(d, "test_oracle.py").write_text(code, encoding="utf-8")
-        r = subprocess.run([sys.executable, "-m", "pytest", "-q", "test_oracle.py"],
-                           cwd=d, capture_output=True, text=True, timeout=300)
+        r = subprocess.run(
+            [sys.executable, "-m", "pytest", "-q", "test_oracle.py"],
+            cwd=d,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
     assert r.returncode == 0, f"a correct implementation failed its own oracle:\n{r.stdout[-1500:]}"

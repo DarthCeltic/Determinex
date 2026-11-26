@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -16,6 +17,7 @@ from corpus.corpus_schema_maturity import (  # noqa: E402
     mature_record,
     missing_required_fields,
 )
+from publish_mirror import filter_corpus
 
 
 def _legacy_programbench_row() -> dict:
@@ -149,8 +151,15 @@ def test_coverage_report_accepts_verifier_command(tmp_path):
 
 
 def test_local_legacy_programbench_training_corpus_is_excluded():
-    manifest = _ROOT / "corpus" / "programbench" / "training_corpus" / "TRAINING_EXCLUSION.json"
-    payload = json.loads(manifest.read_text(encoding="utf-8"))
+    relative_dir = Path("corpus/programbench/training_corpus")
+    directory = _ROOT / relative_dir
+    if os.environ.get("DETERMINEX_FILTERED_CHECKOUT") == "1" and not directory.exists():
+        # This distribution omits the entire training corpus. Assert that an unmarked
+        # row cannot be exported even if it is added to the source checkout later.
+        assert filter_corpus([(relative_dir / "example.jsonl").as_posix()]) == ([], 1)
+        return
+
+    payload = json.loads((directory / "TRAINING_EXCLUSION.json").read_text(encoding="utf-8"))
 
     assert payload["record_status"] == "excluded_from_training_by_default"
     assert payload["training_eligible"] is False

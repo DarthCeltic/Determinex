@@ -320,8 +320,13 @@ class HTTPBridgeHandler(http.server.SimpleHTTPRequestHandler):
         elif path == "/api/invoke/provider_setup_verify":
             # A green check must mean a real call happened, so this makes one.
             script = os.path.join(PROJECT_ROOT, "scripts", "determinex_provider_setup.py")
-            cmd = [sys.executable, script, "verify",
-                   "--id", str((payload.get("payload") or {}).get("id", ""))]
+            cmd = [
+                sys.executable,
+                script,
+                "verify",
+                "--id",
+                str((payload.get("payload") or {}).get("id", "")),
+            ]
             stdin_data = ""
             is_json_output = True
 
@@ -333,8 +338,13 @@ class HTTPBridgeHandler(http.server.SimpleHTTPRequestHandler):
 
         elif path == "/api/invoke/user_profile_set":
             script = os.path.join(PROJECT_ROOT, "scripts", "determinex_user_profile.py")
-            cmd = [sys.executable, script, "set",
-                   "--level", str((payload.get("payload") or {}).get("level", ""))]
+            cmd = [
+                sys.executable,
+                script,
+                "set",
+                "--level",
+                str((payload.get("payload") or {}).get("level", "")),
+            ]
             stdin_data = ""
             is_json_output = True
 

@@ -469,7 +469,6 @@ def load(
         )
 
     support_counts = summary.get("support_state_counts") or {}
-    blocker_counts = summary.get("blocker_counts") or {}
     evidence_health = blob.get("evidence_health") or {}
 
     promoted_count = int(summary.get("cells_promoted", len(promoted)))

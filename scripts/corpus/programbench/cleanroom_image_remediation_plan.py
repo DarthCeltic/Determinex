@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -23,7 +23,10 @@ from corpus.programbench.cleanroom_image_scan_triage_record import (
 )
 
 
-class CleanroomImageRemediationPlanStatus(str, Enum):
+class CleanroomImageRemediationPlanStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CLEANROOM_IMAGE_REMEDIATION_PLAN_READY = "CLEANROOM_IMAGE_REMEDIATION_PLAN_READY"
     CLEANROOM_IMAGE_REMEDIATION_REQUIRED = "CLEANROOM_IMAGE_REMEDIATION_REQUIRED"
     CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN = "CLEANROOM_IMAGE_REMEDIATION_PLAN_WRITTEN"

@@ -383,10 +383,10 @@ class LeviathanEncoder:
     def __init__(self, gguf_path: Path):
         try:
             from llama_cpp import Llama
-        except ImportError:
+        except ImportError as exc:
             raise ImportError(
                 "[PROJ] llama-cpp-python not installed.\n       Run: pip install llama-cpp-python"
-            )
+            ) from exc
         log.info("Loading Leviathan GGUF (CPU)... path=%s", gguf_path)
         self.model = Llama(
             model_path=str(gguf_path),
@@ -437,10 +437,10 @@ class ObserverEncoder:
     def __init__(self, gguf_path: Path):
         try:
             from llama_cpp import Llama
-        except ImportError:
+        except ImportError as exc:
             raise ImportError(
                 "[PROJ] llama-cpp-python not installed.\n       Run: pip install llama-cpp-python"
-            )
+            ) from exc
         log.info("Loading Observer GGUF (CPU)... path=%s", gguf_path)
         self.model = Llama(
             model_path=str(gguf_path),

@@ -49,7 +49,7 @@ def test_the_corpus_outranks_any_agents_prose():
 
 
 def test_an_oracle_rejection_outranks_prose():
-    """"This exact approach fails with these 3 errors" is evidence. A room that discards it
+    """ "This exact approach fails with these 3 errors" is evidence. A room that discards it
     re-proposes the same thing forever."""
     assert classify(turn("codex", n_failures=3)) is Authority.REFUTED
     assert Authority.REFUTED > Authority.PROSE

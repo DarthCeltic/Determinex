@@ -63,8 +63,14 @@ const prescreen = panel.getByRole("heading", { name: /how would you like determi
 await prescreen.waitFor({ state: "visible", timeout: 60000 }).catch(() => {});
 note(await prescreen.isVisible().catch(() => false), "prescreen is shown on first run");
 
-const choices = panel.locator("button", { hasText: /Show me everything|Plain English|Just tell me/ });
-note((await choices.count()) === 3, "three reader levels offered", `${await choices.count()} found`);
+const choices = panel.locator("button", {
+  hasText: /Show me everything|Plain English|Just tell me/,
+});
+note(
+  (await choices.count()) === 3,
+  "three reader levels offered",
+  `${await choices.count()} found`
+);
 
 // A question about how technical you are must not itself require technical vocabulary.
 const prescreenText = await panelText();
@@ -75,7 +81,10 @@ note(jargon.length === 0, "prescreen uses no jargon", jargon.join(", "));
 await page.screenshot({ path: `${OUT}_1_prescreen.png`, fullPage: true });
 
 console.log("\n[2] choosing a level gets out of the way");
-await choices.filter({ hasText: /Plain English/ }).first().click();
+await choices
+  .filter({ hasText: /Plain English/ })
+  .first()
+  .click();
 await page.waitForTimeout(1200);
 note(!(await prescreen.isVisible().catch(() => false)), "prescreen dismissed after answering");
 
@@ -83,7 +92,10 @@ console.log("\n[3] step 1 — network policy");
 const policy = panel.getByRole("heading", { name: /network & privacy policy/i });
 await policy.waitFor({ state: "visible", timeout: 60000 }).catch(() => {});
 note(await policy.isVisible().catch(() => false), "policy step reached");
-await panel.locator("button", { hasText: /Cloaked|Offline/ }).first().click();
+await panel
+  .locator("button", { hasText: /Cloaked|Offline/ })
+  .first()
+  .click();
 
 console.log("\n[4] step 2 — what already works, not seven blank fields");
 const step2 = panel.getByRole("heading", { name: /choose your ai/i });

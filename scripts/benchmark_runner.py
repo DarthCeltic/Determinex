@@ -35,7 +35,6 @@ import subprocess
 import sys
 import textwrap
 from dataclasses import dataclass
-from datetime import UTC, datetime
 from pathlib import Path
 
 try:
@@ -365,7 +364,6 @@ def run_swebench(bench: BenchmarkDef, args: argparse.Namespace) -> int:
     results: list[int] = []
 
     for config in configs:
-        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
         cmd = [
             sys.executable,
             str(_SCRIPTS / "determinex_swebench_run.py"),

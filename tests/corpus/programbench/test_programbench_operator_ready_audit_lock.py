@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
 from corpus.programbench.operator_ready_platform import (
     OperatorReadyConfig,
     ProgramBenchOperatorReadyPlatform,
     check_evidence_graph_integrity,
 )
 from corpus.programbench.programbench_platform_record import verify_platform_record
+
+pytestmark = pytest.mark.usefixtures("public_batch_workspace")
 
 
 def _platform(

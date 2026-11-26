@@ -74,8 +74,7 @@ def run_logged(
         [str(x) for x in cmd],
         cwd=str(cwd or ROOT),
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=False,
     )
     log_path.write_text(
@@ -98,8 +97,7 @@ def capture(cmd: list[str], *, cwd: Path | None = None, check: bool = True) -> s
         [str(x) for x in cmd],
         cwd=str(cwd or ROOT),
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         check=check,
     )
     if r.stderr:

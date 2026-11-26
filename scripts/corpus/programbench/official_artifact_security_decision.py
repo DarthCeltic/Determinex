@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -22,7 +22,10 @@ from corpus.programbench.upstream_artifact_authority_recheck_record import (
 )
 
 
-class OfficialArtifactSecurityDecisionStatus(str, Enum):
+class OfficialArtifactSecurityDecisionStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     OFFICIAL_ARTIFACT_SECURITY_DECISION_WRITTEN = "OFFICIAL_ARTIFACT_SECURITY_DECISION_WRITTEN"
     OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED = (
         "OFFICIAL_ARTIFACT_EXECUTION_BLOCKED_SCAN_FAILED"

@@ -32,7 +32,10 @@ CORPUS_ELIGIBILITY_STATUS_TOKENS = (
 )
 
 
-class CorpusEligibilityBlockReason(str, enum.Enum):
+class CorpusEligibilityBlockReason(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     MOCKED_MODEL_OUTPUT = "BLOCKED_MOCKED_MODEL_OUTPUT"
     TEMP_WORKSPACE_ONLY = "BLOCKED_TEMP_WORKSPACE_ONLY"
     SOURCE_NOT_APPROVED = "BLOCKED_SOURCE_NOT_APPROVED"

@@ -106,7 +106,7 @@ def test_config_show(capsys):
     import determinex_cli as cli
 
     sys.argv = ["determinex", "config", "show"]
-    rc = cli.main()
+    cli.main()
     out = capsys.readouterr().out
     assert "repo_root" in out
     assert "safety_mode" in out
@@ -122,7 +122,7 @@ def test_config_show_masks_api_keys(monkeypatch, capsys):
 
     reset_settings()
     sys.argv = ["determinex", "config", "show"]
-    rc = cli.main()
+    cli.main()
     out = capsys.readouterr().out
     assert "sk-real-secret-key" not in out
     assert "***" in out

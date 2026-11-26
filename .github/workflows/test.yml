@@ -8,6 +8,7 @@ on:
       - 'scripts/**'
       - 'determinex_trainer/**'
       - 'tests/**'
+      - 'frontend/**'
       - 'locks/**'
       - 'pyproject.toml'
       - 'requirements*.txt'
@@ -20,17 +21,18 @@ on:
       - 'scripts/**'
       - 'determinex_trainer/**'
       - 'tests/**'
+      - 'frontend/**'
       - 'locks/**'
-      - 'frontend/src/**'
-      - 'frontend/src-tauri/**'
-      - 'frontend/package*.json'
-      - 'frontend/vitest.config.ts'
-      - 'frontend/.prettierrc.json'
       - 'pyproject.toml'
       - 'requirements*.txt'
       - 'uv.lock'
       - '.pre-commit-config.yaml'
       - '.github/workflows/test.yml'
+
+# A PR update supersedes checks for its old head. Keep post-merge runs independent.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   lint:
@@ -119,6 +121,8 @@ jobs:
           pip install -e .[dev,cloak]
       - name: Pytest with coverage (gate ≥2%)
         env:
+          # Public CI checks out the source mirror. Full checkouts require their private run records.
+          DETERMINEX_FILTERED_CHECKOUT: "1"
           DETERMINEX_ROOT: ${{ github.workspace }}
         # Gate is set at 2% — the CI environment lacks T:/ drive, Ollama, and GPU,
         # so most scripts are excluded by the "not integration and not slow" marks.
@@ -138,14 +142,29 @@ jobs:
           name: coverage-report
           path: .coverage
           retention-days: 7
-      - name: Compiler Oracle limits test
+      - name: Verify Python compiler verdicts with Docker
         env:
-          DETERMINEX_ROOT: ${{ github.workspace }}
-        run: python scripts/determinex_limits_test.py
+          DETERMINEX_REQUIRE_DOCKER: "1"
+        run: |
+          docker info > /dev/null
+          python -m pytest -m slow -q --junitxml="$RUNNER_TEMP/compiler-oracle.xml" \
+            tests/test_compiler_oracle_strength.py::test_python_syntax_error_fails \
+            tests/test_compiler_oracle_strength.py::test_python_runs_shipped_tests_and_a_failing_one_fails \
+            tests/test_compiler_oracle_strength.py::test_python_passing_tests_pass
+          python - "$RUNNER_TEMP/compiler-oracle.xml" <<'PY'
+          import sys
+          from xml.etree import ElementTree
+
+          cases = ElementTree.parse(sys.argv[1]).findall(".//testcase")
+          statuses = ("failure", "error", "skipped")
+          if len(cases) != 3 or any(case.find(tag) is not None for case in cases for tag in statuses):
+              raise SystemExit("All three compiler checks must execute against Docker.")
+          PY
 
   frontend-quality:
     name: Frontend (ESLint + Prettier + Vitest)
-    runs-on: ubuntu-latest
+    # Playwright 1.60 ships Chromium for Noble. ubuntu-latest now resolves to 26.04.
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: frontend
@@ -157,20 +176,19 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - name: Install dependencies
-        # `npm install`, not `npm ci`. The lockfile is generated on the Windows dev box, and
-        # npm resolves some transitive natives differently per platform -- ci reported
-        # "Missing: unique-slug@4.0.0 / isexe@3.1.5 / minipass@3.3.6 from lock file", all
-        # node-gyp internals that a Windows resolution omits. `npm ci` demands byte-exact
-        # cross-platform parity and fails closed on that skew; `npm install` reconciles it.
-        # The correct long-term fix is to generate the lockfile on Linux (a container or a
-        # CI job that commits it), at which point this can go back to `npm ci`.
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
+      - name: Audit frontend dependencies
+        run: npm audit
       - name: ESLint
         run: npx eslint .
       - name: Prettier check
         run: npm run format-check
       - name: Vitest smoke tests (≥10 tests)
         run: npm test
+      - name: Type-check the application
+        run: npx --no-install tsc --noEmit
+      - name: Build the production frontend
+        run: npm run build
       # Shell smoke specs. @playwright/test was a dependency with zero specs for
       # months, so every UI check was a manual screenshot; these cover boot,
       # rail reachability, drawer navigation and content clipping.
@@ -283,6 +301,7 @@ jobs:
             --json _ci_artifacts/architecture_regression_gauntlet.json
       - name: Run focused architecture / intake / repair safety tests
         env:
+          DETERMINEX_FILTERED_CHECKOUT: "1"
           DETERMINEX_ROOT: ${{ github.workspace }}
           DETERMINEX_NO_CORPUS_WRITE: "1"
         run: |

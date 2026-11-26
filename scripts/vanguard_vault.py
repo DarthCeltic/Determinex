@@ -389,7 +389,7 @@ if __name__ == "__main__":
 
         languages = ["rust", "go", "python", "typescript"]
         patterns = list(ERROR_PATTERNS)[:8]
-        for i in range(120):
+        for _i in range(120):
             vault.record_session(
                 SessionEvent(
                     session_id=str(uuid.uuid4()),

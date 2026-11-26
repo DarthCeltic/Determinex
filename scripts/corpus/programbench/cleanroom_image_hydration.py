@@ -6,7 +6,7 @@ import json
 import shutil
 import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -24,7 +24,10 @@ from corpus.programbench.operator_artifact_admission_record import (
 )
 
 
-class CleanroomImageHydrationStatus(str, Enum):
+class CleanroomImageHydrationStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CLEANROOM_IMAGE_HYDRATION_READY = "CLEANROOM_IMAGE_HYDRATION_READY"
     CLEANROOM_IMAGE_HYDRATED_TO_QUARANTINE = "CLEANROOM_IMAGE_HYDRATED_TO_QUARANTINE"
     CLEANROOM_IMAGE_DIGEST_VERIFIED = "CLEANROOM_IMAGE_DIGEST_VERIFIED"

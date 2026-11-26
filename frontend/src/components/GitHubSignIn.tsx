@@ -54,7 +54,7 @@ export function GitHubSignIn({ connected = false, onChange }: Props) {
   useEffect(() => stop, [stop]);
 
   const poll = useCallback(
-    (deviceCode: string, intervalSec: number, deadline: number) => {
+    function schedulePoll(deviceCode: string, intervalSec: number, deadline: number) {
       timer.current = setTimeout(async () => {
         if (Date.now() > deadline) {
           setError("The code expired before it was approved. Start again.");
@@ -72,7 +72,7 @@ export function GitHubSignIn({ connected = false, onChange }: Props) {
           if (res.status === "pending" || res.status === "slow_down") {
             // RFC 8628: on slow_down the server may hand back a longer interval,
             // and polling faster than told can get the request rejected outright.
-            poll(
+            schedulePoll(
               deviceCode,
               res.interval ?? intervalSec + (res.status === "slow_down" ? 5 : 0),
               deadline

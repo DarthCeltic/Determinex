@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -25,7 +25,10 @@ from corpus.programbench.operator_artifact_admission_record import (
 )
 
 
-class ArtifactSourceEscalationStatus(str, Enum):
+class ArtifactSourceEscalationStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     ARTIFACT_SOURCE_ESCALATION_READY = "ARTIFACT_SOURCE_ESCALATION_READY"
     ARTIFACT_SOURCE_ESCALATION_WRITTEN = "ARTIFACT_SOURCE_ESCALATION_WRITTEN"
     ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE = "ARTIFACT_SOURCE_ESCALATION_BLOCKED_NO_TRIAGE"

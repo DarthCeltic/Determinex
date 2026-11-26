@@ -397,6 +397,8 @@ register_provider(
     default_model="openai/gpt-5.5-pro",
     aliases=("openai", "gpt"),
 )
+
+
 def _gemini_qualify(model: str) -> str:
     """Route a Google model to AI Studio (`gemini/`), never accidentally to Vertex.
 
@@ -423,7 +425,7 @@ def _gemini_qualify(model: str) -> str:
         return model
     name = model
     while name.startswith("gemini/"):
-        name = name[len("gemini/"):]
+        name = name[len("gemini/") :]
     return f"gemini/{name}" if name else model
 
 
@@ -431,21 +433,29 @@ def _gemini_qualify(model: str) -> str:
 #: all. Mapping them apart is the difference between "wait and retry" (which never succeeds)
 #: and "top up billing" (which fixes it in a minute).
 _GEMINI_ERROR_HINTS = (
-    ("prepayment credits are depleted",
-     "Google AI Studio prepay credits are exhausted. This is billing, not a rate limit -- "
-     "retrying will not help. Top up at https://ai.studio/projects (billing), or set "
-     "DETERMINEX_ROLE_* to another provider; Determinex will keep working on whichever "
-     "providers are funded."),
-    ("RESOURCE_EXHAUSTED",
-     "Google returned RESOURCE_EXHAUSTED. If this is quota-per-minute it will clear; if the "
-     "body mentions credits it is billing. Check https://ai.studio/projects."),
-    ("IneligibleTier",
-     "The Gemini CLI's stored OAuth login is on a tier Google no longer serves. Determinex "
-     "does not need the CLI -- it calls the AI Studio API directly with GEMINI_API_KEY."),
-    ("Google Cloud SDK not found",
-     "A Google model was routed to Vertex AI. Determinex normalises Google models to the AI "
-     "Studio endpoint (see _gemini_qualify); an explicit vertex_ai/ prefix requires the SDK "
-     "and Application Default Credentials."),
+    (
+        "prepayment credits are depleted",
+        "Google AI Studio prepay credits are exhausted. This is billing, not a rate limit -- "
+        "retrying will not help. Top up at https://ai.studio/projects (billing), or set "
+        "DETERMINEX_ROLE_* to another provider; Determinex will keep working on whichever "
+        "providers are funded.",
+    ),
+    (
+        "RESOURCE_EXHAUSTED",
+        "Google returned RESOURCE_EXHAUSTED. If this is quota-per-minute it will clear; if the "
+        "body mentions credits it is billing. Check https://ai.studio/projects.",
+    ),
+    (
+        "IneligibleTier",
+        "The Gemini CLI's stored OAuth login is on a tier Google no longer serves. Determinex "
+        "does not need the CLI -- it calls the AI Studio API directly with GEMINI_API_KEY.",
+    ),
+    (
+        "Google Cloud SDK not found",
+        "A Google model was routed to Vertex AI. Determinex normalises Google models to the AI "
+        "Studio endpoint (see _gemini_qualify); an explicit vertex_ai/ prefix requires the SDK "
+        "and Application Default Credentials.",
+    ),
 )
 
 
@@ -800,7 +810,7 @@ def _vllm_qualify(model: str) -> str:
         return model
     name = model
     while name.startswith("hosted_vllm/"):
-        name = name[len("hosted_vllm/"):]
+        name = name[len("hosted_vllm/") :]
     return f"hosted_vllm/{name}" if name else model
 
 
@@ -895,9 +905,7 @@ register_provider(
 # The free tier is budget- and rate-limited rather than KV-cache-limited, which makes it
 # a third distinct shape for determinex_calibrate.py: the ceiling here is requests per
 # minute, not GPU memory. Measured budget at time of writing: $10/day, 30 RPM.
-_AMD_TF_BASE = os.environ.get(
-    "AMD_TOKEN_FACTORY_BASE", "https://radeon.anruicloud.com/api/v1"
-)
+_AMD_TF_BASE = os.environ.get("AMD_TOKEN_FACTORY_BASE", "https://radeon.anruicloud.com/api/v1")
 _AMD_TF_DEFAULT_MODEL = os.environ.get("AMD_TOKEN_FACTORY_MODEL", "MiniCPM5-1B")
 
 register_provider(
@@ -906,9 +914,7 @@ register_provider(
     env_key="AMD_TOKEN_FACTORY_KEY",
     default_model=_AMD_TF_DEFAULT_MODEL,
     aliases=("amd", "radeon", "token-factory"),
-    factory=lambda m: _openai_compatible_factory(
-        m, _AMD_TF_BASE, "AMD_TOKEN_FACTORY_KEY"
-    ),
+    factory=lambda m: _openai_compatible_factory(m, _AMD_TF_BASE, "AMD_TOKEN_FACTORY_KEY"),
 )
 
 
@@ -990,7 +996,9 @@ def _custom_model_entries() -> list[dict]:
 #: removed. A response that merely mentions the word "think", or an unterminated tag from a
 #: truncated completion, is left exactly as it arrived -- silently deleting part of a model's
 #: answer would be a worse bug than the one being fixed.
-_THINK_BLOCK = re.compile(r"\A\s*<(think|thinking|reasoning)>.*?</\1>\s*", re.DOTALL | re.IGNORECASE)
+_THINK_BLOCK = re.compile(
+    r"\A\s*<(think|thinking|reasoning)>.*?</\1>\s*", re.DOTALL | re.IGNORECASE
+)
 
 
 def _strip_reasoning_tags(text: str) -> str:
@@ -1055,8 +1063,11 @@ def _openai_compatible_factory(model_id: str, base_url: str, api_key_env: str) -
         details = getattr(getattr(resp, "usage", None), "completion_tokens_details", None)
         if details is not None:
             getter = getattr(details, "get", None)
-            rtok = (getter("reasoning_tokens", 0) if callable(getter)
-                    else getattr(details, "reasoning_tokens", 0)) or 0
+            rtok = (
+                getter("reasoning_tokens", 0)
+                if callable(getter)
+                else getattr(details, "reasoning_tokens", 0)
+            ) or 0
         if reasoning or rtok:
             raise RuntimeError(
                 f"{model_id} returned no content: the completion budget went to reasoning "

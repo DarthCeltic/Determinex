@@ -93,7 +93,7 @@ def _cc_build_deps(tool_dir: Path) -> list[str]:
             libs.add(m.group(1).lower())
         for m in re.finditer(r"pkg_check_modules\(\s*\w+\s+(?:REQUIRED\s+)?([\w.+-]+)", t):
             libs.add(m.group(1).lower())
-    pkgs = sorted({lib2apt[l] for l in libs if l in lib2apt})
+    pkgs = sorted({lib2apt[library] for library in libs if library in lib2apt})
     return pkgs
 
 

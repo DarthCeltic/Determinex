@@ -41,7 +41,7 @@ try:
     )
 
     _TS_AVAILABLE = True
-except ImportError:
+except ImportError as exc:
     _TS_AVAILABLE = False
     TS_SUPPORTED_LANGUAGES: frozenset[str] = frozenset()
 
@@ -72,4 +72,4 @@ except ImportError:
             "  2. Use regex fallback (REDUCED PRIVACY): "
             "export DETERMINEX_CLOAK_ALLOW_DEGRADED=1\n\n"
             "The 'determinex[cloak]' extra is required for production Cloak deployments."
-        )
+        ) from exc
