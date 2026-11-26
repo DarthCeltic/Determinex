@@ -13,6 +13,7 @@ import os
 import re
 import shlex
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -782,6 +783,40 @@ def _docker_oracle_run(
             shell_payload,
         ]
     else:
+        python_options: list[str] = []
+        if lang_key == "python":
+            # Read the mount's numeric owner in the daemon's namespace. Host UIDs can
+            # differ under Docker Desktop or rootless Docker. With capabilities dropped,
+            # container root cannot traverse a private Linux workspace owned by another UID.
+            owner = subprocess.run(
+                [
+                    "docker",
+                    "run",
+                    "--rm",
+                    "--network=none",
+                    "--read-only",
+                    "--cap-drop=ALL",
+                    "--security-opt=no-new-privileges",
+                    "--pids-limit=16",
+                    "-v",
+                    f"{workspace_abs}:/workspace:ro",
+                    "--entrypoint",
+                    "/usr/bin/stat",
+                    image,
+                    "-c",
+                    "%u:%g",
+                    "/workspace",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=60,
+            )
+            identity = owner.stdout.strip()
+            if owner.returncode or not re.fullmatch(r"[0-9]+:[0-9]+", identity):
+                raise RuntimeError(
+                    f"Cannot determine Python workspace owner: {owner.stderr.strip()}"
+                )
+            python_options = ["--user", identity, "-e", "PYTHONPYCACHEPREFIX=/tmp/pycache"]
         docker_cmd = [
             "docker",
             "run",
@@ -812,6 +847,7 @@ def _docker_oracle_run(
             f"{workspace_abs}:/workspace:rw",
             "-w",
             "/workspace",
+            *python_options,
             *cargo_env,
             image,
             *cmd,
@@ -1675,6 +1711,51 @@ _PY_SOURCE_EXCLUDE = frozenset(
 
 
 def _validate_python(workspace: Path, lang: str) -> tuple[bool, str]:
+    if _oracle_backend() != "docker":
+        return _validate_python_workspace(workspace, lang)
+    # Every stage sees the same writable files, including outputs from earlier
+    # stages. Only the private copy is mounted in Docker. Symlinks remain links
+    # so staging never copies an external target into the sandbox.
+    root = workspace.resolve()
+    with tempfile.TemporaryDirectory(prefix="determinex-python-") as private_root:
+        private_dir = Path(private_root)
+        staged = private_dir / "workspace"
+
+        def staging_exclusions(directory, names):
+            ignored = _PY_SOURCE_EXCLUDE.intersection(names)
+            with os.scandir(directory) as entries:
+                for entry in entries:
+                    if entry.name in ignored:
+                        continue
+                    path = Path(entry.path)
+                    if path == private_dir:
+                        raise ValueError(
+                            "The source includes the staging directory. Choose a narrower project root."
+                        )
+                    if os.name == "nt":
+                        metadata = entry.stat(follow_symlinks=False)
+                        if (
+                            metadata.st_file_attributes & stat.FILE_ATTRIBUTE_REPARSE_POINT
+                            and metadata.st_reparse_tag != stat.IO_REPARSE_TAG_SYMLINK
+                            and metadata.st_file_attributes & stat.FILE_ATTRIBUTE_DIRECTORY
+                        ):
+                            raise ValueError(
+                                f"Cannot stage a Python workspace containing a directory reparse point: {path}"
+                            )
+                    if entry.is_symlink() and not path.resolve().is_relative_to(root):
+                        raise ValueError(
+                            f"Python workspace link points outside its source directory: {path}"
+                        )
+            return ignored
+
+        try:
+            shutil.copytree(root, staged, symlinks=True, ignore=staging_exclusions)
+        except (OSError, ValueError) as exc:
+            return False, f"Cannot stage Python workspace for verification: {exc}"
+        return _validate_python_workspace(staged, lang)
+
+
+def _validate_python_workspace(workspace: Path, lang: str) -> tuple[bool, str]:
     """Compiler Oracle for Python: parse, then IMPORT, then run any tests present.
 
     `python -m compileall` alone -- which is all this used to do -- proves only that

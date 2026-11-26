@@ -198,9 +198,32 @@ def test_python_runs_shipped_tests_and_a_failing_one_fails(tmp_path):
 
 @needs_sandbox
 def test_python_passing_tests_pass(tmp_path):
-    ws = _ws(tmp_path, {"ok.py": ADD_OK, "test_ok.py": TEST_ADD})
-    passed, _ = validate_project(ws, "python")
-    assert passed is True
+    files = {
+        "ok.py": ADD_OK,
+        "prepare.py": "from pathlib import Path\nPath('prepared.txt').write_text('ready')\n",
+        "test_ok.py": TEST_ADD
+        + (
+            "    def test_relative_output(self):\n"
+            "        from pathlib import Path\n"
+            "        self.assertEqual(Path('prepared.txt').read_text(), 'ready')\n"
+            "        Path('result.txt').write_text('done')\n"
+            "        self.assertEqual(Path('result.txt').read_text(), 'done')\n"
+        ),
+    }
+    ws = _ws(tmp_path, files)
+    if sys.platform.startswith("linux"):
+        ws.chmod(0o700)
+        for source in ws.iterdir():
+            source.chmod(0o600)
+    passed, diagnostic = validate_project(ws, "python")
+    assert passed is True, diagnostic
+    if os.environ.get("DETERMINEX_REQUIRE_DOCKER", "1") == "1":
+        assert {p.name: p.read_text(encoding="utf-8") for p in ws.iterdir()} == files
+    if sys.platform.startswith("linux"):
+        assert ws.stat().st_mode & 0o777 == 0o700
+        assert all(
+            source.stat().st_mode & 0o777 == 0o600 for source in ws.iterdir() if source.is_file()
+        )
 
 
 # ── typescript, once it stopped being the lenient-pass example ────────────────
