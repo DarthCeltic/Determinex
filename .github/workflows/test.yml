@@ -32,6 +32,11 @@ on:
       - '.pre-commit-config.yaml'
       - '.github/workflows/test.yml'
 
+# A PR update supersedes checks for its old head. Keep post-merge runs independent.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   lint:
     name: Lint (ruff + pre-commit)

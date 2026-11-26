@@ -97,9 +97,9 @@ def test_a_guard_with_no_input_does_not_report_pass(monkeypatch, capsys, module_
         f"clean verdict on nothing. Output:\n{out[-600:]}"
     )
     lowered = out.lower()
-    assert (
-        "guard passed" not in lowered and "no unjustified" not in lowered
-    ), f"{module_name} printed a PASS verdict having examined nothing:\n{out[-600:]}"
+    assert "guard passed" not in lowered and "no unjustified" not in lowered, (
+        f"{module_name} printed a PASS verdict having examined nothing:\n{out[-600:]}"
+    )
 
 
 def test_the_provenance_guard_reports_unscannable_locks():
