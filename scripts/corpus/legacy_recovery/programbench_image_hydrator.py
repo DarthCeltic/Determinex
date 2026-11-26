@@ -6,7 +6,7 @@ import json
 import sys
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -17,7 +17,10 @@ if str(_SCRIPTS) not in sys.path:
 from corpus.legacy_recovery.programbench_local_verifier_mode import evaluate_local_verifier
 
 
-class ImageHydrationStatus(str, Enum):
+class ImageHydrationStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     IMAGE_LOCAL_READY = "IMAGE_LOCAL_READY"
     IMAGE_PULL_READY = "IMAGE_PULL_READY"
     IMAGE_HYDRATED_FROM_CACHE = "IMAGE_HYDRATED_FROM_CACHE"

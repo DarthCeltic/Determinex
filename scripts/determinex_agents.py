@@ -852,9 +852,7 @@ def _agents_json() -> list[dict]:
                 # have no curated shortlist" -- the panel falls back to free text, which is
                 # correct for aider (it reaches hundreds of models) and wrong as a DEFAULT,
                 # which is what it used to be for all of them.
-                "models": [
-                    {"tier": t, "model": m, "label": lbl} for (t, m, lbl) in a.models
-                ],
+                "models": [{"tier": t, "model": m, "label": lbl} for (t, m, lbl) in a.models],
             }
         )
     out.sort(key=lambda d: d["name"])

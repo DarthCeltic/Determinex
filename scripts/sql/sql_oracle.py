@@ -97,7 +97,7 @@ class SqlOracle:
         ]
         columns: list[SqlColumn] = []
         for table in tables:
-            for cid, name, col_type, not_null, default, pk in self._conn.execute(
+            for _cid, name, col_type, not_null, _default, pk in self._conn.execute(
                 f"PRAGMA table_info({table})"
             ):
                 columns.append(

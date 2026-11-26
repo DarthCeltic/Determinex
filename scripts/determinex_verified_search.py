@@ -250,9 +250,7 @@ class VerifiedSearch:
         # and expensive against a metered API, so an operator can lower it without touching
         # code. Lowering this does NOT restore the old behaviour: the rate rule still stops a
         # stalled run early, this only bounds a run that never stalls.
-        _max_rounds = max(
-            self.rounds, int(_os.environ.get("DETERMINEX_VS_MAX_ROUNDS", "40") or 40)
-        )
+        _max_rounds = max(self.rounds, int(_os.environ.get("DETERMINEX_VS_MAX_ROUNDS", "40") or 40))
         rate = ProgressTracker(absolute_max_rounds=_max_rounds)
         # True once a whole round has scored nothing: from then on the batch is drawn from the
         # hot rungs only. Cold-first stays correct for round 1 -- on an easy task the greedy

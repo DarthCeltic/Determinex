@@ -1268,7 +1268,9 @@ def main() -> int:
         sess = get_session(args.session_id) or {}
         parts = [
             x.strip()
-            for x in (args.participants.split(",") if args.participants else sess.get("participants", []))
+            for x in (
+                args.participants.split(",") if args.participants else sess.get("participants", [])
+            )
             if str(x).strip()
         ]
         fm = Foreman()
@@ -1276,17 +1278,25 @@ def main() -> int:
             fm.observe(t)
         ruling = fm.next_move(parts)
         top = ruling.winning
-        print(json.dumps({
-            "directive": ruling.directive.value,
-            "assign_to": ruling.assign_to,
-            "because": ruling.because,
-            "authoritative": (None if top is None else {
-                "speaker": top.speaker,
-                "authority": top.authority.name,
-                "backed_by": top.authority.label,
-                "at": top.at,
-            }),
-        }))
+        print(
+            json.dumps(
+                {
+                    "directive": ruling.directive.value,
+                    "assign_to": ruling.assign_to,
+                    "because": ruling.because,
+                    "authoritative": (
+                        None
+                        if top is None
+                        else {
+                            "speaker": top.speaker,
+                            "authority": top.authority.name,
+                            "backed_by": top.authority.label,
+                            "at": top.at,
+                        }
+                    ),
+                }
+            )
+        )
         return 0
 
     if args.cmd == "list-sessions":

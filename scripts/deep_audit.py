@@ -26,7 +26,7 @@ dupes = 0
 # Load everything
 for fpath in sorted(glob.glob(os.path.join(DIR, "*.jsonl"))):
     fname = os.path.basename(fpath)
-    for lineno, line in enumerate(open(fpath, encoding="utf-8"), 1):
+    for _lineno, line in enumerate(open(fpath, encoding="utf-8"), 1):
         line = line.strip()
         if not line:
             continue

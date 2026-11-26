@@ -7,7 +7,7 @@ import shutil
 import subprocess
 import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -28,7 +28,10 @@ from corpus.programbench.operator_artifact_admission_record import (
 )
 
 
-class CleanroomImageImportStatus(str, Enum):
+class CleanroomImageImportStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CLEANROOM_IMAGE_IMPORT_READY = "CLEANROOM_IMAGE_IMPORT_READY"
     CLEANROOM_IMAGE_IMPORTED_TO_QUARANTINE = "CLEANROOM_IMAGE_IMPORTED_TO_QUARANTINE"
     CLEANROOM_IMAGE_IMPORT_DIGEST_VERIFIED = "CLEANROOM_IMAGE_IMPORT_DIGEST_VERIFIED"

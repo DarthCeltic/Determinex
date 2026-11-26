@@ -158,7 +158,7 @@ def _docker_ok() -> bool:
 needs_sandbox = pytest.mark.skipif(
     not _docker_ok(),
     reason="no oracle execution backend the runtime would accept "
-           "(DETERMINEX_REQUIRE_DOCKER=1 permits only docker)",
+    "(DETERMINEX_REQUIRE_DOCKER=1 permits only docker)",
 )
 
 

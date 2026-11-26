@@ -498,9 +498,9 @@ def preflight_submission(slug: str, tarball: Path) -> list:
                 longpath = any(len(ln) > 400 and ln.count(":/") >= 3 for ln in txt.splitlines())
                 if bad or longpath:
                     warns.append(
-                        "compile.sh MANGLED (heredoc expanded host vars: %s%s). Rebuild it "
+                        "compile.sh MANGLED (heredoc expanded host vars: {}{}). Rebuild it "
                         "LITERAL (quoted <<'EOF' or a .py file). It will fail with a dash "
-                        "syntax error." % (bad, " +400-char PATH line" if longpath else "")
+                        "syntax error.".format(bad, " +400-char PATH line" if longpath else "")
                     )
             # (3) prohibited-upstream heuristic: many source files + an ELF named like the tool
             srcs = [
@@ -574,7 +574,7 @@ def diagnose_not_run(data: dict, slug: str = "") -> dict:
         if "executable_hash_mismatch" in ecs:
             msg.append(
                 "ALL not_run + executable_hash_mismatch -> STALE :determinex-cached image. "
-                "FIX: docker rmi -f programbench-compiled/%s:determinex-cached, re-eval." % slug
+                f"FIX: docker rmi -f programbench-compiled/{slug}:determinex-cached, re-eval."
             )
         else:
             msg.append(

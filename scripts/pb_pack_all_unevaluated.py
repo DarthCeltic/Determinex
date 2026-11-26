@@ -111,7 +111,6 @@ def main() -> int:
 
     packed = []
     skipped_exists = []
-    skipped_no_dir = []
     skipped_status = []
     errors = []
 

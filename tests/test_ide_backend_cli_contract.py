@@ -32,7 +32,10 @@ _CLI = _ROOT / "scripts" / "ide" / "determinex_backend_cli.py"
 def _run(*argv: str) -> tuple[int, dict]:
     p = subprocess.run(
         [sys.executable, str(_CLI), *argv],
-        capture_output=True, text=True, timeout=600, cwd=str(_ROOT),
+        capture_output=True,
+        text=True,
+        timeout=600,
+        cwd=str(_ROOT),
     )
     try:
         return p.returncode, json.loads((p.stdout or "").strip())

@@ -37,39 +37,60 @@ IDE_REPAIR_STATE_TOKENS = (
 )
 
 
-class IntakeStatus(str, enum.Enum):
+class IntakeStatus(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     READY = "INTAKE_READY"
     UNSUPPORTED = "INTAKE_UNSUPPORTED"
 
 
-class VerifierStatus(str, enum.Enum):
+class VerifierStatus(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     AVAILABLE = "VERIFIER_AVAILABLE"
     MISSING = "VERIFIER_MISSING"
 
 
-class ModelRouteStatus(str, enum.Enum):
+class ModelRouteStatus(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     SELECTED = "MODEL_ROUTE_SELECTED"
     BLOCKED = "MODEL_ROUTE_BLOCKED"
     NO_MODEL = "MODEL_ROUTE_NO_MODEL"
 
 
-class PatchPlanStatus(str, enum.Enum):
+class PatchPlanStatus(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     AVAILABLE = "PATCH_PLAN_AVAILABLE"
     UNAVAILABLE = "PATCH_PLAN_UNAVAILABLE"
 
 
-class PatchTempStatus(str, enum.Enum):
+class PatchTempStatus(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     APPLIED = "PATCH_TEMP_APPLIED"
     FAILED = "PATCH_TEMP_FAILED"
 
 
-class PatchVerifierStatus(str, enum.Enum):
+class PatchVerifierStatus(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     PASSED_TEMP_ONLY = "PATCH_VERIFIED_TEMP_ONLY"
     FAILED = "PATCH_VERIFIER_FAILED"
     SKIPPED = "VERIFIER_MISSING"
 
 
-class SourceApprovalStatus(str, enum.Enum):
+class SourceApprovalStatus(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     REQUIRED = "SOURCE_APPROVAL_REQUIRED"
     ACCEPTED_FIXTURE = "SOURCE_APPROVAL_ACCEPTED_FIXTURE"
     MUTATION_BLOCKED = "SOURCE_MUTATION_BLOCKED"

@@ -75,10 +75,15 @@ def _req(path: str, body: dict | None = None, tries: int = 4):
 
 
 def one(i: int, model: str, n: int = 256) -> int:
-    d = _req("/chat/completions", {
-        "model": model, "max_tokens": n, "temperature": 0.2 + 0.1 * (i % 4),
-        "messages": [{"role": "user", "content": PROMPT}],
-    })
+    d = _req(
+        "/chat/completions",
+        {
+            "model": model,
+            "max_tokens": n,
+            "temperature": 0.2 + 0.1 * (i % 4),
+            "messages": [{"role": "user", "content": PROMPT}],
+        },
+    )
     return d["usage"]["completion_tokens"]
 
 
@@ -87,7 +92,9 @@ def main() -> int:
     t = time.monotonic()
     models = [m["id"] for m in _req("/models").get("data", [])]
     model = models[0]
-    print(f"  endpoint : {BASE.split('//')[1].split('.')[0]}....radeon.firstdg.ai  (the instance's own tunnel)")
+    print(
+        f"  endpoint : {BASE.split('//')[1].split('.')[0]}....radeon.firstdg.ai  (the instance's own tunnel)"
+    )
     print(f"  answered : {time.monotonic() - t:.2f}s")
     print(f"  serving  : {model}")
     print("  note     : no rocm-smi here -- this drives the endpoint, not a shell on the box.")
@@ -117,8 +124,10 @@ def main() -> int:
         print(f"    K={k:<3} {el:6.2f}s  {toks:5} tokens  {toks / el:7.1f} agg tok/s", flush=True)
     if len(rows) == 2 and rows[0][3] > 0:
         print()
-        print(f"    {rows[1][3] / rows[0][3]:.2f}x the throughput for "
-              f"{rows[1][1] / rows[0][1]:.2f}x the wall clock.")
+        print(
+            f"    {rows[1][3] / rows[0][3]:.2f}x the throughput for "
+            f"{rows[1][1] / rows[0][1]:.2f}x the wall clock."
+        )
         print("    A GPU property converted directly into a correctness property.")
     time.sleep(PAUSE)
 
@@ -131,8 +140,11 @@ def main() -> int:
         with ThreadPoolExecutor(max_workers=k) as ex:
             toks = sum(ex.map(lambda i: one(i, model, 128), range(k)))
         el = time.monotonic() - t
-        print(f"    K={k:<3} {el:6.2f}s  {toks:5} tokens  {toks / el:7.1f} agg tok/s  "
-              f"{k / el:5.2f} cand/s", flush=True)
+        print(
+            f"    K={k:<3} {el:6.2f}s  {toks:5} tokens  {toks / el:7.1f} agg tok/s  "
+            f"{k / el:5.2f} cand/s",
+            flush=True,
+        )
     print()
     print("  Measured on this card today: the backend declared ~61 concurrent and the")
     print("  measured optimum was 64 -- the declaration was PESSIMISTIC. Which is the same")
@@ -159,9 +171,9 @@ def main() -> int:
     time.sleep(PAUSE)
     print()
     exact = (
-        'solution(numbers) returns the average of a list of numbers. For example '
-        'solution([1, 2, 3]) returns 2.0, solution([10]) returns 10.0, and solution([]) '
-        'returns 0.0.'
+        "solution(numbers) returns the average of a list of numbers. For example "
+        "solution([1, 2, 3]) returns 2.0, solution([10]) returns 10.0, and solution([]) "
+        "returns 0.0."
     )
     print("  now an idea that CAN be verified, with three concrete examples:")
     r2 = build_from_idea(exact, gen, "python", k=4)
@@ -172,8 +184,10 @@ def main() -> int:
         for line in (r2.code or "").splitlines()[:9]:
             print(f"     {line}")
     print()
-    print(f"  Generated on the AMD Radeon, verified by a real test run. "
-          f"{time.strftime('%Y-%m-%d %H:%M:%S')}")
+    print(
+        f"  Generated on the AMD Radeon, verified by a real test run. "
+        f"{time.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
     time.sleep(PAUSE + 1)
     return 0
 

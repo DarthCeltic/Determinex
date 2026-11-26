@@ -1279,9 +1279,9 @@ def _check_fixed_syntax(target: Path, content: str, repo_language: str = "python
                 # Only report errors in files under the repo directory.
                 repo_root = str(target.parent)
                 error_lines = [
-                    l
-                    for l in (r.stderr + r.stdout).splitlines()
-                    if "error" in l.lower() and repo_root.lower() in l.lower()
+                    text_line
+                    for text_line in (r.stderr + r.stdout).splitlines()
+                    if "error" in text_line.lower() and repo_root.lower() in text_line.lower()
                 ]
                 if not error_lines:
                     return None  # all errors are in deps, not our code
@@ -1322,14 +1322,18 @@ def _check_fixed_syntax(target: Path, content: str, repo_language: str = "python
 
         if r.returncode != 0:
             errors = "\n".join(
-                l for l in (r.stderr + r.stdout).splitlines() if "error" in l.lower()
+                text_line
+                for text_line in (r.stderr + r.stdout).splitlines()
+                if "error" in text_line.lower()
             )[:600]
 
             if repo_language in ("c", "cpp"):
                 # Filter Windows MinGW missing system headers — infrastructure gap, not code bug
                 _sys_hdr_re = re.compile(r"fatal error: [^/\\<>\n]+: [Nn]o such file")
                 real_errors = [
-                    l for l in errors.splitlines() if l.strip() and not _sys_hdr_re.search(l)
+                    text_line
+                    for text_line in errors.splitlines()
+                    if text_line.strip() and not _sys_hdr_re.search(text_line)
                 ]
                 if not real_errors:
                     return None  # only system headers missing — Docker will compile
@@ -1373,14 +1377,14 @@ def _detect_dead_new_function(original: str, modified: str, lang: str = "python"
     # Per-language definition regex
     if lang == "python":
         def_re = re.compile(r"^\s*(?:async\s+)?def\s+(\w+)\s*\(", re.MULTILINE)
-        def_cnt_re = lambda n: re.compile(
-            rf"(?:^|\s)(?:async\s+)?def\s+{re.escape(n)}\s*\(", re.MULTILINE
-        )  # noqa: E731
+
+        def def_cnt_re(n):
+            return re.compile(rf"(?:^|\s)(?:async\s+)?def\s+{re.escape(n)}\s*\(", re.MULTILINE)  # noqa: E731
     elif lang == "go":
         def_re = re.compile(r"(?:^|\s)func\s+(?:\([^)]*\)\s*)?(\w+)\s*\(", re.MULTILINE)
-        def_cnt_re = lambda n: re.compile(
-            rf"func\s+(?:\([^)]*\)\s*)?{re.escape(n)}\s*\(", re.MULTILINE
-        )  # noqa: E731
+
+        def def_cnt_re(n):
+            return re.compile(rf"func\s+(?:\([^)]*\)\s*)?{re.escape(n)}\s*\(", re.MULTILINE)  # noqa: E731
     elif lang == "rust":
         def_re = re.compile(r"(?:^|\s)(?:pub\s+)?(?:async\s+)?fn\s+(\w+)\s*[(<]", re.MULTILINE)
         def_cnt_re = lambda n: re.compile(rf"fn\s+{re.escape(n)}\s*[(<]", re.MULTILINE)  # noqa: E731
@@ -1397,9 +1401,12 @@ def _detect_dead_new_function(original: str, modified: str, lang: str = "python"
             r"(?:^|\s)(?:function\s+(\w+)|(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s+)?\(|fn\s+(\w+))",
             re.MULTILINE,
         )
-        def_cnt_re = lambda n: re.compile(
-            rf"(?:function\s+{re.escape(n)}|(?:const|let|var)\s+{re.escape(n)}\s*=)", re.MULTILINE
-        )  # noqa: E731
+
+        def def_cnt_re(n):
+            return re.compile(
+                rf"(?:function\s+{re.escape(n)}|(?:const|let|var)\s+{re.escape(n)}\s*=)",
+                re.MULTILINE,
+            )  # noqa: E731
 
     # Extract names — for multi-group patterns, take first non-None group
     def _names(text: str) -> set[str]:
@@ -1441,12 +1448,14 @@ def _apply_region_fix(original_lines: list[str], start: int, end: int, fixed_reg
     if region_lines and not region_lines[-1].endswith("\n"):
         region_lines[-1] += "\n"
 
-    orig_region = [l.rstrip("\n") for l in original_lines[start:end]]
-    new_region = [l.rstrip("\n") for l in region_lines]
+    orig_region = [text_line.rstrip("\n") for text_line in original_lines[start:end]]
+    new_region = [text_line.rstrip("\n") for text_line in region_lines]
 
     # Check that unchanged lines (same content modulo leading whitespace) kept
     # their original indentation.  Build a stripped→original map from orig.
-    orig_stripped = {l.lstrip(): l for l in orig_region if l.strip()}
+    orig_stripped = {
+        text_line.lstrip(): text_line for text_line in orig_region if text_line.strip()
+    }
     corrupted = 0
     for new_line in new_region:
         stripped = new_line.lstrip()
@@ -1528,7 +1537,7 @@ def generate_fix(
     # Extract the relevant region for the prompt (keeps context tight under Cloak)
     region_context = 20 if cloak_mode else 40
     r_start, r_end = _extract_target_region(
-        [l.rstrip("\n") for l in lines],
+        [text_line.rstrip("\n") for text_line in lines],
         builder_desc,
         shadow_trace,
         step["file"],
@@ -1536,7 +1545,7 @@ def generate_fix(
         cloak_mode=cloak_mode,
         repo_language=repo_language,
     )
-    region_lines = [l.rstrip("\n") for l in lines[r_start:r_end]]
+    region_lines = [text_line.rstrip("\n") for text_line in lines[r_start:r_end]]
     numbered_region = "\n".join(
         f"{r_start + i + 1:4d} | {line}" for i, line in enumerate(region_lines)
     )
@@ -1549,7 +1558,7 @@ def generate_fix(
 
     # Pre-context: 8 lines before the edit window for indentation awareness
     pre_start = max(0, r_start - 8)
-    pre_lines = [l.rstrip("\n") for l in lines[pre_start:r_start]]
+    pre_lines = [text_line.rstrip("\n") for text_line in lines[pre_start:r_start]]
     pre_ctx_block = ""
     if pre_lines:
         numbered_pre = "\n".join(
@@ -1801,7 +1810,7 @@ def generate_fix_local(
 
     # Larger region window — no obfuscation tax means we can show more real context
     r_start, r_end = _extract_target_region(
-        [l.rstrip("\n") for l in lines],
+        [text_line.rstrip("\n") for text_line in lines],
         real_description,
         shadow_trace,
         step["file"],
@@ -1809,7 +1818,7 @@ def generate_fix_local(
         cloak_mode=False,
         repo_language=repo_language,
     )
-    region_lines = [l.rstrip("\n") for l in lines[r_start:r_end]]
+    region_lines = [text_line.rstrip("\n") for text_line in lines[r_start:r_end]]
     # Plain code (no line numbers) — the copy target for SEARCH blocks
     plain_region = "\n".join(region_lines)
     # Numbered version for location context only (not for copying)
@@ -1826,7 +1835,7 @@ def generate_fix_local(
         )
 
     pre_start = max(0, r_start - 8)
-    pre_lines = [l.rstrip("\n") for l in lines[pre_start:r_start]]
+    pre_lines = [text_line.rstrip("\n") for text_line in lines[pre_start:r_start]]
     pre_ctx_block = ""
     if pre_lines:
         plain_pre = "\n".join(pre_lines)
@@ -2583,7 +2592,8 @@ def _solve_one_path(
                 if USE_LOCAL_BUILDER and failed:
                     first_failed = failed[0]
                     anchor_line = next(
-                        (l for l in first_failed.split("\n") if l.strip()), ""
+                        (text_line for text_line in first_failed.split("\n") if text_line.strip()),
+                        "",
                     ).rstrip()
                     if anchor_line:
                         src_lines_fb = source_to_patch.split("\n")

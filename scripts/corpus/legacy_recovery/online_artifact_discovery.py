@@ -6,7 +6,7 @@ import json
 import sys
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -21,7 +21,10 @@ from corpus.legacy_recovery.artifact_trust_policy import evaluate_artifact_polic
 ArtifactSearcher = Callable[[dict[str, Any]], list[dict[str, Any]]]
 
 
-class OnlineArtifactStatus(str, Enum):
+class OnlineArtifactStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     ONLINE_DISCOVERY_CANDIDATE_FOUND = "ONLINE_DISCOVERY_CANDIDATE_FOUND"
     ONLINE_ARTIFACT_PINNED = "ONLINE_ARTIFACT_PINNED"
     ONLINE_ARTIFACT_REJECTED = "ONLINE_ARTIFACT_REJECTED"

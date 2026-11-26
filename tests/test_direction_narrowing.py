@@ -59,7 +59,7 @@ def test_dedupe_runs_even_when_no_intent_regex_matches():
 
 
 def test_a_differently_named_direction_is_not_collapsed():
-    """"Command-Line Tool" is the same thing; "Calendar Merge CLI Tool" is not."""
+    """ "Command-Line Tool" is the same thing; "Calendar Merge CLI Tool" is not."""
     out = _dedupe_paths(
         [{"name": "CLI Tool"}, {"name": "Command-Line Tool"}, {"name": "Calendar Merge CLI Tool"}]
     )
@@ -70,16 +70,20 @@ def test_a_differently_named_direction_is_not_collapsed():
 
 
 def test_saying_it_is_terminal_only_removes_the_web_and_mobile_directions():
-    r = narrow_paths(paths(), "a thing that merges calendars", ["it is a terminal tool, no browser at all"])
+    r = narrow_paths(
+        paths(), "a thing that merges calendars", ["it is a terminal tool, no browser at all"]
+    )
     assert "CLI Tool" in names(r)
     assert "Web App" not in names(r)
     assert "Mobile App" not in names(r)
 
 
 def test_a_negated_component_also_removes_the_composite_containing_it():
-    """"no mobile app" removed `Mobile App` and left `Web + Mobile App` standing -- the same
+    """ "no mobile app" removed `Mobile App` and left `Web + Mobile App` standing -- the same
     direction wearing a longer name, so the user's answer visibly did nothing."""
-    r = narrow_paths(paths(), "a scheduling product", ["a web dashboard for the team, no mobile app"])
+    r = narrow_paths(
+        paths(), "a scheduling product", ["a web dashboard for the team, no mobile app"]
+    )
     assert "Web App" in names(r)
     assert "Mobile App" not in names(r)
     assert "Web + Mobile App" not in names(r)
@@ -118,7 +122,7 @@ def test_every_removed_card_carries_a_reason():
 
 
 def test_an_explicit_no_is_reported_differently_from_never_mentioned():
-    """"You said this is not part of it" and "nothing you have said points at this" are
+    """ "You said this is not part of it" and "nothing you have said points at this" are
     different facts, and the second is not a decision the user made."""
     r = narrow_paths(paths(), "a scheduling product", ["a web dashboard, no mobile app"])
     whys = {x["name"]: x["why"] for x in r["ruled_out"]}

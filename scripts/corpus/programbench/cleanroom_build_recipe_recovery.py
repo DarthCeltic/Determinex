@@ -7,7 +7,7 @@ import re
 import sys
 import tarfile
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -25,7 +25,10 @@ from corpus.programbench.cleanroom_image_remediation_plan_record import (
 from corpus.programbench.cleanroom_image_scan_record import verify_cleanroom_image_scan_record
 
 
-class BuildRecipeRecoveryStatus(str, Enum):
+class BuildRecipeRecoveryStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     BUILD_RECIPE_RECOVERY_READY = "BUILD_RECIPE_RECOVERY_READY"
     BUILD_RECIPE_RECOVERED_EXACT = "BUILD_RECIPE_RECOVERED_EXACT"
     BUILD_RECIPE_RECOVERED_PARTIAL = "BUILD_RECIPE_RECOVERED_PARTIAL"

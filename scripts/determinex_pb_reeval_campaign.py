@@ -66,7 +66,9 @@ def main() -> int:
     max_n = int(args[args.index("--max") + 1]) if "--max" in args else 8
     tf = args[args.index("--targets") + 1] if "--targets" in args else "C:/tmp/reeval_targets.txt"
     targets = [
-        l.strip() for l in pathlib.Path(tf).read_text(encoding="utf-8").splitlines() if l.strip()
+        text_line.strip()
+        for text_line in pathlib.Path(tf).read_text(encoding="utf-8").splitlines()
+        if text_line.strip()
     ]
     import os
 
@@ -89,7 +91,7 @@ def main() -> int:
     log(
         f"=== re-eval campaign START: {len(targets)} targets, running top {max_n} (pid {os.getpid()}) ==="
     )
-    locks, improved, done = [], [], []
+    locks, _improved, done = [], [], []
     hb = pathlib.Path("C:/tmp/campaign.heartbeat")
     for iid in targets[:max_n]:
         hb.write_text(str(time.time()), encoding="utf-8")  # mtime liveness (PID-proof)

@@ -23,7 +23,10 @@ READINESS_MATRIX_STATUS_TOKENS = (
 )
 
 
-class ReadyLevel(str, enum.Enum):
+class ReadyLevel(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     MOCKED_TRACE = "READY_MOCKED_TRACE"
     TEMP_PATCH_ONLY = "READY_TEMP_PATCH_ONLY"
     REQUIRES_LIVE_MODEL_ADMISSION = "READY_REQUIRES_LIVE_MODEL_ADMISSION"

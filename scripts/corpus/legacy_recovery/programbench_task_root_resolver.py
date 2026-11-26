@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import asdict, dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -24,7 +24,10 @@ from corpus.legacy_recovery.programbench_tool_alias_index import (
 )
 
 
-class ResolutionStatus(str, Enum):
+class ResolutionStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     TASK_ROOT_RESOLVED = "TASK_ROOT_RESOLVED"
     SOURCE_ROOT_RESOLVED = "SOURCE_ROOT_RESOLVED"
     TASK_AND_SOURCE_RESOLVED = "TASK_AND_SOURCE_RESOLVED"

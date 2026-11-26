@@ -307,7 +307,7 @@ if _BASELINE_PATH.exists():
             if isinstance(meta, str):
                 try:
                     meta = _json.loads(meta)
-                except:
+                except _json.JSONDecodeError:
                     return False
             cat = meta.get("category") or meta.get("source", "")
             concept = _CATEGORY_TO_CONCEPT.get(cat)

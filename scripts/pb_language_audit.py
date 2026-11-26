@@ -106,7 +106,6 @@ def _classify_main_py(path: Path) -> dict[str, Any]:
     )
     is_scaffold = any(m in text for m in scaffold_markers)
     # Thin wrapper: small file + has subprocess.run/execv + no big functions
-    has_real_logic = bool(re.search(r"\bdef\s+\w+\s*\([^)]*\)\s*:", text))
     def_count = len(re.findall(r"\bdef\s+\w+", text))
     return {
         "present": True,
@@ -192,7 +191,6 @@ def _find_native_source(d: Path, language: str) -> list[Path]:
 
 
 def _find_bundled_binary(d: Path, slug: str) -> dict[str, Any] | None:
-    base = slug.split("__", 1)[-1].split(".")[0]
     candidates = list(d.iterdir())
     for f in candidates:
         if not f.is_file():

@@ -152,7 +152,7 @@ def verify_install() -> bool:
     ]
 
     all_ok = True
-    for pkg, expr in checks:
+    for pkg, _expr in checks:
         ok, ver = check_package(pkg)
         status = f"✓  {ver}" if ok else "✗  NOT FOUND"
         print(f"  {pkg:<15} {status}", flush=True)

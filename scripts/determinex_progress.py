@@ -25,10 +25,13 @@ system spin in place, and it never *quits* without a reason it can name.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 
 
-class Directive(str, Enum):
+class Directive(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CONTINUE = "CONTINUE"
     WIDEN = "WIDEN"
     RE_DECOMPOSE = "RE_DECOMPOSE"
@@ -186,8 +189,7 @@ class ProgressTracker:
         first, cur = self._round_errors[0], self._round_errors[-1]
         n = len(self._round_errors)
         per_round = (first - cur) / (n - 1) if n > 1 else 0.0
-        proj = ("never" if per_round <= 0
-                else f"~{cur / per_round:.0f} more rounds")
+        proj = "never" if per_round <= 0 else f"~{cur / per_round:.0f} more rounds"
         return (
             f"{n} rounds: {first} -> {cur} failing checks "
             f"({per_round:+.1f}/round, {proj} to clear at that rate); "

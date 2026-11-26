@@ -364,7 +364,7 @@ def run_eval(
             status_parts.append(f"[{len(isms)} linux-isms]")
         print(f"  {' '.join(status_parts)}  ({latency:.1f}s)")
         if isms:
-            print(f"    isms: {', '.join(l for _, l in isms)}")
+            print(f"    isms: {', '.join(item_label for _, item_label in isms)}")
 
         results.append(
             {
@@ -375,7 +375,7 @@ def run_eval(
                 "portability_score": port_score,
                 "portability_checks": port_checks,
                 "linux_ism_count": len(isms),
-                "linux_isms": [l for _, l in isms],
+                "linux_isms": [item_label for _, item_label in isms],
                 "latency_s": latency,
                 "func_error": func_error[:500] if func_error else "",
             }

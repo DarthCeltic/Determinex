@@ -358,7 +358,7 @@ def run_category(
     random.shuffle(shuffled_templates)
     template_cycle = shuffled_templates * ((max_attempts // len(shuffled_templates)) + 1)
 
-    for i, user_prompt in enumerate(template_cycle[:max_attempts]):
+    for _i, user_prompt in enumerate(template_cycle[:max_attempts]):
         if validated_count >= target:
             break
 

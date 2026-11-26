@@ -8,7 +8,7 @@ from __future__ import annotations
 import logging
 import re
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from typing import Any
 
 from agents.base_agent import (
@@ -28,7 +28,10 @@ log = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 
-class SafetyDecisionValue(str, Enum):
+class SafetyDecisionValue(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     ALLOW = "ALLOW"
     ALLOW_WITH_AUDIT = "ALLOW_WITH_AUDIT"
     REQUIRE_CONFIRMATION = "REQUIRE_CONFIRMATION"
@@ -36,7 +39,10 @@ class SafetyDecisionValue(str, Enum):
     SANDBOX_ONLY = "SANDBOX_ONLY"
 
 
-class ActionRisk(str, Enum):
+class ActionRisk(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     MINIMAL = "MINIMAL"
     LOW = "LOW"
     MEDIUM = "MEDIUM"

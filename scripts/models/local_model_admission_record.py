@@ -30,7 +30,10 @@ LOCAL_MODEL_ADMISSION_STATUS_TOKENS = (
 )
 
 
-class ModelProvider(str, enum.Enum):
+class ModelProvider(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     OLLAMA = "ollama"
     LOCAL_HF = "local_hf"
     EXECUTABLE_ADAPTER = "executable_adapter"

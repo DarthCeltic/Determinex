@@ -346,7 +346,7 @@ class HardwareProfiler:
                 try:
                     cpuinfo_txt = Path("/proc/cpuinfo").read_text()
                     flags_line = next(
-                        (l for l in cpuinfo_txt.splitlines() if l.startswith("flags")), ""
+                        (line for line in cpuinfo_txt.splitlines() if line.startswith("flags")), ""
                     )
                     avx2 = "avx2" in flags_line
                     avx512 = "avx512" in flags_line

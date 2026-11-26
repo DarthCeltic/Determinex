@@ -62,14 +62,18 @@ def say(m: str = "") -> None:
 
 
 def _post(base: str, key: str, model: str, prompt: str, temp: float, max_tok: int) -> dict:
-    body = json.dumps({
-        "model": model,
-        "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": max_tok, "temperature": temp,
-        "chat_template_kwargs": {"enable_thinking": False},
-    }).encode()
+    body = json.dumps(
+        {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": max_tok,
+            "temperature": temp,
+            "chat_template_kwargs": {"enable_thinking": False},
+        }
+    ).encode()
     req = urllib.request.Request(
-        base.rstrip("/") + "/v1/chat/completions", data=body,
+        base.rstrip("/") + "/v1/chat/completions",
+        data=body,
         headers={"Content-Type": "application/json", "Authorization": f"Bearer {key}"},
     )
     with urllib.request.urlopen(req, timeout=300) as r:
@@ -92,8 +96,11 @@ def declared_capacity(base: str, max_model_len: int) -> dict:
     except (KeyError, ValueError):
         return {"available": False, "why": "cache_config_info missing block fields"}
     return {
-        "available": True, "num_gpu_blocks": blocks, "block_size": bs,
-        "kv_tokens": blocks * bs, "max_model_len": max_model_len,
+        "available": True,
+        "num_gpu_blocks": blocks,
+        "block_size": bs,
+        "kv_tokens": blocks * bs,
+        "max_model_len": max_model_len,
         "declared_max_concurrent": (blocks * bs) // max_model_len,
     }
 
@@ -163,13 +170,17 @@ def main() -> int:
     a = ap.parse_args()
 
     base, key = a.base_url.rstrip("/"), a.api_key
-    ev: dict = {"what": "live Radeon session", "base_url_redacted": True,
-                "started": time.strftime("%Y-%m-%dT%H:%M:%S")}
+    ev: dict = {
+        "what": "live Radeon session",
+        "base_url_redacted": True,
+        "started": time.strftime("%Y-%m-%dT%H:%M:%S"),
+    }
 
     # ── 0. is anything actually serving ──────────────────────────────────────────────
     try:
-        req = urllib.request.Request(base + "/v1/models",
-                                     headers={"Authorization": f"Bearer {key}"})
+        req = urllib.request.Request(
+            base + "/v1/models", headers={"Authorization": f"Bearer {key}"}
+        )
         with urllib.request.urlopen(req, timeout=25) as r:
             models = [m["id"] for m in json.loads(r.read()).get("data", [])]
     except Exception as e:
@@ -188,10 +199,14 @@ def main() -> int:
     ev["declared_capacity"] = cap
     say("")
     if cap.get("available"):
-        say(f"  declared: {cap['num_gpu_blocks']} blocks x {cap['block_size']} tokens "
-            f"= {cap['kv_tokens']:,} KV tokens")
-        say(f"            / {cap['max_model_len']:,} max_model_len "
-            f"-> {cap['declared_max_concurrent']} concurrent requests")
+        say(
+            f"  declared: {cap['num_gpu_blocks']} blocks x {cap['block_size']} tokens "
+            f"= {cap['kv_tokens']:,} KV tokens"
+        )
+        say(
+            f"            / {cap['max_model_len']:,} max_model_len "
+            f"-> {cap['declared_max_concurrent']} concurrent requests"
+        )
         say("            (a HINT that bounds the sweep -- the measurement decides)")
     else:
         say(f"  declared capacity unavailable: {cap.get('why')}")
@@ -205,8 +220,9 @@ def main() -> int:
     say(f"    {'K':<5}{'wall_s':<10}{'tokens':<9}{'agg tok/s':<12}{'cand/s':<9}")
 
     def one() -> int:
-        d = _post(base, key, model, "Write a Rust function summing a slice of i32. Code only.",
-                  0.4, 48)
+        d = _post(
+            base, key, model, "Write a Rust function summing a slice of i32. Code only.", 0.4, 48
+        )
         return int((d.get("usage") or {}).get("completion_tokens", 0))
 
     # Warm twice: without this, K=1 pays the first-request cost and reports a number that is
@@ -219,8 +235,13 @@ def main() -> int:
         with cf.ThreadPoolExecutor(max_workers=k) as ex:
             tok = sum(ex.map(lambda _i: one(), range(k)))
         w = time.time() - t0
-        p = {"k": k, "wall_s": round(w, 3), "tokens": tok,
-             "agg_tok_s": round(tok / w, 1), "cand_per_s": round(k / w, 3)}
+        p = {
+            "k": k,
+            "wall_s": round(w, 3),
+            "tokens": tok,
+            "agg_tok_s": round(tok / w, 1),
+            "cand_per_s": round(k / w, 3),
+        }
         points.append(p)
         say(f"    {k:<5}{p['wall_s']:<10}{tok:<9}{p['agg_tok_s']:<12}{p['cand_per_s']:<9}")
     ev["k_sweep"] = points
@@ -237,13 +258,20 @@ def main() -> int:
     say("")
     say(f"  MEASURED optimum K={best['k']} ({best['cand_per_s']} candidates/s)")
     if collapsed:
-        say(f"  collapse at K={collapsed}" + (
-            f"  -- declared ceiling was {cap['declared_max_concurrent']}"
-            if cap.get("available") else ""))
+        say(
+            f"  collapse at K={collapsed}"
+            + (
+                f"  -- declared ceiling was {cap['declared_max_concurrent']}"
+                if cap.get("available")
+                else ""
+            )
+        )
         if cap.get("available"):
             ev["prediction_held"] = collapsed > cap["declared_max_concurrent"]
-            say(f"  declared-vs-measured: prediction "
-                f"{'HELD' if ev['prediction_held'] else 'DID NOT HOLD'}")
+            say(
+                f"  declared-vs-measured: prediction "
+                f"{'HELD' if ev['prediction_held'] else 'DID NOT HOLD'}"
+            )
     else:
         say(f"  no collapse within K<={max(ks)}")
 
@@ -256,7 +284,7 @@ def main() -> int:
         d = _post(base, key, model, TASK, 0.0 if i == 0 else 0.4, 400)
         ok, why = oracle(d["choices"][0]["message"].get("content") or "")
         singles.append(ok)
-        say(f"    K=1 attempt {i+1}: {'PASS' if ok else 'FAIL'}  {why}")
+        say(f"    K=1 attempt {i + 1}: {'PASS' if ok else 'FAIL'}  {why}")
     p_hat = sum(singles) / len(singles)
     ev["one_shot"] = {"passes": sum(singles), "n": len(singles), "p_hat": p_hat}
 
@@ -273,14 +301,22 @@ def main() -> int:
             if ok and winner is None:
                 winner = True
     dt = time.time() - t0
-    ev["verified_search"] = {"k": K, "solved": bool(winner), "wall_s": round(dt, 1),
-                             "candidates_evaluated": used}
+    ev["verified_search"] = {
+        "k": K,
+        "solved": bool(winner),
+        "wall_s": round(dt, 1),
+        "candidates_evaluated": used,
+    }
     say("")
-    say(f"    K={K} verified search: {'SOLVED' if winner else 'no candidate passed'} "
-        f"in {dt:.1f}s across {used} candidates")
+    say(
+        f"    K={K} verified search: {'SOLVED' if winner else 'no candidate passed'} "
+        f"in {dt:.1f}s across {used} candidates"
+    )
     if p_hat:
-        say(f"    p={p_hat:.2f}: one shot {p_hat*100:.0f}%  ->  "
-            f"K={K} predicts {(1-(1-p_hat)**K)*100:.2f}%")
+        say(
+            f"    p={p_hat:.2f}: one shot {p_hat * 100:.0f}%  ->  "
+            f"K={K} predicts {(1 - (1 - p_hat) ** K) * 100:.2f}%"
+        )
 
     # ── write evidence ───────────────────────────────────────────────────────────────
     EVIDENCE.mkdir(parents=True, exist_ok=True)

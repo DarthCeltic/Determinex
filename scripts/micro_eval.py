@@ -2379,15 +2379,17 @@ def print_coverage_report(coverage: dict) -> None:
         print(f"  {cat:<30}  {info['samples']:>7}  {probe}")
 
     # Blind spot summary
-    blind_langs = [l for l, i in coverage["languages"].items() if i["status"] == "NO_PROBES"]
+    blind_langs = [
+        language for language, i in coverage["languages"].items() if i["status"] == "NO_PROBES"
+    ]
     blind_cats = [c for c, i in coverage["categories"].items() if not i["has_probe"]]
 
     print()
     if blind_langs or blind_cats:
         print("  ⚠  BLIND SPOTS — training data exists, no eval coverage:")
-        for l in blind_langs:
-            n = coverage["languages"][l]["samples"]
-            print(f"       Language  '{l}':  {n} training samples, 0 eval probes")
+        for language in blind_langs:
+            n = coverage["languages"][language]["samples"]
+            print(f"       Language  '{language}':  {n} training samples, 0 eval probes")
         for c in blind_cats:
             n = coverage["categories"][c]["samples"]
             print(f"       Category  '{c}':  {n} training samples, no mapped probe")

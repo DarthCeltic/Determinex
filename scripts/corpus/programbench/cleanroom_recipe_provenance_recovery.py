@@ -6,7 +6,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -29,7 +29,10 @@ from corpus.programbench.cleanroom_recipe_provenance_recovery_record import (
 )
 
 
-class RecipeProvenanceRecoveryStatus(str, Enum):
+class RecipeProvenanceRecoveryStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     RECIPE_PROVENANCE_RECOVERY_READY = "RECIPE_PROVENANCE_RECOVERY_READY"
     RECIPE_PROVENANCE_RECOVERED_EXACT = "RECIPE_PROVENANCE_RECOVERED_EXACT"
     RECIPE_PROVENANCE_RECOVERED_PARTIAL = "RECIPE_PROVENANCE_RECOVERED_PARTIAL"

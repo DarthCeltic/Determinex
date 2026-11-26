@@ -70,7 +70,7 @@ def check_docker_stalled(stall_minutes: int) -> list[str]:
             parts = line.split("\t")
             if len(parts) < 3:
                 continue
-            name, _created, status = parts[0], parts[1], parts[2]
+            name, _created, _status = parts[0], parts[1], parts[2]
             # Use container's last log timestamp via docker logs --tail 1 --timestamps
             try:
                 lr = subprocess.run(
@@ -216,7 +216,6 @@ def main():
     )
 
     last_ollama_ok = True
-    last_disk_free = None
     disk_history = deque(maxlen=10)  # tracks (timestamp, free_gb) for fill rate
     highest_severity = "info"
 
@@ -295,7 +294,7 @@ def main():
                     highest_severity = "alarm"
 
             # 6) Eval landing rate (proxy for "is the run alive")
-            for label, base in (("PB", PB_RUNS_BASE), ("SB", SB_RUNS_BASE)):
+            for _label, base in (("PB", PB_RUNS_BASE), ("SB", SB_RUNS_BASE)):
                 if base.is_dir() and any(base.iterdir()):
                     rate = check_eval_landing_rate(base, window_min=10)
                     if rate == 0:

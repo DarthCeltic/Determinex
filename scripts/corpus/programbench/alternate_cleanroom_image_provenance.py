@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -37,7 +37,10 @@ from corpus.programbench.rebuild_provenance_quarantine_decision_record import (
 )
 
 
-class AlternateCleanroomImageProvenanceStatus(str, Enum):
+class AlternateCleanroomImageProvenanceStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT = "ALTERNATE_CLEANROOM_PROVENANCE_FOUND_EXACT"
     ALTERNATE_CLEANROOM_PROVENANCE_FOUND_PARTIAL = "ALTERNATE_CLEANROOM_PROVENANCE_FOUND_PARTIAL"
     ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND = "ALTERNATE_CLEANROOM_PROVENANCE_NOT_FOUND"

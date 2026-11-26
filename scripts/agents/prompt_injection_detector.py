@@ -32,10 +32,13 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 
 
-class InjectionRisk(str, Enum):
+class InjectionRisk(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CLEAN = "clean"
     SUSPICIOUS = "suspicious"
     HIGH = "high"

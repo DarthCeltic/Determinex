@@ -81,9 +81,7 @@ def colour_for(line: str) -> tuple[int, int, int]:
     return FG
 
 
-def render(
-    lines: list[tuple[float, str]], out_dir: Path, title: str, tail: float = 3.0
-) -> int:
+def render(lines: list[tuple[float, str]], out_dir: Path, title: str, tail: float = 3.0) -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     for old in out_dir.glob("f_*.png"):
         old.unlink()
@@ -136,9 +134,27 @@ def main() -> int:
         print(f"rendered {n} frames to {out_dir}; ffmpeg not found, not encoding")
         return 0
     subprocess.run(
-        [ff, "-y", "-framerate", str(FPS), "-i", str(out_dir / "f_%05d.png"),
-         "-vf", "format=yuv420p", "-r", "30", "-c:v", "libx264", "-preset", "slow",
-         "-crf", "20", "-movflags", "+faststart", str(mp4)],
+        [
+            ff,
+            "-y",
+            "-framerate",
+            str(FPS),
+            "-i",
+            str(out_dir / "f_%05d.png"),
+            "-vf",
+            "format=yuv420p",
+            "-r",
+            "30",
+            "-c:v",
+            "libx264",
+            "-preset",
+            "slow",
+            "-crf",
+            "20",
+            "-movflags",
+            "+faststart",
+            str(mp4),
+        ],
         check=True,
         capture_output=True,
     )

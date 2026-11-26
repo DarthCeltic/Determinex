@@ -39,7 +39,7 @@ sys.path.insert(0, str(_ROOT / "scripts"))
 #: every measurement below meaningless, which is exactly the failure the synthesizer refuses.
 TASKS = {
     "rle": (
-        'solution(s) run-length encodes a string: each run of a repeated character becomes '
+        "solution(s) run-length encodes a string: each run of a repeated character becomes "
         'the character followed by the run length. For example solution("aaabbc") returns '
         '"a3b2c1", solution("abc") returns "a1b1c1", and solution("") returns "".'
     ),
@@ -50,12 +50,12 @@ TASKS = {
         "returns None."
     ),
     "roman": (
-        'solution(n) converts an integer from 1 to 3999 into a Roman numeral. For example '
+        "solution(n) converts an integer from 1 to 3999 into a Roman numeral. For example "
         'solution(4) returns "IV", solution(9) returns "IX", solution(14) returns "XIV", '
         'solution(40) returns "XL", and solution(1994) returns "MCMXCIV".'
     ),
     "balanced": (
-        'solution(s) returns True when every bracket in the string is closed in the right '
+        "solution(s) returns True when every bracket in the string is closed in the right "
         'order and False otherwise, considering (), [] and {}. For example solution("([])") '
         'returns True, solution("([)]") returns False, solution("(") returns False, and '
         'solution("") returns True.'
@@ -67,8 +67,8 @@ TASKS = {
     # demonstrate amplification, so these are deliberately compositions unlikely to be
     # memorised: each combines two ordinary rules in a way no exercise book pairs them.
     "vowel_cycle": (
-        'solution(s) replaces every vowel with the NEXT vowel in the cycle a,e,i,o,u,a, '
-        'keeping the original case and leaving every other character alone. For example '
+        "solution(s) replaces every vowel with the NEXT vowel in the cycle a,e,i,o,u,a, "
+        "keeping the original case and leaving every other character alone. For example "
         'solution("hello") returns "hillu", solution("Apple") returns "Eppli", '
         'solution("xyz") returns "xyz", and solution("") returns "".'
     ),
@@ -80,7 +80,7 @@ TASKS = {
         "solution([]) returns []."
     ),
     "twice_only": (
-        'solution(s) returns the characters that appear exactly twice in the string, in the '
+        "solution(s) returns the characters that appear exactly twice in the string, in the "
         'order of their FIRST appearance, as a string. For example solution("aabbc") returns '
         '"ab", solution("abcabc") returns "abc", solution("aaa") returns "", and '
         'solution("") returns "".'
@@ -90,23 +90,23 @@ TASKS = {
     # saturated task cannot show amplification, so this one needs actual reasoning: operator
     # precedence, unary minus, and integer division that truncates toward zero.
     "expr_eval": (
-        'solution(s) evaluates an arithmetic expression string containing non-negative '
-        'integers, + - * /, and parentheses, using normal precedence, where / is integer '
+        "solution(s) evaluates an arithmetic expression string containing non-negative "
+        "integers, + - * /, and parentheses, using normal precedence, where / is integer "
         'division truncating toward zero. For example solution("2+3*4") returns 14, '
         'solution("(2+3)*4") returns 20, solution("7/2") returns 3, solution("-7/2") returns '
         '-3, solution("2*(3+4)-5") returns 9, and solution("10") returns 10.'
     ),
     "wrap_words": (
-        'solution(s, width) greedily wraps text to a maximum line width, breaking only at '
-        'spaces, and returns the lines joined by newlines; a word longer than width goes on '
+        "solution(s, width) greedily wraps text to a maximum line width, breaking only at "
+        "spaces, and returns the lines joined by newlines; a word longer than width goes on "
         'its own line uncut. For example solution("a bb ccc", 5) returns "a bb\nccc", '
         'solution("hello world", 5) returns "hello\nworld", solution("abcdef", 3) returns '
         '"abcdef", and solution("", 5) returns "".'
     ),
     "digit_span": (
         "solution(s) returns the sum of the digits in the string minus the number of letters "
-        "in it. For example solution(\"a1b2\") returns 1, solution(\"999\") returns 27, "
-        "solution(\"abc\") returns -3, and solution(\"\") returns 0."
+        'in it. For example solution("a1b2") returns 1, solution("999") returns 27, '
+        'solution("abc") returns -3, and solution("") returns 0.'
     ),
 }
 
@@ -150,7 +150,10 @@ def _verifier_and_prompt(idea: str):
 
             res = _hrun(
                 [_s.executable, "-m", "pytest", "tests_gen.py", "-q", "-p", "no:cacheprovider"],
-                workspace=dp, cwd=dp, timeout=30, allow_network=False,
+                workspace=dp,
+                cwd=dp,
+                timeout=30,
+                allow_network=False,
             )
             return _R(res.exit_code == 0, (res.stdout + res.stderr)[-400:])
 
@@ -174,8 +177,10 @@ def main() -> int:
     names = [t.strip() for t in a.tasks.split(",") if t.strip()] or list(TASKS)
     report: dict = {
         "what": "correctness amplification measured on an AMD Radeon GPU",
-        "provider": a.provider, "model": a.model,
-        "draws_per_task": a.n, "temperature": a.temp,
+        "provider": a.provider,
+        "model": a.model,
+        "draws_per_task": a.n,
+        "temperature": a.temp,
         "measured_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "tasks": {},
     }
@@ -220,8 +225,11 @@ def main() -> int:
                 if errors == 1:
                     print(f"  first error: {type(e).__name__}: {str(e)[:90]}", flush=True)
             passes += 1 if ok else 0
-            print(f"  draw {i + 1:>3}/{a.n}  {'PASS' if ok else 'fail'}   "
-                  f"running p={passes / (i + 1):.3f}", flush=True)
+            print(
+                f"  draw {i + 1:>3}/{a.n}  {'PASS' if ok else 'fail'}   "
+                f"running p={passes / (i + 1):.3f}",
+                flush=True,
+            )
         # A sampler that returns identical text at temperature is not sampling -- report it
         # rather than quoting a p derived from one completion wearing N hats.
         distinct = len(set(outputs))
@@ -230,18 +238,28 @@ def main() -> int:
         el = time.monotonic() - t0
         p = passes / a.n if a.n else 0.0
         row = {
-            "n_checks": n_checks, "draws": a.n, "passes": passes, "errors": errors,
+            "n_checks": n_checks,
+            "draws": a.n,
+            "passes": passes,
+            "errors": errors,
             "distinct_completions": distinct,
-            "p": round(p, 4), "wall_s": round(el, 1),
+            "p": round(p, 4),
+            "wall_s": round(el, 1),
             "P_predicted": {k: round(1 - (1 - p) ** k, 4) for k in (1, 2, 4, 6, 8, 16)},
-            "regime": ("saturated (K adds nothing)" if p >= 0.99 else
-                       "floor (p=0 -- amplification cannot rescue this)" if p <= 0.0 else
-                       "PRODUCTIVE MIDDLE"),
+            "regime": (
+                "saturated (K adds nothing)"
+                if p >= 0.99
+                else "floor (p=0 -- amplification cannot rescue this)"
+                if p <= 0.0
+                else "PRODUCTIVE MIDDLE"
+            ),
         }
         report["tasks"][name] = row
         print(f"  p = {passes}/{a.n} = {p:.3f}   {row['regime']}", flush=True)
-        print("  1-(1-p)^K:  " + "  ".join(
-            f"K={k}:{v:.3f}" for k, v in row["P_predicted"].items()), flush=True)
+        print(
+            "  1-(1-p)^K:  " + "  ".join(f"K={k}:{v:.3f}" for k, v in row["P_predicted"].items()),
+            flush=True,
+        )
 
     if a.out:
         Path(a.out).write_text(json.dumps(report, indent=2), encoding="utf-8")

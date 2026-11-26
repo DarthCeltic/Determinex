@@ -6,7 +6,7 @@ import json
 import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -27,7 +27,10 @@ EXPECTED_IMAGE = "programbench/doxygen_1776_doxygen.966d98e:task_cleanroom"
 EXPECTED_DIGEST = "sha256:cc50d0f7e9a1f3f90512e3d4c34781f4686a8fa3774fbff489947ef41bde2e72"
 
 
-class CleanroomImageScanTriageStatus(str, Enum):
+class CleanroomImageScanTriageStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CLEANROOM_IMAGE_SCAN_TRIAGED = "CLEANROOM_IMAGE_SCAN_TRIAGED"
     CLEANROOM_IMAGE_REMEDIATE_REQUIRED = "CLEANROOM_IMAGE_REMEDIATE_REQUIRED"
     CLEANROOM_IMAGE_ALTERNATE_SOURCE_REQUIRED = "CLEANROOM_IMAGE_ALTERNATE_SOURCE_REQUIRED"

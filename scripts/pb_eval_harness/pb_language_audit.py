@@ -212,7 +212,6 @@ def main():
             lang = detect_from_source(slug)
 
         is_core = lang in CORE_LANGUAGES
-        is_non_core = lang in NON_CORE_LANGUAGES or lang == "unknown"
 
         # Check submission availability
         ep = entry.get("eval_report_path", "")

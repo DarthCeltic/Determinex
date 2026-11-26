@@ -77,10 +77,10 @@ def packet_hash(packet: dict[str, Any]) -> str:
 
 def missing_required_fields(packet: dict[str, Any]) -> list[str]:
     missing: list[str] = []
-    for field in REQUIRED_PACKET_FIELDS:
-        value = packet.get(field)
+    for field_name in REQUIRED_PACKET_FIELDS:
+        value = packet.get(field_name)
         if value is None or value == "" or value == [] or value == {}:
-            missing.append(field)
+            missing.append(field_name)
     return missing
 
 

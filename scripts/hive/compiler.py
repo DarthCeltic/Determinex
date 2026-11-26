@@ -25,7 +25,6 @@ import psutil
 from hive.manifest import StepRecord
 
 try:
-    from hive._log import bind_session as _bind_session
     from hive._log import get_logger as _get_logger  # noqa: F401
 
     log = _get_logger("hive.compiler")
@@ -1510,8 +1509,10 @@ def _strip_internal_tracebacks(text: str) -> str:
             ):
                 block.append(lines[i])
                 i += 1
-            file_lines = [l for l in block if l.strip().startswith('File "')]
-            if file_lines and all(_INTERNAL_FRAME_RE.search(l) for l in file_lines):
+            file_lines = [
+                text_line for text_line in block if text_line.strip().startswith('File "')
+            ]
+            if file_lines and all(_INTERNAL_FRAME_RE.search(text_line) for text_line in file_lines):
                 continue  # all frames are Python internals — discard entire block
             result.extend(block)
         else:
@@ -2185,9 +2186,13 @@ def _is_full_file_rewrite(existing: str, new_code: str, target_file: str) -> boo
             pass  # fall through to other heuristics
 
     # ── Heuristic 2: shared import header + new_code is longer ────────────────
-    existing_lines = [l for l in existing.splitlines() if l.strip()]
-    new_lines = [l for l in new_code.splitlines() if l.strip()]
-    import_lines = [l for l in existing_lines[:10] if l.startswith(("import ", "from ", "#!"))]
+    existing_lines = [text_line for text_line in existing.splitlines() if text_line.strip()]
+    new_lines = [text_line for text_line in new_code.splitlines() if text_line.strip()]
+    import_lines = [
+        text_line
+        for text_line in existing_lines[:10]
+        if text_line.startswith(("import ", "from ", "#!"))
+    ]
     if import_lines and len(new_lines) > len(existing_lines):
         new_head = new_code[:300]
         if all(imp in new_head for imp in import_lines[:2]):

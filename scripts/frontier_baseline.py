@@ -227,7 +227,7 @@ def _apply_one_block(content: str, search: str, replace: str) -> "str | None":
     if search_norm in content_norm:
         return content_norm.replace(search_norm, replace, 1)
     content_lines = content_norm.splitlines(keepends=True)
-    search_lines = [l.rstrip() for l in search_norm.splitlines()]
+    search_lines = [line.rstrip() for line in search_norm.splitlines()]
     n = len(search_lines)
     if n == 0:
         return None
@@ -241,7 +241,7 @@ def _apply_one_block(content: str, search: str, replace: str) -> "str | None":
     # Leading-whitespace-flexible first line
     if n >= 1:
         search_first_core = search_lines[0].lstrip()
-        search_rest = [l.rstrip() for l in search_lines[1:]]
+        search_rest = [line.rstrip() for line in search_lines[1:]]
         for i in range(len(content_lines) - n + 1):
             content_first = content_lines[i].rstrip("\n").rstrip()
             if content_first.lstrip() != search_first_core:
@@ -327,7 +327,7 @@ def solve_instance(
         rel = f.relative_to(repo_path)
         content = f.read_text(encoding="utf-8", errors="replace")
         lines = content.splitlines()
-        shown = "\n".join(f"{i + 1:4d}: {l}" for i, l in enumerate(lines[:200]))
+        shown = "\n".join(f"{i + 1:4d}: {line}" for i, line in enumerate(lines[:200]))
         if len(lines) > 200:
             shown += f"\n... ({len(lines) - 200} more lines)"
         file_blocks.append(f"=== {rel} ===\n{shown}")

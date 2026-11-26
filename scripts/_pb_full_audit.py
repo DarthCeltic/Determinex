@@ -88,7 +88,6 @@ def classify_failures(eval_data: dict) -> tuple[dict[str, list], int, int, int]:
     not_run = sum(1 for t in tr if t.get("status") == "not_run")
     skipped = sum(1 for t in tr if t.get("status") == "skipped")
     runnable = passed + fail + err
-    total = len(tr)
 
     bucket = defaultdict(list)
     for t in tr:
@@ -185,7 +184,6 @@ def build_audit():
         eval_path, eval_data = latest_eval_for(base)
         if eval_data:
             patterns, passed, runnable, skipped = classify_failures(eval_data)
-            total = passed + sum(len(v) for v in patterns.values())
             score = 100.0 * passed / runnable if runnable > 0 else 0
             pattern_summary = {p: len(v) for p, v in patterns.items()}
         else:

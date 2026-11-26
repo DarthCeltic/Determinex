@@ -167,9 +167,9 @@ def main():
         candidates = [args.tool]
     elif args.revert_list:
         candidates = [
-            l.strip()
-            for l in open(args.revert_list, encoding="utf-8").read().splitlines()
-            if l.strip()
+            line.strip()
+            for line in open(args.revert_list, encoding="utf-8").read().splitlines()
+            if line.strip()
         ]
     else:
         print("Must specify --tool or --revert-list")

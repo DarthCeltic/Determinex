@@ -18,7 +18,10 @@ IDE_HUMAN_APPROVAL_SIGNING_STATUS_TOKENS = (
 )
 
 
-class ApprovalAction(str, enum.Enum):
+class ApprovalAction(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     APPROVE = "approve"
     REJECT = "reject"
     DEFERRED = "deferred"

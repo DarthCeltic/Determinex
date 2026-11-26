@@ -50,12 +50,14 @@ def _ws(**files: str) -> Path:
 def test_a_timeout_raises_rather_than_blaming_the_repository():
     """THE BUG. A healthy repo whose tests merely sleep was reported as having a pytest
     collection or environment error."""
-    ws = _ws(test_slow__py="""
+    ws = _ws(
+        test_slow__py="""
         import time
         def test_healthy_but_slow():
             time.sleep(60)
             assert True
-    """)
+    """
+    )
     orig = O._run
     O._run = lambda cmd, cwd, timeout=6: orig(cmd, cwd, timeout=6)
     try:
@@ -88,7 +90,8 @@ def test_a_job_over_budget_asks_before_starting(monkeypatch):
     # the gate reading the real collection while the test asserted on a value nothing used --
     # a stub wired to the wrong seam, which is its own small version of the bug being tested.
     monkeypatch.setitem(
-        O._PREFLIGHTS, "python",
+        O._PREFLIGHTS,
+        "python",
         lambda _w: O.Preflight(oracle="python", collectible=9000, estimate_s=3600.0),
     )
     with pytest.raises(O.OracleNeedsApproval) as ei:
@@ -111,8 +114,11 @@ def test_approval_skips_the_gate_and_not_the_verification(monkeypatch):
     """`approved=True` means "I accept the cost", never "assume it passed". An approval that
     short-circuited the check would be the silent pass this project forbids everywhere."""
     monkeypatch.setenv("DETERMINEX_ORACLE_BUDGET_S", "1")
-    monkeypatch.setitem(O._PREFLIGHTS, "python",
-                        lambda _w: O.Preflight(oracle="python", collectible=9999, estimate_s=9999.0))
+    monkeypatch.setitem(
+        O._PREFLIGHTS,
+        "python",
+        lambda _w: O.Preflight(oracle="python", collectible=9999, estimate_s=9999.0),
+    )
     ws = _ws(test_bad__py="def test_a():\n    assert 1 == 2\n")
     res = O.get_oracle("python").verify(ws, approved=True)
     assert res.passed is False, "the real oracle must still have run"
@@ -148,8 +154,11 @@ def test_repair_reports_needs_approval_as_its_own_status_not_as_an_error(monkeyp
 
     monkeypatch.setenv("DETERMINEX_ORACLE_BUDGET_S", "1")
     monkeypatch.delenv("DETERMINEX_ORACLE_APPROVED", raising=False)
-    monkeypatch.setitem(O._PREFLIGHTS, "python",
-                        lambda _w: O.Preflight(oracle="python", collectible=5709, estimate_s=2600.0))
+    monkeypatch.setitem(
+        O._PREFLIGHTS,
+        "python",
+        lambda _w: O.Preflight(oracle="python", collectible=5709, estimate_s=2600.0),
+    )
     res = R.repair_workspace(_ws(test_a__py="def test_a():\n    assert True\n"))
     assert res.oracle == "needs_approval", res.oracle
     assert res.oracle != "error"
@@ -215,7 +224,9 @@ def test_vendored_trees_are_not_counted_or_verified():
     vendored = ws / "node_modules" / "somepkg"
     vendored.mkdir(parents=True)
     for i in range(30):
-        (vendored / f"test_v{i}.py").write_text("def test_v():\n    assert True\n", encoding="utf-8")
+        (vendored / f"test_v{i}.py").write_text(
+            "def test_v():\n    assert True\n", encoding="utf-8"
+        )
 
     pf = O.preflight_python(ws)
     assert pf.collectible == 1, f"expected only our own test, got {pf.collectible}"

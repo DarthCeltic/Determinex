@@ -54,7 +54,7 @@ def main():
     print()
     print("Bucket distribution:")
     buckets = Counter()
-    for _, (p, t, pct) in ranked:
+    for _, (_p, _t, pct) in ranked:
         if pct >= 95:
             buckets["95-100%"] += 1
         elif pct >= 70:

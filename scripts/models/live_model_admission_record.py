@@ -27,7 +27,10 @@ LOCAL_MODEL_LIVE_ADMISSION_STATUS_TOKENS = (
 )
 
 
-class LiveAdmissionMode(str, enum.Enum):
+class LiveAdmissionMode(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     DRY_RUN = "dry_run"
     OPT_IN_LIVE = "opt_in_live"
 

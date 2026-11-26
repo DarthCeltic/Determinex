@@ -10,7 +10,7 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -25,7 +25,10 @@ from corpus.programbench.cleanroom_image_scan_record import (
 )
 
 
-class CleanroomImageScanStatus(str, Enum):
+class CleanroomImageScanStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CLEANROOM_IMAGE_SCAN_READY = "CLEANROOM_IMAGE_SCAN_READY"
     CLEANROOM_IMAGE_SCAN_UNAVAILABLE = "CLEANROOM_IMAGE_SCAN_UNAVAILABLE"
     CLEANROOM_IMAGE_SCAN_STARTED = "CLEANROOM_IMAGE_SCAN_STARTED"

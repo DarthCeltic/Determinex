@@ -336,7 +336,7 @@ def _categorize_failures(failed_results: list[dict], top_k: int = 8) -> list[dic
         stderr_clean = stderr_raw.strip("b'\"").strip()
         # Strip Python tracebacks down to the final exception line for clustering
         if "Traceback" in stderr_clean:
-            lines = [l for l in stderr_clean.split("\\n") if l.strip()]
+            lines = [line for line in stderr_clean.split("\\n") if line.strip()]
             stderr_clean = lines[-1] if lines else stderr_clean
         # First "sentence" or first 80 chars
         stderr_sig = re.split(r"[.\\n]", stderr_clean, maxsplit=1)[0][:80].strip()
@@ -448,7 +448,7 @@ def _parse_eval_json(
 
     # Identify branches that are entirely silent (all not_run) — JUnit packaging failure signal.
     # These need different treatment than behavioral failures.
-    for b, counts in branch_breakdown.items():
+    for _b, counts in branch_breakdown.items():
         counts["silent"] = counts["passed"] == 0 and counts["failed"] == 0 and counts["not_run"] > 0
 
     # FAILURE DIVERSIFICATION: instead of taking the FIRST 12 failures (which are

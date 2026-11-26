@@ -354,7 +354,7 @@ class ProgramBenchOperatorReadyPlatform:
         integrity = self.evidence_graph_integrity_guard()
         cli = self.operator_cli_evidence()
         scorecard = self.completion_scorecard()
-        final_state = self.final_state()
+        self.final_state()
         doxygen_state = self._read(DOXYGEN_FINAL_STATE)
         live_review = self.packet_admission_live_packet_review()
         batch_queue = self.metadata_recovery_queue()

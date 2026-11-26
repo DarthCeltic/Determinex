@@ -7,7 +7,7 @@ import subprocess
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -22,7 +22,10 @@ from corpus.programbench.real_bounded_rerun_record import (
 )
 
 
-class RealBoundedRerunStatus(str, Enum):
+class RealBoundedRerunStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     REAL_BOUNDED_RERUN_EXECUTED = "REAL_BOUNDED_RERUN_EXECUTED"
     REAL_BOUNDED_RERUN_IMPROVED = "REAL_BOUNDED_RERUN_IMPROVED"
     REAL_BOUNDED_RERUN_REJECTED = "REAL_BOUNDED_RERUN_REJECTED"

@@ -91,7 +91,6 @@ def test_not_configured_blocks():
 
 
 def test_network_provider_blocks(tmp_path):
-    w = LocalModelConfigWizard(WizardConfig(config_root=tmp_path))
     # Force a record that DECLARES network_required=True through a blocked path,
     # but for this test we need a config that passes wizard but is network. We
     # instead inject by hand:

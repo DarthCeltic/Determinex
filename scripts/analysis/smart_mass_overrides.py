@@ -291,7 +291,7 @@ def main():
 
     written = 0
     skipped = 0
-    for tool_key, meta, exp, pct in candidates:
+    for tool_key, meta, exp, _pct in candidates:
         target_dir = OVERRIDES_DIR / tool_key
         target = target_dir / "main.py"
         if args.skip_existing and target.exists():

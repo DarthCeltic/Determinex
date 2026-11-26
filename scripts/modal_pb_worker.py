@@ -193,7 +193,6 @@ if _MODAL_AVAILABLE:
         import re
 
         m = re.search(r"(\d+) passed", output)
-        m_total = re.search(r"(\d+) (?:passed|failed|error)", output)
         passed = int(m.group(1)) if m else 0
         # Total = count all outcome lines
         total_matches = re.findall(r"(\d+) (?:passed|failed|error|skipped)", output)

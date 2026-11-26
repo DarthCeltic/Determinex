@@ -99,7 +99,7 @@ class VramMonitor:
                     ["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits"],
                     encoding="utf-8",
                 )
-                lines = [l.strip() for l in out.strip().splitlines() if l.strip()]
+                lines = [line.strip() for line in out.strip().splitlines() if line.strip()]
                 return float(lines[self.gpu_index])
             except Exception:
                 return 0.0

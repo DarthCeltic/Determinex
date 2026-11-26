@@ -641,14 +641,14 @@ class RosettaStone:
           - Verifies SHA256 integrity
           - Instantiates all encoder/decoder MLPs
         """
-        import torch
-
         path = Path(path).expanduser()
         if not path.exists():
             raise FileNotFoundError(
                 f"Rosetta Stone not found: {path}\n"
                 f"Run train_rosetta_bases.py on RunPod to generate it."
             )
+
+        import torch
 
         _enforce_readonly(path)
 

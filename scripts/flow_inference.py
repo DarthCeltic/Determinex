@@ -195,8 +195,8 @@ class FlowAIPipeline:
         # Extract
         state = self._extract_and_unload(context_text)
 
-        # Find layer index from extractor config (mid layer of large model)
-        large_cfg = FAMILY_CONFIGS[self.config.large_family]
+        if self.config.large_family not in FAMILY_CONFIGS:
+            raise KeyError(self.config.large_family)
         # We don't know exact layer count without loading — use typical values
         # mistral-7b: 32 layers → mid=16  llama-3b: 28 layers → mid=14
         # Store with layer_idx=-1 as sentinel meaning "midlayer auto"
@@ -433,7 +433,7 @@ def _smoke_test():
 
         # Compress + store (same as process_context)
         cs = compressor.compress(fake_state, "mistral", -1, context_txt)
-        row_id = store.store(context_txt, "mistral", cs)
+        store.store(context_txt, "mistral", cs)
         ctx_hash = hashlib.sha256(context_txt.encode()).hexdigest()
 
         # Retrieve + decompress (same as generate_conditioned)

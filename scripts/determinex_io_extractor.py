@@ -2905,8 +2905,8 @@ def _analyze_assertion_helper(helper: ast.FunctionDef) -> dict:
                     and len(sub.test.ops) == 1
                     and isinstance(sub.test.ops[0], ast.In)
                 ):
-                    l, r = sub.test.left, sub.test.comparators[0]
-                    if not (isinstance(l, ast.Name) and l.id == node.target.id):
+                    left_expr, r = sub.test.left, sub.test.comparators[0]
+                    if not (isinstance(left_expr, ast.Name) and left_expr.id == node.target.id):
                         continue
                     is_stream = _stream_attr(r) is not None or (
                         isinstance(r, ast.Name) and r.id in stream_vars

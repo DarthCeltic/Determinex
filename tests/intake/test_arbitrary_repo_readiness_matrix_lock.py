@@ -91,7 +91,7 @@ def test_unsupported_row_not_marked_ready():
 
 def test_all_supported_rows_have_a_real_ready_level():
     m = build_readiness_matrix()
-    valid_levels = {l.value for l in ReadyLevel} - {ReadyLevel.BLOCKED_UNSUPPORTED.value}
+    valid_levels = {level.value for level in ReadyLevel} - {ReadyLevel.BLOCKED_UNSUPPORTED.value}
     for r in m.rows:
         if r.language == "Unknown":
             continue

@@ -84,7 +84,7 @@ def generate_dashboard(
     training_hashes: set[str] = set()
 
     for path in _iter_jsonl(root_list):
-        for line_no, record in _read_jsonl(path, dashboard, max_parse_errors=max_parse_errors):
+        for _line_no, record in _read_jsonl(path, dashboard, max_parse_errors=max_parse_errors):
             dashboard.total_rows += 1
             status = str(_field(record, "record_status") or "unknown")
             counters["record_status"][status] += 1

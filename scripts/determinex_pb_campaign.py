@@ -287,7 +287,6 @@ def main() -> int:
         print(f"=== FAN-OUT QUEUE: {len(cands)} unlocked tools (closest-to-lock first) ===")
         for c in cands:
             p = plan_tool(c["slug"])
-            adj = p.get("adjudication", {})
             sugg = p.get("corpus_suggestions", [])
             fixes = [a for a in p.get("autofix_would", []) if a and not a.startswith("no ")]
             tag = (

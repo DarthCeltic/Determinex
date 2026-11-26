@@ -32,12 +32,25 @@ from determinex_calibrate import (  # noqa: E402
 
 # Captured verbatim from amd_gpu_evidence/k_sweep_and_prefix_cache.json -- a real sweep on
 # AMD Radeon Cloud, ROCm 7.2.1, vLLM 0.16.1, Qwen2.5-Coder-7B-Instruct.
-RADEON = [(1, 8.922, 28.7), (8, 9.297, 220.3), (16, 9.906, 413.5), (24, 10.375, 592.2),
-          (32, 10.75, 739.9), (48, 13.625, 849.7), (64, 29.594, 512.6)]
+RADEON = [
+    (1, 8.922, 28.7),
+    (8, 9.297, 220.3),
+    (16, 9.906, 413.5),
+    (24, 10.375, 592.2),
+    (32, 10.75, 739.9),
+    (48, 13.625, 849.7),
+    (64, 29.594, 512.6),
+]
 
 # Measured on a consumer box, Ollama + Qwen2.5-Coder-1.5B, warm, 2026-08-02.
-CONSUMER = [(1, 2.725, 17.6), (2, 3.083, 27.6), (4, 3.978, 45.5),
-            (6, 5.033, 55.0), (8, 5.706, 61.5), (12, 7.359, 69.4)]
+CONSUMER = [
+    (1, 2.725, 17.6),
+    (2, 3.083, 27.6),
+    (4, 3.978, 45.5),
+    (6, 5.033, 55.0),
+    (8, 5.706, 61.5),
+    (12, 7.359, 69.4),
+]
 
 
 def _points(rows):
@@ -96,8 +109,14 @@ def test_calibrated_rig_reports_its_provenance(tmp_path, monkeypatch):
     prof = tmp_path / "cal.json"
     monkeypatch.setattr(dc, "PROFILE_PATH", prof)
     cal = Calibration(
-        backend="vllm", model="m", host=host_fingerprint(), optimal_k=48,
-        cand_per_s=3.523, collapsed_at=64, declared_hint=61, points=[],
+        backend="vllm",
+        model="m",
+        host=host_fingerprint(),
+        optimal_k=48,
+        cand_per_s=3.523,
+        collapsed_at=64,
+        declared_hint=61,
+        points=[],
         measured_at="2026-08-02T00:00:00",
     )
     dc.save_calibration(cal)
@@ -171,10 +190,21 @@ def test_vllm_hint_arithmetic_matches_the_declared_limit():
 # Captured verbatim from that run (vLLM, Qwen2.5-Coder-7B-Instruct, max_model_len 32768):
 # rows are (K, wall_s, agg_tok_s).
 RADEON_LIVE = [
-    (1, 1.617, 16.7), (4, 1.807, 59.8), (8, 2.102, 102.8), (16, 2.259, 191.3),
-    (24, 2.494, 259.8), (32, 2.567, 336.5), (48, 3.26, 397.6), (64, 3.418, 505.6),
-    (96, 4.439, 583.9), (128, 4.993, 692.2), (192, 6.707, 772.9), (256, 8.362, 826.6),
-    (320, 9.622, 898.0), (448, 13.21, 915.6), (640, 18.732, 922.5),
+    (1, 1.617, 16.7),
+    (4, 1.807, 59.8),
+    (8, 2.102, 102.8),
+    (16, 2.259, 191.3),
+    (24, 2.494, 259.8),
+    (32, 2.567, 336.5),
+    (48, 3.26, 397.6),
+    (64, 3.418, 505.6),
+    (96, 4.439, 583.9),
+    (128, 4.993, 692.2),
+    (192, 6.707, 772.9),
+    (256, 8.362, 826.6),
+    (320, 9.622, 898.0),
+    (448, 13.21, 915.6),
+    (640, 18.732, 922.5),
 ]
 
 
@@ -256,10 +286,17 @@ def test_p_aware_lookup_says_so_and_task_blind_lookup_admits_it(tmp_path, monkey
     prof = tmp_path / "cal.json"
     monkeypatch.setattr(C, "PROFILE_PATH", prof)
     cal = Calibration(
-        backend="vllm", model="m", host=host_fingerprint(), optimal_k=640,
-        cand_per_s=34.17, collapsed_at=None, declared_hint=15,
+        backend="vllm",
+        model="m",
+        host=host_fingerprint(),
+        optimal_k=640,
+        cand_per_s=34.17,
+        collapsed_at=None,
+        declared_hint=15,
         points=[p.__dict__ for p in _points(RADEON_LIVE)],
-        measured_at="2026-08-02T00:00:00", ceiling_kind="saturation", ceiling_k=320,
+        measured_at="2026-08-02T00:00:00",
+        ceiling_kind="saturation",
+        ceiling_k=320,
     )
     C.save_calibration(cal)
 
@@ -284,11 +321,19 @@ def test_a_profile_without_a_curve_admits_it_cannot_use_p(tmp_path, monkeypatch)
     import determinex_calibrate as C
 
     monkeypatch.setattr(C, "PROFILE_PATH", tmp_path / "cal.json")
-    C.save_calibration(Calibration(
-        backend="ollama", model="old", host=host_fingerprint(), optimal_k=8,
-        cand_per_s=1.4, collapsed_at=None, declared_hint=None, points=[],
-        measured_at="2026-07-01T00:00:00",
-    ))
+    C.save_calibration(
+        Calibration(
+            backend="ollama",
+            model="old",
+            host=host_fingerprint(),
+            optimal_k=8,
+            cand_per_s=1.4,
+            collapsed_at=None,
+            declared_hint=None,
+            points=[],
+            measured_at="2026-07-01T00:00:00",
+        )
+    )
     k, prov = C.optimal_k("ollama", "old", p=0.1)
     assert k == 8
     assert "predates curve storage" in prov and "task-blind" in prov
@@ -300,9 +345,9 @@ def test_expected_time_is_the_amplifier_equation_not_an_approximation():
     from determinex_calibrate import expected_time_to_solve
 
     pts = [KPoint(4, 2.0, 100, 50.0, 2.0)]
-    (k, secs), = expected_time_to_solve(pts, 0.5)
+    ((k, secs),) = expected_time_to_solve(pts, 0.5)
     assert k == 4
-    assert secs == pytest.approx(2.0 / (1 - 0.5 ** 4), rel=1e-9)
+    assert secs == pytest.approx(2.0 / (1 - 0.5**4), rel=1e-9)
 
 
 def test_impossible_task_yields_no_recommendation_rather_than_a_guess():
@@ -324,12 +369,20 @@ def test_one_slow_sample_does_not_invent_a_ceiling():
     samples; a ceiling is a claim about the whole curve."""
     from determinex_calibrate import detect_ceiling
 
-    noisy = _points([
-        (1, 1.637, 16.5), (4, 1.94, 55.7), (8, 1.884, 114.6), (16, 2.12, 203.7),
-        (32, 3.744, 230.8),   # <- the jitter that fooled the first version
-        (64, 3.413, 506.3), (128, 5.326, 648.9), (256, 8.707, 793.8),
-        (320, 9.797, 881.9), (448, 13.665, 885.2),
-    ])
+    noisy = _points(
+        [
+            (1, 1.637, 16.5),
+            (4, 1.94, 55.7),
+            (8, 1.884, 114.6),
+            (16, 2.12, 203.7),
+            (32, 3.744, 230.8),  # <- the jitter that fooled the first version
+            (64, 3.413, 506.3),
+            (128, 5.326, 648.9),
+            (256, 8.707, 793.8),
+            (320, 9.797, 881.9),
+            (448, 13.665, 885.2),
+        ]
+    )
     kind, k = detect_ceiling(noisy)
     assert kind == "saturation"
     assert k == 320, f"the cheapest K within 90% of peak is 320, got {k}"
@@ -383,6 +436,7 @@ def test_a_badly_degraded_point_is_excluded_rather_than_averaged_in():
 def test_a_sweep_where_everything_failed_reports_nothing_rather_than_a_number():
     """If no point is usable there is no measurement, and returning the conservative
     default silently would present 'the endpoint is unreachable' as 'this rig is slow'."""
+
     def dead() -> int:
         raise OSError("connection refused")
 
@@ -466,12 +520,21 @@ def test_a_stored_curve_with_no_p_returns_the_nearly_free_K(tmp_path, monkeypatc
     import determinex_calibrate as C
 
     monkeypatch.setattr(C, "PROFILE_PATH", tmp_path / "cal.json")
-    C.save_calibration(Calibration(
-        backend="vllm", model="m", host=host_fingerprint(), optimal_k=640,
-        cand_per_s=34.17, collapsed_at=None, declared_hint=15,
-        points=[p.__dict__ for p in _points(RADEON_LIVE)],
-        measured_at="2026-08-02T00:00:00", ceiling_kind="saturation", ceiling_k=320,
-    ))
+    C.save_calibration(
+        Calibration(
+            backend="vllm",
+            model="m",
+            host=host_fingerprint(),
+            optimal_k=640,
+            cand_per_s=34.17,
+            collapsed_at=None,
+            declared_hint=15,
+            points=[p.__dict__ for p in _points(RADEON_LIVE)],
+            measured_at="2026-08-02T00:00:00",
+            ceiling_kind="saturation",
+            ceiling_k=320,
+        )
+    )
     k, prov = C.optimal_k("vllm", "m")
     assert k == 32, f"task-blind lookup must return the nearly-free K, got {k}"
     assert "nearly-free" in prov and "task-blind" in prov

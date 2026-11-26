@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -34,7 +34,10 @@ from corpus.programbench.rebuild_provenance_quarantine_decision_record import (
 )
 
 
-class OperatorProvenanceRequestPacketStatus(str, Enum):
+class OperatorProvenanceRequestPacketStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     OPERATOR_PROVENANCE_REQUEST_PACKET_READY = "OPERATOR_PROVENANCE_REQUEST_PACKET_READY"
     OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN = "OPERATOR_PROVENANCE_REQUEST_PACKET_WRITTEN"
     OPERATOR_PROVENANCE_REQUEST_BLOCKED_NO_DECISION = (

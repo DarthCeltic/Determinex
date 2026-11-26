@@ -169,8 +169,6 @@ def classify_failure(row: dict[str, Any], status: str) -> str:
 def campaign_landscape(canonical: dict[str, Any]) -> dict[str, Any]:
     eval_rows = load_eval_index()
     best = load_best_index().get("tools", {})
-    by_slug = {str(row.get("slug")): row for row in eval_rows if row.get("slug")}
-    canonical_ids = {task["id"] for task in canonical["tasks"]}
     candidates_to_task: dict[str, str] = {}
     for task in canonical["tasks"]:
         for candidate in slug_candidates(task):

@@ -38,7 +38,7 @@ import json
 import re
 import time
 from dataclasses import asdict, dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -46,7 +46,10 @@ EXEMPTIONS = REPO / "corpus" / "programbench" / "exemptions.json"
 QUARANTINE = REPO / "corpus" / "programbench" / "training_corpus" / "pb_quarantine.jsonl"
 
 
-class Legitimacy(str, Enum):
+class Legitimacy(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     GREEN = "GREEN"
     YELLOW = "YELLOW"
     RED = "RED"
@@ -202,9 +205,9 @@ def keep_if_better(before: Path, after: Path) -> dict:
         "gained": len(gained),
         "regressed": len(regressed),
         "regressed_examples": regressed[:8],
-        "verdict": ("KEEP (+%d, 0 regressions)" % len(gained))
+        "verdict": f"KEEP (+{len(gained)}, 0 regressions)"
         if keep
-        else ("REVERT (%d regressions: %s...)" % (len(regressed), regressed[:3])),
+        else f"REVERT ({len(regressed)} regressions: {regressed[:3]}...)",
     }
 
 

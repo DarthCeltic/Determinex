@@ -227,7 +227,7 @@ def audit() -> dict:
 
         # a hit clears if (a) recorded justified, OR (b) for ships-prebuilt-binary, a
         # from-source proof exists (the source build was verified without the answer key).
-        def _cleared(h):
+        def _cleared(h, tool=tool):
             if h["kind"] in just.get(tool, []):
                 return True
             if h["kind"] == "ships-prebuilt-binary" and tool in proofs:

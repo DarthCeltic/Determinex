@@ -18,11 +18,14 @@ import json
 import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
-from enum import Enum
+from enum import Enum, StrEnum
 from typing import Any
 
 
-class EventType(str, Enum):
+class EventType(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     # Task lifecycle
     TASK_ACCEPTED = "task.accepted"
     TASK_DENIED = "task.denied"

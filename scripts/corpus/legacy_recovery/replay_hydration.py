@@ -6,7 +6,7 @@ import hashlib
 import json
 import sys
 from dataclasses import asdict, dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +18,10 @@ from corpus.legacy_recovery.programbench_image_locator import ProgramBenchImageL
 from corpus.legacy_recovery.programbench_task_locator import ProgramBenchTaskLocator
 
 
-class HydrationStatus(str, Enum):
+class HydrationStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     HYDRATED_READY = "HYDRATED_READY"
     MISSING_TASK_ROOT = "MISSING_TASK_ROOT"
     MISSING_CANDIDATE_ROOT = "MISSING_CANDIDATE_ROOT"

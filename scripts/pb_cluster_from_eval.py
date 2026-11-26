@@ -204,7 +204,7 @@ def _signature(test_name: str, msg: str, cp: dict[str, Any]) -> str:
     stderr_raw = cp.get("stderr") or ""
     stderr_clean = stderr_raw.strip("b'\"").strip()
     if "Traceback" in stderr_clean:
-        lines = [l for l in stderr_clean.split("\\n") if l.strip()]
+        lines = [line for line in stderr_clean.split("\\n") if line.strip()]
         stderr_clean = lines[-1] if lines else stderr_clean
     stderr_sig = re.split(r"[.\\n]", stderr_clean, maxsplit=1)[0][:80].strip()
 

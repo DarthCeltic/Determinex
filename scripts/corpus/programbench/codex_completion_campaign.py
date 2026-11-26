@@ -124,7 +124,7 @@ class ProgramBenchCodexCompletionCampaign:
         upstream = self._read(UPSTREAM_RECHECK)
         scan = self._read(SCAN)
         triage = self._read(TRIAGE)
-        rebuild = self._read(REBUILD_DECISION)
+        self._read(REBUILD_DECISION)
         status = "SECURITY_POLICY_EXCEPTION_REQUEST_WRITTEN"
         reasons: list[str] = []
         if sandbox.get("status") != "SANDBOX_REQUIREMENTS_WRITTEN":

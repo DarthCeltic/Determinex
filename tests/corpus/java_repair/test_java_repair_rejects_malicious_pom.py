@@ -143,7 +143,10 @@ class TestJavaRepairRejectsMaliciousPom:
 
     def test_safe_pom_passes_safety_gate(self, tmp_path):
         cm = CorpusManager(root=tmp_path / "corpus")
-        executor = lambda cmd, cwd, timeout: (0, "BUILD SUCCESS", "")
+
+        def executor(cmd, cwd, timeout):
+            return (0, "BUILD SUCCESS", "")
+
         pipeline = JavaRepairPipeline(corpus_manager=cm, executor=executor)
         repo = _make_repo(tmp_path, _SAFE_POM)
         result = pipeline.process_repo(repo, "java_corpus")

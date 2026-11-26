@@ -37,21 +37,31 @@ import determinex_oracle as O  # noqa: E402
 # slower ones (dotnet, swift, jvm) are exercised by scripts run on demand.
 CASES: dict[str, tuple[dict[str, str], dict[str, str]]] = {
     "python": (
-        {"solution.py": "def add(a, b):\n    return a + b\n",
-         "test_add.py": "from solution import add\n\ndef test_add():\n    assert add(2, 3) == 5\n"},
-        {"solution.py": "def add(a, b):\n    return a + b\n",
-         "test_add.py": "from solution import add\n\ndef test_add():\n    assert add(2, 3) == 6\n"},
+        {
+            "solution.py": "def add(a, b):\n    return a + b\n",
+            "test_add.py": "from solution import add\n\ndef test_add():\n    assert add(2, 3) == 5\n",
+        },
+        {
+            "solution.py": "def add(a, b):\n    return a + b\n",
+            "test_add.py": "from solution import add\n\ndef test_add():\n    assert add(2, 3) == 6\n",
+        },
     ),
     "rust": (
-        {"Cargo.toml": '[package]\nname = "p"\nversion = "0.1.0"\nedition = "2021"\n',
-         "src/lib.rs": "pub fn add(a: i32, b: i32) -> i32 { a + b }\n"},
-        {"Cargo.toml": '[package]\nname = "p"\nversion = "0.1.0"\nedition = "2021"\n',
-         "src/lib.rs": 'pub fn add(a: i32, b: i32) -> i32 { a + "boom" }\n'},
+        {
+            "Cargo.toml": '[package]\nname = "p"\nversion = "0.1.0"\nedition = "2021"\n',
+            "src/lib.rs": "pub fn add(a: i32, b: i32) -> i32 { a + b }\n",
+        },
+        {
+            "Cargo.toml": '[package]\nname = "p"\nversion = "0.1.0"\nedition = "2021"\n',
+            "src/lib.rs": 'pub fn add(a: i32, b: i32) -> i32 { a + "boom" }\n',
+        },
     ),
     "go": (
         {"go.mod": "module p\n\ngo 1.21\n", "main.go": "package main\n\nfunc main() { _ = 1 }\n"},
-        {"go.mod": "module p\n\ngo 1.21\n",
-         "main.go": 'package main\n\nfunc main() { var x int = "boom"; _ = x }\n'},
+        {
+            "go.mod": "module p\n\ngo 1.21\n",
+            "main.go": 'package main\n\nfunc main() { var x int = "boom"; _ = x }\n',
+        },
     ),
     "c": (
         {"main.c": "int main(void) { return 0; }\n"},
@@ -95,8 +105,12 @@ def test_a_broken_toolchain_is_reported_as_unavailable_not_as_a_code_failure(mon
     monkeypatch.setenv("DETERMINEX_ORACLE_APPROVED", "1")
     orc = O.get_oracle("python")
     monkeypatch.setitem(O._TOOLCHAIN_HEALTH, "python", (False, "simulated broken toolchain"))
-    ws = _ws({"solution.py": "def add(a, b):\n    return a + b\n",
-              "test_add.py": "from solution import add\n\ndef test_add():\n    assert add(2, 3) == 6\n"})
+    ws = _ws(
+        {
+            "solution.py": "def add(a, b):\n    return a + b\n",
+            "test_add.py": "from solution import add\n\ndef test_add():\n    assert add(2, 3) == 6\n",
+        }
+    )
     with pytest.raises(O.OracleUnavailable) as ei:
         orc.verify(ws, approved=True)
     assert "not working" in str(ei.value)
@@ -110,8 +124,12 @@ def test_a_healthy_toolchain_still_blames_genuinely_broken_code(monkeypatch):
     monkeypatch.setenv("DETERMINEX_ORACLE_APPROVED", "1")
     orc = O.get_oracle("python")
     O._TOOLCHAIN_HEALTH.pop("python", None)
-    ws = _ws({"solution.py": "def add(a, b):\n    return a + b\n",
-              "test_add.py": "from solution import add\n\ndef test_add():\n    assert add(2, 3) == 6\n"})
+    ws = _ws(
+        {
+            "solution.py": "def add(a, b):\n    return a + b\n",
+            "test_add.py": "from solution import add\n\ndef test_add():\n    assert add(2, 3) == 6\n",
+        }
+    )
     res = orc.verify(ws, approved=True)
     assert res.passed is False, "a real assertion failure must survive the health check"
     assert res.failures, "and must still carry the failing test"

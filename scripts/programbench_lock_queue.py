@@ -169,7 +169,7 @@ def _per_tool_records(run_id: str, sqlite_path: Path | None = None) -> list[dict
     finally:
         conn.close()
     by_task: dict[str, dict] = {}
-    for task_id, score, failures_json, extra_json, ts in rows:
+    for task_id, score, failures_json, extra_json, _ts in rows:
         if not task_id:
             continue
         extra = json.loads(extra_json) if extra_json else {}

@@ -33,7 +33,7 @@ import json
 import re
 import time
 from dataclasses import asdict, dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -42,7 +42,10 @@ BEHAVIORAL_CORPUS = (
 )
 
 
-class DiffKind(str, Enum):
+class DiffKind(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     TTY_RENDER = "tty-render"  # a *_tty test got non-TTY output -> needs a PTY
     OUTPUT_MODE = "output-mode"  # json<->text<->table: wrong renderer selected
     ANSI_COLOR = "ansi-color"  # color codes present/absent/differ

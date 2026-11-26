@@ -73,7 +73,7 @@ def _tracked_files() -> list[Path]:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Determinex no-overclaim guard")
     ap.add_argument("--verbose", "-v", action="store_true")
-    args = ap.parse_args()
+    ap.parse_args()
 
     violations: list[tuple[str, list[str]]] = []
     files = _tracked_files()

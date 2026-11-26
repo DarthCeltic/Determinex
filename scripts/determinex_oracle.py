@@ -140,8 +140,10 @@ _TOOLCHAIN_SMOKE: dict[str, dict[str, str]] = {
         "Cargo.toml": '[package]\nname = "smoke"\nversion = "0.1.0"\nedition = "2021"\n',
         "src/lib.rs": "pub fn add(a: i32, b: i32) -> i32 { a + b }\n",
     },
-    "go": {"go.mod": "module smoke\n\ngo 1.21\n",
-           "main.go": "package main\n\nfunc main() { _ = 1 }\n"},
+    "go": {
+        "go.mod": "module smoke\n\ngo 1.21\n",
+        "main.go": "package main\n\nfunc main() { _ = 1 }\n",
+    },
     "typescript": {
         "tsconfig.json": '{"compilerOptions":{"noEmit":true,"target":"ES2020"},"include":["*.ts"]}',
         "index.ts": "export const x: number = 1;\n",
@@ -149,13 +151,13 @@ _TOOLCHAIN_SMOKE: dict[str, dict[str, str]] = {
     "c": {"main.c": "int main(void) { return 0; }\n"},
     "cpp": {"main.cpp": "int main() { return 0; }\n"},
     "swift": {
-        "Package.swift": '// swift-tools-version:5.7\nimport PackageDescription\n'
-                         'let package = Package(name: "smoke", targets: [.target(name: "smoke")])\n',
+        "Package.swift": "// swift-tools-version:5.7\nimport PackageDescription\n"
+        'let package = Package(name: "smoke", targets: [.target(name: "smoke")])\n',
         "Sources/smoke/main.swift": "public func add(_ a: Int, _ b: Int) -> Int { a + b }\n",
     },
     "dotnet": {
         "p.csproj": '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup>'
-                    "<TargetFramework>net8.0</TargetFramework></PropertyGroup></Project>",
+        "<TargetFramework>net8.0</TargetFramework></PropertyGroup></Project>",
         "Program.cs": "public class P { public static int Add(int a, int b) => a + b; }\n",
     },
     "ruby": {"lib.rb": "def add(a, b)\n  a + b\nend\n"},
@@ -218,10 +220,14 @@ class Oracle:
             p.write_text(body, encoding="utf-8")
         try:
             res = self.verify_fn(ws)
-            out = (True, "") if res.passed else (
-                False,
-                f"the {self.name} toolchain could not verify a trivial known-good program; "
-                f"{(res.raw or '').strip()[-300:]}",
+            out = (
+                (True, "")
+                if res.passed
+                else (
+                    False,
+                    f"the {self.name} toolchain could not verify a trivial known-good program; "
+                    f"{(res.raw or '').strip()[-300:]}",
+                )
             )
         except Exception as e:  # a toolchain that raises on hello world is not usable
             out = (False, f"{type(e).__name__}: {str(e)[:200]}")
@@ -248,7 +254,8 @@ class Oracle:
             budget = _oracle_budget_s()
             pf = preflight(self.name, workdir)
             estimate = (
-                (pf.estimate_s, pf.summary()) if pf is not None
+                (pf.estimate_s, pf.summary())
+                if pf is not None
                 else estimate_work(self.name, workdir)
             )
             if estimate is not None and estimate[0] > budget:
@@ -259,8 +266,10 @@ class Oracle:
                     # whether to spend 44 minutes should know we already found files that do
                     # not import -- that is often the answer they came for.
                     first = ", ".join(path for path, _ in pf.broken_paths[:3])
-                    extra = (f" Already found without running anything: "
-                             f"{len(pf.broken_paths)} path(s) do not import ({first}).")
+                    extra = (
+                        f" Already found without running anything: "
+                        f"{len(pf.broken_paths)} path(s) do not import ({first})."
+                    )
                 raise OracleNeedsApproval(
                     f"verifying this workspace with the '{self.name}' oracle is estimated at "
                     f"~{secs / 60:.0f} min ({detail}), over the {budget}s budget.{extra} "
@@ -303,8 +312,9 @@ _SECONDS_PER_PYTEST_TEST = 0.46
 
 def _oracle_budget_s() -> int:
     try:
-        return max(1, int(os.environ.get("DETERMINEX_ORACLE_BUDGET_S", "")
-                          or _DEFAULT_ORACLE_BUDGET_S))
+        return max(
+            1, int(os.environ.get("DETERMINEX_ORACLE_BUDGET_S", "") or _DEFAULT_ORACLE_BUDGET_S)
+        )
     except ValueError:
         return _DEFAULT_ORACLE_BUDGET_S
 
@@ -315,7 +325,11 @@ def _oracle_budget_s() -> int:
 #: `build`, `dist` and `venv` -- it does NOT catch node_modules, vendor, third_party,
 #: site-packages reached by a symlink, or a corpus of vendored upstream checkouts.
 _NOISE_DIRS = (
-    "node_modules", "site-packages", "vendor", "third_party", "thirdparty",
+    "node_modules",
+    "site-packages",
+    "vendor",
+    "third_party",
+    "thirdparty",
 )
 #: Pruned from the walk but NOT reported. pytest never collects from these anyway, so
 #: listing them is output the reader has to skip past -- this repo produced 40 lines of
@@ -456,15 +470,26 @@ def estimate_python_work(
     # Counting somebody else's test suite and then quoting the operator a number based on it
     # is a wrong estimate, not merely a noisy one.
     ignores: list[str] = []
-    for rel in (_collected.noise_paths if _collected is not None else find_noise_paths(workdir)):
+    for rel in _collected.noise_paths if _collected is not None else find_noise_paths(workdir):
         ignores += ["--ignore", rel]
 
     try:
         res = _hrun(
-            [_repo_python(workdir), "-m", "pytest", "--collect-only", "-q",
-             "-p", "no:cacheprovider", *ignores],
-            workspace=workdir, cwd=workdir, timeout=90,
-            allow_network=False, output_limit=None,
+            [
+                _repo_python(workdir),
+                "-m",
+                "pytest",
+                "--collect-only",
+                "-q",
+                "-p",
+                "no:cacheprovider",
+                *ignores,
+            ],
+            workspace=workdir,
+            cwd=workdir,
+            timeout=90,
+            allow_network=False,
+            output_limit=None,
         )
     except Exception:
         return None
@@ -484,10 +509,13 @@ def estimate_python_work(
             if path in seen:
                 continue
             seen.add(path)
-            after = text[m.end(): m.end() + 400]
+            after = text[m.end() : m.end() + 400]
             reason = next(
-                (ln.strip() for ln in after.splitlines()
-                 if ln.strip() and not ln.strip().startswith(("_", "="))),
+                (
+                    ln.strip()
+                    for ln in after.splitlines()
+                    if ln.strip() and not ln.strip().startswith(("_", "="))
+                ),
                 "",
             )
             _collected.broken_paths.append((path, reason[:160]))
@@ -1080,22 +1108,32 @@ def _verify_dotnet(workdir: Path) -> OracleResult:
     if build.returncode != 0:
         return OracleResult(
             passed=False,
-            failures=[Failure("dotnet", "build", (build.stdout + build.stderr)[-2000:],
-                              status="failure")],
+            failures=[
+                Failure("dotnet", "build", (build.stdout + build.stderr)[-2000:], status="failure")
+            ],
             raw=build.stdout + build.stderr,
             oracle="dotnet",
         )
 
     xml = workdir / "_determinex_dotnet.xml"
-    cp = _run(["dotnet", "test", "--no-build", "--logger", f"junit;LogFilePath={xml}"],
-              workdir, timeout=1800)
+    cp = _run(
+        ["dotnet", "test", "--no-build", "--logger", f"junit;LogFilePath={xml}"],
+        workdir,
+        timeout=1800,
+    )
     failures = _junit_failures(xml) if xml.exists() else []
     total, n_passed = _junit_counts(xml) if xml.exists() else (0, 0)
     hard = [f for f in failures if f.status == "failure"]
 
     if hard or (cp.returncode != 0 and failures):
-        return OracleResult(passed=False, failures=failures, raw=cp.stdout + cp.stderr,
-                            oracle="dotnet", total=total, n_passed=n_passed)
+        return OracleResult(
+            passed=False,
+            failures=failures,
+            raw=cp.stdout + cp.stderr,
+            oracle="dotnet",
+            total=total,
+            n_passed=n_passed,
+        )
 
     # A clean build with no tests is a REAL result -- the code compiles -- so it passes, but
     # it passes on the strength of the build, which actually ran. What must never happen is
@@ -1105,9 +1143,13 @@ def _verify_dotnet(workdir: Path) -> OracleResult:
         if "no test" not in combined and "not a test project" not in combined:
             return OracleResult(
                 passed=False,
-                failures=[Failure("dotnet", "test", (cp.stdout + cp.stderr)[-2000:],
-                                  status="failure")],
-                raw=cp.stdout + cp.stderr, oracle="dotnet", total=total, n_passed=n_passed,
+                failures=[
+                    Failure("dotnet", "test", (cp.stdout + cp.stderr)[-2000:], status="failure")
+                ],
+                raw=cp.stdout + cp.stderr,
+                oracle="dotnet",
+                total=total,
+                n_passed=n_passed,
             )
     return OracleResult(
         passed=True,

@@ -100,5 +100,5 @@ class Shard:
         langs: dict[str, int] = {}
         for i in self.items:
             langs[i.lang] = langs.get(i.lang, 0) + 1
-        parts = ", ".join(f"{n}×{l}" for l, n in sorted(langs.items()))
+        parts = ", ".join(f"{n}×{language}" for language, n in sorted(langs.items()))
         return f"{len(self.items)} item(s) [{parts}]"

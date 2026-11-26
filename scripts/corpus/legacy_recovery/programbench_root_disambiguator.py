@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import asdict, dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -20,7 +20,10 @@ from corpus.legacy_recovery.programbench_source_index import (
 from corpus.legacy_recovery.programbench_tool_alias_index import normalized_slug
 
 
-class DisambiguationStatus(str, Enum):
+class DisambiguationStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CANONICAL_ROOT_SELECTED = "CANONICAL_ROOT_SELECTED"
     OVERRIDE_ROOT_SELECTED = "OVERRIDE_ROOT_SELECTED"
     LOCKED_ROOT_SELECTED = "LOCKED_ROOT_SELECTED"

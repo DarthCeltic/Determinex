@@ -5,7 +5,7 @@ import argparse
 import json
 import sys
 from dataclasses import asdict, dataclass, field
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -20,7 +20,10 @@ from corpus.legacy_recovery.programbench_replay_manifest import (
 )
 
 
-class MetadataRecoveryStatus(str, Enum):
+class MetadataRecoveryStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     METADATA_EXACT_MATCH = "METADATA_EXACT_MATCH"
     METADATA_RECONSTRUCTED_HIGH_CONFIDENCE = "METADATA_RECONSTRUCTED_HIGH_CONFIDENCE"
     METADATA_RECONSTRUCTED_LOW_CONFIDENCE = "METADATA_RECONSTRUCTED_LOW_CONFIDENCE"

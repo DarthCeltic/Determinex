@@ -95,8 +95,12 @@ def test_a_round_that_satisfies_nothing_new_is_reported_as_stalled():
     than rephrasing the same question forever, which is what the hard cap was crudely
     protecting against."""
     before = assess(_VAGUE, ["python"])
-    after = assess_round(_VAGUE, ["python", "yeah sounds good", "sure"],
-                         asked=[], previous_satisfied=before.satisfied)
+    after = assess_round(
+        _VAGUE,
+        ["python", "yeah sounds good", "sure"],
+        asked=[],
+        previous_satisfied=before.satisfied,
+    )
     assert after.sufficient is False
     assert after.stalled is True
 
@@ -122,7 +126,9 @@ def test_the_hard_gate_is_the_oracle_not_the_checklist():
     combination is the dangerous one -- it looks complete and verifies nothing -- so the
     oracle verdict must be able to veto a full-looking checklist."""
     boxes_ticked_no_example = [
-        "Python", "a CLI command", "no dependencies, must run offline on windows",
+        "Python",
+        "a CLI command",
+        "no dependencies, must run offline on windows",
         "empty input should error",
     ]
     a = assess(_VAGUE, boxes_ticked_no_example)

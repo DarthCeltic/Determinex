@@ -46,7 +46,7 @@ def main() -> int:
         for d in glob.glob(BASE + "/*")
         if os.path.isdir(d) and os.path.exists(d + "/eval_report.json")
     )
-    log("=== SLOP RE-TRIAGE (whole tail) -- scanning %d tools ===" % len(dirs))
+    log(f"=== SLOP RE-TRIAGE (whole tail) -- scanning {len(dirs)} tools ===")
     tot: Counter = Counter()
     for d in dirs:
         try:
@@ -68,36 +68,33 @@ def main() -> int:
         rec = sum(1 for x in fails if "args=" in _txt(x) or "Command '[" in _txt(x))
         if rec == 0:
             log(
-                "%-38s p%-5d nr%-5d f%-5d DEFER(no-recoverable-invocation)%s"
-                % (name[:38], pa, nr, len(fails), bs)
+                f"{name[:38]:<38} p{pa:<5d} nr{nr:<5d} f{len(fails):<5d} DEFER(no-recoverable-invocation){bs}"
             )
             tot["tools_defer_norec"] += 1
             continue
         try:
             js = V.auto_reference_check(Path(d), Path(d + "/eval_report.json"))
         except Exception as e:
-            log("%-42s f=%-4d ERROR %s" % (name[:42], len(fails), str(e)[:40]))
+            log(f"{name[:42]:<42} f={len(fails):<4d} ERROR {str(e)[:40]}")
             tot["tools_error"] += 1
             continue
         if not js:
             log(
-                "%-38s p%-5d nr%-5d f%-5d DEFER(no-functional-ref/unparsed)%s"
-                % (name[:38], pa, nr, len(fails), bs)
+                f"{name[:38]:<38} p{pa:<5d} nr{nr:<5d} f{len(fails):<5d} DEFER(no-functional-ref/unparsed){bs}"
             )
             tot["tools_defer_build"] += 1
             continue
         c = Counter(j.verdict.value for j in js)
         slop, corr = c.get("SLOP", 0), c.get("CORRECT", 0)
         log(
-            "%-38s p%-5d nr%-5d f%-5d SLOP=%-3d CORRECT=%-3d%s"
-            % (name[:38], pa, nr, len(fails), slop, corr, bs)
+            f"{name[:38]:<38} p{pa:<5d} nr{nr:<5d} f{len(fails):<5d} SLOP={slop:<3d} CORRECT={corr:<3d}{bs}"
         )
         tot["tools_checked"] += 1
         tot["slop"] += slop
         tot["correct"] += corr
         if slop and corr == 0:
             tot["tools_all_slop"] += 1
-    log("=== DONE: %s ===" % dict(tot))
+    log(f"=== DONE: {dict(tot)} ===")
     out.close()
     return 0
 

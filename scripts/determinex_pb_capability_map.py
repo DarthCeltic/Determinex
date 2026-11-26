@@ -208,8 +208,8 @@ def build() -> dict:
         status_counts[status] += 1
         for t in a["techniques"]:
             tech_idx[t].append(base)
-        for l in a["languages"]:
-            lang_idx[l].append(base)
+        for language in a["languages"]:
+            lang_idx[language].append(base)
         for bh in a["behaviors"]:
             behav_idx[bh].append(base)
 

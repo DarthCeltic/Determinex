@@ -7,7 +7,7 @@ import shutil
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
@@ -26,7 +26,10 @@ from corpus.programbench.cleanroom_image_scanner_admission import (
 )
 
 
-class ApprovedScannerSetupStatus(str, Enum):
+class ApprovedScannerSetupStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     APPROVED_SCANNER_SETUP_READY = "APPROVED_SCANNER_SETUP_READY"
     APPROVED_SCANNER_FOUND = "APPROVED_SCANNER_FOUND"
     APPROVED_SCANNER_NOT_FOUND = "APPROVED_SCANNER_NOT_FOUND"

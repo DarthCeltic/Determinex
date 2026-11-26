@@ -54,8 +54,10 @@ def _by_id(report):
 def test_a_finished_setup_recommends_nothing(machine):
     """The exact bug: three working providers, and the screen still sold a fourth."""
     machine["models"] = ["qwen2.5-coder:7b"]
-    machine["clis"] = {"claude-code": ("verified", "me@example.com"),
-                       "codex": ("verified", "Logged in")}
+    machine["clis"] = {
+        "claude-code": ("verified", "me@example.com"),
+        "codex": ("verified", "Logged in"),
+    }
 
     report = ps.build_report()
 
@@ -111,7 +113,7 @@ def test_a_signed_in_cli_the_provider_refuses_is_not_ready(machine):
 
 
 def test_a_slow_ollama_is_not_reported_as_no_models(machine):
-    """"I could not ask" must never render as "the answer is none"."""
+    """ "I could not ask" must never render as "the answer is none"."""
     machine["ollama_up"] = True  # daemon reachable, zero models returned
 
     local = _by_id(ps.build_report())["local"]

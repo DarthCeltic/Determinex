@@ -587,7 +587,7 @@ def main():
 
     selected_ids = {int(x.strip()) for x in args.levels.split(",")}
     levels = LEVELS_RUST if args.lang == "rust" else LEVELS_PYTHON
-    levels = [l for l in levels if l["id"] in selected_ids]
+    levels = [level_item for level_item in levels if level_item["id"] in selected_ids]
 
     if args.no_rosetta:
         os.environ["DETERMINEX_NO_ROSETTA"] = "1"

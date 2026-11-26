@@ -108,12 +108,12 @@ class Parser:
             try:
                 return int(val)
             except ValueError:
-                raise ClapError(err_invalid_value(val, o.display(), o.metavar))
+                raise ClapError(err_invalid_value(val, o.display(), o.metavar)) from None
         if o.is_float:
             try:
                 return float(val)
             except ValueError:
-                raise ClapError(err_invalid_value(val, o.display(), o.metavar))
+                raise ClapError(err_invalid_value(val, o.display(), o.metavar)) from None
         return val
 
     def parse(self, argv: list[str]):

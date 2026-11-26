@@ -353,7 +353,7 @@ def _print_report(tool: str, terms: dict, mismatches: list[dict]):
             print(f"    {it['n']:>3}x  a value is required for '{it['term']}'")
     if terms["possible_value_sets"]:
         print("  possible-value sets:")
-        for k, v in list(terms["possible_value_sets"].items())[:6]:
+        for _k, v in list(terms["possible_value_sets"].items())[:6]:
             print(f"    {v}")
     if terms["language_terms"]:
         print(f"  language/format terms: {[t['term'] for t in terms['language_terms']]}")

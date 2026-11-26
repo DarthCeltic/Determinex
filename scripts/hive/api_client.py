@@ -34,7 +34,6 @@ from hive.workspace import (
 )
 
 try:
-    from hive._log import bind_session as _bind_session
     from hive._log import get_logger as _get_logger  # noqa: F401
 
     log = _get_logger("hive.api_client")
@@ -562,7 +561,7 @@ def _expand_env_refs(params: dict, *, require: bool = True) -> dict:
     out: dict = {}
     for key, value in params.items():
         if isinstance(value, str) and value.startswith("os.environ/"):
-            var = value[len("os.environ/"):]
+            var = value[len("os.environ/") :]
             resolved = os.environ.get(var)
             if not resolved:
                 if not require:

@@ -151,5 +151,5 @@ def test_rosetta_layer_1_is_default():
 
     # RosettaStone.load() must raise on a nonexistent checkpoint, not silently
     # construct a stone with no weights. This verifies the load gate is active.
-    with pytest.raises(Exception):
+    with pytest.raises(FileNotFoundError, match="Rosetta Stone not found"):
         RosettaStone.load(Path("/nonexistent/rosetta_v1.pt"), verify=False)

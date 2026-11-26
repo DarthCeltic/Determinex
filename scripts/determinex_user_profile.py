@@ -72,8 +72,7 @@ PRESCREEN = {
 }
 
 _PROFILE_PATH = Path(
-    os.environ.get("DETERMINEX_PROFILE")
-    or (Path.home() / ".determinex" / "profile.json")
+    os.environ.get("DETERMINEX_PROFILE") or (Path.home() / ".determinex" / "profile.json")
 )
 
 
@@ -90,7 +89,9 @@ def load() -> Profile:
     try:
         raw = json.loads(_PROFILE_PATH.read_text(encoding="utf-8"))
         level = str(raw.get("level") or MIXED)
-        return Profile(level=level if level in LEVELS else MIXED, answered=bool(raw.get("answered")))
+        return Profile(
+            level=level if level in LEVELS else MIXED, answered=bool(raw.get("answered"))
+        )
     except (OSError, json.JSONDecodeError):
         return Profile()
 

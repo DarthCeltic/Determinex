@@ -122,8 +122,15 @@ def repair_workspace(
         # "error" (as the generic handler below did) told the user their repository was
         # broken because we declined to start.
         return RepairResult(
-            False, lang, "needs_approval", 0, {}, {}, 0,
-            notes=notes + [
+            False,
+            lang,
+            "needs_approval",
+            0,
+            {},
+            {},
+            0,
+            notes=notes
+            + [
                 f"estimated {e.estimate_s / 60:.0f} min ({e.detail}); approval required",
                 str(e),
             ],
@@ -132,7 +139,13 @@ def repair_workspace(
         # We ran out of time. That is a fact about Determinex, not about the code, and it
         # used to surface as a pytest "collection or environment error".
         return RepairResult(
-            False, lang, "timed_out", 0, {}, {}, 0,
+            False,
+            lang,
+            "timed_out",
+            0,
+            {},
+            {},
+            0,
             notes=notes + [f"verification exceeded {e.seconds}s; no verdict was reached", str(e)],
         )
     except Exception as e:

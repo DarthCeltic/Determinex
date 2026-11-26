@@ -8,7 +8,7 @@ import subprocess
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from pathlib import Path
 
 _SCRIPTS = Path(__file__).resolve().parents[2]
@@ -21,7 +21,10 @@ from corpus.programbench.cleanroom_image_scanner_admission_record import (
 )
 
 
-class CleanroomImageScannerAdmissionStatus(str, Enum):
+class CleanroomImageScannerAdmissionStatus(StrEnum):
+    __str__ = Enum.__str__
+    __format__ = Enum.__format__
+
     CLEANROOM_SCANNER_ADMISSION_READY = "CLEANROOM_SCANNER_ADMISSION_READY"
     CLEANROOM_SCANNER_ADMITTED = "CLEANROOM_SCANNER_ADMITTED"
     CLEANROOM_SCANNER_REJECTED = "CLEANROOM_SCANNER_REJECTED"

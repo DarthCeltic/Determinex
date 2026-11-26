@@ -113,16 +113,25 @@ FOOTER = (
 _FLOW = [
     ("idea / spec", "", "plain"),
     ("C7 ARCHITECT", "7B Mistral &middot; decomposes into an ordered DAG", "box"),
-    ("C1 BUILDER &mdash; the only GPU node",
-     "1.5B Qwen2.5-Coder &middot; K candidates, varied temperature", "gpu"),
-    ("ORACLE &mdash; deterministic, not a model",
-     "rustc &middot; go build &middot; pytest &middot; tsc &middot; dotnet &middot; gcc<br>"
-     "<i>the only node in the loop that decides anything</i>", "oracle"),
+    (
+        "C1 BUILDER &mdash; the only GPU node",
+        "1.5B Qwen2.5-Coder &middot; K candidates, varied temperature",
+        "gpu",
+    ),
+    (
+        "ORACLE &mdash; deterministic, not a model",
+        "rustc &middot; go build &middot; pytest &middot; tsc &middot; dotnet &middot; gcc<br>"
+        "<i>the only node in the loop that decides anything</i>",
+        "oracle",
+    ),
     ("commit to WAL, advance to the next step", "", "plain"),
     ("C3 MONITOR", "3B Llama-3.2 &middot; scores, may submit a rival approach", "box"),
-    ("ADJUDICATOR",
-     "ROUTE &rarr; MATCH &rarr; UNBLOCK &rarr; IMPOSSIBLE<br>"
-     "IMPOSSIBLE requires a proof; else NEEDS_WORK", "box"),
+    (
+        "ADJUDICATOR",
+        "ROUTE &rarr; MATCH &rarr; UNBLOCK &rarr; IMPOSSIBLE<br>"
+        "IMPOSSIBLE requires a proof; else NEEDS_WORK",
+        "box",
+    ),
 ]
 
 
@@ -144,7 +153,7 @@ def _render_flow(html: str) -> str:
         '<div class="feedback">FAIL &mdash; the exact compiler error is injected '
         "<i>verbatim</i> into the next Builder prompt</div></div>"
     )
-    return html[: m.start()] + "".join(parts) + html[m.end():]
+    return html[: m.start()] + "".join(parts) + html[m.end() :]
 
 
 def main() -> int:
@@ -162,13 +171,17 @@ def main() -> int:
     # header rather than letting them render as ordinary body text.
     lines = src.splitlines()
     title = lines[0].lstrip("# ").strip()
+
     def _inline(t: str) -> str:
         """Inline markdown -> HTML. The cover lines are markdown too, and stripping `*`
         only from the ends left `Submitter:** DarthCeltic · **Source:**` on the cover."""
         t = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t)
         t = re.sub(r"\[(.+?)\]\((.+?)\)", r'<a href="\2">\1</a>', t)
-        t = re.sub(r"(?<![\w/])((?:github\.com|huggingface\.co)/[\w.\-/]+)",
-                   r'<a href="https://\1">\1</a>', t)
+        t = re.sub(
+            r"(?<![\w/])((?:github\.com|huggingface\.co)/[\w.\-/]+)",
+            r'<a href="https://\1">\1</a>',
+            t,
+        )
         return t
 
     tag, meta = "", []
@@ -229,7 +242,10 @@ def main() -> int:
         )
         r = subprocess.run(
             ["node", str(script), str(page), str(Path(a.out).resolve()), FOOTER],
-            cwd=str(_ROOT / "frontend"), capture_output=True, text=True, timeout=300,
+            cwd=str(_ROOT / "frontend"),
+            capture_output=True,
+            text=True,
+            timeout=300,
         )
         if r.returncode != 0:
             sys.stderr.write(r.stderr[-2000:] + "\n")

@@ -230,7 +230,7 @@ def train(cfg: dict, model_name: str):
         tokenizer.pad_token = tokenizer.eos_token
 
     # Load combined training file
-    raw = [json.loads(l) for l in open(cfg["train_file"]) if l.strip()]
+    raw = [json.loads(text_line) for text_line in open(cfg["train_file"]) if text_line.strip()]
 
     def format_example(ex):
         """Apply chat template to messages list. Works for Llama 3, Mistral, Qwen2."""

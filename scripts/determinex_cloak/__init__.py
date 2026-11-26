@@ -17,8 +17,6 @@ Architecture (7 components across 6 submodules):
 
 from __future__ import annotations
 
-from typing import Optional
-
 
 class CloakObfuscationError(RuntimeError):
     """Raised when obfuscation of a source file or string fails.
@@ -66,16 +64,24 @@ class CloakObfuscationError(RuntimeError):
         }
 
 
-from ._treesitter_bridge import _TS_AVAILABLE, TS_SUPPORTED_LANGUAGES
-from .classifier import _IdentifierCollector, build_private_identifier_set
+from ._treesitter_bridge import _TS_AVAILABLE as _TS_AVAILABLE
+from ._treesitter_bridge import TS_SUPPORTED_LANGUAGES as TS_SUPPORTED_LANGUAGES
+from .classifier import _IdentifierCollector as _IdentifierCollector
+from .classifier import build_private_identifier_set
 from .context import CloakAuditLogger, CloakContext
 from .lang_extractor import (
-    _build_cloak_context_nonpython,
-    _build_cloak_context_regex,
+    _build_cloak_context_nonpython as _build_cloak_context_nonpython,
+)
+from .lang_extractor import (
+    _build_cloak_context_regex as _build_cloak_context_regex,
+)
+from .lang_extractor import (
     build_cloak_context,
 )
 from .restoration import restore_file_content, restore_patch
-from .safe_list import _ALWAYS_SAFE, FRAMEWORK_KEEP_LIST, _build_safe_list
+from .safe_list import _ALWAYS_SAFE as _ALWAYS_SAFE
+from .safe_list import FRAMEWORK_KEEP_LIST
+from .safe_list import _build_safe_list as _build_safe_list
 from .symbol_map import SymbolMap
 from .transformer import obfuscate_issue_text, obfuscate_source
 

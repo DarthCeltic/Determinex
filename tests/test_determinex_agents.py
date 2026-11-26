@@ -80,7 +80,7 @@ def test_resolve_argv_no_model_omits_the_flag_entirely():
 def test_resolve_argv_unknown_agent_raises():
     try:
         agents.resolve_argv("not-a-real-agent", "task", Path("C:/ws"))
-        assert False, "expected KeyError"
+        raise AssertionError("expected KeyError")
     except KeyError:
         pass
 

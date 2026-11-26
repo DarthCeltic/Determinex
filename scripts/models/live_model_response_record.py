@@ -23,7 +23,10 @@ LIVE_MODEL_RESPONSE_STATUS_TOKENS = (
 )
 
 
-class ResponseKind(str, enum.Enum):
+class ResponseKind(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     OK = "MODEL_COMPAT_HARNESS_PASSED"
     PROVIDER_UNAVAILABLE = "MODEL_COMPAT_HARNESS_BLOCKED_PROVIDER_UNAVAILABLE"
     BAD_RESPONSE = "MODEL_COMPAT_HARNESS_BLOCKED_BAD_RESPONSE"

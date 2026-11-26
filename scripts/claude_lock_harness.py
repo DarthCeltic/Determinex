@@ -75,7 +75,7 @@ def build_claude_prompt(target_tool: str, failure_desc: str, relevant_lessons: l
     if relevant_lessons and relevant_lessons[0][0] > 0:
         prompt += "To assist you, here are the lessons learned from similar tools that we have successfully locked at 100%:\n"
         prompt += "-" * 80 + "\n"
-        for score, tool_name, content in relevant_lessons:
+        for _score, tool_name, content in relevant_lessons:
             prompt += f"### Lessons from previously locked tool: {tool_name}\n"
             prompt += f"{content}\n"
             prompt += "-" * 80 + "\n"

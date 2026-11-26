@@ -122,7 +122,11 @@ def detect_hardware():
                 text=True,
                 timeout=5,
             )
-            lines = [l.strip() for l in result.stdout.splitlines() if l.strip().isdigit()]
+            lines = [
+                text_line.strip()
+                for text_line in result.stdout.splitlines()
+                if text_line.strip().isdigit()
+            ]
             if lines:
                 hw["ram_gb"] = round(int(lines[0]) / 1024 / 1024 / 1024)
         except Exception:
@@ -136,7 +140,7 @@ def get_ollama_models():
         result = subprocess.run(["ollama", "list"], capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
             lines = result.stdout.strip().splitlines()[1:]  # skip header
-            return [l.split()[0] for l in lines if l.strip()]
+            return [text_line.split()[0] for text_line in lines if text_line.strip()]
     except Exception:
         pass
     return []

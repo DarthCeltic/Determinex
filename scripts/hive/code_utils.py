@@ -97,8 +97,8 @@ def _extract_code_block(response_text: str) -> str:
 
     # Stage 4 validity check: if every non-empty line is a comment, this is
     # planning text echoed back, not code. Return empty to trigger retry.
-    non_empty = [l.strip() for l in result.splitlines() if l.strip()]
-    if non_empty and all(l.startswith("#") for l in non_empty):
+    non_empty = [text_line.strip() for text_line in result.splitlines() if text_line.strip()]
+    if non_empty and all(text_line.startswith("#") for text_line in non_empty):
         return ""
     return result
 

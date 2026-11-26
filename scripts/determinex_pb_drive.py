@@ -85,7 +85,7 @@ def _apply_compound_to_archive(archive: Path, eval_report: Path, out: Path) -> d
             txt = data[name].decode("utf-8", "replace")
             m = _re.search(r"^go (\d+)\.(\d+)", txt, _re.M)
             if m and (int(m.group(1)), int(m.group(2))) > (1, 21):
-                txt = _re.sub(r"^go \d+\.\d+(?:\.\d+)?", "go 1.21", txt, 1, flags=_re.M)
+                txt = _re.sub(r"^go \d+\.\d+(?:\.\d+)?", "go 1.21", txt, count=1, flags=_re.M)
                 txt = _re.sub(r"^toolchain go\d+\.\d+(?:\.\d+)?\s*$", "", txt, flags=_re.M)
                 data[name] = txt.encode()
                 applied.append("go-version")
@@ -99,7 +99,7 @@ def _apply_compound_to_archive(archive: Path, eval_report: Path, out: Path) -> d
                 t.addfile(m)
     # capture-back the techniques applied (signature library grows)
     for tech in set(applied):
-        for mech in mechs:
+        for _mech in mechs:
             if AF and tech:
                 pass
     return {"applied": sorted(set(applied)), "mechanisms": sorted(mechs)}

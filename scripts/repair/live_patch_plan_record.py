@@ -23,7 +23,10 @@ LIVE_PATCH_PLAN_STATUS_TOKENS = (
 )
 
 
-class PatchOp(str, enum.Enum):
+class PatchOp(enum.StrEnum):
+    __str__ = enum.Enum.__str__
+    __format__ = enum.Enum.__format__
+
     REPLACE_FILE = "replace_file"
 
 

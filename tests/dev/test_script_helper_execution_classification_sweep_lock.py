@@ -189,7 +189,6 @@ def test_kind_override_carves_out_programbench_files(tmp_path: Path, monkeypatch
     PROGRAMBENCH_OUT_OF_SCOPE — the kind-override must NOT escalate it
     to BLOCKED_UNSAFE."""
     # Synthetic source containing shell=True
-    src = "import subprocess\ndef go():\n    subprocess.run('echo hi', shell=True)\n"
     # We test the scan_file behavior by writing the file under a PB path
     # within the live repo (not actually creating new files there — instead
     # we exercise _classify_path + the override logic directly).

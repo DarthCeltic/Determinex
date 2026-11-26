@@ -51,8 +51,10 @@ class EmulatorManager:
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
             )
-        except FileNotFoundError:
-            raise RuntimeError("emulator CLI not found. Ensure Android SDK emulator is in PATH.")
+        except FileNotFoundError as exc:
+            raise RuntimeError(
+                "emulator CLI not found. Ensure Android SDK emulator is in PATH."
+            ) from exc
         # Wait for boot
         self._wait_for_boot(serial)
         info = EmulatorInfo(serial=serial, avd_name=avd_name, state="online")

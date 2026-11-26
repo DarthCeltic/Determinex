@@ -3,7 +3,7 @@ import json
 path = "../../.determinex_staging/evals/swebench_tasks.jsonl"
 
 with open(path, encoding="utf-8") as f:
-    tasks = [json.loads(l) for l in f if l.strip()]
+    tasks = [json.loads(line) for line in f if line.strip()]
 
 for t in tasks:
     # Fix adversarial_sql_001 - rewrite as SQLite (AFTER trigger recursive loop, same concept)
